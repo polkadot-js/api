@@ -42,7 +42,11 @@ function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [Accoun
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
-  const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+  const section = api.query.phragmenElection
+    ? 'phragmenElection'
+    : api.query.electionsPhragmen
+      ? 'electionsPhragmen'
+      : 'elections';
 
   return api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
     api.query.council.members,
