@@ -8,6 +8,7 @@ Contributed:
 
 - Expose RPC definitions via `.meta` (Thanks to https://github.com/jiqiang90)
 - Adjust staking derives for chain-specific optional fields (https://github.com/WoeOm)
+- Update base Centrifuge types (Thanks to https://github.com/branan)
 
 Changes:
 
