@@ -41,7 +41,11 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
  */
 export function flags (instanceId: string, api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
-    const councilSection = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+    const councilSection = api.query.phragmenElection
+      ? 'phragmenElection'
+      : api.query.electionsPhragmen
+        ? 'electionsPhragmen'
+        : 'elections';
 
     return combineLatest<FlagsIntermediate>([
       address && api.query[councilSection]?.members

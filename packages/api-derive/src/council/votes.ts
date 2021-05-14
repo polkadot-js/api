@@ -21,7 +21,7 @@ function isVoter (value: VoteEntry): value is Voter {
 }
 
 function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
-  return (api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance, [AccountId]>().pipe(
+  return (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, stake]) => [accountId, stake])
     )
@@ -29,7 +29,7 @@ function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][
 }
 
 function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
-  return (api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
+  return (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, votes]) => [accountId, votes])
     )
@@ -61,7 +61,7 @@ function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
 }
 
 function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
-  const elections = (api.query.electionsPhragmen || api.query.elections);
+  const elections = (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections);
 
   return elections.voting.entries<VoteEntry, [AccountId]>().pipe(
     map((entries): DeriveCouncilVotes =>
