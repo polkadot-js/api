@@ -3,6 +3,7 @@
 
 import type { Vec, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
+import type { Schedule } from '@polkadot/types/interfaces/contracts';
 import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
@@ -105,20 +106,6 @@ declare module '@polkadot/api/types/consts' {
        **/
       depositPerStorageItem: BalanceOf & AugmentedConst<ApiType>;
       /**
-       * The maximum length of a contract code in bytes. This limit applies to the instrumented
-       * version of the code. Therefore `instantiate_with_code` can fail even when supplying
-       * a wasm binary below this maximum size.
-       **/
-      maxCodeSize: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum nesting level of a call/instantiate stack.
-       **/
-      maxDepth: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum size of a storage value and event payload in bytes.
-       **/
-      maxValueSize: u32 & AugmentedConst<ApiType>;
-      /**
        * The fraction of the deposit that should be used as rent per block.
        * 
        * When a contract hasn't enough balance deposited to stay alive indefinitely it needs
@@ -126,6 +113,10 @@ declare module '@polkadot/api/types/consts' {
        * This determines how high this rent payment is per block as a fraction of the deposit.
        **/
       rentFraction: Perbill & AugmentedConst<ApiType>;
+      /**
+       * Cost schedule and limits.
+       **/
+      schedule: Schedule & AugmentedConst<ApiType>;
       /**
        * Number of block delay an extrinsic claim surcharge has.
        * 
@@ -327,7 +318,13 @@ declare module '@polkadot/api/types/consts' {
     };
     lottery: {
       [key: string]: Codec;
+      /**
+       * The max number of calls available in a single lottery.
+       **/
       maxCalls: u32 & AugmentedConst<ApiType>;
+      /**
+       * The Lottery's pallet id
+       **/
       palletId: PalletId & AugmentedConst<ApiType>;
     };
     multisig: {
@@ -389,10 +386,15 @@ declare module '@polkadot/api/types/consts' {
       [key: string]: Codec;
       /**
        * The base amount of currency needed to reserve for creating a recovery configuration.
+       * 
+       * This is held for an additional storage item whose value size is
+       * `2 + sizeof(BlockNumber, Balance)` bytes.
        **/
       configDepositBase: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per additional user when creating a recovery configuration.
+       * 
+       * This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage value.
        **/
       friendDepositFactor: BalanceOf & AugmentedConst<ApiType>;
       /**
@@ -401,6 +403,12 @@ declare module '@polkadot/api/types/consts' {
       maxFriends: u16 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for starting a recovery.
+       * 
+       * This is primarily held for deterring malicious recovery attempts, and should
+       * have a value large enough that a bad actor would choose not to place this
+       * deposit. It also acts to fund additional storage item whose value size is
+       * `sizeof(BlockNumber, Balance + T * AccountId)` bytes. Where T is a configurable
+       * threshold.
        **/
       recoveryDeposit: BalanceOf & AugmentedConst<ApiType>;
     };

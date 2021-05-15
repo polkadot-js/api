@@ -44,10 +44,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoProvider: AugmentedError<ApiType>;
       /**
-       * A mint operation lead to an overflow.
-       **/
-      Overflow: AugmentedError<ApiType>;
-      /**
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
@@ -133,10 +129,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       LiquidityRestrictions: AugmentedError<ApiType>;
       /**
-       * Got an overflow after adding
-       **/
-      Overflow: AugmentedError<ApiType>;
-      /**
        * Vesting balance too high to send value
        **/
       VestingBalance: AugmentedError<ApiType>;
@@ -210,6 +202,10 @@ declare module '@polkadot/api/types/errors' {
        * Contract trapped during execution.
        **/
       ContractTrapped: AugmentedError<ApiType>;
+      /**
+       * The debug message specified to `seal_debug_message` does contain invalid UTF-8.
+       **/
+      DebugMessageInvalidUTF8: AugmentedError<ApiType>;
       /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
@@ -308,6 +304,12 @@ declare module '@polkadot/api/types/errors' {
        * when number of storage items is too large.
        **/
       StorageExhausted: AugmentedError<ApiType>;
+      /**
+       * A contract self destructed in its constructor.
+       * 
+       * This can be triggered by a call to `seal_terminate` or `seal_restore_to`.
+       **/
+      TerminatedInConstructor: AugmentedError<ApiType>;
       /**
        * The amount of topics passed to `seal_deposit_events` exceeds the limit.
        **/
@@ -461,10 +463,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       NotVoter: AugmentedError<ApiType>;
       /**
-       * An unexpected integer overflow occurred.
-       **/
-      Overflow: AugmentedError<ApiType>;
-      /**
        * Invalid preimage
        **/
       PreimageInvalid: AugmentedError<ApiType>;
@@ -492,10 +490,6 @@ declare module '@polkadot/api/types/errors' {
        * Maximum number of proposals reached.
        **/
       TooManyProposals: AugmentedError<ApiType>;
-      /**
-       * An unexpected integer underflow occurred.
-       **/
-      Underflow: AugmentedError<ApiType>;
       /**
        * Value too low
        **/
@@ -797,10 +791,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       NotConfigured: AugmentedError<ApiType>;
       /**
-       * An overflow has occurred.
-       **/
-      Overflow: AugmentedError<ApiType>;
-      /**
        * Too many calls for a single lottery.
        **/
       TooManyCalls: AugmentedError<ApiType>;
@@ -953,10 +943,6 @@ declare module '@polkadot/api/types/errors' {
        * A recovery process has not started for this rescuer
        **/
       NotStarted: AugmentedError<ApiType>;
-      /**
-       * There was an overflow in a calculation
-       **/
-      Overflow: AugmentedError<ApiType>;
       /**
        * There are still active recovery attempts that need to be closed
        **/

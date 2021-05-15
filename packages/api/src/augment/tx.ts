@@ -6,7 +6,7 @@ import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { AssetDestroyWitness, TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, NextConfigDescriptor } from '@polkadot/types/interfaces/babe';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
-import type { CodeHash, Schedule } from '@polkadot/types/interfaces/contracts';
+import type { CodeHash } from '@polkadot/types/interfaces/contracts';
 import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import type { Renouncing } from '@polkadot/types/interfaces/elections';
 import type { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
@@ -724,15 +724,6 @@ declare module '@polkadot/api/types/submittable' {
        * - The `deploy` function is executed in the context of the newly-created account.
        **/
       instantiateWithCode: AugmentedSubmittable<(endowment: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Weight> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>, Compact<Weight>, Bytes, Bytes, Bytes]>;
-      /**
-       * Updates the schedule for metering contracts.
-       * 
-       * The schedule's version cannot be less than the version of the stored schedule.
-       * If a schedule does not change the instruction weights the version does not
-       * need to be increased. Therefore we allow storing a schedule that has the same
-       * version as the stored one.
-       **/
-      updateSchedule: AugmentedSubmittable<(schedule: Schedule | { version?: any; enablePrintln?: any; limits?: any; instructionWeights?: any; hostFnWeights?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Schedule]>;
     };
     council: {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
