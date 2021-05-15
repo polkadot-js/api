@@ -77,7 +77,7 @@ function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
 
 export function votes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
   return memo(instanceId, (): Observable<DeriveCouncilVotes> =>
-    (api.query.electionsPhragmen || api.query.elections).stakeOf
+    (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).stakeOf
       ? retrievePrev(api)
       : retrieveCurrent(api)
   );
