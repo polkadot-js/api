@@ -8,6 +8,7 @@ Contributed:
 
 - Expose RPC definitions via `.meta` (Thanks to https://github.com/jiqiang90)
 - Adjust staking derives for chain-specific optional fields (https://github.com/WoeOm)
+- Update base Centrifuge types (Thanks to https://github.com/branan)
 
 Changes:
 
@@ -23,6 +24,8 @@ Changes:
 - Adjust `VecFixed` to allow for the handling of hex inputs
 - Adjust `Compact<*>` to allow for wrapped `toBigInt()` conversions
 - Fix `isPedantic` decoding to correctly handle `Text`
+- Cater for new `phragmenElection` module naming
+- Add Kusama & Westend 9010 upgrade blocks
 
 
 ## 4.9.1 May 6, 2021
