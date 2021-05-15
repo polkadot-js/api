@@ -26,6 +26,7 @@ Changes:
 - Fix `isPedantic` decoding to correctly handle `Text`
 - Cater for new `phragmenElection` module naming
 - Add Kusama & Westend 9010 upgrade blocks
+- Bump static metadata to latest Substrate
 
 
 ## 4.9.1 May 6, 2021
