@@ -118,7 +118,7 @@ const phragmen = {
     round: 'u32'
   },
   RawSolutionWith24: {
-    compact: 'CompactAssignments',
+    compact: 'CompactAssignmentsWith24',
     score: 'ElectionScore',
     round: 'u32'
   },
