@@ -17,6 +17,7 @@ const addrIndicesTypes = {
   Address: 'LookupSource',
   Keys: 'SessionKeys5',
   LookupSource: 'IndicesLookupSource',
+  RawSolution: 'RawSolutionTo265',
   ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
@@ -25,6 +26,7 @@ const addrAccountIdTypes = {
   Address: 'AccountId',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
+  RawSolution: 'RawSolutionTo265',
   ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
@@ -164,11 +166,19 @@ const versioned: OverrideVersionedType[] = [
     minmax: [2028, 2029],
     types: {
       ...sharedTypes,
-      AccountInfo: 'AccountInfoWithDualRefCount'
+      AccountInfo: 'AccountInfoWithDualRefCount',
+      RawSolution: 'RawSolutionTo265'
     }
   },
   {
-    minmax: [2030, undefined],
+    minmax: [2030, 9000],
+    types: {
+      ...sharedTypes,
+      RawSolution: 'RawSolutionTo265'
+    }
+  },
+  {
+    minmax: [9010, undefined],
     types: {
       ...sharedTypes
     }
