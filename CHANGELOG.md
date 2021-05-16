@@ -26,6 +26,7 @@ Changes:
 - Fix `isPedantic` decoding to correctly handle `Text`
 - Cater for new `phragmenElection` module naming
 - Add Kusama & Westend 9010 upgrade blocks
+- Adjust `CompactSolution` for 24 nominators
 - Bump static metadata to latest Substrate
 
 

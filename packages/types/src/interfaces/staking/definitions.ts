@@ -15,7 +15,26 @@ const deprecated = {
 };
 
 const phragmen = {
-  CompactAssignments: {
+  CompactAssignments: 'CompactAssignmentsWith24',
+  CompactAssignmentsWith16: {
+    votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
+    votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
+    votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
+    votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
+    votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
+    votes6: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 5], ValidatorIndexCompact)>',
+    votes7: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 6], ValidatorIndexCompact)>',
+    votes8: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 7], ValidatorIndexCompact)>',
+    votes9: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 8], ValidatorIndexCompact)>',
+    votes10: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 9], ValidatorIndexCompact)>',
+    votes11: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 10], ValidatorIndexCompact)>',
+    votes12: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 11], ValidatorIndexCompact)>',
+    votes13: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 12], ValidatorIndexCompact)>',
+    votes14: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 13], ValidatorIndexCompact)>',
+    votes15: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 14], ValidatorIndexCompact)>',
+    votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
+  },
+  CompactAssignmentsWith24: {
     votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
     votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
     votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
@@ -41,24 +60,7 @@ const phragmen = {
     votes23: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 22], ValidatorIndexCompact)>',
     votes24: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 23], ValidatorIndexCompact)>'
   },
-  CompactAssignmentsTo265: {
-    votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
-    votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
-    votes3: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 2], ValidatorIndexCompact)>',
-    votes4: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 3], ValidatorIndexCompact)>',
-    votes5: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 4], ValidatorIndexCompact)>',
-    votes6: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 5], ValidatorIndexCompact)>',
-    votes7: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 6], ValidatorIndexCompact)>',
-    votes8: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 7], ValidatorIndexCompact)>',
-    votes9: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 8], ValidatorIndexCompact)>',
-    votes10: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 9], ValidatorIndexCompact)>',
-    votes11: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 10], ValidatorIndexCompact)>',
-    votes12: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 11], ValidatorIndexCompact)>',
-    votes13: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 12], ValidatorIndexCompact)>',
-    votes14: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 13], ValidatorIndexCompact)>',
-    votes15: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 14], ValidatorIndexCompact)>',
-    votes16: 'Vec<(NominatorIndexCompact, [CompactScoreCompact; 15], ValidatorIndexCompact)>'
-  },
+  CompactAssignmentsTo265: 'CompactAssignmentsWith16',
   CompactAssignmentsTo257: {
     votes1: 'Vec<(NominatorIndex, [CompactScore; 0], ValidatorIndex)>',
     votes2: 'Vec<(NominatorIndex, [CompactScore; 1], ValidatorIndex)>',
@@ -109,16 +111,18 @@ const phragmen = {
     }
   },
   ExtendedBalance: 'u128',
-  RawSolution: {
+  RawSolution: 'RawSolutionWith24',
+  RawSolutionWith16: {
+    compact: 'CompactAssignmentsWith16',
+    score: 'ElectionScore',
+    round: 'u32'
+  },
+  RawSolutionWith24: {
     compact: 'CompactAssignments',
     score: 'ElectionScore',
     round: 'u32'
   },
-  RawSolutionTo265: {
-    compact: 'CompactAssignmentsTo265',
-    score: 'ElectionScore',
-    round: 'u32'
-  },
+  RawSolutionTo265: 'RawSolutionWith16',
   ReadySolution: {
     supports: 'SolutionSupports',
     score: 'ElectionScore',
