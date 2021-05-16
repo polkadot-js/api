@@ -20,25 +20,35 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
       Address: 'AccountId',
-      LookupSource: 'AccountId'
+      LookupSource: 'AccountId',
+      RawSolution: 'RawSolutionTo265'
     }
   },
   {
     minmax: [201, 214],
     types: {
       ...sharedTypes,
-      AccountInfo: 'AccountInfoWithDualRefCount'
+      AccountInfo: 'AccountInfoWithDualRefCount',
+      RawSolution: 'RawSolutionTo265'
     }
   },
   {
     minmax: [215, 228],
     types: {
       ...sharedTypes,
-      Keys: 'SessionKeys6'
+      Keys: 'SessionKeys6',
+      RawSolution: 'RawSolutionTo265'
     }
   },
   {
-    minmax: [229, undefined],
+    minmax: [229, 9000],
+    types: {
+      ...sharedTypes,
+      RawSolution: 'RawSolutionTo265'
+    }
+  },
+  {
+    minmax: [9010, undefined],
     types: {
       ...sharedTypes
     }
