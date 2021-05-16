@@ -148,7 +148,7 @@ describe('CompactAssignmentSiNormal', (): void => {
     ]);
 
     const registry = new TypeRegistry();
-    const compact = registry.createType('CompactAssignments', bytes);
+    const compact = registry.createType('CompactAssignmentsWith16', bytes);
 
     expect(compact.toJSON()).toEqual({
       votes1: [[2, 20], [4, 40]],
