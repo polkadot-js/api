@@ -12,24 +12,7 @@ export interface ActiveEraInfo extends Struct {
 }
 
 /** @name CompactAssignments */
-export interface CompactAssignments extends Struct {
-  readonly votes1: Vec<ITuple<[NominatorIndexCompact, ValidatorIndexCompact]>>;
-  readonly votes2: Vec<ITuple<[NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact]>>;
-  readonly votes3: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes4: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes5: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes6: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes7: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes8: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes9: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes10: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes11: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes12: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes13: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes14: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes15: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-  readonly votes16: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
-}
+export interface CompactAssignments extends CompactAssignmentsWith24 {}
 
 /** @name CompactAssignmentsTo257 */
 export interface CompactAssignmentsTo257 extends Struct {
@@ -49,6 +32,57 @@ export interface CompactAssignmentsTo257 extends Struct {
   readonly votes14: Vec<ITuple<[NominatorIndex, Vec<CompactScore>, ValidatorIndex]>>;
   readonly votes15: Vec<ITuple<[NominatorIndex, Vec<CompactScore>, ValidatorIndex]>>;
   readonly votes16: Vec<ITuple<[NominatorIndex, Vec<CompactScore>, ValidatorIndex]>>;
+}
+
+/** @name CompactAssignmentsTo265 */
+export interface CompactAssignmentsTo265 extends CompactAssignmentsWith16 {}
+
+/** @name CompactAssignmentsWith16 */
+export interface CompactAssignmentsWith16 extends Struct {
+  readonly votes1: Vec<ITuple<[NominatorIndexCompact, ValidatorIndexCompact]>>;
+  readonly votes2: Vec<ITuple<[NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact]>>;
+  readonly votes3: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes4: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes5: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes6: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes7: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes8: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes9: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes10: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes11: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes12: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes13: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes14: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes15: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes16: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+}
+
+/** @name CompactAssignmentsWith24 */
+export interface CompactAssignmentsWith24 extends Struct {
+  readonly votes1: Vec<ITuple<[NominatorIndexCompact, ValidatorIndexCompact]>>;
+  readonly votes2: Vec<ITuple<[NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact]>>;
+  readonly votes3: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes4: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes5: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes6: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes7: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes8: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes9: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes10: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes11: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes12: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes13: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes14: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes15: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes16: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes17: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes18: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes19: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes20: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes21: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes22: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes23: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
+  readonly votes24: Vec<ITuple<[NominatorIndexCompact, Vec<CompactScoreCompact>, ValidatorIndexCompact]>>;
 }
 
 /** @name CompactScore */
@@ -173,8 +207,21 @@ export interface PhragmenScore extends Vec<u128> {}
 export interface Points extends u32 {}
 
 /** @name RawSolution */
-export interface RawSolution extends Struct {
-  readonly compact: CompactAssignments;
+export interface RawSolution extends RawSolutionWith24 {}
+
+/** @name RawSolutionTo265 */
+export interface RawSolutionTo265 extends RawSolutionWith16 {}
+
+/** @name RawSolutionWith16 */
+export interface RawSolutionWith16 extends Struct {
+  readonly compact: CompactAssignmentsWith16;
+  readonly score: ElectionScore;
+  readonly round: u32;
+}
+
+/** @name RawSolutionWith24 */
+export interface RawSolutionWith24 extends Struct {
+  readonly compact: CompactAssignmentsWith24;
   readonly score: ElectionScore;
   readonly round: u32;
 }
