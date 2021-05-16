@@ -20,6 +20,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
       Address: 'AccountId',
+      CompactAssignments: 'CompactAssignmentsTo265',
       LookupSource: 'AccountId',
       RawSolution: 'RawSolutionTo265'
     }
@@ -29,6 +30,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },
@@ -36,6 +38,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [215, 228],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo265',
       Keys: 'SessionKeys6',
       RawSolution: 'RawSolutionTo265'
     }
@@ -44,6 +47,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [229, 9000],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },

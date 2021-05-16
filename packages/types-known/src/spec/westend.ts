@@ -15,6 +15,7 @@ const sharedTypes = {
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
+  CompactAssignments: 'CompactAssignmentsTo265',
   LookupSource: 'AccountId',
   Keys: 'SessionKeys5',
   RawSolution: 'RawSolutionTo265',
@@ -73,6 +74,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },
@@ -80,6 +82,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [50, 9000],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },

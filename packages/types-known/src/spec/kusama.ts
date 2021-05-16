@@ -15,6 +15,7 @@ const sharedTypes = {
 const addrIndicesTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'LookupSource',
+  CompactAssignments: 'CompactAssignmentsTo265',
   Keys: 'SessionKeys5',
   LookupSource: 'IndicesLookupSource',
   RawSolution: 'RawSolutionTo265',
@@ -24,6 +25,7 @@ const addrIndicesTypes = {
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
+  CompactAssignments: 'CompactAssignmentsTo265',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
   RawSolution: 'RawSolutionTo265',
@@ -167,6 +169,7 @@ const versioned: OverrideVersionedType[] = [
     types: {
       ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },
@@ -174,6 +177,7 @@ const versioned: OverrideVersionedType[] = [
     minmax: [2030, 9000],
     types: {
       ...sharedTypes,
+      CompactAssignments: 'CompactAssignmentsTo265',
       RawSolution: 'RawSolutionTo265'
     }
   },
