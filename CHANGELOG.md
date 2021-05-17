@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 4.10.1 May 17, 2021
+
+Upgrade priority: Medium. Recommended for uses of Polkadot/Kusama 9010 runtimes.
 
 - **Breaking change** Support for the contracts V2 compatibility has been dropped in `@polkadot/api-contract`
 
