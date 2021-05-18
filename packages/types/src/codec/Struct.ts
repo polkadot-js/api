@@ -99,12 +99,13 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  */
 function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
   if (isHex(value)) {
-    return decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
+    return decodeStruct(registry, Types, hexToU8a(value.toString()), jsonMap);
   } else if (isU8a(value)) {
-    const values = decodeU8a(registry, value, Object.values(Types));
+    const keys = Object.keys(Types);
+    const values = decodeU8a(registry, value, Object.values(Types), keys);
 
     // Transform array of values to {key: value} mapping
-    return Object.keys(Types).reduce((raw, key, index): T => {
+    return keys.reduce((raw, key, index): T => {
       // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (raw as any)[key] = values[index];
