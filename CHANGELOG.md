@@ -5,6 +5,7 @@
 Changes:
 
 - Return additional error information from internal u8a decoding failures
+- Adjust Westend types for 16 nominators-only
 
 
 ## 4.10.1 May 17, 2021
