@@ -29,6 +29,7 @@ const mappings: Mapper[] = [
   removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
   alias('String', 'Text'),
+  alias("&'static[u8]", 'Text'),
   // alias Vec<u8> -> Bytes
   alias('Vec<u8>', 'Bytes'),
   alias('&\\[u8\\]', 'Bytes'),
