@@ -32,6 +32,7 @@ const mappings: Mapper[] = [
   // alias Vec<u8> -> Bytes
   alias('Vec<u8>', 'Bytes'),
   alias('&\\[u8\\]', 'Bytes'),
+  alias("&'static\\[u8\\]", 'Bytes'),
   // alias RawAddress -> Address
   alias('RawAddress', 'Address'),
   // lookups, mapped to Address/AccountId as appropriate in runtime
