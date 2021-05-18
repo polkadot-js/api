@@ -10,18 +10,24 @@ import type { Codec, Constructor, Registry } from '../../types';
  * @param u8a - The u8a to decode.
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }): Codec[] {
-  const types = Array.isArray(_types)
-    ? _types
-    : Object.values(_types);
+export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): Codec[] {
+  const [types, keys]: [Constructor<Codec>[], string[]] = Array.isArray(_types)
+    ? [_types, _keys || []]
+    : [Object.values(_types), Object.keys(_types)];
   const result: Codec[] = [];
   let offset = 0;
 
   for (let i = 0; i < types.length; i++) {
-    const value = new types[i](registry, u8a.subarray(offset));
+    const Type = types[i];
 
-    result.push(value);
-    offset += value.encodedLength;
+    try {
+      const value = new Type(registry, u8a.subarray(offset));
+
+      result.push(value);
+      offset += value.encodedLength;
+    } catch (error) {
+      throw new Error(`decodeU8a: failed on ${keys[i] ? `${keys[i]}: ` : ''}${new Type(registry).toRawType()}:: ${(error as Error).message}`);
+    }
   }
 
   return result;

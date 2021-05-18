@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Return additional error information from internal u8a decoding failures
+
+
 ## 4.10.1 May 17, 2021
 
 Upgrade priority: Medium. Recommended for uses of Polkadot/Kusama 9010 runtimes.
