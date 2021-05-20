@@ -53,6 +53,7 @@ import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support'
 import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, ArithmeticError, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, InboundStatus, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, OutboundStatus, Outcome, PluralityJunction, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
@@ -74,8 +75,11 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BalanceOf>': Compact<BalanceOf>;
     'Compact<BlockNumber>': Compact<BlockNumber>;
     'Compact<BountyIndex>': Compact<BountyIndex>;
+    'Compact<ClassId>': Compact<ClassId>;
     'Compact<ContractDiscriminant>': Compact<ContractDiscriminant>;
     'Compact<CoreIndex>': Compact<CoreIndex>;
+    'Compact<DepositBalance>': Compact<DepositBalance>;
+    'Compact<DepositBalanceOf>': Compact<DepositBalanceOf>;
     'Compact<EraIndex>': Compact<EraIndex>;
     'Compact<EventIndex>': Compact<EventIndex>;
     'Compact<ExtendedBalance>': Compact<ExtendedBalance>;
@@ -85,6 +89,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<Gas>': Compact<Gas>;
     'Compact<GroupIndex>': Compact<GroupIndex>;
     'Compact<Index>': Compact<Index>;
+    'Compact<InstanceId>': Compact<InstanceId>;
     'Compact<KeyTypeId>': Compact<KeyTypeId>;
     'Compact<LeasePeriod>': Compact<LeasePeriod>;
     'Compact<LeasePeriodOf>': Compact<LeasePeriodOf>;
@@ -262,6 +267,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<ChainType>': Option<ChainType>;
     'Option<ChangesTrieConfiguration>': Option<ChangesTrieConfiguration>;
     'Option<ChangesTrieSignal>': Option<ChangesTrieSignal>;
+    'Option<ClassDetails>': Option<ClassDetails>;
+    'Option<ClassId>': Option<ClassId>;
+    'Option<ClassMetadata>': Option<ClassMetadata>;
     'Option<CodecHash>': Option<CodecHash>;
     'Option<CodeHash>': Option<CodeHash>;
     'Option<CollatorId>': Option<CollatorId>;
@@ -325,6 +333,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<DefunctVoter>': Option<DefunctVoter>;
     'Option<Delegations>': Option<Delegations>;
     'Option<DeletedContract>': Option<DeletedContract>;
+    'Option<DepositBalance>': Option<DepositBalance>;
+    'Option<DepositBalanceOf>': Option<DepositBalanceOf>;
+    'Option<DestroyWitness>': Option<DestroyWitness>;
     'Option<Digest>': Option<Digest>;
     'Option<DigestItem>': Option<DigestItem>;
     'Option<DigestOf>': Option<DigestOf>;
@@ -527,6 +538,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<Index>': Option<Index>;
     'Option<IndicesLookupSource>': Option<IndicesLookupSource>;
     'Option<IndividualExposure>': Option<IndividualExposure>;
+    'Option<InstanceDetails>': Option<InstanceDetails>;
+    'Option<InstanceId>': Option<InstanceId>;
+    'Option<InstanceMetadata>': Option<InstanceMetadata>;
     'Option<InstantiateRequest>': Option<InstantiateRequest>;
     'Option<InstantiateReturnValue>': Option<InstantiateReturnValue>;
     'Option<InstructionWeights>': Option<InstructionWeights>;
@@ -1105,6 +1119,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ChainType>': Vec<ChainType>;
     'Vec<ChangesTrieConfiguration>': Vec<ChangesTrieConfiguration>;
     'Vec<ChangesTrieSignal>': Vec<ChangesTrieSignal>;
+    'Vec<ClassDetails>': Vec<ClassDetails>;
+    'Vec<ClassId>': Vec<ClassId>;
+    'Vec<ClassMetadata>': Vec<ClassMetadata>;
     'Vec<CodecHash>': Vec<CodecHash>;
     'Vec<CodeHash>': Vec<CodeHash>;
     'Vec<CollatorId>': Vec<CollatorId>;
@@ -1168,6 +1185,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<DefunctVoter>': Vec<DefunctVoter>;
     'Vec<Delegations>': Vec<Delegations>;
     'Vec<DeletedContract>': Vec<DeletedContract>;
+    'Vec<DepositBalance>': Vec<DepositBalance>;
+    'Vec<DepositBalanceOf>': Vec<DepositBalanceOf>;
+    'Vec<DestroyWitness>': Vec<DestroyWitness>;
     'Vec<Digest>': Vec<Digest>;
     'Vec<DigestItem>': Vec<DigestItem>;
     'Vec<DigestOf>': Vec<DigestOf>;
@@ -1370,6 +1390,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Index>': Vec<Index>;
     'Vec<IndicesLookupSource>': Vec<IndicesLookupSource>;
     'Vec<IndividualExposure>': Vec<IndividualExposure>;
+    'Vec<InstanceDetails>': Vec<InstanceDetails>;
+    'Vec<InstanceId>': Vec<InstanceId>;
+    'Vec<InstanceMetadata>': Vec<InstanceMetadata>;
     'Vec<InstantiateRequest>': Vec<InstantiateRequest>;
     'Vec<InstantiateReturnValue>': Vec<InstantiateReturnValue>;
     'Vec<InstructionWeights>': Vec<InstructionWeights>;
@@ -1948,6 +1971,9 @@ declare module '@polkadot/types/types/registry' {
     ChainType: ChainType;
     ChangesTrieConfiguration: ChangesTrieConfiguration;
     ChangesTrieSignal: ChangesTrieSignal;
+    ClassDetails: ClassDetails;
+    ClassId: ClassId;
+    ClassMetadata: ClassMetadata;
     CodecHash: CodecHash;
     CodeHash: CodeHash;
     CollatorId: CollatorId;
@@ -2011,6 +2037,9 @@ declare module '@polkadot/types/types/registry' {
     DefunctVoter: DefunctVoter;
     Delegations: Delegations;
     DeletedContract: DeletedContract;
+    DepositBalance: DepositBalance;
+    DepositBalanceOf: DepositBalanceOf;
+    DestroyWitness: DestroyWitness;
     Digest: Digest;
     DigestItem: DigestItem;
     DigestOf: DigestOf;
@@ -2213,6 +2242,9 @@ declare module '@polkadot/types/types/registry' {
     Index: Index;
     IndicesLookupSource: IndicesLookupSource;
     IndividualExposure: IndividualExposure;
+    InstanceDetails: InstanceDetails;
+    InstanceId: InstanceId;
+    InstanceMetadata: InstanceMetadata;
     InstantiateRequest: InstantiateRequest;
     InstantiateReturnValue: InstantiateReturnValue;
     InstructionWeights: InstructionWeights;
