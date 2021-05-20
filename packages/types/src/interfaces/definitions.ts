@@ -38,6 +38,7 @@ export { default as syncstate } from './syncstate/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
 export { default as txpayment } from './txpayment/definitions';
+export { default as uniques } from './uniques/definitions';
 export { default as utility } from './utility/definitions';
 export { default as vesting } from './vesting/definitions';
 
