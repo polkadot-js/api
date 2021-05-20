@@ -10,6 +10,7 @@ import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import type { BeefyCommitment, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BridgedBlockHash, BridgedBlockNumber, BridgedHeader, InitializationData } from '@polkadot/types/interfaces/bridges';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -27,7 +28,7 @@ import type { EvmAccount, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason,
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import type { ActiveGilt, ActiveGiltsTotal, ActiveIndex, GiltBid } from '@polkadot/types/interfaces/gilt';
-import type { AuthorityIndex, AuthorityList, AuthorityWeight, EncodedFinalityProofs, GrandpaEquivocation, GrandpaEquivocationProof, GrandpaEquivocationValue, GrandpaPrevote, JustificationNotification, KeyOwnerProof, NextAuthority, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
+import type { AuthorityIndex, AuthorityList, AuthoritySet, AuthoritySetChange, AuthoritySetChanges, AuthorityWeight, DelayKind, DelayKindBest, EncodedFinalityProofs, ForkTreePendingChange, ForkTreePendingChangeNode, GrandpaCommit, GrandpaEquivocation, GrandpaEquivocationProof, GrandpaEquivocationValue, GrandpaJustification, GrandpaPrecommit, GrandpaPrevote, GrandpaSignedPrecommit, JustificationNotification, KeyOwnerProof, NextAuthority, PendingChange, PendingPause, PendingResume, Precommits, Prevotes, ReportedRoundStates, RoundState, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
@@ -75,6 +76,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BalanceOf>': Compact<BalanceOf>;
     'Compact<BlockNumber>': Compact<BlockNumber>;
     'Compact<BountyIndex>': Compact<BountyIndex>;
+    'Compact<BridgedBlockNumber>': Compact<BridgedBlockNumber>;
     'Compact<ClassId>': Compact<ClassId>;
     'Compact<ContractDiscriminant>': Compact<ContractDiscriminant>;
     'Compact<CoreIndex>': Compact<CoreIndex>;
@@ -205,6 +207,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<AuthorityId>': Option<AuthorityId>;
     'Option<AuthorityIndex>': Option<AuthorityIndex>;
     'Option<AuthorityList>': Option<AuthorityList>;
+    'Option<AuthoritySet>': Option<AuthoritySet>;
+    'Option<AuthoritySetChange>': Option<AuthoritySetChange>;
+    'Option<AuthoritySetChanges>': Option<AuthoritySetChanges>;
     'Option<AuthoritySignature>': Option<AuthoritySignature>;
     'Option<AuthorityWeight>': Option<AuthorityWeight>;
     'Option<AvailabilityBitfield>': Option<AvailabilityBitfield>;
@@ -252,6 +257,9 @@ declare module '@polkadot/types/types/registry' {
     'Option<BountyStatusActive>': Option<BountyStatusActive>;
     'Option<BountyStatusCuratorProposed>': Option<BountyStatusCuratorProposed>;
     'Option<BountyStatusPendingPayout>': Option<BountyStatusPendingPayout>;
+    'Option<BridgedBlockHash>': Option<BridgedBlockHash>;
+    'Option<BridgedBlockNumber>': Option<BridgedBlockNumber>;
+    'Option<BridgedHeader>': Option<BridgedHeader>;
     'Option<BufferedSessionChange>': Option<BufferedSessionChange>;
     'Option<Bytes>': Option<Bytes>;
     'Option<Call>': Option<Call>;
@@ -331,6 +339,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<Data>': Option<Data>;
     'Option<DeferredOffenceOf>': Option<DeferredOffenceOf>;
     'Option<DefunctVoter>': Option<DefunctVoter>;
+    'Option<DelayKind>': Option<DelayKind>;
+    'Option<DelayKindBest>': Option<DelayKindBest>;
     'Option<Delegations>': Option<Delegations>;
     'Option<DeletedContract>': Option<DeletedContract>;
     'Option<DepositBalance>': Option<DepositBalance>;
@@ -461,6 +471,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<FixedU128>': Option<FixedU128>;
     'Option<FixedU64>': Option<FixedU64>;
     'Option<Forcing>': Option<Forcing>;
+    'Option<ForkTreePendingChange>': Option<ForkTreePendingChange>;
+    'Option<ForkTreePendingChangeNode>': Option<ForkTreePendingChangeNode>;
     'Option<FullIdentification>': Option<FullIdentification>;
     'Option<FunctionArgumentMetadataLatest>': Option<FunctionArgumentMetadataLatest>;
     'Option<FunctionArgumentMetadataV10>': Option<FunctionArgumentMetadataV10>;
@@ -480,10 +492,14 @@ declare module '@polkadot/types/types/registry' {
     'Option<GiltBid>': Option<GiltBid>;
     'Option<GlobalValidationData>': Option<GlobalValidationData>;
     'Option<GlobalValidationSchedule>': Option<GlobalValidationSchedule>;
+    'Option<GrandpaCommit>': Option<GrandpaCommit>;
     'Option<GrandpaEquivocation>': Option<GrandpaEquivocation>;
     'Option<GrandpaEquivocationProof>': Option<GrandpaEquivocationProof>;
     'Option<GrandpaEquivocationValue>': Option<GrandpaEquivocationValue>;
+    'Option<GrandpaJustification>': Option<GrandpaJustification>;
+    'Option<GrandpaPrecommit>': Option<GrandpaPrecommit>;
     'Option<GrandpaPrevote>': Option<GrandpaPrevote>;
+    'Option<GrandpaSignedPrecommit>': Option<GrandpaSignedPrecommit>;
     'Option<GroupIndex>': Option<GroupIndex>;
     'Option<H1024>': Option<H1024>;
     'Option<H128>': Option<H128>;
@@ -538,6 +554,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Index>': Option<Index>;
     'Option<IndicesLookupSource>': Option<IndicesLookupSource>;
     'Option<IndividualExposure>': Option<IndividualExposure>;
+    'Option<InitializationData>': Option<InitializationData>;
     'Option<InstanceDetails>': Option<InstanceDetails>;
     'Option<InstanceId>': Option<InstanceId>;
     'Option<InstanceMetadata>': Option<InstanceMetadata>;
@@ -684,6 +701,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<PeerEndpointAddr>': Option<PeerEndpointAddr>;
     'Option<PeerInfo>': Option<PeerInfo>;
     'Option<PeerPing>': Option<PeerPing>;
+    'Option<PendingChange>': Option<PendingChange>;
     'Option<PendingPause>': Option<PendingPause>;
     'Option<PendingResume>': Option<PendingResume>;
     'Option<Perbill>': Option<Perbill>;
@@ -1057,6 +1075,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<AuthorityId>': Vec<AuthorityId>;
     'Vec<AuthorityIndex>': Vec<AuthorityIndex>;
     'Vec<AuthorityList>': Vec<AuthorityList>;
+    'Vec<AuthoritySet>': Vec<AuthoritySet>;
+    'Vec<AuthoritySetChange>': Vec<AuthoritySetChange>;
+    'Vec<AuthoritySetChanges>': Vec<AuthoritySetChanges>;
     'Vec<AuthoritySignature>': Vec<AuthoritySignature>;
     'Vec<AuthorityWeight>': Vec<AuthorityWeight>;
     'Vec<AvailabilityBitfield>': Vec<AvailabilityBitfield>;
@@ -1104,6 +1125,9 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BountyStatusActive>': Vec<BountyStatusActive>;
     'Vec<BountyStatusCuratorProposed>': Vec<BountyStatusCuratorProposed>;
     'Vec<BountyStatusPendingPayout>': Vec<BountyStatusPendingPayout>;
+    'Vec<BridgedBlockHash>': Vec<BridgedBlockHash>;
+    'Vec<BridgedBlockNumber>': Vec<BridgedBlockNumber>;
+    'Vec<BridgedHeader>': Vec<BridgedHeader>;
     'Vec<BufferedSessionChange>': Vec<BufferedSessionChange>;
     'Vec<Bytes>': Vec<Bytes>;
     'Vec<Call>': Vec<Call>;
@@ -1183,6 +1207,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Data>': Vec<Data>;
     'Vec<DeferredOffenceOf>': Vec<DeferredOffenceOf>;
     'Vec<DefunctVoter>': Vec<DefunctVoter>;
+    'Vec<DelayKind>': Vec<DelayKind>;
+    'Vec<DelayKindBest>': Vec<DelayKindBest>;
     'Vec<Delegations>': Vec<Delegations>;
     'Vec<DeletedContract>': Vec<DeletedContract>;
     'Vec<DepositBalance>': Vec<DepositBalance>;
@@ -1313,6 +1339,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<FixedU128>': Vec<FixedU128>;
     'Vec<FixedU64>': Vec<FixedU64>;
     'Vec<Forcing>': Vec<Forcing>;
+    'Vec<ForkTreePendingChange>': Vec<ForkTreePendingChange>;
+    'Vec<ForkTreePendingChangeNode>': Vec<ForkTreePendingChangeNode>;
     'Vec<FullIdentification>': Vec<FullIdentification>;
     'Vec<FunctionArgumentMetadataLatest>': Vec<FunctionArgumentMetadataLatest>;
     'Vec<FunctionArgumentMetadataV10>': Vec<FunctionArgumentMetadataV10>;
@@ -1332,10 +1360,14 @@ declare module '@polkadot/types/types/registry' {
     'Vec<GiltBid>': Vec<GiltBid>;
     'Vec<GlobalValidationData>': Vec<GlobalValidationData>;
     'Vec<GlobalValidationSchedule>': Vec<GlobalValidationSchedule>;
+    'Vec<GrandpaCommit>': Vec<GrandpaCommit>;
     'Vec<GrandpaEquivocation>': Vec<GrandpaEquivocation>;
     'Vec<GrandpaEquivocationProof>': Vec<GrandpaEquivocationProof>;
     'Vec<GrandpaEquivocationValue>': Vec<GrandpaEquivocationValue>;
+    'Vec<GrandpaJustification>': Vec<GrandpaJustification>;
+    'Vec<GrandpaPrecommit>': Vec<GrandpaPrecommit>;
     'Vec<GrandpaPrevote>': Vec<GrandpaPrevote>;
+    'Vec<GrandpaSignedPrecommit>': Vec<GrandpaSignedPrecommit>;
     'Vec<GroupIndex>': Vec<GroupIndex>;
     'Vec<H1024>': Vec<H1024>;
     'Vec<H128>': Vec<H128>;
@@ -1390,6 +1422,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Index>': Vec<Index>;
     'Vec<IndicesLookupSource>': Vec<IndicesLookupSource>;
     'Vec<IndividualExposure>': Vec<IndividualExposure>;
+    'Vec<InitializationData>': Vec<InitializationData>;
     'Vec<InstanceDetails>': Vec<InstanceDetails>;
     'Vec<InstanceId>': Vec<InstanceId>;
     'Vec<InstanceMetadata>': Vec<InstanceMetadata>;
@@ -1536,6 +1569,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<PeerEndpointAddr>': Vec<PeerEndpointAddr>;
     'Vec<PeerInfo>': Vec<PeerInfo>;
     'Vec<PeerPing>': Vec<PeerPing>;
+    'Vec<PendingChange>': Vec<PendingChange>;
     'Vec<PendingPause>': Vec<PendingPause>;
     'Vec<PendingResume>': Vec<PendingResume>;
     'Vec<Perbill>': Vec<Perbill>;
@@ -1909,6 +1943,9 @@ declare module '@polkadot/types/types/registry' {
     AuthorityId: AuthorityId;
     AuthorityIndex: AuthorityIndex;
     AuthorityList: AuthorityList;
+    AuthoritySet: AuthoritySet;
+    AuthoritySetChange: AuthoritySetChange;
+    AuthoritySetChanges: AuthoritySetChanges;
     AuthoritySignature: AuthoritySignature;
     AuthorityWeight: AuthorityWeight;
     AvailabilityBitfield: AvailabilityBitfield;
@@ -1956,6 +1993,9 @@ declare module '@polkadot/types/types/registry' {
     BountyStatusActive: BountyStatusActive;
     BountyStatusCuratorProposed: BountyStatusCuratorProposed;
     BountyStatusPendingPayout: BountyStatusPendingPayout;
+    BridgedBlockHash: BridgedBlockHash;
+    BridgedBlockNumber: BridgedBlockNumber;
+    BridgedHeader: BridgedHeader;
     BufferedSessionChange: BufferedSessionChange;
     Bytes: Bytes;
     Call: Call;
@@ -2035,6 +2075,8 @@ declare module '@polkadot/types/types/registry' {
     Data: Data;
     DeferredOffenceOf: DeferredOffenceOf;
     DefunctVoter: DefunctVoter;
+    DelayKind: DelayKind;
+    DelayKindBest: DelayKindBest;
     Delegations: Delegations;
     DeletedContract: DeletedContract;
     DepositBalance: DepositBalance;
@@ -2165,6 +2207,8 @@ declare module '@polkadot/types/types/registry' {
     FixedU128: FixedU128;
     FixedU64: FixedU64;
     Forcing: Forcing;
+    ForkTreePendingChange: ForkTreePendingChange;
+    ForkTreePendingChangeNode: ForkTreePendingChangeNode;
     FullIdentification: FullIdentification;
     FunctionArgumentMetadataLatest: FunctionArgumentMetadataLatest;
     FunctionArgumentMetadataV10: FunctionArgumentMetadataV10;
@@ -2184,10 +2228,14 @@ declare module '@polkadot/types/types/registry' {
     GiltBid: GiltBid;
     GlobalValidationData: GlobalValidationData;
     GlobalValidationSchedule: GlobalValidationSchedule;
+    GrandpaCommit: GrandpaCommit;
     GrandpaEquivocation: GrandpaEquivocation;
     GrandpaEquivocationProof: GrandpaEquivocationProof;
     GrandpaEquivocationValue: GrandpaEquivocationValue;
+    GrandpaJustification: GrandpaJustification;
+    GrandpaPrecommit: GrandpaPrecommit;
     GrandpaPrevote: GrandpaPrevote;
+    GrandpaSignedPrecommit: GrandpaSignedPrecommit;
     GroupIndex: GroupIndex;
     H1024: H1024;
     H128: H128;
@@ -2242,6 +2290,7 @@ declare module '@polkadot/types/types/registry' {
     Index: Index;
     IndicesLookupSource: IndicesLookupSource;
     IndividualExposure: IndividualExposure;
+    InitializationData: InitializationData;
     InstanceDetails: InstanceDetails;
     InstanceId: InstanceId;
     InstanceMetadata: InstanceMetadata;
@@ -2388,6 +2437,7 @@ declare module '@polkadot/types/types/registry' {
     PeerEndpointAddr: PeerEndpointAddr;
     PeerInfo: PeerInfo;
     PeerPing: PeerPing;
+    PendingChange: PendingChange;
     PendingPause: PendingPause;
     PendingResume: PendingResume;
     Perbill: Perbill;

@@ -46,7 +46,35 @@ export default {
   types: {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',
+    AuthoritySet: {
+      currentAuthorities: 'AuthorityList',
+      setId: 'u64',
+      pendingStandardChanges: 'ForkTreePendingChange',
+      pendingForcedChanges: 'Vec<PendingChange>',
+      authoritySetChanges: 'AuthoritySetChanges'
+    },
+    ForkTreePendingChange: {
+      roots: 'Vec<ForkTreePendingChangeNode>',
+      bestFinalizedNumber: 'Option<BlockNumber>'
+    },
+    ForkTreePendingChangeNode: {
+      hash: 'BlockHash',
+      number: 'BlockNumber',
+      data: 'PendingChange', // actual data, here PendingChange
+      children: 'Vec<ForkTreePendingChangeNode>'
+    },
+    AuthoritySetChange: '(U64, BlockNumber)',
+    AuthoritySetChanges: 'Vec<AuthoritySetChange>',
     AuthorityWeight: 'u64',
+    DelayKind: {
+      _enum: {
+        Finalized: 'Null',
+        Best: 'DelayKindBest'
+      }
+    },
+    DelayKindBest: {
+      medianLastFinalized: 'BlockNumber'
+    },
     EncodedFinalityProofs: 'Bytes',
     GrandpaEquivocation: {
       _enum: {
@@ -68,19 +96,41 @@ export default {
       targetHash: 'Hash',
       targetNumber: 'BlockNumber'
     },
+    GrandpaCommit: {
+      targetHash: 'BlockHash',
+      targetNumber: 'BlockNumber',
+      precommits: 'Vec<GrandpaSignedPrecommit>'
+    },
+    GrandpaPrecommit: {
+      targetHash: 'BlockHash',
+      targetNumber: 'BlockNumber'
+    },
+    GrandpaSignedPrecommit: {
+      precommit: 'GrandpaPrecommit',
+      signature: 'AuthoritySignature',
+      id: 'AuthorityId'
+    },
+    GrandpaJustification: {
+      round: 'u64',
+      commit: 'GrandpaCommit',
+      votesAncestries: 'Vec<Header>'
+    },
     JustificationNotification: 'Bytes',
     KeyOwnerProof: 'MembershipProof',
     NextAuthority: '(AuthorityId, AuthorityWeight)',
+    PendingChange: {
+      nextAuthorities: 'AuthorityList',
+      delay: 'BlockNumber',
+      canonHeight: 'BlockNumber',
+      canonHash: 'BlockHash',
+      delayKind: 'DelayKind'
+    },
     PendingPause: {
-      /// Block at which the intention to pause was scheduled.
       scheduledAt: 'BlockNumber',
-      /// Number of blocks after which the change will be enacted.
       delay: 'BlockNumber'
     },
     PendingResume: {
-      /// Block at which the intention to resume was scheduled.
       scheduledAt: 'BlockNumber',
-      /// Number of blocks after which the change will be enacted.
       delay: 'BlockNumber'
     },
     Precommits: {
@@ -111,13 +161,9 @@ export default {
     },
     StoredState: {
       _enum: {
-        /// The current authority set is live, and GRANDPA is enabled.
         Live: 'Null',
-        /// There is a pending pause event which will be enacted at the given block height.
         PendingPause: 'PendingPause',
-        /// The current GRANDPA authority set is paused.
         Paused: 'Null',
-        /// There is a pending resume event which will be enacted at the given block height.
         PendingResume: 'PendingResume'
       }
     }
