@@ -3,6 +3,8 @@
 
 import type { Codec, Constructor, Registry } from '../../types';
 
+import { u8aToHex } from '@polkadot/util';
+
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
  * types, and return an array of decoded values.
@@ -26,7 +28,15 @@ export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Construc
       result.push(value);
       offset += value.encodedLength;
     } catch (error) {
-      throw new Error(`decodeU8a: failed on ${keys[i] ? `${keys[i]}: ` : ''}${new Type(registry).toRawType()}:: ${(error as Error).message}`);
+      let rawType: string;
+
+      try {
+        rawType = new Type(registry).toRawType();
+      } catch {
+        rawType = '';
+      }
+
+      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(offset).slice(0, 8))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
     }
   }
 

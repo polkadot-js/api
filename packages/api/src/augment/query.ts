@@ -3,7 +3,7 @@
 
 import type { Bytes, Data, Option, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
-import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDetails, AssetMetadata } from '@polkadot/types/interfaces/assets';
+import type { AssetApproval, AssetBalance, AssetDetails, AssetMetadata } from '@polkadot/types/interfaces/assets';
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { BabeAuthorityWeight, BabeEpochConfiguration, MaybeRandomness, NextConfigDescriptor, Randomness } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock } from '@polkadot/types/interfaces/balances';
@@ -43,8 +43,9 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Approved balance transfers. First balance is the amount approved for transfer. Second
        * is the amount of `T::Currency` reserved for storing this.
+       * First key is the asset ID, second key is the owner and third key is the delegate.
        **/
-      approvals: AugmentedQueryDoubleMap<ApiType, (key1: AssetId | AnyNumber | Uint8Array, key2: AssetApprovalKey | { owner?: any; delegate?: any } | string | Uint8Array) => Observable<Option<AssetApproval>>, [AssetId, AssetApprovalKey]> & QueryableStorageEntry<ApiType, [AssetId, AssetApprovalKey]>;
+      approvals: AugmentedQuery<ApiType, (key1: AssetId | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array, key3: AccountId | string | Uint8Array) => Observable<Option<AssetApproval>>, [AssetId, AccountId, AccountId]> & QueryableStorageEntry<ApiType, [AssetId, AccountId, AccountId]>;
       /**
        * Details of an asset.
        **/
