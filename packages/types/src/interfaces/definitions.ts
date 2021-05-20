@@ -44,6 +44,7 @@ export { default as vesting } from './vesting/definitions';
 
 // polkadot-specific types
 export { default as attestations } from './attestations/definitions';
+export { default as bridges } from './bridges/definitions';
 export { default as claims } from './claims/definitions';
 export { default as crowdloan } from './crowdloan/definitions';
 export { default as cumulus } from './cumulus/definitions';

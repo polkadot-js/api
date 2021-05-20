@@ -39,6 +39,7 @@ export * from './uniques/types';
 export * from './utility/types';
 export * from './vesting/types';
 export * from './attestations/types';
+export * from './bridges/types';
 export * from './claims/types';
 export * from './crowdloan/types';
 export * from './cumulus/types';
