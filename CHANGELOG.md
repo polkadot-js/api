@@ -4,9 +4,11 @@
 
 Changes:
 
+- Fix metadata v13 storage decoding on `NMap`
 - Return additional error information from internal u8a decoding failures
 - Adjust Westend types for 16 nominators-only
 - Add support for `DisallowSigned` (as per shell runtime) extension
+- Display small hex-slice with u8a decoding failures
 
 
 ## 4.10.1 May 17, 2021

@@ -269,8 +269,8 @@ export default {
       index: 'u8'
     },
     NMapTypeV13: {
-      hashers: 'Vec<StorageHasherV13>',
       keyVec: 'Vec<Type>',
+      hashers: 'Vec<StorageHasherV13>',
       value: 'Type'
     },
     StorageEntryModifierV13: 'StorageEntryModifierV12',

@@ -301,8 +301,8 @@ export interface NMapTypeLatest extends NMapTypeV13 {}
 
 /** @name NMapTypeV13 */
 export interface NMapTypeV13 extends Struct {
-  readonly hashers: Vec<StorageHasherV13>;
   readonly keyVec: Vec<Type>;
+  readonly hashers: Vec<StorageHasherV13>;
   readonly value: Type;
 }
 

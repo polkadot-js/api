@@ -12602,18 +12602,25 @@
                 "name": "Approvals",
                 "modifier": "Optional",
                 "type": {
-                  "doubleMap": {
-                    "hasher": "Blake2_128Concat",
-                    "key1": "AssetId",
-                    "key2": "AssetApprovalKey",
-                    "value": "AssetApproval",
-                    "key2Hasher": "Blake2_128Concat"
+                  "nMap": {
+                    "keyVec": [
+                      "AssetId",
+                      "AccountId",
+                      "AccountId"
+                    ],
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "value": "AssetApproval"
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
                   " Approved balance transfers. First balance is the amount approved for transfer. Second",
-                  " is the amount of `T::Currency` reserved for storing this."
+                  " is the amount of `T::Currency` reserved for storing this.",
+                  " First key is the asset ID, second key is the owner and third key is the delegate."
                 ]
               },
               {
