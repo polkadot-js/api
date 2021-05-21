@@ -59,7 +59,7 @@ export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
 
 // FIXME We need a solution for NMap
 export interface PaginationOptions<ArgType = CodecArg> {
-  arg: ArgType;
+  args: ArgType[];
   pageSize: number;
   startKey?: string;
 }
