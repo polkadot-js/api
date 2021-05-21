@@ -86,55 +86,59 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _stora
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): (arg?: any) => StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
   const outputType = type.isMap
-    ? type.asMap.key.toString()
-    : type.asDoubleMap.key1.toString();
+    ? type.asMap.key
+    : type.isDoubleMap
+      ? type.asDoubleMap.key1
+      : type.asNMap.keyVec[0];
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
     documentation,
-    fallback: registry.createType('Bytes', registry.createType(outputType as 'Raw').toHex()),
+    fallback: registry.createType('Bytes', registry.createType(outputType.toString() as 'Raw').toHex()),
     modifier: registry.createType('StorageEntryModifierLatest', 1), // required
     name,
-    type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0)
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', outputType), 0)
   });
 
   const prefixKey = registry.createType('StorageKey', iterFn, { method, section });
 
-  return (arg?: any) =>
-    !isUndefined(arg) && !isNull(arg)
-      ? registry.createType('StorageKey', iterFn(arg), { method, section })
+  return (...args: unknown[]) =>
+    args.length
+      ? registry.createType('StorageKey', iterFn(...args), { method, section })
       : prefixKey;
 }
 
 // attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  const { meta: { type } } = itemFn;
+  const { meta: { type }, method, section } = itemFn;
 
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (...args: unknown[]): Raw => {
     assert(
       (
-        (type.isMap && args.length === 0) ||
+        (args.length === 0) ||
         (type.isDoubleMap && args.length === 1) ||
         (type.isNMap && args.length === (type.asNMap.hashers.length - 1))
       ),
-      'Filtering arguments for map keys/entries needs to be be one less than the full arguments'
+      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be one less than the full arguments, found [${args.join(', ')}]`
     );
 
-    if (type.isDoubleMap) {
-      return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [getHasher(type.asDoubleMap.hasher)], args as CreateArgType[]));
-    } else if (type.isNMap) {
-      const keys = [...type.asNMap.keyVec];
-      const hashers = type.asNMap.hashers.map((h) => getHasher(h));
+    if (args.length) {
+      if (type.isDoubleMap) {
+        return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [getHasher(type.asDoubleMap.hasher)], args as CreateArgType[]));
+      } else if (type.isNMap) {
+        const keys = [...type.asNMap.keyVec];
+        const hashers = type.asNMap.hashers.map((h) => getHasher(h));
 
-      // remove the last entry
-      keys.pop();
-      hashers.pop();
+        // remove the last entry
+        keys.pop();
+        hashers.pop();
 
-      return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as CreateArgType[]));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as CreateArgType[]));
+      }
     }
 
     return new Raw(registry, createKeyRaw(registry, itemFn, [], [], []));
