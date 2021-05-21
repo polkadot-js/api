@@ -5,6 +5,7 @@
 Changes:
 
 - Fix metadata v13 storage decoding on `NMap`
+- Add TypeScript augmentation for NMap types
 - Return additional error information from internal u8a decoding failures
 - Adjust Westend types for 16 nominators-only
 - Add support for `DisallowSigned` (as per shell runtime) extension
