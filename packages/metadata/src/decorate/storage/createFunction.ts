@@ -39,6 +39,21 @@ function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
   return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
 }
 
+function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
+  const { method, section } = itemFn;
+
+  return u8aConcat(
+    createPrefixedKey(itemFn),
+    ...keys.map((type, index): Uint8Array => {
+      const arg = args[index];
+
+      assert(!isUndefined(arg) && !isNull(arg), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} has a null or undefined argument at position ${index}`);
+
+      return hashers[index](registry.createType(type.toString() as 'Raw', arg).toU8a());
+    })
+  );
+}
+
 function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
   const { method, section } = itemFn;
 
@@ -46,16 +61,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hash
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
-    u8aConcat(
-      createPrefixedKey(itemFn),
-      ...keys.map((type, index): Uint8Array => {
-        const arg = args[index];
-
-        assert(!isUndefined(arg) && !isNull(arg), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} has a null or undefined argument at position ${index}`);
-
-        return hashers[index](registry.createType(type.toString() as 'Raw', arg).toU8a());
-      })
-    )
+    createKeyRaw(registry, itemFn, keys, hashers, args)
   );
 }
 
@@ -108,21 +114,30 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type } } = itemFn;
 
-  // FIXME NMap support
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw => {
-    assert(type.isDoubleMap || isUndefined(arg), 'Filtering arguments for keys/entries are only valid on double maps');
-
-    return new Raw(
-      registry,
-      type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
-        ? u8aConcat(
-          createPrefixedKey(itemFn),
-          getHasher(type.asDoubleMap.hasher)(
-            registry.createType(type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
-          )
-        )
-        : createPrefixedKey(itemFn)
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (...args: unknown[]): Raw => {
+    assert(
+      (
+        (type.isMap && args.length === 0) ||
+        (type.isDoubleMap && args.length === 1) ||
+        (type.isNMap && args.length === (type.asNMap.hashers.length - 1))
+      ),
+      'Filtering arguments for map keys/entries needs to be be one less than the full arguments'
     );
+
+    if (type.isDoubleMap) {
+      return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [getHasher(type.asDoubleMap.hasher)], args as CreateArgType[]));
+    } else if (type.isNMap) {
+      const keys = [...type.asNMap.keyVec];
+      const hashers = type.asNMap.hashers.map((h) => getHasher(h));
+
+      // remove the last entry
+      keys.pop();
+      hashers.pop();
+
+      return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as CreateArgType[]));
+    }
+
+    return new Raw(registry, createKeyRaw(registry, itemFn, [], [], []));
   });
 
   return storageFn;
@@ -148,13 +163,12 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
           : createKey(registry, itemFn, type.asNMap.keyVec, type.asNMap.hashers.map((h) => getHasher(h)), arg as CreateArgType[])
   );
 
-  // FIXME NMap support
-  if (type.isMap || type.isDoubleMap) {
+  if (type.isMap || type.isDoubleMap || type.isNMap) {
     extendPrefixedMap(registry, itemFn, storageFn);
   }
 
-  storageFn.keyPrefix = (arg?: any): Uint8Array =>
-    (storageFn.iterKey && storageFn.iterKey(arg)) ||
+  storageFn.keyPrefix = (...args: unknown[]): Uint8Array =>
+    (storageFn.iterKey && storageFn.iterKey(...args)) ||
     compactStripLength(storageFn())[1];
 
   return storageFn;
