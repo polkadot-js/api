@@ -385,8 +385,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               : args
       ))[1]);
 
-    decorated.keyPrefix = (key1?: Arg): string =>
-      u8aToHex(creator.keyPrefix(key1));
+    decorated.keyPrefix = (...keys: Arg[]): string =>
+      u8aToHex(creator.keyPrefix(...keys));
 
     decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, [arg1, arg2], range));

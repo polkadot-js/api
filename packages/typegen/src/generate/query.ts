@@ -104,16 +104,17 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .sort(compareName)
           .map((storageEntry) => {
             const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
-            let entryType = 'AugmentedQuery';
-
-            if (storageEntry.type.isDoubleMap) {
-              entryType = `${entryType}DoubleMap`;
-            }
 
             return {
               args,
               docs: storageEntry.documentation,
-              entryType,
+              entryType: storageEntry.type.isMap
+                ? 'AugmentedQueryMap'
+                : storageEntry.type.isDoubleMap
+                  ? 'AugmentedQueryDoubleMap'
+                  : storageEntry.type.isNMap
+                    ? 'AugmentedQueryNMap'
+                    : 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,
               returnType
