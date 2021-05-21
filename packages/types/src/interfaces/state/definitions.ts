@@ -310,6 +310,26 @@ export default {
       ],
       type: 'Vec<StorageChangeSet>'
     },
+    getChildReadProof: {
+      description: 'Returns proof of storage for child key entries at a specific block state.',
+      params: [
+        {
+          name: 'childStorageKey',
+          type: 'PrefixedStorageKey'
+        },
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'ReadProof'
+    },
     getReadProof: {
       description: 'Returns proof of storage entries at a specific block state',
       params: [

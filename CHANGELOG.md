@@ -9,6 +9,7 @@ Changes:
 - Adjust Westend types for 16 nominators-only
 - Add support for `DisallowSigned` (as per shell runtime) extension
 - Display small hex-slice with u8a decoding failures
+- Add `state_getChildReadProof` RPC
 
 
 ## 4.10.1 May 17, 2021
