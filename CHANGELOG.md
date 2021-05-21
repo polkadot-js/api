@@ -10,6 +10,7 @@ Changes:
 - Add support for `DisallowSigned` (as per shell runtime) extension
 - Display small hex-slice with u8a decoding failures
 - Add `state_getChildReadProof` RPC
+- Cleanup Rococo known types (only as used)
 
 
 ## 4.10.1 May 17, 2021
