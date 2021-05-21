@@ -103,12 +103,8 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', outputType), 0)
   });
 
-  const prefixKey = registry.createType('StorageKey', iterFn, { method, section });
-
   return (...args: unknown[]) =>
-    args.length
-      ? registry.createType('StorageKey', iterFn(...args), { method, section })
-      : prefixKey;
+    registry.createType('StorageKey', iterFn(...args), { method, section });
 }
 
 // attach the full list hashing for prefixed maps
