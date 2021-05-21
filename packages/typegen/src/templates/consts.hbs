@@ -11,6 +11,9 @@ declare module '@polkadot/api/types/consts' {
       {{{name}}}: {{{type}}} & AugmentedConst<ApiType>;
       {{/each}}
       {{#unless @root.isStrict}}
+      /**
+       * Generic const
+       **/
       [key: string]: Codec;
       {{/unless}}
     };

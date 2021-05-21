@@ -432,6 +432,9 @@ declare module '@polkadot/api/types/submittable' {
        * Weight: `O(1)`
        **/
       transferOwnership: AugmentedSubmittable<(id: Compact<AssetId> | AnyNumber | Uint8Array, owner: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<AssetId>, LookupSource]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     authorship: {
@@ -439,6 +442,9 @@ declare module '@polkadot/api/types/submittable' {
        * Provide a set of uncles.
        **/
       setUncles: AugmentedSubmittable<(newUncles: Vec<Header> | (Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Header>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     babe: {
@@ -467,6 +473,9 @@ declare module '@polkadot/api/types/submittable' {
        * reporter.
        **/
       reportEquivocationUnsigned: AugmentedSubmittable<(equivocationProof: BabeEquivocationProof | { offender?: any; slotNumber?: any; firstHeader?: any; secondHeader?: any } | string | Uint8Array, keyOwnerProof: KeyOwnerProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [BabeEquivocationProof, KeyOwnerProof]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     balances: {
@@ -544,6 +553,9 @@ declare module '@polkadot/api/types/submittable' {
        * #</weight>
        **/
       transferKeepAlive: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, Compact<Balance>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     bounties: {
@@ -666,6 +678,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       unassignCurator: AugmentedSubmittable<(bountyId: Compact<BountyIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BountyIndex>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     contracts: {
@@ -723,6 +738,9 @@ declare module '@polkadot/api/types/submittable' {
        * - The `deploy` function is executed in the context of the newly-created account.
        **/
       instantiateWithCode: AugmentedSubmittable<(endowment: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Weight> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>, Compact<Weight>, Bytes, Bytes, Bytes]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     council: {
@@ -862,6 +880,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<ProposalIndex>, bool]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     democracy: {
@@ -1195,6 +1216,9 @@ declare module '@polkadot/api/types/submittable' {
        * Weight: `O(R)` where R is the number of referendums the voter has voted on.
        **/
       vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ReferendumIndex>, AccountVote]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     electionProviderMultiPhase: {
@@ -1215,6 +1239,9 @@ declare module '@polkadot/api/types/submittable' {
        * No deposit or reward is associated with this submission.
        **/
       submitUnsigned: AugmentedSubmittable<(solution: RawSolution | { compact?: any; score?: any; round?: any } | string | Uint8Array, witness: SolutionOrSnapshotSize | { voters?: any; targets?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [RawSolution, SolutionOrSnapshotSize]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     elections: {
@@ -1320,6 +1347,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(votes: Vec<AccountId> | (AccountId | string | Uint8Array)[], value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<AccountId>, Compact<BalanceOf>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     gilt: {
@@ -1368,6 +1398,9 @@ declare module '@polkadot/api/types/submittable' {
        * - `index`: The index of the gilt to be thawed.
        **/
       thaw: AugmentedSubmittable<(index: Compact<ActiveIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ActiveIndex>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     grandpa: {
@@ -1400,6 +1433,9 @@ declare module '@polkadot/api/types/submittable' {
        * reporter.
        **/
       reportEquivocationUnsigned: AugmentedSubmittable<(equivocationProof: GrandpaEquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, keyOwnerProof: KeyOwnerProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [GrandpaEquivocationProof, KeyOwnerProof]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     identity: {
@@ -1664,6 +1700,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { None: any } | { Raw: any } | { BlakeTwo256: any } | { Sha256: any } | { Keccak256: any } | { ShaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>, [Vec<ITuple<[AccountId, Data]>>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     imOnline: {
@@ -1679,6 +1718,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       heartbeat: AugmentedSubmittable<(heartbeat: Heartbeat | { blockNumber?: any; networkState?: any; sessionIndex?: any; authorityIndex?: any; validatorsLen?: any } | string | Uint8Array, signature: Signature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Heartbeat, Signature]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     indices: {
@@ -1791,6 +1833,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       transfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountIndex]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     lottery: {
@@ -1837,6 +1882,9 @@ declare module '@polkadot/api/types/submittable' {
        * This extrinsic must be called by the `ManagerOrigin`.
        **/
       stopRepeat: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     multisig: {
@@ -1976,6 +2024,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId>, Timepoint, U8aFixed]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     proxy: {
@@ -2171,6 +2222,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       removeProxy: AugmentedSubmittable<(delegate: AccountId | string | Uint8Array, proxyType: ProxyType | 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | number | Uint8Array, delay: BlockNumber | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, ProxyType, BlockNumber]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     recovery: {
@@ -2373,6 +2427,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vouchRecovery: AugmentedSubmittable<(lost: AccountId | string | Uint8Array, rescuer: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountId]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     scheduler: {
@@ -2444,6 +2501,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       scheduleNamedAfter: AugmentedSubmittable<(id: Bytes | string | Uint8Array, after: BlockNumber | AnyNumber | Uint8Array, maybePeriodic: Option<Period> | null | object | string | Uint8Array, priority: Priority | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, BlockNumber, Option<Period>, Priority, Call]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     session: {
@@ -2479,6 +2539,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       setKeys: AugmentedSubmittable<(keys: Keys, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Keys, Bytes]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     society: {
@@ -2799,6 +2862,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vouch: AugmentedSubmittable<(who: AccountId | string | Uint8Array, value: BalanceOf | AnyNumber | Uint8Array, tip: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, BalanceOf, BalanceOf]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     staking: {
@@ -3233,6 +3299,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       withdrawUnbonded: AugmentedSubmittable<(numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     sudo: {
@@ -3288,6 +3357,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       sudoUncheckedWeight: AugmentedSubmittable<(call: Call | { callIndex?: any; args?: any } | string | Uint8Array, weight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Weight]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     system: {
@@ -3396,6 +3468,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       setStorage: AugmentedSubmittable<(items: Vec<KeyValue> | (KeyValue)[]) => SubmittableExtrinsic<ApiType>, [Vec<KeyValue>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     technicalCommittee: {
@@ -3535,6 +3610,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vote: AugmentedSubmittable<(proposal: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<ProposalIndex>, bool]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     technicalMembership: {
@@ -3585,6 +3663,9 @@ declare module '@polkadot/api/types/submittable' {
        * Prime membership is *not* passed from `remove` to `add`, if extant.
        **/
       swapMember: AugmentedSubmittable<(remove: AccountId | string | Uint8Array, add: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountId]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     timestamp: {
@@ -3606,6 +3687,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       set: AugmentedSubmittable<(now: Compact<Moment> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<Moment>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     tips: {
@@ -3741,6 +3825,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       tipNew: AugmentedSubmittable<(reason: Bytes | string | Uint8Array, who: AccountId | string | Uint8Array, tipValue: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, AccountId, Compact<BalanceOf>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     treasury: {
@@ -3781,6 +3868,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       rejectProposal: AugmentedSubmittable<(proposalId: Compact<ProposalIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ProposalIndex>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     utility: {
@@ -3837,6 +3927,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       batchAll: AugmentedSubmittable<(calls: Vec<Call> | (Call | { callIndex?: any; args?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     vesting: {
@@ -3913,6 +4006,9 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       vestedTransfer: AugmentedSubmittable<(target: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, schedule: VestingInfo | { locked?: any; perBlock?: any; startingBlock?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, VestingInfo]>;
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
   }

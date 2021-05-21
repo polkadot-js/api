@@ -11,6 +11,9 @@ declare module '@polkadot/api/types/submittable' {
       {{{name}}}: AugmentedSubmittable<({{{params}}}) => SubmittableExtrinsic<ApiType>, [{{{args}}}]>;
       {{/each}}
       {{#unless @root.isStrict}}
+      /**
+       * Generic tx
+       **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
       {{/unless}}
     };
