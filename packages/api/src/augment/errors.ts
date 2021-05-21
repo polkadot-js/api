@@ -6,7 +6,6 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/errors' {
   export interface AugmentedErrors<ApiType> {
     assets: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Invalid metadata given.
        **/
@@ -55,9 +54,9 @@ declare module '@polkadot/api/types/errors' {
        * The source account would not survive the transfer and it needs to stay alive.
        **/
       WouldDie: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     authorship: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * The uncle is genesis.
        **/
@@ -86,9 +85,9 @@ declare module '@polkadot/api/types/errors' {
        * Uncles already set in the block.
        **/
       UnclesAlreadySet: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     babe: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * A given equivocation report is valid but already previously reported.
        **/
@@ -101,9 +100,9 @@ declare module '@polkadot/api/types/errors' {
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
       InvalidKeyOwnershipProof: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     balances: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Beneficiary account must pre-exist
        **/
@@ -132,9 +131,9 @@ declare module '@polkadot/api/types/errors' {
        * Vesting balance too high to send value
        **/
       VestingBalance: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     bounties: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
@@ -172,9 +171,9 @@ declare module '@polkadot/api/types/errors' {
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     contracts: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Performing the requested transfer would have brought the contract below
        * the subsistence threshold. No transfer is allowed to do this in order to allow
@@ -324,9 +323,9 @@ declare module '@polkadot/api/types/errors' {
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
       ValueTooLarge: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     council: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
@@ -367,9 +366,9 @@ declare module '@polkadot/api/types/errors' {
        * The given weight bound for the proposal was too low.
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     democracy: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Cannot cancel the same proposal twice
        **/
@@ -503,9 +502,9 @@ declare module '@polkadot/api/types/errors' {
        * Invalid upper bound.
        **/
       WrongUpperBound: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     electionProviderMultiPhase: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * OCW submitted solution for wrong round
        **/
@@ -522,9 +521,9 @@ declare module '@polkadot/api/types/errors' {
        * Wrong number of winners presented.
        **/
       PreDispatchWrongWinnerCount: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     elections: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated candidate submission.
        **/
@@ -593,9 +592,9 @@ declare module '@polkadot/api/types/errors' {
        * Cannot vote when no candidates or members exist.
        **/
       UnableToVote: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     gilt: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * The amount of the bid is less than the minimum allowed.
        **/
@@ -629,9 +628,9 @@ declare module '@polkadot/api/types/errors' {
        * Gilt index is unknown.
        **/
       Unknown: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     grandpa: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Attempt to signal GRANDPA change with one already pending.
        **/
@@ -662,9 +661,9 @@ declare module '@polkadot/api/types/errors' {
        * Cannot signal forced change so soon after last.
        **/
       TooSoon: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     identity: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Account ID is already named.
        **/
@@ -729,9 +728,9 @@ declare module '@polkadot/api/types/errors' {
        * Too many subs-accounts.
        **/
       TooManySubAccounts: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     imOnline: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Duplicated heartbeat.
        **/
@@ -740,9 +739,9 @@ declare module '@polkadot/api/types/errors' {
        * Non existent public key.
        **/
       InvalidKey: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     indices: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * The index was not available.
        **/
@@ -763,9 +762,9 @@ declare module '@polkadot/api/types/errors' {
        * The index is permanent and may not be freed/changed.
        **/
       Permanent: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     lottery: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * A lottery has already ended.
        **/
@@ -794,9 +793,9 @@ declare module '@polkadot/api/types/errors' {
        * Too many calls for a single lottery.
        **/
       TooManyCalls: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     multisig: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Call is already approved by this signatory.
        **/
@@ -853,9 +852,9 @@ declare module '@polkadot/api/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     proxy: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Account is already a proxy.
        **/
@@ -888,9 +887,9 @@ declare module '@polkadot/api/types/errors' {
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
       Unproxyable: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     recovery: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * This account is already set up for recovery
        **/
@@ -955,9 +954,9 @@ declare module '@polkadot/api/types/errors' {
        * Threshold must be greater than zero
        **/
       ZeroThreshold: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     scheduler: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Failed to schedule a call
        **/
@@ -974,9 +973,9 @@ declare module '@polkadot/api/types/errors' {
        * Given target block number is in the past.
        **/
       TargetBlockNumberInPast: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     session: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Registered duplicate key.
        **/
@@ -997,9 +996,9 @@ declare module '@polkadot/api/types/errors' {
        * No keys are associated with this account.
        **/
       NoKeys: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     society: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * User has already made a bid.
        **/
@@ -1072,9 +1071,9 @@ declare module '@polkadot/api/types/errors' {
        * User is suspended.
        **/
       Suspended: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     staking: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Stash is already bonded.
        **/
@@ -1155,16 +1154,16 @@ declare module '@polkadot/api/types/errors' {
        * Too many nomination targets supplied.
        **/
       TooManyTargets: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     sudo: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Sender must be the Sudo account
        **/
       RequireSudo: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     system: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Failed to extract the runtime version from the new runtime.
        * 
@@ -1189,9 +1188,9 @@ declare module '@polkadot/api/types/errors' {
        * and the new runtime.
        **/
       SpecVersionNeedsToIncrease: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     technicalCommittee: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Members are already initialized!
        **/
@@ -1232,9 +1231,9 @@ declare module '@polkadot/api/types/errors' {
        * The given weight bound for the proposal was too low.
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     technicalMembership: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Already a member.
        **/
@@ -1243,9 +1242,9 @@ declare module '@polkadot/api/types/errors' {
        * Not a member.
        **/
       NotMember: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     tips: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * The tip was already found/started.
        **/
@@ -1270,9 +1269,9 @@ declare module '@polkadot/api/types/errors' {
        * The tip hash is unknown.
        **/
       UnknownTip: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     treasury: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
@@ -1285,9 +1284,9 @@ declare module '@polkadot/api/types/errors' {
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
     vesting: {
-      [key: string]: AugmentedError<ApiType>;
       /**
        * Amount being transferred is too low to create a vesting schedule.
        **/
@@ -1300,6 +1299,7 @@ declare module '@polkadot/api/types/errors' {
        * The account given is not vesting.
        **/
       NotVesting: AugmentedError<ApiType>;
+      [key: string]: AugmentedError<ApiType>;
     };
   }
 
