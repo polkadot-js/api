@@ -5,9 +5,9 @@ import type { StorageEntryMetadataLatest } from '../interfaces/metadata';
 import type { Codec } from '../types';
 
 export interface StorageEntry {
-  (...args: unknown[]): Uint8Array;
-  iterKey?: (...args: unknown[]) => Uint8Array & Codec;
-  keyPrefix: (...args: unknown[]) => Uint8Array;
+  (arg?: unknown): Uint8Array;
+  iterKey?: (arg?: unknown) => Uint8Array & Codec;
+  keyPrefix: (arg?: unknown) => Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
