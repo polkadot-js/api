@@ -108,13 +108,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
             return {
               args,
               docs: storageEntry.documentation,
-              entryType: storageEntry.type.isMap
-                ? 'AugmentedQueryMap'
-                : storageEntry.type.isDoubleMap
-                  ? 'AugmentedQueryDoubleMap'
-                  : storageEntry.type.isNMap
-                    ? 'AugmentedQueryNMap'
-                    : 'AugmentedQuery',
+              entryType: 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,
               returnType
