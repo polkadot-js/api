@@ -131,6 +131,7 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
 
   // tripple map with keys
   await api.query.assets.approvals.keys(123, 'blah');
+  await api.query.assets.account.keys(123);
 
   // check range
   await api.query.balances.freeBalance.range<Balance>(['0x1234'], pairs.bob.address);
