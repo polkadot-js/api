@@ -27,7 +27,7 @@ export interface StorageEntryPromiseOverloads {
 }
 
 // This is the most generic typings we can have for a storage entry function
-type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>
+type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
 
 export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
   ApiType extends 'rxjs'

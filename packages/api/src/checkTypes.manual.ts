@@ -129,6 +129,9 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   await api.query.system.account.entries(); // should not take a param
   await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 
+  // tripple map with keys
+  await api.query.assets.approvals.keys(123, 'blah');
+
   // check range
   await api.query.balances.freeBalance.range<Balance>(['0x1234'], pairs.bob.address);
 
