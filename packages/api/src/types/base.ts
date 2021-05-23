@@ -1,30 +1,12 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
-// Prepend an element V onto the beginning of a tuple T.
-// Cons<1, [2,3,4]> is [1,2,3,4]
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer R) => void)
-  ? R
-  : never;
+export type Push<T extends readonly unknown[], V> = [...T, V]
 
-// Append an element V onto the end of a tuple T
-// Push<[1,2,3],4> is [1,2,3,4]
-// note that this DOES NOT PRESERVE optionality/readonly in tuples.
-// So unfortunately Push<[1, 2?, 3?], 4> is [1,2|undefined,3|undefined,4]
-export type Push<T extends any[], V> = (
-  (
-    Cons<any, Required<T>> extends infer R
-      ? { [K in keyof R]: K extends keyof T ? T[K] : V }
-      : never
-  ) extends infer P
-    ? P extends any[] ? P : never
-    : never
-);
+export type DropLast<T extends readonly unknown[]> = T extends readonly [...infer U, any?] ? U : [...T];
 
 export type ApiTypes = 'promise' | 'rxjs';
 
@@ -75,8 +57,9 @@ export interface DecorateMethodOptions {
 
 export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
 
+// FIXME We need a solution for NMap
 export interface PaginationOptions<ArgType = CodecArg> {
-  arg?: ArgType;
+  args: ArgType[];
   pageSize: number;
   startKey?: string;
 }

@@ -356,7 +356,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -365,11 +365,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
-      this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
+    decorated.at = decorateMethod((hash: Hash, ...args: Arg[]): Observable<Codec> =>
+      this._rpcCore.state.getStorage(getArgs(args), hash));
 
-    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
-      this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
+    decorated.hash = decorateMethod((...args: Arg[]): Observable<Hash> =>
+      this._rpcCore.state.getStorageHash(getArgs(args)));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
       key.section === creator.section && key.method === creator.method;
@@ -385,40 +385,40 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               : args
       ))[1]);
 
-    decorated.keyPrefix = (key1?: Arg): string =>
-      u8aToHex(creator.keyPrefix(key1));
+    decorated.keyPrefix = (...keys: Arg[]): string =>
+      u8aToHex(creator.keyPrefix(...keys));
 
-    decorated.range = decorateMethod((range: [Hash, Hash?], arg1?: Arg, arg2?: Arg): Observable<[Hash, Codec][]> =>
-      this._decorateStorageRange(decorated, [arg1, arg2], range));
+    decorated.range = decorateMethod((range: [Hash, Hash?], ...args: Arg[]): Observable<[Hash, Codec][]> =>
+      this._decorateStorageRange(decorated, args, range));
 
-    decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
+    decorated.size = decorateMethod((...args: Arg[]): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getArgs(args)));
 
-    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, arg1?: Arg, arg2?: Arg): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(arg1, arg2), hash));
+    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getArgs(args), hash));
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntries(creator, null, doubleMapArg)));
+        memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntries(creator, null, args)));
 
       decorated.entriesAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntries(creator, hash, doubleMapArg)));
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntries(creator, hash, args)));
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, opts)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (doubleMapArg?: Arg): Observable<StorageKey[]> =>
-          this._retrieveMapKeys(creator, null, doubleMapArg)));
+        memo(this.#instanceId, (...args: Arg[]): Observable<StorageKey[]> =>
+          this._retrieveMapKeys(creator, null, args)));
 
       decorated.keysAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, doubleMapArg?: Arg): Observable<StorageKey[]> =>
-          this._retrieveMapKeys(creator, hash, doubleMapArg)));
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<StorageKey[]> =>
+          this._retrieveMapKeys(creator, hash, args)));
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
@@ -452,7 +452,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     });
   }
 
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: [Arg?, Arg?], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: Arg[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
@@ -483,10 +483,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<StorageKey[]> {
-    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
+  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, args: Arg[]): Observable<StorageKey[]> {
+    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
-    const headKey = iterKey(arg).toHex();
+    const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
     const query = at
       ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey, at)
@@ -511,21 +511,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
-    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap), 'keys can only be retrieved on maps, linked maps and double maps');
+    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
-    const headKey = iterKey(opts.arg).toHex();
+    const headKey = iterKey(...opts.args).toHex();
 
     return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
       map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
     );
   }
 
-  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, arg?: Arg): Observable<[StorageKey, Codec][]> {
+  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: Arg[]): Observable<[StorageKey, Codec][]> {
     const query = at
       ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
       : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
 
-    return this._retrieveMapKeys(entry, at, arg).pipe(
+    return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
         keys.length
           ? combineLatest(arrayChunk(keys, PAGE_SIZE).map(query)).pipe(

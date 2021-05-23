@@ -6,13 +6,16 @@ declare module '@polkadot/api/types/errors' {
   export interface AugmentedErrors<ApiType> {
     {{#each modules}}
     {{{name}}}: {
-      {{#unless @root.isStrict}}
-      [key: string]: AugmentedError<ApiType>;
-      {{/unless}}
-      {{~#each items}}
+      {{#each items}}
       {{> docs}}
       {{{name}}}: AugmentedError<ApiType>;
       {{/each}}
+      {{#unless @root.isStrict}}
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+      {{/unless}}
     };
     {{/each}}
   }

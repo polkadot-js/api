@@ -6,13 +6,16 @@ declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
     {{#each modules}}
     {{{name}}}: {
-      {{#unless @root.isStrict}}
-      [key: string]: Codec;
-      {{/unless}}
-      {{~#each items}}
+      {{#each items}}
       {{> docs}}
       {{{name}}}: {{{type}}} & AugmentedConst<ApiType>;
       {{/each}}
+      {{#unless @root.isStrict}}
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+      {{/unless}}
     };
     {{/each}}
   }

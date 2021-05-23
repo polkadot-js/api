@@ -27,7 +27,6 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType> {
     assets: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An approval for account `delegate` was cancelled by `owner`.
        * \[id, owner, delegate\]
@@ -105,9 +104,12 @@ declare module '@polkadot/api/types/events' {
        * \[id, owner, delegate, destination\]
        **/
       TransferredApproved: AugmentedEvent<ApiType, [AssetId, AccountId, AccountId, AccountId, TAssetBalance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     balances: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A balance was set by root. \[who, free, reserved\]
        **/
@@ -143,9 +145,12 @@ declare module '@polkadot/api/types/events' {
        * Some balance was unreserved (moved from reserved to free). \[who, value\]
        **/
       Unreserved: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     bounties: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A bounty is awarded to a beneficiary. \[index, beneficiary\]
        **/
@@ -174,9 +179,12 @@ declare module '@polkadot/api/types/events' {
        * A bounty proposal was rejected; funds were slashed. \[index, bond\]
        **/
       BountyRejected: AugmentedEvent<ApiType, [BountyIndex, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     contracts: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A code with the specified hash was removed.
        * \[code_hash\]
@@ -243,9 +251,12 @@ declare module '@polkadot/api/types/events' {
        * this event is by calling `seal_terminate`.
        **/
       Terminated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     council: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
@@ -283,9 +294,12 @@ declare module '@polkadot/api/types/events' {
        * \[account, proposal_hash, voted, yes, no\]
        **/
       Voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     democracy: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A proposal \[hash\] has been blacklisted permanently.
        **/
@@ -362,9 +376,12 @@ declare module '@polkadot/api/types/events' {
        * An external proposal has been vetoed. \[who, proposal_hash, until\]
        **/
       Vetoed: AugmentedEvent<ApiType, [AccountId, Hash, BlockNumber]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     electionProviderMultiPhase: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * The election has been finalized, with `Some` of the given computation, or else if the
        * election failed, `None`.
@@ -393,9 +410,12 @@ declare module '@polkadot/api/types/events' {
        * The unsigned phase of the given round has started.
        **/
       UnsignedPhaseStarted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     elections: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A \[candidate\] was slashed by \[amount\] due to failing to obtain a seat as member or
        * runner-up.
@@ -433,9 +453,12 @@ declare module '@polkadot/api/types/events' {
        * A \[seat holder\] was slashed by \[amount\] by being forcefully removed from the set.
        **/
       SeatHolderSlashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     gilt: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A bid was successfully placed.
        * \[ who, amount, duration \]
@@ -456,9 +479,12 @@ declare module '@polkadot/api/types/events' {
        * \[ index, who, original_amount, additional_amount \]
        **/
       GiltThawed: AugmentedEvent<ApiType, [ActiveIndex, AccountId, BalanceOf, BalanceOf]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     grandpa: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * New authority set has been applied. \[authority_set\]
        **/
@@ -471,9 +497,12 @@ declare module '@polkadot/api/types/events' {
        * Current authority set has been resumed.
        **/
       Resumed: AugmentedEvent<ApiType, []>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     identity: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A name was cleared, and the given balance returned. \[who, deposit\]
        **/
@@ -516,9 +545,12 @@ declare module '@polkadot/api/types/events' {
        * main identity account to the sub-identity account. \[sub, main, deposit\]
        **/
       SubIdentityRevoked: AugmentedEvent<ApiType, [AccountId, AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     imOnline: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * At the end of the session, no offence was committed.
        **/
@@ -531,9 +563,12 @@ declare module '@polkadot/api/types/events' {
        * At the end of the session, at least one validator was found to be \[offline\].
        **/
       SomeOffline: AugmentedEvent<ApiType, [Vec<IdentificationTuple>]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     indices: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A account index was assigned. \[index, who\]
        **/
@@ -546,9 +581,12 @@ declare module '@polkadot/api/types/events' {
        * A account index has been frozen to its current account ID. \[index, who\]
        **/
       IndexFrozen: AugmentedEvent<ApiType, [AccountIndex, AccountId]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     lottery: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A new set of calls have been set!
        **/
@@ -565,9 +603,12 @@ declare module '@polkadot/api/types/events' {
        * A winner has been chosen!
        **/
       Winner: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     multisig: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A multisig operation has been approved by someone.
        * \[approving, timepoint, multisig, call_hash\]
@@ -585,18 +626,24 @@ declare module '@polkadot/api/types/events' {
        * A new multisig operation has begun. \[approving, multisig, call_hash\]
        **/
       NewMultisig: AugmentedEvent<ApiType, [AccountId, AccountId, CallHash]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     offences: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
        * (kind-specific) time slot. This event is not deposited for duplicate slashes.
        * \[kind, timeslot\].
        **/
       Offence: AugmentedEvent<ApiType, [Kind, OpaqueTimeSlot]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     proxy: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An announcement was placed to make a call in the future. \[real, proxy, call_hash\]
        **/
@@ -610,9 +657,12 @@ declare module '@polkadot/api/types/events' {
        * A proxy was executed correctly, with the given \[result\].
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [DispatchResult]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     recovery: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Lost account has been successfully recovered by rescuer account.
        * \[lost, rescuer\]
@@ -641,9 +691,12 @@ declare module '@polkadot/api/types/events' {
        * \[lost, rescuer, sender\]
        **/
       RecoveryVouched: AugmentedEvent<ApiType, [AccountId, AccountId, AccountId]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     scheduler: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Canceled some task. \[when, index\]
        **/
@@ -656,17 +709,23 @@ declare module '@polkadot/api/types/events' {
        * Scheduled some task. \[when, index\]
        **/
       Scheduled: AugmentedEvent<ApiType, [BlockNumber, u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     session: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * New session has happened. Note that the argument is the \[session_index\], not the block
        * number as the type might suggest.
        **/
       NewSession: AugmentedEvent<ApiType, [SessionIndex]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     society: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A \[candidate\] was dropped (due to an excess of bids in the system).
        **/
@@ -734,9 +793,12 @@ declare module '@polkadot/api/types/events' {
        * their offer is the second. The vouching party is the third. \[candidate_id, offer, vouching\]
        **/
       Vouch: AugmentedEvent<ApiType, [AccountId, Balance, AccountId]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     staking: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An account has bonded this amount. \[stash, amount\]
        * 
@@ -781,9 +843,12 @@ declare module '@polkadot/api/types/events' {
        * from the unlocking queue. \[stash, amount\]
        **/
       Withdrawn: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     sudo: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * The \[sudoer\] just switched identity; the old key is supplied.
        **/
@@ -796,9 +861,12 @@ declare module '@polkadot/api/types/events' {
        * A sudo just took place. \[result\]
        **/
       SudoAsDone: AugmentedEvent<ApiType, [DispatchResult]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     system: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * `:code` was updated.
        **/
@@ -823,9 +891,12 @@ declare module '@polkadot/api/types/events' {
        * On on-chain remark happened. \[origin, remark_hash\]
        **/
       Remarked: AugmentedEvent<ApiType, [AccountId, Hash]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     technicalCommittee: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A motion was approved by the required threshold.
        * \[proposal_hash\]
@@ -863,9 +934,12 @@ declare module '@polkadot/api/types/events' {
        * \[account, proposal_hash, voted, yes, no\]
        **/
       Voted: AugmentedEvent<ApiType, [AccountId, Hash, bool, MemberCount, MemberCount]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     technicalMembership: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Phantom member, never used.
        **/
@@ -890,9 +964,12 @@ declare module '@polkadot/api/types/events' {
        * Two members were swapped; see the transaction for who.
        **/
       MembersSwapped: AugmentedEvent<ApiType, []>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     tips: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * A new tip suggestion has been opened. \[tip_hash\]
        **/
@@ -913,9 +990,12 @@ declare module '@polkadot/api/types/events' {
        * A tip suggestion has been slashed. \[tip_hash, finder, deposit\]
        **/
       TipSlashed: AugmentedEvent<ApiType, [Hash, AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     treasury: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Some funds have been allocated. \[proposal_index, award, beneficiary\]
        **/
@@ -945,9 +1025,12 @@ declare module '@polkadot/api/types/events' {
        * We have ended a spend period and will now allocate funds. \[budget_remaining\]
        **/
       Spending: AugmentedEvent<ApiType, [Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     utility: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * Batch of dispatches completed fully with no error.
        **/
@@ -957,9 +1040,12 @@ declare module '@polkadot/api/types/events' {
        * well as the error. \[index, error\]
        **/
       BatchInterrupted: AugmentedEvent<ApiType, [u32, DispatchError]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
     vesting: {
-      [key: string]: AugmentedEvent<ApiType>;
       /**
        * An \[account\] has become fully vested. No further vesting can happen.
        **/
@@ -970,6 +1056,10 @@ declare module '@polkadot/api/types/events' {
        * \[account, unvested\]
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
     };
   }
 

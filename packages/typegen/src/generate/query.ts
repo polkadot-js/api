@@ -58,7 +58,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
 
     return [
       [formatType(allDefs, dm.key1.toString(), imports), formatType(allDefs, dm.key2.toString(), imports)].join(', '),
-      `key1: ${key1Types}, key2: ${key2Types}`,
+      `arg1: ${key1Types}, arg2: ${key2Types}`,
       formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isNMap) {
@@ -76,7 +76,7 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
 
     return [
       nmap.keyVec.map((k) => formatType(allDefs, k.toString(), imports)).join(', '),
-      keyTypes.map((t, i) => `key${i + 1}: ${t}`).join(', '),
+      keyTypes.map((t, i) => `arg${i + 1}: ${t}`).join(', '),
       formatType(allDefs, outputType, imports)
     ];
   }
@@ -104,16 +104,11 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .sort(compareName)
           .map((storageEntry) => {
             const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
-            let entryType = 'AugmentedQuery';
-
-            if (storageEntry.type.isDoubleMap) {
-              entryType = `${entryType}DoubleMap`;
-            }
 
             return {
               args,
               docs: storageEntry.documentation,
-              entryType,
+              entryType: 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,
               returnType

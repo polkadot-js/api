@@ -6,13 +6,16 @@ declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType> {
     {{#each modules}}
     {{{name}}}: {
-      {{#unless @root.isStrict}}
-      [key: string]: AugmentedEvent<ApiType>;
-      {{/unless}}
-      {{~#each items}}
+      {{#each items}}
       {{> docs}}
       {{{name}}}: AugmentedEvent<ApiType, [{{{type}}}]>;
       {{/each}}
+      {{#unless @root.isStrict}}
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+      {{/unless}}
     };
     {{/each}}
   }
