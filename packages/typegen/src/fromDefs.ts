@@ -9,6 +9,8 @@ import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
 
+type ArgV = { input: string; package: string };
+
 export function main (): void {
   const { input, package: pkg } = yargs.strict().options({
     input: {
@@ -21,7 +23,7 @@ export function main (): void {
       required: true,
       type: 'string'
     }
-  }).argv;
+  }).argv as ArgV;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const userDefs = require(path.join(process.cwd(), input, 'definitions.ts')) as Record<string, any>;

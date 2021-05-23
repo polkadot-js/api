@@ -38,6 +38,8 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   process.exit(0);
 }
 
+type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
+
 export function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
@@ -58,7 +60,7 @@ export function main (): void {
       description: 'Turns on strict mode, no output of catch-all generic versions',
       type: 'boolean'
     }
-  }).argv;
+  }).argv as ArgV;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     try {
