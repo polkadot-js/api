@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 4.11.1 May 23, 2021
+
+Upgrade priority. Low. Recommended for users using staking entries on Polkadot and users of Substrate master.
 
 Changes:
 
