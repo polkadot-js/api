@@ -178,8 +178,10 @@ export class WsProvider implements ProviderInterface {
         : new WebSocket(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers, undefined, {
           // default: true
           fragmentOutgoingMessages: true,
-          // default: 16K
-          fragmentationThreshold: 256 * 1024
+          // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
+          fragmentationThreshold: 256 * 1024,
+          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that)
+          maxReceivedMessageSize: 16 * 1024 * 1024
         });
 
       this.#websocket.onclose = this.#onSocketClose;
