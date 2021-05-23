@@ -39,7 +39,7 @@ interface MetaDecoration {
 }
 
 // the max amount of keys/values that we will retrieve at once
-const PAGE_SIZE = 384;
+const PAGE_SIZE = 256;
 
 const l = logger('api/init');
 
