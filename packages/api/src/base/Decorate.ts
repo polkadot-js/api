@@ -356,7 +356,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -365,11 +365,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
-      this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
+    decorated.at = decorateMethod((hash: Hash, ...args: Arg[]): Observable<Codec> =>
+      this._rpcCore.state.getStorage(getArgs(args), hash));
 
-    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
-      this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
+    decorated.hash = decorateMethod((...args: Arg[]): Observable<Hash> =>
+      this._rpcCore.state.getStorageHash(getArgs(args)));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
       key.section === creator.section && key.method === creator.method;
@@ -392,10 +392,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       this._decorateStorageRange(decorated, args, range));
 
     decorated.size = decorateMethod((...args: Arg[]): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(...args)));
+      this._rpcCore.state.getStorageSize(getArgs(args)));
 
     decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(...args), hash));
+      this._rpcCore.state.getStorageSize(getArgs(args), hash));
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
