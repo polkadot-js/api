@@ -13,6 +13,7 @@ Changes:
 - Add `state_getChildReadProof` RPC
 - Cleanup Rococo known types (only as used)
 - Under Node.js allow for WS receiving up to 16MB messages
+- Update entries/keys for max of 256 items per call
 
 
 ## 4.10.1 May 17, 2021
