@@ -12,6 +12,7 @@ Changes:
 - Display small hex-slice with u8a decoding failures
 - Add `state_getChildReadProof` RPC
 - Cleanup Rococo known types (only as used)
+- Under Node.js allow for WS receiving up to 16MB messages
 
 
 ## 4.10.1 May 17, 2021
