@@ -25,6 +25,8 @@ async function run (ws: string): Promise<void> {
   api.runtimeMetadata.getUniqTypes(false);
 }
 
+type ArgV = { ws: string };
+
 export function main (): void {
   // retrieve and parse arguments - we do this globally, since this is a single command
   const { ws } = yargs
@@ -38,7 +40,7 @@ export function main (): void {
         required: true,
         type: 'string'
       }
-    }).argv;
+    }).argv as ArgV;
 
   run(ws)
     .then((): void => {
