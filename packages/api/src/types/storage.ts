@@ -82,3 +82,6 @@ export type QueryableStorageMulti<ApiType extends ApiTypes> =
 export interface AugmentedQueries<ApiType extends ApiTypes> { }
 
 export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
+
+// backwards compatibility-only
+export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = AugmentedQuery<ApiType, F, A>;

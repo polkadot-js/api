@@ -1,8 +1,17 @@
 # CHANGELOG
 
+## 4.11.2 May 24, 2021
+
+Upgrade priority: Low. Recommended where users are having TS mismatches with type definitions created on older versions.
+
+Changes:
+
+- Add backwards-compatible TS-only `AugmentedQueryDoubleMap` type (unused now in type generation)
+
+
 ## 4.11.1 May 23, 2021
 
-Upgrade priority. Low. Recommended for users using staking entries on Polkadot and users of Substrate master.
+Upgrade priority: Low. Recommended for users using staking entries on Polkadot and users of Substrate master.
 
 Changes:
 
