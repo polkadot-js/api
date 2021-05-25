@@ -17,8 +17,8 @@ export interface FundInfo extends Struct {
   readonly end: BlockNumber;
   readonly cap: Balance;
   readonly lastContribution: LastContribution;
-  readonly firstSlot: LeasePeriod;
-  readonly lastSlot: LeasePeriod;
+  readonly firstPeriod: LeasePeriod;
+  readonly lastPeriod: LeasePeriod;
   readonly trieIndex: TrieIndex;
 }
 
