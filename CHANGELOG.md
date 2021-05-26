@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align identity `Data` to limit to 32 bytes in the `Raw` enum (as per Substrate)
+
+
 ## 4.11.2 May 24, 2021
 
 Upgrade priority: Low. Recommended where users are having TS mismatches with type definitions created on older versions.
