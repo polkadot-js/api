@@ -25,8 +25,8 @@ export default {
       end: 'BlockNumber',
       cap: 'Balance',
       lastContribution: 'LastContribution',
-      firstSlot: 'LeasePeriod',
-      lastSlot: 'LeasePeriod',
+      firstPeriod: 'LeasePeriod',
+      lastPeriod: 'LeasePeriod',
       trieIndex: 'TrieIndex'
     },
     TrieIndex: 'u32'
