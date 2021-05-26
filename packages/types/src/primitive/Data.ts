@@ -4,7 +4,7 @@
 import type { H256 } from '../interfaces/runtime';
 import type { Registry } from '../types';
 
-import { isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Enum } from '../codec/Enum';
 import { Bytes } from './Bytes';
@@ -57,6 +57,8 @@ export class Data extends Enum {
       Keccak256: 'H256', // 4
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));
+
+    assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw is limited to a maximum length of 32 bytes');
   }
 
   get asBlakeTwo256 (): H256 {
