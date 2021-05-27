@@ -1898,6 +1898,20 @@
                   "",
                   " Only exists when [`Snapshot`] is present."
                 ]
+              },
+              {
+                "name": "MinimumUntrustedScore",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "ElectionScore"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The minimum score that each 'untrusted' solution must attain in order to be considered",
+                  " feasible.",
+                  "",
+                  " Can be set via `set_minimum_untrusted_score`."
+                ]
               }
             ]
           },
@@ -1929,6 +1943,22 @@
                 " putting their authoring reward at risk.",
                 "",
                 " No deposit or reward is associated with this submission."
+              ]
+            },
+            {
+              "name": "set_minimum_untrusted_score",
+              "args": [
+                {
+                  "name": "maybe_next_score",
+                  "type": "Option<ElectionScore>"
+                }
+              ],
+              "documentation": [
+                " Set a new value for `MinimumUntrustedScore`.",
+                "",
+                " Dispatch origin must be aligned with `T::ForceOrigin`.",
+                "",
+                " This check can be turned off by setting the value to `None`."
               ]
             }
           ],
@@ -6460,7 +6490,7 @@
         {
           "name": "Grandpa",
           "storage": {
-            "prefix": "GrandpaFinality",
+            "prefix": "Grandpa",
             "items": [
               {
                 "name": "State",
@@ -7136,7 +7166,7 @@
                 " producer fails to do so, a regular users will be allowed to claim the reward.",
                 "",
                 " In case of a successful eviction no fees are charged from the sender. However, the",
-                " reward is capped by the total amount of rent that was payed by the contract while",
+                " reward is capped by the total amount of rent that was paid by the contract while",
                 " it was alive.",
                 "",
                 " If contract is not evicted as a result of this call, [`Error::ContractNotEvictable`]",
@@ -7262,7 +7292,7 @@
             {
               "name": "Schedule",
               "type": "Schedule",
-              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000bb060000c70c0200ea16030019160000571d0000940d0000c7190000f7290000520000000c59010050810200930b000027070000e7070000cd0500008c160000b819000022070000e757b50798060000490600008f090000ca0700009e050000de050000fa050000f9080000d3080000d2080000b1080000aa080000b2080000a1080000f60800001c0900009f0800006f080000af080000320800008d210000ff1d0000b2210000221e0000ca080000d6080000810800008c090000be090000b6090000a40a0000dc080000ae032600000000007a79250000000000bab224000000000056db500000000000469024000000000002ed2400000000008088240000000000d4c02400000000005e8224000000000004aa240000000000f6c1470000000000162d120000000000384b680000000000ef0000000000000060cf430000000000e20200000000000098ca9f20000000005b20000000000000202a872900000000f21c000000000000410d000000000000eafaac0900000000c6eb5c0000000000e4ba88000000000090bcc907000000007e09000000000000e08e1300000000002aea1800000000007e98cb0900000000b802000000000000bad9360800000000f2040c0200000000d505000000000000baa9960a00000000c021eb0f00000000ee0e00000000000000d47808000000005202000000000000080300000000000014c314230000000059200000000000005802000000000000290300000000000009090000000000005abf220000000000db12000000000000202a240000000000f50c00000000000024c61f00000000000c060000000000009a821f0000000000e30500000000000006eb360000000000",
+              "value": "0x0400000000020000000100008000000010000000001000000001000020000000200000000040000000000200020000008e060000e2fc0100cd0f030009170000861d0000030c00001f1800005629000082000000b059010055810200c00b000029070000590800003b060000b8160000a61a0000600700000de8b607b10600007d060000e6090000dc070000d5050000d70500005b06000043090000390900001c0900004d0900001d09000030090000180900004109000038090000680900007d080000f80800008e08000003220000371e0000fd210000e71d0000a6080000ab080000d5080000db090000d8090000190a00001e0b00000c09000052f72400000000006ee52400000000009c212400000000003039500000000000702a240000000000644f240000000000ce3a240000000000dc54240000000000f0182400000000001e31240000000000b0c14700000000009a12120000000000c0406d0000000000f4000000000000007854420000000000e302000000000000f03a7d2000000000672000000000000040a9e729000000002c1e000000000000650f000000000000ac13aa09000000006c835b0000000000c229870000000000dad6c907000000009409000000000000c0681300000000007c0b1900000000000210b20900000000b502000000000000fee1300800000000c274080200000000db050000000000006c548a0a00000000aab1da0f00000000f50e000000000000608b390800000000500200000000000002030000000000008e63f022000000007e2100000000000067020000000000002c030000000000002909000000000000a41f230000000000c3120000000000007ca6230000000000020d00000000000000bd1f00000000001506000000000000a6a81f0000000000fc05000000000000",
               "documentation": [
                 " Cost schedule and limits."
               ]
@@ -7348,7 +7378,7 @@
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0x71040000",
+              "value": "0x85040000",
               "documentation": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -7443,10 +7473,29 @@
               ]
             },
             {
-              "name": "NotCallable",
+              "name": "ContractNotFound",
               "documentation": [
-                " The contract that was called is either no contract at all (a plain account)",
-                " or is a tombstone."
+                " No contract was found at the specified address."
+              ]
+            },
+            {
+              "name": "ContractIsTombstone",
+              "documentation": [
+                " A tombstone exist at the specified address.",
+                "",
+                " Tombstone cannot be called. Anyone can use `seal_restore_to` in order to revive",
+                " the contract, though."
+              ]
+            },
+            {
+              "name": "RentNotPaid",
+              "documentation": [
+                " The called contract does not have enough balance to pay for its storage.",
+                "",
+                " The contract ran out of balance and is therefore eligible for eviction into a",
+                " tombstone. Anyone can evict the contract by submitting a `claim_surcharge`",
+                " extrinsic. Alternatively, a plain balance transfer can be used in order to",
+                " increase the contracts funds so that it can be called again."
               ]
             },
             {
@@ -11619,7 +11668,11 @@
               "value": "0x00f01c0adbed01000000000000000000",
               "documentation": [
                 " The base amount of currency needed to reserve for creating a multisig execution or to store",
-                " a dispatch call for later."
+                " a dispatch call for later.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is",
+                " `32 + sizeof(AccountId)` bytes."
               ]
             },
             {
@@ -11627,7 +11680,9 @@
               "type": "BalanceOf",
               "value": "0x0000cc7b9fae00000000000000000000",
               "documentation": [
-                " The amount of currency needed per unit threshold when creating a multisig execution."
+                " The amount of currency needed per unit threshold when creating a multisig execution.",
+                "",
+                " This is held for adding 32 bytes more into a pre-existing storage value."
               ]
             },
             {
@@ -11635,7 +11690,7 @@
               "type": "u16",
               "value": "0x6400",
               "documentation": [
-                " The maximum amount of signatories allowed for a given multisig."
+                " The maximum amount of signatories allowed in the multisig."
               ]
             }
           ],

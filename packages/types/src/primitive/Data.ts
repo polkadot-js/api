@@ -121,9 +121,7 @@ export class Data extends Enum {
     } else if (this.index === 1) {
       // don't add the length, just the data
       const data = this.value.toU8a(true);
-      const length = data.length >= 32
-        ? 32
-        : data.length;
+      const length = Math.min(data.length, 32);
       const u8a = new Uint8Array(length + 1);
 
       u8a.set([length + 1], 0);
