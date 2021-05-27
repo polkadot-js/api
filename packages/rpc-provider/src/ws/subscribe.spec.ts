@@ -9,7 +9,7 @@ import { WsProvider } from './';
 
 declare const global: Global;
 
-let ws: WsProvider;
+let provider: WsProvider | null;
 let mock: Mock;
 
 function createMock (requests: any[]): void {
@@ -17,9 +17,9 @@ function createMock (requests: any[]): void {
 }
 
 function createWs (autoConnect = 1000): Promise<WsProvider> {
-  ws = new WsProvider(TEST_WS_URL, autoConnect);
+  provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws.isReady;
+  return provider.isReady;
 }
 
 describe('subscribe', (): void => {
@@ -29,11 +29,16 @@ describe('subscribe', (): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach((): void => {
+  afterEach(async () => {
     global.WebSocket = globalWs;
 
     if (mock) {
       mock.done();
+    }
+
+    if (provider) {
+      await provider.disconnect();
+      provider = null;
     }
   });
 

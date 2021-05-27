@@ -27,10 +27,12 @@ describe('onConnect', (): void => {
     });
   });
 
-  it('Does not connect when autoConnect is false', (): void => {
+  it('Does not connect when autoConnect is false', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
     expect(provider.isConnected).toBe(false);
+
+    await provider.disconnect();
   });
 
   it('Does connect when autoConnect is true', async () => {
@@ -38,6 +40,8 @@ describe('onConnect', (): void => {
 
     await sleepMs(100); // Hack to give the provider time to connect
     expect(provider.isConnected).toBe(true);
+
+    await provider.disconnect();
   });
 
   it('Creates a new WebSocket instance by calling the connect() method', async () => {
@@ -51,6 +55,8 @@ describe('onConnect', (): void => {
 
     expect(provider.isConnected).toBe(true);
     expect(mocks[0].server.clients().length).toBe(1);
+
+    await provider.disconnect();
   });
 
   it('Connects to first endpoint when an array is given', async () => {
@@ -60,6 +66,8 @@ describe('onConnect', (): void => {
     await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected).toBe(true);
+
+    await provider.disconnect();
   });
 
   it('Connects to the second endpoint when the first is unreachable', async () => {
@@ -72,6 +80,8 @@ describe('onConnect', (): void => {
     await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected).toBe(true);
+
+    await provider.disconnect();
   });
 
   it('Connects to the second endpoint when the first is dropped', async () => {
@@ -93,6 +103,8 @@ describe('onConnect', (): void => {
     // Check that second server is connected
     expect(mocks[1].server.clients().length).toBe(1);
     expect(provider.isConnected).toBe(true);
+
+    await provider.disconnect();
   });
 
   it('Round-robin of endpoints on WsProvider', async () => {

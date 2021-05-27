@@ -5,20 +5,25 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 import { Mock } from './../mock/types';
 import { WsProvider } from './';
 
-let ws: WsProvider;
+let provider: WsProvider | null;
 let mock: Mock;
 
 function createWs (requests: any[], autoConnect: number | undefined = 1000): WsProvider {
   mock = mockWs(requests);
-  ws = new WsProvider(TEST_WS_URL, autoConnect);
+  provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return provider;
 }
 
 describe('Ws', (): void => {
-  afterEach((): void => {
+  afterEach(async () => {
     if (mock) {
       mock.done();
+    }
+
+    if (provider) {
+      await provider.disconnect();
+      provider = null;
     }
   });
 
@@ -58,18 +63,16 @@ describe('Endpoint Parsing', (): void => {
   it('Throws when WsProvider endpoint is an empty array', () => {
     const endpoints: string[] = [];
 
-    expect(() => {
-      /* eslint-disable no-new */
-      new WsProvider(endpoints, 0);
-    }).toThrowError('WsProvider requires at least one Endpoint');
+    expect(
+      () => new WsProvider(endpoints, 0)
+    ).toThrowError('WsProvider requires at least one Endpoint');
   });
 
   it('Throws when WsProvider endpoint is an invalid array', () => {
     const endpoints: string[] = ['ws://127.0.0.1:9955', 'http://bad.co:9944', 'ws://mychain.com:9933'];
 
-    expect(() => {
-      /* eslint-disable no-new */
-      new WsProvider(endpoints, 0);
-    }).toThrowError(/^Endpoint should start with /);
+    expect(
+      () => new WsProvider(endpoints, 0)
+    ).toThrowError(/^Endpoint should start with /);
   });
 });

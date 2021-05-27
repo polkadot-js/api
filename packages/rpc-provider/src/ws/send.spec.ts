@@ -9,7 +9,7 @@ import { WsProvider } from './';
 
 declare const global: Global;
 
-let provider: WsProvider;
+let provider: WsProvider | null;
 let mock: Mock;
 
 function createMock (requests: any[]): void {
@@ -29,11 +29,16 @@ describe('send', (): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach((): void => {
+  afterEach(async () => {
     global.WebSocket = globalWs;
 
     if (mock) {
       mock.done();
+    }
+
+    if (provider) {
+      await provider.disconnect();
+      provider = null;
     }
   });
 
