@@ -13,9 +13,15 @@ import { RpcCore } from '.';
 describe('replay', (): void => {
   const registry = new TypeRegistry();
   let rpc: RpcCore & RpcInterface;
+  let provider: MockProvider;
 
   beforeEach((): void => {
-    rpc = new RpcCore('653', registry, new MockProvider(registry)) as (RpcCore & RpcInterface);
+    provider = new MockProvider(registry);
+    rpc = new RpcCore('653', registry, provider) as (RpcCore & RpcInterface);
+  });
+
+  afterEach(async () => {
+    await provider.disconnect();
   });
 
   it('subscribes via the rpc section', (done): void => {

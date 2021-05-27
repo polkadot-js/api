@@ -48,6 +48,10 @@ describe('ApiPromise', (): void => {
     provider = new MockProvider(registry);
   });
 
+  afterEach(async () => {
+    await provider.disconnect();
+  });
+
   describe('initialization', (): void => {
     it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const rpcData = await provider.send<string>('state_getMetadata', []);
@@ -62,6 +66,8 @@ describe('ApiPromise', (): void => {
       expect(api.query).toBeDefined();
       expect(api.tx).toBeDefined();
       expect(api.derive).toBeDefined();
+
+      await api.disconnect();
     });
 
     it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
@@ -75,6 +81,8 @@ describe('ApiPromise', (): void => {
       expect(api.query).toBeDefined();
       expect(api.tx).toBeDefined();
       expect(api.derive).toBeDefined();
+
+      await api.disconnect();
     });
 
     it('Create API instance will error on failure to await ready', async (): Promise<void> => {
@@ -88,12 +96,17 @@ describe('ApiPromise', (): void => {
         }
       }
 
+      const api = new ErrorApiPromise();
+
       try {
-        await new ErrorApiPromise().isReadyOrError;
+        await api.isReadyOrError;
+
         fail('Expected an error but none occurred.');
       } catch {
         // Pass
       }
+
+      await api.disconnect();
     });
   });
 
@@ -103,31 +116,35 @@ describe('ApiPromise', (): void => {
     const SIG = '0x659effefbbe5ab4d7136ebb5084b959eb424e32b862307371be4721ac2c46334245af4f1476c36c5e5aff04396c2fdd2ce561ec90382821d4aa071b559b1db0f';
 
     it('signs data using a specified keyring', async (): Promise<void> => {
-      const api = new ApiPromise({ provider, registry });
+      const api = await ApiPromise.create({ provider, registry });
+      const sig = await api.sign(aliceEd, TEST);
 
-      expect(
-        await api.sign(aliceEd, TEST)
-      ).toEqual(SIG);
+      expect(sig).toEqual(SIG);
+
+      await api.disconnect();
     });
 
     it('signs data using an external signer', async (): Promise<void> => {
-      const api = new ApiPromise({
+      const api = await ApiPromise.create({
         provider,
         registry,
         signer: new SingleAccountSigner(registry, aliceEd)
       });
+      const sig = await api.sign(ADDR, TEST);
 
-      expect(
-        await api.sign(ADDR, TEST)
-      ).toEqual(SIG);
+      expect(sig).toEqual(SIG);
+
+      await api.disconnect();
     });
   });
 
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
-      const { transfer } = await createTransfer();
+      const { api, transfer } = await createTransfer();
 
       expect(transfer.signature.toHex()).toEqual(TRANSFER_SIG);
+
+      await api.disconnect();
     });
   });
 
@@ -137,6 +154,8 @@ describe('ApiPromise', (): void => {
 
       expect(api.tx(transfer.toHex()).signature.toHex()).toEqual(TRANSFER_SIG);
       expect(api.tx(transfer).signature.toHex()).toEqual(TRANSFER_SIG);
+
+      await api.disconnect();
     });
   });
 });

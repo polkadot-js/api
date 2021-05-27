@@ -15,6 +15,10 @@ describe('on', (): void => {
     mock = new MockProvider(registry);
   });
 
+  afterEach(async () => {
+    await mock.disconnect();
+  });
+
   it('it emits both connected and disconnected events', (done): void => {
     const events: Record<string, boolean> = { connected: false, disconnected: false };
 

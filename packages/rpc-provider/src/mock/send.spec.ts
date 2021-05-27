@@ -13,6 +13,10 @@ describe('send', (): void => {
     mock = new MockProvider(registry);
   });
 
+  afterEach(async () => {
+    await mock.disconnect();
+  });
+
   it('fails on non-supported methods', (): Promise<any> => {
     return mock
       .send('something_invalid', [])

@@ -3,23 +3,25 @@
 
 import type { Constructor } from '@polkadot/types/types';
 
-import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { mockWs } from '../../test/mockWs';
 import { Global, Mock } from './../mock/types';
 import { WsProvider } from './';
 
 declare const global: Global;
 
-let ws: WsProvider;
+const TEST_WS_URL = 'ws://localhost-unsubscribe.test.ts:9933';
+
+let provider: WsProvider | null;
 let mock: Mock;
 
 function createMock (requests: any): void {
-  mock = mockWs(requests);
+  mock = mockWs(requests, TEST_WS_URL);
 }
 
 function createWs (autoConnect = 1000): Promise<WsProvider> {
-  ws = new WsProvider(TEST_WS_URL, autoConnect);
+  provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws.isReady;
+  return provider.isReady;
 }
 
 describe('subscribe', (): void => {
@@ -29,11 +31,16 @@ describe('subscribe', (): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach((): void => {
+  afterEach(async () => {
     global.WebSocket = globalWs;
 
     if (mock) {
       mock.done();
+    }
+
+    if (provider) {
+      await provider.disconnect();
+      provider = null;
     }
   });
 

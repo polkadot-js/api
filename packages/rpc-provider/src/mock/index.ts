@@ -45,6 +45,8 @@ export class MockProvider implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
+  private intervalId?: NodeJS.Timeout | null;
+
   public isUpdating = true;
 
   private registry: Registry;
@@ -104,8 +106,12 @@ export class MockProvider implements ProviderInterface {
     // noop
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect (): Promise<void> {
-    // noop
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 
   public get isConnected (): boolean {
@@ -175,7 +181,7 @@ export class MockProvider implements ProviderInterface {
     const query = decorateStorage(this.registry, metadata.asLatest, metadata.version);
 
     // Do something every 1 seconds
-    setInterval((): void => {
+    this.intervalId = setInterval((): void => {
       if (!this.isUpdating) {
         return;
       }

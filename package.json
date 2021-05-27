@@ -20,15 +20,15 @@
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test --coverage --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "polkadot-dev-run-test",
+    "test": "polkadot-dev-run-test --coverage --detectOpenHandles --runInBand --testPathIgnorePatterns e2e",
+    "test:one": "polkadot-dev-run-test --detectOpenHandles",
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/register": "^7.13.16",
     "@babel/runtime": "^7.14.0",
-    "@polkadot/dev": "^0.62.16",
+    "@polkadot/dev": "^0.62.17",
     "@polkadot/ts": "^0.3.66",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.23",

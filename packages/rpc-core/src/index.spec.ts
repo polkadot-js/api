@@ -16,8 +16,9 @@ describe('Api', (): void => {
     ).toThrow(/Expected Provider/);
   });
 
-  it('allows for the definition of user RPCs', (): void => {
-    const rpc = new RpcCore('567', registry, new MockProvider(registry), {
+  it('allows for the definition of user RPCs', async () => {
+    const provider = new MockProvider(registry);
+    const rpc = new RpcCore('567', registry, provider, {
       testing: {
         foo: {
           description: 'foo',
@@ -42,5 +43,7 @@ describe('Api', (): void => {
       section: 'testing',
       type: 'Balance'
     });
+
+    await provider.disconnect();
   });
 });
