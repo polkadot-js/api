@@ -22,6 +22,10 @@ describe('ApiRx', (): void => {
     provider = new MockProvider(registry);
   });
 
+  afterEach(async () => {
+    await provider.disconnect();
+  });
+
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', (): void => {
       const signer = new SingleAccountSigner(registry, keyring.alice_session);

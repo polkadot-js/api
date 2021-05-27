@@ -349,13 +349,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch((error) => l.warn(`Health keepalive check failed: ${(error as Error).message}`));
+        this._rpcCore.system.health().toPromise().catch(() => undefined);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
-      l.error(_error);
 
       this.emit('error', error);
     }
