@@ -3,8 +3,10 @@
 
 import type { Mock } from './../mock/types';
 
-import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { mockWs } from '../../test/mockWs';
 import { WsProvider } from './';
+
+const TEST_WS_URL = 'ws://localhost-connect.spec.ts:9988';
 
 function sleepMs (ms = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -15,7 +17,7 @@ describe('onConnect', (): void => {
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    mocks = [mockWs([])];
+    mocks = [mockWs([], TEST_WS_URL)];
   });
 
   afterEach((): void => {
@@ -30,9 +32,17 @@ describe('onConnect', (): void => {
   it('Does not connect when autoConnect is false', async () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, 0);
 
+    await sleepMs(100); // Hack to give the provider time to connect
     expect(provider.isConnected).toBe(false);
 
+    await provider.connect();
+    await sleepMs(100); // Hack to give the provider time to connect
+    expect(provider.isConnected).toBe(true);
+
     await provider.disconnect();
+
+    await sleepMs(100); // Hack to give the provider time to connect
+    expect(provider.isConnected).toBe(false);
   });
 
   it('Does connect when autoConnect is true', async () => {
@@ -54,7 +64,7 @@ describe('onConnect', (): void => {
     await sleepMs(100); // Hack to give the provider time to connect
 
     expect(provider.isConnected).toBe(true);
-    expect(mocks[0].server.clients().length).toBe(1);
+    expect(mocks[0].server.clients()).toHaveLength(1);
 
     await provider.disconnect();
   });
@@ -74,7 +84,7 @@ describe('onConnect', (): void => {
     /* eslint-disable @typescript-eslint/no-empty-function */
     jest.spyOn(console, 'error').mockImplementation((): void => {});
 
-    const endpoints: string[] = ['ws://localhost:9956', TEST_WS_URL];
+    const endpoints: string[] = ['ws://localhost-connect.spec.ts:9956', TEST_WS_URL];
     const provider: WsProvider = new WsProvider(endpoints, 1);
 
     await sleepMs(100); // Hack to give the provider time to connect
@@ -85,7 +95,7 @@ describe('onConnect', (): void => {
   });
 
   it('Connects to the second endpoint when the first is dropped', async () => {
-    const endpoints: string[] = [TEST_WS_URL, 'ws://localhost:9957'];
+    const endpoints: string[] = [TEST_WS_URL, 'ws://localhost-connect.spec.ts:9957'];
 
     mocks.push(mockWs([], endpoints[1]));
 
@@ -93,15 +103,15 @@ describe('onConnect', (): void => {
 
     await sleepMs(100); // Hack to give the provider time to connect
     // Check that first server is connected
-    expect(mocks[0].server.clients().length).toBe(1);
-    expect(mocks[1].server.clients().length).toBe(0);
+    expect(mocks[0].server.clients()).toHaveLength(1);
+    expect(mocks[1].server.clients()).toHaveLength(0);
 
     // Close connection from first server
     mocks[0].server.clients()[0].close();
     await sleepMs(100);
 
     // Check that second server is connected
-    expect(mocks[1].server.clients().length).toBe(1);
+    expect(mocks[1].server.clients()).toHaveLength(1);
     expect(provider.isConnected).toBe(true);
 
     await provider.disconnect();
@@ -110,10 +120,10 @@ describe('onConnect', (): void => {
   it('Round-robin of endpoints on WsProvider', async () => {
     const endpoints: string[] = [
       TEST_WS_URL,
-      'ws://localhost:9956',
-      'ws://localhost:9957',
-      'ws://invalid:9956',
-      'ws://localhost:9958'
+      'ws://localhost-connect.spec.ts:9956',
+      'ws://localhost-connect.spec.ts:9957',
+      'ws://invalid-connect.spec.ts:9956',
+      'ws://localhost-connect.spec.ts:9958'
     ];
 
     mocks.push(mockWs([], endpoints[1]));

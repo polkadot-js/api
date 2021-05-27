@@ -3,17 +3,19 @@
 
 import type { Constructor } from '@polkadot/types/types';
 
-import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { mockWs } from '../../test/mockWs';
 import { Global, Mock } from './../mock/types';
 import { WsProvider } from './';
 
 declare const global: Global;
 
+const TEST_WS_URL = 'ws://localhost-unsubscribe.test.ts:9933';
+
 let provider: WsProvider | null;
 let mock: Mock;
 
 function createMock (requests: any): void {
-  mock = mockWs(requests);
+  mock = mockWs(requests, TEST_WS_URL);
 }
 
 function createWs (autoConnect = 1000): Promise<WsProvider> {
