@@ -364,14 +364,20 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The base amount of currency needed to reserve for creating a multisig execution or to store
        * a dispatch call for later.
+       * 
+       * This is held for an additional storage item whose value size is
+       * `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is
+       * `32 + sizeof(AccountId)` bytes.
        **/
       depositBase: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per unit threshold when creating a multisig execution.
+       * 
+       * This is held for adding 32 bytes more into a pre-existing storage value.
        **/
       depositFactor: BalanceOf & AugmentedConst<ApiType>;
       /**
-       * The maximum amount of signatories allowed for a given multisig.
+       * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
       /**

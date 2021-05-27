@@ -206,12 +206,23 @@ declare module '@polkadot/api/types/errors' {
        **/
       CodeTooLarge: AugmentedError<ApiType>;
       /**
+       * A tombstone exist at the specified address.
+       * 
+       * Tombstone cannot be called. Anyone can use `seal_restore_to` in order to revive
+       * the contract, though.
+       **/
+      ContractIsTombstone: AugmentedError<ApiType>;
+      /**
        * A contract could not be evicted because it has enough balance to pay rent.
        * 
        * This can be returned from [`Pallet::claim_surcharge`] because the target
        * contract has enough balance to pay for its rent.
        **/
       ContractNotEvictable: AugmentedError<ApiType>;
+      /**
+       * No contract was found at the specified address.
+       **/
+      ContractNotFound: AugmentedError<ApiType>;
       /**
        * Contract trapped during execution.
        **/
@@ -285,11 +296,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoChainExtension: AugmentedError<ApiType>;
       /**
-       * The contract that was called is either no contract at all (a plain account)
-       * or is a tombstone.
-       **/
-      NotCallable: AugmentedError<ApiType>;
-      /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
       OutOfBounds: AugmentedError<ApiType>;
@@ -311,6 +317,15 @@ declare module '@polkadot/api/types/errors' {
        * of a tombstone.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
+      /**
+       * The called contract does not have enough balance to pay for its storage.
+       * 
+       * The contract ran out of balance and is therefore eligible for eviction into a
+       * tombstone. Anyone can evict the contract by submitting a `claim_surcharge`
+       * extrinsic. Alternatively, a plain balance transfer can be used in order to
+       * increase the contracts funds so that it can be called again.
+       **/
+      RentNotPaid: AugmentedError<ApiType>;
       /**
        * A storage modification exhausted the 32bit type that holds the storage size.
        * 

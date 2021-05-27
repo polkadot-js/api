@@ -19,7 +19,7 @@ import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber,
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import type { Keys } from '@polkadot/types/interfaces/session';
 import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
-import type { EraIndex, RawSolution, RewardDestination, SolutionOrSnapshotSize, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import type { ElectionScore, EraIndex, RawSolution, RewardDestination, SolutionOrSnapshotSize, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import type { Key } from '@polkadot/types/interfaces/system';
 import type { BountyIndex } from '@polkadot/types/interfaces/treasury';
 import type { Timepoint } from '@polkadot/types/interfaces/utility';
@@ -699,7 +699,7 @@ declare module '@polkadot/api/types/submittable' {
        * producer fails to do so, a regular users will be allowed to claim the reward.
        * 
        * In case of a successful eviction no fees are charged from the sender. However, the
-       * reward is capped by the total amount of rent that was payed by the contract while
+       * reward is capped by the total amount of rent that was paid by the contract while
        * it was alive.
        * 
        * If contract is not evicted as a result of this call, [`Error::ContractNotEvictable`]
@@ -1222,6 +1222,14 @@ declare module '@polkadot/api/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     electionProviderMultiPhase: {
+      /**
+       * Set a new value for `MinimumUntrustedScore`.
+       * 
+       * Dispatch origin must be aligned with `T::ForceOrigin`.
+       * 
+       * This check can be turned off by setting the value to `None`.
+       **/
+      setMinimumUntrustedScore: AugmentedSubmittable<(maybeNextScore: Option<ElectionScore> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<ElectionScore>]>;
       /**
        * Submit a solution for the unsigned phase.
        * 
