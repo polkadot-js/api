@@ -58,7 +58,7 @@ export class Data extends Enum {
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));
 
-    assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw is limited to a maximum length of 32 bytes');
+    assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw values are limited to a maximum length of 32 bytes');
   }
 
   get asBlakeTwo256 (): H256 {
@@ -121,10 +121,12 @@ export class Data extends Enum {
     } else if (this.index === 1) {
       // don't add the length, just the data
       const data = this.value.toU8a(true);
-      const length = Math.min(data.length, 32);
+      const length = data.length >= 32
+        ? 32
+        : data.length;
       const u8a = new Uint8Array(length + 1);
 
-      u8a.set([data.length + 1], 0);
+      u8a.set([length + 1], 0);
       u8a.set(data.subarray(0, length), 1);
 
       return u8a;
