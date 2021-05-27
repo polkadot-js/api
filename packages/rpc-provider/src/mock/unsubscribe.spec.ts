@@ -20,6 +20,10 @@ describe('unsubscribe', (): void => {
       });
   });
 
+  afterEach(async () => {
+    await mock.disconnect();
+  });
+
   it('fails on unknown ids', (): Promise<boolean> => {
     return mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)

@@ -39,6 +39,10 @@ describe('derive', (): void => {
       api.isReady.subscribe(() => done());
     });
 
+    afterAll(async () => {
+      await api.disconnect();
+    });
+
     testFunction(api)('accounts', 'idAndIndex', []);
     testFunction(api)('accounts', 'idToIndex', []);
     testFunction(api)('accounts', 'indexes', []);
@@ -80,7 +84,11 @@ describe('derive', (): void => {
     });
 
     beforeAll((done): void => {
-      api.isReady.subscribe((): void => done());
+      api.isReady.subscribe(() => done());
+    });
+
+    afterAll(async () => {
+      await api.disconnect();
     });
 
     // override

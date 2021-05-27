@@ -12,10 +12,16 @@ import { RpcCore } from '.';
 describe('Cached Observables', (): void => {
   const registry = new TypeRegistry();
   let rpc: RpcCore & RpcInterface;
+  let provider: MockProvider;
   const keyring = createTestPairs();
 
   beforeEach((): void => {
-    rpc = new RpcCore('123', registry, new MockProvider(registry)) as (RpcCore & RpcInterface);
+    provider = new MockProvider(registry);
+    rpc = new RpcCore('123', registry, provider) as (RpcCore & RpcInterface);
+  });
+
+  afterEach(async () => {
+    await provider.disconnect();
   });
 
   it('creates a single observable for subscriptions (multiple calls)', (): void => {

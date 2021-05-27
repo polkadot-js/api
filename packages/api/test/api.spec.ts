@@ -24,6 +24,8 @@ describe('misc quick tests', (): void => {
     console.error(JSON.stringify(
       await api.query.system.account('HUewJvzVuEeyaxH2vx9XiyAPKrpu1Zj5r5Pi9VrGiBVty7q')
     ));
+
+    await api.disconnect();
   });
 
   it.skip('handles map keys', async (): Promise<void> => {
@@ -36,6 +38,8 @@ describe('misc quick tests', (): void => {
     console.error('# keys', keys.length);
 
     console.timeEnd('map.keys');
+
+    await api.disconnect();
   });
 
   it.skip('handles map entries', async (): Promise<void> => {
@@ -48,6 +52,8 @@ describe('misc quick tests', (): void => {
     console.error('# entries', entries.length);
 
     console.timeEnd('map.entries');
+
+    await api.disconnect();
   });
 
   it.skip('handles doublemap entries', async (): Promise<void> => {
@@ -57,6 +63,8 @@ describe('misc quick tests', (): void => {
     console.error(JSON.stringify(
       await api.query.staking.erasStakers.entries(activeEra.unwrapOrDefault().index)
     ));
+
+    await api.disconnect();
   });
 
   it.skip('does something in society', async (): Promise<void> => {
@@ -65,6 +73,8 @@ describe('misc quick tests', (): void => {
     console.error(JSON.stringify(
       await api.query.society.defenderVotes('Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9')
     ));
+
+    await api.disconnect();
   });
 
   it.skip('allows for range queries', async (): Promise<void> => {
@@ -75,6 +85,8 @@ describe('misc quick tests', (): void => {
       (await api.query.staking.activeEra.range([header.parentHash, header.hash], 'Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9'))
         .map(([block, value]) => [block, value.toRawType(), value.toHuman()])
     ));
+
+    await api.disconnect();
   });
 
   it('expose rpc and rx definition', async (): Promise<void> => {
@@ -83,5 +95,7 @@ describe('misc quick tests', (): void => {
     console.error(api.rpc.payment.queryFeeDetails.meta);
 
     console.error(api.rx.rpc.chain.getBlock.meta);
+
+    await api.disconnect();
   });
 });

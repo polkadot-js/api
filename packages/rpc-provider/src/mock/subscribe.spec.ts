@@ -13,6 +13,10 @@ describe('subscribe', (): void => {
     mock = new MockProvider(registry);
   });
 
+  afterEach(async () => {
+    await mock.disconnect();
+  });
+
   it('fails on unknown methods', (): Promise<number | void> => {
     return mock
       .subscribe('test', 'test_notFound')
@@ -29,28 +33,28 @@ describe('subscribe', (): void => {
       });
   });
 
-  it('calls back with the last known value', (done): Promise<number> => {
+  it('calls back with the last known value', (done): void => {
     mock.isUpdating = false;
     mock.subscriptions.chain_subscribeNewHead.lastValue = 'testValue';
 
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
+    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
       expect(value).toEqual('testValue');
       done();
-    });
+    }).catch(console.error);
   });
 
-  it('calls back with new headers', (done): Promise<number> => {
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
+  it('calls back with new headers', (done): void => {
+    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
       if (header.number === 4) {
         done();
       }
-    });
+    }).catch(console.error);
   });
 
-  it('handles errors withing callbacks gracefully', (done): Promise<number> => {
+  it('handles errors withing callbacks gracefully', (done): void => {
     let hasThrown = false;
 
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
+    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
       if (!hasThrown) {
         hasThrown = true;
 
@@ -60,6 +64,6 @@ describe('subscribe', (): void => {
       if (header.number === 3) {
         done();
       }
-    });
+    }).catch(console.error);
   });
 });
