@@ -20,7 +20,7 @@
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test --coverage --runInBand --testPathIgnorePatterns e2e",
+    "test": "polkadot-dev-run-test --coverage --detectOpenHandles --runInBand --testPathIgnorePatterns e2e",
     "test:one": "polkadot-dev-run-test",
     "test:watch": "polkadot-dev-run-test --watch"
   },
