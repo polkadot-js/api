@@ -96,7 +96,6 @@ describe('onConnect', (): void => {
   });
 
   it('Round-robin of endpoints on WsProvider', async () => {
-    const rounds = 5;
     const endpoints: string[] = [
       TEST_WS_URL,
       'ws://localhost:9956',
@@ -117,18 +116,20 @@ describe('onConnect', (): void => {
     ];
     const provider: WsProvider = new WsProvider(endpoints, 1);
 
-    for (let round = 0; round < rounds; round++) {
-      for (let index = 0; index < mocks.length; index++) {
+    for (let round = 0; round < 5; round++) {
+      for (let mock = 0; mock < mocks.length; mock++) {
         await sleepMs(100); // Hack to give the provider time to connect
 
         // Check that first server is connected and the next one isn't
-        expect(mocks[index].server.clients().length).toBe(1);
-        expect(mockNext[index].server.clients().length).toBe(0);
+        expect(mocks[mock].server.clients()).toHaveLength(1);
+        expect(mockNext[mock].server.clients()).toHaveLength(0);
         expect(provider.isConnected).toBe(true);
 
         // Close connection from first server
-        mocks[index].server.clients()[0].close();
+        mocks[mock].server.clients()[0].close();
       }
     }
+
+    await provider.disconnect();
   });
 });
