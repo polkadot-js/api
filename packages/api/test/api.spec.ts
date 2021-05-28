@@ -3,34 +3,33 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
-function createApi (): Promise<ApiPromise> {
-  jest.setTimeout(30000);
-  process.env.NODE_ENV = 'test';
+describe('misc online tests', (): void => {
+  let api: ApiPromise;
 
-  const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
-  // const provider = new WsProvider('wss://westend-rpc.polkadot.io/');
-  // const provider = new WsProvider('ws://127.0.0.1:9944/');
+  beforeEach(async () => {
+    jest.setTimeout(30000);
+    process.env.NODE_ENV = 'test';
 
-  return new ApiPromise({ provider }).isReady;
-}
+    // const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
+    const provider = new WsProvider('wss://westend-rpc.polkadot.io/');
 
-describe('misc quick tests', (): void => {
+    api = await ApiPromise.create({ provider });
+  });
+
+  afterEach(async () => {
+    await api.disconnect();
+  });
+
   it.skip('retrieves balances correctly', async (): Promise<void> => {
-    const api = await createApi();
-
     console.error(JSON.stringify(
       await api.query.system.account('FPzukZw2mphWsXDqdkNzLaxnanjZEWH9i2vqwobTdtde5me')
     ));
     console.error(JSON.stringify(
       await api.query.system.account('HUewJvzVuEeyaxH2vx9XiyAPKrpu1Zj5r5Pi9VrGiBVty7q')
     ));
-
-    await api.disconnect();
   });
 
   it.skip('handles map keys', async (): Promise<void> => {
-    const api = await createApi();
-
     console.time('map.keys');
 
     const keys = await api.query.system.account.keys();
@@ -38,13 +37,9 @@ describe('misc quick tests', (): void => {
     console.error('# keys', keys.length);
 
     console.timeEnd('map.keys');
-
-    await api.disconnect();
   });
 
   it.skip('handles map entries', async (): Promise<void> => {
-    const api = await createApi();
-
     console.time('map.entries');
 
     const entries = await api.query.system.account.entries(); // api.query.indices.accounts.entries();
@@ -52,50 +47,25 @@ describe('misc quick tests', (): void => {
     console.error('# entries', entries.length);
 
     console.timeEnd('map.entries');
-
-    await api.disconnect();
   });
 
   it.skip('handles doublemap entries', async (): Promise<void> => {
-    const api = await createApi();
     const activeEra = await api.query.staking.activeEra();
 
     console.error(JSON.stringify(
       await api.query.staking.erasStakers.entries(activeEra.unwrapOrDefault().index)
     ));
-
-    await api.disconnect();
   });
 
   it.skip('does something in society', async (): Promise<void> => {
-    const api = await createApi();
-
     console.error(JSON.stringify(
       await api.query.society.defenderVotes('Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9')
     ));
-
-    await api.disconnect();
   });
 
-  it.skip('allows for range queries', async (): Promise<void> => {
-    const api = await createApi();
-    const header = await api.rpc.chain.getHeader();
-
-    console.error(JSON.stringify(
-      (await api.query.staking.activeEra.range([header.parentHash, header.hash], 'Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9'))
-        .map(([block, value]) => [block, value.toRawType(), value.toHuman()])
-    ));
-
-    await api.disconnect();
-  });
-
-  it('expose rpc and rx definition', async (): Promise<void> => {
-    const api = await createApi();
-
+  it('expose rpc and rx definition', (): void => {
     console.error(api.rpc.payment.queryFeeDetails.meta);
 
     console.error(api.rx.rpc.chain.getBlock.meta);
-
-    await api.disconnect();
   });
 });

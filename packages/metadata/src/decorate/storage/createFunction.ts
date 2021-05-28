@@ -9,7 +9,7 @@ import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey, Type } from '@polkadot/types/primitive';
-import { assert, compactAddLength, compactStripLength, stringCamelCase, stringify, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { getHasher } from './getHasher';
@@ -50,7 +50,8 @@ function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], h
 function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
   const { method, section } = itemFn;
 
-  assert(Array.isArray(args) && args.length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found ${stringify(args)}`);
+  assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, provided in tuple format`);
+  assert(args.filter((a) => !isUndefined(a)).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
