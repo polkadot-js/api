@@ -32,30 +32,23 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   Twox64Concat: [8, true]
 };
 
-function getStorageType (type: StorageEntryTypeLatest): [boolean, string] {
-  if (type.isMap) {
-    return [false, type.asMap.value.toString()];
-  } else if (type.isDoubleMap) {
-    return [false, type.asDoubleMap.value.toString()];
-  } else if (type.isNMap) {
-    return [false, type.asNMap.value.toString()];
-  }
-
-  return [false, type.asPlain.toString()];
-}
-
-// we unwrap the type here, turning into an output usable for createType
 /** @internal */
 export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const [hasWrapper, outputType] = getStorageType(type);
+  const outputType = type.isPlain
+    ? type.asPlain.toString()
+    : type.isMap
+      ? type.asMap.value.toString()
+      : type.isDoubleMap
+        ? type.asDoubleMap.value.toString()
+        : type.asNMap.value.toString();
 
-  return isOptional && !hasWrapper
+  return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes
     : outputType as keyof InterfaceTypes;
 }
 
 /** @internal */
-function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
+function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown]): Decoded {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   if (value instanceof StorageKey) {
     return {
@@ -73,12 +66,12 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
       section: value.section
     };
   } else if (Array.isArray(value)) {
-    const [fn, ...arg] = value as [StorageEntry, ...any[]];
+    const [fn, arg] = value;
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
     return {
-      key: fn(...arg),
+      key: fn(arg),
       method: fn.method,
       section: fn.section
     };
@@ -134,7 +127,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
 }
 
 /** @internal */
-function getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
+function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): StorageEntryMetadataLatest | undefined {
   if (value instanceof StorageKey) {
     return value.meta;
   } else if (isFunction(value)) {
@@ -149,7 +142,7 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): Stora
 }
 
 /** @internal */
-function getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string {
+function getType (value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
@@ -185,7 +178,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
   private _section?: string;
 
-  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
