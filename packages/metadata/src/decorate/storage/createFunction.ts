@@ -33,13 +33,11 @@ interface IterFn {
 
 type Arg = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
 
-function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
-  return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
-}
-
+/** @internal */
 function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
   return u8aConcat(
-    createPrefixedKey(itemFn),
+    xxhashAsU8a(itemFn.prefix, 128),
+    xxhashAsU8a(itemFn.method, 128),
     ...keys.map((type, index) =>
       getHasher(hashers[index])(
         registry.createType(type.toString() as 'Raw', args[index]).toU8a()
@@ -48,6 +46,7 @@ function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], h
   );
 }
 
+/** @internal */
 function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
   const { method, section } = itemFn;
 
@@ -59,7 +58,6 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hash
   );
 }
 
-// attach the metadata to expand to a StorageFunction
 /** @internal */
 function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: Arg | Arg[]) => Uint8Array): StorageEntry {
   const storageFn = _storageFn as StorageEntry;
@@ -101,7 +99,6 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     registry.createType('StorageKey', iterFn(...args), { method, section });
 }
 
-// attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type }, method, section } = itemFn;
