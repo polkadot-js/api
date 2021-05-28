@@ -4,9 +4,10 @@
 
 Changes:
 
+- Allow storage queries with default keys values
 - Align identity `Data` to limit to 32 bytes in the `Raw` enum (as per Substrate)
-- Cleanup internal tests (no dangling handles, cater for Jest 27)
 - Align static (test & docs-only) metadata with latest Substrate master
+- Cleanup internal tests (no dangling handles, cater for Jest 27)
 
 
 ## 4.11.2 May 24, 2021

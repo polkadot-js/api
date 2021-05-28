@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { StorageEntryMetadataLatest, StorageHasher } from '@polkadot/types/interfaces/metadata';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { Codec, Registry } from '@polkadot/types/types';
 
@@ -9,7 +9,7 @@ import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey, Type } from '@polkadot/types/primitive';
-import { assert, compactAddLength, compactStripLength, isNull, isUndefined, stringCamelCase, stringify, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { getHasher } from './getHasher';
@@ -31,33 +31,27 @@ interface IterFn {
   meta: StorageEntryMetadataLatest;
 }
 
-type CreateArgType = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
+type Arg = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
 
-type U8aHasher = (input: Uint8Array) => Uint8Array;
-
-function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
-  return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
-}
-
-function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
-  const { method, section } = itemFn;
-
+/** @internal */
+function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
   return u8aConcat(
-    createPrefixedKey(itemFn),
-    ...keys.map((type, index): Uint8Array => {
-      const arg = args[index];
-
-      assert(!isUndefined(arg) && !isNull(arg), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} has a null or undefined argument at position ${index}`);
-
-      return hashers[index](registry.createType(type.toString() as 'Raw', arg).toU8a());
-    })
+    xxhashAsU8a(itemFn.prefix, 128),
+    xxhashAsU8a(itemFn.method, 128),
+    ...keys.map((type, index) =>
+      getHasher(hashers[index])(
+        registry.createType(type.toString() as 'Raw', args[index]).toU8a()
+      )
+    )
   );
 }
 
-function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: U8aHasher[], args: CreateArgType[]): Uint8Array {
+/** @internal */
+function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
   const { method, section } = itemFn;
 
-  assert(Array.isArray(args) && args.length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found ${stringify(args)}`);
+  assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, provided in tuple format`);
+  assert(args.filter((a) => !isUndefined(a)).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
@@ -65,9 +59,8 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: Type[], hash
   );
 }
 
-// attach the metadata to expand to a StorageFunction
 /** @internal */
-function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: CreateArgType | CreateArgType[]) => Uint8Array): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (arg?: Arg | Arg[]) => Uint8Array): StorageEntry {
   const storageFn = _storageFn as StorageEntry;
 
   storageFn.meta = meta;
@@ -107,7 +100,6 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     registry.createType('StorageKey', iterFn(...args), { method, section });
 }
 
-// attach the full list hashing for prefixed maps
 /** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type }, method, section } = itemFn;
@@ -124,16 +116,16 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 
     if (args.length) {
       if (type.isDoubleMap) {
-        return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [getHasher(type.asDoubleMap.hasher)], args as CreateArgType[]));
+        return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [type.asDoubleMap.hasher], args as Arg[]));
       } else if (type.isNMap) {
         const keys = [...type.asNMap.keyVec];
-        const hashers = type.asNMap.hashers.map((h) => getHasher(h));
+        const hashers = [...type.asNMap.hashers];
 
         // remove the last entry
         keys.pop();
         hashers.pop();
 
-        return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as CreateArgType[]));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as Arg[]));
       }
     }
 
@@ -151,16 +143,16 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (arg?: CreateArgType | CreateArgType[]) =>
+  const storageFn = expandWithMeta(itemFn, (arg?: Arg | Arg[]) =>
     type.isPlain
       ? options.skipHashing
         ? compactAddLength(u8aToU8a(options.key))
         : createKey(registry, itemFn, [], [], [])
       : type.isMap
-        ? createKey(registry, itemFn, [type.asMap.key], [getHasher(type.asMap.hasher)], [arg as CreateArgType])
+        ? createKey(registry, itemFn, [type.asMap.key], [type.asMap.hasher], [arg as Arg])
         : type.isDoubleMap
-          ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [getHasher(type.asDoubleMap.hasher), getHasher(type.asDoubleMap.key2Hasher)], arg as CreateArgType[])
-          : createKey(registry, itemFn, type.asNMap.keyVec, type.asNMap.hashers.map((h) => getHasher(h)), arg as CreateArgType[])
+          ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [type.asDoubleMap.hasher, type.asDoubleMap.key2Hasher], arg as Arg[])
+          : createKey(registry, itemFn, type.asNMap.keyVec, type.asNMap.hashers, arg as Arg[])
   );
 
   if (type.isMap || type.isDoubleMap || type.isNMap) {
