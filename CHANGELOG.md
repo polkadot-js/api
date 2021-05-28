@@ -7,7 +7,7 @@ Changes:
 - Allow storage queries with default keys values
 - Align identity `Data` to limit to 32 bytes in the `Raw` enum (as per Substrate)
 - Align static (test & docs-only) metadata with latest Substrate master
-- Added 9030 upgrade block for Westend
+- Added 9030 upgrade blocks for Kusama & Westend
 - Cleanup internal tests (no dangling handles, cater for Jest 27)
 
 
