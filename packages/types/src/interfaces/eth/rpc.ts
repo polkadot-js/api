@@ -50,15 +50,22 @@ export const rpc: DefinitionsRpc = {
     type: 'Vec<H160>'
   },
   blockNumber: {
-    description: 'Returns balance of the given account.',
+    description: 'Returns the blockNumber',
     params: [],
     type: 'U256'
   },
   call: {
     description: 'Call contract, returning the output data.',
     params: [
-      { name: 'request', type: 'EthCallRequest' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'request',
+        type: 'EthCallRequest'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'Bytes'
   },
@@ -75,8 +82,15 @@ export const rpc: DefinitionsRpc = {
   estimateGas: {
     description: 'Estimate gas needed for execution of given contract.',
     params: [
-      { name: 'request', type: 'EthCallRequest' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'request',
+        type: 'EthCallRequest'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'U256'
   },
@@ -88,23 +102,39 @@ export const rpc: DefinitionsRpc = {
   getBalance: {
     description: 'Returns balance of the given account.',
     params: [
-      { name: 'address', type: 'H160' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'address',
+        type: 'H160'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'U256'
   },
   getBlockByHash: {
     description: 'Returns block with given hash.',
     params: [
-      { name: 'hash', type: 'H256' },
-      { name: 'full', type: 'bool' }
+      {
+        name: 'hash',
+        type: 'H256'
+      },
+      {
+        name: 'full',
+        type: 'bool'
+      }
     ],
     type: 'Option<EthRichBlock>'
   },
   getBlockByNumber: {
     description: 'Returns block with given number.',
     params: [
-      { name: 'block', type: 'BlockNumber' },
+      {
+        name: 'block',
+        type: 'BlockNumber'
+      },
       { name: 'full', type: 'bool' }
     ],
     type: 'Option<EthRichBlock>'
@@ -112,129 +142,213 @@ export const rpc: DefinitionsRpc = {
   getBlockTransactionCountByHash: {
     description: 'Returns the number of transactions in a block with given hash.',
     params: [
-      { name: 'hash', type: 'H256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      }
     ],
     type: 'U256'
   },
   getBlockTransactionCountByNumber: {
     description: 'Returns the number of transactions in a block with given block number.',
     params: [
-      { name: 'block', type: 'BlockNumber' }
+      {
+        name: 'block',
+        type: 'BlockNumber'
+      }
     ],
     type: 'U256'
   },
   getCode: {
     description: 'Returns the code at given address at given time (block number).',
     params: [
-      { name: 'address', type: 'H160' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'address',
+        type: 'H160'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'Bytes'
   },
   getFilterChanges: {
     description: 'Returns filter changes since last poll.',
     params: [
-      { name: 'index', type: 'U256' }
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'EthFilterChanges'
   },
   getFilterLogs: {
     description: 'Returns all logs matching given filter (in a range \'from\' - \'to\').',
     params: [
-      { name: 'index', type: 'U256' }
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'Vec<EthLog>'
   },
   getLogs: {
     description: 'Returns logs matching given filter object.',
     params: [
-      { name: 'filter', type: 'EthFilter' }
+      {
+        name: 'filter',
+        type: 'EthFilter'
+      }
     ],
     type: 'Vec<EthLog>'
   },
   getProof: {
     description: 'Returns proof for account and storage.',
     params: [
-      { name: 'address', type: 'H160' },
-      { name: 'storageKeys', type: 'Vec<H256>' },
-      { name: 'number', type: 'BlockNumber' }
+      {
+        name: 'address',
+        type: 'H160'
+      },
+      {
+        name: 'storageKeys',
+        type: 'Vec<H256>'
+      },
+      {
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'EthAccount'
   },
   getStorageAt: {
     description: 'Returns content of the storage at given address.',
     params: [
-      { name: 'address', type: 'H160' },
-      { name: 'index', type: 'U256' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'address',
+        type: 'H160'
+      },
+      {
+        name: 'index',
+        type: 'U256'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'H256'
   },
   getTransactionByBlockHashAndIndex: {
     description: 'Returns transaction at given block hash and index.',
     params: [
-      { name: 'hash', type: 'H256' },
-      { name: 'index', type: 'U256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      },
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'EthTransaction'
   },
   getTransactionByBlockNumberAndIndex: {
     description: 'Returns transaction by given block number and index.',
     params: [
-      { name: 'number', type: 'BlockNumber' },
-      { name: 'index', type: 'U256' }
+      {
+        name: 'number',
+        type: 'BlockNumber'
+      },
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'EthTransaction'
   },
   getTransactionByHash: {
     description: 'Get transaction by its hash.',
     params: [
-      { name: 'hash', type: 'H256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      }
     ],
     type: 'EthTransaction'
   },
   getTransactionCount: {
     description: 'Returns the number of transactions sent from given address at given time (block number).',
     params: [
-      { name: 'hash', type: 'H256' },
-      { isOptional: true, name: 'number', type: 'BlockNumber' }
+      {
+        name: 'hash',
+        type: 'H256'
+      },
+      {
+        isOptional: true,
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'U256'
   },
   getTransactionReceipt: {
     description: 'Returns transaction receipt by transaction hash.',
     params: [
-      { name: 'hash', type: 'H256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      }
     ],
     type: 'EthReceipt'
   },
   getUncleByBlockHashAndIndex: {
     description: 'Returns an uncles at given block and index.',
     params: [
-      { name: 'hash', type: 'H256' },
-      { name: 'index', type: 'U256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      },
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'EthRichBlock'
   },
   getUncleByBlockNumberAndIndex: {
     description: 'Returns an uncles at given block and index.',
     params: [
-      { name: 'number', type: 'BlockNumber' },
-      { name: 'index', type: 'U256' }
+      {
+        name: 'number',
+        type: 'BlockNumber'
+      },
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'EthRichBlock'
   },
   getUncleCountByBlockHash: {
     description: 'Returns the number of uncles in a block with given hash.',
     params: [
-      { name: 'hash', type: 'H256' }
+      {
+        name: 'hash',
+        type: 'H256'
+      }
     ],
     type: 'U256'
   },
   getUncleCountByBlockNumber: {
     description: 'Returns the number of uncles in a block with given block number.',
     params: [
-      { name: 'number', type: 'BlockNumber' }
+      {
+        name: 'number',
+        type: 'BlockNumber'
+      }
     ],
     type: 'U256'
   },
@@ -261,7 +375,10 @@ export const rpc: DefinitionsRpc = {
   newFilter: {
     description: 'Returns id of new filter.',
     params: [
-      { name: 'filter', type: 'EthFilter' }
+      {
+        name: 'filter',
+        type: 'EthFilter'
+      }
     ],
     type: 'U256'
   },
@@ -278,31 +395,52 @@ export const rpc: DefinitionsRpc = {
   sendRawTransaction: {
     description: 'Sends signed transaction, returning its hash.',
     params: [
-      { name: 'bytes', type: 'Bytes' }
+      {
+        name: 'bytes',
+        type: 'Bytes'
+      }
     ],
     type: 'H256'
   },
   sendTransaction: {
     description: 'Sends transaction; will block waiting for signer to return the transaction hash',
     params: [
-      { name: 'tx', type: 'EthTransactionRequest' }
+      {
+        name: 'tx',
+        type: 'EthTransactionRequest'
+      }
     ],
     type: 'H256'
   },
   submitHashrate: {
     description: 'Used for submitting mining hashrate.',
     params: [
-      { name: 'index', type: 'U256' },
-      { name: 'hash', type: 'H256' }
+      {
+        name: 'index',
+        type: 'U256'
+      },
+      {
+        name: 'hash',
+        type: 'H256'
+      }
     ],
     type: 'bool'
   },
   submitWork: {
     description: 'Used for submitting a proof-of-work solution.',
     params: [
-      { name: 'nonce', type: 'H64' },
-      { name: 'headerHash', type: 'H256' },
-      { name: 'mixDigest', type: 'H256' }
+      {
+        name: 'nonce',
+        type: 'H64'
+      },
+      {
+        name: 'headerHash',
+        type: 'H256'
+      },
+      {
+        name: 'mixDigest',
+        type: 'H256'
+      }
     ],
     type: 'bool'
   },
@@ -310,7 +448,11 @@ export const rpc: DefinitionsRpc = {
     description: 'Subscribe to Eth subscription.',
     params: [
       { name: 'kind', type: 'EthSubKind' },
-      { isOptional: true, name: 'params', type: 'EthSubParams' }
+      {
+        isOptional: true,
+        name: 'params',
+        type: 'EthSubParams'
+      }
     ],
     pubsub: [
       'subscription',
@@ -327,7 +469,10 @@ export const rpc: DefinitionsRpc = {
   uninstallFilter: {
     description: 'Uninstalls filter.',
     params: [
-      { name: 'index', type: 'U256' }
+      {
+        name: 'index',
+        type: 'U256'
+      }
     ],
     type: 'bool'
   }
