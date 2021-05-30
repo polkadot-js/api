@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## master
+## 4.12.1 May 30, 2021
+
+Upgrade priority: Low. Internal adjustment only, no major external usage changes.
+
+Changelog:
+
+- Update `FundInfo` type with Polkadot (Thanks to https://github.com/arjanz)
 
 Changes:
 
@@ -8,6 +14,8 @@ Changes:
 - Align identity `Data` to limit to 32 bytes in the `Raw` enum (as per Substrate)
 - Align static (test & docs-only) metadata with latest Substrate master
 - Added 9030 upgrade blocks for Kusama & Westend
+- Cleanup of Eth pallet RPC definitions
+- Cleanup README for `@polkadot/rpc-core` (recommended for internal-usage only)
 - Cleanup internal tests (no dangling handles, cater for Jest 27)
 
 
