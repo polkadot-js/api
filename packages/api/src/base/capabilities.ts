@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Raw, u32 } from '@polkadot/types';
+import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
+import type { Bytes, Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
 
@@ -13,9 +14,11 @@ import { catchError, map, take } from '@polkadot/x-rxjs/operators';
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];
 
-type ExtractedR = [Raw | null, Raw | null];
+type ExtractedR = [Raw | null];
 
 type ExtractedC = [u32 | null, u32 | null];
+
+type ExtractedD = [Bytes | null];
 
 type DetectedKeys = keyof Pick<InterfaceTypes, 'AccountInfo' | 'ValidatorPrefs'>;
 
@@ -45,18 +48,16 @@ interface Constants {
 
 const NumberMap = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 
-function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, refcount3Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys, accountInfo]: ExtractedR): Partial<DetectedTypes> {
+function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, refcount3Length }: Constants, [leasePeriodsPerSlot, slotRangeCount]: ExtractedC, [stakingVersion]: ExtractedQ, [keys]: ExtractedR, [accountInfo]: ExtractedD): Partial<DetectedTypes> {
   const types: Partial<DetectedTypes> = {};
 
   // AccountInfo
   if (accountInfo) {
-    const length = accountInfo.length;
-
-    if (length === refcount1Length) {
+    if (accountInfo.length === refcount1Length) {
       types.AccountInfo = 'AccountInfoWithRefCount';
-    } else if (length === refcount2Length) {
+    } else if (accountInfo.length === refcount2Length) {
       types.AccountInfo = 'AccountInfoWithDualRefCount';
-    } else if (length === refcount3Length) {
+    } else if (accountInfo.length === refcount3Length) {
       types.AccountInfo = 'AccountInfoWithTripleRefCount';
     }
   }
@@ -139,27 +140,25 @@ function extractResults <R, T = unknown> (results: unknown[], map: AvailableMap<
 /**
  * @description Query the chain for the specific capabilities
  */
-export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
+export function detectedCapabilities (api: ApiInterfaceRx, decorated: DecoratedMeta, blockHash?: Uint8Array | string | undefined): Observable<Partial<DetectedTypes>> {
   const emptyAccountId = api.registry.createType('AccountId');
   const consts = filterEntries([
-    api.consts.auctions?.leasePeriodsPerSlot,
-    api.consts.auctions?.slotRangeCount
+    decorated.consts.auctions?.leasePeriodsPerSlot,
+    decorated.consts.auctions?.slotRangeCount
+  ]);
+  const defaults = filterEntries([
+    decorated.query.system?.account?.meta.fallback
   ]);
   const queries = filterEntries([
     api.query.staking?.storageVersion
   ]);
   const raws = filterEntries([
-    api.query.session?.queuedKeys.key(),
-    api.query.system?.account?.key(emptyAccountId)
+    api.query.session?.queuedKeys.key()
   ]);
 
   return combineLatest([
-    consts.filtered.length
-      ? blockHash
-        // FIXME consts don't have .at as of yet...
-        ? of([])
-        : of(consts.filtered)
-      : of([]),
+    of(consts.filtered),
+    of(defaults.filtered),
     queries.filtered.length
       ? blockHash
         ? combineLatest(queries.filtered.map((c) => c.at(blockHash)))
@@ -171,7 +170,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         : combineLatest(raws.filtered.map((k) => api.rpc.state.getStorage.raw(k)))
       : of([])
   ]).pipe(
-    map(([cResults, qResults, rResults]): Partial<DetectedTypes> =>
+    map(([cResults, dResults, qResults, rResults]): Partial<DetectedTypes> =>
       mapCapabilities(
         {
           accountIdLength: emptyAccountId.encodedLength,
@@ -181,7 +180,8 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         },
         extractResults<ExtractedC>(cResults, consts),
         extractResults<ExtractedQ>(qResults, queries),
-        extractResults<ExtractedR>(rResults, raws)
+        extractResults<ExtractedR>(rResults, raws),
+        extractResults<ExtractedD>(dResults, defaults)
       )
     ),
     take(1),
