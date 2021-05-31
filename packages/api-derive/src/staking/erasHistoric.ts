@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
-
-import BN from 'bn.js';
 
 import { map } from '@polkadot/x-rxjs/operators';
 

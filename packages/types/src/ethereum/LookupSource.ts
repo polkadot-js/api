@@ -1,9 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Registry } from '../types';
-
-import BN from 'bn.js';
 
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
