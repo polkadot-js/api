@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/rpc-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableResult } from '@polkadot/api';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { CodecArg } from '@polkadot/types/types';
 import type { BlueprintOptions, ContractOptions } from './types';
-
-import BN from 'bn.js';
 
 import { isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 

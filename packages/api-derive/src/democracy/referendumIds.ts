@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { ReferendumIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
-
-import BN from 'bn.js';
 
 import { of } from '@polkadot/x-rxjs';
 import { map } from '@polkadot/x-rxjs/operators';

@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { StorageEntryMetadataLatest, StorageHasher } from '@polkadot/types/interfaces/metadata';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { Codec, Registry } from '@polkadot/types/types';
-
-import BN from 'bn.js';
 
 import { Raw } from '@polkadot/types/codec';
 import { StorageKey, Type } from '@polkadot/types/primitive';

@@ -1,13 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveDemocracyLock } from '../types';
-
-import BN from 'bn.js';
 
 import { BN_ZERO, isUndefined } from '@polkadot/util';
 import { of } from '@polkadot/x-rxjs';

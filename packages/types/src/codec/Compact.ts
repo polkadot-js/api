@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 import type { CompactEncodable } from './types';
-
-import BN from 'bn.js';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
