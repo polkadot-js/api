@@ -24,7 +24,8 @@ const typesSpec: Record<string, OverrideVersionedType[]> = {
   shell,
   statemine: statemint,
   statemint,
-  westend
+  westend,
+  westmint: statemint
 };
 
 export default typesSpec;
