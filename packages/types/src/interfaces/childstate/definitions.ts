@@ -89,6 +89,26 @@ export default {
       type: 'Option<u64>'
     }
   },
+  getChildReadProof: {
+    description: 'Returns proof of child storage entries at a specific block state',
+    params: [
+      {
+        name: 'childKey',
+        type: 'PrefixedStorageKey'
+      },
+      {
+        name: 'keys',
+        type: 'Vec<StorageKey>'
+      },
+      {
+        name: 'at',
+        type: 'BlockHash',
+        isHistoric: true,
+        isOptional: true
+      }
+    ],
+    type: 'ReadProof'
+  },
   types: {
     // StorageKey extends Bytes
     PrefixedStorageKey: 'StorageKey'

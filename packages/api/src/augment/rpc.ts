@@ -118,6 +118,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns the size of a child storage entry at a block state
        **/
       getStorageSize: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<u64>>>;
+      /**
+       * Returns a ReadProof for child storage entries at a block state
+       **/
+      getChildReadProof: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: BlockHash | string | Uint8Array) => Observable<ReadProof>>;
     };
     contracts: {
       /**
