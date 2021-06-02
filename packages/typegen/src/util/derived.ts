@@ -74,6 +74,9 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     setImports(definitions, imports, ['IExtrinsic']);
 
     return ['IExtrinsic'];
+  } else if (type === 'Keys') {
+    // This one is weird... surely it should popup as a Tuple? (but either way better as defined hex)
+    return ['Keys', 'string', 'Uint8Array'];
   } else if (type === 'StorageKey') {
     // TODO We can do better
     return ['StorageKey', 'string', 'Uint8Array', 'any'];
