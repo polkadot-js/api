@@ -123,6 +123,12 @@ export interface CandidateDescriptor extends Struct {
 /** @name CandidateHash */
 export interface CandidateHash extends Hash {}
 
+/** @name CandidateInfo */
+export interface CandidateInfo extends Struct {
+  readonly who: AccountId;
+  readonly deposit: Balance;
+}
+
 /** @name CandidatePendingAvailability */
 export interface CandidatePendingAvailability extends Struct {
   readonly core: CoreIndex;
