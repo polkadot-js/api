@@ -18,9 +18,9 @@ const mappings: Mapper[] = [
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Change BoundedVec<Type, Size> to Vec<Type>
-  removeBounded(),
+  removeExtensions('Bounded', true),
   // Change WeakVec<Type> to Vec<Type>
-  removeWeak(),
+  removeExtensions('Weak', false),
   // Remove all the trait prefixes
   removeTraits(),
   // remove PairOf<T> -> (T, T)
@@ -120,33 +120,23 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
   }
 }
 
-function removeBoundedInternal (value: string, type: string): string {
-  return BOUNDED.reduce((value, tag) =>
-    replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
-      const parts = inner
-        .split(',')
-        .map((s) => s.trim())
-        .filter((s) => s);
-
-      if (parts.length !== 1) {
-        parts.pop();
-      }
-
-      return `${tag}<${parts.join(',')}>`;
-    }), value
-  );
-}
-
-// remove the Bounded* wrappers
-export function removeBounded (): Mapper {
+// remove the Bounded* or Weak* wrappers
+export function removeExtensions (type: string, isSized: boolean): Mapper {
   return (value: string) =>
-    removeBoundedInternal(value, 'Bounded');
-}
+    BOUNDED.reduce((value, tag) =>
+      replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
+        const parts = inner
+          .split(',')
+          .map((s) => s.trim())
+          .filter((s) => s);
 
-// remove the Weak* wrappers
-export function removeWeak (): Mapper {
-  return (value: string) =>
-    removeBoundedInternal(value, 'Weak');
+        if (isSized) {
+          parts.pop();
+        }
+
+        return `${tag}<${parts.join(',')}>`;
+      }), value
+    );
 }
 
 export function removeColons (): Mapper {

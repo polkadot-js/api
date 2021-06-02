@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { alias, flattenSingleTuple, removeBounded, removeColons, removeWeak } from './sanitize';
+import { alias, flattenSingleTuple, removeColons, removeExtensions } from './sanitize';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {
@@ -60,7 +60,7 @@ describe('sanitize', (): void => {
   });
 
   describe('bounded', (): void => {
-    const fn = removeBounded();
+    const fn = removeExtensions('Bounded', true);
 
     it('correctly cleans up bounded values', (): void => {
       expect(fn('BoundedVec<u32, 256>')).toEqual('Vec<u32>');
@@ -82,7 +82,7 @@ describe('sanitize', (): void => {
   });
 
   describe('weak', (): void => {
-    const fn = removeWeak();
+    const fn = removeExtensions('Weak', false);
 
     it('correctly cleans up weak values', (): void => {
       expect(fn('WeakVec<u32>')).toEqual('Vec<u32>');
