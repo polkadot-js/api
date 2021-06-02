@@ -4,8 +4,10 @@
 
 Changes:
 
+- Overrides for `westmint` spec (same as `statemint`)
 - Adjust `tx.session.setKeys` TS augmentation to allow `string` & `Uint8Array` keys
 - Update static metadata to latest Substrate
+- Sanitizing `BN` imports to `type`-only as required
 
 
 ## 4.12.1 May 30, 2021
