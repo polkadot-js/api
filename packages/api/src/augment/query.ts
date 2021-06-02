@@ -28,6 +28,7 @@ import type { ActiveEraInfo, ElectionPhase, ElectionScore, EraIndex, EraRewardPo
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import type { ClassDetails, ClassId, ClassMetadata, DepositBalanceOf, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
 import type { Multisig } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import type { ApiTypes } from '@polkadot/api/types';
@@ -1219,6 +1220,37 @@ declare module '@polkadot/api/types/storage' {
        * Proposals that have been made.
        **/
       proposals: AugmentedQuery<ApiType, (arg: ProposalIndex | AnyNumber | Uint8Array) => Observable<Option<TreasuryProposal>>, [ProposalIndex]> & QueryableStorageEntry<ApiType, [ProposalIndex]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    uniques: {
+      /**
+       * The assets held by any given account; set out this way so that assets owned by a single
+       * account can be enumerated.
+       **/
+      account: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: ClassId | AnyNumber | Uint8Array, arg3: InstanceId | AnyNumber | Uint8Array) => Observable<Option<ITuple<[]>>>, [AccountId, ClassId, InstanceId]> & QueryableStorageEntry<ApiType, [AccountId, ClassId, InstanceId]>;
+      /**
+       * The assets in existence and their ownership details.
+       **/
+      asset: AugmentedQuery<ApiType, (arg1: ClassId | AnyNumber | Uint8Array, arg2: InstanceId | AnyNumber | Uint8Array) => Observable<Option<InstanceDetails>>, [ClassId, InstanceId]> & QueryableStorageEntry<ApiType, [ClassId, InstanceId]>;
+      /**
+       * Metadata of an asset class.
+       **/
+      attribute: AugmentedQuery<ApiType, (arg1: ClassId | AnyNumber | Uint8Array, arg2: Option<InstanceId> | null | object | string | Uint8Array, arg3: Bytes | string | Uint8Array) => Observable<Option<ITuple<[Bytes, DepositBalanceOf]>>>, [ClassId, Option<InstanceId>, Bytes]> & QueryableStorageEntry<ApiType, [ClassId, Option<InstanceId>, Bytes]>;
+      /**
+       * Details of an asset class.
+       **/
+      class: AugmentedQuery<ApiType, (arg: ClassId | AnyNumber | Uint8Array) => Observable<Option<ClassDetails>>, [ClassId]> & QueryableStorageEntry<ApiType, [ClassId]>;
+      /**
+       * Metadata of an asset class.
+       **/
+      classMetadataOf: AugmentedQuery<ApiType, (arg: ClassId | AnyNumber | Uint8Array) => Observable<Option<ClassMetadata>>, [ClassId]> & QueryableStorageEntry<ApiType, [ClassId]>;
+      /**
+       * Metadata of an asset instance.
+       **/
+      instanceMetadataOf: AugmentedQuery<ApiType, (arg1: ClassId | AnyNumber | Uint8Array, arg2: InstanceId | AnyNumber | Uint8Array) => Observable<Option<InstanceMetadata>>, [ClassId, InstanceId]> & QueryableStorageEntry<ApiType, [ClassId, InstanceId]>;
       /**
        * Generic query
        **/

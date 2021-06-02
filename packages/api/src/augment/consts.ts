@@ -406,7 +406,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The maximum amount of proxies allowed for a single account.
        **/
-      maxProxies: u16 & AugmentedConst<ApiType>;
+      maxProxies: u32 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for creating a proxy.
        * 

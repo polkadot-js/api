@@ -21,6 +21,7 @@ import type { IdentificationTuple, SessionIndex } from '@polkadot/types/interfac
 import type { ElectionCompute, EraIndex } from '@polkadot/types/interfaces/staking';
 import type { DispatchError, DispatchInfo, DispatchResult } from '@polkadot/types/interfaces/system';
 import type { BountyIndex } from '@polkadot/types/interfaces/treasury';
+import type { ClassId, InstanceId } from '@polkadot/types/interfaces/uniques';
 import type { Timepoint } from '@polkadot/types/interfaces/utility';
 import type { ApiTypes } from '@polkadot/api/types';
 
@@ -1025,6 +1026,108 @@ declare module '@polkadot/api/types/events' {
        * We have ended a spend period and will now allocate funds. \[budget_remaining\]
        **/
       Spending: AugmentedEvent<ApiType, [Balance]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    uniques: {
+      /**
+       * An approval for a `delegate` account to transfer the `instance` of an asset `class` was
+       * cancelled by its `owner`.
+       * \[ class, instance, owner, delegate \]
+       **/
+      ApprovalCancelled: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId, AccountId]>;
+      /**
+       * An `instance` of an asset `class` has been approved by the `owner` for transfer by a
+       * `delegate`.
+       * \[ class, instance, owner, delegate \]
+       **/
+      ApprovedTransfer: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId, AccountId]>;
+      /**
+       * An asset `class` has had its attributes changed by the `Force` origin.
+       * \[ class \]
+       **/
+      AssetStatusChanged: AugmentedEvent<ApiType, [ClassId]>;
+      /**
+       * Attribute metadata has been cleared for an asset class or instance.
+       * \[ class, maybe_instance, key, maybe_value \]
+       **/
+      AttributeCleared: AugmentedEvent<ApiType, [ClassId, Option<InstanceId>, Bytes]>;
+      /**
+       * New attribute metadata has been set for an asset class or instance.
+       * \[ class, maybe_instance, key, value \]
+       **/
+      AttributeSet: AugmentedEvent<ApiType, [ClassId, Option<InstanceId>, Bytes, Bytes]>;
+      /**
+       * An asset `instance` was destroyed. \[ class, instance, owner \]
+       **/
+      Burned: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId]>;
+      /**
+       * Some asset `class` was frozen. \[ class \]
+       **/
+      ClassFrozen: AugmentedEvent<ApiType, [ClassId]>;
+      /**
+       * Metadata has been cleared for an asset class. \[ class \]
+       **/
+      ClassMetadataCleared: AugmentedEvent<ApiType, [ClassId]>;
+      /**
+       * New metadata has been set for an asset class. \[ class, data, is_frozen \]
+       **/
+      ClassMetadataSet: AugmentedEvent<ApiType, [ClassId, Bytes, bool]>;
+      /**
+       * Some asset `class` was thawed. \[ class \]
+       **/
+      ClassThawed: AugmentedEvent<ApiType, [ClassId]>;
+      /**
+       * An asset class was created. \[ class, creator, owner \]
+       **/
+      Created: AugmentedEvent<ApiType, [ClassId, AccountId, AccountId]>;
+      /**
+       * An asset `class` was destroyed. \[ class \]
+       **/
+      Destroyed: AugmentedEvent<ApiType, [ClassId]>;
+      /**
+       * An asset class was force-created. \[ class, owner \]
+       **/
+      ForceCreated: AugmentedEvent<ApiType, [ClassId, AccountId]>;
+      /**
+       * Some asset `instance` was frozen. \[ class, instance \]
+       **/
+      Frozen: AugmentedEvent<ApiType, [ClassId, InstanceId]>;
+      /**
+       * An asset `instace` was issued. \[ class, instance, owner \]
+       **/
+      Issued: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId]>;
+      /**
+       * Metadata has been cleared for an asset instance. \[ class, instance \]
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [ClassId, InstanceId]>;
+      /**
+       * New metadata has been set for an asset instance.
+       * \[ class, instance, data, is_frozen \]
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [ClassId, InstanceId, Bytes, bool]>;
+      /**
+       * The owner changed \[ class, new_owner \]
+       **/
+      OwnerChanged: AugmentedEvent<ApiType, [ClassId, AccountId]>;
+      /**
+       * Metadata has been cleared for an asset instance. \[ class, successful_instances \]
+       **/
+      Redeposited: AugmentedEvent<ApiType, [ClassId, Vec<InstanceId>]>;
+      /**
+       * The management team changed \[ class, issuer, admin, freezer \]
+       **/
+      TeamChanged: AugmentedEvent<ApiType, [ClassId, AccountId, AccountId, AccountId]>;
+      /**
+       * Some asset `instance` was thawed. \[ class, instance \]
+       **/
+      Thawed: AugmentedEvent<ApiType, [ClassId, InstanceId]>;
+      /**
+       * An asset `instace` was transferred. \[ class, instance, from, to \]
+       **/
+      Transferred: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId, AccountId]>;
       /**
        * Generic event
        **/
