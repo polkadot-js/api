@@ -14,6 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
+  class: 'clazz',
   new: 'updated'
 };
 

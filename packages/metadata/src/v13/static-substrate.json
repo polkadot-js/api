@@ -499,7 +499,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a000000090100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000b0100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1502000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "documentation": [
                 " Get the chain's current version."
               ]
@@ -11262,8 +11262,8 @@
             },
             {
               "name": "MaxProxies",
-              "type": "u16",
-              "value": "0x2000",
+              "type": "u32",
+              "value": "0x20000000",
               "documentation": [
                 " The maximum amount of proxies allowed for a single account."
               ]
@@ -12769,8 +12769,6 @@
                 " - `owner`: The owner of this class of assets. The owner has full superuser permissions",
                 " over this asset, but may later change and configure the permissions using `transfer_ownership`",
                 " and `set_team`.",
-                " - `max_zombies`: The total number of accounts which may hold assets in this class yet",
-                " have no existential deposit.",
                 " - `min_balance`: The minimum balance of this new asset that any single account must",
                 " have. If an account's balance is reduced below this, then it collapses to zero.",
                 "",
@@ -12833,7 +12831,7 @@
                 " - `beneficiary`: The account to be credited with the minted assets.",
                 " - `amount`: The amount of the asset to be minted.",
                 "",
-                " Emits `Destroyed` event when successful.",
+                " Emits `Issued` event when successful.",
                 "",
                 " Weight: `O(1)`",
                 " Modes: Pre-existing balance of `beneficiary`; Account pre-existence of `beneficiary`."
@@ -12906,8 +12904,8 @@
                 " to zero.",
                 "",
                 " Weight: `O(1)`",
-                " Modes: Pre-existence of `target`; Post-existence of sender; Prior & post zombie-status",
-                " of sender; Account pre-existence of `target`."
+                " Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of",
+                " `target`."
               ]
             },
             {
@@ -12943,8 +12941,8 @@
                 " to zero.",
                 "",
                 " Weight: `O(1)`",
-                " Modes: Pre-existence of `target`; Post-existence of sender; Prior & post zombie-status",
-                " of sender; Account pre-existence of `target`."
+                " Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of",
+                " `target`."
               ]
             },
             {
@@ -12985,8 +12983,8 @@
                 " to zero.",
                 "",
                 " Weight: `O(1)`",
-                " Modes: Pre-existence of `dest`; Post-existence of `source`; Prior & post zombie-status",
-                " of `source`; Account pre-existence of `dest`."
+                " Modes: Pre-existence of `dest`; Post-existence of `source`; Account pre-existence of",
+                " `dest`."
               ]
             },
             {
@@ -13072,7 +13070,7 @@
                 "",
                 " Origin must be Signed and the sender should be the Admin of the asset `id`.",
                 "",
-                " - `id`: The identifier of the asset to be frozen.",
+                " - `id`: The identifier of the asset to be thawed.",
                 "",
                 " Emits `Thawed`.",
                 "",
@@ -14392,6 +14390,1128 @@
             }
           ],
           "index": 37
+        },
+        {
+          "name": "Uniques",
+          "storage": {
+            "prefix": "Uniques",
+            "items": [
+              {
+                "name": "Class",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "ClassId",
+                    "value": "ClassDetails",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Details of an asset class."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "nMap": {
+                    "keyVec": [
+                      "AccountId",
+                      "ClassId",
+                      "InstanceId"
+                    ],
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "value": "()"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The assets held by any given account; set out this way so that assets owned by a single",
+                  " account can be enumerated."
+                ]
+              },
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Blake2_128Concat",
+                    "key1": "ClassId",
+                    "key2": "InstanceId",
+                    "value": "InstanceDetails",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The assets in existence and their ownership details."
+                ]
+              },
+              {
+                "name": "ClassMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "ClassId",
+                    "value": "ClassMetadata",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Metadata of an asset class."
+                ]
+              },
+              {
+                "name": "InstanceMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Blake2_128Concat",
+                    "key1": "ClassId",
+                    "key2": "InstanceId",
+                    "value": "InstanceMetadata",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Metadata of an asset instance."
+                ]
+              },
+              {
+                "name": "Attribute",
+                "modifier": "Optional",
+                "type": {
+                  "nMap": {
+                    "keyVec": [
+                      "ClassId",
+                      "Option<InstanceId>",
+                      "Bytes"
+                    ],
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "value": "(Bytes,DepositBalanceOf)"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Metadata of an asset class."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "create",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "admin",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Issue a new class of non-fungible assets from a public origin.",
+                "",
+                " This new asset class has no assets initially and its owner is the origin.",
+                "",
+                " The origin must be Signed and the sender must have sufficient funds free.",
+                "",
+                " `AssetDeposit` funds of sender are reserved.",
+                "",
+                " Parameters:",
+                " - `class`: The identifier of the new asset class. This must not be currently in use.",
+                " - `admin`: The admin of this class of assets. The admin is the initial address of each",
+                " member of the asset class's admin team.",
+                "",
+                " Emits `Created` event when successful.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "force_create",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "free_holding",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Issue a new class of non-fungible assets from a privileged origin.",
+                "",
+                " This new asset class has no assets initially.",
+                "",
+                " The origin must conform to `ForceOrigin`.",
+                "",
+                " Unlike `create`, no funds are reserved.",
+                "",
+                " - `class`: The identifier of the new asset. This must not be currently in use.",
+                " - `owner`: The owner of this class of assets. The owner has full superuser permissions",
+                " over this asset, but may later change and configure the permissions using",
+                " `transfer_ownership` and `set_team`.",
+                "",
+                " Emits `ForceCreated` event when successful.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "destroy",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "witness",
+                  "type": "DestroyWitness"
+                }
+              ],
+              "documentation": [
+                " Destroy a class of fungible assets.",
+                "",
+                " The origin must conform to `ForceOrigin` or must be `Signed` and the sender must be the",
+                " owner of the asset `class`.",
+                "",
+                " - `class`: The identifier of the asset class to be destroyed.",
+                " - `witness`: Information on the instances minted in the asset class. This must be",
+                " correct.",
+                "",
+                " Emits `Destroyed` event when successful.",
+                "",
+                " Weight: `O(n + m)` where:",
+                " - `n = witness.instances`",
+                " - `m = witness.instance_metdadatas`",
+                " - `a = witness.attributes`"
+              ]
+            },
+            {
+              "name": "mint",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Mint an asset instance of a particular class.",
+                "",
+                " The origin must be Signed and the sender must be the Issuer of the asset `class`.",
+                "",
+                " - `class`: The class of the asset to be minted.",
+                " - `instance`: The instance value of the asset to be minted.",
+                " - `beneficiary`: The initial owner of the minted asset.",
+                "",
+                " Emits `Issued` event when successful.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "burn",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "check_owner",
+                  "type": "Option<LookupSource>"
+                }
+              ],
+              "documentation": [
+                " Destroy a single asset instance.",
+                "",
+                " Origin must be Signed and the sender should be the Admin of the asset `class`.",
+                "",
+                " - `class`: The class of the asset to be burned.",
+                " - `instance`: The instance of the asset to be burned.",
+                " - `check_owner`: If `Some` then the operation will fail with `WrongOwner` unless the",
+                "   asset is owned by this value.",
+                "",
+                " Emits `Burned` with the actual amount burned.",
+                "",
+                " Weight: `O(1)`",
+                " Modes: `check_owner.is_some()`."
+              ]
+            },
+            {
+              "name": "transfer",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "dest",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Move an asset from the sender account to another.",
+                "",
+                " Origin must be Signed and the signing account must be either:",
+                " - the Admin of the asset `class`;",
+                " - the Owner of the asset `instance`;",
+                " - the approved delegate for the asset `instance` (in this case, the approval is reset).",
+                "",
+                " Arguments:",
+                " - `class`: The class of the asset to be transferred.",
+                " - `instance`: The instance of the asset to be transferred.",
+                " - `dest`: The account to receive ownership of the asset.",
+                "",
+                " Emits `Transferred`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "redeposit",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instances",
+                  "type": "Vec<InstanceId>"
+                }
+              ],
+              "documentation": [
+                " Reevaluate the deposits on some assets.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `class`.",
+                "",
+                " - `class`: The class of the asset to be frozen.",
+                " - `instances`: The instances of the asset class whose deposits will be reevaluated.",
+                "",
+                " NOTE: This exists as a best-effort function. Any asset instances which are unknown or",
+                " in the case that the owner account does not have reservable funds to pay for a",
+                " deposit increase are ignored. Generally the owner isn't going to call this on instances",
+                " whose existing deposit is less than the refreshed deposit as it would only cost them,",
+                " so it's of little consequence.",
+                "",
+                " It will still return an error in the case that the class is unknown of the signer is",
+                " not permitted to call it.",
+                "",
+                " Weight: `O(instances.len())`"
+              ]
+            },
+            {
+              "name": "freeze",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                }
+              ],
+              "documentation": [
+                " Disallow further unprivileged transfer of an asset instance.",
+                "",
+                " Origin must be Signed and the sender should be the Freezer of the asset `class`.",
+                "",
+                " - `class`: The class of the asset to be frozen.",
+                " - `instance`: The instance of the asset to be frozen.",
+                "",
+                " Emits `Frozen`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "thaw",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                }
+              ],
+              "documentation": [
+                " Re-allow unprivileged transfer of an asset instance.",
+                "",
+                " Origin must be Signed and the sender should be the Freezer of the asset `class`.",
+                "",
+                " - `class`: The class of the asset to be thawed.",
+                " - `instance`: The instance of the asset to be thawed.",
+                "",
+                " Emits `Thawed`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "freeze_class",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                }
+              ],
+              "documentation": [
+                " Disallow further unprivileged transfers for a whole asset class.",
+                "",
+                " Origin must be Signed and the sender should be the Freezer of the asset `class`.",
+                "",
+                " - `class`: The asset class to be frozen.",
+                "",
+                " Emits `ClassFrozen`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "thaw_class",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                }
+              ],
+              "documentation": [
+                " Re-allow unprivileged transfers for a whole asset class.",
+                "",
+                " Origin must be Signed and the sender should be the Admin of the asset `class`.",
+                "",
+                " - `class`: The class to be thawed.",
+                "",
+                " Emits `ClassThawed`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "transfer_ownership",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Change the Owner of an asset class.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `class`.",
+                "",
+                " - `class`: The asset class whose owner should be changed.",
+                " - `owner`: The new Owner of this asset class.",
+                "",
+                " Emits `OwnerChanged`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "set_team",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "issuer",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "admin",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "freezer",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Change the Issuer, Admin and Freezer of an asset class.",
+                "",
+                " Origin must be Signed and the sender should be the Owner of the asset `class`.",
+                "",
+                " - `class`: The asset class whose team should be changed.",
+                " - `issuer`: The new Issuer of this asset class.",
+                " - `admin`: The new Admin of this asset class.",
+                " - `freezer`: The new Freezer of this asset class.",
+                "",
+                " Emits `TeamChanged`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "approve_transfer",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "delegate",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Approve an instance to be transferred by a delegated third-party account.",
+                "",
+                " Origin must be Signed and must be the owner of the asset `instance`.",
+                "",
+                " - `class`: The class of the asset to be approved for delegated transfer.",
+                " - `instance`: The instance of the asset to be approved for delegated transfer.",
+                " - `delegate`: The account to delegate permission to transfer the asset.",
+                "",
+                " Emits `ApprovedTransfer` on success.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "cancel_approval",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "maybe_check_delegate",
+                  "type": "Option<LookupSource>"
+                }
+              ],
+              "documentation": [
+                " Cancel the prior approval for the transfer of an asset by a delegate.",
+                "",
+                " Origin must be either:",
+                " - the `Force` origin;",
+                " - `Signed` with the signer being the Admin of the asset `class`;",
+                " - `Signed` with the signer being the Owner of the asset `instance`;",
+                "",
+                " Arguments:",
+                " - `class`: The class of the asset of whose approval will be cancelled.",
+                " - `instance`: The instance of the asset of whose approval will be cancelled.",
+                " - `maybe_check_delegate`: If `Some` will ensure that the given account is the one to",
+                "   which permission of transfer is delegated.",
+                "",
+                " Emits `ApprovalCancelled` on success.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "force_asset_status",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "owner",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "issuer",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "admin",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "freezer",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "free_holding",
+                  "type": "bool"
+                },
+                {
+                  "name": "is_frozen",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Alter the attributes of a given asset.",
+                "",
+                " Origin must be `ForceOrigin`.",
+                "",
+                " - `class`: The identifier of the asset.",
+                " - `owner`: The new Owner of this asset.",
+                " - `issuer`: The new Issuer of this asset.",
+                " - `admin`: The new Admin of this asset.",
+                " - `freezer`: The new Freezer of this asset.",
+                " - `free_holding`: Whether a deposit is taken for holding an instance of this asset",
+                "   class.",
+                " - `is_frozen`: Whether this asset class is frozen except for permissioned/admin",
+                " instructions.",
+                "",
+                " Emits `AssetStatusChanged` with the identity of the asset.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "set_attribute",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "maybe_instance",
+                  "type": "Option<InstanceId>"
+                },
+                {
+                  "name": "key",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "value",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Set an attribute for an asset class or instance.",
+                "",
+                " Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the",
+                " asset `class`.",
+                "",
+                " If the origin is Signed, then funds of signer are reserved according to the formula:",
+                " `MetadataDepositBase + DepositPerByte * (key.len + value.len)` taking into",
+                " account any already reserved funds.",
+                "",
+                " - `class`: The identifier of the asset class whose instance's metadata to set.",
+                " - `maybe_instance`: The identifier of the asset instance whose metadata to set.",
+                " - `key`: The key of the attribute.",
+                " - `value`: The value to which to set the attribute.",
+                "",
+                " Emits `AttributeSet`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "clear_attribute",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "maybe_instance",
+                  "type": "Option<InstanceId>"
+                },
+                {
+                  "name": "key",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Set an attribute for an asset class or instance.",
+                "",
+                " Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the",
+                " asset `class`.",
+                "",
+                " If the origin is Signed, then funds of signer are reserved according to the formula:",
+                " `MetadataDepositBase + DepositPerByte * (key.len + value.len)` taking into",
+                " account any already reserved funds.",
+                "",
+                " - `class`: The identifier of the asset class whose instance's metadata to set.",
+                " - `instance`: The identifier of the asset instance whose metadata to set.",
+                " - `key`: The key of the attribute.",
+                " - `value`: The value to which to set the attribute.",
+                "",
+                " Emits `AttributeSet`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "set_metadata",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "is_frozen",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Set the metadata for an asset instance.",
+                "",
+                " Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the",
+                " asset `class`.",
+                "",
+                " If the origin is Signed, then funds of signer are reserved according to the formula:",
+                " `MetadataDepositBase + DepositPerByte * data.len` taking into",
+                " account any already reserved funds.",
+                "",
+                " - `class`: The identifier of the asset class whose instance's metadata to set.",
+                " - `instance`: The identifier of the asset instance whose metadata to set.",
+                " - `data`: The general information of this asset. Limited in length by `StringLimit`.",
+                " - `is_frozen`: Whether the metadata should be frozen against further changes.",
+                "",
+                " Emits `MetadataSet`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "clear_metadata",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "instance",
+                  "type": "Compact<InstanceId>"
+                }
+              ],
+              "documentation": [
+                " Clear the metadata for an asset instance.",
+                "",
+                " Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the",
+                " asset `instance`.",
+                "",
+                " Any deposit is freed for the asset class owner.",
+                "",
+                " - `class`: The identifier of the asset class whose instance's metadata to clear.",
+                " - `instance`: The identifier of the asset instance whose metadata to clear.",
+                "",
+                " Emits `MetadataCleared`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "set_class_metadata",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "is_frozen",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Set the metadata for an asset class.",
+                "",
+                " Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of",
+                " the asset `class`.",
+                "",
+                " If the origin is `Signed`, then funds of signer are reserved according to the formula:",
+                " `MetadataDepositBase + DepositPerByte * data.len` taking into",
+                " account any already reserved funds.",
+                "",
+                " - `class`: The identifier of the asset whose metadata to update.",
+                " - `data`: The general information of this asset. Limited in length by `StringLimit`.",
+                " - `is_frozen`: Whether the metadata should be frozen against further changes.",
+                "",
+                " Emits `ClassMetadataSet`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            },
+            {
+              "name": "clear_class_metadata",
+              "args": [
+                {
+                  "name": "class",
+                  "type": "Compact<ClassId>"
+                }
+              ],
+              "documentation": [
+                " Clear the metadata for an asset class.",
+                "",
+                " Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of",
+                " the asset `class`.",
+                "",
+                " Any deposit is freed for the asset class owner.",
+                "",
+                " - `class`: The identifier of the asset class whose metadata to clear.",
+                "",
+                " Emits `ClassMetadataCleared`.",
+                "",
+                " Weight: `O(1)`"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Created",
+              "args": [
+                "ClassId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An asset class was created. \\[ class, creator, owner \\]"
+              ]
+            },
+            {
+              "name": "ForceCreated",
+              "args": [
+                "ClassId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An asset class was force-created. \\[ class, owner \\]"
+              ]
+            },
+            {
+              "name": "Destroyed",
+              "args": [
+                "ClassId"
+              ],
+              "documentation": [
+                " An asset `class` was destroyed. \\[ class \\]"
+              ]
+            },
+            {
+              "name": "Issued",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An asset `instace` was issued. \\[ class, instance, owner \\]"
+              ]
+            },
+            {
+              "name": "Transferred",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An asset `instace` was transferred. \\[ class, instance, from, to \\]"
+              ]
+            },
+            {
+              "name": "Burned",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An asset `instance` was destroyed. \\[ class, instance, owner \\]"
+              ]
+            },
+            {
+              "name": "Frozen",
+              "args": [
+                "ClassId",
+                "InstanceId"
+              ],
+              "documentation": [
+                " Some asset `instance` was frozen. \\[ class, instance \\]"
+              ]
+            },
+            {
+              "name": "Thawed",
+              "args": [
+                "ClassId",
+                "InstanceId"
+              ],
+              "documentation": [
+                " Some asset `instance` was thawed. \\[ class, instance \\]"
+              ]
+            },
+            {
+              "name": "ClassFrozen",
+              "args": [
+                "ClassId"
+              ],
+              "documentation": [
+                " Some asset `class` was frozen. \\[ class \\]"
+              ]
+            },
+            {
+              "name": "ClassThawed",
+              "args": [
+                "ClassId"
+              ],
+              "documentation": [
+                " Some asset `class` was thawed. \\[ class \\]"
+              ]
+            },
+            {
+              "name": "OwnerChanged",
+              "args": [
+                "ClassId",
+                "AccountId"
+              ],
+              "documentation": [
+                " The owner changed \\[ class, new_owner \\]"
+              ]
+            },
+            {
+              "name": "TeamChanged",
+              "args": [
+                "ClassId",
+                "AccountId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " The management team changed \\[ class, issuer, admin, freezer \\]"
+              ]
+            },
+            {
+              "name": "ApprovedTransfer",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An `instance` of an asset `class` has been approved by the `owner` for transfer by a",
+                " `delegate`.",
+                " \\[ class, instance, owner, delegate \\]"
+              ]
+            },
+            {
+              "name": "ApprovalCancelled",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " An approval for a `delegate` account to transfer the `instance` of an asset `class` was",
+                " cancelled by its `owner`.",
+                " \\[ class, instance, owner, delegate \\]"
+              ]
+            },
+            {
+              "name": "AssetStatusChanged",
+              "args": [
+                "ClassId"
+              ],
+              "documentation": [
+                " An asset `class` has had its attributes changed by the `Force` origin.",
+                " \\[ class \\]"
+              ]
+            },
+            {
+              "name": "ClassMetadataSet",
+              "args": [
+                "ClassId",
+                "Bytes",
+                "bool"
+              ],
+              "documentation": [
+                " New metadata has been set for an asset class. \\[ class, data, is_frozen \\]"
+              ]
+            },
+            {
+              "name": "ClassMetadataCleared",
+              "args": [
+                "ClassId"
+              ],
+              "documentation": [
+                " Metadata has been cleared for an asset class. \\[ class \\]"
+              ]
+            },
+            {
+              "name": "MetadataSet",
+              "args": [
+                "ClassId",
+                "InstanceId",
+                "Bytes",
+                "bool"
+              ],
+              "documentation": [
+                " New metadata has been set for an asset instance.",
+                " \\[ class, instance, data, is_frozen \\]"
+              ]
+            },
+            {
+              "name": "MetadataCleared",
+              "args": [
+                "ClassId",
+                "InstanceId"
+              ],
+              "documentation": [
+                " Metadata has been cleared for an asset instance. \\[ class, instance \\]"
+              ]
+            },
+            {
+              "name": "Redeposited",
+              "args": [
+                "ClassId",
+                "Vec<InstanceId>"
+              ],
+              "documentation": [
+                " Metadata has been cleared for an asset instance. \\[ class, successful_instances \\]"
+              ]
+            },
+            {
+              "name": "AttributeSet",
+              "args": [
+                "ClassId",
+                "Option<InstanceId>",
+                "Bytes",
+                "Bytes"
+              ],
+              "documentation": [
+                " New attribute metadata has been set for an asset class or instance.",
+                " \\[ class, maybe_instance, key, value \\]"
+              ]
+            },
+            {
+              "name": "AttributeCleared",
+              "args": [
+                "ClassId",
+                "Option<InstanceId>",
+                "Bytes"
+              ],
+              "documentation": [
+                " Attribute metadata has been cleared for an asset class or instance.",
+                " \\[ class, maybe_instance, key, maybe_value \\]"
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": [
+            {
+              "name": "NoPermission",
+              "documentation": [
+                " The signing account has no permission to do the operation."
+              ]
+            },
+            {
+              "name": "Unknown",
+              "documentation": [
+                " The given asset ID is unknown."
+              ]
+            },
+            {
+              "name": "AlreadyExists",
+              "documentation": [
+                " The asset instance ID has already been used for an asset."
+              ]
+            },
+            {
+              "name": "WrongOwner",
+              "documentation": [
+                " The owner turned out to be different to what was expected."
+              ]
+            },
+            {
+              "name": "BadWitness",
+              "documentation": [
+                " Invalid witness data given."
+              ]
+            },
+            {
+              "name": "InUse",
+              "documentation": [
+                " The asset ID is already taken."
+              ]
+            },
+            {
+              "name": "Frozen",
+              "documentation": [
+                " The asset instance or class is frozen."
+              ]
+            },
+            {
+              "name": "WrongDelegate",
+              "documentation": [
+                " The delegate turned out to be different to what was expected."
+              ]
+            },
+            {
+              "name": "NoDelegate",
+              "documentation": [
+                " There is no delegate approved."
+              ]
+            },
+            {
+              "name": "Unapproved",
+              "documentation": [
+                " No approval exists that would allow the transfer."
+              ]
+            }
+          ],
+          "index": 38
         }
       ],
       "extrinsic": {

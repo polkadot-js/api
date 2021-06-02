@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { alias, removeBounded, removeColons } from './sanitize';
+import { alias, flattenSingleTuple, removeColons, removeExtensions } from './sanitize';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {
@@ -60,14 +60,32 @@ describe('sanitize', (): void => {
   });
 
   describe('bounded', (): void => {
-    const fn = removeBounded();
+    const fn = removeExtensions('Bounded', true);
 
     it('correctly cleans up bounded values', (): void => {
       expect(fn('BoundedVec<u32, 256>')).toEqual('Vec<u32>');
     });
 
     it('correctly cleans up nested bounded values', (): void => {
-      expect(fn('BoundedBTreeMap<BoundedVec<BoundedVec<u32, 1>, 2>, BoundedBTreeSet<u32, BoundedVec<u64, 3>, 4>, 5>')).toEqual('BTreeMap<Vec<Vec<u32>>, BTreeSet<u32, Vec<u64>>>');
+      expect(
+        fn('BoundedBTreeMap<BoundedVec<BoundedVec<u32, 1>, 2>, BoundedBTreeSet<u32, BoundedVec<u64, 3>, 4>, 5>')
+      ).toEqual('BTreeMap<Vec<Vec<u32>>,BTreeSet<u32,Vec<u64>>>');
+    });
+
+    it('cleans up values with trailing commas', (): void => {
+      expect(
+        flattenSingleTuple()(
+          fn('(BoundedVec<Announcement<T::AccountId, CallHashOf<T>, T::BlockNumber>, T::MaxPending,>,BalanceOf<T>,)')
+        )
+      ).toEqual('(Vec<Announcement<T::AccountId,CallHashOf<T>,T::BlockNumber>>,BalanceOf<T>)');
+    });
+  });
+
+  describe('weak', (): void => {
+    const fn = removeExtensions('Weak', false);
+
+    it('correctly cleans up weak values', (): void => {
+      expect(fn('WeakVec<u32>')).toEqual('Vec<u32>');
     });
   });
 });
