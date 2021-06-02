@@ -114,6 +114,10 @@ export default {
       validationCodeHash: 'Hash'
     },
     CandidateHash: 'Hash',
+    CandidateInfo: {
+      who: 'AccountId',
+      deposit: 'Balance'
+    },
     CandidatePendingAvailability: {
       core: 'CoreIndex',
       hash: 'CandidateHash',
