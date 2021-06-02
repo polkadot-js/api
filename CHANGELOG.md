@@ -4,6 +4,7 @@
 
 Changes:
 
+- Adjust `tx.session.setKeys` TS augmentation to allow `string` & `Uint8Array` keys
 - Update static metadata to latest Substrate
 
 
