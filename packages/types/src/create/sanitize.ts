@@ -18,7 +18,9 @@ const mappings: Mapper[] = [
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Change BoundedVec<Type, Size> to Vec<Type>
-  removeBounded(),
+  removeExtensions('Bounded', true),
+  // Change WeakVec<Type> to Vec<Type>
+  removeExtensions('Weak', false),
   // Remove all the trait prefixes
   removeTraits(),
   // remove PairOf<T> -> (T, T)
@@ -94,7 +96,11 @@ export function cleanupCompact (): Mapper {
 
 export function flattenSingleTuple (): Mapper {
   return (value: string) =>
-    value.replace(/\(([^,]+)\)/, '$1');
+    value
+      // tuples may have trailing commas, e.g. (u32, BlockNumber, )
+      .replace(/,\)/g, ')')
+      // change (u32) -> u32
+      .replace(/\(([^,]+)\)/, '$1');
 }
 
 function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
@@ -114,14 +120,21 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
   }
 }
 
-// remove the Bounded* wrappers
-export function removeBounded (): Mapper {
+// remove the Bounded* or Weak* wrappers
+export function removeExtensions (type: string, isSized: boolean): Mapper {
   return (value: string) =>
     BOUNDED.reduce((value, tag) =>
-      replaceTagWith(value, `Bounded${tag}<`, (inner: string): string => {
-        const parts = inner.split(',');
+      replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
+        const parts = inner
+          .split(',')
+          .map((s) => s.trim())
+          .filter((s) => s);
 
-        return `${tag}<${parts.filter((_, i) => i !== parts.length - 1).join(',')}>`;
+        if (isSized) {
+          parts.pop();
+        }
+
+        return `${tag}<${parts.join(',')}>`;
       }), value
     );
 }

@@ -1388,6 +1388,52 @@ declare module '@polkadot/api/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    uniques: {
+      /**
+       * The asset instance ID has already been used for an asset.
+       **/
+      AlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Invalid witness data given.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * The asset instance or class is frozen.
+       **/
+      Frozen: AugmentedError<ApiType>;
+      /**
+       * The asset ID is already taken.
+       **/
+      InUse: AugmentedError<ApiType>;
+      /**
+       * There is no delegate approved.
+       **/
+      NoDelegate: AugmentedError<ApiType>;
+      /**
+       * The signing account has no permission to do the operation.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * No approval exists that would allow the transfer.
+       **/
+      Unapproved: AugmentedError<ApiType>;
+      /**
+       * The given asset ID is unknown.
+       **/
+      Unknown: AugmentedError<ApiType>;
+      /**
+       * The delegate turned out to be different to what was expected.
+       **/
+      WrongDelegate: AugmentedError<ApiType>;
+      /**
+       * The owner turned out to be different to what was expected.
+       **/
+      WrongOwner: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     vesting: {
       /**
        * Amount being transferred is too low to create a vesting schedule.
