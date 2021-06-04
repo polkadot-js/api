@@ -39,7 +39,8 @@ interface MetaDecoration {
 }
 
 // the max amount of keys/values that we will retrieve at once
-const PAGE_SIZE = 256;
+const PAGE_SIZE_K = 768; // limited since the trie lookups are heavy
+const PAGE_SIZE_V = 256; // limited since the data may be very large
 
 const l = logger('api/init');
 
@@ -471,15 +472,14 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return of([]);
     }
 
+    const queryCall = this.hasSubscriptions
+      ? this._rpcCore.state.subscribeStorage
+      : this._rpcCore.state.queryStorageAt;
+
     return combineLatest(
-      arrayChunk(keys, PAGE_SIZE).map((keys) =>
-        (this.hasSubscriptions
-          ? this._rpcCore.state.subscribeStorage
-          : this._rpcCore.state.queryStorageAt
-        )(keys)
-      )
+      arrayChunk(keys, PAGE_SIZE_V).map((keys) => queryCall(keys))
     ).pipe(
-      map((valsArr): Codec[] => arrayFlatten(valsArr))
+      map(arrayFlatten)
     );
   }
 
@@ -488,25 +488,22 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
-    const query = at
-      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey, at)
-      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE, startKey);
+    const queryCall = at
+      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
+      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
 
     return startSubject.pipe(
-      switchMap((startKey) =>
-        query(startKey).pipe(
-          map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
-        )
-      ),
+      switchMap(queryCall),
+      map((keys) => keys.map((key) => key.setMeta(meta, section, method))),
       tap((keys): void => {
         setTimeout((): void => {
-          keys.length === PAGE_SIZE
-            ? startSubject.next(keys[PAGE_SIZE - 1].toHex())
+          keys.length === PAGE_SIZE_K
+            ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
             : startSubject.complete();
         }, 0);
       }),
       toArray(), // toArray since we want to startSubject to be completed
-      map((keysArr: StorageKey[][]) => arrayFlatten(keysArr))
+      map(arrayFlatten)
     );
   }
 
@@ -528,7 +525,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
         keys.length
-          ? combineLatest(arrayChunk(keys, PAGE_SIZE).map(query)).pipe(
+          ? combineLatest(arrayChunk(keys, PAGE_SIZE_V).map(query)).pipe(
             map((valsArr) =>
               arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
             )

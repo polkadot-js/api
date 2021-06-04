@@ -9,6 +9,7 @@ Changes:
 - Add & adjust types for latest Cumulus code
 - Added 9031 upgrade block for Westend
 - Update static metadata to latest Substrate
+- Optimize map retrieval with split page sizes for keys & values
 - Sanitizing `BN` imports to `type`-only as required
 
 
