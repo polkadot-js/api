@@ -151,6 +151,16 @@ export default {
       trieNodes: 'Vec<Bytes>'
     },
     TransactionPriority: 'u64',
+    TransactionInfo: {
+      chunkRoot: 'H256',
+      contentHash: 'H256',
+      size: 'u32',
+      blockChunks: 'u32'
+    },
+    TransactionStorageProof: {
+      chunk: 'Vec<u8>',
+      proof: 'Vec<Vec<u8>>',
+    },
     ValidatorId: 'AccountId',
     ValidatorIdOf: 'ValidatorId',
     Weight: 'u64',
