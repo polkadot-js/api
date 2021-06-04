@@ -21,16 +21,16 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "@polkadot/types": "4.12.2-13",
-    "@polkadot/util": "^6.6.1",
-    "@polkadot/util-crypto": "^6.6.1",
-    "@polkadot/x-fetch": "^6.6.1",
-    "@polkadot/x-global": "^6.6.1",
-    "@polkadot/x-ws": "^6.6.1",
+    "@polkadot/util": "^6.6.2-11",
+    "@polkadot/util-crypto": "^6.6.2-11",
+    "@polkadot/x-fetch": "^6.6.2-11",
+    "@polkadot/x-global": "^6.6.2-11",
+    "@polkadot/x-ws": "^6.6.2-11",
     "bn.js": "^4.11.9",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.6.1",
+    "@polkadot/keyring": "^6.6.2-11",
     "@polkadot/metadata": "4.12.2-13",
     "mock-socket": "^9.0.3",
     "nock": "^13.0.11"
