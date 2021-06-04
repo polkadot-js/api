@@ -15,7 +15,7 @@ import type { GrandpaEquivocationProof, KeyOwnerProof } from '@polkadot/types/in
 import type { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import type { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import type { ProxyType } from '@polkadot/types/interfaces/proxy';
-import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Perquintill, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Call, CallHashOf, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, OpaqueCall, Perbill, Percent, Perquintill, TransactionStorageProof, Weight } from '@polkadot/types/interfaces/runtime';
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import type { Keys } from '@polkadot/types/interfaces/session';
 import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
@@ -3832,6 +3832,41 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       tipNew: AugmentedSubmittable<(reason: Bytes | string | Uint8Array, who: AccountId | string | Uint8Array, tipValue: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, AccountId, Compact<BalanceOf>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    transactionStorage: {
+      /**
+       * Check storage proof for block number `block_number() - StoragePeriod`.
+       * If such block does not exist the proof is expected to be `None`.
+       * # <weight>
+       * - Linear w.r.t the number of indexed transactions in the proved block for random probing.
+       * There's a DB read for each transaction.
+       * Here we assume a maximum of 100 probed transactions.
+       * # </weight>
+       **/
+      checkProof: AugmentedSubmittable<(proof: TransactionStorageProof | { chunk?: any; proof?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [TransactionStorageProof]>;
+      /**
+       * Renew previously stored data. Parameters are the block number that contains
+       * previous `store` or `renew` call and transaction index within that block.
+       * Transaction index is emitted in the `Stored` or `Renewed` event.
+       * Applies same fees as `store`.
+       * # <weight>
+       * - Constant.
+       * # </weight>
+       **/
+      renew: AugmentedSubmittable<(block: BlockNumber | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [BlockNumber, u32]>;
+      /**
+       * Index and store data on chain. Minimum data size is 1 bytes, maximum is `MaxTransactionSize`.
+       * Data will be removed after `STORAGE_PERIOD` blocks, unless `renew` is called.
+       * # <weight>
+       * - n*log(n) of data size, as all data is pushed to an in-memory trie.
+       * Additionally contains a DB write.
+       * # </weight>
+       **/
+      store: AugmentedSubmittable<(data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Generic tx
        **/

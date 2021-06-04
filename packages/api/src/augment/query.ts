@@ -6,7 +6,7 @@ import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import type { AssetApproval, AssetBalance, AssetDetails, AssetMetadata } from '@polkadot/types/interfaces/assets';
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { BabeAuthorityWeight, BabeEpochConfiguration, MaybeRandomness, NextConfigDescriptor, Randomness } from '@polkadot/types/interfaces/babe';
-import type { AccountData, BalanceLock } from '@polkadot/types/interfaces/balances';
+import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { CodeHash, ContractInfo, DeletedContract, PrefabWasmModule } from '@polkadot/types/interfaces/contracts';
@@ -20,7 +20,7 @@ import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lotter
 import type { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import type { ProxyAnnouncement, ProxyDefinition } from '@polkadot/types/interfaces/proxy';
 import type { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Releases, Slot, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Releases, Slot, TransactionInfo, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -189,6 +189,10 @@ declare module '@polkadot/api/types/storage' {
        * NOTE: Should only be accessed when setting, changing and freeing a lock.
        **/
       locks: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Vec<BalanceLock>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
+      /**
+       * Named reserves on some account balances.
+       **/
+      reserves: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Vec<ReserveData>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
        * Storage version of the pallet.
        * 
@@ -1202,6 +1206,46 @@ declare module '@polkadot/api/types/storage' {
     transactionPayment: {
       nextFeeMultiplier: AugmentedQuery<ApiType, () => Observable<Multiplier>, []> & QueryableStorageEntry<ApiType, []>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<Releases>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    transactionStorage: {
+      blockTransactions: AugmentedQuery<ApiType, () => Observable<Vec<TransactionInfo>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Storage fee per byte.
+       **/
+      byteFee: AugmentedQuery<ApiType, () => Observable<Option<BalanceOf>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Count indexed chunks for each block.
+       **/
+      chunkCount: AugmentedQuery<ApiType, (arg: BlockNumber | AnyNumber | Uint8Array) => Observable<u32>, [BlockNumber]> & QueryableStorageEntry<ApiType, [BlockNumber]>;
+      /**
+       * Storage fee per transaction.
+       **/
+      entryFee: AugmentedQuery<ApiType, () => Observable<Option<BalanceOf>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Maximum number of indexed transactions in the block.
+       **/
+      maxBlockTransactions: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Maximum data set in a single transaction in bytes.
+       **/
+      maxTransactionSize: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Was the proof checked in this block?
+       **/
+      proofChecked: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Storage period for data in blocks. Should match `sp_storage_proof::DEFAULT_STORAGE_PERIOD`
+       * for block authoring.
+       **/
+      storagePeriod: AugmentedQuery<ApiType, () => Observable<BlockNumber>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Collection of transaction metadata by block number.
+       **/
+      transactions: AugmentedQuery<ApiType, (arg: BlockNumber | AnyNumber | Uint8Array) => Observable<Option<Vec<TransactionInfo>>>, [BlockNumber]> & QueryableStorageEntry<ApiType, [BlockNumber]>;
       /**
        * Generic query
        **/

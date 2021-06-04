@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Set, Struct } from '@polkadot/types';
+import type { Enum, Set, Struct, U8aFixed } from '@polkadot/types';
 import type { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountData */
@@ -39,6 +39,15 @@ export interface Reasons extends Enum {
   readonly isMisc: boolean;
   readonly isAll: boolean;
 }
+
+/** @name ReserveData */
+export interface ReserveData extends Struct {
+  readonly id: ReserveIdentifier;
+  readonly amount: Balance;
+}
+
+/** @name ReserveIdentifier */
+export interface ReserveIdentifier extends U8aFixed {}
 
 /** @name VestingSchedule */
 export interface VestingSchedule extends Struct {
