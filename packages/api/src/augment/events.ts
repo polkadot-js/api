@@ -996,6 +996,24 @@ declare module '@polkadot/api/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    transactionStorage: {
+      /**
+       * Storage proof was successfully checked.
+       **/
+      ProofChecked: AugmentedEvent<ApiType, []>;
+      /**
+       * Renewed data under specified index.
+       **/
+      Renewed: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Stored data under specified index.
+       **/
+      Stored: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     treasury: {
       /**
        * Some funds have been allocated. \[proposal_index, award, beneficiary\]

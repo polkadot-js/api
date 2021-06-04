@@ -314,8 +314,22 @@ export interface StorageProof extends Struct {
   readonly trieNodes: Vec<Bytes>;
 }
 
+/** @name TransactionInfo */
+export interface TransactionInfo extends Struct {
+  readonly chunkRoot: H256;
+  readonly contentHash: H256;
+  readonly dataSize: u32;
+  readonly blockChunks: u32;
+}
+
 /** @name TransactionPriority */
 export interface TransactionPriority extends u64 {}
+
+/** @name TransactionStorageProof */
+export interface TransactionStorageProof extends Struct {
+  readonly chunk: Bytes;
+  readonly proof: Vec<Bytes>;
+}
 
 /** @name U32F32 */
 export interface U32F32 extends UInt {}

@@ -32,6 +32,11 @@ export default {
     Reasons: {
       _enum: ['Fee', 'Misc', 'All']
     },
+    ReserveData: {
+      id: 'ReserveIdentifier',
+      amount: 'Balance'
+    },
+    ReserveIdentifier: '[u8; 8]',
     VestingSchedule: {
       offset: 'Balance',
       perBlock: 'Balance',

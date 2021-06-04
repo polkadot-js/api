@@ -137,6 +137,10 @@ declare module '@polkadot/api/types/errors' {
        **/
       LiquidityRestrictions: AugmentedError<ApiType>;
       /**
+       * Number of named reserves exceed MaxReserves
+       **/
+      TooManyReserves: AugmentedError<ApiType>;
+      /**
        * Vesting balance too high to send value
        **/
       VestingBalance: AugmentedError<ApiType>;
@@ -1365,6 +1369,64 @@ declare module '@polkadot/api/types/errors' {
        * The tip hash is unknown.
        **/
       UnknownTip: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    transactionStorage: {
+      /**
+       * Attempted to call `store` outside of block execution.
+       **/
+      BadContext: AugmentedError<ApiType>;
+      /**
+       * Double proof check in the block.
+       **/
+      DoubleCheck: AugmentedError<ApiType>;
+      /**
+       * Attempting to store empty transaction
+       **/
+      EmptyTransaction: AugmentedError<ApiType>;
+      /**
+       * Insufficient account balance.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
+       * Proof failed verification.
+       **/
+      InvalidProof: AugmentedError<ApiType>;
+      /**
+       * Missing storage proof.
+       **/
+      MissingProof: AugmentedError<ApiType>;
+      /**
+       * Unable to verify proof becasue state data is missing.
+       **/
+      MissingStateData: AugmentedError<ApiType>;
+      /**
+       * Invalid configuration.
+       **/
+      NotConfigured: AugmentedError<ApiType>;
+      /**
+       * Storage proof was not checked in the block.
+       **/
+      ProofNotChecked: AugmentedError<ApiType>;
+      /**
+       * Renewed extrinsic is not found.
+       **/
+      RenewedNotFound: AugmentedError<ApiType>;
+      /**
+       * Too many transactions in the block.
+       **/
+      TooManyTransactions: AugmentedError<ApiType>;
+      /**
+       * Transaction is too large.
+       **/
+      TransactionTooLarge: AugmentedError<ApiType>;
+      /**
+       * Proof was not expected in this block.
+       **/
+      UnexpectedProof: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

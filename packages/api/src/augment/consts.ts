@@ -160,7 +160,7 @@ declare module '@polkadot/api/types/consts' {
        **/
       enactmentPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
-       * Minimum voting period allowed for an emergency referendum.
+       * Minimum voting period allowed for a fast-track referendum.
        **/
       fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
@@ -169,6 +169,9 @@ declare module '@polkadot/api/types/consts' {
       launchPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
+       * 
+       * Also used to compute weight, an overly big value can
+       * lead to extrinsic with very big weight: see `delegate` for instance.
        **/
       maxVotes: u32 & AugmentedConst<ApiType>;
       /**
