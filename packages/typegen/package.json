@@ -33,7 +33,7 @@
     "@polkadot/metadata": "4.12.2-15",
     "@polkadot/rpc-provider": "4.12.2-15",
     "@polkadot/types": "4.12.2-15",
-    "@polkadot/util": "^6.6.2-11",
+    "@polkadot/util": "^6.6.2-13",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^17.0.1"
