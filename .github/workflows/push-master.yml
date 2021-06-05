@@ -6,11 +6,11 @@ on:
 
 jobs:
   master:
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
     strategy:
       matrix:
         step: ['build:release']
     name: ${{ matrix.step }}
-    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/api'"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -25,10 +25,3 @@ jobs:
       run: |
         yarn install --immutable | grep -v 'YN0013'
         yarn ${{ matrix.step }}
-
-  dummy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: dummy
-      run: |
-        echo "Dummy skip step"
