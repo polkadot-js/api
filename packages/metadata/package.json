@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/metadata",
-  "version": "4.12.2-20",
+  "version": "4.13.0",
   "type": "module",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",
@@ -20,13 +20,13 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-metadata#readme",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/types": "4.12.2-20",
-    "@polkadot/types-known": "4.12.2-20",
-    "@polkadot/util": "^6.6.2-13",
-    "@polkadot/util-crypto": "^6.6.2-13",
+    "@polkadot/types": "4.13.0",
+    "@polkadot/types-known": "4.13.0",
+    "@polkadot/util": "^6.7.1",
+    "@polkadot/util-crypto": "^6.7.1",
     "bn.js": "^4.11.9"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.6.2-13"
+    "@polkadot/keyring": "^6.7.1"
   }
 }

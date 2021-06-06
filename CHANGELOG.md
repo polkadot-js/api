@@ -1,13 +1,15 @@
 # CHANGELOG
 
-## master
+## 4.13.1 Jun 6, 2021
+
+Upgrade priority: Medium. Required for users connecting to Statemine and future Kusama upgrades.
 
 Changes:
 
 - Overrides for `westmint` spec (same as `statemint`)
 - Adjust `tx.session.setKeys` TS augmentation to allow `string` & `Uint8Array` keys
 - Add & adjust types for latest Cumulus code
-- Added 9031 upgrade block for Westend
+- Added 9031-9033 upgrade block for Westend
 - Update static metadata to latest Substrate
 - Optimize map retrieval with split page sizes for keys & values
 - Sanitizing `BN` imports to `type`-only as required
