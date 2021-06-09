@@ -12,7 +12,7 @@ describe('StorageChangeSet', (): void => {
 
   describe('construction', (): void => {
     const set = registry.createType('StorageChangeSet', {
-      block: '0x1234',
+      block: '0x1234000000000000000000000000000000000000000000000000000000000000',
       changes: [
         ['0xab', '0xcd']
       ]

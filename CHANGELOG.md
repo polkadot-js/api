@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Do strict length checking on `[u8; <length>]` type inputs
+- Add upgrade block for Kusama 9040
+
+
 ## 4.13.1 Jun 6, 2021
 
 Upgrade priority: Medium. Required for users connecting to Statemine and future Kusama upgrades.

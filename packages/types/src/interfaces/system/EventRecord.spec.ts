@@ -34,8 +34,7 @@ describe('EventRecord', (): void => {
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
-      // additional payment info, weight u64 (vs u32)
-      expect(records.toHex()).toEqual(`${hex as string}00000000000000000000`);
+      expect(records.toHex()).toEqual(hex);
     });
   });
 });
