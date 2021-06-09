@@ -69,7 +69,7 @@ describe('EthereumAccountId', (): void => {
     testEncode('toHex', '0x4119b2e6c3cb618f4f0b93ac77f9beec7ff02887');
     testEncode('toJSON', '0x4119b2e6c3Cb618F4f0B93ac77f9BeeC7FF02887');
     testEncode('toString', '0x4119b2e6c3Cb618F4f0B93ac77f9BeeC7FF02887');
-    testEncode('toString', '0x0000000000000000000000000000000000000000', '0x00');
+    testEncode('toString', '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000');
     testEncode('toU8a', Uint8Array.from([
       0x41, 0x19, 0xb2, 0xe6, 0xc3, 0xcb, 0x61, 0x8f, 0x4f, 0x0b,
       0x93, 0xac, 0x77, 0xf9, 0xbe, 0xec, 0x7f, 0xf0, 0x28, 0x87

@@ -57,7 +57,7 @@ export class MockProvider implements ProviderInterface {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-unsafe-member-access
     chain_getBlock: () => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlockHash: () => '0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0',
+    chain_getBlockHash: () => '0x1234000000000000000000000000000000000000000000000000000000000000',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
