@@ -30,7 +30,7 @@ describe('U8aFixed', (): void => {
 
     it('constructs from number[]', (): void => {
       expect(
-        new (U8aFixed.with(32))(registry, [0x02, 0x03]).toU8a()
+        new (U8aFixed.with(32))(registry, [0x02, 0x03, 0x00, 0x00]).toU8a()
       ).toEqual(
         new Uint8Array([0x02, 0x03, 0x00, 0x00])
       );
