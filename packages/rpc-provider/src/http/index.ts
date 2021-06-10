@@ -14,18 +14,18 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
 const l = logger('api-http');
 
 /**
- * # @polkadot/rpc-provider/https
+ * # @polkadot/rpc-provider
  *
  * @name HttpProvider
  *
- * @description The HTTP Provider allows sending requests using HTTP to a HTTP RPC server TCP port. It does not support subscriptions so you won't be able to listen to events such as new blocks or balance changes. It is usually preferrable using the [[WsProvider]].
+ * @description The HTTP Provider allows sending requests using HTTP to a HTTP RPC server TCP port. It does not support subscriptions so you won't be able to listen to events such as new blocks or balance changes. It is usually preferable using the [[WsProvider]].
  *
  * @example
  * <BR>
  *
  * ```javascript
  * import Api from '@polkadot/api/promise';
- * import HttpProvider from '@polkadot/rpc-provider/http';
+ * import { HttpProvider } from '@polkadot/rpc-provider';
  *
  * const provider = new HttpProvider('http://127.0.0.1:9933');
  * const api = new Api(provider);

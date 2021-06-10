@@ -1894,9 +1894,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.38":
-  version: 0.62.38
-  resolution: "@polkadot/dev@npm:0.62.38"
+"@polkadot/dev@npm:^0.62.41":
+  version: 0.62.41
+  resolution: "@polkadot/dev@npm:0.62.41"
   dependencies:
     "@babel/cli": ^7.14.3
     "@babel/core": ^7.14.3
@@ -1976,7 +1976,7 @@ __metadata:
     polkadot-exec-prettier: scripts/polkadot-exec-prettier.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: 23056dae06336cb9bcbe3cab53c9c8d4d552d1010a43a124529705b1743524143e8b51550bd75ba2f65c18b3f28559890234c62eb6441f8481fc12832ed66d19
+  checksum: eb782ffa9618e7315c77264ce0ccfe550e9cd3625b388643df804e5fed927d134e452244c88eb531baf651396e429d6806f3741eae7d9664303969d6724dcc7c
   languageName: node
   linkType: hard
 
@@ -2051,12 +2051,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.86":
-  version: 0.3.86
-  resolution: "@polkadot/ts@npm:0.3.86"
+"@polkadot/ts@npm:^0.3.89":
+  version: 0.3.89
+  resolution: "@polkadot/ts@npm:0.3.89"
   dependencies:
     "@types/chrome": ^0.0.144
-  checksum: 7e9bc333e4ef99410fb101dd12c32791993bf1a9f21f49168c818434a918840d7b8da1a9dd32107cfef684fb65ea21ab7896d97d6dee405ddff98324e3760743
+  checksum: fd6b470b0c864a04a2393067cc88dee334bcdcf891f9dec303863cd55def1419f3cc230e0a027b9686785569573e1db609b6254ed2914f9f9cf0db65dd50ebce
   languageName: node
   linkType: hard
 
@@ -9544,8 +9544,8 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.14.3
     "@babel/register": ^7.13.16
     "@babel/runtime": ^7.14.0
-    "@polkadot/dev": ^0.62.38
-    "@polkadot/ts": ^0.3.86
+    "@polkadot/dev": ^0.62.41
+    "@polkadot/ts": ^0.3.89
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.23
     copyfiles: ^2.4.1
