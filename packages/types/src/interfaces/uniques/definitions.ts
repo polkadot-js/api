@@ -18,10 +18,11 @@ export default {
       issuer: 'AccountId',
       admin: 'AccountId',
       freezer: 'AccountId',
-      totalTeposit: 'DepositBalance',
+      totalDeposit: 'DepositBalance',
       freeHolding: 'bool',
       instances: 'u32',
       instanceMetadatas: 'u32',
+      attributes: 'u32',
       isFrozen: 'bool'
     },
     DestroyWitness: {
