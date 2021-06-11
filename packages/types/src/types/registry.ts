@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Metadata } from '@polkadot/metadata';
+import type { BN } from '@polkadot/util';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';

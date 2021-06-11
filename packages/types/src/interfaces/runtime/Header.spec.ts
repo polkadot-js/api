@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import BN from 'bn.js';
+import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import json1 from '../../json/Header.001.json';

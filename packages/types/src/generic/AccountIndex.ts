@@ -3,9 +3,7 @@
 
 import type { AnyNumber, Registry } from '../types';
 
-import BN from 'bn.js';
-
-import { bnToBn, isBigInt, isBn, isHex, isNumber, isU8a } from '@polkadot/util';
+import { BN, bnToBn, isBigInt, isBn, isHex, isNumber, isU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import { u32 } from '../primitive/U32';

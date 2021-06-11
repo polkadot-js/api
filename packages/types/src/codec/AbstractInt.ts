@@ -5,9 +5,7 @@ import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, Codec, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
-import BN from 'bn.js';
-
-import { assert, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, stringify, u8aToBn } from '@polkadot/util';
+import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, stringify, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 

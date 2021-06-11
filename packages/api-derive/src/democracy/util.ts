@@ -7,9 +7,7 @@ import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, Referen
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
-import BN from 'bn.js';
-
-import { bnSqrt } from '@polkadot/util';
+import { BN, bnSqrt } from '@polkadot/util';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;

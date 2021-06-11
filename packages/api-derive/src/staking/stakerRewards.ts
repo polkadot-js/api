@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
@@ -164,17 +164,21 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
         const [allValidators, stashValidators] = allUniqValidators(allRewards);
 
         return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe(
-          map((queriedVals): DeriveStakerReward[][] => {
-            return queries.map(({ stakingLedger }, index): DeriveStakerReward[] => {
-              const rewards = allRewards[index];
-              const ownValidators = stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
-                validatorId,
-                queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
-              ]);
-
-              return filterRewards(eras, ownValidators, { rewards, stakingLedger });
-            });
-          })
+          map((queriedVals): DeriveStakerReward[][] =>
+            queries.map(({ stakingLedger }, index): DeriveStakerReward[] =>
+              filterRewards(
+                eras,
+                stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
+                  validatorId,
+                  queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
+                ]),
+                {
+                  rewards: allRewards[index],
+                  stakingLedger
+                }
+              )
+            )
+          )
         );
       })
     )
