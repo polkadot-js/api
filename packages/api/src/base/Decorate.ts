@@ -37,8 +37,8 @@ interface MetaDecoration {
 }
 
 // the max amount of keys/values that we will retrieve at once
-const PAGE_SIZE_K = 768; // limited since the trie lookups are heavy
-const PAGE_SIZE_V = 256; // limited since the data may be very large
+const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
+const PAGE_SIZE_V = 250; // limited since the data may be very large (e.g. misfiring elections)
 
 const l = logger('api/init');
 
