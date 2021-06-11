@@ -5,9 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
-import BN from 'bn.js';
-
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 import { combineLatest, Observable } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
