@@ -4,10 +4,8 @@
 import type { ChainUpgrades } from '@polkadot/types/types';
 import type { ChainUpgradesRaw } from './types';
 
-import BN from 'bn.js';
-
 import networks from '@polkadot/networks';
-import { assert, hexToU8a, stringify } from '@polkadot/util';
+import { assert, BN, hexToU8a, stringify } from '@polkadot/util';
 
 import kusama from './kusama';
 import polkadot from './polkadot';

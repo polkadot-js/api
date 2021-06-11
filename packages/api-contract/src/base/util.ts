@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { CodecArg } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { BlueprintDeploy, ContractGeneric } from './types';
 

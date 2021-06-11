@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { RpcInterfaceMethod } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
 import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';

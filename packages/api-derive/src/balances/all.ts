@@ -7,9 +7,7 @@ import type { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLoc
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData } from '../types';
 
-import BN from 'bn.js';
-
-import { bnMax, isFunction } from '@polkadot/util';
+import { BN, bnMax, isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 

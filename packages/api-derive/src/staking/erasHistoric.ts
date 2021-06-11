@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { Observable } from '@polkadot/x-rxjs';
 
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
@@ -23,12 +24,12 @@ export function erasHistoric (instanceId: string, api: ApiInterfaceRx): (withAct
         const activeEra: BN = activeEraOpt.unwrapOrDefault().index;
         let lastEra = activeEra;
 
-        while (lastEra.gten(0) && (result.length < max)) {
+        while (lastEra.gte(BN_ZERO) && (result.length < max)) {
           if ((lastEra !== activeEra) || (withActive === true)) {
             result.push(api.registry.createType('EraIndex', lastEra));
           }
 
-          lastEra = lastEra.subn(1);
+          lastEra = lastEra.sub(BN_ONE);
         }
 
         // go from oldest to newest

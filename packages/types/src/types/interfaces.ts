@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SignOptions } from '@polkadot/keyring/types';
+import type { BN } from '@polkadot/util';
 import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
 import type { AnyTuple, ArgsDef, Codec } from './codec';

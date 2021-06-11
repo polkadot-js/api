@@ -4,9 +4,7 @@
 import type { AccountId } from '../interfaces/runtime';
 import type { AnyU8a, Registry } from '../types';
 
-import BN from 'bn.js';
-
-import { bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { U8aFixed } from '../codec/U8aFixed';
 import { Bytes } from '../primitive/Bytes';

@@ -3,7 +3,7 @@
 
 import type { CodecTo } from '../types';
 
-import BN from 'bn.js';
+import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
 import { U64 } from '../primitive';
