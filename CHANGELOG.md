@@ -5,7 +5,9 @@
 Changes:
 
 - Do strict length checking on `[u8; <length>]` type inputs
+- Adjust keys/entries retrieval batch sizes
 - Add upgrade block for Kusama 9040
+- Use `BN` imports from `@polkadot/util`
 
 
 ## 4.13.1 Jun 6, 2021

@@ -1,13 +1,28 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BN } from '@polkadot/util';
+import BNOrig from 'bn.js';
+
+import { BN, BN_TWO } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
 import { UInt } from '.';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
+
+  it('still has the BN interfaces', (): void => {
+    expect([
+      new UInt(registry, 32).mul(BN_TWO).toNumber(),
+      new UInt(registry, 64).divn(2).toNumber()
+    ]).toEqual([64, 32]);
+  });
+
+  it('is a BN instance', (): void => {
+    expect(
+      BNOrig.isBN(new UInt(registry, 16))
+    ).toBe(true);
+  });
 
   it('fails on a number that is too large for the bits specified', (): void => {
     expect(
