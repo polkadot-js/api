@@ -111,7 +111,7 @@ export default {
       erasureRoot: 'Hash',
       signature: 'CollatorSignature',
       paraHead: 'Hash',
-      validationCodeHash: 'Hash'
+      validationCodeHash: 'ValidationCodeHash'
     },
     CandidateHash: 'Hash',
     CandidateInfo: {
@@ -381,6 +381,7 @@ export default {
       codeUpgradeAllowed: 'Option<RelayChainBlockNumber>'
     },
     ValidationCode: 'Bytes',
+    ValidationCodeHash: 'Hash',
     ValidationData: {
       persisted: 'PersistedValidationData',
       transient: 'TransientValidationData'
