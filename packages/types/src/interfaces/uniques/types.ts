@@ -10,10 +10,11 @@ export interface ClassDetails extends Struct {
   readonly issuer: AccountId;
   readonly admin: AccountId;
   readonly freezer: AccountId;
-  readonly totalTeposit: DepositBalance;
+  readonly totalDeposit: DepositBalance;
   readonly freeHolding: bool;
   readonly instances: u32;
   readonly instanceMetadatas: u32;
+  readonly attributes: u32;
   readonly isFrozen: bool;
 }
 
