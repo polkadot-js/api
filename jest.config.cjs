@@ -27,5 +27,6 @@ module.exports = {
     '<rootDir>/packages/types/build',
     '<rootDir>/packages/types-known/build'
   ],
+  testTimeout: 10000,
   transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
 };
