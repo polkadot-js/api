@@ -18,6 +18,7 @@ const KNOWN_ORIGINS: Record<string, string> = {
   System: 'SystemOrigin',
   TechnicalCommittee: 'CollectiveOrigin',
   // Acala
+  Authority: 'AuthorityOrigin',
   GeneralCouncil: 'CollectiveOrigin'
   /* eslint-enable sort-keys */
 };
