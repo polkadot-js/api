@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align static metadata with latest Substrate
+
+
 ## 4.14.1 Jun 14, 2021
 
 Upgrade priority: Low. Internal adjustment only, no major external usage changes.
