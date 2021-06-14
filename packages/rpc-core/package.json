@@ -19,14 +19,14 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.5",
     "@polkadot/metadata": "4.13.2-10",
     "@polkadot/rpc-provider": "4.13.2-10",
     "@polkadot/types": "4.13.2-10",
-    "@polkadot/util": "^6.7.2-7",
-    "@polkadot/x-rxjs": "^6.7.2-7"
+    "@polkadot/util": "^6.8.1",
+    "@polkadot/x-rxjs": "^6.8.1"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.7.2-7"
+    "@polkadot/keyring": "^6.8.1"
   }
 }

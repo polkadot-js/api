@@ -3,7 +3,7 @@
 
 import BNOrig from 'bn.js';
 
-import { BN, BN_TWO } from '@polkadot/util';
+import { BN, BN_TWO, isBn } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
 import { UInt } from '.';
@@ -19,9 +19,11 @@ describe('UInt', (): void => {
   });
 
   it('is a BN instance', (): void => {
-    expect(
-      BNOrig.isBN(new UInt(registry, 16))
-    ).toBe(true);
+    const test = new UInt(registry, 16);
+
+    expect(isBn(test)).toBe(true);
+    expect(BNOrig.isBN(test)).toBe(true);
+    expect(test instanceof BN).toBe(true);
   });
 
   it('fails on a number that is too large for the bits specified', (): void => {
