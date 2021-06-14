@@ -19,11 +19,10 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.5",
     "@polkadot/api": "4.13.2-10",
     "@polkadot/types": "4.13.2-10",
-    "@polkadot/util": "^6.7.2-7",
-    "@polkadot/x-rxjs": "^6.7.2-7",
-    "bn.js": "^4.11.9"
+    "@polkadot/util": "^6.8.1",
+    "@polkadot/x-rxjs": "^6.8.1"
   }
 }

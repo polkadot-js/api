@@ -25,11 +25,11 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/register": "^7.13.16",
-    "@babel/runtime": "^7.14.0",
+    "@babel/core": "^7.14.5",
+    "@babel/register": "^7.14.5",
+    "@babel/runtime": "^7.14.5",
     "@polkadot/dev": "^0.62.42",
-    "@polkadot/ts": "^0.3.89",
+    "@polkadot/ts": "^0.3.90",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^26.0.23",
     "copyfiles": "^2.4.1"
