@@ -1,6 +1,14 @@
 # CHANGELOG
 
-## master
+## 4.14.1 Jun 14, 2021
+
+Upgrade priority: Low. Internal adjustment only, no major external usage changes.
+
+Contributed:
+
+- Adjust types for uniques (Thanks to https://github.com/hamidra)
+- Add `ValidationCodeHash` type (Thanks to https://github.com/andresilva)
+- Extend `OriginCaller` type creation (Thanks to https://github.com/xlc)
 
 Changes:
 
