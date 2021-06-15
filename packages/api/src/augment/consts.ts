@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, u16, u32, u64, u8 } from '@polkadot/types';
+import type { Vec, u16, u32, u64 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { Schedule } from '@polkadot/types/interfaces/contracts';
 import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
@@ -508,9 +508,6 @@ declare module '@polkadot/api/types/consts' {
        * Number of eras that staked funds must remain bonded for.
        **/
       bondingDuration: EraIndex & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of nominations per nominator.
-       **/
       maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
@@ -526,9 +523,8 @@ declare module '@polkadot/api/types/consts' {
       /**
        * Number of eras that slashes are deferred by, after computation.
        * 
-       * This should be less than the bonding duration.
-       * Set to 0 if slashes should be applied immediately, without opportunity for
-       * intervention.
+       * This should be less than the bonding duration. Set to 0 if slashes
+       * should be applied immediately, without opportunity for intervention.
        **/
       slashDeferDuration: EraIndex & AugmentedConst<ApiType>;
       /**
@@ -560,7 +556,7 @@ declare module '@polkadot/api/types/consts' {
        * that the runtime should know about the prefix in order to make use of it as
        * an identifier of the chain.
        **/
-      ss58Prefix: u8 & AugmentedConst<ApiType>;
+      ss58Prefix: u16 & AugmentedConst<ApiType>;
       /**
        * Get the chain's current version.
        **/
