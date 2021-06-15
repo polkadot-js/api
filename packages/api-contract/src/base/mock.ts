@@ -8,12 +8,10 @@ const registry = new TypeRegistry();
 
 export const mockApi = {
   registry,
-  rx: {
-    tx: {
-      contracts: {
-        instantiateWithCode: (): never => {
-          throw new Error('mock');
-        }
+  tx: {
+    contracts: {
+      instantiateWithCode: (): never => {
+        throw new Error('mock');
       }
     }
   }
