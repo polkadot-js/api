@@ -5,6 +5,7 @@
 Changes:
 
 - Added `childstate_getKeysPaged` RPC
+- Align static metadata with latest Substrate
 
 
 ## 4.14.1 Jun 14, 2021
