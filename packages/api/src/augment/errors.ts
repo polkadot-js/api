@@ -256,9 +256,9 @@ declare module '@polkadot/api/types/errors' {
        **/
       DuplicateTopics: AugmentedError<ApiType>;
       /**
-       * `seal_input` was called twice from the same contract execution context.
+       * `seal_call` forwarded this contracts input. It therefore is no longer available.
        **/
-      InputAlreadyRead: AugmentedError<ApiType>;
+      InputForwarded: AugmentedError<ApiType>;
       /**
        * An origin TrieId written in the current block.
        **/
@@ -316,9 +316,7 @@ declare module '@polkadot/api/types/errors' {
        **/
       RandomSubjectTooLong: AugmentedError<ApiType>;
       /**
-       * The action performed is not allowed while the contract performing it is already
-       * on the call stack. Those actions are contract self destruction and restoration
-       * of a tombstone.
+       * A call tried to invoke a contract that is flagged as non-reentrant.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
       /**
@@ -343,6 +341,11 @@ declare module '@polkadot/api/types/errors' {
        * This can be triggered by a call to `seal_terminate` or `seal_restore_to`.
        **/
       TerminatedInConstructor: AugmentedError<ApiType>;
+      /**
+       * Termination of a contract is not allowed while the contract is already
+       * on the call stack. Can be triggered by `seal_terminate` or `seal_restore_to.
+       **/
+      TerminatedWhileReentrant: AugmentedError<ApiType>;
       /**
        * The amount of topics passed to `seal_deposit_events` exceeds the limit.
        **/
