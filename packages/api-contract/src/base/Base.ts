@@ -26,6 +26,6 @@ export abstract class Base<ApiType extends ApiTypes> {
     this.registry = this.abi.registry;
     this._decorateMethod = decorateMethod;
 
-    assert(isFunction(api.rx.tx.contracts?.instantiateWithCode), 'You need to connect to a node with a V3 contracts module. Your node does not expose api.tx.contracts.instantiateWithCode on this instance');
+    assert(isFunction(api.tx.contracts?.instantiateWithCode), 'You need to connect to a chain with a runtime with a V3 contracts module. The runtime does not expose api.tx.contracts.instantiateWithCode');
   }
 }

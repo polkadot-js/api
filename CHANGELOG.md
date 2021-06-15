@@ -5,6 +5,7 @@
 Changes:
 
 - Align static metadata with latest Substrate
+- Adjust error message for contracts V3 (extrinsic from runtime)
 
 
 ## 4.14.1 Jun 14, 2021
