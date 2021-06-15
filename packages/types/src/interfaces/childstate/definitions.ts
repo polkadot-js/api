@@ -38,8 +38,7 @@ export default {
         },
         {
           name: 'prefix',
-          type: 'StorageKey',
-          isOptional: true
+          type: 'StorageKey'
         },
         {
           name: 'count',
