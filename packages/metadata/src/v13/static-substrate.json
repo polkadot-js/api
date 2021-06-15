@@ -506,8 +506,8 @@
             },
             {
               "name": "SS58Prefix",
-              "type": "u8",
-              "value": "0x2a",
+              "type": "u16",
+              "value": "0x2a00",
               "documentation": [
                 " The designated SS85 prefix of this chain.",
                 "",
@@ -1637,6 +1637,39 @@
                 " - Base Weight: 51.4 µs",
                 " - DB Weight: 1 Read and 1 Write to dest (sender is in overlay already)",
                 " #</weight>"
+              ]
+            },
+            {
+              "name": "transfer_all",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "keep_alive",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Transfer the entire transferable balance from the caller account.",
+                "",
+                " NOTE: This function only attempts to transfer _transferable_ balances. This means that",
+                " any locked, reserved, or existential deposits (when `keep_alive` is `true`), will not be",
+                " transferred by this function. To ensure that this function results in a killed account,",
+                " you might need to prepare the account by removing any reference counters, storage",
+                " deposits, etc...",
+                "",
+                " The dispatch origin of this call must be Signed.",
+                "",
+                " - `dest`: The recipient of the transfer.",
+                " - `keep_alive`: A boolean to determine if the `transfer_all` operation should send all",
+                "   of the funds the account has, causing the sender account to be killed (false), or",
+                "   transfer everything except at least the existential deposit, which will guarantee to",
+                "   keep the sender account alive (true).",
+                "   # <weight>",
+                " - O(1). Just like transfer, but reading the user's transferable balance first.",
+                "   #</weight>"
               ]
             }
           ],
@@ -3336,9 +3369,8 @@
               "documentation": [
                 " Number of eras that slashes are deferred by, after computation.",
                 "",
-                " This should be less than the bonding duration.",
-                " Set to 0 if slashes should be applied immediately, without opportunity for",
-                " intervention."
+                " This should be less than the bonding duration. Set to 0 if slashes",
+                " should be applied immediately, without opportunity for intervention."
               ]
             },
             {
@@ -3356,9 +3388,7 @@
               "name": "MaxNominations",
               "type": "u32",
               "value": "0x10000000",
-              "documentation": [
-                " Maximum number of nominations per nominator."
-              ]
+              "documentation": []
             }
           ],
           "errors": [
@@ -7561,17 +7591,16 @@
               ]
             },
             {
-              "name": "ReentranceDenied",
+              "name": "TerminatedWhileReentrant",
               "documentation": [
-                " The action performed is not allowed while the contract performing it is already",
-                " on the call stack. Those actions are contract self destruction and restoration",
-                " of a tombstone."
+                " Termination of a contract is not allowed while the contract is already",
+                " on the call stack. Can be triggered by `seal_terminate` or `seal_restore_to."
               ]
             },
             {
-              "name": "InputAlreadyRead",
+              "name": "InputForwarded",
               "documentation": [
-                " `seal_input` was called twice from the same contract execution context."
+                " `seal_call` forwarded this contracts input. It therefore is no longer available."
               ]
             },
             {
@@ -7646,6 +7675,12 @@
               "name": "DebugMessageInvalidUTF8",
               "documentation": [
                 " The debug message specified to `seal_debug_message` does contain invalid UTF-8."
+              ]
+            },
+            {
+              "name": "ReentranceDenied",
+              "documentation": [
+                " A call tried to invoke a contract that is flagged as non-reentrant."
               ]
             }
           ],
@@ -12824,6 +12859,10 @@
                 " asset.",
                 "",
                 " Emits `Destroyed` event when successful.",
+                "",
+                " NOTE: It can be helpful to first freeze an asset before destroying it so that you",
+                " can provide accurate witness information and prevent users from manipulating state",
+                " in a way that can make it harder to destroy.",
                 "",
                 " Weight: `O(c + p + a)` where:",
                 " - `c = (witness.accounts - witness.sufficients)`",
