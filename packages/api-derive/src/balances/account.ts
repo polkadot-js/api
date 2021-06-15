@@ -24,12 +24,14 @@ type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
 }
 
 function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
+  const votingBalance = api.registry.createType('Balance', freeBalance ? freeBalance.toBn() : 0);
+
   return {
     freeBalance,
     frozenFee,
     frozenMisc,
     reservedBalance,
-    votingBalance: api.registry.createType('Balance', freeBalance.toBn())
+    votingBalance
   };
 }
 
@@ -84,14 +86,22 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
-      const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
+      const data = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
 
-      return [
-        (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0],
-        [[free, reserved, feeFrozen, miscFrozen]]
-      ];
+      const nonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
+
+      if (data) {
+        const { feeFrozen, free, miscFrozen, reserved } = data;
+
+        return [nonce, [[free, reserved, feeFrozen, miscFrozen]]];
+      } else {
+        // default to zero if there is no associated AccountData
+        const zero = api.registry.createType('Balance', 0);
+
+        return [nonce, [[zero, zero, zero, zero]]];
+      }
     })
   );
 }
