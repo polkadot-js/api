@@ -4,6 +4,7 @@
 
 Changes:
 
+- Added `childstate_getKeysPaged` RPC
 - Align static metadata with latest Substrate
 
 

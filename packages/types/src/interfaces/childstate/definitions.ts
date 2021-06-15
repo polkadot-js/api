@@ -28,6 +28,36 @@ export default {
       ],
       type: 'Vec<StorageKey>'
     },
+    getKeysPaged: {
+      alias: ['childstate_getKeysPagedAt'],
+      description: 'Returns the keys with prefix from a child storage with pagination support',
+      params: [
+        {
+          name: 'childKey',
+          type: 'PrefixedStorageKey'
+        },
+        {
+          name: 'prefix',
+          type: 'StorageKey'
+        },
+        {
+          name: 'count',
+          type: 'u32'
+        },
+        {
+          name: 'startKey',
+          type: 'StorageKey',
+          isOptional: true
+        },
+        {
+          name: 'at',
+          type: 'Hash',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'Vec<StorageKey>'
+    },
     getStorage: {
       description: 'Returns a child storage entry at a specific block state',
       params: [
