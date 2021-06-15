@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Added `childstate_getKeysPaged` RPC
+
+
 ## 4.14.1 Jun 14, 2021
 
 Upgrade priority: Low. Internal adjustment only, no major external usage changes.
