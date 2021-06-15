@@ -7,6 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 const registry = new TypeRegistry();
 
 export const mockApi = {
+  isConnected: true,
   registry,
   tx: {
     contracts: {
