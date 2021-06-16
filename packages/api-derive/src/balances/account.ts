@@ -92,7 +92,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
 
       const nonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
 
-      if (data) {
+      if (data && !data.isEmpty) {
         const { feeFrozen, free, miscFrozen, reserved } = data;
 
         return [nonce, [[free, reserved, feeFrozen, miscFrozen]]];
