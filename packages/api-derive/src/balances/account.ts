@@ -23,13 +23,19 @@ type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
   }
 }
 
+function zero (api: ApiInterfaceRx) {
+  return api.registry.createType('Balance');
+}
+
 function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
+  const votingBalance = api.registry.createType('Balance', freeBalance.toBn());
+
   return {
     freeBalance,
     frozenFee,
     frozenMisc,
     reservedBalance,
-    votingBalance: api.registry.createType('Balance', freeBalance.toBn())
+    votingBalance
   };
 }
 
@@ -55,7 +61,7 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result => [
       accountNonce,
-      [[freeBalance, reservedBalance, api.registry.createType('Balance'), api.registry.createType('Balance')]]
+      [[freeBalance, reservedBalance, zero(api), zero(api)]]
     ])
   );
 }
@@ -84,14 +90,20 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
-      const { feeFrozen, free, miscFrozen, reserved } = (infoOrTuple as AccountInfo).nonce
+      const data = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
         : (infoOrTuple as [Index, AccountData])[1];
 
-      return [
-        (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0],
-        [[free, reserved, feeFrozen, miscFrozen]]
-      ];
+      const nonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
+
+      if (data && !data.isEmpty) {
+        const { feeFrozen, free, miscFrozen, reserved } = data;
+
+        return [nonce, [[free, reserved, feeFrozen, miscFrozen]]];
+      } else {
+        // default to zero if there is no associated AccountData
+        return [nonce, [[zero(api), zero(api), zero(api), zero(api)]]];
+      }
     })
   );
 }
@@ -132,7 +144,7 @@ export function account (instanceId: string, api: ApiInterfaceRx): (address: Acc
             api.registry.createType('AccountId'),
             [
               api.registry.createType('Index'),
-              [[api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance')]]
+              [[zero(api), zero(api), zero(api), zero(api)]]
             ]
           ])
         )
