@@ -23,8 +23,12 @@ type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
   }
 }
 
+function zero (api: ApiInterfaceRx) {
+  return api.registry.createType('Balance');
+}
+
 function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
-  const votingBalance = api.registry.createType('Balance', freeBalance ? freeBalance.toBn() : 0);
+  const votingBalance = api.registry.createType('Balance', freeBalance.toBn());
 
   return {
     freeBalance,
@@ -57,7 +61,7 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result => [
       accountNonce,
-      [[freeBalance, reservedBalance, api.registry.createType('Balance'), api.registry.createType('Balance')]]
+      [[freeBalance, reservedBalance, zero(api), zero(api)]]
     ])
   );
 }
@@ -98,9 +102,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
         return [nonce, [[free, reserved, feeFrozen, miscFrozen]]];
       } else {
         // default to zero if there is no associated AccountData
-        const zero = api.registry.createType('Balance', 0);
-
-        return [nonce, [[zero, zero, zero, zero]]];
+        return [nonce, [[zero(api), zero(api), zero(api), zero(api)]]];
       }
     })
   );
@@ -142,7 +144,7 @@ export function account (instanceId: string, api: ApiInterfaceRx): (address: Acc
             api.registry.createType('AccountId'),
             [
               api.registry.createType('Index'),
-              [[api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance'), api.registry.createType('Balance')]]
+              [[zero(api), zero(api), zero(api), zero(api)]]
             ]
           ])
         )
