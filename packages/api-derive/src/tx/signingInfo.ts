@@ -6,7 +6,7 @@ import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { isNumber, isUndefined } from '@polkadot/util';
+import { isFunction, isNumber, isUndefined } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
@@ -19,9 +19,13 @@ interface Result {
 }
 
 function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
-  return api.derive.balances.account(address).pipe(
-    map(({ accountNonce }) => accountNonce)
-  );
+  if (isFunction(api.query.system.accountNonce)) {
+    return api.derive.accounts.accountId(address).pipe(
+      map(accountId => api.query.system.accountNonce(address)),
+      map(accountNonce => api.registry.createType('Index', accountNonce))
+    );
+  }
+  return of(api.registry.createType('Index')); // there is no nonce...
 }
 
 function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
