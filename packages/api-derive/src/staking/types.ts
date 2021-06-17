@@ -81,7 +81,6 @@ export interface DeriveStakerRewardValidator {
 export interface DeriveStakerReward {
   era: EraIndex;
   eraReward: Balance;
-  isStakerPayout?: boolean;
   isEmpty: boolean;
   isValidator: boolean;
   nominating: DeriveEraExposureNominating[];
