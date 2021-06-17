@@ -1,4 +1,5 @@
 {
+  "name": "@polkadot/api",
   "repository": "https://github.com/polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "Apache-2",
