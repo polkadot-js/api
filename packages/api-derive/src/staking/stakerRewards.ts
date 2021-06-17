@@ -120,8 +120,6 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
         return false;
       }
 
-      reward.isStakerPayout = true;
-
       removeClaimed(validators, queryValidators, reward);
 
       return true;
