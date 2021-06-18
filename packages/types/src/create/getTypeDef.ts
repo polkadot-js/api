@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert, isNumber } from '@polkadot/util';
+import { assert, isNumber, isString } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
 import { TypeDefInfo } from './types';
@@ -15,6 +15,12 @@ interface TypeDefOptions {
 }
 
 const MAX_NESTED = 64;
+
+function getTypeString (typeOrObj: any): string {
+  return isString(typeOrObj)
+    ? typeOrObj.toString()
+    : JSON.stringify(typeOrObj);
+}
 
 function isRustEnum (details: Record<string, string> | Record<string, number>): details is Record<string, string> {
   const values = Object.values(details);
@@ -44,9 +50,8 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, type], index): TypeDef => ({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      ...getTypeDef(type || 'Null', { name }, count),
+    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => ({
+      ...getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count),
       index
     }));
   } else {
@@ -96,8 +101,7 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
     ? new Map(Object.entries(parsed._alias))
     : undefined;
   value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], { name }, count)
+    getTypeDef(getTypeString(parsed[name]), { name }, count)
   );
 
   return value;
@@ -106,7 +110,24 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  const [vecType, strLength, displayName] = type.substr(1, type.length - 2).split(';');
+  const max = type.length - 1;
+  let index = -1;
+  let inner = 0;
+
+  for (let i = 1; (i < max) && (index === -1); i++) {
+    if (type[i] === ';' && inner === 0) {
+      index = i;
+    } else if (['[', '(', '<'].includes(type[i])) {
+      inner++;
+    } else if ([']', ')', '>'].includes(type[i])) {
+      inner--;
+    }
+  }
+
+  assert(index !== -1, () => `${type}: Unable to extract location of ';'`);
+
+  const vecType = type.substr(1, index - 1);
+  const [strLength, displayName] = type.substr(index + 1, max - index - 1).split(';');
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
@@ -114,7 +135,6 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 
   value.displayName = displayName;
   value.length = length;
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   value.sub = getTypeDef(vecType, {}, count);
 
   return value;
@@ -124,7 +144,6 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
     ? []
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     : typeSplit(subType).map((inner) => getTypeDef(inner, {}, count));
 
   return value;

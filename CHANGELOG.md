@@ -4,6 +4,7 @@
 
 Changes:
 
+- Allow for type decoding of nested fixed vectors, tuples and structs
 - Added `childstate_getKeysPaged` RPC
 - Align static metadata with latest Substrate
 - Adjust error message for contracts V3 (extrinsic from runtime)
