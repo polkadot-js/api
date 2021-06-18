@@ -6,6 +6,7 @@ Changes:
 
 - Allow for type decoding of nested fixed vectors, tuples and structs
 - Added `childstate_getKeysPaged` RPC
+- Add `XcmOrigin` mapping for `OriginCaller` generation
 - Align static metadata with latest Substrate
 - Adjust error message for contracts V3 (extrinsic from runtime)
 - Correct module optionality in `api.derive.balances.account`
