@@ -17,6 +17,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   balances: {
     Status: 'BalanceStatus'
   },
+  beefy: {
+    AuthorityId: 'BeefyId'
+  },
   contracts: {
     StorageKey: 'ContractStorageKey'
   },

@@ -25,6 +25,7 @@ export default {
       blockNumber: 'BlockNumber',
       validatorSetId: 'ValidatorSetId'
     },
+    BeefyId: '[u8; 33]',
     BeefySignedCommitment: {
       commitment: 'BeefyCommitment',
       signatures: 'Vec<Option<Signature>>'
