@@ -13,10 +13,13 @@ import { stringCamelCase } from '@polkadot/util';
 // in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
 const KNOWN_ORIGINS: Record<string, string> = {
   /* eslint-disable sort-keys */
-  // Substrate/Polkadot
+  // Substrate
   Council: 'CollectiveOrigin',
   System: 'SystemOrigin',
   TechnicalCommittee: 'CollectiveOrigin',
+  // Polkadot
+  Xcm: 'XcmOrigin',
+  XcmPallet: 'XcmOrigin',
   // Acala
   Authority: 'AuthorityOrigin',
   GeneralCouncil: 'CollectiveOrigin'

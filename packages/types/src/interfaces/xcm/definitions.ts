@@ -22,6 +22,11 @@ const xcm = {
   XcmHrmpChannelAccepted: { recipient: 'Compact<u32>' },
   XcmHrmpChannelClosing: { initiator: 'Compact<u32>', sender: 'Compact<u32>', recipient: 'Compact<u32>' },
   XcmRelayedFrom: { who: 'MultiLocation', message: 'Xcm' },
+  XcmOrigin: {
+    _enum: {
+      Xcm: 'MultiLocation'
+    }
+  },
   Xcm: {
     _enum: {
       WithdrawAsset: 'XcmWithdrawAsset',
