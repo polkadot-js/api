@@ -303,18 +303,16 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested enum with tuple/struct', (): void => {
     expect(
-      getTypeDef(
-        JSON.stringify({
-          _enum: {
-            A: 'u32',
-            B: '(u32, bool)',
-            C: {
-              d: 'AccountId',
-              e: 'Balance'
-            }
+      getTypeDef(JSON.stringify({
+        _enum: {
+          A: 'u32',
+          B: '(u32, bool)',
+          C: {
+            d: 'AccountId',
+            e: 'Balance'
           }
-        })
-      )
+        }
+      }))
     ).toEqual({
       info: TypeDefInfo.Enum,
       sub: [
@@ -360,6 +358,61 @@ describe('getTypeDef', (): void => {
         }
       ],
       type: '{"_enum":{"A":"u32","B":"(u32,bool)","C":{"d":"AccountId","e":"Balance"}}}'
+    });
+  });
+
+  it('creates a nested struct with struct/tuple', (): void => {
+    expect(
+      getTypeDef(JSON.stringify({
+        a: 'u32',
+        b: '(u32, bool)',
+        c: {
+          d: 'AccountId',
+          e: 'Balance'
+        }
+      }))
+    ).toEqual({
+      info: TypeDefInfo.Struct,
+      sub: [
+        {
+          info: TypeDefInfo.Plain,
+          name: 'a',
+          type: 'u32'
+        },
+        {
+          info: TypeDefInfo.Tuple,
+          name: 'b',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u32'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              type: 'bool'
+            }
+          ],
+          type: '(u32,bool)'
+        },
+        {
+          info: TypeDefInfo.Struct,
+          name: 'c',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              name: 'd',
+              type: 'AccountId'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              name: 'e',
+              type: 'Balance'
+            }
+          ],
+          type: '{"d":"AccountId","e":"Balance"}'
+        }
+      ],
+      type: '{"a":"u32","b":"(u32,bool)","c":{"d":"AccountId","e":"Balance"}}'
     });
   });
 

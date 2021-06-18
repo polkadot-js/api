@@ -44,15 +44,14 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, _typeOrObj], index): TypeDef => {
-      const type = !_typeOrObj
+    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => {
+      const type = !typeOrObj
         ? 'Null'
-        : isString(_typeOrObj)
-          ? _typeOrObj
-          : JSON.stringify(_typeOrObj);
+        : isString(typeOrObj)
+          ? typeOrObj
+          : JSON.stringify(typeOrObj);
 
       return {
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         ...getTypeDef(type || 'Null', { name }, count),
         index
       };
@@ -103,10 +102,14 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
   value.alias = parsed._alias
     ? new Map(Object.entries(parsed._alias))
     : undefined;
-  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], { name }, count)
-  );
+  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef => {
+    const typeOrObj = parsed[name] as string;
+    const type = isString(typeOrObj)
+      ? typeOrObj
+      : JSON.stringify(typeOrObj);
+
+    return getTypeDef(type, { name }, count);
+  });
 
   return value;
 }
@@ -139,7 +142,6 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 
   value.displayName = displayName;
   value.length = length;
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   value.sub = getTypeDef(vecType, {}, count);
 
   return value;
@@ -149,7 +151,6 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
     ? []
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     : typeSplit(subType).map((inner) => getTypeDef(inner, {}, count));
 
   return value;
