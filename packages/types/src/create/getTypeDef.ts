@@ -16,6 +16,12 @@ interface TypeDefOptions {
 
 const MAX_NESTED = 64;
 
+function getTypeString (typeOrObj: any): string {
+  return isString(typeOrObj)
+    ? typeOrObj.toString()
+    : JSON.stringify(typeOrObj);
+}
+
 function isRustEnum (details: Record<string, string> | Record<string, number>): details is Record<string, string> {
   const values = Object.values(details);
 
@@ -44,18 +50,10 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => {
-      const type = !typeOrObj
-        ? 'Null'
-        : isString(typeOrObj)
-          ? typeOrObj
-          : JSON.stringify(typeOrObj);
-
-      return {
-        ...getTypeDef(type || 'Null', { name }, count),
-        index
-      };
-    });
+    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => ({
+      ...getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count),
+      index
+    }));
   } else {
     value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
       index,
@@ -102,14 +100,9 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
   value.alias = parsed._alias
     ? new Map(Object.entries(parsed._alias))
     : undefined;
-  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef => {
-    const typeOrObj = parsed[name] as string;
-    const type = isString(typeOrObj)
-      ? typeOrObj
-      : JSON.stringify(typeOrObj);
-
-    return getTypeDef(type, { name }, count);
-  });
+  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
+    getTypeDef(getTypeString(parsed[name]), { name }, count)
+  );
 
   return value;
 }
