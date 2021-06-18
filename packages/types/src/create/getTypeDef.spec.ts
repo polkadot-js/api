@@ -252,28 +252,114 @@ describe('getTypeDef', (): void => {
     });
   });
 
-  // FIXME - not handled atm
-  it.skip('creates a nested fixed vec', (): void => {
+  it('creates a nested fixed vec', (): void => {
     expect(
-      getTypeDef('[[u8;32];3]')
+      getTypeDef('[[bool; 6]; 3; MyType]')
     ).toEqual({
-      ext: {
-        length: 3,
-        type: '[u8;32]'
-      },
+      displayName: 'MyType',
       info: TypeDefInfo.VecFixed,
+      length: 3,
       sub: {
-        ext: {
-          length: 32
-        },
         info: TypeDefInfo.VecFixed,
+        length: 6,
         sub: {
           info: TypeDefInfo.Plain,
-          type: 'u8'
+          type: 'bool'
         },
-        type: '[u8;32]'
+        type: '[bool;6]'
       },
-      type: '[[u8;32];3]'
+      type: '[[bool;6];3;MyType]'
+    });
+  });
+
+  it('creates a nested tuple', (): void => {
+    expect(
+      getTypeDef('((u32, u64), u128)')
+    ).toEqual({
+      info: TypeDefInfo.Tuple,
+      sub: [
+        {
+          info: TypeDefInfo.Tuple,
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u32'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u64'
+            }
+          ],
+          type: '(u32,u64)'
+        },
+        {
+          info: TypeDefInfo.Plain,
+          type: 'u128'
+        }
+      ],
+      type: '((u32,u64),u128)'
+    });
+  });
+
+  it('creates a nested enum with tuple/struct', (): void => {
+    expect(
+      getTypeDef(
+        JSON.stringify({
+          _enum: {
+            A: 'u32',
+            B: '(u32, bool)',
+            C: {
+              d: 'AccountId',
+              e: 'Balance'
+            }
+          }
+        })
+      )
+    ).toEqual({
+      info: TypeDefInfo.Enum,
+      sub: [
+        {
+          index: 0,
+          info: TypeDefInfo.Plain,
+          name: 'A',
+          type: 'u32'
+        },
+        {
+          index: 1,
+          info: TypeDefInfo.Tuple,
+          name: 'B',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u32'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              type: 'bool'
+            }
+          ],
+          type: '(u32,bool)'
+        },
+        {
+          index: 2,
+          info: TypeDefInfo.Struct,
+          name: 'C',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              name: 'd',
+              type: 'AccountId'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              name: 'e',
+              type: 'Balance'
+            }
+          ],
+          type: '{"d":"AccountId","e":"Balance"}'
+        }
+      ],
+      type: '{"_enum":{"A":"u32","B":"(u32,bool)","C":{"d":"AccountId","e":"Balance"}}}'
     });
   });
 

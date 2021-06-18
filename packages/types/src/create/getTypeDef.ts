@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert, isNumber } from '@polkadot/util';
+import { assert, isNumber, isString } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
 import { TypeDefInfo } from './types';
@@ -44,11 +44,19 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, type], index): TypeDef => ({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      ...getTypeDef(type || 'Null', { name }, count),
-      index
-    }));
+    value.sub = Object.entries(details).map(([name, _typeOrObj], index): TypeDef => {
+      const type = !_typeOrObj
+        ? 'Null'
+        : isString(_typeOrObj)
+          ? _typeOrObj
+          : JSON.stringify(_typeOrObj);
+
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        ...getTypeDef(type || 'Null', { name }, count),
+        index
+      };
+    });
   } else {
     value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
       index,
@@ -106,7 +114,24 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  const [vecType, strLength, displayName] = type.substr(1, type.length - 2).split(';');
+  const max = type.length - 1;
+  let index = -1;
+  let inner = 0;
+
+  for (let i = 1; (i < max) && (index === -1); i++) {
+    if (type[i] === ';' && inner === 0) {
+      index = i;
+    } else if (type[i] === '[') {
+      inner++;
+    } else if (type[i] === ']') {
+      inner--;
+    }
+  }
+
+  assert(index !== -1, () => `${type}: Unable to extract location of ';'`);
+
+  const vecType = type.substr(1, index - 1);
+  const [strLength, displayName] = type.substr(index + 1, max - index - 1).split(';');
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
