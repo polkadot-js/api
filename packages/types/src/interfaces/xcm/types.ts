@@ -403,6 +403,12 @@ export interface XcmOrderQueryHolding extends Struct {
   readonly assets: Vec<MultiAsset>;
 }
 
+/** @name XcmOrigin */
+export interface XcmOrigin extends Enum {
+  readonly isXcm: boolean;
+  readonly asXcm: MultiLocation;
+}
+
 /** @name XcmOriginKind */
 export interface XcmOriginKind extends Enum {
   readonly isNative: boolean;
