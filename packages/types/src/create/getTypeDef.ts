@@ -117,9 +117,9 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   for (let i = 1; (i < max) && (index === -1); i++) {
     if (type[i] === ';' && inner === 0) {
       index = i;
-    } else if (type[i] === '[') {
+    } else if (['[', '<'].includes(type[i])) {
       inner++;
-    } else if (type[i] === ']') {
+    } else if (['>', ']'].includes(type[i])) {
       inner--;
     }
   }
