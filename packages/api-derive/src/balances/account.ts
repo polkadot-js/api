@@ -23,7 +23,7 @@ type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
   }
 }
 
-function zero (api: ApiInterfaceRx) {
+function zeroBalance (api: ApiInterfaceRx) {
   return api.registry.createType('Balance');
 }
 
@@ -61,7 +61,16 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result => [
       accountNonce,
-      [[freeBalance, reservedBalance, zero(api), zero(api)]]
+      [[freeBalance, reservedBalance, zeroBalance(api), zeroBalance(api)]]
+    ])
+  );
+}
+
+function querySystemNonce (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+  return api.query.system.accountNonce<Index>(accountId).pipe(
+    map((accountNonce): Result => [
+      accountNonce,
+      [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
     ])
   );
 }
@@ -77,6 +86,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, module
   const extract = (data: AccountData[]) =>
     data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen]);
 
+  // NOTE this is for the first case where we do have instances specified
   return isFunction(api.query.system.account)
     ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
       map(([{ nonce }, ...balances]): Result => [nonce, extract(balances)])
@@ -86,7 +96,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, module
     );
 }
 
-function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function querySystemAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
@@ -96,14 +106,19 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
 
       const nonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
 
-      if (data && !data.isEmpty) {
-        const { feeFrozen, free, miscFrozen, reserved } = data;
-
-        return [nonce, [[free, reserved, feeFrozen, miscFrozen]]];
-      } else {
-        // default to zero if there is no associated AccountData
-        return [nonce, [[zero(api), zero(api), zero(api), zero(api)]]];
+      if (!data || data.isEmpty) {
+        return [
+          nonce,
+          [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+        ];
       }
+
+      const { feeFrozen, free, miscFrozen, reserved } = data;
+
+      return [
+        nonce,
+        [[free, reserved, feeFrozen, miscFrozen]]
+      ];
     })
   );
 }
@@ -125,6 +140,10 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
  */
 export function account (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
+  const empty: Result = [
+    api.registry.createType('Index'),
+    [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+  ];
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
     api.derive.accounts.accountId(address).pipe(
@@ -134,19 +153,17 @@ export function account (instanceId: string, api: ApiInterfaceRx): (address: Acc
             of(accountId),
             balanceInstances
               ? queryBalancesAccount(api, accountId, balanceInstances)
-              : isFunction(api.query.system.account)
-                ? queryCurrent(api, accountId)
-                : isFunction(api.query.balances.account)
+              : isFunction(api.query.system?.account)
+                ? querySystemAccount(api, accountId)
+                : isFunction(api.query.balances?.account)
                   ? queryBalancesAccount(api, accountId)
-                  : queryBalancesFree(api, accountId)
+                  : isFunction(api.query.balances?.freeBalance)
+                    ? queryBalancesFree(api, accountId)
+                    : isFunction(api.query.system?.accountNonce)
+                      ? querySystemNonce(api, accountId)
+                      : of(empty)
           ])
-          : of([
-            api.registry.createType('AccountId'),
-            [
-              api.registry.createType('Index'),
-              [[zero(api), zero(api), zero(api), zero(api)]]
-            ]
-          ])
+          : of([api.registry.createType('AccountId'), empty])
         )
       ),
       map((result): DeriveBalancesAccount => calcBalances(api, result))
