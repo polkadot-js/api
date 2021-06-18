@@ -9,7 +9,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
-import type { BeefyCommitment, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyCommitment, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BridgedBlockHash, BridgedBlockNumber, BridgedHeader, InitializationData } from '@polkadot/types/interfaces/bridges';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
@@ -226,6 +226,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<BalanceOf>': Option<BalanceOf>;
     'Option<BalanceStatus>': Option<BalanceStatus>;
     'Option<BeefyCommitment>': Option<BeefyCommitment>;
+    'Option<BeefyId>': Option<BeefyId>;
     'Option<BeefyKey>': Option<BeefyKey>;
     'Option<BeefyNextAuthoritySet>': Option<BeefyNextAuthoritySet>;
     'Option<BeefyPayload>': Option<BeefyPayload>;
@@ -1100,6 +1101,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<BalanceOf>': Vec<BalanceOf>;
     'Vec<BalanceStatus>': Vec<BalanceStatus>;
     'Vec<BeefyCommitment>': Vec<BeefyCommitment>;
+    'Vec<BeefyId>': Vec<BeefyId>;
     'Vec<BeefyKey>': Vec<BeefyKey>;
     'Vec<BeefyNextAuthoritySet>': Vec<BeefyNextAuthoritySet>;
     'Vec<BeefyPayload>': Vec<BeefyPayload>;
@@ -1974,6 +1976,7 @@ declare module '@polkadot/types/types/registry' {
     BalanceOf: BalanceOf;
     BalanceStatus: BalanceStatus;
     BeefyCommitment: BeefyCommitment;
+    BeefyId: BeefyId;
     BeefyKey: BeefyKey;
     BeefyNextAuthoritySet: BeefyNextAuthoritySet;
     BeefyPayload: BeefyPayload;

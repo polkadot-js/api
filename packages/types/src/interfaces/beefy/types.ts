@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Option, Struct, Vec, u32, u64 } from '@polkadot/types';
+import type { Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
@@ -11,6 +11,9 @@ export interface BeefyCommitment extends Struct {
   readonly blockNumber: BlockNumber;
   readonly validatorSetId: ValidatorSetId;
 }
+
+/** @name BeefyId */
+export interface BeefyId extends U8aFixed {}
 
 /** @name BeefyNextAuthoritySet */
 export interface BeefyNextAuthoritySet extends Struct {
