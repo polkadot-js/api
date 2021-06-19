@@ -12,7 +12,7 @@ Changes:
 - Align static metadata with latest Substrate
 - Adjust error message for contracts V3 (extrinsic from runtime)
 - Correct module optionality in `api.derive.balances.account`
-- Re-add old compatibility export for `GenericAddress` (-> `GenericLookupSource`)
+- Add alias for `GenericAddress` -> `GenericMultiAddress`
 
 
 ## 4.14.1 Jun 14, 2021

@@ -10,6 +10,6 @@ export { GenericCall } from './Call';
 export { GenericChainProperties } from './ChainProperties';
 export { GenericConsensusEngineId } from './ConsensusEngineId';
 export { GenericEvent, GenericEventData } from './Event';
-export { GenericLookupSource, GenericLookupSource as GenericAddress } from './LookupSource';
-export { GenericMultiAddress } from './MultiAddress';
+export { GenericLookupSource } from './LookupSource';
+export { GenericMultiAddress, GenericMultiAddress as GenericAddress } from './MultiAddress';
 export { GenericVote } from './Vote';
