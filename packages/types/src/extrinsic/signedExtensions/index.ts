@@ -12,11 +12,10 @@ import { substrate } from './substrate';
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemed fixed and non-changeable)
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const allExtensions: ExtDef = {
   ...substrate,
-  ...shell,
   ...polkadot,
+  ...shell,
   ...statemint
 };
 
