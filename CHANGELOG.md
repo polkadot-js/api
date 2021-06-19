@@ -17,6 +17,7 @@ Changes:
 - Adjust error message for contracts V3 (extrinsic from runtime)
 - Correct module optionality in `api.derive.balances.account`
 - Add alias for `GenericAddress` -> `GenericMultiAddress`
+- Adjust metadata doc generation (keep spaces between subsequent lines)
 
 
 ## 4.14.1 Jun 14, 2021
