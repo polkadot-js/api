@@ -54,7 +54,7 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
-          : `${md}${docLine.replace(/^#{1,3} /, '#### ')} `
+          : `${md} ${docLine.replace(/^#{1,3} /, '#### ')} `
     , '')
     .replace(/#### <weight>/g, '<weight>')
     .replace(/<weight>(.|\n)*?<\/weight>/g, '')
