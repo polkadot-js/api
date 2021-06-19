@@ -254,6 +254,30 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested fixed vec', (): void => {
     expect(
+      getTypeDef('[[[bool; 3]; 6]; 9]')
+    ).toEqual({
+      info: TypeDefInfo.VecFixed,
+      length: 9,
+      sub: {
+        info: TypeDefInfo.VecFixed,
+        length: 6,
+        sub: {
+          info: TypeDefInfo.VecFixed,
+          length: 3,
+          sub: {
+            info: TypeDefInfo.Plain,
+            type: 'bool'
+          },
+          type: '[bool;3]'
+        },
+        type: '[[bool;3];6]'
+      },
+      type: '[[[bool;3];6];9]'
+    });
+  });
+
+  it('creates a nested fixed vec (named)', (): void => {
+    expect(
       getTypeDef('[[bool; 6]; 3; MyType]')
     ).toEqual({
       displayName: 'MyType',
@@ -413,6 +437,69 @@ describe('getTypeDef', (): void => {
         }
       ],
       type: '{"a":"u32","b":"(u32,bool)","c":{"d":"AccountId","e":"Balance"}}'
+    });
+  });
+
+  it('creates a Vec with nested fixed', (): void => {
+    expect(
+      getTypeDef('Vec<[[[bool; 3]; 6]; 9]>')
+    ).toEqual({
+      info: TypeDefInfo.Vec,
+      sub: {
+        info: TypeDefInfo.VecFixed,
+        length: 9,
+        sub: {
+          info: TypeDefInfo.VecFixed,
+          length: 6,
+          sub: {
+            info: TypeDefInfo.VecFixed,
+            length: 3,
+            sub: {
+              info: TypeDefInfo.Plain,
+              type: 'bool'
+            },
+            type: '[bool;3]'
+          },
+          type: '[[bool;3];6]'
+        },
+        type: '[[[bool;3];6];9]'
+      },
+      type: 'Vec<[[[bool;3];6];9]>'
+    });
+  });
+
+  it('creates a Vec with nested struct', (): void => {
+    expect(
+      getTypeDef('Vec<{ "a": "u32", "b": "(u32, bool)" }>')
+    ).toEqual({
+      info: TypeDefInfo.Vec,
+      sub: {
+        info: TypeDefInfo.Struct,
+        sub: [
+          {
+            info: TypeDefInfo.Plain,
+            name: 'a',
+            type: 'u32'
+          },
+          {
+            info: TypeDefInfo.Tuple,
+            name: 'b',
+            sub: [
+              {
+                info: TypeDefInfo.Plain,
+                type: 'u32'
+              },
+              {
+                info: TypeDefInfo.Plain,
+                type: 'bool'
+              }
+            ],
+            type: '(u32,bool)'
+          }
+        ],
+        type: '{"a":"u32","b":"(u32,bool)"}'
+      },
+      type: 'Vec<{"a":"u32","b":"(u32,bool)"}>'
     });
   });
 

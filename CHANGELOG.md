@@ -4,6 +4,10 @@
 
 Upgrade priority: Medium. Recommended for all chains where Xcm is used (addition of new `XcmOrigin`)
 
+Contributed:
+
+- Added `ChargeAssetTxPayment` extension (Thanks to https://github.com/apopiak)
+
 Changes:
 
 - Allow for type decoding of nested fixed vectors, tuples and structs

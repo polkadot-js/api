@@ -15,7 +15,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
-import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
+import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
@@ -132,7 +132,7 @@ export class TypeRegistry implements Registry {
 
   #knownTypes: RegisteredTypes = {};
 
-  #signedExtensions: string[] = defaultExtensions;
+  #signedExtensions: string[] = fallbackExtensions;
 
   #userExtensions?: ExtDef;
 
@@ -397,7 +397,7 @@ export class TypeRegistry implements Registry {
       signedExtensions || (
         metadata.asLatest.extrinsic.version.gt(BN_ZERO)
           ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
-          : defaultExtensions
+          : fallbackExtensions
       ),
       userExtensions
     );
@@ -409,7 +409,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = defaultExtensions, userExtensions?: ExtDef): void {
+  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef): void {
     this.#signedExtensions = signedExtensions;
     this.#userExtensions = userExtensions;
 
