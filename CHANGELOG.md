@@ -2,6 +2,8 @@
 
 ## master
 
+Upgrade priority: Medium. Required for all chains where Xcm is used (addition of new `XcmOrigin`)
+
 Changes:
 
 - Allow for type decoding of nested fixed vectors, tuples and structs
@@ -10,6 +12,7 @@ Changes:
 - Align static metadata with latest Substrate
 - Adjust error message for contracts V3 (extrinsic from runtime)
 - Correct module optionality in `api.derive.balances.account`
+- Add alias for `GenericAddress` -> `GenericMultiAddress`
 
 
 ## 4.14.1 Jun 14, 2021

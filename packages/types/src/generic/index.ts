@@ -11,5 +11,5 @@ export { GenericChainProperties } from './ChainProperties';
 export { GenericConsensusEngineId } from './ConsensusEngineId';
 export { GenericEvent, GenericEventData } from './Event';
 export { GenericLookupSource } from './LookupSource';
-export { GenericMultiAddress } from './MultiAddress';
+export { GenericMultiAddress, GenericMultiAddress as GenericAddress } from './MultiAddress';
 export { GenericVote } from './Vote';
