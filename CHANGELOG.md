@@ -2,7 +2,7 @@
 
 ## master
 
-Upgrade priority: Medium. Required for all chains where Xcm is used (addition of new `XcmOrigin`)
+Upgrade priority: Medium. Recommended for all chains where Xcm is used (addition of new `XcmOrigin`)
 
 Changes:
 
