@@ -19,7 +19,7 @@ import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber,
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
 import type { Keys } from '@polkadot/types/interfaces/session';
 import type { SocietyJudgement } from '@polkadot/types/interfaces/society';
-import type { ElectionScore, EraIndex, RawSolution, RewardDestination, SolutionOrSnapshotSize, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import type { ElectionScore, EraIndex, RawSolution, ReadySolution, RewardDestination, SolutionOrSnapshotSize, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import type { Key } from '@polkadot/types/interfaces/system';
 import type { BountyIndex } from '@polkadot/types/interfaces/treasury';
 import type { ClassId, DestroyWitness, InstanceId } from '@polkadot/types/interfaces/uniques';
@@ -1246,6 +1246,17 @@ declare module '@polkadot/api/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     electionProviderMultiPhase: {
+      /**
+       * Set a solution in the queue, to be handed out to the client of this pallet in the next
+       * call to `ElectionProvider::elect`.
+       * 
+       * This can only be set by `T::ForceOrigin`, and only when the phase is `Emergency`.
+       * 
+       * The solution is not checked for any feasibility and is assumed to be trustworthy, as any
+       * feasibility check itself can in principle cause the election process to fail (due to
+       * memory/weight constrains).
+       **/
+      setEmergencyElectionResult: AugmentedSubmittable<(solution: ReadySolution | { supports?: any; score?: any; compute?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ReadySolution]>;
       /**
        * Set a new value for `MinimumUntrustedScore`.
        * 
@@ -2550,7 +2561,7 @@ declare module '@polkadot/api/types/submittable' {
        * Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.
        * - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`
        * - DbWrites: `NextKeys`, `origin account`
-       * - DbWrites per key id: `KeyOwnder`
+       * - DbWrites per key id: `KeyOwner`
        * # </weight>
        **/
       purgeKeys: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
@@ -2986,10 +2997,32 @@ declare module '@polkadot/api/types/submittable' {
        **/
       chill: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
+       * Declare a `controller` as having no desire to either validator or nominate.
+       * 
+       * Effects will be felt at the beginning of the next era.
+       * 
+       * The dispatch origin for this call must be _Signed_, but can be called by anyone.
+       * 
+       * If the caller is the same as the controller being targeted, then no further checks
+       * are enforced. However, this call can also be made by an third party user who witnesses
+       * that this controller does not satisfy the minimum bond requirements to be in their role.
+       * 
+       * This can be helpful if bond requirements are updated, and we need to remove old users
+       * who do not satisfy these requirements.
+       * 
+       **/
+      chillOther: AugmentedSubmittable<(controller: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
+      /**
        * Force there to be a new era at the end of the next session. After this, it will be
        * reset to normal (non-forced) behaviour.
        * 
        * The dispatch origin must be Root.
+       * 
+       * # Warning
+       * 
+       * The election process starts multiple blocks before the end of the era.
+       * If this is called just before a new era is triggered, the election process may not
+       * have enough blocks to get a result.
        * 
        * # <weight>
        * - No arguments.
@@ -3003,6 +3036,12 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * The dispatch origin must be Root.
        * 
+       * # Warning
+       * 
+       * The election process starts multiple blocks before the end of the era.
+       * If this is called just before a new era is triggered, the election process may not
+       * have enough blocks to get a result.
+       * 
        * # <weight>
        * - Weight: O(1)
        * - Write: ForceEra
@@ -3013,6 +3052,12 @@ declare module '@polkadot/api/types/submittable' {
        * Force there to be no new eras indefinitely.
        * 
        * The dispatch origin must be Root.
+       * 
+       * # Warning
+       * 
+       * The election process starts multiple blocks before the end of the era.
+       * Thus the election process may be ongoing when this is called. In this case the
+       * election will continue until the next era is triggered.
        * 
        * # <weight>
        * - No arguments.
@@ -3254,6 +3299,9 @@ declare module '@polkadot/api/types/submittable' {
        * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
        * to be called first to remove some of the chunks (if possible).
        * 
+       * If a user encounters the `InsufficientBond` error when calling this extrinsic,
+       * they should call `chill` first in order to free up their bonded funds.
+       * 
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        * And, it can be only called when [`EraElectionStatus`] is `Closed`.
        * 
@@ -3277,6 +3325,22 @@ declare module '@polkadot/api/types/submittable' {
        * </weight>
        **/
       unbond: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>]>;
+      /**
+       * Update the various staking limits this pallet.
+       * 
+       * * `min_nominator_bond`: The minimum active bond needed to be a nominator.
+       * * `min_validator_bond`: The minimum active bond needed to be a validator.
+       * * `max_nominator_count`: The max number of users who can be a nominator at once.
+       * When set to `None`, no limit is enforced.
+       * * `max_validator_count`: The max number of users who can be a validator at once.
+       * When set to `None`, no limit is enforced.
+       * 
+       * Origin must be Root to call this function.
+       * 
+       * NOTE: Existing nominators and validators will not be affected by this update.
+       * to kick people under the new limits, `chill_other` should be called.
+       **/
+      updateStakingLimits: AugmentedSubmittable<(minNominatorBond: BalanceOf | AnyNumber | Uint8Array, minValidatorBond: BalanceOf | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf, BalanceOf, Option<u32>, Option<u32>]>;
       /**
        * Declare the desire to validate for the origin controller.
        * 

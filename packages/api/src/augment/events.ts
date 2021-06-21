@@ -836,6 +836,10 @@ declare module '@polkadot/api/types/events' {
        **/
       StakingElection: AugmentedEvent<ApiType, []>;
       /**
+       * The election failed. No new era is planned.
+       **/
+      StakingElectionFailed: AugmentedEvent<ApiType, []>;
+      /**
        * An account has unbonded this amount. \[stash, amount\]
        **/
       Unbonded: AugmentedEvent<ApiType, [AccountId, Balance]>;

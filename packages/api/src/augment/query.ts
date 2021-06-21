@@ -884,6 +884,14 @@ declare module '@polkadot/api/types/storage' {
        **/
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * A tracker to keep count of the number of items in the `Nominators` map.
+       **/
+      counterForNominators: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A tracker to keep count of the number of items in the `Validators` map.
+       **/
+      counterForValidators: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The current era index.
        * 
        * This is the latest planned era, depending on how the Session pallet queues the validator
@@ -979,11 +987,33 @@ declare module '@polkadot/api/types/storage' {
        **/
       ledger: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<StakingLedger>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
+       * The maximum nominator count before we stop allowing new validators to join.
+       * 
+       * When this value is not set, no limits are enforced.
+       **/
+      maxNominatorsCount: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The maximum validator count before we stop allowing new validators to join.
+       * 
+       * When this value is not set, no limits are enforced.
+       **/
+      maxValidatorsCount: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Minimum number of staking participants before emergency conditions are imposed.
        **/
       minimumValidatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * The minimum active bond to become and maintain the role of a nominator.
+       **/
+      minNominatorBond: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The minimum active bond to become and maintain the role of a validator.
+       **/
+      minValidatorBond: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The map from nominator stash key to the set of stash keys of all validators to nominate.
+       * 
+       * When updating this storage item, you must also update the `CounterForNominators`.
        **/
       nominators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<Nominations>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
@@ -1026,6 +1056,8 @@ declare module '@polkadot/api/types/storage' {
       validatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The map from (wannabe) validator stash key to the preferences of that validator.
+       * 
+       * When updating this storage item, you must also update the `CounterForValidators`.
        **/
       validators: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ValidatorPrefs>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
