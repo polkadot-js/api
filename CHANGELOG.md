@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align static metadata with latest Substrate
+
+
 ## 4.15.1 Jun 19, 2021
 
 Upgrade priority: Medium. Recommended for all chains where Xcm is used (addition of new `XcmOrigin`)
