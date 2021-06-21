@@ -4,6 +4,7 @@
 
 Changes:
 
+- Add Kusama & Westend 9050 upgrade blocks
 - Align static metadata with latest Substrate
 
 
