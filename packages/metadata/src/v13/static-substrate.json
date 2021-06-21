@@ -2015,6 +2015,25 @@
                 "",
                 " This check can be turned off by setting the value to `None`."
               ]
+            },
+            {
+              "name": "set_emergency_election_result",
+              "args": [
+                {
+                  "name": "solution",
+                  "type": "ReadySolution"
+                }
+              ],
+              "documentation": [
+                " Set a solution in the queue, to be handed out to the client of this pallet in the next",
+                " call to `ElectionProvider::elect`.",
+                "",
+                " This can only be set by `T::ForceOrigin`, and only when the phase is `Emergency`.",
+                "",
+                " The solution is not checked for any feasibility and is assumed to be trustworthy, as any",
+                " feasibility check itself can in principle cause the election process to fail (due to",
+                " memory/weight constrains)."
+              ]
             }
           ],
           "events": [
@@ -2139,6 +2158,12 @@
               "documentation": [
                 " OCW submitted solution for wrong round"
               ]
+            },
+            {
+              "name": "CallNotAllowed",
+              "documentation": [
+                " The call is not allowed at this point."
+              ]
             }
           ],
           "index": 8
@@ -2217,6 +2242,28 @@
                 ]
               },
               {
+                "name": "MinNominatorBond",
+                "modifier": "Default",
+                "type": {
+                  "plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": [
+                  " The minimum active bond to become and maintain the role of a nominator."
+                ]
+              },
+              {
+                "name": "MinValidatorBond",
+                "modifier": "Default",
+                "type": {
+                  "plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": [
+                  " The minimum active bond to become and maintain the role of a validator."
+                ]
+              },
+              {
                 "name": "Ledger",
                 "modifier": "Optional",
                 "type": {
@@ -2261,7 +2308,33 @@
                 },
                 "fallback": "0x0000",
                 "documentation": [
-                  " The map from (wannabe) validator stash key to the preferences of that validator."
+                  " The map from (wannabe) validator stash key to the preferences of that validator.",
+                  "",
+                  " When updating this storage item, you must also update the `CounterForValidators`."
+                ]
+              },
+              {
+                "name": "CounterForValidators",
+                "modifier": "Default",
+                "type": {
+                  "plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " A tracker to keep count of the number of items in the `Validators` map."
+                ]
+              },
+              {
+                "name": "MaxValidatorsCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "u32"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The maximum validator count before we stop allowing new validators to join.",
+                  "",
+                  " When this value is not set, no limits are enforced."
                 ]
               },
               {
@@ -2277,7 +2350,33 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The map from nominator stash key to the set of stash keys of all validators to nominate."
+                  " The map from nominator stash key to the set of stash keys of all validators to nominate.",
+                  "",
+                  " When updating this storage item, you must also update the `CounterForNominators`."
+                ]
+              },
+              {
+                "name": "CounterForNominators",
+                "modifier": "Default",
+                "type": {
+                  "plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " A tracker to keep count of the number of items in the `Nominators` map."
+                ]
+              },
+              {
+                "name": "MaxNominatorsCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "u32"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The maximum nominator count before we stop allowing new validators to join.",
+                  "",
+                  " When this value is not set, no limits are enforced."
                 ]
               },
               {
@@ -2613,7 +2712,7 @@
                 "type": {
                   "plain": "Releases"
                 },
-                "fallback": "0x05",
+                "fallback": "0x06",
                 "documentation": [
                   " True if network has been upgraded to this version.",
                   " Storage version of the pallet.",
@@ -2716,6 +2815,9 @@
                 " No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)",
                 " can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need",
                 " to be called first to remove some of the chunks (if possible).",
+                "",
+                " If a user encounters the `InsufficientBond` error when calling this extrinsic,",
+                " they should call `chill` first in order to free up their bonded funds.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 " And, it can be only called when [`EraElectionStatus`] is `Closed`.",
@@ -2980,6 +3082,12 @@
                 "",
                 " The dispatch origin must be Root.",
                 "",
+                " # Warning",
+                "",
+                " The election process starts multiple blocks before the end of the era.",
+                " Thus the election process may be ongoing when this is called. In this case the",
+                " election will continue until the next era is triggered.",
+                "",
                 " # <weight>",
                 " - No arguments.",
                 " - Weight: O(1)",
@@ -2995,6 +3103,12 @@
                 " reset to normal (non-forced) behaviour.",
                 "",
                 " The dispatch origin must be Root.",
+                "",
+                " # Warning",
+                "",
+                " The election process starts multiple blocks before the end of the era.",
+                " If this is called just before a new era is triggered, the election process may not",
+                " have enough blocks to get a result.",
                 "",
                 " # <weight>",
                 " - No arguments.",
@@ -3054,6 +3168,12 @@
                 " Force there to be a new era at the end of sessions indefinitely.",
                 "",
                 " The dispatch origin must be Root.",
+                "",
+                " # Warning",
+                "",
+                " The election process starts multiple blocks before the end of the era.",
+                " If this is called just before a new era is triggered, the election process may not",
+                " have enough blocks to get a result.",
                 "",
                 " # <weight>",
                 " - Weight: O(1)",
@@ -3246,6 +3366,66 @@
                 " Note: Making this call only makes sense if you first set the validator preferences to",
                 " block any further nominations."
               ]
+            },
+            {
+              "name": "update_staking_limits",
+              "args": [
+                {
+                  "name": "min_nominator_bond",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "min_validator_bond",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "max_nominator_count",
+                  "type": "Option<u32>"
+                },
+                {
+                  "name": "max_validator_count",
+                  "type": "Option<u32>"
+                }
+              ],
+              "documentation": [
+                " Update the various staking limits this pallet.",
+                "",
+                " * `min_nominator_bond`: The minimum active bond needed to be a nominator.",
+                " * `min_validator_bond`: The minimum active bond needed to be a validator.",
+                " * `max_nominator_count`: The max number of users who can be a nominator at once.",
+                "   When set to `None`, no limit is enforced.",
+                " * `max_validator_count`: The max number of users who can be a validator at once.",
+                "   When set to `None`, no limit is enforced.",
+                "",
+                " Origin must be Root to call this function.",
+                "",
+                " NOTE: Existing nominators and validators will not be affected by this update.",
+                " to kick people under the new limits, `chill_other` should be called."
+              ]
+            },
+            {
+              "name": "chill_other",
+              "args": [
+                {
+                  "name": "controller",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Declare a `controller` as having no desire to either validator or nominate.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_, but can be called by anyone.",
+                "",
+                " If the caller is the same as the controller being targeted, then no further checks",
+                " are enforced. However, this call can also be made by an third party user who witnesses",
+                " that this controller does not satisfy the minimum bond requirements to be in their role.",
+                "",
+                " This can be helpful if bond requirements are updated, and we need to remove old users",
+                " who do not satisfy these requirements.",
+                ""
+              ]
             }
           ],
           "events": [
@@ -3343,6 +3523,13 @@
               "documentation": [
                 " A nominator has been kicked from a validator. \\[nominator, stash\\]"
               ]
+            },
+            {
+              "name": "StakingElectionFailed",
+              "args": [],
+              "documentation": [
+                " The election failed. No new era is planned."
+              ]
             }
           ],
           "constants": [
@@ -3435,9 +3622,9 @@
               ]
             },
             {
-              "name": "InsufficientValue",
+              "name": "InsufficientBond",
               "documentation": [
-                " Can not bond with value less than minimum balance."
+                " Can not bond with value less than minimum required."
               ]
             },
             {
@@ -3510,6 +3697,26 @@
               "name": "BadTarget",
               "documentation": [
                 " A nomination target was supplied that was blocked or otherwise not a validator."
+              ]
+            },
+            {
+              "name": "CannotChillOther",
+              "documentation": [
+                " The user has enough bond and thus cannot be chilled forcefully by an external person."
+              ]
+            },
+            {
+              "name": "TooManyNominators",
+              "documentation": [
+                " There are too many nominators in the system. Governance needs to adjust the staking settings",
+                " to keep things safe for the runtime."
+              ]
+            },
+            {
+              "name": "TooManyValidators",
+              "documentation": [
+                " There are too many validators in the system. Governance needs to adjust the staking settings",
+                " to keep things safe for the runtime."
               ]
             }
           ],
@@ -3657,7 +3864,7 @@
                 "   Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
                 " - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`",
                 " - DbWrites: `NextKeys`, `origin account`",
-                " - DbWrites per key id: `KeyOwnder`",
+                " - DbWrites per key id: `KeyOwner`",
                 " # </weight>"
               ]
             }
@@ -7986,7 +8193,7 @@
         {
           "name": "AuthorityDiscovery",
           "storage": null,
-          "calls": [],
+          "calls": null,
           "events": null,
           "constants": [],
           "errors": [],
@@ -8053,7 +8260,7 @@
               }
             ]
           },
-          "calls": [],
+          "calls": null,
           "events": [
             {
               "name": "Offence",
@@ -8101,7 +8308,7 @@
               }
             ]
           },
-          "calls": [],
+          "calls": null,
           "events": null,
           "constants": [],
           "errors": [],
