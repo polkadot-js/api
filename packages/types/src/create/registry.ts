@@ -51,31 +51,32 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
 
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
-  const modules = metadata.asLatest.modules;
-
   // decorate the events
-  modules
+  metadata.asLatest.modules
     .filter(({ events }) => events.isSome)
     .forEach((section, _sectionIndex): void => {
-      const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
+      const sectionIndex = metadata.version >= 12
+        ? section.index.toNumber()
+        : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
       section.events.unwrap().forEach((meta, methodIndex): void => {
         const methodName = meta.name.toString();
-        const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         const typeDef = meta.args.map((arg) => getTypeDef(arg));
-        let Types: Constructor<Codec>[] = [];
+        let Types: Constructor<Codec>[] | null = null;
 
-        try {
-          Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
-        } catch (error) {
-          l.error(error);
-        }
+        // Lazy create the actual type classes right at the point of use
+        const getTypes = (): Constructor<Codec>[] => {
+          if (!Types) {
+            Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
+          }
 
-        metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
+          return Types;
+        };
+
+        metadataEvents[u8aToHex(new Uint8Array([sectionIndex, methodIndex]))] = class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, Types, typeDef, meta, sectionName, methodName);
+            super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
           }
         };
       });
