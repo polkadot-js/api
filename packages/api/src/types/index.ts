@@ -73,6 +73,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description Throws an error when the initial connection fails (same as isReadyOrError)
    */
   throwOnConnect?: boolean;
+  /**
+   * @description Throws an error when some types are unknown (useful with throwOnConnect)
+   */
+  throwOnUnknown?: boolean;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic

@@ -89,7 +89,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
     documentation,
-    fallback: registry.createType('Bytes', registry.createType(outputType.toString() as 'Raw').toHex()),
+    fallback: registry.createType('Bytes'),
     modifier: registry.createType('StorageEntryModifierLatest', 1), // required
     name,
     type: registry.createType('StorageEntryTypeLatest', registry.createType('Type', outputType), 0)
