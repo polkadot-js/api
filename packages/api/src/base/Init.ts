@@ -286,7 +286,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // get unique types & validate
-    metadata.getUniqTypes(false);
+    metadata.getUniqTypes(this._options.throwOnUnknown || false);
 
     return [genesisHash, metadata];
   }
