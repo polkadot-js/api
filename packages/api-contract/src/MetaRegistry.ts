@@ -126,7 +126,7 @@ export class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(path.length > 1
-        ? { namespace: path.map((segment) => segment.toString()).join('::') }
+        ? { namespace: path.map((s) => s.toString()).join('::') }
         : {}
       ),
       ...(type.params.length > 0
@@ -156,15 +156,13 @@ export class MetaRegistry extends TypeRegistry {
 
     assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple or Struct');
 
-    const sub = fields.map(({ name, type }) => {
-      return {
-        ...this.getMetaTypeDef({ type }),
-        ...(name.isSome
-          ? { name: name.unwrap().toString() }
-          : {}
-        )
-      };
-    });
+    const sub = fields.map(({ name, type }) => ({
+      ...this.getMetaTypeDef({ type }),
+      ...(name.isSome
+        ? { name: name.unwrap().toString() }
+        : {}
+      )
+    }));
 
     return isTuple && sub.length === 1
       ? sub[0]
@@ -215,32 +213,28 @@ export class MetaRegistry extends TypeRegistry {
     const { params, path } = this.#getMetaType(id);
     const specialVariant = path[0].toString();
 
-    if (specialVariant === 'Option') {
-      return {
+    return specialVariant === 'Option'
+      ? {
         info: TypeDefInfo.Option,
         sub: this.getMetaTypeDef({ type: params[0] })
-      };
-    } else if (specialVariant === 'Result') {
-      return {
-        info: TypeDefInfo.Result,
-        sub: params.map((type, index) => ({
-          name: ['Ok', 'Error'][index],
-          ...this.getMetaTypeDef({ type })
-        }))
-      };
-    }
-
-    return {
-      info: TypeDefInfo.Enum,
-      sub: this.#extractVariantSub(variants)
-    };
+      }
+      : specialVariant === 'Result'
+        ? {
+          info: TypeDefInfo.Result,
+          sub: params.map((type, index) => ({
+            name: ['Ok', 'Error'][index],
+            ...this.getMetaTypeDef({ type })
+          }))
+        }
+        : {
+          info: TypeDefInfo.Enum,
+          sub: this.#extractVariantSub(variants)
+        };
   }
 
   #extractVariantSub = (variants: SiVariant[]): TypeDef[] => {
-    const isAllUnitVariants = variants.every(({ fields }) => fields.length === 0);
-
-    if (isAllUnitVariants) {
-      return variants.map(({ discriminant, name }) => ({
+    return variants.every(({ fields }) => fields.length === 0)
+      ? variants.map(({ discriminant, name }) => ({
         ...(
           discriminant.isSome
             ? { ext: { discriminant: discriminant.unwrap().toNumber() } }
@@ -249,14 +243,10 @@ export class MetaRegistry extends TypeRegistry {
         info: TypeDefInfo.Plain,
         name: name.toString(),
         type: 'Null'
-      }));
-    }
-
-    return variants.map(({ fields, name }) =>
-      withTypeString({
+      }))
+      : variants.map(({ fields, name }) => withTypeString({
         ...this.#extractFields(fields),
         name: name.toString()
-      })
-    );
+      }));
   }
 }

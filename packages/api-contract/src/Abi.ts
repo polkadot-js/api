@@ -19,7 +19,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
       ? list.find(({ identifier }) => [identifier, stringCamelCase(identifier)].includes(messageOrId.toString()))
       : messageOrId;
 
-  return assertReturn(message, `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
+  return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
 export class Abi {
@@ -127,7 +127,7 @@ export class Abi {
     const args = this.#createArgs(spec.args, spec);
     const event = {
       args,
-      docs: spec.docs.map((doc) => doc.toString()),
+      docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedEvent => ({
         args: this.#decodeArgs(args, data),
         event
@@ -145,7 +145,7 @@ export class Abi {
     const message = {
       ...add,
       args,
-      docs: spec.docs.map((doc) => doc.toString()),
+      docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedMessage => ({
         args: this.#decodeArgs(args, data),
         message
