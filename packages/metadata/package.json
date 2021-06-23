@@ -19,7 +19,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-metadata#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.5",
+    "@babel/runtime": "^7.14.6",
     "@polkadot/types": "4.15.2-2",
     "@polkadot/types-known": "4.15.2-2",
     "@polkadot/util": "^6.9.1",

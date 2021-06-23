@@ -103,21 +103,21 @@ export class GenericConsensusEngineId extends U8aFixed {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): string {
+  public override toHuman (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'ConsensusEngineId';
   }
 
   /**
    * @description Override the default toString to return a 4-byte string
    */
-  public toString (): string {
+  public override toString (): string {
     return this.isAscii
       ? u8aToString(this)
       : u8aToHex(this);

@@ -61,61 +61,61 @@ export class Data extends Enum {
     assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw values are limited to a maximum length of 32 bytes');
   }
 
-  get asBlakeTwo256 (): H256 {
+  public get asBlakeTwo256 (): H256 {
     return this.value as H256;
   }
 
-  get asKeccak256 (): H256 {
+  public get asKeccak256 (): H256 {
     return this.value as H256;
   }
 
-  get asRaw (): Bytes {
+  public get asRaw (): Bytes {
     return this.value as Bytes;
   }
 
-  get asSha256 (): H256 {
+  public get asSha256 (): H256 {
     return this.value as H256;
   }
 
-  get asShaThree256 (): H256 {
+  public get asShaThree256 (): H256 {
     return this.value as H256;
   }
 
-  get isBlakeTwo256 (): boolean {
+  public get isBlakeTwo256 (): boolean {
     return this.index === 2;
   }
 
-  get isKeccak256 (): boolean {
+  public get isKeccak256 (): boolean {
     return this.index === 4;
   }
 
-  get isNone (): boolean {
+  public override get isNone (): boolean {
     return this.index === 0;
   }
 
-  get isRaw (): boolean {
+  public get isRaw (): boolean {
     return this.index === 1;
   }
 
-  get isSha256 (): boolean {
+  public get isSha256 (): boolean {
     return this.index === 3;
   }
 
-  get isShaThree256 (): boolean {
+  public get isShaThree256 (): boolean {
     return this.index === 5;
   }
 
   /**
    * @description The encoded length
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.toU8a().length;
   }
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    */
-  public toU8a (): Uint8Array {
+  public override toU8a (): Uint8Array {
     if (this.index === 0) {
       return new Uint8Array(1);
     } else if (this.index === 1) {

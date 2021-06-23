@@ -23,7 +23,7 @@ export class UInt extends AbstractInt {
         super(registry, value, bitLength);
       }
 
-      public toRawType (): string {
+      public override toRawType (): string {
         return typeName || super.toRawType();
       }
     };

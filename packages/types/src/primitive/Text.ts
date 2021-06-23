@@ -84,7 +84,7 @@ export class Text extends String implements Codec {
   /**
    * @description The length of the value
    */
-  public get length (): number {
+  public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
   }
@@ -138,7 +138,7 @@ export class Text extends String implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return this.#override || super.toString();
   }
 

@@ -19,7 +19,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.5",
+    "@babel/runtime": "^7.14.6",
     "@polkadot/metadata": "4.15.2-2",
     "@polkadot/rpc-provider": "4.15.2-2",
     "@polkadot/types": "4.15.2-2",

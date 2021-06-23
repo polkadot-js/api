@@ -114,7 +114,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns the number of bits in the value
    */
-  public bitLength (): number {
+  public override bitLength (): number {
     return this.#bitLength;
   }
 
@@ -122,7 +122,7 @@ export abstract class AbstractInt extends BN implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public eq (other?: unknown): boolean {
+  public override eq (other?: unknown): boolean {
     // Here we are actually overriding the built-in .eq to take care of both
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
@@ -192,7 +192,7 @@ export abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (onlyHex = false): any {
+  public override toJSON (onlyHex = false): any {
     // FIXME this return type should by string | number, however BN returns string
     // Options here are
     //   - super.bitLength() - the actual used bits
@@ -218,7 +218,7 @@ export abstract class AbstractInt extends BN implements Codec {
    * @description Returns the string representation of the value
    * @param base The base to use for the conversion
    */
-  public toString (base?: number): string {
+  public override toString (base?: number): string {
     // only included here since we do not inherit docs
     return super.toString(base);
   }

@@ -216,7 +216,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+  public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
     let call: CallFunction | undefined;
 
     try {
@@ -244,7 +244,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'Call';
   }
 }

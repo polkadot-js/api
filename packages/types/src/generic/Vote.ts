@@ -105,7 +105,7 @@ export class GenericVote extends U8aFixed {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJson {
+  public override toHuman (isExpanded?: boolean): AnyJson {
     return {
       conviction: this.conviction.toHuman(isExpanded),
       vote: this.isAye ? 'Aye' : 'Nay'
@@ -115,7 +115,7 @@ export class GenericVote extends U8aFixed {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'Vote';
   }
 }

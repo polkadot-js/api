@@ -52,7 +52,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Block/header [[Hash]]
    */
-  public get hash (): CodecHash {
+  public override get hash (): CodecHash {
     return this.header.hash;
   }
 

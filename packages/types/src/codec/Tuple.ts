@@ -73,7 +73,7 @@ export class Tuple extends AbstractArray<Codec> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.reduce((total, entry) => total + entry.encodedLength, 0);
   }
 
@@ -104,7 +104,7 @@ export class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     // Overwrite the default toString representation of Array.
     return stringify(this.toJSON());
   }
@@ -113,7 +113,7 @@ export class Tuple extends AbstractArray<Codec> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.map((entry): Uint8Array =>
         entry.toU8a(isBare)

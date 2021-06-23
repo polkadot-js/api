@@ -111,7 +111,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return stringify(this.toJSON());
   }
 

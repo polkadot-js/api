@@ -151,7 +151,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+  public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
     return {
       method: this.method,
       section: this.section,

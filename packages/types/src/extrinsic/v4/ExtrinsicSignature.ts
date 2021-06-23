@@ -58,7 +58,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.isSigned
       ? super.encodedLength
       : 0;
@@ -181,7 +181,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     return this.isSigned
       ? super.toU8a(isBare)
       : EMPTY_U8A;

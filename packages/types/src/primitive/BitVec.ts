@@ -53,18 +53,18 @@ export class BitVec extends Raw {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.length + compactToU8a(this._decodedLength).length;
   }
 
-  public toHuman (): string {
+  public override toHuman (): string {
     return `0b${[...this.toU8a(true)].map((d) => `00000000${d.toString(2)}`.slice(-8)).join('_')}`;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'BitVec';
   }
 
@@ -72,7 +72,7 @@ export class BitVec extends Raw {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     const bitVec = super.toU8a();
 
     return isBare

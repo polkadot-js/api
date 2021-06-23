@@ -69,7 +69,7 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     const rawLength = this._rawLength;
 
     return rawLength + (
@@ -92,14 +92,14 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public override toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'Address';
   }
 
@@ -107,7 +107,7 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     const encoded = this._raw.toU8a().subarray(0, this._rawLength);
 
     return isBare

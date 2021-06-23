@@ -81,7 +81,7 @@ export class GenericAccountIndex extends u32 {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: unknown): boolean {
+  public override eq (other?: unknown): boolean {
     // shortcut for BN or Number, don't create an object
     if (isBn(other as string) || isNumber(other)) {
       return super.eq(other);
@@ -94,21 +94,21 @@ export class GenericAccountIndex extends u32 {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): string {
+  public override toHuman (): string {
     return this.toJSON();
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): string {
+  public override toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     const length = GenericAccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
@@ -117,7 +117,7 @@ export class GenericAccountIndex extends u32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'AccountIndex';
   }
 }

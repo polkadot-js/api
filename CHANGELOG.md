@@ -7,6 +7,7 @@ Changes:
 - Add Kusama & Westend 9050 upgrade blocks
 - Align static metadata with latest Substrate
 - Adjust API decoration to lazy-create event and storage types
+- Use TS `override` as applicable (with `--noImplicitOverrides` option)
 
 
 ## 4.15.1 Jun 19, 2021

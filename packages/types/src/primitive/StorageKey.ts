@@ -252,7 +252,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   /**
    * @description Returns the Human representation for this type
    */
-  public toHuman (): AnyJson {
+  public override toHuman (): AnyJson {
     return this._args.length
       ? this._args.map((arg) => arg.toHuman())
       : super.toHuman();
@@ -261,7 +261,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   /**
    * @description Returns the raw type for this
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'StorageKey';
   }
 }

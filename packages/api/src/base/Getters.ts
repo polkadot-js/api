@@ -83,13 +83,6 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
   }
 
   /**
-   * @description `true` when subscriptions are supported
-   */
-  public get hasSubscriptions (): boolean {
-    return this._rpcCore.provider.hasSubscriptions;
-  }
-
-  /**
    * @description true is the underlying provider is connected
    */
   public get isConnected (): boolean {

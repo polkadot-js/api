@@ -43,7 +43,7 @@ export class U8aFixed extends Raw {
         super(registry, value, bitLength);
       }
 
-      public toRawType (): string {
+      public override toRawType (): string {
         return typeName || super.toRawType();
       }
     };
@@ -52,7 +52,7 @@ export class U8aFixed extends Raw {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return `[u8;${this.length}]`;
   }
 }
