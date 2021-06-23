@@ -13,7 +13,7 @@ const MAX_LENGTH = 128 * 1024;
 /** @internal */
 function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): string {
   if (isHex(value)) {
-    return u8aToString(hexToU8a(value.toString()));
+    return u8aToString(hexToU8a(value));
   } else if (value instanceof Uint8Array) {
     if (!value.length) {
       return '';

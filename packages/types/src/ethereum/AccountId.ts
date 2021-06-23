@@ -13,9 +13,9 @@ function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
   if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
   } else if (isHex(value) || isEthereumAddress(value)) {
-    return hexToU8a(value.toString());
+    return hexToU8a(value);
   } else if (isString(value)) {
-    return u8aToU8a((value as string).toString());
+    return u8aToU8a(value);
   }
 
   return value;
