@@ -64,7 +64,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description The length of the value
    */
-  public get length (): number {
+  public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
   }
@@ -93,7 +93,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @param start The position to start at
    * @param end The position to end at
    */
-  public slice (start?: number, end?: number): Uint8Array {
+  public override slice (start?: number, end?: number): Uint8Array {
     // Like subarray below, we have to follow this approach since we are extending the TypeArray.
     // This happens especially when it comes to further extensions, the length may be an override
     return Uint8Array.from(this).slice(start, end);
@@ -104,7 +104,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @param begin The position to start at
    * @param end The position to end at
    */
-  public subarray (begin?: number, end?: number): Uint8Array {
+  public override subarray (begin?: number, end?: number): Uint8Array {
     return Uint8Array.from(this).subarray(begin, end);
   }
 
@@ -141,7 +141,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return this.toHex();
   }
 

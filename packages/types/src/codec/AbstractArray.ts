@@ -50,7 +50,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description The length of the value
    */
-  public get length (): number {
+  public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
   }
@@ -102,7 +102,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     // Overwrite the default toString representation of Array.
     const data = this.map((entry): string =>
       entry.toString()
@@ -135,35 +135,35 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Concatenates two arrays
    */
-  public concat (other: T[]): T[] {
+  public override concat (other: T[]): T[] {
     return this.toArray().concat(other instanceof AbstractArray ? other.toArray() : other);
   }
 
   /**
    * @description Filters the array with the callback
    */
-  public filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
+  public override filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
     return this.toArray().filter(callbackfn, thisArg);
   }
 
   /**
    * @description Maps the array with the callback
    */
-  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
+  public override map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
     return this.toArray().map(callbackfn, thisArg);
   }
 
   /**
    * @description Checks if the array includes a specific value
    */
-  public includes (check: unknown): boolean {
+  public override includes (check: unknown): boolean {
     return this.some((value: T) => value.eq(check));
   }
 
   /**
    * @description Returns a slice of an array
    */
-  public slice (start?: number, end?: number): T[] {
+  public override slice (start?: number, end?: number): T[] {
     return this.toArray().slice(start, end);
   }
 }

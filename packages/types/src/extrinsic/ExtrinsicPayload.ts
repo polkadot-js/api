@@ -112,7 +112,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: unknown): boolean {
+  public override eq (other?: unknown): boolean {
     return this._raw.eq(other);
   }
 
@@ -134,28 +134,28 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
+  public override toHuman (isExtended?: boolean): AnyJson {
     return this._raw.toHuman(isExtended);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): any {
+  public override toJSON (): any {
     return this.toHex();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return this.toHex();
   }
 
   /**
    * @description Returns a serialized u8a form
    */
-  public toU8a (isBare?: BareOpts): Uint8Array {
+  public override toU8a (isBare?: BareOpts): Uint8Array {
     // call our parent, with only the method stripped
     return super.toU8a(isBare ? { method: true } : false);
   }

@@ -73,7 +73,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.toU8a().length;
   }
 
@@ -243,14 +243,14 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isBare?: boolean): string {
+  public override toHex (isBare?: boolean): string {
     return u8aToHex(this.toU8a(isBare));
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExpanded?: boolean): AnyJson {
+  public override toHuman (isExpanded?: boolean): AnyJson {
     return {
       isSigned: this.isSigned,
       method: this.method.toHuman(isExpanded),
@@ -270,14 +270,14 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): string {
+  public override toJSON (): string {
     return this.toHex();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'Extrinsic';
   }
 
@@ -285,7 +285,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value is not length-prefixed
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     // we do not apply bare to the internal values, rather this only determines out length addition,
     // where we strip all lengths this creates an extrinsic that cannot be decoded
     const encoded = u8aConcat(new Uint8Array([this.version]), this._raw.toU8a());

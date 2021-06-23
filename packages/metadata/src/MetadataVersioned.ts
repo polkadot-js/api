@@ -142,7 +142,7 @@ export class MetadataVersioned extends Struct {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): Record<string, AnyJson> {
+  public override toJSON (): Record<string, AnyJson> {
     // HACK(y): ensure that we apply the aliases if we have not done so already, this is
     // needed to ensure we have the correct overrides (which is only applied in toLatest)
     // eslint-disable-next-line no-unused-expressions

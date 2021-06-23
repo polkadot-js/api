@@ -114,7 +114,7 @@ export class CodecDate extends Date implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): any {
+  public override toJSON (): any {
     // FIXME Return type should be number, but conflicts with Date.toJSON()
     // which returns string
     return this.toNumber();
@@ -137,7 +137,7 @@ export class CodecDate extends Date implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
   }

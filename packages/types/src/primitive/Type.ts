@@ -23,7 +23,7 @@ export class Type extends Text {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public override toRawType (): string {
     return 'Type';
   }
 }

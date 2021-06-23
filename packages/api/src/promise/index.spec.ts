@@ -91,7 +91,7 @@ describe('ApiPromise', (): void => {
           super({ provider });
         }
 
-        protected _loadMeta (): Promise<boolean> {
+        protected override _loadMeta (): Promise<boolean> {
           throw new Error('Simulate failure to load meta');
         }
       }

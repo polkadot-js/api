@@ -110,7 +110,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
      * @description Sign a transaction, returning the this to allow chaining, i.e. .sign(...).send(). When options, e.g. nonce/blockHash are not specified, it will be inferred. To retrieve eg. nonce use `signAsync` (the preferred interface, this is provided for backwards compatibility)
      * @deprecated
      */
-    public sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
+    public override sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
       super.sign(account, this.#makeSignOptions(this.#optionsOrNonce(optionsOrNonce), {}));
 
       return this;

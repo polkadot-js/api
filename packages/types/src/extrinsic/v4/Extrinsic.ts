@@ -54,7 +54,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public override get encodedLength (): number {
     return this.toU8a().length;
   }
 

@@ -245,7 +245,7 @@ export class Struct<
    * @description Returns a specific names entry in the structure
    * @param name The name of the entry to retrieve
    */
-  public get (name: keyof S): Codec | undefined {
+  public override get (name: keyof S): Codec | undefined {
     return super.get(name);
   }
 
@@ -309,7 +309,7 @@ export class Struct<
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return stringify(this.toJSON());
   }
 

@@ -149,7 +149,7 @@ export class CodecSet extends Set<string> implements Codec {
   /**
    * @description adds a value to the Set (extended to allow for validity checking)
    */
-  public add = (key: string): this => {
+  public override add = (key: string): this => {
     // ^^^ add = () property done to assign this instance's this, otherwise Set.add creates "some" chaos
     // we have the isUndefined(this._setValues) in here as well, add is used internally
     // in the Set constructor (so it is undefined at this point, and should allow)
@@ -214,7 +214,7 @@ export class CodecSet extends Set<string> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString (): string {
+  public override toString (): string {
     return `[${this.strings.join(', ')}]`;
   }
 
