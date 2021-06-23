@@ -35,8 +35,10 @@ export class MetaRegistry extends TypeRegistry {
   constructor (metadataVersion: string, chainProperties?: ChainProperties) {
     super();
 
-    // type indexes are 1-based pre-1.0 and 0-based post-1.0
-    this.typeOffset = metadataVersion.split('.')[0] === '0' ? 1 : 0;
+    const [major, minor] = metadataVersion.split('.').map((n) => parseInt(n, 10));
+
+    // type indexes are 1-based pre 0.7 and 0-based post
+    this.typeOffset = (major === 0 && minor < 7) ? 1 : 0;
 
     if (chainProperties) {
       this.setChainProperties(chainProperties);
