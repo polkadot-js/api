@@ -40,7 +40,7 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
     if (isU8a(value)) {
       checkInstance(value, created);
     } else if (isHex(value)) {
-      checkInstance(u8aToU8a(value.toString()), created);
+      checkInstance(u8aToU8a(value), created);
     }
   }
 

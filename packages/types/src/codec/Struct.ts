@@ -99,7 +99,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  */
 function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
   if (isHex(value)) {
-    return decodeStruct(registry, Types, hexToU8a(value.toString()), jsonMap);
+    return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
     const keys = Object.keys(Types);
     const values = decodeU8a(registry, value, Object.values(Types), keys);
