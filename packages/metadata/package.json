@@ -22,10 +22,10 @@
     "@babel/runtime": "^7.14.6",
     "@polkadot/types": "4.15.2-7",
     "@polkadot/types-known": "4.15.2-7",
-    "@polkadot/util": "^6.9.2-9",
-    "@polkadot/util-crypto": "^6.9.2-9"
+    "@polkadot/util": "^6.9.2-11",
+    "@polkadot/util-crypto": "^6.9.2-11"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.9.2-9"
+    "@polkadot/keyring": "^6.9.2-11"
   }
 }
