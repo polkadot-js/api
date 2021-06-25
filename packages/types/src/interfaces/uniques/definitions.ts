@@ -27,7 +27,8 @@ export default {
     },
     DestroyWitness: {
       instances: 'Compact<u32>',
-      instanceMetadatas: 'Compact<u32>'
+      instanceMetadatas: 'Compact<u32>',
+      attributes: 'Compact<u32>'
     },
     InstanceDetails: {
       owner: 'AccountId',
@@ -37,14 +38,12 @@ export default {
     },
     ClassMetadata: {
       deposit: 'DepositBalance',
-      name: 'Vec<u8>',
-      information: 'Vec<u8>',
+      data: 'Vec<u8>',
       isFrozen: 'bool'
     },
     InstanceMetadata: {
       deposit: 'DepositBalance',
-      name: 'Vec<u8>',
-      information: 'Vec<u8>',
+      data: 'Vec<u8>',
       isFrozen: 'bool'
     }
   }
