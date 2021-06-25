@@ -21,12 +21,12 @@
   "dependencies": {
     "@babel/runtime": "^7.14.6",
     "@polkadot/metadata": "4.15.2-9",
-    "@polkadot/util": "^6.9.2-11",
-    "@polkadot/util-crypto": "^6.9.2-11",
-    "@polkadot/x-rxjs": "^6.9.2-11"
+    "@polkadot/util": "^6.9.2-12",
+    "@polkadot/util-crypto": "^6.9.2-12",
+    "@polkadot/x-rxjs": "^6.9.2-12"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.9.2-11",
+    "@polkadot/keyring": "^6.9.2-12",
     "@types/bn.js": "^4.11.6",
     "bn.js": "^4.11.9"
   }

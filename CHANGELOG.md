@@ -11,6 +11,7 @@ Contributed:
 Changes:
 
 - Add Kusama, Polkadot & Westend 9050 upgrade blocks
+- Add Kusama & Westend 9070 upgrade blocks
 - Adjust API decoration to lazy-create event and storage types
 - Use TS `override` as applicable (with `--noImplicitOverrides` option)
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Kusama
