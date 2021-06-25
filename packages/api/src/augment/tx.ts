@@ -4141,7 +4141,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `m = witness.instance_metdadatas`
        * - `a = witness.attributes`
        **/
-      destroy: AugmentedSubmittable<(clazz: Compact<ClassId> | AnyNumber | Uint8Array, witness: DestroyWitness | { instances?: any; instanceMetadatas?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ClassId>, DestroyWitness]>;
+      destroy: AugmentedSubmittable<(clazz: Compact<ClassId> | AnyNumber | Uint8Array, witness: DestroyWitness | { instances?: any; instanceMetadatas?: any; attributes?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ClassId>, DestroyWitness]>;
       /**
        * Alter the attributes of a given asset.
        * 

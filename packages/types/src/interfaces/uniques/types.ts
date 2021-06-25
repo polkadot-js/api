@@ -24,8 +24,7 @@ export interface ClassId extends u32 {}
 /** @name ClassMetadata */
 export interface ClassMetadata extends Struct {
   readonly deposit: DepositBalance;
-  readonly name: Bytes;
-  readonly information: Bytes;
+  readonly data: Bytes;
   readonly isFrozen: bool;
 }
 
@@ -39,6 +38,7 @@ export interface DepositBalanceOf extends Balance {}
 export interface DestroyWitness extends Struct {
   readonly instances: Compact<u32>;
   readonly instanceMetadatas: Compact<u32>;
+  readonly attributes: Compact<u32>;
 }
 
 /** @name InstanceDetails */
@@ -55,8 +55,7 @@ export interface InstanceId extends u32 {}
 /** @name InstanceMetadata */
 export interface InstanceMetadata extends Struct {
   readonly deposit: DepositBalance;
-  readonly name: Bytes;
-  readonly information: Bytes;
+  readonly data: Bytes;
   readonly isFrozen: bool;
 }
 
