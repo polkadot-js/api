@@ -2,12 +2,21 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for full from-genesis queries on Kusama.
+
+Contributed:
+
+- Adjust types for uniques (Thanks to https://github.com/Yuripetusko)
+
 Changes:
 
-- Add Kusama & Westend 9050 upgrade blocks
-- Align static metadata with latest Substrate
+- Add Kusama, Polkadot & Westend 9050 upgrade blocks
 - Adjust API decoration to lazy-create event and storage types
 - Use TS `override` as applicable (with `--noImplicitOverrides` option)
+- Add missing historic `Heartbeat: HeartbeatTo244` mapping to Kusama
+- Remove duplication from contracts registry
+- Add explicit check for scale-info 0.7+ (contracts index lookups)
+- Align static metadata with latest Substrate
 
 
 ## 4.15.1 Jun 19, 2021
