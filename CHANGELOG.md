@@ -2,6 +2,8 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for full from-genesis queries on Kusama.
+
 Contributed:
 
 - Adjust types for uniques (Thanks to https://github.com/Yuripetusko)
