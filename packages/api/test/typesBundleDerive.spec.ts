@@ -7,6 +7,8 @@ import type { Option } from '@polkadot/types/codec';
 import type { AccountId, AccountIndex, AccountInfo, Address, Balance, BlockNumber, Index } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 
+import { jest } from '@jest/globals';
+
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { memo } from '@polkadot/api-derive/util/memo';
 import { combineLatest, of } from '@polkadot/x-rxjs';

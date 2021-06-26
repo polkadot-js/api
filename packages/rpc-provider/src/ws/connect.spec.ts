@@ -3,6 +3,8 @@
 
 import type { Mock } from './../mock/types';
 
+import { jest } from '@jest/globals';
+
 import { mockWs } from '../../test/mockWs';
 import { WsProvider } from './';
 

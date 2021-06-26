@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { jest } from '@jest/globals';
+
 import { of, timer } from '@polkadot/x-rxjs';
 
 import { drr } from '.';

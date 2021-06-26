@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 4.16.1 Jun 26, 2021
 
 Upgrade priority: Low. Recommended for full from-genesis queries on Kusama.
 
