@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { jest } from '@jest/globals';
+
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 describe('misc online tests', (): void => {
