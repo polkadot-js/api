@@ -6,6 +6,8 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  CompactAssignments: 'CompactAssignmentsWith16',
+  RawSolution: 'RawSolutionWith16',
   Keys: 'SessionKeys6',
   ProxyType: {
     _enum: {
@@ -17,9 +19,7 @@ const sharedTypes = {
       IdentityJudgement: 5,
       CancelProxy: 6
     }
-  },
-  CompactAssignments: 'CompactAssignmentsWith16',
-  RawSolution: 'RawSolutionWith16'
+  }
 };
 
 const addrAccountIdTypes = {

@@ -15,7 +15,7 @@ const deprecated = {
 };
 
 const phragmen = {
-  CompactAssignments: 'CompactAssignmentsWith24',
+  CompactAssignments: 'CompactAssignmentsWith16',
   CompactAssignmentsWith16: {
     votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
     votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
@@ -111,7 +111,7 @@ const phragmen = {
     }
   },
   ExtendedBalance: 'u128',
-  RawSolution: 'RawSolutionWith24',
+  RawSolution: 'RawSolutionWith16',
   RawSolutionWith16: {
     compact: 'CompactAssignmentsWith16',
     score: 'ElectionScore',
