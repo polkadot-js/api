@@ -12,7 +12,7 @@ export interface ActiveEraInfo extends Struct {
 }
 
 /** @name CompactAssignments */
-export interface CompactAssignments extends CompactAssignmentsWith24 {}
+export interface CompactAssignments extends CompactAssignmentsWith16 {}
 
 /** @name CompactAssignmentsTo257 */
 export interface CompactAssignmentsTo257 extends Struct {
@@ -207,7 +207,7 @@ export interface PhragmenScore extends Vec<u128> {}
 export interface Points extends u32 {}
 
 /** @name RawSolution */
-export interface RawSolution extends RawSolutionWith24 {}
+export interface RawSolution extends RawSolutionWith16 {}
 
 /** @name RawSolutionTo265 */
 export interface RawSolutionTo265 extends RawSolutionWith16 {}

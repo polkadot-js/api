@@ -6,6 +6,8 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 const sharedTypes = {
+  CompactAssignments: 'CompactAssignmentsWith16',
+  RawSolution: 'RawSolutionWith16',
   Keys: 'SessionKeys6',
   ProxyType: {
     _enum: {
@@ -23,10 +25,8 @@ const sharedTypes = {
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
-  CompactAssignments: 'CompactAssignmentsWith16',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
-  RawSolution: 'RawSolutionWith16',
   ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
@@ -70,21 +70,11 @@ const versioned: OverrideVersionedType[] = [
     minmax: [28, 29],
     types: {
       ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsWith16',
-      RawSolution: 'RawSolutionWith16',
       AccountInfo: 'AccountInfoWithDualRefCount'
     }
   },
   {
-    minmax: [30, 9000],
-    types: {
-      ...sharedTypes,
-      CompactAssignments: 'CompactAssignmentsWith16',
-      RawSolution: 'RawSolutionWith16'
-    }
-  },
-  {
-    minmax: [9010, undefined],
+    minmax: [30, undefined],
     types: {
       ...sharedTypes
     }
