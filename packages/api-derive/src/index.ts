@@ -13,6 +13,7 @@ import * as bounties from './bounties';
 import * as chain from './chain';
 import * as contracts from './contracts';
 import * as council from './council';
+import * as crowdloan from './crowdloan';
 import * as democracy from './democracy';
 import * as elections from './elections';
 import * as imOnline from './imOnline';
@@ -28,7 +29,7 @@ import * as tx from './tx';
 export { packageInfo } from './packageInfo';
 export * from './type';
 
-export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
@@ -47,6 +48,7 @@ export type ExactDerive = DeriveAllSections<typeof derive>;
 const deriveAvail: Record<string, string[]> = {
   contracts: ['contracts'],
   council: ['council'],
+  crowdloan: ['crowdloan'],
   democracy: ['democracy'],
   elections: ['phragmenElection', 'electionsPhragmen', 'elections'],
   imOnline: ['imOnline'],
