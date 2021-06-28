@@ -90,7 +90,8 @@ const phragmen = {
     _enum: {
       Off: null,
       Signed: null,
-      Unsigned: '(bool, BlockNumber)'
+      Unsigned: '(bool, BlockNumber)',
+      Emergency: null
     }
   },
   ElectionResult: {
