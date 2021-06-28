@@ -104,6 +104,7 @@ export interface ElectionPhase extends Enum {
   readonly isSigned: boolean;
   readonly isUnsigned: boolean;
   readonly asUnsigned: ITuple<[bool, BlockNumber]>;
+  readonly isEmergency: boolean;
 }
 
 /** @name ElectionResult */
