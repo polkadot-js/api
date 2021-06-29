@@ -100,7 +100,7 @@ function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childK
       return {
         blockHash,
         childKey,
-        contributorsHex: Object.keys(contributorsMap),
+        contributorsHex: [], // to be filled-in
         contributorsMap,
         hasKeys: true
       };
