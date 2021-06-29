@@ -3,19 +3,26 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, StorageKey, Vec } from '@polkadot/types';
-import type { EventRecord, FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
+import type { FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
 import type { AnyTuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveContributions } from '../types';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
+import { combineLatest, EMPTY, of } from '@polkadot/x-rxjs';
 import { map, startWith, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
+interface Changes {
+  added: string[];
+  blockHash: string;
+  removed: string[];
+}
+
 const EMPTY_RESULT: DeriveContributions = {
+  blockHash: '-',
   childKey: '',
   contributorsHex: [],
   contributorsMap: {},
@@ -33,27 +40,45 @@ function createChildKey (trieIndex: TrieIndex): string {
   );
 }
 
-function _eventTriggerSingle (api: ApiInterfaceRx, paraId: string | number | ParaId) {
-  api.query.system.events().pipe(
-    map((events) => {
-      events.filter(({ event: { data: [, eventParaId], method, section } }) =>
-        section === 'crowdloan' &&
-        ['Contributed', 'Withdrew'].includes(method) &&
-        eventParaId.eq(paraId)
-      )
+function _getUpdates (api: ApiInterfaceRx, paraId: string | number | ParaId): Observable<Changes> {
+  return api.query.system.events().pipe(
+    switchMap((events): Observable<Changes> => {
+      const changes = events
+        .filter(({ event: { data: [, eventParaId], method, section } }) =>
+          section === 'crowdloan' &&
+          ['Contributed', 'Withdrew'].includes(method) &&
+          eventParaId.eq(paraId)
+        )
+        .reduce((result: Changes, { event: { data: [accountId], method } }): Changes => {
+          if (method === 'Contributed') {
+            result.added.push(accountId.toHex());
+          } else {
+            result.removed.push(accountId.toHex());
+          }
+
+          return result;
+        }, { added: [], blockHash: events.createdAtHash?.toHex() || '-', removed: [] });
+
+      return changes.added.length || changes.removed.length
+        ? of(changes)
+        : EMPTY;
     }),
-    startWith('-')
+    startWith({ added: [], blockHash: '-', removed: [] })
   );
 }
 
-function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | ParaId) {
-  api.query.system.events().pipe(
-    map((events) => {
-      events.filter(({ event: { data: [eventParaId], method, section } }) =>
+function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | ParaId): Observable<string> {
+  return api.query.system.events().pipe(
+    switchMap((events): Observable<string> => {
+      const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
         section === 'crowdloan' &&
         ['AllRefunded', 'Dissolved', 'PartiallyRefunded'].includes(method) &&
         eventParaId.eq(paraId)
       );
+
+      return items.length
+        ? of(events.createdAtHash?.toHex() || '-')
+        : EMPTY;
     }),
     startWith('-')
   );
@@ -61,11 +86,11 @@ function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | ParaId
 
 function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
   return _eventTriggerAll(api, paraId).pipe(
-    switchMap(() => combineLatest([
-      api.rpc.childstate.getKeys(childKey, '0x'),
-      _eventTriggerSingle(api, paraId)
+    switchMap((blockHash) => combineLatest([
+      of(blockHash),
+      api.rpc.childstate.getKeys(childKey, '0x')
     ])),
-    map((keys: Vec<StorageKey<AnyTuple>>): DeriveContributions => {
+    map(([blockHash, keys]: [string, Vec<StorageKey<AnyTuple>>]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
       keys.forEach((k): void => {
@@ -73,6 +98,7 @@ function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childK
       });
 
       return {
+        blockHash,
         childKey,
         contributorsHex: Object.keys(contributorsMap),
         contributorsMap,
@@ -83,7 +109,23 @@ function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childK
 }
 
 function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
+  return combineLatest([
+    _getKeys(api, paraId, childKey),
+    _getUpdates(api, paraId)
+  ]).pipe(
+    map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
+      changes.added.forEach((a): void => {
+        full.contributorsMap[a] = true;
+      });
+      changes.removed.forEach((a): void => {
+        delete full.contributorsMap[a];
+      });
 
+      full.contributorsHex = Object.keys(full.contributorsMap);
+
+      return full;
+    })
+  );
 }
 
 export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | ParaId) => Observable<DeriveContributions> {
