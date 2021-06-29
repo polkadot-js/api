@@ -108,9 +108,9 @@ function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childK
   );
 }
 
-function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
+function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, { trieIndex }: FundInfo): Observable<DeriveContributions> {
   return combineLatest([
-    _getKeys(api, paraId, childKey),
+    _getKeys(api, paraId, createChildKey(trieIndex)),
     _getUpdates(api, paraId)
   ]).pipe(
     map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
@@ -133,7 +133,7 @@ export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId
     api.query.crowdloan.funds<Option<FundInfo>>(paraId).pipe(
       switchMap((optInfo) =>
         optInfo.isSome
-          ? _contributions(api, paraId, createChildKey(optInfo.unwrap().trieIndex))
+          ? _contributions(api, paraId, optInfo.unwrap())
           : of(EMPTY_RESULT)
       )
     )
