@@ -109,15 +109,21 @@ function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childK
 }
 
 function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, { trieIndex }: FundInfo): Observable<DeriveContributions> {
+  let extraAdded: string[] = [];
+  let extraRemoved: string[] = [];
+
   return combineLatest([
     _getKeys(api, paraId, createChildKey(trieIndex)),
     _getUpdates(api, paraId)
   ]).pipe(
     map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
-      changes.added.forEach((a): void => {
+      extraAdded = extraAdded.concat(...changes.added);
+      extraRemoved = extraRemoved.concat(...changes.removed);
+
+      extraAdded.forEach((a): void => {
         full.contributorsMap[a] = true;
       });
-      changes.removed.forEach((a): void => {
+      extraRemoved.forEach((a): void => {
         delete full.contributorsMap[a];
       });
 
