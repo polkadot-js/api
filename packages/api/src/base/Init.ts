@@ -7,7 +7,7 @@ import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/inte
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Observable, Subscription } from '@polkadot/x-rxjs';
-import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { Metadata } from '@polkadot/metadata';
@@ -28,7 +28,7 @@ const l = logger('api/init');
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
 
-  #registries: VersionedRegistry[] = [];
+  #registries: VersionedRegistry<ApiType>[] = [];
 
   #updateSub?: Subscription | null = null;
 
@@ -44,7 +44,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (!options.source) {
       this.registerTypes(options.types);
     } else {
-      this.#registries = options.source.#registries;
+      this.#registries = options.source.#registries as VersionedRegistry<ApiType>[];
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
@@ -99,9 +99,36 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   /**
+   * @description Returns the default versioned registry
+   */
+  private _getDefaultRegistry (): VersionedRegistry<ApiType> {
+    // get the default registry version
+    const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
+
+    assert(thisRegistry, 'Initialization error, cannot find the default registry');
+
+    return thisRegistry;
+  }
+
+  /**
+   * @description Returns a decorated API instance at a specific point in time
+   */
+  public async at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>> {
+    const registry = await this.getBlockRegistry(u8aToU8a(blockHash));
+
+    if (!registry.decoration) {
+      this._injectDecorated(registry, true);
+    }
+
+    assert(registry.decoration, 'Registry is not correctly decorated');
+
+    return registry.decoration;
+  }
+
+  /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry> {
+  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
       lastBlockHash && u8aEq(lastBlockHash, blockHash)
     );
@@ -147,7 +174,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+    const result = { decoration: null, isDefault: false, lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -230,18 +257,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               this._rx.runtimeVersion = version;
 
               // update the default registry version
-              const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
-
-              assert(thisRegistry, 'Initialization error, cannot find the default registry');
+              const thisRegistry = this._getDefaultRegistry();
 
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
-              thisRegistry.metadataConsts = null;
               thisRegistry.specVersion = version.specVersion;
 
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
-              this.injectMetadata(metadata, false, thisRegistry.registry);
+              this._injectMetadata(thisRegistry, false);
 
               return this._detectCapabilities(thisRegistry.registry);
             })
@@ -282,7 +306,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, metadataConsts: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ decoration: null, isDefault: true, lastBlockHash: null, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate
@@ -298,7 +322,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
     // inject metadata and adjust the types as detected
-    this.injectMetadata(metadata, true);
+    this._injectMetadata(this._getDefaultRegistry(), true);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
