@@ -37,6 +37,11 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
+interface FullDecoration<ApiType extends ApiTypes> {
+  decoratedApi: ApiDecoration<ApiType>;
+  decoratedMeta: DecoratedMeta;
+}
+
 // the max amount of keys/values that we will retrieve at once
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
 const PAGE_SIZE_V = 250; // limited since the data may be very large (e.g. misfiring elections)
@@ -187,7 +192,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, blockHash?: Uint8Array): DecoratedMeta {
+  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
     const decoratedMeta = expandMetadata(registry.registry, registry.metadata);
 
     // clear the decoration, we are redoing it here
@@ -211,18 +216,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     augmentObject('query', storage, registry.decoration.query, fromEmpty);
 
-    return decoratedMeta;
+    return {
+      decoratedApi: registry.decoration,
+      decoratedMeta
+    };
   }
 
   protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty: boolean): void {
-    const decoratedMeta = this._injectDecorated(registry, fromEmpty);
+    const { decoratedApi, decoratedMeta } = this._injectDecorated(registry, fromEmpty);
 
-    assert(registry.decoration, 'Registry is not correctly decorated');
-
-    this._consts = registry.decoration.consts;
-    this._errors = registry.decoration.errors;
-    this._events = registry.decoration.events;
-    this._query = registry.decoration.query;
+    this._consts = decoratedApi.consts;
+    this._errors = decoratedApi.errors;
+    this._events = decoratedApi.events;
+    this._query = decoratedApi.query;
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);

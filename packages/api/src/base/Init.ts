@@ -117,13 +117,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const u8aHash = u8aToU8a(blockHash);
     const registry = await this.getBlockRegistry(u8aHash);
 
-    if (!registry.decoration) {
-      this._injectDecorated(registry, true, u8aHash);
-    }
-
-    assert(registry.decoration, 'Registry is not correctly decorated');
-
-    return registry.decoration;
+    return registry.decoration
+      ? registry.decoration
+      : this._injectDecorated(registry, true, u8aHash).decoratedApi;
   }
 
   /**
