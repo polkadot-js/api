@@ -114,10 +114,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * @description Returns a decorated API instance at a specific point in time
    */
   public async at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>> {
-    const registry = await this.getBlockRegistry(u8aToU8a(blockHash));
+    const u8aHash = u8aToU8a(blockHash);
+    const registry = await this.getBlockRegistry(u8aHash);
 
     if (!registry.decoration) {
-      this._injectDecorated(registry, true);
+      this._injectDecorated(registry, true, u8aHash);
     }
 
     assert(registry.decoration, 'Registry is not correctly decorated');
