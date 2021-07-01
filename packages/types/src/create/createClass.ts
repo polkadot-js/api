@@ -187,9 +187,12 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   Type = getFn(registry, value) as Constructor<T>;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore ...this is the only place we we actually assign this...
-  Type.__fallbackType = value.fallbackType;
+  // don't clobber any existing
+  if (!Type.__fallbackType && value.fallbackType) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ...this is the only place we we actually assign this...
+    Type.__fallbackType = value.fallbackType;
+  }
 
   return Type;
 }
