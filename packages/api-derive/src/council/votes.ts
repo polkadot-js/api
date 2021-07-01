@@ -77,10 +77,10 @@ function retrieveCurrent (elections: QueryableModuleStorage<'rxjs'>): Observable
 }
 
 export function votes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
-  const elections = (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections);
+  const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
 
   return memo(instanceId, (): Observable<DeriveCouncilVotes> =>
-    location
+    elections
       ? elections.stakeOf
         ? retrievePrev(api, elections)
         : retrieveCurrent(elections)
