@@ -28,6 +28,11 @@ import * as tx from './tx';
 export { packageInfo } from './packageInfo';
 export * from './type';
 
+interface Avail {
+  instances: string[];
+  withDetect?: boolean;
+}
+
 export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
@@ -44,19 +49,19 @@ export type DeriveCustom = Record<string, Record<string, (instanceId: string, ap
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // Enable derive only if some of these modules are available
-const deriveAvail: Record<string, string[]> = {
-  contracts: ['contracts'],
-  council: ['council'],
-  democracy: ['democracy'],
-  elections: ['phragmenElection', 'electionsPhragmen', 'elections'],
-  imOnline: ['imOnline'],
-  membership: ['membership'],
-  parachains: ['parachains', 'registrar'],
-  session: ['session'],
-  society: ['society'],
-  staking: ['staking'],
-  technicalCommittee: ['technicalCommittee'],
-  treasury: ['treasury']
+const deriveAvail: Record<string, Avail> = {
+  contracts: { instances: ['contracts'] },
+  council: { instances: ['council'], withDetect: true },
+  democracy: { instances: ['democracy'] },
+  elections: { instances: ['phragmenElection', 'electionsPhragmen', 'elections'] },
+  imOnline: { instances: ['imOnline'] },
+  membership: { instances: ['membership'] },
+  parachains: { instances: ['parachains', 'registrar'] },
+  session: { instances: ['session'] },
+  society: { instances: ['society'] },
+  staking: { instances: ['staking'] },
+  technicalCommittee: { instances: ['technicalCommittee'], withDetect: true },
+  treasury: { instances: ['treasury'] }
 };
 
 /**
@@ -66,11 +71,19 @@ const deriveAvail: Record<string, string[]> = {
 /** @internal */
 function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   const queryKeys = Object.keys(api.query);
+  const specName = api.runtimeVersion.specName.toString();
 
   return Object
     .keys(allSections)
-    .filter((sectionName): boolean =>
-      !deriveAvail[sectionName] || deriveAvail[sectionName].some((query): boolean => queryKeys.includes(query))
+    .filter((sectionName) =>
+      !deriveAvail[sectionName] ||
+      deriveAvail[sectionName].instances.some((q) => queryKeys.includes(q)) ||
+      (
+        deriveAvail[sectionName].withDetect &&
+        deriveAvail[sectionName].instances.some((q) =>
+          (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
+        )
+      )
     )
     .reduce((deriveAcc, sectionName): DeriveAllSections<AllSections> => {
       const section = allSections[sectionName as keyof AllSections];

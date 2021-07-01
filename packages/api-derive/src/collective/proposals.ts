@@ -31,7 +31,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: Collective): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest<Result>([
@@ -51,7 +51,8 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: Colle
   );
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, section: Collective): () => Observable<DeriveCollectiveProposal[]> {
+export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
+  const [section] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), _section) || [_section];
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
@@ -63,7 +64,8 @@ export function proposals (instanceId: string, api: ApiInterfaceRx, section: Col
   );
 }
 
-export function proposal (instanceId: string, api: ApiInterfaceRx, section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposal (instanceId: string, api: ApiInterfaceRx, _section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+  const [section] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), _section) || [_section];
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
