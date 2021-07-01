@@ -2,6 +2,10 @@
 
 ## master
 
+Contributed:
+
+- Added `Emergency` to `ElectionPhase` (Thanks to https://github.com/arjanz)
+
 Changes:
 
 - Allow `instances` API config to drive collective locations
