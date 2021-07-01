@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { u32 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
 
-import { hasProposals as collectiveHasProposals, proposal as collectiveProposal, proposalHashes as collectiveProposalHashes, proposals as collectiveProposals } from '../collective';
+import { hasProposals as collectiveHasProposals, proposal as collectiveProposal, proposalCount as collectiveProposalCount, proposalHashes as collectiveProposalHashes, proposals as collectiveProposals } from '../collective';
 import { memo } from '../util';
 
 export function hasProposals (instanceId: string, api: ApiInterfaceRx): () => Observable<boolean> {
@@ -15,6 +16,10 @@ export function hasProposals (instanceId: string, api: ApiInterfaceRx): () => Ob
 
 export function proposal (instanceId: string, api: ApiInterfaceRx): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
   return memo(instanceId, collectiveProposal(instanceId, api, 'technicalCommittee'));
+}
+
+export function proposalCount (instanceId: string, api: ApiInterfaceRx): () => Observable<u32 | null> {
+  return memo(instanceId, collectiveProposalCount(instanceId, api, 'technicalCommittee'));
 }
 
 export function proposalHashes (instanceId: string, api: ApiInterfaceRx): () => Observable<Hash[]> {

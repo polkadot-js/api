@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
@@ -56,6 +56,16 @@ export function hasProposals (instanceId: string, api: ApiInterfaceRx, _section:
 
   return memo(instanceId, (): Observable<boolean> =>
     of(isFunction(api.query[section]?.proposals))
+  );
+}
+
+export function proposalCount (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<u32 | null> {
+  const section = getInstance(api, _section);
+
+  return memo(instanceId, (): Observable<u32 | null> =>
+    isFunction(api.query[section].proposalCount)
+      ? api.query[section as 'council'].proposalCount()
+      : of(null)
   );
 }
 
