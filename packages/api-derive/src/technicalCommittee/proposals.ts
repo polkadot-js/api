@@ -6,8 +6,12 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
 
-import { proposal as collectiveProposal, proposalHashes as collectiveProposalHashes, proposals as collectiveProposals } from '../collective';
+import { hasProposals as collectiveHasProposals, proposal as collectiveProposal, proposalHashes as collectiveProposalHashes, proposals as collectiveProposals } from '../collective';
 import { memo } from '../util';
+
+export function hasProposals (instanceId: string, api: ApiInterfaceRx): () => Observable<boolean> {
+  return memo(instanceId, collectiveHasProposals(instanceId, api, 'technicalCommittee'));
+}
 
 export function proposal (instanceId: string, api: ApiInterfaceRx): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
   return memo(instanceId, collectiveProposal(instanceId, api, 'technicalCommittee'));

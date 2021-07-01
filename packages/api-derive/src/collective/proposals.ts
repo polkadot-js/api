@@ -13,7 +13,6 @@ import { combineLatest, of } from '@polkadot/x-rxjs';
 import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-import { proposalHashes } from './proposalHashes';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
@@ -51,8 +50,32 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
   );
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
+function getSection (api: ApiInterfaceRx, _section: Collective): string {
   const [section] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), _section) || [_section];
+
+  return section;
+}
+
+export function hasProposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<boolean> {
+  const section = getSection(api, _section);
+
+  return memo(instanceId, (): Observable<boolean> =>
+    of(isFunction(api.query[section]?.proposals))
+  );
+}
+
+export function proposalHashes (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<Hash[]> {
+  const section = getSection(api, _section);
+
+  return memo(instanceId, (): Observable<Hash[]> =>
+    isFunction(api.query[section]?.proposals)
+      ? api.query[section as 'council'].proposals()
+      : of([])
+  );
+}
+
+export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
+  const section = getSection(api, _section);
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
   const getHashes = proposalHashes(instanceId, api, _section);
 
@@ -64,7 +87,7 @@ export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Co
 }
 
 export function proposal (instanceId: string, api: ApiInterfaceRx, _section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
-  const [section] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), _section) || [_section];
+  const section = getSection(api, _section);
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
