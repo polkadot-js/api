@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
+import type { Collective } from './types';
 
 import { isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-
-type Collective = 'council' | 'membership' | 'technicalCommittee';
+import { getInstance } from './getInstance';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
@@ -31,7 +31,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: Collective): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest<Result>([
@@ -51,19 +51,48 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: Colle
   );
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, section: Collective): () => Observable<DeriveCollectiveProposal[]> {
-  const proposalsFrom = _proposalsFrom(instanceId, api, section);
+export function hasProposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<boolean> {
+  const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
-    isFunction(api.query[section]?.proposals)
-      ? api.query[section as 'council'].proposals().pipe(
-        switchMap(proposalsFrom)
-      )
-      : of([] as DeriveCollectiveProposal[])
+  return memo(instanceId, (): Observable<boolean> =>
+    of(isFunction(api.query[section]?.proposals))
   );
 }
 
-export function proposal (instanceId: string, api: ApiInterfaceRx, section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposalCount (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<u32 | null> {
+  const section = getInstance(api, _section);
+
+  return memo(instanceId, (): Observable<u32 | null> =>
+    isFunction(api.query[section].proposalCount)
+      ? api.query[section as 'council'].proposalCount()
+      : of(null)
+  );
+}
+
+export function proposalHashes (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<Hash[]> {
+  const section = getInstance(api, _section);
+
+  return memo(instanceId, (): Observable<Hash[]> =>
+    isFunction(api.query[section]?.proposals)
+      ? api.query[section as 'council'].proposals()
+      : of([])
+  );
+}
+
+export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
+  const section = getInstance(api, _section);
+  const proposalsFrom = _proposalsFrom(instanceId, api, section);
+  const getHashes = proposalHashes(instanceId, api, _section);
+
+  return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
+    getHashes().pipe(
+      switchMap(proposalsFrom)
+    )
+  );
+}
+
+export function proposal (instanceId: string, api: ApiInterfaceRx, _section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+  const section = getInstance(api, _section);
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
   return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
