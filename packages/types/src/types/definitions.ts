@@ -7,7 +7,12 @@ export type DefinitionTypeEnum = { _enum: DefinitionTypeType[] } | { _enum: Reco
 
 export type DefinitionTypeSet = { _set: Record<string, number> };
 
-export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | { _alias?: Record<string, DefinitionTypeType> } & Record<string, unknown>;
+type DefinitionTypeStructExtra = {
+  _alias?: Record<string, DefinitionTypeType>;
+  _fallback?: DefinitionTypeType;
+} & Record<string, unknown>;
+
+export type DefinitionTypeStruct = Record<string, DefinitionTypeType> | DefinitionTypeStructExtra;
 
 export type DefinitionType = string | DefinitionTypeEnum | DefinitionTypeSet | DefinitionTypeStruct;
 
