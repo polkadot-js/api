@@ -6,14 +6,14 @@ import type { Option } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
+import type { Collective } from './types';
 
 import { isFunction } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
 import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-
-type Collective = 'council' | 'membership' | 'technicalCommittee';
+import { proposalHashes } from './proposalHashes';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
@@ -54,13 +54,12 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
 export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
   const [section] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), _section) || [_section];
   const proposalsFrom = _proposalsFrom(instanceId, api, section);
+  const getHashes = proposalHashes(instanceId, api, _section);
 
   return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
-    isFunction(api.query[section]?.proposals)
-      ? api.query[section as 'council'].proposals().pipe(
-        switchMap(proposalsFrom)
-      )
-      : of([] as DeriveCollectiveProposal[])
+    getHashes().pipe(
+      switchMap(proposalsFrom)
+    )
   );
 }
 
