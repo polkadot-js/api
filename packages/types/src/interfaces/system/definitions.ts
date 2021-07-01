@@ -140,7 +140,13 @@ export default {
   },
   types: {
     AccountInfo: 'AccountInfoWithTripleRefCount',
+    AccountInfoWithRefCountU8: {
+      nonce: 'Index',
+      refcount: 'u8',
+      data: 'AccountData'
+    },
     AccountInfoWithRefCount: {
+      _fallback: 'AccountInfoWithRefCountU8',
       nonce: 'Index',
       refcount: 'RefCount',
       data: 'AccountData'
