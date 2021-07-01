@@ -19,11 +19,11 @@ type Member = SeatHolder | ITuple<[AccountId, Balance]>;
 type Candidate = AccountId | ITuple<[AccountId, Balance]>;
 
 interface Constants {
-  candidacyBond: Balance;
-  desiredRunnersUp: u32;
-  desiredSeats: u32;
-  termDuration: BlockNumber;
-  votingBond: Balance;
+  candidacyBond?: Balance;
+  desiredRunnersUp?: u32;
+  desiredSeats?: u32;
+  termDuration?: BlockNumber;
+  votingBond?: Balance;
 }
 
 function isSeatHolder (value: Member): value is SeatHolder {
@@ -59,13 +59,7 @@ function getConstants (api: ApiInterfaceRx, elections: string): Constants {
       termDuration: api.consts[elections].termDuration as BlockNumber,
       votingBond: api.consts[elections].votingBond as Balance
     }
-    : {
-      candidacyBond: api.registry.createType('Balance'),
-      desiredRunnersUp: api.registry.createType('u32'),
-      desiredSeats: api.registry.createType('u32'),
-      termDuration: api.registry.createType('BlockNumber'),
-      votingBond: api.registry.createType('Balance')
-    };
+    : {};
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
