@@ -100,6 +100,7 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
   value.alias = parsed._alias
     ? new Map(Object.entries(parsed._alias))
     : undefined;
+  value.fallbackType = parsed._fallback as string | undefined;
   value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
     getTypeDef(getTypeString(parsed[name]), { name }, count)
   );

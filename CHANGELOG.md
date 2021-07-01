@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Added `fallbackType` for type classes (only struct, as defined)
 - Allow `instances` API config to drive collective locations
 
 

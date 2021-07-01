@@ -146,6 +146,7 @@ export default {
       data: 'AccountData'
     },
     AccountInfoWithDualRefCount: {
+      _fallback: 'AccountInfoWithRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
@@ -154,6 +155,7 @@ export default {
     // original naming
     AccountInfoWithProviders: 'AccountInfoWithDualRefCount',
     AccountInfoWithTripleRefCount: {
+      _fallback: 'AccountInfoWithDualRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
