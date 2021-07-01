@@ -7,9 +7,9 @@ import type { BN } from '@polkadot/util';
 import type { ApiDecoration, ApiTypes } from '../types';
 
 export interface VersionedRegistry<ApiType extends ApiTypes> {
-  decoration: ApiDecoration<ApiType> | null;
-  isDefault: boolean;
-  lastBlockHash: Uint8Array | null;
+  decoration?: ApiDecoration<ApiType> | null;
+  isDefault?: boolean;
+  lastBlockHash?: Uint8Array | null;
   metadata: Metadata;
   registry: Registry;
   specVersion: BN;

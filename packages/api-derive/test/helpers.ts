@@ -14,9 +14,7 @@ export function createApiWithAugmentations (): ApiPromise {
 
   const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  api._injectMetadata({ metadata, registry }, true);
+  api.injectMetadata(metadata, true, registry);
 
   return api;
 }

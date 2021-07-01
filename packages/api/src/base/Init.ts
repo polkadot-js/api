@@ -171,7 +171,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { decoration: null, isDefault: false, lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
+    const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -303,7 +303,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ decoration: null, isDefault: true, lastBlockHash: null, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate

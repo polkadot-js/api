@@ -19,7 +19,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { arrayChunk, arrayFlatten, assert, BN, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, switchMap, tap, toArray } from '@polkadot/x-rxjs/operators';
 
@@ -192,7 +192,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
+  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
     const decoratedMeta = expandMetadata(registry.registry, registry.metadata);
 
     // clear the decoration, we are redoing it here
@@ -222,7 +222,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     };
   }
 
-  protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty: boolean): void {
+  protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean): void {
     const { decoratedApi, decoratedMeta } = this._injectDecorated(registry, fromEmpty);
 
     this._consts = decoratedApi.consts;
@@ -241,6 +241,14 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // rx
     augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
+  }
+
+  /**
+   * @deprecated
+   * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
+   */
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+    this._injectMetadata({ metadata, registry: registry || this.#registry, specVersion: BN_ZERO }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
