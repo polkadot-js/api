@@ -18,14 +18,6 @@ type Member = SeatHolder | ITuple<[AccountId, Balance]>;
 
 type Candidate = AccountId | ITuple<[AccountId, Balance]>;
 
-interface Constants {
-  candidacyBond?: Balance;
-  desiredRunnersUp?: u32;
-  desiredSeats?: u32;
-  termDuration?: BlockNumber;
-  votingBond?: Balance;
-}
-
 function isSeatHolder (value: Member): value is SeatHolder {
   return !Array.isArray(value);
 }
@@ -48,18 +40,6 @@ function getCandidate (value: Candidate): AccountId {
 
 function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [AccountId, Balance]): number {
   return balanceB.cmp(balanceA);
-}
-
-function getConstants (api: ApiInterfaceRx, elections: string): Constants {
-  return api.consts[elections]
-    ? {
-      candidacyBond: api.consts[elections].candidacyBond as Balance,
-      desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
-      desiredSeats: api.consts[elections].desiredMembers as u32,
-      termDuration: api.consts[elections].termDuration as BlockNumber,
-      votingBond: api.consts[elections].votingBond as Balance
-    }
-    : {};
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
@@ -86,7 +66,17 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
       ])
   ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-      ...getConstants(api, elections),
+      ...(
+        api.consts[elections]
+          ? {
+            candidacyBond: api.consts[elections].candidacyBond as Balance,
+            desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
+            desiredSeats: api.consts[elections].desiredMembers as u32,
+            termDuration: api.consts[elections].termDuration as BlockNumber,
+            votingBond: api.consts[elections].votingBond as Balance
+          }
+          : {}
+      ),
       candidateCount: api.registry.createType('u32', candidates.length),
       candidates: candidates.map(getCandidate),
       members: members.length
