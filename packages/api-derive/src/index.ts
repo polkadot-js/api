@@ -53,7 +53,7 @@ const deriveAvail: Record<string, Avail> = {
   contracts: { instances: ['contracts'] },
   council: { instances: ['council'], withDetect: true },
   democracy: { instances: ['democracy'] },
-  elections: { instances: ['phragmenElection', 'electionsPhragmen', 'elections'] },
+  elections: { instances: ['phragmenElection', 'electionsPhragmen', 'elections', 'council'], withDetect: true },
   imOnline: { instances: ['imOnline'] },
   membership: { instances: ['membership'] },
   parachains: { instances: ['parachains', 'registrar'] },
