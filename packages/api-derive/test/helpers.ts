@@ -14,7 +14,7 @@ export function createApiWithAugmentations (): ApiPromise {
 
   const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
 
-  api.injectMetadata(metadata, true);
+  api.injectMetadata(metadata, true, registry);
 
   return api;
 }

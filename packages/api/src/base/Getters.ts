@@ -5,7 +5,7 @@ import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { assertReturn } from '@polkadot/util';
 
@@ -21,7 +21,7 @@ function assertResult<T> (value: T | undefined): T {
   return assertReturn(value, 'Api needs to be initialized before using, listen on \'ready\'');
 }
 
-export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
+export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> implements ApiDecoration<ApiType> {
   /**
    * @description Contains the parameter types (constants) of all modules.
    *

@@ -8,7 +8,8 @@ import type { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/int
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { VersionedRegistry } from './types';
 
 import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
@@ -18,7 +19,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { arrayChunk, arrayFlatten, assert, BN, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
 import { map, switchMap, tap, toArray } from '@polkadot/x-rxjs/operators';
 
@@ -34,6 +35,11 @@ interface MetaDecoration {
   method: string;
   section: string;
   toJSON: () => any;
+}
+
+interface FullDecoration<ApiType extends ApiTypes> {
+  decoratedApi: ApiDecoration<ApiType>;
+  decoratedMeta: DecoratedMeta;
 }
 
 // the max amount of keys/values that we will retrieve at once
@@ -186,8 +192,43 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    const decoratedMeta = expandMetadata(registry || this.#registry, metadata);
+  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
+    const decoratedMeta = expandMetadata(registry.registry, registry.metadata);
+
+    // clear the decoration, we are redoing it here
+    if (fromEmpty || !registry.decoration) {
+      registry.decoration = {
+        consts: {},
+        errors: {},
+        events: {},
+        query: {}
+      } as ApiDecoration<ApiType>;
+    }
+
+    // adjust the versioned registry
+    augmentObject('consts', decoratedMeta.consts, registry.decoration.consts, fromEmpty);
+    augmentObject('errors', decoratedMeta.errors, registry.decoration.errors, fromEmpty);
+    augmentObject('events', decoratedMeta.events, registry.decoration.events, fromEmpty);
+
+    const storage = blockHash
+      ? this._decorateStorageAt(decoratedMeta, this._decorateMethod, blockHash)
+      : this._decorateStorage(decoratedMeta, this._decorateMethod);
+
+    augmentObject('query', storage, registry.decoration.query, fromEmpty);
+
+    return {
+      decoratedApi: registry.decoration,
+      decoratedMeta
+    };
+  }
+
+  protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean): void {
+    const { decoratedApi, decoratedMeta } = this._injectDecorated(registry, fromEmpty);
+
+    this._consts = decoratedApi.consts;
+    this._errors = decoratedApi.errors;
+    this._events = decoratedApi.events;
+    this._query = decoratedApi.query;
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
@@ -197,15 +238,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
     }
 
-    // this API
-    augmentObject('query', this._decorateStorage(decoratedMeta, this._decorateMethod), this._query, fromEmpty);
-    augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
-    augmentObject('errors', decoratedMeta.errors, this._errors, fromEmpty);
-    augmentObject('events', decoratedMeta.events, this._events, fromEmpty);
-
     // rx
     augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
+  }
+
+  /**
+   * @deprecated
+   * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
+   */
+  public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
+    this._injectMetadata({ metadata, registry: registry || this.#registry, specVersion: BN_ZERO }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -353,6 +396,18 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }, {} as QueryableStorage<ApiType>);
   }
 
+  protected _decorateStorageAt<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
+    return Object.entries(query).reduce((out, [name, section]): QueryableStorageAt<ApiType> => {
+      out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorageAt<ApiType> => {
+        out[name] = this._decorateStorageEntryAt(method, decorateMethod, blockHash);
+
+        return out;
+      }, {} as QueryableModuleStorageAt<ApiType>);
+
+      return out;
+    }, {} as QueryableStorageAt<ApiType>);
+  }
+
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
@@ -371,7 +426,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       this._rpcCore.state.getStorageHash(getArgs(args)));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
-      key.section === creator.section && key.method === creator.method;
+      key.section === creator.section &&
+      key.method === creator.method;
 
     decorated.key = (...args: Arg[]): string =>
       u8aToHex(compactStripLength(creator(
@@ -428,6 +484,59 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
         this._retrieveMulti(args.map((arg) => [creator, arg])));
+    }
+
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
+
+    return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
+  }
+
+  private _decorateStorageEntryAt<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
+    // get the storage arguments, with DoubleMap as an array entry, otherwise spread
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+
+    // Disable this where it occurs for each field we are decorating
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
+
+    const decorated = decorateMethod((...args: Arg[]): Observable<Codec> =>
+      this._rpcCore.state.getStorage(getArgs(args), blockHash));
+
+    decorated.creator = creator;
+
+    decorated.hash = decorateMethod((...args: Arg[]): Observable<Hash> =>
+      this._rpcCore.state.getStorageHash(getArgs(args), blockHash));
+
+    decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
+      key.section === creator.section &&
+      key.method === creator.method;
+
+    decorated.key = (...args: Arg[]): string =>
+      u8aToHex(compactStripLength(creator(
+        creator.meta.type.isPlain
+          ? undefined
+          : creator.meta.type.isMap
+            ? args[0]
+            : creator.meta.type.isDoubleMap
+              ? [args[0], args[1]]
+              : args
+      ))[1]);
+
+    decorated.keyPrefix = (...keys: Arg[]): string =>
+      u8aToHex(creator.keyPrefix(...keys));
+
+    decorated.size = decorateMethod((...args: Arg[]): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getArgs(args), blockHash));
+
+    // FIXME NMap support
+    // .keys() & .entries() only available on map types
+    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
+      decorated.entries = decorateMethod(
+        memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntries(creator, blockHash, args)));
+
+      decorated.keys = decorateMethod(
+        memo(this.#instanceId, (...args: Arg[]): Observable<StorageKey[]> =>
+          this._retrieveMapKeys(creator, blockHash, args)));
     }
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
