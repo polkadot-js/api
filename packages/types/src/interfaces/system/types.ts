@@ -27,6 +27,13 @@ export interface AccountInfoWithRefCount extends Struct {
   readonly data: AccountData;
 }
 
+/** @name AccountInfoWithRefCountU8 */
+export interface AccountInfoWithRefCountU8 extends Struct {
+  readonly nonce: Index;
+  readonly refcount: u8;
+  readonly data: AccountData;
+}
+
 /** @name AccountInfoWithTripleRefCount */
 export interface AccountInfoWithTripleRefCount extends Struct {
   readonly nonce: Index;

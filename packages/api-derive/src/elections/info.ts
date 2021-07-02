@@ -47,11 +47,13 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
     ? 'phragmenElection'
     : api.query.electionsPhragmen
       ? 'electionsPhragmen'
-      : 'elections';
+      : api.query.elections
+        ? 'elections'
+        : null;
   const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
 
   return (
-    api.query[elections]
+    elections
       ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
         api.query[council].members,
         api.query[elections].candidates,
@@ -59,7 +61,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
         api.query[elections].runnersUp
       ])
       : combineLatest<[Vec<AccountId>, Candidate[], Member[], Member[]]>([
-        api.query[council].members,
+        api.query[council].members(),
         of([]),
         of([]),
         of([])
@@ -67,7 +69,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
   ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
       ...(
-        api.consts[elections]
+        elections
           ? {
             candidacyBond: api.consts[elections].candidacyBond as Balance,
             desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
