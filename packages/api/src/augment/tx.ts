@@ -1266,6 +1266,22 @@ declare module '@polkadot/api/types/submittable' {
        **/
       setMinimumUntrustedScore: AugmentedSubmittable<(maybeNextScore: Option<ElectionScore> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<ElectionScore>]>;
       /**
+       * Submit a solution for the signed phase.
+       * 
+       * The dispatch origin fo this call must be __signed__.
+       * 
+       * The solution is potentially queued, based on the claimed score and processed at the end
+       * of the signed phase.
+       * 
+       * A deposit is reserved and recorded for the solution. Based on the outcome, the solution
+       * might be rewarded, slashed, or get all or a part of the deposit back.
+       * 
+       * # <weight>
+       * Queue size must be provided as witness data.
+       * # </weight>
+       **/
+      submit: AugmentedSubmittable<(solution: RawSolution | { compact?: any; score?: any; round?: any } | string | Uint8Array, numSignedSubmissions: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [RawSolution, u32]>;
+      /**
        * Submit a solution for the unsigned phase.
        * 
        * The dispatch origin fo this call must be __none__.
@@ -2997,15 +3013,24 @@ declare module '@polkadot/api/types/submittable' {
        **/
       chill: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Declare a `controller` as having no desire to either validator or nominate.
+       * Declare a `controller` to stop participating as either a validator or nominator.
        * 
        * Effects will be felt at the beginning of the next era.
        * 
        * The dispatch origin for this call must be _Signed_, but can be called by anyone.
        * 
-       * If the caller is the same as the controller being targeted, then no further checks
-       * are enforced. However, this call can also be made by an third party user who witnesses
-       * that this controller does not satisfy the minimum bond requirements to be in their role.
+       * If the caller is the same as the controller being targeted, then no further checks are
+       * enforced, and this function behaves just like `chill`.
+       * 
+       * If the caller is different than the controller being targeted, the following conditions
+       * must be met:
+       * * A `ChillThreshold` must be set and checked which defines how close to the max
+       * nominators or validators we must reach before users can start chilling one-another.
+       * * A `MaxNominatorCount` and `MaxValidatorCount` must be set which is used to determine
+       * how close we are to the threshold.
+       * * A `MinNominatorBond` and `MinValidatorBond` must be set and checked, which determines
+       * if this is a person that should be chilled because they have not met the threshold
+       * bond required.
        * 
        * This can be helpful if bond requirements are updated, and we need to remove old users
        * who do not satisfy these requirements.
@@ -3277,6 +3302,22 @@ declare module '@polkadot/api/types/submittable' {
        **/
       setPayee: AugmentedSubmittable<(payee: RewardDestination | { Staked: any } | { Stash: any } | { Controller: any } | { Account: any } | { None: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [RewardDestination]>;
       /**
+       * Update the various staking limits this pallet.
+       * 
+       * * `min_nominator_bond`: The minimum active bond needed to be a nominator.
+       * * `min_validator_bond`: The minimum active bond needed to be a validator.
+       * * `max_nominator_count`: The max number of users who can be a nominator at once.
+       * When set to `None`, no limit is enforced.
+       * * `max_validator_count`: The max number of users who can be a validator at once.
+       * When set to `None`, no limit is enforced.
+       * 
+       * Origin must be Root to call this function.
+       * 
+       * NOTE: Existing nominators and validators will not be affected by this update.
+       * to kick people under the new limits, `chill_other` should be called.
+       **/
+      setStakingLimits: AugmentedSubmittable<(minNominatorBond: BalanceOf | AnyNumber | Uint8Array, minValidatorBond: BalanceOf | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array, threshold: Option<Percent> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf, BalanceOf, Option<u32>, Option<u32>, Option<Percent>]>;
+      /**
        * Sets the ideal number of validators.
        * 
        * The dispatch origin must be Root.
@@ -3325,22 +3366,6 @@ declare module '@polkadot/api/types/submittable' {
        * </weight>
        **/
       unbond: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>]>;
-      /**
-       * Update the various staking limits this pallet.
-       * 
-       * * `min_nominator_bond`: The minimum active bond needed to be a nominator.
-       * * `min_validator_bond`: The minimum active bond needed to be a validator.
-       * * `max_nominator_count`: The max number of users who can be a nominator at once.
-       * When set to `None`, no limit is enforced.
-       * * `max_validator_count`: The max number of users who can be a validator at once.
-       * When set to `None`, no limit is enforced.
-       * 
-       * Origin must be Root to call this function.
-       * 
-       * NOTE: Existing nominators and validators will not be affected by this update.
-       * to kick people under the new limits, `chill_other` should be called.
-       **/
-      updateStakingLimits: AugmentedSubmittable<(minNominatorBond: BalanceOf | AnyNumber | Uint8Array, minValidatorBond: BalanceOf | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf, BalanceOf, Option<u32>, Option<u32>]>;
       /**
        * Declare the desire to validate for the origin controller.
        * 
@@ -4138,7 +4163,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Weight: `O(n + m)` where:
        * - `n = witness.instances`
-       * - `m = witness.instance_metdadatas`
+       * - `m = witness.instance_metadatas`
        * - `a = witness.attributes`
        **/
       destroy: AugmentedSubmittable<(clazz: Compact<ClassId> | AnyNumber | Uint8Array, witness: DestroyWitness | { instances?: any; instanceMetadatas?: any; attributes?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ClassId>, DestroyWitness]>;
