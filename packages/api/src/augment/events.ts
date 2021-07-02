@@ -391,7 +391,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * An account has been rewarded for their signed submission being finalized.
        **/
-      Rewarded: AugmentedEvent<ApiType, [AccountId]>;
+      Rewarded: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * The signed phase of the given round has started.
        **/
@@ -399,14 +399,16 @@ declare module '@polkadot/api/types/events' {
       /**
        * An account has been slashed for submitting an invalid signed submission.
        **/
-      Slashed: AugmentedEvent<ApiType, [AccountId]>;
+      Slashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A solution was stored with the given compute.
        * 
        * If the solution is signed, this means that it hasn't yet been processed. If the
        * solution is unsigned, this means that it has also been processed.
+       * 
+       * The `bool` is `true` when a previous solution was ejected to make room for this one.
        **/
-      SolutionStored: AugmentedEvent<ApiType, [ElectionCompute]>;
+      SolutionStored: AugmentedEvent<ApiType, [ElectionCompute, bool]>;
       /**
        * The unsigned phase of the given round has started.
        **/

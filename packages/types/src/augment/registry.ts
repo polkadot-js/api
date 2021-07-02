@@ -48,7 +48,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { BeefyKey, FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys10, SessionKeys10B, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys6B, SessionKeys7, SessionKeys7B, SessionKeys8, SessionKeys8B, SessionKeys9, SessionKeys9B, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactAssignmentsTo265, CompactAssignmentsWith16, CompactAssignmentsWith24, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, RawSolutionTo265, RawSolutionWith16, RawSolutionWith24, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactAssignmentsTo265, CompactAssignmentsWith16, CompactAssignmentsWith24, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, RawSolutionTo265, RawSolutionWith16, RawSolutionWith24, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SignedSubmission, SignedSubmissionOf, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, SubmissionIndicesOf, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
 import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithRefCountU8, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, ArithmeticError, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
@@ -842,6 +842,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<SignedBlock>': Option<SignedBlock>;
     'Option<SignedBlockWithJustification>': Option<SignedBlockWithJustification>;
     'Option<SignedBlockWithJustifications>': Option<SignedBlockWithJustifications>;
+    'Option<SignedSubmission>': Option<SignedSubmission>;
+    'Option<SignedSubmissionOf>': Option<SignedSubmissionOf>;
     'Option<SignerPayload>': Option<SignerPayload>;
     'Option<SigningContext>': Option<SigningContext>;
     'Option<SiLookupTypeId>': Option<SiLookupTypeId>;
@@ -913,6 +915,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<StoredState>': Option<StoredState>;
     'Option<StrikeCount>': Option<StrikeCount>;
     'Option<SubId>': Option<SubId>;
+    'Option<SubmissionIndicesOf>': Option<SubmissionIndicesOf>;
     'Option<SyncState>': Option<SyncState>;
     'Option<SystemInherentData>': Option<SystemInherentData>;
     'Option<SystemOrigin>': Option<SystemOrigin>;
@@ -1719,6 +1722,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SignedBlock>': Vec<SignedBlock>;
     'Vec<SignedBlockWithJustification>': Vec<SignedBlockWithJustification>;
     'Vec<SignedBlockWithJustifications>': Vec<SignedBlockWithJustifications>;
+    'Vec<SignedSubmission>': Vec<SignedSubmission>;
+    'Vec<SignedSubmissionOf>': Vec<SignedSubmissionOf>;
     'Vec<SignerPayload>': Vec<SignerPayload>;
     'Vec<SigningContext>': Vec<SigningContext>;
     'Vec<SiLookupTypeId>': Vec<SiLookupTypeId>;
@@ -1790,6 +1795,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<StoredState>': Vec<StoredState>;
     'Vec<StrikeCount>': Vec<StrikeCount>;
     'Vec<SubId>': Vec<SubId>;
+    'Vec<SubmissionIndicesOf>': Vec<SubmissionIndicesOf>;
     'Vec<SyncState>': Vec<SyncState>;
     'Vec<SystemInherentData>': Vec<SystemInherentData>;
     'Vec<SystemOrigin>': Vec<SystemOrigin>;
@@ -2596,6 +2602,8 @@ declare module '@polkadot/types/types/registry' {
     SignedBlock: SignedBlock;
     SignedBlockWithJustification: SignedBlockWithJustification;
     SignedBlockWithJustifications: SignedBlockWithJustifications;
+    SignedSubmission: SignedSubmission;
+    SignedSubmissionOf: SignedSubmissionOf;
     SignerPayload: SignerPayload;
     SigningContext: SigningContext;
     SiLookupTypeId: SiLookupTypeId;
@@ -2667,6 +2675,7 @@ declare module '@polkadot/types/types/registry' {
     StoredState: StoredState;
     StrikeCount: StrikeCount;
     SubId: SubId;
+    SubmissionIndicesOf: SubmissionIndicesOf;
     SyncState: SyncState;
     SystemInherentData: SystemInherentData;
     SystemOrigin: SystemOrigin;

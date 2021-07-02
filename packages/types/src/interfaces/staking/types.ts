@@ -260,6 +260,16 @@ export interface SeatHolder extends Struct {
   readonly deposit: Balance;
 }
 
+/** @name SignedSubmission */
+export interface SignedSubmission extends Struct {
+  readonly who: AccountId;
+  readonly deposit: Balance;
+  readonly solution: RawSolution;
+}
+
+/** @name SignedSubmissionOf */
+export interface SignedSubmissionOf extends SignedSubmission {}
+
 /** @name SlashingSpans */
 export interface SlashingSpans extends Struct {
   readonly spanIndex: SpanIndex;
@@ -331,6 +341,9 @@ export interface StakingLedgerTo240 extends Struct {
   readonly unlocking: Vec<UnlockChunk>;
   readonly lastReward: Option<EraIndex>;
 }
+
+/** @name SubmissionIndicesOf */
+export interface SubmissionIndicesOf extends BTreeMap<ElectionScore, u32> {}
 
 /** @name UnappliedSlash */
 export interface UnappliedSlash extends Struct {

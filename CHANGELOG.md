@@ -10,6 +10,7 @@ Changes:
 
 - Added `fallbackType` for type classes (only struct, as defined)
 - Allow `instances` API config to drive collective locations
+- Align static metadata with latest Substrate
 
 
 ## 4.16.2 Jun 27, 2021

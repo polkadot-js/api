@@ -138,6 +138,12 @@ const phragmen = {
     stake: 'Balance',
     deposit: 'Balance'
   },
+  SignedSubmission: {
+    who: 'AccountId',
+    deposit: 'Balance',
+    solution: 'RawSolution'
+  },
+  SignedSubmissionOf: 'SignedSubmission',
   SolutionOrSnapshotSize: {
     voters: 'Compact<u32>',
     targets: 'Compact<u32>'
@@ -147,6 +153,7 @@ const phragmen = {
     voters: 'Vec<(AccountId, ExtendedBalance)>'
   },
   SolutionSupports: 'Vec<(AccountId, SolutionSupport)>',
+  SubmissionIndicesOf: 'BTreeMap<ElectionScore, u32>',
   Voter: {
     votes: 'Vec<AccountId>',
     stake: 'Balance',
