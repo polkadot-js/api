@@ -55,11 +55,28 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
+  let Clazz: Constructor<FromReg<T, K>> | null = null;
+  let firstError: Error | null = null;
+
   try {
-    return initType(registry, createClass<T, K>(registry, type), params, options);
+    Clazz = createClass<T, K>(registry, type);
+
+    return initType(registry, Clazz, params, options);
   } catch (error) {
-    throw new Error(`createType(${type}):: ${(error as Error).message}`);
+    firstError = new Error(`createType(${type}):: ${(error as Error).message}`);
   }
+
+  if (Clazz && Clazz.__fallbackType) {
+    try {
+      Clazz = createClass<T, K>(registry, Clazz.__fallbackType as unknown as K);
+
+      return initType(registry, Clazz, params, options);
+    } catch {
+      // swallow, we will throw the first error again
+    }
+  }
+
+  throw firstError;
 }
 
 /**

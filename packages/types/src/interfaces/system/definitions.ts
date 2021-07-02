@@ -140,12 +140,19 @@ export default {
   },
   types: {
     AccountInfo: 'AccountInfoWithTripleRefCount',
+    AccountInfoWithRefCountU8: {
+      nonce: 'Index',
+      refcount: 'u8',
+      data: 'AccountData'
+    },
     AccountInfoWithRefCount: {
+      _fallback: 'AccountInfoWithRefCountU8',
       nonce: 'Index',
       refcount: 'RefCount',
       data: 'AccountData'
     },
     AccountInfoWithDualRefCount: {
+      _fallback: 'AccountInfoWithRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
@@ -154,6 +161,7 @@ export default {
     // original naming
     AccountInfoWithProviders: 'AccountInfoWithDualRefCount',
     AccountInfoWithTripleRefCount: {
+      _fallback: 'AccountInfoWithDualRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',

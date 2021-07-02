@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Added `Emergency` to `ElectionPhase` (Thanks to https://github.com/arjanz)
+
+Changes:
+
+- Added `fallbackType` for type classes (only struct, as defined)
+- Allow `instances` API config to drive collective locations
+
+
 ## 4.16.2 Jun 27, 2021
 
 Upgrade priority: Low. Recommended for Polkadot with runtime >= 9050.

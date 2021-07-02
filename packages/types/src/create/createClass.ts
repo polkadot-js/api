@@ -175,7 +175,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
-  const Type = registry.get<T>(value.type);
+  let Type = registry.get<T>(value.type);
 
   if (Type) {
     return Type;
@@ -185,5 +185,14 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
 
-  return getFn(registry, value) as Constructor<T>;
+  Type = getFn(registry, value) as Constructor<T>;
+
+  // don't clobber any existing
+  if (!Type.__fallbackType && value.fallbackType) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ...this is the only place we we actually assign this...
+    Type.__fallbackType = value.fallbackType;
+  }
+
+  return Type;
 }

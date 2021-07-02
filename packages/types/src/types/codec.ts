@@ -108,6 +108,11 @@ export type CodecArg = Codec | BigInt | BN | boolean | string | Uint8Array | boo
 interface CodecArgArray extends Array<CodecArg> {}
 
 export interface Constructor<T = Codec> {
+  /**
+   * @description An internal fallback type (previous generation) if encoding fails
+   */
+  readonly __fallbackType?: string;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(registry: Registry, ...value: any[]): T;
 }

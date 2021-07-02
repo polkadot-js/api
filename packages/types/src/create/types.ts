@@ -32,9 +32,10 @@ export enum TypeDefInfo {
 
 export interface TypeDef {
   alias?: Map<string, string>;
+  displayName?: string;
+  fallbackType?: string;
   info: TypeDefInfo;
   index?: number;
-  displayName?: string;
   length?: number;
   name?: string;
   namespace?: string;

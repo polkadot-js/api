@@ -8,12 +8,12 @@ export interface DeriveElectionsInfo {
   candidates: AccountId[];
   candidateCount: u32;
   candidacyBond?: Balance;
-  desiredRunnersUp: u32;
-  desiredSeats: u32;
+  desiredRunnersUp?: u32;
+  desiredSeats?: u32;
   members: [AccountId, Balance][];
   nextVoterSet?: SetIndex;
   runnersUp: [AccountId, Balance][];
-  termDuration: BlockNumber;
+  termDuration?: BlockNumber;
   voteCount?: VoteIndex;
   voterCount?: SetIndex;
   votingBond?: Balance;
