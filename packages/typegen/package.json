@@ -39,7 +39,7 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.2",
-    "@types/yargs": "^17.0.0"
+    "@types/websocket": "^1.0.3",
+    "@types/yargs": "^17.0.1"
   }
 }
