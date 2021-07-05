@@ -165,10 +165,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const metadata = new Metadata(this.registry,
+    const registry = new TypeRegistry(blockHash);
+    const metadata = new Metadata(registry,
       await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
     );
-    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
+
+    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
     const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
