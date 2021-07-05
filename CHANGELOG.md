@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 4.17.1 Jul 5, 2021
+
+Upgrade priority: Low. Allows cleaner access to multiple `.at` queries via new API.
 
 Contributed:
 
@@ -10,7 +12,7 @@ Changes:
 
 - Added `await api.at(<blockHash>)` to retrieve API instances at a point
 - Added `fallbackType` for type classes (only struct, as defined)
-- Allow `instances` API config to drive collective locations
+- Allow `instances` API config to drive derive collective locations
 - Ensure correct registry is attached to historic metadata
 - Align static metadata with latest Substrate
 
