@@ -79,7 +79,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Decorates a registry based on the runtime version
    */
-  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): Registry {
+  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): void {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
@@ -94,8 +94,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       ...getSpecExtensions(registry, chain, version.specName),
       ...(this._options.signedExtensions || {})
     });
-
-    return registry;
   }
 
   /**
@@ -165,10 +163,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const metadata = new Metadata(this.registry,
+    const registry = new TypeRegistry(blockHash);
+    const metadata = new Metadata(registry,
       await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
     );
-    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
+
+    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
     const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
