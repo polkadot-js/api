@@ -15,6 +15,7 @@
     "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
     "build:release": "polkadot-ci-ghact-build",
+    "build:rollup": "polkadot-exec-rollup --config",
     "docs:metadata": "polkadot-types-internal-metadata",
     "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
