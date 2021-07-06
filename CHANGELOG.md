@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+
+
 ## 4.17.1 Jul 5, 2021
 
 Upgrade priority: Low. Allows cleaner access to multiple `.at` queries via new API.
