@@ -1909,9 +1909,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.47":
-  version: 0.62.47
-  resolution: "@polkadot/dev@npm:0.62.47"
+"@polkadot/dev@npm:^0.62.48":
+  version: 0.62.48
+  resolution: "@polkadot/dev@npm:0.62.48"
   dependencies:
     "@babel/cli": ^7.14.5
     "@babel/core": ^7.14.6
@@ -1997,7 +1997,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: 5ecb4d643044fe27762b155eeb4004a0879807bace87dc92b2eb03eada03fcb35eac38505f67e6676b8dac88b2a7e6814cc9689b258832fa46e4b79b1b02851b
+  checksum: 5198b4e8706bff01aa006579b61163e77683d0eb6c671930c23a4ba26849d31f0764dad3e5190ae43922c6ede73991acccc8d851b33da7e5cbda3967502d93a5
   languageName: node
   linkType: hard
 
@@ -2092,7 +2092,7 @@ __metadata:
     "@polkadot/types": 4.17.2-0
     "@polkadot/util": ^6.11.1
     "@types/websocket": ^1.0.3
-    "@types/yargs": ^17.0.1
+    "@types/yargs": ^17.0.2
     handlebars: ^4.7.7
     websocket: ^1.0.34
     yargs: ^17.0.1
@@ -2640,12 +2640,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.1":
-  version: 17.0.1
-  resolution: "@types/yargs@npm:17.0.1"
+"@types/yargs@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "@types/yargs@npm:17.0.2"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: a2085751be04e26c03b80b951797a32350458b372fd6b3ca755a24a510dbf27e3bf1ff4096b5f56b9b8230d3f2371eb32dadc03dd0799476dd55954028370815
+  checksum: 6f4600d3b786c0eb083782f59c9ed61bb4c204269b0a07819bb9e9b1fc29deaf4fe28abde7dca5fbf3cf851beca9458cbcf63ebd128ebfe83d31002d84337b31
   languageName: node
   linkType: hard
 
@@ -9619,7 +9619,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.14.6
     "@babel/register": ^7.14.5
     "@babel/runtime": ^7.14.6
-    "@polkadot/dev": ^0.62.47
+    "@polkadot/dev": ^0.62.48
     "@polkadot/ts": ^0.4.2
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.23
