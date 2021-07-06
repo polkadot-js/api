@@ -2092,7 +2092,7 @@ __metadata:
     "@polkadot/types": 4.17.2-0
     "@polkadot/util": ^6.11.1
     "@types/websocket": ^1.0.3
-    "@types/yargs": ^17.0.1
+    "@types/yargs": ^17.0.2
     handlebars: ^4.7.7
     websocket: ^1.0.34
     yargs: ^17.0.1
@@ -2640,12 +2640,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.1":
-  version: 17.0.1
-  resolution: "@types/yargs@npm:17.0.1"
+"@types/yargs@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "@types/yargs@npm:17.0.2"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: a2085751be04e26c03b80b951797a32350458b372fd6b3ca755a24a510dbf27e3bf1ff4096b5f56b9b8230d3f2371eb32dadc03dd0799476dd55954028370815
+  checksum: 6f4600d3b786c0eb083782f59c9ed61bb4c204269b0a07819bb9e9b1fc29deaf4fe28abde7dca5fbf3cf851beca9458cbcf63ebd128ebfe83d31002d84337b31
   languageName: node
   linkType: hard
 
