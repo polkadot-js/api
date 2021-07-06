@@ -9,7 +9,7 @@ import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Proposal } from '@polkadot/types/interfaces';
-import { of } from '@polkadot/x-rxjs';
+import { firstValueFrom, of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
 import { BytesFactory } from '../../test/bytesFactory';
@@ -98,7 +98,7 @@ describe('bounties derive', () => {
       }
     } as unknown as ApiInterfaceRx;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
@@ -110,7 +110,7 @@ describe('bounties derive', () => {
   });
 
   it('returns motions', async () => {
-    const result = await bounties('', defaultMockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', defaultMockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);
@@ -126,7 +126,7 @@ describe('bounties derive', () => {
       }
     } as unknown as ApiInterfaceRx;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
@@ -151,7 +151,7 @@ describe('bounties derive', () => {
       }
     } as unknown as ApiInterfaceRx;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);

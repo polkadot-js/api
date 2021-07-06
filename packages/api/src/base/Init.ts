@@ -15,7 +15,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
+import { firstValueFrom, of } from '@polkadot/x-rxjs';
 import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { detectedCapabilities } from './capabilities';
@@ -140,7 +140,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const header = this.registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash).toPromise()
+        : await firstValueFrom((this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash))
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -150,7 +150,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await (this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash).toPromise()
+        : await firstValueFrom((this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash))
     );
 
     // check for pre-existing registries
@@ -165,7 +165,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const registry = new TypeRegistry(blockHash);
     const metadata = new Metadata(registry,
-      await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
+      await firstValueFrom((this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash))
     );
 
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
@@ -220,8 +220,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
-    detectedCapabilities(this._rx, blockHash)
-      .toPromise()
+    firstValueFrom(detectedCapabilities(this._rx, blockHash))
       .then((types): void => {
         if (Object.keys(types).length) {
           registry.register(types as Record<string, string>);
@@ -273,14 +272,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _metaFromChain (optMetadata?: Record<string, string>): Promise<[Hash, Metadata]> {
     const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
-      this._rpcCore.chain.getBlockHash(0).toPromise(),
-      this._rpcCore.state.getRuntimeVersion().toPromise(),
-      this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.properties().toPromise(),
-      this._rpcCore.rpc.methods().toPromise(),
+      firstValueFrom(this._rpcCore.chain.getBlockHash(0)),
+      firstValueFrom(this._rpcCore.state.getRuntimeVersion()),
+      firstValueFrom(this._rpcCore.system.chain()),
+      firstValueFrom(this._rpcCore.system.properties()),
+      firstValueFrom(this._rpcCore.rpc.methods()),
       optMetadata
         ? Promise.resolve(null)
-        : this._rpcCore.state.getMetadata().toPromise()
+        : firstValueFrom(this._rpcCore.state.getMetadata())
     ]);
 
     // set our chain version & genesisHash as returned
@@ -293,7 +292,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = chainMetadata || (
       optMetadata && optMetadata[metadataKey]
         ? new Metadata(this.registry, optMetadata[metadataKey])
-        : await this._rpcCore.state.getMetadata().toPromise()
+        : await firstValueFrom(this._rpcCore.state.getMetadata())
     );
 
     // initializes the registry & RPC
@@ -369,7 +368,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch(() => undefined);
+        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
