@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/wasm-crypto authors & contributors
+// Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createBundle } from '@polkadot/dev/config/rollup';
