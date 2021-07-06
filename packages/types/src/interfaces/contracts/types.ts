@@ -32,6 +32,7 @@ export interface ContractCallRequest extends Struct {
 /** @name ContractExecResult */
 export interface ContractExecResult extends Struct {
   readonly gasConsumed: u64;
+  readonly gasRequired: u64;
   readonly debugMessage: Text;
   readonly result: ContractExecResultResult;
 }
@@ -92,6 +93,13 @@ export interface ContractExecResultTo260 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo260;
   readonly isError: boolean;
+}
+
+/** @name ContractExecResultTo267 */
+export interface ContractExecResultTo267 extends Struct {
+  readonly gasConsumed: u64;
+  readonly debugMessage: Text;
+  readonly result: ContractExecResultResult;
 }
 
 /** @name ContractInfo */
