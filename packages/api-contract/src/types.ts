@@ -55,6 +55,7 @@ export interface InterfaceContractCalls {
 export interface ContractCallOutcome {
   debugMessage: Text;
   gasConsumed: u64;
+  gasRequired: u64;
   output: Codec | null;
   result: ContractExecResultResult;
 }

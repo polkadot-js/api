@@ -16,7 +16,7 @@ import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
-import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractInfo, ContractInstantiateResult, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateReturnValue, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
+import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractExecResultTo267, ContractInfo, ContractInstantiateResult, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateReturnValue, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
 import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
 import type { ConfigData, MessageId, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
@@ -315,6 +315,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<ContractExecResultSuccessTo260>': Option<ContractExecResultSuccessTo260>;
     'Option<ContractExecResultTo255>': Option<ContractExecResultTo255>;
     'Option<ContractExecResultTo260>': Option<ContractExecResultTo260>;
+    'Option<ContractExecResultTo267>': Option<ContractExecResultTo267>;
     'Option<ContractInfo>': Option<ContractInfo>;
     'Option<ContractInstantiateResult>': Option<ContractInstantiateResult>;
     'Option<ContractLayoutArray>': Option<ContractLayoutArray>;
@@ -1195,6 +1196,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ContractExecResultSuccessTo260>': Vec<ContractExecResultSuccessTo260>;
     'Vec<ContractExecResultTo255>': Vec<ContractExecResultTo255>;
     'Vec<ContractExecResultTo260>': Vec<ContractExecResultTo260>;
+    'Vec<ContractExecResultTo267>': Vec<ContractExecResultTo267>;
     'Vec<ContractInfo>': Vec<ContractInfo>;
     'Vec<ContractInstantiateResult>': Vec<ContractInstantiateResult>;
     'Vec<ContractLayoutArray>': Vec<ContractLayoutArray>;
@@ -2075,6 +2077,7 @@ declare module '@polkadot/types/types/registry' {
     ContractExecResultSuccessTo260: ContractExecResultSuccessTo260;
     ContractExecResultTo255: ContractExecResultTo255;
     ContractExecResultTo260: ContractExecResultTo260;
+    ContractExecResultTo267: ContractExecResultTo267;
     ContractInfo: ContractInfo;
     ContractInstantiateResult: ContractInstantiateResult;
     ContractLayoutArray: ContractLayoutArray;
