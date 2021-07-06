@@ -141,8 +141,14 @@ export default {
         Err: 'ContractExecResultErr'
       }
     },
+    ContractExecResultTo267: {
+      gasConsumed: 'u64',
+      debugMessage: 'Text',
+      result: 'ContractExecResultResult'
+    },
     ContractExecResult: {
       gasConsumed: 'u64',
+      gasRequired: 'u64',
       debugMessage: 'Text',
       result: 'ContractExecResultResult'
     },

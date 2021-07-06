@@ -5,6 +5,7 @@
 Changes:
 
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+- Contract reads will now expose an additional `gasRequired`
 
 
 ## 4.17.1 Jul 5, 2021
