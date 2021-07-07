@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "4.17.2-10",
+  "version": "4.17.2-11",
   "type": "module",
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
   "main": "index.js",

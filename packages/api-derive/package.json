@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-derive",
-  "version": "4.17.2-10",
+  "version": "4.17.2-11",
   "type": "module",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",

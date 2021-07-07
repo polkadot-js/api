@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/typegen",
-  "version": "4.17.2-10",
+  "version": "4.17.2-11",
   "type": "module",
   "description": "Type generation scripts",
   "main": "index.js",
