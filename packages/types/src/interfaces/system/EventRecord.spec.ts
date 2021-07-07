@@ -4,12 +4,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Metadata } from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/static';
-
 import { TypeRegistry } from '../../create';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
+import { Metadata } from '../../metadata';
+import rpcMetadata from '../../metadata/static';
 
 describe('EventRecord', (): void => {
   const registry = new TypeRegistry();

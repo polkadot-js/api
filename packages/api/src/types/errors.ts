@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IsError } from '@polkadot/metadata/decorate/types';
+import type { IsError } from '@polkadot/types/metadata/decorate/types';
 import type { ApiTypes } from './base';
 
 // In errors we don't need the ApiType, however add it for consistency

@@ -2,10 +2,12 @@
 
 ## master
 
+- **Breaking change** The `@polkadot/metadata` package has been removed, adjust imports to `@polkadot/types`
 - **Important** Internally rxjs has been upgraded to the 7.0 version, affecting users of the `ApiRx` interface
 
 Changes:
 
+- Remove the `@polkadot/metadata` package, consolidate into `@polkadot/types`
 - Contract reads will now expose an additional `gasRequired` (total estimated)
 - Allow schedule derives to handle scheduler entries that cannot decode
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend

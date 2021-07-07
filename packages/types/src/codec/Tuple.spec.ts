@@ -5,10 +5,9 @@ import type { VoteThreshold } from '../interfaces/elections';
 import type { BlockNumber } from '../interfaces/runtime';
 import type { CodecTo } from '../types';
 
-import { Metadata } from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/static';
-
 import { TypeRegistry } from '../create';
+import { Metadata } from '../metadata';
+import rpcMetadata from '../metadata/static';
 import { Text, U32, u128 as U128 } from '../primitive';
 import { Tuple } from '.';
 
