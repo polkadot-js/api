@@ -4,8 +4,7 @@
 import type { ChainProperties, ContractDisplayName, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces';
 import type { InterfaceTypes, TypeDef } from '@polkadot/types/types';
 
-import { TypeRegistry, withTypeString } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/types';
+import { TypeDefInfo, TypeRegistry, withTypeString } from '@polkadot/types';
 import { assert, isUndefined } from '@polkadot/util';
 
 interface PartialTypeSpec {
