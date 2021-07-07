@@ -47,7 +47,7 @@ export function flags (instanceId: string, api: ApiInterfaceRx): (address?: Acco
         ? 'electionsPhragmen'
         : 'elections';
 
-    return combineLatest<FlagsIntermediate>([
+    return combineLatest([
       address && api.query[councilSection]?.members
         ? api.query[councilSection].members<Vec<ITuple<[AccountId, Balance]>>>()
         : of(undefined),

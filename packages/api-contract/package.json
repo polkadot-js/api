@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-contract",
-  "version": "4.17.2-3",
+  "version": "4.17.2-6",
   "type": "module",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",

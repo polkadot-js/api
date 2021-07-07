@@ -13,17 +13,15 @@ import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-type Result = [AccountId[], Vec<ITuple<[BlockNumber, Balance]>>[], StrikeCount[], Option<SocietyVote>[], bool[], Option<VouchingStatus>[]];
-
 export function _members (instanceId: string, api: ApiInterfaceRx): (accountIds: AccountId[]) => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (accountIds: AccountId[]): Observable<DeriveSocietyMember[]> =>
-    combineLatest<Result>([
+    combineLatest([
       of(accountIds),
-      api.query.society.payouts.multi(accountIds),
-      api.query.society.strikes.multi(accountIds),
-      api.query.society.defenderVotes.multi(accountIds),
-      api.query.society.suspendedMembers.multi(accountIds),
-      api.query.society.vouching.multi(accountIds)
+      api.query.society.payouts.multi<Vec<ITuple<[BlockNumber, Balance]>>>(accountIds),
+      api.query.society.strikes.multi<StrikeCount>(accountIds),
+      api.query.society.defenderVotes.multi<Option<SocietyVote>>(accountIds),
+      api.query.society.suspendedMembers.multi<bool>(accountIds),
+      api.query.society.vouching.multi<Option<VouchingStatus>>(accountIds)
     ]).pipe(
       map(([accountIds, payouts, strikes, defenderVotes, suspended, vouching]) =>
         accountIds.map((accountId, index) => ({

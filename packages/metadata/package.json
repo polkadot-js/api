@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/metadata",
-  "version": "4.17.2-3",
+  "version": "4.17.2-6",
   "type": "module",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",
