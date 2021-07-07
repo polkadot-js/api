@@ -1909,9 +1909,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.50":
-  version: 0.62.50
-  resolution: "@polkadot/dev@npm:0.62.50"
+"@polkadot/dev@npm:^0.62.52":
+  version: 0.62.52
+  resolution: "@polkadot/dev@npm:0.62.52"
   dependencies:
     "@babel/cli": ^7.14.5
     "@babel/core": ^7.14.6
@@ -1974,6 +1974,7 @@ __metadata:
     prettier: ^2.3.2
     rimraf: ^3.0.2
     rollup: ^2.52.7
+    rollup-plugin-polyfill-node: ^0.6.2
     typescript: ^4.3.5
     yargs: ^17.0.1
   bin:
@@ -1997,7 +1998,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: b55d5b1ac715ef7359965ead01bbf905518edbf071e408d3c573434b481358df64e05f63db434d0bae95812db14cd9c9117d315eba8692d4e0213791a13bff7d
+  checksum: fedcfce10ccba899553e28d5cef603a3c187e56c4b661095f803b8e535fbc16cd45cd0f1e9c62f99c631861499ffc8aeb07045bd213ca8ca35dda2db1f83b105
   languageName: node
   linkType: hard
 
@@ -2305,6 +2306,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-inject@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "@rollup/plugin-inject@npm:4.0.2"
+  dependencies:
+    "@rollup/pluginutils": ^3.0.4
+    estree-walker: ^1.0.1
+    magic-string: ^0.25.5
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: f3e35f76fbba3fc7576ba5bcaf0304521033c8faaece98a1b903647513d9318377231f4f0b841bdfecbfc09659bd2d3481134e767ab5ea418fc5a52cc26756de
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-json@npm:^4.1.0":
   version: 4.1.0
   resolution: "@rollup/plugin-json@npm:4.1.0"
@@ -2332,7 +2346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^3.0.8, @rollup/pluginutils@npm:^3.1.0":
+"@rollup/pluginutils@npm:^3.0.4, @rollup/pluginutils@npm:^3.0.8, @rollup/pluginutils@npm:^3.1.0":
   version: 3.1.0
   resolution: "@rollup/pluginutils@npm:3.1.0"
   dependencies:
@@ -7854,7 +7868,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.7":
+"magic-string@npm:^0.25.5, magic-string@npm:^0.25.7":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
   dependencies:
@@ -9598,6 +9612,15 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"rollup-plugin-polyfill-node@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "rollup-plugin-polyfill-node@npm:0.6.2"
+  dependencies:
+    "@rollup/plugin-inject": ^4.0.0
+  checksum: ab54c237be140b814ac178bafe4f6e9518e893d52f8ed8399ade979f335e0d41d6aebf23b16e39aa24ecc6e7146e476903518c234f038d8e07920ed9e2c6dcb7
+  languageName: node
+  linkType: hard
+
 "rollup@npm:^2.52.7":
   version: 2.52.7
   resolution: "rollup@npm:2.52.7"
@@ -9619,7 +9642,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.14.6
     "@babel/register": ^7.14.5
     "@babel/runtime": ^7.14.6
-    "@polkadot/dev": ^0.62.50
+    "@polkadot/dev": ^0.62.52
     "@polkadot/ts": ^0.4.3
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.23
