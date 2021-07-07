@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
@@ -15,12 +15,9 @@ import type { VersionedRegistry } from './types';
 import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
 
 import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
-import { expandMetadata, Metadata } from '@polkadot/metadata';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { TypeRegistry } from '@polkadot/types/create';
-import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
@@ -68,7 +65,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
+  protected _extrinsicType = 4; // latest extrinsic version
 
   protected _genesisHash?: Hash;
 

@@ -3,9 +3,8 @@
 
 import type { ExtraTypes } from '../generate/types';
 
-import { Metadata } from '@polkadot/metadata/Metadata';
-import staticData from '@polkadot/metadata/static';
-import { TypeRegistry } from '@polkadot/types/create';
+import { Metadata, TypeRegistry } from '@polkadot/types';
+import staticData from '@polkadot/types/metadata/static';
 
 import { registerDefinitions } from './register';
 
