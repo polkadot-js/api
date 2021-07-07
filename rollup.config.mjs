@@ -20,14 +20,7 @@ const external = [
   '@polkadot/networks',
   '@polkadot/util',
   '@polkadot/util-crypto',
-  '@polkadot/wasm-crypto',
-  '@polkadot/x-fetch',
-  '@polkadot/x-global',
-  '@polkadot/x-randomvalues',
-  '@polkadot/x-rxjs',
-  '@polkadot/x-textdecoder',
-  '@polkadot/x-textencoder',
-  '@polkadot/x-ws'
+  '@polkadot/wasm-crypto'
 ];
 
 const overrides = {};
