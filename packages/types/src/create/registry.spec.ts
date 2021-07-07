@@ -8,8 +8,8 @@ import type { Codec, Constructor } from '../types';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { Struct } from '../codec';
-import { DoNotConstruct, Text, U32 } from '../primitive';
+import { DoNotConstruct, Struct } from '../codec';
+import { Text, U32 } from '../primitive';
 import { TypeRegistry } from '.';
 
 describe('TypeRegistry', (): void => {

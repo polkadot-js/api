@@ -8,7 +8,6 @@ export { BitVec } from './BitVec';
 export { bool, bool as Bool } from './Bool';
 export { Bytes } from './Bytes';
 export { Data } from './Data';
-export { DoNotConstruct } from './DoNotConstruct';
 export { i8, i8 as I8 } from './I8';
 export { i16, i16 as I16 } from './I16';
 export { i32, i32 as I32 } from './I32';
