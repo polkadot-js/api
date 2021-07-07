@@ -34,17 +34,17 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
 function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
-      ? combineLatest<Result>([
+      ? combineLatest([
         of(hashes),
         combineLatest(hashes.map((hash) =>
           // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
           // however we have had cases on Edgeware where the indices have moved around after an
           // upgrade, which results in invalid on-chain data
-          api.query[section].proposalOf(hash).pipe(catchError(() => of(null)))
+          api.query[section].proposalOf<Option<Proposal>>(hash).pipe(catchError(() => of(null)))
         )),
         api.query[section].voting.multi<Option<Votes>>(hashes)
       ])
-      : of([[], [], []] as Result)
+      : of<Result>([[], [], []])
     ).pipe(
       map((result) => parse(api, result))
     )
