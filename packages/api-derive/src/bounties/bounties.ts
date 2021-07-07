@@ -3,14 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Bytes, Option } from '@polkadot/types';
 import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { DeriveBounties, DeriveCollectiveProposal } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '@polkadot/api-derive/util';
-
+import { memo } from '../util';
 import { filterBountiesProposals } from './helpers/filterBountyProposals';
 
 type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];

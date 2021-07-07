@@ -6,8 +6,9 @@ import type { Memoized } from '@polkadot/util/types';
 
 import { Observable } from 'rxjs';
 
-import { drr } from '@polkadot/rpc-core/util';
 import { memoize } from '@polkadot/util';
+
+import { drr } from './drr';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;
 
@@ -16,6 +17,7 @@ type ObsFn <T> = (...params: any[]) => Observable<T>;
 //   2. wraps the observable in a drr() (which includes an unsub delay)
 /** @internal */
 export function memo <T> (instanceId: string, inner: ObsFn<T>): Memoized<ObsFn<T>> {
+  const options = { getInstanceId: () => instanceId };
   const cached = memoize(
     (...params: any[]): Observable<T> =>
       new Observable((observer: Observer<T>): TeardownLogic => {
@@ -26,7 +28,7 @@ export function memo <T> (instanceId: string, inner: ObsFn<T>): Memoized<ObsFn<T
           subscription.unsubscribe();
         };
       }).pipe(drr()),
-    { getInstanceId: () => instanceId }
+    options
   );
 
   return cached;

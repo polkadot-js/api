@@ -7,8 +7,7 @@ import type { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
-import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
-import { DoNotConstruct } from '../primitive';
+import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 

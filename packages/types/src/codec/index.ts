@@ -11,6 +11,7 @@ export { BTreeMap } from './BTreeMap';
 export { BTreeSet } from './BTreeSet';
 export { Compact } from './Compact';
 // export { CodecDate, CodecDate as Date } from './Date';
+export { DoNotConstruct } from './DoNotConstruct';
 export { Enum } from './Enum';
 export { HashMap } from './HashMap';
 export { Int } from './Int';
