@@ -8,5 +8,3 @@ import { detectPackage } from '@polkadot/util';
 import { packageInfo } from './packageInfo';
 
 detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname, [typesInfo, knownInfo]);
-
-console.warn('The @polkadot/metadata package is deprecated, import directly from @polkadot/types');
