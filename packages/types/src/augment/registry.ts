@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BitVec, Bool, Bytes, Compact, Data, DoNotConstruct, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
+import type { BitVec, Bool, Bytes, Compact, Data, I128, I16, I256, I32, I64, I8, Json, Null, Option, Raw, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, USize, Vec, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -370,7 +370,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<DispatchResultTo198>': Option<DispatchResultTo198>;
     'Option<DisputeStatement>': Option<DisputeStatement>;
     'Option<DisputeStatementSet>': Option<DisputeStatementSet>;
-    'Option<DoNotConstruct>': Option<DoNotConstruct>;
     'Option<DoubleEncodedCall>': Option<DoubleEncodedCall>;
     'Option<DoubleMapTypeLatest>': Option<DoubleMapTypeLatest>;
     'Option<DoubleMapTypeV10>': Option<DoubleMapTypeV10>;
@@ -1253,7 +1252,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<DispatchResultTo198>': Vec<DispatchResultTo198>;
     'Vec<DisputeStatement>': Vec<DisputeStatement>;
     'Vec<DisputeStatementSet>': Vec<DisputeStatementSet>;
-    'Vec<DoNotConstruct>': Vec<DoNotConstruct>;
     'Vec<DoubleEncodedCall>': Vec<DoubleEncodedCall>;
     'Vec<DoubleMapTypeLatest>': Vec<DoubleMapTypeLatest>;
     'Vec<DoubleMapTypeV10>': Vec<DoubleMapTypeV10>;
@@ -2136,7 +2134,6 @@ declare module '@polkadot/types/types/registry' {
     DispatchResultTo198: DispatchResultTo198;
     DisputeStatement: DisputeStatement;
     DisputeStatementSet: DisputeStatementSet;
-    DoNotConstruct: DoNotConstruct;
     DoubleEncodedCall: DoubleEncodedCall;
     DoubleMapTypeLatest: DoubleMapTypeLatest;
     DoubleMapTypeV10: DoubleMapTypeV10;
