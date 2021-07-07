@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { TypeRegistry } from '@polkadot/types';
-import { Metadata } from '@polkadot/types/metadata';
+import { Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types/metadata/static';
 
 export function createApiWithAugmentations (): ApiPromise {

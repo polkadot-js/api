@@ -1,9 +1,9 @@
 // Copyright 2017-2019 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types/create';
-import { decorateStorage, Metadata } from '@polkadot/types/metadata';
-import { Storage } from '@polkadot/types/metadata/decorate/types';
+import type { Storage } from '@polkadot/types/metadata/decorate/types';
+
+import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types/metadata/static';
 
 import { extractStorageArgs } from './validate';

@@ -6,5 +6,6 @@ export * from './create';
 export * from './index.types';
 export * from './metadata';
 
+export { TypeDefInfo } from './create/types';
 export { packageInfo } from './packageInfo';
-export { TypeDefInfo } from './types';
+export { unwrapStorageType } from './primitive/StorageKey';

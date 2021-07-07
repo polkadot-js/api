@@ -17,10 +17,7 @@ import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from
 import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { TypeRegistry } from '@polkadot/types/create';
-import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
-import { expandMetadata, Metadata } from '@polkadot/types/metadata';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
@@ -68,7 +65,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
+  protected _extrinsicType = 4; // latest extrinsic version
 
   protected _genesisHash?: Hash;
 
