@@ -3,11 +3,11 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
+import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import { BN, BN_ZERO } from '@polkadot/util';
-import { combineLatest, Observable } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

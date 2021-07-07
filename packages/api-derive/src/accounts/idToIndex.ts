@@ -6,7 +6,7 @@ import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { AccountIndexes } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

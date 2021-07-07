@@ -5,8 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

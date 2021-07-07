@@ -5,7 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { switchMap } from '@polkadot/x-rxjs/operators';
+import { switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

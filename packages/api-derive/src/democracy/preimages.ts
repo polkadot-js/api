@@ -8,7 +8,7 @@ import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveProposalImage } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 import { parseImage } from './util';

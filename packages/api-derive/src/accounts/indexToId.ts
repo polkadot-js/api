@@ -7,8 +7,7 @@ import type { AccountId, AccountIndex, BalanceOf } from '@polkadot/types/interfa
 import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

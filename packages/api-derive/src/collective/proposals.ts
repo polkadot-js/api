@@ -9,8 +9,7 @@ import type { DeriveCollectiveProposal } from '../types';
 import type { Collective } from './types';
 
 import { isFunction } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
+import { catchError, combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 import { getInstance } from './getInstance';

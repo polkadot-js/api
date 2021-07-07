@@ -9,8 +9,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { isFunction, stringToHex } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
+import { catchError, combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

@@ -8,8 +8,7 @@ import type { AccountIdAndIndex } from '../types';
 
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

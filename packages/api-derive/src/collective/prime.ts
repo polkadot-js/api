@@ -7,8 +7,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { Observable } from '@polkadot/x-rxjs';
 
 import { isFunction } from '@polkadot/util';
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 import { getInstance } from './getInstance';

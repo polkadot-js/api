@@ -8,8 +8,7 @@ import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveElectionsInfo } from './types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

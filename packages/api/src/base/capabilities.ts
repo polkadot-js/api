@@ -5,10 +5,10 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
+import type { Observable } from '@polkadot/x-rxjs';
 
 import { assert, compactFromU8a } from '@polkadot/util';
-import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { catchError, map, take } from '@polkadot/x-rxjs/operators';
+import { catchError, combineLatest, map, of, take } from '@polkadot/x-rxjs';
 
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];

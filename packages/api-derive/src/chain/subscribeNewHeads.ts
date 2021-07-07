@@ -6,7 +6,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { HeaderExtended } from '../type/types';
 
 import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from '@polkadot/x-rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';

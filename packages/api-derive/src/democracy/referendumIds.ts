@@ -6,8 +6,7 @@ import type { ReferendumIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { Observable } from '@polkadot/x-rxjs';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

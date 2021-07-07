@@ -7,8 +7,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveParachainActive, DeriveParachainFull, DeriveParachainInfo } from '../types';
 import type { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads } from './types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 import { didUpdateToBool } from './util';

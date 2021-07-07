@@ -5,8 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveReferendum } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { switchMap } from '@polkadot/x-rxjs/operators';
+import { of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

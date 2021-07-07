@@ -7,8 +7,7 @@ import type { ActiveEraInfo, EraIndex, Moment, SessionIndex } from '@polkadot/ty
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionIndexes } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

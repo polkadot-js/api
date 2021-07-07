@@ -5,8 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakingWaiting, StakingQueryFlags } from '../types';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

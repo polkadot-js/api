@@ -8,8 +8,7 @@ import type { ITuple } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveProposalExternal } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

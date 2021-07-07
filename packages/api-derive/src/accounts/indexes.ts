@@ -5,8 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { AccountIndexes } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, startWith } from '@polkadot/x-rxjs/operators';
+import { map, of, startWith } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

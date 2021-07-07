@@ -13,7 +13,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { createTypeUnsafe } from '@polkadot/types';
 import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from '@polkadot/x-rxjs';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';

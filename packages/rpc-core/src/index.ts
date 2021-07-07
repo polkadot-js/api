@@ -15,8 +15,7 @@ import { Option } from '@polkadot/types';
 import { createClass, createTypeUnsafe } from '@polkadot/types/create';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
-import { Observable } from '@polkadot/x-rxjs';
-import { publishReplay, refCount } from '@polkadot/x-rxjs/operators';
+import { Observable, publishReplay, refCount } from '@polkadot/x-rxjs';
 
 import { drr, refCountDelay } from './util';
 

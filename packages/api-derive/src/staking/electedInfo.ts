@@ -7,7 +7,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveStakingElected, StakingQueryFlags } from '../types';
 
 import { arrayFlatten } from '@polkadot/util';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

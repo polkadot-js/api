@@ -7,8 +7,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { BN_ZERO } from '@polkadot/util';
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { deriveCache, memo } from '../util';
 import { filterEras } from './util';

@@ -11,8 +11,7 @@ import { jest } from '@jest/globals';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { memo } from '@polkadot/api-derive/util/memo';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 interface VestingInfo extends Struct {
   readonly locked: Balance;

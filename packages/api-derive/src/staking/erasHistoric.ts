@@ -8,7 +8,7 @@ import type { BN } from '@polkadot/util';
 import type { Observable } from '@polkadot/x-rxjs';
 
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

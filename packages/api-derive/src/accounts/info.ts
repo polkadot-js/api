@@ -9,8 +9,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
 import { u8aToString } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 
