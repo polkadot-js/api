@@ -10,7 +10,7 @@ import type { DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { isFunction, stringToHex } from '@polkadot/util';
 import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -42,7 +42,7 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Option<Scheduled>[][]]> {
+function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Option<Scheduled>[] | null)[]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -55,7 +55,15 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Opti
 
       return combineLatest([
         of(blockNumbers),
-        api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>(blockNumbers)
+        // this should simply be api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>,
+        // however we have had cases on Darwinia where the indices have moved around after an
+        // upgrade, which results in invalid on-chain data
+        combineLatest(blockNumbers.map((blockNumber) =>
+          api.query.scheduler.agenda<Vec<Option<Scheduled>>>(blockNumber).pipe(
+            // this does create an issue since it discards all at that block
+            catchError(() => of(null))
+          )
+        ))
       ]);
     })
   );
@@ -67,20 +75,22 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
       const result: SchedulerInfo[] = [];
 
       blockNumbers.forEach((at, index): void => {
-        agendas[index].filter((optScheduled) => optScheduled.isSome).forEach((optScheduled): void => {
-          const scheduled = optScheduled.unwrap();
+        (agendas[index] || [])
+          .filter((opt) => opt.isSome)
+          .forEach((optScheduled): void => {
+            const scheduled = optScheduled.unwrap();
 
-          if (scheduled.maybeId.isSome) {
-            const id = scheduled.maybeId.unwrap().toHex();
+            if (scheduled.maybeId.isSome) {
+              const id = scheduled.maybeId.unwrap().toHex();
 
-            if (id.startsWith(DEMOCRACY_ID)) {
-              const [, index] = api.registry.createType('(u64, ReferendumIndex)' as any, id) as ITuple<[u64, ReferendumIndex]>;
-              const imageHash = scheduled.call.args[0] as Hash;
+              if (id.startsWith(DEMOCRACY_ID)) {
+                const [, index] = api.registry.createType('(u64, ReferendumIndex)' as any, id) as ITuple<[u64, ReferendumIndex]>;
+                const imageHash = scheduled.call.args[0] as Hash;
 
-              result.push({ at, imageHash, index });
+                result.push({ at, imageHash, index });
+              }
             }
-          }
-        });
+          });
       });
 
       return combineLatest([
