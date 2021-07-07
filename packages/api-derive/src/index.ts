@@ -3,9 +3,9 @@
 
 import './detectPackage';
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 
 import * as accounts from './accounts';
 import * as balances from './balances';

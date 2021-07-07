@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
+import { combineLatest, map, switchMap } from 'rxjs';
+
 import { BN, BN_ZERO } from '@polkadot/util';
-import { combineLatest, map, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 

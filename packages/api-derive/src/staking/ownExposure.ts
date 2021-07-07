@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { EraIndex, Exposure } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveOwnExposure } from '../types';
 
-import { map, of, switchMap } from '@polkadot/x-rxjs';
+import { map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 

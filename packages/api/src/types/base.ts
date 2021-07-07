@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 
 export type Push<T extends readonly unknown[], V> = [...T, V]
 

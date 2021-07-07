@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { SignedBlockExtended } from '../type/types';
 
-import { catchError, combineLatest, map, of } from '@polkadot/x-rxjs';
+import { catchError, combineLatest, map, of } from 'rxjs';
 
 import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';

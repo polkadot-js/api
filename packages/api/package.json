@@ -29,7 +29,7 @@
     "@polkadot/types-known": "4.17.2-8",
     "@polkadot/util": "^6.11.2-6",
     "@polkadot/util-crypto": "^6.11.2-6",
-    "@polkadot/x-rxjs": "^6.11.2-6",
-    "eventemitter3": "^4.0.7"
+    "eventemitter3": "^4.0.7",
+    "rxjs": "^7.2.0"
   }
 }

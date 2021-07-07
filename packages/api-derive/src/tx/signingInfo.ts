@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
+
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
-import { combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 

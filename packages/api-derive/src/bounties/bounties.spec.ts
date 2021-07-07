@@ -6,10 +6,11 @@ import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 
+import { firstValueFrom, of } from 'rxjs';
+
 import { ApiPromise } from '@polkadot/api';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Proposal } from '@polkadot/types/interfaces';
-import { firstValueFrom, of } from '@polkadot/x-rxjs';
 
 import { BountyFactory } from '../../test/bountyFactory';
 import { BytesFactory } from '../../test/bytesFactory';

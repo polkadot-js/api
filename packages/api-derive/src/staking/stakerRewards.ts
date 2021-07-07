@@ -1,15 +1,16 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
 
+import { combineLatest, map, of, switchMap } from 'rxjs';
+
 import { BN_BILLION, BN_ZERO } from '@polkadot/util';
-import { combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 
