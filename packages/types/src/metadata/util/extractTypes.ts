@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
+import type { TypeDef } from '../../types';
 
 // we are attempting to avoid circular refs, hence the path import
-import { getTypeDef } from '@polkadot/types/create/getTypeDef';
-import { TypeDefInfo } from '@polkadot/types/types';
+import { getTypeDef } from '../../create/getTypeDef';
+import { TypeDefInfo } from '../../create/types';
 
 type Extracted = string | Extracted[];
 

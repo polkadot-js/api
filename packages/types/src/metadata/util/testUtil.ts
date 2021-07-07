@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '@polkadot/types/types';
+import type { Codec, Registry } from '../../types';
 import type { MetadataInterface } from '../types';
 
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
+import { unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 

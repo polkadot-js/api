@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Metadata } from '@polkadot/metadata';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { ChainProperties } from '../interfaces/system';
+import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';

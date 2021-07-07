@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
-import type { Registry } from '@polkadot/types/types';
+import type { MetadataV10, MetadataV11 } from '../../interfaces/metadata';
+import type { Registry } from '../../types';
 
 /** @internal */
 export function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {

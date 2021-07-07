@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '@polkadot/types/interfaces/metadata';
-import type { OverrideModuleType, Registry } from '@polkadot/types/types';
+import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { OverrideModuleType, Registry } from '../../types';
 
-import { Type } from '@polkadot/types/primitive';
 import { getModuleTypes } from '@polkadot/types-known';
 import { stringCamelCase } from '@polkadot/util';
+
+import { Type } from '../../primitive';
 
 // FIXME: Need some sort of solution for specifying these
 // Since we don't have insight into the origin specification, we can only define what we know about

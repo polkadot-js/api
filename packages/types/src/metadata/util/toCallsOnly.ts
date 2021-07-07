@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FunctionMetadataLatest, MetadataLatest } from '@polkadot/types/interfaces/metadata';
-import type { AnyJson, Registry } from '@polkadot/types/types';
+import type { FunctionMetadataLatest, MetadataLatest } from '../../interfaces/metadata';
+import type { AnyJson, Registry } from '../../types';
 
-import { Option, Vec } from '@polkadot/types/codec';
-import { Text, u8 } from '@polkadot/types/primitive';
+import { Option, Vec } from '../../codec';
+import { Text, u8 } from '../../primitive';
 
 interface ModuleMetadataTrimmed {
   calls: Option<Vec<FunctionMetadataLatest>>;

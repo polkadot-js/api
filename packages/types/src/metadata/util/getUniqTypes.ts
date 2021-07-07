@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Vec } from '@polkadot/types/codec';
-import type { Text, Type } from '@polkadot/types/primitive';
-import type { Codec, Registry } from '@polkadot/types/types';
+import type { Option, Vec } from '../../codec';
+import type { Text, Type } from '../../primitive';
+import type { Codec, Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';

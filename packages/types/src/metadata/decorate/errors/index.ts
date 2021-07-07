@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest } from '@polkadot/types/interfaces';
-import type { Registry } from '@polkadot/types/types';
+import type { DispatchErrorModule, MetadataLatest } from '../interfaces';
+import type { Registry } from '../types';
 import type { Errors, ModuleErrors } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';

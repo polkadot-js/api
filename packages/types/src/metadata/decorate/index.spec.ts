@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types/create';
 import { u8aToHex } from '@polkadot/util';
 
+import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
 import json from '../static';
 import { decorateConstants, decorateExtrinsics, decorateStorage } from './';

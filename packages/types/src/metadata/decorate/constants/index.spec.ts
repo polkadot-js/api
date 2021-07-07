@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { BlockNumber } from '../interfaces';
 import type { Constants } from '../types';
 
-import { TypeRegistry } from '@polkadot/types/create';
+import { TypeRegistry } from '../create';
 
 import { Metadata } from '../../Metadata';
 import rpcMetadata from '../../static';

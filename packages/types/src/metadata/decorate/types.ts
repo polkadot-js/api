@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
-import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyTuple, CallFunction, Codec, IEvent } from '@polkadot/types/types';
+import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, ModuleConstantMetadataLatest } from '../../interfaces';
+import type { StorageEntry } from '../../primitive/types';
+import type { AnyTuple, CallFunction, Codec, IEvent } from '../../types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: ModuleConstantMetadataLatest;
