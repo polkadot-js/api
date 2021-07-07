@@ -60,11 +60,11 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
         api.query[elections].members,
         api.query[elections].runnersUp
       ])
-      : combineLatest<[Vec<AccountId>, Candidate[], Member[], Member[]]>([
-        api.query[council].members(),
-        of([]),
-        of([]),
-        of([])
+      : combineLatest([
+        api.query[council].members<Vec<AccountId>>(),
+        of<Candidate[]>([]),
+        of<Member[]>([]),
+        of<Member[]>([])
       ])
   ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
