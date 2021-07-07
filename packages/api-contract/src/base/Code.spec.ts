@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { decorateMethod } from '@polkadot/api/promise';
+import { decorateMethodPromise } from '@polkadot/api';
 
 import contractFlipper from '../../test/contracts/ink/flipper.contract.json';
 import abiFlipper from '../../test/contracts/ink/flipper.json';
@@ -16,13 +16,13 @@ const wasmFlipper = fs.readFileSync(path.join(__dirname, '../../test/contracts/i
 describe('Code', (): void => {
   it('can construct with an individual ABI/WASM combo', (): void => {
     expect(
-      () => new Code(mockApi, abiFlipper, wasmFlipper, decorateMethod)
+      () => new Code(mockApi, abiFlipper, wasmFlipper, decorateMethodPromise)
     ).not.toThrow();
   });
 
   it('can construct with an .contract ABI', (): void => {
     expect(
-      () => new Code(mockApi, contractFlipper, null, decorateMethod)
+      () => new Code(mockApi, contractFlipper, null, decorateMethodPromise)
     ).not.toThrow();
   });
 });
