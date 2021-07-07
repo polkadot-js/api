@@ -35,6 +35,8 @@ export default {
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',
+    BlockNumberFor: 'BlockNumber',
+    BlockNumberOf: 'BlockNumber',
     Call: 'GenericCall',
     CallHash: 'Hash',
     CallHashOf: 'CallHash',
