@@ -16,8 +16,7 @@ const external = [
   '@polkadot/keyring',
   '@polkadot/networks',
   '@polkadot/util',
-  '@polkadot/util-crypto',
-  '@polkadot/wasm-crypto'
+  '@polkadot/util-crypto'
 ];
 
 const entries = ['api-derive', 'rpc-core', 'rpc-provider', 'types-known'].map((p) => ({
