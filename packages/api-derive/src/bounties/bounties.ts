@@ -1,14 +1,15 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Bytes, Option } from '@polkadot/types';
 import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 
+import { combineLatest, map, of, switchMap } from 'rxjs';
+
 import { memo } from '@polkadot/api-derive/util';
-import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { filterBountiesProposals } from './helpers/filterBountyProposals';
 

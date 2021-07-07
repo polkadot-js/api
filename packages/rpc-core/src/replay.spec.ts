@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { RpcInterface } from '@polkadot/rpc-core/types.jsonrpc';
-import type { Observable } from '@polkadot/x-rxjs';
+
+import { of } from 'rxjs';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
-import { of } from '@polkadot/x-rxjs';
 
 import { RpcCore } from '.';
 

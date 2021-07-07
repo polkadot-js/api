@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { DecoratedMeta } from '@polkadot/metadata/decorate/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
@@ -11,6 +12,8 @@ import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
+import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
+
 import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo } from '@polkadot/api-derive/util';
 import { expandMetadata, Metadata } from '@polkadot/metadata';
@@ -20,8 +23,6 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
-import { BehaviorSubject, combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, switchMap, tap, toArray } from '@polkadot/x-rxjs/operators';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';

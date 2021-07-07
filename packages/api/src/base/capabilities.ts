@@ -1,14 +1,15 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Raw, u32 } from '@polkadot/types';
 import type { Releases } from '@polkadot/types/interfaces';
 import type { InterfaceTypes } from '@polkadot/types/types';
 
+import { catchError, combineLatest, map, of, take } from 'rxjs';
+
 import { assert, compactFromU8a } from '@polkadot/util';
-import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { catchError, map, take } from '@polkadot/x-rxjs/operators';
 
 // the order and types needs to map with the all array setup below
 type ExtractedQ = [Releases | null];
