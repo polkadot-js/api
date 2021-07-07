@@ -6,7 +6,7 @@ import type { Memoized } from '@polkadot/util/types';
 
 import { Observable } from 'rxjs';
 
-import { drr } from '@polkadot/rpc-core/util';
+import { drr } from '@polkadot/rpc-core';
 import { memoize } from '@polkadot/util';
 
 type ObsFn <T> = (...params: any[]) => Observable<T>;

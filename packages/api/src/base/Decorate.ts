@@ -14,8 +14,7 @@ import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
 
-import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
-import { memo } from '@polkadot/api-derive/util';
+import { decorateDerive, ExactDerive, memo } from '@polkadot/api-derive';
 import { expandMetadata, Metadata } from '@polkadot/metadata';
 import { RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';

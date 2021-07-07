@@ -19,6 +19,7 @@ import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8a
 import { drr, refCountDelay } from './util';
 
 export { packageInfo } from './packageInfo';
+export * from './util';
 
 interface StorageChangeSetJSON {
   block: string;
