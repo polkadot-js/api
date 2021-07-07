@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../interfaces';
-import type { AnyTuple, IEvent, Registry } from '../types';
+import type { MetadataLatest } from '../../../interfaces';
+import type { AnyTuple, IEvent, Registry } from '../../../types';
 import type { Events, ModuleEvents } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';

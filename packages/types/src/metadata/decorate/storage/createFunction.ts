@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageEntryMetadataLatest, StorageHasher } from '../interfaces/metadata';
-import type { StorageEntry } from '../primitive/types';
-import type { Codec, Registry } from '../types';
 import type { BN } from '@polkadot/util';
+import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
+import type { StorageEntry } from '../../../primitive/types';
+import type { Codec, Registry } from '../../../types';
 
-import { Raw } from '../codec';
-import { StorageKey, Type } from '../primitive';
 import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
+import { Raw } from '../../../codec';
+import { StorageKey, Type } from '../../../primitive';
 import { getHasher } from './getHasher';
 
 export interface CreateItemOptions {
