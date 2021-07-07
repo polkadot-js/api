@@ -5,8 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Observable } from '@polkadot/x-rxjs';
 import type { HeaderExtended } from '../type/types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs';
+import { combineLatest, map, of } from '@polkadot/x-rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
