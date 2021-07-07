@@ -6,9 +6,9 @@ import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 
-import { Metadata } from '@polkadot/metadata';
-import { getStorage as getSubstrateStorage } from '@polkadot/metadata/decorate/storage/getStorage';
-import rpcdata from '@polkadot/metadata/static';
+import { Metadata } from '@polkadot/types/metadata';
+import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
+import rpcdata from '@polkadot/types/metadata/static';
 import { Vec } from '@polkadot/types/codec';
 import { TypeRegistry } from '@polkadot/types/create';
 import { GenericCall as Call } from '@polkadot/types/generic';

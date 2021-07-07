@@ -36,7 +36,7 @@ Handlebars.registerHelper({
     const { imports, types } = this as unknown as This;
     const defs = [
       {
-        file: '@polkadot/metadata',
+        file: '@polkadot/types/metadata',
         types: Object.keys(imports.metadataTypes)
       },
       {

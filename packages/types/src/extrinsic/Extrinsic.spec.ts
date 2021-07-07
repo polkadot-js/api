@@ -1,10 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Metadata } from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/static';
-
 import { TypeRegistry } from '../create';
+import { Metadata } from '../metadata';
+import rpcMetadata from '../metadata/static';
 import { GenericExtrinsic as Extrinsic } from '.';
 
 const registry = new TypeRegistry();

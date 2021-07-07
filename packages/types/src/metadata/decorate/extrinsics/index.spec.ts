@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import { TypeRegistry } from '../../../create';
 import { BN } from '@polkadot/util';
 
+import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
 import metadataStatic from '../../static';
 import { decorateExtrinsics } from '..';

@@ -5,7 +5,7 @@
 import '@polkadot/api/augment';
 
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
-import type { Metadata } from '@polkadot/metadata';
+import type { Metadata } from '@polkadot/types/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
