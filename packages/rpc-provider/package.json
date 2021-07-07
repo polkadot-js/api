@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^6.11.2-7",
-    "@polkadot/metadata": "4.17.2-10",
+    "@polkadot/types": "4.17.2-10",
     "mock-socket": "^9.0.3",
     "nock": "^13.1.1"
   }

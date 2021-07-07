@@ -4,10 +4,10 @@
 import type { Codec } from './types';
 
 import * as definitions from './interfaces/definitions';
+import metadataStatic from './metadata/static';
 import { createTypeUnsafe, TypeRegistry } from './create';
 import * as exported from './index.types';
 import { Metadata } from './metadata';
-import metadataStatic from './metadata/static';
 
 // NOTE This is not a shortcut to implementing types incorrectly. This is here
 // specifically for the types that _should_ throw in the constrtuctor, i.e

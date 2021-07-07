@@ -12,8 +12,8 @@ import type { VersionedRegistry } from './types';
 
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
-import { Metadata } from '@polkadot/types/metadata';
 import { TypeRegistry } from '@polkadot/types/create';
+import { Metadata } from '@polkadot/types/metadata';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';

@@ -6,13 +6,13 @@ import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 
-import { Metadata } from '@polkadot/types/metadata';
-import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
-import rpcdata from '@polkadot/types/metadata/static';
 import { Vec } from '@polkadot/types/codec';
 import { TypeRegistry } from '@polkadot/types/create';
 import { GenericCall as Call } from '@polkadot/types/generic';
 import * as definitions from '@polkadot/types/interfaces/definitions';
+import { Metadata } from '@polkadot/types/metadata';
+import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
+import rpcdata from '@polkadot/types/metadata/static';
 import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';

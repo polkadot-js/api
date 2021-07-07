@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../interfaces';
-import type { ConstantCodec, Constants, ModuleConstants, Registry } from '../types';
+import type { MetadataLatest } from '../../../interfaces';
+import type { Registry } from '../../../types';
+import type { ConstantCodec, Constants, ModuleConstants } from '../types';
 
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
