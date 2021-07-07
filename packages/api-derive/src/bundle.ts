@@ -25,7 +25,6 @@ import * as tx from './tx';
 
 export { packageInfo } from './packageInfo';
 export * from './type';
-export { memo } from './util';
 
 interface Avail {
   instances: string[];

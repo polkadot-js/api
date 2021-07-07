@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
+import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { AnyJson, AnyTuple, AnyU8a, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { AllHashers } from '../interfaces/metadata/definitions';
 import { Bytes } from './Bytes';
 
 interface Decoded {

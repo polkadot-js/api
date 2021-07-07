@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export { Keyring } from '@polkadot/keyring';
-export { HttpProvider, WsProvider } from '@polkadot/rpc-provider';
+export { WsProvider, HttpProvider } from '@polkadot/rpc-provider';
 
 export { packageInfo } from './packageInfo';
 export { ApiPromise, decorateMethod as decorateMethodPromise } from './promise';
