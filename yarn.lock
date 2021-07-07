@@ -1897,7 +1897,6 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@polkadot/api-derive": 4.17.2-10
     "@polkadot/keyring": ^6.11.2-7
-    "@polkadot/metadata": 4.17.2-10
     "@polkadot/rpc-core": 4.17.2-10
     "@polkadot/rpc-provider": 4.17.2-10
     "@polkadot/types": 4.17.2-10
@@ -2013,19 +2012,6 @@ __metadata:
     "@polkadot/util": 6.11.2-7
     "@polkadot/util-crypto": 6.11.2-7
   checksum: 6b80e7c5f0155a470e623a8993c411ddeae967b35c7d08dddacab176915f02549a04703369172ffebe812841fe7251c42015870f28bed89ae3a825b9a40e71d2
-  languageName: node
-  linkType: hard
-
-"@polkadot/metadata@npm:4.17.2-10":
-  version: 4.17.2-10
-  resolution: "@polkadot/metadata@npm:4.17.2-10"
-  dependencies:
-    "@babel/runtime": ^7.14.6
-    "@polkadot/types": 4.17.2-10
-    "@polkadot/types-known": 4.17.2-10
-    "@polkadot/util": ^6.11.2-7
-    "@polkadot/util-crypto": ^6.11.2-7
-  checksum: c31b2ddffce906e24f0a69ad228c3c16eb8da45fbcf6b998a4f78c3f62caf6da892004645c4087e447f1b647c8d209da641da0e51a87c5fbf596b9b73fcd96db
   languageName: node
   linkType: hard
 

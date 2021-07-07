@@ -10,7 +10,6 @@
     "paths":
     {
       "@polkadot/api": ["packages/api/src"],
-      "@polkadot/api/package-info.json": ["packages/api/package.json"],
       "@polkadot/api/*": ["packages/api/src/*"],
       "@polkadot/api-contract": ["packages/api-contract/src"],
       "@polkadot/api-contract/*": ["packages/api-contract/src/*"],
@@ -21,7 +20,6 @@
       "@polkadot/rpc-provider": ["packages/rpc-provider/src"],
       "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
       "@polkadot/types": ["packages/types/src"],
-      "@polkadot/types/package-info.json": ["packages/types/package.json"],
       "@polkadot/types/*": ["packages/types/src/*"],
       "@polkadot/types-known": ["packages/types-known/src"],
       "@polkadot/types-known/*": ["packages/types-known/src/*"]

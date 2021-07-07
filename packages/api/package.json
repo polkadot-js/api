@@ -22,7 +22,6 @@
     "@babel/runtime": "^7.14.6",
     "@polkadot/api-derive": "4.17.2-10",
     "@polkadot/keyring": "^6.11.2-7",
-    "@polkadot/metadata": "4.17.2-10",
     "@polkadot/rpc-core": "4.17.2-10",
     "@polkadot/rpc-provider": "4.17.2-10",
     "@polkadot/types": "4.17.2-10",
