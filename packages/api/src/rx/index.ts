@@ -4,7 +4,7 @@
 import type { Codec } from '@polkadot/types/types';
 import type { ApiOptions, DecorateFn } from '../types';
 
-import { from, Observable } from '@polkadot/x-rxjs';
+import { from, Observable } from 'rxjs';
 
 import { ApiBase } from '../base';
 
@@ -48,8 +48,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * <BR>
  *
  * ```javascript
- * import { combineLatest } from '@polkadot/x-rxjs';
- * import { pairwise, switchMap } from '@polkadot/x-rxjs/operators';
+ * import { combineLatest, pairwise, switchMap } from 'rxjs';
  * import { ApiRx, WsProvider } from '@polkadot/api';
  *
  *
@@ -78,7 +77,7 @@ export function decorateMethod <Method extends DecorateFn<Codec>> (method: Metho
  * <BR>
  *
  * ```javascript
- * import { first, switchMap } from '@polkadot/x-rxjs/operators';
+ * import { first, switchMap } from 'rxjs';
  * import ApiRx from '@polkadot/api/rx';
  *
  * // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
@@ -122,7 +121,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
    * <BR>
    *
    * ```javascript
-   * import { switchMap } from '@polkadot/x-rxjs/operators';
+   * import { switchMap } from 'rxjs';
    * import Api from '@polkadot/api/rx';
    *
    * Api.create()
@@ -146,7 +145,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
    * <BR>
    *
    * ```javascript
-   * import { switchMap } from '@polkadot/x-rxjs/operators';
+   * import { switchMap } from 'rxjs';
    * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady

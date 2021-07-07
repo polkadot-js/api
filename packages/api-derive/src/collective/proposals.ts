@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveCollectiveProposal } from '../types';
 import type { Collective } from './types';
 
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
+
 import { isFunction } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { catchError, map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 import { getInstance } from './getInstance';
@@ -34,17 +34,22 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
 function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
-      ? combineLatest<Result>([
+      ? combineLatest([
         of(hashes),
+        // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+        // however we have had cases on Edgeware where the indices have moved around after an
+        // upgrade, which results in invalid on-chain data
         combineLatest(hashes.map((hash) =>
           // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
           // however we have had cases on Edgeware where the indices have moved around after an
           // upgrade, which results in invalid on-chain data
-          api.query[section].proposalOf(hash).pipe(catchError(() => of(null)))
+          api.query[section].proposalOf<Option<Proposal>>(hash).pipe(
+            catchError(() => of(null))
+          )
         )),
         api.query[section].voting.multi<Option<Votes>>(hashes)
       ])
-      : of([[], [], []] as Result)
+      : of<Result>([[], [], []])
     ).pipe(
       map((result) => parse(api, result))
     )

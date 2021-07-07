@@ -1,15 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, SeatHolder } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveElectionsInfo } from './types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -60,11 +59,11 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
         api.query[elections].members,
         api.query[elections].runnersUp
       ])
-      : combineLatest<[Vec<AccountId>, Candidate[], Member[], Member[]]>([
-        api.query[council].members(),
-        of([]),
-        of([]),
-        of([])
+      : combineLatest([
+        api.query[council].members<Vec<AccountId>>(),
+        of<Candidate[]>([]),
+        of<Member[]>([]),
+        of<Member[]>([])
       ])
   ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
