@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/metadata authors & contributors
+// Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '../../interfaces/metadata';
