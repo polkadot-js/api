@@ -8,7 +8,6 @@ import { createBundle } from '@polkadot/dev/config/rollup';
 const pkgs = [
   '@polkadot/api',
   '@polkadot/api-contract',
-  '@polkadot/metadata',
   '@polkadot/types'
 ];
 

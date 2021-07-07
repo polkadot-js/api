@@ -11,9 +11,7 @@ import type { RpcInterface, RpcInterfaceMethod } from './types';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
-import { Option } from '@polkadot/types';
-import { createClass, createTypeUnsafe } from '@polkadot/types/create';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import { createClass, createTypeUnsafe, Option, rpcDefinitions } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
@@ -106,7 +104,7 @@ export class RpcCore {
     this.#registryDefault = registry;
     this.provider = provider;
 
-    const sectionNames = Object.keys(jsonrpc);
+    const sectionNames = Object.keys(rpcDefinitions);
 
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...sectionNames);
@@ -157,7 +155,7 @@ export class RpcCore {
 
       Object
         .entries({
-          ...this._createInterface(sectionName, jsonrpc[sectionName as 'babe'] || {}),
+          ...this._createInterface(sectionName, rpcDefinitions[sectionName as 'babe'] || {}),
           ...this._createInterface(sectionName, userRpc[sectionName] || {})
         })
         .forEach(([key, value]): void => {
