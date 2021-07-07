@@ -9,7 +9,7 @@ import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import { isHex, u8aToString } from '@polkadot/util';
-import { combineLatest, map, of } from '@polkadot/x-rxjs';
+import { combineLatest, map, of, switchMap } from '@polkadot/x-rxjs';
 
 import { memo } from '../util';
 
