@@ -11,6 +11,7 @@ import * as bounties from './bounties';
 import * as chain from './chain';
 import * as contracts from './contracts';
 import * as council from './council';
+import * as crowdloan from './crowdloan';
 import * as democracy from './democracy';
 import * as elections from './elections';
 import * as imOnline from './imOnline';
@@ -31,7 +32,7 @@ interface Avail {
   withDetect?: boolean;
 }
 
-export const derive = { accounts, balances, bounties, chain, contracts, council, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
@@ -42,14 +43,17 @@ type DeriveAllSections<AllSections> = {
   [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
 };
 
-export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
+type DeriveCreator = (instanceId: string, api: ApiInterfaceRx) => (...args: unknown[]) => Observable<any>;
+
+export type DeriveCustom = Record<string, Record<string, DeriveCreator>>;
 
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // Enable derive only if some of these modules are available
-const deriveAvail: Record<string, Avail> = {
+const checks: Record<string, Avail> = {
   contracts: { instances: ['contracts'] },
   council: { instances: ['council'], withDetect: true },
+  crowdloan: { instances: ['crowdloan'] },
   democracy: { instances: ['democracy'] },
   elections: { instances: ['phragmenElection', 'electionsPhragmen', 'elections', 'council'], withDetect: true },
   imOnline: { instances: ['imOnline'] },
@@ -74,34 +78,28 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
   return Object
     .keys(allSections)
     .filter((sectionName) =>
-      !deriveAvail[sectionName] ||
-      deriveAvail[sectionName].instances.some((q) => queryKeys.includes(q)) ||
+      !checks[sectionName] ||
+      checks[sectionName].instances.some((q) => queryKeys.includes(q)) ||
       (
-        deriveAvail[sectionName].withDetect &&
-        deriveAvail[sectionName].instances.some((q) =>
+        checks[sectionName].withDetect &&
+        checks[sectionName].instances.some((q) =>
           (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
         )
       )
     )
-    .reduce((deriveAcc, sectionName): DeriveAllSections<AllSections> => {
+    .reduce((derives, sectionName): DeriveAllSections<AllSections> => {
       const section = allSections[sectionName as keyof AllSections];
 
-      deriveAcc[sectionName as keyof AllSections] = Object
-        .keys(section)
-        .reduce((sectionAcc, _methodName): DeriveSection<typeof section> => {
-          const methodName = _methodName as keyof typeof section;
-          // Not sure what to do here, casting as any. Though the final types are good
+      derives[sectionName as keyof AllSections] = Object
+        .entries(section)
+        .reduce((methods, [methodName, creator]): DeriveSection<typeof section> => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-          const method = (section[methodName] as any)(instanceId, api);
+          methods[methodName as keyof typeof section] = creator(instanceId, api);
 
-          // idem
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-          (sectionAcc as any)[methodName] = method;
-
-          return sectionAcc;
+          return methods;
         }, {} as DeriveSection<typeof section>);
 
-      return deriveAcc;
+      return derives;
     }, {} as DeriveAllSections<AllSections>);
 }
 
