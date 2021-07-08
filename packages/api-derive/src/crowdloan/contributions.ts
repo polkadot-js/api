@@ -1,17 +1,16 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, StorageKey, Vec } from '@polkadot/types';
 import type { FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
-import type { AnyTuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveContributions } from '../types';
 
-import { u8aConcat, u8aToHex } from '@polkadot/util';
+import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
+
+import { arrayFlatten, isFunction, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
-import { combineLatest, EMPTY, of } from '@polkadot/x-rxjs';
-import { map, startWith, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -28,6 +27,8 @@ const EMPTY_RESULT: DeriveContributions = {
   contributorsMap: {},
   hasKeys: true
 };
+
+const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
 
 function createChildKey (trieIndex: TrieIndex): string {
   return u8aToHex(
@@ -84,13 +85,40 @@ function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | ParaId
   );
 }
 
-function _getKeys (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
+function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Vec<StorageKey>> {
+  const startSubject = new BehaviorSubject<string | undefined>(undefined);
+
+  return startSubject.pipe(
+    switchMap((startKey) =>
+      api.rpc.childstate.getKeysPaged(childKey, '0x', PAGE_SIZE_K, startKey)
+    ),
+    tap((keys): void => {
+      setTimeout((): void => {
+        keys.length === PAGE_SIZE_K
+          ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
+          : startSubject.complete();
+      }, 0);
+    }),
+    toArray(), // toArray since we want to startSubject to be completed
+    map(arrayFlatten)
+  );
+}
+
+function _getKeys (api: ApiInterfaceRx, childKey: string): Observable<Vec<StorageKey>> {
+  // FIXME This needs testing
+  // eslint-disable-next-line no-constant-condition
+  return isFunction(api.rpc.childstate.getKeysPaged) && false
+    ? _getKeysPaged(api, childKey)
+    : api.rpc.childstate.getKeys(childKey, '0x');
+}
+
+function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
   return _eventTriggerAll(api, paraId).pipe(
     switchMap((blockHash) => combineLatest([
       of(blockHash),
-      api.rpc.childstate.getKeys(childKey, '0x')
+      _getKeys(api, childKey)
     ])),
-    map(([blockHash, keys]: [string, Vec<StorageKey<AnyTuple>>]): DeriveContributions => {
+    map(([blockHash, keys]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
       keys.forEach((k): void => {
@@ -113,7 +141,7 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
   let extraRemoved: string[] = [];
 
   return combineLatest([
-    _getKeys(api, paraId, createChildKey(trieIndex)),
+    _getAll(api, paraId, createChildKey(trieIndex)),
     _getUpdates(api, paraId)
   ]).pipe(
     map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
