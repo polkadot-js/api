@@ -121,10 +121,8 @@ function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKe
       return {
         blockHash,
         childKey,
-        contributorsAdded: [],
         contributorsHex: [], // to be filled-in by the result mapping
-        contributorsMap,
-        contributorsRemoved: []
+        contributorsMap
       };
     })
   );
@@ -144,8 +142,6 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
       });
 
       full.contributorsHex = Object.keys(full.contributorsMap);
-      full.contributorsAdded = changes.added;
-      full.contributorsRemoved = changes.removed;
 
       if (changes.blockHash !== '-') {
         full.blockHash = changes.blockHash;
