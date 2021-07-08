@@ -12,6 +12,7 @@ Changes:
 - Allow schedule derives to handle scheduler entries that cannot decode
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
 - Add `BlockNumberFor` type mapping
+- Add Westend 9080 upgrade block
 - Allow building as a completely stand-alone browser bundle
 - Update to latest `@polkadot/x-rxjs` with RxJs 7.2
 
