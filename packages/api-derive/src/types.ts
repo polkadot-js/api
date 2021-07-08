@@ -7,6 +7,7 @@ import type { BN } from '@polkadot/util';
 
 export * from './accounts/types';
 export * from './council/types';
+export * from './crowdloan/types';
 export * from './democracy/types';
 export * from './elections/types';
 export * from './parachains/types';
