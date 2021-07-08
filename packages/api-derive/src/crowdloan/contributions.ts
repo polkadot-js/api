@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, StorageKey, Vec } from '@polkadot/types';
+import type { Option, StorageKey } from '@polkadot/types';
 import type { FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
 import type { DeriveContributions } from '../types';
 
@@ -85,7 +85,7 @@ function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | ParaId
   );
 }
 
-function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Vec<StorageKey>> {
+function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<StorageKey[]> {
   const startSubject = new BehaviorSubject<string | undefined>(undefined);
 
   return startSubject.pipe(
@@ -100,23 +100,19 @@ function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Vec<S
       }, 0);
     }),
     toArray(), // toArray since we want to startSubject to be completed
-    map(arrayFlatten)
+    map((keyArr: StorageKey[][]) => arrayFlatten(keyArr))
   );
-}
-
-function _getKeys (api: ApiInterfaceRx, childKey: string): Observable<Vec<StorageKey>> {
-  // FIXME This needs testing
-  // eslint-disable-next-line no-constant-condition
-  return isFunction(api.rpc.childstate.getKeysPaged) && false
-    ? _getKeysPaged(api, childKey)
-    : api.rpc.childstate.getKeys(childKey, '0x');
 }
 
 function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
   return _eventTriggerAll(api, paraId).pipe(
     switchMap((blockHash) => combineLatest([
       of(blockHash),
-      _getKeys(api, childKey)
+      // FIXME This needs testing and enabling
+      // eslint-disable-next-line no-constant-condition
+      isFunction(api.rpc.childstate.getKeysPaged) && false
+        ? _getKeysPaged(api, childKey)
+        : api.rpc.childstate.getKeys(childKey, '0x')
     ])),
     map(([blockHash, keys]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
