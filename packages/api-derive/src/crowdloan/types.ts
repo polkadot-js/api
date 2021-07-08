@@ -5,9 +5,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 
 export interface DeriveContributions {
   blockHash: string;
-  childKey: string;
   contributorsHex: string[];
-  contributorsMap: Record<string, boolean>;
 }
 
 export type DeriveOwnContributions = Record<string, Balance>;

@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { StorageKey, Vec } from '@polkadot/types';
-import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
+import type { StorageKey } from '@polkadot/types';
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { DeriveContributions } from '../types';
 
 import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
@@ -12,37 +12,15 @@ import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, t
 import { arrayFlatten, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
+import { extractContributed } from './util';
 
 interface Changes {
   added: string[];
-  addedDelta: string[];
   blockHash: string;
   removed: string[];
-  removedDelta: string[];
 }
 
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
-
-function _extractChanges (paraId: string | number | ParaId, events: Vec<EventRecord>): Changes {
-  const added: string[] = [];
-  const removed: string[] = [];
-
-  return events
-    .filter(({ event: { data: [, eventParaId], method, section } }) =>
-      section === 'crowdloan' &&
-      ['Contributed', 'Withdrew'].includes(method) &&
-      eventParaId.eq(paraId)
-    )
-    .reduce((result: Changes, { event: { data: [accountId], method } }): Changes => {
-      if (method === 'Contributed') {
-        result.added.push(accountId.toHex());
-      } else {
-        result.removed.push(accountId.toHex());
-      }
-
-      return result;
-    }, { added, addedDelta: added, blockHash: events.createdAtHash?.toHex() || '-', removed, removedDelta: removed });
-}
 
 function _getUpdates (api: ApiInterfaceRx, paraId: string | number | ParaId): Observable<Changes> {
   let added: string[] = [];
@@ -50,7 +28,7 @@ function _getUpdates (api: ApiInterfaceRx, paraId: string | number | ParaId): Ob
 
   return api.query.system.events().pipe(
     switchMap((events): Observable<Changes> => {
-      const changes = _extractChanges(paraId, events);
+      const changes = extractContributed(paraId, events);
 
       if (changes.added.length || changes.removed.length) {
         added = added.concat(...changes.added);
@@ -101,30 +79,18 @@ function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Stora
   );
 }
 
-function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
+function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<string[]> {
   return _eventTriggerAll(api, paraId).pipe(
-    switchMap((blockHash) => combineLatest([
-      of(blockHash),
+    switchMap(() =>
       // FIXME Needs testing and being enabled
       // eslint-disable-next-line no-constant-condition
       isFunction(api.rpc.childstate.getKeysPaged) && false
         ? _getKeysPaged(api, childKey)
         : api.rpc.childstate.getKeys(childKey, '0x')
-    ])),
-    map(([blockHash, keys]): DeriveContributions => {
-      const contributorsMap: Record<string, boolean> = {};
-
-      keys.forEach((k): void => {
-        contributorsMap[k.toHex()] = true;
-      });
-
-      return {
-        blockHash,
-        childKey,
-        contributorsHex: [], // to be filled-in by the result mapping
-        contributorsMap
-      };
-    })
+    ),
+    map((keys) =>
+      keys.map((k) => k.toHex())
+    )
   );
 }
 
@@ -133,21 +99,25 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
     _getAll(api, paraId, childKey),
     _getUpdates(api, paraId)
   ]).pipe(
-    map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
-      changes.added.forEach((a): void => {
-        full.contributorsMap[a] = true;
+    map(([keys, { added, blockHash, removed }]): DeriveContributions => {
+      const contributorsMap: Record<string, boolean> = {};
+
+      keys.forEach((k): void => {
+        contributorsMap[k] = true;
       });
-      changes.removed.forEach((a): void => {
-        delete full.contributorsMap[a];
+
+      added.forEach((k): void => {
+        contributorsMap[k] = true;
       });
 
-      full.contributorsHex = Object.keys(full.contributorsMap);
+      removed.forEach((k): void => {
+        delete contributorsMap[k];
+      });
 
-      if (changes.blockHash !== '-') {
-        full.blockHash = changes.blockHash;
-      }
-
-      return full;
+      return {
+        blockHash,
+        contributorsHex: Object.keys(contributorsMap)
+      };
     })
   );
 }
@@ -158,7 +128,7 @@ export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId
       switchMap((childKey) =>
         childKey
           ? _contributions(api, paraId, childKey)
-          : of({ blockHash: '-', childKey: '', contributorsAdded: [], contributorsHex: [], contributorsMap: {}, contributorsRemoved: [] })
+          : of({ blockHash: '-', contributorsHex: [] })
       )
     )
   );
