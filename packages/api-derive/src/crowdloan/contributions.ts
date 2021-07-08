@@ -124,6 +124,7 @@ function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKe
       });
 
       return {
+        childKey,
         contributorsHex: [], // to be filled-in by the result mapping
         contributorsMap
       };
@@ -157,7 +158,7 @@ export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId
       switchMap((optInfo) =>
         optInfo.isSome
           ? _contributions(api, paraId, optInfo.unwrap())
-          : of({ contributorsHex: [], contributorsMap: {} })
+          : of({ childKey: '', contributorsHex: [], contributorsMap: {} })
       )
     )
   );
