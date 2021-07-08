@@ -12,7 +12,7 @@ export interface ActiveEraInfo extends Struct {
 }
 
 /** @name CompactAssignments */
-export interface CompactAssignments extends CompactAssignmentsWith24 {}
+export interface CompactAssignments extends CompactAssignmentsWith16 {}
 
 /** @name CompactAssignmentsTo257 */
 export interface CompactAssignmentsTo257 extends Struct {
@@ -104,6 +104,7 @@ export interface ElectionPhase extends Enum {
   readonly isSigned: boolean;
   readonly isUnsigned: boolean;
   readonly asUnsigned: ITuple<[bool, BlockNumber]>;
+  readonly isEmergency: boolean;
 }
 
 /** @name ElectionResult */
@@ -207,7 +208,7 @@ export interface PhragmenScore extends Vec<u128> {}
 export interface Points extends u32 {}
 
 /** @name RawSolution */
-export interface RawSolution extends RawSolutionWith24 {}
+export interface RawSolution extends RawSolutionWith16 {}
 
 /** @name RawSolutionTo265 */
 export interface RawSolutionTo265 extends RawSolutionWith16 {}
@@ -258,6 +259,16 @@ export interface SeatHolder extends Struct {
   readonly stake: Balance;
   readonly deposit: Balance;
 }
+
+/** @name SignedSubmission */
+export interface SignedSubmission extends Struct {
+  readonly who: AccountId;
+  readonly deposit: Balance;
+  readonly solution: RawSolution;
+}
+
+/** @name SignedSubmissionOf */
+export interface SignedSubmissionOf extends SignedSubmission {}
 
 /** @name SlashingSpans */
 export interface SlashingSpans extends Struct {
@@ -330,6 +341,9 @@ export interface StakingLedgerTo240 extends Struct {
   readonly unlocking: Vec<UnlockChunk>;
   readonly lastReward: Option<EraIndex>;
 }
+
+/** @name SubmissionIndicesOf */
+export interface SubmissionIndicesOf extends BTreeMap<ElectionScore, u32> {}
 
 /** @name UnappliedSlash */
 export interface UnappliedSlash extends Struct {

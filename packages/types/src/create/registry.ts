@@ -7,19 +7,18 @@ import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
-// we are attempting to avoid circular refs, hence the Metadata path import
-import { decorateConstants, decorateExtrinsics } from '@polkadot/metadata/decorate';
-import { Metadata } from '@polkadot/metadata/Metadata';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
-import { DoNotConstruct } from '../primitive/DoNotConstruct';
+import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
+import { Metadata } from '../metadata/Metadata';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';

@@ -556,6 +556,14 @@ declare module '@polkadot/api/types/errors' {
        **/
       CallNotAllowed: AugmentedError<ApiType>;
       /**
+       * `Self::insert_submission` returned an invalid index.
+       **/
+      InvalidSubmissionIndex: AugmentedError<ApiType>;
+      /**
+       * Snapshot metadata should exist but didn't.
+       **/
+      MissingSnapshotMetadata: AugmentedError<ApiType>;
+      /**
        * OCW submitted solution for wrong round
        **/
       OcwCallWrongEra: AugmentedError<ApiType>;
@@ -571,6 +579,22 @@ declare module '@polkadot/api/types/errors' {
        * Wrong number of winners presented.
        **/
       PreDispatchWrongWinnerCount: AugmentedError<ApiType>;
+      /**
+       * The origin failed to pay the deposit.
+       **/
+      SignedCannotPayDeposit: AugmentedError<ApiType>;
+      /**
+       * Witness data to dispatchable is invalid.
+       **/
+      SignedInvalidWitness: AugmentedError<ApiType>;
+      /**
+       * The queue was full, and the solution was not better than any of the existing ones.
+       **/
+      SignedQueueFull: AugmentedError<ApiType>;
+      /**
+       * The signed submission consumes too much weight
+       **/
+      SignedTooMuchWeight: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

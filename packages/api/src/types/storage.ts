@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, CodecArg, IStorageKey } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { ApiTypes, DropLast, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti {
@@ -26,6 +26,11 @@ export interface StorageEntryPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, arg3: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
+export interface StorageEntryPromiseOverloadsAt {
+  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
+  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
+}
+
 // This is the most generic typings we can have for a storage entry function
 type GenericStorageEntryFunction = (...args: CodecArg[]) => Observable<Codec>
 
@@ -35,6 +40,17 @@ export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple =
     ? AugmentedQuery<'rxjs', GenericStorageEntryFunction, A>
     // eslint-disable-next-line no-use-before-define
     : AugmentedQuery<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloads;
+
+export type QueryableStorageEntryAt<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
+  ApiType extends 'rxjs'
+    // eslint-disable-next-line no-use-before-define
+    ? AugmentedQueryAt<'rxjs', GenericStorageEntryFunction, A>
+    // eslint-disable-next-line no-use-before-define
+    : AugmentedQueryAt<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloadsAt;
+
+export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+  [key: string]: QueryableModuleStorageAt<ApiType>;
+}
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
   at: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
@@ -56,8 +72,22 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
 
+export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
+  entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
+  is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
+  key: (...args: Parameters<F>) => string;
+  keyPrefix: (...args: DropLast<Parameters<F>>) => string;
+  keys: <K extends AnyTuple = A> (...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
+  size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+}
+
 export interface QueryableModuleStorage<ApiType extends ApiTypes> {
   [index: string]: QueryableStorageEntry<ApiType, AnyTuple>;
+}
+
+export interface QueryableModuleStorageAt<ApiType extends ApiTypes> {
+  [index: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
 }
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
@@ -82,6 +112,8 @@ export type QueryableStorageMulti<ApiType extends ApiTypes> =
 export interface AugmentedQueries<ApiType extends ApiTypes> { }
 
 export type AugmentedQuery<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F, A>;
+
+export type AugmentedQueryAt<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = MethodResult<ApiType, F> & StorageEntryBaseAt<ApiType, F, A>;
 
 // backwards compatibility-only
 export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = AugmentedQuery<ApiType, F, A>;

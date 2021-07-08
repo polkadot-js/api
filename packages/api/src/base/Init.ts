@@ -1,22 +1,21 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable, Subscription } from 'rxjs';
 import type { RpcInterfaceMethod } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { Observable, Subscription } from '@polkadot/x-rxjs';
-import type { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';
 
-import { Metadata } from '@polkadot/metadata';
-import { TypeRegistry } from '@polkadot/types/create';
+import { firstValueFrom, map, of, switchMap } from 'rxjs';
+
+import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
@@ -28,7 +27,7 @@ const l = logger('api/init');
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
 
-  #registries: VersionedRegistry[] = [];
+  #registries: VersionedRegistry<ApiType>[] = [];
 
   #updateSub?: Subscription | null = null;
 
@@ -44,7 +43,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (!options.source) {
       this.registerTypes(options.types);
     } else {
-      this.#registries = options.source.#registries;
+      this.#registries = options.source.#registries as VersionedRegistry<ApiType>[];
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
@@ -79,7 +78,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Decorates a registry based on the runtime version
    */
-  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): Registry {
+  private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): void {
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
@@ -94,14 +93,36 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       ...getSpecExtensions(registry, chain, version.specName),
       ...(this._options.signedExtensions || {})
     });
+  }
 
-    return registry;
+  /**
+   * @description Returns the default versioned registry
+   */
+  private _getDefaultRegistry (): VersionedRegistry<ApiType> {
+    // get the default registry version
+    const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
+
+    assert(thisRegistry, 'Initialization error, cannot find the default registry');
+
+    return thisRegistry;
+  }
+
+  /**
+   * @description Returns a decorated API instance at a specific point in time
+   */
+  public async at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>> {
+    const u8aHash = u8aToU8a(blockHash);
+    const registry = await this.getBlockRegistry(u8aHash);
+
+    return registry.decoration
+      ? registry.decoration
+      : this._injectDecorated(registry, true, u8aHash).decoratedApi;
   }
 
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry> {
+  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
       lastBlockHash && u8aEq(lastBlockHash, blockHash)
     );
@@ -118,7 +139,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const header = this.registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await (this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash).toPromise()
+        : await firstValueFrom((this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash))
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -128,7 +149,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await (this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash).toPromise()
+        : await firstValueFrom((this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash))
     );
 
     // check for pre-existing registries
@@ -141,13 +162,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const metadata = new Metadata(this.registry,
-      await (this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash).toPromise()
+    const registry = new TypeRegistry(blockHash);
+    const metadata = new Metadata(registry,
+      await firstValueFrom((this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash))
     );
-    const registry = this._initRegistry(new TypeRegistry(blockHash), this._runtimeChain as Text, version, metadata);
+
+    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { isDefault: false, lastBlockHash: blockHash, metadata, metadataConsts: null, registry, specVersion: version.specVersion };
+    const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -196,8 +219,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
-    detectedCapabilities(this._rx, blockHash)
-      .toPromise()
+    firstValueFrom(detectedCapabilities(this._rx, blockHash))
       .then((types): void => {
         if (Object.keys(types).length) {
           registry.register(types as Record<string, string>);
@@ -230,18 +252,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               this._rx.runtimeVersion = version;
 
               // update the default registry version
-              const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
-
-              assert(thisRegistry, 'Initialization error, cannot find the default registry');
+              const thisRegistry = this._getDefaultRegistry();
 
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
-              thisRegistry.metadataConsts = null;
               thisRegistry.specVersion = version.specVersion;
 
               // clear the registry types to ensure that we override correctly
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
-              this.injectMetadata(metadata, false, thisRegistry.registry);
+              this._injectMetadata(thisRegistry, false);
 
               return this._detectCapabilities(thisRegistry.registry);
             })
@@ -252,14 +271,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _metaFromChain (optMetadata?: Record<string, string>): Promise<[Hash, Metadata]> {
     const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
-      this._rpcCore.chain.getBlockHash(0).toPromise(),
-      this._rpcCore.state.getRuntimeVersion().toPromise(),
-      this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.properties().toPromise(),
-      this._rpcCore.rpc.methods().toPromise(),
+      firstValueFrom(this._rpcCore.chain.getBlockHash(0)),
+      firstValueFrom(this._rpcCore.state.getRuntimeVersion()),
+      firstValueFrom(this._rpcCore.system.chain()),
+      firstValueFrom(this._rpcCore.system.properties()),
+      firstValueFrom(this._rpcCore.rpc.methods()),
       optMetadata
         ? Promise.resolve(null)
-        : this._rpcCore.state.getMetadata().toPromise()
+        : firstValueFrom(this._rpcCore.state.getMetadata())
     ]);
 
     // set our chain version & genesisHash as returned
@@ -272,7 +291,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = chainMetadata || (
       optMetadata && optMetadata[metadataKey]
         ? new Metadata(this.registry, optMetadata[metadataKey])
-        : await this._rpcCore.state.getMetadata().toPromise()
+        : await firstValueFrom(this._rpcCore.state.getMetadata())
     );
 
     // initializes the registry & RPC
@@ -282,7 +301,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, lastBlockHash: null, metadata, metadataConsts: null, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate
@@ -298,7 +317,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
     // inject metadata and adjust the types as detected
-    this.injectMetadata(metadata, true);
+    this._injectMetadata(this._getDefaultRegistry(), true);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
@@ -348,7 +367,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
 
       this.#healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch(() => undefined);
+        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);

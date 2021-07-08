@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Metadata } from '@polkadot/metadata';
+import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { ChainProperties } from '../interfaces/system';
+import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';

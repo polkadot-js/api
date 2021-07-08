@@ -1,5 +1,48 @@
 # CHANGELOG
 
+## master
+
+- **Breaking change** The `@polkadot/metadata` package has been removed, adjust imports to `@polkadot/types`
+- **Important** Internally rxjs has been upgraded to the 7.0 version, affecting users of the `ApiRx` interface
+
+Changes:
+
+- Remove the `@polkadot/metadata` package, consolidate into `@polkadot/types`
+- Contract reads will now expose an additional `gasRequired` (total estimated)
+- Allow schedule derives to handle scheduler entries that cannot decode
+- Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+- Add `BlockNumberFor` type mapping
+- Add Westend 9080 upgrade block
+- Allow building as a completely stand-alone browser bundle
+- Update to latest `@polkadot/x-rxjs` with RxJs 7.2
+
+
+## 4.17.1 Jul 5, 2021
+
+Upgrade priority: Low. Allows cleaner access to multiple `.at` queries via new API.
+
+Contributed:
+
+- Added `Emergency` to `ElectionPhase` (Thanks to https://github.com/arjanz)
+
+Changes:
+
+- Added `await api.at(<blockHash>)` to retrieve API instances at a point
+- Added `fallbackType` for type classes (only struct, as defined)
+- Allow `instances` API config to drive derive collective locations
+- Ensure correct registry is attached to historic metadata
+- Align static metadata with latest Substrate
+
+
+## 4.16.2 Jun 27, 2021
+
+Upgrade priority: Low. Recommended for Polkadot with runtime >= 9050.
+
+Changes:
+
+- Correct `CompactAssignments` & `RawSolution` types for Polkadot
+
+
 ## 4.16.1 Jun 26, 2021
 
 Upgrade priority: Low. Recommended for full from-genesis queries on Kusama.

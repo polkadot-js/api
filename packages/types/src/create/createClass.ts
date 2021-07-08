@@ -7,8 +7,7 @@ import type { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
-import { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
-import { DoNotConstruct } from '../primitive';
+import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
@@ -175,7 +174,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
-  const Type = registry.get<T>(value.type);
+  let Type = registry.get<T>(value.type);
 
   if (Type) {
     return Type;
@@ -185,5 +184,14 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
 
-  return getFn(registry, value) as Constructor<T>;
+  Type = getFn(registry, value) as Constructor<T>;
+
+  // don't clobber any existing
+  if (!Type.__fallbackType && value.fallbackType) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ...this is the only place we we actually assign this...
+    Type.__fallbackType = value.fallbackType;
+  }
+
+  return Type;
 }

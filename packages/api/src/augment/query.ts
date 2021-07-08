@@ -20,11 +20,11 @@ import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lotter
 import type { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import type { ProxyAnnouncement, ProxyDefinition } from '@polkadot/types/interfaces/proxy';
 import type { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
-import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Releases, Slot, TransactionInfo, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, AccountIndex, AssetId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, Perbill, Percent, Releases, Slot, TransactionInfo, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import type { ActiveEraInfo, ElectionPhase, ElectionScore, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReadySolution, RewardDestination, RoundSnapshot, SeatHolder, SlashingSpans, SolutionOrSnapshotSize, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
+import type { ActiveEraInfo, ElectionPhase, ElectionScore, EraIndex, EraRewardPoints, Exposure, Forcing, Nominations, ReadySolution, RewardDestination, RoundSnapshot, SeatHolder, SignedSubmissionOf, SlashingSpans, SolutionOrSnapshotSize, SpanIndex, SpanRecord, StakingLedger, SubmissionIndicesOf, UnappliedSlash, ValidatorPrefs, Voter } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -403,6 +403,37 @@ declare module '@polkadot/api/types/storage' {
        * This is merely incremented once per every time that an upstream `elect` is called.
        **/
       round: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A sorted, bounded set of `(score, index)`, where each `index` points to a value in
+       * `SignedSubmissions`.
+       * 
+       * We never need to process more than a single signed submission at a time. Signed submissions
+       * can be quite large, so we're willing to pay the cost of multiple database accesses to access
+       * them one at a time instead of reading and decoding all of them at once.
+       **/
+      signedSubmissionIndices: AugmentedQuery<ApiType, () => Observable<SubmissionIndicesOf>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The next index to be assigned to an incoming signed submission.
+       * 
+       * Every accepted submission is assigned a unique index; that index is bound to that particular
+       * submission for the duration of the election. On election finalization, the next index is
+       * reset to 0.
+       * 
+       * We can't just use `SignedSubmissionIndices.len()`, because that's a bounded set; past its
+       * capacity, it will simply saturate. We can't just iterate over `SignedSubmissionsMap`,
+       * because iteration is slow. Instead, we store the value here.
+       **/
+      signedSubmissionNextIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Unchecked, signed solutions.
+       * 
+       * Together with `SubmissionIndices`, this stores a bounded set of `SignedSubmissions` while
+       * allowing us to keep only a single one in memory at a time.
+       * 
+       * Twox note: the key of the map is an auto-incrementing index which users cannot inspect or
+       * affect; we shouldn't need a cryptographically secure hasher.
+       **/
+      signedSubmissionsMap: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<SignedSubmissionOf>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Snapshot data of the round.
        * 
@@ -883,6 +914,12 @@ declare module '@polkadot/api/types/storage' {
        * canceled by extraordinary circumstances (e.g. governance).
        **/
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The threshold for when users can start calling `chill_other` for other validators / nominators.
+       * The threshold is compared to the actual number of validators / nominators (`CountFor*`) in
+       * the system compared to the configured max (`Max*Count`).
+       **/
+      chillThreshold: AugmentedQuery<ApiType, () => Observable<Option<Percent>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * A tracker to keep count of the number of items in the `Nominators` map.
        **/

@@ -1,18 +1,17 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Enum, Struct } from '@polkadot/types';
 import type { Option } from '@polkadot/types/codec';
 import type { AccountId, AccountIndex, AccountInfo, Address, Balance, BlockNumber, Index } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
 
 import { jest } from '@jest/globals';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { memo } from '@polkadot/api-derive/util/memo';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { memo } from '@polkadot/rpc-core';
 
 interface VestingInfo extends Struct {
   readonly locked: Balance;

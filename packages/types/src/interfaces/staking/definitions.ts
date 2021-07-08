@@ -15,7 +15,7 @@ const deprecated = {
 };
 
 const phragmen = {
-  CompactAssignments: 'CompactAssignmentsWith24',
+  CompactAssignments: 'CompactAssignmentsWith16',
   CompactAssignmentsWith16: {
     votes1: 'Vec<(NominatorIndexCompact, ValidatorIndexCompact)>',
     votes2: 'Vec<(NominatorIndexCompact, CompactScoreCompact, ValidatorIndexCompact)>',
@@ -90,7 +90,8 @@ const phragmen = {
     _enum: {
       Off: null,
       Signed: null,
-      Unsigned: '(bool, BlockNumber)'
+      Unsigned: '(bool, BlockNumber)',
+      Emergency: null
     }
   },
   ElectionResult: {
@@ -111,7 +112,7 @@ const phragmen = {
     }
   },
   ExtendedBalance: 'u128',
-  RawSolution: 'RawSolutionWith24',
+  RawSolution: 'RawSolutionWith16',
   RawSolutionWith16: {
     compact: 'CompactAssignmentsWith16',
     score: 'ElectionScore',
@@ -137,6 +138,12 @@ const phragmen = {
     stake: 'Balance',
     deposit: 'Balance'
   },
+  SignedSubmission: {
+    who: 'AccountId',
+    deposit: 'Balance',
+    solution: 'RawSolution'
+  },
+  SignedSubmissionOf: 'SignedSubmission',
   SolutionOrSnapshotSize: {
     voters: 'Compact<u32>',
     targets: 'Compact<u32>'
@@ -146,6 +153,7 @@ const phragmen = {
     voters: 'Vec<(AccountId, ExtendedBalance)>'
   },
   SolutionSupports: 'Vec<(AccountId, SolutionSupport)>',
+  SubmissionIndicesOf: 'BTreeMap<ElectionScore, u32>',
   Voter: {
     votes: 'Vec<AccountId>',
     stake: 'Balance',

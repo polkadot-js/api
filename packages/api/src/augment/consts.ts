@@ -200,9 +200,41 @@ declare module '@polkadot/api/types/consts' {
        **/
       offchainRepeat: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * Base deposit for a signed solution.
+       **/
+      signedDepositBase: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Per-byte deposit for a signed solution.
+       **/
+      signedDepositByte: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Per-weight deposit for a signed solution.
+       **/
+      signedDepositWeight: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of signed submissions that can be queued.
+       * 
+       * It is best to avoid adjusting this during an election, as it impacts downstream data
+       * structures. In particular, `SignedSubmissionIndices<T>` is bounded on this value. If you
+       * update this value during an election, you _must_ ensure that
+       * `SignedSubmissionIndices.len()` is less than or equal to the new value. Otherwise,
+       * attempts to submit new solutions may cause a runtime panic.
+       **/
+      signedMaxSubmissions: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum weight of a signed solution.
+       * 
+       * This should probably be similar to [`Config::MinerMaxWeight`].
+       **/
+      signedMaxWeight: Weight & AugmentedConst<ApiType>;
+      /**
        * Duration of the signed phase.
        **/
       signedPhase: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Base reward for a signed solution
+       **/
+      signedRewardBase: BalanceOf & AugmentedConst<ApiType>;
       /**
        * The minimum amount of improvement to the solution score that defines a solution as
        * "better" (in any phase).

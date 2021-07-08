@@ -5,16 +5,19 @@
 import '@polkadot/api/augment';
 
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
-import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { Metadata } from '@polkadot/types/metadata';
 import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
+import type { ApiTypes } from './base';
 import type { QueryableConsts } from './consts';
+import type { DecoratedErrors } from './errors';
+import type { DecoratedEvents } from './events';
 import type { DecoratedRpc } from './rpc';
 import type { QueryableStorage, QueryableStorageMulti } from './storage';
 import type { SubmittableExtrinsics } from './submittable';
@@ -102,4 +105,11 @@ export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
 export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
   genesisHash: Hash;
+}
+
+export interface ApiDecoration<ApiType extends ApiTypes> {
+  consts: QueryableConsts<ApiType>;
+  errors: DecoratedErrors<ApiType>;
+  events: DecoratedEvents<ApiType>;
+  query: QueryableStorage<ApiType>;
 }

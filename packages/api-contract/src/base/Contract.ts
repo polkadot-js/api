@@ -9,11 +9,12 @@ import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/type
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
+import { map } from 'rxjs';
+
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { createTypeUnsafe } from '@polkadot/types';
 import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
-import { map } from '@polkadot/x-rxjs/operators';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
@@ -145,9 +146,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             value
           })
           .pipe(
-            map(({ debugMessage, gasConsumed, result }): ContractCallOutcome => ({
+            map(({ debugMessage, gasConsumed, gasRequired, result }): ContractCallOutcome => ({
               debugMessage,
               gasConsumed,
+              gasRequired: gasRequired && !gasRequired.isZero()
+                ? gasRequired
+                : gasConsumed,
               output: result.isOk && message.returnType
                 ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
                 : null,

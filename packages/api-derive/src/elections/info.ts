@@ -1,14 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, SeatHolder } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveElectionsInfo } from './types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -42,30 +42,48 @@ function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [Accoun
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
-  const section = api.query.phragmenElection
+  const elections = api.query.phragmenElection
     ? 'phragmenElection'
     : api.query.electionsPhragmen
       ? 'electionsPhragmen'
-      : 'elections';
+      : api.query.elections
+        ? 'elections'
+        : null;
+  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
 
-  return api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
-    api.query.council.members,
-    api.query[section].candidates,
-    api.query[section].members,
-    api.query[section].runnersUp
-  ]).pipe(
+  return (
+    elections
+      ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
+        api.query[council].members,
+        api.query[elections].candidates,
+        api.query[elections].members,
+        api.query[elections].runnersUp
+      ])
+      : combineLatest([
+        api.query[council].members<Vec<AccountId>>(),
+        of<Candidate[]>([]),
+        of<Member[]>([]),
+        of<Member[]>([])
+      ])
+  ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-      candidacyBond: api.consts[section].candidacyBond as Balance,
+      ...(
+        elections
+          ? {
+            candidacyBond: api.consts[elections].candidacyBond as Balance,
+            desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
+            desiredSeats: api.consts[elections].desiredMembers as u32,
+            termDuration: api.consts[elections].termDuration as BlockNumber,
+            votingBond: api.consts[elections].votingBond as Balance
+          }
+          : {}
+      ),
       candidateCount: api.registry.createType('u32', candidates.length),
       candidates: candidates.map(getCandidate),
-      desiredRunnersUp: api.consts[section].desiredRunnersUp as u32,
-      desiredSeats: api.consts[section].desiredMembers as u32,
       members: members.length
         ? members.map(getAccountTuple).sort(sortAccounts)
         : councilMembers.map((accountId): [AccountId, Balance] => [accountId, api.registry.createType('Balance')]),
-      runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts),
-      termDuration: api.consts[section].termDuration as BlockNumber,
-      votingBond: api.consts[section].votingBond as Balance
+      runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
     }))
   );
 }

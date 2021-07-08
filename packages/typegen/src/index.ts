@@ -3,5 +3,4 @@
 
 import './detectPackage';
 
-export { packageInfo } from './packageInfo';
-export { formatType } from './util/formatting';
+export * from './bundle';

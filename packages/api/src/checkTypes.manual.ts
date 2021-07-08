@@ -239,6 +239,16 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   }
 }
 
+async function at (api: ApiPromise): Promise<void> {
+  const apiAt = await api.at('0x1234');
+
+  // get old balances
+  console.log(await apiAt.query.balances.freeBalance('0x1234'));
+
+  // get some constants
+  console.log(apiAt.consts.balances.existentialDeposit);
+}
+
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const pairs = createTestPairs();
@@ -253,7 +263,8 @@ async function main (): Promise<void> {
     queryExtra(api, pairs),
     rpc(api),
     types(api),
-    tx(api, pairs)
+    tx(api, pairs),
+    at(api)
   ]);
 }
 

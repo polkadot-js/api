@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, ObsInnerType } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { CodecArg } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions } from '../types';
 
 export interface BlueprintDeploy<ApiType extends ApiTypes> {

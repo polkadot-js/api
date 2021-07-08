@@ -27,7 +27,7 @@ export interface TypeImports {
   ignoredTypes: string[]; // No need to import these types
   localTypes: TypeExistMap; // `import {} from '../something'`
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
-  metadataTypes: TypeExist; // `import {} from '@polkadot/metadata`
+  metadataTypes: TypeExist; // `import {} from '@polkadot/types/metadata`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: Record<string, ModuleTypes>; // all definitions
   typeToModule: Record<string, string>;

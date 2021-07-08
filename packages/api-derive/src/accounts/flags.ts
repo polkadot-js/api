@@ -1,15 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 import type { DeriveAccountFlags } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -47,9 +46,9 @@ export function flags (instanceId: string, api: ApiInterfaceRx): (address?: Acco
         ? 'electionsPhragmen'
         : 'elections';
 
-    return combineLatest<FlagsIntermediate>([
+    return combineLatest([
       address && api.query[councilSection]?.members
-        ? api.query[councilSection].members()
+        ? api.query[councilSection].members<Vec<ITuple<[AccountId, Balance]>>>()
         : of(undefined),
       address && api.query.council?.members
         ? api.query.council.members()
