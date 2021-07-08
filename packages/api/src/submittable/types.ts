@@ -45,6 +45,7 @@ export interface SignerOptions {
   nonce: AnyNumber | Codec;
   signer?: Signer;
   tip?: AnyNumber;
+  assetId?: AnyNumber;
 }
 
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
