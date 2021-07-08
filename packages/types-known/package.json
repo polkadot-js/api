@@ -20,8 +20,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/networks": "^6.11.2-10",
+    "@polkadot/networks": "^6.11.2-11",
     "@polkadot/types": "4.17.2-14",
-    "@polkadot/util": "^6.11.2-10"
+    "@polkadot/util": "^6.11.2-11"
   }
 }
