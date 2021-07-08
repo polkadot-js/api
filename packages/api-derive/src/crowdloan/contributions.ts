@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, StorageKey } from '@polkadot/types';
+import type { Option, StorageKey, Vec } from '@polkadot/types';
 import type { EventRecord, FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
 import type { DeriveContributions } from '../types';
 
@@ -16,7 +16,10 @@ import { memo } from '../util';
 
 interface Changes {
   added: string[];
+  addedDelta: string[];
+  blockHash: string;
   removed: string[];
+  removedDelta: string[];
 }
 
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
@@ -32,7 +35,10 @@ function createChildKey (trieIndex: TrieIndex): string {
   );
 }
 
-function _extractChanges (paraId: string | number | ParaId, events: EventRecord[]): Changes {
+function _extractChanges (paraId: string | number | ParaId, events: Vec<EventRecord>): Changes {
+  const added: string[] = [];
+  const removed: string[] = [];
+
   return events
     .filter(({ event: { data: [, eventParaId], method, section } }) =>
       section === 'crowdloan' &&
@@ -47,7 +53,7 @@ function _extractChanges (paraId: string | number | ParaId, events: EventRecord[
       }
 
       return result;
-    }, { added: [], removed: [] });
+    }, { added, addedDelta: added, blockHash: events.createdAtHash?.toHex() || '-', removed, removedDelta: removed });
 }
 
 function _getUpdates (api: ApiInterfaceRx, paraId: string | number | ParaId): Observable<Changes> {
@@ -62,12 +68,12 @@ function _getUpdates (api: ApiInterfaceRx, paraId: string | number | ParaId): Ob
         added = added.concat(...changes.added);
         removed = removed.concat(...changes.removed);
 
-        return of({ added, removed });
+        return of({ added, addedDelta: changes.added, blockHash: events.createdAtHash?.toHex() || '-', removed, removedDelta: changes.removed });
       }
 
       return EMPTY;
     }),
-    startWith({ added, removed })
+    startWith({ added, addedDelta: [], blockHash: '-', removed, removedDelta: [] })
   );
 }
 
@@ -109,14 +115,15 @@ function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Stora
 
 function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
   return _eventTriggerAll(api, paraId).pipe(
-    switchMap(() =>
+    switchMap((blockHash) => combineLatest([
+      of(blockHash),
       // FIXME Needs testing and being enabled
       // eslint-disable-next-line no-constant-condition
       isFunction(api.rpc.childstate.getKeysPaged) && false
         ? _getKeysPaged(api, childKey)
         : api.rpc.childstate.getKeys(childKey, '0x')
-    ),
-    map((keys): DeriveContributions => {
+    ])),
+    map(([blockHash, keys]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
       keys.forEach((k): void => {
@@ -124,9 +131,12 @@ function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKe
       });
 
       return {
+        blockHash,
         childKey,
+        contributorsAdded: [],
         contributorsHex: [], // to be filled-in by the result mapping
-        contributorsMap
+        contributorsMap,
+        contributorsRemoved: []
       };
     })
   );
@@ -137,15 +147,21 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
     _getAll(api, paraId, createChildKey(trieIndex)),
     _getUpdates(api, paraId)
   ]).pipe(
-    map(([full, { added, removed }]: [DeriveContributions, Changes]): DeriveContributions => {
-      added.forEach((a): void => {
+    map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
+      changes.added.forEach((a): void => {
         full.contributorsMap[a] = true;
       });
-      removed.forEach((a): void => {
+      changes.removed.forEach((a): void => {
         delete full.contributorsMap[a];
       });
 
       full.contributorsHex = Object.keys(full.contributorsMap);
+      full.contributorsAdded = changes.added;
+      full.contributorsRemoved = changes.removed;
+
+      if (changes.blockHash !== '-') {
+        full.blockHash = changes.blockHash;
+      }
 
       return full;
     })
@@ -158,7 +174,7 @@ export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId
       switchMap((optInfo) =>
         optInfo.isSome
           ? _contributions(api, paraId, optInfo.unwrap())
-          : of({ childKey: '', contributorsHex: [], contributorsMap: {} })
+          : of({ blockHash: '-', childKey: '', contributorsAdded: [], contributorsHex: [], contributorsMap: {}, contributorsRemoved: [] })
       )
     )
   );
