@@ -3,14 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, StorageKey, Vec } from '@polkadot/types';
-import type { EventRecord, FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
+import type { StorageKey, Vec } from '@polkadot/types';
+import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
 import type { DeriveContributions } from '../types';
 
 import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
 
-import { arrayFlatten, isFunction, u8aConcat, u8aToHex } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { arrayFlatten, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -23,17 +22,6 @@ interface Changes {
 }
 
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
-
-function createChildKey (trieIndex: TrieIndex): string {
-  return u8aToHex(
-    u8aConcat(
-      ':child_storage:default:',
-      blake2AsU8a(
-        u8aConcat('crowdloan', trieIndex.toU8a())
-      )
-    )
-  );
-}
 
 function _extractChanges (paraId: string | number | ParaId, events: Vec<EventRecord>): Changes {
   const added: string[] = [];
@@ -142,9 +130,9 @@ function _getAll (api: ApiInterfaceRx, paraId: string | number | ParaId, childKe
   );
 }
 
-function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, { trieIndex }: FundInfo): Observable<DeriveContributions> {
+function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string): Observable<DeriveContributions> {
   return combineLatest([
-    _getAll(api, paraId, createChildKey(trieIndex)),
+    _getAll(api, paraId, childKey),
     _getUpdates(api, paraId)
   ]).pipe(
     map(([full, changes]: [DeriveContributions, Changes]): DeriveContributions => {
@@ -170,10 +158,10 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
 
 export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | ParaId) => Observable<DeriveContributions> {
   return memo(instanceId, (paraId: string | number | ParaId): Observable<DeriveContributions> =>
-    api.query.crowdloan.funds<Option<FundInfo>>(paraId).pipe(
-      switchMap((optInfo) =>
-        optInfo.isSome
-          ? _contributions(api, paraId, optInfo.unwrap())
+    api.derive.crowdloan.childKey(paraId).pipe(
+      switchMap((childKey) =>
+        childKey
+          ? _contributions(api, paraId, childKey)
           : of({ blockHash: '-', childKey: '', contributorsAdded: [], contributorsHex: [], contributorsMap: {}, contributorsRemoved: [] })
       )
     )
