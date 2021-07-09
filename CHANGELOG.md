@@ -11,6 +11,7 @@ Changes:
 - Contract reads will now expose an additional `gasRequired` (total estimated)
 - Allow schedule derives to handle scheduler entries that cannot decode
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+- Adjust Ws `.disconnect()` logic to always clear auto-connect
 - Add `BlockNumberFor` type mapping
 - Add Westend 9080 upgrade block
 - Add `derive.crowdloan.contributions(paraId)`

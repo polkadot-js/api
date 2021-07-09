@@ -215,18 +215,18 @@ export class WsProvider implements ProviderInterface {
   }
 
   /**
-   * @description Manually disconnect from the connection, clearing autoconnect logic
+   * @description Manually disconnect from the connection, clearing auto-connect logic
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect (): Promise<void> {
+    // switch off autoConnect, we are in manual mode now
+    this.#autoConnectMs = 0;
+
     try {
-      assert(!isNull(this.#websocket), 'Cannot disconnect on a non-connected websocket');
-
-      // switch off autoConnect, we are in manual mode now
-      this.#autoConnectMs = 0;
-
-      // 1000 - Normal closure; the connection successfully completed
-      this.#websocket.close(1000);
+      if (this.#websocket) {
+        // 1000 - Normal closure; the connection successfully completed
+        this.#websocket.close(1000);
+      }
     } catch (error) {
       l.error(error);
 
