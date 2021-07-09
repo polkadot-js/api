@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style></style>
+  </head>
+  <body>
+    Executing bundle tests, see the dev console for output ...
+    <script>
+      function log (label, result) {
+        label.startsWith('*')
+          ? console.log(label)
+          : console.log(label.padStart(24), '=', result);
+      }
+    </script>
+    <script src="node_modules/@polkadot/util/bundle-polkadot-util.js"></script>
+    <script src="node_modules/@polkadot/networks/bundle-polkadot-networks.js"></script>
+    <script src="node_modules/@polkadot/util-crypto/bundle-polkadot-util-crypto.js"></script>
+    <script src="node_modules/@polkadot/keyring/bundle-polkadot-keyring.js"></script>
+    <script src="packages/types/build/bundle-polkadot-types.js"></script>
+    <script>
+      log('*** polkadotTypes');
+
+      const { TypeRegistry } = polkadotTypes;
+      const registry = new TypeRegistry();
+
+      console.log('createType', registry.createType('Balance', 1234567890).toHuman());
+    </script>
+    <script src="packages/api/build/bundle-polkadot-api.js"></script>
+    <script>
+      log('*** polkadotApi');
+
+      const { ApiPromise, WsProvider } = polkadotApi;
+      const provider = new WsProvider('wss://rpc.polkadot.io');
+
+      ApiPromise
+        .create({ provider })
+        .then((api) =>
+          // use the derive version, checking that that also works
+          api.derive.chain.subscribeNewHeads((h) =>
+            log(polkadotUtil.formatNumber(h.number.unwrap()), h.hash.toHex())
+          )
+        );
+    </script>
+  </body>
+</html>
