@@ -4,12 +4,14 @@
 import type { ChainUpgrades } from '@polkadot/types/types';
 import type { ChainUpgradesRaw } from './types';
 
-import networks from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 import { assert, BN, hexToU8a, stringify } from '@polkadot/util';
 
 import kusama from './kusama';
 import polkadot from './polkadot';
 import westend from './westend';
+
+const allKnown = { kusama, polkadot, westend };
 
 // testnets are not available in the networks map
 const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
@@ -35,7 +37,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
 
 /** @internal */
 function mapRaw ([network, versions]: [string, ChainUpgradesRaw]): ChainUpgrades {
-  const chain = networks.find((n) => n.network === network) || NET_EXTRA[network];
+  const chain = selectableNetworks.find((n) => n.network === network) || NET_EXTRA[network];
 
   assert(chain, () => `Unable to find info for chain ${network}`);
 
@@ -50,6 +52,6 @@ function mapRaw ([network, versions]: [string, ChainUpgradesRaw]): ChainUpgrades
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades = Object.entries({ kusama, polkadot, westend }).map(mapRaw);
+const upgrades = Object.entries(allKnown).map(mapRaw);
 
 export default upgrades;

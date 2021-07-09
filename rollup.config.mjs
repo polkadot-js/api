@@ -14,7 +14,6 @@ const pkgs = [
 const external = [
   ...pkgs,
   '@polkadot/keyring',
-  '@polkadot/networks',
   '@polkadot/util',
   '@polkadot/util-crypto'
 ];
@@ -22,7 +21,10 @@ const external = [
 const entries = ['api-derive', 'rpc-core', 'rpc-provider', 'types-known'].reduce((all, p) => ({
   ...all,
   [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)
-}), {});
+}), {
+  // re-exported in @polkadot/util-crypto, map directly
+  '@polkadot/networks': '@polkadot/util-crypto'
+});
 
 const overrides = {};
 
