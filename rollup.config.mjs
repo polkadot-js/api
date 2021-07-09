@@ -19,10 +19,10 @@ const external = [
   '@polkadot/util-crypto'
 ];
 
-const entries = ['api-derive', 'rpc-core', 'rpc-provider', 'types-known'].map((p) => ({
-  find: `@polkadot/${p}`,
-  replacement: path.resolve(process.cwd(), `packages/${p}/build`)
-}));
+const entries = ['api-derive', 'rpc-core', 'rpc-provider', 'types-known'].reduce((all, p) => ({
+  ...all,
+  [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)
+}), {});
 
 const overrides = {};
 
@@ -33,6 +33,9 @@ export default pkgs.map((pkg) => {
     external,
     pkg,
     ...override,
-    entries: entries.concat(...(override.entries || []))
+    entries: {
+      ...entries,
+      ...(override.entries || {})
+    }
   });
 });
