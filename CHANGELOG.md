@@ -15,7 +15,7 @@ Changes:
 - Add `BlockNumberFor` type mapping
 - Add Westend 9080 upgrade block
 - Add `derive.crowdloan.contributions(paraId)`
-- Allow building as a completely stand-alone browser bundle
+- Allow building as a completely stand-alone browser bundle (experimental)
 - Update to latest `@polkadot/x-rxjs` with RxJs 7.2
 
 
