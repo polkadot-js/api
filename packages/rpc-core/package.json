@@ -22,10 +22,10 @@
     "@babel/runtime": "^7.14.6",
     "@polkadot/rpc-provider": "4.17.2-18",
     "@polkadot/types": "4.17.2-18",
-    "@polkadot/util": "^6.11.2-14",
+    "@polkadot/util": "^6.11.2-16",
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^6.11.2-14"
+    "@polkadot/keyring": "^6.11.2-16"
   }
 }
