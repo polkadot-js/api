@@ -53,18 +53,20 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Opt
     switchMap((keys) => {
       const blockNumbers = keys.map(({ args: [blockNumber] }) => blockNumber);
 
-      return combineLatest([
-        of(blockNumbers),
-        // this should simply be api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>,
-        // however we have had cases on Darwinia where the indices have moved around after an
-        // upgrade, which results in invalid on-chain data
-        combineLatest(blockNumbers.map((blockNumber) =>
-          api.query.scheduler.agenda<Vec<Option<Scheduled>>>(blockNumber).pipe(
-            // this does create an issue since it discards all at that block
-            catchError(() => of(null))
-          )
-        ))
-      ]);
+      return blockNumbers.length
+        ? combineLatest([
+          of(blockNumbers),
+          // this should simply be api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>,
+          // however we have had cases on Darwinia where the indices have moved around after an
+          // upgrade, which results in invalid on-chain data
+          combineLatest(blockNumbers.map((blockNumber) =>
+            api.query.scheduler.agenda<Vec<Option<Scheduled>>>(blockNumber).pipe(
+              // this does create an issue since it discards all at that block
+              catchError(() => of(null))
+            )
+          ))
+        ])
+        : of<[BlockNumber[], null[]]>([[], []]);
     })
   );
 }
@@ -93,10 +95,12 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
           });
       });
 
-      return combineLatest([
-        of(result),
-        api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
-      ]);
+      return result.length
+        ? combineLatest([
+          of(result),
+          api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
+        ])
+        : of([[], []]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
       infos.map((info, index) => ({ ...info, image: images[index] }))

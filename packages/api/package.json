@@ -21,13 +21,13 @@
   "dependencies": {
     "@babel/runtime": "^7.14.6",
     "@polkadot/api-derive": "4.17.2-18",
-    "@polkadot/keyring": "^6.11.2-14",
+    "@polkadot/keyring": "^6.11.2-16",
     "@polkadot/rpc-core": "4.17.2-18",
     "@polkadot/rpc-provider": "4.17.2-18",
     "@polkadot/types": "4.17.2-18",
     "@polkadot/types-known": "4.17.2-18",
-    "@polkadot/util": "^6.11.2-14",
-    "@polkadot/util-crypto": "^6.11.2-14",
+    "@polkadot/util": "^6.11.2-16",
+    "@polkadot/util-crypto": "^6.11.2-16",
     "eventemitter3": "^4.0.7",
     "rxjs": "^7.2.0"
   }

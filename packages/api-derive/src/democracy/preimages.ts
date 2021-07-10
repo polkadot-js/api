@@ -8,7 +8,7 @@ import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/inte
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveProposalImage } from '../types';
 
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { memo } from '../util';
 import { parseImage } from './util';
@@ -17,10 +17,12 @@ type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 
 export function preimages (instanceId: string, api: ApiInterfaceRx): (hashes: Hash[]) => Observable<(DeriveProposalImage | undefined)[]> {
   return memo(instanceId, (hashes: Hash[]): Observable<(DeriveProposalImage | undefined)[]> =>
-    api.query.democracy.preimages.multi<PreImage>(hashes).pipe(
-      map((images): (DeriveProposalImage | undefined)[] =>
-        images.map((imageOpt) => parseImage(api, imageOpt))
+    hashes.length
+      ? api.query.democracy.preimages.multi<PreImage>(hashes).pipe(
+        map((images): (DeriveProposalImage | undefined)[] =>
+          images.map((imageOpt) => parseImage(api, imageOpt))
+        )
       )
-    )
+      : of([])
   );
 }
