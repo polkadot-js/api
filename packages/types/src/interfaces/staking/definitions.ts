@@ -153,6 +153,7 @@ const phragmen = {
     voters: 'Vec<(AccountId, ExtendedBalance)>'
   },
   SolutionSupports: 'Vec<(AccountId, SolutionSupport)>',
+  Supports: 'SolutionSupports',
   SubmissionIndicesOf: 'BTreeMap<ElectionScore, u32>',
   Voter: {
     votes: 'Vec<AccountId>',

@@ -17,6 +17,7 @@ Changes:
 - Add `derive.crowdloan.contributions(paraId)`
 - Allow building as a completely stand-alone browser bundle (experimental)
 - Update to latest `@polkadot/x-rxjs` with RxJs 7.2
+- Align static metadata with latest Substrate
 
 
 ## 4.17.1 Jul 5, 2021
