@@ -810,6 +810,11 @@ declare module '@polkadot/api/types/events' {
        **/
       Bonded: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
+       * An account has stopped participating as either a validator or nominator.
+       * \[stash\]
+       **/
+      Chilled: AugmentedEvent<ApiType, [AccountId]>;
+      /**
        * The era payout has been set; the first balance is the validator-payout; the second is
        * the remainder from the maximum amount of reward.
        * \[era_index, validator_payout, remainder\]

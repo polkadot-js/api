@@ -345,6 +345,9 @@ export interface StakingLedgerTo240 extends Struct {
 /** @name SubmissionIndicesOf */
 export interface SubmissionIndicesOf extends BTreeMap<ElectionScore, u32> {}
 
+/** @name Supports */
+export interface Supports extends SolutionSupports {}
+
 /** @name UnappliedSlash */
 export interface UnappliedSlash extends Struct {
   readonly validator: AccountId;

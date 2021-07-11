@@ -1867,40 +1867,40 @@ __metadata:
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
     "@babel/runtime": ^7.14.6
-    "@polkadot/api": 4.17.2-19
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/api": 4.17.2-20
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     rxjs: ^7.2.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api-derive@4.17.2-19, @polkadot/api-derive@workspace:packages/api-derive":
+"@polkadot/api-derive@4.17.2-20, @polkadot/api-derive@workspace:packages/api-derive":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
     "@babel/runtime": ^7.14.6
-    "@polkadot/api": 4.17.2-19
+    "@polkadot/api": 4.17.2-20
     "@polkadot/keyring": ^6.11.2-16
-    "@polkadot/rpc-core": 4.17.2-19
-    "@polkadot/rpc-provider": 4.17.2-19
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/rpc-core": 4.17.2-20
+    "@polkadot/rpc-provider": 4.17.2-20
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     "@polkadot/util-crypto": ^6.11.2-16
     rxjs: ^7.2.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api@4.17.2-19, @polkadot/api@workspace:packages/api":
+"@polkadot/api@4.17.2-20, @polkadot/api@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.14.6
-    "@polkadot/api-derive": 4.17.2-19
+    "@polkadot/api-derive": 4.17.2-20
     "@polkadot/keyring": ^6.11.2-16
-    "@polkadot/rpc-core": 4.17.2-19
-    "@polkadot/rpc-provider": 4.17.2-19
-    "@polkadot/types": 4.17.2-19
-    "@polkadot/types-known": 4.17.2-19
+    "@polkadot/rpc-core": 4.17.2-20
+    "@polkadot/rpc-provider": 4.17.2-20
+    "@polkadot/types": 4.17.2-20
+    "@polkadot/types-known": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     "@polkadot/util-crypto": ^6.11.2-16
     eventemitter3: ^4.0.7
@@ -2024,26 +2024,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@4.17.2-19, @polkadot/rpc-core@workspace:packages/rpc-core":
+"@polkadot/rpc-core@4.17.2-20, @polkadot/rpc-core@workspace:packages/rpc-core":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.14.6
     "@polkadot/keyring": ^6.11.2-16
-    "@polkadot/rpc-provider": 4.17.2-19
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/rpc-provider": 4.17.2-20
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     rxjs: ^7.2.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-provider@4.17.2-19, @polkadot/rpc-provider@workspace:packages/rpc-provider":
+"@polkadot/rpc-provider@4.17.2-20, @polkadot/rpc-provider@workspace:packages/rpc-provider":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.14.6
     "@polkadot/keyring": ^6.11.2-16
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     "@polkadot/util-crypto": ^6.11.2-16
     "@polkadot/x-fetch": ^6.11.2-16
@@ -2071,9 +2071,9 @@ __metadata:
     "@babel/core": ^7.14.6
     "@babel/register": ^7.14.5
     "@babel/runtime": ^7.14.6
-    "@polkadot/api": 4.17.2-19
-    "@polkadot/rpc-provider": 4.17.2-19
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/api": 4.17.2-20
+    "@polkadot/rpc-provider": 4.17.2-20
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
     "@types/websocket": ^1.0.3
     "@types/yargs": ^17.0.2
@@ -2089,18 +2089,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-known@4.17.2-19, @polkadot/types-known@workspace:packages/types-known":
+"@polkadot/types-known@4.17.2-20, @polkadot/types-known@workspace:packages/types-known":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.14.6
     "@polkadot/networks": ^6.11.2-16
-    "@polkadot/types": 4.17.2-19
+    "@polkadot/types": 4.17.2-20
     "@polkadot/util": ^6.11.2-16
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@4.17.2-19, @polkadot/types@workspace:packages/types":
+"@polkadot/types@4.17.2-20, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
