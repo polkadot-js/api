@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 5.0.1 Jul 11, 2021
+
+Upgrade priority: Low. Recommended for users of current-generation Substrate chains.
 
 - **Breaking change** The `@polkadot/metadata` package has been removed, adjust imports to `@polkadot/types`
 - **Important** Internally rxjs has been upgraded to the 7.0 version, affecting users of the `ApiRx` interface
