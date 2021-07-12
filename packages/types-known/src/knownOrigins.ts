@@ -1,11 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// We want predictive ordering (manually managed)
+/* eslint-disable sort-keys */
+
 // FIXME: Need some sort of solution for specifying these
 // Since we don't have insight into the origin specification, we can only define what we know about
 // in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
 export const knownOrigins: Record<string, string> = {
-  /* eslint-disable sort-keys */
   //
   // (1) Defaults from Substrate
   //
@@ -22,5 +24,4 @@ export const knownOrigins: Record<string, string> = {
   //
   Authority: 'AuthorityOrigin',
   GeneralCouncil: 'CollectiveOrigin'
-  /* eslint-enable sort-keys */
 };
