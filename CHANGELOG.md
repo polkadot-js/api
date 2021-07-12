@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update `ParaPastCodeMeta` with `ReplacementTimes`
+
+
 ## 5.0.1 Jul 11, 2021
 
 Upgrade priority: Low. Recommended for users of current-generation Substrate chains.
