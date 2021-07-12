@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { EventMetadataV13, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletConstantMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { OverrideModuleType, Registry } from '../../types';
 
 import { getModuleTypes, knownOrigins } from '@polkadot/types-known';
@@ -38,48 +38,48 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
 }
 
 /**
- * Apply module-specific type overrides (always be done as part of toLatest)
+ * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertCalls (registry: Registry, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
-  return calls.map((c): FunctionMetadataLatest => {
+function convertCalls (registry: Registry, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): FunctionMetadataV14[] {
+  return calls.map((c): FunctionMetadataV14 => {
     setTypeOverride(sectionTypes, c.args.map(({ type }) => type));
 
-    return registry.createType('FunctionMetadataLatest', c);
+    return registry.createType('FunctionMetadataV14', c);
   });
 }
 
 /**
- * Apply module-specific type overrides (always be done as part of toLatest)
+ * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  */
-function convertConstants (registry: Registry, constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): ModuleConstantMetadataLatest[] {
-  return constants.map((c): ModuleConstantMetadataLatest => {
+function convertConstants (registry: Registry, constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): PalletConstantMetadataV14[] {
+  return constants.map((c): PalletConstantMetadataV14 => {
     setTypeOverride(sectionTypes, [c.type]);
 
-    return registry.createType('ModuleConstantMetadataLatest', c);
+    return registry.createType('PalletConstantMetadataV14', c);
   });
 }
 
 /**
- * Apply module-specific type overrides (always be done as part of toLatest)
+ * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertEvents (registry: Registry, events: EventMetadataV13[], sectionTypes: OverrideModuleType): EventMetadataLatest[] {
-  return events.map((e): EventMetadataLatest => {
+function convertEvents (registry: Registry, events: EventMetadataV13[], sectionTypes: OverrideModuleType): PalletEventMetadataV14[] {
+  return events.map((e): PalletEventMetadataV14 => {
     setTypeOverride(sectionTypes, e.args.map((type) => type));
 
-    return registry.createType('EventMetadataLatest', e);
+    return registry.createType('PalletEventMetadataV14', e);
   });
 }
 
 /**
- * Apply module-specific storage type overrides (always part of toLatest)
+ * Apply module-specific storage type overrides (always part of toV14)
  * @internal
  **/
-function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): StorageMetadataLatest {
-  return registry.createType('StorageMetadataLatest', {
-    items: items.map((s): StorageEntryMetadataLatest => {
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
+  return registry.createType('PalletStorageMetadataV14', {
+    items: items.map((s): StorageEntryMetadataV14 => {
       setTypeOverride(sectionTypes,
         s.type.isPlain
           ? [s.type.asPlain]
@@ -90,7 +90,7 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
               : [s.type.asNMap.value, ...s.type.asNMap.keyVec]
       );
 
-      return registry.createType('StorageEntryMetadataLatest', s);
+      return registry.createType('StorageEntryMetadataV14', s);
     }),
     prefix
   });
@@ -122,10 +122,10 @@ function registerOriginCaller (registry: Registry, modules: ModuleMetadataV13[],
 }
 
 /** @internal */
-function createModule (registry: Registry, mod: ModuleMetadataV13, { calls, constants, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): ModuleMetadataLatest {
+function createModule (registry: Registry, mod: ModuleMetadataV13, { calls, constants, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
   const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
 
-  return registry.createType('ModuleMetadataLatest', {
+  return registry.createType('PalletMetadataV14', {
     ...mod,
     calls: calls && convertCalls(registry, calls, sectionTypes),
     constants: convertConstants(registry, constants, sectionTypes),
@@ -139,10 +139,10 @@ function createModule (registry: Registry, mod: ModuleMetadataV13, { calls, cons
  * most-recent metadata, since it allows us a chance to actually apply call and storage specific type aliasses
  * @internal
  **/
-export function toV14 (registry: Registry, { extrinsic, modules }: MetadataV13, metaVersion: number): MetadataLatest {
+export function toV14 (registry: Registry, { extrinsic, modules }: MetadataV13, metaVersion: number): MetadataV14 {
   registerOriginCaller(registry, modules, metaVersion);
 
-  return registry.createType('MetadataLatest', {
+  return registry.createType('MetadataV14', {
     extrinsic,
     modules: modules.map((mod) => createModule(registry, mod, {
       calls: mod.calls.unwrapOr(null),

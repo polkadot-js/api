@@ -27,19 +27,21 @@ export default {
     ...v14,
 
     // This always maps to the latest
-    ErrorMetadataLatest: 'ErrorMetadataV13',
-    EventMetadataLatest: 'EventMetadataV13',
-    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV13',
+    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV14',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
-    FunctionMetadataLatest: 'FunctionMetadataV13',
-    MetadataLatest: 'MetadataV13',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV13',
-    ModuleMetadataLatest: 'ModuleMetadataV13',
-    StorageEntryMetadataLatest: 'StorageEntryMetadataV13',
-    StorageEntryModifierLatest: 'StorageEntryModifierV13',
-    StorageEntryTypeLatest: 'StorageEntryTypeV13',
-    StorageMetadataLatest: 'StorageMetadataV13',
-    StorageHasher: 'StorageHasherV13',
+    FunctionMetadataLatest: 'FunctionMetadataV14',
+    MetadataLatest: 'MetadataV14',
+    PalletCallMetadataLatest: 'PalletCallMetadataV14',
+    PalletConstantMetadataLatest: 'PalletConstantMetadataV14',
+    PalletErrorMetadataLatest: 'PalletErrorMetadataV14',
+    PalletEventMetadataLatest: 'PalletEventMetadataV14',
+    PalletMetadataLatest: 'PalletMetadataV14',
+    PalletStorageMetadataLatest: 'PalletStorageMetadataV14',
+    SignedExtensionMetadataLatest: 'SignedExtensionMetadataV14',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV14',
+    StorageEntryModifierLatest: 'StorageEntryModifierV14',
+    StorageEntryTypeLatest: 'StorageEntryTypeV14',
+    StorageHasher: 'StorageHasherV14',
 
     // the enum containing all the mappings
     MetadataAll: {
@@ -59,7 +61,7 @@ export default {
         V11: 'MetadataV11',
         V12: 'MetadataV12',
         V13: 'MetadataV13',
-        V14: 'MetadataV14'
+        Latest: 'MetadataV14'
       }
     }
   }
