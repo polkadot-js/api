@@ -30,17 +30,14 @@ export default {
     ...v14,
 
     // This always maps to the latest
-    DoubleMapTypeLatest: 'DoubleMapTypeV13',
     ErrorMetadataLatest: 'ErrorMetadataV13',
     EventMetadataLatest: 'EventMetadataV13',
     ExtrinsicMetadataLatest: 'ExtrinsicMetadataV13',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
     FunctionMetadataLatest: 'FunctionMetadataV13',
-    MapTypeLatest: 'MapTypeV13',
     MetadataLatest: 'MetadataV13',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV13',
     ModuleMetadataLatest: 'ModuleMetadataV13',
-    NMapTypeLatest: 'NMapTypeV13',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV13',
     StorageEntryModifierLatest: 'StorageEntryModifierV13',
     StorageEntryTypeLatest: 'StorageEntryTypeV13',

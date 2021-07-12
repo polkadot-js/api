@@ -29,11 +29,6 @@ export const v13: DefinitionsTypes = {
     errors: 'Vec<ErrorMetadataV13>',
     index: 'u8'
   },
-  NMapTypeV13: {
-    keyVec: 'Vec<Type>',
-    hashers: 'Vec<StorageHasherV13>',
-    value: 'Type'
-  },
   StorageEntryModifierV13: 'StorageEntryModifierV12',
   StorageEntryMetadataV13: {
     name: 'Text',
@@ -47,7 +42,11 @@ export const v13: DefinitionsTypes = {
       Plain: 'Type',
       Map: 'MapTypeV13',
       DoubleMap: 'DoubleMapTypeV13',
-      NMap: 'NMapTypeV13'
+      NMap: {
+        keyVec: 'Vec<Type>',
+        hashers: 'Vec<StorageHasherV13>',
+        value: 'Type'
+      }
     }
   },
   StorageMetadataV13: {

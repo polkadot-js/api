@@ -8,13 +8,6 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v14: DefinitionsTypes = {
   // V14
-  DoubleMapTypeV14: {
-    hasher: 'StorageHasherV14',
-    key1: 'SiLookupTypeId',
-    key2: 'SiLookupTypeId',
-    value: 'SiLookupTypeId',
-    key2Hasher: 'StorageHasherV14'
-  },
   FunctionArgumentMetadataV14: {
     name: 'Text',
     type: 'SiLookupTypeId'
@@ -29,23 +22,10 @@ export const v14: DefinitionsTypes = {
     version: 'u8',
     signedExtensions: 'Vec<SignedExtensionMetadataV14>'
   },
-  MapTypeV14: {
-    hasher: 'StorageHasherV14',
-    key: 'SiLookupTypeId',
-    value: 'SiLookupTypeId',
-    // is_linked flag previously, unused now to keep backwards compat
-    unused: 'bool'
-  },
   MetadataV14: {
     types: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV14>',
     extrinsic: 'ExtrinsicMetadataV14'
-  },
-  NMapTypeV14: {
-    // NOTE: Renamed from "keys"
-    key: 'SiLookupTypeId',
-    hashers: 'Vec<StorageHasherV14>',
-    value: 'SiLookupTypeId'
   },
   PalletCallMetadataV14: {
     type: 'SiLookupTypeId',
@@ -91,9 +71,26 @@ export const v14: DefinitionsTypes = {
   StorageEntryModifierV14: 'StorageEntryModifierV13',
   StorageEntryTypeV14: {
     Plain: 'SiLookupTypeId',
-    Map: 'MapTypeV14',
-    DoubleMap: 'DoubleMapTypeV14',
-    NMap: 'NMapTypeV14'
+    Map: {
+      hasher: 'StorageHasherV14',
+      key: 'SiLookupTypeId',
+      value: 'SiLookupTypeId',
+      // is_linked flag previously, unused now to keep backwards compat
+      unused: 'bool'
+    },
+    DoubleMap: {
+      hasher: 'StorageHasherV14',
+      key1: 'SiLookupTypeId',
+      key2: 'SiLookupTypeId',
+      value: 'SiLookupTypeId',
+      key2Hasher: 'StorageHasherV14'
+    },
+    NMap: {
+      // NOTE: Renamed from "keys"
+      key: 'SiLookupTypeId',
+      hashers: 'Vec<StorageHasherV14>',
+      value: 'SiLookupTypeId'
+    }
   },
   StorageHasherV14: 'StorageHasherV13'
 };

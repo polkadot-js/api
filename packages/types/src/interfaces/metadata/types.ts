@@ -4,9 +4,6 @@
 import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
-/** @name DoubleMapTypeLatest */
-export interface DoubleMapTypeLatest extends DoubleMapTypeV13 {}
-
 /** @name DoubleMapTypeV10 */
 export interface DoubleMapTypeV10 extends Struct {
   readonly hasher: StorageHasherV10;
@@ -169,9 +166,6 @@ export interface FunctionMetadataV9 extends Struct {
   readonly args: Vec<FunctionArgumentMetadataV9>;
   readonly documentation: Vec<Text>;
 }
-
-/** @name MapTypeLatest */
-export interface MapTypeLatest extends MapTypeV13 {}
 
 /** @name MapTypeV10 */
 export interface MapTypeV10 extends Struct {
@@ -342,9 +336,6 @@ export interface ModuleMetadataV9 extends Struct {
   readonly constants: Vec<ModuleConstantMetadataV9>;
   readonly errors: Vec<ErrorMetadataV9>;
 }
-
-/** @name NMapTypeLatest */
-export interface NMapTypeLatest extends NMapTypeV13 {}
 
 /** @name NMapTypeV13 */
 export interface NMapTypeV13 extends Struct {
