@@ -70,26 +70,28 @@ export const v14: DefinitionsTypes = {
   },
   StorageEntryModifierV14: 'StorageEntryModifierV13',
   StorageEntryTypeV14: {
-    Plain: 'SiLookupTypeId',
-    Map: {
-      hasher: 'StorageHasherV14',
-      key: 'SiLookupTypeId',
-      value: 'SiLookupTypeId',
-      // is_linked flag previously, unused now to keep backwards compat
-      unused: 'bool'
-    },
-    DoubleMap: {
-      hasher: 'StorageHasherV14',
-      key1: 'SiLookupTypeId',
-      key2: 'SiLookupTypeId',
-      value: 'SiLookupTypeId',
-      key2Hasher: 'StorageHasherV14'
-    },
-    NMap: {
-      // NOTE: Renamed from "keys"
-      key: 'SiLookupTypeId',
-      hashers: 'Vec<StorageHasherV14>',
-      value: 'SiLookupTypeId'
+    _enum: {
+      Plain: 'SiLookupTypeId',
+      Map: {
+        hasher: 'StorageHasherV14',
+        key: 'SiLookupTypeId',
+        value: 'SiLookupTypeId',
+        // is_linked flag previously, unused now to keep backwards compat
+        unused: 'bool'
+      },
+      DoubleMap: {
+        hasher: 'StorageHasherV14',
+        key1: 'SiLookupTypeId',
+        key2: 'SiLookupTypeId',
+        value: 'SiLookupTypeId',
+        key2Hasher: 'StorageHasherV14'
+      },
+      NMap: {
+        // NOTE: Renamed from "keys"
+        key: 'SiLookupTypeId',
+        hashers: 'Vec<StorageHasherV14>',
+        value: 'SiLookupTypeId'
+      }
     }
   },
   StorageHasherV14: 'StorageHasherV13'
