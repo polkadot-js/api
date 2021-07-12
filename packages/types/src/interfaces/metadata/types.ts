@@ -296,16 +296,6 @@ export interface ModuleMetadataV9 extends Struct {
   readonly errors: Vec<ErrorMetadataV9>;
 }
 
-/** @name NMapTypeLatest */
-export interface NMapTypeLatest extends NMapTypeV13 {}
-
-/** @name NMapTypeV13 */
-export interface NMapTypeV13 extends Struct {
-  readonly keyVec: Vec<Type>;
-  readonly hashers: Vec<StorageHasherV13>;
-  readonly value: Type;
-}
-
 /** @name StorageEntryMetadataLatest */
 export interface StorageEntryMetadataLatest extends StorageEntryMetadataV13 {}
 
@@ -405,7 +395,7 @@ export interface StorageEntryTypeV13 extends Enum {
   readonly isDoubleMap: boolean;
   readonly asDoubleMap: DoubleMapTypeV13;
   readonly isNMap: boolean;
-  readonly asNMap: NMapTypeV13;
+  readonly asNMap: { keyVec: Vec<Type>; hashers: Vec<StorageHasherV13>; value: Type; } & Struct;
 }
 
 /** @name StorageEntryTypeV9 */

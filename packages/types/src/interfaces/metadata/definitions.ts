@@ -268,11 +268,6 @@ export default {
       errors: 'Vec<ErrorMetadataV13>',
       index: 'u8'
     },
-    NMapTypeV13: {
-      keyVec: 'Vec<Type>',
-      hashers: 'Vec<StorageHasherV13>',
-      value: 'Type'
-    },
     StorageEntryModifierV13: 'StorageEntryModifierV12',
     StorageEntryMetadataV13: {
       name: 'Text',
@@ -286,7 +281,11 @@ export default {
         Plain: 'Type',
         Map: 'MapTypeV13',
         DoubleMap: 'DoubleMapTypeV13',
-        NMap: 'NMapTypeV13'
+        NMap: {
+          keyVec: 'Vec<Type>',
+          hashers: 'Vec<StorageHasherV13>',
+          value: 'Type'
+        }
       }
     },
     StorageMetadataV13: {
@@ -306,7 +305,6 @@ export default {
     MetadataLatest: 'MetadataV13',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV13',
     ModuleMetadataLatest: 'ModuleMetadataV13',
-    NMapTypeLatest: 'NMapTypeV13',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV13',
     StorageEntryModifierLatest: 'StorageEntryModifierV13',
     StorageEntryTypeLatest: 'StorageEntryTypeV13',
