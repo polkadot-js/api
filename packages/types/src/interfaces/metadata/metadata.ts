@@ -7,7 +7,6 @@
 import type { DefinitionsTypes } from '../../types';
 
 export const metadataTypes: DefinitionsTypes = {
-  // TODO
   PortableRegistry: {
     types: 'Vec<SiType>'
   }

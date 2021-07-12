@@ -21,7 +21,9 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
 /** @internal */
 function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTuple): Codec[] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), _Types);
+    const result: Codec[] = [];
+
+    return decodeU8a(registry, u8aToU8a(value), result, _Types);
   }
 
   const Types: Constructor[] = Array.isArray(_Types)

@@ -10,13 +10,13 @@ import { u8aToHex } from '@polkadot/util';
  * types, and return an array of decoded values.
  *
  * @param u8a - The u8a to decode.
+ * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): Codec[] {
+export function decodeU8a (registry: Registry, u8a: Uint8Array, result: Codec[], _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): Codec[] {
   const [types, keys]: [Constructor<Codec>[], string[]] = Array.isArray(_types)
     ? [_types, _keys || []]
     : [Object.values(_types), Object.keys(_types)];
-  const result: Codec[] = [];
   let offset = 0;
 
   for (let i = 0; i < types.length; i++) {
@@ -36,7 +36,7 @@ export function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Construc
         rawType = '';
       }
 
-      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(offset).slice(0, 8))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
+      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(offset).slice(0, 16))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
     }
   }
 
