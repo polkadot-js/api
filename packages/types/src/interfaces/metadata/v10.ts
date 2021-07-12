@@ -8,23 +8,10 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v10: DefinitionsTypes = {
   // v10
-  DoubleMapTypeV10: {
-    hasher: 'StorageHasherV10',
-    key1: 'Type',
-    key2: 'Type',
-    value: 'Type',
-    key2Hasher: 'StorageHasherV10'
-  },
   ErrorMetadataV10: 'ErrorMetadataV9',
   EventMetadataV10: 'EventMetadataV9',
   FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
   FunctionMetadataV10: 'FunctionMetadataV9',
-  MapTypeV10: {
-    hasher: 'StorageHasherV10',
-    key: 'Type',
-    value: 'Type',
-    linked: 'bool'
-  },
   MetadataV10: {
     modules: 'Vec<ModuleMetadataV10>'
   },
@@ -48,8 +35,19 @@ export const v10: DefinitionsTypes = {
   StorageEntryTypeV10: {
     _enum: {
       Plain: 'Type',
-      Map: 'MapTypeV10',
-      DoubleMap: 'DoubleMapTypeV10'
+      Map: {
+        hasher: 'StorageHasherV10',
+        key: 'Type',
+        value: 'Type',
+        linked: 'bool'
+      },
+      DoubleMap: {
+        hasher: 'StorageHasherV10',
+        key1: 'Type',
+        key2: 'Type',
+        value: 'Type',
+        key2Hasher: 'StorageHasherV10'
+      }
     }
   },
   StorageMetadataV10: {

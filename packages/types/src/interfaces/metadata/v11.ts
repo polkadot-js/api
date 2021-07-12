@@ -10,13 +10,6 @@ import { AllHashers } from './hashers';
 
 export const v11: DefinitionsTypes = {
   // v11
-  DoubleMapTypeV11: {
-    hasher: 'StorageHasherV11',
-    key1: 'Type',
-    key2: 'Type',
-    value: 'Type',
-    key2Hasher: 'StorageHasherV11'
-  },
   ErrorMetadataV11: 'ErrorMetadataV10',
   EventMetadataV11: 'EventMetadataV10',
   ExtrinsicMetadataV11: {
@@ -25,12 +18,6 @@ export const v11: DefinitionsTypes = {
   },
   FunctionArgumentMetadataV11: 'FunctionArgumentMetadataV10',
   FunctionMetadataV11: 'FunctionMetadataV10',
-  MapTypeV11: {
-    hasher: 'StorageHasherV11',
-    key: 'Type',
-    value: 'Type',
-    linked: 'bool'
-  },
   MetadataV11: {
     modules: 'Vec<ModuleMetadataV11>',
     extrinsic: 'ExtrinsicMetadataV11'
@@ -55,8 +42,19 @@ export const v11: DefinitionsTypes = {
   StorageEntryTypeV11: {
     _enum: {
       Plain: 'Type',
-      Map: 'MapTypeV11',
-      DoubleMap: 'DoubleMapTypeV11'
+      Map: {
+        hasher: 'StorageHasherV11',
+        key: 'Type',
+        value: 'Type',
+        linked: 'bool'
+      },
+      DoubleMap: {
+        hasher: 'StorageHasherV11',
+        key1: 'Type',
+        key2: 'Type',
+        value: 'Type',
+        key2Hasher: 'StorageHasherV11'
+      }
     }
   },
   StorageMetadataV11: {

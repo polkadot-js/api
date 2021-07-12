@@ -8,13 +8,11 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v13: DefinitionsTypes = {
   // v13
-  DoubleMapTypeV13: 'DoubleMapTypeV12',
   ErrorMetadataV13: 'ErrorMetadataV12',
   EventMetadataV13: 'EventMetadataV12',
   ExtrinsicMetadataV13: 'ExtrinsicMetadataV12',
   FunctionArgumentMetadataV13: 'FunctionArgumentMetadataV12',
   FunctionMetadataV13: 'FunctionMetadataV12',
-  MapTypeV13: 'MapTypeV12',
   MetadataV13: {
     modules: 'Vec<ModuleMetadataV13>',
     extrinsic: 'ExtrinsicMetadataV13'
@@ -40,8 +38,19 @@ export const v13: DefinitionsTypes = {
   StorageEntryTypeV13: {
     _enum: {
       Plain: 'Type',
-      Map: 'MapTypeV13',
-      DoubleMap: 'DoubleMapTypeV13',
+      Map: {
+        hasher: 'StorageHasherV13',
+        key: 'Type',
+        value: 'Type',
+        linked: 'bool'
+      },
+      DoubleMap: {
+        hasher: 'StorageHasherV13',
+        key1: 'Type',
+        key2: 'Type',
+        value: 'Type',
+        key2Hasher: 'StorageHasherV13'
+      },
       NMap: {
         keyVec: 'Vec<Type>',
         hashers: 'Vec<StorageHasherV13>',

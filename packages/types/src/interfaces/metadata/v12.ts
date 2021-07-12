@@ -8,13 +8,11 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v12: DefinitionsTypes = {
   // v12
-  DoubleMapTypeV12: 'DoubleMapTypeV11',
   ErrorMetadataV12: 'ErrorMetadataV11',
   EventMetadataV12: 'EventMetadataV11',
   ExtrinsicMetadataV12: 'ExtrinsicMetadataV11',
   FunctionArgumentMetadataV12: 'FunctionArgumentMetadataV11',
   FunctionMetadataV12: 'FunctionMetadataV11',
-  MapTypeV12: 'MapTypeV11',
   MetadataV12: {
     modules: 'Vec<ModuleMetadataV12>',
     extrinsic: 'ExtrinsicMetadataV12'
