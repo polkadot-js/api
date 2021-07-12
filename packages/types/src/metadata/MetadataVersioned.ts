@@ -11,8 +11,8 @@ import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';
 import { toV13 } from './v12/toV13';
-import { toLatest as toLatest13 } from './v13/toLatest';
-import { toLatest as toLatest14 } from './v14/toLatest';
+import { toV14 } from './v13/toV14';
+import { toLatest } from './v14/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 
@@ -118,16 +118,14 @@ export class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V14 object
    */
   public get asV14 (): MetadataV14 {
-    // FIXME This is incorrect, v13 should really convert to v14
-    return this.#getVersion(14, toLatest13) as unknown as MetadataV14;
+    return this.#getVersion(14, toV14) as unknown as MetadataV14;
   }
 
   /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    // This is non-existent & latest - applied here to do the module-specific type conversions
-    return this.#getVersion('latest', this.version === 13 ? toLatest13 : toLatest14);
+    return this.#getVersion('latest', toLatest);
   }
 
   /**

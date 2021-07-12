@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Null, Option, Struct, Text, Vec, u32, u64, u8 } from '@polkadot/types';
+import type { Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types';
 
 /** @name SiField */
 export interface SiField extends Struct {
@@ -45,6 +45,8 @@ export interface SiTypeDef extends Enum {
   readonly asPhantom: SiTypeDefPhantom;
   readonly isBitSequence: boolean;
   readonly asBitSequence: SiTypeDefBitSequence;
+  readonly isHistoricMetaCompat: boolean;
+  readonly asHistoricMetaCompat: Type;
 }
 
 /** @name SiTypeDefArray */

@@ -33,7 +33,10 @@ export default {
         Primitive: 'SiTypeDefPrimitive',
         Compact: 'SiTypeDefCompact',
         Phantom: 'SiTypeDefPhantom',
-        BitSequence: 'SiTypeDefBitSequence'
+        BitSequence: 'SiTypeDefBitSequence',
+        // NOTE: This is specific to the implementation for pre-v14 metadata
+        // compatibility (always keep as the last entry in the enum)
+        HistoricMetaCompat: 'Type'
       }
     },
     SiTypeDefArray: {
