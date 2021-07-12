@@ -1,12 +1,14 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Option, Struct, Text, Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Enum, Null, Option, Struct, Text, Vec, u32, u64, u8 } from '@polkadot/types';
 
 /** @name SiField */
 export interface SiField extends Struct {
   readonly name: Option<Text>;
   readonly type: SiLookupTypeId;
+  readonly typeName: Option<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name SiLookupTypeId */
@@ -18,7 +20,7 @@ export interface SiPath extends Vec<Text> {}
 /** @name SiType */
 export interface SiType extends Struct {
   readonly path: SiPath;
-  readonly params: Vec<SiLookupTypeId>;
+  readonly params: Vec<SiTypeParameter>;
   readonly def: SiTypeDef;
   readonly docs: Vec<Text>;
 }
@@ -37,11 +39,28 @@ export interface SiTypeDef extends Enum {
   readonly asTuple: SiTypeDefTuple;
   readonly isPrimitive: boolean;
   readonly asPrimitive: SiTypeDefPrimitive;
+  readonly isCompact: boolean;
+  readonly asCompact: SiTypeDefCompact;
+  readonly isPhantom: boolean;
+  readonly asPhantom: SiTypeDefPhantom;
+  readonly isBitSequence: boolean;
+  readonly asBitSequence: SiTypeDefBitSequence;
 }
 
 /** @name SiTypeDefArray */
 export interface SiTypeDefArray extends Struct {
-  readonly len: u16;
+  readonly len: u32;
+  readonly type: SiLookupTypeId;
+}
+
+/** @name SiTypeDefBitSequence */
+export interface SiTypeDefBitSequence extends Struct {
+  readonly bitStoreType: SiLookupTypeId;
+  readonly bitOrderType: SiLookupTypeId;
+}
+
+/** @name SiTypeDefCompact */
+export interface SiTypeDefCompact extends Struct {
   readonly type: SiLookupTypeId;
 }
 
@@ -49,6 +68,9 @@ export interface SiTypeDefArray extends Struct {
 export interface SiTypeDefComposite extends Struct {
   readonly fields: Vec<SiField>;
 }
+
+/** @name SiTypeDefPhantom */
+export interface SiTypeDefPhantom extends Null {}
 
 /** @name SiTypeDefPrimitive */
 export interface SiTypeDefPrimitive extends Enum {
@@ -82,11 +104,19 @@ export interface SiTypeDefVariant extends Struct {
   readonly variants: Vec<SiVariant>;
 }
 
+/** @name SiTypeParameter */
+export interface SiTypeParameter extends Struct {
+  readonly name: Text;
+  readonly type: Option<SiLookupTypeId>;
+}
+
 /** @name SiVariant */
 export interface SiVariant extends Struct {
   readonly name: Text;
   readonly fields: Vec<SiField>;
+  readonly index: Option<u8>;
   readonly discriminant: Option<u64>;
+  readonly docs: Vec<Text>;
 }
 
 export type PHANTOM_SCALEINFO = 'scaleInfo';

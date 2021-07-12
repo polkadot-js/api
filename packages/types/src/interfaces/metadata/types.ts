@@ -428,7 +428,7 @@ export interface StorageEntryTypeV14 extends Enum {
   readonly isPlain: boolean;
   readonly asPlain: SiLookupTypeId;
   readonly isMap: boolean;
-  readonly asMap: { hasher: StorageHasherV14; key: SiLookupTypeId; value: SiLookupTypeId; unused: bool; } & Struct;
+  readonly asMap: { hasher: StorageHasherV14; key: SiLookupTypeId; value: SiLookupTypeId; } & Struct;
   readonly isDoubleMap: boolean;
   readonly asDoubleMap: { hasher: StorageHasherV14; key1: SiLookupTypeId; key2: SiLookupTypeId; value: SiLookupTypeId; key2Hasher: StorageHasherV14; } & Struct;
   readonly isNMap: boolean;

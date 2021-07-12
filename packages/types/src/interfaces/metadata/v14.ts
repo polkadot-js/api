@@ -75,9 +75,7 @@ export const v14: DefinitionsTypes = {
       Map: {
         hasher: 'StorageHasherV14',
         key: 'SiLookupTypeId',
-        value: 'SiLookupTypeId',
-        // is_linked flag previously, unused now to keep backwards compat
-        unused: 'bool'
+        value: 'SiLookupTypeId'
       },
       DoubleMap: {
         hasher: 'StorageHasherV14',
