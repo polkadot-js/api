@@ -132,6 +132,14 @@ function formatLinkage (inner: string): string {
 }
 
 /**
+ * Given the inner `T`, return a `Option<T>` string
+ */
+/** @internal */
+function formatOption (inner: string): string {
+  return paramsNotation('Option', inner);
+}
+
+/**
  * Given the inner `O` & `E`, return a `Result<O, E>`  string
  */
 /** @internal */
@@ -140,11 +148,11 @@ function formatResult (innerOk: string, innerError: string): string {
 }
 
 /**
- * Given the inner `T`, return a `Option<T>` string
+ * Given the entries `[string, T][]`, return a `{ name: T; ... }` string
  */
 /** @internal */
-function formatOption (inner: string): string {
-  return paramsNotation('Option', inner);
+function formatStruct (inners: [string, string][]): string {
+  return `{ ${inners.map(([k, t]) => `${k}: ${t};`).join(' ')} } & Struct`;
 }
 
 /**
@@ -211,10 +219,15 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
       return typeDef.type;
     }
 
-    case TypeDefInfo.Vec: {
-      setImports(definitions, imports, ['Vec']);
+    case TypeDefInfo.Struct: {
+      setImports(definitions, imports, ['Struct']);
 
-      return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatStruct(
+        ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
+          name || `unknown${index}`,
+          formatType(definitions, type, imports)
+        ]))
+      );
     }
 
     case TypeDefInfo.Tuple: {
@@ -222,8 +235,14 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
-        ((typeDef.sub as TypeDef[]).map((sub) => formatType(definitions, sub.type, imports)))
+        ((typeDef.sub as TypeDef[]).map(({ type }) => formatType(definitions, type, imports)))
       );
+    }
+
+    case TypeDefInfo.Vec: {
+      setImports(definitions, imports, ['Vec']);
+
+      return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
 
     case TypeDefInfo.VecFixed: {

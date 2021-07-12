@@ -454,7 +454,7 @@ export interface ParaLifecycle extends Enum {
 
 /** @name ParaPastCodeMeta */
 export interface ParaPastCodeMeta extends Struct {
-  readonly upgradeTimes: Vec<BlockNumber>;
+  readonly upgradeTimes: Vec<ReplacementTimes>;
   readonly lastPruned: Option<BlockNumber>;
 }
 
@@ -516,6 +516,12 @@ export interface RelayHash extends Hash {}
 
 /** @name Remark */
 export interface Remark extends U8aFixed {}
+
+/** @name ReplacementTimes */
+export interface ReplacementTimes extends Struct {
+  readonly expectedAt: BlockNumber;
+  readonly activatedAt: BlockNumber;
+}
 
 /** @name Retriable */
 export interface Retriable extends Enum {

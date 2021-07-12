@@ -4,48 +4,6 @@
 import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
-/** @name DoubleMapTypeV10 */
-export interface DoubleMapTypeV10 extends Struct {
-  readonly hasher: StorageHasherV10;
-  readonly key1: Type;
-  readonly key2: Type;
-  readonly value: Type;
-  readonly key2Hasher: StorageHasherV10;
-}
-
-/** @name DoubleMapTypeV11 */
-export interface DoubleMapTypeV11 extends Struct {
-  readonly hasher: StorageHasherV11;
-  readonly key1: Type;
-  readonly key2: Type;
-  readonly value: Type;
-  readonly key2Hasher: StorageHasherV11;
-}
-
-/** @name DoubleMapTypeV12 */
-export interface DoubleMapTypeV12 extends DoubleMapTypeV11 {}
-
-/** @name DoubleMapTypeV13 */
-export interface DoubleMapTypeV13 extends DoubleMapTypeV12 {}
-
-/** @name DoubleMapTypeV14 */
-export interface DoubleMapTypeV14 extends Struct {
-  readonly hasher: StorageHasherV14;
-  readonly key1: SiLookupTypeId;
-  readonly key2: SiLookupTypeId;
-  readonly value: SiLookupTypeId;
-  readonly key2Hasher: StorageHasherV14;
-}
-
-/** @name DoubleMapTypeV9 */
-export interface DoubleMapTypeV9 extends Struct {
-  readonly hasher: StorageHasherV9;
-  readonly key1: Type;
-  readonly key2: Type;
-  readonly value: Type;
-  readonly key2Hasher: StorageHasherV9;
-}
-
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV13 {}
 
@@ -165,44 +123,6 @@ export interface FunctionMetadataV9 extends Struct {
   readonly name: Text;
   readonly args: Vec<FunctionArgumentMetadataV9>;
   readonly documentation: Vec<Text>;
-}
-
-/** @name MapTypeV10 */
-export interface MapTypeV10 extends Struct {
-  readonly hasher: StorageHasherV10;
-  readonly key: Type;
-  readonly value: Type;
-  readonly linked: bool;
-}
-
-/** @name MapTypeV11 */
-export interface MapTypeV11 extends Struct {
-  readonly hasher: StorageHasherV11;
-  readonly key: Type;
-  readonly value: Type;
-  readonly linked: bool;
-}
-
-/** @name MapTypeV12 */
-export interface MapTypeV12 extends MapTypeV11 {}
-
-/** @name MapTypeV13 */
-export interface MapTypeV13 extends MapTypeV12 {}
-
-/** @name MapTypeV14 */
-export interface MapTypeV14 extends Struct {
-  readonly hasher: StorageHasherV14;
-  readonly key: SiLookupTypeId;
-  readonly value: SiLookupTypeId;
-  readonly unused: bool;
-}
-
-/** @name MapTypeV9 */
-export interface MapTypeV9 extends Struct {
-  readonly hasher: StorageHasherV9;
-  readonly key: Type;
-  readonly value: Type;
-  readonly linked: bool;
 }
 
 /** @name MetadataAll */
@@ -335,20 +255,6 @@ export interface ModuleMetadataV9 extends Struct {
   readonly events: Option<Vec<EventMetadataV9>>;
   readonly constants: Vec<ModuleConstantMetadataV9>;
   readonly errors: Vec<ErrorMetadataV9>;
-}
-
-/** @name NMapTypeV13 */
-export interface NMapTypeV13 extends Struct {
-  readonly keyVec: Vec<Type>;
-  readonly hashers: Vec<StorageHasherV13>;
-  readonly value: Type;
-}
-
-/** @name NMapTypeV14 */
-export interface NMapTypeV14 extends Struct {
-  readonly key: SiLookupTypeId;
-  readonly hashers: Vec<StorageHasherV14>;
-  readonly value: SiLookupTypeId;
 }
 
 /** @name PalletCallMetadataV14 */
@@ -487,9 +393,9 @@ export interface StorageEntryTypeV10 extends Enum {
   readonly isPlain: boolean;
   readonly asPlain: Type;
   readonly isMap: boolean;
-  readonly asMap: MapTypeV10;
+  readonly asMap: { hasher: StorageHasherV10; key: Type; value: Type; linked: bool; } & Struct;
   readonly isDoubleMap: boolean;
-  readonly asDoubleMap: DoubleMapTypeV10;
+  readonly asDoubleMap: { hasher: StorageHasherV10; key1: Type; key2: Type; value: Type; key2Hasher: StorageHasherV10; } & Struct;
 }
 
 /** @name StorageEntryTypeV11 */
@@ -497,9 +403,9 @@ export interface StorageEntryTypeV11 extends Enum {
   readonly isPlain: boolean;
   readonly asPlain: Type;
   readonly isMap: boolean;
-  readonly asMap: MapTypeV11;
+  readonly asMap: { hasher: StorageHasherV11; key: Type; value: Type; linked: bool; } & Struct;
   readonly isDoubleMap: boolean;
-  readonly asDoubleMap: DoubleMapTypeV11;
+  readonly asDoubleMap: { hasher: StorageHasherV11; key1: Type; key2: Type; value: Type; key2Hasher: StorageHasherV11; } & Struct;
 }
 
 /** @name StorageEntryTypeV12 */
@@ -510,19 +416,23 @@ export interface StorageEntryTypeV13 extends Enum {
   readonly isPlain: boolean;
   readonly asPlain: Type;
   readonly isMap: boolean;
-  readonly asMap: MapTypeV13;
+  readonly asMap: { hasher: StorageHasherV13; key: Type; value: Type; linked: bool; } & Struct;
   readonly isDoubleMap: boolean;
-  readonly asDoubleMap: DoubleMapTypeV13;
+  readonly asDoubleMap: { hasher: StorageHasherV13; key1: Type; key2: Type; value: Type; key2Hasher: StorageHasherV13; } & Struct;
   readonly isNMap: boolean;
-  readonly asNMap: NMapTypeV13;
+  readonly asNMap: { keyVec: Vec<Type>; hashers: Vec<StorageHasherV13>; value: Type; } & Struct;
 }
 
 /** @name StorageEntryTypeV14 */
-export interface StorageEntryTypeV14 extends Struct {
-  readonly Plain: SiLookupTypeId;
-  readonly Map: MapTypeV14;
-  readonly DoubleMap: DoubleMapTypeV14;
-  readonly NMap: NMapTypeV14;
+export interface StorageEntryTypeV14 extends Enum {
+  readonly isPlain: boolean;
+  readonly asPlain: SiLookupTypeId;
+  readonly isMap: boolean;
+  readonly asMap: { hasher: StorageHasherV14; key: SiLookupTypeId; value: SiLookupTypeId; unused: bool; } & Struct;
+  readonly isDoubleMap: boolean;
+  readonly asDoubleMap: { hasher: StorageHasherV14; key1: SiLookupTypeId; key2: SiLookupTypeId; value: SiLookupTypeId; key2Hasher: StorageHasherV14; } & Struct;
+  readonly isNMap: boolean;
+  readonly asNMap: { key: SiLookupTypeId; hashers: Vec<StorageHasherV14>; value: SiLookupTypeId; } & Struct;
 }
 
 /** @name StorageEntryTypeV9 */
@@ -530,9 +440,9 @@ export interface StorageEntryTypeV9 extends Enum {
   readonly isPlain: boolean;
   readonly asPlain: Type;
   readonly isMap: boolean;
-  readonly asMap: MapTypeV9;
+  readonly asMap: { hasher: StorageHasherV9; key: Type; value: Type; linked: bool; } & Struct;
   readonly isDoubleMap: boolean;
-  readonly asDoubleMap: DoubleMapTypeV9;
+  readonly asDoubleMap: { hasher: StorageHasherV9; key1: Type; key2: Type; value: Type; key2Hasher: StorageHasherV9; } & Struct;
 }
 
 /** @name StorageHasher */

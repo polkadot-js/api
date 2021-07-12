@@ -50,12 +50,13 @@ const tsTuple = tsExport;
 function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
-  const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
+  const keys = (sub as TypeDef[]).map((def, index): string => {
+    const { info, name = `unknown${index}`, type } = def;
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const isComplexType = [TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
+    const isComplex = [TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
-      : createGetter(definitions, `as${getter}`, isComplexType ? formatType(definitions, type, imports) : type, imports);
+      : createGetter(definitions, `as${getter}`, isComplex ? formatType(definitions, info === TypeDefInfo.Struct ? def : type, imports) : type, imports);
     const isGetter = info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
@@ -63,6 +64,7 @@ function tsEnum (definitions: Record<string, ModuleTypes>, { name: enumName, sub
     switch (info) {
       case TypeDefInfo.Compact:
       case TypeDefInfo.Plain:
+      case TypeDefInfo.Struct:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
       case TypeDefInfo.Option:

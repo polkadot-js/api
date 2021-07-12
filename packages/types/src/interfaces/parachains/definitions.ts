@@ -296,7 +296,7 @@ export default {
       _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
     },
     ParaPastCodeMeta: {
-      upgradeTimes: 'Vec<BlockNumber>',
+      upgradeTimes: 'Vec<ReplacementTimes>',
       lastPruned: 'Option<BlockNumber>'
     },
     ParaScheduling: {
@@ -318,15 +318,19 @@ export default {
       relayParentStorageRoot: 'Hash',
       maxPovSize: 'u32'
     },
-    RelayBlockNumber: 'u32',
-    RelayChainBlockNumber: 'RelayBlockNumber',
-    RelayHash: 'Hash',
-    RelayChainHash: 'RelayHash',
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
     },
+    RelayBlockNumber: 'u32',
+    RelayChainBlockNumber: 'RelayBlockNumber',
+    RelayHash: 'Hash',
+    RelayChainHash: 'RelayHash',
     Remark: '[u8; 32]',
+    ReplacementTimes: {
+      expectedAt: 'BlockNumber',
+      activatedAt: 'BlockNumber'
+    },
     Retriable: {
       _enum: {
         Never: 'Null',

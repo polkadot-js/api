@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update `ParaPastCodeMeta` with `ReplacementTimes`
+- Allow nested struct in enum definitions
+
+
 ## 5.0.1 Jul 11, 2021
 
 Upgrade priority: Low. Recommended for users of current-generation Substrate chains.
