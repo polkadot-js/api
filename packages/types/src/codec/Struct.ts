@@ -108,7 +108,7 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
       decodeU8a(registry, value, values, Object.values(Types), keys);
     } catch (error) {
       if (values.length) {
-        throw new Error(`Failed on field ${keys[values.length]}. Partially decoded: ${JSON.stringify(values.reduce((all, v, index) => ({ ...all, [keys[index]]: v.toJSON() }), {}))}: ${(error as Error).message}`);
+        throw new Error(`Failed on ${keys[values.length]}: Partially decoded: ${JSON.stringify(values.reduce((all, v, index) => ({ ...all, [keys[index]]: v.toJSON() }), {}))}: ${(error as Error).message}`);
       }
 
       throw error;

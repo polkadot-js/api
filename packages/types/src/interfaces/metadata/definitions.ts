@@ -7,7 +7,6 @@
 import type { Definitions } from '../../types';
 
 import { AllHashers } from './hashers';
-import { metadataTypes } from './metadata';
 import { v9 } from './v9';
 import { v10 } from './v10';
 import { v11 } from './v11';
@@ -20,8 +19,6 @@ export { AllHashers };
 export default {
   rpc: {},
   types: {
-    // From v14 onwards
-    ...metadataTypes,
     ...v9,
     ...v10,
     ...v11,
