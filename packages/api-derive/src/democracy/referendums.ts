@@ -13,10 +13,12 @@ export function referendums (instanceId: string, api: ApiInterfaceRx): () => Obs
   return memo(instanceId, (): Observable<DeriveReferendumExt[]> =>
     api.derive.democracy.referendumsActive().pipe(
       switchMap((referendums) =>
-        combineLatest([
-          of(referendums),
-          api.derive.democracy._referendumsVotes(referendums)
-        ])
+        referendums.length
+          ? combineLatest([
+            of(referendums),
+            api.derive.democracy._referendumsVotes(referendums)
+          ])
+          : of([[], []])
       ),
       map(([referendums, votes]) =>
         referendums.map((referendum, index): DeriveReferendumExt => ({

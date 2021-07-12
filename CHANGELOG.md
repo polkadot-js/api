@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 5.0.1 Jul 11, 2021
+
+Upgrade priority: Low. Recommended for users of current-generation Substrate chains.
 
 - **Breaking change** The `@polkadot/metadata` package has been removed, adjust imports to `@polkadot/types`
 - **Important** Internally rxjs has been upgraded to the 7.0 version, affecting users of the `ApiRx` interface
@@ -11,11 +13,13 @@ Changes:
 - Contract reads will now expose an additional `gasRequired` (total estimated)
 - Allow schedule derives to handle scheduler entries that cannot decode
 - Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+- Adjust Ws `.disconnect()` logic to always clear auto-connect
 - Add `BlockNumberFor` type mapping
 - Add Westend 9080 upgrade block
 - Add `derive.crowdloan.contributions(paraId)`
-- Allow building as a completely stand-alone browser bundle
+- Allow building as a completely stand-alone browser bundle (experimental)
 - Update to latest `@polkadot/x-rxjs` with RxJs 7.2
+- Align static metadata with latest Substrate
 
 
 ## 4.17.1 Jul 5, 2021

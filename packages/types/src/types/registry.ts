@@ -49,8 +49,10 @@ export interface OverrideVersionedType {
 export type OverrideModuleType = Record<string, string>;
 export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: any) => (...args: any[]) => Observable<any>>>;
 
+export type AliasDefinition = Record<string, OverrideModuleType>;
+
 export interface OverrideBundleDefinition {
-  alias?: Record<string, OverrideModuleType>;
+  alias?: AliasDefinition;
   derives?: DeriveCustom;
   hasher?: (data: Uint8Array) => Uint8Array;
   instances?: Record<string, string[]>;
@@ -78,7 +80,7 @@ export interface RegisteredTypes {
   /**
    * @description Alias an types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
    */
-  typesAlias?: Record<string, OverrideModuleType>;
+  typesAlias?: AliasDefinition;
   /**
    * @description A bundle of types related to chain & spec that is injected based on what the chain contains
    */

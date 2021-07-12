@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bundler tests</title>
+    <style>
+      pre {
+        margin: 0.5rem 0;
+      }
+
+      pre.header {
+        background: #ddd;
+        margin-top: 1.5rem;
+        padding: 0.25rem 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function log (label, result) {
+        const pre = document.createElement('pre');
+
+        if (typeof result !== 'undefined') {
+          pre.innerHTML = `${label.padStart(24)} = ${result}`;
+        } else {
+          pre.innerHTML = label;
+          pre.className = 'header';
+        }
+
+        document.body.appendChild(pre);
+      }
+    </script>
+    <script src="node_modules/@polkadot/util/bundle-polkadot-util.js"></script>
+    <script src="node_modules/@polkadot/util-crypto/bundle-polkadot-util-crypto.js"></script>
+    <script src="node_modules/@polkadot/keyring/bundle-polkadot-keyring.js"></script>
+    <script src="packages/types/build/bundle-polkadot-types.js"></script>
+    <script>
+      log('polkadotTypes');
+
+      const { TypeRegistry } = polkadotTypes;
+      const registry = new TypeRegistry();
+
+      log('createType', registry.createType('Balance', 1234567890).toHuman());
+    </script>
+    <script src="packages/api/build/bundle-polkadot-api.js"></script>
+    <script>
+      log('polkadotApi');
+
+      const { ApiPromise, WsProvider } = polkadotApi;
+      const provider = new WsProvider('wss://rpc.polkadot.io');
+
+      ApiPromise
+        .create({ provider })
+        .then((api) =>
+          // use the derive version, checking that that also works
+          api.derive.chain.subscribeNewHeads((h) =>
+            log(polkadotUtil.formatNumber(h.number.unwrap()), h.hash.toHex())
+          )
+        );
+    </script>
+  </body>
+</html>
