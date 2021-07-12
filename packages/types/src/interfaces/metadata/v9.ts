@@ -1,0 +1,89 @@
+// Copyright 2017-2021 @polkadot/types authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// order important in structs... :)
+/* eslint-disable sort-keys */
+
+import type { DefinitionsTypes } from '../../types';
+
+export const v9: DefinitionsTypes = {
+  // v9
+  DoubleMapTypeV9: {
+    hasher: 'StorageHasherV9',
+    key1: 'Type',
+    key2: 'Type',
+    value: 'Type',
+    key2Hasher: 'StorageHasherV9'
+  },
+  ErrorMetadataV9: {
+    name: 'Text',
+    documentation: 'Vec<Text>'
+  },
+  EventMetadataV9: {
+    name: 'Text',
+    args: 'Vec<Type>',
+    documentation: 'Vec<Text>'
+  },
+  FunctionArgumentMetadataV9: {
+    name: 'Text',
+    type: 'Type'
+  },
+  FunctionMetadataV9: {
+    name: 'Text',
+    args: 'Vec<FunctionArgumentMetadataV9>',
+    documentation: 'Vec<Text>'
+  },
+  MapTypeV9: {
+    hasher: 'StorageHasherV9',
+    key: 'Type',
+    value: 'Type',
+    linked: 'bool'
+  },
+  MetadataV9: {
+    modules: 'Vec<ModuleMetadataV9>'
+  },
+  ModuleConstantMetadataV9: {
+    name: 'Text',
+    type: 'Type',
+    value: 'Bytes',
+    documentation: 'Vec<Text>'
+  },
+  ModuleMetadataV9: {
+    name: 'Text',
+    storage: 'Option<StorageMetadataV9>',
+    calls: 'Option<Vec<FunctionMetadataV9>>',
+    events: 'Option<Vec<EventMetadataV9>>',
+    constants: 'Vec<ModuleConstantMetadataV9>',
+    errors: 'Vec<ErrorMetadataV9>'
+  },
+  StorageEntryMetadataV9: {
+    name: 'Text',
+    modifier: 'StorageEntryModifierV9',
+    type: 'StorageEntryTypeV9',
+    fallback: 'Bytes',
+    documentation: 'Vec<Text>'
+  },
+  StorageEntryModifierV9: {
+    _enum: ['Optional', 'Default', 'Required']
+  },
+  StorageEntryTypeV9: {
+    _enum: {
+      Plain: 'Type',
+      Map: 'MapTypeV9',
+      DoubleMap: 'DoubleMapTypeV9'
+    }
+  },
+  StorageHasherV9: {
+    _enum: {
+      Blake2_128: null, // eslint-disable-line camelcase
+      Blake2_256: null, // eslint-disable-line camelcase
+      Twox128: null,
+      Twox256: null,
+      Twox64Concat: null
+    }
+  },
+  StorageMetadataV9: {
+    prefix: 'Text',
+    items: 'Vec<StorageEntryMetadataV9>'
+  }
+};
