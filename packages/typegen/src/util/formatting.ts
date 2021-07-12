@@ -222,13 +222,6 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
     case TypeDefInfo.Struct: {
       setImports(definitions, imports, ['Struct']);
 
-      console.error(formatStruct(
-        ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
-          name || `unknown${index}`,
-          formatType(definitions, type, imports)
-        ]))
-      ));
-
       return formatStruct(
         ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
           name || `unknown${index}`,
