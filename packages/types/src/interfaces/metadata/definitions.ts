@@ -21,13 +21,6 @@ export default {
   rpc: {},
   types: {
     // v9
-    DoubleMapTypeV9: {
-      hasher: 'StorageHasherV9',
-      key1: 'Type',
-      key2: 'Type',
-      value: 'Type',
-      key2Hasher: 'StorageHasherV9'
-    },
     ErrorMetadataV9: {
       name: 'Text',
       documentation: 'Vec<Text>'
@@ -45,12 +38,6 @@ export default {
       name: 'Text',
       args: 'Vec<FunctionArgumentMetadataV9>',
       documentation: 'Vec<Text>'
-    },
-    MapTypeV9: {
-      hasher: 'StorageHasherV9',
-      key: 'Type',
-      value: 'Type',
-      linked: 'bool'
     },
     MetadataV9: {
       modules: 'Vec<ModuleMetadataV9>'
@@ -82,8 +69,19 @@ export default {
     StorageEntryTypeV9: {
       _enum: {
         Plain: 'Type',
-        Map: 'MapTypeV9',
-        DoubleMap: 'DoubleMapTypeV9'
+        Map: {
+          hasher: 'StorageHasherV9',
+          key: 'Type',
+          value: 'Type',
+          linked: 'bool'
+        },
+        DoubleMap: {
+          hasher: 'StorageHasherV9',
+          key1: 'Type',
+          key2: 'Type',
+          value: 'Type',
+          key2Hasher: 'StorageHasherV9'
+        }
       }
     },
     StorageHasherV9: {
@@ -101,23 +99,10 @@ export default {
     },
 
     // v10
-    DoubleMapTypeV10: {
-      hasher: 'StorageHasherV10',
-      key1: 'Type',
-      key2: 'Type',
-      value: 'Type',
-      key2Hasher: 'StorageHasherV10'
-    },
     ErrorMetadataV10: 'ErrorMetadataV9',
     EventMetadataV10: 'EventMetadataV9',
     FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
     FunctionMetadataV10: 'FunctionMetadataV9',
-    MapTypeV10: {
-      hasher: 'StorageHasherV10',
-      key: 'Type',
-      value: 'Type',
-      linked: 'bool'
-    },
     MetadataV10: {
       modules: 'Vec<ModuleMetadataV10>'
     },
@@ -141,8 +126,19 @@ export default {
     StorageEntryTypeV10: {
       _enum: {
         Plain: 'Type',
-        Map: 'MapTypeV10',
-        DoubleMap: 'DoubleMapTypeV10'
+        Map: {
+          hasher: 'StorageHasherV10',
+          key: 'Type',
+          value: 'Type',
+          linked: 'bool'
+        },
+        DoubleMap: {
+          hasher: 'StorageHasherV10',
+          key1: 'Type',
+          key2: 'Type',
+          value: 'Type',
+          key2Hasher: 'StorageHasherV10'
+        }
       }
     },
     StorageMetadataV10: {
@@ -161,13 +157,6 @@ export default {
     },
 
     // v11
-    DoubleMapTypeV11: {
-      hasher: 'StorageHasherV11',
-      key1: 'Type',
-      key2: 'Type',
-      value: 'Type',
-      key2Hasher: 'StorageHasherV11'
-    },
     ErrorMetadataV11: 'ErrorMetadataV10',
     EventMetadataV11: 'EventMetadataV10',
     ExtrinsicMetadataV11: {
@@ -176,12 +165,6 @@ export default {
     },
     FunctionArgumentMetadataV11: 'FunctionArgumentMetadataV10',
     FunctionMetadataV11: 'FunctionMetadataV10',
-    MapTypeV11: {
-      hasher: 'StorageHasherV11',
-      key: 'Type',
-      value: 'Type',
-      linked: 'bool'
-    },
     MetadataV11: {
       modules: 'Vec<ModuleMetadataV11>',
       extrinsic: 'ExtrinsicMetadataV11'
@@ -206,8 +189,19 @@ export default {
     StorageEntryTypeV11: {
       _enum: {
         Plain: 'Type',
-        Map: 'MapTypeV11',
-        DoubleMap: 'DoubleMapTypeV11'
+        Map: {
+          hasher: 'StorageHasherV11',
+          key: 'Type',
+          value: 'Type',
+          linked: 'bool'
+        },
+        DoubleMap: {
+          hasher: 'StorageHasherV11',
+          key1: 'Type',
+          key2: 'Type',
+          value: 'Type',
+          key2Hasher: 'StorageHasherV11'
+        }
       }
     },
     StorageMetadataV11: {
@@ -219,13 +213,11 @@ export default {
     },
 
     // v12
-    DoubleMapTypeV12: 'DoubleMapTypeV11',
     ErrorMetadataV12: 'ErrorMetadataV11',
     EventMetadataV12: 'EventMetadataV11',
     ExtrinsicMetadataV12: 'ExtrinsicMetadataV11',
     FunctionArgumentMetadataV12: 'FunctionArgumentMetadataV11',
     FunctionMetadataV12: 'FunctionMetadataV11',
-    MapTypeV12: 'MapTypeV11',
     MetadataV12: {
       modules: 'Vec<ModuleMetadataV12>',
       extrinsic: 'ExtrinsicMetadataV12'
@@ -247,13 +239,11 @@ export default {
     StorageHasherV12: 'StorageHasherV11',
 
     // v13
-    DoubleMapTypeV13: 'DoubleMapTypeV12',
     ErrorMetadataV13: 'ErrorMetadataV12',
     EventMetadataV13: 'EventMetadataV12',
     ExtrinsicMetadataV13: 'ExtrinsicMetadataV12',
     FunctionArgumentMetadataV13: 'FunctionArgumentMetadataV12',
     FunctionMetadataV13: 'FunctionMetadataV12',
-    MapTypeV13: 'MapTypeV12',
     MetadataV13: {
       modules: 'Vec<ModuleMetadataV13>',
       extrinsic: 'ExtrinsicMetadataV13'
@@ -279,8 +269,19 @@ export default {
     StorageEntryTypeV13: {
       _enum: {
         Plain: 'Type',
-        Map: 'MapTypeV13',
-        DoubleMap: 'DoubleMapTypeV13',
+        Map: {
+          hasher: 'StorageHasherV13',
+          key: 'Type',
+          value: 'Type',
+          linked: 'bool'
+        },
+        DoubleMap: {
+          hasher: 'StorageHasherV13',
+          key1: 'Type',
+          key2: 'Type',
+          value: 'Type',
+          key2Hasher: 'StorageHasherV13'
+        },
         NMap: {
           keyVec: 'Vec<Type>',
           hashers: 'Vec<StorageHasherV13>',
@@ -295,13 +296,11 @@ export default {
     StorageHasherV13: 'StorageHasherV12',
 
     // This always maps to the latest
-    DoubleMapTypeLatest: 'DoubleMapTypeV13',
     ErrorMetadataLatest: 'ErrorMetadataV13',
     EventMetadataLatest: 'EventMetadataV13',
     ExtrinsicMetadataLatest: 'ExtrinsicMetadataV13',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
     FunctionMetadataLatest: 'FunctionMetadataV13',
-    MapTypeLatest: 'MapTypeV13',
     MetadataLatest: 'MetadataV13',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV13',
     ModuleMetadataLatest: 'ModuleMetadataV13',
