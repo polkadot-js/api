@@ -8,12 +8,7 @@ import type { DefinitionsTypes } from '../../types';
 
 export const metadataTypes: DefinitionsTypes = {
   // TODO
-  MetaFormString: 'Text',
-  MetaFormType: 'MetaType',
-  MetaType: {
-    typeId: 'TypeId'
-  },
   PortableRegistry: {
-    todo: 'Null'
+    types: 'Vec<SiType>'
   }
 };

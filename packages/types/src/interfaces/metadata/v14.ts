@@ -10,20 +10,29 @@ export const v14: DefinitionsTypes = {
   // V14
   DoubleMapTypeV14: {
     hasher: 'StorageHasherV14',
-    key1: 'MetaFormType',
-    key2: 'MetaFormType',
-    value: 'MetaFormType',
+    key1: 'SiLookupTypeId',
+    key2: 'SiLookupTypeId',
+    value: 'SiLookupTypeId',
     key2Hasher: 'StorageHasherV14'
   },
+  FunctionArgumentMetadataV14: {
+    name: 'Text',
+    type: 'SiLookupTypeId'
+  },
+  FunctionMetadataV14: {
+    name: 'Text',
+    arguments: 'Vec<FunctionArgumentMetadataV14>',
+    documentation: 'Vec<Text>'
+  },
   ExtrinsicMetadataV14: {
-    type: 'MetaFormType',
+    type: 'SiLookupTypeId',
     version: 'u8',
     signedExtensions: 'Vec<SignedExtensionMetadataV14>'
   },
   MapTypeV14: {
     hasher: 'StorageHasherV14',
-    key: 'MetaFormType',
-    value: 'MetaFormType',
+    key: 'SiLookupTypeId',
+    value: 'SiLookupTypeId',
     // is_linked flag previously, unused now to keep backwards compat
     unused: 'bool'
   },
@@ -33,9 +42,26 @@ export const v14: DefinitionsTypes = {
     extrinsic: 'ExtrinsicMetadataV14'
   },
   NMapTypeV14: {
-    keys: 'MetaFormType',
+    // NOTE: Renamed from "keys"
+    key: 'SiLookupTypeId',
     hashers: 'Vec<StorageHasherV14>',
-    value: 'MetaFormType'
+    value: 'SiLookupTypeId'
+  },
+  PalletCallMetadataV14: {
+    type: 'SiLookupTypeId',
+    calls: 'Vec<FunctionMetadataV14>'
+  },
+  PalletConstantMetadataV14: {
+    name: 'Text',
+    type: 'SiLookupTypeId',
+    value: 'Bytes',
+    documentation: 'Vec<Text>'
+  },
+  PalletErrorMetadataV14: {
+    type: 'SiLookupTypeId'
+  },
+  PalletEventMetadataV14: {
+    type: 'SiLookupTypeId'
   },
   PalletMetadataV14: {
     name: 'Text',
@@ -48,11 +74,12 @@ export const v14: DefinitionsTypes = {
   },
   PalletStorageMetadataV14: {
     prefix: 'Text',
-    entries: 'Vec<StorageEntryMetadataV14>'
+    // NOTE: Renamed from entries
+    items: 'Vec<StorageEntryMetadataV14>'
   },
   SignedExtensionMetadataV14: {
     identifier: 'Text',
-    type: 'MetaFormType'
+    type: 'SiLookupTypeId'
   },
   StorageEntryMetadataV14: {
     name: 'Text',
@@ -63,7 +90,7 @@ export const v14: DefinitionsTypes = {
   },
   StorageEntryModifierV14: 'StorageEntryModifierV13',
   StorageEntryTypeV14: {
-    Plain: 'MetaFormType',
+    Plain: 'SiLookupTypeId',
     Map: 'MapTypeV14',
     DoubleMap: 'DoubleMapTypeV14',
     NMap: 'NMapTypeV14'

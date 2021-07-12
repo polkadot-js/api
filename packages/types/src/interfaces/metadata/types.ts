@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
+import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name DoubleMapTypeLatest */
 export interface DoubleMapTypeLatest extends DoubleMapTypeV13 {}
@@ -29,6 +30,15 @@ export interface DoubleMapTypeV12 extends DoubleMapTypeV11 {}
 
 /** @name DoubleMapTypeV13 */
 export interface DoubleMapTypeV13 extends DoubleMapTypeV12 {}
+
+/** @name DoubleMapTypeV14 */
+export interface DoubleMapTypeV14 extends Struct {
+  readonly hasher: StorageHasherV14;
+  readonly key1: SiLookupTypeId;
+  readonly key2: SiLookupTypeId;
+  readonly value: SiLookupTypeId;
+  readonly key2Hasher: StorageHasherV14;
+}
 
 /** @name DoubleMapTypeV9 */
 export interface DoubleMapTypeV9 extends Struct {
@@ -97,6 +107,13 @@ export interface ExtrinsicMetadataV12 extends ExtrinsicMetadataV11 {}
 /** @name ExtrinsicMetadataV13 */
 export interface ExtrinsicMetadataV13 extends ExtrinsicMetadataV12 {}
 
+/** @name ExtrinsicMetadataV14 */
+export interface ExtrinsicMetadataV14 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly version: u8;
+  readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
+}
+
 /** @name FunctionArgumentMetadataLatest */
 export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV13 {}
 
@@ -111,6 +128,12 @@ export interface FunctionArgumentMetadataV12 extends FunctionArgumentMetadataV11
 
 /** @name FunctionArgumentMetadataV13 */
 export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12 {}
+
+/** @name FunctionArgumentMetadataV14 */
+export interface FunctionArgumentMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly type: SiLookupTypeId;
+}
 
 /** @name FunctionArgumentMetadataV9 */
 export interface FunctionArgumentMetadataV9 extends Struct {
@@ -132,6 +155,13 @@ export interface FunctionMetadataV12 extends FunctionMetadataV11 {}
 
 /** @name FunctionMetadataV13 */
 export interface FunctionMetadataV13 extends FunctionMetadataV12 {}
+
+/** @name FunctionMetadataV14 */
+export interface FunctionMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly arguments: Vec<FunctionArgumentMetadataV14>;
+  readonly documentation: Vec<Text>;
+}
 
 /** @name FunctionMetadataV9 */
 export interface FunctionMetadataV9 extends Struct {
@@ -165,6 +195,14 @@ export interface MapTypeV12 extends MapTypeV11 {}
 /** @name MapTypeV13 */
 export interface MapTypeV13 extends MapTypeV12 {}
 
+/** @name MapTypeV14 */
+export interface MapTypeV14 extends Struct {
+  readonly hasher: StorageHasherV14;
+  readonly key: SiLookupTypeId;
+  readonly value: SiLookupTypeId;
+  readonly unused: bool;
+}
+
 /** @name MapTypeV9 */
 export interface MapTypeV9 extends Struct {
   readonly hasher: StorageHasherV9;
@@ -185,6 +223,8 @@ export interface MetadataAll extends Enum {
   readonly asV12: MetadataV12;
   readonly isV13: boolean;
   readonly asV13: MetadataV13;
+  readonly isV14: boolean;
+  readonly asV14: MetadataV14;
 }
 
 /** @name MetadataLatest */
@@ -211,6 +251,13 @@ export interface MetadataV12 extends Struct {
 export interface MetadataV13 extends Struct {
   readonly modules: Vec<ModuleMetadataV13>;
   readonly extrinsic: ExtrinsicMetadataV13;
+}
+
+/** @name MetadataV14 */
+export interface MetadataV14 extends Struct {
+  readonly types: PortableRegistry;
+  readonly pallets: Vec<PalletMetadataV14>;
+  readonly extrinsic: ExtrinsicMetadataV14;
 }
 
 /** @name MetadataV9 */
@@ -306,6 +353,65 @@ export interface NMapTypeV13 extends Struct {
   readonly value: Type;
 }
 
+/** @name NMapTypeV14 */
+export interface NMapTypeV14 extends Struct {
+  readonly key: SiLookupTypeId;
+  readonly hashers: Vec<StorageHasherV14>;
+  readonly value: SiLookupTypeId;
+}
+
+/** @name PalletCallMetadataV14 */
+export interface PalletCallMetadataV14 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly calls: Vec<FunctionMetadataV14>;
+}
+
+/** @name PalletConstantMetadataV14 */
+export interface PalletConstantMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly type: SiLookupTypeId;
+  readonly value: Bytes;
+  readonly documentation: Vec<Text>;
+}
+
+/** @name PalletErrorMetadataV14 */
+export interface PalletErrorMetadataV14 extends Struct {
+  readonly type: SiLookupTypeId;
+}
+
+/** @name PalletEventMetadataV14 */
+export interface PalletEventMetadataV14 extends Struct {
+  readonly type: SiLookupTypeId;
+}
+
+/** @name PalletMetadataV14 */
+export interface PalletMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly storage: Option<PalletStorageMetadataV14>;
+  readonly calls: Option<PalletCallMetadataV14>;
+  readonly event: Option<PalletEventMetadataV14>;
+  readonly constants: Vec<PalletConstantMetadataV14>;
+  readonly error: Option<PalletErrorMetadataV14>;
+  readonly index: u8;
+}
+
+/** @name PalletStorageMetadataV14 */
+export interface PalletStorageMetadataV14 extends Struct {
+  readonly prefix: Text;
+  readonly items: Vec<StorageEntryMetadataV14>;
+}
+
+/** @name PortableRegistry */
+export interface PortableRegistry extends Struct {
+  readonly types: Vec<SiType>;
+}
+
+/** @name SignedExtensionMetadataV14 */
+export interface SignedExtensionMetadataV14 extends Struct {
+  readonly identifier: Text;
+  readonly type: SiLookupTypeId;
+}
+
 /** @name StorageEntryMetadataLatest */
 export interface StorageEntryMetadataLatest extends StorageEntryMetadataV13 {}
 
@@ -339,6 +445,15 @@ export interface StorageEntryMetadataV13 extends Struct {
   readonly documentation: Vec<Text>;
 }
 
+/** @name StorageEntryMetadataV14 */
+export interface StorageEntryMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly modifier: StorageEntryModifierV14;
+  readonly type: StorageEntryTypeV14;
+  readonly fallback: Bytes;
+  readonly documentation: Vec<Text>;
+}
+
 /** @name StorageEntryMetadataV9 */
 export interface StorageEntryMetadataV9 extends Struct {
   readonly name: Text;
@@ -362,6 +477,9 @@ export interface StorageEntryModifierV12 extends StorageEntryModifierV11 {}
 
 /** @name StorageEntryModifierV13 */
 export interface StorageEntryModifierV13 extends StorageEntryModifierV12 {}
+
+/** @name StorageEntryModifierV14 */
+export interface StorageEntryModifierV14 extends StorageEntryModifierV13 {}
 
 /** @name StorageEntryModifierV9 */
 export interface StorageEntryModifierV9 extends Enum {
@@ -408,6 +526,14 @@ export interface StorageEntryTypeV13 extends Enum {
   readonly asNMap: NMapTypeV13;
 }
 
+/** @name StorageEntryTypeV14 */
+export interface StorageEntryTypeV14 extends Struct {
+  readonly Plain: SiLookupTypeId;
+  readonly Map: MapTypeV14;
+  readonly DoubleMap: DoubleMapTypeV14;
+  readonly NMap: NMapTypeV14;
+}
+
 /** @name StorageEntryTypeV9 */
 export interface StorageEntryTypeV9 extends Enum {
   readonly isPlain: boolean;
@@ -447,6 +573,9 @@ export interface StorageHasherV12 extends StorageHasherV11 {}
 
 /** @name StorageHasherV13 */
 export interface StorageHasherV13 extends StorageHasherV12 {}
+
+/** @name StorageHasherV14 */
+export interface StorageHasherV14 extends StorageHasherV13 {}
 
 /** @name StorageHasherV9 */
 export interface StorageHasherV9 extends Enum {
