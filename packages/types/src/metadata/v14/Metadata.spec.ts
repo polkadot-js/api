@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../../create';
-import { decodeLatestSubstrate } from '../util/testUtil';
-// import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
+import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
 import substrateData from './static';
 import substrateJson from './static-substrate.json';
 
@@ -12,7 +11,7 @@ describe('MetadataV14 (substrate)', (): void => {
 
   decodeLatestSubstrate(registry, 14, substrateData, substrateJson);
 
-  // toLatest(registry, 14, substrateData);
+  toLatest(registry, 14, substrateData);
 
-  // defaultValues(registry, substrateData, true, true);
+  defaultValues(registry, substrateData, true, true);
 });

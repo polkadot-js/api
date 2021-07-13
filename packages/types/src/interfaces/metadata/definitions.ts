@@ -50,13 +50,6 @@ export default {
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
     FunctionMetadataLatest: 'FunctionMetadataV14',
     MetadataLatest: 'MetadataV14',
-    PalletCallMetadataLatest: 'PalletCallMetadataV14',
-    PalletConstantMetadataLatest: 'PalletConstantMetadataV14',
-    PalletErrorMetadataLatest: 'PalletErrorMetadataV14',
-    PalletEventMetadataLatest: 'PalletEventMetadataV14',
-    PalletMetadataLatest: 'PalletMetadataV14',
-    PalletStorageMetadataLatest: 'PalletStorageMetadataV14',
-    SignedExtensionMetadataLatest: 'SignedExtensionMetadataV14',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV14',
     StorageEntryModifierLatest: 'StorageEntryModifierV14',
     StorageEntryTypeLatest: 'StorageEntryTypeV14',
@@ -80,7 +73,7 @@ export default {
         V11: 'MetadataV11',
         V12: 'MetadataV12',
         V13: 'MetadataV13',
-        Latest: 'MetadataV14'
+        V14: 'MetadataV14'
       }
     }
   }
