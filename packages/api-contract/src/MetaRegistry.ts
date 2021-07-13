@@ -129,7 +129,12 @@ export class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(type.params.length > 0
-        ? { sub: type.params.map((type) => this.getMetaTypeDef({ type })) }
+        ? {
+          sub: type.params
+            .map((p): TypeDef =>
+              this.getMetaTypeDef({ type: p.type.unwrap() })
+            )
+        }
         : {}
       ),
       ...typeDef
@@ -215,14 +220,14 @@ export class MetaRegistry extends TypeRegistry {
     return specialVariant === 'Option'
       ? {
         info: TypeDefInfo.Option,
-        sub: this.getMetaTypeDef({ type: params[0] })
+        sub: this.getMetaTypeDef({ type: params[0].type.unwrap() })
       }
       : specialVariant === 'Result'
         ? {
           info: TypeDefInfo.Result,
-          sub: params.map((type, index) => ({
+          sub: params.map((p, index) => ({
             name: ['Ok', 'Error'][index],
-            ...this.getMetaTypeDef({ type })
+            ...this.getMetaTypeDef({ type: p.type.unwrap() })
           }))
         }
         : {
