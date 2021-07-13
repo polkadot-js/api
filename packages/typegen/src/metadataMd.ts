@@ -43,7 +43,7 @@ const DESC_RPC = 'The following sections contain RPC methods that are Remote Cal
 const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
 
 /** @internal */
-function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
+function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
   const md = docLines
     .map((docLine) => docLine && docLine.substring(1)) // trim the leading space
     .reduce((md, docLine): string => // generate paragraphs
@@ -94,7 +94,7 @@ function renderPage (page: Page): string {
         md += `\n- **${bullet}**: ${
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
-            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
+            ? docsVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
             : item[bullet]
         }`;
       });
@@ -180,7 +180,7 @@ function addConstants (metadata: MetadataLatest): string {
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
                 name: `${methodName}: ` + '`' + func.type.toString() + '`',
-                ...(func.documentation.length && { summary: func.documentation })
+                ...(func.docs.length && { summary: func.docs })
               };
             }),
           name: sectionName
@@ -216,7 +216,7 @@ function addStorage (metadata: MetadataLatest): string {
             return {
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
               name: `${methodName}(${arg}): ` + '`' + outputType + '`',
-              ...(func.documentation.length && { summary: func.documentation })
+              ...(func.docs.length && { summary: func.docs })
             };
           }),
         name: sectionName
@@ -239,7 +239,7 @@ function addStorage (metadata: MetadataLatest): string {
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',
           name: `${methodName}(${arg}): ` + '`' + outputType + '`',
-          summary: meta.documentation
+          summary: meta.docs
         };
       }),
       name: 'substrate'
@@ -268,7 +268,7 @@ function addExtrinsics (metadata: MetadataLatest): string {
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
                 name: `${methodName}(${args})`,
-                ...(func.documentation.length && { summary: func.documentation })
+                ...(func.docs.length && { summary: func.docs })
               };
             }),
           name: sectionName
@@ -295,7 +295,7 @@ function addEvents (metadata: MetadataLatest): string {
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
               name: `${methodName}(${args})`,
-              ...(func.documentation.length && { summary: func.documentation })
+              ...(func.docs.length && { summary: func.docs })
             };
           }),
         name: stringCamelCase(meta.name)
@@ -317,7 +317,7 @@ function addErrors (metadata: MetadataLatest): string {
           .map((error) => ({
             interface: '`' + `api.errors.${stringCamelCase(moduleMetadata.name)}.${error.name.toString()}.is` + '`',
             name: error.name.toString(),
-            ...(error.documentation.length && { summary: error.documentation })
+            ...(error.docs.length && { summary: error.docs })
           })),
         name: stringLowerFirst(moduleMetadata.name)
       })),

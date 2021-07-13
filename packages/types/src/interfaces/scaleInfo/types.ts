@@ -25,6 +25,14 @@ export interface SiType extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name SiType0 */
+export interface SiType0 extends Struct {
+  readonly path: SiPath;
+  readonly params: Vec<SiLookupTypeId>;
+  readonly def: SiTypeDef;
+  readonly docs: Vec<Text>;
+}
+
 /** @name SiTypeDef */
 export interface SiTypeDef extends Enum {
   readonly isComposite: boolean;

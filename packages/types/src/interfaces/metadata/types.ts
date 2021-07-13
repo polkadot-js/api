@@ -257,11 +257,17 @@ export interface ModuleMetadataV9 extends Struct {
   readonly errors: Vec<ErrorMetadataV9>;
 }
 
+/** @name PalletCallMetadataLatest */
+export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}
+
 /** @name PalletCallMetadataV14 */
 export interface PalletCallMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
   readonly calls: Vec<FunctionMetadataV14>;
 }
+
+/** @name PalletConstantMetadataLatest */
+export interface PalletConstantMetadataLatest extends PalletConstantMetadataV14 {}
 
 /** @name PalletConstantMetadataV14 */
 export interface PalletConstantMetadataV14 extends Struct {
@@ -271,15 +277,24 @@ export interface PalletConstantMetadataV14 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name PalletErrorMetadataLatest */
+export interface PalletErrorMetadataLatest extends PalletErrorMetadataV14 {}
+
 /** @name PalletErrorMetadataV14 */
 export interface PalletErrorMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
 }
 
+/** @name PalletEventMetadataLatest */
+export interface PalletEventMetadataLatest extends PalletEventMetadataV14 {}
+
 /** @name PalletEventMetadataV14 */
 export interface PalletEventMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
 }
+
+/** @name PalletMetadataLatest */
+export interface PalletMetadataLatest extends PalletMetadataV14 {}
 
 /** @name PalletMetadataV14 */
 export interface PalletMetadataV14 extends Struct {
@@ -292,6 +307,9 @@ export interface PalletMetadataV14 extends Struct {
   readonly index: u8;
 }
 
+/** @name PalletStorageMetadataLatest */
+export interface PalletStorageMetadataLatest extends PalletStorageMetadataV14 {}
+
 /** @name PalletStorageMetadataV14 */
 export interface PalletStorageMetadataV14 extends Struct {
   readonly prefix: Text;
@@ -302,6 +320,9 @@ export interface PalletStorageMetadataV14 extends Struct {
 export interface PortableRegistry extends Struct {
   readonly types: Vec<SiType>;
 }
+
+/** @name SignedExtensionMetadataLatest */
+export interface SignedExtensionMetadataLatest extends SignedExtensionMetadataV14 {}
 
 /** @name SignedExtensionMetadataV14 */
 export interface SignedExtensionMetadataV14 extends Struct {

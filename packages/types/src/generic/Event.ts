@@ -156,7 +156,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
       method: this.method,
       section: this.section,
       ...(isExpanded
-        ? { documentation: this.meta.documentation.map((d) => d.toString()) }
+        ? { docs: this.meta.docs.map((d) => d.toString()) }
         : {}
       ),
       ...super.toHuman(isExpanded)
