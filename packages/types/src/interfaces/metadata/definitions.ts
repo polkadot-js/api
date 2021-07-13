@@ -26,6 +26,25 @@ export default {
     ...v13,
     ...v14,
 
+    //
+    // will be available once v14 is the default
+    // TODO: Comment out all commented stuff below and remove block below
+    //
+    // ExtrinsicMetadataLatest: 'ExtrinsicMetadataV14',
+    // FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
+    // FunctionMetadataLatest: 'FunctionMetadataV14',
+    // MetadataLatest: 'MetadataV14',
+    PalletCallMetadataLatest: 'PalletCallMetadataV14',
+    PalletConstantMetadataLatest: 'PalletConstantMetadataV14',
+    PalletErrorMetadataLatest: 'PalletErrorMetadataV14',
+    PalletEventMetadataLatest: 'PalletEventMetadataV14',
+    PalletMetadataLatest: 'PalletMetadataV14',
+    PalletStorageMetadataLatest: 'PalletStorageMetadataV14',
+    SignedExtensionMetadataLatest: 'SignedExtensionMetadataV14',
+    // StorageEntryMetadataLatest: 'StorageEntryMetadataV14',
+    // StorageEntryModifierLatest: 'StorageEntryModifierV14',
+    // StorageEntryTypeLatest: 'StorageEntryTypeV14',
+
     // This always maps to the latest
     ErrorMetadataLatest: 'ErrorMetadataV13',
     EventMetadataLatest: 'EventMetadataV13',
