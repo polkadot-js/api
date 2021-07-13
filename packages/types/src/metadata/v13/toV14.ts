@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { SiType, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text } from '../../primitive/Text';
 import type { Type } from '../../primitive/Type';
@@ -170,18 +170,76 @@ function convertEvents (registry: Registry, types: SiType[], modName: Text, even
  **/
 function convertStorage (registry: Registry, types: SiType[], { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
   return registry.createType('PalletStorageMetadataV14', {
-    items: items.map((s): StorageEntryMetadataV14 => {
-      setTypeOverride(sectionTypes,
-        s.type.isPlain
-          ? [s.type.asPlain]
-          : s.type.isMap
-            ? [s.type.asMap.value, s.type.asMap.key]
-            : s.type.isDoubleMap
-              ? [s.type.asDoubleMap.value, s.type.asDoubleMap.key1, s.type.asDoubleMap.key2]
-              : [s.type.asNMap.value, ...s.type.asNMap.keyVec]
-      );
+    items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataV14 => {
+      let entryType: StorageEntryTypeV14;
 
-      return registry.createType('StorageEntryMetadataV14', s);
+      if (type.isPlain) {
+        const plain = type.asPlain;
+
+        setTypeOverride(sectionTypes, [plain]);
+
+        entryType = registry.createType('StorageEntryTypeV14', {
+          Plain: compatType(registry, types, plain)
+        });
+      } else if (type.isMap) {
+        const map = type.asMap;
+
+        setTypeOverride(sectionTypes, [map.value, map.key]);
+
+        entryType = registry.createType('StorageEntryTypeV14', {
+          Map: {
+            hasher: map.hasher,
+            key: compatType(registry, types, map.key),
+            value: compatType(registry, types, map.value)
+          }
+        });
+      } else if (type.isDoubleMap) {
+        const dm = type.asDoubleMap;
+
+        setTypeOverride(sectionTypes, [dm.value, dm.key1, dm.key2]);
+
+        entryType = registry.createType('StorageEntryTypeV14', {
+          DoubleMap: {
+            hasher: dm.hasher,
+            key1: compatType(registry, types, dm.key1),
+            key2: compatType(registry, types, dm.key2),
+            key2Hasher: dm.key2Hasher,
+            value: compatType(registry, types, dm.value)
+          }
+        });
+      } else {
+        const nm = type.asNMap;
+
+        setTypeOverride(sectionTypes, [nm.value, ...nm.keyVec]);
+
+        const key = types.push(
+          registry.createType('SiType', {
+            def: { HistoricMetaCompat: 'Null' },
+            params: nm.keyVec.map((type, index) =>
+              registry.createType('SiTypeParameter', {
+                name: `param${index}`,
+                type: compatType(registry, types, type)
+              })
+            )
+          })
+        ) - 1;
+
+        entryType = registry.createType('StorageEntryTypeV14', {
+          NMap: {
+            hashers: nm.hashers,
+            key,
+            value: compatType(registry, types, nm.value)
+          }
+        });
+      }
+
+      return registry.createType('StorageEntryMetadataV14', {
+        documentation,
+        fallback,
+        modifier,
+        name,
+        type: entryType
+      });
     }),
     prefix
   });
