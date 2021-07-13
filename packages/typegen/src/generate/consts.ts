@@ -33,13 +33,13 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
         const items = constants
           .sort(compareName)
-          .map(({ documentation, name, type }) => {
+          .map(({ docs, name, type }) => {
             const returnType = formatType(allDefs, type.toString(), imports);
 
             setImports(allDefs, imports, [returnType]);
 
             return {
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               type: returnType
             };

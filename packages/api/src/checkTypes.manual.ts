@@ -21,7 +21,7 @@ function consts (api: ApiPromise): void {
   console.log(
     api.consts.foo.bar,
     api.consts.balances.existentialDeposit.toNumber(),
-    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.existentialDeposit.meta.docs.map((s): string => s.toString()).join('')
   );
 }
 

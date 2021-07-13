@@ -20,7 +20,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Extrinsics nonce for accounts."
                 ]
               },
@@ -31,7 +31,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Total extrinsics count for the current block."
                 ]
               },
@@ -42,7 +42,7 @@
                   "plain": "Weight"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Total weight for all extrinsics put together, for the current block."
                 ]
               },
@@ -53,7 +53,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Total length (in bytes) for all extrinsics put together, for the current block."
                 ]
               },
@@ -69,7 +69,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Map of block numbers to block hashes."
                 ]
               },
@@ -85,7 +85,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Extrinsics data for the current block (maps an extrinsic's index to its data)."
                 ]
               },
@@ -96,7 +96,7 @@
                   "plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The current block number being processed. Set by `execute_block`."
                 ]
               },
@@ -107,7 +107,7 @@
                   "plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Hash of the previous block."
                 ]
               },
@@ -118,7 +118,7 @@
                   "plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Extrinsics root of the current block, also part of the block header."
                 ]
               },
@@ -129,7 +129,7 @@
                   "plain": "DigestOf"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Digest of the current block, also part of the block header."
                 ]
               },
@@ -140,7 +140,7 @@
                   "plain": "Vec<EventRecord>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Events deposited for the current block."
                 ]
               },
@@ -151,7 +151,7 @@
                   "plain": "EventIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The number of events in the `Events<T>` list."
                 ]
               },
@@ -167,7 +167,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Mapping between a topic (represented by T::Hash) and a vector of indexes",
                   " of events in the `<Events<T>>` list.",
                   "",
@@ -186,7 +186,7 @@
             {
               "name": "fill_block",
               "args": [],
-              "documentation": [
+              "docs": [
                 " A big dispatch that will disallow any other transaction to be included."
               ]
             },
@@ -198,7 +198,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Make some on-chain remark."
               ]
             },
@@ -210,7 +210,7 @@
                   "type": "u64"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the number of pages in the WebAssembly environment's heap."
               ]
             },
@@ -222,7 +222,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the new runtime code."
               ]
             },
@@ -234,7 +234,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the new runtime code without doing any checks of the given `code`."
               ]
             },
@@ -246,7 +246,7 @@
                   "type": "Option<ChangesTrieConfiguration>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the new changes trie configuration."
               ]
             },
@@ -258,7 +258,7 @@
                   "type": "Vec<KeyValue>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set some items of storage."
               ]
             },
@@ -270,7 +270,7 @@
                   "type": "Vec<Key>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Kill some items from storage."
               ]
             },
@@ -282,7 +282,7 @@
                   "type": "Key"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Kill all storage items with a key that starts with the given prefix."
               ]
             }
@@ -293,7 +293,7 @@
               "args": [
                 "DispatchInfo"
               ],
-              "documentation": [
+              "docs": [
                 " An extrinsic completed successfully."
               ]
             },
@@ -303,7 +303,7 @@
                 "DispatchError",
                 "DispatchInfo"
               ],
-              "documentation": [
+              "docs": [
                 " An extrinsic failed."
               ]
             }
@@ -312,35 +312,35 @@
           "errors": [
             {
               "name": "InvalidSpecName",
-              "documentation": [
+              "docs": [
                 " The name of specification does not match between the current runtime",
                 " and the new runtime."
               ]
             },
             {
               "name": "SpecVersionNotAllowedToDecrease",
-              "documentation": [
+              "docs": [
                 " The specification version is not allowed to decrease between the current runtime",
                 " and the new runtime."
               ]
             },
             {
               "name": "ImplVersionNotAllowedToDecrease",
-              "documentation": [
+              "docs": [
                 " The implementation version is not allowed to decrease between the current runtime",
                 " and the new runtime."
               ]
             },
             {
               "name": "SpecOrImplVersionNeedToIncrease",
-              "documentation": [
+              "docs": [
                 " The specification or the implementation version need to increase between the",
                 " current runtime and the new runtime."
               ]
             },
             {
               "name": "FailedToExtractRuntimeVersion",
-              "documentation": [
+              "docs": [
                 " Failed to extract the runtime version from the new runtime.",
                 "",
                 " Either calling `Core_version` or decoding `RuntimeVersion` failed."
@@ -366,7 +366,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The set of open multisig operations."
                 ]
               }
@@ -381,7 +381,7 @@
                   "type": "Vec<Call>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Send a batch of dispatch calls.",
                 "",
                 " This will execute until the first one fails and then stop.",
@@ -414,7 +414,7 @@
                   "type": "Call"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Send a call through an indexed pseudonym of the sender.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
@@ -444,7 +444,7 @@
                   "type": "Call"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Register approval for a dispatch to be made from a deterministic composite account if",
                 " approved by a total of `threshold - 1` of `other_signatories`.",
                 "",
@@ -508,7 +508,7 @@
                   "type": "[u8;32]"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Register approval for a dispatch to be made from a deterministic composite account if",
                 " approved by a total of `threshold - 1` of `other_signatories`.",
                 "",
@@ -563,7 +563,7 @@
                   "type": "[u8;32]"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously",
                 " for this operation will be unreserved on success.",
                 "",
@@ -596,7 +596,7 @@
                 "u32",
                 "DispatchError"
               ],
-              "documentation": [
+              "docs": [
                 " Batch of dispatches did not complete fully. Index of first failing dispatch given, as",
                 " well as the error."
               ]
@@ -604,7 +604,7 @@
             {
               "name": "BatchCompleted",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Batch of dispatches completed fully with no error."
               ]
             },
@@ -614,7 +614,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A new multisig operation has begun. First param is the account that is approving,",
                 " second is the multisig account."
               ]
@@ -626,7 +626,7 @@
                 "Timepoint",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A multisig operation has been approved by someone. First param is the account that is",
                 " approving, third is the multisig account."
               ]
@@ -639,7 +639,7 @@
                 "AccountId",
                 "DispatchResult"
               ],
-              "documentation": [
+              "docs": [
                 " A multisig operation has been executed. First param is the account that is",
                 " approving, third is the multisig account."
               ]
@@ -651,7 +651,7 @@
                 "Timepoint",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A multisig operation has been cancelled. First param is the account that is",
                 " cancelling, third is the multisig account."
               ]
@@ -672,7 +672,7 @@
                   "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " Current epoch index."
                 ]
               },
@@ -683,7 +683,7 @@
                   "plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Current epoch authorities."
                 ]
               },
@@ -694,7 +694,7 @@
                   "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " The slot at which the first epoch actually started. This is 0",
                   " until the first block of the chain."
                 ]
@@ -706,7 +706,7 @@
                   "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " Current slot number."
                 ]
               },
@@ -717,7 +717,7 @@
                   "plain": "[u8;32]"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The epoch randomness for the *current* epoch.",
                   "",
                   " # Security",
@@ -737,7 +737,7 @@
                   "plain": "[u8;32]"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Next epoch randomness."
                 ]
               },
@@ -748,7 +748,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Randomness under construction.",
                   "",
                   " We make a tradeoff between storage accesses and list length.",
@@ -772,7 +772,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Initialized",
@@ -781,7 +781,7 @@
                   "plain": "MaybeVrf"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Temporary value (cleared at block finalization) which is `Some`",
                   " if per-block initialization has already been called for current block."
                 ]
@@ -795,7 +795,7 @@
               "name": "EpochDuration",
               "type": "u64",
               "value": "0xc800000000000000",
-              "documentation": [
+              "docs": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
               ]
@@ -804,7 +804,7 @@
               "name": "ExpectedBlockTime",
               "type": "Moment",
               "value": "0xb80b000000000000",
-              "documentation": [
+              "docs": [
                 " The expected average block time at which BABE should be creating",
                 " blocks. Since BABE is probabilistic it is not trivial to figure out",
                 " what the expected average block time should be based on the slot",
@@ -827,7 +827,7 @@
                   "plain": "Moment"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " Current time for the current block."
                 ]
               },
@@ -838,7 +838,7 @@
                   "plain": "bool"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Did the timestamp get updated in this block?"
                 ]
               }
@@ -853,7 +853,7 @@
                   "type": "Compact<Moment>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the current time.",
                 "",
                 " This call should be invoked exactly once per block. It will panic at the finalization",
@@ -872,7 +872,7 @@
               "name": "MinimumPeriod",
               "type": "Moment",
               "value": "0xdc05000000000000",
-              "documentation": [
+              "docs": [
                 " The minimum period between blocks. Beware that this is different to the *expected* period",
                 " that the block production apparatus provides. Your chosen consensus system will generally",
                 " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
@@ -894,7 +894,7 @@
                   "plain": "Vec<UncleEntryItem>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Uncles"
                 ]
               },
@@ -905,7 +905,7 @@
                   "plain": "AccountId"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Author of current block."
                 ]
               },
@@ -916,7 +916,7 @@
                   "plain": "bool"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Whether uncles were already set in this block."
                 ]
               }
@@ -931,7 +931,7 @@
                   "type": "Vec<Header>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Provide a set of uncles."
               ]
             }
@@ -941,43 +941,43 @@
           "errors": [
             {
               "name": "InvalidUncleParent",
-              "documentation": [
+              "docs": [
                 " The uncle parent not in the chain."
               ]
             },
             {
               "name": "UnclesAlreadySet",
-              "documentation": [
+              "docs": [
                 " Uncles already set in the block."
               ]
             },
             {
               "name": "TooManyUncles",
-              "documentation": [
+              "docs": [
                 " Too many uncles."
               ]
             },
             {
               "name": "GenesisUncle",
-              "documentation": [
+              "docs": [
                 " The uncle is genesis."
               ]
             },
             {
               "name": "TooHighUncle",
-              "documentation": [
+              "docs": [
                 " The uncle is too high in chain."
               ]
             },
             {
               "name": "UncleAlreadyIncluded",
-              "documentation": [
+              "docs": [
                 " The uncle is already included."
               ]
             },
             {
               "name": "OldUncle",
-              "documentation": [
+              "docs": [
                 " The uncle isn't recent enough to be included."
               ]
             }
@@ -995,7 +995,7 @@
                   "plain": "AccountIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The next free enumeration set."
                 ]
               },
@@ -1011,7 +1011,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The enumeration sets."
                 ]
               }
@@ -1025,7 +1025,7 @@
                 "AccountId",
                 "AccountIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A new account index was assigned.",
                 "",
                 " This event is not triggered when an existing index is reassigned",
@@ -1048,7 +1048,7 @@
                   "plain": "Balance"
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The total units issued in the system."
                 ]
               },
@@ -1064,7 +1064,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Information regarding the vesting of a given account."
                 ]
               },
@@ -1080,7 +1080,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The 'free' balance of a given account.",
                   "",
                   " This is the only balance that matters in terms of most operations on tokens. It",
@@ -1106,7 +1106,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The amount of the balance of a given account that is externally reserved; this can still get",
                   " slashed, but gets slashed last of all.",
                   "",
@@ -1132,7 +1132,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Any liquidity locks on some account balances."
                 ]
               }
@@ -1151,7 +1151,7 @@
                   "type": "Compact<Balance>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Transfer some liquid free balance to another account.",
                 "",
                 " `transfer` will set the `FreeBalance` of the sender and receiver.",
@@ -1195,7 +1195,7 @@
                   "type": "Compact<Balance>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the balances of a given account.",
                 "",
                 " This will alter `FreeBalance` and `ReservedBalance` in storage. it will",
@@ -1227,7 +1227,7 @@
                   "type": "Compact<Balance>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Exactly as `transfer`, except the origin must be root and the source account may be",
                 " specified."
               ]
@@ -1244,7 +1244,7 @@
                   "type": "Compact<Balance>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Same as the [`transfer`] call, but with a check that the transfer will not kill the",
                 " origin account.",
                 "",
@@ -1261,7 +1261,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A new account was created."
               ]
             },
@@ -1271,7 +1271,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " An account was reaped."
               ]
             },
@@ -1283,7 +1283,7 @@
                 "Balance",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Transfer succeeded (from, to, value, fees)."
               ]
             },
@@ -1294,7 +1294,7 @@
                 "Balance",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A balance was set by root (who, free, reserved)."
               ]
             },
@@ -1304,7 +1304,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Some amount was deposited (e.g. for transaction fees)."
               ]
             }
@@ -1314,7 +1314,7 @@
               "name": "ExistentialDeposit",
               "type": "Balance",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
+              "docs": [
                 " The minimum amount required to keep an account open."
               ]
             },
@@ -1322,7 +1322,7 @@
               "name": "TransferFee",
               "type": "Balance",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee required to make a transfer."
               ]
             },
@@ -1330,7 +1330,7 @@
               "name": "CreationFee",
               "type": "Balance",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee required to create an account."
               ]
             }
@@ -1338,49 +1338,49 @@
           "errors": [
             {
               "name": "VestingBalance",
-              "documentation": [
+              "docs": [
                 " Vesting balance too high to send value"
               ]
             },
             {
               "name": "LiquidityRestrictions",
-              "documentation": [
+              "docs": [
                 " Account liquidity restrictions prevent withdrawal"
               ]
             },
             {
               "name": "Overflow",
-              "documentation": [
+              "docs": [
                 " Got an overflow after adding"
               ]
             },
             {
               "name": "InsufficientBalance",
-              "documentation": [
+              "docs": [
                 " Balance too low to send value"
               ]
             },
             {
               "name": "ExistentialDeposit",
-              "documentation": [
+              "docs": [
                 " Value too low to create account due to existential deposit"
               ]
             },
             {
               "name": "KeepAlive",
-              "documentation": [
+              "docs": [
                 " Transfer/payment would kill account"
               ]
             },
             {
               "name": "ExistingVestingSchedule",
-              "documentation": [
+              "docs": [
                 " A vesting schedule already exists for this account"
               ]
             },
             {
               "name": "DeadAccount",
-              "documentation": [
+              "docs": [
                 " Beneficiary account must pre-exist"
               ]
             }
@@ -1398,7 +1398,7 @@
                   "plain": "Multiplier"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -1409,7 +1409,7 @@
               "name": "TransactionBaseFee",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee to be paid for making a transaction; the base."
               ]
             },
@@ -1417,7 +1417,7 @@
               "name": "TransactionByteFee",
               "type": "BalanceOf",
               "value": "0x00e40b54020000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee to be paid for making a transaction; the per-byte portion."
               ]
             }
@@ -1436,7 +1436,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The ideal number of staking participants."
                 ]
               },
@@ -1447,7 +1447,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x04000000",
-                "documentation": [
+                "docs": [
                   " Minimum number of staking participants before emergency conditions are imposed."
                 ]
               },
@@ -1458,7 +1458,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're",
                   " easy to initialize and the performance hit is minimal (we expect no more than four",
                   " invulnerables) and restricted to testnets."
@@ -1476,7 +1476,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Map from all locked \"stash\" accounts to the controller account."
                 ]
               },
@@ -1492,7 +1492,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
                 ]
               },
@@ -1508,7 +1508,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Where the reward payment should be made. Keyed by stash."
                 ]
               },
@@ -1524,7 +1524,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The map from (wannabe) validator stash key to the preferences of that validator."
                 ]
               },
@@ -1540,7 +1540,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The map from nominator stash key to the set of stash keys of all validators to nominate.",
                   "",
                   " NOTE: is private so that we can ensure upgraded before all typical accesses.",
@@ -1559,7 +1559,7 @@
                   }
                 },
                 "fallback": "0x000000",
-                "documentation": [
+                "docs": [
                   " Nominators for a particular account that is in action right now. You can't iterate",
                   " through validators here, but you can find them in the Session module.",
                   "",
@@ -1573,7 +1573,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The currently elected validator set keyed by stash account ID."
                 ]
               },
@@ -1584,7 +1584,7 @@
                   "plain": "EraIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The current era index."
                 ]
               },
@@ -1595,7 +1595,7 @@
                   "plain": "MomentOf"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " The start of the current era."
                 ]
               },
@@ -1606,7 +1606,7 @@
                   "plain": "SessionIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The session index at which the current era started."
                 ]
               },
@@ -1617,7 +1617,7 @@
                   "plain": "EraPoints"
                 },
                 "fallback": "0x0000000000",
-                "documentation": [
+                "docs": [
                   " Rewards for the current era. Using indices of current elected set."
                 ]
               },
@@ -1628,7 +1628,7 @@
                   "plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The amount of balance actively at stake for each validator slot, currently.",
                   "",
                   " This is used to derive rewards and punishments."
@@ -1641,7 +1641,7 @@
                   "plain": "Forcing"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " True if the next session change will be a new era regardless of index."
                 ]
               },
@@ -1652,7 +1652,7 @@
                   "plain": "Perbill"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The percentage of the slash that is distributed to reporters.",
                   "",
                   " The rest of the slashed value is handled by the `Slash`."
@@ -1665,7 +1665,7 @@
                   "plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The amount of currency given to reporters of a slash event which was",
                   " canceled by extraordinary circumstances (e.g. governance)."
                 ]
@@ -1682,7 +1682,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " All unapplied slashes that are queued for later."
                 ]
               },
@@ -1693,7 +1693,7 @@
                   "plain": "Vec<(EraIndex,SessionIndex)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A mapping from still-bonded eras to the first session index of that era."
                 ]
               },
@@ -1710,7 +1710,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " All slashing events on validators, mapped by era to the highest slash proportion",
                   " and slash value of the era."
                 ]
@@ -1728,7 +1728,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " All slashing events on nominators, mapped by era to the highest slash value of the era."
                 ]
               },
@@ -1744,7 +1744,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Slashing spans for stash accounts."
                 ]
               },
@@ -1760,7 +1760,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Records information about the maximum slash of a stash within a slashing span,",
                   " as well as how much reward has been paid out."
                 ]
@@ -1772,7 +1772,7 @@
                   "plain": "EraIndex"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The earliest era for which we have a pending, unapplied slash."
                 ]
               },
@@ -1783,7 +1783,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The version of storage for upgrade."
                 ]
               }
@@ -1806,7 +1806,7 @@
                   "type": "RewardDestination"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Take the origin account as a stash and lock up `value` of its balance. `controller` will",
                 " be the account that controls it.",
                 "",
@@ -1832,7 +1832,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Add some extra amount that have appeared in the stash `free_balance` into the balance up",
                 " for staking.",
                 "",
@@ -1857,7 +1857,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
                 " period ends. If this leaves an amount actively bonded less than",
                 " T::Currency::minimum_balance(), then it is increased to the full amount.",
@@ -1886,7 +1886,7 @@
             {
               "name": "withdraw_unbonded",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Remove any unlocked chunks from the `unlocking` queue from our management.",
                 "",
                 " This essentially frees up that balance to be used by the stash account to do",
@@ -1913,7 +1913,7 @@
                   "type": "ValidatorPrefs"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Declare the desire to validate for the origin controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
@@ -1935,7 +1935,7 @@
                   "type": "Vec<LookupSource>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Declare the desire to nominate `targets` for the origin controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
@@ -1952,7 +1952,7 @@
             {
               "name": "chill",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Declare no desire to either validate or nominate.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
@@ -1974,7 +1974,7 @@
                   "type": "RewardDestination"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " (Re-)set the payment target for a controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
@@ -1996,7 +1996,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " (Re-)set the controller of a stash.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
@@ -2018,14 +2018,14 @@
                   "type": "Compact<u32>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " The ideal number of validators."
               ]
             },
             {
               "name": "force_no_eras",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Force there to be no new eras indefinitely.",
                 "",
                 " # <weight>",
@@ -2036,7 +2036,7 @@
             {
               "name": "force_new_era",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Force there to be a new era at the end of the next session. After this, it will be",
                 " reset to normal (non-forced) behaviour.",
                 "",
@@ -2053,7 +2053,7 @@
                   "type": "Vec<AccountId>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the validators who cannot be slashed (if any)."
               ]
             },
@@ -2065,14 +2065,14 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Force a current staker to become completely unstaked, immediately."
               ]
             },
             {
               "name": "force_new_era_always",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Force there to be a new era at the end of sessions indefinitely.",
                 "",
                 " # <weight>",
@@ -2092,7 +2092,7 @@
                   "type": "Vec<u32>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Cancel enactment of a deferred slash. Can be called by either the root origin or",
                 " the `T::SlashCancelOrigin`.",
                 " passing the era and indices of the slashes for that era to kill.",
@@ -2110,7 +2110,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Rebond a portion of the stash scheduled to be unlocked.",
                 "",
                 " # <weight>",
@@ -2127,7 +2127,7 @@
                 "Balance",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " All validators have been rewarded by the first balance; the second is the remainder",
                 " from the maximum amount of reward."
               ]
@@ -2138,7 +2138,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " One validator (and its nominators) has been slashed by the given amount."
               ]
             },
@@ -2147,7 +2147,7 @@
               "args": [
                 "SessionIndex"
               ],
-              "documentation": [
+              "docs": [
                 " An old slashing report from a prior era was discarded because it could",
                 " not be processed."
               ]
@@ -2158,7 +2158,7 @@
               "name": "SessionsPerEra",
               "type": "SessionIndex",
               "value": "0x06000000",
-              "documentation": [
+              "docs": [
                 " Number of sessions per era."
               ]
             },
@@ -2166,7 +2166,7 @@
               "name": "BondingDuration",
               "type": "EraIndex",
               "value": "0xa0020000",
-              "documentation": [
+              "docs": [
                 " Number of eras that staked funds must remain bonded for."
               ]
             }
@@ -2174,61 +2174,61 @@
           "errors": [
             {
               "name": "NotController",
-              "documentation": [
+              "docs": [
                 " Not a controller account."
               ]
             },
             {
               "name": "NotStash",
-              "documentation": [
+              "docs": [
                 " Not a stash account."
               ]
             },
             {
               "name": "AlreadyBonded",
-              "documentation": [
+              "docs": [
                 " Stash is already bonded."
               ]
             },
             {
               "name": "AlreadyPaired",
-              "documentation": [
+              "docs": [
                 " Controller is already paired."
               ]
             },
             {
               "name": "EmptyTargets",
-              "documentation": [
+              "docs": [
                 " Targets cannot be empty."
               ]
             },
             {
               "name": "DuplicateIndex",
-              "documentation": [
+              "docs": [
                 " Duplicate index."
               ]
             },
             {
               "name": "InvalidSlashIndex",
-              "documentation": [
+              "docs": [
                 " Slash record index out of bounds."
               ]
             },
             {
               "name": "InsufficientValue",
-              "documentation": [
+              "docs": [
                 " Can not bond with value less than minimum balance."
               ]
             },
             {
               "name": "NoMoreChunks",
-              "documentation": [
+              "docs": [
                 " Can not schedule more unlock chunks."
               ]
             },
             {
               "name": "NoUnlockChunk",
-              "documentation": [
+              "docs": [
                 " Can not rebond without unlocking chunks."
               ]
             }
@@ -2246,7 +2246,7 @@
                   "plain": "Vec<ValidatorId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current set of validators."
                 ]
               },
@@ -2257,7 +2257,7 @@
                   "plain": "SessionIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Current index of the session."
                 ]
               },
@@ -2268,7 +2268,7 @@
                   "plain": "bool"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " True if the underlying economic identities or weighting behind the validators",
                   " has changed in the queued validator set."
                 ]
@@ -2280,7 +2280,7 @@
                   "plain": "Vec<(ValidatorId,Keys)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The queued keys for the next session. When the next session begins, these keys",
                   " will be used to determine the validator's session keys."
                 ]
@@ -2292,7 +2292,7 @@
                   "plain": "Vec<u32>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Indices of disabled validators.",
                   "",
                   " The set is cleared when `on_session_ending` returns a new set of identities."
@@ -2311,7 +2311,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The next session keys for a validator.",
                   "",
                   " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
@@ -2331,7 +2331,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The owner of a key. The second key is the `KeyTypeId` + the encoded key.",
                   "",
                   " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
@@ -2353,7 +2353,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Sets the session key(s) of the function caller to `key`.",
                 " Allows an account to set its session key prior to becoming a validator.",
                 " This doesn't take effect until the next session.",
@@ -2373,7 +2373,7 @@
               "args": [
                 "SessionIndex"
               ],
-              "documentation": [
+              "docs": [
                 " New session has happened. Note that the argument is the session index, not the block",
                 " number as the type might suggest."
               ]
@@ -2384,7 +2384,7 @@
               "name": "DEDUP_KEY_PREFIX",
               "type": "Bytes",
               "value": "0x343a73657373696f6e3a6b657973",
-              "documentation": [
+              "docs": [
                 " Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch",
                 " of the trie."
               ]
@@ -2393,19 +2393,19 @@
           "errors": [
             {
               "name": "InvalidProof",
-              "documentation": [
+              "docs": [
                 " Invalid ownership proof."
               ]
             },
             {
               "name": "NoAssociatedValidatorId",
-              "documentation": [
+              "docs": [
                 " No associated validator ID for account."
               ]
             },
             {
               "name": "DuplicatedKey",
-              "documentation": [
+              "docs": [
                 " Registered duplicate key."
               ]
             }
@@ -2423,7 +2423,7 @@
                   "plain": "PropIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The number of (public) proposals that have been made so far."
                 ]
               },
@@ -2434,7 +2434,7 @@
                   "plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The public proposals. Unsorted. The second item is the proposal's hash."
                 ]
               },
@@ -2450,7 +2450,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Map of hashes to the proposal preimage, along with who registered it and their deposit.",
                   " The block number is the block at which it was deposited."
                 ]
@@ -2467,7 +2467,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Those who have locked a deposit."
                 ]
               },
@@ -2478,7 +2478,7 @@
                   "plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The next free referendum index, aka the number of referenda started so far."
                 ]
               },
@@ -2489,7 +2489,7 @@
                   "plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The lowest referendum index representing an unbaked referendum. Equal to",
                   " `ReferendumCount` if there isn't a unbaked referendum."
                 ]
@@ -2506,7 +2506,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Information concerning any given referendum."
                 ]
               },
@@ -2517,7 +2517,7 @@
                   "plain": "Vec<(BlockNumber,Hash,ReferendumIndex)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Queue of successful referenda to be dispatched. Stored ordered by block number."
                 ]
               },
@@ -2533,7 +2533,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Get the voters for the current proposal."
                 ]
               },
@@ -2549,7 +2549,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Get the vote in a given referendum of a particular voter. The result is meaningful only",
                   " if `voters_for` includes the voter when called with the referendum (you'll get the",
                   " default `Vote` value otherwise). If you don't want to check `voters_for`, then you can",
@@ -2568,7 +2568,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Who is able to vote for whom. Value is the fund-holding account, key is the",
                   " vote-transaction-sending account."
                 ]
@@ -2585,7 +2585,7 @@
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Get the account (and lock periods) to which another account is delegating vote."
                 ]
               },
@@ -2596,7 +2596,7 @@
                   "plain": "bool"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " True if the last referendum tabled was submitted externally. False if it was a public",
                   " proposal."
                 ]
@@ -2608,7 +2608,7 @@
                   "plain": "(Hash,VoteThreshold)"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The referendum to be tabled whenever it would be valid to table an external proposal.",
                   " This happens when a referendum needs to be tabled and one of two conditions are met:",
                   " - `LastTabledWasExternal` is `false`; or",
@@ -2627,7 +2627,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A record of who vetoed what. Maps proposal hash to a possible existent block number",
                   " (until when it may not be resubmitted) and who vetoed it."
                 ]
@@ -2644,7 +2644,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Record of all proposals that have been subject to emergency cancellation."
                 ]
               }
@@ -2663,7 +2663,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Propose a sensitive action to be taken.",
                 "",
                 " # <weight>",
@@ -2680,7 +2680,7 @@
                   "type": "Compact<PropIndex>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Propose a sensitive action to be taken.",
                 "",
                 " # <weight>",
@@ -2701,7 +2701,7 @@
                   "type": "Vote"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
                 " otherwise it is a vote to keep the status quo.",
                 "",
@@ -2723,7 +2723,7 @@
                   "type": "Vote"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
                 " the proposal; otherwise it is a vote to keep the status quo.",
                 "",
@@ -2741,7 +2741,7 @@
                   "type": "ReferendumIndex"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule an emergency cancellation of a referendum. Cannot happen twice to the same",
                 " referendum."
               ]
@@ -2754,7 +2754,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule a referendum to be tabled once it is legal to schedule an external",
                 " referendum."
               ]
@@ -2767,7 +2767,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
                 " an external referendum.",
                 "",
@@ -2783,7 +2783,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule a negative-turnout-bias referendum to be tabled next once it is legal to",
                 " schedule an external referendum.",
                 "",
@@ -2807,7 +2807,7 @@
                   "type": "BlockNumber"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Schedule the currently externally-proposed majority-carries referendum to be tabled",
                 " immediately. If there is no externally-proposed referendum currently, or if there is one",
                 " but it is not a majority-carries referendum then it fails.",
@@ -2827,7 +2827,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Veto and blacklist the external proposal hash."
               ]
             },
@@ -2839,7 +2839,7 @@
                   "type": "Compact<ReferendumIndex>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Remove a referendum."
               ]
             },
@@ -2851,7 +2851,7 @@
                   "type": "ReferendumIndex"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Cancel a proposal queued for enactment."
               ]
             },
@@ -2863,7 +2863,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Specify a proxy. Called by the stash.",
                 "",
                 " # <weight>",
@@ -2874,7 +2874,7 @@
             {
               "name": "resign_proxy",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Clear the proxy. Called by the proxy.",
                 "",
                 " # <weight>",
@@ -2890,7 +2890,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Clear the proxy. Called by the stash.",
                 "",
                 " # <weight>",
@@ -2910,7 +2910,7 @@
                   "type": "Conviction"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Delegate vote.",
                 "",
                 " # <weight>",
@@ -2921,7 +2921,7 @@
             {
               "name": "undelegate",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Undelegate vote.",
                 "",
                 " # <weight>",
@@ -2932,7 +2932,7 @@
             {
               "name": "clear_public_proposals",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Veto and blacklist the proposal hash. Must be from Root origin."
               ]
             },
@@ -2944,7 +2944,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Register the preimage for an upcoming proposal. This doesn't require the proposal to be",
                 " in the dispatch queue but does require a deposit, returned once enacted."
               ]
@@ -2957,7 +2957,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Register the preimage for an upcoming proposal. This requires the proposal to be",
                 " in the dispatch queue. No deposit is needed."
               ]
@@ -2970,7 +2970,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Remove an expired proposal preimage and collect the deposit.",
                 "",
                 " This will only work after `VotingPeriod` blocks from the time that the preimage was",
@@ -2986,7 +2986,7 @@
                 "PropIndex",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A motion has been proposed by a public account."
               ]
             },
@@ -2997,14 +2997,14 @@
                 "Balance",
                 "Vec<AccountId>"
               ],
-              "documentation": [
+              "docs": [
                 " A public proposal has been tabled for referendum vote."
               ]
             },
             {
               "name": "ExternalTabled",
               "args": [],
-              "documentation": [
+              "docs": [
                 " An external proposal has been tabled."
               ]
             },
@@ -3014,7 +3014,7 @@
                 "ReferendumIndex",
                 "VoteThreshold"
               ],
-              "documentation": [
+              "docs": [
                 " A referendum has begun."
               ]
             },
@@ -3023,7 +3023,7 @@
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal has been approved by referendum."
               ]
             },
@@ -3032,7 +3032,7 @@
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal has been rejected by referendum."
               ]
             },
@@ -3041,7 +3041,7 @@
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A referendum has been cancelled."
               ]
             },
@@ -3051,7 +3051,7 @@
                 "ReferendumIndex",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal has been enacted."
               ]
             },
@@ -3061,7 +3061,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " An account has delegated their vote to another account."
               ]
             },
@@ -3070,7 +3070,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " An account has cancelled a previous delegation operation."
               ]
             },
@@ -3081,7 +3081,7 @@
                 "Hash",
                 "BlockNumber"
               ],
-              "documentation": [
+              "docs": [
                 " An external proposal has been vetoed."
               ]
             },
@@ -3092,7 +3092,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal's preimage was noted, and the deposit taken."
               ]
             },
@@ -3103,7 +3103,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal preimage was removed and used (the deposit was returned)."
               ]
             },
@@ -3113,7 +3113,7 @@
                 "Hash",
                 "ReferendumIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal could not be executed because its preimage was invalid."
               ]
             },
@@ -3123,7 +3123,7 @@
                 "Hash",
                 "ReferendumIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal could not be executed because its preimage was missing."
               ]
             },
@@ -3135,7 +3135,7 @@
                 "Balance",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A registered preimage was removed and the deposit collected by the reaper (last item)."
               ]
             }
@@ -3145,7 +3145,7 @@
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
               "value": "0x002f0d00",
-              "documentation": [
+              "docs": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
                 " It should generally be a little more than the unstake period to ensure that",
@@ -3157,7 +3157,7 @@
               "name": "LaunchPeriod",
               "type": "BlockNumber",
               "value": "0x004e0c00",
-              "documentation": [
+              "docs": [
                 " How often (in blocks) new public referenda are launched."
               ]
             },
@@ -3165,7 +3165,7 @@
               "name": "VotingPeriod",
               "type": "BlockNumber",
               "value": "0x004e0c00",
-              "documentation": [
+              "docs": [
                 " How often (in blocks) to check for new votes."
               ]
             },
@@ -3173,7 +3173,7 @@
               "name": "MinimumDeposit",
               "type": "BalanceOf",
               "value": "0x0000c16ff28623000000000000000000",
-              "documentation": [
+              "docs": [
                 " The minimum amount to be used as a deposit for a public referendum proposal."
               ]
             },
@@ -3181,7 +3181,7 @@
               "name": "EmergencyVotingPeriod",
               "type": "BlockNumber",
               "value": "0x80510100",
-              "documentation": [
+              "docs": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
             },
@@ -3189,7 +3189,7 @@
               "name": "CooloffPeriod",
               "type": "BlockNumber",
               "value": "0x004e0c00",
-              "documentation": [
+              "docs": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
             },
@@ -3197,7 +3197,7 @@
               "name": "PreimageByteDeposit",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount of balance that must be deposited per byte of preimage stored."
               ]
             }
@@ -3205,133 +3205,133 @@
           "errors": [
             {
               "name": "ValueLow",
-              "documentation": [
+              "docs": [
                 " Value too low"
               ]
             },
             {
               "name": "ProposalMissing",
-              "documentation": [
+              "docs": [
                 " Proposal does not exist"
               ]
             },
             {
               "name": "NotProxy",
-              "documentation": [
+              "docs": [
                 " Not a proxy"
               ]
             },
             {
               "name": "BadIndex",
-              "documentation": [
+              "docs": [
                 " Unknown index"
               ]
             },
             {
               "name": "AlreadyCanceled",
-              "documentation": [
+              "docs": [
                 " Cannot cancel the same proposal twice"
               ]
             },
             {
               "name": "DuplicateProposal",
-              "documentation": [
+              "docs": [
                 " Proposal already made"
               ]
             },
             {
               "name": "ProposalBlacklisted",
-              "documentation": [
+              "docs": [
                 " Proposal still blacklisted"
               ]
             },
             {
               "name": "NotSimpleMajority",
-              "documentation": [
+              "docs": [
                 " Next external proposal not simple majority"
               ]
             },
             {
               "name": "InvalidHash",
-              "documentation": [
+              "docs": [
                 " Invalid hash"
               ]
             },
             {
               "name": "NoProposal",
-              "documentation": [
+              "docs": [
                 " No external proposal"
               ]
             },
             {
               "name": "AlreadyVetoed",
-              "documentation": [
+              "docs": [
                 " Identity may not veto a proposal twice"
               ]
             },
             {
               "name": "AlreadyProxy",
-              "documentation": [
+              "docs": [
                 " Already a proxy"
               ]
             },
             {
               "name": "WrongProxy",
-              "documentation": [
+              "docs": [
                 " Wrong proxy"
               ]
             },
             {
               "name": "NotDelegated",
-              "documentation": [
+              "docs": [
                 " Not delegated"
               ]
             },
             {
               "name": "DuplicatePreimage",
-              "documentation": [
+              "docs": [
                 " Preimage already noted"
               ]
             },
             {
               "name": "NotImminent",
-              "documentation": [
+              "docs": [
                 " Not imminent"
               ]
             },
             {
               "name": "Early",
-              "documentation": [
+              "docs": [
                 " Too early"
               ]
             },
             {
               "name": "Imminent",
-              "documentation": [
+              "docs": [
                 " Imminent"
               ]
             },
             {
               "name": "PreimageMissing",
-              "documentation": [
+              "docs": [
                 " Preimage not found"
               ]
             },
             {
               "name": "ReferendumInvalid",
-              "documentation": [
+              "docs": [
                 " Vote given for invalid referendum"
               ]
             },
             {
               "name": "PreimageInvalid",
-              "documentation": [
+              "docs": [
                 " Invalid preimage"
               ]
             },
             {
               "name": "NoneWaiting",
-              "documentation": [
+              "docs": [
                 " No proposals waiting"
               ]
             }
@@ -3349,7 +3349,7 @@
                   "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The hashes of the active proposals."
                 ]
               },
@@ -3365,7 +3365,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Actual proposal for a given hash, if it's current."
                 ]
               },
@@ -3381,7 +3381,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Votes on a given proposal, if it is ongoing."
                 ]
               },
@@ -3392,7 +3392,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Proposals so far."
                 ]
               },
@@ -3403,7 +3403,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current members of the collective. This is stored sorted (just by value)."
                 ]
               }
@@ -3418,7 +3418,7 @@
                   "type": "Vec<AccountId>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the collective's membership manually to `new_members`. Be nice to the chain and",
                 " provide it pre-sorted.",
                 "",
@@ -3433,7 +3433,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Dispatch a proposal from a member using the `Member` origin.",
                 "",
                 " Origin must be a member of the collective."
@@ -3451,7 +3451,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " # <weight>",
                 " - Bounded storage reads and writes.",
                 " - Argument `threshold` has bearing on weight.",
@@ -3474,7 +3474,7 @@
                   "type": "bool"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " # <weight>",
                 " - Bounded storage read and writes.",
                 " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
@@ -3491,7 +3491,7 @@
                 "Hash",
                 "MemberCount"
               ],
-              "documentation": [
+              "docs": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
                 " `MemberCount`)."
               ]
@@ -3505,7 +3505,7 @@
                 "MemberCount",
                 "MemberCount"
               ],
-              "documentation": [
+              "docs": [
                 " A motion (given hash) has been voted on by given account, leaving",
                 " a tally (yes votes and no votes given respectively as `MemberCount`)."
               ]
@@ -3515,7 +3515,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was approved by the required threshold."
               ]
             },
@@ -3524,7 +3524,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was not approved by the required threshold."
               ]
             },
@@ -3534,7 +3534,7 @@
                 "Hash",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was executed; `bool` is true if returned without error."
               ]
             },
@@ -3544,7 +3544,7 @@
                 "Hash",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A single member did some action; `bool` is true if returned without error."
               ]
             }
@@ -3553,37 +3553,37 @@
           "errors": [
             {
               "name": "NotMember",
-              "documentation": [
+              "docs": [
                 " Account is not a member"
               ]
             },
             {
               "name": "DuplicateProposal",
-              "documentation": [
+              "docs": [
                 " Duplicate proposals not allowed"
               ]
             },
             {
               "name": "ProposalMissing",
-              "documentation": [
+              "docs": [
                 " Proposal must exist"
               ]
             },
             {
               "name": "WrongIndex",
-              "documentation": [
+              "docs": [
                 " Mismatched index"
               ]
             },
             {
               "name": "DuplicateVote",
-              "documentation": [
+              "docs": [
                 " Duplicate vote ignored"
               ]
             },
             {
               "name": "AlreadyInitialized",
-              "documentation": [
+              "docs": [
                 " Members are already initialized!"
               ]
             }
@@ -3601,7 +3601,7 @@
                   "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The hashes of the active proposals."
                 ]
               },
@@ -3617,7 +3617,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Actual proposal for a given hash, if it's current."
                 ]
               },
@@ -3633,7 +3633,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Votes on a given proposal, if it is ongoing."
                 ]
               },
@@ -3644,7 +3644,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Proposals so far."
                 ]
               },
@@ -3655,7 +3655,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current members of the collective. This is stored sorted (just by value)."
                 ]
               }
@@ -3670,7 +3670,7 @@
                   "type": "Vec<AccountId>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the collective's membership manually to `new_members`. Be nice to the chain and",
                 " provide it pre-sorted.",
                 "",
@@ -3685,7 +3685,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Dispatch a proposal from a member using the `Member` origin.",
                 "",
                 " Origin must be a member of the collective."
@@ -3703,7 +3703,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " # <weight>",
                 " - Bounded storage reads and writes.",
                 " - Argument `threshold` has bearing on weight.",
@@ -3726,7 +3726,7 @@
                   "type": "bool"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " # <weight>",
                 " - Bounded storage read and writes.",
                 " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
@@ -3743,7 +3743,7 @@
                 "Hash",
                 "MemberCount"
               ],
-              "documentation": [
+              "docs": [
                 " A motion (given hash) has been proposed (by given account) with a threshold (given",
                 " `MemberCount`)."
               ]
@@ -3757,7 +3757,7 @@
                 "MemberCount",
                 "MemberCount"
               ],
-              "documentation": [
+              "docs": [
                 " A motion (given hash) has been voted on by given account, leaving",
                 " a tally (yes votes and no votes given respectively as `MemberCount`)."
               ]
@@ -3767,7 +3767,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was approved by the required threshold."
               ]
             },
@@ -3776,7 +3776,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was not approved by the required threshold."
               ]
             },
@@ -3786,7 +3786,7 @@
                 "Hash",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A motion was executed; `bool` is true if returned without error."
               ]
             },
@@ -3796,7 +3796,7 @@
                 "Hash",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A single member did some action; `bool` is true if returned without error."
               ]
             }
@@ -3805,37 +3805,37 @@
           "errors": [
             {
               "name": "NotMember",
-              "documentation": [
+              "docs": [
                 " Account is not a member"
               ]
             },
             {
               "name": "DuplicateProposal",
-              "documentation": [
+              "docs": [
                 " Duplicate proposals not allowed"
               ]
             },
             {
               "name": "ProposalMissing",
-              "documentation": [
+              "docs": [
                 " Proposal must exist"
               ]
             },
             {
               "name": "WrongIndex",
-              "documentation": [
+              "docs": [
                 " Mismatched index"
               ]
             },
             {
               "name": "DuplicateVote",
-              "documentation": [
+              "docs": [
                 " Duplicate vote ignored"
               ]
             },
             {
               "name": "AlreadyInitialized",
-              "documentation": [
+              "docs": [
                 " Members are already initialized!"
               ]
             }
@@ -3853,7 +3853,7 @@
                   "plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current elected membership. Sorted based on account id."
                 ]
               },
@@ -3864,7 +3864,7 @@
                   "plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current runners_up. Sorted based on low to high merit (worse to best runner)."
                 ]
               },
@@ -3875,7 +3875,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The total number of vote rounds that have happened, excluding the upcoming one."
                 ]
               },
@@ -3891,7 +3891,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Votes of a particular voter, with the round index of the votes."
                 ]
               },
@@ -3907,7 +3907,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Locked stake of a voter."
                 ]
               },
@@ -3918,7 +3918,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The present candidate list. Sorted based on account-id. A current member or a runner can",
                   " never enter this vector and is always implicitly assumed to be a candidate."
                 ]
@@ -3938,7 +3938,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Vote for a set of candidates for the upcoming round of election.",
                 "",
                 " The `votes` should:",
@@ -3959,7 +3959,7 @@
             {
               "name": "remove_voter",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Remove `origin` as a voter. This removes the lock and returns the bond.",
                 "",
                 " # <weight>",
@@ -3977,7 +3977,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Report `target` for being an defunct voter. In case of a valid report, the reporter is",
                 " rewarded by the bond amount of `target`. Otherwise, the reporter itself is removed and",
                 " their bond is slashed.",
@@ -3996,7 +3996,7 @@
             {
               "name": "submit_candidacy",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Submit oneself for candidacy.",
                 "",
                 " A candidate will either:",
@@ -4015,7 +4015,7 @@
             {
               "name": "renounce_candidacy",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Renounce one's intention to be a candidate for the next election round. 3 potential",
                 " outcomes exist:",
                 " - `origin` is a candidate and not elected in any set. In this case, the bond is",
@@ -4035,7 +4035,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Remove a particular member from the set. This is effective immediately and the bond of",
                 " the outgoing member is slashed.",
                 "",
@@ -4058,7 +4058,7 @@
               "args": [
                 "Vec<(AccountId,Balance)>"
               ],
-              "documentation": [
+              "docs": [
                 " A new term with new members. This indicates that enough candidates existed, not that",
                 " enough have has been elected. The inner value must be examined for this purpose."
               ]
@@ -4066,7 +4066,7 @@
             {
               "name": "EmptyTerm",
               "args": [],
-              "documentation": [
+              "docs": [
                 " No (or not enough) candidates existed for this round."
               ]
             },
@@ -4075,7 +4075,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A member has been removed. This should always be followed by either `NewTerm` ot",
                 " `EmptyTerm`."
               ]
@@ -4085,7 +4085,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A member has renounced their candidacy."
               ]
             },
@@ -4096,7 +4096,7 @@
                 "AccountId",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A voter (first element) was reported (byt the second element) with the the report being",
                 " successful or not (third element)."
               ]
@@ -4107,115 +4107,115 @@
               "name": "CandidacyBond",
               "type": "BalanceOf",
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "VotingBond",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DesiredMembers",
               "type": "u32",
               "value": "0x0d000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DesiredRunnersUp",
               "type": "u32",
               "value": "0x07000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "TermDuration",
               "type": "BlockNumber",
               "value": "0x80130300",
-              "documentation": []
+              "docs": []
             }
           ],
           "errors": [
             {
               "name": "UnableToVote",
-              "documentation": [
+              "docs": [
                 " Cannot vote when no candidates or members exist."
               ]
             },
             {
               "name": "NoVotes",
-              "documentation": [
+              "docs": [
                 " Must vote for at least one candidate."
               ]
             },
             {
               "name": "TooManyVotes",
-              "documentation": [
+              "docs": [
                 " Cannot vote more than candidates."
               ]
             },
             {
               "name": "MaximumVotesExceeded",
-              "documentation": [
+              "docs": [
                 " Cannot vote more than maximum allowed."
               ]
             },
             {
               "name": "LowBalance",
-              "documentation": [
+              "docs": [
                 " Cannot vote with stake less than minimum balance."
               ]
             },
             {
               "name": "UnableToPayBond",
-              "documentation": [
+              "docs": [
                 " Voter can not pay voting bond."
               ]
             },
             {
               "name": "MustBeVoter",
-              "documentation": [
+              "docs": [
                 " Must be a voter."
               ]
             },
             {
               "name": "ReportSelf",
-              "documentation": [
+              "docs": [
                 " Cannot report self."
               ]
             },
             {
               "name": "DuplicatedCandidate",
-              "documentation": [
+              "docs": [
                 " Duplicated candidate submission."
               ]
             },
             {
               "name": "MemberSubmit",
-              "documentation": [
+              "docs": [
                 " Member cannot re-submit candidacy."
               ]
             },
             {
               "name": "RunnerSubmit",
-              "documentation": [
+              "docs": [
                 " Runner cannot re-submit candidacy."
               ]
             },
             {
               "name": "InsufficientCandidateFunds",
-              "documentation": [
+              "docs": [
                 " Candidate does not have enough funds."
               ]
             },
             {
               "name": "InvalidOrigin",
-              "documentation": [
+              "docs": [
                 " Origin is not a candidate, member or a runner up."
               ]
             },
             {
               "name": "NotMember",
-              "documentation": [
+              "docs": [
                 " Not a member."
               ]
             }
@@ -4233,7 +4233,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current membership, stored as an ordered Vec."
                 ]
               }
@@ -4248,7 +4248,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Add a member `who` to the set.",
                 "",
                 " May only be called from `AddOrigin` or root."
@@ -4262,7 +4262,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Remove a member `who` from the set.",
                 "",
                 " May only be called from `RemoveOrigin` or root."
@@ -4280,7 +4280,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Swap out one member `remove` for another `add`.",
                 "",
                 " May only be called from `SwapOrigin` or root."
@@ -4294,7 +4294,7 @@
                   "type": "Vec<AccountId>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Change the membership to a new set, disregarding the existing membership. Be nice and",
                 " pass `members` pre-sorted.",
                 "",
@@ -4309,7 +4309,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Swap out the sending member for some other key `new`.",
                 "",
                 " May only be called from `Signed` origin of a current member."
@@ -4320,35 +4320,35 @@
             {
               "name": "MemberAdded",
               "args": [],
-              "documentation": [
+              "docs": [
                 " The given member was added; see the transaction for who."
               ]
             },
             {
               "name": "MemberRemoved",
               "args": [],
-              "documentation": [
+              "docs": [
                 " The given member was removed; see the transaction for who."
               ]
             },
             {
               "name": "MembersSwapped",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Two members were swapped; see the transaction for who."
               ]
             },
             {
               "name": "MembersReset",
               "args": [],
-              "documentation": [
+              "docs": [
                 " The membership was reset; see the transaction for who the new set is."
               ]
             },
             {
               "name": "KeyChanged",
               "args": [],
-              "documentation": [
+              "docs": [
                 " One of the members' keys changed."
               ]
             },
@@ -4357,7 +4357,7 @@
               "args": [
                 "PhantomData"
               ],
-              "documentation": [
+              "docs": [
                 " Phantom member, never used."
               ]
             }
@@ -4377,7 +4377,7 @@
                   "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Hint that the author of this block thinks the best finalized",
                 " block is the given number."
               ]
@@ -4389,7 +4389,7 @@
               "name": "WindowSize",
               "type": "BlockNumber",
               "value": "0x65000000",
-              "documentation": [
+              "docs": [
                 " The number of recent samples to keep from this chain. Default is 101."
               ]
             },
@@ -4397,7 +4397,7 @@
               "name": "ReportLatency",
               "type": "BlockNumber",
               "value": "0xe8030000",
-              "documentation": [
+              "docs": [
                 " The delay after which point things become suspicious. Default is 1000."
               ]
             }
@@ -4405,13 +4405,13 @@
           "errors": [
             {
               "name": "AlreadyUpdated",
-              "documentation": [
+              "docs": [
                 " Final hint must be updated only once in the block"
               ]
             },
             {
               "name": "BadHint",
-              "documentation": [
+              "docs": [
                 " Finalized height above block number"
               ]
             }
@@ -4429,7 +4429,7 @@
                   "plain": "AuthorityList"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " DEPRECATED",
                   "",
                   " This used to store the current authority set, which has been migrated to the well-known",
@@ -4443,7 +4443,7 @@
                   "plain": "StoredState"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " State of the current authority set."
                 ]
               },
@@ -4454,7 +4454,7 @@
                   "plain": "StoredPendingChange"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Pending change: (signaled at, scheduled change)."
                 ]
               },
@@ -4465,7 +4465,7 @@
                   "plain": "BlockNumber"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " next block number where we can force a change."
                 ]
               },
@@ -4476,7 +4476,7 @@
                   "plain": "(BlockNumber,BlockNumber)"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " `true` if we are currently stalled."
                 ]
               },
@@ -4487,7 +4487,7 @@
                   "plain": "SetId"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " The number of changes (both in terms of keys and underlying economic responsibilities)",
                   " in the \"set\" of Grandpa validators from genesis."
                 ]
@@ -4504,7 +4504,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A mapping from grandpa set ID to the index of the *most recent* session for which its members were responsible."
                 ]
               }
@@ -4519,7 +4519,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Report some misbehavior."
               ]
             }
@@ -4530,21 +4530,21 @@
               "args": [
                 "AuthorityList"
               ],
-              "documentation": [
+              "docs": [
                 " New authority set has been applied."
               ]
             },
             {
               "name": "Paused",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Current authority set has been paused."
               ]
             },
             {
               "name": "Resumed",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Current authority set has been resumed."
               ]
             }
@@ -4553,27 +4553,27 @@
           "errors": [
             {
               "name": "PauseFailed",
-              "documentation": [
+              "docs": [
                 " Attempt to signal GRANDPA pause when the authority set isn't live",
                 " (either paused or already pending pause)."
               ]
             },
             {
               "name": "ResumeFailed",
-              "documentation": [
+              "docs": [
                 " Attempt to signal GRANDPA resume when the authority set isn't paused",
                 " (either live or already pending resume)."
               ]
             },
             {
               "name": "ChangePending",
-              "documentation": [
+              "docs": [
                 " Attempt to signal GRANDPA change with one already pending."
               ]
             },
             {
               "name": "TooSoon",
-              "documentation": [
+              "docs": [
                 " Cannot signal forced change so soon after last."
               ]
             }
@@ -4591,7 +4591,7 @@
                   "plain": "ProposalIndex"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " Number of proposals that have been made."
                 ]
               },
@@ -4607,7 +4607,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Proposals that have been made."
                 ]
               },
@@ -4618,7 +4618,7 @@
                   "plain": "Vec<ProposalIndex>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Proposal indices that have been approved but not yet awarded."
                 ]
               },
@@ -4634,7 +4634,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Tips that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
                   " This has the insecure enumerable hash function since the key itself is already",
                   " guaranteed to be a secure hash."
@@ -4652,7 +4652,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Simple preimage lookup from the reason's hash to the original data. Again, has an",
                   " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
                 ]
@@ -4672,7 +4672,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Put forward a suggestion for spending. A deposit proportional to the value",
                 " is reserved and slashed if the proposal is rejected. It is returned once the",
                 " proposal is awarded.",
@@ -4692,7 +4692,7 @@
                   "type": "Compact<ProposalIndex>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Reject a proposed spend. The original deposit will be slashed.",
                 "",
                 " # <weight>",
@@ -4710,7 +4710,7 @@
                   "type": "Compact<ProposalIndex>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
                 " and the original deposit will be returned.",
                 "",
@@ -4733,7 +4733,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Report something `reason` that deserves a tip and claim any eventual the finder's fee.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
@@ -4763,7 +4763,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Retract a prior tip-report from `report_awesome`, and cancel the process of tipping.",
                 "",
                 " If successful, the original deposit will be unreserved.",
@@ -4801,7 +4801,7 @@
                   "type": "BalanceOf"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Give a tip for something new; no finder's fee will be taken.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the signing account must be a",
@@ -4835,7 +4835,7 @@
                   "type": "BalanceOf"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Declare a tip value for an already-open tip.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the signing account must be a",
@@ -4865,7 +4865,7 @@
                   "type": "Hash"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Close and payout a tip.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
@@ -4889,7 +4889,7 @@
               "args": [
                 "ProposalIndex"
               ],
-              "documentation": [
+              "docs": [
                 " New proposal."
               ]
             },
@@ -4898,7 +4898,7 @@
               "args": [
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " We have ended a spend period and will now allocate funds."
               ]
             },
@@ -4909,7 +4909,7 @@
                 "Balance",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " Some funds have been allocated."
               ]
             },
@@ -4919,7 +4919,7 @@
                 "ProposalIndex",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A proposal was rejected; funds were slashed."
               ]
             },
@@ -4928,7 +4928,7 @@
               "args": [
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Some of our funds have been burnt."
               ]
             },
@@ -4937,7 +4937,7 @@
               "args": [
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Spending has finished; this is the amount that rolls over until next spend."
               ]
             },
@@ -4946,7 +4946,7 @@
               "args": [
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Some funds have been deposited."
               ]
             },
@@ -4955,7 +4955,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A new tip suggestion has been opened."
               ]
             },
@@ -4964,7 +4964,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A tip suggestion has reached threshold and is closing."
               ]
             },
@@ -4975,7 +4975,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A tip suggestion has been closed."
               ]
             },
@@ -4984,7 +4984,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " A tip suggestion has been retracted."
               ]
             }
@@ -4994,7 +4994,7 @@
               "name": "ProposalBond",
               "type": "Permill",
               "value": "0x50c30000",
-              "documentation": [
+              "docs": [
                 " Fraction of a proposal's value that should be bonded in order to place the proposal.",
                 " An accepted proposal gets these back. A rejected proposal does not."
               ]
@@ -5003,7 +5003,7 @@
               "name": "ProposalBondMinimum",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
+              "docs": [
                 " Minimum amount of funds that should be placed in a deposit for making a proposal."
               ]
             },
@@ -5011,7 +5011,7 @@
               "name": "SpendPeriod",
               "type": "BlockNumber",
               "value": "0x80700000",
-              "documentation": [
+              "docs": [
                 " Period between successive spends."
               ]
             },
@@ -5019,7 +5019,7 @@
               "name": "Burn",
               "type": "Permill",
               "value": "0x20a10700",
-              "documentation": [
+              "docs": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
               ]
             },
@@ -5027,7 +5027,7 @@
               "name": "TipCountdown",
               "type": "BlockNumber",
               "value": "0x80700000",
-              "documentation": [
+              "docs": [
                 " The period for which a tip remains open after is has achieved threshold tippers."
               ]
             },
@@ -5035,7 +5035,7 @@
               "name": "TipFindersFee",
               "type": "Percent",
               "value": "0x14",
-              "documentation": [
+              "docs": [
                 " The amount of the final tip which goes to the original reporter of the tip."
               ]
             },
@@ -5043,7 +5043,7 @@
               "name": "TipReportDepositBase",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount held on deposit for placing a tip report."
               ]
             },
@@ -5051,7 +5051,7 @@
               "name": "TipReportDepositPerByte",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount held on deposit per byte within the tip report reason."
               ]
             }
@@ -5059,49 +5059,49 @@
           "errors": [
             {
               "name": "InsufficientProposersBalance",
-              "documentation": [
+              "docs": [
                 " Proposer's balance is too low."
               ]
             },
             {
               "name": "InvalidProposalIndex",
-              "documentation": [
+              "docs": [
                 " No proposal at that index."
               ]
             },
             {
               "name": "ReasonTooBig",
-              "documentation": [
+              "docs": [
                 " The reason given is just too big."
               ]
             },
             {
               "name": "AlreadyKnown",
-              "documentation": [
+              "docs": [
                 " The tip was already found/started."
               ]
             },
             {
               "name": "UnknownTip",
-              "documentation": [
+              "docs": [
                 " The tip hash is unknown."
               ]
             },
             {
               "name": "NotFinder",
-              "documentation": [
+              "docs": [
                 " The account attempting to retract the tip is not the finder of the tip."
               ]
             },
             {
               "name": "StillOpen",
-              "documentation": [
+              "docs": [
                 " The tip cannot be claimed/closed because there are not enough tippers yet."
               ]
             },
             {
               "name": "Premature",
-              "documentation": [
+              "docs": [
                 " The tip cannot be claimed/closed because it's still in the countdown period."
               ]
             }
@@ -5119,7 +5119,7 @@
                   "plain": "Gas"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " Gas spent so far in this block."
                 ]
               },
@@ -5130,7 +5130,7 @@
                   "plain": "Schedule"
                 },
                 "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af0000000000000001000000000000000100000000000000040000000000010010000000004000000020000000",
-                "documentation": [
+                "docs": [
                   " Current cost schedule for contracts."
                 ]
               },
@@ -5146,7 +5146,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A mapping from an original code hash to the original code, untouched by instrumentation."
                 ]
               },
@@ -5162,7 +5162,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A mapping between an original code hash and instrumented wasm code, ready for execution."
                 ]
               },
@@ -5173,7 +5173,7 @@
                   "plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": [
+                "docs": [
                   " The subtrie counter."
                 ]
               },
@@ -5189,7 +5189,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The code associated with a given account."
                 ]
               },
@@ -5200,7 +5200,7 @@
                   "plain": "BalanceOf"
                 },
                 "fallback": "0x01000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The price of one unit of gas."
                 ]
               }
@@ -5215,7 +5215,7 @@
                   "type": "Schedule"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Updates the schedule for metering contracts.",
                 "",
                 " The schedule must have a greater version than the stored schedule."
@@ -5233,7 +5233,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Stores the given binary Wasm code into the chain's storage and returns its `codehash`.",
                 " You can instantiate contracts only with stored code."
               ]
@@ -5258,7 +5258,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Makes a call to an account, optionally transferring some balance.",
                 "",
                 " * If the account is a smart-contract account, the associated code will be",
@@ -5288,7 +5288,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Instantiates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.",
                 "",
                 " Instantiation is executed as follows:",
@@ -5313,7 +5313,7 @@
                   "type": "Option<AccountId>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allows block producers to claim a small reward for evicting a contract. If a block producer",
                 " fails to do so, a regular users will be allowed to claim the reward.",
                 "",
@@ -5330,7 +5330,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " Transfer happened `from` to `to` with given `value` as part of a `call` or `instantiate`."
               ]
             },
@@ -5340,7 +5340,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " Contract deployed by address at the specified address."
               ]
             },
@@ -5349,7 +5349,7 @@
               "args": [
                 "Hash"
               ],
-              "documentation": [
+              "docs": [
                 " Code with the specified hash has been stored."
               ]
             },
@@ -5358,7 +5358,7 @@
               "args": [
                 "u32"
               ],
-              "documentation": [
+              "docs": [
                 " Triggered when the current schedule is updated."
               ]
             },
@@ -5368,7 +5368,7 @@
                 "AccountId",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A call was dispatched from the given account. The bool signals whether it was",
                 " successful execution or not."
               ]
@@ -5379,7 +5379,7 @@
                 "AccountId",
                 "Bytes"
               ],
-              "documentation": [
+              "docs": [
                 " An event from contract of account."
               ]
             }
@@ -5389,7 +5389,7 @@
               "name": "SignedClaimHandicap",
               "type": "BlockNumber",
               "value": "0x02000000",
-              "documentation": [
+              "docs": [
                 " Number of block delay an extrinsic claim surcharge has.",
                 "",
                 " When claim surcharge is called by an extrinsic the rent is checked",
@@ -5400,7 +5400,7 @@
               "name": "TombstoneDeposit",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
+              "docs": [
                 " The minimum amount required to generate a tombstone."
               ]
             },
@@ -5408,7 +5408,7 @@
               "name": "StorageSizeOffset",
               "type": "u32",
               "value": "0x08000000",
-              "documentation": [
+              "docs": [
                 " Size of a contract at the time of instantiaion. This is a simple way to ensure that",
                 " empty contracts eventually gets deleted."
               ]
@@ -5417,7 +5417,7 @@
               "name": "RentByteFee",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": [
+              "docs": [
                 " Price of a byte of storage per one block interval. Should be greater than 0."
               ]
             },
@@ -5425,7 +5425,7 @@
               "name": "RentDepositOffset",
               "type": "BalanceOf",
               "value": "0x00008a5d784563010000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount of funds a contract should deposit in order to offset",
                 " the cost of one byte.",
                 "",
@@ -5439,7 +5439,7 @@
               "name": "SurchargeReward",
               "type": "BalanceOf",
               "value": "0x0080a1a76b4a35000000000000000000",
-              "documentation": [
+              "docs": [
                 " Reward that is received by the party whose touch has led",
                 " to removal of a contract."
               ]
@@ -5448,7 +5448,7 @@
               "name": "TransferFee",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee required to make a transfer."
               ]
             },
@@ -5456,7 +5456,7 @@
               "name": "CreationFee",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee required to create an account."
               ]
             },
@@ -5464,7 +5464,7 @@
               "name": "TransactionBaseFee",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee to be paid for making a transaction; the base."
               ]
             },
@@ -5472,7 +5472,7 @@
               "name": "TransactionByteFee",
               "type": "BalanceOf",
               "value": "0x00e40b54020000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee to be paid for making a transaction; the per-byte portion."
               ]
             },
@@ -5480,7 +5480,7 @@
               "name": "ContractFee",
               "type": "BalanceOf",
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
+              "docs": [
                 " The fee required to instantiate a contract instance. A reasonable default value",
                 " is 21."
               ]
@@ -5489,7 +5489,7 @@
               "name": "CallBaseFee",
               "type": "Gas",
               "value": "0xe803000000000000",
-              "documentation": [
+              "docs": [
                 " The base fee charged for calling into a contract. A reasonable default",
                 " value is 135."
               ]
@@ -5498,7 +5498,7 @@
               "name": "InstantiateBaseFee",
               "type": "Gas",
               "value": "0xe803000000000000",
-              "documentation": [
+              "docs": [
                 " The base fee charged for instantiating a contract. A reasonable default value",
                 " is 175."
               ]
@@ -5507,7 +5507,7 @@
               "name": "MaxDepth",
               "type": "u32",
               "value": "0x20000000",
-              "documentation": [
+              "docs": [
                 " The maximum nesting level of a call/instantiate stack. A reasonable default",
                 " value is 100."
               ]
@@ -5516,7 +5516,7 @@
               "name": "MaxValueSize",
               "type": "u32",
               "value": "0x00400000",
-              "documentation": [
+              "docs": [
                 " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
               ]
             },
@@ -5524,7 +5524,7 @@
               "name": "BlockGasLimit",
               "type": "Gas",
               "value": "0x8096980000000000",
-              "documentation": [
+              "docs": [
                 " The maximum amount of gas that could be expended per block. A reasonable",
                 " default value is 10_000_000."
               ]
@@ -5533,37 +5533,37 @@
           "errors": [
             {
               "name": "InvalidScheduleVersion",
-              "documentation": [
+              "docs": [
                 " A new schedule must have a greater version than the current one."
               ]
             },
             {
               "name": "InvalidSurchargeClaim",
-              "documentation": [
+              "docs": [
                 " An origin must be signed or inherent and auxiliary sender only provided on inherent."
               ]
             },
             {
               "name": "InvalidSourceContract",
-              "documentation": [
+              "docs": [
                 " Cannot restore from nonexisting or tombstone contract."
               ]
             },
             {
               "name": "InvalidDestinationContract",
-              "documentation": [
+              "docs": [
                 " Cannot restore to nonexisting or alive contract."
               ]
             },
             {
               "name": "InvalidTombstone",
-              "documentation": [
+              "docs": [
                 " Tombstones don't match."
               ]
             },
             {
               "name": "InvalidContractOrigin",
-              "documentation": [
+              "docs": [
                 " An origin TrieId written in the current block."
               ]
             }
@@ -5581,7 +5581,7 @@
                   "plain": "AccountId"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " The `AccountId` of the sudo key."
                 ]
               }
@@ -5596,7 +5596,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Authenticates the sudo key and dispatches a function call with `Root` origin.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
@@ -5617,7 +5617,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
                 "",
                 " The dispatch origin for this call must be _Signed_.",
@@ -5641,7 +5641,7 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Authenticates the sudo key and dispatches a function call with `Signed` origin from",
                 " a given account.",
                 "",
@@ -5662,7 +5662,7 @@
               "args": [
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A sudo just took place."
               ]
             },
@@ -5671,7 +5671,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " The sudoer just switched identity; the old key is supplied."
               ]
             },
@@ -5680,7 +5680,7 @@
               "args": [
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A sudo just took place."
               ]
             }
@@ -5689,7 +5689,7 @@
           "errors": [
             {
               "name": "RequireSudo",
-              "documentation": [
+              "docs": [
                 " Sender must be the Sudo account"
               ]
             }
@@ -5707,7 +5707,7 @@
                   "plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The block number when we should gossip."
                 ]
               },
@@ -5718,7 +5718,7 @@
                   "plain": "Vec<AuthorityId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current set of keys that may issue a heartbeat."
                 ]
               },
@@ -5735,7 +5735,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " For each session index, we keep a mapping of `AuthIndex`",
                   " to `offchain::OpaqueNetworkState`."
                 ]
@@ -5753,7 +5753,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " For each session index, we keep a mapping of `T::ValidatorId` to the",
                   " number of blocks authored by the given authority."
                 ]
@@ -5773,7 +5773,7 @@
                   "type": "Signature"
                 }
               ],
-              "documentation": []
+              "docs": []
             }
           ],
           "events": [
@@ -5782,14 +5782,14 @@
               "args": [
                 "AuthorityId"
               ],
-              "documentation": [
+              "docs": [
                 " A new heartbeat was received from `AuthorityId`"
               ]
             },
             {
               "name": "AllGood",
               "args": [],
-              "documentation": [
+              "docs": [
                 " At the end of the session, no offence was committed."
               ]
             },
@@ -5798,7 +5798,7 @@
               "args": [
                 "Vec<IdentificationTuple>"
               ],
-              "documentation": [
+              "docs": [
                 " At the end of the session, at least once validator was found to be offline."
               ]
             }
@@ -5807,13 +5807,13 @@
           "errors": [
             {
               "name": "InvalidKey",
-              "documentation": [
+              "docs": [
                 " Non existent public key."
               ]
             },
             {
               "name": "DuplicatedHeartbeat",
-              "documentation": [
+              "docs": [
                 " Duplicated heartbeat."
               ]
             }
@@ -5844,7 +5844,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The primary structure that holds all offence records keyed by report identifiers."
                 ]
               },
@@ -5861,7 +5861,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A vector of reports of the same kind that happened at the same time slot."
                 ]
               },
@@ -5877,7 +5877,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Enumerates all reports of a kind along with the time they happened.",
                   "",
                   " All reports are sorted by the time of offence.",
@@ -5896,7 +5896,7 @@
                 "Kind",
                 "OpaqueTimeSlot"
               ],
-              "documentation": [
+              "docs": [
                 " There is an offence reported of the given `kind` happened at the `session_index` and",
                 " (kind-specific) time slot. This event is not deposited for duplicate slashes."
               ]
@@ -5917,7 +5917,7 @@
                   "plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Series of block headers from the last 81 blocks that acts as random seed material. This",
                   " is arranged as a ring buffer with `block_number % 81` being the index into the `Vec` of",
                   " the oldest hash."
@@ -5947,7 +5947,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Information that is pertinent to identify the entity behind an account."
                 ]
               },
@@ -5963,7 +5963,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The super-identity of an alternative \"sub\" identity together with its name, within that",
                   " context. If the account is not some other account's sub-identity, then just `None`."
                 ]
@@ -5980,7 +5980,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Alternative \"sub\" identities of this account.",
                   "",
                   " The first item is the deposit, the second is a vector of the accounts."
@@ -5993,7 +5993,7 @@
                   "plain": "Vec<Option<RegistrarInfo>>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The set of registrars. Not expected to get very big as can only be added through a",
                   " special origin (likely a council motion).",
                   "",
@@ -6011,7 +6011,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Add a registrar to the system.",
                 "",
                 " The dispatch origin for this call must be `RegistrarOrigin` or `Root`.",
@@ -6035,7 +6035,7 @@
                   "type": "IdentityInfo"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set an account's identity information and reserve the appropriate deposit.",
                 "",
                 " If the account already has identity information, the deposit is taken as part payment",
@@ -6064,7 +6064,7 @@
                   "type": "Vec<(AccountId,Data)>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the sub-accounts of the sender.",
                 "",
                 " Payment: Any aggregate balance reserved by previous `set_subs` calls will be returned",
@@ -6086,7 +6086,7 @@
             {
               "name": "clear_identity",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Clear an account's identity info and all sub-account and return all deposits.",
                 "",
                 " Payment: All reserved balances on the account are returned.",
@@ -6116,7 +6116,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Request a judgement from a registrar.",
                 "",
                 " Payment: At most `max_fee` will be reserved for payment to the registrar if judgement",
@@ -6150,7 +6150,7 @@
                   "type": "RegistrarIndex"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Cancel a previous request.",
                 "",
                 " Payment: A previously reserved deposit is returned on success.",
@@ -6182,7 +6182,7 @@
                   "type": "Compact<BalanceOf>"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the fee required for a judgement to be requested from a registrar.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the sender must be the account",
@@ -6209,7 +6209,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Change the account associated with a registrar.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the sender must be the account",
@@ -6236,7 +6236,7 @@
                   "type": "IdentityFields"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Set the field information for a registrar.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the sender must be the account",
@@ -6267,7 +6267,7 @@
                   "type": "IdentityJudgement"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Provide a judgement for an account's identity.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the sender must be the account",
@@ -6297,7 +6297,7 @@
                   "type": "LookupSource"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Remove an account's identity and sub-account information and slash the deposits.",
                 "",
                 " Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by",
@@ -6326,7 +6326,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A name was set or reset (which will remove all judgements)."
               ]
             },
@@ -6336,7 +6336,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A name was cleared, and the given balance returned."
               ]
             },
@@ -6346,7 +6346,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A name was removed and the given balance slashed."
               ]
             },
@@ -6356,7 +6356,7 @@
                 "AccountId",
                 "RegistrarIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A judgement was asked from a registrar."
               ]
             },
@@ -6366,7 +6366,7 @@
                 "AccountId",
                 "RegistrarIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A judgement request was retracted."
               ]
             },
@@ -6376,7 +6376,7 @@
                 "AccountId",
                 "RegistrarIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A judgement was given by a registrar."
               ]
             },
@@ -6385,7 +6385,7 @@
               "args": [
                 "RegistrarIndex"
               ],
-              "documentation": [
+              "docs": [
                 " A registrar was added."
               ]
             }
@@ -6394,67 +6394,67 @@
           "errors": [
             {
               "name": "TooManySubAccounts",
-              "documentation": [
+              "docs": [
                 " Too many subs-accounts."
               ]
             },
             {
               "name": "NotFound",
-              "documentation": [
+              "docs": [
                 " Account isn't found."
               ]
             },
             {
               "name": "NotNamed",
-              "documentation": [
+              "docs": [
                 " Account isn't named."
               ]
             },
             {
               "name": "EmptyIndex",
-              "documentation": [
+              "docs": [
                 " Empty index."
               ]
             },
             {
               "name": "FeeChanged",
-              "documentation": [
+              "docs": [
                 " Fee is changed."
               ]
             },
             {
               "name": "NoIdentity",
-              "documentation": [
+              "docs": [
                 " No identity found."
               ]
             },
             {
               "name": "StickyJudgement",
-              "documentation": [
+              "docs": [
                 " Sticky judgement."
               ]
             },
             {
               "name": "JudgementGiven",
-              "documentation": [
+              "docs": [
                 " Judgement given."
               ]
             },
             {
               "name": "InvalidJudgement",
-              "documentation": [
+              "docs": [
                 " Invalid judgement."
               ]
             },
             {
               "name": "InvalidIndex",
-              "documentation": [
+              "docs": [
                 " The index is invalid."
               ]
             },
             {
               "name": "InvalidTarget",
-              "documentation": [
+              "docs": [
                 " The target is invalid."
               ]
             }
@@ -6472,7 +6472,7 @@
                   "plain": "AccountId"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The first member."
                 ]
               },
@@ -6483,7 +6483,7 @@
                   "plain": "Hash"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " A hash of the rules of this society concerning membership. Can only be set once and",
                   " only by the founder."
                 ]
@@ -6495,7 +6495,7 @@
                   "plain": "Vec<Bid>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current set of candidates; bidders that are attempting to become members."
                 ]
               },
@@ -6511,7 +6511,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The set of suspended candidates."
                 ]
               },
@@ -6522,7 +6522,7 @@
                   "plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": [
+                "docs": [
                   " Amount of our account balance that is specifically for the next round's bid(s)."
                 ]
               },
@@ -6533,7 +6533,7 @@
                   "plain": "AccountId"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The most primary from the most recently approved members."
                 ]
               },
@@ -6544,7 +6544,7 @@
                   "plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current set of members, ordered."
                 ]
               },
@@ -6560,7 +6560,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The set of suspended members."
                 ]
               },
@@ -6571,7 +6571,7 @@
                   "plain": "Vec<Bid>"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The current bids, stored ordered by the value of the bid."
                 ]
               },
@@ -6587,7 +6587,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Members currently vouching or banned from vouching again"
                 ]
               },
@@ -6603,7 +6603,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Pending payouts; ordered by block number, with the amount that should be paid out."
                 ]
               },
@@ -6619,7 +6619,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The ongoing number of losing votes cast by the member."
                 ]
               },
@@ -6636,7 +6636,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Double map from Candidate -> Voter -> (Maybe) Vote."
                 ]
               },
@@ -6647,7 +6647,7 @@
                   "plain": "AccountId"
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The defending member currently being challenged."
                 ]
               },
@@ -6663,7 +6663,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Votes for the defender."
                 ]
               },
@@ -6674,7 +6674,7 @@
                   "plain": "u32"
                 },
                 "fallback": "0x00000000",
-                "documentation": [
+                "docs": [
                   " The max number of members for the society at one time."
                 ]
               }
@@ -6689,7 +6689,7 @@
                   "type": "BalanceOf"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " A user outside of the society can make a bid for entry.",
                 "",
                 " Payment: `CandidateDeposit` will be reserved for making a bid. It is returned",
@@ -6733,7 +6733,7 @@
                   "type": "u32"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " A bidder can remove their bid for entry into society.",
                 " By doing so, they will have their candidate deposit returned or",
                 " they will unvouch their voucher.",
@@ -6771,7 +6771,7 @@
                   "type": "BalanceOf"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " As a member, vouch for someone to join society by placing a bid on their behalf.",
                 "",
                 " There is no deposit required to vouch for a new bid, but a member can only vouch for",
@@ -6826,7 +6826,7 @@
                   "type": "u32"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " As a vouching member, unvouch a bid. This only works while vouched user is",
                 " only a bidder (and not a candidate).",
                 "",
@@ -6858,7 +6858,7 @@
                   "type": "bool"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " As a member, vote on a candidate.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and a member.",
@@ -6888,7 +6888,7 @@
                   "type": "bool"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " As a member, vote on the defender.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and a member.",
@@ -6910,7 +6910,7 @@
             {
               "name": "payout",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Transfer the first matured payout for the sender and remove it from the records.",
                 "",
                 " NOTE: This extrinsic needs to be called multiple times to claim multiple matured payouts.",
@@ -6949,7 +6949,7 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Found the society.",
                 "",
                 " This is done as a discrete action in order to allow for the",
@@ -6974,7 +6974,7 @@
             {
               "name": "unfound",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Anull the founding of the society.",
                 "",
                 " The dispatch origin for this call must be Signed, and the signing account must be both",
@@ -7002,7 +7002,7 @@
                   "type": "bool"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allow suspension judgement origin to make judgement on a suspended member.",
                 "",
                 " If a suspended member is forgiven, we simply add them back as a member, not affecting",
@@ -7044,7 +7044,7 @@
                   "type": "SocietyJudgement"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allow suspended judgement origin to make judgement on a suspended candidate.",
                 "",
                 " If the judgement is `Approve`, we add them to society as a member with the appropriate",
@@ -7095,7 +7095,7 @@
                   "type": "u32"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allows root origin to change the maximum number of members in society.",
                 " Max membership count must be greater than 1.",
                 "",
@@ -7119,7 +7119,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " The society is founded by the given identity."
               ]
             },
@@ -7129,7 +7129,7 @@
                 "AccountId",
                 "Balance"
               ],
-              "documentation": [
+              "docs": [
                 " A membership bid just happened. The given account is the candidate's ID and their offer",
                 " is the second."
               ]
@@ -7141,7 +7141,7 @@
                 "Balance",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A membership bid just happened by vouching. The given account is the candidate's ID and",
                 " their offer is the second. The vouching party is the third."
               ]
@@ -7151,7 +7151,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A candidate was dropped (due to an excess of bids in the system)."
               ]
             },
@@ -7160,7 +7160,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A candidate was dropped (by their request)."
               ]
             },
@@ -7169,7 +7169,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A candidate was dropped (by request of who vouched for them)."
               ]
             },
@@ -7179,7 +7179,7 @@
                 "AccountId",
                 "Vec<AccountId>"
               ],
-              "documentation": [
+              "docs": [
                 " A group of candidates have been inducted. The batch's primary is the first value, the",
                 " batch in full is the second."
               ]
@@ -7190,7 +7190,7 @@
                 "AccountId",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A suspended member has been judged"
               ]
             },
@@ -7199,7 +7199,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A candidate has been suspended"
               ]
             },
@@ -7208,7 +7208,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A member has been suspended"
               ]
             },
@@ -7217,7 +7217,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A member has been challenged"
               ]
             },
@@ -7228,7 +7228,7 @@
                 "AccountId",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A vote has been placed (candidate, voter, vote)"
               ]
             },
@@ -7238,7 +7238,7 @@
                 "AccountId",
                 "bool"
               ],
-              "documentation": [
+              "docs": [
                 " A vote has been placed for a defending member (voter, vote)"
               ]
             },
@@ -7247,7 +7247,7 @@
               "args": [
                 "u32"
               ],
-              "documentation": [
+              "docs": [
                 " A new max member count has been set"
               ]
             },
@@ -7256,7 +7256,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " Society is unfounded."
               ]
             }
@@ -7266,7 +7266,7 @@
               "name": "CandidateDeposit",
               "type": "BalanceOf",
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": [
+              "docs": [
                 " The minimum amount of a deposit required for a bid to be made."
               ]
             },
@@ -7274,7 +7274,7 @@
               "name": "WrongSideDeduction",
               "type": "BalanceOf",
               "value": "0x0080f420e6b500000000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount of the unpaid reward that gets deducted in the case that either a skeptic",
                 " doesn't vote or someone votes in the wrong way."
               ]
@@ -7283,7 +7283,7 @@
               "name": "MaxStrikes",
               "type": "u32",
               "value": "0x0a000000",
-              "documentation": [
+              "docs": [
                 " The number of times a member may vote the wrong way (or not at all, when they are a skeptic)",
                 " before they become suspended."
               ]
@@ -7292,7 +7292,7 @@
               "name": "PeriodSpend",
               "type": "BalanceOf",
               "value": "0x0000c52ebca2b1000000000000000000",
-              "documentation": [
+              "docs": [
                 " The amount of incentive paid within each period. Doesn't include VoterTip."
               ]
             },
@@ -7300,7 +7300,7 @@
               "name": "RotationPeriod",
               "type": "BlockNumber",
               "value": "0x00770100",
-              "documentation": [
+              "docs": [
                 " The number of blocks between candidate/membership rotation periods."
               ]
             },
@@ -7308,7 +7308,7 @@
               "name": "ChallengePeriod",
               "type": "BlockNumber",
               "value": "0x80130300",
-              "documentation": [
+              "docs": [
                 " The number of blocks between membership challenges."
               ]
             }
@@ -7316,109 +7316,109 @@
           "errors": [
             {
               "name": "BadPosition",
-              "documentation": [
+              "docs": [
                 " An incorrect position was provided."
               ]
             },
             {
               "name": "NotMember",
-              "documentation": [
+              "docs": [
                 " User is not a member."
               ]
             },
             {
               "name": "AlreadyMember",
-              "documentation": [
+              "docs": [
                 " User is already a member."
               ]
             },
             {
               "name": "Suspended",
-              "documentation": [
+              "docs": [
                 " User is suspended."
               ]
             },
             {
               "name": "NotSuspended",
-              "documentation": [
+              "docs": [
                 " User is not suspended."
               ]
             },
             {
               "name": "NoPayout",
-              "documentation": [
+              "docs": [
                 " Nothing to payout."
               ]
             },
             {
               "name": "AlreadyFounded",
-              "documentation": [
+              "docs": [
                 " Society already founded."
               ]
             },
             {
               "name": "InsufficientPot",
-              "documentation": [
+              "docs": [
                 " Not enough in pot to accept candidate."
               ]
             },
             {
               "name": "AlreadyVouching",
-              "documentation": [
+              "docs": [
                 " Member is already vouching or banned from vouching again."
               ]
             },
             {
               "name": "NotVouching",
-              "documentation": [
+              "docs": [
                 " Member is not vouching."
               ]
             },
             {
               "name": "Head",
-              "documentation": [
+              "docs": [
                 " Cannot remove the head of the chain."
               ]
             },
             {
               "name": "Founder",
-              "documentation": [
+              "docs": [
                 " Cannot remove the founder."
               ]
             },
             {
               "name": "AlreadyBid",
-              "documentation": [
+              "docs": [
                 " User has already made a bid."
               ]
             },
             {
               "name": "AlreadyCandidate",
-              "documentation": [
+              "docs": [
                 " User is already a candidate."
               ]
             },
             {
               "name": "NotCandidate",
-              "documentation": [
+              "docs": [
                 " User is not a candidate."
               ]
             },
             {
               "name": "MaxMembers",
-              "documentation": [
+              "docs": [
                 " Too many members in the society."
               ]
             },
             {
               "name": "NotFounder",
-              "documentation": [
+              "docs": [
                 " The caller is not the founder."
               ]
             },
             {
               "name": "NotHead",
-              "documentation": [
+              "docs": [
                 " The caller is not the head."
               ]
             }
@@ -7441,7 +7441,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The set of recoverable accounts and their recovery configuration."
                 ]
               },
@@ -7458,7 +7458,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " Active recovery attempts.",
                   "",
                   " First account is the account to be recovered, and the second account",
@@ -7477,7 +7477,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
+                "docs": [
                   " The final list of recovered accounts.",
                   "",
                   " Map from the recovered account to the user who can access it."
@@ -7498,7 +7498,7 @@
                   "type": "Call"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Send a call through a recovered account.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and registered to",
@@ -7526,7 +7526,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allow ROOT to bypass the recovery process and set an a rescuer account",
                 " for a lost account directly.",
                 "",
@@ -7558,7 +7558,7 @@
                   "type": "BlockNumber"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Create a recovery configuration for your account. This makes your account recoverable.",
                 "",
                 " Payment: `ConfigDepositBase` + `FriendDepositFactor` * #_of_friends balance",
@@ -7596,7 +7596,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Initiate the process for recovering a recoverable account.",
                 "",
                 " Payment: `RecoveryDeposit` balance will be reserved for initiating the",
@@ -7633,7 +7633,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allow a \"friend\" of a recoverable account to vouch for an active recovery",
                 " process for that account.",
                 "",
@@ -7669,7 +7669,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " Allow a successful rescuer to claim their recovered account.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and must be a \"rescuer\"",
@@ -7700,7 +7700,7 @@
                   "type": "AccountId"
                 }
               ],
-              "documentation": [
+              "docs": [
                 " As the controller of a recoverable account, close an active recovery",
                 " process for your account.",
                 "",
@@ -7726,7 +7726,7 @@
             {
               "name": "remove_recovery",
               "args": [],
-              "documentation": [
+              "docs": [
                 " Remove the recovery process for your account.",
                 "",
                 " NOTE: The user must make sure to call `close_recovery` on all active",
@@ -7757,7 +7757,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A recovery process has been set up for an account"
               ]
             },
@@ -7767,7 +7767,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A recovery process has been initiated for account_1 by account_2"
               ]
             },
@@ -7778,7 +7778,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A recovery process for account_1 by account_2 has been vouched for by account_3"
               ]
             },
@@ -7788,7 +7788,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A recovery process for account_1 by account_2 has been closed"
               ]
             },
@@ -7798,7 +7798,7 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " Account_1 has been successfully recovered by account_2"
               ]
             },
@@ -7807,7 +7807,7 @@
               "args": [
                 "AccountId"
               ],
-              "documentation": [
+              "docs": [
                 " A recovery process has been removed for an account"
               ]
             }

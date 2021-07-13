@@ -2,6 +2,12 @@
 
 ## master
 
+- **Breaking changes** With the support for v14 metadata, the `documentation` fields on metadata was renamed to `docs` for consistency.
+
+Contributed:
+
+- Don't clear rpc decoration on api clone (Thanks to https://github.com/ianhe8x)
+
 Changes:
 
 - Update `ParaPastCodeMeta` with `ReplacementTimes`

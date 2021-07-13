@@ -8,7 +8,7 @@ import type { Registry } from '../../../types';
 import { createFunction } from './createFunction';
 
 interface SubstrateMetadata {
-  documentation: string;
+  docs: string;
   type: string;
 }
 
@@ -16,11 +16,11 @@ type Creator = (registry: Registry) => StorageEntry;
 
 // Small helper function to factorize code on this page.
 /** @internal */
-function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
+function createRuntimeFunction (method: string, key: string, { docs, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
   return (registry: Registry): StorageEntry =>
     createFunction(registry, {
       meta: {
-        documentation: registry.createType('Vec<Text>', [documentation]),
+        docs: registry.createType('Vec<Text>', [docs]),
         modifier: registry.createType('StorageEntryModifierLatest', 1), // required
         name: registry.createType('Text', method),
         toJSON: (): any => key,
@@ -34,23 +34,23 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
 
 export const substrate: Record<string, Creator> = {
   changesTrieConfig: createRuntimeFunction('changesTrieConfig', ':changes_trie', {
-    documentation: ' Changes trie configuration is stored under this key.',
+    docs: ' Changes trie configuration is stored under this key.',
     type: 'u32'
   }),
   childStorageKeyPrefix: createRuntimeFunction('childStorageKeyPrefix', ':child_storage:', {
-    documentation: ' Prefix of child storage keys.',
+    docs: ' Prefix of child storage keys.',
     type: 'u32'
   }),
   code: createRuntimeFunction('code', ':code', {
-    documentation: ' Wasm code of the runtime.',
+    docs: ' Wasm code of the runtime.',
     type: 'Bytes'
   }),
   extrinsicIndex: createRuntimeFunction('extrinsicIndex', ':extrinsic_index', {
-    documentation: ' Current extrinsic index (u32) is stored under this key.',
+    docs: ' Current extrinsic index (u32) is stored under this key.',
     type: 'u32'
   }),
   heapPages: createRuntimeFunction('heapPages', ':heappages', {
-    documentation: ' Number of wasm linear memory pages required for execution of the runtime.',
+    docs: ' Number of wasm linear memory pages required for execution of the runtime.',
     type: 'u64'
   })
 };
