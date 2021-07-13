@@ -52,9 +52,9 @@ export const v14: DefinitionsTypes = {
     name: 'Text',
     storage: 'Option<PalletStorageMetadataV14>',
     calls: 'Option<PalletCallMetadataV14>',
-    event: 'Option<PalletEventMetadataV14>',
+    events: 'Option<PalletEventMetadataV14>',
     constants: 'Vec<PalletConstantMetadataV14>',
-    error: 'Option<PalletErrorMetadataV14>',
+    errors: 'Option<PalletErrorMetadataV14>',
     index: 'u8'
   },
   PalletStorageMetadataV14: {

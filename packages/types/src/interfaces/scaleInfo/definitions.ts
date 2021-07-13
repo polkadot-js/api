@@ -13,7 +13,7 @@ export default {
       name: 'Option<Text>',
       type: 'SiLookupTypeId',
       typeName: 'Option<Text>',
-      docs: 'Vec<Text>'
+      documentation: 'Vec<Text>'
     },
     SiLookupTypeId: 'u32',
     SiPath: 'Vec<Text>',
@@ -21,7 +21,7 @@ export default {
       path: 'SiPath',
       params: 'Vec<SiTypeParameter>',
       def: 'SiTypeDef',
-      docs: 'Vec<Text>'
+      documentation: 'Vec<Text>'
     },
     SiTypeDef: {
       _enum: {
@@ -73,7 +73,7 @@ export default {
       fields: 'Vec<SiField>',
       index: 'Option<u8>',
       discriminant: 'Option<u64>',
-      docs: 'Vec<Text>'
+      documentation: 'Vec<Text>'
     }
   }
 } as Definitions;
