@@ -110,7 +110,8 @@ export default {
       source: 'ContractProjectSource',
       contract: 'ContractProjectContract',
       // expanded scale registry: RegistryReadOnly
-      types: 'Vec<SiType>',
+      // NOTE Previous generation of the SiType definition
+      types: 'Vec<SiType0>',
       // renamed from layout (ignored for now, incomplete)
       // storage: 'ContractStorageLayout',
       spec: 'ContractContractSpec'

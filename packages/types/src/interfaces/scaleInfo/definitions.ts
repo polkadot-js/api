@@ -23,6 +23,11 @@ export default {
       def: 'SiTypeDef',
       docs: 'Vec<Text>'
     },
+    SiType0: {
+      path: 'SiPath',
+      params: 'Vec<SiLookupTypeId>',
+      def: 'SiTypeDef'
+    },
     SiTypeDef: {
       _enum: {
         Composite: 'SiTypeDefComposite',

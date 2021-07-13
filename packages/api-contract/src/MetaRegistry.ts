@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainProperties, ContractDisplayName, SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractDisplayName, SiField, SiLookupTypeId, SiType0, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '@polkadot/types/interfaces';
 import type { InterfaceTypes, TypeDef } from '@polkadot/types/types';
 
 import { TypeDefInfo, TypeRegistry, withTypeString } from '@polkadot/types';
@@ -29,7 +29,7 @@ export class MetaRegistry extends TypeRegistry {
 
   public readonly typeOffset;
 
-  #siTypes: SiType[] = [];
+  #siTypes: SiType0[] = [];
 
   constructor (metadataVersion: string, chainProperties?: ChainProperties) {
     super();
@@ -44,7 +44,7 @@ export class MetaRegistry extends TypeRegistry {
     }
   }
 
-  public setMetaTypes (metaTypes: SiType[]): void {
+  public setMetaTypes (metaTypes: SiType0[]): void {
     this.#siTypes = metaTypes;
   }
 
@@ -83,15 +83,15 @@ export class MetaRegistry extends TypeRegistry {
     return typeDef;
   }
 
-  #getMetaType = (id: SiLookupTypeId): SiType => {
+  #getMetaType = (id: SiLookupTypeId): SiType0 => {
     const type = this.#siTypes[getRegistryOffset(id, this.typeOffset)];
 
     assert(!isUndefined(type), () => `getMetaType:: Unable to find ${id.toNumber()} in type values`);
 
-    return this.createType('SiType', type);
+    return this.createType('SiType0', type);
   }
 
-  #extract = (type: SiType, id: SiLookupTypeId): TypeDef => {
+  #extract = (type: SiType0, id: SiLookupTypeId): TypeDef => {
     const path = [...type.path];
     const isPrimitivePath = !!path.length && (
       (path.length > 2 && path[0].eq('ink_env') && path[1].eq('types')) ||
@@ -129,12 +129,7 @@ export class MetaRegistry extends TypeRegistry {
         : {}
       ),
       ...(type.params.length > 0
-        ? {
-          sub: type.params
-            .map((p): TypeDef =>
-              this.getMetaTypeDef({ type: p.type.unwrap() })
-            )
-        }
+        ? { sub: type.params.map((type) => this.getMetaTypeDef({ type })) }
         : {}
       ),
       ...typeDef
@@ -179,7 +174,7 @@ export class MetaRegistry extends TypeRegistry {
       };
   }
 
-  #extractPrimitive = (type: SiType): TypeDef => {
+  #extractPrimitive = (type: SiType0): TypeDef => {
     const typeStr = type.def.asPrimitive.type.toString();
 
     return {
@@ -188,7 +183,7 @@ export class MetaRegistry extends TypeRegistry {
     };
   }
 
-  #extractPrimitivePath = (type: SiType): TypeDef => {
+  #extractPrimitivePath = (type: SiType0): TypeDef => {
     return {
       info: TypeDefInfo.Plain,
       type: type.path[type.path.length - 1].toString()
@@ -220,14 +215,14 @@ export class MetaRegistry extends TypeRegistry {
     return specialVariant === 'Option'
       ? {
         info: TypeDefInfo.Option,
-        sub: this.getMetaTypeDef({ type: params[0].type.unwrap() })
+        sub: this.getMetaTypeDef({ type: params[0] })
       }
       : specialVariant === 'Result'
         ? {
           info: TypeDefInfo.Result,
-          sub: params.map((p, index) => ({
+          sub: params.map((type, index) => ({
             name: ['Ok', 'Error'][index],
-            ...this.getMetaTypeDef({ type: p.type.unwrap() })
+            ...this.getMetaTypeDef({ type })
           }))
         }
         : {

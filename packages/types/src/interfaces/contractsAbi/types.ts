@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { SiLookupTypeId, SiPath, SiType } from '@polkadot/types/interfaces/scaleInfo';
+import type { SiLookupTypeId, SiPath, SiType0 } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {
@@ -118,7 +118,7 @@ export interface ContractProject extends Struct {
   readonly metadataVersion: Text;
   readonly source: ContractProjectSource;
   readonly contract: ContractProjectContract;
-  readonly types: Vec<SiType>;
+  readonly types: Vec<SiType0>;
   readonly spec: ContractContractSpec;
 }
 
