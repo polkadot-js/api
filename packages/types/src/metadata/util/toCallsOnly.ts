@@ -40,10 +40,10 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
 }
 
 /** @internal */
-export function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
+export function toCallsOnly (registry: Registry, { extrinsic, pallets }: MetadataLatest): AnyJson {
   return registry.createType('MetadataLatest', {
     extrinsic,
-    modules: modules.map(({ calls, index, name }): ModuleMetadataTrimmed => ({
+    pallets: pallets.map(({ calls, index, name }): ModuleMetadataTrimmed => ({
       calls: mapCalls(registry, calls),
       index,
       name

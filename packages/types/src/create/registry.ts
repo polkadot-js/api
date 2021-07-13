@@ -38,16 +38,16 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
       .filter((e) => e.isSome)
       .map((e) => e.unwrap())
       .forEach(({ docs, name }, index): void => {
-      const eventIndex = new Uint8Array([sectionIndex, index]);
+        const eventIndex = new Uint8Array([sectionIndex, index]);
 
-      metadataErrors[u8aToHex(eventIndex)] = {
-        docs: docs.map((d) => d.toString()),
-        index,
-        method: name.toString(),
-        name: name.toString(),
-        section: sectionName
-      };
-    });
+        metadataErrors[u8aToHex(eventIndex)] = {
+          docs: docs.map((d) => d.toString()),
+          index,
+          method: name.toString(),
+          name: name.toString(),
+          section: sectionName
+        };
+      });
   });
 }
 
