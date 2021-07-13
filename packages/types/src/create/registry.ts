@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
@@ -22,65 +20,91 @@ import { Metadata } from '../metadata/Metadata';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
+import { typeLookup } from './typeLookup';
 
 const l = logger('registry');
 
 // create error mapping from metadata
 function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
-  const pallets = metadata.asLatest.pallets;
+  const { pallets, types } = metadata.asLatest;
 
   // decorate the errors
   pallets.forEach((section, _sectionIndex): void => {
-    const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
+    const sectionIndex = metadata.version >= 12
+      ? section.index.toNumber()
+      : _sectionIndex;
     const sectionName = stringCamelCase(section.name);
 
-    section.errors
-      .filter((e) => e.isSome)
-      .map((e) => e.unwrap())
-      .forEach(({ docs, name }, index): void => {
-        const eventIndex = new Uint8Array([sectionIndex, index]);
+    if (section.errors.isSome) {
+      const errors = typeLookup(types, section.errors.unwrap().type);
+
+      assert(errors.def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
+
+      errors.def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+        const variantIndex = index.isSome
+          ? index.unwrap().toNumber()
+          : counter;
+        const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
 
         metadataErrors[u8aToHex(eventIndex)] = {
           docs: docs.map((d) => d.toString()),
-          index,
+          fields,
+          index: variantIndex,
           method: name.toString(),
           name: name.toString(),
           section: sectionName
         };
       });
+    }
   });
 }
 
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
+  const { pallets, types } = metadata.asLatest;
+
   // decorate the events
-  metadata.asLatest.pallets
+  pallets
     .filter(({ events }) => events.isSome)
     .forEach((section, _sectionIndex): void => {
       const sectionIndex = metadata.version >= 12
         ? section.index.toNumber()
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
+      const events = typeLookup(types, section.events.unwrap().type);
 
-      section.events.unwrap().forEach((meta, methodIndex): void => {
-        const methodName = meta.name.toString();
-        const typeDef = meta.args.map((arg) => getTypeDef(arg));
-        let Types: Constructor<Codec>[] | null = null;
+      assert(events.def.isVariant, () => `Expected a variant type for Events from ${sectionName}`);
+
+      events.def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+        const variantIndex = index.isSome
+          ? index.unwrap().toNumber()
+          : counter;
+        const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
+
+        // FIXME
+        // metadataErrors[u8aToHex(eventIndex)] = {
+        //   docs: docs.map((d) => d.toString()),
+        //   fields,
+        //   index: errorIndex,
+        //   method: name.toString(),
+        //   name: name.toString(),
+        //   section: sectionName
+        // };
 
         // Lazy create the actual type classes right at the point of use
-        const getTypes = (): Constructor<Codec>[] => {
-          if (!Types) {
-            Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
-          }
+        // const getTypes = (): Constructor<Codec>[] => {
+        //   if (!Types) {
+        //     Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
+        //   }
 
-          return Types;
-        };
+        //   return Types;
+        // };
 
-        metadataEvents[u8aToHex(new Uint8Array([sectionIndex, methodIndex]))] = class extends GenericEventData {
-          constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
-          }
-        };
+        // metadataEvents[u8aToHex(new Uint8Array([sectionIndex, methodIndex]))] = class extends GenericEventData {
+        //   constructor (registry: Registry, value: Uint8Array) {
+        //     super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
+        //   }
+        // };
       });
     });
 }
@@ -399,7 +423,8 @@ export class TypeRegistry implements Registry {
     this.setSignedExtensions(
       signedExtensions || (
         metadata.asLatest.extrinsic.version.gt(BN_ZERO)
-          ? metadata.asLatest.extrinsic.signedExtensions.map((key) => key.toString())
+          // FIXME Use the extension and their injected types
+          ? metadata.asLatest.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
       userExtensions

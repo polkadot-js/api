@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
+import type { SiField } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -34,6 +35,7 @@ export type RegistryTypes =
 
 export interface RegistryError {
   docs: string[];
+  fields: SiField[];
   index: number;
   // compat
   method: string;
