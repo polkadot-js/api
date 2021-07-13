@@ -33,7 +33,7 @@ export const v13: DefinitionsTypes = {
     modifier: 'StorageEntryModifierV13',
     type: 'StorageEntryTypeV13',
     fallback: 'Bytes',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   StorageEntryTypeV13: {
     _enum: {

@@ -22,7 +22,7 @@ export interface ErrorMetadataV13 extends ErrorMetadataV12 {}
 /** @name ErrorMetadataV9 */
 export interface ErrorMetadataV9 extends Struct {
   readonly name: Text;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name EventMetadataLatest */
@@ -44,7 +44,7 @@ export interface EventMetadataV13 extends EventMetadataV12 {}
 export interface EventMetadataV9 extends Struct {
   readonly name: Text;
   readonly args: Vec<Type>;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name ExtrinsicMetadataLatest */
@@ -114,15 +114,15 @@ export interface FunctionMetadataV13 extends FunctionMetadataV12 {}
 /** @name FunctionMetadataV14 */
 export interface FunctionMetadataV14 extends Struct {
   readonly name: Text;
-  readonly arguments: Vec<FunctionArgumentMetadataV14>;
-  readonly documentation: Vec<Text>;
+  readonly args: Vec<FunctionArgumentMetadataV14>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name FunctionMetadataV9 */
 export interface FunctionMetadataV9 extends Struct {
   readonly name: Text;
   readonly args: Vec<FunctionArgumentMetadataV9>;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name MetadataAll */
@@ -199,7 +199,7 @@ export interface ModuleConstantMetadataV9 extends Struct {
   readonly name: Text;
   readonly type: Type;
   readonly value: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name ModuleMetadataLatest */
@@ -268,7 +268,7 @@ export interface PalletConstantMetadataV14 extends Struct {
   readonly name: Text;
   readonly type: SiLookupTypeId;
   readonly value: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name PalletErrorMetadataV14 */
@@ -286,9 +286,9 @@ export interface PalletMetadataV14 extends Struct {
   readonly name: Text;
   readonly storage: Option<PalletStorageMetadataV14>;
   readonly calls: Option<PalletCallMetadataV14>;
-  readonly event: Option<PalletEventMetadataV14>;
+  readonly events: Option<PalletEventMetadataV14>;
   readonly constants: Vec<PalletConstantMetadataV14>;
-  readonly error: Option<PalletErrorMetadataV14>;
+  readonly errors: Option<PalletErrorMetadataV14>;
   readonly index: u8;
 }
 
@@ -318,7 +318,7 @@ export interface StorageEntryMetadataV10 extends Struct {
   readonly modifier: StorageEntryModifierV10;
   readonly type: StorageEntryTypeV10;
   readonly fallback: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name StorageEntryMetadataV11 */
@@ -327,7 +327,7 @@ export interface StorageEntryMetadataV11 extends Struct {
   readonly modifier: StorageEntryModifierV11;
   readonly type: StorageEntryTypeV11;
   readonly fallback: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name StorageEntryMetadataV12 */
@@ -339,7 +339,7 @@ export interface StorageEntryMetadataV13 extends Struct {
   readonly modifier: StorageEntryModifierV13;
   readonly type: StorageEntryTypeV13;
   readonly fallback: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name StorageEntryMetadataV14 */
@@ -348,7 +348,7 @@ export interface StorageEntryMetadataV14 extends Struct {
   readonly modifier: StorageEntryModifierV14;
   readonly type: StorageEntryTypeV14;
   readonly fallback: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name StorageEntryMetadataV9 */
@@ -357,7 +357,7 @@ export interface StorageEntryMetadataV9 extends Struct {
   readonly modifier: StorageEntryModifierV9;
   readonly type: StorageEntryTypeV9;
   readonly fallback: Bytes;
-  readonly documentation: Vec<Text>;
+  readonly docs: Vec<Text>;
 }
 
 /** @name StorageEntryModifierLatest */

@@ -23,20 +23,20 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    const modules = meta.asLatest.modules
+    const modules = meta.asLatest.pallets
       .sort(compareName)
       .filter((mod) => mod.events.isSome)
       .map(({ events, name }) => ({
         items: events
           .unwrap()
           .sort(compareName)
-          .map(({ args, documentation, name }) => {
+          .map(({ args, docs, name }) => {
             const types = args.map((type) => formatType(allDefs, type.toString(), imports));
 
             setImports(allDefs, imports, types);
 
             return {
-              docs: documentation,
+              docs,
               name: name.toString(),
               type: types.join(', ')
             };

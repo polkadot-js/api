@@ -10,12 +10,12 @@ export const v9: DefinitionsTypes = {
   // v9
   ErrorMetadataV9: {
     name: 'Text',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   EventMetadataV9: {
     name: 'Text',
     args: 'Vec<Type>',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   FunctionArgumentMetadataV9: {
     name: 'Text',
@@ -24,7 +24,7 @@ export const v9: DefinitionsTypes = {
   FunctionMetadataV9: {
     name: 'Text',
     args: 'Vec<FunctionArgumentMetadataV9>',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   MetadataV9: {
     modules: 'Vec<ModuleMetadataV9>'
@@ -33,7 +33,7 @@ export const v9: DefinitionsTypes = {
     name: 'Text',
     type: 'Type',
     value: 'Bytes',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   ModuleMetadataV9: {
     name: 'Text',
@@ -48,7 +48,7 @@ export const v9: DefinitionsTypes = {
     modifier: 'StorageEntryModifierV9',
     type: 'StorageEntryTypeV9',
     fallback: 'Bytes',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   StorageEntryModifierV9: {
     _enum: ['Optional', 'Default', 'Required']

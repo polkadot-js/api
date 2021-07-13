@@ -36,15 +36,16 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    const modules = meta.asLatest.modules
+    const modules = meta.asLatest.pallets
       .sort(compareName)
       .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-        const items = calls.unwrap()
+        const items = calls
+          .unwrap()
           .sort(compareName)
-          .map(({ args, documentation, name }) => {
+          .map(({ args, docs, name }) => {
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
@@ -58,7 +59,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               params
             };

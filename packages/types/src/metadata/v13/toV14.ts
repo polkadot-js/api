@@ -16,11 +16,11 @@ const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',',
  * Creates a compatible type mapping
  * @internal
  **/
-function compatType (registry: Registry, types: SiType[], type: Text | string, path: (Text | string)[] = [], documentation: (Text | string)[] = []): number {
+function compatType (registry: Registry, types: SiType[], type: Text | string, path: (Text | string)[] = [], docs: (Text | string)[] = []): number {
   return types.push(
     registry.createType('SiType', {
       def: { HistoricMetaCompat: type },
-      documentation,
+      docs,
       path
     })
   ) - 1;
@@ -86,12 +86,12 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
  **/
 function convertCalls (registry: Registry, types: SiType[], calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
   return registry.createType('PalletCallMetadataV14', {
-    calls: calls.map(({ args, documentation, name }): FunctionMetadataV14 => {
+    calls: calls.map(({ args, docs, name }): FunctionMetadataV14 => {
       setTypeOverride(sectionTypes, args.map(({ type }) => type));
 
       return registry.createType('FunctionMetadataV14', {
         // FIXME Add args
-        documentation,
+        docs,
         name
       });
     }),
@@ -104,11 +104,11 @@ function convertCalls (registry: Registry, types: SiType[], calls: FunctionMetad
  * @internal
  */
 function convertConstants (registry: Registry, types: SiType[], constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): PalletConstantMetadataV14[] {
-  return constants.map(({ documentation, name, type, value }): PalletConstantMetadataV14 => {
+  return constants.map(({ docs, name, type, value }): PalletConstantMetadataV14 => {
     setTypeOverride(sectionTypes, [type]);
 
     return registry.createType('PalletConstantMetadataV14', {
-      documentation,
+      docs,
       name,
       type: compatType(registry, types, type),
       value
@@ -122,9 +122,9 @@ function convertConstants (registry: Registry, types: SiType[], constants: Modul
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertErrors (registry: Registry, types: SiType[], modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
-  const variants = errors.map(({ documentation, name }): SiVariant =>
+  const variants = errors.map(({ docs, name }): SiVariant =>
     registry.createType('SiVariant', {
-      documentation,
+      docs,
       fields: [],
       name
     })
@@ -147,11 +147,11 @@ function convertErrors (registry: Registry, types: SiType[], modName: Text, erro
  * @internal
  **/
 function convertEvents (registry: Registry, types: SiType[], modName: Text, events: EventMetadataV13[], sectionTypes: OverrideModuleType): PalletEventMetadataV14 {
-  const variants = events.map(({ args, documentation, name }): SiVariant => {
+  const variants = events.map(({ args, docs, name }): SiVariant => {
     setTypeOverride(sectionTypes, args);
 
     return registry.createType('SiVariant', {
-      documentation,
+      docs,
       fields: args.map((type) =>
         registry.createType('SiField', { type: compatType(registry, types, type) })
       ),
@@ -177,7 +177,7 @@ function convertEvents (registry: Registry, types: SiType[], modName: Text, even
  **/
 function convertStorage (registry: Registry, types: SiType[], { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
   return registry.createType('PalletStorageMetadataV14', {
-    items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataV14 => {
+    items: items.map(({ docs, fallback, modifier, name, type }): StorageEntryMetadataV14 => {
       let entryType: StorageEntryTypeV14;
 
       if (type.isPlain) {
@@ -241,7 +241,7 @@ function convertStorage (registry: Registry, types: SiType[], { items, prefix }:
       }
 
       return registry.createType('StorageEntryMetadataV14', {
-        documentation,
+        docs,
         fallback,
         modifier,
         name,

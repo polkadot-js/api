@@ -23,7 +23,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    const modules = meta.asLatest.modules
+    const modules = meta.asLatest.pallets
       .sort(compareName)
       .filter((mod) => mod.constants.length > 0)
       .map(({ constants, name }) => {
@@ -33,13 +33,13 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
         const items = constants
           .sort(compareName)
-          .map(({ documentation, name, type }) => {
+          .map(({ docs, name, type }) => {
             const returnType = formatType(allDefs, type.toString(), imports);
 
             setImports(allDefs, imports, [returnType]);
 
             return {
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               type: returnType
             };

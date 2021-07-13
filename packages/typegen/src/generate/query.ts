@@ -96,7 +96,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
 
-    const modules = meta.asLatest.modules
+    const modules = meta.asLatest.pallets
       .sort(compareName)
       .filter((mod) => !mod.storage.isNone)
       .map(({ name, storage }) => {

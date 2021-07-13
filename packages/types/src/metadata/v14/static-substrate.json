@@ -34725,7 +34725,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ExtrinsicCount",
@@ -34734,7 +34734,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BlockWeight",
@@ -34743,7 +34743,7 @@
                   "plain": 7
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "AllExtrinsicsLen",
@@ -34752,7 +34752,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BlockHash",
@@ -34765,7 +34765,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ExtrinsicData",
@@ -34778,7 +34778,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Number",
@@ -34787,7 +34787,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ParentHash",
@@ -34796,7 +34796,7 @@
                   "plain": 9
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Digest",
@@ -34805,7 +34805,7 @@
                   "plain": 11
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Events",
@@ -34814,7 +34814,7 @@
                   "plain": 18
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EventCount",
@@ -34823,7 +34823,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EventTopics",
@@ -34836,7 +34836,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "LastRuntimeUpgrade",
@@ -34845,7 +34845,7 @@
                   "plain": 102
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "UpgradedToU32RefCount",
@@ -34854,7 +34854,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "UpgradedToTripleRefCount",
@@ -34863,7 +34863,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ExecutionPhase",
@@ -34872,7 +34872,7 @@
                   "plain": 99
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -34887,7 +34887,7 @@
                     "type": 106
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remark",
@@ -34897,7 +34897,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_heap_pages",
@@ -34907,7 +34907,7 @@
                     "type": 8
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_code",
@@ -34917,7 +34917,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_code_without_checks",
@@ -34927,7 +34927,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_changes_trie_config",
@@ -34937,7 +34937,7 @@
                     "type": 16
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_storage",
@@ -34947,7 +34947,7 @@
                     "type": 107
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "kill_storage",
@@ -34957,7 +34957,7 @@
                     "type": 109
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "kill_prefix",
@@ -34971,7 +34971,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remark_with_event",
@@ -34981,7 +34981,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -34993,37 +34993,37 @@
               "name": "BlockWeights",
               "type": 110,
               "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BlockLength",
               "type": 114,
               "value": "0x00003c000000500000005000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BlockHashCount",
               "type": 4,
               "value": "0x60090000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DbWeight",
               "type": 116,
               "value": "0x40787d010000000000e1f50500000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "Version",
               "type": 117,
               "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000b0100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SS58Prefix",
               "type": 83,
               "value": "0x2a00",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -35045,7 +35045,7 @@
                     "type": 125
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "as_derivative",
@@ -35059,7 +35059,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "batch_all",
@@ -35069,7 +35069,7 @@
                     "type": 125
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35092,7 +35092,7 @@
                   "plain": 8
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Authorities",
@@ -35101,7 +35101,7 @@
                   "plain": 310
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "GenesisSlot",
@@ -35110,7 +35110,7 @@
                   "plain": 131
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentSlot",
@@ -35119,7 +35119,7 @@
                   "plain": 131
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Randomness",
@@ -35128,7 +35128,7 @@
                   "plain": 1
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "PendingEpochConfigChange",
@@ -35137,7 +35137,7 @@
                   "plain": 133
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextRandomness",
@@ -35146,7 +35146,7 @@
                   "plain": 1
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextAuthorities",
@@ -35155,7 +35155,7 @@
                   "plain": 310
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SegmentIndex",
@@ -35164,7 +35164,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "UnderConstruction",
@@ -35177,7 +35177,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Initialized",
@@ -35186,7 +35186,7 @@
                   "plain": 313
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "AuthorVrfRandomness",
@@ -35195,7 +35195,7 @@
                   "plain": 313
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EpochStart",
@@ -35204,7 +35204,7 @@
                   "plain": 79
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Lateness",
@@ -35213,7 +35213,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EpochConfig",
@@ -35222,7 +35222,7 @@
                   "plain": 314
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextEpochConfig",
@@ -35231,7 +35231,7 @@
                   "plain": 314
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35250,7 +35250,7 @@
                     "type": 132
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "report_equivocation_unsigned",
@@ -35264,7 +35264,7 @@
                     "type": 132
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "plan_config_change",
@@ -35274,7 +35274,7 @@
                     "type": 133
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35284,13 +35284,13 @@
               "name": "EpochDuration",
               "type": 8,
               "value": "0xc800000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "ExpectedBlockTime",
               "type": 8,
               "value": "0xb80b000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -35310,7 +35310,7 @@
                   "plain": 8
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DidUpdate",
@@ -35319,7 +35319,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35334,7 +35334,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35344,7 +35344,7 @@
               "name": "MinimumPeriod",
               "type": 8,
               "value": "0xdc05000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": null,
@@ -35362,7 +35362,7 @@
                   "plain": 316
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Author",
@@ -35371,7 +35371,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DidSetUncles",
@@ -35380,7 +35380,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35395,7 +35395,7 @@
                     "type": 139
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35422,7 +35422,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35437,7 +35437,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer",
@@ -35451,7 +35451,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "free",
@@ -35461,7 +35461,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_transfer",
@@ -35479,7 +35479,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "freeze",
@@ -35489,7 +35489,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35501,7 +35501,7 @@
               "name": "Deposit",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -35521,7 +35521,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Account",
@@ -35534,7 +35534,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Locks",
@@ -35547,7 +35547,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Reserves",
@@ -35560,7 +35560,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StorageVersion",
@@ -35569,7 +35569,7 @@
                   "plain": 328
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35588,7 +35588,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_balance",
@@ -35606,7 +35606,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_transfer",
@@ -35624,7 +35624,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_keep_alive",
@@ -35638,7 +35638,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_all",
@@ -35652,7 +35652,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35664,7 +35664,7 @@
               "name": "ExistentialDeposit",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -35684,7 +35684,7 @@
                   "plain": 330
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StorageVersion",
@@ -35693,7 +35693,7 @@
                   "plain": 331
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35704,13 +35704,13 @@
               "name": "TransactionByteFee",
               "type": 6,
               "value": "0x00e40b54020000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "WeightToFee",
               "type": 332,
               "value": "0x0401000000000000000000000000000000000000000001",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": null,
@@ -35728,7 +35728,7 @@
                   "plain": 4
                 },
                 "fallback": "0x01000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentPhase",
@@ -35737,7 +35737,7 @@
                   "plain": 334
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "QueuedSolution",
@@ -35746,7 +35746,7 @@
                   "plain": 336
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Snapshot",
@@ -35755,7 +35755,7 @@
                   "plain": 337
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DesiredTargets",
@@ -35764,7 +35764,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SnapshotMetadata",
@@ -35773,7 +35773,7 @@
                   "plain": 198
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SignedSubmissionNextIndex",
@@ -35782,7 +35782,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SignedSubmissionIndices",
@@ -35791,7 +35791,7 @@
                   "plain": 340
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SignedSubmissionsMap",
@@ -35804,7 +35804,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MinimumUntrustedScore",
@@ -35813,7 +35813,7 @@
                   "plain": 197
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35832,7 +35832,7 @@
                     "type": 198
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_minimum_untrusted_score",
@@ -35842,7 +35842,7 @@
                     "type": 199
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_emergency_election_result",
@@ -35852,7 +35852,7 @@
                     "type": 200
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "submit",
@@ -35866,7 +35866,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -35878,61 +35878,61 @@
               "name": "UnsignedPhase",
               "type": 4,
               "value": "0x32000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedPhase",
               "type": 4,
               "value": "0x32000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SolutionImprovementThreshold",
               "type": 106,
               "value": "0xa0860100",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "OffchainRepeat",
               "type": 4,
               "value": "0x05000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedMaxSubmissions",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedMaxWeight",
               "type": 8,
               "value": "0xc07c907c2d010000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedRewardBase",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedDepositBase",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedDepositByte",
               "type": 6,
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedDepositWeight",
               "type": 6,
               "value": "0x00000000000000000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -35952,7 +35952,7 @@
                   "plain": 4
                 },
                 "fallback": "0x54000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ValidatorCount",
@@ -35961,7 +35961,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MinimumValidatorCount",
@@ -35970,7 +35970,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Invulnerables",
@@ -35979,7 +35979,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Bonded",
@@ -35992,7 +35992,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MinNominatorBond",
@@ -36001,7 +36001,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MinValidatorBond",
@@ -36010,7 +36010,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Ledger",
@@ -36023,7 +36023,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Payee",
@@ -36036,7 +36036,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Validators",
@@ -36049,7 +36049,7 @@
                   }
                 },
                 "fallback": "0x0000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CounterForValidators",
@@ -36058,7 +36058,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MaxValidatorsCount",
@@ -36067,7 +36067,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Nominators",
@@ -36080,7 +36080,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CounterForNominators",
@@ -36089,7 +36089,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MaxNominatorsCount",
@@ -36098,7 +36098,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentEra",
@@ -36107,7 +36107,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ActiveEra",
@@ -36116,7 +36116,7 @@
                   "plain": 350
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasStartSessionIndex",
@@ -36129,7 +36129,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasStakers",
@@ -36144,7 +36144,7 @@
                   }
                 },
                 "fallback": "0x000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasStakersClipped",
@@ -36159,7 +36159,7 @@
                   }
                 },
                 "fallback": "0x000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasValidatorPrefs",
@@ -36174,7 +36174,7 @@
                   }
                 },
                 "fallback": "0x0000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasValidatorReward",
@@ -36187,7 +36187,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasRewardPoints",
@@ -36200,7 +36200,7 @@
                   }
                 },
                 "fallback": "0x0000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ErasTotalStake",
@@ -36213,7 +36213,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ForceEra",
@@ -36222,7 +36222,7 @@
                   "plain": 355
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SlashRewardFraction",
@@ -36231,7 +36231,7 @@
                   "plain": 106
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CanceledSlashPayout",
@@ -36240,7 +36240,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "UnappliedSlashes",
@@ -36253,7 +36253,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BondedEras",
@@ -36262,7 +36262,7 @@
                   "plain": 101
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ValidatorSlashInEra",
@@ -36277,7 +36277,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NominatorSlashInEra",
@@ -36292,7 +36292,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SlashingSpans",
@@ -36305,7 +36305,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SpanSlash",
@@ -36318,7 +36318,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EarliestUnappliedSlash",
@@ -36327,7 +36327,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentPlannedSession",
@@ -36336,7 +36336,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StorageVersion",
@@ -36345,7 +36345,7 @@
                   "plain": 361
                 },
                 "fallback": "0x06",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ChillThreshold",
@@ -36354,7 +36354,7 @@
                   "plain": 208
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -36377,7 +36377,7 @@
                     "type": 204
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "bond_extra",
@@ -36387,7 +36387,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unbond",
@@ -36397,7 +36397,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "withdraw_unbonded",
@@ -36407,7 +36407,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "validate",
@@ -36417,7 +36417,7 @@
                     "type": 205
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "nominate",
@@ -36427,12 +36427,12 @@
                     "type": 207
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "chill",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_payee",
@@ -36442,7 +36442,7 @@
                     "type": 204
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_controller",
@@ -36452,7 +36452,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_validator_count",
@@ -36462,7 +36462,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "increase_validator_count",
@@ -36472,7 +36472,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "scale_validator_count",
@@ -36482,17 +36482,17 @@
                     "type": 208
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_no_eras",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_new_era",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_invulnerables",
@@ -36502,7 +36502,7 @@
                     "type": 39
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_unstake",
@@ -36516,12 +36516,12 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_new_era_always",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_deferred_slash",
@@ -36535,7 +36535,7 @@
                     "type": 94
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "payout_stakers",
@@ -36549,7 +36549,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "rebond",
@@ -36559,7 +36559,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_history_depth",
@@ -36573,7 +36573,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "reap_stash",
@@ -36587,7 +36587,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "kick",
@@ -36597,7 +36597,7 @@
                     "type": 207
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_staking_limits",
@@ -36623,7 +36623,7 @@
                     "type": 209
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "chill_other",
@@ -36633,7 +36633,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -36645,31 +36645,31 @@
               "name": "SessionsPerEra",
               "type": 4,
               "value": "0x06000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BondingDuration",
               "type": 4,
               "value": "0xa0020000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SlashDeferDuration",
               "type": 4,
               "value": "0xa8000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxNominatorRewardedPerValidator",
               "type": 4,
               "value": "0x00010000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxNominations",
               "type": 4,
               "value": "0x10000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -36689,7 +36689,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentIndex",
@@ -36698,7 +36698,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "QueuedChanged",
@@ -36707,7 +36707,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "QueuedKeys",
@@ -36716,7 +36716,7 @@
                   "plain": 363
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DisabledValidators",
@@ -36725,7 +36725,7 @@
                   "plain": 94
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextKeys",
@@ -36738,7 +36738,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "KeyOwner",
@@ -36751,7 +36751,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -36770,12 +36770,12 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "purge_keys",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -36800,7 +36800,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "PublicProps",
@@ -36809,7 +36809,7 @@
                   "plain": 368
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DepositOf",
@@ -36822,7 +36822,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Preimages",
@@ -36835,7 +36835,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ReferendumCount",
@@ -36844,7 +36844,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "LowestUnbaked",
@@ -36853,7 +36853,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ReferendumInfoOf",
@@ -36866,7 +36866,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "VotingOf",
@@ -36879,7 +36879,7 @@
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Locks",
@@ -36892,7 +36892,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "LastTabledWasExternal",
@@ -36901,7 +36901,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextExternal",
@@ -36910,7 +36910,7 @@
                   "plain": 380
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Blacklist",
@@ -36923,7 +36923,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Cancellations",
@@ -36936,7 +36936,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StorageVersion",
@@ -36945,7 +36945,7 @@
                   "plain": 382
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -36964,7 +36964,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "second",
@@ -36978,7 +36978,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vote",
@@ -36992,7 +36992,7 @@
                     "type": 214
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "emergency_cancel",
@@ -37002,7 +37002,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "external_propose",
@@ -37012,7 +37012,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "external_propose_majority",
@@ -37022,7 +37022,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "external_propose_default",
@@ -37032,7 +37032,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "fast_track",
@@ -37050,7 +37050,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "veto_external",
@@ -37060,7 +37060,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_referendum",
@@ -37070,7 +37070,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_queued",
@@ -37080,7 +37080,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "delegate",
@@ -37098,17 +37098,17 @@
                     "type": 6
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "undelegate",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_public_proposals",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "note_preimage",
@@ -37118,7 +37118,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "note_preimage_operational",
@@ -37128,7 +37128,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "note_imminent_preimage",
@@ -37138,7 +37138,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "note_imminent_preimage_operational",
@@ -37148,7 +37148,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "reap_preimage",
@@ -37162,7 +37162,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unlock",
@@ -37172,7 +37172,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_vote",
@@ -37182,7 +37182,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_other_vote",
@@ -37196,7 +37196,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "enact_proposal",
@@ -37210,7 +37210,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "blacklist",
@@ -37224,7 +37224,7 @@
                     "type": 95
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_proposal",
@@ -37234,7 +37234,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37246,49 +37246,49 @@
               "name": "EnactmentPeriod",
               "type": 4,
               "value": "0x002f0d00",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "LaunchPeriod",
               "type": 4,
               "value": "0x004e0c00",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "VotingPeriod",
               "type": 4,
               "value": "0x004e0c00",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MinimumDeposit",
               "type": 6,
               "value": "0x0000c16ff28623000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "FastTrackVotingPeriod",
               "type": 4,
               "value": "0x80510100",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "CooloffPeriod",
               "type": 4,
               "value": "0x004e0c00",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "PreimageByteDeposit",
               "type": 6,
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxVotes",
               "type": 4,
               "value": "0x64000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -37308,7 +37308,7 @@
                   "plain": 384
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ProposalOf",
@@ -37321,7 +37321,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Voting",
@@ -37334,7 +37334,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ProposalCount",
@@ -37343,7 +37343,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Members",
@@ -37352,7 +37352,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Prime",
@@ -37361,7 +37361,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37384,7 +37384,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "execute",
@@ -37398,7 +37398,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "propose",
@@ -37416,7 +37416,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vote",
@@ -37434,7 +37434,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "close",
@@ -37456,7 +37456,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "disapprove_proposal",
@@ -37466,7 +37466,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37491,7 +37491,7 @@
                   "plain": 387
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ProposalOf",
@@ -37504,7 +37504,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Voting",
@@ -37517,7 +37517,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ProposalCount",
@@ -37526,7 +37526,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Members",
@@ -37535,7 +37535,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Prime",
@@ -37544,7 +37544,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37567,7 +37567,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "execute",
@@ -37581,7 +37581,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "propose",
@@ -37599,7 +37599,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vote",
@@ -37617,7 +37617,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "close",
@@ -37639,7 +37639,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "disapprove_proposal",
@@ -37649,7 +37649,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37674,7 +37674,7 @@
                   "plain": 389
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "RunnersUp",
@@ -37683,7 +37683,7 @@
                   "plain": 389
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Candidates",
@@ -37692,7 +37692,7 @@
                   "plain": 48
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ElectionRounds",
@@ -37701,7 +37701,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Voting",
@@ -37714,7 +37714,7 @@
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37733,12 +37733,12 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_voter",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "submit_candidacy",
@@ -37748,7 +37748,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "renounce_candidacy",
@@ -37758,7 +37758,7 @@
                     "type": 221
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_member",
@@ -37772,7 +37772,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clean_defunct_voters",
@@ -37786,7 +37786,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37798,43 +37798,43 @@
               "name": "PalletId",
               "type": 121,
               "value": "0x706872656c656374",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "CandidacyBond",
               "type": 6,
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "VotingBondBase",
               "type": 6,
               "value": "0x00f0436de36a01000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "VotingBondFactor",
               "type": 6,
               "value": "0x0000cc7b9fae00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DesiredMembers",
               "type": 4,
               "value": "0x0d000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DesiredRunnersUp",
               "type": 4,
               "value": "0x07000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "TermDuration",
               "type": 4,
               "value": "0x80130300",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -37854,7 +37854,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Prime",
@@ -37863,7 +37863,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37878,7 +37878,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_member",
@@ -37888,7 +37888,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "swap_member",
@@ -37902,7 +37902,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "reset_members",
@@ -37912,7 +37912,7 @@
                     "type": 39
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "change_key",
@@ -37922,7 +37922,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_prime",
@@ -37932,12 +37932,12 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_prime",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -37962,7 +37962,7 @@
                   "plain": 394
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "PendingChange",
@@ -37971,7 +37971,7 @@
                   "plain": 395
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NextForced",
@@ -37980,7 +37980,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Stalled",
@@ -37989,7 +37989,7 @@
                   "plain": 79
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CurrentSetId",
@@ -37998,7 +37998,7 @@
                   "plain": 8
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SetIdSession",
@@ -38011,7 +38011,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38030,7 +38030,7 @@
                     "type": 132
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "report_equivocation_unsigned",
@@ -38044,7 +38044,7 @@
                     "type": 132
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "note_stalled",
@@ -38058,7 +38058,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38083,7 +38083,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Proposals",
@@ -38096,7 +38096,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Approvals",
@@ -38105,7 +38105,7 @@
                   "plain": 398
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38124,7 +38124,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "reject_proposal",
@@ -38134,7 +38134,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "approve_proposal",
@@ -38144,7 +38144,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38156,31 +38156,31 @@
               "name": "ProposalBond",
               "type": 399,
               "value": "0x50c30000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "ProposalBondMinimum",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SpendPeriod",
               "type": 4,
               "value": "0x80700000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "Burn",
               "type": 399,
               "value": "0x20a10700",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "PalletId",
               "type": 400,
               "value": "0x70792f7472737279",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -38204,7 +38204,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CodeStorage",
@@ -38217,7 +38217,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "AccountCounter",
@@ -38226,7 +38226,7 @@
                   "plain": 8
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ContractInfoOf",
@@ -38239,7 +38239,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DeletionQueue",
@@ -38248,7 +38248,7 @@
                   "plain": 408
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38275,7 +38275,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "instantiate_with_code",
@@ -38301,7 +38301,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "instantiate",
@@ -38327,7 +38327,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "claim_surcharge",
@@ -38341,7 +38341,7 @@
                     "type": 218
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38353,61 +38353,61 @@
               "name": "Schedule",
               "type": 410,
               "value": "0x0400000000020000000100008000000010000000001000000001000020000000200000000040000000000200020000008e0f0000b04602009a8c0300a9720000767600005e380000ea5e00000753000097000000579e030088130500b60000007a170000c11100005721000099370000483a0000d0110000d8d12c08bc4300005c430000bb2e0000a942000000260000b72300009c370000ad540000de540000ca5400000354000018550000e553000011550000c053000007540000da540000a0530000e85300008d5400004a690000bd680000a56a000096670000b053000013540000055400006a5500009255000060550000f455000033550000cae32900000000007a332a00000000004041290000000000a6fb5d000000000060c02a0000000000e6d6290000000000065329000000000062002a0000000000d425290000000000b0522a00000000005cb3540000000000b41c1600000000008057640000000000000100000000000008f6380000000000710200000000000078d68a210000000098d6de2a000000007c75640900000000466d6f000000000070baac0000000000ec73de07000000007406000000000000922c190000000000fc9f1d00000000008618ee0900000000450200000000000082dc6108000000003e573102000000002704000000000000cc94430b000000009406e1100000000096fa930800000000dc010000000000009c020000000000001843c12400000000f001000000000000b80200000000000094070000000000008a9b2a0000000000561200000000000046432b0000000000ab0c000000000000c08c260000000000b005000000000000acd2260000000000b005000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SignedClaimHandicap",
               "type": 4,
               "value": "0x02000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "TombstoneDeposit",
               "type": 6,
               "value": "0x00f0e8857a9c02000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DepositPerContract",
               "type": 6,
               "value": "0x00f0e8857a9c02000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DepositPerStorageByte",
               "type": 6,
               "value": "0x0060defb740500000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DepositPerStorageItem",
               "type": 6,
               "value": "0x00f0ab75a40d00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "RentFraction",
               "type": 106,
               "value": "0x85040000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SurchargeReward",
               "type": 6,
               "value": "0x005cb2ec220000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DeletionQueueDepth",
               "type": 4,
               "value": "0x1a040000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DeletionWeightLimit",
               "type": 8,
               "value": "0x00d0ed902e000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -38427,7 +38427,7 @@
                   "plain": 0
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38442,7 +38442,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "sudo_unchecked_weight",
@@ -38456,7 +38456,7 @@
                     "type": 8
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_key",
@@ -38466,7 +38466,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "sudo_as",
@@ -38480,7 +38480,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38505,7 +38505,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Keys",
@@ -38514,7 +38514,7 @@
                   "plain": 416
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ReceivedHeartbeats",
@@ -38529,7 +38529,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "AuthoredBlocks",
@@ -38544,7 +38544,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38563,7 +38563,7 @@
                     "type": 244
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38601,7 +38601,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ConcurrentReportsIndex",
@@ -38616,7 +38616,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ReportsByKindIndex",
@@ -38629,7 +38629,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38664,7 +38664,7 @@
                   "plain": 100
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38690,7 +38690,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SuperOf",
@@ -38703,7 +38703,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SubsOf",
@@ -38716,7 +38716,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Registrars",
@@ -38725,7 +38725,7 @@
                   "plain": 425
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38740,7 +38740,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_identity",
@@ -38750,7 +38750,7 @@
                     "type": 247
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_subs",
@@ -38760,12 +38760,12 @@
                     "type": 281
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_identity",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "request_judgement",
@@ -38779,7 +38779,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_request",
@@ -38789,7 +38789,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_fee",
@@ -38803,7 +38803,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_account_id",
@@ -38817,7 +38817,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_fields",
@@ -38831,7 +38831,7 @@
                     "type": 283
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "provide_judgement",
@@ -38849,7 +38849,7 @@
                     "type": 285
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "kill_identity",
@@ -38859,7 +38859,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "add_sub",
@@ -38873,7 +38873,7 @@
                     "type": 250
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "rename_sub",
@@ -38887,7 +38887,7 @@
                     "type": 250
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_sub",
@@ -38897,12 +38897,12 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "quit_sub",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -38914,37 +38914,37 @@
               "name": "BasicDeposit",
               "type": 6,
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "FieldDeposit",
               "type": 6,
               "value": "0x00a031a95fe300000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "SubAccountDeposit",
               "type": 6,
               "value": "0x0080f420e6b500000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxSubAccounts",
               "type": 4,
               "value": "0x64000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxAdditionalFields",
               "type": 4,
               "value": "0x64000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxRegistrars",
               "type": 4,
               "value": "0x14000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -38964,7 +38964,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Rules",
@@ -38973,7 +38973,7 @@
                   "plain": 9
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Candidates",
@@ -38982,7 +38982,7 @@
                   "plain": 430
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SuspendedCandidates",
@@ -38995,7 +38995,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Pot",
@@ -39004,7 +39004,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Head",
@@ -39013,7 +39013,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Members",
@@ -39022,7 +39022,7 @@
                   "plain": 39
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "SuspendedMembers",
@@ -39035,7 +39035,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Bids",
@@ -39044,7 +39044,7 @@
                   "plain": 430
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Vouching",
@@ -39057,7 +39057,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Payouts",
@@ -39070,7 +39070,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Strikes",
@@ -39083,7 +39083,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Votes",
@@ -39098,7 +39098,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Defender",
@@ -39107,7 +39107,7 @@
                   "plain": 0
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "DefenderVotes",
@@ -39120,7 +39120,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MaxMembers",
@@ -39129,7 +39129,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39144,7 +39144,7 @@
                     "type": 6
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unbid",
@@ -39154,7 +39154,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vouch",
@@ -39172,7 +39172,7 @@
                     "type": 6
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unvouch",
@@ -39182,7 +39182,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vote",
@@ -39196,7 +39196,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "defender_vote",
@@ -39206,12 +39206,12 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "payout",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "found",
@@ -39229,12 +39229,12 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unfound",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "judge_suspended_member",
@@ -39248,7 +39248,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "judge_suspended_candidate",
@@ -39262,7 +39262,7 @@
                     "type": 287
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_max_members",
@@ -39272,7 +39272,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39284,49 +39284,49 @@
               "name": "CandidateDeposit",
               "type": 6,
               "value": "0x0080c6a47e8d03000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "WrongSideDeduction",
               "type": 6,
               "value": "0x0080f420e6b500000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxStrikes",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "PeriodSpend",
               "type": 6,
               "value": "0x0000c52ebca2b1000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "RotationPeriod",
               "type": 4,
               "value": "0x00770100",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "ChallengePeriod",
               "type": 4,
               "value": "0x80130300",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "PalletId",
               "type": 400,
               "value": "0x70792f736f636965",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxCandidateIntake",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -39350,7 +39350,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ActiveRecoveries",
@@ -39365,7 +39365,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Proxy",
@@ -39378,7 +39378,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39397,7 +39397,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_recovered",
@@ -39411,7 +39411,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "create_recovery",
@@ -39429,7 +39429,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "initiate_recovery",
@@ -39439,7 +39439,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vouch_recovery",
@@ -39453,7 +39453,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "claim_recovery",
@@ -39463,7 +39463,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "close_recovery",
@@ -39473,12 +39473,12 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_recovery",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_recovered",
@@ -39488,7 +39488,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39500,25 +39500,25 @@
               "name": "ConfigDepositBase",
               "type": 6,
               "value": "0x00406352bfc601000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "FriendDepositFactor",
               "type": 6,
               "value": "0x00203d88792d00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxFriends",
               "type": 83,
               "value": "0x0900",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "RecoveryDeposit",
               "type": 6,
               "value": "0x00406352bfc601000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -39542,7 +39542,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39552,7 +39552,7 @@
               {
                 "name": "vest",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vest_other",
@@ -39562,7 +39562,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "vested_transfer",
@@ -39576,7 +39576,7 @@
                     "type": 290
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_vested_transfer",
@@ -39594,7 +39594,7 @@
                     "type": 290
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39606,7 +39606,7 @@
               "name": "MinVestedTransfer",
               "type": 6,
               "value": "0x0000c16ff28623000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -39630,7 +39630,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Lookup",
@@ -39643,7 +39643,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StorageVersion",
@@ -39652,7 +39652,7 @@
                   "plain": 451
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39679,7 +39679,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel",
@@ -39693,7 +39693,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "schedule_named",
@@ -39719,7 +39719,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_named",
@@ -39729,7 +39729,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "schedule_after",
@@ -39751,7 +39751,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "schedule_named_after",
@@ -39777,7 +39777,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39806,7 +39806,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Announcements",
@@ -39819,7 +39819,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -39842,7 +39842,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "add_proxy",
@@ -39860,7 +39860,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_proxy",
@@ -39878,12 +39878,12 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_proxies",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "anonymous",
@@ -39901,7 +39901,7 @@
                     "type": 83
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "kill_anonymous",
@@ -39927,7 +39927,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "announce",
@@ -39941,7 +39941,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "remove_announcement",
@@ -39955,7 +39955,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "reject_announcement",
@@ -39969,7 +39969,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "proxy_announced",
@@ -39991,7 +39991,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40003,37 +40003,37 @@
               "name": "ProxyDepositBase",
               "type": 6,
               "value": "0x00f09e544c3900000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "ProxyDepositFactor",
               "type": 6,
               "value": "0x0060aa7714b400000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxProxies",
               "type": 4,
               "value": "0x20000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxPending",
               "type": 4,
               "value": "0x20000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "AnnouncementDepositBase",
               "type": 6,
               "value": "0x00f09e544c3900000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "AnnouncementDepositFactor",
               "type": 6,
               "value": "0x00c054ef286801000000000000000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -40059,7 +40059,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Calls",
@@ -40072,7 +40072,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40091,7 +40091,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "as_multi",
@@ -40121,7 +40121,7 @@
                     "type": 8
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "approve_as_multi",
@@ -40147,7 +40147,7 @@
                     "type": 8
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_as_multi",
@@ -40169,7 +40169,7 @@
                     "type": 1
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40181,19 +40181,19 @@
               "name": "DepositBase",
               "type": 6,
               "value": "0x00f01c0adbed01000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DepositFactor",
               "type": 6,
               "value": "0x0000cc7b9fae00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxSignatories",
               "type": 83,
               "value": "0x6400",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -40213,7 +40213,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Bounties",
@@ -40226,7 +40226,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BountyDescriptions",
@@ -40239,7 +40239,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BountyApprovals",
@@ -40248,7 +40248,7 @@
                   "plain": 94
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40267,7 +40267,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "approve_bounty",
@@ -40277,7 +40277,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "propose_curator",
@@ -40295,7 +40295,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "unassign_curator",
@@ -40305,7 +40305,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "accept_curator",
@@ -40315,7 +40315,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "award_bounty",
@@ -40329,7 +40329,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "claim_bounty",
@@ -40339,7 +40339,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "close_bounty",
@@ -40349,7 +40349,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "extend_bounty_expiry",
@@ -40363,7 +40363,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40375,43 +40375,43 @@
               "name": "DataDepositPerByte",
               "type": 6,
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BountyDepositBase",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BountyDepositPayoutDelay",
               "type": 4,
               "value": "0x80700000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BountyUpdatePeriod",
               "type": 4,
               "value": "0x00270600",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BountyCuratorDeposit",
               "type": 399,
               "value": "0x20a10700",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "BountyValueMinimum",
               "type": 6,
               "value": "0x00406352bfc601000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaximumReasonLength",
               "type": 4,
               "value": "0x00400000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -40435,7 +40435,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Reasons",
@@ -40448,7 +40448,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40467,7 +40467,7 @@
                     "type": 0
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "retract_tip",
@@ -40477,7 +40477,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "tip_new",
@@ -40495,7 +40495,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "tip",
@@ -40509,7 +40509,7 @@
                     "type": 68
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "close_tip",
@@ -40519,7 +40519,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "slash_tip",
@@ -40529,7 +40529,7 @@
                     "type": 9
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40541,31 +40541,31 @@
               "name": "TipCountdown",
               "type": 4,
               "value": "0x80700000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "TipFindersFee",
               "type": 208,
               "value": "0x14",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "TipReportDepositBase",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "DataDepositPerByte",
               "type": 6,
               "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaximumReasonLength",
               "type": 4,
               "value": "0x00400000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -40589,7 +40589,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Account",
@@ -40604,7 +40604,7 @@
                   }
                 },
                 "fallback": "0x00000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Approvals",
@@ -40621,7 +40621,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Metadata",
@@ -40634,7 +40634,7 @@
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -40657,7 +40657,7 @@
                     "type": 8
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_create",
@@ -40679,7 +40679,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "destroy",
@@ -40693,7 +40693,7 @@
                     "type": 300
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "mint",
@@ -40711,7 +40711,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "burn",
@@ -40729,7 +40729,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer",
@@ -40747,7 +40747,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_keep_alive",
@@ -40765,7 +40765,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_transfer",
@@ -40787,7 +40787,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "freeze",
@@ -40801,7 +40801,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "thaw",
@@ -40815,7 +40815,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "freeze_asset",
@@ -40825,7 +40825,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "thaw_asset",
@@ -40835,7 +40835,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_ownership",
@@ -40849,7 +40849,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_team",
@@ -40871,7 +40871,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_metadata",
@@ -40893,7 +40893,7 @@
                     "type": 2
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_metadata",
@@ -40903,7 +40903,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_set_metadata",
@@ -40929,7 +40929,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_clear_metadata",
@@ -40939,7 +40939,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_asset_status",
@@ -40977,7 +40977,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "approve_transfer",
@@ -40995,7 +40995,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_approval",
@@ -41009,7 +41009,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_cancel_approval",
@@ -41027,7 +41027,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_approved",
@@ -41049,7 +41049,7 @@
                     "type": 137
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41074,7 +41074,7 @@
                   "plain": 9
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "NumberOfLeaves",
@@ -41083,7 +41083,7 @@
                   "plain": 8
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Nodes",
@@ -41096,7 +41096,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41120,7 +41120,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Lottery",
@@ -41129,7 +41129,7 @@
                   "plain": 476
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Participants",
@@ -41142,7 +41142,7 @@
                   }
                 },
                 "fallback": "0x0000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "TicketsCount",
@@ -41151,7 +41151,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Tickets",
@@ -41164,7 +41164,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "CallIndices",
@@ -41173,7 +41173,7 @@
                   "plain": 478
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41188,7 +41188,7 @@
                     "type": 126
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_calls",
@@ -41198,7 +41198,7 @@
                     "type": 125
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "start_lottery",
@@ -41220,12 +41220,12 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "stop_repeat",
                 "arguments": [],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41237,13 +41237,13 @@
               "name": "PalletId",
               "type": 400,
               "value": "0x70792f6c6f74746f",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxCalls",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -41263,7 +41263,7 @@
                   "plain": 435
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Queues",
@@ -41276,7 +41276,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ActiveTotal",
@@ -41285,7 +41285,7 @@
                   "plain": 482
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Active",
@@ -41298,7 +41298,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41317,7 +41317,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "retract_bid",
@@ -41331,7 +41331,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_target",
@@ -41341,7 +41341,7 @@
                     "type": 303
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "thaw",
@@ -41351,7 +41351,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41363,43 +41363,43 @@
               "name": "QueueCount",
               "type": 4,
               "value": "0x2c010000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxQueueLen",
               "type": 4,
               "value": "0xe8030000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "FifoQueueLen",
               "type": 4,
               "value": "0xf4010000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "Period",
               "type": 4,
               "value": "0x002f0d00",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MinFreeze",
               "type": 6,
               "value": "0x0000c16ff28623000000000000000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "IntakePeriod",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             },
             {
               "name": "MaxIntakeBids",
               "type": 4,
               "value": "0x0a000000",
-              "documentation": []
+              "docs": []
             }
           ],
           "error": {
@@ -41423,7 +41423,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Account",
@@ -41440,7 +41440,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Asset",
@@ -41455,7 +41455,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ClassMetadataOf",
@@ -41468,7 +41468,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "InstanceMetadataOf",
@@ -41483,7 +41483,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "Attribute",
@@ -41500,7 +41500,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41519,7 +41519,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_create",
@@ -41537,7 +41537,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "destroy",
@@ -41551,7 +41551,7 @@
                     "type": 306
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "mint",
@@ -41569,7 +41569,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "burn",
@@ -41587,7 +41587,7 @@
                     "type": 307
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer",
@@ -41605,7 +41605,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "redeposit",
@@ -41619,7 +41619,7 @@
                     "type": 94
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "freeze",
@@ -41633,7 +41633,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "thaw",
@@ -41647,7 +41647,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "freeze_class",
@@ -41657,7 +41657,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "thaw_class",
@@ -41667,7 +41667,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "transfer_ownership",
@@ -41681,7 +41681,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_team",
@@ -41703,7 +41703,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "approve_transfer",
@@ -41721,7 +41721,7 @@
                     "type": 142
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "cancel_approval",
@@ -41739,7 +41739,7 @@
                     "type": 307
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "force_asset_status",
@@ -41773,7 +41773,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_attribute",
@@ -41795,7 +41795,7 @@
                     "type": 97
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_attribute",
@@ -41813,7 +41813,7 @@
                     "type": 96
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_metadata",
@@ -41835,7 +41835,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_metadata",
@@ -41849,7 +41849,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "set_class_metadata",
@@ -41867,7 +41867,7 @@
                     "type": 34
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "clear_class_metadata",
@@ -41877,7 +41877,7 @@
                     "type": 103
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41906,7 +41906,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ChunkCount",
@@ -41919,7 +41919,7 @@
                   }
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ByteFee",
@@ -41928,7 +41928,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "EntryFee",
@@ -41937,7 +41937,7 @@
                   "plain": 6
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MaxTransactionSize",
@@ -41946,7 +41946,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "MaxBlockTransactions",
@@ -41955,7 +41955,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "StoragePeriod",
@@ -41964,7 +41964,7 @@
                   "plain": 4
                 },
                 "fallback": "0x00000000",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "BlockTransactions",
@@ -41973,7 +41973,7 @@
                   "plain": 493
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "ProofChecked",
@@ -41982,7 +41982,7 @@
                   "plain": 34
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "docs": []
               }
             ]
           },
@@ -41997,7 +41997,7 @@
                     "type": 10
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "renew",
@@ -42011,7 +42011,7 @@
                     "type": 4
                   }
                 ],
-                "documentation": []
+                "docs": []
               },
               {
                 "name": "check_proof",
@@ -42021,7 +42021,7 @@
                     "type": 309
                   }
                 ],
-                "documentation": []
+                "docs": []
               }
             ]
           },

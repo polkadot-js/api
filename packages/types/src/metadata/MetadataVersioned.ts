@@ -118,14 +118,15 @@ export class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V14 object
    */
   public get asV14 (): MetadataV14 {
-    return this.#getVersion(14, toV14) as unknown as MetadataV14;
+    return this.#getVersion(14, toV14);
   }
 
   /**
    * @description Returns the wrapped values as a latest version object
    */
-  public get asLatest (): MetadataLatest {
-    return this.#getVersion('latest', toLatest);
+  public get asLatest (): MetadataV14 {
+    // FIXME casting
+    return this.#getVersion('latest', toLatest) as unknown as MetadataV14;
   }
 
   /**
@@ -143,7 +144,8 @@ export class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return getUniqTypes(this.registry, this.asLatest, throwError);
+    // FIXME casting
+    return getUniqTypes(this.registry, this.asLatest as any, throwError);
   }
 
   /**

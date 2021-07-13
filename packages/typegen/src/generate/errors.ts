@@ -18,14 +18,14 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
   writeFile(dest, (): string => {
     const imports = createImports({});
 
-    const modules = meta.asLatest.modules
+    const modules = meta.asLatest.pallets
       .sort(compareName)
       .filter((mod) => mod.errors.length > 0)
       .map(({ errors, name }) => ({
         items: errors
           .sort(compareName)
-          .map(({ documentation, name }) => ({
-            docs: documentation,
+          .map(({ docs, name }) => ({
+            docs,
             name: name.toString()
           })),
         name: stringCamelCase(name)

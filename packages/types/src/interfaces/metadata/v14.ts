@@ -20,7 +20,7 @@ export const v14: DefinitionsTypes = {
   FunctionMetadataV14: {
     name: 'Text',
     args: 'Vec<FunctionArgumentMetadataV14>',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   ExtrinsicMetadataV14: {
     type: 'SiLookupTypeId',
@@ -40,7 +40,7 @@ export const v14: DefinitionsTypes = {
     name: 'Text',
     type: 'SiLookupTypeId',
     value: 'Bytes',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   PalletErrorMetadataV14: {
     type: 'SiLookupTypeId'
@@ -71,7 +71,7 @@ export const v14: DefinitionsTypes = {
     modifier: 'StorageEntryModifierV14',
     type: 'StorageEntryTypeV14',
     fallback: 'Bytes',
-    documentation: 'Vec<Text>'
+    docs: 'Vec<Text>'
   },
   StorageEntryModifierV14: 'StorageEntryModifierV13',
   StorageEntryTypeV14: {

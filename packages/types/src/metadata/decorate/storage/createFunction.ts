@@ -78,7 +78,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _stora
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
   const outputType = type.isMap
     ? type.asMap.key
     : type.isDoubleMap
@@ -88,7 +88,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
-    documentation,
+    docs,
     fallback: registry.createType('Bytes'),
     modifier: registry.createType('StorageEntryModifierLatest', 1), // required
     name,
