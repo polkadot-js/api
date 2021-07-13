@@ -27,18 +27,21 @@ const l = logger('registry');
 
 // create error mapping from metadata
 function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
-  const modules = metadata.asLatest.modules;
+  const pallets = metadata.asLatest.pallets;
 
   // decorate the errors
-  modules.forEach((section, _sectionIndex): void => {
+  pallets.forEach((section, _sectionIndex): void => {
     const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
     const sectionName = stringCamelCase(section.name);
 
-    section.errors.forEach(({ documentation, name }, index): void => {
+    section.errors
+      .filter((e) => e.isSome)
+      .map((e) => e.unwrap())
+      .forEach(({ docs, name }, index): void => {
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
-        documentation: documentation.map((d) => d.toString()),
+        docs: docs.map((d) => d.toString()),
         index,
         method: name.toString(),
         name: name.toString(),
@@ -51,7 +54,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
   // decorate the events
-  metadata.asLatest.modules
+  metadata.asLatest.pallets
     .filter(({ events }) => events.isSome)
     .forEach((section, _sectionIndex): void => {
       const sectionIndex = metadata.version >= 12

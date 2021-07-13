@@ -142,7 +142,7 @@ export interface MetadataAll extends Enum {
 }
 
 /** @name MetadataLatest */
-export interface MetadataLatest extends MetadataV13 {}
+export interface MetadataLatest extends MetadataV14 {}
 
 /** @name MetadataV10 */
 export interface MetadataV10 extends Struct {

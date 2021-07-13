@@ -43,7 +43,7 @@ type Event = { args: Vec<Type> } & Codec;
 
 type Events = Option<Vec<Event>>;
 
-type Module = {
+type Pallet = {
   // V1+
   calls?: Calls;
   // V6+
@@ -53,13 +53,13 @@ type Module = {
 } & Codec;
 
 interface ExtractionMetadata {
-  modules: Vec<Module>;
+  pallets: Vec<Pallet>;
 }
 
 /** @internal */
-function unwrapCalls (mod: Module): Call[] {
-  return mod.calls
-    ? mod.calls.unwrapOr([])
+function unwrapCalls (pallet: Pallet): Call[] {
+  return pallet.calls
+    ? pallet.calls.unwrapOr([])
     : [];
 }
 
@@ -69,17 +69,17 @@ function typeToString ({ type }: Arg): string {
 }
 
 /** @internal */
-function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map((mod): string[][] =>
-    unwrapCalls(mod).map(({ args }): string[] =>
+function getCallNames ({ pallets }: ExtractionMetadata): string[][][] {
+  return pallets.map((p): string[][] =>
+    unwrapCalls(p).map(({ args }): string[] =>
       args.map(typeToString)
     )
   );
 }
 
 /** @internal */
-function getConstantNames ({ modules }: ExtractionMetadata): string[][] {
-  return modules.map(({ constants }): string[] =>
+function getConstantNames ({ pallets }: ExtractionMetadata): string[][] {
+  return pallets.map(({ constants }): string[] =>
     (constants || []).map(typeToString)
   );
 }
@@ -92,8 +92,8 @@ function unwrapEvents (events?: Events): Event[] {
 }
 
 /** @internal */
-function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map(({ events }): string[][] =>
+function getEventNames ({ pallets }: ExtractionMetadata): string[][][] {
+  return pallets.map(({ events }): string[][] =>
     unwrapEvents(events).map(({ args }: Event): string[] =>
       args.map((a) => a.toString())
     )
@@ -108,8 +108,8 @@ function unwrapStorage (storage?: Storage): Item[] {
 }
 
 /** @internal */
-function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map(({ storage }): string[][] =>
+function getStorageNames ({ pallets }: ExtractionMetadata): string[][][] {
+  return pallets.map(({ storage }): string[][] =>
     unwrapStorage(storage).map(({ type }) =>
       type.isPlain
         ? [

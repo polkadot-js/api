@@ -1,8 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// FIXME MetadataLatest
-import type { MetadataV14 } from '../../../interfaces';
+import type { MetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { ConstantCodec, Constants, ModuleConstants } from '../types';
 
@@ -10,7 +9,7 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { pallets }: MetadataV14, _metaVersion: number): Constants {
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
   return pallets.reduce((result: Constants, { constants, name }): Constants => {
     if (constants.isEmpty) {
       return result;
