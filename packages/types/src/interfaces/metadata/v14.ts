@@ -19,7 +19,7 @@ export const v14: DefinitionsTypes = {
   },
   FunctionMetadataV14: {
     name: 'Text',
-    arguments: 'Vec<FunctionArgumentMetadataV14>',
+    args: 'Vec<FunctionArgumentMetadataV14>',
     documentation: 'Vec<Text>'
   },
   ExtrinsicMetadataV14: {

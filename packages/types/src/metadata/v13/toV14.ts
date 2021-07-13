@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { SiType, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text } from '../../primitive/Text';
 import type { Type } from '../../primitive/Type';
@@ -84,11 +84,18 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertCalls (registry: Registry, types: SiType[], calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): FunctionMetadataV14[] {
-  return calls.map((c): FunctionMetadataV14 => {
-    setTypeOverride(sectionTypes, c.args.map(({ type }) => type));
+function convertCalls (registry: Registry, types: SiType[], calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
+  return registry.createType('PalletCallMetadataV14', {
+    calls: calls.map(({ args, documentation, name }): FunctionMetadataV14 => {
+      setTypeOverride(sectionTypes, args.map(({ type }) => type));
 
-    return registry.createType('FunctionMetadataV14', c);
+      return registry.createType('FunctionMetadataV14', {
+        // FIXME Add args
+        documentation,
+        name
+      });
+    }),
+    type: 0
   });
 }
 
@@ -296,5 +303,5 @@ export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number
     })
   );
 
-  return registry.createType('MetadataV14', { extrinsic, pallets, types });
+  return registry.createType('MetadataV14', { extrinsic, pallets, types: { types } });
 }
