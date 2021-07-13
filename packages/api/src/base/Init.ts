@@ -213,7 +213,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       });
     });
 
-    this._filterRpcMethods(methods);
+    this._filterRpc(methods, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
 
     return [source.genesisHash, source.runtimeMetadata];
   }
@@ -296,7 +296,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
-    this._filterRpc(rpcMethods, getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._filterRpc(rpcMethods.methods.map((t) => t.toString()), getSpecRpc(this.registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
 
     // setup the initial registry, when we have none
