@@ -154,7 +154,7 @@ const junction = {
   },
   AccountKey20Junction: {
     network: 'NetworkId',
-    index: '[u8; 20]'
+    key: '[u8; 20]'
   },
   PluralityJunction: {
     id: 'BodyId',
