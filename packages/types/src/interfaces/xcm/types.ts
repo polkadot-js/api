@@ -20,7 +20,7 @@ export interface AccountIndex64Junction extends Struct {
 /** @name AccountKey20Junction */
 export interface AccountKey20Junction extends Struct {
   readonly network: NetworkId;
-  readonly index: U8aFixed;
+  readonly key: U8aFixed;
 }
 
 /** @name AssetInstance */
