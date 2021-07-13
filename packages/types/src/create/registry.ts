@@ -34,11 +34,11 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
     const sectionName = stringCamelCase(section.name);
 
-    section.errors.forEach(({ documentation, name }, index): void => {
+    section.errors.forEach(({ docs, name }, index): void => {
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
-        documentation: documentation.map((d) => d.toString()),
+        docs: docs.map((d) => d.toString()),
         index,
         method: name.toString(),
         name: name.toString(),

@@ -44,7 +44,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
         const items = calls.unwrap()
           .sort(compareName)
-          .map(({ args, documentation, name }) => {
+          .map(({ args, docs, name }) => {
             const params = args
               .map(({ name, type }) => {
                 const typeStr = type.toString();
@@ -58,7 +58,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               params
             };

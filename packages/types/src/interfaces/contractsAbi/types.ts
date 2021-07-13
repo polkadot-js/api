@@ -128,7 +128,7 @@ export interface ContractProjectContract extends Struct {
   readonly version: Text;
   readonly authors: Vec<Text>;
   readonly description: Option<Text>;
-  readonly documentation: Option<Text>;
+  readonly docs: Option<Text>;
   readonly repository: Option<Text>;
   readonly homepage: Option<Text>;
   readonly license: Option<Text>;

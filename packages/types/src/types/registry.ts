@@ -33,7 +33,7 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface RegistryError {
-  documentation: string[];
+  docs: string[];
   index: number;
   // compat
   method: string;

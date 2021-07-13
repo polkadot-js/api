@@ -11,14 +11,17 @@ export default {
   types: {
     SiField: {
       name: 'Option<Text>',
-      type: 'SiLookupTypeId'
+      type: 'SiLookupTypeId',
+      typeName: 'Option<Text>',
+      docs: 'Vec<Text>'
     },
     SiLookupTypeId: 'u32',
     SiPath: 'Vec<Text>',
     SiType: {
       path: 'SiPath',
-      params: 'Vec<SiLookupTypeId>',
-      def: 'SiTypeDef'
+      params: 'Vec<SiTypeParameter>',
+      def: 'SiTypeDef',
+      docs: 'Vec<Text>'
     },
     SiTypeDef: {
       _enum: {
@@ -27,16 +30,30 @@ export default {
         Sequence: 'SiTypeDefSequence',
         Array: 'SiTypeDefArray',
         Tuple: 'SiTypeDefTuple',
-        Primitive: 'SiTypeDefPrimitive'
+        Primitive: 'SiTypeDefPrimitive',
+        Compact: 'SiTypeDefCompact',
+        Phantom: 'SiTypeDefPhantom',
+        BitSequence: 'SiTypeDefBitSequence',
+        // NOTE: This is specific to the implementation for pre-v14 metadata
+        // compatibility (always keep this as the last entry in the enum)
+        HistoricMetaCompat: 'Type'
       }
     },
     SiTypeDefArray: {
-      len: 'u16',
+      len: 'u32',
+      type: 'SiLookupTypeId'
+    },
+    SiTypeDefBitSequence: {
+      bitStoreType: 'SiLookupTypeId',
+      bitOrderType: 'SiLookupTypeId'
+    },
+    SiTypeDefCompact: {
       type: 'SiLookupTypeId'
     },
     SiTypeDefComposite: {
       fields: 'Vec<SiField>'
     },
+    SiTypeDefPhantom: 'Null',
     SiTypeDefVariant: {
       variants: 'Vec<SiVariant>'
     },
@@ -47,10 +64,16 @@ export default {
       type: 'SiLookupTypeId'
     },
     SiTypeDefTuple: 'Vec<SiLookupTypeId>',
+    SiTypeParameter: {
+      name: 'Text',
+      type: 'Option<SiLookupTypeId>'
+    },
     SiVariant: {
       name: 'Text',
       fields: 'Vec<SiField>',
-      discriminant: 'Option<u64>'
+      index: 'Option<u8>',
+      discriminant: 'Option<u64>',
+      docs: 'Vec<Text>'
     }
   }
 } as Definitions;

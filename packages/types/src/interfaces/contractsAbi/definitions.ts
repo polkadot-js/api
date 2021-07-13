@@ -116,11 +116,14 @@ export default {
       spec: 'ContractContractSpec'
     },
     ContractProjectContract: {
+      _alias: {
+        docs: 'documentation'
+      },
       name: 'Text',
       version: 'Text',
       authors: 'Vec<Text>',
       description: 'Option<Text>',
-      documentation: 'Option<Text>',
+      docs: 'Option<Text>',
       repository: 'Option<Text>',
       homepage: 'Option<Text>',
       license: 'Option<Text>'
