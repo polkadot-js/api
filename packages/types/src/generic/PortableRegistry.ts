@@ -54,15 +54,15 @@ export class GenericPortableRegistry extends Struct {
     return instance;
   }
 
-  lookupClass <T extends Codec = Codec> (typeIndex: SiLookupTypeId): Constructor<T> {
-    const index = typeIndex.toNumber();
-    let Clazz = this.#lookupClass<T>(index);
+  lookupClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): Constructor<T> {
+    const index = lookupId.toNumber();
+    let Clazz = this.#classes[index] as Constructor<T>;
 
     if (Clazz) {
       return Clazz;
     }
 
-    Clazz = getTypeClass(this.registry, this.lookupTypeDef(typeIndex));
+    Clazz = getTypeClass(this.registry, this.lookupTypeDef(lookupId));
     this.#classes[index] = Clazz;
 
     return Clazz;
@@ -71,38 +71,8 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description Finds a specific type in the registry
    */
-  lookupType (typeIndex: SiLookupTypeId): SiType {
-    return this.#lookupType(typeIndex.toNumber());
-  }
-
-  /**
-   * @description Lookup the type definition for the index
-   */
-  lookupTypeDef (typeIndex: SiLookupTypeId): TypeDef {
-    const index = typeIndex.toNumber();
-    let typeDef = this.#lookupTypeDef(index);
-
-    if (typeDef) {
-      return typeDef;
-    }
-
-    const siType = this.#lookupType(index);
-
-    typeDef = this.#extract(siType, index);
-    this.#typeDefs[index] = typeDef;
-
-    return typeDef;
-  }
-
-  #lookupClass <T extends Codec = Codec> (index: number): Constructor<T> | undefined {
-    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
-
-    return this.#classes[index] as Constructor<T>;
-  }
-
-  #lookupType (index: number): SiType {
-    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
-
+  lookupType (lookupId: SiLookupTypeId): SiType {
+    const index = lookupId.toNumber();
     const type = this.types[index];
 
     assert(type, () => `PortableRegistry: Unable to find lookupTypeId ${index}`);
@@ -110,18 +80,35 @@ export class GenericPortableRegistry extends Struct {
     return type;
   }
 
-  #lookupTypeDef (index: number): TypeDef | undefined {
-    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
+  /**
+   * @description Lookup the type definition for the index
+   */
+  lookupTypeDef (lookupId: SiLookupTypeId): TypeDef {
+    const index = lookupId.toNumber();
+    let typeDef = this.#typeDefs[index];
 
-    return this.#typeDefs[index];
+    if (typeDef) {
+      return typeDef;
+    }
+
+    const siType = this.lookupType(lookupId);
+
+    typeDef = this.#extract(siType, lookupId);
+    this.#typeDefs[index] = typeDef;
+
+    return typeDef;
   }
 
-  #extract (type: SiType, id: number): TypeDef {
+  #extract (type: SiType, lookupId: SiLookupTypeId): TypeDef {
     const path = [...type.path];
 
     // We handle ink! here as well, although we still have a different registry there
     const isPrimitivePath = !!path.length && (
-      (path.length > 2 && path[0].eq('ink_env') && path[1].eq('types')) ||
+      (
+        path.length > 2 &&
+        path[0].eq('ink_env') &&
+        path[1].eq('types')
+      ) ||
       INK_PRIMITIVE_ALWAYS.includes(path[path.length - 1].toString())
     );
     let typeDef: Omit<TypeDef, 'type'>;
@@ -133,15 +120,15 @@ export class GenericPortableRegistry extends Struct {
     } else if (type.def.isComposite) {
       typeDef = this.#extractFields(type.def.asComposite.fields);
     } else if (type.def.isVariant) {
-      typeDef = this.#extractVariant(type.def.asVariant, id);
+      typeDef = this.#extractVariant(type.def.asVariant, lookupId);
     } else if (type.def.isArray) {
       typeDef = this.#extractArray(type.def.asArray);
     } else if (type.def.isSequence) {
-      typeDef = this.#extractSequence(type.def.asSequence, id);
+      typeDef = this.#extractSequence(type.def.asSequence, lookupId);
     } else if (type.def.isTuple) {
       typeDef = this.#extractTuple(type.def.asTuple);
     } else {
-      throw new Error(`PortableRegistry: Invalid type at index ${id}: No handler for ${type.def.toString()}`);
+      throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toNumber()}: No handler for ${type.def.toString()}`);
     }
 
     const displayName = path.pop()?.toString();
@@ -217,8 +204,8 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractSequence ({ type }: SiTypeDefSequence, id: number): Omit<TypeDef, 'type'> {
-    assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${id}`);
+  #extractSequence ({ type }: SiTypeDefSequence, lookupId: SiLookupTypeId): Omit<TypeDef, 'type'> {
+    assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${lookupId.toNumber()}`);
 
     return {
       info: TypeDefInfo.Vec,
@@ -235,8 +222,8 @@ export class GenericPortableRegistry extends Struct {
       };
   }
 
-  #extractVariant ({ variants }: SiTypeDefVariant, id: number): Omit<TypeDef, 'type'> {
-    const { params, path } = this.#lookupType(id);
+  #extractVariant ({ variants }: SiTypeDefVariant, lookupId: SiLookupTypeId): Omit<TypeDef, 'type'> {
+    const { params, path } = this.lookupType(lookupId);
     const specialVariant = path[0].toString();
 
     return specialVariant === 'Option'
