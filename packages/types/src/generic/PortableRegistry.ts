@@ -3,13 +3,18 @@
 
 import type { Vec } from '../codec/Vec';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
-import type { Registry, TypeDef } from '../types';
+import type { Codec, Constructor, Registry, TypeDef } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
+import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
 import { TypeDefInfo } from '../types';
+
+interface CreateOptions {
+  blockHash?: Uint8Array | string | null;
+}
 
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
@@ -19,6 +24,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 export class GenericPortableRegistry extends Struct {
+  #classes: Record<number, Constructor> = {};
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
@@ -32,6 +38,34 @@ export class GenericPortableRegistry extends Struct {
    */
   public get types (): Vec<SiType> {
     return this.get('types') as Vec<SiType>;
+  }
+
+  /**
+   * @description creates a type from the id
+   */
+  createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash }: CreateOptions = {}): T {
+    const Clazz = this.lookupClass<T>(typeIndex);
+    const instance = new Clazz(this.registry, ...params);
+
+    if (blockHash) {
+      instance.createdAtHash = this.registry.createType('Hash', blockHash);
+    }
+
+    return instance;
+  }
+
+  lookupClass <T extends Codec = Codec> (typeIndex: SiLookupTypeId): Constructor<T> {
+    const index = typeIndex.toNumber();
+    let Clazz = this.#lookupClass<T>(index);
+
+    if (Clazz) {
+      return Clazz;
+    }
+
+    Clazz = getTypeClass(this.registry, this.lookupTypeDef(typeIndex));
+    this.#classes[index] = Clazz;
+
+    return Clazz;
   }
 
   /**
@@ -58,6 +92,28 @@ export class GenericPortableRegistry extends Struct {
     this.#typeDefs[index] = typeDef;
 
     return typeDef;
+  }
+
+  #lookupClass <T extends Codec = Codec> (index: number): Constructor<T> | undefined {
+    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
+
+    return this.#classes[index] as Constructor<T>;
+  }
+
+  #lookupType (index: number): SiType {
+    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
+
+    const type = this.types[index];
+
+    assert(type, () => `PortableRegistry: Unable to find lookupTypeId ${index}`);
+
+    return type;
+  }
+
+  #lookupTypeDef (index: number): TypeDef | undefined {
+    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
+
+    return this.#typeDefs[index];
   }
 
   #extract (type: SiType, id: number): TypeDef {
@@ -105,22 +161,6 @@ export class GenericPortableRegistry extends Struct {
       ),
       ...typeDef
     });
-  }
-
-  #lookupType (index: number): SiType {
-    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
-
-    const type = this.types[index];
-
-    assert(type, () => `PortableRegistry: Unable to find lookupTypeId ${index}`);
-
-    return type;
-  }
-
-  #lookupTypeDef (index: number): TypeDef | undefined {
-    assert(index >= 0, 'PortableRegistry: Invalid type index provided');
-
-    return this.#typeDefs[index];
   }
 
   #extractArray ({ len: length, type }: SiTypeDefArray): Omit<TypeDef, 'type'> {
