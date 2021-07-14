@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { MetadataLatest } from '../interfaces/metadata';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
@@ -219,10 +220,10 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes;
   }
 
-  public get metadata (): Metadata {
+  public get metadata (): MetadataLatest {
     assert(this.#metadata, 'Metadata has not been injected for this registry');
 
-    return this.#metadata;
+    return this.#metadata.asLatest;
   }
 
   public get unknownTypes (): string[] {

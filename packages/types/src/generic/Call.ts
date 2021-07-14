@@ -28,7 +28,7 @@ interface DecodedMethod extends DecodeMethodInput {
  * @internal
  */
 function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
-  const { types } = registry.metadata.asLatest;
+  const { types } = registry.metadata;
 
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
     result[name.isSome ? name.unwrap().toString() : `param${index}`] = types.lookupClass(type);
