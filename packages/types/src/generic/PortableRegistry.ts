@@ -58,12 +58,10 @@ export class GenericPortableRegistry extends Struct {
     const index = lookupId.toNumber();
     let Clazz = this.#classes[index] as Constructor<T>;
 
-    if (Clazz) {
-      return Clazz;
+    if (!Clazz) {
+      Clazz = getTypeClass(this.registry, this.lookupTypeDef(lookupId));
+      this.#classes[index] = Clazz;
     }
-
-    Clazz = getTypeClass(this.registry, this.lookupTypeDef(lookupId));
-    this.#classes[index] = Clazz;
 
     return Clazz;
   }
@@ -72,10 +70,9 @@ export class GenericPortableRegistry extends Struct {
    * @description Finds a specific type in the registry
    */
   lookupType (lookupId: SiLookupTypeId): SiType {
-    const index = lookupId.toNumber();
-    const type = this.types[index];
+    const type = this.types[lookupId.toNumber()];
 
-    assert(type, () => `PortableRegistry: Unable to find lookupTypeId ${index}`);
+    assert(type, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toNumber()}`);
 
     return type;
   }
@@ -87,14 +84,12 @@ export class GenericPortableRegistry extends Struct {
     const index = lookupId.toNumber();
     let typeDef = this.#typeDefs[index];
 
-    if (typeDef) {
-      return typeDef;
+    if (!typeDef) {
+      const siType = this.lookupType(lookupId);
+
+      typeDef = this.#extract(siType, lookupId);
+      this.#typeDefs[index] = typeDef;
     }
-
-    const siType = this.lookupType(lookupId);
-
-    typeDef = this.#extract(siType, lookupId);
-    this.#typeDefs[index] = typeDef;
 
     return typeDef;
   }
