@@ -20,7 +20,7 @@ import { Metadata } from '../metadata/Metadata';
 import { createClass, getTypeClass } from './createClass';
 import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
-import { typeLookup } from './typeLookup';
+import { lookupSiType } from './scaleInfo';
 
 const l = logger('registry');
 
@@ -36,7 +36,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      const errors = typeLookup(types, section.errors.unwrap().type);
+      const errors = lookupSiType(types, section.errors.unwrap().type);
 
       assert(errors.def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
 
@@ -71,7 +71,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         ? section.index.toNumber()
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
-      const events = typeLookup(types, section.events.unwrap().type);
+      const events = lookupSiType(types, section.events.unwrap().type);
 
       assert(events.def.isVariant, () => `Expected a variant type for Events from ${sectionName}`);
 
