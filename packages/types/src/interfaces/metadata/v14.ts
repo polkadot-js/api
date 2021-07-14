@@ -64,7 +64,8 @@ export const v14: DefinitionsTypes = {
   },
   SignedExtensionMetadataV14: {
     identifier: 'Text',
-    type: 'SiLookupTypeId'
+    type: 'SiLookupTypeId',
+    additionalSigned: 'SiLookupTypeId'
   },
   StorageEntryMetadataV14: {
     name: 'Text',

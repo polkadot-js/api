@@ -77,7 +77,8 @@ export default {
         V10: 'MetadataV10',
         V11: 'MetadataV11',
         V12: 'MetadataV12',
-        V13: 'MetadataV13'
+        V13: 'MetadataV13',
+        V14: 'MetadataV14'
       }
     }
   }
