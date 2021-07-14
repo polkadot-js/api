@@ -25,7 +25,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const { pallets, types } = meta.asLatest;
     const modules = pallets
       .sort(compareName)
-      .filter((mod) => mod.events.isSome)
+      .filter(({ events }) => events.isSome)
       .map(({ events, name }) => {
         const sectionName = stringCamelCase(name);
         const { def } = types.lookupType(events.unwrap().type);

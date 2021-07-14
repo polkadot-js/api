@@ -221,13 +221,11 @@ function convertStorage (registry: Registry, types: SiType[], { items, prefix }:
 
         const key = types.push(
           registry.createType('SiType', {
-            def: { HistoricMetaCompat: 'Null' },
-            params: nm.keyVec.map((type, index) =>
-              registry.createType('SiTypeParameter', {
-                name: `param${index}`,
-                type: compatType(registry, types, type)
-              })
-            )
+            def: {
+              Tuple: nm.keyVec.map((type) =>
+                compatType(registry, types, type)
+              )
+            }
           })
         ) - 1;
 

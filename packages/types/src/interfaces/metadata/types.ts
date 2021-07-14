@@ -330,7 +330,7 @@ export interface SignedExtensionMetadataV14 extends Struct {
 }
 
 /** @name StorageEntryMetadataLatest */
-export interface StorageEntryMetadataLatest extends StorageEntryMetadataV13 {}
+export interface StorageEntryMetadataLatest extends StorageEntryMetadataV14 {}
 
 /** @name StorageEntryMetadataV10 */
 export interface StorageEntryMetadataV10 extends Struct {
@@ -381,7 +381,7 @@ export interface StorageEntryMetadataV9 extends Struct {
 }
 
 /** @name StorageEntryModifierLatest */
-export interface StorageEntryModifierLatest extends StorageEntryModifierV13 {}
+export interface StorageEntryModifierLatest extends StorageEntryModifierV14 {}
 
 /** @name StorageEntryModifierV10 */
 export interface StorageEntryModifierV10 extends StorageEntryModifierV9 {}
@@ -406,7 +406,7 @@ export interface StorageEntryModifierV9 extends Enum {
 }
 
 /** @name StorageEntryTypeLatest */
-export interface StorageEntryTypeLatest extends StorageEntryTypeV13 {}
+export interface StorageEntryTypeLatest extends StorageEntryTypeV14 {}
 
 /** @name StorageEntryTypeV10 */
 export interface StorageEntryTypeV10 extends Enum {
