@@ -17,10 +17,8 @@ import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
 import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
 import { Metadata } from '../metadata/Metadata';
-import { createClass, getTypeClass } from './createClass';
+import { createClass } from './createClass';
 import { createType } from './createType';
-import { getTypeDef } from './getTypeDef';
-import { lookupSiType } from './scaleInfo';
 
 const l = logger('registry');
 
@@ -36,7 +34,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      const errors = lookupSiType(types, section.errors.unwrap().type);
+      const errors = types.lookupType(section.errors.unwrap().type);
 
       assert(errors.def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
 
@@ -71,7 +69,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         ? section.index.toNumber()
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
-      const events = lookupSiType(types, section.events.unwrap().type);
+      const events = types.lookupType(section.events.unwrap().type);
 
       assert(events.def.isVariant, () => `Expected a variant type for Events from ${sectionName}`);
 

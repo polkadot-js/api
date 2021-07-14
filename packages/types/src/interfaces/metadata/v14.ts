@@ -8,9 +8,7 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v14: DefinitionsTypes = {
   // registry
-  PortableRegistry: {
-    types: 'Vec<SiType>'
-  },
+  PortableRegistry: 'GenericPortableRegistry',
 
   // V14
   FunctionArgumentMetadataV14: {

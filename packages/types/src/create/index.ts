@@ -6,5 +6,4 @@ export * from './createType';
 export * from './encodeTypes';
 export * from './getTypeDef';
 export * from './registry';
-export * from './scaleInfo';
 export * from './typeSplit';

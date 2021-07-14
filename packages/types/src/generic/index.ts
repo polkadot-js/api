@@ -12,4 +12,5 @@ export { GenericConsensusEngineId } from './ConsensusEngineId';
 export { GenericEvent, GenericEventData } from './Event';
 export { GenericLookupSource } from './LookupSource';
 export { GenericMultiAddress, GenericMultiAddress as GenericAddress } from './MultiAddress';
+export { GenericPortableRegistry } from './PortableRegistry';
 export { GenericVote } from './Vote';
