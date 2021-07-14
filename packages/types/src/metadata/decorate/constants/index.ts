@@ -9,7 +9,7 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
+export function decorateConstants (registry: Registry, { pallets, types }: MetadataLatest, _metaVersion: number): Constants {
   return pallets.reduce((result: Constants, { constants, name }): Constants => {
     if (constants.isEmpty) {
       return result;
@@ -17,9 +17,7 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      // convert to the natural type as received
-      const type = meta.type.toString();
-      const codec = registry.createType(type as 'Raw', hexToU8a(meta.value.toHex())) as unknown;
+      const codec = types.createType(meta.type, [hexToU8a(meta.value.toHex())]) as unknown;
 
       (codec as Record<string, unknown>).meta = meta;
       newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;

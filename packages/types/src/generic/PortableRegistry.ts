@@ -10,6 +10,7 @@ import { assert } from '@polkadot/util';
 import { Struct } from '../codec/Struct';
 import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
+import { getTypeDef } from '../create/getTypeDef';
 import { TypeDefInfo } from '../types';
 
 interface CreateOptions {
@@ -122,6 +123,8 @@ export class GenericPortableRegistry extends Struct {
       typeDef = this.#extractSequence(type.def.asSequence, lookupId);
     } else if (type.def.isTuple) {
       typeDef = this.#extractTuple(type.def.asTuple);
+    } else if (type.def.isHistoricMetaCompat) {
+      typeDef = getTypeDef(type.def.asHistoricMetaCompat);
     } else {
       throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toNumber()}: No handler for ${type.def.toString()}`);
     }
