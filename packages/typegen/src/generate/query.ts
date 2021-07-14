@@ -18,7 +18,7 @@ import { ModuleTypes } from '../util/imports';
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (types: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
-  const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
+  const outputType = unwrapStorageType(registry, storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [types.lookupTypeDef(storageEntry.type.asPlain).type]);

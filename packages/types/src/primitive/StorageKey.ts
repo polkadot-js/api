@@ -33,14 +33,16 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
 };
 
 /** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+  const { types } = registry.metadata;
+
   const outputType = type.isPlain
-    ? type.asPlain.toString()
+    ? types.lookupTypeDef(type.asPlain).type
     : type.isMap
-      ? type.asMap.value.toString()
+      ? types.lookupTypeDef(type.asMap.value).type
       : type.isDoubleMap
-        ? type.asDoubleMap.value.toString()
-        : type.asNMap.value.toString();
+        ? types.lookupTypeDef(type.asDoubleMap.value).type
+        : types.lookupTypeDef(type.asNMap.value).type;
 
   return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes
@@ -120,9 +122,12 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
   }
 
   const mapInfo = meta.type.asNMap;
+  const { def } = registry.metadata.types.lookupType(mapInfo.key);
+  const variants = def.asVariant.variants;
 
   return decodeHashers(registry, value, mapInfo.hashers.map((h, i) =>
-    [h, mapInfo.keyVec[i].toString()]
+    // FIXME
+    [h, variants[i].toString()]
   ));
 }
 
@@ -142,16 +147,16 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): S
 }
 
 /** @internal */
-function getType (value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
+function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
-    return unwrapStorageType(value.meta.type);
+    return unwrapStorageType(registry, value.meta.type);
   } else if (Array.isArray(value)) {
     const [fn] = value;
 
     if (fn.meta) {
-      return unwrapStorageType(fn.meta.type);
+      return unwrapStorageType(registry, fn.meta.type);
     }
   }
 
@@ -183,7 +188,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
     super(registry, key);
 
-    this._outputType = getType(value as StorageKey);
+    this._outputType = getType(registry, value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
     this.setMeta(getMeta(value as StorageKey), override.section || section, override.method || method);
@@ -237,7 +242,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
     this._section = section || this._section;
 
     if (meta) {
-      this._outputType = unwrapStorageType(meta.type);
+      this._outputType = unwrapStorageType(this.registry, meta.type);
     }
 
     try {
