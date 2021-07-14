@@ -58,7 +58,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       isStrict,
       modules,
       types: [
-        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        ...Object.keys(imports.localTypes).sort().map<{ file: string; types: string[] }>((packagePath) => ({
           file: packagePath,
           types: Object.keys(imports.localTypes[packagePath])
         })),

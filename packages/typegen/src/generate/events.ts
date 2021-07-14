@@ -7,7 +7,7 @@ import type { ExtraTypes } from './types';
 import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
-import { stringCamelCase } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -22,45 +22,51 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.pallets
+    const { pallets, types } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
       .filter((mod) => mod.events.isSome)
-      .map(({ events, name }) => ({
-        items: events
-          .unwrap()
-          .sort(compareName)
-          .map(({ args, docs, name }) => {
-            const types = args.map((type) => formatType(allDefs, type.toString(), imports));
+      .map(({ events, name }) => {
+        const sectionName = stringCamelCase(name);
+        const { def } = types.lookupType(events.unwrap().type);
 
-            setImports(allDefs, imports, types);
+        assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
 
-            return {
-              docs,
-              name: name.toString(),
-              type: types.join(', ')
-            };
-          }),
-        name: stringCamelCase(name)
-      }));
+        return {
+          items: def.asVariant.variants
+            .sort(compareName)
+            .map(({ docs, fields, name }) => {
+              const args = fields.map(({ type }) =>
+                formatType(allDefs, types.lookupTypeDef(type), imports)
+              );
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
+              setImports(allDefs, imports, args);
+
+              return {
+                docs,
+                name: name.toString(),
+                type: args.join(', ')
+              };
+            }),
+          name: sectionName
+        };
+      });
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }
