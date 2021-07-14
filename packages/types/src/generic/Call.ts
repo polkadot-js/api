@@ -1,15 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
+import type { SiVariant } from '../interfaces/scaleInfo';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { U8aFixed } from '../codec/U8aFixed';
-import { getTypeClass } from '../create/createClass';
-import { getTypeDef } from '../create/getTypeDef';
 
 interface DecodeMethodInput {
   args: unknown;
@@ -19,7 +17,7 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
-  meta: FunctionMetadataLatest;
+  meta: SiVariant;
 }
 
 /**
@@ -29,19 +27,18 @@ interface DecodedMethod extends DecodeMethodInput {
  * @param meta - The function metadata used to get the definition.
  * @internal
  */
-function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return GenericCall.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-    const Type = getTypeClass(registry, getTypeDef(type));
+function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
+  const { types } = registry.metadata.asLatest;
 
-    result[name.toString()] = Type;
+  return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
+    result[name.isSome ? name.unwrap().toString() : `param${index}`] = types.lookupClass(type);
 
     return result;
   }, {} as ArgsDef);
 }
 
 /** @internal */
-function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: SiVariant): DecodedMethod {
   // we only pass args/methodsIndex out
   const { args, callIndex } = value;
 
@@ -63,7 +60,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 }
 
 /** @internal */
-function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: SiVariant): DecodedMethod {
   // We need 2 bytes for the callIndex
   const callIndex = new Uint8Array(2);
 
@@ -91,7 +88,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: SiVariant): DecodedMethod {
   if (isHex(value) || isU8a(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
@@ -118,9 +115,9 @@ export class GenericCallIndex extends U8aFixed {
  * Extrinsic function descriptor
  */
 export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
-  protected _meta: FunctionMetadataLatest;
+  protected _meta: SiVariant;
 
-  constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
+  constructor (registry: Registry, value: unknown, meta?: SiVariant) {
     const decoded = decodeCall(registry, value, meta);
 
     try {
@@ -144,16 +141,6 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     }
 
     this._meta = decoded.meta;
-  }
-
-  // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
-    // FIXME should be `arg.type !== Origin`, but doesn't work...
-    return meta
-      ? meta.args.filter(({ type }): boolean =>
-        type.toString() !== 'Origin'
-      )
-      : [];
   }
 
   /**
@@ -188,7 +175,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description The [[FunctionMetadata]]
    */
-  public get meta (): FunctionMetadataLatest {
+  public get meta (): SiVariant {
     return this._meta;
   }
 

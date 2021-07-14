@@ -30,7 +30,6 @@ export interface SiType0 extends Struct {
   readonly path: SiPath;
   readonly params: Vec<SiLookupTypeId>;
   readonly def: SiTypeDef;
-  readonly docs: Vec<Text>;
 }
 
 /** @name SiTypeDef */

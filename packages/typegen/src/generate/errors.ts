@@ -6,7 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, initMeta, readTemplate, writeFile } from '../util';
 
@@ -21,22 +21,15 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
     const modules = pallets
       .sort(compareName)
       .filter(({ errors }) => errors.isSome)
-      .map(({ errors, name }) => {
-        const sectionName = stringCamelCase(name);
-        const { def } = types.lookupType(errors.unwrap().type);
-
-        assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
-
-        return {
-          items: def.asVariant.variants
-            .sort(compareName)
-            .map(({ docs, name }) => ({
-              docs,
-              name: name.toString()
-            })),
-          name: sectionName
-        };
-      });
+      .map(({ errors, name }) => ({
+        items: types.lookupType(errors.unwrap().type).def.asVariant.variants
+          .sort(compareName)
+          .map(({ docs, name }) => ({
+            docs,
+            name: name.toString()
+          })),
+        name: stringCamelCase(name)
+      }));
 
     return generateForMetaTemplate({
       headerType: 'chain',

@@ -102,6 +102,7 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
+  readonly metadata: Metadata;
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 

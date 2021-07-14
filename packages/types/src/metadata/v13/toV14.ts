@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, FunctionMetadataV14, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { SiType, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text } from '../../primitive/Text';
 import type { Type } from '../../primitive/Type';
@@ -84,19 +84,30 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertCalls (registry: Registry, types: SiType[], calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
-  return registry.createType('PalletCallMetadataV14', {
-    calls: calls.map(({ args, docs, name }): FunctionMetadataV14 => {
-      setTypeOverride(sectionTypes, args.map(({ type }) => type));
+function convertCalls (registry: Registry, types: SiType[], modName: Text, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
+  const variants = calls.map(({ args, docs, name }, index): SiVariant => {
+    setTypeOverride(sectionTypes, args.map(({ type }) => type));
 
-      return registry.createType('FunctionMetadataV14', {
-        // FIXME Add args
-        docs,
-        name
-      });
-    }),
-    type: 0
+    return registry.createType('SiVariant', {
+      docs,
+      fields: args.map(({ type }) =>
+        registry.createType('SiField', { type: compatType(registry, types, type) })
+      ),
+      index,
+      name
+    });
   });
+
+  const type = types.push(
+    registry.createType('SiType', {
+      def: {
+        Variant: { variants }
+      },
+      path: [modName, 'Calls']
+    })
+  ) - 1;
+
+  return registry.createType('PalletCallMetadataV14', { type });
 }
 
 /**
@@ -122,10 +133,11 @@ function convertConstants (registry: Registry, types: SiType[], constants: Modul
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertErrors (registry: Registry, types: SiType[], modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
-  const variants = errors.map(({ docs, name }): SiVariant =>
+  const variants = errors.map(({ docs, name }, index): SiVariant =>
     registry.createType('SiVariant', {
       docs,
       fields: [],
+      index,
       name
     })
   );
@@ -147,7 +159,7 @@ function convertErrors (registry: Registry, types: SiType[], modName: Text, erro
  * @internal
  **/
 function convertEvents (registry: Registry, types: SiType[], modName: Text, events: EventMetadataV13[], sectionTypes: OverrideModuleType): PalletEventMetadataV14 {
-  const variants = events.map(({ args, docs, name }): SiVariant => {
+  const variants = events.map(({ args, docs, name }, index): SiVariant => {
     setTypeOverride(sectionTypes, args);
 
     return registry.createType('SiVariant', {
@@ -155,6 +167,7 @@ function convertEvents (registry: Registry, types: SiType[], modName: Text, even
       fields: args.map((type) =>
         registry.createType('SiField', { type: compatType(registry, types, type) })
       ),
+      index,
       name
     });
   });
@@ -268,7 +281,7 @@ function createPallet (registry: Registry, types: SiType[], mod: ModuleMetadataV
   const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
 
   return registry.createType('PalletMetadataV14', {
-    calls: calls && convertCalls(registry, types, calls, sectionTypes),
+    calls: calls && convertCalls(registry, types, mod.name, calls, sectionTypes),
     constants: convertConstants(registry, types, constants, sectionTypes),
     errors: errors && convertErrors(registry, types, mod.name, errors, sectionTypes),
     events: events && convertEvents(registry, types, mod.name, events, sectionTypes),

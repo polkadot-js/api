@@ -26,7 +26,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
     const modules = pallets
       .sort(compareName)
-      .filter((mod) => mod.constants.length > 0)
+      .filter(({ constants }) => constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
           setImports(allDefs, imports, ['Codec']);

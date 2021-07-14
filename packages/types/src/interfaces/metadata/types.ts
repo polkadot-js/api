@@ -4,9 +4,6 @@
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
-/** @name ErrorMetadataLatest */
-export interface ErrorMetadataLatest extends ErrorMetadataV13 {}
-
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
 
@@ -24,9 +21,6 @@ export interface ErrorMetadataV9 extends Struct {
   readonly name: Text;
   readonly docs: Vec<Text>;
 }
-
-/** @name EventMetadataLatest */
-export interface EventMetadataLatest extends EventMetadataV13 {}
 
 /** @name EventMetadataV10 */
 export interface EventMetadataV10 extends EventMetadataV9 {}
@@ -48,7 +42,7 @@ export interface EventMetadataV9 extends Struct {
 }
 
 /** @name ExtrinsicMetadataLatest */
-export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV13 {}
+export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV14 {}
 
 /** @name ExtrinsicMetadataV11 */
 export interface ExtrinsicMetadataV11 extends Struct {
@@ -97,7 +91,7 @@ export interface FunctionArgumentMetadataV9 extends Struct {
 }
 
 /** @name FunctionMetadataLatest */
-export interface FunctionMetadataLatest extends FunctionMetadataV13 {}
+export interface FunctionMetadataLatest extends FunctionMetadataV14 {}
 
 /** @name FunctionMetadataV10 */
 export interface FunctionMetadataV10 extends FunctionMetadataV9 {}
@@ -179,9 +173,6 @@ export interface MetadataV9 extends Struct {
   readonly modules: Vec<ModuleMetadataV9>;
 }
 
-/** @name ModuleConstantMetadataLatest */
-export interface ModuleConstantMetadataLatest extends ModuleConstantMetadataV13 {}
-
 /** @name ModuleConstantMetadataV10 */
 export interface ModuleConstantMetadataV10 extends ModuleConstantMetadataV9 {}
 
@@ -201,9 +192,6 @@ export interface ModuleConstantMetadataV9 extends Struct {
   readonly value: Bytes;
   readonly docs: Vec<Text>;
 }
-
-/** @name ModuleMetadataLatest */
-export interface ModuleMetadataLatest extends ModuleMetadataV13 {}
 
 /** @name ModuleMetadataV10 */
 export interface ModuleMetadataV10 extends Struct {
@@ -466,7 +454,7 @@ export interface StorageEntryTypeV9 extends Enum {
 }
 
 /** @name StorageHasher */
-export interface StorageHasher extends StorageHasherV13 {}
+export interface StorageHasher extends StorageHasherV14 {}
 
 /** @name StorageHasherV10 */
 export interface StorageHasherV10 extends Enum {
@@ -506,9 +494,6 @@ export interface StorageHasherV9 extends Enum {
   readonly isTwox256: boolean;
   readonly isTwox64Concat: boolean;
 }
-
-/** @name StorageMetadataLatest */
-export interface StorageMetadataLatest extends StorageMetadataV13 {}
 
 /** @name StorageMetadataV10 */
 export interface StorageMetadataV10 extends Struct {

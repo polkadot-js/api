@@ -10,7 +10,7 @@ import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, TypeImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
@@ -63,13 +63,7 @@ function entrySignature (types: PortableRegistry, allDefs: Record<string, Module
     ];
   } else if (storageEntry.type.isNMap) {
     const nmap = storageEntry.type.asNMap;
-
-    // Find similar types for all keys
-    const { def } = types.lookupType(nmap.key);
-
-    assert(def.isTuple, () => `Expected a tuple type for NMap from ${storageEntry.name.toString()}`);
-
-    const keyVec = def.asTuple.map((k) => types.lookupTypeDef(k));
+    const keyVec = types.lookupType(nmap.key).def.asTuple.map((k) => types.lookupTypeDef(k));
     const similarTypes = keyVec.map((k) => getSimilarTypes(registry, allDefs, k.type, imports));
     const keyTypes = similarTypes.map((t) => t.join(' | '));
 

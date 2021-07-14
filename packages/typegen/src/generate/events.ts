@@ -7,7 +7,7 @@ import type { ExtraTypes } from './types';
 import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -26,31 +26,24 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const modules = pallets
       .sort(compareName)
       .filter(({ events }) => events.isSome)
-      .map(({ events, name }) => {
-        const sectionName = stringCamelCase(name);
-        const { def } = types.lookupType(events.unwrap().type);
+      .map(({ events, name }) => ({
+        items: types.lookupType(events.unwrap().type).def.asVariant.variants
+          .sort(compareName)
+          .map(({ docs, fields, name }) => {
+            const args = fields.map(({ type }) =>
+              formatType(allDefs, types.lookupTypeDef(type), imports)
+            );
 
-        assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
+            setImports(allDefs, imports, args);
 
-        return {
-          items: def.asVariant.variants
-            .sort(compareName)
-            .map(({ docs, fields, name }) => {
-              const args = fields.map(({ type }) =>
-                formatType(allDefs, types.lookupTypeDef(type), imports)
-              );
-
-              setImports(allDefs, imports, args);
-
-              return {
-                docs,
-                name: name.toString(),
-                type: args.join(', ')
-              };
-            }),
-          name: sectionName
-        };
-      });
+            return {
+              docs,
+              name: name.toString(),
+              type: args.join(', ')
+            };
+          }),
+        name: stringCamelCase(name)
+      }));
 
     return generateForMetaTemplate({
       headerType: 'chain',

@@ -34,11 +34,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      const errors = types.lookupType(section.errors.unwrap().type);
-
-      assert(errors.def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
-
-      errors.def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      types.lookupType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
@@ -69,11 +65,8 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         ? section.index.toNumber()
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
-      const events = types.lookupType(section.events.unwrap().type);
 
-      assert(events.def.isVariant, () => `Expected a variant type for Events from ${sectionName}`);
-
-      events.def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      types.lookupType(section.events.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
@@ -138,6 +131,8 @@ export class TypeRegistry implements Registry {
   #classes = new Map<string, Constructor>();
 
   #definitions = new Map<string, string>();
+
+  #metadata?: Metadata;
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
@@ -222,6 +217,12 @@ export class TypeRegistry implements Registry {
 
   public get knownTypes (): RegisteredTypes {
     return this.#knownTypes;
+  }
+
+  public get metadata (): Metadata {
+    assert(this.#metadata, 'Metadata has not been injected for this registry');
+
+    return this.#metadata;
   }
 
   public get unknownTypes (): string[] {
@@ -413,6 +414,8 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
+    this.#metadata = metadata;
+
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);
     injectEvents(this, metadata, this.#metadataEvents);

@@ -9,7 +9,7 @@ import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
-import { stringCamelCase } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -35,39 +35,45 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.pallets
+    const { pallets, types } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
+      .filter(({ calls }) => calls.isSome)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-        const items = calls
-          .unwrap()
-          .sort(compareName)
-          .map(({ args, docs, name }) => {
-            const params = args
+        const sectionName = stringCamelCase(name);
+        const { def } = types.lookupType(calls.unwrap().type);
+
+        assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
+
+        const items = def.asVariant.variants
+          .map(({ docs, fields, name }, index) => {
+            const params = fields
               .map(({ name, type }) => {
-                const typeStr = type.toString();
+                const typeStr = types.lookupTypeDef(type).type;
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${mapName(name)}: ${similarTypes.join(' | ')}`;
+                return `${name.isSome ? mapName(name.unwrap()) : `param${index}`}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 
             return {
-              args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
+              args: fields.map(({ type }) =>
+                formatType(allDefs, types.lookupTypeDef(type).type, imports)
+              ).join(', '),
               docs,
               name: stringCamelCase(name),
               params
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
-          name: stringCamelCase(name)
+          name: sectionName
         };
       });
 
