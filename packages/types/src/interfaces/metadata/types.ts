@@ -137,6 +137,8 @@ export interface MetadataAll extends Enum {
   readonly asV12: MetadataV12;
   readonly isV13: boolean;
   readonly asV13: MetadataV13;
+  readonly isV14: boolean;
+  readonly asV14: MetadataV14;
 }
 
 /** @name MetadataLatest */
@@ -326,6 +328,7 @@ export interface SignedExtensionMetadataLatest extends SignedExtensionMetadataV1
 export interface SignedExtensionMetadataV14 extends Struct {
   readonly identifier: Text;
   readonly type: SiLookupTypeId;
+  readonly additionalSigned: SiLookupTypeId;
 }
 
 /** @name StorageEntryMetadataLatest */
