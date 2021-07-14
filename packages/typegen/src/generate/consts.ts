@@ -22,8 +22,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
+    const { pallets, types } = meta.asLatest;
 
-    const modules = meta.asLatest.pallets
+    const modules = pallets
       .sort(compareName)
       .filter((mod) => mod.constants.length > 0)
       .map(({ constants, name }) => {
@@ -34,7 +35,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         const items = constants
           .sort(compareName)
           .map(({ docs, name, type }) => {
-            const returnType = formatType(allDefs, type.toString(), imports);
+            const returnType = formatType(allDefs, types.lookupTypeDef(type), imports);
 
             setImports(allDefs, imports, [returnType]);
 
@@ -51,23 +52,21 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         };
       });
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
-
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }
