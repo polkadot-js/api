@@ -328,6 +328,7 @@ export interface SignedExtensionMetadataLatest extends SignedExtensionMetadataV1
 export interface SignedExtensionMetadataV14 extends Struct {
   readonly identifier: Text;
   readonly type: SiLookupTypeId;
+  readonly additionalSigned: SiLookupTypeId;
 }
 
 /** @name StorageEntryMetadataLatest */
