@@ -6,7 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import { stringCamelCase } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, initMeta, readTemplate, writeFile } from '../util';
 
@@ -17,33 +17,38 @@ const generateForMetaTemplate = Handlebars.compile(template);
 function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void {
   writeFile(dest, (): string => {
     const imports = createImports({});
-
-    const modules = meta.asLatest.pallets
+    const { pallets, types } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter((mod) => mod.errors.length > 0)
-      .map(({ errors, name }) => ({
-        items: errors
-          .sort(compareName)
-          .map(({ docs, name }) => ({
-            docs,
-            name: name.toString()
-          })),
-        name: stringCamelCase(name)
-      }));
+      .filter(({ errors }) => errors.isSome)
+      .map(({ errors, name }) => {
+        const sectionName = stringCamelCase(name);
+        const { def } = types.lookupType(errors.unwrap().type);
 
-    const types = [
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
+        assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
+
+        return {
+          items: def.asVariant.variants
+            .sort(compareName)
+            .map(({ docs, name }) => ({
+              docs,
+              name: name.toString()
+            })),
+          name: sectionName
+        };
+      });
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }
