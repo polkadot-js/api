@@ -122,6 +122,6 @@ export interface WrappedConstructor<T extends Codec = Codec> {
   isWrapped: true;
 }
 
-export type ConstructorDef<T extends Codec = Codec> = Record<string, Constructor<T>>;
+export type ConstructorDef<T extends Codec = Codec> = Record<string, WrappedConstructor<T> | Constructor<T>>;
 
 export type ArgsDef = Record<string, Constructor>;

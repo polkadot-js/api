@@ -306,16 +306,14 @@ export class TypeRegistry implements Registry {
 
     // we have not already created the type, attempt it
     if (!wrapped) {
-      wrapped = { Clazz: DoNotConstruct.with(name), isWrapped: true };
-      this.#classes.set(name, wrapped);
-
       const definition = this.#definitions.get(name);
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
         const { Clazz } = createClass(this, definition);
 
-        wrapped.Clazz = class extends Clazz {};
+        wrapped = { Clazz: class extends Clazz {}, isWrapped: true };
+        this.#classes.set(name, wrapped);
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
@@ -356,7 +354,9 @@ export class TypeRegistry implements Registry {
   }
 
   public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {
-    return (this.get<T>(name, true) as WrappedConstructor<T>).Clazz;
+    const wrapped = this.get<T>(name, true) as WrappedConstructor<T>;
+
+    return wrapped && wrapped.Clazz;
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {

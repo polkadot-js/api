@@ -26,7 +26,8 @@ export default {
   rpc: {},
   types: {
     ...numberTypes,
-    AccountId: 'GenericAccountId',
+    AccountId: 'AccountId32',
+    AccountId32: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
     Address: 'MultiAddress',

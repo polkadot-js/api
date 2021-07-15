@@ -60,8 +60,7 @@ export class GenericPortableRegistry extends Struct {
 
     if (!this.#classes[index]) {
       // since we may have recursive lookups, fill in empty details as a start
-      this.#classes[index] = { Clazz: DoNotConstruct, isWrapped: true };
-      this.#classes[index].Clazz = getTypeClass(this.registry, this.getTypeDef(lookupId));
+      this.#classes[index] = getTypeClass(this.registry, this.getTypeDef(lookupId));
     }
 
     return this.#classes[index] as WrappedConstructor<T>;

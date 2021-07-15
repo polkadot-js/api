@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { typeToConstructor } from './utils';
+import { isWrappedClass, typeToConstructor } from './utils';
 
 /** @internal */
 function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
@@ -62,10 +62,10 @@ export class Option<T extends Codec> implements Codec {
     this.#raw = decodeOption(registry, typeName, value) as T;
   }
 
-  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value);
+        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
       }
     };
   }
