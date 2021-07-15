@@ -52,8 +52,10 @@ export function toLatest (registry: Registry, version: number, rpcData: string, 
 
     registry.setMetadata(metadata);
 
+    const latest = metadata.asLatest;
+
     if (metadata.version < 14) {
-      getUniqTypes(registry, metadata.asLatest, withThrow);
+      getUniqTypes(registry, latest, withThrow);
     }
   });
 }
