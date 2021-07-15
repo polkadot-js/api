@@ -17,9 +17,7 @@ export function decorateConstants (registry: Registry, { pallets, types }: Metad
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      const codec = registry.createType('Null', hexToU8a(meta.value.toHex())) as unknown;
-      // FIXME
-      // types.createType(meta.type, [hexToU8a(meta.value.toHex())]) as unknown;
+      const codec = types.createType(meta.type, [hexToU8a(meta.value.toHex())]) as unknown;
 
       (codec as Record<string, unknown>).meta = meta;
       newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
