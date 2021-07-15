@@ -84,12 +84,6 @@ export interface FunctionArgumentMetadataV12 extends FunctionArgumentMetadataV11
 /** @name FunctionArgumentMetadataV13 */
 export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12 {}
 
-/** @name FunctionArgumentMetadataV14 */
-export interface FunctionArgumentMetadataV14 extends Struct {
-  readonly name: Text;
-  readonly type: SiLookupTypeId;
-}
-
 /** @name FunctionArgumentMetadataV9 */
 export interface FunctionArgumentMetadataV9 extends Struct {
   readonly name: Text;
@@ -110,13 +104,6 @@ export interface FunctionMetadataV12 extends FunctionMetadataV11 {}
 
 /** @name FunctionMetadataV13 */
 export interface FunctionMetadataV13 extends FunctionMetadataV12 {}
-
-/** @name FunctionMetadataV14 */
-export interface FunctionMetadataV14 extends Struct {
-  readonly name: Text;
-  readonly args: Vec<FunctionArgumentMetadataV14>;
-  readonly docs: Vec<Text>;
-}
 
 /** @name FunctionMetadataV9 */
 export interface FunctionMetadataV9 extends Struct {
@@ -263,7 +250,6 @@ export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}
 /** @name PalletCallMetadataV14 */
 export interface PalletCallMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
-  readonly calls: Vec<FunctionMetadataV14>;
 }
 
 /** @name PalletConstantMetadataLatest */
