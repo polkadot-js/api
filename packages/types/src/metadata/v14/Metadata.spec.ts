@@ -15,12 +15,12 @@ describe('MetadataV14 (substrate)', (): void => {
 
     expect(all).toBeDefined();
 
-    // console.log(JSON.stringify(all.toJSON()));
-    console.log(JSON.stringify(
-      all.asV14.types.types.map((t, __INDEX) => ({
-        __INDEX,
-        ...t.toJSON()
-      }))
-    ));
+    // console.error(JSON.stringify(all.toJSON()));
+    // console.error(JSON.stringify(
+    //   all.asV14.types.types.map((t, __INDEX) => ({
+    //     __INDEX,
+    //     ...t.toJSON()
+    //   }))
+    // ));
   });
 });

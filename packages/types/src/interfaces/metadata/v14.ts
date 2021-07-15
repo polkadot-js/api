@@ -13,15 +13,6 @@ export const v14: DefinitionsTypes = {
   },
 
   // V14
-  FunctionArgumentMetadataV14: {
-    name: 'Text',
-    type: 'SiLookupTypeId'
-  },
-  FunctionMetadataV14: {
-    name: 'Text',
-    args: 'Vec<FunctionArgumentMetadataV14>',
-    docs: 'Vec<Text>'
-  },
   ExtrinsicMetadataV14: {
     type: 'SiLookupTypeId',
     version: 'u8',
@@ -33,8 +24,7 @@ export const v14: DefinitionsTypes = {
     extrinsic: 'ExtrinsicMetadataV14'
   },
   PalletCallMetadataV14: {
-    type: 'SiLookupTypeId',
-    calls: 'Vec<FunctionMetadataV14>'
+    type: 'SiLookupTypeId'
   },
   PalletConstantMetadataV14: {
     name: 'Text',
