@@ -26,13 +26,15 @@ export function extractTypes (types: string[]): Extracted[] {
         return extractTypes([(decoded.sub as TypeDef).type]);
 
       case TypeDefInfo.BTreeMap:
+      case TypeDefInfo.Enum:
       case TypeDefInfo.HashMap:
       case TypeDefInfo.Result:
+      case TypeDefInfo.Struct:
       case TypeDefInfo.Tuple:
         return extractTypes((decoded.sub as TypeDef[]).map(({ type }) => type));
 
       default:
-        throw new Error(`Unhandled: Unable to create and validate type from ${type}`);
+        throw new Error(`Unhandled: Unable to create and validate type from ${type} (info=${decoded.info})`);
     }
   });
 }
