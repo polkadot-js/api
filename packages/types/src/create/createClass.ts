@@ -31,36 +31,27 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
-function getSubDefArray (value: TypeDef): TypeDef[] {
-  assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
-
-  return value.sub;
-}
-
-function getSubDef (value: TypeDef): TypeDef {
+function getSub (registry: Registry, value: TypeDef): [Constructor, TypeDef, string?] {
   assert(value.sub && !Array.isArray(value.sub), () => `Expected subtype as TypeDef in ${stringify(value)}`);
 
-  return value.sub;
+  return [getTypeClass(registry, value.sub), value.sub, value.sub.name];
 }
 
-function getSubType (value: TypeDef): keyof InterfaceTypes {
-  return getSubDef(value).type as keyof InterfaceTypes;
+function getSubArray (registry: Registry, value: TypeDef): [Constructor, TypeDef, string][] {
+  assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
+
+  return value.sub.map((t, index) => [getTypeClass(registry, t), t, t.name || `param${index}`]);
 }
 
 // create a maps of type string constructors from the input
-function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> {
-  const result: Record<string, keyof InterfaceTypes> = {};
+function getSubMap (registry: Registry, value: TypeDef): Record<string, Constructor> {
+  const result: Record<string, Constructor> = {};
 
-  return getSubDefArray(value).reduce<Record<string, keyof InterfaceTypes>>((result, sub) => {
-    result[sub.name as string] = sub.type as keyof InterfaceTypes;
+  return getSubArray(registry, value).reduce<Record<string, Constructor>>((result, [sub,, name]) => {
+    result[name] = sub;
 
     return result;
   }, result);
-}
-
-// create an array of type string constructors from the input
-function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
-  return getSubDefArray(value).map(({ type }) => type as keyof InterfaceTypes);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
@@ -69,42 +60,48 @@ function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof
   return Clazz.with(length as UIntBitLength, displayName);
 }
 
-function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap): Constructor {
-  const [keyType, valueType] = getTypeClassArray(value);
+function createHashMap (registry: Registry, value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap): Constructor {
+  const [[keyType], [valueType]] = getSubArray(registry, value);
 
   return Clazz.with(keyType, valueType);
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, BTreeMap),
+  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(registry, value, BTreeMap),
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
+  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor =>
+    BTreeSet.with(getSub(registry, value)[0]),
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
+  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor =>
+    Compact.with(getSub(registry, value)[0] as any),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName),
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor =>
+    DoNotConstruct.with(value.displayName),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
-    const subs = getSubDefArray(value);
+    const subs = getSubArray(registry, value);
 
     return Enum.with(
-      subs.every(({ type }) => type === 'Null')
-        ? subs.reduce<Record<string, number>>((out, { index, name }, count) => {
+      subs.every(([,, type]) => type === 'Null')
+        ? subs.reduce<Record<string, number>>((out, [, { index, name }], count) => {
           out[name as string] = index || count;
 
           return out;
         }, {})
-        : getTypeClassMap(value)
+        : getSubMap(registry, value)
     );
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
+  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(registry, value, HashMap),
 
-  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
+  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
-    const type = `Option<${getSubType(value)}>`;
+    const type = `Option<${getSub(registry, value)[1].type}>`;
     // eslint-disable-next-line sort-keys
     const Clazz = Struct.with({ previous: type, next: type } as any);
 
@@ -118,15 +115,17 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => createClass(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor =>
+    createClass(registry, 'Null'),
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
+  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor =>
+    Option.with(getSub(registry, value)[0]),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor =>
     registry.getOrUnknown(value.type),
 
   [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): Constructor => {
-    const [Ok, Err] = getTypeClassArray(value);
+    const [[Ok], [Err]] = getSubArray(registry, value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return Result.with({ Err, Ok });
@@ -136,8 +135,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     const result: Record<string, number> = {};
 
     return CodecSet.with(
-      getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
-        result[name as string] = index as number;
+      getSubArray(registry, value).reduce<Record<string, number>>((result, [, { index }, name]) => {
+        result[name] = index as number;
 
         return result;
       }, result),
@@ -145,29 +144,32 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor => Struct.with(getTypeClassMap(value), value.alias),
+  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
+    Struct.with(getSubMap(registry, value), value.alias),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
+  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor =>
+    Tuple.with(getSubArray(registry, value).map(([c]) => c)),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => createInt(value, UInt),
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
-    const subType = getSubType(value);
+    const [subType, subDef] = getSub(registry, value);
 
     return (
-      subType === 'u8'
+      subDef.type === 'u8'
         ? createClass(registry, 'Bytes')
         : Vec.with(subType)
     );
   },
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
-    assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
+    assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
 
     return (
-      (sub as TypeDef).type === 'u8'
+      sub.type === 'u8'
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-        : VecFixed.with((sub as TypeDef).type as keyof InterfaceTypes, length)
+        : VecFixed.with(getSub(registry, sub)[0], length)
     );
   }
 };
@@ -184,14 +186,18 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
 
-  Type = getFn(registry, value) as Constructor<T>;
+  try {
+    Type = getFn(registry, value) as Constructor<T>;
 
-  // don't clobber any existing
-  if (!Type.__fallbackType && value.fallbackType) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore ...this is the only place we we actually assign this...
-    Type.__fallbackType = value.fallbackType;
+    // don't clobber any existing
+    if (!Type.__fallbackType && value.fallbackType) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore ...this is the only place we we actually assign this...
+      Type.__fallbackType = value.fallbackType;
+    }
+
+    return Type;
+  } catch (error) {
+    throw new Error(`Failure constructing from ${stringify(value)}: ${(error as Error).message}`);
   }
-
-  return Type;
 }

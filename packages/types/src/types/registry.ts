@@ -116,8 +116,11 @@ export interface Registry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
+  /** @deprecated */
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
+  /** @deprecated */
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
+  createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]>;
   createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;

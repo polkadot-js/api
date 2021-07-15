@@ -241,21 +241,33 @@ export class TypeRegistry implements Registry {
 
   /**
    * @describe Creates an instance of the class
+   * @deprecated
    */
   public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
+    // this is a weird one, the issue is that TS gets into a know if not done
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createClass(this, type) as any;
   }
 
   /**
-   * @describe Creates an instance of a class identified by
+   * @describe Creates an instance of a class identified by type id
+   */
+  public createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]> {
+    // this is a weird one, the issue is that TS gets into a know if not done
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.lookup.getClass(lookupId) as any;
+  }
+
+  /**
+   * @describe Creates an instance of a class identified by type id
    */
   createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K] {
-    return this.metadata.types.createType(lookupId, params);
+    return this.lookup.createType(lookupId, params);
   }
 
   /**
    * @description Creates an instance of a type as registered
+   * @deprecated
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
     return createType(this, type, ...params);
@@ -273,7 +285,10 @@ export class TypeRegistry implements Registry {
     const hexIndex = u8aToHex(
       isU8a(errorIndex)
         ? errorIndex
-        : new Uint8Array([errorIndex.index.toNumber(), errorIndex.error.toNumber()])
+        : new Uint8Array([
+          errorIndex.index.toNumber(),
+          errorIndex.error.toNumber()
+        ])
     );
 
     return assertReturn(this.#metadataErrors[hexIndex], `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);

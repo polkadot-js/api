@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '../codec/Vec';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Codec, Constructor, Registry, TypeDef } from '../types';
 
 import { assert } from '@polkadot/util';
@@ -57,14 +57,12 @@ export class GenericPortableRegistry extends Struct {
 
   getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): Constructor<T> {
     const index = lookupId.toNumber();
-    let Clazz = this.#classes[index] as Constructor<T>;
 
-    if (!Clazz) {
-      Clazz = getTypeClass(this.registry, this.getTypeDef(lookupId));
-      this.#classes[index] = Clazz;
+    if (!this.#classes[index]) {
+      this.#classes[index] = getTypeClass(this.registry, this.getTypeDef(lookupId));
     }
 
-    return Clazz;
+    return this.#classes[index] as Constructor<T>;
   }
 
   /**
@@ -83,16 +81,22 @@ export class GenericPortableRegistry extends Struct {
    */
   getTypeDef (lookupId: SiLookupTypeId): TypeDef {
     const index = lookupId.toNumber();
-    let typeDef = this.#typeDefs[index];
 
-    if (!typeDef) {
+    if (!this.#typeDefs[index]) {
+      // since we may have recursive lookups, fill in empty details as a start
+      this.#typeDefs[index] = { info: TypeDefInfo.Null, type: 'Null' };
+
       const siType = this.getSiType(lookupId);
 
-      typeDef = this.#extract(siType, lookupId);
-      this.#typeDefs[index] = typeDef;
+      Object.entries(this.#extract(siType, lookupId)).forEach(([k, v]): void => {
+        /* eslint-disable */
+        // @ts-ignore Yes... these are crappy, however we do go through key/values, so all safe
+        this.#typeDefs[index][k] = v;
+        /* eslint-enable */
+      });
     }
 
-    return typeDef;
+    return this.#typeDefs[index];
   }
 
   #extract (type: SiType, lookupId: SiLookupTypeId): TypeDef {
@@ -111,22 +115,24 @@ export class GenericPortableRegistry extends Struct {
 
     if (isPrimitivePath) {
       typeDef = this.#extractPrimitivePath(type);
-    } else if (type.def.isPrimitive) {
-      typeDef = this.#extractPrimitive(type);
-    } else if (type.def.isComposite) {
-      typeDef = this.#extractFields(type.def.asComposite.fields);
-    } else if (type.def.isVariant) {
-      typeDef = this.#extractVariant(type.def.asVariant, lookupId);
     } else if (type.def.isArray) {
       typeDef = this.#extractArray(type.def.asArray);
-    } else if (type.def.isSequence) {
-      typeDef = this.#extractSequence(type.def.asSequence, lookupId);
-    } else if (type.def.isTuple) {
-      typeDef = this.#extractTuple(type.def.asTuple);
+    } else if (type.def.isCompact) {
+      typeDef = this.#extractCompact(type.def.asCompact);
+    } else if (type.def.isComposite) {
+      typeDef = this.#extractFields(type.def.asComposite.fields);
     } else if (type.def.isHistoricMetaCompat) {
       typeDef = getTypeDef(type.def.asHistoricMetaCompat);
     } else if (type.def.isPhantom) {
       typeDef = this.#extractPhantom();
+    } else if (type.def.isPrimitive) {
+      typeDef = this.#extractPrimitive(type);
+    } else if (type.def.isSequence) {
+      typeDef = this.#extractSequence(type.def.asSequence, lookupId);
+    } else if (type.def.isTuple) {
+      typeDef = this.#extractTuple(type.def.asTuple);
+    } else if (type.def.isVariant) {
+      typeDef = this.#extractVariant(type.def.asVariant, lookupId);
     } else {
       throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toNumber()}: No handler for ${type.def.toString()}`);
     }
@@ -156,6 +162,13 @@ export class GenericPortableRegistry extends Struct {
     return {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
+      sub: this.getTypeDef(type)
+    };
+  }
+
+  #extractCompact ({ type }: SiTypeDefCompact): Omit<TypeDef, 'type'> {
+    return {
+      info: TypeDefInfo.Compact,
       sub: this.getTypeDef(type)
     };
   }
