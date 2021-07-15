@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '../codec/Vec';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
@@ -120,7 +120,7 @@ export class GenericPortableRegistry extends Struct {
     } else if (type.def.isCompact) {
       typeDef = this.#extractCompact(type.def.asCompact);
     } else if (type.def.isComposite) {
-      typeDef = this.#extractFields(type.def.asComposite.fields);
+      typeDef = this.#extractComposite(type.def.asComposite);
     } else if (type.def.isHistoricMetaCompat) {
       typeDef = getTypeDef(type.def.asHistoricMetaCompat);
     } else if (type.def.isPhantom) {
@@ -171,6 +171,10 @@ export class GenericPortableRegistry extends Struct {
       info: TypeDefInfo.Compact,
       sub: this.getTypeDef(type)
     };
+  }
+
+  #extractComposite ({ fields }: SiTypeDefComposite): Omit<TypeDef, 'type'> {
+    return this.#extractFields(fields);
   }
 
   #extractFields (fields: SiField[]): Omit<TypeDef, 'type'> {

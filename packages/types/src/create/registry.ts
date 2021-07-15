@@ -10,7 +10,6 @@ import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, Reg
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
 import { isWrappedClass } from '../codec/utils/isWrappedClass'
