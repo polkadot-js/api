@@ -1,8 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../../types';
-import type { MetadataInterface } from '../types';
+import type { Registry } from '../../types';
 
 import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
@@ -11,39 +10,49 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {
-  it('decodes latest substrate properly', (): void => {
-    const metadata = new Metadata(registry, rpcData);
+export function decodeLatestSubstrate (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>, staticTypes?: Record<string, unknown>): void {
+  const metadata = new Metadata(registry, rpcData);
+  let hasError = false;
 
-    registry.setMetadata(metadata);
+  registry.setMetadata(metadata);
+
+  it('decodes latest substrate properly', (): void => {
+    const json = metadata.toJSON();
 
     try {
       expect(metadata.version).toBe(version);
-      expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-      expect(metadata.toJSON()).toEqual(staticSubstrate);
+      expect(json).toEqual(staticSubstrate);
     } catch (error) {
-      console.error(stringify(metadata.toJSON()));
+      hasError = true;
+      console.error(stringify(json));
 
       throw error;
+    }
+  });
+
+  it('decodes latest types correctly', (): void => {
+    if (staticTypes && !hasError) {
+      const json = metadata.asLatest.types.types.map((t, __INDEX) => ({ __INDEX, ...t.toJSON() }));
+
+      try {
+        expect(json).toEqual(staticTypes);
+      } catch (error) {
+        console.error(stringify(json));
+
+        throw error;
+      }
     }
   });
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
+export function toLatest (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData);
 
     registry.setMetadata(metadata);
 
-    const metadataInit = metadata[`asV${version}` as keyof Metadata];
-    const metadataLatest = metadata.asLatest;
-
-    expect(
-      getUniqTypes(registry, metadataInit as unknown as MetadataInterface<Modules>, withThrow)
-    ).toEqual(
-      getUniqTypes(registry, metadataLatest, withThrow)
-    );
+    getUniqTypes(registry, metadata.asLatest, withThrow);
   });
 }
 
@@ -51,11 +60,14 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
+    const { pallets, types } = metadata.asLatest;
 
-    metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
-      mod.storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
-        const inner = unwrapStorageType(type, modifier.isOptional);
-        const location = `${mod.name.toString()}.${name.toString()}: ${inner}`;
+    pallets.filter(({ storage }): boolean => storage.isSome).forEach(({ name, storage }): void => {
+      const sectionName = name.toString();
+
+      storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
+        const inner = unwrapStorageType(registry, type, modifier.isOptional);
+        const location = `${sectionName}.${name.toString()}: ${inner}`;
 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {

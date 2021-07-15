@@ -1,141 +1,78 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Vec } from '../../codec';
-import type { Text, Type } from '../../primitive';
-import type { Codec, Registry } from '../../types';
+import type { MetadataLatest } from '../../interfaces';
+import type { Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';
 
-type Arg = { type: Type } & Codec;
-
-type Item = {
-  type: {
-    isDoubleMap: boolean;
-    isMap: boolean;
-    isNMap: boolean;
-    isPlain: boolean;
-    asDoubleMap: {
-      key1: Text;
-      key2: Text;
-      value: Text;
-    };
-    asMap: {
-      key: Text;
-      value: Text;
-    };
-    asNMap: {
-      keyVec: Text[];
-      value: Text;
-    },
-    asPlain: Text;
-  };
-} & Codec;
-
-type Storage = Option<{ items: Vec<Item> } & Codec>;
-
-type Call = { args: Vec<Arg> } & Codec;
-
-type Calls = Option<Vec<Call>>;
-
-type Event = { args: Vec<Type> } & Codec;
-
-type Events = Option<Vec<Event>>;
-
-type Pallet = {
-  // V1+
-  calls?: Calls;
-  // V6+
-  constants?: Vec<{ type: Text } & Codec>;
-  events?: Events;
-  storage?: Storage;
-} & Codec;
-
-interface ExtractionMetadata {
-  pallets: Vec<Pallet>;
-}
-
 /** @internal */
-function unwrapCalls (pallet: Pallet): Call[] {
-  return pallet.calls
-    ? pallet.calls.unwrapOr([])
-    : [];
-}
-
-/** @internal */
-function typeToString ({ type }: Arg): string {
-  return type.toString();
-}
-
-/** @internal */
-function getCallNames ({ pallets }: ExtractionMetadata): string[][][] {
-  return pallets.map((p): string[][] =>
-    unwrapCalls(p).map(({ args }): string[] =>
-      args.map(typeToString)
-    )
+function getCallNames ({ pallets, types }: MetadataLatest): string[][][] {
+  return pallets.map(({ calls }): string[][] =>
+    calls.isNone
+      ? []
+      : types.lookupType(calls.unwrap().type).def.asVariant.variants.map(({ fields }) =>
+        fields.map(({ type }) =>
+          types.lookupTypeDef(type).type
+        )
+      )
   );
 }
 
 /** @internal */
-function getConstantNames ({ pallets }: ExtractionMetadata): string[][] {
+function getConstantNames ({ pallets, types }: MetadataLatest): string[][] {
   return pallets.map(({ constants }): string[] =>
-    (constants || []).map(typeToString)
-  );
-}
-
-/** @internal */
-function unwrapEvents (events?: Events): Event[] {
-  return events
-    ? events.unwrapOr([])
-    : [];
-}
-
-/** @internal */
-function getEventNames ({ pallets }: ExtractionMetadata): string[][][] {
-  return pallets.map(({ events }): string[][] =>
-    unwrapEvents(events).map(({ args }: Event): string[] =>
-      args.map((a) => a.toString())
+    constants.map(({ type }) =>
+      types.lookupTypeDef(type).type
     )
   );
 }
 
 /** @internal */
-function unwrapStorage (storage?: Storage): Item[] {
-  return storage
-    ? storage.unwrapOr({ items: [] }).items
-    : [];
+function getEventNames ({ pallets, types }: MetadataLatest): string[][][] {
+  return pallets.map(({ events }): string[][] =>
+    events.isNone
+      ? []
+      : types.lookupType(events.unwrap().type).def.asVariant.variants.map(({ fields }) =>
+        fields.map(({ type }) =>
+          types.lookupTypeDef(type).type
+        )
+      )
+  );
 }
 
 /** @internal */
-function getStorageNames ({ pallets }: ExtractionMetadata): string[][][] {
+function getStorageNames ({ pallets, types }: MetadataLatest): string[][][] {
   return pallets.map(({ storage }): string[][] =>
-    unwrapStorage(storage).map(({ type }) =>
+    storage.unwrapOr({ items: [] }).items.map(({ type }) =>
       type.isPlain
         ? [
-          type.asPlain.toString()
+          types.lookupTypeDef(type.asPlain).type
         ]
         : type.isMap
           ? [
-            type.asMap.value.toString(),
-            type.asMap.key.toString()
+            types.lookupTypeDef(type.asMap.value).type,
+            types.lookupTypeDef(type.asMap.key).type
           ]
           : type.isDoubleMap
             ? [
-              type.asDoubleMap.value.toString(),
-              type.asDoubleMap.key1.toString(),
-              type.asDoubleMap.key2.toString()
+              types.lookupTypeDef(type.asDoubleMap.value).type,
+              types.lookupTypeDef(type.asDoubleMap.key1).type,
+              types.lookupTypeDef(type.asDoubleMap.key2).type
             ]
             : [
-              type.asNMap.value.toString(),
-              ...type.asNMap.keyVec.map((k) => k.toString())
+              types.lookupTypeDef(type.asNMap.value).type,
+              ...types.lookupType(type.asNMap.key).def.asTuple.map((t) =>
+                types.lookupTypeDef(t).type
+              )
             ]
     )
   );
 }
 
 /** @internal */
-export function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
+export function getUniqTypes (registry: Registry, meta: MetadataLatest, throwError: boolean): string[] {
   return validateTypes(registry, throwError, flattenUniq([
     getCallNames(meta),
     getConstantNames(meta),
