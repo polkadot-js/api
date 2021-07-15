@@ -20,7 +20,7 @@ export function decorateExtrinsics (registry: Registry, { pallets, types }: Meta
         : _sectionIndex;
       const sectionName = stringCamelCase(name);
 
-      const { def } = types.lookupType(calls.unwrap().type);
+      const { def } = types.getSiType(calls.unwrap().type);
 
       assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 

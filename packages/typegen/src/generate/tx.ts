@@ -43,7 +43,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const { def } = types.lookupType(calls.unwrap().type);
+        const { def } = types.getSiType(calls.unwrap().type);
 
         assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 
@@ -51,7 +51,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .map(({ docs, fields, name }) => {
             const params = fields
               .map(({ name, type }, index) => {
-                const typeStr = types.lookupTypeDef(type).type;
+                const typeStr = types.getTypeDef(type).type;
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
@@ -62,7 +62,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args: fields.map(({ type }) =>
-                formatType(allDefs, types.lookupTypeDef(type).type, imports)
+                formatType(allDefs, types.getTypeDef(type).type, imports)
               ).join(', '),
               docs,
               name: stringCamelCase(name),

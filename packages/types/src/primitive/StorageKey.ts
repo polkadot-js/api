@@ -3,6 +3,7 @@
 
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { AnyJson, AnyTuple, AnyU8a, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
@@ -34,15 +35,13 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
 
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const { types } = registry.metadata;
-
   const outputType = type.isPlain
-    ? types.lookupTypeDef(type.asPlain).type
+    ? registry.lookup.getTypeDef(type.asPlain).type
     : type.isMap
-      ? types.lookupTypeDef(type.asMap.value).type
+      ? registry.lookup.getTypeDef(type.asMap.value).type
       : type.isDoubleMap
-        ? types.lookupTypeDef(type.asDoubleMap.value).type
-        : types.lookupTypeDef(type.asNMap.value).type;
+        ? registry.lookup.getTypeDef(type.asDoubleMap.value).type
+        : registry.lookup.getTypeDef(type.asNMap.value).type;
 
   return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes
@@ -83,14 +82,14 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): A {
+function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
 
   return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(type as 'Raw', value.subarray(offset + hashLen))
+      ? registry.createSiType(type, value.subarray(offset + hashLen))
       : registry.createType('Raw', value.subarray(offset, offset + hashLen));
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
@@ -110,25 +109,21 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
     const mapInfo = meta.type.asMap;
 
     return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key.toString()]
+      [mapInfo.hasher, mapInfo.key]
     ]);
   } else if (meta.type.isDoubleMap) {
     const mapInfo = meta.type.asDoubleMap;
 
     return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key1.toString()],
-      [mapInfo.key2Hasher, mapInfo.key2.toString()]
+      [mapInfo.hasher, mapInfo.key1],
+      [mapInfo.key2Hasher, mapInfo.key2]
     ]);
   }
 
   const mapInfo = meta.type.asNMap;
-  const { def } = registry.metadata.types.lookupType(mapInfo.key);
-  const variants = def.asVariant.variants;
+  const variants = registry.lookup.getSiType(mapInfo.key).def.asVariant.variants;
 
-  return decodeHashers(registry, value, mapInfo.hashers.map((h, i) =>
-    // FIXME
-    [h, variants[i].toString()]
-  ));
+  return decodeHashers(registry, value, mapInfo.hashers.map((h, i) => [h, variants[i]]));
 }
 
 /** @internal */

@@ -3,7 +3,8 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -35,7 +36,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      types.lookupType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      types.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
@@ -67,7 +68,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
-      types.lookupType(section.events.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      types.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
@@ -133,7 +134,7 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
-  #metadata?: Metadata;
+  #metadata?: MetadataLatest;
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
@@ -220,10 +221,14 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes;
   }
 
+  public get lookup (): PortableRegistry {
+    return this.metadata.types;
+  }
+
   public get metadata (): MetadataLatest {
     assert(this.#metadata, 'Metadata has not been injected for this registry');
 
-    return this.#metadata.asLatest;
+    return this.#metadata;
   }
 
   public get unknownTypes (): string[] {
@@ -240,6 +245,13 @@ export class TypeRegistry implements Registry {
   public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createClass(this, type) as any;
+  }
+
+  /**
+   * @describe Creates an instance of a class identified by
+   */
+  createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K] {
+    return this.metadata.types.createType(lookupId, params);
   }
 
   /**
@@ -415,7 +427,7 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
-    this.#metadata = metadata;
+    this.#metadata = metadata.asLatest;
 
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);

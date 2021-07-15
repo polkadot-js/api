@@ -31,7 +31,7 @@ function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
   const { types } = registry.metadata;
 
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.isSome ? name.unwrap().toString() : `param${index}`] = types.lookupClass(type);
+    result[name.isSome ? name.unwrap().toString() : `param${index}`] = types.getClass(type);
 
     return result;
   }, {} as ArgsDef);

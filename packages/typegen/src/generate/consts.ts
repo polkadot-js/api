@@ -35,7 +35,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         const items = constants
           .sort(compareName)
           .map(({ docs, name, type }) => {
-            const returnType = formatType(allDefs, types.lookupTypeDef(type), imports);
+            const returnType = formatType(allDefs, types.getTypeDef(type), imports);
 
             setImports(allDefs, imports, [returnType]);
 

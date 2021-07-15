@@ -4,9 +4,9 @@
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { MetadataLatest } from '../interfaces/metadata';
+import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { SiField } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -103,6 +103,7 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
+  readonly lookup: PortableRegistry;
   readonly metadata: MetadataLatest;
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
@@ -117,6 +118,7 @@ export interface Registry {
 
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
+  createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;

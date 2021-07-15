@@ -45,7 +45,7 @@ export class GenericPortableRegistry extends Struct {
    * @description creates a type from the id
    */
   createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash }: CreateOptions = {}): T {
-    const Clazz = this.lookupClass<T>(typeIndex);
+    const Clazz = this.getClass<T>(typeIndex);
     const instance = new Clazz(this.registry, ...params);
 
     if (blockHash) {
@@ -55,12 +55,12 @@ export class GenericPortableRegistry extends Struct {
     return instance;
   }
 
-  lookupClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): Constructor<T> {
+  getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): Constructor<T> {
     const index = lookupId.toNumber();
     let Clazz = this.#classes[index] as Constructor<T>;
 
     if (!Clazz) {
-      Clazz = getTypeClass(this.registry, this.lookupTypeDef(lookupId));
+      Clazz = getTypeClass(this.registry, this.getTypeDef(lookupId));
       this.#classes[index] = Clazz;
     }
 
@@ -70,7 +70,7 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description Finds a specific type in the registry
    */
-  lookupType (lookupId: SiLookupTypeId): SiType {
+  getSiType (lookupId: SiLookupTypeId): SiType {
     const type = this.types[lookupId.toNumber()];
 
     assert(type, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toNumber()}`);
@@ -81,12 +81,12 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description Lookup the type definition for the index
    */
-  lookupTypeDef (lookupId: SiLookupTypeId): TypeDef {
+  getTypeDef (lookupId: SiLookupTypeId): TypeDef {
     const index = lookupId.toNumber();
     let typeDef = this.#typeDefs[index];
 
     if (!typeDef) {
-      const siType = this.lookupType(lookupId);
+      const siType = this.getSiType(lookupId);
 
       typeDef = this.#extract(siType, lookupId);
       this.#typeDefs[index] = typeDef;
@@ -141,7 +141,7 @@ export class GenericPortableRegistry extends Struct {
         : {}
       ),
       ...(type.params.length > 0
-        ? { sub: type.params.map((type) => this.lookupTypeDef(type.type.unwrap())) }
+        ? { sub: type.params.map((type) => this.getTypeDef(type.type.unwrap())) }
         : {}
       ),
       ...typeDef
@@ -154,7 +154,7 @@ export class GenericPortableRegistry extends Struct {
     return {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
-      sub: this.lookupTypeDef(type)
+      sub: this.getTypeDef(type)
     };
   }
 
@@ -168,7 +168,7 @@ export class GenericPortableRegistry extends Struct {
     assert(isTuple || isStruct, 'PortableRegistry: Invalid fields type detected, expected either Tuple or Struct');
 
     const sub = fields.map(({ name, type }) => ({
-      ...this.lookupTypeDef(type),
+      ...this.getTypeDef(type),
       ...(name.isSome
         ? { name: name.unwrap().toString() }
         : {}
@@ -207,34 +207,34 @@ export class GenericPortableRegistry extends Struct {
 
     return {
       info: TypeDefInfo.Vec,
-      sub: this.lookupTypeDef(type)
+      sub: this.getTypeDef(type)
     };
   }
 
   #extractTuple (ids: SiTypeDefTuple): Omit<TypeDef, 'type'> {
     return ids.length === 1
-      ? this.lookupTypeDef(ids[0])
+      ? this.getTypeDef(ids[0])
       : {
         info: TypeDefInfo.Tuple,
-        sub: ids.map((type) => this.lookupTypeDef(type))
+        sub: ids.map((type) => this.getTypeDef(type))
       };
   }
 
   #extractVariant ({ variants }: SiTypeDefVariant, lookupId: SiLookupTypeId): Omit<TypeDef, 'type'> {
-    const { params, path } = this.lookupType(lookupId);
+    const { params, path } = this.getSiType(lookupId);
     const specialVariant = path[0].toString();
 
     return specialVariant === 'Option'
       ? {
         info: TypeDefInfo.Option,
-        sub: this.lookupTypeDef(params[0].type.unwrap())
+        sub: this.getTypeDef(params[0].type.unwrap())
       }
       : specialVariant === 'Result'
         ? {
           info: TypeDefInfo.Result,
           sub: params.map((p, index) => ({
             name: ['Ok', 'Error'][index],
-            ...this.lookupTypeDef(p.type.unwrap())
+            ...this.getTypeDef(p.type.unwrap())
           }))
         }
         : {

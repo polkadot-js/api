@@ -22,7 +22,7 @@ export function decorateErrors (_: Registry, { pallets, types }: MetadataLatest,
     const sectionIndex = metaVersion >= 12
       ? index.toNumber()
       : _sectionIndex;
-    const { def } = types.lookupType(errors.unwrap().type);
+    const { def } = types.getSiType(errors.unwrap().type);
 
     assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
 

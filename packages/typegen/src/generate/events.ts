@@ -27,11 +27,11 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       .sort(compareName)
       .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
-        items: types.lookupType(events.unwrap().type).def.asVariant.variants
+        items: types.getSiType(events.unwrap().type).def.asVariant.variants
           .sort(compareName)
           .map(({ docs, fields, name }) => {
             const args = fields.map(({ type }) =>
-              formatType(allDefs, types.lookupTypeDef(type), imports)
+              formatType(allDefs, types.getTypeDef(type), imports)
             );
 
             setImports(allDefs, imports, args);

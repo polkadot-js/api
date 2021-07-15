@@ -22,7 +22,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
       .sort(compareName)
       .filter(({ errors }) => errors.isSome)
       .map(({ errors, name }) => ({
-        items: types.lookupType(errors.unwrap().type).def.asVariant.variants
+        items: types.getSiType(errors.unwrap().type).def.asVariant.variants
           .sort(compareName)
           .map(({ docs, name }) => ({
             docs,
