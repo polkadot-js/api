@@ -196,19 +196,19 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
 
   assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
 
-  registry.register(value.type, DoNotConstruct);
+  // We already set a value since with the create we are going circular
+  registry.register(value.type, DoNotConstruct.with(value.displayName || value.type));
 
   const wrapped = registry.get<T>(value.type) as WrappedConstructor<T>;
-  const Clazz = getFn(registry, value) as Constructor<T>;
+
+  wrapped.Clazz = getFn(registry, value) as Constructor<T>;
 
   // don't clobber any existing
-  if (!Clazz.__fallbackType && value.fallbackType) {
+  if (!wrapped.Clazz.__fallbackType && value.fallbackType) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore ...this is the only place we we actually assign this...
-    Clazz.__fallbackType = value.fallbackType;
+    wrapped.Clazz.__fallbackType = value.fallbackType;
   }
-
-  wrapped.Clazz = Clazz;
 
   return wrapped;
 }
