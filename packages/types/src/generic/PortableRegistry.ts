@@ -125,6 +125,8 @@ export class GenericPortableRegistry extends Struct {
       typeDef = this.#extractTuple(type.def.asTuple);
     } else if (type.def.isHistoricMetaCompat) {
       typeDef = getTypeDef(type.def.asHistoricMetaCompat);
+    } else if (type.def.isPhantom) {
+      typeDef = this.#extractPhantom();
     } else {
       throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toNumber()}: No handler for ${type.def.toString()}`);
     }
@@ -141,7 +143,7 @@ export class GenericPortableRegistry extends Struct {
         : {}
       ),
       ...(type.params.length > 0
-        ? { sub: type.params.map((type) => this.getTypeDef(type.type.unwrap())) }
+        ? { sub: type.params.filter(({ type }) => type.isSome).map(({ type }) => this.getTypeDef(type.unwrap())) }
         : {}
       ),
       ...typeDef
@@ -184,6 +186,13 @@ export class GenericPortableRegistry extends Struct {
           : TypeDefInfo.Struct,
         sub
       };
+  }
+
+  #extractPhantom (): TypeDef {
+    return {
+      info: TypeDefInfo.Null,
+      type: 'Null'
+    };
   }
 
   #extractPrimitive (type: SiType): TypeDef {
