@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
+type TypesDef<T extends Codec = Codec> = Record<string, keyof InterfaceTypes | Constructor<T> | WrappedConstructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {

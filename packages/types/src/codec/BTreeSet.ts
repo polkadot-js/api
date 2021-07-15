@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8a, typeToConstructor } from './utils';
+import { compareSet, decodeU8a, isWrappedClass, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
 
@@ -91,10 +91,10 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
     this.#ValClass = typeToConstructor(registry, valType);
   }
 
-  public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
+  public static with<V extends Codec> (valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: Uint8Array | string | Set<any>) {
-        super(registry, valType, value);
+        super(registry, isWrappedClass(valType) ? valType.Clazz : valType, value);
       }
     };
   }

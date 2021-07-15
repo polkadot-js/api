@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { U8aBitLength, UIntBitLength } from '../codec/types';
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 import type { FromReg, TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
@@ -11,7 +11,7 @@ import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, I
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
+export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): WrappedConstructor<FromReg<T, K>> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return getTypeClass<FromReg<T, K>>(registry, getTypeDef(type));
 }
@@ -19,7 +19,7 @@ export function createClass<T extends Codec = Codec, K extends string = string> 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if it cannot be parsed, it will yield
 // a runtime error.
-export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): Constructor<FromReg<T, K>> {
+export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): WrappedConstructor<FromReg<T, K>> {
   return createClass<T, K>(registry, name);
 }
 
@@ -31,23 +31,23 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
-function getSub (registry: Registry, value: TypeDef): [Constructor, TypeDef, string?] {
+function getSub (registry: Registry, value: TypeDef): [WrappedConstructor, TypeDef, string?] {
   assert(value.sub && !Array.isArray(value.sub), () => `Expected subtype as TypeDef in ${stringify(value)}`);
 
   return [getTypeClass(registry, value.sub), value.sub, value.sub.name];
 }
 
-function getSubArray (registry: Registry, value: TypeDef): [Constructor, TypeDef, string][] {
+function getSubArray (registry: Registry, value: TypeDef): [WrappedConstructor, TypeDef, string][] {
   assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
   return value.sub.map((t, index) => [getTypeClass(registry, t), t, t.name || `param${index}`]);
 }
 
 // create a maps of type string constructors from the input
-function getSubMap (registry: Registry, value: TypeDef): Record<string, Constructor> {
-  const result: Record<string, Constructor> = {};
+function getSubMap (registry: Registry, value: TypeDef): Record<string, WrappedConstructor> {
+  const result: Record<string, WrappedConstructor> = {};
 
-  return getSubArray(registry, value).reduce<Record<string, Constructor>>((result, [sub,, name]) => {
+  return getSubArray(registry, value).reduce<Record<string, WrappedConstructor>>((result, [sub,, name]) => {
     result[name] = sub;
 
     return result;
@@ -158,7 +158,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       subDef.type === 'u8'
-        ? createClass(registry, 'Bytes')
+        ? createClass(registry, 'Bytes').Clazz
         : Vec.with(subType)
     );
   },
@@ -175,7 +175,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 };
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
+export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): WrappedConstructor<T> {
   let Type = registry.get<T>(value.type);
 
   if (Type) {
@@ -187,13 +187,13 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
   assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
 
   try {
-    Type = getFn(registry, value) as Constructor<T>;
+    Type = { Clazz: getFn(registry, value) as Constructor<T>, isWrapped: true };
 
     // don't clobber any existing
-    if (!Type.__fallbackType && value.fallbackType) {
+    if (!Type.Clazz.__fallbackType && value.fallbackType) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore ...this is the only place we we actually assign this...
-      Type.__fallbackType = value.fallbackType;
+      Type.Clazz.__fallbackType = value.fallbackType;
     }
 
     return Type;

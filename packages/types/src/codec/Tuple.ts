@@ -1,21 +1,21 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
+import { decodeU8a, isWrappedClass, mapToTypeMap, typeToConstructor } from './utils';
 
 type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
 
-type TupleConstructors = Constructor[] | {
-  [index: string]: Constructor;
+type TupleConstructors = (Constructor | WrappedConstructor)[] | {
+  [index: string]: Constructor | WrappedConstructor;
 };
 
-type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
-  [index: string]: Constructor | keyof InterfaceTypes;
+type TupleTypes = (Constructor | WrappedConstructor | keyof InterfaceTypes)[] | {
+  [index: string]: Constructor | WrappedConstructor | keyof InterfaceTypes;
 };
 
 /** @internal */
@@ -26,13 +26,14 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
     return decodeU8a(registry, u8aToU8a(value), result, _Types);
   }
 
-  const Types: Constructor[] = Array.isArray(_Types)
+  const Types: (WrappedConstructor | Constructor)[] = Array.isArray(_Types)
     ? _Types
     : Object.values(_Types);
 
-  return Types.map((Type, index): Codec => {
+  return Types.map((type, index): Codec => {
     try {
       const entry = value?.[index];
+      const Type = isWrappedClass(type) ? type.Clazz : type;
 
       if (entry instanceof Type) {
         return entry;
@@ -56,7 +57,7 @@ export class Tuple extends AbstractArray<Codec> {
 
   constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {
     const Clazzes = Array.isArray(Types)
-      ? Types.map((type): Constructor => typeToConstructor(registry, type))
+      ? Types.map((t) => typeToConstructor(registry, t))
       : mapToTypeMap(registry, Types);
 
     super(registry, ...decodeTuple(registry, Clazzes, value));
@@ -84,7 +85,9 @@ export class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type): string => new Type(this.registry).toRawType())
+      ? this._Types.map((Type) =>
+        new (isWrappedClass(Type) ? Type.Clazz : Type)(this.registry).toRawType()
+      )
       : Object.keys(this._Types);
   }
 
@@ -97,7 +100,7 @@ export class Tuple extends AbstractArray<Codec> {
         ? this._Types
         : Object.values(this._Types)
     ).map((Type) =>
-      this.registry.getClassName(Type) || new Type(this.registry).toRawType()
+      this.registry.getClassName(Type) || new (isWrappedClass(Type) ? Type.Clazz : Type)(this.registry).toRawType()
     );
 
     return `(${types.join(',')})`;

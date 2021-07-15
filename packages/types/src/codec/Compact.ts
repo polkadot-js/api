@@ -3,12 +3,12 @@
 
 import type { BN } from '@polkadot/util';
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, AnyNumber, Constructor, ICompact, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 import type { CompactEncodable } from './types';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
-import { typeToConstructor } from './utils';
+import { isWrappedClass, typeToConstructor } from './utils';
 
 /**
  * @name Compact
@@ -33,10 +33,10 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
     this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
-        super(registry, Type, value);
+        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
       }
     };
   }

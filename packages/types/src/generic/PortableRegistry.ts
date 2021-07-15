@@ -3,10 +3,11 @@
 
 import type { Vec } from '../codec/Vec';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
-import type { Codec, Constructor, Registry, TypeDef } from '../types';
+import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
 import { assert } from '@polkadot/util';
 
+import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Struct } from '../codec/Struct';
 import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
@@ -25,7 +26,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 export class GenericPortableRegistry extends Struct {
-  #classes: Record<number, Constructor> = {};
+  #classes: Record<number, WrappedConstructor> = {};
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
@@ -45,8 +46,7 @@ export class GenericPortableRegistry extends Struct {
    * @description creates a type from the id
    */
   createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash }: CreateOptions = {}): T {
-    const Clazz = this.getClass<T>(typeIndex);
-    const instance = new Clazz(this.registry, ...params);
+    const instance = new (this.getClass<T>(typeIndex).Clazz)(this.registry, ...params);
 
     if (blockHash) {
       instance.createdAtHash = this.registry.createType('Hash', blockHash);
@@ -55,14 +55,16 @@ export class GenericPortableRegistry extends Struct {
     return instance;
   }
 
-  getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): Constructor<T> {
+  getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): WrappedConstructor<T> {
     const index = lookupId.toNumber();
 
     if (!this.#classes[index]) {
-      this.#classes[index] = getTypeClass(this.registry, this.getTypeDef(lookupId));
+      // since we may have recursive lookups, fill in empty details as a start
+      this.#classes[index] = { Clazz: DoNotConstruct, isWrapped: true };
+      this.#classes[index].Clazz = getTypeClass(this.registry, this.getTypeDef(lookupId));
     }
 
-    return this.#classes[index] as Constructor<T>;
+    return this.#classes[index] as WrappedConstructor<T>;
   }
 
   /**
@@ -84,7 +86,7 @@ export class GenericPortableRegistry extends Struct {
 
     if (!this.#typeDefs[index]) {
       // since we may have recursive lookups, fill in empty details as a start
-      this.#typeDefs[index] = { info: TypeDefInfo.Null, type: 'Null' };
+      this.#typeDefs[index] = { info: TypeDefInfo.DoNotConstruct, type: 'DoNotConstruct' };
 
       const siType = this.getSiType(lookupId);
 

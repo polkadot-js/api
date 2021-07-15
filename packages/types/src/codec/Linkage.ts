@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { Option } from './Option';
 import { Struct } from './Struct';
 import { Tuple } from './Tuple';
+import { isWrappedClass } from './utils';
 import { Vec } from './Vec';
 
 type TypeWithValues = [Constructor, any[]];
@@ -25,10 +26,10 @@ export class Linkage<T extends Codec> extends Struct {
     }, value as string);
   }
 
-  public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: WrappedConstructor | Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value);
+        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
       }
     };
   }

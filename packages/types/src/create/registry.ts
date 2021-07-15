@@ -5,7 +5,7 @@ import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes, WrappedConstructor } from '../types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -13,6 +13,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
+import { isWrappedClass } from '../codec/utils/isWrappedClass'
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
@@ -130,7 +131,7 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, Constructor>();
+  #classes = new Map<string, WrappedConstructor>();
 
   #definitions = new Map<string, string>();
 
@@ -173,7 +174,7 @@ export class TypeRegistry implements Registry {
 
   public init (): this {
     // start clean
-    this.#classes = new Map<string, Constructor>();
+    this.#classes = new Map<string, WrappedConstructor>();
     this.#definitions = new Map<string, string>();
     this.#unknownTypes = new Map<string, boolean>();
     this.#knownTypes = {};
@@ -255,7 +256,7 @@ export class TypeRegistry implements Registry {
   public createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]> {
     // this is a weird one, the issue is that TS gets into a know if not done
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.lookup.getClass(lookupId) as any;
+    return this.lookup.getClass(lookupId).Clazz as any;
   }
 
   /**
@@ -300,43 +301,38 @@ export class TypeRegistry implements Registry {
     return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
   }
 
-  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
-    let Type = this.#classes.get(name);
+  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): WrappedConstructor<T> | undefined {
+    let wrapped = this.#classes.get(name);
 
     // we have not already created the type, attempt it
-    if (!Type) {
+    if (!wrapped) {
+      wrapped = { Clazz: DoNotConstruct.with(name), isWrapped: true };
+      this.#classes.set(name, wrapped);
+
       const definition = this.#definitions.get(name);
-      let BaseType: Constructor<Codec> | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        BaseType = createClass(this, definition);
+        const { Clazz } = createClass(this, definition);
+
+        wrapped.Clazz = class extends Clazz {};
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
         this.#unknownTypes.set(name, true);
-        BaseType = DoNotConstruct.with(name);
-      }
-
-      if (BaseType) {
-        // NOTE If we didn't extend here, we would have strange artifacts. An example is
-        // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
-        // Additionally, we now pass through the registry, which is a link to ourselves
-        Type = class extends BaseType {};
-
-        this.#classes.set(name, Type);
       }
     }
 
-    return Type as Constructor<T>;
+    return wrapped as WrappedConstructor<T>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
     return this.#chainProperties;
   }
 
-  public getClassName (clazz: Constructor): string | undefined {
-    const entry = [...this.#classes.entries()].find(([, test]) => test === clazz);
+  public getClassName (Type: Constructor | WrappedConstructor): string | undefined {
+    const test = isWrappedClass(Type) ? Type.Clazz : Type;
+    const entry = [...this.#classes.entries()].find(([, { Clazz }]) => test === Clazz);
 
     return entry
       ? entry[0]
@@ -352,11 +348,15 @@ export class TypeRegistry implements Registry {
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
-    return assertReturn(this.get<T>(name), msg || `type ${name} not found`);
+    const wrapped = this.get<T>(name);
+
+    assert(wrapped, msg || `type ${name} not found`);
+
+    return wrapped.Clazz;
   }
 
   public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {
-    return this.get<T>(name, true) as Constructor<T>;
+    return (this.get<T>(name, true) as WrappedConstructor<T>).Clazz;
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
@@ -392,12 +392,12 @@ export class TypeRegistry implements Registry {
   public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
-      this.#classes.set(arg1.name, arg1);
+      this.#classes.set(arg1.name, { Clazz: arg1, isWrapped: true });
     } else if (isString(arg1)) {
       assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
       assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
 
-      this.#classes.set(arg1, arg2);
+      this.#classes.set(arg1, { Clazz: arg2, isWrapped: true });
     } else {
       this._registerObject(arg1);
     }
@@ -407,7 +407,7 @@ export class TypeRegistry implements Registry {
     Object.entries(obj).forEach(([name, type]): void => {
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
-        this.#classes.set(name, type);
+        this.#classes.set(name, { Clazz: type, isWrapped: true });
       } else {
         const def = isString(type)
           ? type
