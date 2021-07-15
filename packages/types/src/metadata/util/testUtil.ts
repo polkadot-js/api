@@ -5,7 +5,7 @@ import type { Registry } from '../../types';
 
 import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
-import { unwrapStorageType } from '../../primitive/StorageKey';
+import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
@@ -72,10 +72,12 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              const type = registry.createType(inner, hexToU8a(fallback.toHex()));
+              const instance = types.createType(unwrapStorageSi(registry, type), [hexToU8a(fallback.toHex())], {
+                isOptional: modifier.isOptional
+              });
 
               if (withFallbackCheck) {
-                const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
+                const [hexType, hexOrig] = [u8aToHex(instance.toU8a()), u8aToHex(fallback.toU8a(true))];
 
                 assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
               }

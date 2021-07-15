@@ -33,15 +33,19 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   Twox64Concat: [8, true]
 };
 
+export function unwrapStorageSi (registry: Registry, type: StorageEntryTypeLatest): SiLookupTypeId {
+  return type.isPlain
+    ? type.asPlain
+    : type.isMap
+      ? type.asMap.value
+      : type.isDoubleMap
+        ? type.asDoubleMap.value
+        : type.asNMap.value;
+}
+
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = type.isPlain
-    ? registry.lookup.getTypeDef(type.asPlain).type
-    : type.isMap
-      ? registry.lookup.getTypeDef(type.asMap.value).type
-      : type.isDoubleMap
-        ? registry.lookup.getTypeDef(type.asDoubleMap.value).type
-        : registry.lookup.getTypeDef(type.asNMap.value).type;
+  const outputType = registry.lookup.getTypeDef(unwrapStorageSi(registry, type)).type;
 
   return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes

@@ -7,6 +7,7 @@ import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
 
+import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
 import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
@@ -15,6 +16,7 @@ import { TypeDefInfo } from '../types';
 
 interface CreateOptions {
   blockHash?: Uint8Array | string | null;
+  isOptional?: boolean;
 }
 
 const PRIMITIVE_ALIAS: Record<string, string> = {
@@ -44,14 +46,15 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description creates a type from the id
    */
-  createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash }: CreateOptions = {}): T {
-    const instance = new (this.getClass<T>(typeIndex).Clazz)(this.registry, ...params);
+  createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash, isOptional }: CreateOptions = {}): T {
+    const { Clazz } = this.getClass<T>(typeIndex);
+    const instance = new (isOptional ? Option.with(Clazz) : Clazz)(this.registry, ...params);
 
     if (blockHash) {
       instance.createdAtHash = this.registry.createType('Hash', blockHash);
     }
 
-    return instance;
+    return instance as T;
   }
 
   getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): WrappedConstructor<T> {
