@@ -3,7 +3,7 @@
 
 import type { Registry } from '../../types';
 
-import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
 import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
@@ -52,7 +52,9 @@ export function toLatest (registry: Registry, version: number, rpcData: string, 
 
     registry.setMetadata(metadata);
 
-    getUniqTypes(registry, metadata.asLatest, withThrow);
+    if (metadata.version < 14) {
+      getUniqTypes(registry, metadata.asLatest, withThrow);
+    }
   });
 }
 
@@ -63,11 +65,11 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
     const { pallets, types } = metadata.asLatest;
 
     pallets.filter(({ storage }): boolean => storage.isSome).forEach(({ name, storage }): void => {
-      const sectionName = name.toString();
+      const sectionName = stringCamelCase(name);
 
       storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
         const inner = unwrapStorageType(registry, type, modifier.isOptional);
-        const location = `${sectionName}.${name.toString()}: ${inner}`;
+        const location = `${sectionName}.${stringCamelCase(name)}: ${inner}`;
 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
