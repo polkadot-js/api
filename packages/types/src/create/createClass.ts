@@ -180,7 +180,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return sub.type === 'u8'
       ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-      : VecFixed.with(subClass(registry, sub)[0], length);
+      : VecFixed.with(getTypeClass(registry, sub), length);
   }
 };
 
@@ -193,9 +193,13 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
   }
 
   const getFn = infoMapping[value.info];
-  const Clazz = getFn && getFn(registry, value) as Constructor<T>;
 
-  assert(Clazz, () => `Unable to construct class from ${stringify(value)}`);
+  assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
+
+  registry.register(value.type, DoNotConstruct);
+
+  const wrapped = registry.get<T>(value.type) as WrappedConstructor<T>;
+  const Clazz = getFn(registry, value) as Constructor<T>;
 
   // don't clobber any existing
   if (!Clazz.__fallbackType && value.fallbackType) {
@@ -204,5 +208,7 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
     Clazz.__fallbackType = value.fallbackType;
   }
 
-  return { Clazz, isWrapped: true };
+  wrapped.Clazz = Clazz;
+
+  return wrapped;
 }

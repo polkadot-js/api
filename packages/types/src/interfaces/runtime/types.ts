@@ -8,7 +8,10 @@ import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { SystemOrigin } from '@polkadot/types/interfaces/system';
 
 /** @name AccountId */
-export interface AccountId extends GenericAccountId {}
+export interface AccountId extends AccountId32 {}
+
+/** @name AccountId32 */
+export interface AccountId32 extends GenericAccountId {}
 
 /** @name AccountIdOf */
 export interface AccountIdOf extends AccountId {}
