@@ -19,6 +19,9 @@ export function decodeLatestSubstrate (registry: Registry, version: number, rpcD
   it('decodes latest substrate properly', (): void => {
     const json = metadata.toJSON();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    delete (json as Record<string, Record<string, Record<string, string>>>).metadata?.[`v${metadata.version}`]?.types;
+
     try {
       expect(metadata.version).toBe(version);
       expect(json).toEqual(staticSubstrate);
