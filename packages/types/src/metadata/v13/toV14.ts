@@ -90,8 +90,8 @@ function convertCalls (registry: Registry, types: SiType[], modName: Text, calls
 
     return registry.createType('SiVariant', {
       docs,
-      fields: args.map(({ type }) =>
-        registry.createType('SiField', { type: compatType(registry, types, type) })
+      fields: args.map(({ name, type }) =>
+        registry.createType('SiField', { name, type: compatType(registry, types, type) })
       ),
       index,
       name

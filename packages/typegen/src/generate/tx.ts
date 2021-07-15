@@ -48,9 +48,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 
         const items = def.asVariant.variants
-          .map(({ docs, fields, name }, index) => {
+          .map(({ docs, fields, name }) => {
             const params = fields
-              .map(({ name, type }) => {
+              .map(({ name, type }, index) => {
                 const typeStr = types.lookupTypeDef(type).type;
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
