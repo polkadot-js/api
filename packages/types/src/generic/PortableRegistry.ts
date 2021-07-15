@@ -5,9 +5,8 @@ import type { Vec } from '../codec/Vec';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
-import { assert } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
-import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Struct } from '../codec/Struct';
 import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
@@ -186,7 +185,7 @@ export class GenericPortableRegistry extends Struct {
     const sub = fields.map(({ name, type }) => ({
       ...this.getTypeDef(type),
       ...(name.isSome
-        ? { name: name.unwrap().toString() }
+        ? { name: stringCamelCase(name.unwrap()) }
         : {}
       )
     }));
