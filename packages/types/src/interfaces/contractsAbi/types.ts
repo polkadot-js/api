@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { SiLookupTypeId, SiPath, SiType0 } from '@polkadot/types/interfaces/scaleInfo';
+import type { Si0LookupTypeId, Si0Path, Si0Type } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {
@@ -31,7 +31,7 @@ export interface ContractCryptoHasher extends Enum {
 export interface ContractDiscriminant extends u32 {}
 
 /** @name ContractDisplayName */
-export interface ContractDisplayName extends SiPath {}
+export interface ContractDisplayName extends Si0Path {}
 
 /** @name ContractEventParamSpec */
 export interface ContractEventParamSpec extends Struct {
@@ -59,7 +59,7 @@ export interface ContractLayoutArray extends Struct {
 /** @name ContractLayoutCell */
 export interface ContractLayoutCell extends Struct {
   readonly key: ContractLayoutKey;
-  readonly ty: SiLookupTypeId;
+  readonly ty: Si0LookupTypeId;
 }
 
 /** @name ContractLayoutEnum */
@@ -118,7 +118,7 @@ export interface ContractProject extends Struct {
   readonly metadataVersion: Text;
   readonly source: ContractProjectSource;
   readonly contract: ContractProjectContract;
-  readonly types: Vec<SiType0>;
+  readonly types: Vec<Si0Type>;
   readonly spec: ContractContractSpec;
 }
 
@@ -161,7 +161,7 @@ export interface ContractStorageLayout extends Enum {
 
 /** @name ContractTypeSpec */
 export interface ContractTypeSpec extends Struct {
-  readonly type: SiLookupTypeId;
+  readonly type: Si0LookupTypeId;
   readonly displayName: ContractDisplayName;
 }
 

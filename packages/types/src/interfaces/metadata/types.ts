@@ -304,7 +304,13 @@ export interface PalletStorageMetadataV14 extends Struct {
 
 /** @name PortableRegistry */
 export interface PortableRegistry extends Struct {
-  readonly types: Vec<SiType>;
+  readonly types: Vec<PortableType>;
+}
+
+/** @name PortableType */
+export interface PortableType extends Struct {
+  readonly id: SiLookupTypeId;
+  readonly type: SiType;
 }
 
 /** @name SignedExtensionMetadataLatest */

@@ -9,7 +9,11 @@ import type { DefinitionsTypes } from '../../types';
 export const v14: DefinitionsTypes = {
   // registry
   PortableRegistry: {
-    types: 'Vec<SiType>'
+    types: 'Vec<PortableType>'
+  },
+  PortableType: {
+    id: 'SiLookupTypeId',
+    type: 'SiType'
   },
 
   // V14
