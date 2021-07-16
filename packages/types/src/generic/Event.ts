@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TypeDef } from '../create/types';
-import type { EventMetadataLatest } from '../interfaces/metadata';
+import type { SiVariant } from '../interfaces/scaleInfo';
 import type { EventId } from '../interfaces/system';
 import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
 
@@ -41,7 +41,7 @@ function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class GenericEventData extends Tuple implements IEventData {
-  readonly #meta: EventMetadataLatest;
+  readonly #meta: SiVariant;
 
   readonly #method: string;
 
@@ -49,7 +49,7 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
+  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: SiVariant, section = '<unknown>', method = '<unknown>') {
     super(registry, Types, value);
 
     this.#meta = meta;
@@ -61,7 +61,7 @@ export class GenericEventData extends Tuple implements IEventData {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  public get meta (): EventMetadataLatest {
+  public get meta (): SiVariant {
     return this.#meta;
   }
 
@@ -123,7 +123,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  public get meta (): EventMetadataLatest {
+  public get meta (): SiVariant {
     return this.data.meta;
   }
 

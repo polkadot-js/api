@@ -45,9 +45,14 @@ const DESC_STORAGE = `The following sections contain Storage methods are part of
 /** @internal */
 function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
   const md = docLines
-    .map((docLine) => docLine && docLine.substring(1)) // trim the leading space
-    .reduce((md, docLine): string => // generate paragraphs
-      !docLine.trim().length
+    .map((docLine) =>
+      docLine
+        .toString()
+        .trimStart()
+        .replace(/^r" /g, '')
+    )
+    .reduce((md, docLine) => // generate paragraphs
+      !docLine.length
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
@@ -162,10 +167,10 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addConstants (metadata: MetadataLatest): string {
+function addConstants ({ pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_CONSTANTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
       .map((moduleMetadata) => {
@@ -191,9 +196,9 @@ function addConstants (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage (metadata: MetadataLatest): string {
-  const { substrate } = getSubstrateStorage(metadata.registry);
-  const moduleSections = metadata.modules
+function addStorage ({ pallets, registry, types }: MetadataLatest): string {
+  const { substrate } = getSubstrateStorage(registry);
+  const moduleSections = pallets
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
     .map((moduleMetadata): Section => {
@@ -204,14 +209,14 @@ function addStorage (metadata: MetadataLatest): string {
           .sort(sortByName)
           .map((func) => {
             const arg = func.type.isMap
-              ? ('`' + func.type.asMap.key.toString() + '`')
+              ? ('`' + types.getTypeDef(func.type.asMap.key).type + '`')
               : func.type.isDoubleMap
-                ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
+                ? ('`' + types.getTypeDef(func.type.asDoubleMap.key1).type + ', ' + types.getTypeDef(func.type.asDoubleMap.key2).type + '`')
                 : func.type.isNMap
-                  ? ('`' + func.type.asNMap.keyVec.map((k) => k.toString()).join(', ') + '`')
+                  ? ('`' + types.getSiType(func.type.asNMap.key).def.asTuple.map((t) => t).join(', ') + '`')
                   : '';
             const methodName = stringLowerFirst(func.name);
-            const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
+            const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);
 
             return {
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
@@ -234,7 +239,7 @@ function addStorage (metadata: MetadataLatest): string {
             ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
             : '';
         const methodName = stringLowerFirst(name);
-        const outputType = unwrapStorageType(meta.type, meta.modifier.isOptional);
+        const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
 
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',
@@ -249,10 +254,10 @@ function addStorage (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addExtrinsics (metadata: MetadataLatest): string {
+function addExtrinsics ({ pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EXTRINSICS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
       .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
       .map((meta) => {
@@ -279,10 +284,10 @@ function addExtrinsics (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addEvents (metadata: MetadataLatest): string {
+function addEvents ({ pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EVENTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
       .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
       .map((meta) => ({
@@ -305,10 +310,10 @@ function addEvents (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addErrors (metadata: MetadataLatest): string {
+function addErrors ({ pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_ERRORS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
       .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
       .map((moduleMetadata) => ({

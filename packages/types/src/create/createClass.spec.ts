@@ -15,8 +15,8 @@ describe('createClass', (): void => {
   });
 
   it('should return equivalents for Bytes & Vec<u8>', (): void => {
-    const A = createClass(registry, 'Vec<u8>');
-    const B = createClass(registry, 'Bytes');
+    const A = createClass(registry, 'Vec<u8>').Clazz;
+    const B = createClass(registry, 'Bytes').Clazz;
 
     expect(new A(registry) instanceof B).toBe(true);
   });
