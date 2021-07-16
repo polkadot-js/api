@@ -5,12 +5,12 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 
 import { isString } from '@polkadot/util';
 
-import { unwrapClass } from './isWrappedClass';
+import { removeWrap } from './isWrappedClass';
 
 export function typeToConstructor <T extends Codec = Codec> (registry: Registry, type: keyof InterfaceTypes | Constructor<T> | WrappedConstructor<T>): Constructor<T> {
   return (
     isString(type)
       ? registry.createClass(type)
-      : unwrapClass(type)
+      : removeWrap(type)
   ) as Constructor<T>;
 }

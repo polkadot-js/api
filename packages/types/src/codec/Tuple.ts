@@ -6,7 +6,7 @@ import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, 
 import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, isWrappedClass, mapToTypeMap, typeToConstructor } from './utils';
+import { decodeU8a, mapToTypeMap, removeWrap, typeToConstructor } from './utils';
 
 type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
 
@@ -33,7 +33,7 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
   return Types.map((type, index): Codec => {
     try {
       const entry = value?.[index];
-      const Type = isWrappedClass(type) ? type.Clazz : type;
+      const Type = removeWrap(type);
 
       if (entry instanceof Type) {
         return entry;
@@ -86,7 +86,7 @@ export class Tuple extends AbstractArray<Codec> {
   public get Types (): string[] {
     return Array.isArray(this._Types)
       ? this._Types.map((Type) =>
-        new (isWrappedClass(Type) ? Type.Clazz : Type)(this.registry).toRawType()
+        new (removeWrap(Type))(this.registry).toRawType()
       )
       : Object.keys(this._Types);
   }
@@ -100,7 +100,7 @@ export class Tuple extends AbstractArray<Codec> {
         ? this._Types
         : Object.values(this._Types)
     ).map((Type) =>
-      this.registry.getClassName(Type) || new (isWrappedClass(Type) ? Type.Clazz : Type)(this.registry).toRawType()
+      this.registry.getClassName(Type) || new (removeWrap(Type))(this.registry).toRawType()
     );
 
     return `(${types.join(',')})`;

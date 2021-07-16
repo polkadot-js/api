@@ -6,7 +6,7 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 import { assert, compactToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { isWrappedClass, typeToConstructor } from './utils';
+import { typeToConstructor } from './utils';
 import { Vec } from './Vec';
 
 /** @internal */
@@ -36,7 +36,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...decodeVecFixed(registry, Clazz, length, value));
@@ -47,7 +47,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   public static with<O extends Codec> (Type: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes, length: number): Constructor<VecFixed<O>> {
     return class extends VecFixed<O> {
       constructor (registry: Registry, value?: any[]) {
-        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, length, value);
+        super(registry, Type, length, value);
       }
     };
   }

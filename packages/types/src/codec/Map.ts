@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -70,7 +70,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: WrappedConstructor<K> | Constructor<K> | keyof InterfaceTypes, valType: WrappedConstructor<V> |Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
@@ -98,7 +98,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #type: string;
 
-  constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
+  constructor (registry: Registry, keyType: WrappedConstructor<K> | Constructor<K> | keyof InterfaceTypes, valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
     super(decodeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;

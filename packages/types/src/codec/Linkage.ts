@@ -6,7 +6,6 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 import { Option } from './Option';
 import { Struct } from './Struct';
 import { Tuple } from './Tuple';
-import { unwrapClass } from './utils';
 import { Vec } from './Vec';
 
 type TypeWithValues = [Constructor, any[]];
@@ -18,7 +17,7 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export class Linkage<T extends Codec> extends Struct {
-  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: unknown) {
+  constructor (registry: Registry, Type: WrappedConstructor | Constructor | keyof InterfaceTypes, value?: unknown) {
     super(registry, {
       previous: Option.with(Type),
       // eslint-disable-next-line sort-keys
@@ -29,7 +28,7 @@ export class Linkage<T extends Codec> extends Struct {
   public static withKey<O extends Codec> (Type: WrappedConstructor | Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, unwrapClass(Type), value);
+        super(registry, Type, value);
       }
     };
   }

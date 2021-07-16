@@ -6,7 +6,7 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, isWrappedClass, typeToConstructor } from './utils';
+import { decodeU8a, typeToConstructor } from './utils';
 
 const MAX_LENGTH = 64 * 1024;
 
@@ -22,7 +22,7 @@ const l = logger('Vec');
 export class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
+  constructor (registry: Registry, Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...Vec.decodeVec(registry, Clazz, value));
@@ -70,7 +70,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   public static with<O extends Codec> (Type: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes): Constructor<Vec<O>> {
     return class extends Vec<O> {
       constructor (registry: Registry, value?: any[]) {
-        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
+        super(registry, Type, value);
       }
     };
   }

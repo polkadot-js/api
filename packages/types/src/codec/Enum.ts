@@ -8,7 +8,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
-import { isWrappedClass, mapToTypeMap } from './utils';
+import { mapToTypeMap, removeWrap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -60,7 +60,7 @@ function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTyp
     def = Object
       .entries(mapToTypeMap(registry, _def))
       .reduce((def: TypesDef, [key, Type], index): TypesDef => {
-        def[key] = { Type: isWrappedClass(Type) ? Type.Clazz : Type, index };
+        def[key] = { Type: removeWrap(Type), index };
 
         return def;
       }, {});

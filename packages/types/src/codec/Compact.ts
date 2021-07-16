@@ -8,7 +8,7 @@ import type { CompactEncodable } from './types';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
-import { isWrappedClass, typeToConstructor } from './utils';
+import { typeToConstructor } from './utils';
 
 /**
  * @name Compact
@@ -27,7 +27,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
     this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
@@ -36,7 +36,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
   public static with<T extends CompactEncodable> (Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
-        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
+        super(registry, Type, value);
       }
     };
   }

@@ -5,7 +5,7 @@ import type { Codec, Constructor, Registry, WrappedConstructor } from '../../typ
 
 import { u8aToHex } from '@polkadot/util';
 
-import { unwrapClass } from './isWrappedClass';
+import { removeWrap } from './isWrappedClass';
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
@@ -22,7 +22,7 @@ export function decodeU8a (registry: Registry, u8a: Uint8Array, result: Codec[],
   let offset = 0;
 
   for (let i = 0; i < types.length; i++) {
-    const Type = unwrapClass(types[i]);
+    const Type = removeWrap(types[i]);
 
     try {
       const value = new Type(registry, u8a.subarray(offset));

@@ -6,13 +6,9 @@ import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTy
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, isWrappedClass, mapToTypeMap } from './utils';
+import { compareMap, decodeU8a, mapToTypeMap, removeWrap } from './utils';
 
 type TypesDef<T extends Codec = Codec> = Record<string, keyof InterfaceTypes | Constructor<T> | WrappedConstructor<T>>;
-
-function getClass <T extends Codec = Codec> (Type: Constructor<T> | WrappedConstructor<T>): Constructor<T> {
-  return isWrappedClass(Type) ? Type.Clazz : Type;
-}
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -28,7 +24,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     const jsonKey = (jsonMap.get(key as any) && !value[key])
       ? jsonMap.get(key as any)
       : key;
-    const Type = getClass(Types[key]);
+    const Type = removeWrap(Types[key]);
 
     try {
       if (Array.isArray(value)) {
@@ -189,7 +185,7 @@ export class Struct<
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor | WrappedConstructor>): Record<string, string> {
     return Object.entries(Types).reduce((result: Record<string, string>, [key, _Type]): Record<string, string> => {
-      const Type = getClass(_Type);
+      const Type = removeWrap(_Type);
 
       result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
 

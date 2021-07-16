@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry, WrappedCons
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8a, isWrappedClass, typeToConstructor } from './utils';
+import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
 
@@ -61,7 +61,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
+function decodeSet<V extends Codec = Codec> (registry: Registry, valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
   if (!value) {
     return new Set<V>();
   }
@@ -84,7 +84,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
 
   readonly #ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | string[] | Set<any>) {
+  constructor (registry: Registry, valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes, rawValue?: Uint8Array | string | string[] | Set<any>) {
     super(decodeSet(registry, valType, rawValue));
 
     this.registry = registry;
@@ -94,7 +94,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public static with<V extends Codec> (valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: Uint8Array | string | Set<any>) {
-        super(registry, isWrappedClass(valType) ? valType.Clazz : valType, value);
+        super(registry, valType, value);
       }
     };
   }

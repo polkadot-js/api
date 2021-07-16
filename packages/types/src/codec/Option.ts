@@ -7,7 +7,7 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry, WrappedCons
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { isWrappedClass, typeToConstructor } from './utils';
+import { typeToConstructor } from './utils';
 
 /** @internal */
 function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
@@ -17,7 +17,7 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 }
 
 /** @internal */
-function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: unknown): Codec {
+function decodeOption (registry: Registry, typeName: WrappedConstructor | Constructor | keyof InterfaceTypes, value?: unknown): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null) {
     return new Null(registry);
   }
@@ -56,7 +56,7 @@ export class Option<T extends Codec> implements Codec {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
+  constructor (registry: Registry, typeName: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes, value?: unknown) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, typeName);
     this.#raw = decodeOption(registry, typeName, value) as T;
@@ -65,7 +65,7 @@ export class Option<T extends Codec> implements Codec {
   public static with<O extends Codec> (Type: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
+        super(registry, Type, value);
       }
     };
   }

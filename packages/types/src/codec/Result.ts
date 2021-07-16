@@ -6,7 +6,7 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 import { assert } from '@polkadot/util';
 
 import { Enum } from './Enum';
-import { unwrapClass } from './utils';
+import { removeWrap } from './utils';
 
 /**
  * @name Result
@@ -16,10 +16,10 @@ import { unwrapClass } from './utils';
 export class Result<O extends Codec, E extends Codec> extends Enum {
   constructor (registry: Registry, Ok: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes, Err: WrappedConstructor<E> | Constructor<E> | keyof InterfaceTypes, value?: unknown) {
     super(registry, {
-      Ok: unwrapClass(Ok),
+      Ok: removeWrap(Ok),
       // NOTE This is order-dependent, Ok (with index 0) needs to be first
       // eslint-disable-next-line sort-keys
-      Err: unwrapClass(Err)
+      Err: removeWrap(Err)
     }, value);
   }
 
