@@ -6,7 +6,7 @@ import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor }
 import { Option } from './Option';
 import { Struct } from './Struct';
 import { Tuple } from './Tuple';
-import { isWrappedClass } from './utils';
+import { unwrapClass } from './utils';
 import { Vec } from './Vec';
 
 type TypeWithValues = [Constructor, any[]];
@@ -29,7 +29,7 @@ export class Linkage<T extends Codec> extends Struct {
   public static withKey<O extends Codec> (Type: WrappedConstructor | Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, isWrappedClass(Type) ? Type.Clazz : Type, value);
+        super(registry, unwrapClass(Type), value);
       }
     };
   }

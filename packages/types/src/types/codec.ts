@@ -107,7 +107,7 @@ export type CodecArg = Codec | BigInt | BN | boolean | string | Uint8Array | boo
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CodecArgArray extends Array<CodecArg> {}
 
-export interface Constructor<T extends Codec = Codec> {
+export interface Constructor<T = Codec> {
   /**
    * @description An internal fallback type (previous generation) if encoding fails
    */
@@ -117,11 +117,11 @@ export interface Constructor<T extends Codec = Codec> {
   new(registry: Registry, ...value: any[]): T;
 }
 
-export interface WrappedConstructor<T extends Codec = Codec> {
+export interface WrappedConstructor<T = Codec> {
   Clazz: Constructor<T>;
   isWrapped: true;
 }
 
-export type ConstructorDef<T extends Codec = Codec> = Record<string, WrappedConstructor<T> | Constructor<T>>;
+export type ConstructorDef<T = Codec> = Record<string, WrappedConstructor<T> | Constructor<T>>;
 
-export type ArgsDef = Record<string, Constructor>;
+export type ArgsDef = Record<string, WrappedConstructor | Constructor>;

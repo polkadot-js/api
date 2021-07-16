@@ -4,13 +4,13 @@
 import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
 
 import { CodecMap } from './Map';
-import { isWrappedClass } from './utils';
+import { unwrapClass } from './utils';
 
 export class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends CodecMap<K, V> {
-  public static with<K extends Codec, V extends Codec> (keyType: WrappedConstructor<K> | Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
+  public static with<K extends Codec, V extends Codec> (keyType: WrappedConstructor<K> | Constructor<K> | keyof InterfaceTypes, valType: WrappedConstructor<V> | Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
     return class extends BTreeMap<K, V> {
       constructor (registry: Registry, value?: Uint8Array | string | Map<any, any>) {
-        super(registry, isWrappedClass(keyType) ? keyType.Clazz : keyType, valType, value, 'BTreeMap');
+        super(registry, unwrapClass(keyType), unwrapClass(valType), value, 'BTreeMap');
       }
     };
   }

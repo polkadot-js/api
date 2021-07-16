@@ -77,7 +77,7 @@ function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof
 function createHashMap (registry: Registry, value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap): Constructor {
   const [[keyType], [valueType]] = subClassArray(registry, value);
 
-  return Clazz.with(keyType, valueType);
+  return (Clazz as typeof BTreeMap).with(keyType, valueType);
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {

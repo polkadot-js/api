@@ -49,7 +49,8 @@ function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
       docLine
         .toString()
         .trimStart()
-        .replace(/^r" /g, '')
+        .replace(/^r"/g, '')
+        .trimStart()
     )
     .reduce((md, docLine) => // generate paragraphs
       !docLine.length
