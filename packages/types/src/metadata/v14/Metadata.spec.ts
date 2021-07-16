@@ -17,10 +17,7 @@ describe('MetadataV14 (substrate)', (): void => {
     const all = metadata.get('metadata') as MetadataAll;
     const v14 = all.asV14;
     const jsonStruct = v14.toJSON();
-    const jsonTypes = v14.lookup.types.map((t, __INDEX) => ({
-      __INDEX,
-      ...t.toJSON()
-    }));
+    const jsonTypes = v14.lookup.types.toJSON();
 
     delete (jsonStruct as Record<string, unknown>).lookup;
 
