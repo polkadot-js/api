@@ -207,6 +207,10 @@ export class TypeRegistry implements Registry {
     return [formatBalance.getDefaults().unit];
   }
 
+  public get hasMetadata (): boolean {
+    return !!this.#metadata;
+  }
+
   public get knownTypes (): RegisteredTypes {
     return this.#knownTypes;
   }

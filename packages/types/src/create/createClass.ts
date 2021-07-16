@@ -17,7 +17,7 @@ export function createClass<T extends Codec = Codec, K extends string = string> 
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return getTypeClass<FromReg<T, K>>(
     registry,
-    registry.lookup.isSiString(type)
+    registry.hasMetadata && registry.lookup.isSiString(type)
       ? registry.lookup.getTypeDef(type)
       : getTypeDef(type)
   );

@@ -102,6 +102,7 @@ export interface Registry {
   readonly chainDecimals: number[];
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
+  readonly hasMetadata: boolean;
   readonly knownTypes: RegisteredTypes;
   readonly lookup: PortableRegistry;
   readonly metadata: MetadataLatest;

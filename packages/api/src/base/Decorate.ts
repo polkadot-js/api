@@ -556,7 +556,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: Arg[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
-    const outputType = unwrapStorageType(decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
+    const outputType = unwrapStorageType(this.registry, decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)

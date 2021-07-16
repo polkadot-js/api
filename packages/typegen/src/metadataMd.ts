@@ -235,9 +235,9 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
         const arg = meta.type.isMap
-          ? ('`' + meta.type.asMap.key.toString() + '`')
+          ? ('`' + lookup.getTypeDef(meta.type.asMap.key).type + '`')
           : meta.type.isDoubleMap
-            ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
+            ? ('`' + lookup.getTypeDef(meta.type.asDoubleMap.key1).type + ', ' + lookup.getTypeDef(meta.type.asDoubleMap.key2).type + '`')
             : '';
         const methodName = stringLowerFirst(name);
         const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
@@ -269,7 +269,7 @@ function addExtrinsics ({ pallets }: MetadataLatest): string {
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name);
-              const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
+              const args = func.map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
