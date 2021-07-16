@@ -82,7 +82,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName),
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName || value.type),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
     const subs = getSubDefArray(value);
