@@ -17,12 +17,12 @@ describe('MetadataV14 (substrate)', (): void => {
     const all = metadata.get('metadata') as MetadataAll;
     const v14 = all.asV14;
     const jsonStruct = v14.toJSON();
-    const jsonTypes = v14.types.types.map((t, __INDEX) => ({
+    const jsonTypes = v14.lookup.types.map((t, __INDEX) => ({
       __INDEX,
       ...t.toJSON()
     }));
 
-    delete (jsonStruct as Record<string, unknown>).types;
+    delete (jsonStruct as Record<string, unknown>).lookup;
 
     const allJson = {
       magicNumber: 1635018093,

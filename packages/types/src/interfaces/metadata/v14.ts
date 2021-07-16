@@ -23,7 +23,7 @@ export const v14: DefinitionsTypes = {
     signedExtensions: 'Vec<SignedExtensionMetadataV14>'
   },
   MetadataV14: {
-    types: 'PortableRegistry',
+    lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV14>',
     extrinsic: 'ExtrinsicMetadataV14'
   },
