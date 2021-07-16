@@ -19,7 +19,7 @@ const layout = {
   },
   ContractLayoutCell: {
     key: 'ContractLayoutKey',
-    ty: 'SiLookupTypeId'
+    ty: 'Si0LookupTypeId'
   },
   ContractLayoutEnum: {
     dispatchKey: 'ContractLayoutKey',
@@ -67,7 +67,7 @@ const spec = {
     events: 'Vec<ContractEventSpec>',
     docs: 'Vec<Text>'
   },
-  ContractDisplayName: 'SiPath',
+  ContractDisplayName: 'Si0Path',
   ContractEventParamSpec: {
     name: 'Text',
     indexed: 'bool',
@@ -94,7 +94,7 @@ const spec = {
   },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
-    type: 'SiLookupTypeId',
+    type: 'Si0LookupTypeId',
     displayName: 'ContractDisplayName'
   }
 };
@@ -110,8 +110,8 @@ export default {
       source: 'ContractProjectSource',
       contract: 'ContractProjectContract',
       // expanded scale registry: RegistryReadOnly
-      // NOTE Previous generation of the SiType definition
-      types: 'Vec<SiType0>',
+      // NOTE Previous generation of the Si0Type definition
+      types: 'Vec<Si0Type>',
       // renamed from layout (ignored for now, incomplete)
       // storage: 'ContractStorageLayout',
       spec: 'ContractContractSpec'
