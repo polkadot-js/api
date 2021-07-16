@@ -28,7 +28,10 @@ const voteConvictions = arrayToStrType(AllConvictions);
 /** @internal */
 export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName] || ClassOfUnsafe(registry, type));
+  const isCompact = isCompactEncodable(
+    (primitiveClasses as Record<string, any>)[primitiveName] ||
+    ClassOfUnsafe(registry, type).Clazz
+  );
   const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
@@ -84,7 +87,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     return ['null'];
   }
 
-  const Clazz = ClassOfUnsafe(registry, type);
+  const { Clazz } = ClassOfUnsafe(registry, type);
 
   if (isChildClass(Vec, Clazz)) {
     const vecDef = getTypeDef(type);
