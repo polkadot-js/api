@@ -42,3 +42,9 @@ export interface TypeDef {
   sub?: TypeDef | TypeDef[];
   type: string;
 }
+
+export interface CreateOptions {
+  blockHash?: Uint8Array | string | null;
+  isOptional?: boolean;
+  isPedantic?: boolean;
+}

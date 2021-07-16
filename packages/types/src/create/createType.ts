@@ -3,16 +3,12 @@
 
 import type { Bytes } from '../primitive/Bytes';
 import type { Codec, InterfaceTypes, Registry, WrappedConstructor } from '../types';
-import type { FromReg } from './types';
+import type { CreateOptions, FromReg } from './types';
 
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
+import { Option } from '../codec/Option';
 import { createClass } from './createClass';
-
-interface CreateOptions {
-  blockHash?: Uint8Array | string | null;
-  isPedantic?: boolean;
-}
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
@@ -32,8 +28,8 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, { Clazz }: WrappedConstructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isPedantic }: CreateOptions = {}): FromReg<T, K> {
-  const created = new Clazz(registry, ...params);
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, { Clazz }: WrappedConstructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
+  const created = new (isOptional ? Option.with(Clazz) : Clazz)(registry, ...params);
   const value = params[0];
 
   if (isPedantic) {
@@ -48,7 +44,8 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
     created.createdAtHash = createType(registry, 'Hash', blockHash);
   }
 
-  return created;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return created as any;
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`

@@ -6,6 +6,7 @@ import type { MetadataLatest } from '../interfaces/metadata';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes, WrappedConstructor } from '../types';
+import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -20,7 +21,7 @@ import * as definitions from '../interfaces/definitions';
 import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
 import { Metadata } from '../metadata/Metadata';
 import { createClass } from './createClass';
-import { createType } from './createType';
+import { createTypeUnsafe } from './createType';
 
 const l = logger('registry');
 
@@ -262,7 +263,14 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
-    return createType(this, type, ...params);
+    return createTypeUnsafe(this, type, params);
+  }
+
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createTypeUnsafe <K extends keyof InterfaceTypes> (type: K, params: unknown[], options?: CreateOptions): InterfaceTypes[K] {
+    return createTypeUnsafe(this, type, params, options);
   }
 
   // find a specific call
