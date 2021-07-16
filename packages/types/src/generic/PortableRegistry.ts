@@ -6,7 +6,7 @@ import type { PortableType } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
-import { assert, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isString, stringCamelCase } from '@polkadot/util';
 
 import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
@@ -27,6 +27,8 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
+const LOOKUP_PREFIX = '__lookup_';
+
 export class GenericPortableRegistry extends Struct {
   #classes: Record<number, WrappedConstructor> = {};
   #typeDefs: Record<number, TypeDef> = {};
@@ -45,10 +47,24 @@ export class GenericPortableRegistry extends Struct {
   }
 
   /**
+   * @description Returns tru if the type is in a Compat format
+   */
+  public isSiString (value: string): boolean {
+    return value.startsWith(LOOKUP_PREFIX);
+  }
+
+  /**
+   * @description Creates a lookup string from the supplied id
+   */
+  public createSiString (lookupId: SiLookupTypeId | number): string {
+    return `${LOOKUP_PREFIX}${lookupId.toString()}`;
+  }
+
+  /**
    * @description creates a type from the id
    */
-  createType <T extends Codec> (typeIndex: SiLookupTypeId, params: unknown[], { blockHash, isOptional }: CreateOptions = {}): T {
-    const { Clazz } = this.getClass<T>(typeIndex);
+  public createType <T extends Codec> (lookupId: SiLookupTypeId | string | number, params: unknown[], { blockHash, isOptional }: CreateOptions = {}): T {
+    const { Clazz } = this.getClass<T>(lookupId);
     const instance = new (isOptional ? Option.with(Clazz) : Clazz)(this.registry, ...params);
 
     if (blockHash) {
@@ -58,8 +74,11 @@ export class GenericPortableRegistry extends Struct {
     return instance as T;
   }
 
-  getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId): WrappedConstructor<T> {
-    const index = lookupId.toNumber();
+  /**
+   * @description Returns a class from the specified id
+   */
+  public getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId | string | number): WrappedConstructor<T> {
+    const index = this.#getSiIndex(lookupId);
 
     if (!this.#classes[index]) {
       // since we may have recursive lookups, fill in empty details as a start
@@ -72,23 +91,23 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description Finds a specific type in the registry
    */
-  getSiType (lookupId: SiLookupTypeId): SiType {
-    const type = this.types[lookupId.toNumber()].type;
+  public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
+    const found = this.types[this.#getSiIndex(lookupId)];
 
-    assert(type, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toNumber()}`);
+    assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
 
-    return type;
+    return found.type;
   }
 
   /**
    * @description Lookup the type definition for the index
    */
-  getTypeDef (lookupId: SiLookupTypeId): TypeDef {
-    const index = lookupId.toNumber();
+  public getTypeDef (lookupId: SiLookupTypeId | string | number): TypeDef {
+    const index = this.#getSiIndex(lookupId);
 
     if (!this.#typeDefs[index]) {
       // since we may have recursive lookups, fill in empty details as a start
-      this.#typeDefs[index] = { info: TypeDefInfo.DoNotConstruct, type: 'DoNotConstruct' };
+      this.#typeDefs[index] = { info: TypeDefInfo.DoNotConstruct, type: this.createSiString(index) };
 
       const siType = this.getSiType(lookupId);
 
@@ -103,7 +122,19 @@ export class GenericPortableRegistry extends Struct {
     return this.#typeDefs[index];
   }
 
-  #extract (type: SiType, lookupId: SiLookupTypeId): TypeDef {
+  #getSiIndex (lookupId: SiLookupTypeId | string | number): number {
+    if (isString(lookupId)) {
+      assert(this.isSiString(lookupId), () => `PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+
+      return parseInt(lookupId.replace(LOOKUP_PREFIX, ''), 10);
+    } else if (isNumber(lookupId)) {
+      return lookupId;
+    }
+
+    return lookupId.toNumber();
+  }
+
+  #extract (type: SiType, lookupId: SiLookupTypeId | string | number): TypeDef {
     const path = [...type.path];
 
     // We handle ink! here as well, although we still have a different registry there
@@ -136,7 +167,7 @@ export class GenericPortableRegistry extends Struct {
     } else if (type.def.isVariant) {
       typeDef = this.#extractVariant(type.def.asVariant, lookupId);
     } else {
-      throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toNumber()}: No handler for ${type.def.toString()}`);
+      throw new Error(`PortableRegistry: Invalid type at index ${lookupId.toString()}: No handler for ${type.def.toString()}`);
     }
 
     const displayName = path.pop()?.toString();
@@ -223,8 +254,8 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractSequence ({ type }: SiTypeDefSequence, lookupId: SiLookupTypeId): Omit<TypeDef, 'type'> {
-    assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${lookupId.toNumber()}`);
+  #extractSequence ({ type }: SiTypeDefSequence, lookupId: SiLookupTypeId | string | number): Omit<TypeDef, 'type'> {
+    assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${lookupId.toString()}`);
 
     return {
       info: TypeDefInfo.Vec,
@@ -241,7 +272,7 @@ export class GenericPortableRegistry extends Struct {
       };
   }
 
-  #extractVariant ({ variants }: SiTypeDefVariant, lookupId: SiLookupTypeId): Omit<TypeDef, 'type'> {
+  #extractVariant ({ variants }: SiTypeDefVariant, lookupId: SiLookupTypeId | string | number): Omit<TypeDef, 'type'> {
     const { params, path } = this.getSiType(lookupId);
     const specialVariant = path[0].toString();
 

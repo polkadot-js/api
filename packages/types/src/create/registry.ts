@@ -231,7 +231,6 @@ export class TypeRegistry implements Registry {
 
   /**
    * @describe Creates an instance of the class
-   * @deprecated
    */
   public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
     // this is a weird one, the issue is that TS gets into a know if not done
@@ -257,7 +256,6 @@ export class TypeRegistry implements Registry {
 
   /**
    * @description Creates an instance of a type as registered
-   * @deprecated
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
     return createType(this, type, ...params);
