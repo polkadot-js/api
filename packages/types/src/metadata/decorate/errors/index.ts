@@ -12,7 +12,7 @@ function isError ({ error, index }: DispatchErrorModule, sectionIndex: number, e
 }
 
 /** @internal */
-export function decorateErrors (_: Registry, { pallets, types }: MetadataLatest, metaVersion: number): Errors {
+export function decorateErrors (_: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
   return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
     if (!errors.isSome) {
       return result;
@@ -22,7 +22,7 @@ export function decorateErrors (_: Registry, { pallets, types }: MetadataLatest,
     const sectionIndex = metaVersion >= 12
       ? index.toNumber()
       : _sectionIndex;
-    const { def } = types.getSiType(errors.unwrap().type);
+    const { def } = lookup.getSiType(errors.unwrap().type);
 
     assert(def.isVariant, () => `Expected a variant type for Errors from ${sectionName}`);
 

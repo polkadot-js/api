@@ -67,7 +67,7 @@ export function toLatest (registry: Registry, version: number, rpcData: string, 
 export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
-    const { pallets, types } = metadata.asLatest;
+    const { lookup, pallets } = metadata.asLatest;
 
     pallets.filter(({ storage }): boolean => storage.isSome).forEach(({ name, storage }): void => {
       const sectionName = stringCamelCase(name);
@@ -79,7 +79,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              const instance = types.createType(unwrapStorageSi(registry, type), [hexToU8a(fallback.toHex())], {
+              const instance = lookup.createType(unwrapStorageSi(registry, type), [hexToU8a(fallback.toHex())], {
                 isOptional: modifier.isOptional
               });
 

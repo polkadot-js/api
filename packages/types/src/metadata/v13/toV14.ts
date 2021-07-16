@@ -313,5 +313,11 @@ export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number
     })
   );
 
-  return registry.createType('MetadataV14', { extrinsic, pallets, types: { types } });
+  return registry.createType('MetadataV14', {
+    extrinsic,
+    pallets,
+    lookup: {
+      types: types.map((type, id) => registry.createType('PortableType', { id, type }))
+    }
+  });
 }

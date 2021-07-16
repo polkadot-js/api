@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
-import type { SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
+import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
@@ -144,7 +144,7 @@ export interface MetadataV13 extends Struct {
 
 /** @name MetadataV14 */
 export interface MetadataV14 extends Struct {
-  readonly types: PortableRegistry;
+  readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV14>;
   readonly extrinsic: ExtrinsicMetadataV14;
 }
@@ -286,6 +286,12 @@ export interface PalletStorageMetadataV14 extends Struct {
 
 /** @name PortableRegistry */
 export interface PortableRegistry extends GenericPortableRegistry {}
+
+/** @name PortableType */
+export interface PortableType extends Struct {
+  readonly id: SiLookupTypeId;
+  readonly type: SiType;
+}
 
 /** @name SignedExtensionMetadataLatest */
 export interface SignedExtensionMetadataLatest extends SignedExtensionMetadataV14 {}

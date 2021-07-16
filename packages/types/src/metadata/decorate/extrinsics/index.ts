@@ -11,7 +11,7 @@ import { assert, stringCamelCase } from '@polkadot/util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { pallets, types }: MetadataV14, metaVersion: number): Extrinsics {
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataV14, metaVersion: number): Extrinsics {
   return pallets
     .filter(({ calls }) => calls.isSome)
     .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
@@ -20,7 +20,7 @@ export function decorateExtrinsics (registry: Registry, { pallets, types }: Meta
         : _sectionIndex;
       const sectionName = stringCamelCase(name);
 
-      const { def } = types.getSiType(calls.unwrap().type);
+      const { def } = lookup.getSiType(calls.unwrap().type);
 
       assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 

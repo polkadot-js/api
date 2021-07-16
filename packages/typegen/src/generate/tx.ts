@@ -35,7 +35,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const { pallets, types } = meta.asLatest;
+    const { lookup, pallets } = meta.asLatest;
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
@@ -43,7 +43,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const { def } = types.getSiType(calls.unwrap().type);
+        const { def } = lookup.getSiType(calls.unwrap().type);
 
         assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 
@@ -51,7 +51,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .map(({ docs, fields, name }) => {
             const params = fields
               .map(({ name, type }, index) => {
-                const typeStr = types.getTypeDef(type).type;
+                const typeStr = lookup.getTypeDef(type).type;
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
@@ -62,7 +62,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args: fields.map(({ type }) =>
-                formatType(allDefs, types.getTypeDef(type).type, imports)
+                formatType(allDefs, lookup.getTypeDef(type).type, imports)
               ).join(', '),
               docs,
               name: stringCamelCase(name),

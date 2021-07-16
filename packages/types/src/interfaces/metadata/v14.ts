@@ -9,6 +9,10 @@ import type { DefinitionsTypes } from '../../types';
 export const v14: DefinitionsTypes = {
   // registry
   PortableRegistry: 'GenericPortableRegistry',
+  PortableType: {
+    id: 'SiLookupTypeId',
+    type: 'SiType'
+  },
 
   // V14
   ExtrinsicMetadataV14: {
@@ -17,7 +21,7 @@ export const v14: DefinitionsTypes = {
     signedExtensions: 'Vec<SignedExtensionMetadataV14>'
   },
   MetadataV14: {
-    types: 'PortableRegistry',
+    lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV14>',
     extrinsic: 'ExtrinsicMetadataV14'
   },

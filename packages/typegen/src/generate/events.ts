@@ -22,16 +22,16 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const { pallets, types } = meta.asLatest;
+    const { lookup, pallets } = meta.asLatest;
     const modules = pallets
       .sort(compareName)
       .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
-        items: types.getSiType(events.unwrap().type).def.asVariant.variants
+        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
           .sort(compareName)
           .map(({ docs, fields, name }) => {
             const args = fields.map(({ type }) =>
-              formatType(allDefs, types.getTypeDef(type), imports)
+              formatType(allDefs, lookup.getTypeDef(type), imports)
             );
 
             setImports(allDefs, imports, args);

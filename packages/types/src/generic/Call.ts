@@ -28,10 +28,10 @@ interface DecodedMethod extends DecodeMethodInput {
  * @internal
  */
 function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
-  const { types } = registry.metadata;
+  const { lookup } = registry.metadata;
 
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.isSome ? name.unwrap().toString() : `param${index}`] = types.getClass(type);
+    result[name.isSome ? name.unwrap().toString() : `param${index}`] = lookup.getClass(type);
 
     return result;
   }, {} as ArgsDef);

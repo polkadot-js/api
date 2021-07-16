@@ -197,7 +197,7 @@ function addConstants ({ pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage ({ pallets, registry, types }: MetadataLatest): string {
+function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
   const { substrate } = getSubstrateStorage(registry);
   const moduleSections = pallets
     .sort(sortByName)
@@ -210,11 +210,11 @@ function addStorage ({ pallets, registry, types }: MetadataLatest): string {
           .sort(sortByName)
           .map((func) => {
             const arg = func.type.isMap
-              ? ('`' + types.getTypeDef(func.type.asMap.key).type + '`')
+              ? ('`' + lookup.getTypeDef(func.type.asMap.key).type + '`')
               : func.type.isDoubleMap
-                ? ('`' + types.getTypeDef(func.type.asDoubleMap.key1).type + ', ' + types.getTypeDef(func.type.asDoubleMap.key2).type + '`')
+                ? ('`' + lookup.getTypeDef(func.type.asDoubleMap.key1).type + ', ' + lookup.getTypeDef(func.type.asDoubleMap.key2).type + '`')
                 : func.type.isNMap
-                  ? ('`' + types.getSiType(func.type.asNMap.key).def.asTuple.map((t) => t).join(', ') + '`')
+                  ? ('`' + lookup.getSiType(func.type.asNMap.key).def.asTuple.map((t) => t).join(', ') + '`')
                   : '';
             const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);

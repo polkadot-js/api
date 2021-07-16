@@ -32,7 +32,7 @@ export class GenericPortableRegistry extends Struct {
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
-      types: 'Vec<SiType>'
+      types: 'Vec<PortableType>'
     }, value);
   }
 
@@ -72,7 +72,7 @@ export class GenericPortableRegistry extends Struct {
    * @description Finds a specific type in the registry
    */
   getSiType (lookupId: SiLookupTypeId): SiType {
-    const type = this.types[lookupId.toNumber()];
+    const type = this.types[lookupId.toNumber()].type;
 
     assert(type, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toNumber()}`);
 
@@ -126,8 +126,6 @@ export class GenericPortableRegistry extends Struct {
       typeDef = this.#extractComposite(type.def.asComposite);
     } else if (type.def.isHistoricMetaCompat) {
       typeDef = getTypeDef(type.def.asHistoricMetaCompat);
-    } else if (type.def.isPhantom) {
-      typeDef = this.#extractPhantom();
     } else if (type.def.isPrimitive) {
       typeDef = this.#extractPrimitive(type);
     } else if (type.def.isSequence) {
@@ -208,13 +206,6 @@ export class GenericPortableRegistry extends Struct {
       };
   }
 
-  #extractPhantom (): TypeDef {
-    return {
-      info: TypeDefInfo.Null,
-      type: 'Null'
-    };
-  }
-
   #extractPrimitive (type: SiType): TypeDef {
     const typeStr = type.def.asPrimitive.type.toString();
 
@@ -274,18 +265,15 @@ export class GenericPortableRegistry extends Struct {
 
   #extractVariantSub (variants: SiVariant[]): TypeDef[] {
     return variants.every(({ fields }) => fields.length === 0)
-      ? variants.map(({ discriminant, name }) => ({
-        ...(
-          discriminant.isSome
-            ? { ext: { discriminant: discriminant.unwrap().toNumber() } }
-            : {}
-        ),
+      ? variants.map(({ index, name }) => ({
+        index: index.toNumber(),
         info: TypeDefInfo.Plain,
         name: name.toString(),
         type: 'Null'
       }))
-      : variants.map(({ fields, name }) => withTypeString({
+      : variants.map(({ fields, index, name }) => withTypeString({
         ...this.#extractFields(fields),
+        index: index.toNumber(),
         name: name.toString()
       }));
   }

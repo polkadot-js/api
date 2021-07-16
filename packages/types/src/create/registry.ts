@@ -26,7 +26,7 @@ const l = logger('registry');
 
 // create error mapping from metadata
 function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
-  const { pallets, types } = metadata.asLatest;
+  const { lookup, pallets } = metadata.asLatest;
 
   // decorate the errors
   pallets.forEach((section, _sectionIndex): void => {
@@ -36,7 +36,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      types.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      lookup.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
@@ -57,7 +57,7 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
 
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
-  const { pallets, types } = metadata.asLatest;
+  const { lookup, pallets } = metadata.asLatest;
 
   // decorate the events
   pallets
@@ -68,20 +68,20 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
-      types.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta, counter): void => {
+      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta, counter): void => {
         const { fields, index, name } = meta;
         const methodName = name.toString();
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-        const typeDef = fields.map(({ type }) => types.getTypeDef(type));
+        const typeDef = fields.map(({ type }) => lookup.getTypeDef(type));
         let Types: WrappedConstructor<Codec>[] | null;
 
         // Lazy create the actual type classes right at the point of use
         const getTypes = (): Constructor<Codec>[] => {
           if (!Types) {
-            Types = fields.map(({ type }) => types.getClass(type));
+            Types = fields.map(({ type }) => lookup.getClass(type));
           }
 
           return Types.map(({ Clazz }) => Clazz);
@@ -216,7 +216,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.metadata.types;
+    return this.metadata.lookup;
   }
 
   public get metadata (): MetadataLatest {
