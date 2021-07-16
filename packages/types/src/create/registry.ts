@@ -36,10 +36,8 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
-      lookup.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
-        const variantIndex = index.isSome
-          ? index.unwrap().toNumber()
-          : counter;
+      lookup.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }): void => {
+        const variantIndex = index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
 
         metadataErrors[u8aToHex(eventIndex)] = {
@@ -68,12 +66,10 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
-      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta, counter): void => {
+      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta): void => {
         const { fields, index, name } = meta;
         const methodName = name.toString();
-        const variantIndex = index.isSome
-          ? index.unwrap().toNumber()
-          : counter;
+        const variantIndex = index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
         const typeDef = fields.map(({ type }) => lookup.getTypeDef(type));
         let Types: WrappedConstructor<Codec>[] | null;

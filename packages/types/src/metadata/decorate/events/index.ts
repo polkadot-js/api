@@ -12,8 +12,8 @@ function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: nu
 }
 
 /** @internal */
-export function decorateEvents (_: Registry, { modules }: MetadataLatest, metaVersion: number): Events {
-  return modules
+export function decorateEvents (_: Registry, { pallets }: MetadataLatest, metaVersion: number): Events {
+  return pallets
     .filter(({ events }) => events.isSome)
     .reduce((result: Events, { events, index, name }, _sectionIndex): Events => {
       const sectionIndex = metaVersion >= 12 ? index.toNumber() : _sectionIndex;

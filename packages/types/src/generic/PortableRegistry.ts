@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '../codec/Vec';
+import type { PortableType } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Codec, Registry, TypeDef, WrappedConstructor } from '../types';
 
@@ -39,8 +40,8 @@ export class GenericPortableRegistry extends Struct {
   /**
    * @description The types of the registry
    */
-  public get types (): Vec<SiType> {
-    return this.get('types') as Vec<SiType>;
+  public get types (): Vec<PortableType> {
+    return this.get('types') as Vec<PortableType>;
   }
 
   /**

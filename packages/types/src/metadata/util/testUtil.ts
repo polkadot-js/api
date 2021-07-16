@@ -20,7 +20,7 @@ export function decodeLatestSubstrate (registry: Registry, version: number, rpcD
     const json = metadata.toJSON();
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    delete (json as Record<string, Record<string, Record<string, string>>>).metadata?.[`v${metadata.version}`]?.types;
+    delete (json as Record<string, Record<string, Record<string, string>>>).metadata?.[`v${metadata.version}`]?.lookup;
 
     try {
       expect(metadata.version).toBe(version);
@@ -35,7 +35,7 @@ export function decodeLatestSubstrate (registry: Registry, version: number, rpcD
 
   it('decodes latest types correctly', (): void => {
     if (staticTypes && !hasError) {
-      const json = metadata.asLatest.types.types.map((t, __INDEX) => ({ __INDEX, ...t.toJSON() }));
+      const json = metadata.asLatest.lookup.types.toJSON();
 
       try {
         expect(json).toEqual(staticTypes);
