@@ -3,30 +3,28 @@
 
 import type { Definitions } from '../../types';
 
+import { v0 } from './v0';
+
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
 export default {
   rpc: {},
   types: {
+    ...v0,
     SiField: {
       name: 'Option<Text>',
       type: 'SiLookupTypeId',
       typeName: 'Option<Text>',
       docs: 'Vec<Text>'
     },
-    SiLookupTypeId: 'u32',
+    SiLookupTypeId: 'Compact<u32>',
     SiPath: 'Vec<Text>',
     SiType: {
       path: 'SiPath',
       params: 'Vec<SiTypeParameter>',
       def: 'SiTypeDef',
       docs: 'Vec<Text>'
-    },
-    SiType0: {
-      path: 'SiPath',
-      params: 'Vec<SiLookupTypeId>',
-      def: 'SiTypeDef'
     },
     SiTypeDef: {
       _enum: {
@@ -37,7 +35,6 @@ export default {
         Tuple: 'SiTypeDefTuple',
         Primitive: 'SiTypeDefPrimitive',
         Compact: 'SiTypeDefCompact',
-        Phantom: 'SiTypeDefPhantom',
         BitSequence: 'SiTypeDefBitSequence',
         // NOTE: This is specific to the implementation for pre-v14 metadata
         // compatibility (always keep this as the last entry in the enum)
@@ -58,7 +55,6 @@ export default {
     SiTypeDefComposite: {
       fields: 'Vec<SiField>'
     },
-    SiTypeDefPhantom: 'Null',
     SiTypeDefVariant: {
       variants: 'Vec<SiVariant>'
     },
@@ -76,8 +72,7 @@ export default {
     SiVariant: {
       name: 'Text',
       fields: 'Vec<SiField>',
-      index: 'Option<u8>',
-      discriminant: 'Option<u64>',
+      index: 'u8',
       docs: 'Vec<Text>'
     }
   }

@@ -1,7 +1,122 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types';
+import type { Compact, Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types';
+
+/** @name Si0Field */
+export interface Si0Field extends Struct {
+  readonly name: Option<Text>;
+  readonly type: Si0LookupTypeId;
+  readonly typeName: Option<Text>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name Si0LookupTypeId */
+export interface Si0LookupTypeId extends u32 {}
+
+/** @name Si0Path */
+export interface Si0Path extends Vec<Text> {}
+
+/** @name Si0Type */
+export interface Si0Type extends Struct {
+  readonly path: Si0Path;
+  readonly params: Vec<Si0LookupTypeId>;
+  readonly def: Si0TypeDef;
+}
+
+/** @name Si0TypeDef */
+export interface Si0TypeDef extends Enum {
+  readonly isComposite: boolean;
+  readonly asComposite: Si0TypeDefComposite;
+  readonly isVariant: boolean;
+  readonly asVariant: Si0TypeDefVariant;
+  readonly isSequence: boolean;
+  readonly asSequence: Si0TypeDefSequence;
+  readonly isArray: boolean;
+  readonly asArray: Si0TypeDefArray;
+  readonly isTuple: boolean;
+  readonly asTuple: Si0TypeDefTuple;
+  readonly isPrimitive: boolean;
+  readonly asPrimitive: Si0TypeDefPrimitive;
+  readonly isCompact: boolean;
+  readonly asCompact: Si0TypeDefCompact;
+  readonly isPhantom: boolean;
+  readonly asPhantom: Si0TypeDefPhantom;
+  readonly isBitSequence: boolean;
+  readonly asBitSequence: Si0TypeDefBitSequence;
+}
+
+/** @name Si0TypeDefArray */
+export interface Si0TypeDefArray extends Struct {
+  readonly len: u32;
+  readonly type: Si0LookupTypeId;
+}
+
+/** @name Si0TypeDefBitSequence */
+export interface Si0TypeDefBitSequence extends Struct {
+  readonly bitStoreType: Si0LookupTypeId;
+  readonly bitOrderType: Si0LookupTypeId;
+}
+
+/** @name Si0TypeDefCompact */
+export interface Si0TypeDefCompact extends Struct {
+  readonly type: Si0LookupTypeId;
+}
+
+/** @name Si0TypeDefComposite */
+export interface Si0TypeDefComposite extends Struct {
+  readonly fields: Vec<Si0Field>;
+}
+
+/** @name Si0TypeDefPhantom */
+export interface Si0TypeDefPhantom extends Null {}
+
+/** @name Si0TypeDefPrimitive */
+export interface Si0TypeDefPrimitive extends Enum {
+  readonly isBool: boolean;
+  readonly isChar: boolean;
+  readonly isStr: boolean;
+  readonly isU8: boolean;
+  readonly isU16: boolean;
+  readonly isU32: boolean;
+  readonly isU64: boolean;
+  readonly isU128: boolean;
+  readonly isU256: boolean;
+  readonly isI8: boolean;
+  readonly isI16: boolean;
+  readonly isI32: boolean;
+  readonly isI64: boolean;
+  readonly isI128: boolean;
+  readonly isI256: boolean;
+}
+
+/** @name Si0TypeDefSequence */
+export interface Si0TypeDefSequence extends Struct {
+  readonly type: Si0LookupTypeId;
+}
+
+/** @name Si0TypeDefTuple */
+export interface Si0TypeDefTuple extends Vec<Si0LookupTypeId> {}
+
+/** @name Si0TypeDefVariant */
+export interface Si0TypeDefVariant extends Struct {
+  readonly variants: Vec<Si0Variant>;
+}
+
+/** @name Si0TypeParameter */
+export interface Si0TypeParameter extends Struct {
+  readonly name: Text;
+  readonly type: Option<Si0LookupTypeId>;
+}
+
+/** @name Si0Variant */
+export interface Si0Variant extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<Si0Field>;
+  readonly index: Option<u8>;
+  readonly discriminant: Option<u64>;
+  readonly docs: Vec<Text>;
+}
 
 /** @name SiField */
 export interface SiField extends Struct {
@@ -12,7 +127,7 @@ export interface SiField extends Struct {
 }
 
 /** @name SiLookupTypeId */
-export interface SiLookupTypeId extends u32 {}
+export interface SiLookupTypeId extends Compact<u32> {}
 
 /** @name SiPath */
 export interface SiPath extends Vec<Text> {}
@@ -23,13 +138,6 @@ export interface SiType extends Struct {
   readonly params: Vec<SiTypeParameter>;
   readonly def: SiTypeDef;
   readonly docs: Vec<Text>;
-}
-
-/** @name SiType0 */
-export interface SiType0 extends Struct {
-  readonly path: SiPath;
-  readonly params: Vec<SiLookupTypeId>;
-  readonly def: SiTypeDef;
 }
 
 /** @name SiTypeDef */
@@ -48,8 +156,6 @@ export interface SiTypeDef extends Enum {
   readonly asPrimitive: SiTypeDefPrimitive;
   readonly isCompact: boolean;
   readonly asCompact: SiTypeDefCompact;
-  readonly isPhantom: boolean;
-  readonly asPhantom: SiTypeDefPhantom;
   readonly isBitSequence: boolean;
   readonly asBitSequence: SiTypeDefBitSequence;
   readonly isHistoricMetaCompat: boolean;
@@ -77,9 +183,6 @@ export interface SiTypeDefCompact extends Struct {
 export interface SiTypeDefComposite extends Struct {
   readonly fields: Vec<SiField>;
 }
-
-/** @name SiTypeDefPhantom */
-export interface SiTypeDefPhantom extends Null {}
 
 /** @name SiTypeDefPrimitive */
 export interface SiTypeDefPrimitive extends Enum {
@@ -123,8 +226,7 @@ export interface SiTypeParameter extends Struct {
 export interface SiVariant extends Struct {
   readonly name: Text;
   readonly fields: Vec<SiField>;
-  readonly index: Option<u8>;
-  readonly discriminant: Option<u64>;
+  readonly index: u8;
   readonly docs: Vec<Text>;
 }
 

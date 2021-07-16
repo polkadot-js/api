@@ -49,7 +49,7 @@ export class Abi {
     this.registry.setMetaTypes(this.project.types);
 
     this.project.types.forEach((_, index) =>
-      this.registry.getMetaTypeDef({ type: this.registry.createType('SiLookupTypeId', index + this.registry.typeOffset) })
+      this.registry.getMetaTypeDef({ type: this.registry.createType('Si0LookupTypeId', index + this.registry.typeOffset) })
     );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {

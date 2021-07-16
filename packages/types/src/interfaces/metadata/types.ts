@@ -156,7 +156,7 @@ export interface MetadataV13 extends Struct {
 
 /** @name MetadataV14 */
 export interface MetadataV14 extends Struct {
-  readonly types: PortableRegistry;
+  readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV14>;
   readonly extrinsic: ExtrinsicMetadataV14;
 }
@@ -304,7 +304,13 @@ export interface PalletStorageMetadataV14 extends Struct {
 
 /** @name PortableRegistry */
 export interface PortableRegistry extends Struct {
-  readonly types: Vec<SiType>;
+  readonly types: Vec<PortableType>;
+}
+
+/** @name PortableType */
+export interface PortableType extends Struct {
+  readonly id: SiLookupTypeId;
+  readonly type: SiType;
 }
 
 /** @name SignedExtensionMetadataLatest */
