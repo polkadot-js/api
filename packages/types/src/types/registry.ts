@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
@@ -100,6 +101,8 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
+  readonly lookup: PortableRegistry;
+  readonly metadata: MetadataLatest;
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 

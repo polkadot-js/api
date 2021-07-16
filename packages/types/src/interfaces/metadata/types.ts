@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
+import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
@@ -303,9 +303,7 @@ export interface PalletStorageMetadataV14 extends Struct {
 }
 
 /** @name PortableRegistry */
-export interface PortableRegistry extends Struct {
-  readonly types: Vec<PortableType>;
-}
+export interface PortableRegistry extends GenericPortableRegistry {}
 
 /** @name PortableType */
 export interface PortableType extends Struct {

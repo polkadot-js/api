@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -114,6 +114,8 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
+  #metadata?: MetadataLatest;
+
   readonly #metadataCalls: Record<string, CallFunction> = {};
 
   readonly #metadataErrors: Record<string, RegistryError> = {};
@@ -197,6 +199,18 @@ export class TypeRegistry implements Registry {
 
   public get knownTypes (): RegisteredTypes {
     return this.#knownTypes;
+  }
+
+  public get lookup (): PortableRegistry {
+    throw new Error('Unimplemented');
+
+    // return this.metadata.lookup;
+  }
+
+  public get metadata (): MetadataLatest {
+    assert(this.#metadata, 'Metadata has not been set on this registry');
+
+    return this.#metadata;
   }
 
   public get unknownTypes (): string[] {
@@ -388,6 +402,8 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
+    this.#metadata = metadata.asLatest;
+
     injectExtrinsics(this, metadata, this.#metadataCalls);
     injectErrors(this, metadata, this.#metadataErrors);
     injectEvents(this, metadata, this.#metadataEvents);
