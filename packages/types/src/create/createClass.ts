@@ -96,7 +96,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     Compact.with(subClass(registry, value)[0] as any),
 
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor =>
-    DoNotConstruct.with(value.displayName),
+    DoNotConstruct.with(value.displayName || value.type),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
     const subs = subClassArray(registry, value);

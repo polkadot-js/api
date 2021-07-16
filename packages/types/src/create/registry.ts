@@ -216,7 +216,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get metadata (): MetadataLatest {
-    assert(this.#metadata, 'Metadata has not been injected for this registry');
+    assert(this.#metadata, 'Metadata has not been set on this registry');
 
     return this.#metadata;
   }
