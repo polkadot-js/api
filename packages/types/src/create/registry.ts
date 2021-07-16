@@ -12,7 +12,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
-import { isWrappedClass } from '../codec/utils/isWrappedClass'
+import { isWrappedClass } from '../codec/utils/isWrappedClass';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
@@ -68,36 +68,30 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
-      types.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }, counter): void => {
+      types.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta, counter): void => {
+        const { fields, index, name } = meta;
+        const methodName = name.toString();
         const variantIndex = index.isSome
           ? index.unwrap().toNumber()
           : counter;
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-
-        // FIXME
-        // metadataErrors[u8aToHex(eventIndex)] = {
-        //   docs: docs.map((d) => d.toString()),
-        //   fields,
-        //   index: errorIndex,
-        //   method: name.toString(),
-        //   name: name.toString(),
-        //   section: sectionName
-        // };
+        const typeDef = fields.map(({ type }) => types.getTypeDef(type));
+        let Types: WrappedConstructor<Codec>[] | null;
 
         // Lazy create the actual type classes right at the point of use
-        // const getTypes = (): Constructor<Codec>[] => {
-        //   if (!Types) {
-        //     Types = typeDef.map((typeDef) => getTypeClass(registry, typeDef));
-        //   }
+        const getTypes = (): Constructor<Codec>[] => {
+          if (!Types) {
+            Types = fields.map(({ type }) => types.getClass(type));
+          }
 
-        //   return Types;
-        // };
+          return Types.map(({ Clazz }) => Clazz);
+        };
 
-        // metadataEvents[u8aToHex(new Uint8Array([sectionIndex, methodIndex]))] = class extends GenericEventData {
-        //   constructor (registry: Registry, value: Uint8Array) {
-        //     super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
-        //   }
-        // };
+        metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
+          constructor (registry: Registry, value: Uint8Array) {
+            super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
+          }
+        };
       });
     });
 }
