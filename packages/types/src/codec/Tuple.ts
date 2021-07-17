@@ -1,21 +1,21 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
+import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, mapToTypeMap, removeWrap, typeToConstructor } from './utils';
+import { decodeU8a, mapToTypeMap, typeToConstructor } from './utils';
 
 type AnyTuple = AnyU8a | string | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
 
-type TupleConstructors = (Constructor | WrappedConstructor)[] | {
-  [index: string]: Constructor | WrappedConstructor;
+type TupleConstructors = Constructor[] | {
+  [index: string]: Constructor;
 };
 
-type TupleTypes = (Constructor | WrappedConstructor | keyof InterfaceTypes)[] | {
-  [index: string]: Constructor | WrappedConstructor | keyof InterfaceTypes;
+type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
+  [index: string]: Constructor | keyof InterfaceTypes;
 };
 
 /** @internal */
@@ -26,14 +26,13 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
     return decodeU8a(registry, u8aToU8a(value), result, _Types);
   }
 
-  const Types: (WrappedConstructor | Constructor)[] = Array.isArray(_Types)
+  const Types: Constructor[] = Array.isArray(_Types)
     ? _Types
     : Object.values(_Types);
 
-  return Types.map((type, index): Codec => {
+  return Types.map((TypeDef, index): Codec => {
     try {
       const entry = value?.[index];
-      const Type = removeWrap(type);
 
       if (entry instanceof Type) {
         return entry;

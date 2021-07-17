@@ -5,7 +5,7 @@ import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes, WrappedConstructor } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -13,7 +13,6 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
-import { isWrappedClass } from '../codec/utils/isWrappedClass';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
@@ -73,7 +72,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         const variantIndex = index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
         const typeDef = fields.map(({ type }) => lookup.getTypeDef(type));
-        let Types: WrappedConstructor<Codec>[] | null;
+        let Types: Constructor<Codec>[] | null;
 
         // Lazy create the actual type classes right at the point of use
         const getTypes = (): Constructor<Codec>[] => {
@@ -81,7 +80,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
             Types = fields.map(({ type }) => lookup.getClass(type));
           }
 
-          return Types.map(({ Clazz }) => Clazz);
+          return Types;
         };
 
         metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
@@ -121,7 +120,7 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, WrappedConstructor>();
+  #classes = new Map<string, Constructor>();
 
   #definitions = new Map<string, string>();
 
@@ -164,7 +163,7 @@ export class TypeRegistry implements Registry {
 
   public init (): this {
     // start clean
-    this.#classes = new Map<string, WrappedConstructor>();
+    this.#classes = new Map<string, Constructor>();
     this.#definitions = new Map<string, string>();
     this.#unknownTypes = new Map<string, boolean>();
     this.#knownTypes = {};
@@ -249,7 +248,7 @@ export class TypeRegistry implements Registry {
   public createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]> {
     // this is a weird one, the issue is that TS gets into a know if not done
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.lookup.getClass(lookupId).Clazz as any;
+    return this.lookup.getClass(lookupId) as any;
   }
 
   /**
@@ -300,19 +299,18 @@ export class TypeRegistry implements Registry {
     return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
   }
 
-  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): WrappedConstructor<T> | undefined {
-    let wrapped = this.#classes.get(name);
+  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
+    let Clazz = this.#classes.get(name);
 
     // we have not already created the type, attempt it
-    if (!wrapped) {
+    if (!Clazz) {
       const definition = this.#definitions.get(name);
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        const { Clazz } = createClass(this, definition);
+        Clazz = createClass(this, definition);
 
-        wrapped = { Clazz: class extends Clazz {}, isWrapped: true };
-        this.#classes.set(name, wrapped);
+        this.#classes.set(name, Clazz);
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
@@ -320,16 +318,15 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    return wrapped as WrappedConstructor<T>;
+    return Clazz as Constructor<T>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
     return this.#chainProperties;
   }
 
-  public getClassName (Type: Constructor | WrappedConstructor): string | undefined {
-    const test = isWrappedClass(Type) ? Type.Clazz : Type;
-    const entry = [...this.#classes.entries()].find(([, { Clazz }]) => test === Clazz);
+  public getClassName (Type: Constructor): string | undefined {
+    const entry = [...this.#classes.entries()].find(([, Clazz]) => Type === Clazz);
 
     return entry
       ? entry[0]
@@ -345,17 +342,15 @@ export class TypeRegistry implements Registry {
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
-    const wrapped = this.get<T>(name);
+    const Clazz = this.get<T>(name);
 
-    assert(wrapped, msg || `type ${name} not found`);
+    assert(Clazz, msg || `type ${name} not found`);
 
-    return wrapped.Clazz;
+    return Clazz;
   }
 
   public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {
-    const wrapped = this.get<T>(name, true) as WrappedConstructor<T>;
-
-    return wrapped && wrapped.Clazz;
+    return this.get<T>(name, true) as Constructor<T>;
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {

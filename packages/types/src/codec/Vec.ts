@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
@@ -22,7 +22,7 @@ const l = logger('Vec');
 export class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: WrappedConstructor<T> | Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...Vec.decodeVec(registry, Clazz, value));
@@ -67,7 +67,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
     }
   }
 
-  public static with<O extends Codec> (Type: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes): Constructor<Vec<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Vec<O>> {
     return class extends Vec<O> {
       constructor (registry: Registry, value?: any[]) {
         super(registry, Type, value);

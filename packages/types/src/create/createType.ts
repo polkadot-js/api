@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '../primitive/Bytes';
-import type { Codec, InterfaceTypes, Registry, WrappedConstructor } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import type { CreateOptions, FromReg } from './types';
 
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -28,7 +28,7 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, { Clazz }: WrappedConstructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Clazz: Constructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
   const created = new (isOptional ? Option.with(Clazz) : Clazz)(registry, ...params);
   const value = params[0];
 
@@ -52,22 +52,22 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
-  let wrapped: WrappedConstructor<FromReg<T, K>> | null = null;
+  let Clazz: Constructor<FromReg<T, K>> | null = null;
   let firstError: Error | null = null;
 
   try {
-    wrapped = createClass<T, K>(registry, type);
+    Clazz = createClass<T, K>(registry, type);
 
-    return initType(registry, wrapped, params, options);
+    return initType(registry, Clazz, params, options);
   } catch (error) {
     firstError = new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 
-  if (wrapped && wrapped.Clazz && wrapped.Clazz.__fallbackType) {
+  if (Clazz && Clazz.__fallbackType) {
     try {
-      wrapped = createClass<T, K>(registry, wrapped.Clazz.__fallbackType as unknown as K);
+      Clazz = createClass<T, K>(registry, Clazz.__fallbackType as unknown as K);
 
-      return initType(registry, wrapped, params, options);
+      return initType(registry, Clazz, params, options);
     } catch {
       // swallow, we will throw the first error again
     }

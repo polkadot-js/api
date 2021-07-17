@@ -117,11 +117,6 @@ export interface Constructor<T = Codec> {
   new(registry: Registry, ...value: any[]): T;
 }
 
-export interface WrappedConstructor<T = Codec> {
-  Clazz: Constructor<T>;
-  isWrapped: true;
-}
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
 
-export type ConstructorDef<T = Codec> = Record<string, WrappedConstructor<T> | Constructor<T>>;
-
-export type ArgsDef = Record<string, WrappedConstructor | Constructor>;
+export type ArgsDef = Record<string, Constructor>;

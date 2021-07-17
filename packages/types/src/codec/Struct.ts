@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry, WrappedConstructor } from '../types';
+import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, mapToTypeMap, removeWrap } from './utils';
+import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T extends Codec = Codec> = Record<string, keyof InterfaceTypes | Constructor<T> | WrappedConstructor<T>>;
+type TypesDef<T extends Codec = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -24,7 +24,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     const jsonKey = (jsonMap.get(key as any) && !value[key])
       ? jsonMap.get(key as any)
       : key;
-    const Type = removeWrap(Types[key]);
+    const Type = Types[key];
 
     try {
       if (Array.isArray(value)) {
@@ -183,10 +183,8 @@ export class Struct<
     };
   }
 
-  public static typesToMap (registry: Registry, Types: Record<string, Constructor | WrappedConstructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, _Type]): Record<string, string> => {
-      const Type = removeWrap(_Type);
-
+  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
+    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
       result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
 
       return result;

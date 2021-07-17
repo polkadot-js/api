@@ -1,14 +1,14 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../../types';
+import type { Constructor, InterfaceTypes, Registry } from '../../types';
 
 import { typeToConstructor } from './typeToConstructor';
 
 /**
  * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Constructor }`
  */
-export function mapToTypeMap (registry: Registry, input: Record<string, keyof InterfaceTypes | Constructor | WrappedConstructor>): Record<string, Constructor> {
+export function mapToTypeMap (registry: Registry, input: Record<string, keyof InterfaceTypes | Constructor>): Record<string, Constructor> {
   return Object
     .entries(input)
     .reduce((output: Record<string, Constructor>, [key, type]): Record<string, Constructor> => {

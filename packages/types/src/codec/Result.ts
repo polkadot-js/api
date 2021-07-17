@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry, WrappedConstructor } from '../types';
+import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { Enum } from './Enum';
-import { removeWrap } from './utils';
 
 /**
  * @name Result
@@ -14,16 +13,16 @@ import { removeWrap } from './utils';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export class Result<O extends Codec, E extends Codec> extends Enum {
-  constructor (registry: Registry, Ok: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes, Err: WrappedConstructor<E> | Constructor<E> | keyof InterfaceTypes, value?: unknown) {
+  constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Err: Constructor<E> | keyof InterfaceTypes, value?: unknown) {
     super(registry, {
-      Ok: removeWrap(Ok),
+      Ok,
       // NOTE This is order-dependent, Ok (with index 0) needs to be first
       // eslint-disable-next-line sort-keys
-      Err: removeWrap(Err)
+      Err
     }, value);
   }
 
-  public static override with<O extends Codec, E extends Codec> (Types: { Ok: WrappedConstructor<O> | Constructor<O> | keyof InterfaceTypes; Err: WrappedConstructor<E> | Constructor<E> | keyof InterfaceTypes }): Constructor<Result<O, E>> {
+  public static override with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | keyof InterfaceTypes; Err: Constructor<E> | keyof InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types.Ok, Types.Err, value);

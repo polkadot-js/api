@@ -1,11 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, Registry, WrappedConstructor } from '../../types';
+import type { Codec, Constructor, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
-
-import { removeWrap } from './isWrappedClass';
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
@@ -15,14 +13,14 @@ import { removeWrap } from './isWrappedClass';
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a (registry: Registry, u8a: Uint8Array, result: Codec[], _types: (Constructor | WrappedConstructor)[] | { [index: string]: Constructor | WrappedConstructor }, _keys?: string[]): Codec[] {
-  const [types, keys]: [(Constructor | WrappedConstructor)[], string[]] = Array.isArray(_types)
+export function decodeU8a (registry: Registry, u8a: Uint8Array, result: Codec[], _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): Codec[] {
+  const [types, keys]: [Constructor[], string[]] = Array.isArray(_types)
     ? [_types, _keys || []]
     : [Object.values(_types), Object.keys(_types)];
   let offset = 0;
 
   for (let i = 0; i < types.length; i++) {
-    const Type = removeWrap(types[i]);
+    const Type = types[i];
 
     try {
       const value = new Type(registry, u8a.subarray(offset));
