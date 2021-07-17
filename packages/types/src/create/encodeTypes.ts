@@ -111,6 +111,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.Plain]: (typeDef: TypeDef): string => typeDef.displayName || typeDef.type,
   [TypeDefInfo.Result]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Result'),
   [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
+  [TypeDefInfo.Si]: (typeDef: TypeDef): string => typeDef.type,
   [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
   [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
   [TypeDefInfo.UInt]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'UInt'),
@@ -121,13 +122,13 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
 function encodeType (typeDef: TypeDef): string {
   const encoder = encoders[typeDef.info];
 
-  assert(encoder, () => `Cannot encode type: ${stringify(typeDef)}`);
+  assert(encoder, () => `Cannot encode type: info=${typeDef.info}, typeDef=${stringify(typeDef)}`);
 
   return encoder(typeDef);
 }
 
 export function encodeTypeDef (typeDef: TypeDef): string {
-  assert(!isUndefined(typeDef.info), () => `Invalid type definition with no instance info, ${stringify(typeDef)}`);
+  assert(!isUndefined(typeDef.info), () => `Invalid type definition with no instance info, typeDef=${stringify(typeDef)}`);
 
   // In the case of contracts we do have the unfortunate situation where the displayName would
   // refer to "Option" when it is an option. For these, string it out, only using when actually
