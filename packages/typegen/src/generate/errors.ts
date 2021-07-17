@@ -17,12 +17,12 @@ const generateForMetaTemplate = Handlebars.compile(template);
 function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void {
   writeFile(dest, (): string => {
     const imports = createImports({});
-
-    const modules = meta.asLatest.modules
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter((mod) => mod.errors.length > 0)
+      .filter(({ errors }) => errors.isSome)
       .map(({ errors, name }) => ({
-        items: errors
+        items: lookup.getSiType(errors.unwrap().type).def.asVariant.variants
           .sort(compareName)
           .map(({ docs, name }) => ({
             docs,
@@ -31,19 +31,17 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
         name: stringCamelCase(name)
       }));
 
-    const types = [
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
-
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }

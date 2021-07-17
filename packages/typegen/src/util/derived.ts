@@ -10,7 +10,7 @@ import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { Null } from '@polkadot/types/primitive';
+import { bool, Null } from '@polkadot/types/primitive';
 import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass, stringify } from '@polkadot/util';
 
@@ -28,7 +28,10 @@ const voteConvictions = arrayToStrType(AllConvictions);
 /** @internal */
 export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName] || ClassOfUnsafe(registry, type));
+  const isCompact = isCompactEncodable(
+    (primitiveClasses as Record<string, any>)[primitiveName] ||
+    ClassOfUnsafe(registry, type)
+  );
   const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
@@ -121,7 +124,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(registry.createClass('bool'), Clazz)) {
+  } else if (isChildClass(bool, Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');

@@ -35,58 +35,59 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
+      .filter(({ calls }) => calls.isSome)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-        const items = calls.unwrap()
-          .sort(compareName)
-          .map(({ args, docs, name }) => {
-            const params = args
-              .map(({ name, type }) => {
-                const typeStr = type.toString();
+        const sectionName = stringCamelCase(name);
+        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
+          .map(({ docs, fields, name }) => {
+            const params = fields
+              .map(({ name, type }, index) => {
+                const typeStr = lookup.getTypeDef(type).type;
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${mapName(name)}: ${similarTypes.join(' | ')}`;
+                return `${name.isSome ? mapName(name.unwrap()) : `param${index}`}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 
             return {
-              args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
+              args: fields.map(({ type }) =>
+                formatType(allDefs, lookup.getTypeDef(type).type, imports)
+              ).join(', '),
               docs,
               name: stringCamelCase(name),
               params
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
-          name: stringCamelCase(name)
+          name: sectionName
         };
       });
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes', 'SubmittableExtrinsic']
-      }
-    ];
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes', 'SubmittableExtrinsic']
+        }
+      ]
     });
   });
 }

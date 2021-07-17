@@ -1,49 +1,65 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../../types';
-import type { MetadataInterface } from '../types';
+import type { Registry } from '../../types';
 
-import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
-import { unwrapStorageType } from '../../primitive/StorageKey';
+import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {
-  it('decodes latest substrate properly', (): void => {
-    const metadata = new Metadata(registry, rpcData);
+export function decodeLatestSubstrate (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>, staticTypes?: Record<string, unknown>): void {
+  const metadata = new Metadata(registry, rpcData);
+  let hasError = false;
 
-    registry.setMetadata(metadata);
+  registry.setMetadata(metadata);
+
+  it('decodes latest substrate properly', (): void => {
+    const json = metadata.toJSON();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    delete (json as Record<string, Record<string, Record<string, string>>>).metadata?.[`v${metadata.version}`]?.lookup;
 
     try {
       expect(metadata.version).toBe(version);
-      expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-      expect(metadata.toJSON()).toEqual(staticSubstrate);
+      expect(json).toEqual(staticSubstrate);
     } catch (error) {
-      console.error(stringify(metadata.toJSON()));
+      hasError = true;
+      console.error(stringify(json));
 
       throw error;
+    }
+  });
+
+  it('decodes latest types correctly', (): void => {
+    if (staticTypes && !hasError) {
+      const json = metadata.asLatest.lookup.types.toJSON();
+
+      try {
+        expect(json).toEqual(staticTypes);
+      } catch (error) {
+        console.error(stringify(json));
+
+        throw error;
+      }
     }
   });
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
+export function toLatest (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData);
 
     registry.setMetadata(metadata);
 
-    const metadataInit = metadata[`asV${version}` as keyof Metadata];
-    const metadataLatest = metadata.asLatest;
+    const latest = metadata.asLatest;
 
-    expect(
-      getUniqTypes(registry, metadataInit as unknown as MetadataInterface<Modules>, withThrow)
-    ).toEqual(
-      getUniqTypes(registry, metadataLatest, withThrow)
-    );
+    if (metadata.version < 14) {
+      getUniqTypes(registry, latest, withThrow);
+    }
   });
 }
 
@@ -51,19 +67,26 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
+    const { lookup, pallets } = metadata.asLatest;
 
-    metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
-      mod.storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
-        const inner = unwrapStorageType(type, modifier.isOptional);
-        const location = `${mod.name.toString()}.${name.toString()}: ${inner}`;
+    pallets.filter(({ storage }) => storage.isSome).forEach(({ name, storage }): void => {
+      const sectionName = stringCamelCase(name);
+
+      storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
+        const inner = unwrapStorageType(registry, type, modifier.isOptional);
+        const location = `${sectionName}.${stringCamelCase(name)}: ${inner}`;
 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              const type = registry.createType(inner, hexToU8a(fallback.toHex()));
+              const instance = registry.createTypeUnsafe(
+                lookup.createSiString(unwrapStorageSi(type)),
+                [hexToU8a(fallback.toHex())],
+                { isOptional: modifier.isOptional }
+              );
 
               if (withFallbackCheck) {
-                const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
+                const [hexType, hexOrig] = [u8aToHex(instance.toU8a()), u8aToHex(fallback.toU8a(true))];
 
                 assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
               }

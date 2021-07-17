@@ -8,7 +8,7 @@ import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUnde
 
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
+type TypesDef<T extends Codec = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -24,22 +24,23 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     const jsonKey = (jsonMap.get(key as any) && !value[key])
       ? jsonMap.get(key as any)
       : key;
+    const Type = Types[key];
 
     try {
       if (Array.isArray(value)) {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Types[key]
+        (raw as any)[key] = value[index] instanceof Type
           ? value[index]
-          : new Types[key](registry, value[index]);
+          : new Type(registry, value[index]);
       } else if (value instanceof Map) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const mapped = value.get(jsonKey);
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = mapped instanceof Types[key]
+        (raw as any)[key] = mapped instanceof Type
           ? mapped
-          : new Types[key](registry, mapped);
+          : new Type(registry, mapped);
       } else if (isObject(value)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         let assign = value[jsonKey as string];
@@ -59,17 +60,17 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         }
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = assign instanceof Types[key]
+        (raw as any)[key] = assign instanceof Type
           ? assign
-          : new Types[key](registry, assign);
+          : new Type(registry, assign);
       } else {
         throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
     } catch (error) {
-      let type = Types[key].name;
+      let type = Type.name;
 
       try {
-        type = new Types[key](registry).toRawType();
+        type = new Type(registry).toRawType();
       } catch (error) {
         // ignore
       }
@@ -102,7 +103,17 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
     const keys = Object.keys(Types);
-    const values = decodeU8a(registry, value, Object.values(Types), keys);
+    const values: Codec[] = [];
+
+    try {
+      decodeU8a(registry, value, values, Object.values(Types), keys);
+    } catch (error) {
+      if (values.length) {
+        throw new Error(`Failed on ${keys[values.length]}: Partially decoded: ${JSON.stringify(values.reduce((all, v, index) => ({ ...all, [keys[index]]: v.toJSON() }), {}))}: ${(error as Error).message}`);
+      }
+
+      throw error;
+    }
 
     // Transform array of values to {key: value} mapping
     return keys.reduce((raw, key, index): T => {

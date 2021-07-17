@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   Int,
   UInt,
   DoNotConstruct,
+  Si,
   // anything not fully supported (keep this as the last entry)
   Null
 }
@@ -41,4 +42,10 @@ export interface TypeDef {
   namespace?: string;
   sub?: TypeDef | TypeDef[];
   type: string;
+}
+
+export interface CreateOptions {
+  blockHash?: Uint8Array | string | null;
+  isOptional?: boolean;
+  isPedantic?: boolean;
 }

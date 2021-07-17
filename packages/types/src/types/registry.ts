@@ -3,9 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
+import type { CreateOptions } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
+import type { SiField } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -35,6 +37,7 @@ export type RegistryTypes =
 
 export interface RegistryError {
   docs: string[];
+  fields: SiField[];
   index: number;
   // compat
   method: string;
@@ -100,6 +103,7 @@ export interface Registry {
   readonly chainDecimals: number[];
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
+  readonly hasMetadata: boolean;
   readonly knownTypes: RegisteredTypes;
   readonly lookup: PortableRegistry;
   readonly metadata: MetadataLatest;
@@ -116,6 +120,7 @@ export interface Registry {
 
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
+  createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T;
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;

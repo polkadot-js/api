@@ -22,45 +22,44 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter((mod) => mod.events.isSome)
+      .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
-        items: events
-          .unwrap()
+        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
           .sort(compareName)
-          .map(({ args, docs, name }) => {
-            const types = args.map((type) => formatType(allDefs, type.toString(), imports));
+          .map(({ docs, fields, name }) => {
+            const args = fields.map(({ type }) =>
+              formatType(allDefs, lookup.getTypeDef(type), imports)
+            );
 
-            setImports(allDefs, imports, types);
+            setImports(allDefs, imports, args);
 
             return {
               docs,
               name: name.toString(),
-              type: types.join(', ')
+              type: args.join(', ')
             };
           }),
         name: stringCamelCase(name)
       }));
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }

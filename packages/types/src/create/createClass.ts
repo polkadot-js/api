@@ -8,12 +8,18 @@ import type { FromReg, TypeDef } from './types';
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
+import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FromReg<T, K>>(registry, getTypeDef(type));
+  return getTypeClass<FromReg<T, K>>(
+    registry,
+    registry.hasMetadata && registry.lookup.isSiString(type)
+      ? registry.lookup.getTypeDef(type)
+      : getTypeDef(type)
+  );
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
@@ -76,13 +82,17 @@ function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap)
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, BTreeMap),
+  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(value, BTreeMap),
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
+  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor =>
+    BTreeSet.with(getSubType(value)),
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
+  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor =>
+    Compact.with(getSubType(value)),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName || value.type),
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor =>
+    DoNotConstruct.with(value.displayName || value.type),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
     const subs = getSubDefArray(value);
@@ -98,9 +108,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
+  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(value, HashMap),
 
-  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
+  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
@@ -118,9 +130,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => createClass(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor =>
+    Null,
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
+  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor =>
+    Option.with(getSubType(value)),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor =>
     registry.getOrUnknown(value.type),
@@ -145,18 +159,24 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor => Struct.with(getTypeClassMap(value), value.alias),
+  [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor =>
+    getTypeClass(registry, registry.lookup.getTypeDef(value.index as number)),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
+  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
+    Struct.with(getTypeClassMap(value), value.alias),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => createInt(value, UInt),
+  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor =>
+    Tuple.with(getTypeClassArray(value)),
+
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);
 
     return (
       subType === 'u8'
-        ? createClass(registry, 'Bytes')
+        ? Bytes
         : Vec.with(subType)
     );
   },
@@ -173,24 +193,24 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 };
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
-  let Type = registry.get<T>(value.type);
+export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
+  let Type = registry.get<T>(typeDef.type);
 
   if (Type) {
     return Type;
   }
 
-  const getFn = infoMapping[value.info];
+  const getFn = infoMapping[typeDef.info];
 
-  assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
+  assert(getFn, () => `Unable to construct class from ${stringify(typeDef)}`);
 
-  Type = getFn(registry, value) as Constructor<T>;
+  Type = getFn(registry, typeDef) as Constructor<T>;
 
   // don't clobber any existing
-  if (!Type.__fallbackType && value.fallbackType) {
+  if (!Type.__fallbackType && typeDef.fallbackType) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore ...this is the only place we we actually assign this...
-    Type.__fallbackType = value.fallbackType;
+    Type.__fallbackType = typeDef.fallbackType;
   }
 
   return Type;

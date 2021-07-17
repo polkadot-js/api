@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13 } from '../interfaces/metadata';
+import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
 import type { AnyJson, Registry } from '../types';
 
 import { assert } from '@polkadot/util';
@@ -11,15 +11,16 @@ import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';
 import { toV13 } from './v12/toV13';
-import { toLatest } from './v13/toLatest';
+import { toV14 } from './v13/toV14';
+import { toLatest } from './v14/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13;
-type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12' | 'asV13';
-type MetaVersions = 'latest' | 9 | 10 | 11 | 12 | 13;
+type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13 | MetadataV14;
+type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12' | 'asV13' | 'asV14';
+type MetaVersions = 'latest' | 9 | 10 | 11 | 12 | 13 | 14;
 
-const LATEST_VERSION = 13;
+const LATEST_VERSION = 14;
 
 /**
  * @name MetadataVersioned
@@ -114,10 +115,16 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped values as a V14 object
+   */
+  public get asV14 (): MetadataV14 {
+    return this.#getVersion(14, toV14);
+  }
+
+  /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    // This is non-existent & latest - applied here to do the module-specific type conversions
     return this.#getVersion('latest', toLatest);
   }
 

@@ -14,6 +14,7 @@ import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
 
+export { knownOrigins } from './knownOrigins';
 export { packageInfo } from './packageInfo';
 
 // flatten a VersionedType[] into a Record<string, string>

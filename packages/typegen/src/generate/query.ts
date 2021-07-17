@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { PortableRegistry, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Registry } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
@@ -17,26 +17,26 @@ import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
-  const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
+function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
+  const outputType = unwrapStorageType(registry, storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
-    setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
+    setImports(allDefs, imports, [lookup.getTypeDef(storageEntry.type.asPlain).type]);
 
     return ['', '', formatType(allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     const map = storageEntry.type.asMap;
 
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(registry, allDefs, map.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, allDefs, lookup.getTypeDef(map.key).type, imports);
 
     setImports(allDefs, imports, [
       ...similarTypes,
-      map.value.toString()
+      lookup.getTypeDef(map.value).type
     ]);
 
     return [
-      formatType(allDefs, map.key.toString(), imports),
+      formatType(allDefs, lookup.getTypeDef(map.key).type, imports),
       `arg: ${similarTypes.join(' | ')}`,
       formatType(allDefs, outputType, imports)
     ];
@@ -44,38 +44,36 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     const dm = storageEntry.type.asDoubleMap;
 
     // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(registry, allDefs, dm.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(registry, allDefs, dm.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, allDefs, lookup.getTypeDef(dm.key1).type, imports);
+    const similarTypes2 = getSimilarTypes(registry, allDefs, lookup.getTypeDef(dm.key2).type, imports);
 
     setImports(allDefs, imports, [
       ...similarTypes1,
       ...similarTypes2,
-      dm.value.toString()
+      lookup.getTypeDef(dm.value).type
     ]);
 
     const key1Types = similarTypes1.join(' | ');
     const key2Types = similarTypes2.join(' | ');
 
     return [
-      [formatType(allDefs, dm.key1.toString(), imports), formatType(allDefs, dm.key2.toString(), imports)].join(', '),
+      [formatType(allDefs, lookup.getTypeDef(dm.key1).type, imports), formatType(allDefs, lookup.getTypeDef(dm.key2).type, imports)].join(', '),
       `arg1: ${key1Types}, arg2: ${key2Types}`,
       formatType(allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isNMap) {
     const nmap = storageEntry.type.asNMap;
-
-    // Find similar types for all keys
-    const similarTypes = nmap.keyVec.map((k) => getSimilarTypes(registry, allDefs, k.toString(), imports));
+    const keyVec = lookup.getSiType(nmap.key).def.asTuple.map((k) => lookup.getTypeDef(k));
+    const similarTypes = keyVec.map((k) => getSimilarTypes(registry, allDefs, k.type, imports));
+    const keyTypes = similarTypes.map((t) => t.join(' | '));
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
-      nmap.value.toString()
+      lookup.getTypeDef(nmap.value).type
     ]);
 
-    const keyTypes = similarTypes.map((t) => t.join(' | '));
-
     return [
-      nmap.keyVec.map((k) => formatType(allDefs, k.toString(), imports)).join(', '),
+      keyVec.map((k) => formatType(allDefs, k.type, imports)).join(', '),
       keyTypes.map((t, i) => `arg${i + 1}: ${t}`).join(', '),
       formatType(allDefs, outputType, imports)
     ];
@@ -95,15 +93,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
       .sort(compareName)
-      .filter((mod) => !mod.storage.isNone)
+      .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .sort(compareName)
           .map((storageEntry) => {
-            const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            const [args, params, returnType] = entrySignature(lookup, allDefs, registry, storageEntry, imports);
 
             return {
               args,
@@ -123,23 +121,21 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
     imports.typesTypes.Observable = true;
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
-
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }

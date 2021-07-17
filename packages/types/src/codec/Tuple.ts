@@ -21,7 +21,9 @@ type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
 /** @internal */
 function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTuple): Codec[] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), _Types);
+    const result: Codec[] = [];
+
+    return decodeU8a(registry, u8aToU8a(value), result, _Types);
   }
 
   const Types: Constructor[] = Array.isArray(_Types)
@@ -54,7 +56,7 @@ export class Tuple extends AbstractArray<Codec> {
 
   constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {
     const Clazzes = Array.isArray(Types)
-      ? Types.map((type): Constructor => typeToConstructor(registry, type))
+      ? Types.map((t) => typeToConstructor(registry, t))
       : mapToTypeMap(registry, Types);
 
     super(registry, ...decodeTuple(registry, Clazzes, value));
@@ -82,7 +84,7 @@ export class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type): string => new Type(this.registry).toRawType())
+      ? this._Types.map((Type) => new Type(this.registry).toRawType())
       : Object.keys(this._Types);
   }
 

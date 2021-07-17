@@ -52,7 +52,19 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
-    return decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
+    const types = new Array(length.toNumber()).fill(Type);
+    const values: Codec[] = [];
+
+    try {
+      return decodeU8a(registry, u8a.subarray(offset), values, types) as T[];
+    } catch (error) {
+      if (values.length) {
+        // values.map((v) => v.toJSON())
+        throw new Error(`Failed on index ${values.length}. Previous: ${JSON.stringify(values[values.length - 1].toJSON())}: ${(error as Error).message}`);
+      }
+
+      throw error;
+    }
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Vec<O>> {

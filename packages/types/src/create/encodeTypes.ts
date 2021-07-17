@@ -111,6 +111,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.Plain]: (typeDef: TypeDef): string => typeDef.displayName || typeDef.type,
   [TypeDefInfo.Result]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Result'),
   [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
+  [TypeDefInfo.Si]: (typeDef: TypeDef): string => typeDef.type,
   [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
   [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
   [TypeDefInfo.UInt]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'UInt'),
