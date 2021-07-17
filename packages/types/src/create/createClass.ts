@@ -76,13 +76,17 @@ function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap)
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, BTreeMap),
+  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(value, BTreeMap),
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
+  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor =>
+    BTreeSet.with(getSubType(value)),
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
+  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor =>
+    Compact.with(getSubType(value)),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor => DoNotConstruct.with(value.displayName || value.type),
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor =>
+    DoNotConstruct.with(value.displayName || value.type),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => {
     const subs = getSubDefArray(value);
@@ -98,9 +102,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor => createHashMap(value, HashMap),
+  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor =>
+    createHashMap(value, HashMap),
 
-  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
+  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
@@ -118,9 +124,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => createClass(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor =>
+    createClass(registry, 'Null'),
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
+  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor =>
+    Option.with(getSubType(value)),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor =>
     registry.getOrUnknown(value.type),
@@ -145,11 +153,17 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor => Struct.with(getTypeClassMap(value), value.alias),
+  [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor =>
+    getTypeClass(registry, registry.lookup.getTypeDef(value.index as number)),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
+  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
+    Struct.with(getTypeClassMap(value), value.alias),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => createInt(value, UInt),
+  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor =>
+    Tuple.with(getTypeClassArray(value)),
+
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor =>
+    createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);

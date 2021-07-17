@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   Int,
   UInt,
   DoNotConstruct,
+  Si,
   // anything not fully supported (keep this as the last entry)
   Null
 }
