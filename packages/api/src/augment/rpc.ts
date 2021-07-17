@@ -144,7 +144,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Instructs the manual-seal authorship task to create a new block
        **/
-      createBlock: AugmentedRpc<(createEmpty: bool, finalize: bool, parentHash?: BlockHash | string | Uint8Array) => Observable<CreatedBlock>>;
+      createBlock: AugmentedRpc<(createEmpty: bool | boolean | Uint8Array, finalize: bool | boolean | Uint8Array, parentHash?: BlockHash | string | Uint8Array) => Observable<CreatedBlock>>;
       /**
        * Instructs the manual-seal authorship task to finalize a block
        **/
@@ -186,11 +186,11 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns block with given hash.
        **/
-      getBlockByHash: AugmentedRpc<(hash: H256 | string | Uint8Array, full: bool) => Observable<Option<EthRichBlock>>>;
+      getBlockByHash: AugmentedRpc<(hash: H256 | string | Uint8Array, full: bool | boolean | Uint8Array) => Observable<Option<EthRichBlock>>>;
       /**
        * Returns block with given number.
        **/
-      getBlockByNumber: AugmentedRpc<(block: BlockNumber | AnyNumber | Uint8Array, full: bool) => Observable<Option<EthRichBlock>>>;
+      getBlockByNumber: AugmentedRpc<(block: BlockNumber | AnyNumber | Uint8Array, full: bool | boolean | Uint8Array) => Observable<Option<EthRichBlock>>>;
       /**
        * Returns the number of transactions in a block with given hash.
        **/
@@ -462,7 +462,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Returns the json-serialized chainspec running the node, with a sync state.
        **/
-      genSyncSpec: AugmentedRpc<(raw: bool) => Observable<Json>>;
+      genSyncSpec: AugmentedRpc<(raw: bool | boolean | Uint8Array) => Observable<Json>>;
     };
     system: {
       /**
