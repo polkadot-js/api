@@ -386,12 +386,12 @@ export class TypeRegistry implements Registry {
   public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
-      this.#classes.set(arg1.name, { Clazz: arg1, isWrapped: true });
+      this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
       assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
       assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
 
-      this.#classes.set(arg1, { Clazz: arg2, isWrapped: true });
+      this.#classes.set(arg1, arg2);
     } else {
       this._registerObject(arg1);
     }
@@ -401,7 +401,7 @@ export class TypeRegistry implements Registry {
     Object.entries(obj).forEach(([name, type]): void => {
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
-        this.#classes.set(name, { Clazz: type, isWrapped: true });
+        this.#classes.set(name, type);
       } else {
         const def = isString(type)
           ? type
