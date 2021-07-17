@@ -3,7 +3,6 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
-import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
@@ -67,25 +66,13 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
       const sectionName = stringCamelCase(section.name);
 
       lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta): void => {
-        const { fields, index, name } = meta;
-        const methodName = name.toString();
+        const { index, name } = meta;
         const variantIndex = index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-        const typeDef = fields.map(({ type }) => lookup.getTypeDef(type));
-        let Types: Constructor<Codec>[] | null;
-
-        // Lazy create the actual type classes right at the point of use
-        const getTypes = (): Constructor<Codec>[] => {
-          if (!Types) {
-            Types = fields.map(({ type }) => lookup.getClass(type));
-          }
-
-          return Types;
-        };
 
         metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, getTypes(), typeDef, meta, sectionName, methodName);
+            super(registry, value, meta, sectionName, name.toString());
           }
         };
       });
@@ -240,22 +227,6 @@ export class TypeRegistry implements Registry {
     // this is a weird one, the issue is that TS gets into a know if not done
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createClass(this, type) as any;
-  }
-
-  /**
-   * @describe Creates an instance of a class identified by type id
-   */
-  public createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]> {
-    // this is a weird one, the issue is that TS gets into a know if not done
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.lookup.getClass(lookupId) as any;
-  }
-
-  /**
-   * @describe Creates an instance of a class identified by type id
-   */
-  createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K] {
-    return this.lookup.createType(lookupId, params);
   }
 
   /**

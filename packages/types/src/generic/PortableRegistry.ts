@@ -4,21 +4,14 @@
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
-import type { Codec, Constructor, Registry, TypeDef } from '../types';
+import type { Registry, TypeDef } from '../types';
 
 import { assert, isNumber, isString, stringCamelCase } from '@polkadot/util';
 
-import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
-import { getTypeClass } from '../create/createClass';
 import { withTypeString } from '../create/encodeTypes';
 import { getTypeDef } from '../create/getTypeDef';
 import { TypeDefInfo } from '../types';
-
-interface CreateOptions {
-  blockHash?: Uint8Array | string | null;
-  isOptional?: boolean;
-}
 
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
@@ -30,7 +23,6 @@ const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance']
 const LOOKUP_PREFIX = '__lookup_';
 
 export class GenericPortableRegistry extends Struct {
-  #classes: Record<number, Constructor> = {};
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
@@ -58,34 +50,6 @@ export class GenericPortableRegistry extends Struct {
    */
   public createSiString (lookupId: SiLookupTypeId | number): string {
     return `${LOOKUP_PREFIX}${lookupId.toString()}`;
-  }
-
-  /**
-   * @description creates a type from the id
-   */
-  public createType <T extends Codec> (lookupId: SiLookupTypeId | string | number, params: unknown[], { blockHash, isOptional }: CreateOptions = {}): T {
-    const Clazz = this.getClass<T>(lookupId);
-    const instance = new (isOptional ? Option.with(Clazz) : Clazz)(this.registry, ...params);
-
-    if (blockHash) {
-      instance.createdAtHash = this.registry.createType('Hash', blockHash);
-    }
-
-    return instance as T;
-  }
-
-  /**
-   * @description Returns a class from the specified id
-   */
-  public getClass <T extends Codec = Codec> (lookupId: SiLookupTypeId | string | number): Constructor<T> {
-    const index = this.#getSiIndex(lookupId);
-
-    if (!this.#classes[index]) {
-      // since we may have recursive lookups, fill in empty details as a start
-      this.#classes[index] = getTypeClass(this.registry, this.getTypeDef(lookupId));
-    }
-
-    return this.#classes[index] as Constructor<T>;
   }
 
   /**

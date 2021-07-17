@@ -7,7 +7,7 @@ import type { CreateOptions } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { SiField } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -121,8 +121,6 @@ export interface Registry {
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T;
-  createSiClass <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId): Constructor<InterfaceTypes[K]>;
-  createSiType <K extends keyof InterfaceTypes> (lookupId: SiLookupTypeId, ...params: unknown[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;

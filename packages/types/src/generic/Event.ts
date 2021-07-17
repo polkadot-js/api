@@ -4,7 +4,7 @@
 import type { TypeDef } from '../create/types';
 import type { SiVariant } from '../interfaces/scaleInfo';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';
@@ -49,13 +49,13 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: SiVariant, section = '<unknown>', method = '<unknown>') {
-    super(registry, Types, value);
+  constructor (registry: Registry, value: Uint8Array, meta: SiVariant, section = '<unknown>', method = '<unknown>') {
+    super(registry, meta.fields.map(({ type }) => registry.lookup.createSiString(type) as keyof InterfaceTypes), value);
 
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = typeDef;
+    this.#typeDef = meta.fields.map(({ type }) => registry.lookup.getTypeDef(type));
   }
 
   /**

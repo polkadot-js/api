@@ -79,9 +79,11 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              const instance = lookup.createType(unwrapStorageSi(type), [hexToU8a(fallback.toHex())], {
-                isOptional: modifier.isOptional
-              });
+              const instance = registry.createTypeUnsafe(
+                lookup.createSiString(unwrapStorageSi(type)),
+                [hexToU8a(fallback.toHex())],
+                { isOptional: modifier.isOptional }
+              );
 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(instance.toU8a()), u8aToHex(fallback.toU8a(true))];
