@@ -30,7 +30,7 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
     ? _Types
     : Object.values(_Types);
 
-  return Types.map((TypeDef, index): Codec => {
+  return Types.map((Type, index): Codec => {
     try {
       const entry = value?.[index];
 
@@ -84,9 +84,7 @@ export class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type) =>
-        new (removeWrap(Type))(this.registry).toRawType()
-      )
+      ? this._Types.map((Type) => new Type(this.registry).toRawType())
       : Object.keys(this._Types);
   }
 
@@ -99,7 +97,7 @@ export class Tuple extends AbstractArray<Codec> {
         ? this._Types
         : Object.values(this._Types)
     ).map((Type) =>
-      this.registry.getClassName(Type) || new (removeWrap(Type))(this.registry).toRawType()
+      this.registry.getClassName(Type) || new Type(this.registry).toRawType()
     );
 
     return `(${types.join(',')})`;

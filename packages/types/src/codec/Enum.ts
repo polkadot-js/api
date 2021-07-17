@@ -8,7 +8,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
-import { mapToTypeMap, removeWrap } from './utils';
+import { mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -60,7 +60,7 @@ function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTyp
     def = Object
       .entries(mapToTypeMap(registry, _def))
       .reduce((def: TypesDef, [key, Type], index): TypesDef => {
-        def[key] = { Type: removeWrap(Type), index };
+        def[key] = { Type, index };
 
         return def;
       }, {});
@@ -70,7 +70,7 @@ function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTyp
     def = Object
       .entries(_def)
       .reduce((def: TypesDef, [key, index]): TypesDef => {
-        def[key] = { Type: Null, index: index as number };
+        def[key] = { Type: Null, index };
 
         return def;
       }, {});
