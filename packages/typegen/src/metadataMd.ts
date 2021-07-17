@@ -6,7 +6,7 @@ import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 
-import { GenericCall as Call, Metadata, TypeRegistry, Vec } from '@polkadot/types';
+import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
 import rpcdata from '@polkadot/types/metadata/static';
@@ -168,25 +168,25 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addConstants ({ pallets }: MetadataLatest): string {
+function addConstants ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_CONSTANTS,
     sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
-      .map((moduleMetadata) => {
-        const sectionName = stringLowerFirst(moduleMetadata.name);
+      .filter(({ constants }) => !constants.isEmpty)
+      .map(({ constants, name }) => {
+        const sectionName = stringLowerFirst(name);
 
         return {
-          items: moduleMetadata.constants
+          items: constants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
+            .map(({ name, type }) => {
+              const methodName = stringCamelCase(name);
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
-                name: `${methodName}: ` + '`' + func.type.toString() + '`',
-                ...(func.docs.length && { summary: func.docs })
+                name: `${methodName}: ` + '`' + lookup.getTypeDef(type).type + '`',
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
@@ -260,12 +260,12 @@ function addExtrinsics ({ pallets }: MetadataLatest): string {
     description: DESC_EXTRINSICS,
     sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
-      .map((meta) => {
-        const sectionName = stringCamelCase(meta.name);
+      .filter(({ calls }) => calls.isSome)
+      .map(({ calls, name }) => {
+        const sectionName = stringCamelCase(name);
 
         return {
-          items: meta.calls.unwrap()
+          items: calls.unwrap()
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name);

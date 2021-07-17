@@ -69,7 +69,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
     const metadata = new Metadata(registry, rpcData);
     const { lookup, pallets } = metadata.asLatest;
 
-    pallets.filter(({ storage }): boolean => storage.isSome).forEach(({ name, storage }): void => {
+    pallets.filter(({ storage }) => storage.isSome).forEach(({ name, storage }): void => {
       const sectionName = stringCamelCase(name);
 
       storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
@@ -79,7 +79,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         it(`creates default types for ${location}`, (): void => {
           expect((): void => {
             try {
-              const instance = lookup.createType(unwrapStorageSi(registry, type), [hexToU8a(fallback.toHex())], {
+              const instance = lookup.createType(unwrapStorageSi(type), [hexToU8a(fallback.toHex())], {
                 isOptional: modifier.isOptional
               });
 
