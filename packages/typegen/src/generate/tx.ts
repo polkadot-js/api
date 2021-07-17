@@ -9,7 +9,7 @@ import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -43,11 +43,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const { def } = lookup.getSiType(calls.unwrap().type);
-
-        assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
-
-        const items = def.asVariant.variants
+        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
           .map(({ docs, fields, name }) => {
             const params = fields
               .map(({ name, type }, index) => {
