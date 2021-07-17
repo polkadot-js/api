@@ -124,6 +124,12 @@ function tsResult (definitions: Record<string, ModuleTypes>, def: TypeDef, impor
 }
 
 /** @internal */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function tsSi (definitions: Record<string, ModuleTypes>, { type }: TypeDef, imports: TypeImports): string {
+  throw new Error('Unable to generate string definition from TypeDefInfo.Si');
+}
+
+/** @internal */
 function tsSet (definitions: Record<string, ModuleTypes>, { name: setName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Set']);
 
@@ -186,6 +192,7 @@ function generateInterfaces (definitions: Record<string, ModuleTypes>, { types }
     [TypeDefInfo.Plain]: tsPlain,
     [TypeDefInfo.Result]: tsResult,
     [TypeDefInfo.Set]: tsSet,
+    [TypeDefInfo.Si]: tsSi,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
     [TypeDefInfo.UInt]: tsUInt,
