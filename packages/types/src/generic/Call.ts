@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SiVariant } from '../interfaces/scaleInfo';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, InterfaceTypes, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -27,11 +27,9 @@ interface DecodedMethod extends DecodeMethodInput {
  * @param meta - The function metadata used to get the definition.
  * @internal
  */
-function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
-  const { lookup } = registry.metadata;
-
+function getArgsDef ({ lookup }: Registry, meta: SiVariant): ArgsDef {
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.isSome ? name.unwrap().toString() : `param${index}`] = lookup.getClass(type);
+    result[name.isSome ? name.unwrap().toString() : `param${index}`] = lookup.createSiString(type) as keyof InterfaceTypes;
 
     return result;
   }, {} as ArgsDef);

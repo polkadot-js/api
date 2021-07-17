@@ -38,18 +38,26 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
+function expandDef (registry: Registry, typeDef: TypeDef, index = 0): [Constructor | keyof InterfaceTypes, TypeDef, string] {
+  return [
+    typeDef.info === TypeDefInfo.Si
+      ? typeDef.type as keyof InterfaceTypes
+      : getTypeClass(registry, typeDef),
+    typeDef,
+    typeDef.name || `param${index}`
+  ];
+}
+
 function subDef (value: TypeDef): TypeDef {
   assert(value.sub && !Array.isArray(value.sub), () => `Expected subtype as TypeDef in ${stringify(value)}`);
 
   return value.sub;
 }
 
-function subClass (registry: Registry, value: TypeDef): [Constructor, TypeDef, string?] {
+function subClass (registry: Registry, value: TypeDef): [Constructor | keyof InterfaceTypes, TypeDef, string?] {
   assert(value.sub && !Array.isArray(value.sub), () => `Expected subtype as TypeDef in ${stringify(value)}`);
 
-  const def = subDef(value);
-
-  return [getTypeClass(registry, def), def, def.name];
+  return expandDef(registry, subDef(value));
 }
 
 function subDefArray (value: TypeDef): TypeDef[] {
@@ -58,15 +66,17 @@ function subDefArray (value: TypeDef): TypeDef[] {
   return value.sub;
 }
 
-function subClassArray (registry: Registry, value: TypeDef): [Constructor, TypeDef, string][] {
-  return subDefArray(value).map((t, index) => [getTypeClass(registry, t), t, t.name || `param${index}`]);
+function subClassArray (registry: Registry, value: TypeDef): [Constructor | keyof InterfaceTypes, TypeDef, string][] {
+  return subDefArray(value).map((typeDef, index) =>
+    expandDef(registry, typeDef, index)
+  );
 }
 
 // create a maps of type string constructors from the input
-function subClassMap (registry: Registry, value: TypeDef): Record<string, Constructor> {
-  const result: Record<string, Constructor> = {};
+function subClassMap (registry: Registry, value: TypeDef): Record<string, Constructor | keyof InterfaceTypes> {
+  const result: Record<string, Constructor | keyof InterfaceTypes> = {};
 
-  return subClassArray(registry, value).reduce<Record<string, Constructor>>((result, [sub,, name]) => {
+  return subClassArray(registry, value).reduce<Record<string, Constructor | keyof InterfaceTypes>>((result, [sub,, name]) => {
     result[name] = sub;
 
     return result;
@@ -163,6 +173,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
+  [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor =>
+    getTypeClass(registry, registry.lookup.getTypeDef(value.index as number)),
+
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
     Struct.with(subClassMap(registry, value), value.alias),
 
@@ -190,28 +203,30 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 };
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
-  let Type = registry.get<T>(value.type);
+export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
+  let Type = registry.get<T>(typeDef.type);
 
   if (Type) {
     return Type;
   }
 
-  const getFn = infoMapping[value.info];
+  const getFn = infoMapping[typeDef.info];
 
-  assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
+  assert(getFn, () => `Unable to construct class from ${stringify(typeDef)}`);
 
   // We already set a value since with the create we are going circular
-  registry.register(value.type, DoNotConstruct.with(value.displayName || value.type));
+  registry.register(typeDef.type, DoNotConstruct.with(typeDef.displayName || typeDef.type));
 
-  Type = getFn(registry, value) as Constructor<T>;
+  Type = getFn(registry, typeDef) as Constructor<T>;
 
   // don't clobber any existing
-  if (!Type.__fallbackType && value.fallbackType) {
+  if (!Type.__fallbackType && typeDef.fallbackType) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore ...this is the only place we we actually assign this...
-    Type.__fallbackType = value.fallbackType;
+    Type.__fallbackType = typeDef.fallbackType;
   }
+
+  registry.register(typeDef.type, Type);
 
   return Type;
 }

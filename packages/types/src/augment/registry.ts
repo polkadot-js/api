@@ -61,6 +61,7 @@ import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction,
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
+    'Compact<AccountIndex>': Compact<AccountIndex>;
     'Compact<ActiveIndex>': Compact<ActiveIndex>;
     'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
     'Compact<AssetId>': Compact<AssetId>;
@@ -71,26 +72,45 @@ declare module '@polkadot/types/types/registry' {
     'Compact<BabeAuthorityWeight>': Compact<BabeAuthorityWeight>;
     'Compact<BabeBlockWeight>': Compact<BabeBlockWeight>;
     'Compact<BabeWeight>': Compact<BabeWeight>;
+    'Compact<Balance>': Compact<Balance>;
+    'Compact<BalanceOf>': Compact<BalanceOf>;
     'Compact<BlockNumber>': Compact<BlockNumber>;
+    'Compact<BlockNumberFor>': Compact<BlockNumberFor>;
+    'Compact<BlockNumberOf>': Compact<BlockNumberOf>;
     'Compact<BountyIndex>': Compact<BountyIndex>;
+    'Compact<BridgedBlockNumber>': Compact<BridgedBlockNumber>;
     'Compact<ClassId>': Compact<ClassId>;
     'Compact<ContractDiscriminant>': Compact<ContractDiscriminant>;
     'Compact<CoreIndex>': Compact<CoreIndex>;
+    'Compact<DepositBalance>': Compact<DepositBalance>;
+    'Compact<DepositBalanceOf>': Compact<DepositBalanceOf>;
     'Compact<EraIndex>': Compact<EraIndex>;
     'Compact<EventIndex>': Compact<EventIndex>;
     'Compact<ExtendedBalance>': Compact<ExtendedBalance>;
+    'Compact<FixedU128>': Compact<FixedU128>;
+    'Compact<FixedU64>': Compact<FixedU64>;
     'Compact<FundIndex>': Compact<FundIndex>;
     'Compact<Gas>': Compact<Gas>;
     'Compact<GroupIndex>': Compact<GroupIndex>;
     'Compact<Index>': Compact<Index>;
     'Compact<InstanceId>': Compact<InstanceId>;
     'Compact<KeyTypeId>': Compact<KeyTypeId>;
+    'Compact<LeasePeriod>': Compact<LeasePeriod>;
+    'Compact<LeasePeriodOf>': Compact<LeasePeriodOf>;
     'Compact<MemberCount>': Compact<MemberCount>;
+    'Compact<Moment>': Compact<Moment>;
+    'Compact<MomentOf>': Compact<MomentOf>;
     'Compact<NominatorIndex>': Compact<NominatorIndex>;
+    'Compact<OffchainAccuracy>': Compact<OffchainAccuracy>;
     'Compact<OverweightIndex>': Compact<OverweightIndex>;
     'Compact<PageCounter>': Compact<PageCounter>;
     'Compact<ParaId>': Compact<ParaId>;
     'Compact<ParaValidatorIndex>': Compact<ParaValidatorIndex>;
+    'Compact<Perbill>': Compact<Perbill>;
+    'Compact<Percent>': Compact<Percent>;
+    'Compact<Permill>': Compact<Permill>;
+    'Compact<Perquintill>': Compact<Perquintill>;
+    'Compact<PerU16>': Compact<PerU16>;
     'Compact<Points>': Compact<Points>;
     'Compact<Priority>': Compact<Priority>;
     'Compact<PropIndex>': Compact<PropIndex>;
@@ -100,7 +120,9 @@ declare module '@polkadot/types/types/registry' {
     'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
     'Compact<RegistrarIndex>': Compact<RegistrarIndex>;
     'Compact<RelayBlockNumber>': Compact<RelayBlockNumber>;
+    'Compact<RelayChainBlockNumber>': Compact<RelayChainBlockNumber>;
     'Compact<RewardPoint>': Compact<RewardPoint>;
+    'Compact<SchedulePriority>': Compact<SchedulePriority>;
     'Compact<SessionIndex>': Compact<SessionIndex>;
     'Compact<SetId>': Compact<SetId>;
     'Compact<SetIndex>': Compact<SetIndex>;
@@ -111,6 +133,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<StrikeCount>': Compact<StrikeCount>;
     'Compact<SubId>': Compact<SubId>;
     'Compact<TAssetBalance>': Compact<TAssetBalance>;
+    'Compact<TAssetDepositBalance>': Compact<TAssetDepositBalance>;
     'Compact<TransactionPriority>': Compact<TransactionPriority>;
     'Compact<TrieIndex>': Compact<TrieIndex>;
     'Compact<u128>': Compact<u128>;
@@ -121,6 +144,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<U256>': Compact<U256>;
     'Compact<u32>': Compact<u32>;
     'Compact<U32>': Compact<U32>;
+    'Compact<U32F32>': Compact<U32F32>;
     'Compact<u64>': Compact<u64>;
     'Compact<U64>': Compact<U64>;
     'Compact<u8>': Compact<u8>;

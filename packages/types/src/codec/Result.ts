@@ -14,12 +14,9 @@ import { Enum } from './Enum';
  */
 export class Result<O extends Codec, E extends Codec> extends Enum {
   constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Err: Constructor<E> | keyof InterfaceTypes, value?: unknown) {
-    super(registry, {
-      Ok,
-      // NOTE This is order-dependent, Ok (with index 0) needs to be first
-      // eslint-disable-next-line sort-keys
-      Err
-    }, value);
+    // NOTE This is order-dependent, Ok (with index 0) needs to be first
+    // eslint-disable-next-line sort-keys
+    super(registry, { Ok, Err }, value);
   }
 
   public static override with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | keyof InterfaceTypes; Err: Constructor<E> | keyof InterfaceTypes }): Constructor<Result<O, E>> {

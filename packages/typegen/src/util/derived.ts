@@ -30,7 +30,7 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable(
     (primitiveClasses as Record<string, any>)[primitiveName] ||
-    ClassOfUnsafe(registry, type).Clazz
+    ClassOfUnsafe(registry, type)
   );
   const def = getTypeDef(type);
 
@@ -87,7 +87,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     return ['null'];
   }
 
-  const { Clazz } = ClassOfUnsafe(registry, type);
+  const Clazz = ClassOfUnsafe(registry, type);
 
   if (isChildClass(Vec, Clazz)) {
     const vecDef = getTypeDef(type);

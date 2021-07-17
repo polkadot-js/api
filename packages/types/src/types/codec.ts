@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { Hash } from '../interfaces/runtime';
-import type { Registry } from './registry';
+import type { InterfaceTypes, Registry } from './registry';
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
 
@@ -119,4 +119,4 @@ export interface Constructor<T = Codec> {
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
 
-export type ArgsDef = Record<string, Constructor>;
+export type ArgsDef = Record<string, Constructor | keyof InterfaceTypes>;
