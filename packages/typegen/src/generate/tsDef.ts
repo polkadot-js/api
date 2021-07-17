@@ -173,37 +173,37 @@ function tsVec (definitions: Record<string, ModuleTypes>, def: TypeDef, imports:
   return exportInterface(def.name, formatType(definitions, def, imports));
 }
 
+// handlers are defined externally to use - this means that when we do a
+// `generators[typedef.info](...)` TS will show any unhandled types. Rather
+// we are being explicit in having no handlers where we do not support (yet)
+const encoders: Record<TypeDefInfo, (definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports) => string> = {
+  [TypeDefInfo.BTreeMap]: tsBTreeMap,
+  [TypeDefInfo.BTreeSet]: tsBTreeSet,
+  [TypeDefInfo.Compact]: tsCompact,
+  [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
+  [TypeDefInfo.Enum]: tsEnum,
+  [TypeDefInfo.HashMap]: tsHashMap,
+  [TypeDefInfo.Int]: tsInt,
+  [TypeDefInfo.Linkage]: errorUnhandled,
+  [TypeDefInfo.Null]: errorUnhandled,
+  [TypeDefInfo.Option]: tsOption,
+  [TypeDefInfo.Plain]: tsPlain,
+  [TypeDefInfo.Result]: tsResult,
+  [TypeDefInfo.Set]: tsSet,
+  [TypeDefInfo.Si]: tsSi,
+  [TypeDefInfo.Struct]: tsStruct,
+  [TypeDefInfo.Tuple]: tsTuple,
+  [TypeDefInfo.UInt]: tsUInt,
+  [TypeDefInfo.Vec]: tsVec,
+  [TypeDefInfo.VecFixed]: tsVec
+};
+
 /** @internal */
 function generateInterfaces (definitions: Record<string, ModuleTypes>, { types }: { types: Record<string, any> }, imports: Imports): [string, string][] {
-  // handlers are defined externally to use - this means that when we do a
-  // `generators[typedef.info](...)` TS will show any unhandled types. Rather
-  // we are being explicit in having no handlers where we do not support (yet)
-  const generators = {
-    [TypeDefInfo.BTreeMap]: tsBTreeMap,
-    [TypeDefInfo.BTreeSet]: tsBTreeSet,
-    [TypeDefInfo.Compact]: tsCompact,
-    [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
-    [TypeDefInfo.Enum]: tsEnum,
-    [TypeDefInfo.HashMap]: tsHashMap,
-    [TypeDefInfo.Int]: tsInt,
-    [TypeDefInfo.Linkage]: errorUnhandled,
-    [TypeDefInfo.Null]: errorUnhandled,
-    [TypeDefInfo.Option]: tsOption,
-    [TypeDefInfo.Plain]: tsPlain,
-    [TypeDefInfo.Result]: tsResult,
-    [TypeDefInfo.Set]: tsSet,
-    [TypeDefInfo.Si]: tsSi,
-    [TypeDefInfo.Struct]: tsStruct,
-    [TypeDefInfo.Tuple]: tsTuple,
-    [TypeDefInfo.UInt]: tsUInt,
-    [TypeDefInfo.Vec]: tsVec,
-    [TypeDefInfo.VecFixed]: tsVec
-  };
-
   return Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type : stringify(type), { name });
 
-    return [name, generators[def.info](definitions, def, imports)];
+    return [name, encoders[def.info](definitions, def, imports)];
   });
 }
 
