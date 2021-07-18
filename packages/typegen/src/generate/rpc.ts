@@ -90,7 +90,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
             return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
           });
 
-          type = formatType(allDefs, def.type, imports);
+          type = formatType(registry, allDefs, def.type, imports);
           generic = '';
         }
 

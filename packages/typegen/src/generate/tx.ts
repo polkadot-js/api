@@ -45,20 +45,28 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         const sectionName = stringCamelCase(name);
         const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
           .map(({ docs, fields, name }) => {
-            const params = fields
-              .map(({ name, type }, index) => {
-                const typeStr = lookup.getTypeDef(type).type;
+            const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => [
+              name.isSome
+                ? mapName(name.unwrap())
+                : `param${index}`,
+              typeName.isSome
+                ? typeName.toString()
+                : lookup.getTypeDef(type).type,
+              lookup.createSiString(type)
+            ]);
+            const params = typesInfo
+              .map(([name,, typeStr]) => {
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${name.isSome ? mapName(name.unwrap()) : `param${index}`}: ${similarTypes.join(' | ')}`;
+                return `${name}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 
             return {
-              args: fields.map(({ type }) =>
-                formatType(registry, allDefs, lookup.getTypeDef(type), imports)
+              args: typesInfo.map(([,, typeStr]) =>
+                formatType(registry, allDefs, typeStr, imports)
               ).join(', '),
               docs,
               name: stringCamelCase(name),
