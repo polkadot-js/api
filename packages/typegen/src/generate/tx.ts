@@ -58,7 +58,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args: fields.map(({ type }) =>
-                formatType(allDefs, lookup.getTypeDef(type).type, imports)
+                formatType(registry, allDefs, lookup.getTypeDef(type), imports)
               ).join(', '),
               docs,
               name: stringCamelCase(name),

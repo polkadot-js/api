@@ -23,7 +23,7 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [lookup.getTypeDef(storageEntry.type.asPlain).type]);
 
-    return ['', '', formatType(allDefs, outputType, imports)];
+    return ['', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     const map = storageEntry.type.asMap;
 
@@ -36,9 +36,9 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
     ]);
 
     return [
-      formatType(allDefs, lookup.getTypeDef(map.key).type, imports),
+      formatType(registry, allDefs, lookup.getTypeDef(map.key).type, imports),
       `arg: ${similarTypes.join(' | ')}`,
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     const dm = storageEntry.type.asDoubleMap;
@@ -57,9 +57,12 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
     const key2Types = similarTypes2.join(' | ');
 
     return [
-      [formatType(allDefs, lookup.getTypeDef(dm.key1).type, imports), formatType(allDefs, lookup.getTypeDef(dm.key2).type, imports)].join(', '),
+      [
+        formatType(registry, allDefs, lookup.getTypeDef(dm.key1).type, imports),
+        formatType(registry, allDefs, lookup.getTypeDef(dm.key2).type, imports)
+      ].join(', '),
       `arg1: ${key1Types}, arg2: ${key2Types}`,
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isNMap) {
     const nmap = storageEntry.type.asNMap;
@@ -73,9 +76,9 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
     ]);
 
     return [
-      keyVec.map((k) => formatType(allDefs, k.type, imports)).join(', '),
+      keyVec.map((k) => formatType(registry, allDefs, k.type, imports)).join(', '),
       keyTypes.map((t, i) => `arg${i + 1}: ${t}`).join(', '),
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   }
 
