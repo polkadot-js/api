@@ -160,7 +160,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor =>
-    getTypeClass(registry, registry.lookup.getTypeDef(value.index as number)),
+    getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
 
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
     Struct.with(getTypeClassMap(value), value.alias),

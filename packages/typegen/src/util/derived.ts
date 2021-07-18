@@ -57,7 +57,7 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
     });
   }
 
-  const result = types.map((t) => formatType(definitions, t, imports)).map((t) => `'${t}': ${t};`);
+  const result = types.map((t) => formatType(registry, definitions, t, imports)).map((t) => `'${t}': ${t};`);
 
   result.unshift(`${type}: ${type};`);
 
@@ -71,7 +71,7 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
 export function getSimilarTypes (registry: Registry, definitions: Record<string, ModuleTypes>, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
-  const possibleTypes = [formatType(definitions, type, imports)];
+  const possibleTypes = [formatType(registry, definitions, type, imports)];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);

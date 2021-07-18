@@ -22,7 +22,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const { lookup, pallets } = meta.asLatest;
+    const { lookup, pallets, registry } = meta.asLatest;
     const modules = pallets
       .sort(compareName)
       .filter(({ events }) => events.isSome)
@@ -31,7 +31,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           .sort(compareName)
           .map(({ docs, fields, name }) => {
             const args = fields.map(({ type }) =>
-              formatType(allDefs, lookup.getTypeDef(type), imports)
+              formatType(registry, allDefs, lookup.getTypeDef(type), imports)
             );
 
             setImports(allDefs, imports, args);

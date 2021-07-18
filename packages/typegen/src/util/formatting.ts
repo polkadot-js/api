@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TypeDef } from '@polkadot/types/create/types';
+import type { Registry } from '@polkadot/types/types';
 
 import Handlebars from 'handlebars';
 
@@ -176,7 +177,7 @@ function formatVec (inner: string): string {
  */
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function formatType (definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports): string {
+export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
 
   if (isString(type)) {
@@ -200,7 +201,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
     case TypeDefInfo.Compact: {
       setImports(definitions, imports, ['Compact']);
 
-      return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatCompact(formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
     }
 
     case TypeDefInfo.DoNotConstruct: {
@@ -212,7 +213,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
     case TypeDefInfo.Option: {
       setImports(definitions, imports, ['Option']);
 
-      return formatOption(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatOption(formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
     }
 
     case TypeDefInfo.Plain: {
@@ -225,9 +226,13 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
       return formatStruct(
         ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
           name || `unknown${index}`,
-          formatType(definitions, type, imports)
+          formatType(registry, definitions, type, imports)
         ]))
       );
+    }
+
+    case TypeDefInfo.Si: {
+      return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports);
     }
 
     case TypeDefInfo.Tuple: {
@@ -235,14 +240,16 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
-        ((typeDef.sub as TypeDef[]).map(({ type }) => formatType(definitions, type, imports)))
+        ((typeDef.sub as TypeDef[]).map(({ type }) =>
+          formatType(registry, definitions, type, imports))
+        )
       );
     }
 
     case TypeDefInfo.Vec: {
       setImports(definitions, imports, ['Vec']);
 
-      return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatVec(formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
     }
 
     case TypeDefInfo.VecFixed: {
@@ -256,7 +263,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       setImports(definitions, imports, ['Vec']);
 
-      return formatVec(formatType(definitions, type, imports));
+      return formatVec(formatType(registry, definitions, type, imports));
     }
 
     case TypeDefInfo.BTreeMap: {
@@ -264,7 +271,10 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
-      return formatBTreeMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+      return formatBTreeMap(
+        formatType(registry, definitions, keyDef.type, imports),
+        formatType(registry, definitions, valDef.type, imports)
+      );
     }
 
     case TypeDefInfo.BTreeSet: {
@@ -272,7 +282,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       const valDef = typeDef.sub as TypeDef;
 
-      return formatBTreeSet(formatType(definitions, valDef.type, imports));
+      return formatBTreeSet(formatType(registry, definitions, valDef.type, imports));
     }
 
     case TypeDefInfo.HashMap: {
@@ -280,7 +290,10 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
-      return formatHashMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+      return formatHashMap(
+        formatType(registry, definitions, keyDef.type, imports),
+        formatType(registry, definitions, valDef.type, imports)
+      );
     }
 
     case TypeDefInfo.Linkage: {
@@ -288,7 +301,7 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       setImports(definitions, imports, ['Linkage']);
 
-      return formatLinkage(formatType(definitions, type, imports));
+      return formatLinkage(formatType(registry, definitions, type, imports));
     }
 
     case TypeDefInfo.Result: {
@@ -296,7 +309,10 @@ export function formatType (definitions: Record<string, ModuleTypes>, type: stri
 
       const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
 
-      return formatResult(formatType(definitions, okDef.type, imports), formatType(definitions, errorDef.type, imports));
+      return formatResult(
+        formatType(registry, definitions, okDef.type, imports),
+        formatType(registry, definitions, errorDef.type, imports)
+      );
     }
 
     default: {
