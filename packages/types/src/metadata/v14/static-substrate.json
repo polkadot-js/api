@@ -488,7 +488,14 @@
             "type": 136
           },
           "events": null,
-          "constants": [],
+          "constants": [
+            {
+              "name": "UncleGenerations",
+              "type": 4,
+              "value": "0x05000000",
+              "docs": []
+            }
+          ],
           "errors": {
             "type": 316
           },
@@ -608,6 +615,18 @@
               "name": "ExistentialDeposit",
               "type": 6,
               "value": "0x00407a10f35a00000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "MaxLocks",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": []
+            },
+            {
+              "name": "MaxReserves",
+              "type": 4,
+              "value": "0x32000000",
               "docs": []
             }
           ],
@@ -793,6 +812,24 @@
               "docs": []
             },
             {
+              "name": "MinerTxPriority",
+              "type": 8,
+              "value": "0xfeffffffffffff7f",
+              "docs": []
+            },
+            {
+              "name": "MinerMaxIterations",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": []
+            },
+            {
+              "name": "MinerMaxWeight",
+              "type": 8,
+              "value": "0xc07c907c2d010000",
+              "docs": []
+            },
+            {
               "name": "SignedMaxSubmissions",
               "type": 4,
               "value": "0x0a000000",
@@ -826,6 +863,12 @@
               "name": "SignedDepositWeight",
               "type": 6,
               "value": "0x00000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "MinerMaxLength",
+              "type": 4,
+              "value": "0x00003600",
               "docs": []
             }
           ],
@@ -1578,6 +1621,12 @@
               "docs": []
             },
             {
+              "name": "InstantAllowed",
+              "type": 34,
+              "value": "0x01",
+              "docs": []
+            },
+            {
               "name": "FastTrackVotingPeriod",
               "type": 4,
               "value": "0x80510100",
@@ -1597,6 +1646,12 @@
             },
             {
               "name": "MaxVotes",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": []
+            },
+            {
+              "name": "MaxProposals",
               "type": 4,
               "value": "0x64000000",
               "docs": []
@@ -2068,6 +2123,12 @@
               "type": 398,
               "value": "0x70792f7472737279",
               "docs": []
+            },
+            {
+              "name": "MaxApprovals",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": []
             }
           ],
           "errors": {
@@ -2301,7 +2362,14 @@
           "events": {
             "type": 60
           },
-          "constants": [],
+          "constants": [
+            {
+              "name": "UnsignedPriority",
+              "type": 8,
+              "value": "0xffffffffffffffff",
+              "docs": []
+            }
+          ],
           "errors": {
             "type": 415
           },
@@ -2921,7 +2989,20 @@
           "events": {
             "type": 76
           },
-          "constants": [],
+          "constants": [
+            {
+              "name": "MaximumWeight",
+              "type": 8,
+              "value": "0x00806e8774010000",
+              "docs": []
+            },
+            {
+              "name": "MaxScheduledPerBlock",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": []
+            }
+          ],
           "errors": {
             "type": 450
           },
@@ -3328,7 +3409,38 @@
           "events": {
             "type": 86
           },
-          "constants": [],
+          "constants": [
+            {
+              "name": "AssetDeposit",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": []
+            }
+          ],
           "errors": {
             "type": 473
           },
@@ -3465,6 +3577,12 @@
               "type": 4,
               "value": "0x0a000000",
               "docs": []
+            },
+            {
+              "name": "MaxGenerateRandom",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": []
             }
           ],
           "errors": {
@@ -3530,6 +3648,12 @@
             "type": 89
           },
           "constants": [
+            {
+              "name": "IgnoredIssuance",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": []
+            },
             {
               "name": "QueueCount",
               "type": 4,
@@ -3681,7 +3805,56 @@
           "events": {
             "type": 90
           },
-          "constants": [],
+          "constants": [
+            {
+              "name": "ClassDeposit",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "InstanceDeposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "AttributeDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "DepositPerByte",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": []
+            },
+            {
+              "name": "KeyLimit",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": []
+            },
+            {
+              "name": "ValueLimit",
+              "type": 4,
+              "value": "0x00010000",
+              "docs": []
+            }
+          ],
           "errors": {
             "type": 490
           },
