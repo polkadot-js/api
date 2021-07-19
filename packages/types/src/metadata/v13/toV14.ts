@@ -26,6 +26,17 @@ function compatType (registry: Registry, types: SiType[], type: Text | string, p
   ) - 1;
 }
 
+function variantType (registry: Registry, modName: Text, variantType: string, types: SiType[], variants: SiVariant[]): number {
+  return types.push(
+    registry.createType('SiType', {
+      def: {
+        Variant: { variants }
+      },
+      path: [`pallet_${modName.toString()}`, 'pallet', variantType]
+    })
+  ) - 1;
+}
+
 /**
  * @internal
  * generate & register the OriginCaller type
@@ -98,16 +109,9 @@ function convertCalls (registry: Registry, types: SiType[], modName: Text, calls
     });
   });
 
-  const type = types.push(
-    registry.createType('SiType', {
-      def: {
-        Variant: { variants }
-      },
-      path: [`pallet_${modName.toString()}`, 'pallet', 'Call']
-    })
-  ) - 1;
-
-  return registry.createType('PalletCallMetadataV14', { type });
+  return registry.createType('PalletCallMetadataV14', {
+    type: variantType(registry, modName, 'Call', types, variants)
+  });
 }
 
 /**
@@ -142,16 +146,9 @@ function convertErrors (registry: Registry, types: SiType[], modName: Text, erro
     })
   );
 
-  types.push(
-    registry.createType('SiType', {
-      def: {
-        Variant: { variants }
-      },
-      path: [`pallet_${modName.toString()}`, 'pallet', 'Error']
-    })
-  );
-
-  return registry.createType('PalletErrorMetadataV14', { type: types.length - 1 });
+  return registry.createType('PalletErrorMetadataV14', {
+    type: variantType(registry, modName, 'Error', types, variants)
+  });
 }
 
 /**
@@ -172,16 +169,9 @@ function convertEvents (registry: Registry, types: SiType[], modName: Text, even
     });
   });
 
-  types.push(
-    registry.createType('SiType', {
-      def: {
-        Variant: { variants }
-      },
-      path: [`pallet_${modName.toString()}`, 'pallet', 'Event']
-    })
-  );
-
-  return registry.createType('PalletEventMetadataV14', { type: types.length - 1 });
+  return registry.createType('PalletEventMetadataV14', {
+    type: variantType(registry, modName, 'Event', types, variants)
+  });
 }
 
 /**
