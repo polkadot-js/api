@@ -267,14 +267,14 @@ function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
         return {
           items: lookup.getSiType(calls.unwrap().type).def.asVariant.variants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
-              const args = func.map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
+            .map(({ docs, fields, name }, index) => {
+              const methodName = stringCamelCase(name);
+              const args = fields.map(({ name, type }) => `${name.isSome ? name.toString() : `param${index}`}: ` + '`' + lookup.getTypeDef(type).type + '`').join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
                 name: `${methodName}(${args})`,
-                ...(func.docs.length && { summary: func.docs })
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
