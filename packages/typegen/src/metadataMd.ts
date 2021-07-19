@@ -180,7 +180,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
         return {
           items: constants
             .sort(sortByName)
-            .map(({ name, type }) => {
+            .map(({ docs, name, type }) => {
               const methodName = stringCamelCase(name);
 
               return {
@@ -255,7 +255,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
 }
 
 /** @internal */
-function addExtrinsics ({ pallets }: MetadataLatest): string {
+function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EXTRINSICS,
     sections: pallets
@@ -265,7 +265,7 @@ function addExtrinsics ({ pallets }: MetadataLatest): string {
         const sectionName = stringCamelCase(name);
 
         return {
-          items: calls.unwrap()
+          items: lookup.getSiType(calls.unwrap().type).def.asVariant.variants
             .sort(sortByName)
             .map((func) => {
               const methodName = stringCamelCase(func.name);
@@ -285,18 +285,18 @@ function addExtrinsics ({ pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addEvents ({ pallets }: MetadataLatest): string {
+function addEvents ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EVENTS,
     sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
+      .filter(({ events }) => events.isSome)
       .map((meta) => ({
-        items: meta.events.unwrap()
+        items: lookup.getSiType(meta.events.unwrap().type).def.asVariant.variants
           .sort(sortByName)
           .map((func) => {
             const methodName = func.name.toString();
-            const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
+            const args = func.args.map((type) => '`' + type.toString() + '`').join(', ');
 
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
@@ -311,14 +311,14 @@ function addEvents ({ pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addErrors ({ pallets }: MetadataLatest): string {
+function addErrors ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_ERRORS,
     sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
+      .filter(({ errors }) => errors.isSome)
       .map((moduleMetadata) => ({
-        items: moduleMetadata.errors
+        items: lookup.getSiType(moduleMetadata.errors.unwrap().type).def.asVariant.variants
           .sort(sortByName)
           .map((error) => ({
             interface: '`' + `api.errors.${stringCamelCase(moduleMetadata.name)}.${error.name.toString()}.is` + '`',
