@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { MetadataLatest } from '../interfaces/metadata';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, PortableRegistry } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
@@ -194,8 +193,18 @@ export class TypeRegistry implements Registry {
     return [formatBalance.getDefaults().unit];
   }
 
-  public get hasMetadata (): boolean {
-    return !!this.#metadata;
+  /**
+   * @description Returns tru if the type is in a Compat format
+   */
+  public isLookupType (value: string): boolean {
+    return /Lookup\d+$/.test(value);
+  }
+
+  /**
+   * @description Creates a lookup string from the supplied id
+   */
+  public createLookupType (lookupId: SiLookupTypeId | number): string {
+    return `Lookup${lookupId.toString()}`;
   }
 
   public get knownTypes (): RegisteredTypes {

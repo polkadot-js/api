@@ -19,8 +19,6 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
-const LOOKUP_PREFIX = '__lookup_';
-
 export class GenericPortableRegistry extends Struct {
   #typeDefs: Record<number, TypeDef> = {};
 
@@ -38,24 +36,10 @@ export class GenericPortableRegistry extends Struct {
   }
 
   /**
-   * @description Returns tru if the type is in a Compat format
-   */
-  public isSiString (value: string): boolean {
-    return value.startsWith(LOOKUP_PREFIX);
-  }
-
-  /**
-   * @description Creates a lookup string from the supplied id
-   */
-  public createSiString (lookupId: SiLookupTypeId | number): string {
-    return `${LOOKUP_PREFIX}${lookupId.toString()}`;
-  }
-
-  /**
    * @description Finds a specific type in the registry
    */
   public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
-    const found = this.types[this.#getSiIndex(lookupId)];
+    const found = this.types[this.#getLookupId(lookupId)];
 
     assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
 
@@ -66,7 +50,7 @@ export class GenericPortableRegistry extends Struct {
    * @description Lookup the type definition for the index
    */
   public getTypeDef (lookupId: SiLookupTypeId | string | number): TypeDef {
-    const index = this.#getSiIndex(lookupId);
+    const index = this.#getLookupId(lookupId);
 
     if (!this.#typeDefs[index]) {
       this.#typeDefs[index] = this.#extract(this.getSiType(lookupId), index);
@@ -78,15 +62,15 @@ export class GenericPortableRegistry extends Struct {
   #createSiDef (type: SiLookupTypeId): TypeDef {
     return {
       info: TypeDefInfo.Si,
-      type: this.createSiString(type)
+      type: this.registry.createLookupType(type)
     };
   }
 
-  #getSiIndex (lookupId: SiLookupTypeId | string | number): number {
+  #getLookupId (lookupId: SiLookupTypeId | string | number): number {
     if (isString(lookupId)) {
-      assert(this.isSiString(lookupId), () => `PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+      assert(this.registry.isLookupType(lookupId), () => `PortableRegistry: Expected a lookup string type, found ${lookupId}`);
 
-      return parseInt(lookupId.replace(LOOKUP_PREFIX, ''), 10);
+      return parseInt(lookupId.replace('Lookup', ''), 10);
     } else if (isNumber(lookupId)) {
       return lookupId;
     }
@@ -156,7 +140,7 @@ export class GenericPortableRegistry extends Struct {
       info: TypeDefInfo.VecFixed,
       length: length.toNumber(),
       sub: this.#createSiDef(type),
-      type: this.createSiString(lookupIndex)
+      type: this.registry.createLookupType(lookupIndex)
     };
   }
 
@@ -164,7 +148,7 @@ export class GenericPortableRegistry extends Struct {
     return {
       info: TypeDefInfo.Compact,
       sub: this.#createSiDef(type),
-      type: this.createSiString(lookupIndex)
+      type: this.registry.createLookupType(lookupIndex)
     };
   }
 
@@ -235,7 +219,7 @@ export class GenericPortableRegistry extends Struct {
     return {
       info: TypeDefInfo.Vec,
       sub: this.#createSiDef(type),
-      type: this.createSiString(lookupIndex)
+      type: this.registry.createLookupType(lookupIndex)
     };
   }
 
@@ -245,7 +229,7 @@ export class GenericPortableRegistry extends Struct {
       : {
         info: TypeDefInfo.Tuple,
         sub: ids.map((type) => this.#createSiDef(type)),
-        type: this.createSiString(lookupIndex)
+        type: this.registry.createLookupType(lookupIndex)
       };
   }
 
@@ -256,7 +240,7 @@ export class GenericPortableRegistry extends Struct {
       ? {
         info: TypeDefInfo.Option,
         sub: this.#createSiDef(params[0].type.unwrap()),
-        type: this.createSiString(lookupIndex)
+        type: this.registry.createLookupType(lookupIndex)
       }
       : specialVariant === 'Result'
         ? {
@@ -265,12 +249,12 @@ export class GenericPortableRegistry extends Struct {
             name: ['Ok', 'Error'][index],
             ...this.#createSiDef(p.type.unwrap())
           })),
-          type: this.createSiString(lookupIndex)
+          type: this.registry.createLookupType(lookupIndex)
         }
         : {
           info: TypeDefInfo.Enum,
           sub: this.#extractVariantSub(lookupIndex, variants),
-          type: this.createSiString(lookupIndex)
+          type: this.registry.createLookupType(lookupIndex)
         };
   }
 
