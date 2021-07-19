@@ -93,7 +93,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
   return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(registry.lookup.createSiString(type) as 'Raw', value.subarray(offset + hashLen))
+      ? registry.createType(registry.createLookupType(type) as 'Raw', value.subarray(offset + hashLen))
       : registry.createType('Raw', value.subarray(offset, offset + hashLen));
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);

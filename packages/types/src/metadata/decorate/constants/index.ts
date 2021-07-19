@@ -17,7 +17,7 @@ export function decorateConstants (registry: Registry, { lookup, pallets }: Meta
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      const codec = registry.createTypeUnsafe(lookup.createSiString(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
+      const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
 
       (codec as Record<string, unknown>).meta = meta;
       newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;

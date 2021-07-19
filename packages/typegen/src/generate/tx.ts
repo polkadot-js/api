@@ -52,7 +52,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               typeName.isSome
                 ? typeName.toString()
                 : lookup.getTypeDef(type).type,
-              lookup.createSiString(type)
+              registry.createLookupType(type)
             ]);
             const params = typesInfo
               .map(([name,, typeStr]) => {

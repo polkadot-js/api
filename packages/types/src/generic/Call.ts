@@ -27,9 +27,9 @@ interface DecodedMethod extends DecodeMethodInput {
  * @param meta - The function metadata used to get the definition.
  * @internal
  */
-function getArgsDef ({ lookup }: Registry, meta: SiVariant): ArgsDef {
+function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.isSome ? name.unwrap().toString() : `param${index}`] = lookup.createSiString(type) as keyof InterfaceTypes;
+    result[name.isSome ? name.unwrap().toString() : `param${index}`] = registry.createLookupType(type) as keyof InterfaceTypes;
 
     return result;
   }, {} as ArgsDef);
