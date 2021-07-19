@@ -242,6 +242,7 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createTypeUnsafe(this, type, params);
   }
 

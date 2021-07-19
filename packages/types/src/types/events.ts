@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EventMetadataLatest } from '../interfaces/metadata';
+import type { PalletEventMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
 import type { EventId, Phase } from '../interfaces/system';
 import type { Codec } from './codec';
@@ -14,7 +14,7 @@ export interface IEventRecord<T extends Codec[]> {
 }
 
 export interface IEventData {
-  readonly meta: EventMetadataLatest;
+  readonly meta: PalletEventMetadataLatest;
   readonly method: string;
   readonly section: string;
 }

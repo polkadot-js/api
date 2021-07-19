@@ -9,7 +9,7 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { lookup, pallets }: MetadataLatest, _metaVersion: number): Constants {
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
   return pallets.reduce((result: Constants, { constants, name }): Constants => {
     if (constants.isEmpty) {
       return result;

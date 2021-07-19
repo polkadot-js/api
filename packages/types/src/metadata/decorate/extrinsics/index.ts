@@ -11,13 +11,11 @@ import { assert, stringCamelCase } from '@polkadot/util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataV14, metaVersion: number): Extrinsics {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataV14, _metaVersion: number): Extrinsics {
   return pallets
     .filter(({ calls }) => calls.isSome)
-    .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
-      const sectionIndex = metaVersion >= 12
-        ? index.toNumber()
-        : _sectionIndex;
+    .reduce((result: Extrinsics, { calls, index, name }): Extrinsics => {
       const sectionName = stringCamelCase(name);
 
       const { def } = lookup.getSiType(calls.unwrap().type);
@@ -26,7 +24,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
 
       result[sectionName] = def.asVariant.variants
         .reduce((newModule: ModuleExtrinsics, callMetadata): ModuleExtrinsics => {
-          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);
+          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([index.toNumber(), callMetadata.index.toNumber()]), callMetadata);
 
           return newModule;
         }, {});

@@ -103,7 +103,7 @@ describe('createType', (): void => {
   });
 
   it('fails on creation of DoNotConstruct', (): void => {
-    const { Clazz } = createClass(registry, 'DoNotConstruct<UnknownSomething>');
+    const Clazz = createClass(registry, 'DoNotConstruct<UnknownSomething>');
 
     expect(
       () => new Clazz(registry)
@@ -187,7 +187,7 @@ describe('createType', (): void => {
         log: [456, 789]
       }]);
 
-      expect(value instanceof createClass(registry, 'TestComplex').Clazz).toBe(true);
+      expect(value instanceof createClass(registry, 'TestComplex')).toBe(true);
     });
 
     it('allows for re-registration of a type', (): void => {
