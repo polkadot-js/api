@@ -6,6 +6,7 @@ import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -113,6 +114,9 @@ export interface Registry {
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
+
+  isLookupType (value: string): boolean;
+  createLookupType (lookupId: SiLookupTypeId | number): string;
 
   createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
   createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];

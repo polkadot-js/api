@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -195,6 +195,20 @@ export class TypeRegistry implements Registry {
     }
 
     return [formatBalance.getDefaults().unit];
+  }
+
+  /**
+   * @description Returns tru if the type is in a Compat format
+   */
+  public isLookupType (value: string): boolean {
+    return /Lookup\d+$/.test(value);
+  }
+
+  /**
+   * @description Creates a lookup string from the supplied id
+   */
+  public createLookupType (lookupId: SiLookupTypeId | number): string {
+    return `Lookup${lookupId.toString()}`;
   }
 
   public get knownTypes (): RegisteredTypes {

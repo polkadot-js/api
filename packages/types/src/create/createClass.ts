@@ -13,7 +13,12 @@ import { TypeDefInfo } from './types';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FromReg<T, K>>(registry, getTypeDef(type));
+  return getTypeClass<FromReg<T, K>>(
+    registry,
+    registry.isLookupType(type)
+      ? registry.lookup.getTypeDef(type)
+      : getTypeDef(type)
+  );
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
