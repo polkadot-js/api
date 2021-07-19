@@ -294,14 +294,14 @@ function addEvents ({ lookup, pallets }: MetadataLatest): string {
       .map((meta) => ({
         items: lookup.getSiType(meta.events.unwrap().type).def.asVariant.variants
           .sort(sortByName)
-          .map((func) => {
-            const methodName = func.name.toString();
-            const args = func.args.map((type) => '`' + type.toString() + '`').join(', ');
+          .map(({ docs, fields, name }) => {
+            const methodName = name.toString();
+            const args = fields.map(({ type }) => '`' + lookup.getTypeDef(type).type + '`').join(', ');
 
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
               name: `${methodName}(${args})`,
-              ...(func.docs.length && { summary: func.docs })
+              ...(docs.length && { summary: docs })
             };
           }),
         name: stringCamelCase(meta.name)
