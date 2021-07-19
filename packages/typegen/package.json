@@ -32,7 +32,7 @@
     "@polkadot/api": "5.1.0",
     "@polkadot/rpc-provider": "5.1.0",
     "@polkadot/types": "5.1.0",
-    "@polkadot/util": "^7.0.1",
+    "@polkadot/util": "^7.0.2",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^17.0.1"

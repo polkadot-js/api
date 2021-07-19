@@ -22,7 +22,7 @@
     "@babel/runtime": "^7.14.6",
     "@polkadot/api": "5.1.0",
     "@polkadot/types": "5.1.0",
-    "@polkadot/util": "^7.0.1",
+    "@polkadot/util": "^7.0.2",
     "rxjs": "^7.2.0"
   }
 }
