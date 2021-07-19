@@ -1,17 +1,21 @@
 # CHANGELOG
 
-## master
+## 5.1.1 Jul 19, 2021
 
-- **Breaking changes** With the support for v14 metadata, the `documentation` fields on metadata was renamed to `docs` for consistency.
+- **Breaking changes** With the support for v14 metadata parsing, the `documentation` fields on metadata was renamed to `docs` for consistency, aligning with the SCALE type generators.
 
 Contributed:
 
-- Don't clear rpc decoration on api clone (Thanks to https://github.com/ianhe8x)
+- Don't clear rpc decoration on Api clone (Thanks to https://github.com/ianhe8x)
+- Align Xcm Junction type with Substrate (Thanks to https://github.com/dt665m)
 
 Changes:
 
 - Update `ParaPastCodeMeta` with `ReplacementTimes`
-- Allow nested struct in enum definitions
+- Add mappings for `AccountId20` & `AccountId32` types
+- Adjust scale-info types with Substrate (mapping for api-contracts to old)
+- Allow nested structs in enum definitions & generation
+- Allow for parsing of v14 metadata (not enabled by default, not merged into Substrate as of yet)
 
 
 ## 5.0.1 Jul 11, 2021
