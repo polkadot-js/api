@@ -102,7 +102,7 @@ export class GenericPortableRegistry extends Struct {
       } else if (type.def.isComposite) {
         typeDef = this.#extractComposite(lookupIndex, type.def.asComposite);
       } else if (type.def.isHistoricMetaCompat) {
-        typeDef = getTypeDef(type.def.asHistoricMetaCompat);
+        typeDef = { ...getTypeDef(type.def.asHistoricMetaCompat), isFromSi: true };
       } else if (type.def.isPrimitive) {
         typeDef = this.#extractPrimitive(lookupIndex, type);
       } else if (type.def.isSequence) {

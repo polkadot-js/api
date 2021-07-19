@@ -37,6 +37,7 @@ export interface TypeDef {
   fallbackType?: string;
   info: TypeDefInfo;
   index?: number;
+  isFromSi?: boolean;
   length?: number;
   name?: string;
   namespace?: string;

@@ -55,7 +55,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                 typeName.isSome
                   ? typeName.toString()
                   : typeDef.type,
-                typeDef.type
+                typeDef.isFromSi
+                  ? typeDef.type
+                  : registry.createLookupType(type)
               ];
             });
             const params = typesInfo
