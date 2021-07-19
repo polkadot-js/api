@@ -120,7 +120,7 @@ export class MetaRegistry extends TypeRegistry {
 
     const displayName = path.pop()?.toString();
 
-    return withTypeString({
+    return withTypeString(this, {
       ...(displayName
         ? { displayName }
         : {}
@@ -244,7 +244,7 @@ export class MetaRegistry extends TypeRegistry {
         name: name.toString(),
         type: 'Null'
       }))
-      : variants.map(({ fields, name }) => withTypeString({
+      : variants.map(({ fields, name }) => withTypeString(this, {
         ...this.#extractFields(fields),
         name: name.toString()
       }));

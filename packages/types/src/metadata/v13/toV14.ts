@@ -103,7 +103,7 @@ function convertCalls (registry: Registry, types: SiType[], modName: Text, calls
       def: {
         Variant: { variants }
       },
-      path: [modName, 'Calls']
+      path: [`pallet_${modName.toString()}`, 'pallet', 'Call']
     })
   ) - 1;
 
@@ -147,7 +147,7 @@ function convertErrors (registry: Registry, types: SiType[], modName: Text, erro
       def: {
         Variant: { variants }
       },
-      path: [modName, 'Errors']
+      path: [`pallet_${modName.toString()}`, 'pallet', 'Error']
     })
   );
 
@@ -177,7 +177,7 @@ function convertEvents (registry: Registry, types: SiType[], modName: Text, even
       def: {
         Variant: { variants }
       },
-      path: [modName, 'Events']
+      path: [`pallet_${modName.toString()}`, 'pallet', 'Event']
     })
   );
 
