@@ -25,12 +25,8 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
       assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
 
       result[sectionName] = def.asVariant.variants
-        .reduce((newModule: ModuleExtrinsics, callMetadata, _methodIndex): ModuleExtrinsics => {
-          const methodIndex = callMetadata.index.isSome
-            ? callMetadata.index.unwrap().toNumber()
-            : _methodIndex;
-
-          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, methodIndex]), callMetadata);
+        .reduce((newModule: ModuleExtrinsics, callMetadata): ModuleExtrinsics => {
+          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);
 
           return newModule;
         }, {});

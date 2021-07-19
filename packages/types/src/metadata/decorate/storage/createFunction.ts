@@ -40,7 +40,7 @@ function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupT
     xxhashAsU8a(itemFn.method, 128),
     ...keys.map((type, index) =>
       getHasher(hashers[index])(
-        registry.createSiType(type, args[index]).toU8a()
+        registry.createType(registry.lookup.createSiString(type) as 'Raw', args[index]).toU8a()
       )
     )
   );
