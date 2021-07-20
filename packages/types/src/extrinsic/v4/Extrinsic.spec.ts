@@ -15,7 +15,7 @@ const keyring = createTestPairs({ type: 'ed25519' }, false);
 
 registry.setMetadata(metadata);
 
-const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
+const tx = decorateExtrinsics(registry, metadata.asLatest);
 
 describe('ExtrinsicV4', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {

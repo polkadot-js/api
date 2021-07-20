@@ -27,10 +27,8 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
   const { lookup, pallets } = metadata.asLatest;
 
   // decorate the errors
-  pallets.forEach((section, _sectionIndex): void => {
-    const sectionIndex = metadata.version >= 12
-      ? section.index.toNumber()
-      : _sectionIndex;
+  pallets.forEach((section): void => {
+    const sectionIndex = section.index.toNumber();
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
@@ -58,10 +56,8 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
   // decorate the events
   pallets
     .filter(({ events }) => events.isSome)
-    .forEach((section, _sectionIndex): void => {
-      const sectionIndex = metadata.version >= 12
-        ? section.index.toNumber()
-        : _sectionIndex;
+    .forEach((section): void => {
+      const sectionIndex = section.index.toNumber();
       const sectionName = stringCamelCase(section.name);
 
       lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta): void => {
@@ -80,7 +76,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
 
 // create extrinsic mapping from metadata
 function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls: Record<string, CallFunction>): void {
-  const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
+  const extrinsics = decorateExtrinsics(registry, metadata.asLatest);
 
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>
@@ -93,7 +89,7 @@ function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls
 // extract additional properties from the metadata
 function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
-  const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
+  const constants = decorateConstants(registry, metadata.asLatest);
   const ss58Format = constants.system?.ss58Prefix;
 
   if (!ss58Format) {

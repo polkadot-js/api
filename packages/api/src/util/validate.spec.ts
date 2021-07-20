@@ -15,7 +15,7 @@ describe('extractStorageArgs', (): void => {
   beforeEach((): void => {
     const metadata = new Metadata(registry, metaStatic);
 
-    storage = decorateStorage(registry, metadata.asLatest, metadata.version);
+    storage = decorateStorage(registry, metadata.asLatest);
   });
 
   it('validates no-arg plain', (): void => {
