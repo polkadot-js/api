@@ -73,7 +73,7 @@ function generateLookup (meta: Metadata, destDir: string): void {
     const all = filtered.map(({ id, type: { params, path } }, index) => {
       const typeName = generateTypeName(id, path, index !== max ? ',' : '');
       const typeDef = lookup.getTypeDef(id);
-      const def = typeDef.info === TypeDefInfo.Si
+      const def = typeDef.info === TypeDefInfo.Si || typeDef.isFromSi
         ? `'${typeDef.type}'`
         : '{}';
 
