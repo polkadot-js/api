@@ -24,11 +24,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     }, {});
     const { lookup, pallets, registry } = meta.asLatest;
     const modules = pallets
-      .sort(compareName)
       .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
         items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
-          .sort(compareName)
           .map(({ docs, fields, name }) => {
             const args = fields.map(({ type }) =>
               formatType(registry, allDefs, lookup.getTypeDef(type), imports)
@@ -41,9 +39,11 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
               name: name.toString(),
               type: args.join(', ')
             };
-          }),
+          })
+          .sort(compareName),
         name: stringCamelCase(name)
-      }));
+      }))
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',

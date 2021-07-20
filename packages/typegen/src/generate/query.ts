@@ -98,11 +98,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     }, {});
     const { lookup, pallets } = meta.asLatest;
     const modules = pallets
-      .sort(compareName)
       .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
-          .sort(compareName)
           .map((storageEntry) => {
             const [args, params, returnType] = entrySignature(lookup, allDefs, registry, storageEntry, imports);
 
@@ -114,13 +112,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               params,
               returnType
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
+      })
+      .sort(compareName);
 
     imports.typesTypes.Observable = true;
 

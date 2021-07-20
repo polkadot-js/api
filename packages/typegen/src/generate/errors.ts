@@ -19,17 +19,17 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
     const imports = createImports({});
     const { lookup, pallets } = meta.asLatest;
     const modules = pallets
-      .sort(compareName)
       .filter(({ errors }) => errors.isSome)
       .map(({ errors, name }) => ({
         items: lookup.getSiType(errors.unwrap().type).def.asVariant.variants
-          .sort(compareName)
           .map(({ docs, name }) => ({
             docs,
             name: name.toString()
-          })),
+          }))
+          .sort(compareName),
         name: stringCamelCase(name)
-      }));
+      }))
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',

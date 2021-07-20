@@ -25,7 +25,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const { lookup, pallets, registry } = meta.asLatest;
 
     const modules = pallets
-      .sort(compareName)
       .filter(({ constants }) => constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
@@ -33,7 +32,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         }
 
         const items = constants
-          .sort(compareName)
           .map(({ docs, name, type }) => {
             const returnType = formatType(registry, allDefs, lookup.getTypeDef(type), imports);
 
@@ -44,13 +42,15 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
               name: stringCamelCase(name),
               type: returnType
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
+      })
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',
