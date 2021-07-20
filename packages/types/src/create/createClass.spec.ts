@@ -29,7 +29,11 @@ describe('getTypeClass', (): void => {
     const spy = jest.spyOn(console, 'warn');
     const typeDef = { info: TypeDefInfo.Plain, type: 'ABC' };
 
-    getTypeClass(registry, typeDef);
+    try {
+      getTypeClass(registry, typeDef);
+    } catch {
+      // ignore
+    }
 
     expect(spy).toHaveBeenCalledWith(
       expect.anything(),

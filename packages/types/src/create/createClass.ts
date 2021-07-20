@@ -200,18 +200,20 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeD
     return Type;
   }
 
-  const getFn = infoMapping[typeDef.info];
+  try {
+    Type = infoMapping[typeDef.info](registry, typeDef) as Constructor<T>;
 
-  assert(getFn, () => `Unable to construct class from ${stringify(typeDef)}`);
+    assert(Type, 'No class created');
 
-  Type = getFn(registry, typeDef) as Constructor<T>;
+    // don't clobber any existing
+    if (!Type.__fallbackType && typeDef.fallbackType) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore ...this is the only place we we actually assign this...
+      Type.__fallbackType = typeDef.fallbackType;
+    }
 
-  // don't clobber any existing
-  if (!Type.__fallbackType && typeDef.fallbackType) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore ...this is the only place we we actually assign this...
-    Type.__fallbackType = typeDef.fallbackType;
+    return Type;
+  } catch (error) {
+    throw new Error(`Unable to construct class from ${stringify(typeDef)}: ${(error as Error).message}`);
   }
-
-  return Type;
 }
