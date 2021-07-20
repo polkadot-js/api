@@ -24,7 +24,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     }, {});
 
     const modules = meta.asLatest.modules
-      .sort(compareName)
       .filter((mod) => mod.constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
@@ -32,7 +31,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         }
 
         const items = constants
-          .sort(compareName)
           .map(({ docs, name, type }) => {
             const returnType = formatType(allDefs, type.toString(), imports);
 
@@ -43,13 +41,15 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
               name: stringCamelCase(name),
               type: returnType
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
+      })
+      .sort(compareName);
 
     const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
