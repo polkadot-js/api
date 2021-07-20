@@ -9,6 +9,7 @@ import type { CreateOptions } from './types';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import { DoNotConstruct } from '../codec/DoNotConstruct';
 import { Json } from '../codec/Json';
 import { Raw } from '../codec/Raw';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -27,8 +28,10 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
   const { lookup, pallets } = metadata.asLatest;
 
   // decorate the errors
-  pallets.forEach((section): void => {
-    const sectionIndex = section.index.toNumber();
+  pallets.forEach((section, _sectionIndex): void => {
+    const sectionIndex = metadata.version >= 12
+      ? section.index.toNumber()
+      : _sectionIndex;
     const sectionName = stringCamelCase(section.name);
 
     if (section.errors.isSome) {
@@ -56,8 +59,10 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
   // decorate the events
   pallets
     .filter(({ events }) => events.isSome)
-    .forEach((section): void => {
-      const sectionIndex = section.index.toNumber();
+    .forEach((section, _sectionIndex): void => {
+      const sectionIndex = metadata.version >= 12
+        ? section.index.toNumber()
+        : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
       lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta): void => {
@@ -277,25 +282,37 @@ export class TypeRegistry implements Registry {
   }
 
   public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
-    let Clazz = this.#classes.get(name);
+    let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
-    if (!Clazz) {
+    if (!Type) {
       const definition = this.#definitions.get(name);
+      let BaseType: Constructor<Codec> | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        Clazz = createClass(this, definition);
+        BaseType = createClass(this, definition);
 
-        this.#classes.set(name, Clazz);
+        this.#classes.set(name, BaseType);
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
         this.#unknownTypes.set(name, true);
+
+        BaseType = DoNotConstruct.with(name);
+      }
+
+      if (BaseType) {
+        // NOTE If we didn't extend here, we would have strange artifacts. An example is
+        // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
+        // Additionally, we now pass through the registry, which is a link to ourselves
+        Type = class extends BaseType {};
+
+        this.#classes.set(name, Type);
       }
     }
 
-    return Clazz as Constructor<T>;
+    return Type as Constructor<T>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
