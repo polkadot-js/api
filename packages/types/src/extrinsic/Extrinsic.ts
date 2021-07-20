@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
-import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
 import type { Address, Balance, Call, Index } from '../interfaces/runtime';
+import type { SiVariant } from '../interfaces/scaleInfo';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, InterfaceTypes, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
@@ -94,7 +94,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   /**
    * @description The [[FunctionMetadataLatest]] that describes the extrinsic
    */
-  public get meta (): FunctionMetadataLatest {
+  public get meta (): SiVariant {
     return this.method.meta;
   }
 

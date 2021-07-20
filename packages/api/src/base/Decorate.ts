@@ -165,6 +165,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.#registry.createType(type, ...params);
   }
 
@@ -405,7 +406,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(this.#registry, creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -488,7 +489,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntryAt<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(creator, args);
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(this.#registry, creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -545,13 +546,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((...args: unknown[]): Observable<Codec> => {
       return this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(creator, args)]).pipe(
+        ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(this.#registry, creator, args)]).pipe(
           map(([data]) => data) // extract first/only result from list
         )
-        : this._rpcCore.state.getStorage(extractStorageArgs(creator, args));
+        : this._rpcCore.state.getStorage(extractStorageArgs(this.#registry, creator, args));
     }, {
       methodName: creator.method,
-      overrideNoSub: (...args: unknown[]) => this._rpcCore.state.getStorage(extractStorageArgs(creator, args))
+      overrideNoSub: (...args: unknown[]) => this._rpcCore.state.getStorage(extractStorageArgs(this.#registry, creator, args))
     });
   }
 
