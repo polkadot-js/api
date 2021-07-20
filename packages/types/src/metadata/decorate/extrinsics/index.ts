@@ -6,7 +6,7 @@ import type { MetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { Extrinsics, ModuleExtrinsics } from '../types';
 
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { createUnchecked } from './createUnchecked';
 
@@ -17,11 +17,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
     .reduce((result: Extrinsics, { calls, index, name }): Extrinsics => {
       const sectionName = stringCamelCase(name);
 
-      const { def } = lookup.getSiType(calls.unwrap().type);
-
-      assert(def.isVariant, () => `Expected a variant type for Calls from ${sectionName}`);
-
-      result[sectionName] = def.asVariant.variants
+      result[sectionName] = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
         .reduce((newModule: ModuleExtrinsics, callMetadata): ModuleExtrinsics => {
           newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([index.toNumber(), callMetadata.index.toNumber()]), callMetadata);
 
