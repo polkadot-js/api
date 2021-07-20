@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // FIXME MetadataLatest
-import type { MetadataV14 } from '../../../interfaces';
+import type { MetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { Extrinsics, ModuleExtrinsics } from '../types';
 
@@ -11,8 +11,7 @@ import { assert, stringCamelCase } from '@polkadot/util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataV14, _metaVersion: number): Extrinsics {
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest): Extrinsics {
   return pallets
     .filter(({ calls }) => calls.isSome)
     .reduce((result: Extrinsics, { calls, index, name }): Extrinsics => {

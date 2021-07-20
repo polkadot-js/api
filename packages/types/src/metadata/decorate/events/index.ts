@@ -12,8 +12,7 @@ function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: nu
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateEvents (_: Registry, { lookup, pallets }: MetadataLatest, _metaVersion: number): Events {
+export function decorateEvents (_: Registry, { lookup, pallets }: MetadataLatest): Events {
   return pallets
     .filter(({ events }) => events.isSome)
     .reduce((result: Events, { events, index, name }): Events => {
