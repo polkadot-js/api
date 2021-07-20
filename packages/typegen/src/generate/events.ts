@@ -24,7 +24,6 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     }, {});
 
     const modules = meta.asLatest.modules
-      .sort(compareName)
       .filter((mod) => mod.events.isSome)
       .map(({ events, name }) => ({
         items: events
@@ -40,9 +39,10 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
               name: name.toString(),
               type: types.join(', ')
             };
-          }),
+          }).sort(compareName),
         name: stringCamelCase(name)
-      }));
+      }))
+      .sort(compareName);
 
     const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({

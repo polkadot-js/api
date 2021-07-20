@@ -19,17 +19,17 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
     const imports = createImports({});
 
     const modules = meta.asLatest.modules
-      .sort(compareName)
       .filter((mod) => mod.errors.length > 0)
       .map(({ errors, name }) => ({
         items: errors
-          .sort(compareName)
           .map(({ docs, name }) => ({
             docs,
             name: name.toString()
-          })),
+          }))
+          .sort(compareName),
         name: stringCamelCase(name)
-      }));
+      }))
+      .sort(compareName);
 
     const types = [
       {

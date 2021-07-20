@@ -37,13 +37,11 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     }, {});
 
     const modules = meta.asLatest.modules
-      .sort(compareName)
       .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
         const items = calls.unwrap()
-          .sort(compareName)
           .map(({ args, docs, name }) => {
             const params = args
               .map(({ name, type }) => {
@@ -62,13 +60,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               name: stringCamelCase(name),
               params
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
+      })
+      .sort(compareName);
 
     const types = [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
