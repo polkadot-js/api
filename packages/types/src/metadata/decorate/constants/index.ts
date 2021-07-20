@@ -8,7 +8,8 @@ import type { ConstantCodec, Constants, ModuleConstants } from '../types';
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
-export function decorateConstants (registry: Registry, { pallets }: MetadataLatest): Constants {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
   return pallets.reduce((result: Constants, { constants, name }): Constants => {
     if (constants.isEmpty) {
       return result;

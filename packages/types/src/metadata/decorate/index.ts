@@ -20,13 +20,14 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
   assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
 
   const latest = metadata.asLatest;
+  const version = metadata.version;
 
   return {
-    consts: decorateConstants(registry, latest),
-    errors: decorateErrors(registry, latest),
-    events: decorateEvents(registry, latest),
-    query: decorateStorage(registry, latest),
-    tx: decorateExtrinsics(registry, latest)
+    consts: decorateConstants(registry, latest, version),
+    errors: decorateErrors(registry, latest, version),
+    events: decorateEvents(registry, latest, version),
+    query: decorateStorage(registry, latest, version),
+    tx: decorateExtrinsics(registry, latest, version)
   };
 }
 

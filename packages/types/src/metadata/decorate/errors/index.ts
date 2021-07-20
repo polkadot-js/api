@@ -12,17 +12,21 @@ function isError ({ error, index }: DispatchErrorModule, sectionIndex: number, e
 }
 
 /** @internal */
-export function decorateErrors (_: Registry, { lookup, pallets }: MetadataLatest): Errors {
-  return pallets.reduce((result: Errors, { errors, index, name }): Errors => {
+export function decorateErrors (_: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
+  return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
     if (!errors.isSome) {
       return result;
     }
+
+    const sectionIndex = metaVersion >= 12
+      ? index.toNumber()
+      : _sectionIndex;
 
     result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, meta): ModuleErrors => {
       // we don't camelCase the error name
       newModule[meta.name.toString()] = {
         is: (moduleError: DispatchErrorModule): boolean =>
-          isError(moduleError, index.toNumber(), meta.index.toNumber()),
+          isError(moduleError, sectionIndex, meta.index.toNumber()),
         meta
       };
 

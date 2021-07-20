@@ -177,7 +177,7 @@ export class MockProvider implements ProviderInterface {
 
     this.registry.setMetadata(metadata);
 
-    const query = decorateStorage(this.registry, metadata.asLatest);
+    const query = decorateStorage(this.registry, metadata.asLatest, metadata.version);
 
     // Do something every 1 seconds
     this.intervalId = setInterval((): void => {

@@ -76,7 +76,7 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
 
 // create extrinsic mapping from metadata
 function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls: Record<string, CallFunction>): void {
-  const extrinsics = decorateExtrinsics(registry, metadata.asLatest);
+  const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>
@@ -89,7 +89,7 @@ function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls
 // extract additional properties from the metadata
 function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
-  const constants = decorateConstants(registry, metadata.asLatest);
+  const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system?.ss58Prefix;
 
   if (!ss58Format) {

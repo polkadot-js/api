@@ -15,7 +15,7 @@ registry.setMetadata(metadata);
 
 describe('Decorated', () => {
   it('should correctly get Alice\'s nonce storage key (u8a)', (): void => {
-    const query = decorateStorage(registry, metadata.asLatest);
+    const query = decorateStorage(registry, metadata.asLatest, metadata.version);
 
     expect(
       u8aToHex(
@@ -27,7 +27,7 @@ describe('Decorated', () => {
   });
 
   it('should return properly-encoded transactions', (): void => {
-    const tx = decorateExtrinsics(registry, metadata.asLatest);
+    const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
     expect(
       registry.createType('Extrinsic', tx.timestamp.set([10101])).toU8a()
@@ -46,7 +46,7 @@ describe('Decorated', () => {
   });
 
   it('should return constants with the correct type and value', (): void => {
-    const consts = decorateConstants(registry, metadata.asLatest);
+    const consts = decorateConstants(registry, metadata.asLatest, metadata.version);
 
     expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     expect(consts.democracy.cooloffPeriod.toHex()).toEqual('0x000c4e00');
