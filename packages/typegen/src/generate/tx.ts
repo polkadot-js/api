@@ -85,7 +85,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           items,
           name: sectionName
         };
-      });
+      })
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',
