@@ -16,7 +16,17 @@ const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',',
  * Creates a compatible type mapping
  * @internal
  **/
-function compatType (registry: Registry, types: SiType[], type: Text | string, path: (Text | string)[] = [], docs: (Text | string)[] = []): number {
+function compatType (registry: Registry, types: SiType[], _type: Text | string, path: (Text | string)[] = [], docs: (Text | string)[] = []): number {
+  const type = _type.toString();
+  const index = types.findIndex(({ def }) =>
+    def.isHistoricMetaCompat &&
+    def.asHistoricMetaCompat.eq(type)
+  );
+
+  if (index !== -1) {
+    return index;
+  }
+
   return types.push(
     registry.createType('SiType', {
       def: { HistoricMetaCompat: type },

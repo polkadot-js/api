@@ -4,6 +4,7 @@
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
 import { assert, isNumber, isString, stringCamelCase, stringify } from '@polkadot/util';
@@ -102,7 +103,7 @@ export class GenericPortableRegistry extends Struct {
       } else if (type.def.isComposite) {
         typeDef = this.#extractComposite(lookupIndex, type.def.asComposite);
       } else if (type.def.isHistoricMetaCompat) {
-        typeDef = { ...getTypeDef(type.def.asHistoricMetaCompat), isFromSi: true };
+        typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat);
       } else if (type.def.isPrimitive) {
         typeDef = this.#extractPrimitive(lookupIndex, type);
       } else if (type.def.isSequence) {
@@ -197,6 +198,12 @@ export class GenericPortableRegistry extends Struct {
       sub,
       type: `(${sub.map(({ type }) => type).join(',')})`
     };
+  }
+
+  #extractHistoric (lookupIndex: number, type: Type): TypeDef {
+    const inner = getTypeDef(type);
+
+    return { ...inner, displayName: type.toString(), isFromSi: true };
   }
 
   #extractPrimitive (lookupIndex: number, type: SiType): TypeDef {
