@@ -1,8 +1,6 @@
 // Copyright 2017-2019 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Storage } from '@polkadot/types/metadata/decorate/types';
-
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types/metadata/static';
 
@@ -10,13 +8,11 @@ import { extractStorageArgs } from './validate';
 
 describe('extractStorageArgs', (): void => {
   const registry = new TypeRegistry();
-  let storage: Storage;
+  const metadata = new Metadata(registry, metaStatic);
 
-  beforeEach((): void => {
-    const metadata = new Metadata(registry, metaStatic);
+  registry.setMetadata(metadata);
 
-    storage = decorateStorage(registry, metadata.asLatest, metadata.version);
-  });
+  const storage = decorateStorage(registry, metadata.asLatest, metadata.version);
 
   it('validates no-arg plain', (): void => {
     expect(
