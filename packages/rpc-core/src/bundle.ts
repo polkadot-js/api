@@ -11,7 +11,7 @@ import type { RpcInterface, RpcInterfaceMethod } from './types';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
-import { createClass, createTypeUnsafe, Option, rpcDefinitions } from '@polkadot/types';
+import { rpcDefinitions } from '@polkadot/types';
 import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
@@ -339,7 +339,7 @@ export class RpcCore {
     assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createTypeUnsafe(registry, def.params[index].type, [input], { blockHash })
+      registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
     );
   }
 
@@ -366,7 +366,7 @@ export class RpcCore {
         : mapped as unknown as Codec[];
     }
 
-    return createTypeUnsafe(registry, rpc.type, [result], { blockHash });
+    return registry.createTypeUnsafe(rpc.type, [result], { blockHash });
   }
 
   private _formatStorageData (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, value: string | null): Codec {
@@ -432,29 +432,15 @@ export class RpcCore {
       : ` entry ${entryIndex}:`;
 
     try {
-      if (meta.modifier.isOptional) {
-        let inner = null;
-
-        if (!isEmpty) {
-          inner = createTypeUnsafe(registry, type, [input], { blockHash, isPedantic: true });
-        }
-
-        const option = new Option(registry, createClass(registry, type), inner);
-
-        if (blockHash) {
-          option.createdAtHash = registry.createType('Hash', blockHash);
-        }
-
-        return option;
-      }
-
-      return createTypeUnsafe(registry, type, [
+      return registry.createTypeUnsafe(type, [
         isEmpty
           ? meta.fallback
             ? hexToU8a(meta.fallback.toHex())
             : undefined
-          : input
-      ], { blockHash, isPedantic: true });
+          : meta.modifier.isOptional
+            ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })
+            : input
+      ], { blockHash, isOptional: meta.modifier.isOptional, isPedantic: !meta.modifier.isOptional });
     } catch (error) {
       throw new Error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}: ${(error as Error).message}`);
     }

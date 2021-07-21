@@ -6,6 +6,7 @@
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -20,7 +21,7 @@ import * as definitions from '../interfaces/definitions';
 import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
 import { Metadata } from '../metadata/Metadata';
 import { createClass, getTypeClass } from './createClass';
-import { createType } from './createType';
+import { createTypeUnsafe } from './createType';
 import { getTypeDef } from './getTypeDef';
 
 const l = logger('registry');
@@ -247,7 +248,14 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
-    return createType(this, type, ...params);
+    return createTypeUnsafe(this, type, params);
+  }
+
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T {
+    return createTypeUnsafe(this, type, params, options);
   }
 
   // find a specific call
