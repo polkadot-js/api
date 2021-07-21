@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust RPC to use registry.createType with optionality (required for metadata v14)
+- Adjust sorting for TS type generation
+
+
 ## 5.1.1 Jul 19, 2021
 
 - **Breaking changes** With the support for v14 metadata parsing, the `documentation` fields on metadata was renamed to `docs` for consistency, aligning with the SCALE type generators.

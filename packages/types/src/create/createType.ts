@@ -12,7 +12,7 @@ import { createClass } from './createClass';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
+function checkInstance (created: FromReg<Codec, string>, value: Uint8Array): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
 
@@ -26,19 +26,22 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
   );
 }
 
-// Initializes a type with a value. This also checks for fallbacks and in the cases
-// where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Clazz: Constructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
-  const created = new (isOptional ? Option.with(Clazz) : Clazz)(registry, ...params);
-  const value = params[0];
-
+function checkPedantic (created: FromReg<Codec, string>, [value]: unknown[], isPedantic = false): void {
   if (isPedantic) {
     if (isU8a(value)) {
-      checkInstance(value, created);
+      checkInstance(created, value);
     } else if (isHex(value)) {
-      checkInstance(u8aToU8a(value), created);
+      checkInstance(created, u8aToU8a(value));
     }
   }
+}
+
+// Initializes a type with a value. This also checks for fallbacks and in the cases
+// where isPedantic is specified (storage decoding), also check the format/structure
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
+  const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
+
+  checkPedantic(created, params, isPedantic);
 
   if (blockHash) {
     created.createdAtHash = createType(registry, 'Hash', blockHash);
