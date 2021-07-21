@@ -4,11 +4,48 @@
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create';
-import { Text } from '../../../primitive';
+import { Metadata } from '../../Metadata';
 import { createFunction } from './createFunction';
 
 describe('createFunction', (): void => {
   const registry = new TypeRegistry();
+  const metadata = new Metadata(registry, {
+    magicNumber: 1635018093,
+    metadata: {
+      v14: {
+        lookup: {
+          types: [
+            {
+              id: 0,
+              type: {
+                def: { HistoricMetaCompat: 'AccountId' }
+              }
+            },
+            {
+              id: 1,
+              type: {
+                def: { HistoricMetaCompat: 'Bytes' }
+              }
+            },
+            {
+              id: 2,
+              type: {
+                def: { HistoricMetaCompat: 'SessionKey5' }
+              }
+            },
+            {
+              id: 3,
+              type: {
+                def: { Tuple: [1, 0, 0] }
+              }
+            }
+          ]
+        }
+      }
+    }
+  });
+
+  registry.setMetadata(metadata);
 
   it('allows creating of known DoubleMap keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
@@ -17,10 +54,10 @@ describe('createFunction', (): void => {
         type: {
           asDoubleMap: {
             hasher: registry.createType('StorageHasher', 'Twox64Concat'),
-            key1: new Text(registry, 'Bytes'),
-            key2: new Text(registry, 'AccountId'),
+            key1: 1,
+            key2: 0,
             key2Hasher: registry.createType('StorageHasher', 'Blake2_256'),
-            value: new Text(registry, 'SessionKeys5')
+            value: 3
           },
           isDoubleMap: true
         }
@@ -61,12 +98,8 @@ describe('createFunction', (): void => {
               registry.createType('StorageHasher', 'Blake2_256'),
               registry.createType('StorageHasher', 'Blake2_256')
             ],
-            keyVec: [
-              new Text(registry, 'Bytes'),
-              new Text(registry, 'AccountId'),
-              new Text(registry, 'AccountId')
-            ],
-            value: new Text(registry, 'SessionKeys5')
+            key: 3,
+            value: 2
           },
           isNMap: true
         }
