@@ -4,10 +4,14 @@
 import type { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
-import { Text, U32 } from '../primitive';
-import { BTreeSet, Struct } from '.';
+import { Text, U32, I32 } from '../primitive';
+import { BTreeSet, Struct, Tuple } from '.';
+import { ITuple } from '../types/interfaces'
+import { Constructor } from '../types'
 
 const registry = new TypeRegistry();
+
+class U32TextTuple extends (Tuple.with([U32, Text]) as unknown as Constructor<ITuple<[U32, Text]>>) {}
 
 const mockU32Set = new Set<U32>();
 
@@ -20,6 +24,21 @@ const mockU32SetString = '[2,24,30,80]';
 const mockU32SetObject = [2, 24, 30, 80];
 const mockU32SetHexString = '0x1002000000180000001e00000050000000';
 const mockU32SetUint8Array = Uint8Array.from([16, 2, 0, 0, 0, 24, 0, 0, 0, 30, 0, 0, 0, 80, 0, 0, 0]);
+
+const mockI32SetObj = [1000, 0, 255, -255, -1000]
+const mockTextSetObj = [
+  new Text(registry, 'baz'),
+  new Text(registry, 'b'),
+  new Text(registry, 'bb'),
+  new Text(registry, 'ba'),
+  new Text(registry, 'c')
+]
+const mockTupleSetObj = [
+  new U32TextTuple(registry, [2, 'ba']),
+  new U32TextTuple(registry, [2, 'bb']),
+  new U32TextTuple(registry, [2, 'b']),
+  new U32TextTuple(registry, [1, 'baz'])
+]
 
 describe('BTreeSet', (): void => {
   describe('decoding', (): void => {
@@ -92,6 +111,24 @@ describe('BTreeSet', (): void => {
       new (
         BTreeSet.with(U32))(registry, mockU32Set).encodedLength
     ).toEqual(17);
+  });
+
+  it('correctly sorts numeric values', (): void => {
+    expect(
+      Array.from(new (BTreeSet.with(I32))(registry, mockI32SetObj)).map(k => k.toNumber())
+    ).toEqual([-1000, -255, 0, 255, 1000]);
+  });
+
+  it('correctly sorts text values', (): void => {
+    expect(
+      Array.from(new (BTreeSet.with(Text))(registry, mockTextSetObj)).map(k => k.toString())
+    ).toEqual(['b', 'ba', 'baz', 'bb', 'c']);
+  });
+
+  it('correctly sorts complex tuple values', (): void => {
+    expect(
+      Array.from(new (BTreeSet.with(U32TextTuple))(registry, mockTupleSetObj)).map(k => k.toJSON())
+    ).toEqual([[1, 'baz'], [2, 'b'], [2, 'ba'], [2, 'bb'] ]);
   });
 
   it('generates sane toRawTypes', (): void => {

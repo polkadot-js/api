@@ -6,7 +6,8 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../t
 
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8a, typeToConstructor } from './utils';
+import { compareMap, decodeU8a, typeToConstructor, sortMap } from './utils';
+import { AbstractArray } from './AbstractArray';
 
 const l = logger('Map');
 
@@ -38,7 +39,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
       output.set(
         key instanceof KeyClass
           ? key
-          : new KeyClass(registry, key),
+          : new KeyClass(registry, KeyClass.prototype instanceof AbstractArray ? JSON.parse(key) : key),
         val instanceof ValClass
           ? val
           : new ValClass(registry, val)
@@ -97,7 +98,8 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   readonly #type: string;
 
   constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
-    super(decodeMap(registry, keyType, valType, rawValue));
+    const decoded = decodeMap(registry, keyType, valType, rawValue)
+    super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
     this.#KeyClass = typeToConstructor(registry, keyType);
