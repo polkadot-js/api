@@ -9,7 +9,7 @@ import substrateJson from './static-substrate.json';
 describe('MetadataV9 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
-  decodeLatestSubstrate(registry, 9, substrateData, substrateJson);
+  decodeLatestSubstrate(registry, 9, substrateData, { substrate: substrateJson as Record<string, unknown> });
 
   toLatest(registry, 9, substrateData);
 

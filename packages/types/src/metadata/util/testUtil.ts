@@ -9,10 +9,14 @@ import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
+interface StaticData {
+  substrate: Record<string, unknown>;
+  types?: Record<string, unknown>;
+}
+
 /** @internal */
-export function decodeLatestSubstrate (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>, staticTypes?: Record<string, unknown>): void {
+export function decodeLatestSubstrate (registry: Registry, version: number, rpcData: string, { substrate, types }: StaticData): void {
   const metadata = new Metadata(registry, rpcData);
-  let hasError = false;
 
   registry.setMetadata(metadata);
 
@@ -24,9 +28,8 @@ export function decodeLatestSubstrate (registry: Registry, version: number, rpcD
 
     try {
       expect(metadata.version).toBe(version);
-      expect(json).toEqual(staticSubstrate);
+      expect(json).toEqual(substrate);
     } catch (error) {
-      hasError = true;
       console.error(stringify(json));
 
       throw error;
@@ -34,11 +37,11 @@ export function decodeLatestSubstrate (registry: Registry, version: number, rpcD
   });
 
   it('decodes latest types correctly', (): void => {
-    if (staticTypes && !hasError) {
+    if (types) {
       const json = metadata.asLatest.lookup.types.toJSON();
 
       try {
-        expect(json).toEqual(staticTypes);
+        expect(json).toEqual(types);
       } catch (error) {
         console.error(stringify(json));
 
