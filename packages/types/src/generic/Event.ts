@@ -50,12 +50,14 @@ export class GenericEventData extends Tuple implements IEventData {
   readonly #typeDef: TypeDef[];
 
   constructor (registry: Registry, value: Uint8Array, meta: SiVariant, section = '<unknown>', method = '<unknown>') {
-    super(registry, meta.fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
+    const fields = meta?.fields || [];
+
+    super(registry, fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
 
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = meta.fields.map(({ type }) => registry.lookup.getTypeDef(type));
+    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
   }
 
   /**
