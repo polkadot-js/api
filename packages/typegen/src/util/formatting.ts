@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import type { TypeDef } from '@polkadot/types/create/types';
 import type { Registry } from '@polkadot/types/types';
 
@@ -172,6 +174,141 @@ function formatVec (inner: string): string {
   return paramsNotation('Vec', inner);
 }
 
+const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => string> = {
+  [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Compact']);
+
+    return formatCompact(
+      formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
+    );
+  },
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['DoNotConstruct']);
+
+    return formatDoNoConstruct();
+  },
+  [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
+  },
+  [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
+  },
+  [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    throw new Error(`TypeDefInfo.UInt: Not implemented on ${stringify(typeDef)}`);
+  },
+  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Null']);
+
+    return 'Null';
+  },
+  [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Option']);
+
+    return formatOption(
+      formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
+    );
+  },
+  [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    return typeDef.type;
+  },
+  [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
+  },
+  [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    throw new Error(`TypeDefInfo.Si: Not implemented on ${stringify(typeDef)}`);
+  },
+  [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Struct']);
+
+    return formatStruct(
+      ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
+        name || `unknown${index}`,
+        formatType(registry, definitions, type, imports)
+      ]))
+    );
+  },
+  [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['ITuple']);
+
+    // `(a,b)` gets transformed into `ITuple<[a, b]>`
+    return formatTuple(
+      ((typeDef.sub as TypeDef[]).map(({ type }) =>
+        formatType(registry, definitions, type, imports))
+      )
+    );
+  },
+  [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Vec']);
+
+    return formatVec(
+      formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
+    );
+  },
+  [TypeDefInfo.VecFixed]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    const type = (typeDef.sub as TypeDef).type;
+
+    if (type === 'u8') {
+      setImports(definitions, imports, ['U8aFixed']);
+
+      return 'U8aFixed';
+    }
+
+    setImports(definitions, imports, ['Vec']);
+
+    return formatVec(
+      formatType(registry, definitions, type, imports)
+    );
+  },
+  [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['BTreeMap']);
+
+    const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
+    return formatBTreeMap(
+      formatType(registry, definitions, keyDef.type, imports),
+      formatType(registry, definitions, valDef.type, imports)
+    );
+  },
+  [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['BTreeSet']);
+
+    const valDef = typeDef.sub as TypeDef;
+
+    return formatBTreeSet(
+      formatType(registry, definitions, valDef.type, imports)
+    );
+  },
+  [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['HashMap']);
+
+    const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
+    return formatHashMap(
+      formatType(registry, definitions, keyDef.type, imports),
+      formatType(registry, definitions, valDef.type, imports)
+    );
+  },
+  [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    const type = (typeDef.sub as TypeDef).type;
+
+    setImports(definitions, imports, ['Linkage']);
+
+    return formatLinkage(
+      formatType(registry, definitions, type, imports)
+    );
+  },
+  [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
+    setImports(definitions, imports, ['Result']);
+
+    const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
+
+    return formatResult(
+      formatType(registry, definitions, okDef.type, imports),
+      formatType(registry, definitions, errorDef.type, imports)
+    );
+  }
+};
+
 /**
  * Correctly format a given type
  */
@@ -196,135 +333,5 @@ export function formatType (registry: Registry, definitions: Record<string, Modu
 
   setImports(definitions, imports, [typeDef.type]);
 
-  // FIXME Swap to Record<TypeDefInfo, fn> to check all types
-  switch (typeDef.info) {
-    case TypeDefInfo.Compact: {
-      setImports(definitions, imports, ['Compact']);
-
-      return formatCompact(
-        formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
-      );
-    }
-
-    case TypeDefInfo.DoNotConstruct: {
-      setImports(definitions, imports, ['DoNotConstruct']);
-
-      return formatDoNoConstruct();
-    }
-
-    case TypeDefInfo.Option: {
-      setImports(definitions, imports, ['Option']);
-
-      return formatOption(
-        formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
-      );
-    }
-
-    case TypeDefInfo.Plain: {
-      return typeDef.type;
-    }
-
-    case TypeDefInfo.Struct: {
-      setImports(definitions, imports, ['Struct']);
-
-      return formatStruct(
-        ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
-          name || `unknown${index}`,
-          formatType(registry, definitions, type, imports)
-        ]))
-      );
-    }
-
-    case TypeDefInfo.Tuple: {
-      setImports(definitions, imports, ['ITuple']);
-
-      // `(a,b)` gets transformed into `ITuple<[a, b]>`
-      return formatTuple(
-        ((typeDef.sub as TypeDef[]).map(({ type }) =>
-          formatType(registry, definitions, type, imports))
-        )
-      );
-    }
-
-    case TypeDefInfo.Vec: {
-      setImports(definitions, imports, ['Vec']);
-
-      return formatVec(
-        formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports)
-      );
-    }
-
-    case TypeDefInfo.VecFixed: {
-      const type = (typeDef.sub as TypeDef).type;
-
-      if (type === 'u8') {
-        setImports(definitions, imports, ['U8aFixed']);
-
-        return 'U8aFixed';
-      }
-
-      setImports(definitions, imports, ['Vec']);
-
-      return formatVec(
-        formatType(registry, definitions, type, imports)
-      );
-    }
-
-    case TypeDefInfo.BTreeMap: {
-      setImports(definitions, imports, ['BTreeMap']);
-
-      const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
-
-      return formatBTreeMap(
-        formatType(registry, definitions, keyDef.type, imports),
-        formatType(registry, definitions, valDef.type, imports)
-      );
-    }
-
-    case TypeDefInfo.BTreeSet: {
-      setImports(definitions, imports, ['BTreeSet']);
-
-      const valDef = typeDef.sub as TypeDef;
-
-      return formatBTreeSet(
-        formatType(registry, definitions, valDef.type, imports)
-      );
-    }
-
-    case TypeDefInfo.HashMap: {
-      setImports(definitions, imports, ['HashMap']);
-
-      const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
-
-      return formatHashMap(
-        formatType(registry, definitions, keyDef.type, imports),
-        formatType(registry, definitions, valDef.type, imports)
-      );
-    }
-
-    case TypeDefInfo.Linkage: {
-      const type = (typeDef.sub as TypeDef).type;
-
-      setImports(definitions, imports, ['Linkage']);
-
-      return formatLinkage(
-        formatType(registry, definitions, type, imports)
-      );
-    }
-
-    case TypeDefInfo.Result: {
-      setImports(definitions, imports, ['Result']);
-
-      const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
-
-      return formatResult(
-        formatType(registry, definitions, okDef.type, imports),
-        formatType(registry, definitions, errorDef.type, imports)
-      );
-    }
-
-    default: {
-      throw new Error(`Cannot format ${stringify(type)}`);
-    }
-  }
+  return formatters[typeDef.info](registry, typeDef, definitions, imports);
 }
