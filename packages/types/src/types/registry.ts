@@ -36,6 +36,7 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface RegistryError {
+  args: string[];
   docs: string[];
   fields: SiField[];
   index: number;

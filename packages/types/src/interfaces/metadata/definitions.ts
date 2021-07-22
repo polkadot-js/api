@@ -27,7 +27,15 @@ export default {
     ...v13,
     ...v14,
 
-    // compatibility with earlier latouts, i.e. don't break userspace
+    // compatibility with earlier layouts, i.e. don't break previous users
+    ErrorMetadataLatest: {
+      ...SiVariant,
+      args: 'Vec<Type>'
+    },
+    EventMetadataLatest: {
+      ...SiVariant,
+      args: 'Vec<Type>'
+    },
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
     FunctionMetadataLatest: {
       ...SiVariant,

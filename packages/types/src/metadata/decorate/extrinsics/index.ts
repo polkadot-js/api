@@ -20,16 +20,13 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
         : _sectionIndex;
 
       result[sectionName] = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
-        .reduce((newModule: ModuleExtrinsics, { docs, fields, index, name }): ModuleExtrinsics => {
+        .reduce((newModule: ModuleExtrinsics, variant): ModuleExtrinsics => {
           const callMetadata = registry.createType('FunctionMetadataLatest', {
-            args: fields.map(({ name, type }, index) => ({
+            ...variant,
+            args: variant.fields.map(({ name, type }, index) => ({
               name: stringCamelCase(name.unwrapOr(`param${index}`)),
               type: lookup.getTypeDef(type).type
-            })),
-            docs,
-            fields,
-            index,
-            name
+            }))
           });
 
           newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);

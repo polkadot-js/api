@@ -40,6 +40,9 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
 
         metadataErrors[u8aToHex(eventIndex)] = {
+          args: fields.map(({ type }) =>
+            lookup.getTypeDef(type).type
+          ),
           docs: docs.map((d) => d.toString()),
           fields,
           index: variantIndex,
@@ -65,14 +68,19 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
         : _sectionIndex;
       const sectionName = stringCamelCase(section.name);
 
-      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((meta): void => {
-        const { index, name } = meta;
-        const variantIndex = index.toNumber();
+      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((variant): void => {
+        const variantIndex = variant.index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
+        const meta = registry.createType('EventMetadataLatest', {
+          ...variant,
+          args: variant.fields.map(({ type }) =>
+            lookup.getTypeDef(type).type
+          )
+        });
 
         metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, meta, sectionName, name.toString());
+            super(registry, value, meta, sectionName, variant.name.toString());
           }
         };
       });

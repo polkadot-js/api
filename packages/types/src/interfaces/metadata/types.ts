@@ -4,6 +4,15 @@
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { SiField, SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
+/** @name ErrorMetadataLatest */
+export interface ErrorMetadataLatest extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<Type>;
+}
+
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
 
@@ -20,6 +29,15 @@ export interface ErrorMetadataV13 extends ErrorMetadataV12 {}
 export interface ErrorMetadataV9 extends Struct {
   readonly name: Text;
   readonly docs: Vec<Text>;
+}
+
+/** @name EventMetadataLatest */
+export interface EventMetadataLatest extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<Type>;
 }
 
 /** @name EventMetadataV10 */

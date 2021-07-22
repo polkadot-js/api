@@ -32,7 +32,7 @@ import type { AuthorityIndex, AuthorityList, AuthoritySet, AuthoritySetChange, A
 import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
-import type { ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV9, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, PalletCallMetadataLatest, PalletCallMetadataV14, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletEventMetadataLatest, PalletEventMetadataV14, PalletMetadataLatest, PalletMetadataV14, PalletStorageMetadataLatest, PalletStorageMetadataV14, PortableRegistry, PortableType, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
+import type { ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, PalletCallMetadataLatest, PalletCallMetadataV14, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletEventMetadataLatest, PalletEventMetadataV14, PalletMetadataLatest, PalletMetadataV14, PalletStorageMetadataLatest, PalletStorageMetadataV14, PortableRegistry, PortableType, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
 import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
@@ -390,6 +390,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<EraPoints>': Option<EraPoints>;
     'Option<EraRewardPoints>': Option<EraRewardPoints>;
     'Option<EraRewards>': Option<EraRewards>;
+    'Option<ErrorMetadataLatest>': Option<ErrorMetadataLatest>;
     'Option<ErrorMetadataV10>': Option<ErrorMetadataV10>;
     'Option<ErrorMetadataV11>': Option<ErrorMetadataV11>;
     'Option<ErrorMetadataV12>': Option<ErrorMetadataV12>;
@@ -430,6 +431,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Event>': Option<Event>;
     'Option<EventId>': Option<EventId>;
     'Option<EventIndex>': Option<EventIndex>;
+    'Option<EventMetadataLatest>': Option<EventMetadataLatest>;
     'Option<EventMetadataV10>': Option<EventMetadataV10>;
     'Option<EventMetadataV11>': Option<EventMetadataV11>;
     'Option<EventMetadataV12>': Option<EventMetadataV12>;
@@ -1298,6 +1300,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<EraPoints>': Vec<EraPoints>;
     'Vec<EraRewardPoints>': Vec<EraRewardPoints>;
     'Vec<EraRewards>': Vec<EraRewards>;
+    'Vec<ErrorMetadataLatest>': Vec<ErrorMetadataLatest>;
     'Vec<ErrorMetadataV10>': Vec<ErrorMetadataV10>;
     'Vec<ErrorMetadataV11>': Vec<ErrorMetadataV11>;
     'Vec<ErrorMetadataV12>': Vec<ErrorMetadataV12>;
@@ -1338,6 +1341,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Event>': Vec<Event>;
     'Vec<EventId>': Vec<EventId>;
     'Vec<EventIndex>': Vec<EventIndex>;
+    'Vec<EventMetadataLatest>': Vec<EventMetadataLatest>;
     'Vec<EventMetadataV10>': Vec<EventMetadataV10>;
     'Vec<EventMetadataV11>': Vec<EventMetadataV11>;
     'Vec<EventMetadataV12>': Vec<EventMetadataV12>;
@@ -2206,6 +2210,7 @@ declare module '@polkadot/types/types/registry' {
     EraPoints: EraPoints;
     EraRewardPoints: EraRewardPoints;
     EraRewards: EraRewards;
+    ErrorMetadataLatest: ErrorMetadataLatest;
     ErrorMetadataV10: ErrorMetadataV10;
     ErrorMetadataV11: ErrorMetadataV11;
     ErrorMetadataV12: ErrorMetadataV12;
@@ -2246,6 +2251,7 @@ declare module '@polkadot/types/types/registry' {
     Event: Event;
     EventId: EventId;
     EventIndex: EventIndex;
+    EventMetadataLatest: EventMetadataLatest;
     EventMetadataV10: EventMetadataV10;
     EventMetadataV11: EventMetadataV11;
     EventMetadataV12: EventMetadataV12;
