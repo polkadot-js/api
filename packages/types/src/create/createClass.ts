@@ -37,9 +37,15 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
 }
 
 function expandLookup (registry: Registry, type: string): keyof InterfaceTypes {
-  return registry.isLookupType(type)
-    ? expandLookup(registry, registry.lookup.getTypeDef(type).type)
-    : type as keyof InterfaceTypes;
+  if (registry.isLookupType(type)) {
+    const subType = registry.lookup.getTypeDef(type).type;
+
+    if (subType !== type) {
+      return expandLookup(registry, subType);
+    }
+  }
+
+  return type as keyof InterfaceTypes;
 }
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
