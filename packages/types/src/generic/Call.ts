@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SiVariant } from '../interfaces/scaleInfo';
+import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, InterfaceTypes, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
@@ -17,7 +17,7 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
-  meta: SiVariant;
+  meta: FunctionMetadataLatest;
 }
 
 /**
@@ -27,16 +27,16 @@ interface DecodedMethod extends DecodeMethodInput {
  * @param meta - The function metadata used to get the definition.
  * @internal
  */
-function getArgsDef (registry: Registry, meta: SiVariant): ArgsDef {
+function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.isSome ? name.unwrap().toString() : `param${index}`] = registry.createLookupType(type) as keyof InterfaceTypes;
+    result[name.unwrapOr(`param${index}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
 
     return result;
   }, {} as ArgsDef);
 }
 
 /** @internal */
-function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: SiVariant): DecodedMethod {
+function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
   // we only pass args/methodsIndex out
   const { args, callIndex } = value;
 
@@ -58,7 +58,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 }
 
 /** @internal */
-function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: SiVariant): DecodedMethod {
+function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
   // We need 2 bytes for the callIndex
   const callIndex = new Uint8Array(2);
 
@@ -86,7 +86,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: SiVari
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: SiVariant): DecodedMethod {
+function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isHex(value) || isU8a(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
@@ -113,9 +113,9 @@ export class GenericCallIndex extends U8aFixed {
  * Extrinsic function descriptor
  */
 export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
-  protected _meta: SiVariant;
+  protected _meta: FunctionMetadataLatest;
 
-  constructor (registry: Registry, value: unknown, meta?: SiVariant) {
+  constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
     try {
@@ -173,7 +173,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description The [[FunctionMetadata]]
    */
-  public get meta (): SiVariant {
+  public get meta (): FunctionMetadataLatest {
     return this._meta;
   }
 

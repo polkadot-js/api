@@ -1,8 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// FIXME FunctionMetadataLatest
-import type { Call, SiVariant } from '../../../interfaces';
+import type { Call, FunctionMetadataLatest } from '../../../interfaces';
 import type { AnyJson, AnyTuple, CallFunction, IMethod, Registry } from '../../../types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
@@ -12,7 +11,7 @@ function isTx <A extends AnyTuple> (tx: IMethod<AnyTuple>, callIndex: Uint8Array
 }
 
 /** @internal */
-export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: SiVariant): CallFunction {
+export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
   const expectedArgs = callMetadata.fields;
   const funcName = stringCamelCase(callMetadata.name);
 

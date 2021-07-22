@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
-import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
@@ -63,6 +63,9 @@ export interface ExtrinsicMetadataV14 extends Struct {
   readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
 }
 
+/** @name FunctionArgumentMetadataLatest */
+export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV13 {}
+
 /** @name FunctionArgumentMetadataV10 */
 export interface FunctionArgumentMetadataV10 extends FunctionArgumentMetadataV9 {}
 
@@ -79,6 +82,15 @@ export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12
 export interface FunctionArgumentMetadataV9 extends Struct {
   readonly name: Text;
   readonly type: Type;
+}
+
+/** @name FunctionMetadataLatest */
+export interface FunctionMetadataLatest extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<FunctionArgumentMetadataLatest>;
 }
 
 /** @name FunctionMetadataV10 */

@@ -3,9 +3,8 @@
 
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { BN } from '@polkadot/util';
-import type { StorageEntryMetadataLatest } from '../interfaces/metadata';
+import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
-import type { SiVariant } from '../interfaces/scaleInfo';
 import type { AnyTuple, ArgsDef, Codec } from './codec';
 
 export interface ICompact<T> extends Codec {
@@ -29,7 +28,7 @@ export interface IMethod<A extends AnyTuple = AnyTuple> extends Codec {
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
   readonly hash: Hash;
-  readonly meta: SiVariant;
+  readonly meta: FunctionMetadataLatest;
 
   is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
 }
