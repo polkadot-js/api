@@ -12,7 +12,7 @@ function isError ({ error, index }: DispatchErrorModule, sectionIndex: number, e
 }
 
 /** @internal */
-export function decorateErrors (_: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
+export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
   return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
     if (!errors.isSome) {
       return result;
@@ -22,12 +22,17 @@ export function decorateErrors (_: Registry, { lookup, pallets }: MetadataLatest
       ? index.toNumber()
       : _sectionIndex;
 
-    result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, meta): ModuleErrors => {
+    result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, variant): ModuleErrors => {
       // we don't camelCase the error name
-      newModule[meta.name.toString()] = {
+      newModule[variant.name.toString()] = {
         is: (moduleError: DispatchErrorModule): boolean =>
-          isError(moduleError, sectionIndex, meta.index.toNumber()),
-        meta
+          isError(moduleError, sectionIndex, variant.index.toNumber()),
+        meta: registry.createType('ErrorMetadataLatest', {
+          ...variant,
+          args: variant.fields.map(({ type }) =>
+            lookup.getTypeDef(type).type
+          )
+        })
       };
 
       return newModule;

@@ -12,7 +12,7 @@ function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: nu
 }
 
 /** @internal */
-export function decorateEvents (_: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Events {
+export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Events {
   return pallets
     .filter(({ events }) => events.isSome)
     .reduce((result: Events, { events, index, name }, _sectionIndex): Events => {
@@ -20,12 +20,17 @@ export function decorateEvents (_: Registry, { lookup, pallets }: MetadataLatest
         ? index.toNumber()
         : _sectionIndex;
 
-      result[stringCamelCase(name)] = lookup.getSiType(events.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleEvents, meta): ModuleEvents => {
+      result[stringCamelCase(name)] = lookup.getSiType(events.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleEvents, variant): ModuleEvents => {
         // we don't camelCase the event name
-        newModule[meta.name.toString()] = {
+        newModule[variant.name.toString()] = {
           is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-            isEvent(eventRecord, sectionIndex, meta.index.toNumber()),
-          meta
+            isEvent(eventRecord, sectionIndex, variant.index.toNumber()),
+          meta: registry.createType('EventMetadataLatest', {
+            ...variant,
+            args: variant.fields.map(({ type }) =>
+              lookup.getTypeDef(type).type
+            )
+          })
         };
 
         return newModule;
