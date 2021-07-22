@@ -33,7 +33,7 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
 };
 
 /** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+export function unwrapStorageType (_: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
   const outputType = type.isPlain
     ? type.asPlain.toString()
     : type.isMap
@@ -142,16 +142,16 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): S
 }
 
 /** @internal */
-function getType (value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
+function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
-    return unwrapStorageType(value.meta.type);
+    return unwrapStorageType(registry, value.meta.type);
   } else if (Array.isArray(value)) {
     const [fn] = value;
 
     if (fn.meta) {
-      return unwrapStorageType(fn.meta.type);
+      return unwrapStorageType(registry, fn.meta.type);
     }
   }
 
@@ -183,7 +183,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
     super(registry, key);
 
-    this._outputType = getType(value as StorageKey);
+    this._outputType = getType(registry, value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
     this.setMeta(getMeta(value as StorageKey), override.section || section, override.method || method);
@@ -237,7 +237,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
     this._section = section || this._section;
 
     if (meta) {
-      this._outputType = unwrapStorageType(meta.type);
+      this._outputType = unwrapStorageType(this.registry, meta.type);
     }
 
     try {

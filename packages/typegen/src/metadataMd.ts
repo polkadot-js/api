@@ -211,7 +211,7 @@ function addStorage (metadata: MetadataLatest): string {
                   ? ('`' + func.type.asNMap.keyVec.map((k) => k.toString()).join(', ') + '`')
                   : '';
             const methodName = stringLowerFirst(func.name);
-            const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
+            const outputType = unwrapStorageType(metadata.registry, func.type, func.modifier.isOptional);
 
             return {
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
@@ -234,7 +234,7 @@ function addStorage (metadata: MetadataLatest): string {
             ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
             : '';
         const methodName = stringLowerFirst(name);
-        const outputType = unwrapStorageType(meta.type, meta.modifier.isOptional);
+        const outputType = unwrapStorageType(metadata.registry, meta.type, meta.modifier.isOptional);
 
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',

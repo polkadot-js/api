@@ -18,12 +18,12 @@ import { ModuleTypes } from '../util/imports';
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
-  const outputType = unwrapStorageType(storageEntry.type, storageEntry.modifier.isOptional);
+  const outputType = unwrapStorageType(registry, storageEntry.type, storageEntry.modifier.isOptional);
 
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', '', formatType(allDefs, outputType, imports)];
+    return ['', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     const map = storageEntry.type.asMap;
 
@@ -36,9 +36,9 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     ]);
 
     return [
-      formatType(allDefs, map.key.toString(), imports),
+      formatType(registry, allDefs, map.key.toString(), imports),
       `arg: ${similarTypes.join(' | ')}`,
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     const dm = storageEntry.type.asDoubleMap;
@@ -57,9 +57,12 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     const key2Types = similarTypes2.join(' | ');
 
     return [
-      [formatType(allDefs, dm.key1.toString(), imports), formatType(allDefs, dm.key2.toString(), imports)].join(', '),
+      [
+        formatType(registry, allDefs, dm.key1.toString(), imports),
+        formatType(registry, allDefs, dm.key2.toString(), imports)
+      ].join(', '),
       `arg1: ${key1Types}, arg2: ${key2Types}`,
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   } else if (storageEntry.type.isNMap) {
     const nmap = storageEntry.type.asNMap;
@@ -75,9 +78,9 @@ function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registr
     const keyTypes = similarTypes.map((t) => t.join(' | '));
 
     return [
-      nmap.keyVec.map((k) => formatType(allDefs, k.toString(), imports)).join(', '),
+      nmap.keyVec.map((k) => formatType(registry, allDefs, k.toString(), imports)).join(', '),
       keyTypes.map((t, i) => `arg${i + 1}: ${t}`).join(', '),
-      formatType(allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports)
     ];
   }
 
