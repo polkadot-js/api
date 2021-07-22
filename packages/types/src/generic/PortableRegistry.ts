@@ -17,7 +17,16 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
   Str: 'Text'
 };
 
-const INK_PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+
+// These are types where we have a specific decoding/encoding override + helpers
+const PRIMITIVE_SP = [
+  'sp_core::crypto::AccountId32',
+  'sp_runtime::generic::era::Era',
+  'sp_runtime::multiaddress::MultiAddress',
+  'pallet_democracy::vote::Vote',
+  'pallet_identity::types::Data'
+];
 
 export class GenericPortableRegistry extends Struct {
   #typeDefs: Record<number, TypeDef> = {};
@@ -88,7 +97,8 @@ export class GenericPortableRegistry extends Struct {
         path[0].eq('ink_env') &&
         path[1].eq('types')
       ) ||
-      INK_PRIMITIVE_ALWAYS.includes(path[path.length - 1].toString())
+      PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
+      PRIMITIVE_SP.includes(path.join('::'))
     );
     let typeDef: TypeDef;
 
