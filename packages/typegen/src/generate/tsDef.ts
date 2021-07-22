@@ -29,7 +29,7 @@ export function createGetter (definitions: Record<string, ModuleTypes>, name = '
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function errorUnhandled (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
+function errorUnhandled (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${def.name || ''}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
@@ -83,7 +83,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
   return exportInterface(enumName, 'Enum', keys.join(''));
 }
 
-function tsInt (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
+function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
   setImports(definitions, imports, [type]);
 
   return exportInterface(def.name, type);
@@ -131,7 +131,7 @@ function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, { t
 }
 
 /** @internal */
-function tsSet (registry: Registry, definitions: Record<string, ModuleTypes>, { name: setName, sub }: TypeDef, imports: TypeImports): string {
+function tsSet (_: Registry, definitions: Record<string, ModuleTypes>, { name: setName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Set']);
 
   const types = (sub as TypeDef[]).map(({ name }): string => {
