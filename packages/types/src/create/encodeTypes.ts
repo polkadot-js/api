@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '../types/registry';
 import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
@@ -140,7 +141,7 @@ export function encodeTypeDef (typeDef: TypeDef): string {
   return encodeType(typeDef);
 }
 
-export function withTypeString (typeDef: Omit<TypeDef, 'type'>): TypeDef {
+export function withTypeString (_: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
   return {
     ...typeDef,
     type: encodeType(typeDef as TypeDef)

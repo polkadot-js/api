@@ -55,7 +55,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               .join(', ');
 
             return {
-              args: args.map(({ type }) => formatType(allDefs, type.toString(), imports)).join(', '),
+              args: args.map(({ type }) => formatType(registry, allDefs, type.toString(), imports)).join(', '),
               docs,
               name: stringCamelCase(name),
               params
