@@ -254,7 +254,12 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractTuple (_: number, ids: SiTypeDefTuple): TypeDef {
-    if (ids.length === 1) {
+    if (ids.length === 0) {
+      return {
+        info: TypeDefInfo.Null,
+        type: 'Null'
+      };
+    } else if (ids.length === 1) {
       return this.getTypeDef(ids[0]);
     }
 

@@ -98,7 +98,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return 'DoNotConstruct';
   },
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
+    setImports(definitions, imports, ['Enum']);
+
+    return '{ /** TODO generate fields **/ } & Enum';
   },
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
@@ -123,7 +125,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    throw new Error(`TypeDefInfo.Si: Not implemented on ${stringify(typeDef)}`);
+    return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports);
   },
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Struct']);
