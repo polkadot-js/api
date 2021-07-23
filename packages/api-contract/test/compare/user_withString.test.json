@@ -158,12 +158,12 @@
             "type": "AccountId"
           }
         ],
-        "type": "(AccountId, AccountId)",
+        "type": "(AccountId,AccountId)",
         "name": "Occupied"
       }
     ],
     "info": 3,
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(AccountId, AccountId)\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(AccountId,AccountId)\"}}"
   },
   {
     "info": 10,
@@ -181,7 +181,7 @@
         "type": "AccountId"
       }
     ],
-    "type": "(AccountId, AccountId)"
+    "type": "(AccountId,AccountId)"
   },
   {
     "info": 6,
