@@ -8,6 +8,7 @@ import type { FromReg, TypeDef } from './types';
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
+import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
@@ -34,18 +35,6 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
   // The above happens with as Constructor<InterfaceTypes[K]>;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
-}
-
-function expandLookup (registry: Registry, type: string): keyof InterfaceTypes {
-  if (registry.isLookupType(type)) {
-    const subType = registry.lookup.getTypeDef(type).type;
-
-    if (subType !== type) {
-      return expandLookup(registry, subType);
-    }
-  }
-
-  return type as keyof InterfaceTypes;
 }
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
@@ -142,7 +131,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor =>
-    createClass(registry, 'Null'),
+    Null,
 
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor =>
     Option.with(getSubType(value)),
@@ -171,7 +160,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor =>
-    getTypeClass(registry, registry.lookup.getTypeDef(value.index as number)),
+    getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
 
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
     Struct.with(getTypeClassMap(value), value.alias),
@@ -183,11 +172,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
-    const subType = expandLookup(registry, getSubType(value));
+    const subType = getSubType(value);
 
     return (
       subType === 'u8'
-        ? createClass(registry, 'Bytes')
+        ? Bytes
         : Vec.with(subType)
     );
   },
@@ -195,7 +184,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
     assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
-    const subType = expandLookup(registry, (sub as TypeDef).type);
+    const subType = (sub as TypeDef).type as keyof InterfaceTypes;
 
     return (
       subType === 'u8'
@@ -206,25 +195,27 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 };
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, value: TypeDef): Constructor<T> {
-  let Type = registry.get<T>(value.type);
+export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
+  let Type = registry.get<T>(typeDef.type);
 
   if (Type) {
     return Type;
   }
 
-  const getFn = infoMapping[value.info];
+  try {
+    Type = infoMapping[typeDef.info](registry, typeDef) as Constructor<T>;
 
-  assert(getFn, () => `Unable to construct class from ${stringify(value)}`);
+    assert(Type, 'No class created');
 
-  Type = getFn(registry, value) as Constructor<T>;
+    // don't clobber any existing
+    if (!Type.__fallbackType && typeDef.fallbackType) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore ...this is the only place we we actually assign this...
+      Type.__fallbackType = typeDef.fallbackType;
+    }
 
-  // don't clobber any existing
-  if (!Type.__fallbackType && value.fallbackType) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore ...this is the only place we we actually assign this...
-    Type.__fallbackType = value.fallbackType;
+    return Type;
+  } catch (error) {
+    throw new Error(`Unable to construct class from ${stringify(typeDef)}: ${(error as Error).message}`);
   }
-
-  return Type;
 }
