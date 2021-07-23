@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces/scaleInfo';
+import type { SiPath, SiTypeParameter } from '@polkadot/types/interfaces/scaleInfo';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 
 import Handlebars from 'handlebars';
 
-import { Registry, TypeDefInfo } from '@polkadot/types/types';
+import { Registry } from '@polkadot/types/types';
 import { stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { initMeta, readTemplate, writeFile } from '../util';
@@ -45,16 +45,6 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
   return name.toString();
 }
 
-function generateDefinition (registry: Registry, id: SiLookupTypeId): string {
-  const { info, isFromSi, type } = registry.lookup.getTypeDef(id);
-
-  if ([TypeDefInfo.Null, TypeDefInfo.Option, TypeDefInfo.Plain, TypeDefInfo.Si].includes(info) || isFromSi) {
-    return `'${type}'`;
-  }
-
-  return `{ /* TODO: ${info} */ }`;
-}
-
 function generateTypeDocs (registry: Registry, path: SiPath, params: SiTypeParameter[]): string {
   return `${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
 }
@@ -63,6 +53,8 @@ function generateLookup (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
 
   writeFile(`${destDir}/definitions.ts`, (): string => {
+    lookup.types.forEach(({ id }) => registry.lookup.getTypeDef(id));
+
     const filtered = lookup.types.filter(({ type: { path } }) =>
       !(
         path.length === 2 &&
@@ -82,7 +74,7 @@ function generateLookup (meta: Metadata, destDir: string): void {
     const all = filtered.map(({ id, type: { params, path } }) => {
       const typeName = generateTypeName(path);
       const typeLookup = `Lookup${id.toString()}`;
-      const def = generateDefinition(registry, id);
+      const def = `'${registry.lookup.getTypeDef(id).type}'`;
 
       return {
         docs: path.length
