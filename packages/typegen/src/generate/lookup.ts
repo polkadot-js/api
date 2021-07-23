@@ -15,7 +15,7 @@ const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 
 const generateLookupDefs = Handlebars.compile(readTemplate('lookupDefs'));
 
-function generateTypeName (id: SiLookupTypeId, path: SiPath, extra: string): string[] | null {
+function generateTypeName (path: SiPath): string | null {
   if (!path.length) {
     return null;
   }
@@ -30,7 +30,7 @@ function generateTypeName (id: SiLookupTypeId, path: SiPath, extra: string): str
 
   return ['BTreeMap', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
     ? null
-    : [typeName, `'Lookup${id.toString()}'${extra}`];
+    : typeName;
 }
 
 function generateParamType (registry: Registry, { name, type }: SiTypeParameter): string {
@@ -43,6 +43,16 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
   }
 
   return name.toString();
+}
+
+function generateDefinition (registry: Registry, id: SiLookupTypeId): string {
+  const { info, isFromSi, type } = registry.lookup.getTypeDef(id);
+
+  if ([TypeDefInfo.Null, TypeDefInfo.Option, TypeDefInfo.Plain, TypeDefInfo.Si].includes(info) || isFromSi) {
+    return `'${type}'`;
+  }
+
+  return `{ /* TODO: ${info} */ }`;
 }
 
 function generateTypeDocs (registry: Registry, path: SiPath, params: SiTypeParameter[]): string {
@@ -69,37 +79,37 @@ function generateLookup (meta: Metadata, destDir: string): void {
       )
     );
 
-    const max = filtered.length - 1;
-    const all = filtered.map(({ id, type: { params, path } }, index) => {
-      const typeName = generateTypeName(id, path, index !== max ? ',' : '');
-      const typeDef = lookup.getTypeDef(id);
-      const def = typeDef.info === TypeDefInfo.Si || typeDef.isFromSi
-        ? `'${typeDef.type}'`
-        : '{}';
+    const all = filtered.map(({ id, type: { params, path } }) => {
+      const typeName = generateTypeName(path);
+      const typeLookup = `Lookup${id.toString()}`;
+      const def = generateDefinition(registry, id);
 
       return {
-        defs: [
-          [`Lookup${id.toString()}`, `${def}${typeName || index !== max ? ',' : ''}`],
-          typeName
-        ].filter((d): d is string[] => !!d),
         docs: path.length
           ? [generateTypeDocs(registry, path, params)]
-          : []
+          : [],
+        type: { def, typeLookup, typeName }
       };
     });
+    const max = all.length - 1;
 
     return generateLookupDefs({
-      defs: all.map(({ defs, docs }, i) => ({
-        defs: defs
-          .filter(([n], count) =>
-            count === 0
-              ? true
-              // ensure we don't already have one of these
-              : !all.some(({ defs }, j) => i !== j && defs.map(([n]) => n).includes(n))
-          )
-          .map(([n, d]) => `${n}: ${d}`),
-        docs
-      }))
+      defs: all.map(({ docs, type }, i) => {
+        const { def, typeLookup, typeName } = type;
+        const hasConflict = !!typeName && all.some(({ type }, j) => i !== j && type.typeName === typeName);
+
+        return {
+          defs: (
+            (!typeName || (i !== 0 && hasConflict))
+              ? [[typeLookup, `${def}${i !== max ? ',' : ''}`]]
+              : [
+                [typeName, `${def},`],
+                [typeLookup, `'${typeName}'${i !== max ? ',' : ''}`]
+              ]
+          ).map(([n, t]) => `${n}: ${t}`),
+          docs
+        };
+      })
     });
   });
 }

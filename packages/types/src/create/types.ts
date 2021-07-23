@@ -38,7 +38,6 @@ export interface TypeDef {
   info: TypeDefInfo;
   isFromSi?: boolean;
   index?: number;
-  isFromSi?: boolean;
   length?: number;
   name?: string;
   namespace?: string;
