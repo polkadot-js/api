@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../t
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8a, typeToConstructor, sortSet } from './utils';
+import { compareSet, decodeU8a, sortSet, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
 
