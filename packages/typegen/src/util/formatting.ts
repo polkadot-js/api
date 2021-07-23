@@ -98,9 +98,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return 'DoNotConstruct';
   },
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    setImports(definitions, imports, ['Enum']);
-
-    return '{ /** TODO generate fields **/ } & Enum';
+    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
@@ -109,7 +107,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.UInt: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    setImports(definitions, imports, ['Enum']);
+    setImports(definitions, imports, ['Null']);
 
     return 'Null';
   },
@@ -125,18 +123,27 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports);
+    throw new Error(`TypeDefInfo.Si: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Struct']);
 
-    return `{ ${((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [name || `unknown${index}`, formatType(registry, definitions, type, imports)])).map(([k, t]) => `${k}: ${t};`).join(' ')} } & Struct`;
+    return `{ ${
+      ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
+        name || `unknown${index}`,
+        formatType(registry, definitions, type, imports)
+      ])).map(([k, t]) => `${k}: ${t};`).join(' ')
+    } } & Struct`;
   },
   [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['ITuple']);
 
     // `(a,b)` gets transformed into `ITuple<[a, b]>`
-    return paramsNotation('ITuple', `[${((typeDef.sub as TypeDef[]).map(({ type }) => formatType(registry, definitions, type, imports))).join(', ')}]`);
+    return paramsNotation('ITuple', `[${
+      ((typeDef.sub as TypeDef[]).map(({ type }) =>
+        formatType(registry, definitions, type, imports))
+      ).join(', ')
+    }]`);
   },
   [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Vec']);
@@ -178,9 +185,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return `HashMap<${formatType(registry, definitions, keyDef.type, imports)}, ${formatType(registry, definitions, valDef.type, imports)}>`;
   },
   [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    setImports(definitions, imports, ['Linkage']);
-
     const type = (typeDef.sub as TypeDef).type;
+
+    setImports(definitions, imports, ['Linkage']);
 
     return paramsNotation('Linkage', formatType(registry, definitions, type, imports));
   },
