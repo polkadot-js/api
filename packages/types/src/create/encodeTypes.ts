@@ -81,7 +81,7 @@ function encodeStruct (registry: Registry, typeDef: TypeDef, lookupCounter: numb
 function encodeTuple (registry: Registry, typeDef: TypeDef, lookupCounter: number): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
-  return `(${typeDef.sub.map((type) => encodeTypeDef(registry, type, lookupCounter)).join(', ')})`;
+  return `(${typeDef.sub.map((type) => encodeTypeDef(registry, type, lookupCounter)).join(',')})`;
 }
 
 function encodeUInt (registry: Registry, { length }: TypeDef, lookupCounter: number, type: 'Int' | 'UInt'): string {
@@ -147,14 +147,14 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, looku
 function encodeType (registry: Registry, typeDef: TypeDef, lookupCounter: number): string {
   const encoder = encoders[typeDef.info];
 
-  assert(encoder, () => `Cannot encode type: info=${typeDef.info}, typeDef=${stringify(typeDef)}`);
+  assert(encoder, () => `Cannot encode type ${stringify(typeDef)}`);
 
   return lookupCounter < 0 && isNumber(typeDef.lookupIndex)
-    ? registry.createLookupType(typeDef.lookupIndex)
+    ? typeDef.lookupName || registry.createLookupType(typeDef.lookupIndex)
     : encoder(registry, typeDef, lookupCounter--);
 }
 
-export function encodeTypeDef (registry: Registry, typeDef: TypeDef, lookupCounter: number): string {
+export function encodeTypeDef (registry: Registry, typeDef: TypeDef, lookupCounter = 0): string {
   assert(!isUndefined(typeDef.info), () => `Invalid type definition with no instance info, typeDef=${stringify(typeDef)}`);
 
   // In the case of contracts we do have the unfortunate situation where the displayName would
@@ -167,9 +167,9 @@ export function encodeTypeDef (registry: Registry, typeDef: TypeDef, lookupCount
   return encodeType(registry, typeDef, lookupCounter);
 }
 
-export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
+export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>, lookupCounter = 0): TypeDef {
   return {
     ...typeDef,
-    type: encodeType(registry, typeDef as TypeDef, 0)
+    type: encodeType(registry, typeDef as TypeDef, lookupCounter)
   };
 }

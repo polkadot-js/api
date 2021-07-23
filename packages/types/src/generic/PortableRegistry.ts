@@ -7,7 +7,7 @@ import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact,
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
-import { assert, isNumber, isString, stringCamelCase, stringify } from '@polkadot/util';
+import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { withTypeString } from '../create/encodeTypes';
@@ -30,13 +30,50 @@ const PRIMITIVE_SP = [
   'pallet_identity::types::Data'
 ];
 
+function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
+  return names.map((name, index): string | null =>
+    !name || names.some((o, i) => index !== i && name === o)
+      ? null
+      : name
+  );
+}
+
+function extractNames (types: PortableType[]): (string | null)[] {
+  return removeDuplicateNames(
+    types.map(({ type: { path } }): string | null => {
+      if (!path.length) {
+        return null;
+      }
+
+      const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
+
+      if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
+        parts.pop();
+      }
+
+      const typeName = parts.join('');
+
+      return ['BTreeMap', 'Cow', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+        ? null
+        : typeName;
+    })
+  );
+}
+
 export class GenericPortableRegistry extends Struct {
+  #names: Record<number, string> = {};
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
       types: 'Vec<PortableType>'
     }, value);
+
+    extractNames(this.types).forEach((name, index) => {
+      if (name) {
+        this.#names[index] = name;
+      }
+    });
   }
 
   /**
@@ -68,6 +105,7 @@ export class GenericPortableRegistry extends Struct {
       this.#typeDefs[lookupIndex] = {
         info: TypeDefInfo.DoNotConstruct,
         lookupIndex,
+        lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupIndex)
       };
 
