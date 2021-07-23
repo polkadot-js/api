@@ -5,15 +5,21 @@ import type { Codec } from '../../types';
 
 import { AbstractArray } from '../AbstractArray';
 import { AbstractInt } from '../AbstractInt';
+import { Enum } from '../Enum';
+import { Struct } from '../Struct';
 
 /**
 * Sort keys/values of BTreeSet/BTreeMap in acending order for encoding compatibility with Rust's BTreeSet/BTreeMap
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeSet.html)
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html)
 */
-export function sortAsc<V extends Codec | number[] | number | Uint8Array = Codec> (a: V, b: V): number {
+export function sortAsc<V extends Codec | Codec[] | number[] | number | Uint8Array = Codec> (a: V, b: V): number {
   if (typeof a === 'number') {
     return a - (b as typeof a);
+  } else if (a instanceof Struct) {
+    return sortAsc(Array.from(a.values()), Array.from((b as Struct).values()));
+  } else if (a instanceof Enum) {
+    return sortAsc(a.index, (b as Enum).index) || sortAsc(a.value, (b as Enum).value);
   } else if (a instanceof AbstractArray || a instanceof Uint8Array || Array.isArray(a)) {
     // Vec, Tuple, Bytes etc.
     let sortRes = 0; const lenA = a.length; const lenB = (b as typeof a).length;
@@ -31,7 +37,7 @@ export function sortAsc<V extends Codec | number[] | number | Uint8Array = Codec
   } else if (a instanceof AbstractInt) {
     return a.eq(b) ? 0 : a.lt(b as typeof a) ? -1 : 1;
   } else if (a && typeof a.toU8a === 'function') {
-    // Fallback
+    // Fallback (Bytes, Text)
     return sortAsc(a.toU8a(true), (b as Codec).toU8a(true));
   } else {
     throw new Error(`Attempting to sort unrecognized value: ${JSON.stringify(a)}`);

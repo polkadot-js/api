@@ -7,11 +7,20 @@ import { TypeRegistry } from '../create';
 import { I32, Text, U32 } from '../primitive';
 import { Constructor } from '../types';
 import { ITuple } from '../types/interfaces';
+import { Enum } from './Enum';
 import { BTreeSet, Struct, Tuple } from '.';
 
 const registry = new TypeRegistry();
 
 class U32TextTuple extends (Tuple.with([U32, Text]) as unknown as Constructor<ITuple<[U32, Text]>>) {}
+// Reason: We purposefully want `text` to be the first key of the struct and take priority during sorting
+// eslint-disable-next-line sort-keys
+class MockStruct extends Struct.with({ text: Text, int: I32 }) {}
+class MockEnum extends Enum.with({
+  Key1: MockStruct,
+  Key2: MockStruct,
+  Key3: U32TextTuple
+}) {}
 
 const mockU32Set = new Set<U32>();
 
@@ -38,6 +47,19 @@ const mockTupleSetObj = [
   new U32TextTuple(registry, [2, 'bb']),
   new U32TextTuple(registry, [2, 'b']),
   new U32TextTuple(registry, [1, 'baz'])
+];
+const mockStructSetObj = [
+  new MockStruct(registry, { int: 1, text: 'b' }),
+  new MockStruct(registry, { int: -1, text: 'b' }),
+  new MockStruct(registry, { int: -1, text: 'ba' }),
+  new MockStruct(registry, { int: -2, text: 'baz' })
+];
+const mockEnumSetObj = [
+  new MockEnum(registry, { Key3: new U32TextTuple(registry, [2, 'ba']) }),
+  new MockEnum(registry, { Key3: new U32TextTuple(registry, [2, 'b']) }),
+  new MockEnum(registry, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }),
+  new MockEnum(registry, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }),
+  new MockEnum(registry, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) })
 ];
 
 describe('BTreeSet', (): void => {
@@ -129,6 +151,29 @@ describe('BTreeSet', (): void => {
     expect(
       Array.from(new (BTreeSet.with(U32TextTuple))(registry, mockTupleSetObj)).map((k) => k.toJSON())
     ).toEqual([[1, 'baz'], [2, 'b'], [2, 'ba'], [2, 'bb']]);
+  });
+
+  it('correctly sorts complex struct values', (): void => {
+    expect(
+      Array.from(new (BTreeSet.with(MockStruct))(registry, mockStructSetObj)).map((k) => k.toJSON())
+    ).toEqual([
+      { int: -1, text: 'b' },
+      { int: 1, text: 'b' },
+      { int: -1, text: 'ba' },
+      { int: -2, text: 'baz' }
+    ]);
+  });
+
+  it('correctly sorts complex enum values', (): void => {
+    expect(
+      Array.from(new (BTreeSet.with(MockEnum))(registry, mockEnumSetObj)).map((k) => k.toJSON())
+    ).toEqual([
+      { key1: { int: -1, text: 'b' } },
+      { key1: { int: 1, text: 'b' } },
+      { key2: { int: -1, text: 'b' } },
+      { key3: [2, 'b'] },
+      { key3: [2, 'ba'] }
+    ]);
   });
 
   it('generates sane toRawTypes', (): void => {

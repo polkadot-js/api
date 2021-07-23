@@ -5,15 +5,25 @@ import { TypeRegistry } from '../create';
 import { I32, Text, U32 } from '../primitive';
 import { Constructor } from '../types';
 import { ITuple } from '../types/interfaces';
-import { BTreeMap, Struct, Tuple } from '.';
+import { BTreeMap, Enum, Struct, Tuple } from '.';
 
 const registry = new TypeRegistry();
 
 class U32TextTuple extends (Tuple.with([U32, Text]) as unknown as Constructor<ITuple<[U32, Text]>>) {}
+// Reason: We purposefully want `text` to be the first key of the struct and take priority during sorting
+// eslint-disable-next-line sort-keys
+class MockStruct extends Struct.with({ text: Text, int: I32 }) {}
+class MockEnum extends Enum.with({
+  Key1: MockStruct,
+  Key2: MockStruct,
+  Key3: U32TextTuple
+}) {}
 
 const mockU32TextMap = new Map<Text, U32>();
 const mockU32TupleMap = new Map<ITuple<[U32, Text]>, U32>();
 const mockU32I32Map = new Map<I32, U32>();
+const mockU32StructMap = new Map<MockStruct, U32>();
+const mockU32EnumMap = new Map<MockEnum, U32>();
 
 mockU32TextMap.set(new Text(registry, 'bazzing'), new U32(registry, 69));
 
@@ -26,6 +36,17 @@ mockU32I32Map.set(new I32(registry, -255), new U32(registry, 42));
 mockU32I32Map.set(new I32(registry, 1000), new U32(registry, 7));
 mockU32I32Map.set(new I32(registry, -1000), new U32(registry, 25));
 mockU32I32Map.set(new I32(registry, 0), new U32(registry, 13));
+
+mockU32StructMap.set(new MockStruct(registry, { int: 1, text: 'b' }), new U32(registry, 42));
+mockU32StructMap.set(new MockStruct(registry, { int: -1, text: 'b' }), new U32(registry, 7));
+mockU32StructMap.set(new MockStruct(registry, { int: -1, text: 'ba' }), new U32(registry, 25));
+mockU32StructMap.set(new MockStruct(registry, { int: -2, text: 'baz' }), new U32(registry, 13));
+
+mockU32EnumMap.set(new MockEnum(registry, { Key3: new U32TextTuple(registry, [2, 'ba']) }), new U32(registry, 13));
+mockU32EnumMap.set(new MockEnum(registry, { Key3: new U32TextTuple(registry, [2, 'b']) }), new U32(registry, 42));
+mockU32EnumMap.set(new MockEnum(registry, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 7));
+mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }), new U32(registry, 25));
+mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 69));
 
 describe('BTreeMap', (): void => {
   it('decodes null', (): void => {
@@ -76,10 +97,33 @@ describe('BTreeMap', (): void => {
     ).toEqual([-1000, -255, 0, 255, 1000]);
   });
 
-  it('correctly sorts complex keys', (): void => {
+  it('correctly sorts tuple keys', (): void => {
     expect(
       Array.from(new (BTreeMap.with(U32TextTuple, U32))(registry, mockU32TupleMap).keys()).map((k) => k.toJSON())
     ).toEqual([[1, 'baz'], [2, 'b'], [2, 'ba']]);
+  });
+
+  it('correctly sorts struct keys', (): void => {
+    expect(
+      Array.from(new (BTreeMap.with(MockStruct, U32))(registry, mockU32StructMap).keys()).map((k) => k.toJSON())
+    ).toEqual([
+      { int: -1, text: 'b' },
+      { int: 1, text: 'b' },
+      { int: -1, text: 'ba' },
+      { int: -2, text: 'baz' }
+    ]);
+  });
+
+  it('correctly sorts enum keys', (): void => {
+    expect(
+      Array.from(new (BTreeMap.with(MockEnum, U32))(registry, mockU32EnumMap).keys()).map((k) => k.toJSON())
+    ).toEqual([
+      { key1: { int: -1, text: 'b' } },
+      { key1: { int: 1, text: 'b' } },
+      { key2: { int: -1, text: 'b' } },
+      { key3: [2, 'b'] },
+      { key3: [2, 'ba'] }
+    ]);
   });
 
   it('correctly serializes/deserializes to/from json with numeric keys', (): void => {
@@ -107,6 +151,35 @@ describe('BTreeMap', (): void => {
         new (BTreeMap.with(U32TextTuple, U32))(registry, mockU32TupleMap).toJSON()
       ).toJSON()
     ).toEqual({ '[1,"baz"]': 13, '[2,"b"]': 7, '[2,"ba"]': 42 });
+  });
+
+  it('correctly serializes/deserializes to/from json with struct keys', (): void => {
+    expect(
+      new (BTreeMap.with(MockStruct, U32))(
+        registry,
+        new (BTreeMap.with(MockStruct, U32))(registry, mockU32StructMap).toJSON()
+      ).toJSON()
+    ).toEqual({
+      '{"text":"b","int":-1}': 7,
+      '{"text":"b","int":1}': 42,
+      '{"text":"ba","int":-1}': 25,
+      '{"text":"baz","int":-2}': 13
+    });
+  });
+
+  it('correctly serializes/deserializes to/from json with enum keys', (): void => {
+    expect(
+      new (BTreeMap.with(MockEnum, U32))(
+        registry,
+        new (BTreeMap.with(MockEnum, U32))(registry, mockU32EnumMap).toJSON()
+      ).toJSON()
+    ).toEqual({
+      '{"key1":{"text":"b","int":-1}}': 69,
+      '{"key1":{"text":"b","int":1}}': 25,
+      '{"key2":{"text":"b","int":-1}}': 7,
+      '{"key3":[2,"b"]}': 42,
+      '{"key3":[2,"ba"]}': 13
+    });
   });
 
   it('generates sane toRawTypes', (): void => {

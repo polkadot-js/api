@@ -7,6 +7,8 @@ import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../t
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
+import { Enum } from './Enum';
+import { Struct } from './Struct';
 import { compareMap, decodeU8a, sortMap, typeToConstructor } from './utils';
 
 const l = logger('Map');
@@ -35,11 +37,15 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
   const output = new Map<K, V>();
 
   value.forEach((val: any, key: any) => {
+    const isComplex = KeyClass.prototype instanceof AbstractArray ||
+      KeyClass.prototype instanceof Struct ||
+      KeyClass.prototype instanceof Enum;
+
     try {
       output.set(
         key instanceof KeyClass
           ? key
-          : new KeyClass(registry, KeyClass.prototype instanceof AbstractArray ? JSON.parse(key) : key),
+          : new KeyClass(registry, isComplex ? JSON.parse(key) : key),
         val instanceof ValClass
           ? val
           : new ValClass(registry, val)
