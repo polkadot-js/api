@@ -61,24 +61,25 @@ export class GenericPortableRegistry extends Struct {
    * @description Lookup the type definition for the index
    */
   public getTypeDef (lookupId: SiLookupTypeId | string | number): TypeDef {
-    const index = this.#getLookupId(lookupId);
+    const lookupIndex = this.#getLookupId(lookupId);
 
-    if (!this.#typeDefs[index]) {
+    if (!this.#typeDefs[lookupIndex]) {
       // we set first since we will get into circular lookups along the way
-      this.#typeDefs[index] = {
+      this.#typeDefs[lookupIndex] = {
         info: TypeDefInfo.DoNotConstruct,
-        type: this.registry.createLookupType(index)
+        lookupIndex,
+        type: this.registry.createLookupType(lookupIndex)
       };
 
-      const typeDef = this.#extract(this.getSiType(lookupId), index);
+      const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
-      Object.keys(typeDef).forEach((key): void => {
+      Object.keys(extracted).forEach((key): void => {
         // these are safe since we are looking through the keys as set
-        this.#typeDefs[index][key as 'info'] = typeDef[key as 'info'];
+        this.#typeDefs[lookupIndex][key as 'info'] = extracted[key as 'info'];
       });
     }
 
-    return this.#typeDefs[index];
+    return this.#typeDefs[lookupIndex];
   }
 
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {
@@ -89,6 +90,7 @@ export class GenericPortableRegistry extends Struct {
       ? typeDef
       : {
         info: TypeDefInfo.Si,
+        lookupIndex: lookupId.toNumber(),
         type: this.registry.createLookupType(lookupId)
       };
   }
