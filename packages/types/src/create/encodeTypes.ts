@@ -131,7 +131,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, looku
     typeDef.type,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, lookupCounter: number) =>
-    typeDef.type,
+    typeDef.lookupName || typeDef.type,
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, lookupCounter: number) =>
     encodeStruct(registry, typeDef, lookupCounter),
   [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, lookupCounter: number) =>

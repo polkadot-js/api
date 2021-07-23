@@ -38,7 +38,7 @@ function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   );
 }
 
-function extractNames (types: PortableType[]): (string | null)[] {
+function extractNames (types: PortableType[]): Record<number, string> {
   return removeDuplicateNames(
     types.map(({ type: { path } }): string | null => {
       if (!path.length) {
@@ -53,15 +53,21 @@ function extractNames (types: PortableType[]): (string | null)[] {
 
       const typeName = parts.join('');
 
-      return ['BTreeMap', 'Cow', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+      return ['BTreeMap', 'Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
         ? null
         : typeName;
     })
-  );
+  ).reduce<Record<number, string>>((all, name, index) => {
+    if (name) {
+      all[index] = name;
+    }
+
+    return all;
+  }, {});
 }
 
 export class GenericPortableRegistry extends Struct {
-  #names: Record<number, string> = {};
+  #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
@@ -69,11 +75,7 @@ export class GenericPortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    extractNames(this.types).forEach((name, index) => {
-      if (name) {
-        this.#names[index] = name;
-      }
-    });
+    this.#names = extractNames(this.types);
   }
 
   /**
@@ -122,13 +124,15 @@ export class GenericPortableRegistry extends Struct {
 
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {
     const typeDef = this.getTypeDef(lookupId);
+    const lookupIndex = lookupId.toNumber();
 
     // Flatten Plain types immediately, otherwise setup for a lookup
     return typeDef.info === TypeDefInfo.Plain
       ? typeDef
       : {
         info: TypeDefInfo.Si,
-        lookupIndex: lookupId.toNumber(),
+        lookupIndex,
+        lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
       };
   }
