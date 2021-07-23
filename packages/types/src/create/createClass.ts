@@ -37,18 +37,6 @@ export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, nam
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
-function expandLookup (registry: Registry, type: string): keyof InterfaceTypes {
-  if (registry.isLookupType(type)) {
-    const subType = registry.lookup.getTypeDef(type).type;
-
-    if (subType !== type) {
-      return expandLookup(registry, subType);
-    }
-  }
-
-  return type as keyof InterfaceTypes;
-}
-
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
@@ -184,7 +172,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
-    const subType = expandLookup(registry, getSubType(value));
+    const subType = getSubType(value);
 
     return (
       subType === 'u8'
@@ -196,7 +184,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
     assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
-    const subType = expandLookup(registry, (sub as TypeDef).type);
+    const subType = (sub as TypeDef).type as keyof InterfaceTypes;
 
     return (
       subType === 'u8'
