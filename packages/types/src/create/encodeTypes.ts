@@ -81,7 +81,7 @@ function encodeStruct (registry: Registry, typeDef: TypeDef, lookupCounter: numb
 function encodeTuple (registry: Registry, typeDef: TypeDef, lookupCounter: number): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
-  return `(${typeDef.sub.map((type) => encodeTypeDef(registry, type, lookupCounter)).join(', ')})`;
+  return `(${typeDef.sub.map((type) => encodeTypeDef(registry, type, lookupCounter)).join(',')})`;
 }
 
 function encodeUInt (registry: Registry, { length }: TypeDef, lookupCounter: number, type: 'Int' | 'UInt'): string {
