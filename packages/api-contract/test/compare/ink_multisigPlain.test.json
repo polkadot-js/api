@@ -63,12 +63,12 @@
             "type": "AccountId"
           }
         ],
-        "type": "(u32, AccountId)",
+        "type": "(u32,AccountId)",
         "name": "Occupied"
       }
     ],
     "info": 3,
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(u32, AccountId)\"}}"
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(u32,AccountId)\"}}"
   },
   {
     "info": 10,
@@ -84,7 +84,7 @@
         "type": "AccountId"
       }
     ],
-    "type": "(u32, AccountId)"
+    "type": "(u32,AccountId)"
   },
   {
     "displayName": "AccountId",
@@ -409,7 +409,7 @@
         "type": "{\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}}"
       }
     ],
-    "type": "(u32, ConfirmationStatus)"
+    "type": "(u32,ConfirmationStatus)"
   },
   {
     "displayName": "ConfirmationStatus",

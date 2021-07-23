@@ -36,9 +36,11 @@ export interface TypeDef {
   displayName?: string;
   fallbackType?: string;
   info: TypeDefInfo;
-  isFromSi?: boolean;
   index?: number;
+  isFromSi?: boolean;
   length?: number;
+  lookupIndex?: number;
+  lookupName?: string;
   name?: string;
   namespace?: string;
   sub?: TypeDef | TypeDef[];

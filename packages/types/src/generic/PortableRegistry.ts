@@ -7,7 +7,7 @@ import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact,
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
-import { assert, isNumber, isString, stringCamelCase, stringify } from '@polkadot/util';
+import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { withTypeString } from '../create/encodeTypes';
@@ -30,13 +30,52 @@ const PRIMITIVE_SP = [
   'pallet_identity::types::Data'
 ];
 
+function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
+  return names.map((name, index): string | null =>
+    !name || names.some((o, i) => index !== i && name === o)
+      ? null
+      : name
+  );
+}
+
+function extractNames (types: PortableType[]): Record<number, string> {
+  return removeDuplicateNames(
+    types.map(({ type: { path } }): string | null => {
+      if (!path.length) {
+        return null;
+      }
+
+      const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
+
+      if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
+        parts.pop();
+      }
+
+      const typeName = parts.join('');
+
+      return ['BTreeMap', 'Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+        ? null
+        : typeName;
+    })
+  ).reduce<Record<number, string>>((all, name, index) => {
+    if (name) {
+      all[index] = name;
+    }
+
+    return all;
+  }, {});
+}
+
 export class GenericPortableRegistry extends Struct {
+  #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
       types: 'Vec<PortableType>'
     }, value);
+
+    this.#names = extractNames(this.types);
   }
 
   /**
@@ -61,34 +100,39 @@ export class GenericPortableRegistry extends Struct {
    * @description Lookup the type definition for the index
    */
   public getTypeDef (lookupId: SiLookupTypeId | string | number): TypeDef {
-    const index = this.#getLookupId(lookupId);
+    const lookupIndex = this.#getLookupId(lookupId);
 
-    if (!this.#typeDefs[index]) {
+    if (!this.#typeDefs[lookupIndex]) {
       // we set first since we will get into circular lookups along the way
-      this.#typeDefs[index] = {
+      this.#typeDefs[lookupIndex] = {
         info: TypeDefInfo.DoNotConstruct,
-        type: this.registry.createLookupType(index)
+        lookupIndex,
+        lookupName: this.#names[lookupIndex],
+        type: this.registry.createLookupType(lookupIndex)
       };
 
-      const typeDef = this.#extract(this.getSiType(lookupId), index);
+      const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
-      Object.keys(typeDef).forEach((key): void => {
+      Object.keys(extracted).forEach((key): void => {
         // these are safe since we are looking through the keys as set
-        this.#typeDefs[index][key as 'info'] = typeDef[key as 'info'];
+        this.#typeDefs[lookupIndex][key as 'info'] = extracted[key as 'info'];
       });
     }
 
-    return this.#typeDefs[index];
+    return this.#typeDefs[lookupIndex];
   }
 
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {
     const typeDef = this.getTypeDef(lookupId);
+    const lookupIndex = lookupId.toNumber();
 
     // Flatten Plain types immediately, otherwise setup for a lookup
     return typeDef.info === TypeDefInfo.Plain
       ? typeDef
       : {
         info: TypeDefInfo.Si,
+        lookupIndex,
+        lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
       };
   }
@@ -254,7 +298,12 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractTuple (_: number, ids: SiTypeDefTuple): TypeDef {
-    if (ids.length === 1) {
+    if (ids.length === 0) {
+      return {
+        info: TypeDefInfo.Null,
+        type: 'Null'
+      };
+    } else if (ids.length === 1) {
       return this.getTypeDef(ids[0]);
     }
 
