@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { encodeTypeDef } from './encodeTypes';
+import { TypeRegistry } from './registry';
 import { TypeDefInfo } from './types';
 
 describe('encodeTypeDef', (): void => {
+  const registry = new TypeRegistry();
+
   it('correctly encodes a complex struct', (): void => {
     expect(
-      JSON.parse(encodeTypeDef({
+      JSON.parse(encodeTypeDef(registry, {
         info: TypeDefInfo.Struct,
         sub: [
           {
@@ -47,7 +50,7 @@ describe('encodeTypeDef', (): void => {
 
   it('correctly encodes a complex struct (named)', (): void => {
     expect(
-      JSON.parse(encodeTypeDef({
+      JSON.parse(encodeTypeDef(registry, {
         info: TypeDefInfo.Struct,
         sub: [
           {
@@ -88,7 +91,7 @@ describe('encodeTypeDef', (): void => {
 
   it('correctly encodes a complex enum', (): void => {
     expect(
-      JSON.parse(encodeTypeDef({
+      JSON.parse(encodeTypeDef(registry, {
         info: TypeDefInfo.Enum,
         sub: [
           {
@@ -148,7 +151,7 @@ describe('encodeTypeDef', (): void => {
 
   it('correctly encodes a complex enum (named)', (): void => {
     expect(
-      JSON.parse(encodeTypeDef({
+      JSON.parse(encodeTypeDef(registry, {
         info: TypeDefInfo.Enum,
         sub: [
           {

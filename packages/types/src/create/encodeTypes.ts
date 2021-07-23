@@ -147,10 +147,10 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, looku
 function encodeType (registry: Registry, typeDef: TypeDef, lookupCounter: number): string {
   const encoder = encoders[typeDef.info];
 
-  assert(encoder, () => `Cannot encode type: info=${typeDef.info}, typeDef=${stringify(typeDef)}`);
+  assert(encoder, () => `Cannot encode type ${stringify(typeDef)}`);
 
   return lookupCounter < 0 && isNumber(typeDef.lookupIndex)
-    ? registry.createLookupType(typeDef.lookupIndex)
+    ? typeDef.lookupName || registry.createLookupType(typeDef.lookupIndex)
     : encoder(registry, typeDef, lookupCounter--);
 }
 

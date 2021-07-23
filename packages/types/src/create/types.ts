@@ -40,6 +40,7 @@ export interface TypeDef {
   isFromSi?: boolean;
   length?: number;
   lookupIndex?: number;
+  lookupName?: string;
   name?: string;
   namespace?: string;
   sub?: TypeDef | TypeDef[];
