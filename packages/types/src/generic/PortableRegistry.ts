@@ -222,8 +222,6 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
-    console.error(path.map((p) => p.toString()).join('::'));
-
     if (path.length === 1 && path[0].eq('BTreeMap')) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.BTreeMap,
