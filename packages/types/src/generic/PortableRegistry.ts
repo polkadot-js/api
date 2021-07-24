@@ -27,7 +27,10 @@ const PRIMITIVE_SP = [
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
-  'pallet_identity::types::Data'
+  'pallet_identity::types::Data',
+  'primitive_types::H160',
+  'primitive_types::H256',
+  'primitive_types::H512'
 ];
 
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
@@ -226,7 +229,7 @@ export class GenericPortableRegistry extends Struct {
     return this.#extractFields(lookupIndex, fields);
   }
 
-  #extractFields (_: number, fields: SiField[]): TypeDef {
+  #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
     const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
       isAllNamed && name.isSome,
       isAllUnnamed && name.isNone
@@ -262,14 +265,24 @@ export class GenericPortableRegistry extends Struct {
       info: isTuple // Tuple check first
         ? TypeDefInfo.Tuple
         : TypeDefInfo.Struct,
+      ...(
+        lookupIndex === -1
+          ? {}
+          : {
+            lookupIndex,
+            lookupName: this.#names[lookupIndex]
+          }
+      ),
       sub
     });
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {
-    const inner = getTypeDef(type);
-
-    return { ...inner, displayName: type.toString(), isFromSi: true };
+    return {
+      ...getTypeDef(type),
+      displayName: type.toString(),
+      isFromSi: true
+    };
   }
 
   #extractPrimitive (_: number, type: SiType): TypeDef {
@@ -288,16 +301,18 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractSequence (_: number, { type }: SiTypeDefSequence): TypeDef {
+  #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
     const sub = this.#createSiDef(type);
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Vec,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
 
-  #extractTuple (_: number, ids: SiTypeDefTuple): TypeDef {
+  #extractTuple (lookupIndex: number, ids: SiTypeDefTuple): TypeDef {
     if (ids.length === 0) {
       return {
         info: TypeDefInfo.Null,
@@ -311,6 +326,8 @@ export class GenericPortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
@@ -360,7 +377,7 @@ export class GenericPortableRegistry extends Struct {
         }
 
         sub.push({
-          ...this.#extractFields(lookupIndex, fields),
+          ...this.#extractFields(-1, fields),
           index: index.toNumber(),
           name: name.toString()
         });
@@ -368,6 +385,8 @@ export class GenericPortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Enum,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
