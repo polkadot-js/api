@@ -166,8 +166,13 @@ export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
 }
 
 export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
+  const partial = { ...typeDef } as TypeDef;
+
+  // for the outer-most type, we ignore the lookupName
+  delete partial.lookupName;
+
   return {
     ...typeDef,
-    type: encodeType(registry, typeDef as TypeDef)
+    type: encodeType(registry, partial)
   };
 }

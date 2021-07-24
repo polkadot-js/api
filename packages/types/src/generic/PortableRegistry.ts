@@ -129,8 +129,8 @@ export class GenericPortableRegistry extends Struct {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
 
-    // Flatten Plain types immediately, otherwise setup for a lookup
-    return typeDef.info === TypeDefInfo.Plain
+    // Flatten some types immediately, otherwise setup for a lookup
+    return [TypeDefInfo.Plain].includes(typeDef.info)
       ? typeDef
       : {
         info: TypeDefInfo.Si,
