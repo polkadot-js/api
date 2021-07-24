@@ -256,13 +256,29 @@ export class GenericPortableRegistry extends Struct {
       };
     }
 
-    const sub = fields.map(({ name, type }) => ({
-      ...this.#createSiDef(type),
-      ...(name.isSome
-        ? { name: stringCamelCase(name.unwrap()) }
-        : {}
-      )
-    }));
+    const alias = new Map<string, string>();
+    const sub = fields.map(({ name, type }) => {
+      const typeDef = this.#createSiDef(type);
+      const nameDef: { name?: string } = {};
+
+      if (name.isSome) {
+        let nameInput = stringCamelCase(name.unwrap());
+
+        if (nameInput.includes('#')) {
+          const aliassed = nameInput;
+
+          nameInput = aliassed.replace(/#/g, '_');
+          alias.set(nameInput, aliassed);
+        }
+
+        nameDef.name = nameInput;
+      }
+
+      return {
+        ...typeDef,
+        ...nameDef
+      };
+    });
 
     return withTypeString(this.registry, {
       info: isTuple // Tuple check first
@@ -275,6 +291,11 @@ export class GenericPortableRegistry extends Struct {
             lookupIndex,
             lookupName: this.#names[lookupIndex]
           }
+      ),
+      ...(
+        alias.size
+          ? { alias }
+          : {}
       ),
       sub
     });
