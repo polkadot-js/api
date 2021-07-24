@@ -7,10 +7,12 @@ import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import Handlebars from 'handlebars';
 
 import { Registry } from '@polkadot/types/types';
+import { stringify } from '@polkadot/util';
 
 import { initMeta, readTemplate, writeFile } from '../util';
 
 const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
+const WITH_TYPEDEF = false;
 
 const generateLookupDefs = Handlebars.compile(readTemplate('lookupDefs'));
 
@@ -59,9 +61,14 @@ function generateLookup (meta: Metadata, destDir: string): void {
       const def = `'${typeDef.type}'`;
 
       return {
-        docs: path.length
-          ? [generateTypeDocs(registry, path, params)]
-          : [],
+        docs: [
+          path.length
+            ? generateTypeDocs(registry, path, params)
+            : null,
+          WITH_TYPEDEF
+            ? `@typeDef ${stringify(typeDef)}`
+            : null
+        ].filter((d): d is string => !!d),
         type: { def, typeLookup, typeName }
       };
     });
