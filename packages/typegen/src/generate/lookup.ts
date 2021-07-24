@@ -7,31 +7,12 @@ import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import Handlebars from 'handlebars';
 
 import { Registry } from '@polkadot/types/types';
-import { stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { initMeta, readTemplate, writeFile } from '../util';
 
 const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 
 const generateLookupDefs = Handlebars.compile(readTemplate('lookupDefs'));
-
-function generateTypeName (path: SiPath): string | null {
-  if (!path.length) {
-    return null;
-  }
-
-  const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
-
-  if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
-    parts.pop();
-  }
-
-  const typeName = parts.join('');
-
-  return ['BTreeMap', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
-    ? null
-    : typeName;
-}
 
 function generateParamType (registry: Registry, { name, type }: SiTypeParameter): string {
   if (type.isSome) {
@@ -72,9 +53,10 @@ function generateLookup (meta: Metadata, destDir: string): void {
     );
 
     const all = filtered.map(({ id, type: { params, path } }) => {
-      const typeName = generateTypeName(path);
-      const typeLookup = `Lookup${id.toString()}`;
-      const def = `'${registry.lookup.getTypeDef(id).type}'`;
+      const typeDef = registry.lookup.getTypeDef(id);
+      const typeLookup = registry.createLookupType(id);
+      const typeName = typeDef.lookupName;
+      const def = `'${typeDef.type}'`;
 
       return {
         docs: path.length
@@ -104,6 +86,9 @@ function generateLookup (meta: Metadata, destDir: string): void {
       })
     });
   });
+
+  // initially
+  process.exit(1);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
