@@ -23,6 +23,10 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
+  'BTreeMap',
+  'BTreeSet',
+  'HashMap',
+  'HashSet',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
@@ -56,7 +60,7 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
       const typeName = parts.join('');
 
-      return ['BTreeMap', 'Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+      return ['Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
         ? null
         : typeName;
     })
@@ -129,15 +133,15 @@ export class GenericPortableRegistry extends Struct {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
 
-    // Flatten some types immediately, otherwise setup for a lookup
-    return [TypeDefInfo.Plain].includes(typeDef.info)
-      ? typeDef
-      : {
+    // Setup for a lookup on complex types
+    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
+      ? {
         info: TypeDefInfo.Si,
         lookupIndex,
         lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
-      };
+      }
+      : typeDef;
   }
 
   #getLookupId (lookupId: SiLookupTypeId | string | number): number {
@@ -193,17 +197,8 @@ export class GenericPortableRegistry extends Struct {
       throw new Error(`PortableRegistry: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
-    const displayName = path.pop()?.toString();
-
     return {
-      ...(displayName
-        ? { displayName }
-        : {}
-      ),
-      ...(path.length > 1
-        ? { namespace: path.map((s) => s.toString()).join('::') }
-        : {}
-      ),
+      namespace: path.join('::'),
       ...typeDef
     };
   }
@@ -295,9 +290,12 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractPrimitivePath (_: number, type: SiType): TypeDef {
+    const displayName = type.path[type.path.length - 1].toString();
+
     return {
+      displayName,
       info: TypeDefInfo.Plain,
-      type: type.path[type.path.length - 1].toString()
+      type: displayName
     };
   }
 
