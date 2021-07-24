@@ -23,11 +23,18 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
+  'BTreeMap',
+  'BTreeSet',
+  'HashMap',
+  'HashSet',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
-  'pallet_identity::types::Data'
+  'pallet_identity::types::Data',
+  'primitive_types::H160',
+  'primitive_types::H256',
+  'primitive_types::H512'
 ];
 
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
@@ -53,7 +60,7 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
       const typeName = parts.join('');
 
-      return ['BTreeMap', 'Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+      return ['Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
         ? null
         : typeName;
     })
@@ -126,15 +133,15 @@ export class GenericPortableRegistry extends Struct {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
 
-    // Flatten Plain types immediately, otherwise setup for a lookup
-    return typeDef.info === TypeDefInfo.Plain
-      ? typeDef
-      : {
+    // Setup for a lookup on complex types
+    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
+      ? {
         info: TypeDefInfo.Si,
         lookupIndex,
         lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
-      };
+      }
+      : typeDef;
   }
 
   #getLookupId (lookupId: SiLookupTypeId | string | number): number {
@@ -190,17 +197,8 @@ export class GenericPortableRegistry extends Struct {
       throw new Error(`PortableRegistry: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
-    const displayName = path.pop()?.toString();
-
     return {
-      ...(displayName
-        ? { displayName }
-        : {}
-      ),
-      ...(path.length > 1
-        ? { namespace: path.map((s) => s.toString()).join('::') }
-        : {}
-      ),
+      namespace: path.join('::'),
       ...typeDef
     };
   }
@@ -226,7 +224,7 @@ export class GenericPortableRegistry extends Struct {
     return this.#extractFields(lookupIndex, fields);
   }
 
-  #extractFields (_: number, fields: SiField[]): TypeDef {
+  #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
     const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
       isAllNamed && name.isSome,
       isAllUnnamed && name.isNone
@@ -262,14 +260,24 @@ export class GenericPortableRegistry extends Struct {
       info: isTuple // Tuple check first
         ? TypeDefInfo.Tuple
         : TypeDefInfo.Struct,
+      ...(
+        lookupIndex === -1
+          ? {}
+          : {
+            lookupIndex,
+            lookupName: this.#names[lookupIndex]
+          }
+      ),
       sub
     });
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {
-    const inner = getTypeDef(type);
-
-    return { ...inner, displayName: type.toString(), isFromSi: true };
+    return {
+      ...getTypeDef(type),
+      displayName: type.toString(),
+      isFromSi: true
+    };
   }
 
   #extractPrimitive (_: number, type: SiType): TypeDef {
@@ -282,22 +290,27 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractPrimitivePath (_: number, type: SiType): TypeDef {
+    const displayName = type.path[type.path.length - 1].toString();
+
     return {
+      displayName,
       info: TypeDefInfo.Plain,
-      type: type.path[type.path.length - 1].toString()
+      type: displayName
     };
   }
 
-  #extractSequence (_: number, { type }: SiTypeDefSequence): TypeDef {
+  #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
     const sub = this.#createSiDef(type);
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Vec,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
 
-  #extractTuple (_: number, ids: SiTypeDefTuple): TypeDef {
+  #extractTuple (lookupIndex: number, ids: SiTypeDefTuple): TypeDef {
     if (ids.length === 0) {
       return {
         info: TypeDefInfo.Null,
@@ -311,6 +324,8 @@ export class GenericPortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
@@ -360,7 +375,7 @@ export class GenericPortableRegistry extends Struct {
         }
 
         sub.push({
-          ...this.#extractFields(lookupIndex, fields),
+          ...this.#extractFields(-1, fields),
           index: index.toNumber(),
           name: name.toString()
         });
@@ -368,6 +383,8 @@ export class GenericPortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Enum,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
       sub
     });
   }
