@@ -4,28 +4,10 @@
 import type { EventMetadataLatest, EventMetadataV13, FunctionMetadataLatest, FunctionMetadataV13, MetadataLatest, MetadataV13, ModuleConstantMetadataLatest, ModuleConstantMetadataV13, ModuleMetadataLatest, ModuleMetadataV13, StorageEntryMetadataLatest, StorageMetadataLatest, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { OverrideModuleType, Registry } from '../../types';
 
-import { getModuleTypes } from '@polkadot/types-known';
+import { getModuleTypes, knownOrigins } from '@polkadot/types-known';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Type } from '../../primitive';
-
-// FIXME: Need some sort of solution for specifying these
-// Since we don't have insight into the origin specification, we can only define what we know about
-// in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
-const KNOWN_ORIGINS: Record<string, string> = {
-  /* eslint-disable sort-keys */
-  // Substrate
-  Council: 'CollectiveOrigin',
-  System: 'SystemOrigin',
-  TechnicalCommittee: 'CollectiveOrigin',
-  // Polkadot
-  Xcm: 'XcmOrigin',
-  XcmPallet: 'XcmOrigin',
-  // Acala
-  Authority: 'AuthorityOrigin',
-  GeneralCouncil: 'CollectiveOrigin'
-  /* eslint-enable sort-keys */
-};
 
 const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']];
 
@@ -131,7 +113,7 @@ function registerOriginCaller (registry: Registry, modules: ModuleMetadataV13[],
             result[`Empty${i}`] = 'Null';
           }
 
-          result[name] = KNOWN_ORIGINS[name] || 'Null';
+          result[name] = knownOrigins[name] || 'Null';
 
           return result;
         }, {})
