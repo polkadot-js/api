@@ -14,19 +14,17 @@ import { withTypeString } from '../create/encodeTypes';
 import { getTypeDef } from '../create/getTypeDef';
 import { TypeDefInfo } from '../types';
 
+// Alias the primitive enum with out known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
   Str: 'Text'
 };
 
+// ink! specific overrides
 const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
-  'BTreeMap',
-  'BTreeSet',
-  'HashMap',
-  'HashSet',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
@@ -36,6 +34,9 @@ const PRIMITIVE_SP = [
   'primitive_types::H256',
   'primitive_types::H512'
 ];
+
+// These we never use these as top-level names, they are wrappers
+const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
 
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
@@ -60,7 +61,7 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
       const typeName = parts.join('');
 
-      return ['Cow', 'Result', 'Option'].includes(typeName) || ['frame_support'].includes(path[0].toString())
+      return WRAPPERS.includes(typeName) || ['frame_support'].includes(path[0].toString())
         ? null
         : typeName;
     })
@@ -179,7 +180,7 @@ export class GenericPortableRegistry extends Struct {
       } else if (type.def.isCompact) {
         typeDef = this.#extractCompact(lookupIndex, type.def.asCompact);
       } else if (type.def.isComposite) {
-        typeDef = this.#extractComposite(lookupIndex, type.def.asComposite);
+        typeDef = this.#extractComposite(lookupIndex, type, type.def.asComposite);
       } else if (type.def.isHistoricMetaCompat) {
         typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat);
       } else if (type.def.isPrimitive) {
@@ -220,7 +221,14 @@ export class GenericPortableRegistry extends Struct {
     });
   }
 
-  #extractComposite (lookupIndex: number, { fields }: SiTypeDefComposite): TypeDef {
+  #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
+    if (path.length === 1 && path[0].eq('BTreeMap')) {
+      return withTypeString(this.registry, {
+        info: TypeDefInfo.BTreeMap,
+        sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
+      });
+    }
+
     return this.#extractFields(lookupIndex, fields);
   }
 
@@ -341,7 +349,7 @@ export class GenericPortableRegistry extends Struct {
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Result,
-        sub: params.map((p) => this.#createSiDef(p.type.unwrap())).map((def, index) => ({
+        sub: params.map(({ type }) => this.#createSiDef(type.unwrap())).map((def, index) => ({
           name: ['Ok', 'Error'][index],
           ...def
         }))
