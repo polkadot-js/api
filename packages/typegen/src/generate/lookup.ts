@@ -7,7 +7,7 @@ import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import Handlebars from 'handlebars';
 
 import { Registry } from '@polkadot/types/types';
-import { stringify } from '@polkadot/util';
+import { isString, stringify } from '@polkadot/util';
 
 import { initMeta, readTemplate, writeFile } from '../util';
 
@@ -30,6 +30,71 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
 
 function generateTypeDocs (registry: Registry, path: SiPath, params: SiTypeParameter[]): string {
   return `${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
+}
+
+function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
+  const lines = Object.entries(parsed).reduce<string[]>((all, [k, v]) => {
+    const inner = isString(v)
+      ? expandType(v)
+      : Array.isArray(v)
+        ? [`[${(v as string[]).map((e) => `'${e}'`).join(', ')}]`]
+        : expandObject(v);
+
+    inner.forEach((l, index): void => {
+      all.push(`${
+        index === 0
+          ? `${k}: ${l}`
+          : `${l}`
+      }`);
+    });
+
+    return all;
+  }, []);
+  const max = lines.length - 1;
+
+  return [
+    '{',
+    ...lines.map((l, index) =>
+      (l.endsWith(',') || l.endsWith('{') || index === max)
+        ? l
+        : `${l},`
+    ),
+    '}'
+  ];
+}
+
+function expandType (encoded: string): string[] {
+  if (!encoded.startsWith('{')) {
+    return [`'${encoded}'`];
+  }
+
+  return expandObject(JSON.parse(encoded) as Record<string, string | Record<string, string>>);
+}
+
+function expandTypeToString (encoded: string): string {
+  const lines = expandType(encoded);
+  let inc = 0;
+
+  return lines.map((l, index) => {
+    let r: string;
+
+    if (l.endsWith('{')) {
+      r = index === 0
+        ? l
+        : `${' '.padStart(4 + inc)}${l}`;
+      inc += 2;
+    } else {
+      if (l.endsWith('},') || l.endsWith('}')) {
+        inc -= 2;
+      }
+
+      r = index === 0
+        ? l
+        : `${' '.padStart(4 + inc)}${l}`;
+    }
+
+    return r;
+  }).join('\n');
 }
 
 function generateLookup (meta: Metadata, destDir: string): void {
@@ -58,7 +123,7 @@ function generateLookup (meta: Metadata, destDir: string): void {
       const typeDef = registry.lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
       const typeName = typeDef.lookupName;
-      const def = `'${typeDef.type}'`;
+      const def = expandTypeToString(typeDef.type);
 
       return {
         docs: [
