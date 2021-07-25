@@ -2,20 +2,10 @@
 
 {{{ imports }}}
 
-declare module '@polkadot/types/lookup' {
-  {{#each modules}}
-  {{{name}}}: {
-    {{#each items}}
-    {{> docs}}
-    {{{name}}}: {{{type}}} & AugmentedConst<ApiType>;
-    {{/each}}
-    {{#unless @root.isStrict}}
-    /**
-      * Generic const
-      **/
-    [key: string]: Codec;
-    {{/unless}}
-  };
-  {{/each}}
-}
+{{#each items}}
+{{{this}}}
+
+{{/each}}
+
+export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';
 {{> footer }}

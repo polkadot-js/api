@@ -111,23 +111,26 @@ export default {
     /**
      * frame_support::weights::DispatchInfo
      **/
-    Lookup22: {
+    FrameSupportWeightsDispatchInfo: {
       weight: 'u64',
-      class: 'Lookup23',
-      paysFee: 'Lookup24'
+      class: 'FrameSupportWeightsDispatchClass',
+      paysFee: 'FrameSupportWeightsPays'
     },
+    Lookup22: 'FrameSupportWeightsDispatchInfo',
     /**
      * frame_support::weights::DispatchClass
      **/
-    Lookup23: {
+    FrameSupportWeightsDispatchClass: {
       _enum: ['Normal', 'Operational', 'Mandatory']
     },
+    Lookup23: 'FrameSupportWeightsDispatchClass',
     /**
      * frame_support::weights::Pays
      **/
-    Lookup24: {
+    FrameSupportWeightsPays: {
       _enum: ['Yes', 'No']
     },
+    Lookup24: 'FrameSupportWeightsPays',
     /**
      * sp_runtime::DispatchError
      **/
@@ -164,9 +167,10 @@ export default {
     /**
      * frame_support::traits::tokens::misc::BalanceStatus
      **/
-    Lookup31: {
+    FrameSupportTraitsTokensMiscBalanceStatus: {
       _enum: ['Free', 'Reserved']
     },
+    Lookup31: 'FrameSupportTraitsTokensMiscBalanceStatus',
     /**
      * pallet_election_provider_multi_phase::ElectionCompute
      **/
@@ -372,10 +376,11 @@ export default {
     /**
      * frame_support::weights::RuntimeDbWeight
      **/
-    Lookup114: {
+    FrameSupportWeightsRuntimeDbWeight: {
       read: 'u64',
       write: 'u64'
     },
+    Lookup114: 'FrameSupportWeightsRuntimeDbWeight',
     /**
      * sp_version::RuntimeVersion
      **/
@@ -396,7 +401,12 @@ export default {
     Lookup117: 'Vec<([u8;8],u32)>',
     Lookup118: '([u8;8],u32)',
     Lookup119: '[u8;8]',
-    Lookup122: 'Vec<NodeRuntimeCall>',
+    Lookup122: 'Vec<Call>',
+    /**
+     * node_runtime::Call
+     **/
+    NodeRuntimeCall: 'Call',
+    Lookup123: 'NodeRuntimeCall',
     /**
      * sp_consensus_slots::EquivocationProof<sp_runtime::generic::header::Header, sp_consensus_babe::app::Public>
      **/
@@ -985,16 +995,17 @@ export default {
       _enum: ['V1Ancient', 'V2']
     },
     Lookup328: 'PalletTransactionPaymentReleases',
-    Lookup329: 'Vec<Lookup330>',
+    Lookup329: 'Vec<FrameSupportWeightsWeightToFeeCoefficient>',
     /**
      * frame_support::weights::WeightToFeeCoefficient<Balance>
      **/
-    Lookup330: {
+    FrameSupportWeightsWeightToFeeCoefficient: {
       coeffInteger: 'u128',
       coeffFrac: 'u32',
       negative: 'bool',
       degree: 'u8'
     },
+    Lookup330: 'FrameSupportWeightsWeightToFeeCoefficient',
     /**
      * pallet_election_provider_multi_phase::Phase<Bn>
      **/
@@ -1650,7 +1661,7 @@ export default {
     PalletSchedulerScheduledV2: {
       maybeId: 'Option<Vec<u8>>',
       priority: 'u8',
-      call: 'NodeRuntimeCall',
+      call: 'Call',
       maybePeriodic: 'Option<(u32,u32)>',
       origin: 'NodeRuntimeOriginCaller'
     },
@@ -1672,8 +1683,8 @@ export default {
         Unused9: 'Null',
         Unused10: 'Null',
         Unused11: 'Null',
-        Council: 'Lookup445',
-        TechnicalCommittee: 'Lookup446',
+        Council: 'PalletCollectiveRawOriginInstance1',
+        TechnicalCommittee: 'PalletCollectiveRawOriginInstance2',
       }
     },
     Lookup443: 'NodeRuntimeOriginCaller',
@@ -1691,23 +1702,25 @@ export default {
     /**
      * pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance1>
      **/
-    Lookup445: {
+    PalletCollectiveRawOriginInstance1: {
       _enum: {
         Members: '(u32,u32)',
         Member: 'AccountId32',
         _Phantom: 'Null',
       }
     },
+    Lookup445: 'PalletCollectiveRawOriginInstance1',
     /**
      * pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance2>
      **/
-    Lookup446: {
+    PalletCollectiveRawOriginInstance2: {
       _enum: {
         Members: '(u32,u32)',
         Member: 'AccountId32',
         _Phantom: 'Null',
       }
     },
+    Lookup446: 'PalletCollectiveRawOriginInstance2',
     /**
      * sp_core::Void
      **/

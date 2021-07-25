@@ -5,7 +5,9 @@ import type { PortableRegistry, PortableType, SiPath, SiTypeParameter } from '@p
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 
 import Handlebars from 'handlebars';
+import path from 'path';
 
+import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { Registry } from '@polkadot/types/types';
 import { isString, stringify } from '@polkadot/util';
 
@@ -15,7 +17,9 @@ import { typeEncoders } from './tsDef';
 const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 const WITH_TYPEDEF = false;
 
-const generateLookupDefs = Handlebars.compile(readTemplate('lookup/defs'));
+const generateLookupDefsTmpl = Handlebars.compile(readTemplate('lookup/defs'));
+const generateLookupIndexTmpl = Handlebars.compile(readTemplate('lookup/index'));
+const generateLookupTypesTmpl = Handlebars.compile(readTemplate('lookup/types'));
 
 function generateParamType (registry: Registry, { name, type }: SiTypeParameter): string {
   if (type.isSome) {
@@ -105,7 +109,10 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
     !(
       path.length === 2 &&
       (
-        path[0].toString() === 'node_runtime' ||
+        (
+          path[0].toString() === 'node_runtime' &&
+          path[1].toString() !== 'Call'
+        ) ||
         path[0].toString().startsWith('pallet_')
       ) &&
       MAP_ENUMS.includes(path[1].toString())
@@ -118,10 +125,10 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
   );
 }
 
-function generateLookupDefinitions (meta: Metadata, destDir: string): void {
+function generateLookupDefs (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
 
-  writeFile(`${destDir}/definitions.ts`, (): string => {
+  writeFile(path.join(destDir, 'definitions.ts'), (): string => {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
@@ -142,7 +149,7 @@ function generateLookupDefinitions (meta: Metadata, destDir: string): void {
     });
     const max = all.length - 1;
 
-    return generateLookupDefs({
+    return generateLookupDefsTmpl({
       defs: all.map(({ docs, type }, i) => {
         const { def, typeLookup, typeName } = type;
         const hasConflict = !!typeName && all.some(({ type }, j) => i !== j && type.typeName === typeName);
@@ -165,23 +172,31 @@ function generateLookupDefinitions (meta: Metadata, destDir: string): void {
 
 function generateLookupTypes (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
-
-  // writeFile(`${destDir}/types.ts`, (): string => {
-  const imports = { ...createImports({}, { types: {} }), interfaces: [] };
-  const all = getFilteredTypes(lookup).map(({ id }) => {
+  const imports = { ...createImports({ '@polkadot/types/interfaces': defaultDefinitions }, { types: {} }), interfaces: [] };
+  const items = getFilteredTypes(lookup).map(({ id }) => {
     const typeDef = lookup.getTypeDef(id);
 
     typeDef.name = typeDef.lookupName || registry.createLookupType(id);
 
-    return typeEncoders[typeDef.info](registry, {}, typeDef, imports);
+    return typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
   });
 
-  all.join('\n\n');
-  // });
+  writeFile(path.join(destDir, 'types.ts'), () => generateLookupTypesTmpl({
+    headerType: 'defs',
+    imports,
+    items,
+    types: [
+      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+        file: packagePath,
+        types: Object.keys(imports.localTypes[packagePath])
+      }))
+    ]
+  }), true);
+  writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
 function generateLookup (meta: Metadata, destDir: string): void {
-  generateLookupDefinitions(meta, destDir);
+  generateLookupDefs(meta, destDir);
   generateLookupTypes(meta, destDir);
 
   // initially

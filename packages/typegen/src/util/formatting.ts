@@ -90,7 +90,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Compact']);
 
-    return paramsNotation('Compact', formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
+    const sub = typeDef.sub as TypeDef;
+
+    return paramsNotation('Compact', formatType(registry, definitions, sub.lookupName || sub.type, imports));
   },
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['DoNotConstruct']);
@@ -116,7 +118,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Option']);
 
-    return paramsNotation('Option', formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
+    const sub = (typeDef.sub as TypeDef);
+
+    return paramsNotation('Option', formatType(registry, definitions, sub.lookupName || sub.type, imports));
   },
   [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     return typeDef.type;
@@ -131,9 +135,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     setImports(definitions, imports, ['Struct']);
 
     return `{ ${
-      ((typeDef.sub as TypeDef[]).map(({ name, type }, index) => [
+      ((typeDef.sub as TypeDef[]).map(({ lookupName, name, type }, index) => [
         name || `unknown${index}`,
-        formatType(registry, definitions, type, imports)
+        formatType(registry, definitions, lookupName || type, imports)
       ])).map(([k, t]) => `${k}: ${t};`).join(' ')
     } } & Struct`;
   },
@@ -142,20 +146,22 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
 
     // `(a,b)` gets transformed into `ITuple<[a, b]>`
     return paramsNotation('ITuple', `[${
-      ((typeDef.sub as TypeDef[]).map(({ type }) =>
-        formatType(registry, definitions, type, imports))
+      ((typeDef.sub as TypeDef[]).map(({ lookupName, type }) =>
+        formatType(registry, definitions, lookupName || type, imports))
       ).join(', ')
     }]`);
   },
   [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Vec']);
 
-    return paramsNotation('Vec', formatType(registry, definitions, (typeDef.sub as TypeDef).type, imports));
+    const sub = (typeDef.sub as TypeDef);
+
+    return paramsNotation('Vec', formatType(registry, definitions, sub.lookupName || sub.type, imports));
   },
   [TypeDefInfo.VecFixed]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    const type = (typeDef.sub as TypeDef).type;
+    const sub = (typeDef.sub as TypeDef);
 
-    if (type === 'u8') {
+    if (sub.type === 'u8') {
       setImports(definitions, imports, ['U8aFixed']);
 
       return 'U8aFixed';
@@ -163,42 +169,42 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
 
     setImports(definitions, imports, ['Vec']);
 
-    return paramsNotation('Vec', formatType(registry, definitions, type, imports));
+    return paramsNotation('Vec', formatType(registry, definitions, sub.lookupName || sub.type, imports));
   },
   [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['BTreeMap']);
 
     const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
-    return `BTreeMap<${formatType(registry, definitions, keyDef.type, imports)}, ${formatType(registry, definitions, valDef.type, imports)}>`;
+    return `BTreeMap<${formatType(registry, definitions, keyDef.lookupName || keyDef.type, imports)}, ${formatType(registry, definitions, valDef.lookupName || valDef.type, imports)}>`;
   },
   [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['BTreeSet']);
 
     const valDef = typeDef.sub as TypeDef;
 
-    return `BTreeSet<${formatType(registry, definitions, valDef.type, imports)}>`;
+    return `BTreeSet<${formatType(registry, definitions, valDef.lookupName || valDef.type, imports)}>`;
   },
   [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['HashMap']);
 
     const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
 
-    return `HashMap<${formatType(registry, definitions, keyDef.type, imports)}, ${formatType(registry, definitions, valDef.type, imports)}>`;
+    return `HashMap<${formatType(registry, definitions, keyDef.lookupName || keyDef.type, imports)}, ${formatType(registry, definitions, valDef.lookupName || valDef.type, imports)}>`;
   },
   [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
-    const type = (typeDef.sub as TypeDef).type;
-
     setImports(definitions, imports, ['Linkage']);
 
-    return paramsNotation('Linkage', formatType(registry, definitions, type, imports));
+    const sub = (typeDef.sub as TypeDef);
+
+    return paramsNotation('Linkage', formatType(registry, definitions, sub.lookupName || sub.type, imports));
   },
   [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports) => {
     setImports(definitions, imports, ['Result']);
 
-    const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
+    const [okDef, errDef] = (typeDef.sub as TypeDef[]);
 
-    return `Result<${formatType(registry, definitions, okDef.type, imports)}, ${formatType(registry, definitions, errorDef.type, imports)}>`;
+    return `Result<${formatType(registry, definitions, okDef.lookupName || okDef.type, imports)}, ${formatType(registry, definitions, errDef.lookupName || errDef.type, imports)}>`;
   }
 };
 

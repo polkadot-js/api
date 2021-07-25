@@ -25,6 +25,7 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
+  'node_runtime::Call',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
@@ -51,7 +52,7 @@ function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
 
 function extractNames (types: PortableType[]): Record<number, string> {
   return removeDuplicateNames(
-    types.map(({ type: { path } }): string | null => {
+    types.map(({ type: { params, path } }): string | null => {
       if (!path.length) {
         return null;
       }
@@ -62,9 +63,26 @@ function extractNames (types: PortableType[]): Record<number, string> {
         parts.pop();
       }
 
-      const typeName = parts.join('');
+      let typeName = parts.join('');
 
-      return WRAPPERS.includes(typeName) || ['frame_support'].includes(path[0].toString())
+      if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2) {
+        // Do magic for RawOrigin lookup
+        const instanceType = types[params[1].type.unwrap().toNumber()];
+
+        if (instanceType.type.path.length === 2) {
+          typeName = `${typeName}${instanceType.type.path[1].toString()}`;
+        }
+      }
+      // } else if (params.length === 1) {
+      //   // Do magic for single params primitive lookup
+      //   const instanceType = types[params[1].type.unwrap().toNumber()];
+
+      //   if (instanceType.type.def.isPrimitive) {
+      //     typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
+      //   }
+      // }
+
+      return WRAPPERS.includes(typeName)
         ? null
         : typeName;
     })
