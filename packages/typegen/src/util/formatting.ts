@@ -123,6 +123,8 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return paramsNotation('Option', formatType(registry, definitions, sub.lookupName || sub.type, imports, withShortcut));
   },
   [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+    setImports(definitions, imports, [typeDef.type]);
+
     return typeDef.type;
   },
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {

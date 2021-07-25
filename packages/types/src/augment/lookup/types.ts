@@ -3,7 +3,9 @@
 
 import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Result, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { Vote } from '@polkadot/types/interfaces/elections';
+import type { Era } from '@polkadot/types/interfaces/extrinsics';
+import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 
 /** @name SpCoreCryptoAccountId32 */
 export interface SpCoreCryptoAccountId32 extends AccountId32 {}
