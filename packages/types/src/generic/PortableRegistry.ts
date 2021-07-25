@@ -250,13 +250,7 @@ export class GenericPortableRegistry extends Struct {
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
-      return {
-        ...this.#createSiDef(fields[0].type),
-        ...(fields[0].name.isSome
-          ? { name: stringCamelCase(fields[0].name.unwrap()) }
-          : {}
-        )
-      };
+      return this.#createSiDef(fields[0].type);
     }
 
     const [sub, alias] = this.#extractFieldsAlias(fields);
