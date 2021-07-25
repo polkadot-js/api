@@ -79,8 +79,6 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
         if (instanceType.type.def.isPrimitive) {
           return `Compact${instanceType.type.def.asPrimitive.toString()}`;
-        } else {
-          console.error(JSON.stringify(instanceType));
         }
       }
 
