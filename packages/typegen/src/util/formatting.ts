@@ -100,9 +100,11 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return 'DoNotConstruct';
   },
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    setImports(definitions, imports, ['Enum']);
+    if (typeDef.lookupName) {
+      return typeDef.lookupName;
+    }
 
-    return `{${withShortcut ? ' ' : '\n    '}/** TODO generate fields **/${withShortcut ? ' ' : '\n  '}} & Enum`;
+    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
   },
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);

@@ -26,6 +26,7 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
   'node_runtime::Call',
+  'node_runtime::Event',
   'sp_arithmetic::per_things::*',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',

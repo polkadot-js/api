@@ -88,7 +88,7 @@ export default {
      **/
     FrameSystemEventRecord: {
       phase: 'FrameSystemPhase',
-      event: 'NodeRuntimeEvent',
+      event: 'Event',
       topics: 'Vec<H256>'
     },
     /**

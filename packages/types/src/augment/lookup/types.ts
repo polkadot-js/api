@@ -7,6 +7,7 @@ import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { Era } from '@polkadot/types/interfaces/extrinsics';
 import type { IdentityFields } from '@polkadot/types/interfaces/identity';
 import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { Event } from '@polkadot/types/interfaces/system';
 
 /** @name SpCoreCryptoAccountId32 */
 export interface SpCoreCryptoAccountId32 extends AccountId32 {}
@@ -83,24 +84,16 @@ export interface SpCoreChangesTrieChangesTrieConfiguration extends Struct {
 
 /** @name FrameSystemEventRecord */
 export interface FrameSystemEventRecord extends Struct {
-  readonly phase: {
-    /** TODO generate fields **/
-  } & Enum;
-  readonly event: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly phase: FrameSystemPhase;
+  readonly event: Event;
   readonly topics: Vec<H256>;
 }
 
 /** @name FrameSupportWeightsDispatchInfo */
 export interface FrameSupportWeightsDispatchInfo extends Struct {
   readonly weight: u64;
-  readonly class: {
-    /** TODO generate fields **/
-  } & Enum;
-  readonly paysFee: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly class: FrameSupportWeightsDispatchClass;
+  readonly paysFee: FrameSupportWeightsPays;
 }
 
 /** @name FrameSupportWeightsDispatchClass */
@@ -566,9 +559,7 @@ export interface PalletElectionsPhragmenRenouncing extends Enum {
 /** @name SpFinalityGrandpaEquivocationProof */
 export interface SpFinalityGrandpaEquivocationProof extends Struct {
   readonly setId: u64;
-  readonly equivocation: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly equivocation: SpFinalityGrandpaEquivocation;
 }
 
 /** @name SpFinalityGrandpaEquivocation */
@@ -878,9 +869,7 @@ export interface Lookup310 extends Option<U8aFixed> {}
 /** @name SpConsensusBabeBabeEpochConfiguration */
 export interface SpConsensusBabeBabeEpochConfiguration extends Struct {
   readonly c: ITuple<[u64, u64]>;
-  readonly allowedSlots: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly allowedSlots: SpConsensusBabeAllowedSlots;
 }
 
 /** @name PalletAuthorshipUncleEntryItem */
@@ -898,9 +887,7 @@ export interface FrameSupportStorageWeakBoundedVec extends Vec<PalletBalancesBal
 export interface PalletBalancesBalanceLockU128 extends Struct {
   readonly id: U8aFixed;
   readonly amount: u128;
-  readonly reasons: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly reasons: PalletBalancesReasons;
 }
 
 /** @name PalletBalancesReasons */
@@ -955,9 +942,7 @@ export interface PalletElectionProviderMultiPhasePhaseU32 extends Enum {
 export interface PalletElectionProviderMultiPhaseReadySolution extends Struct {
   readonly supports: Vec<ITuple<[AccountId32, SpNposElectionsSupport]>>;
   readonly score: Vec<u128>;
-  readonly compute: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly compute: PalletElectionProviderMultiPhaseElectionCompute;
 }
 
 /** @name PalletElectionProviderMultiPhaseRoundSnapshot */
@@ -1094,9 +1079,7 @@ export interface PalletDemocracyTypesReferendumInfo extends Enum {
 export interface PalletDemocracyTypesReferendumStatus extends Struct {
   readonly end: u32;
   readonly proposalHash: H256;
-  readonly threshold: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly threshold: PalletDemocracyVoteThreshold;
   readonly delay: u32;
   readonly tally: {
     readonly ayes: u128;
@@ -1548,9 +1531,7 @@ export interface PalletIdentityTypesRegistrarInfo extends Struct {
 /** @name PalletSocietyBid */
 export interface PalletSocietyBid extends Struct {
   readonly who: AccountId32;
-  readonly kind: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly kind: PalletSocietyBidKind;
   readonly value: u128;
 }
 
@@ -1599,9 +1580,7 @@ export interface PalletSchedulerScheduledV2 extends Struct {
   readonly priority: u8;
   readonly call: Call;
   readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
-  readonly origin: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly origin: NodeRuntimeOriginCaller;
 }
 
 /** @name NodeRuntimeOriginCaller */
@@ -1666,9 +1645,7 @@ export interface Lookup451 extends Vec<PalletProxyProxyDefinition> {}
 /** @name PalletProxyProxyDefinition */
 export interface PalletProxyProxyDefinition extends Struct {
   readonly delegate: AccountId32;
-  readonly proxyType: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly proxyType: NodeRuntimeProxyType;
   readonly delay: u32;
 }
 
@@ -1700,9 +1677,7 @@ export interface PalletBountiesBounty extends Struct {
   readonly fee: u128;
   readonly curatorDeposit: u128;
   readonly bond: u128;
-  readonly status: {
-    /** TODO generate fields **/
-  } & Enum;
+  readonly status: PalletBountiesBountyStatus;
 }
 
 /** @name PalletBountiesBountyStatus */
