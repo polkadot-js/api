@@ -416,8 +416,8 @@ export interface SpConsensusBabeAllowedSlots extends Enum {
 /** @name CompactU64 */
 export interface CompactU64 extends Compact<u64> {}
 
-/** @name SpRuntimeMultiaddressMultiAddress */
-export interface SpRuntimeMultiaddressMultiAddress extends MultiAddress {}
+/** @name SpRuntimeMultiAddress */
+export interface SpRuntimeMultiAddress extends MultiAddress {}
 
 /** @name PalletElectionProviderMultiPhaseRawSolution */
 export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
@@ -951,8 +951,8 @@ export interface PalletElectionProviderMultiPhaseRoundSnapshot extends Struct {
   readonly targets: Vec<AccountId32>;
 }
 
-/** @name FrameSupportStorageBoundedBtreeMapBoundedBTreeMap */
-export interface FrameSupportStorageBoundedBtreeMapBoundedBTreeMap extends BTreeMap<Vec<u128>, u32> {}
+/** @name FrameSupportStorageBoundedBTreeMap */
+export interface FrameSupportStorageBoundedBTreeMap extends BTreeMap<Vec<u128>, u32> {}
 
 /** @name Lookup338 */
 export interface Lookup338 extends BTreeMap<Vec<u128>, u32> {}

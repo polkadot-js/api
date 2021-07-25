@@ -406,7 +406,7 @@ export default {
     /**
      * Lookup139: sp_runtime::multiaddress::MultiAddress<sp_core::crypto::AccountId32, AccountIndex>
      **/
-    SpRuntimeMultiaddressMultiAddress: 'MultiAddress',
+    SpRuntimeMultiAddress: 'MultiAddress',
     /**
      * Lookup142: pallet_election_provider_multi_phase::RawSolution<node_runtime::NposCompactSolution16>
      **/
@@ -850,7 +850,7 @@ export default {
     /**
      * Lookup337: frame_support::storage::bounded_btree_map::BoundedBTreeMap<K, V, S>
      **/
-    FrameSupportStorageBoundedBtreeMapBoundedBTreeMap: 'BTreeMap<[u128;3], u32>',
+    FrameSupportStorageBoundedBTreeMap: 'BTreeMap<[u128;3], u32>',
     /**
      * Lookup338: BTreeMap<K, V>
      **/

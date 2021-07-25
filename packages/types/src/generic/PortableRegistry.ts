@@ -90,7 +90,10 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
       const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
 
-      if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
+      // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+      // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+      if (parts.length >= 2 && parts[parts.length - 1].toLowerCase() === parts[parts.length - 2].toLowerCase()) {
+        parts[parts.length - 2] = parts[parts.length - 1];
         parts.pop();
       }
 
