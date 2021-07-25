@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
@@ -26,14 +26,13 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
   'node_runtime::Call',
+  'sp_arithmetic::per_things::*',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
-  'primitive_types::H160',
-  'primitive_types::H256',
-  'primitive_types::H512'
+  'primitive_types::*'
 ];
 
 // These we never use these as top-level names, they are wrappers
@@ -41,6 +40,27 @@ const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
 
 // These are reserved and conflicts with built-in Codec definitions
 const RESERVED = ['entries', 'hash', 'keys', 'size'];
+
+// check if the path matches the PRIMITIVE_SP (with wildcards)
+function isPrimitivePath (path: SiPath): boolean {
+  return !!path.length && (
+    (
+      path.length > 2 &&
+      path[0].eq('ink_env') &&
+      path[1].eq('types')
+    ) ||
+    PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
+    PRIMITIVE_SP
+      .map((p) => p.split('::'))
+      .some((parts) =>
+        path.length === parts.length &&
+        parts.every((p, index) =>
+          p === '*' ||
+          path[index].eq(p)
+        )
+      )
+  );
+}
 
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
@@ -191,21 +211,10 @@ export class GenericPortableRegistry extends Struct {
 
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const path = [...type.path];
-
-    // We handle ink! here as well, although we still have a different registry there
-    const isPrimitivePath = !!path.length && (
-      (
-        path.length > 2 &&
-        path[0].eq('ink_env') &&
-        path[1].eq('types')
-      ) ||
-      PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
-      PRIMITIVE_SP.includes(path.join('::'))
-    );
     let typeDef: TypeDef;
 
     try {
-      if (isPrimitivePath) {
+      if (isPrimitivePath(type.path)) {
         typeDef = this.#extractPrimitivePath(lookupIndex, type);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);

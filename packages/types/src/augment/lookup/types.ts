@@ -3,7 +3,7 @@
 
 import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Result, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { AccountId32, Call, H256, MultiAddress } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
 
 /** @name SpCoreCryptoAccountId32 */
 export interface SpCoreCryptoAccountId32 extends AccountId32 {}
@@ -335,8 +335,8 @@ export interface CompactU32 extends Compact<u32> {}
 /** @name Lookup102 */
 export interface Lookup102 extends Text {}
 
-/** @name Lookup104 */
-export interface Lookup104 extends u32 {}
+/** @name SpArithmeticPerThingsPerbill */
+export interface SpArithmeticPerThingsPerbill extends Perbill {}
 
 /** @name Lookup105 */
 export interface Lookup105 extends Vec<ITuple<[Bytes, Bytes]>> {}
@@ -480,7 +480,7 @@ export interface Lookup140 extends U8aFixed {}
 
 /** @name PalletElectionProviderMultiPhaseRawSolution */
 export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
-  readonly compact: { votes1: Vec<ITuple<[CompactU32, CompactU16]>>; votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<u16>]>, CompactU16]>>; votes3: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);2], CompactU16]>>; votes4: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);3], CompactU16]>>; votes5: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);4], CompactU16]>>; votes6: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);5], CompactU16]>>; votes7: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);6], CompactU16]>>; votes8: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);7], CompactU16]>>; votes9: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);8], CompactU16]>>; votes10: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);9], CompactU16]>>; votes11: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);10], CompactU16]>>; votes12: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);11], CompactU16]>>; votes13: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);12], CompactU16]>>; votes14: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);13], CompactU16]>>; votes15: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);14], CompactU16]>>; votes16: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);15], CompactU16]>>; } & Struct;
+  readonly compact: { votes1: Vec<ITuple<[CompactU32, CompactU16]>>; votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>>; votes3: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);2], CompactU16]>>; votes4: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);3], CompactU16]>>; votes5: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);4], CompactU16]>>; votes6: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);5], CompactU16]>>; votes7: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);6], CompactU16]>>; votes8: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);7], CompactU16]>>; votes9: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);8], CompactU16]>>; votes10: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);9], CompactU16]>>; votes11: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);10], CompactU16]>>; votes12: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);11], CompactU16]>>; votes13: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);12], CompactU16]>>; votes14: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);13], CompactU16]>>; votes15: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);14], CompactU16]>>; votes16: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);15], CompactU16]>>; } & Struct;
   readonly score: Vec<u128>;
   readonly round: u32;
 }
@@ -488,21 +488,21 @@ export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
 /** @name NodeRuntimeNposCompactSolution16 */
 export interface NodeRuntimeNposCompactSolution16 extends Struct {
   readonly votes1: Vec<ITuple<[CompactU32, CompactU16]>>;
-  readonly votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<u16>]>, CompactU16]>>;
-  readonly votes3: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);2], CompactU16]>>;
-  readonly votes4: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);3], CompactU16]>>;
-  readonly votes5: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);4], CompactU16]>>;
-  readonly votes6: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);5], CompactU16]>>;
-  readonly votes7: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);6], CompactU16]>>;
-  readonly votes8: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);7], CompactU16]>>;
-  readonly votes9: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);8], CompactU16]>>;
-  readonly votes10: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);9], CompactU16]>>;
-  readonly votes11: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);10], CompactU16]>>;
-  readonly votes12: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);11], CompactU16]>>;
-  readonly votes13: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);12], CompactU16]>>;
-  readonly votes14: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);13], CompactU16]>>;
-  readonly votes15: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);14], CompactU16]>>;
-  readonly votes16: Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);15], CompactU16]>>;
+  readonly votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>>;
+  readonly votes3: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);2], CompactU16]>>;
+  readonly votes4: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);3], CompactU16]>>;
+  readonly votes5: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);4], CompactU16]>>;
+  readonly votes6: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);5], CompactU16]>>;
+  readonly votes7: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);6], CompactU16]>>;
+  readonly votes8: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);7], CompactU16]>>;
+  readonly votes9: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);8], CompactU16]>>;
+  readonly votes10: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);9], CompactU16]>>;
+  readonly votes11: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);10], CompactU16]>>;
+  readonly votes12: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);11], CompactU16]>>;
+  readonly votes13: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);12], CompactU16]>>;
+  readonly votes14: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);13], CompactU16]>>;
+  readonly votes15: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);14], CompactU16]>>;
+  readonly votes16: Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);15], CompactU16]>>;
 }
 
 /** @name Lookup144 */
@@ -515,145 +515,145 @@ export interface Lookup145 extends ITuple<[CompactU32, CompactU16]> {}
 export interface CompactU16 extends Compact<u16> {}
 
 /** @name Lookup147 */
-export interface Lookup147 extends Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<u16>]>, CompactU16]>> {}
+export interface Lookup147 extends Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>> {}
 
 /** @name Lookup148 */
-export interface Lookup148 extends ITuple<[CompactU32, ITuple<[CompactU16, Compact<u16>]>, CompactU16]> {}
+export interface Lookup148 extends ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]> {}
 
 /** @name Lookup149 */
-export interface Lookup149 extends ITuple<[CompactU16, Compact<u16>]> {}
+export interface Lookup149 extends ITuple<[CompactU16, Compact<PerU16>]> {}
 
 /** @name Lookup150 */
-export interface Lookup150 extends Compact<u16> {}
+export interface Lookup150 extends Compact<SpArithmeticPerThingsPerU16> {}
 
-/** @name Lookup151 */
-export interface Lookup151 extends u16 {}
+/** @name SpArithmeticPerThingsPerU16 */
+export interface SpArithmeticPerThingsPerU16 extends PerU16 {}
 
 /** @name Lookup152 */
-export interface Lookup152 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);2], CompactU16]>> {}
+export interface Lookup152 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);2], CompactU16]>> {}
 
 /** @name Lookup153 */
-export interface Lookup153 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);2], CompactU16]> {}
+export interface Lookup153 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);2], CompactU16]> {}
 
 /** @name Lookup154 */
-export interface Lookup154 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup154 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup155 */
-export interface Lookup155 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);3], CompactU16]>> {}
+export interface Lookup155 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);3], CompactU16]>> {}
 
 /** @name Lookup156 */
-export interface Lookup156 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);3], CompactU16]> {}
+export interface Lookup156 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);3], CompactU16]> {}
 
 /** @name Lookup157 */
-export interface Lookup157 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup157 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup158 */
-export interface Lookup158 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);4], CompactU16]>> {}
+export interface Lookup158 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);4], CompactU16]>> {}
 
 /** @name Lookup159 */
-export interface Lookup159 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);4], CompactU16]> {}
+export interface Lookup159 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);4], CompactU16]> {}
 
 /** @name Lookup160 */
-export interface Lookup160 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup160 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup161 */
-export interface Lookup161 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);5], CompactU16]>> {}
+export interface Lookup161 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);5], CompactU16]>> {}
 
 /** @name Lookup162 */
-export interface Lookup162 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);5], CompactU16]> {}
+export interface Lookup162 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);5], CompactU16]> {}
 
 /** @name Lookup163 */
-export interface Lookup163 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup163 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup164 */
-export interface Lookup164 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);6], CompactU16]>> {}
+export interface Lookup164 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);6], CompactU16]>> {}
 
 /** @name Lookup165 */
-export interface Lookup165 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);6], CompactU16]> {}
+export interface Lookup165 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);6], CompactU16]> {}
 
 /** @name Lookup166 */
-export interface Lookup166 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup166 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup167 */
-export interface Lookup167 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);7], CompactU16]>> {}
+export interface Lookup167 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);7], CompactU16]>> {}
 
 /** @name Lookup168 */
-export interface Lookup168 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);7], CompactU16]> {}
+export interface Lookup168 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);7], CompactU16]> {}
 
 /** @name Lookup169 */
-export interface Lookup169 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup169 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup170 */
-export interface Lookup170 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);8], CompactU16]>> {}
+export interface Lookup170 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);8], CompactU16]>> {}
 
 /** @name Lookup171 */
-export interface Lookup171 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);8], CompactU16]> {}
+export interface Lookup171 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);8], CompactU16]> {}
 
 /** @name Lookup172 */
-export interface Lookup172 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup172 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup173 */
-export interface Lookup173 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);9], CompactU16]>> {}
+export interface Lookup173 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);9], CompactU16]>> {}
 
 /** @name Lookup174 */
-export interface Lookup174 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);9], CompactU16]> {}
+export interface Lookup174 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);9], CompactU16]> {}
 
 /** @name Lookup175 */
-export interface Lookup175 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup175 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup176 */
-export interface Lookup176 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);10], CompactU16]>> {}
+export interface Lookup176 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);10], CompactU16]>> {}
 
 /** @name Lookup177 */
-export interface Lookup177 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);10], CompactU16]> {}
+export interface Lookup177 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);10], CompactU16]> {}
 
 /** @name Lookup178 */
-export interface Lookup178 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup178 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup179 */
-export interface Lookup179 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);11], CompactU16]>> {}
+export interface Lookup179 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);11], CompactU16]>> {}
 
 /** @name Lookup180 */
-export interface Lookup180 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);11], CompactU16]> {}
+export interface Lookup180 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);11], CompactU16]> {}
 
 /** @name Lookup181 */
-export interface Lookup181 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup181 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup182 */
-export interface Lookup182 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);12], CompactU16]>> {}
+export interface Lookup182 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);12], CompactU16]>> {}
 
 /** @name Lookup183 */
-export interface Lookup183 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);12], CompactU16]> {}
+export interface Lookup183 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);12], CompactU16]> {}
 
 /** @name Lookup184 */
-export interface Lookup184 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup184 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup185 */
-export interface Lookup185 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);13], CompactU16]>> {}
+export interface Lookup185 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);13], CompactU16]>> {}
 
 /** @name Lookup186 */
-export interface Lookup186 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);13], CompactU16]> {}
+export interface Lookup186 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);13], CompactU16]> {}
 
 /** @name Lookup187 */
-export interface Lookup187 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup187 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup188 */
-export interface Lookup188 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);14], CompactU16]>> {}
+export interface Lookup188 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);14], CompactU16]>> {}
 
 /** @name Lookup189 */
-export interface Lookup189 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);14], CompactU16]> {}
+export interface Lookup189 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);14], CompactU16]> {}
 
 /** @name Lookup190 */
-export interface Lookup190 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup190 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup191 */
-export interface Lookup191 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<u16>);15], CompactU16]>> {}
+export interface Lookup191 extends Vec<ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);15], CompactU16]>> {}
 
 /** @name Lookup192 */
-export interface Lookup192 extends ITuple<[CompactU32, [(CompactU16,Compact<u16>);15], CompactU16]> {}
+export interface Lookup192 extends ITuple<[CompactU32, [(CompactU16,Compact<PerU16>);15], CompactU16]> {}
 
 /** @name Lookup193 */
-export interface Lookup193 extends Vec<ITuple<[CompactU16, Compact<u16>]>> {}
+export interface Lookup193 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
 
 /** @name Lookup194 */
 export interface Lookup194 extends Vec<u128> {}
@@ -691,21 +691,21 @@ export interface PalletStakingRewardDestination extends Enum {
 
 /** @name PalletStakingValidatorPrefs */
 export interface PalletStakingValidatorPrefs extends Struct {
-  readonly commission: Compact<u32>;
+  readonly commission: Compact<SpArithmeticPerThingsPerbill>;
   readonly blocked: bool;
 }
 
 /** @name Lookup203 */
-export interface Lookup203 extends Compact<u32> {}
+export interface Lookup203 extends Compact<SpArithmeticPerThingsPerbill> {}
 
 /** @name Lookup204 */
 export interface Lookup204 extends Vec<SpRuntimeMultiaddressMultiAddress> {}
 
-/** @name Lookup205 */
-export interface Lookup205 extends u8 {}
+/** @name SpArithmeticPerThingsPercent */
+export interface SpArithmeticPerThingsPercent extends Percent {}
 
 /** @name Lookup206 */
-export interface Lookup206 extends Option<u8> {}
+export interface Lookup206 extends Option<SpArithmeticPerThingsPercent> {}
 
 /** @name NodeRuntimeSessionKeys */
 export interface NodeRuntimeSessionKeys extends Struct {
@@ -1134,10 +1134,10 @@ export interface PalletAssetsTypesDestroyWitness extends Struct {
 }
 
 /** @name Lookup300 */
-export interface Lookup300 extends Compact<u64> {}
+export interface Lookup300 extends Compact<SpArithmeticPerThingsPerquintill> {}
 
-/** @name Lookup301 */
-export interface Lookup301 extends u64 {}
+/** @name SpArithmeticPerThingsPerquintill */
+export interface SpArithmeticPerThingsPerquintill extends Perquintill {}
 
 /** @name PalletUniquesTypesDestroyWitness */
 export interface PalletUniquesTypesDestroyWitness extends Struct {
@@ -1240,7 +1240,7 @@ export interface Lookup329 extends Vec<FrameSupportWeightsWeightToFeeCoefficient
 /** @name FrameSupportWeightsWeightToFeeCoefficientU128 */
 export interface FrameSupportWeightsWeightToFeeCoefficientU128 extends Struct {
   readonly coeffInteger: u128;
-  readonly coeffFrac: u32;
+  readonly coeffFrac: Perbill;
   readonly negative: bool;
   readonly degree: u8;
 }
@@ -1362,7 +1362,7 @@ export interface PalletStakingUnappliedSlash extends Struct {
 }
 
 /** @name Lookup355 */
-export interface Lookup355 extends ITuple<[u32, u128]> {}
+export interface Lookup355 extends ITuple<[SpArithmeticPerThingsPerbill, u128]> {}
 
 /** @name PalletStakingSlashingSlashingSpans */
 export interface PalletStakingSlashingSlashingSpans extends Struct {
@@ -1537,8 +1537,8 @@ export interface PalletTreasuryProposal extends Struct {
 /** @name Lookup395 */
 export interface Lookup395 extends Vec<u32> {}
 
-/** @name Lookup396 */
-export interface Lookup396 extends u32 {}
+/** @name SpArithmeticPerThingsPermill */
+export interface SpArithmeticPerThingsPermill extends Permill {}
 
 /** @name Lookup397 */
 export interface Lookup397 extends U8aFixed {}
@@ -2041,14 +2041,14 @@ export interface PalletGiltPalletGiltBid extends Struct {
 /** @name PalletGiltPalletActiveGiltsTotalU128 */
 export interface PalletGiltPalletActiveGiltsTotalU128 extends Struct {
   readonly frozen: u128;
-  readonly proportion: u64;
+  readonly proportion: Perquintill;
   readonly index: u32;
-  readonly target: u64;
+  readonly target: Perquintill;
 }
 
 /** @name PalletGiltPalletActiveGilt */
 export interface PalletGiltPalletActiveGilt extends Struct {
-  readonly proportion: u64;
+  readonly proportion: Perquintill;
   readonly amount: u128;
   readonly who: AccountId32;
   readonly expiry: u32;

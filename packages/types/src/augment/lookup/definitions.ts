@@ -325,7 +325,8 @@ export default {
     /**
      * 104: sp_arithmetic::per_things::Perbill
      **/
-    Lookup104: 'u32',
+    SpArithmeticPerThingsPerbill: 'Perbill',
+    Lookup104: 'SpArithmeticPerThingsPerbill',
     Lookup105: 'Vec<(Vec<u8>,Vec<u8>)>',
     Lookup106: '(Vec<u8>,Vec<u8>)',
     Lookup107: 'Vec<Vec<u8>>',
@@ -494,77 +495,78 @@ export default {
      **/
     NodeRuntimeNposCompactSolution16: {
       votes1: 'Vec<(CompactU32,CompactU16)>',
-      votes2: 'Vec<(CompactU32,(CompactU16,Compact<u16>),CompactU16)>',
-      votes3: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);2],CompactU16)>',
-      votes4: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);3],CompactU16)>',
-      votes5: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);4],CompactU16)>',
-      votes6: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);5],CompactU16)>',
-      votes7: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);6],CompactU16)>',
-      votes8: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);7],CompactU16)>',
-      votes9: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);8],CompactU16)>',
-      votes10: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);9],CompactU16)>',
-      votes11: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);10],CompactU16)>',
-      votes12: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);11],CompactU16)>',
-      votes13: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);12],CompactU16)>',
-      votes14: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);13],CompactU16)>',
-      votes15: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);14],CompactU16)>',
-      votes16: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);15],CompactU16)>'
+      votes2: 'Vec<(CompactU32,(CompactU16,Compact<PerU16>),CompactU16)>',
+      votes3: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);2],CompactU16)>',
+      votes4: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);3],CompactU16)>',
+      votes5: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);4],CompactU16)>',
+      votes6: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);5],CompactU16)>',
+      votes7: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);6],CompactU16)>',
+      votes8: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);7],CompactU16)>',
+      votes9: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);8],CompactU16)>',
+      votes10: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);9],CompactU16)>',
+      votes11: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);10],CompactU16)>',
+      votes12: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);11],CompactU16)>',
+      votes13: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);12],CompactU16)>',
+      votes14: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);13],CompactU16)>',
+      votes15: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);14],CompactU16)>',
+      votes16: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);15],CompactU16)>'
     },
     Lookup143: 'NodeRuntimeNposCompactSolution16',
     Lookup144: 'Vec<(CompactU32,CompactU16)>',
     Lookup145: '(CompactU32,CompactU16)',
     CompactU16: 'Compact<u16>',
     Lookup146: 'CompactU16',
-    Lookup147: 'Vec<(CompactU32,(CompactU16,Compact<u16>),CompactU16)>',
-    Lookup148: '(CompactU32,(CompactU16,Compact<u16>),CompactU16)',
-    Lookup149: '(CompactU16,Compact<u16>)',
-    Lookup150: 'Compact<u16>',
+    Lookup147: 'Vec<(CompactU32,(CompactU16,Compact<PerU16>),CompactU16)>',
+    Lookup148: '(CompactU32,(CompactU16,Compact<PerU16>),CompactU16)',
+    Lookup149: '(CompactU16,Compact<PerU16>)',
+    Lookup150: 'Compact<PerU16>',
     /**
      * 151: sp_arithmetic::per_things::PerU16
      **/
-    Lookup151: 'u16',
-    Lookup152: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);2],CompactU16)>',
-    Lookup153: '(CompactU32,[(CompactU16,Compact<u16>);2],CompactU16)',
-    Lookup154: '[(CompactU16,Compact<u16>);2]',
-    Lookup155: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);3],CompactU16)>',
-    Lookup156: '(CompactU32,[(CompactU16,Compact<u16>);3],CompactU16)',
-    Lookup157: '[(CompactU16,Compact<u16>);3]',
-    Lookup158: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);4],CompactU16)>',
-    Lookup159: '(CompactU32,[(CompactU16,Compact<u16>);4],CompactU16)',
-    Lookup160: '[(CompactU16,Compact<u16>);4]',
-    Lookup161: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);5],CompactU16)>',
-    Lookup162: '(CompactU32,[(CompactU16,Compact<u16>);5],CompactU16)',
-    Lookup163: '[(CompactU16,Compact<u16>);5]',
-    Lookup164: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);6],CompactU16)>',
-    Lookup165: '(CompactU32,[(CompactU16,Compact<u16>);6],CompactU16)',
-    Lookup166: '[(CompactU16,Compact<u16>);6]',
-    Lookup167: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);7],CompactU16)>',
-    Lookup168: '(CompactU32,[(CompactU16,Compact<u16>);7],CompactU16)',
-    Lookup169: '[(CompactU16,Compact<u16>);7]',
-    Lookup170: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);8],CompactU16)>',
-    Lookup171: '(CompactU32,[(CompactU16,Compact<u16>);8],CompactU16)',
-    Lookup172: '[(CompactU16,Compact<u16>);8]',
-    Lookup173: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);9],CompactU16)>',
-    Lookup174: '(CompactU32,[(CompactU16,Compact<u16>);9],CompactU16)',
-    Lookup175: '[(CompactU16,Compact<u16>);9]',
-    Lookup176: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);10],CompactU16)>',
-    Lookup177: '(CompactU32,[(CompactU16,Compact<u16>);10],CompactU16)',
-    Lookup178: '[(CompactU16,Compact<u16>);10]',
-    Lookup179: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);11],CompactU16)>',
-    Lookup180: '(CompactU32,[(CompactU16,Compact<u16>);11],CompactU16)',
-    Lookup181: '[(CompactU16,Compact<u16>);11]',
-    Lookup182: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);12],CompactU16)>',
-    Lookup183: '(CompactU32,[(CompactU16,Compact<u16>);12],CompactU16)',
-    Lookup184: '[(CompactU16,Compact<u16>);12]',
-    Lookup185: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);13],CompactU16)>',
-    Lookup186: '(CompactU32,[(CompactU16,Compact<u16>);13],CompactU16)',
-    Lookup187: '[(CompactU16,Compact<u16>);13]',
-    Lookup188: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);14],CompactU16)>',
-    Lookup189: '(CompactU32,[(CompactU16,Compact<u16>);14],CompactU16)',
-    Lookup190: '[(CompactU16,Compact<u16>);14]',
-    Lookup191: 'Vec<(CompactU32,[(CompactU16,Compact<u16>);15],CompactU16)>',
-    Lookup192: '(CompactU32,[(CompactU16,Compact<u16>);15],CompactU16)',
-    Lookup193: '[(CompactU16,Compact<u16>);15]',
+    SpArithmeticPerThingsPerU16: 'PerU16',
+    Lookup151: 'SpArithmeticPerThingsPerU16',
+    Lookup152: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);2],CompactU16)>',
+    Lookup153: '(CompactU32,[(CompactU16,Compact<PerU16>);2],CompactU16)',
+    Lookup154: '[(CompactU16,Compact<PerU16>);2]',
+    Lookup155: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);3],CompactU16)>',
+    Lookup156: '(CompactU32,[(CompactU16,Compact<PerU16>);3],CompactU16)',
+    Lookup157: '[(CompactU16,Compact<PerU16>);3]',
+    Lookup158: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);4],CompactU16)>',
+    Lookup159: '(CompactU32,[(CompactU16,Compact<PerU16>);4],CompactU16)',
+    Lookup160: '[(CompactU16,Compact<PerU16>);4]',
+    Lookup161: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);5],CompactU16)>',
+    Lookup162: '(CompactU32,[(CompactU16,Compact<PerU16>);5],CompactU16)',
+    Lookup163: '[(CompactU16,Compact<PerU16>);5]',
+    Lookup164: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);6],CompactU16)>',
+    Lookup165: '(CompactU32,[(CompactU16,Compact<PerU16>);6],CompactU16)',
+    Lookup166: '[(CompactU16,Compact<PerU16>);6]',
+    Lookup167: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);7],CompactU16)>',
+    Lookup168: '(CompactU32,[(CompactU16,Compact<PerU16>);7],CompactU16)',
+    Lookup169: '[(CompactU16,Compact<PerU16>);7]',
+    Lookup170: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);8],CompactU16)>',
+    Lookup171: '(CompactU32,[(CompactU16,Compact<PerU16>);8],CompactU16)',
+    Lookup172: '[(CompactU16,Compact<PerU16>);8]',
+    Lookup173: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);9],CompactU16)>',
+    Lookup174: '(CompactU32,[(CompactU16,Compact<PerU16>);9],CompactU16)',
+    Lookup175: '[(CompactU16,Compact<PerU16>);9]',
+    Lookup176: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);10],CompactU16)>',
+    Lookup177: '(CompactU32,[(CompactU16,Compact<PerU16>);10],CompactU16)',
+    Lookup178: '[(CompactU16,Compact<PerU16>);10]',
+    Lookup179: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);11],CompactU16)>',
+    Lookup180: '(CompactU32,[(CompactU16,Compact<PerU16>);11],CompactU16)',
+    Lookup181: '[(CompactU16,Compact<PerU16>);11]',
+    Lookup182: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);12],CompactU16)>',
+    Lookup183: '(CompactU32,[(CompactU16,Compact<PerU16>);12],CompactU16)',
+    Lookup184: '[(CompactU16,Compact<PerU16>);12]',
+    Lookup185: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);13],CompactU16)>',
+    Lookup186: '(CompactU32,[(CompactU16,Compact<PerU16>);13],CompactU16)',
+    Lookup187: '[(CompactU16,Compact<PerU16>);13]',
+    Lookup188: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);14],CompactU16)>',
+    Lookup189: '(CompactU32,[(CompactU16,Compact<PerU16>);14],CompactU16)',
+    Lookup190: '[(CompactU16,Compact<PerU16>);14]',
+    Lookup191: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);15],CompactU16)>',
+    Lookup192: '(CompactU32,[(CompactU16,Compact<PerU16>);15],CompactU16)',
+    Lookup193: '[(CompactU16,Compact<PerU16>);15]',
     Lookup194: '[u128;3]',
     /**
      * 195: pallet_election_provider_multi_phase::SolutionOrSnapshotSize
@@ -605,20 +607,21 @@ export default {
      * 202: pallet_staking::ValidatorPrefs
      **/
     PalletStakingValidatorPrefs: {
-      commission: 'Compact<u32>',
+      commission: 'Compact<Perbill>',
       blocked: 'bool'
     },
     Lookup202: 'PalletStakingValidatorPrefs',
-    Lookup203: 'Compact<u32>',
+    Lookup203: 'Compact<Perbill>',
     Lookup204: 'Vec<MultiAddress>',
     /**
      * 205: sp_arithmetic::per_things::Percent
      **/
-    Lookup205: 'u8',
+    SpArithmeticPerThingsPercent: 'Percent',
+    Lookup205: 'SpArithmeticPerThingsPercent',
     /**
      * 206: Option<<field>: sp_arithmetic::per_things::Percent>
      **/
-    Lookup206: 'Option<u8>',
+    Lookup206: 'Option<Percent>',
     /**
      * 208: node_runtime::SessionKeys
      **/
@@ -897,11 +900,12 @@ export default {
       approvals: 'CompactU32'
     },
     Lookup297: 'PalletAssetsTypesDestroyWitness',
-    Lookup300: 'Compact<u64>',
+    Lookup300: 'Compact<Perquintill>',
     /**
      * 301: sp_arithmetic::per_things::Perquintill
      **/
-    Lookup301: 'u64',
+    SpArithmeticPerThingsPerquintill: 'Perquintill',
+    Lookup301: 'SpArithmeticPerThingsPerquintill',
     /**
      * 303: pallet_uniques::types::DestroyWitness
      **/
@@ -1008,7 +1012,7 @@ export default {
      **/
     FrameSupportWeightsWeightToFeeCoefficientU128: {
       coeffInteger: 'u128',
-      coeffFrac: 'u32',
+      coeffFrac: 'Perbill',
       negative: 'bool',
       degree: 'u8'
     },
@@ -1134,7 +1138,7 @@ export default {
       payout: 'u128'
     },
     Lookup354: 'PalletStakingUnappliedSlash',
-    Lookup355: '(u32,u128)',
+    Lookup355: '(Perbill,u128)',
     /**
      * 356: pallet_staking::slashing::SlashingSpans
      **/
@@ -1346,7 +1350,8 @@ export default {
     /**
      * 396: sp_arithmetic::per_things::Permill
      **/
-    Lookup396: 'u32',
+    SpArithmeticPerThingsPermill: 'Permill',
+    Lookup396: 'SpArithmeticPerThingsPermill',
     /**
      * 397: frame_support::PalletId
      **/
@@ -1904,16 +1909,16 @@ export default {
      **/
     PalletGiltPalletActiveGiltsTotalU128: {
       frozen: 'u128',
-      proportion: 'u64',
+      proportion: 'Perquintill',
       index: 'u32',
-      target: 'u64'
+      target: 'Perquintill'
     },
     Lookup479: 'PalletGiltPalletActiveGiltsTotalU128',
     /**
      * 480: pallet_gilt::pallet::ActiveGilt<Balance, <field>: sp_core::crypto::AccountId32, BlockNumber>
      **/
     PalletGiltPalletActiveGilt: {
-      proportion: 'u64',
+      proportion: 'Perquintill',
       amount: 'u128',
       who: 'AccountId32',
       expiry: 'u32'
