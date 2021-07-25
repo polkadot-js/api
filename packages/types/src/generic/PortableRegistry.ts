@@ -259,7 +259,7 @@ export class GenericPortableRegistry extends Struct {
       };
     }
 
-    const [sub, alias] = this.#extractFieldsAliassed(fields);
+    const [sub, alias] = this.#extractFieldsAlias(fields);
 
     return withTypeString(this.registry, {
       info: isTuple // Tuple check first
@@ -282,7 +282,7 @@ export class GenericPortableRegistry extends Struct {
     });
   }
 
-  #extractFieldsAliassed (fields: SiField[]): [TypeDef[], Map<string, string>] {
+  #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
     const sub = fields.map(({ name, type }) => {
       const typeDef = this.#createSiDef(type);
