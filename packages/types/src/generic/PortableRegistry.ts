@@ -174,6 +174,12 @@ export class GenericPortableRegistry extends Struct {
         // these are safe since we are looking through the keys as set
         this.#typeDefs[lookupIndex][key as 'info'] = extracted[key as 'info'];
       });
+
+      // don't set lookupName on lower-level, we want to always direct to the type
+      if (extracted.info === TypeDefInfo.Plain) {
+        this.#typeDefs[lookupIndex].lookupNameOrig = this.#typeDefs[lookupIndex].lookupName;
+        delete this.#typeDefs[lookupIndex].lookupName;
+      }
     }
 
     return this.#typeDefs[lookupIndex];
@@ -365,12 +371,9 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractPrimitivePath (_: number, type: SiType): TypeDef {
-    const displayName = type.path[type.path.length - 1].toString();
-
     return {
-      displayName,
       info: TypeDefInfo.Plain,
-      type: displayName
+      type: type.path[type.path.length - 1].toString()
     };
   }
 

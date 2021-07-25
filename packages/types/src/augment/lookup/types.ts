@@ -74,7 +74,7 @@ export interface SpRuntimeGenericDigestDigestItem extends Enum {
   readonly asOther: Bytes;
   readonly isUnused1: boolean;
   readonly isChangesTrieRoot: boolean;
-  readonly asChangesTrieRoot: PrimitiveTypesH256;
+  readonly asChangesTrieRoot: H256;
   readonly isUnused3: boolean;
   readonly isConsensus: boolean;
   readonly asConsensus: ITuple<[U8aFixed, Bytes]>;
@@ -115,7 +115,7 @@ export interface FrameSystemEventRecord extends Struct {
   readonly event: {
     /** TODO generate fields **/
   } & Enum;
-  readonly topics: Vec<PrimitiveTypesH256>;
+  readonly topics: Vec<H256>;
 }
 
 /** @name FrameSupportWeightsDispatchInfo */
@@ -199,7 +199,7 @@ export interface Lookup34 extends bool {}
 export interface Lookup35 extends Option<PalletElectionProviderMultiPhaseElectionCompute> {}
 
 /** @name Lookup39 */
-export interface Lookup39 extends Vec<SpCoreCryptoAccountId32> {}
+export interface Lookup39 extends Vec<AccountId32> {}
 
 /** @name PalletDemocracyVoteThreshold */
 export interface PalletDemocracyVoteThreshold extends Enum {
@@ -232,7 +232,7 @@ export type PalletCollectiveInstance2 = Null;
 export interface Lookup48 extends Vec<ITuple<[AccountId32, u128]>> {}
 
 /** @name Lookup49 */
-export interface Lookup49 extends ITuple<[SpCoreCryptoAccountId32, u128]> {}
+export interface Lookup49 extends ITuple<[AccountId32, u128]> {}
 
 /** @name PalletMembershipInstance1 */
 export type PalletMembershipInstance1 = Null;
@@ -259,7 +259,7 @@ export interface Lookup62 extends U8aFixed {}
 export interface Lookup63 extends Vec<ITuple<[AccountId32, PalletStakingExposure]>> {}
 
 /** @name Lookup64 */
-export interface Lookup64 extends ITuple<[SpCoreCryptoAccountId32, PalletStakingExposure]> {}
+export interface Lookup64 extends ITuple<[AccountId32, PalletStakingExposure]> {}
 
 /** @name PalletStakingExposure */
 export interface PalletStakingExposure extends Struct {
@@ -336,7 +336,7 @@ export interface FrameSystemPhase extends Enum {
 }
 
 /** @name Lookup98 */
-export interface Lookup98 extends Vec<PrimitiveTypesH256> {}
+export interface Lookup98 extends Vec<H256> {}
 
 /** @name Lookup99 */
 export interface Lookup99 extends Vec<ITuple<[u32, u32]>> {}
@@ -455,7 +455,7 @@ export interface Lookup118 extends ITuple<[U8aFixed, u32]> {}
 export interface Lookup119 extends U8aFixed {}
 
 /** @name Lookup122 */
-export interface Lookup122 extends Vec<NodeRuntimeCall> {}
+export interface Lookup122 extends Vec<Call> {}
 
 /** @name NodeRuntimeCall */
 export interface NodeRuntimeCall extends Call {}
@@ -465,17 +465,17 @@ export interface SpConsensusSlotsEquivocationProof extends Struct {
   readonly offender: U8aFixed;
   readonly slot: u64;
   readonly firstHeader: {
-    readonly parentHash: PrimitiveTypesH256;
+    readonly parentHash: H256;
     readonly number: CompactU32;
-    readonly stateRoot: PrimitiveTypesH256;
-    readonly extrinsicsRoot: PrimitiveTypesH256;
+    readonly stateRoot: H256;
+    readonly extrinsicsRoot: H256;
     readonly digest: SpRuntimeGenericDigest;
   } & Struct;
   readonly secondHeader: {
-    readonly parentHash: PrimitiveTypesH256;
+    readonly parentHash: H256;
     readonly number: CompactU32;
-    readonly stateRoot: PrimitiveTypesH256;
-    readonly extrinsicsRoot: PrimitiveTypesH256;
+    readonly stateRoot: H256;
+    readonly extrinsicsRoot: H256;
     readonly digest: SpRuntimeGenericDigest;
   } & Struct;
 }
@@ -494,8 +494,8 @@ export interface SpRuntimeGenericHeader extends Struct {
 /** @name Lookup127 */
 export interface Lookup127 extends U8aFixed {}
 
-/** @name Lookup128 */
-export interface Lookup128 extends u64 {}
+/** @name SpConsensusSlotsSlot */
+export interface SpConsensusSlotsSlot extends u64 {}
 
 /** @name SpSessionMembershipProof */
 export interface SpSessionMembershipProof extends Struct {
@@ -599,7 +599,7 @@ export interface Lookup148 extends ITuple<[CompactU32, ITuple<[CompactU16, Compa
 export interface Lookup149 extends ITuple<[CompactU16, Compact<PerU16>]> {}
 
 /** @name Lookup150 */
-export interface Lookup150 extends Compact<SpArithmeticPerThingsPerU16> {}
+export interface Lookup150 extends Compact<PerU16> {}
 
 /** @name SpArithmeticPerThingsPerU16 */
 export interface SpArithmeticPerThingsPerU16 extends PerU16 {}
@@ -746,7 +746,7 @@ export interface Lookup196 extends Option<Vec<u128>> {}
 export interface Lookup197 extends Vec<ITuple<[AccountId32, SpNposElectionsSupport]>> {}
 
 /** @name Lookup198 */
-export interface Lookup198 extends ITuple<[SpCoreCryptoAccountId32, SpNposElectionsSupport]> {}
+export interface Lookup198 extends ITuple<[AccountId32, SpNposElectionsSupport]> {}
 
 /** @name SpNposElectionsSupport */
 export interface SpNposElectionsSupport extends Struct {
@@ -760,27 +760,27 @@ export interface PalletStakingRewardDestination extends Enum {
   readonly isStash: boolean;
   readonly isController: boolean;
   readonly isAccount: boolean;
-  readonly asAccount: SpCoreCryptoAccountId32;
+  readonly asAccount: AccountId32;
   readonly isNone: boolean;
 }
 
 /** @name PalletStakingValidatorPrefs */
 export interface PalletStakingValidatorPrefs extends Struct {
-  readonly commission: Compact<SpArithmeticPerThingsPerbill>;
+  readonly commission: Compact<Perbill>;
   readonly blocked: bool;
 }
 
 /** @name Lookup203 */
-export interface Lookup203 extends Compact<SpArithmeticPerThingsPerbill> {}
+export interface Lookup203 extends Compact<Perbill> {}
 
 /** @name Lookup204 */
-export interface Lookup204 extends Vec<SpRuntimeMultiaddressMultiAddress> {}
+export interface Lookup204 extends Vec<MultiAddress> {}
 
 /** @name SpArithmeticPerThingsPercent */
 export interface SpArithmeticPerThingsPercent extends Percent {}
 
 /** @name Lookup206 */
-export interface Lookup206 extends Option<SpArithmeticPerThingsPercent> {}
+export interface Lookup206 extends Option<Percent> {}
 
 /** @name NodeRuntimeSessionKeys */
 export interface NodeRuntimeSessionKeys extends Struct {
@@ -797,7 +797,7 @@ export interface Lookup209 extends U8aFixed {}
 export interface PalletDemocracyVoteAccountVoteU128 extends Enum {
   readonly isStandard: boolean;
   readonly asStandard: {
-    readonly vote: PalletDemocracyVote;
+    readonly vote: Vote;
     readonly balance: u128;
   } & Struct;
   readonly isSplit: boolean;
@@ -822,7 +822,7 @@ export interface PalletDemocracyConviction extends Enum {
 }
 
 /** @name Lookup215 */
-export interface Lookup215 extends Option<SpCoreCryptoAccountId32> {}
+export interface Lookup215 extends Option<AccountId32> {}
 
 /** @name PalletElectionsPhragmenRenouncing */
 export interface PalletElectionsPhragmenRenouncing extends Enum {
@@ -941,7 +941,7 @@ export interface PalletIdentityTypesIdentityInfo extends Struct {
 export interface Lookup245 extends Vec<ITuple<[Data, Data]>> {}
 
 /** @name Lookup246 */
-export interface Lookup246 extends ITuple<[PalletIdentityTypesData, PalletIdentityTypesData]> {}
+export interface Lookup246 extends ITuple<[Data, Data]> {}
 
 /** @name PalletIdentityTypesData */
 export interface PalletIdentityTypesData extends Data {}
@@ -1040,7 +1040,7 @@ export interface Lookup277 extends Option<U8aFixed> {}
 export interface Lookup278 extends Vec<ITuple<[AccountId32, Data]>> {}
 
 /** @name Lookup279 */
-export interface Lookup279 extends ITuple<[SpCoreCryptoAccountId32, PalletIdentityTypesData]> {}
+export interface Lookup279 extends ITuple<[AccountId32, Data]> {}
 
 // SI: Lookup281
 
@@ -1220,7 +1220,7 @@ export interface PalletAssetsTypesDestroyWitness extends Struct {
 }
 
 /** @name Lookup300 */
-export interface Lookup300 extends Compact<SpArithmeticPerThingsPerquintill> {}
+export interface Lookup300 extends Compact<Perquintill> {}
 
 /** @name SpArithmeticPerThingsPerquintill */
 export interface SpArithmeticPerThingsPerquintill extends Perquintill {}
@@ -1233,7 +1233,7 @@ export interface PalletUniquesTypesDestroyWitness extends Struct {
 }
 
 /** @name Lookup304 */
-export interface Lookup304 extends Option<SpRuntimeMultiaddressMultiAddress> {}
+export interface Lookup304 extends Option<MultiAddress> {}
 
 /** @name SpTransactionStorageProofTransactionStorageProof */
 export interface SpTransactionStorageProofTransactionStorageProof extends Struct {
@@ -1273,7 +1273,7 @@ export interface PalletAuthorshipUncleEntryItem extends Enum {
 }
 
 /** @name Lookup316 */
-export interface Lookup316 extends ITuple<[SpCoreCryptoAccountId32, u128, bool]> {}
+export interface Lookup316 extends ITuple<[AccountId32, u128, bool]> {}
 
 /** @name Lookup318 */
 export interface Lookup318 extends Vec<PalletBalancesBalanceLockU128> {}
@@ -1315,8 +1315,8 @@ export interface PalletBalancesReleases extends Enum {
   readonly isV200: boolean;
 }
 
-/** @name Lookup327 */
-export interface Lookup327 extends u128 {}
+/** @name SpArithmeticFixedPointFixedU128 */
+export interface SpArithmeticFixedPointFixedU128 extends u128 {}
 
 /** @name PalletTransactionPaymentReleases */
 export interface PalletTransactionPaymentReleases extends Enum {
@@ -1359,14 +1359,14 @@ export interface PalletElectionProviderMultiPhaseReadySolution extends Struct {
 /** @name PalletElectionProviderMultiPhaseRoundSnapshot */
 export interface PalletElectionProviderMultiPhaseRoundSnapshot extends Struct {
   readonly voters: Vec<ITuple<[AccountId32, u64, Vec<AccountId32>]>>;
-  readonly targets: Vec<SpCoreCryptoAccountId32>;
+  readonly targets: Vec<AccountId32>;
 }
 
 /** @name Lookup335 */
 export interface Lookup335 extends Vec<ITuple<[AccountId32, u64, Vec<AccountId32>]>> {}
 
 /** @name Lookup336 */
-export interface Lookup336 extends ITuple<[SpCoreCryptoAccountId32, u64, Vec<AccountId32>]> {}
+export interface Lookup336 extends ITuple<[AccountId32, u64, Vec<AccountId32>]> {}
 
 /** @name Lookup337 */
 export interface Lookup337 extends BTreeMap<Vec<u128>, u32> {}
@@ -1411,7 +1411,7 @@ export interface PalletStakingUnlockChunkU128 extends Struct {
 
 /** @name PalletStakingNominations */
 export interface PalletStakingNominations extends Struct {
-  readonly targets: Vec<SpCoreCryptoAccountId32>;
+  readonly targets: Vec<AccountId32>;
   readonly submittedIn: u32;
   readonly suppressed: bool;
 }
@@ -1425,17 +1425,17 @@ export interface PalletStakingActiveEraInfo extends Struct {
 /** @name PalletStakingEraRewardPoints */
 export interface PalletStakingEraRewardPoints extends Struct {
   readonly total: u32;
-  readonly individual: BTreeMap<SpCoreCryptoAccountId32, u32>;
+  readonly individual: BTreeMap<AccountId32, u32>;
 }
 
 /** @name Lookup349 */
-export interface Lookup349 extends BTreeMap<SpCoreCryptoAccountId32, u32> {}
+export interface Lookup349 extends BTreeMap<AccountId32, u32> {}
 
 /** @name Lookup350 */
 export interface Lookup350 extends Vec<ITuple<[AccountId32, u32]>> {}
 
 /** @name Lookup351 */
-export interface Lookup351 extends ITuple<[SpCoreCryptoAccountId32, u32]> {}
+export interface Lookup351 extends ITuple<[AccountId32, u32]> {}
 
 /** @name PalletStakingForcing */
 export interface PalletStakingForcing extends Enum {
@@ -1453,12 +1453,12 @@ export interface PalletStakingUnappliedSlash extends Struct {
   readonly validator: AccountId32;
   readonly own: u128;
   readonly others: Vec<ITuple<[AccountId32, u128]>>;
-  readonly reporters: Vec<SpCoreCryptoAccountId32>;
+  readonly reporters: Vec<AccountId32>;
   readonly payout: u128;
 }
 
 /** @name Lookup355 */
-export interface Lookup355 extends ITuple<[SpArithmeticPerThingsPerbill, u128]> {}
+export interface Lookup355 extends ITuple<[Perbill, u128]> {}
 
 /** @name PalletStakingSlashingSlashingSpans */
 export interface PalletStakingSlashingSlashingSpans extends Struct {
@@ -1489,7 +1489,7 @@ export interface PalletStakingReleases extends Enum {
 export interface Lookup360 extends Vec<ITuple<[AccountId32, NodeRuntimeSessionKeys]>> {}
 
 /** @name Lookup361 */
-export interface Lookup361 extends ITuple<[SpCoreCryptoAccountId32, NodeRuntimeSessionKeys]> {}
+export interface Lookup361 extends ITuple<[AccountId32, NodeRuntimeSessionKeys]> {}
 
 /** @name Lookup362 */
 export interface Lookup362 extends ITuple<[U8aFixed, Bytes]> {}
@@ -1501,7 +1501,7 @@ export interface Lookup363 extends U8aFixed {}
 export interface Lookup365 extends Vec<ITuple<[u32, H256, AccountId32]>> {}
 
 /** @name Lookup366 */
-export interface Lookup366 extends ITuple<[u32, PrimitiveTypesH256, SpCoreCryptoAccountId32]> {}
+export interface Lookup366 extends ITuple<[u32, H256, AccountId32]> {}
 
 /** @name Lookup367 */
 export interface Lookup367 extends ITuple<[Vec<AccountId32>, u128]> {}
@@ -1513,7 +1513,7 @@ export interface PalletDemocracyPreimageStatus extends Enum {
   readonly isAvailable: boolean;
   readonly asAvailable: {
     readonly data: Bytes;
-    readonly provider: SpCoreCryptoAccountId32;
+    readonly provider: AccountId32;
     readonly deposit: u128;
     readonly since: u32;
     readonly expiry: OptionU32;
@@ -1564,7 +1564,7 @@ export interface PalletDemocracyVoteVoting extends Enum {
   readonly isDelegating: boolean;
   readonly asDelegating: {
     readonly balance: u128;
-    readonly target: SpCoreCryptoAccountId32;
+    readonly target: AccountId32;
     readonly conviction: PalletDemocracyConviction;
     readonly delegations: PalletDemocracyTypesDelegationsU128;
     readonly prior: PalletDemocracyVotePriorLock;
@@ -1587,7 +1587,7 @@ export interface PalletDemocracyTypesDelegationsU128 extends Struct {
 export interface PalletDemocracyVotePriorLock extends ITuple<[u32, u128]> {}
 
 /** @name Lookup377 */
-export interface Lookup377 extends ITuple<[PrimitiveTypesH256, PalletDemocracyVoteThreshold]> {}
+export interface Lookup377 extends ITuple<[H256, PalletDemocracyVoteThreshold]> {}
 
 /** @name Lookup378 */
 export interface Lookup378 extends ITuple<[u32, Vec<AccountId32>]> {}
@@ -1598,19 +1598,19 @@ export interface PalletDemocracyReleases extends Enum {
 }
 
 /** @name Lookup381 */
-export interface Lookup381 extends Vec<PrimitiveTypesH256> {}
+export interface Lookup381 extends Vec<H256> {}
 
 /** @name PalletCollectiveVotes */
 export interface PalletCollectiveVotes extends Struct {
   readonly index: u32;
   readonly threshold: u32;
-  readonly ayes: Vec<SpCoreCryptoAccountId32>;
-  readonly nays: Vec<SpCoreCryptoAccountId32>;
+  readonly ayes: Vec<AccountId32>;
+  readonly nays: Vec<AccountId32>;
   readonly end: u32;
 }
 
 /** @name Lookup384 */
-export interface Lookup384 extends Vec<PrimitiveTypesH256> {}
+export interface Lookup384 extends Vec<H256> {}
 
 /** @name Lookup386 */
 export interface Lookup386 extends Vec<PalletElectionsPhragmenSeatHolder> {}
@@ -1624,7 +1624,7 @@ export interface PalletElectionsPhragmenSeatHolder extends Struct {
 
 /** @name PalletElectionsPhragmenVoter */
 export interface PalletElectionsPhragmenVoter extends Struct {
-  readonly votes: Vec<SpCoreCryptoAccountId32>;
+  readonly votes: Vec<AccountId32>;
   readonly stake: u128;
   readonly deposit: u128;
 }
@@ -1689,7 +1689,7 @@ export interface PalletContractsStorageContractInfo extends Enum {
   readonly isAlive: boolean;
   readonly asAlive: PalletContractsStorageRawAliveContractInfo;
   readonly isTombstone: boolean;
-  readonly asTombstone: PrimitiveTypesH256;
+  readonly asTombstone: H256;
 }
 
 /** @name PalletContractsStorageRawAliveContractInfo */
@@ -1705,8 +1705,8 @@ export interface PalletContractsStorageRawAliveContractInfo extends Struct {
   readonly reserved: Option<Null>;
 }
 
-/** @name PrimitiveTypesH256 */
-export interface PrimitiveTypesH256 extends H256 {}
+/** @name PalletContractsStorageRawTombstoneContractInfo */
+export interface PalletContractsStorageRawTombstoneContractInfo extends H256 {}
 
 /** @name SpRuntimeTraitsBlakeTwo256 */
 export type SpRuntimeTraitsBlakeTwo256 = Null;
@@ -1967,8 +1967,8 @@ export interface Lookup413 extends Vec<U8aFixed> {}
 
 /** @name SpStakingOffenceOffenceDetails */
 export interface SpStakingOffenceOffenceDetails extends Struct {
-  readonly offender: ITuple<[SpCoreCryptoAccountId32, PalletStakingExposure]>;
-  readonly reporters: Vec<SpCoreCryptoAccountId32>;
+  readonly offender: ITuple<[AccountId32, PalletStakingExposure]>;
+  readonly reporters: Vec<AccountId32>;
 }
 
 /** @name PalletIdentityTypesRegistration */
@@ -1977,14 +1977,14 @@ export interface PalletIdentityTypesRegistration extends Struct {
   readonly deposit: u128;
   readonly info: {
     readonly additional: Vec<ITuple<[Data, Data]>>;
-    readonly display: PalletIdentityTypesData;
-    readonly legal: PalletIdentityTypesData;
-    readonly web: PalletIdentityTypesData;
-    readonly riot: PalletIdentityTypesData;
-    readonly email: PalletIdentityTypesData;
+    readonly display: Data;
+    readonly legal: Data;
+    readonly web: Data;
+    readonly riot: Data;
+    readonly email: Data;
     readonly pgpFingerprint: Option<U8aFixed>;
-    readonly image: PalletIdentityTypesData;
-    readonly twitter: PalletIdentityTypesData;
+    readonly image: Data;
+    readonly twitter: Data;
   } & Struct;
 }
 
@@ -2001,7 +2001,7 @@ export interface Lookup419 extends Vec<ITuple<[u32, PalletIdentityTypesJudgement
 export interface Lookup420 extends ITuple<[u128, Vec<AccountId32>]> {}
 
 /** @name Lookup421 */
-export interface Lookup421 extends Vec<SpCoreCryptoAccountId32> {}
+export interface Lookup421 extends Vec<AccountId32> {}
 
 /** @name Lookup422 */
 export interface Lookup422 extends Vec<Option<PalletIdentityTypesRegistrarInfo>> {}
@@ -2067,7 +2067,7 @@ export interface PalletSocietyVote extends Enum {
 export interface PalletRecoveryRecoveryConfig extends Struct {
   readonly delayPeriod: u32;
   readonly deposit: u128;
-  readonly friends: Vec<SpCoreCryptoAccountId32>;
+  readonly friends: Vec<AccountId32>;
   readonly threshold: u16;
 }
 
@@ -2075,7 +2075,7 @@ export interface PalletRecoveryRecoveryConfig extends Struct {
 export interface PalletRecoveryActiveRecovery extends Struct {
   readonly created: u32;
   readonly deposit: u128;
-  readonly friends: Vec<SpCoreCryptoAccountId32>;
+  readonly friends: Vec<AccountId32>;
 }
 
 /** @name Lookup440 */
@@ -2120,7 +2120,7 @@ export interface NodeRuntimeOriginCaller extends Enum {
 export interface FrameSystemRawOrigin extends Enum {
   readonly isRoot: boolean;
   readonly isSigned: boolean;
-  readonly asSigned: SpCoreCryptoAccountId32;
+  readonly asSigned: AccountId32;
   readonly isNone: boolean;
 }
 
@@ -2129,7 +2129,7 @@ export interface PalletCollectiveRawOriginInstance1 extends Enum {
   readonly isMembers: boolean;
   readonly asMembers: ITuple<[u32, u32]>;
   readonly isMember: boolean;
-  readonly asMember: SpCoreCryptoAccountId32;
+  readonly asMember: AccountId32;
   readonly isPhantom: boolean;
 }
 
@@ -2138,7 +2138,7 @@ export interface PalletCollectiveRawOriginInstance2 extends Enum {
   readonly isMembers: boolean;
   readonly asMembers: ITuple<[u32, u32]>;
   readonly isMember: boolean;
-  readonly asMember: SpCoreCryptoAccountId32;
+  readonly asMember: AccountId32;
   readonly isPhantom: boolean;
 }
 
@@ -2193,11 +2193,11 @@ export interface PalletMultisigMultisig extends Struct {
   } & Struct;
   readonly deposit: u128;
   readonly depositor: AccountId32;
-  readonly approvals: Vec<SpCoreCryptoAccountId32>;
+  readonly approvals: Vec<AccountId32>;
 }
 
 /** @name Lookup460 */
-export interface Lookup460 extends ITuple<[Bytes, SpCoreCryptoAccountId32, u128]> {}
+export interface Lookup460 extends ITuple<[Bytes, AccountId32, u128]> {}
 
 /** @name PalletBountiesBounty */
 export interface PalletBountiesBounty extends Struct {
@@ -2218,17 +2218,17 @@ export interface PalletBountiesBountyStatus extends Enum {
   readonly isFunded: boolean;
   readonly isCuratorProposed: boolean;
   readonly asCuratorProposed: {
-    readonly curator: SpCoreCryptoAccountId32;
+    readonly curator: AccountId32;
   } & Struct;
   readonly isActive: boolean;
   readonly asActive: {
-    readonly curator: SpCoreCryptoAccountId32;
+    readonly curator: AccountId32;
     readonly updateDue: u32;
   } & Struct;
   readonly isPendingPayout: boolean;
   readonly asPendingPayout: {
-    readonly curator: SpCoreCryptoAccountId32;
-    readonly beneficiary: SpCoreCryptoAccountId32;
+    readonly curator: AccountId32;
+    readonly beneficiary: AccountId32;
     readonly unlockAt: u32;
   } & Struct;
 }
@@ -2269,7 +2269,7 @@ export interface PalletAssetsTypesAssetBalance extends Struct {
 }
 
 /** @name Lookup469 */
-export interface Lookup469 extends ITuple<[u32, SpCoreCryptoAccountId32, SpCoreCryptoAccountId32]> {}
+export interface Lookup469 extends ITuple<[u32, AccountId32, AccountId32]> {}
 
 /** @name PalletAssetsTypesApproval */
 export interface PalletAssetsTypesApproval extends Struct {
@@ -2341,12 +2341,12 @@ export interface PalletUniquesTypesClassDetails extends Struct {
 }
 
 /** @name Lookup483 */
-export interface Lookup483 extends ITuple<[SpCoreCryptoAccountId32, u32, u32]> {}
+export interface Lookup483 extends ITuple<[AccountId32, u32, u32]> {}
 
 /** @name PalletUniquesTypesInstanceDetails */
 export interface PalletUniquesTypesInstanceDetails extends Struct {
   readonly owner: AccountId32;
-  readonly approved: Option<SpCoreCryptoAccountId32>;
+  readonly approved: Option<AccountId32>;
   readonly isFrozen: bool;
   readonly deposit: u128;
 }
@@ -2394,8 +2394,8 @@ export type FrameSystemExtensionsCheckTxVersion = Null;
 /** @name FrameSystemExtensionsCheckGenesis */
 export type FrameSystemExtensionsCheckGenesis = Null;
 
-/** @name SpRuntimeGenericEra */
-export interface SpRuntimeGenericEra extends Era {}
+/** @name FrameSystemExtensionsCheckMortality */
+export interface FrameSystemExtensionsCheckMortality extends Era {}
 
 /** @name SpRuntimeGenericEra */
 export interface SpRuntimeGenericEra extends Era {}

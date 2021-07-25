@@ -176,10 +176,10 @@ function generateLookupTypes (meta: Metadata, destDir: string): void {
   const items = getFilteredTypes(lookup).map(({ id }) => {
     const typeDef = lookup.getTypeDef(id);
 
-    typeDef.name = typeDef.lookupName || registry.createLookupType(id);
+    typeDef.name = typeDef.lookupNameOrig || typeDef.lookupName || registry.createLookupType(id);
 
     return typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
-  });
+  }).filter((t): t is string => !!t);
 
   writeFile(path.join(destDir, 'types.ts'), () => generateLookupTypesTmpl({
     headerType: 'defs',

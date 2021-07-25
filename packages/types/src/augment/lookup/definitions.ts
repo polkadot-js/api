@@ -11,8 +11,7 @@ export default {
     /**
      * 0: sp_core::crypto::AccountId32
      **/
-    SpCoreCryptoAccountId32: 'AccountId32',
-    Lookup0: 'SpCoreCryptoAccountId32',
+    Lookup0: 'AccountId32',
     Lookup1: '[u8;32]',
     Lookup2: 'u8',
     /**
@@ -325,8 +324,7 @@ export default {
     /**
      * 104: sp_arithmetic::per_things::Perbill
      **/
-    SpArithmeticPerThingsPerbill: 'Perbill',
-    Lookup104: 'SpArithmeticPerThingsPerbill',
+    Lookup104: 'Perbill',
     Lookup105: 'Vec<(Vec<u8>,Vec<u8>)>',
     Lookup106: '(Vec<u8>,Vec<u8>)',
     Lookup107: 'Vec<Vec<u8>>',
@@ -411,8 +409,7 @@ export default {
     /**
      * 123: node_runtime::Call
      **/
-    NodeRuntimeCall: 'Call',
-    Lookup123: 'NodeRuntimeCall',
+    Lookup123: 'Call',
     /**
      * 125: sp_consensus_slots::EquivocationProof<<field>: sp_runtime::generic::header::Header, <field>: sp_consensus_babe::app::Public>
      **/
@@ -478,8 +475,7 @@ export default {
     /**
      * 139: sp_runtime::multiaddress::MultiAddress<<field>: sp_core::crypto::AccountId32, AccountIndex>
      **/
-    SpRuntimeMultiaddressMultiAddress: 'MultiAddress',
-    Lookup139: 'SpRuntimeMultiaddressMultiAddress',
+    Lookup139: 'MultiAddress',
     Lookup140: '[u8;20]',
     /**
      * 142: pallet_election_provider_multi_phase::RawSolution<<field>: node_runtime::NposCompactSolution16>
@@ -523,8 +519,7 @@ export default {
     /**
      * 151: sp_arithmetic::per_things::PerU16
      **/
-    SpArithmeticPerThingsPerU16: 'PerU16',
-    Lookup151: 'SpArithmeticPerThingsPerU16',
+    Lookup151: 'PerU16',
     Lookup152: 'Vec<(CompactU32,[(CompactU16,Compact<PerU16>);2],CompactU16)>',
     Lookup153: '(CompactU32,[(CompactU16,Compact<PerU16>);2],CompactU16)',
     Lookup154: '[(CompactU16,Compact<PerU16>);2]',
@@ -616,8 +611,7 @@ export default {
     /**
      * 205: sp_arithmetic::per_things::Percent
      **/
-    SpArithmeticPerThingsPercent: 'Percent',
-    Lookup205: 'SpArithmeticPerThingsPercent',
+    Lookup205: 'Percent',
     /**
      * 206: Option<<field>: sp_arithmetic::per_things::Percent>
      **/
@@ -655,8 +649,7 @@ export default {
     /**
      * 212: pallet_democracy::vote::Vote
      **/
-    PalletDemocracyVote: 'Vote',
-    Lookup212: 'PalletDemocracyVote',
+    Lookup212: 'Vote',
     /**
      * 213: pallet_democracy::conviction::Conviction
      **/
@@ -801,8 +794,7 @@ export default {
     /**
      * 247: pallet_identity::types::Data
      **/
-    PalletIdentityTypesData: 'Data',
-    Lookup247: 'PalletIdentityTypesData',
+    Lookup247: 'Data',
     Lookup248: '[u8;0]',
     Lookup249: '[u8;1]',
     Lookup250: '[u8;2]',
@@ -904,8 +896,7 @@ export default {
     /**
      * 301: sp_arithmetic::per_things::Perquintill
      **/
-    SpArithmeticPerThingsPerquintill: 'Perquintill',
-    Lookup301: 'SpArithmeticPerThingsPerquintill',
+    Lookup301: 'Perquintill',
     /**
      * 303: pallet_uniques::types::DestroyWitness
      **/
@@ -1350,8 +1341,7 @@ export default {
     /**
      * 396: sp_arithmetic::per_things::Permill
      **/
-    SpArithmeticPerThingsPermill: 'Permill',
-    Lookup396: 'SpArithmeticPerThingsPermill',
+    Lookup396: 'Permill',
     /**
      * 397: frame_support::PalletId
      **/
