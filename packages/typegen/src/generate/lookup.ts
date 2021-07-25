@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SiPath, SiTypeParameter } from '@polkadot/types/interfaces/scaleInfo';
+import type { PortableRegistry, PortableType, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 
 import Handlebars from 'handlebars';
@@ -9,12 +9,13 @@ import Handlebars from 'handlebars';
 import { Registry } from '@polkadot/types/types';
 import { isString, stringify } from '@polkadot/util';
 
-import { initMeta, readTemplate, writeFile } from '../util';
+import { createImports, initMeta, readTemplate, writeFile } from '../util';
+import { typeEncoders } from './tsDef';
 
 const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 const WITH_TYPEDEF = false;
 
-const generateLookupDefs = Handlebars.compile(readTemplate('lookupDefs'));
+const generateLookupDefs = Handlebars.compile(readTemplate('lookup/defs'));
 
 function generateParamType (registry: Registry, { name, type }: SiTypeParameter): string {
   if (type.isSome) {
@@ -97,30 +98,32 @@ function expandTypeToString (encoded: string): string {
   }).join('\n');
 }
 
-function generateLookup (meta: Metadata, destDir: string): void {
+function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
+  lookup.types.forEach(({ id }) => lookup.getTypeDef(id));
+
+  return lookup.types.filter(({ type: { path } }) =>
+    !(
+      path.length === 2 &&
+      (
+        path[0].toString() === 'node_runtime' ||
+        path[0].toString().startsWith('pallet_')
+      ) &&
+      MAP_ENUMS.includes(path[1].toString())
+    ) &&
+    !(
+      path.length === 3 &&
+      path[1].toString() === 'pallet' &&
+      MAP_ENUMS.includes(path[2].toString())
+    )
+  );
+}
+
+function generateLookupDefinitions (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
 
   writeFile(`${destDir}/definitions.ts`, (): string => {
-    lookup.types.forEach(({ id }) => registry.lookup.getTypeDef(id));
-
-    const filtered = lookup.types.filter(({ type: { path } }) =>
-      !(
-        path.length === 2 &&
-        (
-          path[0].toString() === 'node_runtime' ||
-          path[0].toString().startsWith('pallet_')
-        ) &&
-        MAP_ENUMS.includes(path[1].toString())
-      ) &&
-      !(
-        path.length === 3 &&
-        path[1].toString() === 'pallet' &&
-        MAP_ENUMS.includes(path[2].toString())
-      )
-    );
-
-    const all = filtered.map(({ id, type: { params, path } }) => {
-      const typeDef = registry.lookup.getTypeDef(id);
+    const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
+      const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
       const typeName = typeDef.lookupName;
       const def = expandTypeToString(typeDef.type);
@@ -158,9 +161,31 @@ function generateLookup (meta: Metadata, destDir: string): void {
       })
     });
   });
+}
+
+function generateLookupTypes (meta: Metadata, destDir: string): void {
+  const { lookup, registry } = meta.asLatest;
+
+  // writeFile(`${destDir}/types.ts`, (): string => {
+  const imports = { ...createImports({}, { types: {} }), interfaces: [] };
+  const all = getFilteredTypes(lookup).map(({ id }) => {
+    const typeDef = lookup.getTypeDef(id);
+
+    typeDef.name = typeDef.lookupName || registry.createLookupType(id);
+
+    return typeEncoders[typeDef.info](registry, {}, typeDef, imports);
+  });
+
+  all.join('\n\n');
+  // });
+}
+
+function generateLookup (meta: Metadata, destDir: string): void {
+  generateLookupDefinitions(meta, destDir);
+  generateLookupTypes(meta, destDir);
 
   // initially
-  process.exit(1);
+  process.exit(0);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types

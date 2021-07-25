@@ -73,10 +73,15 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
         return `${isGetter}${asGetter}`;
 
       case TypeDefInfo.DoNotConstruct:
+      case TypeDefInfo.Null:
+        return `${isGetter}`;
+
+      // FIXME
+      case TypeDefInfo.Si:
         return '';
 
       default:
-        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
+        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}, ${stringify(def)}`);
     }
   });
 
@@ -87,6 +92,16 @@ function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: Type
   setImports(definitions, imports, [type]);
 
   return exportInterface(def.name, type);
+}
+
+/** @internal */
+function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, { name }: TypeDef, imports: TypeImports): string {
+  setImports(definitions, imports, ['Null']);
+
+  // * @description extends [[${base}]]
+  const doc = `/** @name ${name || ''} */\n`;
+
+  return `${doc}export type ${name || ''} = Null;`;
 }
 
 /** @internal */
@@ -104,8 +119,15 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
     case TypeDefInfo.Option:
       return `${isGetter}${asGetter}`;
 
+    case TypeDefInfo.Null:
+      return `${isGetter}`;
+
+    // FIXME
+    case TypeDefInfo.Si:
+      return '';
+
     default:
-      throw new Error(`Result: ${resultName}: Unhandled type ${TypeDefInfo[info]}`);
+      throw new Error(`Result: ${resultName}: Unhandled type ${TypeDefInfo[info]}, ${stringify(def)}`);
   }
 }
 
@@ -127,7 +149,8 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, { type }: TypeDef, imports: TypeImports): string {
-  throw new Error('Unable to generate string definition from TypeDefInfo.Si');
+  // FIXME
+  return `// SI: ${type}`;
 }
 
 /** @internal */
@@ -177,7 +200,7 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
 // handlers are defined externally to use - this means that when we do a
 // `generators[typedef.info](...)` TS will show any unhandled types. Rather
 // we are being explicit in having no handlers where we do not support (yet)
-const encoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports) => string> = {
+export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports) => string> = {
   [TypeDefInfo.BTreeMap]: tsBTreeMap,
   [TypeDefInfo.BTreeSet]: tsBTreeSet,
   [TypeDefInfo.Compact]: tsCompact,
@@ -186,7 +209,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<str
   [TypeDefInfo.HashMap]: tsHashMap,
   [TypeDefInfo.Int]: tsInt,
   [TypeDefInfo.Linkage]: errorUnhandled,
-  [TypeDefInfo.Null]: errorUnhandled,
+  [TypeDefInfo.Null]: tsNull,
   [TypeDefInfo.Option]: tsOption,
   [TypeDefInfo.Plain]: tsPlain,
   [TypeDefInfo.Result]: tsResult,
@@ -204,7 +227,7 @@ function generateInterfaces (registry: Registry, definitions: Record<string, Mod
   return Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type : stringify(type), { name });
 
-    return [name, encoders[def.info](registry, definitions, def, imports)];
+    return [name, typeEncoders[def.info](registry, definitions, def, imports)];
   });
 }
 
@@ -218,7 +241,7 @@ const templateTypes = readTemplate('tsDef/types');
 const generateTsDefTypesTemplate = Handlebars.compile(templateTypes);
 
 /** @internal */
-function generateTsDefFor (registry: Registry, importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
+export function generateTsDefFor (registry: Registry, importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
   const definitions = imports.definitions;
   const interfaces = generateInterfaces(registry, definitions, { types }, imports);
