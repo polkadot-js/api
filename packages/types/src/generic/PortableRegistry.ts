@@ -140,6 +140,7 @@ export class GenericPortableRegistry extends Struct {
     // Setup for a lookup on complex types
     return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
       ? {
+        docs: typeDef.docs,
         info: TypeDefInfo.Si,
         lookupIndex,
         lookupName: this.#names[lookupIndex],
@@ -202,6 +203,7 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return {
+      docs: type.docs.map((d) => d.toString()),
       namespace: path.join('::'),
       ...typeDef
     };
@@ -278,7 +280,7 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ name, type }) => {
+    const sub = fields.map(({ docs, name, type }) => {
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
@@ -302,6 +304,7 @@ export class GenericPortableRegistry extends Struct {
 
       return {
         ...typeDef,
+        docs: docs.map((d) => d.toString()),
         name: nameField
       };
     });
