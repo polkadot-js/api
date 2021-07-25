@@ -34,7 +34,7 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
 }
 
 function generateTypeDocs (registry: Registry, id: SiLookupTypeId | null, path: SiPath, params: SiTypeParameter[]): string {
-  return `${id ? id.toString() : '<field>'}${path.length ? ': ' : ''}${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
+  return `${id ? `${registry.createLookupType(id)}${path.length ? ': ' : ''}` : ''}${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
 }
 
 function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
@@ -103,26 +103,30 @@ function expandTypeToString (encoded: string): string {
 }
 
 function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
-  lookup.types.forEach(({ id }) => lookup.getTypeDef(id));
+  return lookup.types.filter(({ id, type: { path } }) => {
+    const typeDef = lookup.getTypeDef(id);
 
-  return lookup.types.filter(({ type: { path } }) =>
-    !(
-      path.length === 2 &&
-      (
+    return (
+      // We actually only want those with lookupName set
+      (!!path.length || !!typeDef.lookupName) &&
+      !(
+        path.length === 2 &&
         (
-          path[0].toString() === 'node_runtime' &&
-          path[1].toString() !== 'Call'
-        ) ||
-        path[0].toString().startsWith('pallet_')
+          (
+            path[0].toString() === 'node_runtime' &&
+            path[1].toString() !== 'Call'
+          ) ||
+          path[0].toString().startsWith('pallet_')
+        ) &&
+        MAP_ENUMS.includes(path[1].toString())
       ) &&
-      MAP_ENUMS.includes(path[1].toString())
-    ) &&
-    !(
-      path.length === 3 &&
-      path[1].toString() === 'pallet' &&
-      MAP_ENUMS.includes(path[2].toString())
-    )
-  );
+      !(
+        path.length === 3 &&
+        path[1].toString() === 'pallet' &&
+        MAP_ENUMS.includes(path[2].toString())
+      )
+    );
+  });
 }
 
 function generateLookupDefs (meta: Metadata, destDir: string): void {

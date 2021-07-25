@@ -11,12 +11,6 @@ import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, P
 /** @name SpCoreCryptoAccountId32 */
 export interface SpCoreCryptoAccountId32 extends AccountId32 {}
 
-/** @name Lookup1 */
-export interface Lookup1 extends U8aFixed {}
-
-/** @name Lookup2 */
-export interface Lookup2 extends u8 {}
-
 /** @name FrameSystemAccountInfo */
 export interface FrameSystemAccountInfo extends Struct {
   readonly nonce: u32;
@@ -31,9 +25,6 @@ export interface FrameSystemAccountInfo extends Struct {
   } & Struct;
 }
 
-/** @name Lookup4 */
-export interface Lookup4 extends u32 {}
-
 /** @name PalletBalancesAccountDataU128 */
 export interface PalletBalancesAccountDataU128 extends Struct {
   readonly free: u128;
@@ -42,9 +33,6 @@ export interface PalletBalancesAccountDataU128 extends Struct {
   readonly feeFrozen: u128;
 }
 
-/** @name Lookup6 */
-export interface Lookup6 extends u128 {}
-
 /** @name FrameSupportWeightsPerDispatchClassU64 */
 export interface FrameSupportWeightsPerDispatchClassU64 extends Struct {
   readonly normal: u64;
@@ -52,22 +40,13 @@ export interface FrameSupportWeightsPerDispatchClassU64 extends Struct {
   readonly mandatory: u64;
 }
 
-/** @name Lookup8 */
-export interface Lookup8 extends u64 {}
-
 /** @name PrimitiveTypesH256 */
 export interface PrimitiveTypesH256 extends H256 {}
-
-/** @name Lookup10 */
-export interface Lookup10 extends Bytes {}
 
 /** @name SpRuntimeGenericDigest */
 export interface SpRuntimeGenericDigest extends Struct {
   readonly logs: Vec<SpRuntimeGenericDigestDigestItem>;
 }
-
-/** @name Lookup12 */
-export interface Lookup12 extends Vec<SpRuntimeGenericDigestDigestItem> {}
 
 /** @name SpRuntimeGenericDigestDigestItem */
 export interface SpRuntimeGenericDigestDigestItem extends Enum {
@@ -87,9 +66,6 @@ export interface SpRuntimeGenericDigestDigestItem extends Enum {
   readonly asChangesTrieSignal: SpRuntimeGenericDigestChangesTrieSignal;
 }
 
-/** @name Lookup14 */
-export interface Lookup14 extends U8aFixed {}
-
 /** @name SpRuntimeGenericDigestChangesTrieSignal */
 export interface SpRuntimeGenericDigestChangesTrieSignal extends Enum {
   readonly isNewConfiguration: boolean;
@@ -104,9 +80,6 @@ export interface SpCoreChangesTrieChangesTrieConfiguration extends Struct {
   readonly digestInterval: u32;
   readonly digestLevels: u32;
 }
-
-/** @name Lookup18 */
-export interface Lookup18 extends Vec<FrameSystemEventRecord> {}
 
 /** @name FrameSystemEventRecord */
 export interface FrameSystemEventRecord extends Struct {
@@ -193,14 +166,8 @@ export interface PalletElectionProviderMultiPhaseElectionCompute extends Enum {
   readonly isEmergency: boolean;
 }
 
-/** @name Lookup34 */
-export interface Lookup34 extends bool {}
-
 /** @name Lookup35 */
 export interface Lookup35 extends Option<PalletElectionProviderMultiPhaseElectionCompute> {}
-
-/** @name Lookup39 */
-export interface Lookup39 extends Vec<AccountId32> {}
 
 /** @name PalletDemocracyVoteThreshold */
 export interface PalletDemocracyVoteThreshold extends Enum {
@@ -220,30 +187,15 @@ export interface Lookup41 extends Result<Null, SpRuntimeDispatchError> {
   readonly isOk: boolean;
 }
 
-/** @name Lookup42 */
-export type Lookup42 = Null;
-
 /** @name PalletCollectiveInstance1 */
 export type PalletCollectiveInstance1 = Null;
 
 /** @name PalletCollectiveInstance2 */
 export type PalletCollectiveInstance2 = Null;
 
-/** @name Lookup48 */
-export interface Lookup48 extends Vec<ITuple<[AccountId32, u128]>> {}
-
-/** @name Lookup49 */
-export interface Lookup49 extends ITuple<[AccountId32, u128]> {}
-
 /** @name PalletMembershipInstance1 */
 export type PalletMembershipInstance1 = Null;
 
-/** @name Lookup53 */
-export interface Lookup53 extends Vec<ITuple<[SpCoreEd25519Public, u64]>> {}
-
-/** @name Lookup54 */
-export interface Lookup54 extends ITuple<[SpCoreEd25519Public, u64]> {}
-
 /** @name SpCoreEd25519Public */
 export interface SpCoreEd25519Public extends U8aFixed {}
 
@@ -255,12 +207,6 @@ export interface SpCoreSr25519Public extends U8aFixed {}
 
 /** @name SpCoreSr25519Public */
 export interface SpCoreSr25519Public extends U8aFixed {}
-
-/** @name Lookup63 */
-export interface Lookup63 extends Vec<ITuple<[AccountId32, PalletStakingExposure]>> {}
-
-/** @name Lookup64 */
-export interface Lookup64 extends ITuple<[AccountId32, PalletStakingExposure]> {}
 
 /** @name PalletStakingExposure */
 export interface PalletStakingExposure extends Struct {
@@ -272,23 +218,14 @@ export interface PalletStakingExposure extends Struct {
 /** @name CompactU128 */
 export interface CompactU128 extends Compact<u128> {}
 
-/** @name Lookup67 */
-export interface Lookup67 extends Vec<PalletStakingIndividualExposure> {}
-
 /** @name PalletStakingIndividualExposure */
 export interface PalletStakingIndividualExposure extends Struct {
   readonly who: AccountId32;
   readonly value: Compact<u128>;
 }
 
-/** @name Lookup70 */
-export interface Lookup70 extends U8aFixed {}
-
 /** @name PalletSocietyDefaultInstance */
 export type PalletSocietyDefaultInstance = Null;
-
-/** @name Lookup77 */
-export interface Lookup77 extends ITuple<[u32, u32]> {}
 
 /** @name Lookup78 */
 export interface Lookup78 extends Option<Bytes> {}
@@ -301,23 +238,14 @@ export interface NodeRuntimeProxyType extends Enum {
   readonly isStaking: boolean;
 }
 
-/** @name Lookup81 */
-export interface Lookup81 extends u16 {}
-
 /** @name PalletMultisigTimepointU32 */
 export interface PalletMultisigTimepointU32 extends Struct {
   readonly height: u32;
   readonly index: u32;
 }
 
-/** @name Lookup88 */
-export interface Lookup88 extends ITuple<[u8, u8]> {}
-
 /** @name Lookup91 */
 export interface Lookup91 extends Bytes {}
-
-/** @name Lookup92 */
-export interface Lookup92 extends Vec<u32> {}
 
 /** @name OptionU32 */
 export interface OptionU32 extends Option<u32> {}
@@ -336,12 +264,6 @@ export interface FrameSystemPhase extends Enum {
   readonly isInitialization: boolean;
 }
 
-/** @name Lookup98 */
-export interface Lookup98 extends Vec<H256> {}
-
-/** @name Lookup99 */
-export interface Lookup99 extends Vec<ITuple<[u32, u32]>> {}
-
 /** @name FrameSystemLastRuntimeUpgradeInfo */
 export interface FrameSystemLastRuntimeUpgradeInfo extends Struct {
   readonly specVersion: Compact<u32>;
@@ -351,20 +273,8 @@ export interface FrameSystemLastRuntimeUpgradeInfo extends Struct {
 /** @name CompactU32 */
 export interface CompactU32 extends Compact<u32> {}
 
-/** @name Lookup102 */
-export interface Lookup102 extends Text {}
-
 /** @name SpArithmeticPerThingsPerbill */
 export interface SpArithmeticPerThingsPerbill extends Perbill {}
-
-/** @name Lookup105 */
-export interface Lookup105 extends Vec<ITuple<[Bytes, Bytes]>> {}
-
-/** @name Lookup106 */
-export interface Lookup106 extends ITuple<[Bytes, Bytes]> {}
-
-/** @name Lookup107 */
-export interface Lookup107 extends Vec<Bytes> {}
 
 /** @name FrameSystemLimitsBlockWeights */
 export interface FrameSystemLimitsBlockWeights extends Struct {
@@ -446,18 +356,6 @@ export interface SpVersionRuntimeVersion extends Struct {
 /** @name Lookup116 */
 export interface Lookup116 extends Vec<ITuple<[U8aFixed, u32]>> {}
 
-/** @name Lookup117 */
-export interface Lookup117 extends Vec<ITuple<[U8aFixed, u32]>> {}
-
-/** @name Lookup118 */
-export interface Lookup118 extends ITuple<[U8aFixed, u32]> {}
-
-/** @name Lookup119 */
-export interface Lookup119 extends U8aFixed {}
-
-/** @name Lookup122 */
-export interface Lookup122 extends Vec<Call> {}
-
 /** @name NodeRuntimeCall */
 export interface NodeRuntimeCall extends Call {}
 
@@ -515,9 +413,6 @@ export interface SpConsensusBabeDigestsNextConfigDescriptor extends Enum {
   } & Struct;
 }
 
-/** @name Lookup131 */
-export interface Lookup131 extends ITuple<[u64, u64]> {}
-
 /** @name SpConsensusBabeAllowedSlots */
 export interface SpConsensusBabeAllowedSlots extends Enum {
   readonly isPrimarySlots: boolean;
@@ -528,14 +423,8 @@ export interface SpConsensusBabeAllowedSlots extends Enum {
 /** @name CompactU64 */
 export interface CompactU64 extends Compact<u64> {}
 
-/** @name Lookup136 */
-export interface Lookup136 extends Vec<SpRuntimeGenericHeader> {}
-
 /** @name SpRuntimeMultiaddressMultiAddress */
 export interface SpRuntimeMultiaddressMultiAddress extends MultiAddress {}
-
-/** @name Lookup140 */
-export interface Lookup140 extends U8aFixed {}
 
 /** @name PalletElectionProviderMultiPhaseRawSolution */
 export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
@@ -581,158 +470,11 @@ export interface NodeRuntimeNposCompactSolution16 extends Struct {
   readonly votes16: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
 }
 
-/** @name Lookup144 */
-export interface Lookup144 extends Vec<ITuple<[CompactU32, CompactU16]>> {}
-
-/** @name Lookup145 */
-export interface Lookup145 extends ITuple<[CompactU32, CompactU16]> {}
-
 /** @name CompactU16 */
 export interface CompactU16 extends Compact<u16> {}
 
-/** @name Lookup147 */
-export interface Lookup147 extends Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>> {}
-
-/** @name Lookup148 */
-export interface Lookup148 extends ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]> {}
-
-/** @name Lookup149 */
-export interface Lookup149 extends ITuple<[CompactU16, Compact<PerU16>]> {}
-
-/** @name Lookup150 */
-export interface Lookup150 extends Compact<PerU16> {}
-
 /** @name SpArithmeticPerThingsPerU16 */
 export interface SpArithmeticPerThingsPerU16 extends PerU16 {}
-
-/** @name Lookup152 */
-export interface Lookup152 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup153 */
-export interface Lookup153 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup154 */
-export interface Lookup154 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup155 */
-export interface Lookup155 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup156 */
-export interface Lookup156 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup157 */
-export interface Lookup157 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup158 */
-export interface Lookup158 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup159 */
-export interface Lookup159 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup160 */
-export interface Lookup160 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup161 */
-export interface Lookup161 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup162 */
-export interface Lookup162 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup163 */
-export interface Lookup163 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup164 */
-export interface Lookup164 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup165 */
-export interface Lookup165 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup166 */
-export interface Lookup166 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup167 */
-export interface Lookup167 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup168 */
-export interface Lookup168 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup169 */
-export interface Lookup169 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup170 */
-export interface Lookup170 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup171 */
-export interface Lookup171 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup172 */
-export interface Lookup172 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup173 */
-export interface Lookup173 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup174 */
-export interface Lookup174 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup175 */
-export interface Lookup175 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup176 */
-export interface Lookup176 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup177 */
-export interface Lookup177 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup178 */
-export interface Lookup178 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup179 */
-export interface Lookup179 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup180 */
-export interface Lookup180 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup181 */
-export interface Lookup181 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup182 */
-export interface Lookup182 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup183 */
-export interface Lookup183 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup184 */
-export interface Lookup184 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup185 */
-export interface Lookup185 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup186 */
-export interface Lookup186 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup187 */
-export interface Lookup187 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup188 */
-export interface Lookup188 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup189 */
-export interface Lookup189 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup190 */
-export interface Lookup190 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup191 */
-export interface Lookup191 extends Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>> {}
-
-/** @name Lookup192 */
-export interface Lookup192 extends ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]> {}
-
-/** @name Lookup193 */
-export interface Lookup193 extends Vec<ITuple<[CompactU16, Compact<PerU16>]>> {}
-
-/** @name Lookup194 */
-export interface Lookup194 extends Vec<u128> {}
 
 /** @name PalletElectionProviderMultiPhaseSolutionOrSnapshotSize */
 export interface PalletElectionProviderMultiPhaseSolutionOrSnapshotSize extends Struct {
@@ -742,12 +484,6 @@ export interface PalletElectionProviderMultiPhaseSolutionOrSnapshotSize extends 
 
 /** @name Lookup196 */
 export interface Lookup196 extends Option<Vec<u128>> {}
-
-/** @name Lookup197 */
-export interface Lookup197 extends Vec<ITuple<[AccountId32, SpNposElectionsSupport]>> {}
-
-/** @name Lookup198 */
-export interface Lookup198 extends ITuple<[AccountId32, SpNposElectionsSupport]> {}
 
 /** @name SpNposElectionsSupport */
 export interface SpNposElectionsSupport extends Struct {
@@ -770,12 +506,6 @@ export interface PalletStakingValidatorPrefs extends Struct {
   readonly commission: Compact<Perbill>;
   readonly blocked: bool;
 }
-
-/** @name Lookup203 */
-export interface Lookup203 extends Compact<Perbill> {}
-
-/** @name Lookup204 */
-export interface Lookup204 extends Vec<MultiAddress> {}
 
 /** @name SpArithmeticPerThingsPercent */
 export interface SpArithmeticPerThingsPercent extends Percent {}
@@ -869,12 +599,6 @@ export interface SpCoreEd25519Signature extends U8aFixed {}
 /** @name SpCoreEd25519Signature */
 export interface SpCoreEd25519Signature extends U8aFixed {}
 
-/** @name Lookup227 */
-export interface Lookup227 extends U8aFixed {}
-
-/** @name Lookup228 */
-export interface Lookup228 extends ITuple<[FinalityGrandpaPrevote, SpCoreEd25519Signature]> {}
-
 /** @name Lookup229 */
 export interface Lookup229 extends Struct {
   readonly roundNumber: u64;
@@ -888,9 +612,6 @@ export interface FinalityGrandpaPrecommit extends Struct {
   readonly targetHash: H256;
   readonly targetNumber: u32;
 }
-
-/** @name Lookup231 */
-export interface Lookup231 extends ITuple<[FinalityGrandpaPrecommit, SpCoreEd25519Signature]> {}
 
 /** @name PalletImOnlineHeartbeatU32 */
 export interface PalletImOnlineHeartbeatU32 extends Struct {
@@ -912,9 +633,6 @@ export interface SpCoreOffchainOpaqueNetworkState extends Struct {
 
 /** @name SpCoreOpaquePeerId */
 export interface SpCoreOpaquePeerId extends Bytes {}
-
-/** @name Lookup239 */
-export interface Lookup239 extends Vec<Bytes> {}
 
 /** @name SpCoreOffchainOpaqueMultiaddr */
 export interface SpCoreOffchainOpaqueMultiaddr extends Bytes {}
@@ -941,107 +659,11 @@ export interface PalletIdentityTypesIdentityInfo extends Struct {
 /** @name Lookup245 */
 export interface Lookup245 extends Vec<ITuple<[Data, Data]>> {}
 
-/** @name Lookup246 */
-export interface Lookup246 extends ITuple<[Data, Data]> {}
-
 /** @name PalletIdentityTypesData */
 export interface PalletIdentityTypesData extends Data {}
 
-/** @name Lookup248 */
-export interface Lookup248 extends U8aFixed {}
-
-/** @name Lookup249 */
-export interface Lookup249 extends U8aFixed {}
-
-/** @name Lookup250 */
-export interface Lookup250 extends U8aFixed {}
-
-/** @name Lookup251 */
-export interface Lookup251 extends U8aFixed {}
-
-/** @name Lookup252 */
-export interface Lookup252 extends U8aFixed {}
-
-/** @name Lookup253 */
-export interface Lookup253 extends U8aFixed {}
-
-/** @name Lookup254 */
-export interface Lookup254 extends U8aFixed {}
-
-/** @name Lookup255 */
-export interface Lookup255 extends U8aFixed {}
-
-/** @name Lookup256 */
-export interface Lookup256 extends U8aFixed {}
-
-/** @name Lookup257 */
-export interface Lookup257 extends U8aFixed {}
-
-/** @name Lookup258 */
-export interface Lookup258 extends U8aFixed {}
-
-/** @name Lookup259 */
-export interface Lookup259 extends U8aFixed {}
-
-/** @name Lookup260 */
-export interface Lookup260 extends U8aFixed {}
-
-/** @name Lookup261 */
-export interface Lookup261 extends U8aFixed {}
-
-/** @name Lookup262 */
-export interface Lookup262 extends U8aFixed {}
-
-/** @name Lookup263 */
-export interface Lookup263 extends U8aFixed {}
-
-/** @name Lookup264 */
-export interface Lookup264 extends U8aFixed {}
-
-/** @name Lookup265 */
-export interface Lookup265 extends U8aFixed {}
-
-/** @name Lookup266 */
-export interface Lookup266 extends U8aFixed {}
-
-/** @name Lookup267 */
-export interface Lookup267 extends U8aFixed {}
-
-/** @name Lookup268 */
-export interface Lookup268 extends U8aFixed {}
-
-/** @name Lookup269 */
-export interface Lookup269 extends U8aFixed {}
-
-/** @name Lookup270 */
-export interface Lookup270 extends U8aFixed {}
-
-/** @name Lookup271 */
-export interface Lookup271 extends U8aFixed {}
-
-/** @name Lookup272 */
-export interface Lookup272 extends U8aFixed {}
-
-/** @name Lookup273 */
-export interface Lookup273 extends U8aFixed {}
-
-/** @name Lookup274 */
-export interface Lookup274 extends U8aFixed {}
-
-/** @name Lookup275 */
-export interface Lookup275 extends U8aFixed {}
-
-/** @name Lookup276 */
-export interface Lookup276 extends Vec<ITuple<[Data, Data]>> {}
-
 /** @name Lookup277 */
 export interface Lookup277 extends Option<U8aFixed> {}
-
-/** @name Lookup278 */
-export interface Lookup278 extends Vec<ITuple<[AccountId32, Data]>> {}
-
-/** @name Lookup279 */
-export interface Lookup279 extends ITuple<[AccountId32, Data]> {}
 
 /** @name PalletIdentityTypesIdentityFields */
 export interface PalletIdentityTypesIdentityFields extends IdentityFields {}
@@ -1221,9 +843,6 @@ export interface PalletAssetsTypesDestroyWitness extends Struct {
   readonly approvals: Compact<u32>;
 }
 
-/** @name Lookup300 */
-export interface Lookup300 extends Compact<Perquintill> {}
-
 /** @name SpArithmeticPerThingsPerquintill */
 export interface SpArithmeticPerThingsPerquintill extends Perquintill {}
 
@@ -1243,15 +862,6 @@ export interface SpTransactionStorageProofTransactionStorageProof extends Struct
   readonly proof: Vec<Bytes>;
 }
 
-/** @name Lookup307 */
-export interface Lookup307 extends Vec<ITuple<[SpCoreSr25519Public, u64]>> {}
-
-/** @name Lookup308 */
-export interface Lookup308 extends ITuple<[SpCoreSr25519Public, u64]> {}
-
-/** @name Lookup309 */
-export interface Lookup309 extends Vec<U8aFixed> {}
-
 /** @name Lookup310 */
 export interface Lookup310 extends Option<U8aFixed> {}
 
@@ -1263,9 +873,6 @@ export interface SpConsensusBabeBabeEpochConfiguration extends Struct {
   } & Enum;
 }
 
-/** @name Lookup313 */
-export interface Lookup313 extends Vec<PalletAuthorshipUncleEntryItem> {}
-
 /** @name PalletAuthorshipUncleEntryItem */
 export interface PalletAuthorshipUncleEntryItem extends Enum {
   readonly isInclusionHeight: boolean;
@@ -1273,9 +880,6 @@ export interface PalletAuthorshipUncleEntryItem extends Enum {
   readonly isUncle: boolean;
   readonly asUncle: ITuple<[H256, Option<AccountId32>]>;
 }
-
-/** @name Lookup316 */
-export interface Lookup316 extends ITuple<[AccountId32, u128, bool]> {}
 
 /** @name FrameSupportStorageWeakBoundedVec */
 export interface FrameSupportStorageWeakBoundedVec extends Vec<PalletBalancesBalanceLockU128> {}
@@ -1296,9 +900,6 @@ export interface PalletBalancesReasons extends Enum {
   readonly isAll: boolean;
 }
 
-/** @name Lookup321 */
-export interface Lookup321 extends Vec<PalletBalancesBalanceLockU128> {}
-
 /** @name Lookup322 */
 export interface Lookup322 extends Vec<PalletBalancesReserveData> {}
 
@@ -1307,9 +908,6 @@ export interface PalletBalancesReserveData extends Struct {
   readonly id: U8aFixed;
   readonly amount: u128;
 }
-
-/** @name Lookup324 */
-export interface Lookup324 extends Vec<PalletBalancesReserveData> {}
 
 /** @name PalletBalancesReleases */
 export interface PalletBalancesReleases extends Enum {
@@ -1325,9 +923,6 @@ export interface PalletTransactionPaymentReleases extends Enum {
   readonly isV1Ancient: boolean;
   readonly isV2: boolean;
 }
-
-/** @name Lookup329 */
-export interface Lookup329 extends Vec<FrameSupportWeightsWeightToFeeCoefficientU128> {}
 
 /** @name FrameSupportWeightsWeightToFeeCoefficientU128 */
 export interface FrameSupportWeightsWeightToFeeCoefficientU128 extends Struct {
@@ -1346,9 +941,6 @@ export interface PalletElectionProviderMultiPhasePhaseU32 extends Enum {
   readonly isEmergency: boolean;
 }
 
-/** @name Lookup332 */
-export interface Lookup332 extends ITuple<[bool, u32]> {}
-
 /** @name PalletElectionProviderMultiPhaseReadySolution */
 export interface PalletElectionProviderMultiPhaseReadySolution extends Struct {
   readonly supports: Vec<ITuple<[AccountId32, SpNposElectionsSupport]>>;
@@ -1364,23 +956,11 @@ export interface PalletElectionProviderMultiPhaseRoundSnapshot extends Struct {
   readonly targets: Vec<AccountId32>;
 }
 
-/** @name Lookup335 */
-export interface Lookup335 extends Vec<ITuple<[AccountId32, u64, Vec<AccountId32>]>> {}
-
-/** @name Lookup336 */
-export interface Lookup336 extends ITuple<[AccountId32, u64, Vec<AccountId32>]> {}
-
 /** @name FrameSupportStorageBoundedBtreeMapBoundedBTreeMap */
 export interface FrameSupportStorageBoundedBtreeMapBoundedBTreeMap extends BTreeMap<Vec<u128>, u32> {}
 
 /** @name Lookup338 */
 export interface Lookup338 extends BTreeMap<Vec<u128>, u32> {}
-
-/** @name Lookup339 */
-export interface Lookup339 extends Vec<ITuple<[Vec<u128>, u32]>> {}
-
-/** @name Lookup340 */
-export interface Lookup340 extends ITuple<[Vec<u128>, u32]> {}
 
 /** @name PalletElectionProviderMultiPhaseSignedSignedSubmission */
 export interface PalletElectionProviderMultiPhaseSignedSignedSubmission extends Struct {
@@ -1401,9 +981,6 @@ export interface PalletStakingStakingLedger extends Struct {
   readonly unlocking: Vec<PalletStakingUnlockChunkU128>;
   readonly claimedRewards: Vec<u32>;
 }
-
-/** @name Lookup344 */
-export interface Lookup344 extends Vec<PalletStakingUnlockChunkU128> {}
 
 /** @name PalletStakingUnlockChunkU128 */
 export interface PalletStakingUnlockChunkU128 extends Struct {
@@ -1433,12 +1010,6 @@ export interface PalletStakingEraRewardPoints extends Struct {
 /** @name Lookup349 */
 export interface Lookup349 extends BTreeMap<AccountId32, u32> {}
 
-/** @name Lookup350 */
-export interface Lookup350 extends Vec<ITuple<[AccountId32, u32]>> {}
-
-/** @name Lookup351 */
-export interface Lookup351 extends ITuple<[AccountId32, u32]> {}
-
 /** @name PalletStakingForcing */
 export interface PalletStakingForcing extends Enum {
   readonly isNotForcing: boolean;
@@ -1446,9 +1017,6 @@ export interface PalletStakingForcing extends Enum {
   readonly isForceNone: boolean;
   readonly isForceAlways: boolean;
 }
-
-/** @name Lookup353 */
-export interface Lookup353 extends Vec<PalletStakingUnappliedSlash> {}
 
 /** @name PalletStakingUnappliedSlash */
 export interface PalletStakingUnappliedSlash extends Struct {
@@ -1458,9 +1026,6 @@ export interface PalletStakingUnappliedSlash extends Struct {
   readonly reporters: Vec<AccountId32>;
   readonly payout: u128;
 }
-
-/** @name Lookup355 */
-export interface Lookup355 extends ITuple<[Perbill, u128]> {}
 
 /** @name PalletStakingSlashingSlashingSpans */
 export interface PalletStakingSlashingSlashingSpans extends Struct {
@@ -1487,26 +1052,8 @@ export interface PalletStakingReleases extends Enum {
   readonly isV700: boolean;
 }
 
-/** @name Lookup360 */
-export interface Lookup360 extends Vec<ITuple<[AccountId32, NodeRuntimeSessionKeys]>> {}
-
-/** @name Lookup361 */
-export interface Lookup361 extends ITuple<[AccountId32, NodeRuntimeSessionKeys]> {}
-
-/** @name Lookup362 */
-export interface Lookup362 extends ITuple<[SpCoreCryptoKeyTypeId, Bytes]> {}
-
 /** @name SpCoreCryptoKeyTypeId */
 export interface SpCoreCryptoKeyTypeId extends U8aFixed {}
-
-/** @name Lookup365 */
-export interface Lookup365 extends Vec<ITuple<[u32, H256, AccountId32]>> {}
-
-/** @name Lookup366 */
-export interface Lookup366 extends ITuple<[u32, H256, AccountId32]> {}
-
-/** @name Lookup367 */
-export interface Lookup367 extends ITuple<[Vec<AccountId32>, u128]> {}
 
 /** @name PalletDemocracyPreimageStatus */
 export interface PalletDemocracyPreimageStatus extends Enum {
@@ -1573,12 +1120,6 @@ export interface PalletDemocracyVoteVoting extends Enum {
   } & Struct;
 }
 
-/** @name Lookup373 */
-export interface Lookup373 extends Vec<ITuple<[u32, PalletDemocracyVoteAccountVoteU128]>> {}
-
-/** @name Lookup374 */
-export interface Lookup374 extends ITuple<[u32, PalletDemocracyVoteAccountVoteU128]> {}
-
 /** @name PalletDemocracyTypesDelegationsU128 */
 export interface PalletDemocracyTypesDelegationsU128 extends Struct {
   readonly votes: u128;
@@ -1587,12 +1128,6 @@ export interface PalletDemocracyTypesDelegationsU128 extends Struct {
 
 /** @name PalletDemocracyVotePriorLock */
 export interface PalletDemocracyVotePriorLock extends ITuple<[u32, u128]> {}
-
-/** @name Lookup377 */
-export interface Lookup377 extends ITuple<[H256, PalletDemocracyVoteThreshold]> {}
-
-/** @name Lookup378 */
-export interface Lookup378 extends ITuple<[u32, Vec<AccountId32>]> {}
 
 /** @name PalletDemocracyReleases */
 export interface PalletDemocracyReleases extends Enum {
@@ -1613,9 +1148,6 @@ export interface PalletCollectiveVotes extends Struct {
 
 /** @name Lookup384 */
 export interface Lookup384 extends Vec<H256> {}
-
-/** @name Lookup386 */
-export interface Lookup386 extends Vec<PalletElectionsPhragmenSeatHolder> {}
 
 /** @name PalletElectionsPhragmenSeatHolder */
 export interface PalletElectionsPhragmenSeatHolder extends Struct {
@@ -1712,9 +1244,6 @@ export interface PalletContractsStorageRawTombstoneContractInfo extends H256 {}
 
 /** @name SpRuntimeTraitsBlakeTwo256 */
 export type SpRuntimeTraitsBlakeTwo256 = Null;
-
-/** @name Lookup405 */
-export interface Lookup405 extends Vec<PalletContractsStorageDeletedContract> {}
 
 /** @name PalletContractsStorageDeletedContract */
 export interface PalletContractsStorageDeletedContract extends Struct {
@@ -1964,9 +1493,6 @@ export interface PalletContractsScheduleHostFnWeights extends Struct {
   readonly hashBlake2128PerByte: u64;
 }
 
-/** @name Lookup413 */
-export interface Lookup413 extends Vec<SpCoreSr25519Public> {}
-
 /** @name SpStakingOffenceOffenceDetails */
 export interface SpStakingOffenceOffenceDetails extends Struct {
   readonly offender: ITuple<[AccountId32, PalletStakingExposure]>;
@@ -1993,15 +1519,6 @@ export interface PalletIdentityTypesRegistration extends Struct {
 /** @name Lookup417 */
 export interface Lookup417 extends Vec<ITuple<[u32, PalletIdentityTypesJudgementU128]>> {}
 
-/** @name Lookup418 */
-export interface Lookup418 extends ITuple<[u32, PalletIdentityTypesJudgementU128]> {}
-
-/** @name Lookup419 */
-export interface Lookup419 extends Vec<ITuple<[u32, PalletIdentityTypesJudgementU128]>> {}
-
-/** @name Lookup420 */
-export interface Lookup420 extends ITuple<[u128, Vec<AccountId32>]> {}
-
 /** @name Lookup421 */
 export interface Lookup421 extends Vec<AccountId32> {}
 
@@ -2017,12 +1534,6 @@ export interface PalletIdentityTypesRegistrarInfo extends Struct {
   readonly fee: u128;
   readonly fields: IdentityFields;
 }
-
-/** @name Lookup425 */
-export interface Lookup425 extends Vec<Option<PalletIdentityTypesRegistrarInfo>> {}
-
-/** @name Lookup427 */
-export interface Lookup427 extends Vec<PalletSocietyBid> {}
 
 /** @name PalletSocietyBid */
 export interface PalletSocietyBid extends Struct {
@@ -2041,20 +1552,11 @@ export interface PalletSocietyBidKind extends Enum {
   readonly asVouch: ITuple<[AccountId32, u128]>;
 }
 
-/** @name Lookup430 */
-export interface Lookup430 extends ITuple<[u128, PalletSocietyBidKind]> {}
-
 /** @name PalletSocietyVouchingStatus */
 export interface PalletSocietyVouchingStatus extends Enum {
   readonly isVouching: boolean;
   readonly isBanned: boolean;
 }
-
-/** @name Lookup432 */
-export interface Lookup432 extends Vec<ITuple<[u32, u128]>> {}
-
-/** @name Lookup433 */
-export interface Lookup433 extends ITuple<[u32, u128]> {}
 
 /** @name PalletSocietyVote */
 export interface PalletSocietyVote extends Enum {
@@ -2077,9 +1579,6 @@ export interface PalletRecoveryActiveRecovery extends Struct {
   readonly deposit: u128;
   readonly friends: Vec<AccountId32>;
 }
-
-/** @name Lookup440 */
-export interface Lookup440 extends Vec<Option<PalletSchedulerScheduledV2>> {}
 
 /** @name Lookup441 */
 export interface Lookup441 extends Option<PalletSchedulerScheduledV2> {}
@@ -2151,9 +1650,6 @@ export interface PalletSchedulerReleases extends Enum {
   readonly isV2: boolean;
 }
 
-/** @name Lookup450 */
-export interface Lookup450 extends ITuple<[Vec<PalletProxyProxyDefinition>, u128]> {}
-
 /** @name Lookup451 */
 export interface Lookup451 extends Vec<PalletProxyProxyDefinition> {}
 
@@ -2166,12 +1662,6 @@ export interface PalletProxyProxyDefinition extends Struct {
   readonly delay: u32;
 }
 
-/** @name Lookup453 */
-export interface Lookup453 extends Vec<PalletProxyProxyDefinition> {}
-
-/** @name Lookup454 */
-export interface Lookup454 extends ITuple<[Vec<PalletProxyAnnouncement>, u128]> {}
-
 /** @name Lookup455 */
 export interface Lookup455 extends Vec<PalletProxyAnnouncement> {}
 
@@ -2181,9 +1671,6 @@ export interface PalletProxyAnnouncement extends Struct {
   readonly callHash: H256;
   readonly height: u32;
 }
-
-/** @name Lookup457 */
-export interface Lookup457 extends Vec<PalletProxyAnnouncement> {}
 
 /** @name PalletMultisigMultisig */
 export interface PalletMultisigMultisig extends Struct {
@@ -2195,9 +1682,6 @@ export interface PalletMultisigMultisig extends Struct {
   readonly depositor: AccountId32;
   readonly approvals: Vec<AccountId32>;
 }
-
-/** @name Lookup460 */
-export interface Lookup460 extends ITuple<[Bytes, AccountId32, u128]> {}
 
 /** @name PalletBountiesBounty */
 export interface PalletBountiesBounty extends Struct {
@@ -2268,9 +1752,6 @@ export interface PalletAssetsTypesAssetBalance extends Struct {
   readonly extra: Null;
 }
 
-/** @name Lookup469 */
-export interface Lookup469 extends ITuple<[u32, AccountId32, AccountId32]> {}
-
 /** @name PalletAssetsTypesApproval */
 export interface PalletAssetsTypesApproval extends Struct {
   readonly amount: u64;
@@ -2294,15 +1775,6 @@ export interface PalletLotteryLotteryConfig extends Struct {
   readonly delay: u32;
   readonly repeat: bool;
 }
-
-/** @name Lookup474 */
-export interface Lookup474 extends ITuple<[u32, Vec<ITuple<[u8, u8]>>]> {}
-
-/** @name Lookup475 */
-export interface Lookup475 extends Vec<ITuple<[u8, u8]>> {}
-
-/** @name Lookup477 */
-export interface Lookup477 extends Vec<PalletGiltPalletGiltBid> {}
 
 /** @name PalletGiltPalletGiltBid */
 export interface PalletGiltPalletGiltBid extends Struct {
@@ -2340,9 +1812,6 @@ export interface PalletUniquesTypesClassDetails extends Struct {
   readonly isFrozen: bool;
 }
 
-/** @name Lookup483 */
-export interface Lookup483 extends ITuple<[AccountId32, u32, u32]> {}
-
 /** @name PalletUniquesTypesInstanceDetails */
 export interface PalletUniquesTypesInstanceDetails extends Struct {
   readonly owner: AccountId32;
@@ -2364,15 +1833,6 @@ export interface PalletUniquesTypesInstanceMetadata extends Struct {
   readonly data: Bytes;
   readonly isFrozen: bool;
 }
-
-/** @name Lookup487 */
-export interface Lookup487 extends ITuple<[u32, OptionU32, Bytes]> {}
-
-/** @name Lookup488 */
-export interface Lookup488 extends ITuple<[Bytes, u128]> {}
-
-/** @name Lookup490 */
-export interface Lookup490 extends Vec<PalletTransactionStorageTransactionInfo> {}
 
 /** @name PalletTransactionStorageTransactionInfo */
 export interface PalletTransactionStorageTransactionInfo extends Struct {
