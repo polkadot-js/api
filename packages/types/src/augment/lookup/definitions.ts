@@ -213,8 +213,8 @@ export default {
      **/
     PalletMembershipInstance1: 'Null',
     Lookup51: 'PalletMembershipInstance1',
-    Lookup53: 'Vec<([u8;32],u64)>',
-    Lookup54: '([u8;32],u64)',
+    Lookup53: 'Vec<(SpCoreEd25519Public,u64)>',
+    Lookup54: '(SpCoreEd25519Public,u64)',
     /**
      * 55: sp_finality_grandpa::app::Public
      **/
@@ -414,7 +414,7 @@ export default {
      * 125: sp_consensus_slots::EquivocationProof<<field>: sp_runtime::generic::header::Header, <field>: sp_consensus_babe::app::Public>
      **/
     SpConsensusSlotsEquivocationProof: {
-      offender: '[u8;32]',
+      offender: 'SpCoreSr25519Public',
       slot: 'u64',
       firstHeader: 'SpRuntimeGenericHeader',
       secondHeader: 'SpRuntimeGenericHeader'
@@ -620,10 +620,10 @@ export default {
      * 208: node_runtime::SessionKeys
      **/
     NodeRuntimeSessionKeys: {
-      grandpa: '[u8;32]',
-      babe: '[u8;32]',
-      imOnline: '[u8;32]',
-      authorityDiscovery: '[u8;32]'
+      grandpa: 'SpCoreEd25519Public',
+      babe: 'SpCoreSr25519Public',
+      imOnline: 'SpCoreSr25519Public',
+      authorityDiscovery: 'SpCoreSr25519Public'
     },
     Lookup208: 'NodeRuntimeSessionKeys',
     /**
@@ -695,9 +695,9 @@ export default {
      **/
     Lookup223: {
       roundNumber: 'u64',
-      identity: '[u8;32]',
-      first: '(FinalityGrandpaPrevote,[u8;64])',
-      second: '(FinalityGrandpaPrevote,[u8;64])'
+      identity: 'SpCoreEd25519Public',
+      first: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
+      second: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)'
     },
     /**
      * 224: finality_grandpa::Prevote<<field>: primitive_types::H256, N>
@@ -716,15 +716,15 @@ export default {
      **/
     Lookup226: '[u8;64]',
     Lookup227: '[u8;64]',
-    Lookup228: '(FinalityGrandpaPrevote,[u8;64])',
+    Lookup228: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
     /**
      * 229: finality_grandpa::Equivocation<<field>: sp_finality_grandpa::app::Public, <field>: finality_grandpa::Precommit<<field>: primitive_types::H256, N>, <field>: sp_finality_grandpa::app::Signature>
      **/
     Lookup229: {
       roundNumber: 'u64',
-      identity: '[u8;32]',
-      first: '(FinalityGrandpaPrecommit,[u8;64])',
-      second: '(FinalityGrandpaPrecommit,[u8;64])'
+      identity: 'SpCoreEd25519Public',
+      first: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
+      second: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)'
     },
     /**
      * 230: finality_grandpa::Precommit<<field>: primitive_types::H256, N>
@@ -734,7 +734,7 @@ export default {
       targetNumber: 'u32'
     },
     Lookup230: 'FinalityGrandpaPrecommit',
-    Lookup231: '(FinalityGrandpaPrecommit,[u8;64])',
+    Lookup231: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
     /**
      * 236: pallet_im_online::Heartbeat<BlockNumber>
      **/
@@ -750,19 +750,21 @@ export default {
      * 237: sp_core::offchain::OpaqueNetworkState
      **/
     SpCoreOffchainOpaqueNetworkState: {
-      peerId: 'Vec<u8>',
-      externalAddresses: 'Vec<Vec<u8>>'
+      peerId: 'SpCoreOpaquePeerId',
+      externalAddresses: 'Vec<SpCoreOffchainOpaqueMultiaddr>'
     },
     Lookup237: 'SpCoreOffchainOpaqueNetworkState',
     /**
      * 238: sp_core::OpaquePeerId
      **/
-    Lookup238: 'Vec<u8>',
-    Lookup239: 'Vec<Vec<u8>>',
+    SpCoreOpaquePeerId: 'Vec<u8>',
+    Lookup238: 'SpCoreOpaquePeerId',
+    Lookup239: 'Vec<SpCoreOffchainOpaqueMultiaddr>',
     /**
      * 240: sp_core::offchain::OpaqueMultiaddr
      **/
-    Lookup240: 'Vec<u8>',
+    SpCoreOffchainOpaqueMultiaddr: 'Vec<u8>',
+    Lookup240: 'SpCoreOffchainOpaqueMultiaddr',
     /**
      * 241: pallet_im_online::sr25519::app_sr25519::Signature
      **/
@@ -833,13 +835,14 @@ export default {
     /**
      * 280: pallet_identity::types::IdentityFields
      **/
-    Lookup280: 'Lookup281',
+    Lookup280: 'IdentityFields',
     /**
      * 281: pallet_identity::types::IdentityField
      **/
-    Lookup281: {
+    PalletIdentityTypesIdentityField: {
       _enum: ['Unused0', 'Display', 'Legal', 'Unused3', 'Web', 'Unused5', 'Unused6', 'Unused7', 'Riot', 'Unused9', 'Unused10', 'Unused11', 'Unused12', 'Unused13', 'Unused14', 'Unused15', 'Email', 'Unused17', 'Unused18', 'Unused19', 'Unused20', 'Unused21', 'Unused22', 'Unused23', 'Unused24', 'Unused25', 'Unused26', 'Unused27', 'Unused28', 'Unused29', 'Unused30', 'Unused31', 'PgpFingerprint', 'Unused33', 'Unused34', 'Unused35', 'Unused36', 'Unused37', 'Unused38', 'Unused39', 'Unused40', 'Unused41', 'Unused42', 'Unused43', 'Unused44', 'Unused45', 'Unused46', 'Unused47', 'Unused48', 'Unused49', 'Unused50', 'Unused51', 'Unused52', 'Unused53', 'Unused54', 'Unused55', 'Unused56', 'Unused57', 'Unused58', 'Unused59', 'Unused60', 'Unused61', 'Unused62', 'Unused63', 'Image', 'Unused65', 'Unused66', 'Unused67', 'Unused68', 'Unused69', 'Unused70', 'Unused71', 'Unused72', 'Unused73', 'Unused74', 'Unused75', 'Unused76', 'Unused77', 'Unused78', 'Unused79', 'Unused80', 'Unused81', 'Unused82', 'Unused83', 'Unused84', 'Unused85', 'Unused86', 'Unused87', 'Unused88', 'Unused89', 'Unused90', 'Unused91', 'Unused92', 'Unused93', 'Unused94', 'Unused95', 'Unused96', 'Unused97', 'Unused98', 'Unused99', 'Unused100', 'Unused101', 'Unused102', 'Unused103', 'Unused104', 'Unused105', 'Unused106', 'Unused107', 'Unused108', 'Unused109', 'Unused110', 'Unused111', 'Unused112', 'Unused113', 'Unused114', 'Unused115', 'Unused116', 'Unused117', 'Unused118', 'Unused119', 'Unused120', 'Unused121', 'Unused122', 'Unused123', 'Unused124', 'Unused125', 'Unused126', 'Unused127', 'Twitter']
     },
+    Lookup281: 'PalletIdentityTypesIdentityField',
     /**
      * 282: pallet_identity::types::Judgement<Balance>
      **/
@@ -918,8 +921,8 @@ export default {
       proof: 'Vec<Vec<u8>>'
     },
     Lookup306: 'SpTransactionStorageProofTransactionStorageProof',
-    Lookup307: 'Vec<([u8;32],u64)>',
-    Lookup308: '([u8;32],u64)',
+    Lookup307: 'Vec<(SpCoreSr25519Public,u64)>',
+    Lookup308: '(SpCoreSr25519Public,u64)',
     Lookup309: 'Vec<[u8;32]>',
     /**
      * 310: Option<T>
@@ -948,7 +951,8 @@ export default {
     /**
      * 318: frame_support::storage::weak_bounded_vec::WeakBoundedVec<<field>: pallet_balances::BalanceLock<Balance>, S>
      **/
-    Lookup318: 'Vec<PalletBalancesBalanceLockU128>',
+    FrameSupportStorageWeakBoundedVec: 'Vec<PalletBalancesBalanceLockU128>',
+    Lookup318: 'FrameSupportStorageWeakBoundedVec',
     /**
      * 319: pallet_balances::BalanceLock<Balance>
      **/
@@ -1043,7 +1047,8 @@ export default {
     /**
      * 337: frame_support::storage::bounded_btree_map::BoundedBTreeMap<K, V, S>
      **/
-    Lookup337: 'BTreeMap<[u128;3], u32>',
+    FrameSupportStorageBoundedBtreeMapBoundedBTreeMap: 'BTreeMap<[u128;3], u32>',
+    Lookup337: 'FrameSupportStorageBoundedBtreeMapBoundedBTreeMap',
     /**
      * 338: BTreeMap<K, V>
      **/
@@ -1157,11 +1162,12 @@ export default {
     Lookup358: 'PalletStakingReleases',
     Lookup360: 'Vec<(AccountId32,NodeRuntimeSessionKeys)>',
     Lookup361: '(AccountId32,NodeRuntimeSessionKeys)',
-    Lookup362: '([u8;4],Vec<u8>)',
+    Lookup362: '(SpCoreCryptoKeyTypeId,Vec<u8>)',
     /**
      * 363: sp_core::crypto::KeyTypeId
      **/
-    Lookup363: '[u8;4]',
+    SpCoreCryptoKeyTypeId: '[u8;4]',
+    Lookup363: 'SpCoreCryptoKeyTypeId',
     Lookup365: 'Vec<(u32,H256,AccountId32)>',
     Lookup366: '(u32,H256,AccountId32)',
     Lookup367: '(Vec<AccountId32>,u128)',
@@ -1320,7 +1326,7 @@ export default {
     PalletGrandpaStoredPendingChangeU32: {
       scheduledAt: 'u32',
       delay: 'u32',
-      nextAuthorities: 'Vec<([u8;32],u64)>',
+      nextAuthorities: 'Vec<(SpCoreEd25519Public,u64)>',
       forced: 'OptionU32'
     },
     Lookup392: 'PalletGrandpaStoredPendingChangeU32',
@@ -1345,7 +1351,8 @@ export default {
     /**
      * 397: frame_support::PalletId
      **/
-    Lookup397: '[u8;8]',
+    FrameSupportPalletId: '[u8;8]',
+    Lookup397: 'FrameSupportPalletId',
     /**
      * 399: pallet_contracts::wasm::PrefabWasmModule<T>
      **/
@@ -1549,7 +1556,7 @@ export default {
       hashBlake2128PerByte: 'u64'
     },
     Lookup410: 'PalletContractsScheduleHostFnWeights',
-    Lookup413: 'Vec<[u8;32]>',
+    Lookup413: 'Vec<SpCoreSr25519Public>',
     /**
      * 415: sp_staking::offence::OffenceDetails<<field>: sp_core::crypto::AccountId32, Offender>
      **/
@@ -1592,7 +1599,7 @@ export default {
     PalletIdentityTypesRegistrarInfo: {
       account: 'AccountId32',
       fee: 'u128',
-      fields: 'PalletIdentityTypesIdentityField'
+      fields: 'IdentityFields'
     },
     Lookup424: 'PalletIdentityTypesRegistrarInfo',
     Lookup425: 'Vec<Option<PalletIdentityTypesRegistrarInfo>>',
@@ -1978,7 +1985,8 @@ export default {
     /**
      * 493: sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic
      **/
-    Lookup493: 'Vec<u8>',
+    SpRuntimeGenericUncheckedExtrinsic: 'Vec<u8>',
+    Lookup493: 'SpRuntimeGenericUncheckedExtrinsic',
     /**
      * 494: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
      **/

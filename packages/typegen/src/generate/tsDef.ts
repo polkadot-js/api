@@ -142,9 +142,9 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, { type }: TypeDef, imports: TypeImports): string {
+function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, typeDef: TypeDef, imports: TypeImports): string {
   // FIXME
-  return `// SI: ${type}`;
+  return `// SI: ${JSON.stringify(typeDef)}`;
 }
 
 /** @internal */

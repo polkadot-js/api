@@ -32,6 +32,7 @@ const PRIMITIVE_SP = [
   'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
+  'pallet_identity::types::IdentityFields',
   'primitive_types::*'
 ];
 
@@ -170,9 +171,11 @@ export class GenericPortableRegistry extends Struct {
 
       const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
-      Object.keys(extracted).forEach((key): void => {
-        // these are safe since we are looking through the keys as set
-        this.#typeDefs[lookupIndex][key as 'info'] = extracted[key as 'info'];
+      Object.keys(extracted).forEach((k): void => {
+        if (k !== 'lookupName' || extracted.lookupName) {
+          // these are safe since we are looking through the keys as set
+          this.#typeDefs[lookupIndex][k as 'info'] = extracted[k as 'info'];
+        }
       });
 
       // don't set lookupName on lower-level, we want to always direct to the type
