@@ -38,6 +38,9 @@ const PRIMITIVE_SP = [
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
 
+// These are reserved and conflicts with built-in Codec definitions
+const RESERVED = ['entries', 'hash', 'keys', 'size'];
+
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
     !name || names.some((o, i) => index !== i && name === o)
@@ -256,29 +259,7 @@ export class GenericPortableRegistry extends Struct {
       };
     }
 
-    const alias = new Map<string, string>();
-    const sub = fields.map(({ name, type }) => {
-      const typeDef = this.#createSiDef(type);
-      const nameDef: { name?: string } = {};
-
-      if (name.isSome) {
-        let nameInput = stringCamelCase(name.unwrap());
-
-        if (nameInput.includes('#')) {
-          const aliassed = nameInput;
-
-          nameInput = aliassed.replace(/#/g, '_');
-          alias.set(nameInput, aliassed);
-        }
-
-        nameDef.name = nameInput;
-      }
-
-      return {
-        ...typeDef,
-        ...nameDef
-      };
-    });
+    const [sub, alias] = this.#extractFieldsAliassed(fields);
 
     return withTypeString(this.registry, {
       info: isTuple // Tuple check first
@@ -299,6 +280,39 @@ export class GenericPortableRegistry extends Struct {
       ),
       sub
     });
+  }
+
+  #extractFieldsAliassed (fields: SiField[]): [TypeDef[], Map<string, string>] {
+    const alias = new Map<string, string>();
+    const sub = fields.map(({ name, type }) => {
+      const typeDef = this.#createSiDef(type);
+
+      if (name.isNone) {
+        return typeDef;
+      }
+
+      let nameField = stringCamelCase(name.unwrap());
+      let nameOrig: string | null = null;
+
+      if (nameField.includes('#')) {
+        nameOrig = nameField;
+        nameField = nameOrig.replace(/#/g, '_');
+      } else if (RESERVED.includes(nameField)) {
+        nameOrig = nameField;
+        nameField = `${nameField}_`;
+      }
+
+      if (nameOrig) {
+        alias.set(nameField, nameOrig);
+      }
+
+      return {
+        ...typeDef,
+        name: nameField
+      };
+    });
+
+    return [sub, alias];
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {
