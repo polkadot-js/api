@@ -193,7 +193,7 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = lookupId.toNumber();
 
     // Setup for a lookup on complex types
-    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
+    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
       ? {
         docs: typeDef.docs,
         info: TypeDefInfo.Si,

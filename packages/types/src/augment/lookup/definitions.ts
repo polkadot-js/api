@@ -553,8 +553,18 @@ export default {
      **/
     SpFinalityGrandpaEquivocation: {
       _enum: {
-        Prevote: 'Lookup223',
-        Precommit: 'Lookup229',
+        Prevote: {
+          roundNumber: 'u64',
+          identity: 'SpCoreEd25519Public',
+          first: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
+          second: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
+        },
+        Precommit: {
+          roundNumber: 'u64',
+          identity: 'SpCoreEd25519Public',
+          first: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
+          second: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
+        },
       }
     },
     /**

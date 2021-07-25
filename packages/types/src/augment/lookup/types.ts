@@ -574,9 +574,19 @@ export interface SpFinalityGrandpaEquivocationProof extends Struct {
 /** @name SpFinalityGrandpaEquivocation */
 export interface SpFinalityGrandpaEquivocation extends Enum {
   readonly isPrevote: boolean;
-  readonly asPrevote: Lookup223;
+  readonly asPrevote: {
+    readonly roundNumber: u64;
+    readonly identity: SpCoreEd25519Public;
+    readonly first: ITuple<[FinalityGrandpaPrevote, SpCoreEd25519Signature]>;
+    readonly second: ITuple<[FinalityGrandpaPrevote, SpCoreEd25519Signature]>;
+  } & Struct;
   readonly isPrecommit: boolean;
-  readonly asPrecommit: Lookup229;
+  readonly asPrecommit: {
+    readonly roundNumber: u64;
+    readonly identity: SpCoreEd25519Public;
+    readonly first: ITuple<[FinalityGrandpaPrecommit, SpCoreEd25519Signature]>;
+    readonly second: ITuple<[FinalityGrandpaPrecommit, SpCoreEd25519Signature]>;
+  } & Struct;
 }
 
 /** @name Lookup223 */
