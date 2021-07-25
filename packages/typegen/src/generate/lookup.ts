@@ -108,13 +108,13 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
 
     return (
       // We actually only want those with lookupName set
-      (!!path.length || !!typeDef.lookupName) &&
+      !!typeDef.lookupName &&
       !(
         path.length === 2 &&
         (
           (
             path[0].toString() === 'node_runtime' &&
-            path[1].toString() !== 'Call'
+            !['Call', 'Event'].includes(path[1].toString())
           ) ||
           path[0].toString().startsWith('pallet_')
         ) &&
