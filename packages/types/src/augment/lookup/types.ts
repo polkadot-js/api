@@ -59,7 +59,7 @@ export interface Lookup8 extends u64 {}
 export interface PrimitiveTypesH256 extends H256 {}
 
 /** @name Lookup10 */
-export interface Lookup10 extends Vec<u8> {}
+export interface Lookup10 extends Bytes {}
 
 /** @name SpRuntimeGenericDigest */
 export interface SpRuntimeGenericDigest extends Struct {
@@ -314,7 +314,7 @@ export interface PalletMultisigTimepointU32 extends Struct {
 export interface Lookup88 extends ITuple<[u8, u8]> {}
 
 /** @name Lookup91 */
-export interface Lookup91 extends Vec<u8> {}
+export interface Lookup91 extends Bytes {}
 
 /** @name Lookup92 */
 export interface Lookup92 extends Vec<u32> {}
@@ -323,10 +323,10 @@ export interface Lookup92 extends Vec<u32> {}
 export interface OptionU32 extends Option<u32> {}
 
 /** @name Lookup94 */
-export interface Lookup94 extends Vec<u8> {}
+export interface Lookup94 extends Bytes {}
 
 /** @name Lookup95 */
-export interface Lookup95 extends Vec<u8> {}
+export interface Lookup95 extends Bytes {}
 
 /** @name FrameSystemPhase */
 export interface FrameSystemPhase extends Enum {
@@ -896,8 +896,8 @@ export interface Lookup231 extends ITuple<[FinalityGrandpaPrecommit, SpCoreEd255
 export interface PalletImOnlineHeartbeatU32 extends Struct {
   readonly blockNumber: u32;
   readonly networkState: {
-    readonly peerId: SpCoreOpaquePeerId;
-    readonly externalAddresses: Vec<SpCoreOffchainOpaqueMultiaddr>;
+    readonly peerId: Bytes;
+    readonly externalAddresses: Vec<Bytes>;
   } & Struct;
   readonly sessionIndex: u32;
   readonly authorityIndex: u32;
@@ -906,18 +906,18 @@ export interface PalletImOnlineHeartbeatU32 extends Struct {
 
 /** @name SpCoreOffchainOpaqueNetworkState */
 export interface SpCoreOffchainOpaqueNetworkState extends Struct {
-  readonly peerId: Vec<u8>;
-  readonly externalAddresses: Vec<SpCoreOffchainOpaqueMultiaddr>;
+  readonly peerId: Bytes;
+  readonly externalAddresses: Vec<Bytes>;
 }
 
 /** @name SpCoreOpaquePeerId */
-export interface SpCoreOpaquePeerId extends Vec<u8> {}
+export interface SpCoreOpaquePeerId extends Bytes {}
 
 /** @name Lookup239 */
-export interface Lookup239 extends Vec<SpCoreOffchainOpaqueMultiaddr> {}
+export interface Lookup239 extends Vec<Bytes> {}
 
 /** @name SpCoreOffchainOpaqueMultiaddr */
-export interface SpCoreOffchainOpaqueMultiaddr extends Vec<u8> {}
+export interface SpCoreOffchainOpaqueMultiaddr extends Bytes {}
 
 /** @name SpCoreSr25519Signature */
 export interface SpCoreSr25519Signature extends U8aFixed {}
@@ -1239,7 +1239,7 @@ export interface Lookup304 extends Option<MultiAddress> {}
 
 /** @name SpTransactionStorageProofTransactionStorageProof */
 export interface SpTransactionStorageProofTransactionStorageProof extends Struct {
-  readonly chunk: Vec<u8>;
+  readonly chunk: Bytes;
   readonly proof: Vec<Bytes>;
 }
 
@@ -1679,7 +1679,7 @@ export interface PalletContractsWasmPrefabWasmModule extends Struct {
   readonly maximum: Compact<u32>;
   readonly refcount: Compact<u64>;
   readonly reserved: Option<Null>;
-  readonly code: Vec<u8>;
+  readonly code: Bytes;
   readonly originalCodeLen: u32;
 }
 
@@ -1696,7 +1696,7 @@ export interface PalletContractsStorageContractInfo extends Enum {
 
 /** @name PalletContractsStorageRawAliveContractInfo */
 export interface PalletContractsStorageRawAliveContractInfo extends Struct {
-  readonly trieId: Vec<u8>;
+  readonly trieId: Bytes;
   readonly storageSize: u32;
   readonly pairCount: u32;
   readonly codeHash: H256;
@@ -1719,7 +1719,7 @@ export interface Lookup405 extends Vec<PalletContractsStorageDeletedContract> {}
 /** @name PalletContractsStorageDeletedContract */
 export interface PalletContractsStorageDeletedContract extends Struct {
   readonly pairCount: u32;
-  readonly trieId: Vec<u8>;
+  readonly trieId: Bytes;
 }
 
 /** @name PalletContractsSchedule */
@@ -2280,8 +2280,8 @@ export interface PalletAssetsTypesApproval extends Struct {
 /** @name PalletAssetsTypesAssetMetadata */
 export interface PalletAssetsTypesAssetMetadata extends Struct {
   readonly deposit: u128;
-  readonly name: Vec<u8>;
-  readonly symbol: Vec<u8>;
+  readonly name: Bytes;
+  readonly symbol: Bytes;
   readonly decimals: u8;
   readonly isFrozen: bool;
 }
@@ -2354,14 +2354,14 @@ export interface PalletUniquesTypesInstanceDetails extends Struct {
 /** @name PalletUniquesTypesClassMetadata */
 export interface PalletUniquesTypesClassMetadata extends Struct {
   readonly deposit: u128;
-  readonly data: Vec<u8>;
+  readonly data: Bytes;
   readonly isFrozen: bool;
 }
 
 /** @name PalletUniquesTypesInstanceMetadata */
 export interface PalletUniquesTypesInstanceMetadata extends Struct {
   readonly deposit: u128;
-  readonly data: Vec<u8>;
+  readonly data: Bytes;
   readonly isFrozen: bool;
 }
 
@@ -2383,7 +2383,7 @@ export interface PalletTransactionStorageTransactionInfo extends Struct {
 }
 
 /** @name SpRuntimeGenericUncheckedExtrinsic */
-export interface SpRuntimeGenericUncheckedExtrinsic extends Vec<u8> {}
+export interface SpRuntimeGenericUncheckedExtrinsic extends Bytes {}
 
 /** @name FrameSystemExtensionsCheckSpecVersion */
 export type FrameSystemExtensionsCheckSpecVersion = Null;

@@ -51,7 +51,7 @@ export default {
      * 9: primitive_types::H256
      **/
     Lookup9: 'H256',
-    Lookup10: 'Vec<u8>',
+    Lookup10: 'Bytes',
     /**
      * 11: sp_runtime::generic::digest::Digest<<field>: primitive_types::H256>
      **/
@@ -65,13 +65,13 @@ export default {
      **/
     SpRuntimeGenericDigestDigestItem: {
       _enum: {
-        Other: 'Vec<u8>',
+        Other: 'Bytes',
         Unused1: 'Null',
         ChangesTrieRoot: 'H256',
         Unused3: 'Null',
-        Consensus: '([u8;4],Vec<u8>)',
-        Seal: '([u8;4],Vec<u8>)',
-        PreRuntime: '([u8;4],Vec<u8>)',
+        Consensus: '([u8;4],Bytes)',
+        Seal: '([u8;4],Bytes)',
+        PreRuntime: '([u8;4],Bytes)',
         ChangesTrieSignal: 'SpRuntimeGenericDigestChangesTrieSignal',
       }
     },
@@ -262,7 +262,7 @@ export default {
     /**
      * 78: Option<T>
      **/
-    Lookup78: 'Option<Vec<u8>>',
+    Lookup78: 'Option<Bytes>',
     /**
      * 80: node_runtime::ProxyType
      **/
@@ -283,7 +283,7 @@ export default {
     /**
      * 91: frame_support::storage::bounded_vec::BoundedVec<T, S>
      **/
-    Lookup91: 'Vec<u8>',
+    Lookup91: 'Bytes',
     Lookup92: 'Vec<u32>',
     /**
      * 93: Option<T>
@@ -293,11 +293,11 @@ export default {
     /**
      * 94: frame_support::storage::bounded_vec::BoundedVec<T, S>
      **/
-    Lookup94: 'Vec<u8>',
+    Lookup94: 'Bytes',
     /**
      * 95: frame_support::storage::bounded_vec::BoundedVec<T, S>
      **/
-    Lookup95: 'Vec<u8>',
+    Lookup95: 'Bytes',
     /**
      * 97: frame_system::Phase
      **/
@@ -325,9 +325,9 @@ export default {
      * 104: sp_arithmetic::per_things::Perbill
      **/
     Lookup104: 'Perbill',
-    Lookup105: 'Vec<(Vec<u8>,Vec<u8>)>',
-    Lookup106: '(Vec<u8>,Vec<u8>)',
-    Lookup107: 'Vec<Vec<u8>>',
+    Lookup105: 'Vec<(Bytes,Bytes)>',
+    Lookup106: '(Bytes,Bytes)',
+    Lookup107: 'Vec<Bytes>',
     /**
      * 108: frame_system::limits::BlockWeights
      **/
@@ -444,7 +444,7 @@ export default {
      **/
     SpSessionMembershipProof: {
       session: 'u32',
-      trieNodes: 'Vec<Vec<u8>>',
+      trieNodes: 'Vec<Bytes>',
       validatorCount: 'u32'
     },
     Lookup129: 'SpSessionMembershipProof',
@@ -750,21 +750,19 @@ export default {
      * 237: sp_core::offchain::OpaqueNetworkState
      **/
     SpCoreOffchainOpaqueNetworkState: {
-      peerId: 'SpCoreOpaquePeerId',
-      externalAddresses: 'Vec<SpCoreOffchainOpaqueMultiaddr>'
+      peerId: 'Bytes',
+      externalAddresses: 'Vec<Bytes>'
     },
     Lookup237: 'SpCoreOffchainOpaqueNetworkState',
     /**
      * 238: sp_core::OpaquePeerId
      **/
-    SpCoreOpaquePeerId: 'Vec<u8>',
-    Lookup238: 'SpCoreOpaquePeerId',
-    Lookup239: 'Vec<SpCoreOffchainOpaqueMultiaddr>',
+    Lookup238: 'Bytes',
+    Lookup239: 'Vec<Bytes>',
     /**
      * 240: sp_core::offchain::OpaqueMultiaddr
      **/
-    SpCoreOffchainOpaqueMultiaddr: 'Vec<u8>',
-    Lookup240: 'SpCoreOffchainOpaqueMultiaddr',
+    Lookup240: 'Bytes',
     /**
      * 241: pallet_im_online::sr25519::app_sr25519::Signature
      **/
@@ -917,8 +915,8 @@ export default {
      * 306: sp_transaction_storage_proof::TransactionStorageProof
      **/
     SpTransactionStorageProofTransactionStorageProof: {
-      chunk: 'Vec<u8>',
-      proof: 'Vec<Vec<u8>>'
+      chunk: 'Bytes',
+      proof: 'Vec<Bytes>'
     },
     Lookup306: 'SpTransactionStorageProofTransactionStorageProof',
     Lookup307: 'Vec<(SpCoreSr25519Public,u64)>',
@@ -1162,7 +1160,7 @@ export default {
     Lookup358: 'PalletStakingReleases',
     Lookup360: 'Vec<(AccountId32,NodeRuntimeSessionKeys)>',
     Lookup361: '(AccountId32,NodeRuntimeSessionKeys)',
-    Lookup362: '(SpCoreCryptoKeyTypeId,Vec<u8>)',
+    Lookup362: '(SpCoreCryptoKeyTypeId,Bytes)',
     /**
      * 363: sp_core::crypto::KeyTypeId
      **/
@@ -1178,7 +1176,7 @@ export default {
       _enum: {
         Missing: 'u32',
         Available: {
-          data: 'Vec<u8>',
+          data: 'Bytes',
           provider: 'AccountId32',
           deposit: 'u128',
           since: 'u32',
@@ -1362,7 +1360,7 @@ export default {
       maximum: 'CompactU32',
       refcount: 'CompactU64',
       reserved: 'Option<Null>',
-      code: 'Vec<u8>',
+      code: 'Bytes',
       originalCodeLen: 'u32'
     },
     Lookup399: 'PalletContractsWasmPrefabWasmModule',
@@ -1384,7 +1382,7 @@ export default {
      * 402: pallet_contracts::storage::RawAliveContractInfo<<field>: primitive_types::H256, Balance, BlockNumber>
      **/
     PalletContractsStorageRawAliveContractInfo: {
-      trieId: 'Vec<u8>',
+      trieId: 'Bytes',
       storageSize: 'u32',
       pairCount: 'u32',
       codeHash: 'H256',
@@ -1410,7 +1408,7 @@ export default {
      **/
     PalletContractsStorageDeletedContract: {
       pairCount: 'u32',
-      trieId: 'Vec<u8>'
+      trieId: 'Bytes'
     },
     Lookup406: 'PalletContractsStorageDeletedContract',
     /**
@@ -1668,7 +1666,7 @@ export default {
      * 442: pallet_scheduler::ScheduledV2<<field>: node_runtime::Call, BlockNumber, <field>: node_runtime::OriginCaller, <field>: sp_core::crypto::AccountId32>
      **/
     PalletSchedulerScheduledV2: {
-      maybeId: 'Option<Vec<u8>>',
+      maybeId: 'Option<Bytes>',
       priority: 'u8',
       call: 'Call',
       maybePeriodic: 'Option<(u32,u32)>',
@@ -1782,7 +1780,7 @@ export default {
       approvals: 'Vec<AccountId32>'
     },
     Lookup459: 'PalletMultisigMultisig',
-    Lookup460: '(Vec<u8>,AccountId32,u128)',
+    Lookup460: '(Bytes,AccountId32,u128)',
     /**
      * 462: pallet_bounties::Bounty<<field>: sp_core::crypto::AccountId32, Balance, BlockNumber>
      **/
@@ -1873,8 +1871,8 @@ export default {
      **/
     PalletAssetsTypesAssetMetadata: {
       deposit: 'u128',
-      name: 'Vec<u8>',
-      symbol: 'Vec<u8>',
+      name: 'Bytes',
+      symbol: 'Bytes',
       decimals: 'u8',
       isFrozen: 'bool'
     },
@@ -1953,7 +1951,7 @@ export default {
      **/
     PalletUniquesTypesClassMetadata: {
       deposit: 'u128',
-      data: 'Vec<u8>',
+      data: 'Bytes',
       isFrozen: 'bool'
     },
     Lookup485: 'PalletUniquesTypesClassMetadata',
@@ -1962,12 +1960,12 @@ export default {
      **/
     PalletUniquesTypesInstanceMetadata: {
       deposit: 'u128',
-      data: 'Vec<u8>',
+      data: 'Bytes',
       isFrozen: 'bool'
     },
     Lookup486: 'PalletUniquesTypesInstanceMetadata',
-    Lookup487: '(u32,OptionU32,Vec<u8>)',
-    Lookup488: '(Vec<u8>,u128)',
+    Lookup487: '(u32,OptionU32,Bytes)',
+    Lookup488: '(Bytes,u128)',
     Lookup490: 'Vec<PalletTransactionStorageTransactionInfo>',
     /**
      * 491: pallet_transaction_storage::TransactionInfo
@@ -1985,8 +1983,7 @@ export default {
     /**
      * 493: sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic
      **/
-    SpRuntimeGenericUncheckedExtrinsic: 'Vec<u8>',
-    Lookup493: 'SpRuntimeGenericUncheckedExtrinsic',
+    Lookup493: 'Bytes',
     /**
      * 494: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
      **/

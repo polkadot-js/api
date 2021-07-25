@@ -172,7 +172,7 @@ export class GenericPortableRegistry extends Struct {
       const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
       Object.keys(extracted).forEach((k): void => {
-        if (k !== 'lookupName' || extracted.lookupName) {
+        if (k !== 'lookupName' || extracted[k]) {
           // these are safe since we are looking through the keys as set
           this.#typeDefs[lookupIndex][k as 'info'] = extracted[k as 'info'];
         }
@@ -382,6 +382,13 @@ export class GenericPortableRegistry extends Struct {
 
   #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
     const sub = this.#createSiDef(type);
+
+    if (sub.type === 'u8') {
+      return {
+        info: TypeDefInfo.Plain,
+        type: 'Bytes'
+      };
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Vec,

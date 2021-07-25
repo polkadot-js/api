@@ -182,10 +182,16 @@ function tsUInt (registry: Registry, definitions: Record<string, ModuleTypes>, d
 function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   const type = (def.sub as TypeDef).type;
 
-  if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
-    setImports(definitions, imports, ['U8aFixed']);
+  if (type === 'u8') {
+    if (def.info === TypeDefInfo.VecFixed) {
+      setImports(definitions, imports, ['U8aFixed']);
 
-    return exportType(def.name, 'U8aFixed');
+      return exportType(def.name, 'U8aFixed');
+    } else {
+      setImports(definitions, imports, ['Bytes']);
+
+      return exportType(def.name, 'Bytes');
+    }
   }
 
   return exportInterface(def.name, formatType(registry, definitions, def, imports, false));
