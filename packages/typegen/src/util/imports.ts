@@ -64,10 +64,10 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
 
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
-        typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.type]));
+        typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.lookupName || subType.type]));
       } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
-        setImports(allDefs, imports, [typeDef.sub.type]);
+        setImports(allDefs, imports, [typeDef.sub.lookupName || typeDef.sub.type]);
       }
     } else if (type.includes('[') && type.includes('|')) {
       // We split the types (we already dod the check above, so safe-path should not be caught)

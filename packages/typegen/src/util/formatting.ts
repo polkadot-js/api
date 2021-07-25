@@ -102,7 +102,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     setImports(definitions, imports, ['Enum']);
 
-    return '{ /** TODO generate fields **/ } & Enum';
+    return `{${withShortcut ? ' ' : '\n    '}/** TODO generate fields **/${withShortcut ? ' ' : '\n  '}} & Enum`;
   },
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
@@ -134,12 +134,12 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     setImports(definitions, imports, ['Struct']);
 
-    return `{ ${
+    return `{${withShortcut ? ' ' : '\n'}${
       ((typeDef.sub as TypeDef[]).map(({ lookupName, name, type }, index) => [
         name || `unknown${index}`,
         formatType(registry, definitions, lookupName || type, imports, withShortcut)
-      ])).map(([k, t]) => `${k}: ${t};`).join(' ')
-    } } & Struct`;
+      ])).map(([k, t]) => `${withShortcut ? '' : '    readonly '}${k}: ${t};`).join(withShortcut ? ' ' : '\n')
+    }${withShortcut ? ' ' : '\n  '}} & Struct`;
   },
   [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     setImports(definitions, imports, ['ITuple']);

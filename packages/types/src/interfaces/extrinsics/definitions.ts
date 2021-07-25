@@ -20,6 +20,7 @@ export default {
     ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown',
 
     // eras
+    Era: 'ExtrinsicEra',
     ImmortalEra: 'GenericImmortalEra',
     MortalEra: 'GenericMortalEra',
 

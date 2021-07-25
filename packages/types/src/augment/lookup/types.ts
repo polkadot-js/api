@@ -20,7 +20,12 @@ export interface FrameSystemAccountInfo extends Struct {
   readonly consumers: u32;
   readonly providers: u32;
   readonly sufficients: u32;
-  readonly data: { free: u128; reserved: u128; miscFrozen: u128; feeFrozen: u128; } & Struct;
+  readonly data: {
+    readonly free: u128;
+    readonly reserved: u128;
+    readonly miscFrozen: u128;
+    readonly feeFrozen: u128;
+  } & Struct;
 }
 
 /** @name Lookup4 */
@@ -102,16 +107,24 @@ export interface Lookup18 extends Vec<FrameSystemEventRecord> {}
 
 /** @name FrameSystemEventRecord */
 export interface FrameSystemEventRecord extends Struct {
-  readonly phase: { /** TODO generate fields **/ } & Enum;
-  readonly event: { /** TODO generate fields **/ } & Enum;
+  readonly phase: {
+    /** TODO generate fields **/
+  } & Enum;
+  readonly event: {
+    /** TODO generate fields **/
+  } & Enum;
   readonly topics: Vec<PrimitiveTypesH256>;
 }
 
 /** @name FrameSupportWeightsDispatchInfo */
 export interface FrameSupportWeightsDispatchInfo extends Struct {
   readonly weight: u64;
-  readonly class: { /** TODO generate fields **/ } & Enum;
-  readonly paysFee: { /** TODO generate fields **/ } & Enum;
+  readonly class: {
+    /** TODO generate fields **/
+  } & Enum;
+  readonly paysFee: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name FrameSupportWeightsDispatchClass */
@@ -133,7 +146,10 @@ export interface SpRuntimeDispatchError extends Enum {
   readonly isCannotLookup: boolean;
   readonly isBadOrigin: boolean;
   readonly isModule: boolean;
-  readonly asModule: { index: u8; error: u8; } & Struct;
+  readonly asModule: {
+    readonly index: u8;
+    readonly error: u8;
+  } & Struct;
   readonly isConsumerRemaining: boolean;
   readonly isNoProviders: boolean;
   readonly isToken: boolean;
@@ -351,14 +367,33 @@ export interface Lookup107 extends Vec<Bytes> {}
 export interface FrameSystemLimitsBlockWeights extends Struct {
   readonly baseBlock: u64;
   readonly maxBlock: u64;
-  readonly perClass: { normal: FrameSystemLimitsWeightsPerClass; operational: FrameSystemLimitsWeightsPerClass; mandatory: FrameSystemLimitsWeightsPerClass; } & Struct;
+  readonly perClass: {
+    readonly normal: FrameSystemLimitsWeightsPerClass;
+    readonly operational: FrameSystemLimitsWeightsPerClass;
+    readonly mandatory: FrameSystemLimitsWeightsPerClass;
+  } & Struct;
 }
 
 /** @name FrameSupportWeightsPerDispatchClass */
 export interface FrameSupportWeightsPerDispatchClass extends Struct {
-  readonly normal: { baseExtrinsic: u64; maxExtrinsic: OptionU64; maxTotal: OptionU64; reserved: OptionU64; } & Struct;
-  readonly operational: { baseExtrinsic: u64; maxExtrinsic: OptionU64; maxTotal: OptionU64; reserved: OptionU64; } & Struct;
-  readonly mandatory: { baseExtrinsic: u64; maxExtrinsic: OptionU64; maxTotal: OptionU64; reserved: OptionU64; } & Struct;
+  readonly normal: {
+    readonly baseExtrinsic: u64;
+    readonly maxExtrinsic: OptionU64;
+    readonly maxTotal: OptionU64;
+    readonly reserved: OptionU64;
+  } & Struct;
+  readonly operational: {
+    readonly baseExtrinsic: u64;
+    readonly maxExtrinsic: OptionU64;
+    readonly maxTotal: OptionU64;
+    readonly reserved: OptionU64;
+  } & Struct;
+  readonly mandatory: {
+    readonly baseExtrinsic: u64;
+    readonly maxExtrinsic: OptionU64;
+    readonly maxTotal: OptionU64;
+    readonly reserved: OptionU64;
+  } & Struct;
 }
 
 /** @name FrameSystemLimitsWeightsPerClass */
@@ -374,7 +409,11 @@ export interface OptionU64 extends Option<u64> {}
 
 /** @name FrameSystemLimitsBlockLength */
 export interface FrameSystemLimitsBlockLength extends Struct {
-  readonly max: { normal: u32; operational: u32; mandatory: u32; } & Struct;
+  readonly max: {
+    readonly normal: u32;
+    readonly operational: u32;
+    readonly mandatory: u32;
+  } & Struct;
 }
 
 /** @name FrameSupportWeightsPerDispatchClassU32 */
@@ -423,8 +462,20 @@ export interface NodeRuntimeCall extends Call {}
 export interface SpConsensusSlotsEquivocationProof extends Struct {
   readonly offender: U8aFixed;
   readonly slot: u64;
-  readonly firstHeader: { parentHash: PrimitiveTypesH256; number: CompactU32; stateRoot: PrimitiveTypesH256; extrinsicsRoot: PrimitiveTypesH256; digest: SpRuntimeGenericDigest; } & Struct;
-  readonly secondHeader: { parentHash: PrimitiveTypesH256; number: CompactU32; stateRoot: PrimitiveTypesH256; extrinsicsRoot: PrimitiveTypesH256; digest: SpRuntimeGenericDigest; } & Struct;
+  readonly firstHeader: {
+    readonly parentHash: PrimitiveTypesH256;
+    readonly number: CompactU32;
+    readonly stateRoot: PrimitiveTypesH256;
+    readonly extrinsicsRoot: PrimitiveTypesH256;
+    readonly digest: SpRuntimeGenericDigest;
+  } & Struct;
+  readonly secondHeader: {
+    readonly parentHash: PrimitiveTypesH256;
+    readonly number: CompactU32;
+    readonly stateRoot: PrimitiveTypesH256;
+    readonly extrinsicsRoot: PrimitiveTypesH256;
+    readonly digest: SpRuntimeGenericDigest;
+  } & Struct;
 }
 
 /** @name SpRuntimeGenericHeader */
@@ -433,7 +484,9 @@ export interface SpRuntimeGenericHeader extends Struct {
   readonly number: Compact<u32>;
   readonly stateRoot: H256;
   readonly extrinsicsRoot: H256;
-  readonly digest: { logs: Vec<SpRuntimeGenericDigestDigestItem>; } & Struct;
+  readonly digest: {
+    readonly logs: Vec<SpRuntimeGenericDigestDigestItem>;
+  } & Struct;
 }
 
 /** @name Lookup127 */
@@ -453,7 +506,10 @@ export interface SpSessionMembershipProof extends Struct {
 export interface SpConsensusBabeDigestsNextConfigDescriptor extends Enum {
   readonly isUnused0: boolean;
   readonly isV1: boolean;
-  readonly asV1: { c: ITuple<[u64, u64]>; allowedSlots: SpConsensusBabeAllowedSlots; } & Struct;
+  readonly asV1: {
+    readonly c: ITuple<[u64, u64]>;
+    readonly allowedSlots: SpConsensusBabeAllowedSlots;
+  } & Struct;
 }
 
 /** @name Lookup131 */
@@ -480,7 +536,24 @@ export interface Lookup140 extends U8aFixed {}
 
 /** @name PalletElectionProviderMultiPhaseRawSolution */
 export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
-  readonly compact: { votes1: Vec<ITuple<[CompactU32, CompactU16]>>; votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>>; votes3: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes4: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes5: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes6: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes7: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes8: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes9: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes10: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes11: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes12: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes13: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes14: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes15: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; votes16: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>; } & Struct;
+  readonly compact: {
+    readonly votes1: Vec<ITuple<[CompactU32, CompactU16]>>;
+    readonly votes2: Vec<ITuple<[CompactU32, ITuple<[CompactU16, Compact<PerU16>]>, CompactU16]>>;
+    readonly votes3: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes4: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes5: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes6: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes7: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes8: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes9: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes10: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes11: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes12: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes13: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes14: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes15: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+    readonly votes16: Vec<ITuple<[CompactU32, Vec<ITuple<[CompactU16, Compact<PerU16>]>>, CompactU16]>>;
+  } & Struct;
   readonly score: Vec<u128>;
   readonly round: u32;
 }
@@ -721,9 +794,15 @@ export interface Lookup209 extends U8aFixed {}
 /** @name PalletDemocracyVoteAccountVoteU128 */
 export interface PalletDemocracyVoteAccountVoteU128 extends Enum {
   readonly isStandard: boolean;
-  readonly asStandard: { vote: PalletDemocracyVote; balance: u128; } & Struct;
+  readonly asStandard: {
+    readonly vote: PalletDemocracyVote;
+    readonly balance: u128;
+  } & Struct;
   readonly isSplit: boolean;
-  readonly asSplit: { aye: u128; nay: u128; } & Struct;
+  readonly asSplit: {
+    readonly aye: u128;
+    readonly nay: u128;
+  } & Struct;
 }
 
 /** @name PalletDemocracyVote */
@@ -754,7 +833,9 @@ export interface PalletElectionsPhragmenRenouncing extends Enum {
 /** @name SpFinalityGrandpaEquivocationProof */
 export interface SpFinalityGrandpaEquivocationProof extends Struct {
   readonly setId: u64;
-  readonly equivocation: { /** TODO generate fields **/ } & Enum;
+  readonly equivocation: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name SpFinalityGrandpaEquivocation */
@@ -811,7 +892,10 @@ export interface Lookup231 extends ITuple<[FinalityGrandpaPrecommit, U8aFixed]> 
 /** @name PalletImOnlineHeartbeatU32 */
 export interface PalletImOnlineHeartbeatU32 extends Struct {
   readonly blockNumber: u32;
-  readonly networkState: { peerId: Bytes; externalAddresses: Vec<Bytes>; } & Struct;
+  readonly networkState: {
+    readonly peerId: Bytes;
+    readonly externalAddresses: Vec<Bytes>;
+  } & Struct;
   readonly sessionIndex: u32;
   readonly authorityIndex: u32;
   readonly validatorsLen: u32;
@@ -1170,7 +1254,9 @@ export interface Lookup310 extends Option<U8aFixed> {}
 /** @name SpConsensusBabeBabeEpochConfiguration */
 export interface SpConsensusBabeBabeEpochConfiguration extends Struct {
   readonly c: ITuple<[u64, u64]>;
-  readonly allowedSlots: { /** TODO generate fields **/ } & Enum;
+  readonly allowedSlots: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name Lookup313 */
@@ -1194,7 +1280,9 @@ export interface Lookup318 extends Vec<PalletBalancesBalanceLockU128> {}
 export interface PalletBalancesBalanceLockU128 extends Struct {
   readonly id: U8aFixed;
   readonly amount: u128;
-  readonly reasons: { /** TODO generate fields **/ } & Enum;
+  readonly reasons: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name PalletBalancesReasons */
@@ -1261,7 +1349,9 @@ export interface Lookup332 extends ITuple<[bool, u32]> {}
 export interface PalletElectionProviderMultiPhaseReadySolution extends Struct {
   readonly supports: Vec<ITuple<[AccountId32, SpNposElectionsSupport]>>;
   readonly score: Vec<u128>;
-  readonly compute: { /** TODO generate fields **/ } & Enum;
+  readonly compute: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name PalletElectionProviderMultiPhaseRoundSnapshot */
@@ -1292,7 +1382,11 @@ export interface Lookup340 extends ITuple<[Vec<u128>, u32]> {}
 export interface PalletElectionProviderMultiPhaseSignedSignedSubmission extends Struct {
   readonly who: AccountId32;
   readonly deposit: u128;
-  readonly solution: { compact: NodeRuntimeNposCompactSolution16; score: Vec<u128>; round: u32; } & Struct;
+  readonly solution: {
+    readonly compact: NodeRuntimeNposCompactSolution16;
+    readonly score: Vec<u128>;
+    readonly round: u32;
+  } & Struct;
 }
 
 /** @name PalletStakingStakingLedger */
@@ -1415,7 +1509,13 @@ export interface PalletDemocracyPreimageStatus extends Enum {
   readonly isMissing: boolean;
   readonly asMissing: u32;
   readonly isAvailable: boolean;
-  readonly asAvailable: { data: Bytes; provider: SpCoreCryptoAccountId32; deposit: u128; since: u32; expiry: OptionU32; } & Struct;
+  readonly asAvailable: {
+    readonly data: Bytes;
+    readonly provider: SpCoreCryptoAccountId32;
+    readonly deposit: u128;
+    readonly since: u32;
+    readonly expiry: OptionU32;
+  } & Struct;
 }
 
 /** @name PalletDemocracyTypesReferendumInfo */
@@ -1423,16 +1523,25 @@ export interface PalletDemocracyTypesReferendumInfo extends Enum {
   readonly isOngoing: boolean;
   readonly asOngoing: PalletDemocracyTypesReferendumStatus;
   readonly isFinished: boolean;
-  readonly asFinished: { approved: bool; end: u32; } & Struct;
+  readonly asFinished: {
+    readonly approved: bool;
+    readonly end: u32;
+  } & Struct;
 }
 
 /** @name PalletDemocracyTypesReferendumStatus */
 export interface PalletDemocracyTypesReferendumStatus extends Struct {
   readonly end: u32;
   readonly proposalHash: H256;
-  readonly threshold: { /** TODO generate fields **/ } & Enum;
+  readonly threshold: {
+    /** TODO generate fields **/
+  } & Enum;
   readonly delay: u32;
-  readonly tally: { ayes: u128; nays: u128; turnout: u128; } & Struct;
+  readonly tally: {
+    readonly ayes: u128;
+    readonly nays: u128;
+    readonly turnout: u128;
+  } & Struct;
 }
 
 /** @name PalletDemocracyTypesTallyU128 */
@@ -1445,9 +1554,19 @@ export interface PalletDemocracyTypesTallyU128 extends Struct {
 /** @name PalletDemocracyVoteVoting */
 export interface PalletDemocracyVoteVoting extends Enum {
   readonly isDirect: boolean;
-  readonly asDirect: { votes: Vec<ITuple<[u32, PalletDemocracyVoteAccountVoteU128]>>; delegations: PalletDemocracyTypesDelegationsU128; prior: PalletDemocracyVotePriorLock; } & Struct;
+  readonly asDirect: {
+    readonly votes: Vec<ITuple<[u32, PalletDemocracyVoteAccountVoteU128]>>;
+    readonly delegations: PalletDemocracyTypesDelegationsU128;
+    readonly prior: PalletDemocracyVotePriorLock;
+  } & Struct;
   readonly isDelegating: boolean;
-  readonly asDelegating: { balance: u128; target: SpCoreCryptoAccountId32; conviction: PalletDemocracyConviction; delegations: PalletDemocracyTypesDelegationsU128; prior: PalletDemocracyVotePriorLock; } & Struct;
+  readonly asDelegating: {
+    readonly balance: u128;
+    readonly target: SpCoreCryptoAccountId32;
+    readonly conviction: PalletDemocracyConviction;
+    readonly delegations: PalletDemocracyTypesDelegationsU128;
+    readonly prior: PalletDemocracyVotePriorLock;
+  } & Struct;
 }
 
 /** @name Lookup373 */
@@ -1512,10 +1631,16 @@ export interface PalletElectionsPhragmenVoter extends Struct {
 export interface PalletGrandpaStoredStateU32 extends Enum {
   readonly isLive: boolean;
   readonly isPendingPause: boolean;
-  readonly asPendingPause: { scheduledAt: u32; delay: u32; } & Struct;
+  readonly asPendingPause: {
+    readonly scheduledAt: u32;
+    readonly delay: u32;
+  } & Struct;
   readonly isPaused: boolean;
   readonly isPendingResume: boolean;
-  readonly asPendingResume: { scheduledAt: u32; delay: u32; } & Struct;
+  readonly asPendingResume: {
+    readonly scheduledAt: u32;
+    readonly delay: u32;
+  } & Struct;
 }
 
 /** @name PalletGrandpaStoredPendingChangeU32 */
@@ -1595,9 +1720,122 @@ export interface PalletContractsStorageDeletedContract extends Struct {
 
 /** @name PalletContractsSchedule */
 export interface PalletContractsSchedule extends Struct {
-  readonly limits: { eventTopics: u32; stackHeight: u32; globals: u32; parameters: u32; memoryPages: u32; tableSize: u32; brTableSize: u32; subjectLen: u32; callDepth: u32; payloadLen: u32; codeLen: u32; } & Struct;
-  readonly instructionWeights: { version: u32; i64Const: u32; i64Load: u32; i64Store: u32; select: u32; r_if: u32; br: u32; brIf: u32; brTable: u32; brTablePerEntry: u32; call: u32; callIndirect: u32; callIndirectPerParam: u32; localGet: u32; localSet: u32; localTee: u32; globalGet: u32; globalSet: u32; memoryCurrent: u32; memoryGrow: u32; i64Clz: u32; i64Ctz: u32; i64Popcnt: u32; i64Eqz: u32; i64Extendsi32: u32; i64Extendui32: u32; i32Wrapi64: u32; i64Eq: u32; i64Ne: u32; i64Lts: u32; i64Ltu: u32; i64Gts: u32; i64Gtu: u32; i64Les: u32; i64Leu: u32; i64Ges: u32; i64Geu: u32; i64Add: u32; i64Sub: u32; i64Mul: u32; i64Divs: u32; i64Divu: u32; i64Rems: u32; i64Remu: u32; i64And: u32; i64Or: u32; i64Xor: u32; i64Shl: u32; i64Shrs: u32; i64Shru: u32; i64Rotl: u32; i64Rotr: u32; } & Struct;
-  readonly hostFnWeights: { caller: u64; address: u64; gasLeft: u64; balance: u64; valueTransferred: u64; minimumBalance: u64; tombstoneDeposit: u64; rentAllowance: u64; blockNumber: u64; now: u64; weightToFee: u64; gas: u64; input: u64; inputPerByte: u64; r_return: u64; returnPerByte: u64; terminate: u64; restoreTo: u64; restoreToPerDelta: u64; random: u64; depositEvent: u64; depositEventPerTopic: u64; depositEventPerByte: u64; debugMessage: u64; setRentAllowance: u64; setStorage: u64; setStoragePerByte: u64; clearStorage: u64; getStorage: u64; getStoragePerByte: u64; transfer: u64; call: u64; callTransferSurcharge: u64; callPerInputByte: u64; callPerOutputByte: u64; instantiate: u64; instantiatePerInputByte: u64; instantiatePerOutputByte: u64; instantiatePerSaltByte: u64; hashSha2256: u64; hashSha2256PerByte: u64; hashKeccak256: u64; hashKeccak256PerByte: u64; hashBlake2256: u64; hashBlake2256PerByte: u64; hashBlake2128: u64; hashBlake2128PerByte: u64; } & Struct;
+  readonly limits: {
+    readonly eventTopics: u32;
+    readonly stackHeight: u32;
+    readonly globals: u32;
+    readonly parameters: u32;
+    readonly memoryPages: u32;
+    readonly tableSize: u32;
+    readonly brTableSize: u32;
+    readonly subjectLen: u32;
+    readonly callDepth: u32;
+    readonly payloadLen: u32;
+    readonly codeLen: u32;
+  } & Struct;
+  readonly instructionWeights: {
+    readonly version: u32;
+    readonly i64Const: u32;
+    readonly i64Load: u32;
+    readonly i64Store: u32;
+    readonly select: u32;
+    readonly r_if: u32;
+    readonly br: u32;
+    readonly brIf: u32;
+    readonly brTable: u32;
+    readonly brTablePerEntry: u32;
+    readonly call: u32;
+    readonly callIndirect: u32;
+    readonly callIndirectPerParam: u32;
+    readonly localGet: u32;
+    readonly localSet: u32;
+    readonly localTee: u32;
+    readonly globalGet: u32;
+    readonly globalSet: u32;
+    readonly memoryCurrent: u32;
+    readonly memoryGrow: u32;
+    readonly i64Clz: u32;
+    readonly i64Ctz: u32;
+    readonly i64Popcnt: u32;
+    readonly i64Eqz: u32;
+    readonly i64Extendsi32: u32;
+    readonly i64Extendui32: u32;
+    readonly i32Wrapi64: u32;
+    readonly i64Eq: u32;
+    readonly i64Ne: u32;
+    readonly i64Lts: u32;
+    readonly i64Ltu: u32;
+    readonly i64Gts: u32;
+    readonly i64Gtu: u32;
+    readonly i64Les: u32;
+    readonly i64Leu: u32;
+    readonly i64Ges: u32;
+    readonly i64Geu: u32;
+    readonly i64Add: u32;
+    readonly i64Sub: u32;
+    readonly i64Mul: u32;
+    readonly i64Divs: u32;
+    readonly i64Divu: u32;
+    readonly i64Rems: u32;
+    readonly i64Remu: u32;
+    readonly i64And: u32;
+    readonly i64Or: u32;
+    readonly i64Xor: u32;
+    readonly i64Shl: u32;
+    readonly i64Shrs: u32;
+    readonly i64Shru: u32;
+    readonly i64Rotl: u32;
+    readonly i64Rotr: u32;
+  } & Struct;
+  readonly hostFnWeights: {
+    readonly caller: u64;
+    readonly address: u64;
+    readonly gasLeft: u64;
+    readonly balance: u64;
+    readonly valueTransferred: u64;
+    readonly minimumBalance: u64;
+    readonly tombstoneDeposit: u64;
+    readonly rentAllowance: u64;
+    readonly blockNumber: u64;
+    readonly now: u64;
+    readonly weightToFee: u64;
+    readonly gas: u64;
+    readonly input: u64;
+    readonly inputPerByte: u64;
+    readonly r_return: u64;
+    readonly returnPerByte: u64;
+    readonly terminate: u64;
+    readonly restoreTo: u64;
+    readonly restoreToPerDelta: u64;
+    readonly random: u64;
+    readonly depositEvent: u64;
+    readonly depositEventPerTopic: u64;
+    readonly depositEventPerByte: u64;
+    readonly debugMessage: u64;
+    readonly setRentAllowance: u64;
+    readonly setStorage: u64;
+    readonly setStoragePerByte: u64;
+    readonly clearStorage: u64;
+    readonly getStorage: u64;
+    readonly getStoragePerByte: u64;
+    readonly transfer: u64;
+    readonly call: u64;
+    readonly callTransferSurcharge: u64;
+    readonly callPerInputByte: u64;
+    readonly callPerOutputByte: u64;
+    readonly instantiate: u64;
+    readonly instantiatePerInputByte: u64;
+    readonly instantiatePerOutputByte: u64;
+    readonly instantiatePerSaltByte: u64;
+    readonly hashSha2256: u64;
+    readonly hashSha2256PerByte: u64;
+    readonly hashKeccak256: u64;
+    readonly hashKeccak256PerByte: u64;
+    readonly hashBlake2256: u64;
+    readonly hashBlake2256PerByte: u64;
+    readonly hashBlake2128: u64;
+    readonly hashBlake2128PerByte: u64;
+  } & Struct;
 }
 
 /** @name PalletContractsScheduleLimits */
@@ -1735,7 +1973,17 @@ export interface SpStakingOffenceOffenceDetails extends Struct {
 export interface PalletIdentityTypesRegistration extends Struct {
   readonly judgements: Vec<ITuple<[u32, PalletIdentityTypesJudgementU128]>>;
   readonly deposit: u128;
-  readonly info: { additional: Vec<ITuple<[Data, Data]>>; display: PalletIdentityTypesData; legal: PalletIdentityTypesData; web: PalletIdentityTypesData; riot: PalletIdentityTypesData; email: PalletIdentityTypesData; pgpFingerprint: Option<U8aFixed>; image: PalletIdentityTypesData; twitter: PalletIdentityTypesData; } & Struct;
+  readonly info: {
+    readonly additional: Vec<ITuple<[Data, Data]>>;
+    readonly display: PalletIdentityTypesData;
+    readonly legal: PalletIdentityTypesData;
+    readonly web: PalletIdentityTypesData;
+    readonly riot: PalletIdentityTypesData;
+    readonly email: PalletIdentityTypesData;
+    readonly pgpFingerprint: Option<U8aFixed>;
+    readonly image: PalletIdentityTypesData;
+    readonly twitter: PalletIdentityTypesData;
+  } & Struct;
 }
 
 /** @name Lookup417 */
@@ -1763,7 +2011,9 @@ export interface Lookup423 extends Option<PalletIdentityTypesRegistrarInfo> {}
 export interface PalletIdentityTypesRegistrarInfo extends Struct {
   readonly account: AccountId32;
   readonly fee: u128;
-  readonly fields: { /** TODO generate fields **/ } & Enum;
+  readonly fields: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name Lookup425 */
@@ -1775,7 +2025,9 @@ export interface Lookup427 extends Vec<PalletSocietyBid> {}
 /** @name PalletSocietyBid */
 export interface PalletSocietyBid extends Struct {
   readonly who: AccountId32;
-  readonly kind: { /** TODO generate fields **/ } & Enum;
+  readonly kind: {
+    /** TODO generate fields **/
+  } & Enum;
   readonly value: u128;
 }
 
@@ -1836,7 +2088,9 @@ export interface PalletSchedulerScheduledV2 extends Struct {
   readonly priority: u8;
   readonly call: Call;
   readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
-  readonly origin: { /** TODO generate fields **/ } & Enum;
+  readonly origin: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name NodeRuntimeOriginCaller */
@@ -1904,7 +2158,9 @@ export interface Lookup451 extends Vec<PalletProxyProxyDefinition> {}
 /** @name PalletProxyProxyDefinition */
 export interface PalletProxyProxyDefinition extends Struct {
   readonly delegate: AccountId32;
-  readonly proxyType: { /** TODO generate fields **/ } & Enum;
+  readonly proxyType: {
+    /** TODO generate fields **/
+  } & Enum;
   readonly delay: u32;
 }
 
@@ -1929,7 +2185,10 @@ export interface Lookup457 extends Vec<PalletProxyAnnouncement> {}
 
 /** @name PalletMultisigMultisig */
 export interface PalletMultisigMultisig extends Struct {
-  readonly when: { height: u32; index: u32; } & Struct;
+  readonly when: {
+    readonly height: u32;
+    readonly index: u32;
+  } & Struct;
   readonly deposit: u128;
   readonly depositor: AccountId32;
   readonly approvals: Vec<SpCoreCryptoAccountId32>;
@@ -1945,7 +2204,9 @@ export interface PalletBountiesBounty extends Struct {
   readonly fee: u128;
   readonly curatorDeposit: u128;
   readonly bond: u128;
-  readonly status: { /** TODO generate fields **/ } & Enum;
+  readonly status: {
+    /** TODO generate fields **/
+  } & Enum;
 }
 
 /** @name PalletBountiesBountyStatus */
@@ -1954,11 +2215,20 @@ export interface PalletBountiesBountyStatus extends Enum {
   readonly isApproved: boolean;
   readonly isFunded: boolean;
   readonly isCuratorProposed: boolean;
-  readonly asCuratorProposed: { curator: SpCoreCryptoAccountId32; } & Struct;
+  readonly asCuratorProposed: {
+    readonly curator: SpCoreCryptoAccountId32;
+  } & Struct;
   readonly isActive: boolean;
-  readonly asActive: { curator: SpCoreCryptoAccountId32; updateDue: u32; } & Struct;
+  readonly asActive: {
+    readonly curator: SpCoreCryptoAccountId32;
+    readonly updateDue: u32;
+  } & Struct;
   readonly isPendingPayout: boolean;
-  readonly asPendingPayout: { curator: SpCoreCryptoAccountId32; beneficiary: SpCoreCryptoAccountId32; unlockAt: u32; } & Struct;
+  readonly asPendingPayout: {
+    readonly curator: SpCoreCryptoAccountId32;
+    readonly beneficiary: SpCoreCryptoAccountId32;
+    readonly unlockAt: u32;
+  } & Struct;
 }
 
 /** @name PalletTipsOpenTip */
