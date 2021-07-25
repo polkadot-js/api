@@ -52,7 +52,18 @@ function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
 
 function extractNames (types: PortableType[]): Record<number, string> {
   return removeDuplicateNames(
-    types.map(({ type: { params, path } }): string | null => {
+    types.map(({ type: { def, params, path } }): string | null => {
+      if (def.isCompact) {
+        // Do magic for compact naming
+        const instanceType = types[def.asCompact.type.toNumber()];
+
+        if (instanceType.type.def.isPrimitive) {
+          return `Compact${instanceType.type.def.asPrimitive.toString()}`;
+        } else {
+          console.error(JSON.stringify(instanceType));
+        }
+      }
+
       if (!path.length) {
         return null;
       }
@@ -65,22 +76,21 @@ function extractNames (types: PortableType[]): Record<number, string> {
 
       let typeName = parts.join('');
 
-      if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2) {
+      if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
         // Do magic for RawOrigin lookup
         const instanceType = types[params[1].type.unwrap().toNumber()];
 
         if (instanceType.type.path.length === 2) {
           typeName = `${typeName}${instanceType.type.path[1].toString()}`;
         }
-      }
-      // } else if (params.length === 1) {
-      //   // Do magic for single params primitive lookup
-      //   const instanceType = types[params[1].type.unwrap().toNumber()];
+      } else if (params.length === 1 && params[0].type.isSome) {
+        // Do magic for single params primitive lookup
+        const instanceType = types[params[0].type.unwrap().toNumber()];
 
-      //   if (instanceType.type.def.isPrimitive) {
-      //     typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
-      //   }
-      // }
+        if (instanceType.type.def.isPrimitive) {
+          typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
+        }
+      }
 
       return WRAPPERS.includes(typeName)
         ? null

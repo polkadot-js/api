@@ -230,7 +230,7 @@ export function formatType (registry: Registry, definitions: Record<string, Modu
     typeDef = type;
   }
 
-  setImports(definitions, imports, [typeDef.type]);
+  setImports(definitions, imports, [typeDef.lookupName || typeDef.type]);
 
   return formatters[typeDef.info](registry, typeDef, definitions, imports);
 }

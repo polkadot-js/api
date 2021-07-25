@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry, PortableType, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
+import type { PortableRegistry, PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 
 import Handlebars from 'handlebars';
@@ -26,15 +26,15 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
     const link = registry.lookup.types[type.unwrap().toNumber()];
 
     if (link.type.path.length) {
-      return generateTypeDocs(registry, link.type.path, link.type.params);
+      return generateTypeDocs(registry, null, link.type.path, link.type.params);
     }
   }
 
   return name.toString();
 }
 
-function generateTypeDocs (registry: Registry, path: SiPath, params: SiTypeParameter[]): string {
-  return `${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
+function generateTypeDocs (registry: Registry, id: SiLookupTypeId | null, path: SiPath, params: SiTypeParameter[]): string {
+  return `${id ? id.toString() : '<field>'}: ${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
 }
 
 function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
@@ -138,7 +138,7 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
       return {
         docs: [
           path.length
-            ? generateTypeDocs(registry, path, params)
+            ? generateTypeDocs(registry, id, path, params)
             : null,
           WITH_TYPEDEF
             ? `@typeDef ${stringify(typeDef)}`
