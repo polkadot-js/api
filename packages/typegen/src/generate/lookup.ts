@@ -34,7 +34,7 @@ function generateParamType (registry: Registry, { name, type }: SiTypeParameter)
 }
 
 function generateTypeDocs (registry: Registry, id: SiLookupTypeId | null, path: SiPath, params: SiTypeParameter[]): string {
-  return `${id ? id.toString() : '<field>'}: ${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
+  return `${id ? id.toString() : '<field>'}${path.length ? ': ' : ''}${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
 }
 
 function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
@@ -132,14 +132,12 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
-      const typeName = typeDef.lookupName;
+      const typeName = typeDef.lookupNameOrig || typeDef.lookupName;
       const def = expandTypeToString(typeDef.type);
 
       return {
         docs: [
-          path.length
-            ? generateTypeDocs(registry, id, path, params)
-            : null,
+          generateTypeDocs(registry, id, path, params),
           WITH_TYPEDEF
             ? `@typeDef ${stringify(typeDef)}`
             : null
@@ -155,14 +153,9 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
         const hasConflict = !!typeName && all.some(({ type }, j) => i !== j && type.typeName === typeName);
 
         return {
-          defs: (
-            (!typeName || (i !== 0 && hasConflict))
-              ? [[typeLookup, `${def}${i !== max ? ',' : ''}`]]
-              : [
-                [typeName, `${def},`],
-                [typeLookup, `'${typeName}'${i !== max ? ',' : ''}`]
-              ]
-          ).map(([n, t]) => `${n}: ${t}`),
+          defs: [
+            [`${(!typeName || hasConflict) ? typeLookup : typeName}`, `${def}${i !== max ? ',' : ''}`]
+          ].map(([n, t]) => `${n}: ${t}`),
           docs
         };
       })

@@ -78,7 +78,7 @@ function encodeStruct (registry: Registry, typeDef: TypeDef): string {
   return encodeSubTypes(registry, typeDef.sub, false, {
     ...(
       typeDef.alias
-        ? { alias: [...typeDef.alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
+        ? { _alias: [...typeDef.alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
           ...all,
           [k]: v
         }), {}) }
