@@ -34,6 +34,7 @@ export enum TypeDefInfo {
 export interface TypeDef {
   alias?: Map<string, string>;
   displayName?: string;
+  docs?: string[];
   fallbackType?: string;
   info: TypeDefInfo;
   index?: number;

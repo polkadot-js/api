@@ -38,6 +38,9 @@ const PRIMITIVE_SP = [
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
 
+// These are reserved and conflicts with built-in Codec definitions
+const RESERVED = ['entries', 'hash', 'keys', 'size'];
+
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
     !name || names.some((o, i) => index !== i && name === o)
@@ -137,6 +140,7 @@ export class GenericPortableRegistry extends Struct {
     // Setup for a lookup on complex types
     return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
       ? {
+        docs: typeDef.docs,
         info: TypeDefInfo.Si,
         lookupIndex,
         lookupName: this.#names[lookupIndex],
@@ -199,6 +203,7 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return {
+      docs: type.docs.map((d) => d.toString()),
       namespace: path.join('::'),
       ...typeDef
     };
@@ -247,22 +252,10 @@ export class GenericPortableRegistry extends Struct {
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
-      return {
-        ...this.#createSiDef(fields[0].type),
-        ...(fields[0].name.isSome
-          ? { name: stringCamelCase(fields[0].name.unwrap()) }
-          : {}
-        )
-      };
+      return this.#createSiDef(fields[0].type);
     }
 
-    const sub = fields.map(({ name, type }) => ({
-      ...this.#createSiDef(type),
-      ...(name.isSome
-        ? { name: stringCamelCase(name.unwrap()) }
-        : {}
-      )
-    }));
+    const [sub, alias] = this.#extractFieldsAlias(fields);
 
     return withTypeString(this.registry, {
       info: isTuple // Tuple check first
@@ -276,8 +269,47 @@ export class GenericPortableRegistry extends Struct {
             lookupName: this.#names[lookupIndex]
           }
       ),
+      ...(
+        alias.size
+          ? { alias }
+          : {}
+      ),
       sub
     });
+  }
+
+  #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
+    const alias = new Map<string, string>();
+    const sub = fields.map(({ docs, name, type }) => {
+      const typeDef = this.#createSiDef(type);
+
+      if (name.isNone) {
+        return typeDef;
+      }
+
+      let nameField = stringCamelCase(name.unwrap());
+      let nameOrig: string | null = null;
+
+      if (nameField.includes('#')) {
+        nameOrig = nameField;
+        nameField = nameOrig.replace(/#/g, '_');
+      } else if (RESERVED.includes(nameField)) {
+        nameOrig = nameField;
+        nameField = `${nameField}_`;
+      }
+
+      if (nameOrig) {
+        alias.set(nameField, nameOrig);
+      }
+
+      return {
+        ...typeDef,
+        docs: docs.map((d) => d.toString()),
+        name: nameField
+      };
+    });
+
+    return [sub, alias];
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {

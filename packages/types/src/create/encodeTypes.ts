@@ -43,7 +43,7 @@ function encodeDoNotConstruct (registry: Registry, { displayName }: TypeDef): st
   return `DoNotConstruct<${displayName || 'Unknown'}>`;
 }
 
-function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean): string {
+function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, extra?: Record<string, unknown>): string {
   const names = sub.map(({ name }) => name);
 
   assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
@@ -51,7 +51,7 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean): 
   const inner = sub.reduce< Record<string, string>>((result, type) => ({
     ...result,
     [type.name as string]: encodeTypeDef(registry, type)
-  }), {});
+  }), { ...(extra as Record<string, string>) });
 
   return stringify(
     asEnum
@@ -75,7 +75,16 @@ function encodeEnum (registry: Registry, typeDef: TypeDef): string {
 function encodeStruct (registry: Registry, typeDef: TypeDef): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
 
-  return encodeSubTypes(registry, typeDef.sub);
+  return encodeSubTypes(registry, typeDef.sub, false, {
+    ...(
+      typeDef.alias
+        ? { alias: [...typeDef.alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
+          ...all,
+          [k]: v
+        }), {}) }
+        : {}
+    )
+  });
 }
 
 function encodeTuple (registry: Registry, typeDef: TypeDef): string {
