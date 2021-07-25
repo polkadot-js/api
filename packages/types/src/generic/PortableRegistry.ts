@@ -184,7 +184,7 @@ export class GenericPortableRegistry extends Struct {
 
       // don't set lookupName on lower-level, we want to always direct to the type
       if (extracted.info === TypeDefInfo.Plain) {
-        this.#typeDefs[lookupIndex].lookupNameOrig = this.#typeDefs[lookupIndex].lookupName;
+        this.#typeDefs[lookupIndex].lookupNameRoot = this.#typeDefs[lookupIndex].lookupName;
         delete this.#typeDefs[lookupIndex].lookupName;
       }
     }

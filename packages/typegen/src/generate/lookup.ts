@@ -136,7 +136,7 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
-      const typeName = typeDef.lookupNameOrig || typeDef.lookupName;
+      const typeName = typeDef.lookupNameRoot || typeDef.lookupName;
       const def = expandTypeToString(typeDef.type);
 
       return {
@@ -173,7 +173,7 @@ function generateLookupTypes (meta: Metadata, destDir: string): void {
   const items = getFilteredTypes(lookup).map(({ id }) => {
     const typeDef = lookup.getTypeDef(id);
 
-    typeDef.name = typeDef.lookupNameOrig || typeDef.lookupName || registry.createLookupType(id);
+    typeDef.name = typeDef.lookupNameRoot || typeDef.lookupName || registry.createLookupType(id);
 
     return typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
   }).filter((t): t is string => !!t);
