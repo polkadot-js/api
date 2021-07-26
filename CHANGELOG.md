@@ -1,14 +1,24 @@
 # CHANGELOG
 
-## master
+## 5.2.1 Jul 26, 2021
+
+Upgrade priority: Low. Recommended for users of `BTreeMap` and `BTreeSet`
+
+Contributed:
+
+- Perform sorting on `BTree{Map, Set}`, aligning with Substrate (Thanks to https://github.com/Lezek123)
 
 Changes:
 
 - Adjust RPC to use registry.createType with optionality (required for metadata v14)
-- Adjust sorting for TS type generation
+- Adjust alphabetical sorting for TS type generation
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Provide the capability to convert v13 Metadata to upcoming v14
 
 
 ## 5.1.1 Jul 19, 2021
+
+Upgrade priority: Low. Recommended for users of XCM with type fixes.
 
 - **Breaking changes** With the support for v14 metadata parsing, the `documentation` fields on metadata was renamed to `docs` for consistency, aligning with the SCALE type generators.
 
