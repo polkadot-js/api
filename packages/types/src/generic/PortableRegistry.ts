@@ -87,7 +87,9 @@ function extractName (types: PortableType[], id: SiLookupTypeId, { params, path 
     return [lookupIndex, null];
   }
 
-  const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
+  const parts = path
+    .map((p) => stringUpperFirst(stringCamelCase(p)))
+    .filter((p, index) => index !== 1 || !['Pallet', 'Types'].includes(p.toString()));
 
   // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
   // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress

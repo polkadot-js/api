@@ -3,17 +3,17 @@
 
 import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
-import type { FrameSupportStorageBoundedBTreeMap, FrameSupportStorageWeakBoundedVec, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsTypesApproval, PalletAssetsTypesAssetBalance, PalletAssetsTypesAssetDetails, PalletAssetsTypesAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletCollectiveVotes, PalletContractsStorageContractInfo, PalletContractsStorageDeletedContract, PalletContractsWasmPrefabWasmModule, PalletDemocracyPreimageStatus, PalletDemocracyReleases, PalletDemocracyTypesDelegations, PalletDemocracyTypesReferendumInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVotePriorLock, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltPalletActiveGilt, PalletGiltPalletActiveGiltsTotal, PalletGiltPalletGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityTypesIdentityInfo, PalletIdentityTypesJudgement, PalletIdentityTypesRegistrarInfo, PalletIdentityTypesRegistration, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletMultisigTimepoint, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletSchedulerReleases, PalletSchedulerScheduledV2, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingIndividualExposure, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesTypesClassDetails, PalletUniquesTypesClassMetadata, PalletUniquesTypesInstanceDetails, PalletUniquesTypesInstanceMetadata, PalletVestingVestingInfo, SpConsensusBabeAllowedSlots, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpCoreCryptoKeyTypeId, SpFinalityGrandpaAppPublic, SpNposElectionsSupport, SpRuntimeGenericDigest, SpRuntimeGenericDigestDigestItem, SpStakingOffenceOffenceDetails } from '@polkadot/types/augment/lookup';
+import type { PalletDemocracyDelegations, PalletDemocracyVoteThreshold, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletIdentityRegistrarInfo } from '@polkadot/types/augment/lookup';
 import type { AccountId32, Call, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
     assets: {
-      account: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletAssetsTypesAssetBalance>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
-      approvals: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: AccountId32 | string | Uint8Array) => Observable<PalletAssetsTypesApproval>, [u32, AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32, AccountId32]>;
-      asset: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsTypesAssetDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      metadata: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsTypesAssetMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      account: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletAssetsAssetBalance>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      approvals: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: AccountId32 | string | Uint8Array) => Observable<PalletAssetsApproval>, [u32, AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32, AccountId32]>;
+      asset: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsAssetDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      metadata: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsAssetMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -106,7 +106,7 @@ declare module '@polkadot/api/types/storage' {
       publicPropCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       publicProps: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, H256, AccountId32]>>>, []> & QueryableStorageEntry<ApiType, []>;
       referendumCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      referendumInfoOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletDemocracyTypesReferendumInfo>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      referendumInfoOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletDemocracyReferendumInfo>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletDemocracyReleases>, []> & QueryableStorageEntry<ApiType, []>;
       votingOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletDemocracyVoteVoting>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
@@ -142,9 +142,9 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     gilt: {
-      active: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletGiltPalletActiveGilt>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      activeTotal: AugmentedQuery<ApiType, () => Observable<PalletGiltPalletActiveGiltsTotal>, []> & QueryableStorageEntry<ApiType, []>;
-      queues: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<PalletGiltPalletGiltBid>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      active: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletGiltActiveGilt>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      activeTotal: AugmentedQuery<ApiType, () => Observable<PalletGiltActiveGiltsTotal>, []> & QueryableStorageEntry<ApiType, []>;
+      queues: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<PalletGiltGiltBid>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       queueTotals: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, u128]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
@@ -164,8 +164,8 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     identity: {
-      identityOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletIdentityTypesRegistration>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
-      registrars: AugmentedQuery<ApiType, () => Observable<Vec<Option<PalletIdentityTypesRegistrarInfo>>>, []> & QueryableStorageEntry<ApiType, []>;
+      identityOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletIdentityRegistration>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      registrars: AugmentedQuery<ApiType, () => Observable<Vec<Option<PalletIdentityRegistrarInfo>>>, []> & QueryableStorageEntry<ApiType, []>;
       subsOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[u128, Vec<AccountId32>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       superOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[AccountId32, Data]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
@@ -442,11 +442,11 @@ declare module '@polkadot/api/types/storage' {
     };
     uniques: {
       account: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: u32 | AnyNumber | Uint8Array) => Observable<Null>, [AccountId32, u32, u32]> & QueryableStorageEntry<ApiType, [AccountId32, u32, u32]>;
-      asset: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesInstanceDetails>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      asset: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesInstanceDetails>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       attribute: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: Option<u32> | null | object | string | Uint8Array, arg3: Bytes | string | Uint8Array) => Observable<ITuple<[Bytes, u128]>>, [u32, Option<u32>, Bytes]> & QueryableStorageEntry<ApiType, [u32, Option<u32>, Bytes]>;
-      class: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesClassDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      classMetadataOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesClassMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesInstanceMetadata>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      class: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesClassDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      classMetadataOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesClassMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesInstanceMetadata>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
        * Generic query
        **/

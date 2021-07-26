@@ -497,7 +497,7 @@ export default {
     /**
      * Lookup244: pallet_identity::types::IdentityInfo<FieldLimit>
      **/
-    PalletIdentityTypesIdentityInfo: {
+    PalletIdentityIdentityInfo: {
       additional: 'Vec<(Data,Data)>',
       display: 'Data',
       legal: 'Data',
@@ -511,13 +511,13 @@ export default {
     /**
      * Lookup281: pallet_identity::types::IdentityField
      **/
-    PalletIdentityTypesIdentityField: {
+    PalletIdentityIdentityField: {
       _enum: ['Unused0', 'Display', 'Legal', 'Unused3', 'Web', 'Unused5', 'Unused6', 'Unused7', 'Riot', 'Unused9', 'Unused10', 'Unused11', 'Unused12', 'Unused13', 'Unused14', 'Unused15', 'Email', 'Unused17', 'Unused18', 'Unused19', 'Unused20', 'Unused21', 'Unused22', 'Unused23', 'Unused24', 'Unused25', 'Unused26', 'Unused27', 'Unused28', 'Unused29', 'Unused30', 'Unused31', 'PgpFingerprint', 'Unused33', 'Unused34', 'Unused35', 'Unused36', 'Unused37', 'Unused38', 'Unused39', 'Unused40', 'Unused41', 'Unused42', 'Unused43', 'Unused44', 'Unused45', 'Unused46', 'Unused47', 'Unused48', 'Unused49', 'Unused50', 'Unused51', 'Unused52', 'Unused53', 'Unused54', 'Unused55', 'Unused56', 'Unused57', 'Unused58', 'Unused59', 'Unused60', 'Unused61', 'Unused62', 'Unused63', 'Image', 'Unused65', 'Unused66', 'Unused67', 'Unused68', 'Unused69', 'Unused70', 'Unused71', 'Unused72', 'Unused73', 'Unused74', 'Unused75', 'Unused76', 'Unused77', 'Unused78', 'Unused79', 'Unused80', 'Unused81', 'Unused82', 'Unused83', 'Unused84', 'Unused85', 'Unused86', 'Unused87', 'Unused88', 'Unused89', 'Unused90', 'Unused91', 'Unused92', 'Unused93', 'Unused94', 'Unused95', 'Unused96', 'Unused97', 'Unused98', 'Unused99', 'Unused100', 'Unused101', 'Unused102', 'Unused103', 'Unused104', 'Unused105', 'Unused106', 'Unused107', 'Unused108', 'Unused109', 'Unused110', 'Unused111', 'Unused112', 'Unused113', 'Unused114', 'Unused115', 'Unused116', 'Unused117', 'Unused118', 'Unused119', 'Unused120', 'Unused121', 'Unused122', 'Unused123', 'Unused124', 'Unused125', 'Unused126', 'Unused127', 'Twitter']
     },
     /**
      * Lookup282: pallet_identity::types::Judgement<Balance>
      **/
-    PalletIdentityTypesJudgement: {
+    PalletIdentityJudgement: {
       _enum: {
         Unknown: 'Null',
         FeePaid: 'u128',
@@ -545,7 +545,7 @@ export default {
     /**
      * Lookup297: pallet_assets::types::DestroyWitness
      **/
-    PalletAssetsTypesDestroyWitness: {
+    PalletAssetsDestroyWitness: {
       accounts: 'Compact<u32>',
       sufficients: 'Compact<u32>',
       approvals: 'Compact<u32>'
@@ -553,7 +553,7 @@ export default {
     /**
      * Lookup303: pallet_uniques::types::DestroyWitness
      **/
-    PalletUniquesTypesDestroyWitness: {
+    PalletUniquesDestroyWitness: {
       instances: 'Compact<u32>',
       instanceMetadatas: 'Compact<u32>',
       attributes: 'Compact<u32>'
@@ -764,9 +764,9 @@ export default {
     /**
      * Lookup369: pallet_democracy::types::ReferendumInfo<BlockNumber, primitive_types::H256, Balance>
      **/
-    PalletDemocracyTypesReferendumInfo: {
+    PalletDemocracyReferendumInfo: {
       _enum: {
-        Ongoing: 'PalletDemocracyTypesReferendumStatus',
+        Ongoing: 'PalletDemocracyReferendumStatus',
         Finished: {
           approved: 'bool',
           end: 'u32',
@@ -776,17 +776,17 @@ export default {
     /**
      * Lookup370: pallet_democracy::types::ReferendumStatus<BlockNumber, primitive_types::H256, Balance>
      **/
-    PalletDemocracyTypesReferendumStatus: {
+    PalletDemocracyReferendumStatus: {
       end: 'u32',
       proposalHash: 'H256',
       threshold: 'PalletDemocracyVoteThreshold',
       delay: 'u32',
-      tally: 'PalletDemocracyTypesTally'
+      tally: 'PalletDemocracyTally'
     },
     /**
      * Lookup371: pallet_democracy::types::Tally<Balance>
      **/
-    PalletDemocracyTypesTally: {
+    PalletDemocracyTally: {
       ayes: 'u128',
       nays: 'u128',
       turnout: 'u128'
@@ -798,14 +798,14 @@ export default {
       _enum: {
         Direct: {
           votes: 'Vec<(u32,PalletDemocracyVoteAccountVote)>',
-          delegations: 'PalletDemocracyTypesDelegations',
+          delegations: 'PalletDemocracyDelegations',
           prior: 'PalletDemocracyVotePriorLock',
         },
         Delegating: {
           balance: 'u128',
           target: 'AccountId32',
           conviction: 'PalletDemocracyConviction',
-          delegations: 'PalletDemocracyTypesDelegations',
+          delegations: 'PalletDemocracyDelegations',
           prior: 'PalletDemocracyVotePriorLock',
         },
       }
@@ -813,7 +813,7 @@ export default {
     /**
      * Lookup375: pallet_democracy::types::Delegations<Balance>
      **/
-    PalletDemocracyTypesDelegations: {
+    PalletDemocracyDelegations: {
       votes: 'u128',
       capital: 'u128'
     },
@@ -1087,15 +1087,15 @@ export default {
     /**
      * Lookup416: pallet_identity::types::Registration<Balance, MaxJudgements, MaxAdditionalFields>
      **/
-    PalletIdentityTypesRegistration: {
-      judgements: 'Vec<(u32,PalletIdentityTypesJudgement)>',
+    PalletIdentityRegistration: {
+      judgements: 'Vec<(u32,PalletIdentityJudgement)>',
       deposit: 'u128',
-      info: 'PalletIdentityTypesIdentityInfo'
+      info: 'PalletIdentityIdentityInfo'
     },
     /**
      * Lookup424: pallet_identity::types::RegistrarInfo<Balance, sp_core::crypto::AccountId32>
      **/
-    PalletIdentityTypesRegistrarInfo: {
+    PalletIdentityRegistrarInfo: {
       account: 'AccountId32',
       fee: 'u128',
       fields: 'IdentityFields'
@@ -1290,7 +1290,7 @@ export default {
     /**
      * Lookup467: pallet_assets::types::AssetDetails<Balance, sp_core::crypto::AccountId32, DepositBalance>
      **/
-    PalletAssetsTypesAssetDetails: {
+    PalletAssetsAssetDetails: {
       owner: 'AccountId32',
       issuer: 'AccountId32',
       admin: 'AccountId32',
@@ -1307,7 +1307,7 @@ export default {
     /**
      * Lookup468: pallet_assets::types::AssetBalance<Balance, Extra>
      **/
-    PalletAssetsTypesAssetBalance: {
+    PalletAssetsAssetBalance: {
       balance: 'u64',
       isFrozen: 'bool',
       sufficient: 'bool',
@@ -1316,14 +1316,14 @@ export default {
     /**
      * Lookup470: pallet_assets::types::Approval<Balance, DepositBalance>
      **/
-    PalletAssetsTypesApproval: {
+    PalletAssetsApproval: {
       amount: 'u64',
       deposit: 'u128'
     },
     /**
      * Lookup471: pallet_assets::types::AssetMetadata<DepositBalance, frame_support::storage::bounded_vec::BoundedVec<T, S>>
      **/
-    PalletAssetsTypesAssetMetadata: {
+    PalletAssetsAssetMetadata: {
       deposit: 'u128',
       name: 'Bytes',
       symbol: 'Bytes',
@@ -1343,14 +1343,14 @@ export default {
     /**
      * Lookup478: pallet_gilt::pallet::GiltBid<Balance, sp_core::crypto::AccountId32>
      **/
-    PalletGiltPalletGiltBid: {
+    PalletGiltGiltBid: {
       amount: 'u128',
       who: 'AccountId32'
     },
     /**
      * Lookup479: pallet_gilt::pallet::ActiveGiltsTotal<Balance>
      **/
-    PalletGiltPalletActiveGiltsTotal: {
+    PalletGiltActiveGiltsTotal: {
       frozen: 'u128',
       proportion: 'Perquintill',
       index: 'u32',
@@ -1359,7 +1359,7 @@ export default {
     /**
      * Lookup480: pallet_gilt::pallet::ActiveGilt<Balance, sp_core::crypto::AccountId32, BlockNumber>
      **/
-    PalletGiltPalletActiveGilt: {
+    PalletGiltActiveGilt: {
       proportion: 'Perquintill',
       amount: 'u128',
       who: 'AccountId32',
@@ -1368,7 +1368,7 @@ export default {
     /**
      * Lookup482: pallet_uniques::types::ClassDetails<sp_core::crypto::AccountId32, DepositBalance>
      **/
-    PalletUniquesTypesClassDetails: {
+    PalletUniquesClassDetails: {
       owner: 'AccountId32',
       issuer: 'AccountId32',
       admin: 'AccountId32',
@@ -1383,7 +1383,7 @@ export default {
     /**
      * Lookup484: pallet_uniques::types::InstanceDetails<sp_core::crypto::AccountId32, DepositBalance>
      **/
-    PalletUniquesTypesInstanceDetails: {
+    PalletUniquesInstanceDetails: {
       owner: 'AccountId32',
       approved: 'Option<AccountId32>',
       isFrozen: 'bool',
@@ -1392,7 +1392,7 @@ export default {
     /**
      * Lookup485: pallet_uniques::types::ClassMetadata<DepositBalance, StringLimit>
      **/
-    PalletUniquesTypesClassMetadata: {
+    PalletUniquesClassMetadata: {
       deposit: 'u128',
       data: 'Bytes',
       isFrozen: 'bool'
@@ -1400,7 +1400,7 @@ export default {
     /**
      * Lookup486: pallet_uniques::types::InstanceMetadata<DepositBalance, StringLimit>
      **/
-    PalletUniquesTypesInstanceMetadata: {
+    PalletUniquesInstanceMetadata: {
       deposit: 'u128',
       data: 'Bytes',
       isFrozen: 'bool'

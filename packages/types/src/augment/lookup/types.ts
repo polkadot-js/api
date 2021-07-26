@@ -460,8 +460,8 @@ export interface PalletImOnlineSr25519AppSr25519Signature extends SpCoreSr25519S
 /** @name SpCoreSr25519Signature (242) */
 export interface SpCoreSr25519Signature extends U8aFixed {}
 
-/** @name PalletIdentityTypesIdentityInfo (244) */
-export interface PalletIdentityTypesIdentityInfo extends Struct {
+/** @name PalletIdentityIdentityInfo (244) */
+export interface PalletIdentityIdentityInfo extends Struct {
   readonly additional: Vec<ITuple<[Data, Data]>>;
   readonly display: Data;
   readonly legal: Data;
@@ -473,8 +473,8 @@ export interface PalletIdentityTypesIdentityInfo extends Struct {
   readonly twitter: Data;
 }
 
-/** @name PalletIdentityTypesIdentityField (281) */
-export interface PalletIdentityTypesIdentityField extends Enum {
+/** @name PalletIdentityIdentityField (281) */
+export interface PalletIdentityIdentityField extends Enum {
   readonly isUnused0: boolean;
   readonly isDisplay: boolean;
   readonly isLegal: boolean;
@@ -606,8 +606,8 @@ export interface PalletIdentityTypesIdentityField extends Enum {
   readonly isTwitter: boolean;
 }
 
-/** @name PalletIdentityTypesJudgement (282) */
-export interface PalletIdentityTypesJudgement extends Enum {
+/** @name PalletIdentityJudgement (282) */
+export interface PalletIdentityJudgement extends Enum {
   readonly isUnknown: boolean;
   readonly isFeePaid: boolean;
   readonly asFeePaid: u128;
@@ -632,15 +632,15 @@ export interface PalletVestingVestingInfo extends Struct {
   readonly startingBlock: u32;
 }
 
-/** @name PalletAssetsTypesDestroyWitness (297) */
-export interface PalletAssetsTypesDestroyWitness extends Struct {
+/** @name PalletAssetsDestroyWitness (297) */
+export interface PalletAssetsDestroyWitness extends Struct {
   readonly accounts: Compact<u32>;
   readonly sufficients: Compact<u32>;
   readonly approvals: Compact<u32>;
 }
 
-/** @name PalletUniquesTypesDestroyWitness (303) */
-export interface PalletUniquesTypesDestroyWitness extends Struct {
+/** @name PalletUniquesDestroyWitness (303) */
+export interface PalletUniquesDestroyWitness extends Struct {
   readonly instances: Compact<u32>;
   readonly instanceMetadatas: Compact<u32>;
   readonly attributes: Compact<u32>;
@@ -834,10 +834,10 @@ export interface PalletDemocracyPreimageStatus extends Enum {
   } & Struct;
 }
 
-/** @name PalletDemocracyTypesReferendumInfo (369) */
-export interface PalletDemocracyTypesReferendumInfo extends Enum {
+/** @name PalletDemocracyReferendumInfo (369) */
+export interface PalletDemocracyReferendumInfo extends Enum {
   readonly isOngoing: boolean;
-  readonly asOngoing: PalletDemocracyTypesReferendumStatus;
+  readonly asOngoing: PalletDemocracyReferendumStatus;
   readonly isFinished: boolean;
   readonly asFinished: {
     readonly approved: bool;
@@ -845,17 +845,17 @@ export interface PalletDemocracyTypesReferendumInfo extends Enum {
   } & Struct;
 }
 
-/** @name PalletDemocracyTypesReferendumStatus (370) */
-export interface PalletDemocracyTypesReferendumStatus extends Struct {
+/** @name PalletDemocracyReferendumStatus (370) */
+export interface PalletDemocracyReferendumStatus extends Struct {
   readonly end: u32;
   readonly proposalHash: H256;
   readonly threshold: PalletDemocracyVoteThreshold;
   readonly delay: u32;
-  readonly tally: PalletDemocracyTypesTally;
+  readonly tally: PalletDemocracyTally;
 }
 
-/** @name PalletDemocracyTypesTally (371) */
-export interface PalletDemocracyTypesTally extends Struct {
+/** @name PalletDemocracyTally (371) */
+export interface PalletDemocracyTally extends Struct {
   readonly ayes: u128;
   readonly nays: u128;
   readonly turnout: u128;
@@ -866,7 +866,7 @@ export interface PalletDemocracyVoteVoting extends Enum {
   readonly isDirect: boolean;
   readonly asDirect: {
     readonly votes: Vec<ITuple<[u32, PalletDemocracyVoteAccountVote]>>;
-    readonly delegations: PalletDemocracyTypesDelegations;
+    readonly delegations: PalletDemocracyDelegations;
     readonly prior: PalletDemocracyVotePriorLock;
   } & Struct;
   readonly isDelegating: boolean;
@@ -874,13 +874,13 @@ export interface PalletDemocracyVoteVoting extends Enum {
     readonly balance: u128;
     readonly target: AccountId32;
     readonly conviction: PalletDemocracyConviction;
-    readonly delegations: PalletDemocracyTypesDelegations;
+    readonly delegations: PalletDemocracyDelegations;
     readonly prior: PalletDemocracyVotePriorLock;
   } & Struct;
 }
 
-/** @name PalletDemocracyTypesDelegations (375) */
-export interface PalletDemocracyTypesDelegations extends Struct {
+/** @name PalletDemocracyDelegations (375) */
+export interface PalletDemocracyDelegations extends Struct {
   readonly votes: u128;
   readonly capital: u128;
 }
@@ -1127,15 +1127,15 @@ export interface SpStakingOffenceOffenceDetails extends Struct {
   readonly reporters: Vec<AccountId32>;
 }
 
-/** @name PalletIdentityTypesRegistration (416) */
-export interface PalletIdentityTypesRegistration extends Struct {
-  readonly judgements: Vec<ITuple<[u32, PalletIdentityTypesJudgement]>>;
+/** @name PalletIdentityRegistration (416) */
+export interface PalletIdentityRegistration extends Struct {
+  readonly judgements: Vec<ITuple<[u32, PalletIdentityJudgement]>>;
   readonly deposit: u128;
-  readonly info: PalletIdentityTypesIdentityInfo;
+  readonly info: PalletIdentityIdentityInfo;
 }
 
-/** @name PalletIdentityTypesRegistrarInfo (424) */
-export interface PalletIdentityTypesRegistrarInfo extends Struct {
+/** @name PalletIdentityRegistrarInfo (424) */
+export interface PalletIdentityRegistrarInfo extends Struct {
   readonly account: AccountId32;
   readonly fee: u128;
   readonly fields: IdentityFields;
@@ -1314,8 +1314,8 @@ export interface PalletTipsOpenTip extends Struct {
   readonly findersFee: bool;
 }
 
-/** @name PalletAssetsTypesAssetDetails (467) */
-export interface PalletAssetsTypesAssetDetails extends Struct {
+/** @name PalletAssetsAssetDetails (467) */
+export interface PalletAssetsAssetDetails extends Struct {
   readonly owner: AccountId32;
   readonly issuer: AccountId32;
   readonly admin: AccountId32;
@@ -1330,22 +1330,22 @@ export interface PalletAssetsTypesAssetDetails extends Struct {
   readonly isFrozen: bool;
 }
 
-/** @name PalletAssetsTypesAssetBalance (468) */
-export interface PalletAssetsTypesAssetBalance extends Struct {
+/** @name PalletAssetsAssetBalance (468) */
+export interface PalletAssetsAssetBalance extends Struct {
   readonly balance: u64;
   readonly isFrozen: bool;
   readonly sufficient: bool;
   readonly extra: Null;
 }
 
-/** @name PalletAssetsTypesApproval (470) */
-export interface PalletAssetsTypesApproval extends Struct {
+/** @name PalletAssetsApproval (470) */
+export interface PalletAssetsApproval extends Struct {
   readonly amount: u64;
   readonly deposit: u128;
 }
 
-/** @name PalletAssetsTypesAssetMetadata (471) */
-export interface PalletAssetsTypesAssetMetadata extends Struct {
+/** @name PalletAssetsAssetMetadata (471) */
+export interface PalletAssetsAssetMetadata extends Struct {
   readonly deposit: u128;
   readonly name: Bytes;
   readonly symbol: Bytes;
@@ -1362,30 +1362,30 @@ export interface PalletLotteryLotteryConfig extends Struct {
   readonly repeat: bool;
 }
 
-/** @name PalletGiltPalletGiltBid (478) */
-export interface PalletGiltPalletGiltBid extends Struct {
+/** @name PalletGiltGiltBid (478) */
+export interface PalletGiltGiltBid extends Struct {
   readonly amount: u128;
   readonly who: AccountId32;
 }
 
-/** @name PalletGiltPalletActiveGiltsTotal (479) */
-export interface PalletGiltPalletActiveGiltsTotal extends Struct {
+/** @name PalletGiltActiveGiltsTotal (479) */
+export interface PalletGiltActiveGiltsTotal extends Struct {
   readonly frozen: u128;
   readonly proportion: Perquintill;
   readonly index: u32;
   readonly target: Perquintill;
 }
 
-/** @name PalletGiltPalletActiveGilt (480) */
-export interface PalletGiltPalletActiveGilt extends Struct {
+/** @name PalletGiltActiveGilt (480) */
+export interface PalletGiltActiveGilt extends Struct {
   readonly proportion: Perquintill;
   readonly amount: u128;
   readonly who: AccountId32;
   readonly expiry: u32;
 }
 
-/** @name PalletUniquesTypesClassDetails (482) */
-export interface PalletUniquesTypesClassDetails extends Struct {
+/** @name PalletUniquesClassDetails (482) */
+export interface PalletUniquesClassDetails extends Struct {
   readonly owner: AccountId32;
   readonly issuer: AccountId32;
   readonly admin: AccountId32;
@@ -1398,23 +1398,23 @@ export interface PalletUniquesTypesClassDetails extends Struct {
   readonly isFrozen: bool;
 }
 
-/** @name PalletUniquesTypesInstanceDetails (484) */
-export interface PalletUniquesTypesInstanceDetails extends Struct {
+/** @name PalletUniquesInstanceDetails (484) */
+export interface PalletUniquesInstanceDetails extends Struct {
   readonly owner: AccountId32;
   readonly approved: Option<AccountId32>;
   readonly isFrozen: bool;
   readonly deposit: u128;
 }
 
-/** @name PalletUniquesTypesClassMetadata (485) */
-export interface PalletUniquesTypesClassMetadata extends Struct {
+/** @name PalletUniquesClassMetadata (485) */
+export interface PalletUniquesClassMetadata extends Struct {
   readonly deposit: u128;
   readonly data: Bytes;
   readonly isFrozen: bool;
 }
 
-/** @name PalletUniquesTypesInstanceMetadata (486) */
-export interface PalletUniquesTypesInstanceMetadata extends Struct {
+/** @name PalletUniquesInstanceMetadata (486) */
+export interface PalletUniquesInstanceMetadata extends Struct {
   readonly deposit: u128;
   readonly data: Bytes;
   readonly isFrozen: bool;
