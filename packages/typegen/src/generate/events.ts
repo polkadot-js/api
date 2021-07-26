@@ -33,9 +33,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       .map(({ events, name }) => ({
         items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
           .map(({ docs, fields, name }) => {
-            const args = fields.map(({ type }) =>
-              formatType(registry, allDefs, lookup.getTypeDef(type), imports)
-            );
+            const args = fields
+              .map(({ type }) => lookup.getTypeDef(type))
+              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
 
             setImports(allDefs, imports, args);
 

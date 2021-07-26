@@ -165,7 +165,7 @@ declare module '@polkadot/api/types/consts' {
     lottery: {
       maxCalls: u32 & AugmentedConst<ApiType>;
       maxGenerateRandom: u32 & AugmentedConst<ApiType>;
-      palletId: U8aFixed & AugmentedConst<ApiType>;
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -215,7 +215,7 @@ declare module '@polkadot/api/types/consts' {
       challengePeriod: u32 & AugmentedConst<ApiType>;
       maxCandidateIntake: u32 & AugmentedConst<ApiType>;
       maxStrikes: u32 & AugmentedConst<ApiType>;
-      palletId: U8aFixed & AugmentedConst<ApiType>;
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       periodSpend: u128 & AugmentedConst<ApiType>;
       rotationPeriod: u32 & AugmentedConst<ApiType>;
       wrongSideDeduction: u128 & AugmentedConst<ApiType>;
@@ -276,7 +276,7 @@ declare module '@polkadot/api/types/consts' {
     treasury: {
       burn: Permill & AugmentedConst<ApiType>;
       maxApprovals: u32 & AugmentedConst<ApiType>;
-      palletId: U8aFixed & AugmentedConst<ApiType>;
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       proposalBond: Permill & AugmentedConst<ApiType>;
       proposalBondMinimum: u128 & AugmentedConst<ApiType>;
       spendPeriod: u32 & AugmentedConst<ApiType>;

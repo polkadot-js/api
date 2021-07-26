@@ -543,7 +543,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * A new heartbeat was received from `AuthorityId` \[authority_id\]
        **/
-      HeartbeatReceived: AugmentedEvent<ApiType, [U8aFixed]>;
+      HeartbeatReceived: AugmentedEvent<ApiType, [PalletImOnlineSr25519AppSr25519Public]>;
       /**
        * At the end of the session, at least one validator was found to be \[offline\].
        **/
