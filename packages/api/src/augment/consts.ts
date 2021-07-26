@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
-import type { Codec, ITuple } from '@polkadot/types/types';
+import type { U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
+import type { Codec } from '@polkadot/types/types';
+import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/augment/lookup';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api/types';
 
@@ -63,11 +64,7 @@ declare module '@polkadot/api/types/consts' {
       depositPerStorageByte: u128 & AugmentedConst<ApiType>;
       depositPerStorageItem: u128 & AugmentedConst<ApiType>;
       rentFraction: Perbill & AugmentedConst<ApiType>;
-      schedule: {
-    readonly limits: PalletContractsScheduleLimits;
-    readonly instructionWeights: PalletContractsScheduleInstructionWeights;
-    readonly hostFnWeights: PalletContractsScheduleHostFnWeights;
-  } & Struct & AugmentedConst<ApiType>;
+      schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
       signedClaimHandicap: u32 & AugmentedConst<ApiType>;
       surchargeReward: u128 & AugmentedConst<ApiType>;
       tombstoneDeposit: u128 & AugmentedConst<ApiType>;
@@ -240,36 +237,11 @@ declare module '@polkadot/api/types/consts' {
     };
     system: {
       blockHashCount: u32 & AugmentedConst<ApiType>;
-      blockLength: {
-    readonly max: {
-    readonly normal: u32;
-    readonly operational: u32;
-    readonly mandatory: u32;
-  } & Struct;
-  } & Struct & AugmentedConst<ApiType>;
-      blockWeights: {
-    readonly baseBlock: u64;
-    readonly maxBlock: u64;
-    readonly perClass: {
-    readonly normal: FrameSystemLimitsWeightsPerClass;
-    readonly operational: FrameSystemLimitsWeightsPerClass;
-    readonly mandatory: FrameSystemLimitsWeightsPerClass;
-  } & Struct;
-  } & Struct & AugmentedConst<ApiType>;
-      dbWeight: {
-    readonly read: u64;
-    readonly write: u64;
-  } & Struct & AugmentedConst<ApiType>;
+      blockLength: FrameSystemLimitsBlockLength & AugmentedConst<ApiType>;
+      blockWeights: FrameSystemLimitsBlockWeights & AugmentedConst<ApiType>;
+      dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       ss58Prefix: u16 & AugmentedConst<ApiType>;
-      version: {
-    readonly specName: Text;
-    readonly implName: Text;
-    readonly authoringVersion: u32;
-    readonly specVersion: u32;
-    readonly implVersion: u32;
-    readonly apis: Vec<ITuple<[U8aFixed, u32]>>;
-    readonly transactionVersion: u32;
-  } & Struct & AugmentedConst<ApiType>;
+      version: SpVersionRuntimeVersion & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

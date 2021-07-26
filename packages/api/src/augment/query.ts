@@ -3,44 +3,17 @@
 
 import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
-import type { FrameSupportStorageBoundedBTreeMap, FrameSupportStorageWeakBoundedVec, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsTypesApproval, PalletAssetsTypesAssetBalance, PalletAssetsTypesAssetDetails, PalletAssetsTypesAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletBountiesBountyStatus, PalletCollectiveVotes, PalletContractsStorageContractInfo, PalletContractsStorageDeletedContract, PalletContractsWasmPrefabWasmModule, PalletDemocracyPreimageStatus, PalletDemocracyReleases, PalletDemocracyTypesDelegations, PalletDemocracyTypesReferendumInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVotePriorLock, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltPalletActiveGilt, PalletGiltPalletActiveGiltsTotal, PalletGiltPalletGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityTypesIdentityInfo, PalletIdentityTypesJudgement, PalletIdentityTypesRegistrarInfo, PalletIdentityTypesRegistration, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletMultisigTimepoint, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletSchedulerReleases, PalletSchedulerScheduledV2, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingIndividualExposure, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesTypesClassDetails, PalletUniquesTypesClassMetadata, PalletUniquesTypesInstanceDetails, PalletUniquesTypesInstanceMetadata, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAllowedSlots, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpCoreCryptoKeyTypeId, SpFinalityGrandpaAppPublic, SpNposElectionsSupport, SpRuntimeGenericDigest, SpRuntimeGenericDigestDigestItem, SpStakingOffenceOffenceDetails } from '@polkadot/types/augment/lookup';
-import type { AccountId32, Call, H256, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportStorageBoundedBTreeMap, FrameSupportStorageWeakBoundedVec, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsTypesApproval, PalletAssetsTypesAssetBalance, PalletAssetsTypesAssetDetails, PalletAssetsTypesAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletCollectiveVotes, PalletContractsStorageContractInfo, PalletContractsStorageDeletedContract, PalletContractsWasmPrefabWasmModule, PalletDemocracyPreimageStatus, PalletDemocracyReleases, PalletDemocracyTypesDelegations, PalletDemocracyTypesReferendumInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVotePriorLock, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltPalletActiveGilt, PalletGiltPalletActiveGiltsTotal, PalletGiltPalletGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityTypesIdentityInfo, PalletIdentityTypesJudgement, PalletIdentityTypesRegistrarInfo, PalletIdentityTypesRegistration, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletMultisigTimepoint, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletSchedulerReleases, PalletSchedulerScheduledV2, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingIndividualExposure, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesTypesClassDetails, PalletUniquesTypesClassMetadata, PalletUniquesTypesInstanceDetails, PalletUniquesTypesInstanceMetadata, PalletVestingVestingInfo, SpConsensusBabeAllowedSlots, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpCoreCryptoKeyTypeId, SpFinalityGrandpaAppPublic, SpNposElectionsSupport, SpRuntimeGenericDigest, SpRuntimeGenericDigestDigestItem, SpStakingOffenceOffenceDetails } from '@polkadot/types/augment/lookup';
+import type { AccountId32, Call, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
     assets: {
-      account: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<{
-    readonly balance: u64;
-    readonly isFrozen: bool;
-    readonly sufficient: bool;
-    readonly extra: Null;
-  } & Struct>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
-      approvals: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: AccountId32 | string | Uint8Array) => Observable<{
-    readonly amount: u64;
-    readonly deposit: u128;
-  } & Struct>, [u32, AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32, AccountId32]>;
-      asset: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly owner: AccountId32;
-    readonly issuer: AccountId32;
-    readonly admin: AccountId32;
-    readonly freezer: AccountId32;
-    readonly supply: u64;
-    readonly deposit: u128;
-    readonly minBalance: u64;
-    readonly isSufficient: bool;
-    readonly accounts: u32;
-    readonly sufficients: u32;
-    readonly approvals: u32;
-    readonly isFrozen: bool;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      metadata: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly deposit: u128;
-    readonly name: Bytes;
-    readonly symbol: Bytes;
-    readonly decimals: u8;
-    readonly isFrozen: bool;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      account: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletAssetsTypesAssetBalance>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      approvals: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: AccountId32 | string | Uint8Array) => Observable<PalletAssetsTypesApproval>, [u32, AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32, AccountId32]>;
+      asset: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsTypesAssetDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      metadata: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsTypesAssetMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -59,20 +32,14 @@ declare module '@polkadot/api/types/storage' {
       authorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
       authorVrfRandomness: AugmentedQuery<ApiType, () => Observable<Option<U8aFixed>>, []> & QueryableStorageEntry<ApiType, []>;
       currentSlot: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
-      epochConfig: AugmentedQuery<ApiType, () => Observable<{
-    readonly c: ITuple<[u64, u64]>;
-    readonly allowedSlots: SpConsensusBabeAllowedSlots;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      epochConfig: AugmentedQuery<ApiType, () => Observable<SpConsensusBabeBabeEpochConfiguration>, []> & QueryableStorageEntry<ApiType, []>;
       epochIndex: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       epochStart: AugmentedQuery<ApiType, () => Observable<ITuple<[u32, u32]>>, []> & QueryableStorageEntry<ApiType, []>;
       genesisSlot: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       initialized: AugmentedQuery<ApiType, () => Observable<Option<U8aFixed>>, []> & QueryableStorageEntry<ApiType, []>;
       lateness: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       nextAuthorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
-      nextEpochConfig: AugmentedQuery<ApiType, () => Observable<{
-    readonly c: ITuple<[u64, u64]>;
-    readonly allowedSlots: SpConsensusBabeAllowedSlots;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      nextEpochConfig: AugmentedQuery<ApiType, () => Observable<SpConsensusBabeBabeEpochConfiguration>, []> & QueryableStorageEntry<ApiType, []>;
       nextRandomness: AugmentedQuery<ApiType, () => Observable<U8aFixed>, []> & QueryableStorageEntry<ApiType, []>;
       pendingEpochConfigChange: AugmentedQuery<ApiType, () => Observable<SpConsensusBabeDigestsNextConfigDescriptor>, []> & QueryableStorageEntry<ApiType, []>;
       randomness: AugmentedQuery<ApiType, () => Observable<U8aFixed>, []> & QueryableStorageEntry<ApiType, []>;
@@ -84,12 +51,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     balances: {
-      account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly free: u128;
-    readonly reserved: u128;
-    readonly miscFrozen: u128;
-    readonly feeFrozen: u128;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletBalancesAccountData>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       locks: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<PalletBalancesBalanceLock>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       reserves: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<PalletBalancesReserveData>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletBalancesReleases>, []> & QueryableStorageEntry<ApiType, []>;
@@ -100,14 +62,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     bounties: {
-      bounties: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly proposer: AccountId32;
-    readonly value: u128;
-    readonly fee: u128;
-    readonly curatorDeposit: u128;
-    readonly bond: u128;
-    readonly status: PalletBountiesBountyStatus;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      bounties: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletBountiesBounty>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       bountyApprovals: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       bountyCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       bountyDescriptions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
@@ -118,15 +73,7 @@ declare module '@polkadot/api/types/storage' {
     };
     contracts: {
       accountCounter: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
-      codeStorage: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<{
-    readonly instructionWeightsVersion: Compact<u32>;
-    readonly initial: Compact<u32>;
-    readonly maximum: Compact<u32>;
-    readonly refcount: Compact<u64>;
-    readonly reserved: Option<Null>;
-    readonly code: Bytes;
-    readonly originalCodeLen: u32;
-  } & Struct>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      codeStorage: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<PalletContractsWasmPrefabWasmModule>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       contractInfoOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletContractsStorageContractInfo>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       deletionQueue: AugmentedQuery<ApiType, () => Observable<Vec<PalletContractsStorageDeletedContract>>, []> & QueryableStorageEntry<ApiType, []>;
       pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Bytes>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
@@ -141,13 +88,7 @@ declare module '@polkadot/api/types/storage' {
       proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Call>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       proposals: AugmentedQuery<ApiType, () => Observable<Vec<H256>>, []> & QueryableStorageEntry<ApiType, []>;
-      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<{
-    readonly index: u32;
-    readonly threshold: u32;
-    readonly ayes: Vec<AccountId32>;
-    readonly nays: Vec<AccountId32>;
-    readonly end: u32;
-  } & Struct>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<PalletCollectiveVotes>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -177,27 +118,13 @@ declare module '@polkadot/api/types/storage' {
       currentPhase: AugmentedQuery<ApiType, () => Observable<PalletElectionProviderMultiPhasePhase>, []> & QueryableStorageEntry<ApiType, []>;
       desiredTargets: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       minimumUntrustedScore: AugmentedQuery<ApiType, () => Observable<Vec<u128>>, []> & QueryableStorageEntry<ApiType, []>;
-      queuedSolution: AugmentedQuery<ApiType, () => Observable<{
-    readonly supports: Vec<ITuple<[AccountId32, SpNposElectionsSupport]>>;
-    readonly score: Vec<u128>;
-    readonly compute: PalletElectionProviderMultiPhaseElectionCompute;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      queuedSolution: AugmentedQuery<ApiType, () => Observable<PalletElectionProviderMultiPhaseReadySolution>, []> & QueryableStorageEntry<ApiType, []>;
       round: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       signedSubmissionIndices: AugmentedQuery<ApiType, () => Observable<BTreeMap<Vec<u128>, u32>>, []> & QueryableStorageEntry<ApiType, []>;
       signedSubmissionNextIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      signedSubmissionsMap: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly who: AccountId32;
-    readonly deposit: u128;
-    readonly solution: PalletElectionProviderMultiPhaseRawSolution;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      snapshot: AugmentedQuery<ApiType, () => Observable<{
-    readonly voters: Vec<ITuple<[AccountId32, u64, Vec<AccountId32>]>>;
-    readonly targets: Vec<AccountId32>;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
-      snapshotMetadata: AugmentedQuery<ApiType, () => Observable<{
-    readonly voters: Compact<u32>;
-    readonly targets: Compact<u32>;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      signedSubmissionsMap: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletElectionProviderMultiPhaseSignedSignedSubmission>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      snapshot: AugmentedQuery<ApiType, () => Observable<PalletElectionProviderMultiPhaseRoundSnapshot>, []> & QueryableStorageEntry<ApiType, []>;
+      snapshotMetadata: AugmentedQuery<ApiType, () => Observable<PalletElectionProviderMultiPhaseSolutionOrSnapshotSize>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -208,29 +135,15 @@ declare module '@polkadot/api/types/storage' {
       electionRounds: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       members: AugmentedQuery<ApiType, () => Observable<Vec<PalletElectionsPhragmenSeatHolder>>, []> & QueryableStorageEntry<ApiType, []>;
       runnersUp: AugmentedQuery<ApiType, () => Observable<Vec<PalletElectionsPhragmenSeatHolder>>, []> & QueryableStorageEntry<ApiType, []>;
-      voting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly votes: Vec<AccountId32>;
-    readonly stake: u128;
-    readonly deposit: u128;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      voting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletElectionsPhragmenVoter>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     gilt: {
-      active: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly proportion: Perquintill;
-    readonly amount: u128;
-    readonly who: AccountId32;
-    readonly expiry: u32;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      activeTotal: AugmentedQuery<ApiType, () => Observable<{
-    readonly frozen: u128;
-    readonly proportion: Perquintill;
-    readonly index: u32;
-    readonly target: Perquintill;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      active: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletGiltPalletActiveGilt>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      activeTotal: AugmentedQuery<ApiType, () => Observable<PalletGiltPalletActiveGiltsTotal>, []> & QueryableStorageEntry<ApiType, []>;
       queues: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<PalletGiltPalletGiltBid>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       queueTotals: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, u128]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -241,12 +154,7 @@ declare module '@polkadot/api/types/storage' {
     grandpa: {
       currentSetId: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       nextForced: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      pendingChange: AugmentedQuery<ApiType, () => Observable<{
-    readonly scheduledAt: u32;
-    readonly delay: u32;
-    readonly nextAuthorities: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>;
-    readonly forced: Option<u32>;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      pendingChange: AugmentedQuery<ApiType, () => Observable<PalletGrandpaStoredPendingChange>, []> & QueryableStorageEntry<ApiType, []>;
       setIdSession: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<u32>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
       stalled: AugmentedQuery<ApiType, () => Observable<ITuple<[u32, u32]>>, []> & QueryableStorageEntry<ApiType, []>;
       state: AugmentedQuery<ApiType, () => Observable<PalletGrandpaStoredState>, []> & QueryableStorageEntry<ApiType, []>;
@@ -256,11 +164,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     identity: {
-      identityOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly judgements: Vec<ITuple<[u32, PalletIdentityTypesJudgement]>>;
-    readonly deposit: u128;
-    readonly info: PalletIdentityTypesIdentityInfo;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      identityOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletIdentityTypesRegistration>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       registrars: AugmentedQuery<ApiType, () => Observable<Vec<Option<PalletIdentityTypesRegistrarInfo>>>, []> & QueryableStorageEntry<ApiType, []>;
       subsOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[u128, Vec<AccountId32>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       superOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[AccountId32, Data]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
@@ -288,13 +192,7 @@ declare module '@polkadot/api/types/storage' {
     };
     lottery: {
       callIndices: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u8, u8]>>>, []> & QueryableStorageEntry<ApiType, []>;
-      lottery: AugmentedQuery<ApiType, () => Observable<{
-    readonly price: u128;
-    readonly start: u32;
-    readonly length: u32;
-    readonly delay: u32;
-    readonly repeat: bool;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      lottery: AugmentedQuery<ApiType, () => Observable<PalletLotteryLotteryConfig>, []> & QueryableStorageEntry<ApiType, []>;
       lotteryIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       participants: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[u32, Vec<ITuple<[u8, u8]>>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       tickets: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<AccountId32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
@@ -315,12 +213,7 @@ declare module '@polkadot/api/types/storage' {
     };
     multisig: {
       calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<ITuple<[Bytes, AccountId32, u128]>>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
-      multisigs: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: U8aFixed | string | Uint8Array) => Observable<{
-    readonly when: PalletMultisigTimepoint;
-    readonly deposit: u128;
-    readonly depositor: AccountId32;
-    readonly approvals: Vec<AccountId32>;
-  } & Struct>, [AccountId32, U8aFixed]> & QueryableStorageEntry<ApiType, [AccountId32, U8aFixed]>;
+      multisigs: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: U8aFixed | string | Uint8Array) => Observable<PalletMultisigMultisig>, [AccountId32, U8aFixed]> & QueryableStorageEntry<ApiType, [AccountId32, U8aFixed]>;
       /**
        * Generic query
        **/
@@ -328,10 +221,7 @@ declare module '@polkadot/api/types/storage' {
     };
     offences: {
       concurrentReportsIndex: AugmentedQuery<ApiType, (arg1: U8aFixed | string | Uint8Array, arg2: Bytes | string | Uint8Array) => Observable<Vec<H256>>, [U8aFixed, Bytes]> & QueryableStorageEntry<ApiType, [U8aFixed, Bytes]>;
-      reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<{
-    readonly offender: ITuple<[AccountId32, PalletStakingExposure]>;
-    readonly reporters: Vec<AccountId32>;
-  } & Struct>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<SpStakingOffenceOffenceDetails>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       reportsByKindIndex: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Bytes>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
       /**
        * Generic query
@@ -354,18 +244,9 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     recovery: {
-      activeRecoveries: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<{
-    readonly created: u32;
-    readonly deposit: u128;
-    readonly friends: Vec<AccountId32>;
-  } & Struct>, [AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32, AccountId32]>;
+      activeRecoveries: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletRecoveryActiveRecovery>, [AccountId32, AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32, AccountId32]>;
       proxy: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<AccountId32>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
-      recoverable: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly delayPeriod: u32;
-    readonly deposit: u128;
-    readonly friends: Vec<AccountId32>;
-    readonly threshold: u16;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      recoverable: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletRecoveryRecoveryConfig>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
@@ -384,12 +265,7 @@ declare module '@polkadot/api/types/storage' {
       currentIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       keyOwner: AugmentedQuery<ApiType, (arg: ITuple<[SpCoreCryptoKeyTypeId, Bytes]> | [SpCoreCryptoKeyTypeId | string | Uint8Array, Bytes | string | Uint8Array]) => Observable<AccountId32>, [ITuple<[SpCoreCryptoKeyTypeId, Bytes]>]> & QueryableStorageEntry<ApiType, [ITuple<[SpCoreCryptoKeyTypeId, Bytes]>]>;
-      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly grandpa: SpFinalityGrandpaAppPublic;
-    readonly babe: SpConsensusBabeAppPublic;
-    readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
-    readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<NodeRuntimeSessionKeys>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       queuedChanged: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, NodeRuntimeSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;
       validators: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
@@ -421,10 +297,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     staking: {
-      activeEra: AugmentedQuery<ApiType, () => Observable<{
-    readonly index: u32;
-    readonly start: Option<u64>;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      activeEra: AugmentedQuery<ApiType, () => Observable<PalletStakingActiveEraInfo>, []> & QueryableStorageEntry<ApiType, []>;
       bonded: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<AccountId32>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       bondedEras: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, u32]>>>, []> & QueryableStorageEntry<ApiType, []>;
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
@@ -434,67 +307,32 @@ declare module '@polkadot/api/types/storage' {
       currentEra: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       currentPlannedSession: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      erasRewardPoints: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly total: u32;
-    readonly individual: BTreeMap<AccountId32, u32>;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      erasStakers: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<{
-    readonly total: Compact<u128>;
-    readonly own: Compact<u128>;
-    readonly others: Vec<PalletStakingIndividualExposure>;
-  } & Struct>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
-      erasStakersClipped: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<{
-    readonly total: Compact<u128>;
-    readonly own: Compact<u128>;
-    readonly others: Vec<PalletStakingIndividualExposure>;
-  } & Struct>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      erasRewardPoints: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletStakingEraRewardPoints>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      erasStakers: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletStakingExposure>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      erasStakersClipped: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletStakingExposure>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       erasStartSessionIndex: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       erasTotalStake: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u128>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      erasValidatorPrefs: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<{
-    readonly commission: Compact<Perbill>;
-    readonly blocked: bool;
-  } & Struct>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      erasValidatorPrefs: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<PalletStakingValidatorPrefs>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       erasValidatorReward: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u128>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       forceEra: AugmentedQuery<ApiType, () => Observable<PalletStakingForcing>, []> & QueryableStorageEntry<ApiType, []>;
       historyDepth: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       invulnerables: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
-      ledger: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly stash: AccountId32;
-    readonly total: Compact<u128>;
-    readonly active: Compact<u128>;
-    readonly unlocking: Vec<PalletStakingUnlockChunk>;
-    readonly claimedRewards: Vec<u32>;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      ledger: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletStakingStakingLedger>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       maxNominatorsCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       maxValidatorsCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       minimumValidatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       minNominatorBond: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       minValidatorBond: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
-      nominators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly targets: Vec<AccountId32>;
-    readonly submittedIn: u32;
-    readonly suppressed: bool;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      nominators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletStakingNominations>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       nominatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<u128>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       payee: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletStakingRewardDestination>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
-      slashingSpans: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly spanIndex: u32;
-    readonly lastStart: u32;
-    readonly lastNonzeroSlash: u32;
-    readonly prior: Vec<u32>;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      slashingSpans: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletStakingSlashingSlashingSpans>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       slashRewardFraction: AugmentedQuery<ApiType, () => Observable<Perbill>, []> & QueryableStorageEntry<ApiType, []>;
-      spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId32, u32]> | [AccountId32 | string | Uint8Array, u32 | AnyNumber | Uint8Array]) => Observable<{
-    readonly slashed: u128;
-    readonly paidOut: u128;
-  } & Struct>, [ITuple<[AccountId32, u32]>]> & QueryableStorageEntry<ApiType, [ITuple<[AccountId32, u32]>]>;
+      spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId32, u32]> | [AccountId32 | string | Uint8Array, u32 | AnyNumber | Uint8Array]) => Observable<PalletStakingSlashingSpanRecord>, [ITuple<[AccountId32, u32]>]> & QueryableStorageEntry<ApiType, [ITuple<[AccountId32, u32]>]>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletStakingReleases>, []> & QueryableStorageEntry<ApiType, []>;
       unappliedSlashes: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<PalletStakingUnappliedSlash>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       validatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      validators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly commission: Compact<Perbill>;
-    readonly blocked: bool;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      validators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletStakingValidatorPrefs>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<ITuple<[Perbill, u128]>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       /**
        * Generic query
@@ -509,13 +347,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     system: {
-      account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly nonce: u32;
-    readonly consumers: u32;
-    readonly providers: u32;
-    readonly sufficients: u32;
-    readonly data: PalletBalancesAccountData;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<FrameSystemAccountInfo>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       allExtrinsicsLen: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       blockHash: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<H256>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       blockWeight: AugmentedQuery<ApiType, () => Observable<{
@@ -523,19 +355,14 @@ declare module '@polkadot/api/types/storage' {
     readonly operational: u64;
     readonly mandatory: u64;
   } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
-      digest: AugmentedQuery<ApiType, () => Observable<{
-    readonly logs: Vec<SpRuntimeGenericDigestDigestItem>;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      digest: AugmentedQuery<ApiType, () => Observable<SpRuntimeGenericDigest>, []> & QueryableStorageEntry<ApiType, []>;
       eventCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       events: AugmentedQuery<ApiType, () => Observable<Vec<FrameSystemEventRecord>>, []> & QueryableStorageEntry<ApiType, []>;
       eventTopics: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Vec<ITuple<[u32, u32]>>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       executionPhase: AugmentedQuery<ApiType, () => Observable<FrameSystemPhase>, []> & QueryableStorageEntry<ApiType, []>;
       extrinsicCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       extrinsicData: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      lastRuntimeUpgrade: AugmentedQuery<ApiType, () => Observable<{
-    readonly specVersion: Compact<u32>;
-    readonly specName: Text;
-  } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
+      lastRuntimeUpgrade: AugmentedQuery<ApiType, () => Observable<FrameSystemLastRuntimeUpgradeInfo>, []> & QueryableStorageEntry<ApiType, []>;
       number: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       parentHash: AugmentedQuery<ApiType, () => Observable<H256>, []> & QueryableStorageEntry<ApiType, []>;
       upgradedToTripleRefCount: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
@@ -551,13 +378,7 @@ declare module '@polkadot/api/types/storage' {
       proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Call>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       proposals: AugmentedQuery<ApiType, () => Observable<Vec<H256>>, []> & QueryableStorageEntry<ApiType, []>;
-      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<{
-    readonly index: u32;
-    readonly threshold: u32;
-    readonly ayes: Vec<AccountId32>;
-    readonly nays: Vec<AccountId32>;
-    readonly end: u32;
-  } & Struct>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<PalletCollectiveVotes>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -581,15 +402,7 @@ declare module '@polkadot/api/types/storage' {
     };
     tips: {
       reasons: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Bytes>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
-      tips: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<{
-    readonly reason: H256;
-    readonly who: AccountId32;
-    readonly finder: AccountId32;
-    readonly deposit: u128;
-    readonly closes: Option<u32>;
-    readonly tips: Vec<ITuple<[AccountId32, u128]>>;
-    readonly findersFee: bool;
-  } & Struct>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      tips: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<PalletTipsOpenTip>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -621,12 +434,7 @@ declare module '@polkadot/api/types/storage' {
     treasury: {
       approvals: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      proposals: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly proposer: AccountId32;
-    readonly value: u128;
-    readonly beneficiary: AccountId32;
-    readonly bond: u128;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      proposals: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletTreasuryProposal>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -634,46 +442,18 @@ declare module '@polkadot/api/types/storage' {
     };
     uniques: {
       account: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: u32 | AnyNumber | Uint8Array) => Observable<Null>, [AccountId32, u32, u32]> & QueryableStorageEntry<ApiType, [AccountId32, u32, u32]>;
-      asset: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly owner: AccountId32;
-    readonly approved: Option<AccountId32>;
-    readonly isFrozen: bool;
-    readonly deposit: u128;
-  } & Struct>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      asset: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesInstanceDetails>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       attribute: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: Option<u32> | null | object | string | Uint8Array, arg3: Bytes | string | Uint8Array) => Observable<ITuple<[Bytes, u128]>>, [u32, Option<u32>, Bytes]> & QueryableStorageEntry<ApiType, [u32, Option<u32>, Bytes]>;
-      class: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly owner: AccountId32;
-    readonly issuer: AccountId32;
-    readonly admin: AccountId32;
-    readonly freezer: AccountId32;
-    readonly totalDeposit: u128;
-    readonly freeHolding: bool;
-    readonly instances: u32;
-    readonly instanceMetadatas: u32;
-    readonly attributes: u32;
-    readonly isFrozen: bool;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      classMetadataOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly deposit: u128;
-    readonly data: Bytes;
-    readonly isFrozen: bool;
-  } & Struct>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<{
-    readonly deposit: u128;
-    readonly data: Bytes;
-    readonly isFrozen: bool;
-  } & Struct>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      class: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesClassDetails>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      classMetadataOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesClassMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<PalletUniquesTypesInstanceMetadata>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     vesting: {
-      vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly locked: u128;
-    readonly perBlock: u128;
-    readonly startingBlock: u32;
-  } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletVestingVestingInfo>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/

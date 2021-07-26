@@ -136,6 +136,10 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports, withShortcut);
   },
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+    if (typeDef.lookupName) {
+      return typeDef.lookupName;
+    }
+
     setImports(definitions, imports, ['Struct']);
 
     return `{${withShortcut ? ' ' : '\n'}${

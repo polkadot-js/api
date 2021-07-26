@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
+import type { FrameSupportTraitsTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/augment/lookup';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api/types';
 
@@ -597,24 +598,15 @@ declare module '@polkadot/api/types/events' {
        * A multisig operation has been approved by someone.
        * \[approving, timepoint, multisig, call_hash\]
        **/
-      MultisigApproval: AugmentedEvent<ApiType, [AccountId32, {
-    readonly height: u32;
-    readonly index: u32;
-  } & Struct, AccountId32, U8aFixed]>;
+      MultisigApproval: AugmentedEvent<ApiType, [AccountId32, PalletMultisigTimepoint, AccountId32, U8aFixed]>;
       /**
        * A multisig operation has been cancelled. \[cancelling, timepoint, multisig, call_hash\]
        **/
-      MultisigCancelled: AugmentedEvent<ApiType, [AccountId32, {
-    readonly height: u32;
-    readonly index: u32;
-  } & Struct, AccountId32, U8aFixed]>;
+      MultisigCancelled: AugmentedEvent<ApiType, [AccountId32, PalletMultisigTimepoint, AccountId32, U8aFixed]>;
       /**
        * A multisig operation has been executed. \[approving, timepoint, multisig, call_hash\]
        **/
-      MultisigExecuted: AugmentedEvent<ApiType, [AccountId32, {
-    readonly height: u32;
-    readonly index: u32;
-  } & Struct, AccountId32, U8aFixed, Result<Null, SpRuntimeDispatchError>]>;
+      MultisigExecuted: AugmentedEvent<ApiType, [AccountId32, PalletMultisigTimepoint, AccountId32, U8aFixed, Result<Null, SpRuntimeDispatchError>]>;
       /**
        * A new multisig operation has begun. \[approving, multisig, call_hash\]
        **/
@@ -876,19 +868,11 @@ declare module '@polkadot/api/types/events' {
       /**
        * An extrinsic failed. \[error, info\]
        **/
-      ExtrinsicFailed: AugmentedEvent<ApiType, [SpRuntimeDispatchError, {
-    readonly weight: u64;
-    readonly class: FrameSupportWeightsDispatchClass;
-    readonly paysFee: FrameSupportWeightsPays;
-  } & Struct]>;
+      ExtrinsicFailed: AugmentedEvent<ApiType, [SpRuntimeDispatchError, FrameSupportWeightsDispatchInfo]>;
       /**
        * An extrinsic completed successfully. \[info\]
        **/
-      ExtrinsicSuccess: AugmentedEvent<ApiType, [{
-    readonly weight: u64;
-    readonly class: FrameSupportWeightsDispatchClass;
-    readonly paysFee: FrameSupportWeightsPays;
-  } & Struct]>;
+      ExtrinsicSuccess: AugmentedEvent<ApiType, [FrameSupportWeightsDispatchInfo]>;
       /**
        * An \[account\] was reaped.
        **/
