@@ -24,6 +24,7 @@ const PRIMITIVE_ALIAS: Record<string, keyof InterfaceTypes> = {
 
 const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
+// TODO Replace usages with PortableRegistry
 export class MetaRegistry extends TypeRegistry {
   public readonly metaTypeDefs: TypeDef[] = [];
 
