@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
@@ -25,14 +25,16 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP = [
+  'node_runtime::Call',
+  'node_runtime::Event',
+  'sp_arithmetic::per_things::*',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
-  'primitive_types::H160',
-  'primitive_types::H256',
-  'primitive_types::H512'
+  'pallet_identity::types::IdentityFields',
+  'primitive_types::*'
 ];
 
 // These we never use these as top-level names, they are wrappers
@@ -41,33 +43,84 @@ const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
 // These are reserved and conflicts with built-in Codec definitions
 const RESERVED = ['entries', 'hash', 'keys', 'size'];
 
+// check if the path matches the PRIMITIVE_SP (with wildcards)
+function isPrimitivePath (path: SiPath): boolean {
+  return !!path.length && (
+    (
+      path.length > 2 &&
+      path[0].eq('ink_env') &&
+      path[1].eq('types')
+    ) ||
+    PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
+    PRIMITIVE_SP
+      .map((p) => p.split('::'))
+      .some((parts) =>
+        path.length === parts.length &&
+        parts.every((p, index) =>
+          p === '*' ||
+          path[index].eq(p)
+        )
+      )
+  );
+}
+
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
-    !name || names.some((o, i) => index !== i && name === o)
+    !name || WRAPPERS.includes(name) || names.some((o, i) => index !== i && name === o)
       ? null
       : name
   );
 }
 
+function extractName (types: PortableType[], { def, params, path }: SiType): string | null {
+  if (def.isCompact) {
+    // Do magic for compact naming
+    const instanceType = types[def.asCompact.type.toNumber()];
+
+    if (instanceType.type.def.isPrimitive) {
+      return `Compact${instanceType.type.def.asPrimitive.toString()}`;
+    }
+  }
+
+  if (!path.length) {
+    return null;
+  }
+
+  const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
+
+  // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+  // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+  if (parts.length >= 2 && parts[parts.length - 1].toLowerCase() === parts[parts.length - 2].toLowerCase()) {
+    parts[parts.length - 2] = parts[parts.length - 1];
+    parts.pop();
+  }
+
+  let typeName = parts.join('');
+
+  if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
+    // Do magic for RawOrigin lookup
+    const instanceType = types[params[1].type.unwrap().toNumber()];
+
+    if (instanceType.type.path.length === 2) {
+      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
+    }
+  } else if (params.length === 1 && params[0].type.isSome) {
+    // Do magic for single params primitive lookup
+    const instanceType = types[params[0].type.unwrap().toNumber()];
+
+    if (instanceType.type.def.isPrimitive) {
+      typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
+    }
+  }
+
+  return typeName;
+}
+
 function extractNames (types: PortableType[]): Record<number, string> {
   return removeDuplicateNames(
-    types.map(({ type: { path } }): string | null => {
-      if (!path.length) {
-        return null;
-      }
-
-      const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
-
-      if (parts.length >= 2 && parts[parts.length - 1] === parts[parts.length - 2]) {
-        parts.pop();
-      }
-
-      const typeName = parts.join('');
-
-      return WRAPPERS.includes(typeName) || ['frame_support'].includes(path[0].toString())
-        ? null
-        : typeName;
-    })
+    types.map(({ type }) =>
+      extractName(types, type)
+    )
   ).reduce<Record<number, string>>((all, name, index) => {
     if (name) {
       all[index] = name;
@@ -124,10 +177,18 @@ export class GenericPortableRegistry extends Struct {
 
       const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
-      Object.keys(extracted).forEach((key): void => {
-        // these are safe since we are looking through the keys as set
-        this.#typeDefs[lookupIndex][key as 'info'] = extracted[key as 'info'];
+      Object.keys(extracted).forEach((k): void => {
+        if (k !== 'lookupName' || extracted[k]) {
+          // these are safe since we are looking through the keys as set
+          this.#typeDefs[lookupIndex][k as 'info'] = extracted[k as 'info'];
+        }
       });
+
+      // don't set lookupName on lower-level, we want to always direct to the type
+      if (extracted.info === TypeDefInfo.Plain) {
+        this.#typeDefs[lookupIndex].lookupNameRoot = this.#typeDefs[lookupIndex].lookupName;
+        delete this.#typeDefs[lookupIndex].lookupName;
+      }
     }
 
     return this.#typeDefs[lookupIndex];
@@ -138,7 +199,7 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = lookupId.toNumber();
 
     // Setup for a lookup on complex types
-    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info)
+    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
       ? {
         docs: typeDef.docs,
         info: TypeDefInfo.Si,
@@ -163,21 +224,10 @@ export class GenericPortableRegistry extends Struct {
 
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const path = [...type.path];
-
-    // We handle ink! here as well, although we still have a different registry there
-    const isPrimitivePath = !!path.length && (
-      (
-        path.length > 2 &&
-        path[0].eq('ink_env') &&
-        path[1].eq('types')
-      ) ||
-      PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
-      PRIMITIVE_SP.includes(path.join('::'))
-    );
     let typeDef: TypeDef;
 
     try {
-      if (isPrimitivePath) {
+      if (isPrimitivePath(type.path)) {
         typeDef = this.#extractPrimitivePath(lookupIndex, type);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
@@ -330,17 +380,21 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractPrimitivePath (_: number, type: SiType): TypeDef {
-    const displayName = type.path[type.path.length - 1].toString();
-
     return {
-      displayName,
       info: TypeDefInfo.Plain,
-      type: displayName
+      type: type.path[type.path.length - 1].toString()
     };
   }
 
   #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
     const sub = this.#createSiDef(type);
+
+    if (sub.type === 'u8') {
+      return {
+        info: TypeDefInfo.Plain,
+        type: 'Bytes'
+      };
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Vec,

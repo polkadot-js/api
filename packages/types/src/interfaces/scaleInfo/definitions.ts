@@ -8,6 +8,13 @@ import { v0 } from './v0';
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
+export const SiVariant = {
+  name: 'Text',
+  fields: 'Vec<SiField>',
+  index: 'u8',
+  docs: 'Vec<Text>'
+};
+
 export default {
   rpc: {},
   types: {
@@ -69,11 +76,6 @@ export default {
       name: 'Text',
       type: 'Option<SiLookupTypeId>'
     },
-    SiVariant: {
-      name: 'Text',
-      fields: 'Vec<SiField>',
-      index: 'u8',
-      docs: 'Vec<Text>'
-    }
+    SiVariant
   }
 } as Definitions;

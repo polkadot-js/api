@@ -13,6 +13,9 @@ export interface EcdsaSignature extends U8aFixed {}
 /** @name Ed25519Signature */
 export interface Ed25519Signature extends H512 {}
 
+/** @name Era */
+export interface Era extends ExtrinsicEra {}
+
 /** @name Extrinsic */
 export interface Extrinsic extends GenericExtrinsic {}
 

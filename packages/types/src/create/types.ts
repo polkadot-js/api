@@ -42,6 +42,7 @@ export interface TypeDef {
   length?: number;
   lookupIndex?: number;
   lookupName?: string;
+  lookupNameRoot?: string;
   name?: string;
   namespace?: string;
   sub?: TypeDef | TypeDef[];

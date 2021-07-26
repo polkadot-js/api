@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
-import type { SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV13 {}
@@ -18,6 +18,15 @@ export interface ErrorMetadataV12 extends ErrorMetadataV11 {}
 
 /** @name ErrorMetadataV13 */
 export interface ErrorMetadataV13 extends ErrorMetadataV12 {}
+
+/** @name ErrorMetadataV14 */
+export interface ErrorMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<Type>;
+}
 
 /** @name ErrorMetadataV9 */
 export interface ErrorMetadataV9 extends Struct {
@@ -39,6 +48,15 @@ export interface EventMetadataV12 extends EventMetadataV11 {}
 
 /** @name EventMetadataV13 */
 export interface EventMetadataV13 extends EventMetadataV12 {}
+
+/** @name EventMetadataV14 */
+export interface EventMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<Type>;
+}
 
 /** @name EventMetadataV9 */
 export interface EventMetadataV9 extends Struct {
@@ -84,6 +102,9 @@ export interface FunctionArgumentMetadataV12 extends FunctionArgumentMetadataV11
 /** @name FunctionArgumentMetadataV13 */
 export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12 {}
 
+/** @name FunctionArgumentMetadataV14 */
+export interface FunctionArgumentMetadataV14 extends FunctionArgumentMetadataV13 {}
+
 /** @name FunctionArgumentMetadataV9 */
 export interface FunctionArgumentMetadataV9 extends Struct {
   readonly name: Text;
@@ -104,6 +125,15 @@ export interface FunctionMetadataV12 extends FunctionMetadataV11 {}
 
 /** @name FunctionMetadataV13 */
 export interface FunctionMetadataV13 extends FunctionMetadataV12 {}
+
+/** @name FunctionMetadataV14 */
+export interface FunctionMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly fields: Vec<SiField>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+  readonly args: Vec<FunctionArgumentMetadataLatest>;
+}
 
 /** @name FunctionMetadataV9 */
 export interface FunctionMetadataV9 extends Struct {

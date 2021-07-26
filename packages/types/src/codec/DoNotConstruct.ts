@@ -18,7 +18,7 @@ export class DoNotConstruct implements Codec {
 
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
     this.registry = registry;
-    this.#neverError = new Error(`Cannot construct unknown type ${typeName}`);
+    this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
   }
