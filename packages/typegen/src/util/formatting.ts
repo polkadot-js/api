@@ -71,9 +71,9 @@ Handlebars.registerHelper({
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
 /** @internal */
-export function exportInterface (name = '', base: string, body = ''): string {
+export function exportInterface (lookupIndex = -1, name = '', base: string, body = ''): string {
   // * @description extends [[${base}]]
-  const doc = `/** @name ${name} */\n`;
+  const doc = `/** @name ${name}${lookupIndex !== -1 ? ` (${lookupIndex})` : ''} */\n`;
 
   return `${doc}export interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
@@ -82,8 +82,8 @@ export function exportInterface (name = '', base: string, body = ''): string {
 // but since we don't want type alias (TS doesn't preserve names) we use
 // interface here.
 /** @internal */
-export function exportType (name = '', base: string): string {
-  return exportInterface(name, base);
+export function exportType (lookupIndex = -1, name = '', base: string): string {
+  return exportInterface(lookupIndex, name, base);
 }
 
 const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => string> = {
@@ -234,7 +234,7 @@ export function formatType (registry: Registry, definitions: Record<string, Modu
     typeDef = type;
   }
 
-  setImports(definitions, imports, [typeDef.type]);
+  setImports(definitions, imports, [typeDef.lookupName || typeDef.type]);
 
   return formatters[typeDef.info](registry, typeDef, definitions, imports, withShortcut);
 }

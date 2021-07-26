@@ -35,7 +35,7 @@ function errorUnhandled (_: Registry, definitions: Record<string, ModuleTypes>, 
 
 /** @internal */
 function tsExport (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
-  return exportInterface(def.name, formatType(registry, definitions, def, imports, false));
+  return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false));
 }
 
 const tsBTreeMap = tsExport;
@@ -48,7 +48,7 @@ const tsPlain = tsExport;
 const tsTuple = tsExport;
 
 /** @internal */
-function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
+function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
   const keys = (sub as TypeDef[]).map((def, index): string => {
@@ -82,21 +82,21 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     }
   });
 
-  return exportInterface(enumName, 'Enum', keys.join(''));
+  return exportInterface(lookupIndex, enumName, 'Enum', keys.join(''));
 }
 
 function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
   setImports(definitions, imports, [type]);
 
-  return exportInterface(def.name, type);
+  return exportInterface(def.lookupIndex, def.name, type);
 }
 
 /** @internal */
-function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, { name }: TypeDef, imports: TypeImports): string {
+function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex = -1, name }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Null']);
 
   // * @description extends [[${base}]]
-  const doc = `/** @name ${name || ''} */\n`;
+  const doc = `/** @name ${name || ''}${lookupIndex !== -1 ? ` (${lookupIndex})` : ''} */\n`;
 
   return `${doc}export type ${name || ''} = Null;`;
 }
@@ -137,7 +137,7 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 
   setImports(definitions, imports, [def.type]);
 
-  return exportInterface(def.name, formatType(registry, definitions, def, imports, false), inner);
+  return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false), inner);
 }
 
 /** @internal */
@@ -148,7 +148,7 @@ function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, typ
 }
 
 /** @internal */
-function tsSet (_: Registry, definitions: Record<string, ModuleTypes>, { name: setName, sub }: TypeDef, imports: TypeImports): string {
+function tsSet (_: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: setName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Set']);
 
   const types = (sub as TypeDef[]).map(({ name }): string => {
@@ -157,11 +157,11 @@ function tsSet (_: Registry, definitions: Record<string, ModuleTypes>, { name: s
     return createGetter(definitions, `is${name}`, 'boolean', imports);
   });
 
-  return exportInterface(setName, 'Set', types.join(''));
+  return exportInterface(lookupIndex, setName, 'Set', types.join(''));
 }
 
 /** @internal */
-function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>, { name: structName, sub }: TypeDef, imports: TypeImports): string {
+function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: structName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Struct']);
 
   const keys = (sub as TypeDef[]).map((typedef): string => {
@@ -170,7 +170,7 @@ function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>,
     return createGetter(definitions, typedef.name, returnType, imports);
   });
 
-  return exportInterface(structName, 'Struct', keys.join(''));
+  return exportInterface(lookupIndex, structName, 'Struct', keys.join(''));
 }
 
 /** @internal */
@@ -186,15 +186,15 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
     if (def.info === TypeDefInfo.VecFixed) {
       setImports(definitions, imports, ['U8aFixed']);
 
-      return exportType(def.name, 'U8aFixed');
+      return exportType(def.lookupIndex, def.name, 'U8aFixed');
     } else {
       setImports(definitions, imports, ['Bytes']);
 
-      return exportType(def.name, 'Bytes');
+      return exportType(def.lookupIndex, def.name, 'Bytes');
     }
   }
 
-  return exportInterface(def.name, formatType(registry, definitions, def, imports, false));
+  return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false));
 }
 
 // handlers are defined externally to use - this means that when we do a

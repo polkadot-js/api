@@ -7,6 +7,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
@@ -30,7 +31,11 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: ExtraTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: ExtraTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
@@ -57,7 +62,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                   : typeDef.type,
                 typeDef.isFromSi
                   ? typeDef.type
-                  : registry.createLookupType(type)
+                  : typeDef.lookupName || typeDef.type
               ];
             });
             const params = typesInfo

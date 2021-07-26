@@ -154,11 +154,10 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
     return generateLookupDefsTmpl({
       defs: all.map(({ docs, type }, i) => {
         const { def, typeLookup, typeName } = type;
-        const hasConflict = !!typeName && all.some(({ type }, j) => i !== j && type.typeName === typeName);
 
         return {
           defs: [
-            [`${(!typeName || hasConflict) ? typeLookup : typeName}`, `${def}${i !== max ? ',' : ''}`]
+            [`${typeName || typeLookup}`, `${def}${i !== max ? ',' : ''}`]
           ].map(([n, t]) => `${n}: ${t}`),
           docs
         };
@@ -169,7 +168,12 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
 
 function generateLookupTypes (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
-  const imports = { ...createImports({ '@polkadot/types/interfaces': defaultDefinitions }, { types: {} }), interfaces: [] };
+  const imports = {
+    ...createImports({
+      '@polkadot/types/interfaces': defaultDefinitions
+    }, { types: {} }),
+    interfaces: []
+  };
   const items = getFilteredTypes(lookup).map(({ id }) => {
     const typeDef = lookup.getTypeDef(id);
 
@@ -195,9 +199,6 @@ function generateLookupTypes (meta: Metadata, destDir: string): void {
 function generateLookup (meta: Metadata, destDir: string): void {
   generateLookupDefs(meta, destDir);
   generateLookupTypes(meta, destDir);
-
-  // initially
-  process.exit(0);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types

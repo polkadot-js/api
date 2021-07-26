@@ -5,13 +5,7 @@ import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, 
 import type { SiField, SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
-export interface ErrorMetadataLatest extends Struct {
-  readonly name: Text;
-  readonly fields: Vec<SiField>;
-  readonly index: u8;
-  readonly docs: Vec<Text>;
-  readonly args: Vec<Type>;
-}
+export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
 
 /** @name ErrorMetadataV10 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
@@ -41,13 +35,7 @@ export interface ErrorMetadataV9 extends Struct {
 }
 
 /** @name EventMetadataLatest */
-export interface EventMetadataLatest extends Struct {
-  readonly name: Text;
-  readonly fields: Vec<SiField>;
-  readonly index: u8;
-  readonly docs: Vec<Text>;
-  readonly args: Vec<Type>;
-}
+export interface EventMetadataLatest extends EventMetadataV14 {}
 
 /** @name EventMetadataV10 */
 export interface EventMetadataV10 extends EventMetadataV9 {}
@@ -100,7 +88,7 @@ export interface ExtrinsicMetadataV14 extends Struct {
 }
 
 /** @name FunctionArgumentMetadataLatest */
-export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV13 {}
+export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV14 {}
 
 /** @name FunctionArgumentMetadataV10 */
 export interface FunctionArgumentMetadataV10 extends FunctionArgumentMetadataV9 {}
@@ -124,13 +112,7 @@ export interface FunctionArgumentMetadataV9 extends Struct {
 }
 
 /** @name FunctionMetadataLatest */
-export interface FunctionMetadataLatest extends Struct {
-  readonly name: Text;
-  readonly fields: Vec<SiField>;
-  readonly index: u8;
-  readonly docs: Vec<Text>;
-  readonly args: Vec<FunctionArgumentMetadataLatest>;
-}
+export interface FunctionMetadataLatest extends FunctionMetadataV14 {}
 
 /** @name FunctionMetadataV10 */
 export interface FunctionMetadataV10 extends FunctionMetadataV9 {}

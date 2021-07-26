@@ -64,26 +64,27 @@ function isPrimitivePath (path: SiPath): boolean {
   );
 }
 
-function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
-  return names.map((name, index): string | null =>
-    !name || WRAPPERS.includes(name) || names.some((o, i) => index !== i && name === o)
+function removeDuplicateNames (names: [number, (string | null)][]): [number, (string | null)][] {
+  return names.map(([lookupIndex, name]): [number, string | null] => [
+    lookupIndex,
+    (
+      !name ||
+      WRAPPERS.includes(name) ||
+      names.some(([oIndex, oName]) =>
+        name === oName &&
+        lookupIndex !== oIndex
+      )
+    )
       ? null
       : name
-  );
+  ]);
 }
 
-function extractName (types: PortableType[], { def, params, path }: SiType): string | null {
-  if (def.isCompact) {
-    // Do magic for compact naming
-    const instanceType = types[def.asCompact.type.toNumber()];
-
-    if (instanceType.type.def.isPrimitive) {
-      return `Compact${instanceType.type.def.asPrimitive.toString()}`;
-    }
-  }
+function extractName (types: PortableType[], id: SiLookupTypeId, { params, path }: SiType): [number, string | null] {
+  const lookupIndex = id.toNumber();
 
   if (!path.length) {
-    return null;
+    return [lookupIndex, null];
   }
 
   const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
@@ -104,30 +105,32 @@ function extractName (types: PortableType[], { def, params, path }: SiType): str
     if (instanceType.type.path.length === 2) {
       typeName = `${typeName}${instanceType.type.path[1].toString()}`;
     }
-  } else if (params.length === 1 && params[0].type.isSome) {
-    // Do magic for single params primitive lookup
-    const instanceType = types[params[0].type.unwrap().toNumber()];
-
-    if (instanceType.type.def.isPrimitive) {
-      typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
-    }
   }
 
-  return typeName;
+  return [lookupIndex, typeName];
 }
 
-function extractNames (types: PortableType[]): Record<number, string> {
-  return removeDuplicateNames(
-    types.map(({ type }) =>
-      extractName(types, type)
+function extractNames (registry: Registry, types: PortableType[]): Record<number, string> {
+  const dedup = removeDuplicateNames(
+    types.map(({ id, type }) =>
+      extractName(types, id, type)
     )
-  ).reduce<Record<number, string>>((all, name, index) => {
+  );
+  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name], index) => {
     if (name) {
-      all[index] = name;
+      // We set the name for this specific type
+      names[index] = name;
+
+      // we map to the actual lookupIndex
+      types[name] = registry.createLookupType(lookupIndex);
     }
 
-    return all;
-  }, {});
+    return [names, types];
+  }, [{}, {}]);
+
+  registry.register(typesNew);
+
+  return names;
 }
 
 export class GenericPortableRegistry extends Struct {
@@ -139,7 +142,7 @@ export class GenericPortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    this.#names = extractNames(this.types);
+    this.#names = extractNames(registry, this.types);
   }
 
   /**
