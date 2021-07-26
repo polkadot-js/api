@@ -157,7 +157,7 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
 
         return {
           defs: [
-            [`${typeName || typeLookup}`, `${def}${i !== max ? ',' : ''}`]
+            [typeName || typeLookup, `${def}${i !== max ? ',' : ''}`]
           ].map(([n, t]) => `${n}: ${t}`),
           docs
         };

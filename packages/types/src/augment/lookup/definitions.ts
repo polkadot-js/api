@@ -154,7 +154,7 @@ export default {
     /**
      * Lookup55: sp_finality_grandpa::app::Public
      **/
-    SpCoreEd25519Public: '[u8;32]',
+    SpFinalityGrandpaAppPublic: '[u8;32]',
     /**
      * Lookup56: sp_core::ed25519::Public
      **/
@@ -162,7 +162,7 @@ export default {
     /**
      * Lookup61: pallet_im_online::sr25519::app_sr25519::Public
      **/
-    SpCoreSr25519Public: '[u8;32]',
+    PalletImOnlineSr25519AppSr25519Public: '[u8;32]',
     /**
      * Lookup62: sp_core::sr25519::Public
      **/
@@ -270,7 +270,7 @@ export default {
      * Lookup125: sp_consensus_slots::EquivocationProof<sp_runtime::generic::header::Header, sp_consensus_babe::app::Public>
      **/
     SpConsensusSlotsEquivocationProof: {
-      offender: 'SpCoreSr25519Public',
+      offender: 'SpConsensusBabeAppPublic',
       slot: 'u64',
       firstHeader: 'SpRuntimeGenericHeader',
       secondHeader: 'SpRuntimeGenericHeader'
@@ -288,7 +288,7 @@ export default {
     /**
      * Lookup127: sp_consensus_babe::app::Public
      **/
-    SpCoreSr25519Public: '[u8;32]',
+    SpConsensusBabeAppPublic: '[u8;32]',
     /**
      * Lookup129: sp_session::MembershipProof
      **/
@@ -381,15 +381,15 @@ export default {
      * Lookup208: node_runtime::SessionKeys
      **/
     NodeRuntimeSessionKeys: {
-      grandpa: 'SpCoreEd25519Public',
-      babe: 'SpCoreSr25519Public',
-      imOnline: 'SpCoreSr25519Public',
-      authorityDiscovery: 'SpCoreSr25519Public'
+      grandpa: 'SpFinalityGrandpaAppPublic',
+      babe: 'SpConsensusBabeAppPublic',
+      imOnline: 'PalletImOnlineSr25519AppSr25519Public',
+      authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
     },
     /**
      * Lookup209: sp_authority_discovery::app::Public
      **/
-    SpCoreSr25519Public: '[u8;32]',
+    SpAuthorityDiscoveryAppPublic: '[u8;32]',
     /**
      * Lookup211: pallet_democracy::vote::AccountVote<Balance>
      **/
@@ -435,15 +435,15 @@ export default {
       _enum: {
         Prevote: {
           roundNumber: 'u64',
-          identity: 'SpCoreEd25519Public',
-          first: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
-          second: '(FinalityGrandpaPrevote,SpCoreEd25519Signature)',
+          identity: 'SpFinalityGrandpaAppPublic',
+          first: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)',
+          second: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)',
         },
         Precommit: {
           roundNumber: 'u64',
-          identity: 'SpCoreEd25519Public',
-          first: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
-          second: '(FinalityGrandpaPrecommit,SpCoreEd25519Signature)',
+          identity: 'SpFinalityGrandpaAppPublic',
+          first: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)',
+          second: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)',
         },
       }
     },
@@ -457,7 +457,7 @@ export default {
     /**
      * Lookup225: sp_finality_grandpa::app::Signature
      **/
-    SpCoreEd25519Signature: '[u8;64]',
+    SpFinalityGrandpaAppSignature: '[u8;64]',
     /**
      * Lookup226: sp_core::ed25519::Signature
      **/
@@ -489,7 +489,7 @@ export default {
     /**
      * Lookup241: pallet_im_online::sr25519::app_sr25519::Signature
      **/
-    SpCoreSr25519Signature: '[u8;64]',
+    PalletImOnlineSr25519AppSr25519Signature: '[u8;64]',
     /**
      * Lookup242: sp_core::sr25519::Signature
      **/
@@ -876,7 +876,7 @@ export default {
     PalletGrandpaStoredPendingChange: {
       scheduledAt: 'u32',
       delay: 'u32',
-      nextAuthorities: 'Vec<(SpCoreEd25519Public,u64)>',
+      nextAuthorities: 'Vec<(SpFinalityGrandpaAppPublic,u64)>',
       forced: 'Option<u32>'
     },
     /**

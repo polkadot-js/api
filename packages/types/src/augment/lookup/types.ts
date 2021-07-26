@@ -158,16 +158,16 @@ export type PalletCollectiveInstance2 = Null;
 /** @name PalletMembershipInstance1 (51) */
 export type PalletMembershipInstance1 = Null;
 
-/** @name SpCoreEd25519Public (1) */
+/** @name SpFinalityGrandpaAppPublic (55) */
+export interface SpFinalityGrandpaAppPublic extends U8aFixed {}
+
+/** @name SpCoreEd25519Public (56) */
 export interface SpCoreEd25519Public extends U8aFixed {}
 
-/** @name SpCoreEd25519Public (1) */
-export interface SpCoreEd25519Public extends U8aFixed {}
+/** @name PalletImOnlineSr25519AppSr25519Public (61) */
+export interface PalletImOnlineSr25519AppSr25519Public extends U8aFixed {}
 
-/** @name SpCoreSr25519Public (1) */
-export interface SpCoreSr25519Public extends U8aFixed {}
-
-/** @name SpCoreSr25519Public (1) */
+/** @name SpCoreSr25519Public (62) */
 export interface SpCoreSr25519Public extends U8aFixed {}
 
 /** @name PalletStakingExposure (65) */
@@ -290,8 +290,8 @@ export interface SpRuntimeGenericHeader extends Struct {
   } & Struct;
 }
 
-/** @name SpCoreSr25519Public (1) */
-export interface SpCoreSr25519Public extends U8aFixed {}
+/** @name SpConsensusBabeAppPublic (127) */
+export interface SpConsensusBabeAppPublic extends U8aFixed {}
 
 /** @name SpSessionMembershipProof (129) */
 export interface SpSessionMembershipProof extends Struct {
@@ -397,8 +397,8 @@ export interface NodeRuntimeSessionKeys extends Struct {
   readonly authorityDiscovery: U8aFixed;
 }
 
-/** @name SpCoreSr25519Public (1) */
-export interface SpCoreSr25519Public extends U8aFixed {}
+/** @name SpAuthorityDiscoveryAppPublic (209) */
+export interface SpAuthorityDiscoveryAppPublic extends U8aFixed {}
 
 /** @name PalletDemocracyVoteAccountVote (211) */
 export interface PalletDemocracyVoteAccountVote extends Enum {
@@ -444,16 +444,16 @@ export interface SpFinalityGrandpaEquivocation extends Enum {
   readonly isPrevote: boolean;
   readonly asPrevote: {
     readonly roundNumber: u64;
-    readonly identity: SpCoreEd25519Public;
-    readonly first: ITuple<[FinalityGrandpaPrevote, SpCoreEd25519Signature]>;
-    readonly second: ITuple<[FinalityGrandpaPrevote, SpCoreEd25519Signature]>;
+    readonly identity: SpFinalityGrandpaAppPublic;
+    readonly first: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
+    readonly second: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
   } & Struct;
   readonly isPrecommit: boolean;
   readonly asPrecommit: {
     readonly roundNumber: u64;
-    readonly identity: SpCoreEd25519Public;
-    readonly first: ITuple<[FinalityGrandpaPrecommit, SpCoreEd25519Signature]>;
-    readonly second: ITuple<[FinalityGrandpaPrecommit, SpCoreEd25519Signature]>;
+    readonly identity: SpFinalityGrandpaAppPublic;
+    readonly first: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
+    readonly second: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
   } & Struct;
 }
 
@@ -463,10 +463,10 @@ export interface FinalityGrandpaPrevote extends Struct {
   readonly targetNumber: u32;
 }
 
-/** @name SpCoreEd25519Signature (227) */
-export interface SpCoreEd25519Signature extends U8aFixed {}
+/** @name SpFinalityGrandpaAppSignature (225) */
+export interface SpFinalityGrandpaAppSignature extends U8aFixed {}
 
-/** @name SpCoreEd25519Signature (227) */
+/** @name SpCoreEd25519Signature (226) */
 export interface SpCoreEd25519Signature extends U8aFixed {}
 
 /** @name FinalityGrandpaPrecommit (230) */
@@ -493,10 +493,10 @@ export interface SpCoreOffchainOpaqueNetworkState extends Struct {
   readonly externalAddresses: Vec<Bytes>;
 }
 
-/** @name SpCoreSr25519Signature (227) */
-export interface SpCoreSr25519Signature extends U8aFixed {}
+/** @name PalletImOnlineSr25519AppSr25519Signature (241) */
+export interface PalletImOnlineSr25519AppSr25519Signature extends U8aFixed {}
 
-/** @name SpCoreSr25519Signature (227) */
+/** @name SpCoreSr25519Signature (242) */
 export interface SpCoreSr25519Signature extends U8aFixed {}
 
 /** @name PalletIdentityTypesIdentityInfo (244) */
@@ -705,7 +705,7 @@ export interface PalletAuthorshipUncleEntryItem extends Enum {
   readonly asUncle: ITuple<[H256, Option<AccountId32>]>;
 }
 
-/** @name FrameSupportStorageWeakBoundedVec (321) */
+/** @name FrameSupportStorageWeakBoundedVec (318) */
 export interface FrameSupportStorageWeakBoundedVec extends Vec<PalletBalancesBalanceLock> {}
 
 /** @name PalletBalancesBalanceLock (319) */
@@ -770,7 +770,7 @@ export interface PalletElectionProviderMultiPhaseRoundSnapshot extends Struct {
   readonly targets: Vec<AccountId32>;
 }
 
-/** @name FrameSupportStorageBoundedBTreeMap (338) */
+/** @name FrameSupportStorageBoundedBTreeMap (337) */
 export interface FrameSupportStorageBoundedBTreeMap extends BTreeMap<Vec<u128>, u32> {}
 
 /** @name PalletElectionProviderMultiPhaseSignedSignedSubmission (341) */
@@ -860,7 +860,7 @@ export interface PalletStakingReleases extends Enum {
   readonly isV700: boolean;
 }
 
-/** @name SpCoreCryptoKeyTypeId (14) */
+/** @name SpCoreCryptoKeyTypeId (363) */
 export interface SpCoreCryptoKeyTypeId extends U8aFixed {}
 
 /** @name PalletDemocracyPreimageStatus (368) */
@@ -983,7 +983,7 @@ export interface PalletGrandpaStoredState extends Enum {
 export interface PalletGrandpaStoredPendingChange extends Struct {
   readonly scheduledAt: u32;
   readonly delay: u32;
-  readonly nextAuthorities: Vec<ITuple<[SpCoreEd25519Public, u64]>>;
+  readonly nextAuthorities: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>;
   readonly forced: Option<u32>;
 }
 
@@ -995,7 +995,7 @@ export interface PalletTreasuryProposal extends Struct {
   readonly bond: u128;
 }
 
-/** @name FrameSupportPalletId (119) */
+/** @name FrameSupportPalletId (397) */
 export interface FrameSupportPalletId extends U8aFixed {}
 
 /** @name PalletContractsWasmPrefabWasmModule (399) */
@@ -1610,13 +1610,13 @@ export type FrameSystemExtensionsCheckTxVersion = Null;
 /** @name FrameSystemExtensionsCheckGenesis (496) */
 export type FrameSystemExtensionsCheckGenesis = Null;
 
-/** @name FrameSystemExtensionsCheckNonce (101) */
+/** @name FrameSystemExtensionsCheckNonce (499) */
 export interface FrameSystemExtensionsCheckNonce extends Compact<u32> {}
 
 /** @name FrameSystemExtensionsCheckWeight (500) */
 export type FrameSystemExtensionsCheckWeight = Null;
 
-/** @name PalletTransactionPaymentChargeTransactionPayment (66) */
+/** @name PalletTransactionPaymentChargeTransactionPayment (501) */
 export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
 export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';

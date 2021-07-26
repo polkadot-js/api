@@ -472,7 +472,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * New authority set has been applied. \[authority_set\]
        **/
-      NewAuthorities: AugmentedEvent<ApiType, [Vec<ITuple<[SpCoreEd25519Public, u64]>>]>;
+      NewAuthorities: AugmentedEvent<ApiType, [Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>]>;
       /**
        * Current authority set has been paused.
        **/

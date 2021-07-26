@@ -56,7 +56,7 @@ declare module '@polkadot/api/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     babe: {
-      authorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpCoreSr25519Public, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      authorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
       authorVrfRandomness: AugmentedQuery<ApiType, () => Observable<Option<U8aFixed>>, []> & QueryableStorageEntry<ApiType, []>;
       currentSlot: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       epochConfig: AugmentedQuery<ApiType, () => Observable<{
@@ -68,7 +68,7 @@ declare module '@polkadot/api/types/storage' {
       genesisSlot: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       initialized: AugmentedQuery<ApiType, () => Observable<Option<U8aFixed>>, []> & QueryableStorageEntry<ApiType, []>;
       lateness: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      nextAuthorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpCoreSr25519Public, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      nextAuthorities: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>>, []> & QueryableStorageEntry<ApiType, []>;
       nextEpochConfig: AugmentedQuery<ApiType, () => Observable<{
     readonly c: ITuple<[u64, u64]>;
     readonly allowedSlots: SpConsensusBabeAllowedSlots;
@@ -244,7 +244,7 @@ declare module '@polkadot/api/types/storage' {
       pendingChange: AugmentedQuery<ApiType, () => Observable<{
     readonly scheduledAt: u32;
     readonly delay: u32;
-    readonly nextAuthorities: Vec<ITuple<[SpCoreEd25519Public, u64]>>;
+    readonly nextAuthorities: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>;
     readonly forced: Option<u32>;
   } & Struct>, []> & QueryableStorageEntry<ApiType, []>;
       setIdSession: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<u32>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
@@ -272,7 +272,7 @@ declare module '@polkadot/api/types/storage' {
     imOnline: {
       authoredBlocks: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<u32>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       heartbeatAfter: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      keys: AugmentedQuery<ApiType, () => Observable<Vec<SpCoreSr25519Public>>, []> & QueryableStorageEntry<ApiType, []>;
+      keys: AugmentedQuery<ApiType, () => Observable<Vec<PalletImOnlineSr25519AppSr25519Public>>, []> & QueryableStorageEntry<ApiType, []>;
       receivedHeartbeats: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
        * Generic query
@@ -385,10 +385,10 @@ declare module '@polkadot/api/types/storage' {
       disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       keyOwner: AugmentedQuery<ApiType, (arg: ITuple<[SpCoreCryptoKeyTypeId, Bytes]> | [SpCoreCryptoKeyTypeId | string | Uint8Array, Bytes | string | Uint8Array]) => Observable<AccountId32>, [ITuple<[SpCoreCryptoKeyTypeId, Bytes]>]> & QueryableStorageEntry<ApiType, [ITuple<[SpCoreCryptoKeyTypeId, Bytes]>]>;
       nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<{
-    readonly grandpa: SpCoreEd25519Public;
-    readonly babe: SpCoreSr25519Public;
-    readonly imOnline: SpCoreSr25519Public;
-    readonly authorityDiscovery: SpCoreSr25519Public;
+    readonly grandpa: SpFinalityGrandpaAppPublic;
+    readonly babe: SpConsensusBabeAppPublic;
+    readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
+    readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   } & Struct>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       queuedChanged: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, NodeRuntimeSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;

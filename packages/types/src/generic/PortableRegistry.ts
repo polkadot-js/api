@@ -305,7 +305,17 @@ export class GenericPortableRegistry extends Struct {
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
-      return this.#createSiDef(fields[0].type);
+      return {
+        ...this.#createSiDef(fields[0].type),
+        ...(
+          lookupIndex === -1
+            ? {}
+            : {
+              lookupIndex,
+              lookupName: this.#names[lookupIndex]
+            }
+        )
+      };
     }
 
     const [sub, alias] = this.#extractFieldsAlias(fields);
