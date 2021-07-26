@@ -66,59 +66,61 @@ function isPrimitivePath (path: SiPath): boolean {
 
 function removeDuplicateNames (names: (string | null)[]): (string | null)[] {
   return names.map((name, index): string | null =>
-    !name || names.some((o, i) => index !== i && name === o)
+    !name || WRAPPERS.includes(name) || names.some((o, i) => index !== i && name === o)
       ? null
       : name
   );
 }
 
+function extractName (types: PortableType[], { def, params, path }: SiType): string | null {
+  if (def.isCompact) {
+    // Do magic for compact naming
+    const instanceType = types[def.asCompact.type.toNumber()];
+
+    if (instanceType.type.def.isPrimitive) {
+      return `Compact${instanceType.type.def.asPrimitive.toString()}`;
+    }
+  }
+
+  if (!path.length) {
+    return null;
+  }
+
+  const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
+
+  // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+  // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+  if (parts.length >= 2 && parts[parts.length - 1].toLowerCase() === parts[parts.length - 2].toLowerCase()) {
+    parts[parts.length - 2] = parts[parts.length - 1];
+    parts.pop();
+  }
+
+  let typeName = parts.join('');
+
+  if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
+    // Do magic for RawOrigin lookup
+    const instanceType = types[params[1].type.unwrap().toNumber()];
+
+    if (instanceType.type.path.length === 2) {
+      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
+    }
+  } else if (params.length === 1 && params[0].type.isSome) {
+    // Do magic for single params primitive lookup
+    const instanceType = types[params[0].type.unwrap().toNumber()];
+
+    if (instanceType.type.def.isPrimitive) {
+      typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
+    }
+  }
+
+  return typeName;
+}
+
 function extractNames (types: PortableType[]): Record<number, string> {
   return removeDuplicateNames(
-    types.map(({ type: { def, params, path } }): string | null => {
-      if (def.isCompact) {
-        // Do magic for compact naming
-        const instanceType = types[def.asCompact.type.toNumber()];
-
-        if (instanceType.type.def.isPrimitive) {
-          return `Compact${instanceType.type.def.asPrimitive.toString()}`;
-        }
-      }
-
-      if (!path.length) {
-        return null;
-      }
-
-      const parts = path.map((p) => stringUpperFirst(stringCamelCase(p)));
-
-      // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-      // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-      if (parts.length >= 2 && parts[parts.length - 1].toLowerCase() === parts[parts.length - 2].toLowerCase()) {
-        parts[parts.length - 2] = parts[parts.length - 1];
-        parts.pop();
-      }
-
-      let typeName = parts.join('');
-
-      if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
-        // Do magic for RawOrigin lookup
-        const instanceType = types[params[1].type.unwrap().toNumber()];
-
-        if (instanceType.type.path.length === 2) {
-          typeName = `${typeName}${instanceType.type.path[1].toString()}`;
-        }
-      } else if (params.length === 1 && params[0].type.isSome) {
-        // Do magic for single params primitive lookup
-        const instanceType = types[params[0].type.unwrap().toNumber()];
-
-        if (instanceType.type.def.isPrimitive) {
-          typeName = `${typeName}${instanceType.type.def.asPrimitive.toString()}`;
-        }
-      }
-
-      return WRAPPERS.includes(typeName)
-        ? null
-        : typeName;
-    })
+    types.map(({ type }) =>
+      extractName(types, type)
+    )
   ).reduce<Record<number, string>>((all, name, index) => {
     if (name) {
       all[index] = name;
