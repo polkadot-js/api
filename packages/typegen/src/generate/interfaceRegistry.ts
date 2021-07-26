@@ -62,18 +62,16 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
       });
     });
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      }))
-    ];
-
     return generateInterfaceTypesTemplate({
       headerType: 'defs',
       imports,
       items: items.sort((a, b) => a.localeCompare(b)),
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        }))
+      ]
     });
   });
 }

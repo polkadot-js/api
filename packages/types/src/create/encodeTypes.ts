@@ -78,7 +78,7 @@ function encodeStruct (registry: Registry, typeDef: TypeDef): string {
   return encodeSubTypes(registry, typeDef.sub, false, {
     ...(
       typeDef.alias
-        ? { alias: [...typeDef.alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
+        ? { _alias: [...typeDef.alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
           ...all,
           [k]: v
         }), {}) }
@@ -153,12 +153,14 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     encodeVecFixed(registry, typeDef)
 };
 
-function encodeType (registry: Registry, typeDef: TypeDef): string {
+function encodeType (registry: Registry, typeDef: TypeDef, withLookup = true): string {
   const encoder = encoders[typeDef.info];
 
   assert(encoder, () => `Cannot encode type ${stringify(typeDef)}`);
 
-  return typeDef.lookupName || encoder(registry, typeDef);
+  return withLookup && typeDef.lookupName
+    ? typeDef.lookupName
+    : encoder(registry, typeDef);
 }
 
 export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
@@ -175,13 +177,8 @@ export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
 }
 
 export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
-  const partial = { ...typeDef } as TypeDef;
-
-  // for the outer-most type, we ignore the lookupName
-  delete partial.lookupName;
-
   return {
     ...typeDef,
-    type: encodeType(registry, partial)
+    type: encodeType(registry, typeDef as TypeDef, false)
   };
 }
