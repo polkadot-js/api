@@ -154,7 +154,7 @@ export default {
     /**
      * Lookup55: sp_finality_grandpa::app::Public
      **/
-    SpFinalityGrandpaAppPublic: '[u8;32]',
+    SpFinalityGrandpaAppPublic: 'SpCoreEd25519Public',
     /**
      * Lookup56: sp_core::ed25519::Public
      **/
@@ -162,7 +162,7 @@ export default {
     /**
      * Lookup61: pallet_im_online::sr25519::app_sr25519::Public
      **/
-    PalletImOnlineSr25519AppSr25519Public: '[u8;32]',
+    PalletImOnlineSr25519AppSr25519Public: 'SpCoreSr25519Public',
     /**
      * Lookup62: sp_core::sr25519::Public
      **/
@@ -288,7 +288,7 @@ export default {
     /**
      * Lookup127: sp_consensus_babe::app::Public
      **/
-    SpConsensusBabeAppPublic: '[u8;32]',
+    SpConsensusBabeAppPublic: 'SpCoreSr25519Public',
     /**
      * Lookup129: sp_session::MembershipProof
      **/
@@ -389,7 +389,7 @@ export default {
     /**
      * Lookup209: sp_authority_discovery::app::Public
      **/
-    SpAuthorityDiscoveryAppPublic: '[u8;32]',
+    SpAuthorityDiscoveryAppPublic: 'SpCoreSr25519Public',
     /**
      * Lookup211: pallet_democracy::vote::AccountVote<Balance>
      **/
@@ -457,7 +457,7 @@ export default {
     /**
      * Lookup225: sp_finality_grandpa::app::Signature
      **/
-    SpFinalityGrandpaAppSignature: '[u8;64]',
+    SpFinalityGrandpaAppSignature: 'SpCoreEd25519Signature',
     /**
      * Lookup226: sp_core::ed25519::Signature
      **/
@@ -489,7 +489,7 @@ export default {
     /**
      * Lookup241: pallet_im_online::sr25519::app_sr25519::Signature
      **/
-    PalletImOnlineSr25519AppSr25519Signature: '[u8;64]',
+    PalletImOnlineSr25519AppSr25519Signature: 'SpCoreSr25519Signature',
     /**
      * Lookup242: sp_core::sr25519::Signature
      **/

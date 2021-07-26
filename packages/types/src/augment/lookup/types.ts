@@ -159,13 +159,13 @@ export type PalletCollectiveInstance2 = Null;
 export type PalletMembershipInstance1 = Null;
 
 /** @name SpFinalityGrandpaAppPublic (55) */
-export interface SpFinalityGrandpaAppPublic extends U8aFixed {}
+export interface SpFinalityGrandpaAppPublic extends SpCoreEd25519Public {}
 
 /** @name SpCoreEd25519Public (56) */
 export interface SpCoreEd25519Public extends U8aFixed {}
 
 /** @name PalletImOnlineSr25519AppSr25519Public (61) */
-export interface PalletImOnlineSr25519AppSr25519Public extends U8aFixed {}
+export interface PalletImOnlineSr25519AppSr25519Public extends SpCoreSr25519Public {}
 
 /** @name SpCoreSr25519Public (62) */
 export interface SpCoreSr25519Public extends U8aFixed {}
@@ -291,7 +291,7 @@ export interface SpRuntimeGenericHeader extends Struct {
 }
 
 /** @name SpConsensusBabeAppPublic (127) */
-export interface SpConsensusBabeAppPublic extends U8aFixed {}
+export interface SpConsensusBabeAppPublic extends SpCoreSr25519Public {}
 
 /** @name SpSessionMembershipProof (129) */
 export interface SpSessionMembershipProof extends Struct {
@@ -398,7 +398,7 @@ export interface NodeRuntimeSessionKeys extends Struct {
 }
 
 /** @name SpAuthorityDiscoveryAppPublic (209) */
-export interface SpAuthorityDiscoveryAppPublic extends U8aFixed {}
+export interface SpAuthorityDiscoveryAppPublic extends SpCoreSr25519Public {}
 
 /** @name PalletDemocracyVoteAccountVote (211) */
 export interface PalletDemocracyVoteAccountVote extends Enum {
@@ -464,7 +464,7 @@ export interface FinalityGrandpaPrevote extends Struct {
 }
 
 /** @name SpFinalityGrandpaAppSignature (225) */
-export interface SpFinalityGrandpaAppSignature extends U8aFixed {}
+export interface SpFinalityGrandpaAppSignature extends SpCoreEd25519Signature {}
 
 /** @name SpCoreEd25519Signature (226) */
 export interface SpCoreEd25519Signature extends U8aFixed {}
@@ -494,7 +494,7 @@ export interface SpCoreOffchainOpaqueNetworkState extends Struct {
 }
 
 /** @name PalletImOnlineSr25519AppSr25519Signature (241) */
-export interface PalletImOnlineSr25519AppSr25519Signature extends U8aFixed {}
+export interface PalletImOnlineSr25519AppSr25519Signature extends SpCoreSr25519Signature {}
 
 /** @name SpCoreSr25519Signature (242) */
 export interface SpCoreSr25519Signature extends U8aFixed {}

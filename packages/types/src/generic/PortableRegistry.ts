@@ -305,14 +305,17 @@ export class GenericPortableRegistry extends Struct {
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
+      const typeDef = this.#createSiDef(fields[0].type);
+
       return {
-        ...this.#createSiDef(fields[0].type),
+        ...typeDef,
         ...(
           lookupIndex === -1
             ? {}
             : {
               lookupIndex,
-              lookupName: this.#names[lookupIndex]
+              lookupName: this.#names[lookupIndex],
+              lookupNameRoot: typeDef.lookupName
             }
         )
       };
@@ -325,17 +328,17 @@ export class GenericPortableRegistry extends Struct {
         ? TypeDefInfo.Tuple
         : TypeDefInfo.Struct,
       ...(
+        alias.size
+          ? { alias }
+          : {}
+      ),
+      ...(
         lookupIndex === -1
           ? {}
           : {
             lookupIndex,
             lookupName: this.#names[lookupIndex]
           }
-      ),
-      ...(
-        alias.size
-          ? { alias }
-          : {}
       ),
       sub
     });
