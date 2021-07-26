@@ -165,7 +165,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.#registry.createType(type, ...params);
   }
 
@@ -557,7 +556,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: Arg[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
-    const outputType = unwrapStorageType(this.registry, decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
+    const outputType = unwrapStorageType(this.#registry, decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
