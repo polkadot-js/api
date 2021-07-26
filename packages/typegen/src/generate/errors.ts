@@ -31,19 +31,17 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
       }))
       .sort(compareName);
 
-    const types = [
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
-
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }
