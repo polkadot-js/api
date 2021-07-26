@@ -6,7 +6,6 @@
 
 import type { Definitions } from '../../types';
 
-import { SiVariant } from '../scaleInfo/definitions';
 import { AllHashers } from './hashers';
 import { v9 } from './v9';
 import { v10 } from './v10';
@@ -27,23 +26,12 @@ export default {
     ...v13,
     ...v14,
 
-    // compatibility with earlier layouts, i.e. don't break previous users
-    ErrorMetadataLatest: {
-      ...SiVariant,
-      args: 'Vec<Type>'
-    },
-    EventMetadataLatest: {
-      ...SiVariant,
-      args: 'Vec<Type>'
-    },
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV13',
-    FunctionMetadataLatest: {
-      ...SiVariant,
-      args: 'Vec<FunctionArgumentMetadataLatest>'
-    },
-
     // latest mappings
+    ErrorMetadataLatest: 'ErrorMetadataV14',
+    EventMetadataLatest: 'EventMetadataV14',
     ExtrinsicMetadataLatest: 'ExtrinsicMetadataV14',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV14',
+    FunctionMetadataLatest: 'FunctionMetadataV14',
     MetadataLatest: 'MetadataV14',
     PalletCallMetadataLatest: 'PalletCallMetadataV14',
     PalletConstantMetadataLatest: 'PalletConstantMetadataV14',

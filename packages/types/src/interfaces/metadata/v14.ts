@@ -6,12 +6,29 @@
 
 import type { DefinitionsTypes } from '../../types';
 
+import { SiVariant } from '../scaleInfo/definitions';
+
 export const v14: DefinitionsTypes = {
   // registry
   PortableRegistry: 'GenericPortableRegistry',
   PortableType: {
     id: 'SiLookupTypeId',
     type: 'SiType'
+  },
+
+  // compatibility with earlier layouts, i.e. don't break previous users
+  ErrorMetadataV14: {
+    ...SiVariant,
+    args: 'Vec<Type>'
+  },
+  EventMetadataV14: {
+    ...SiVariant,
+    args: 'Vec<Type>'
+  },
+  FunctionArgumentMetadataV14: 'FunctionArgumentMetadataV13',
+  FunctionMetadataV14: {
+    ...SiVariant,
+    args: 'Vec<FunctionArgumentMetadataLatest>'
   },
 
   // V14

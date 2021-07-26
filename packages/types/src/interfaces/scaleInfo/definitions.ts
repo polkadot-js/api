@@ -76,11 +76,6 @@ export default {
       name: 'Text',
       type: 'Option<SiLookupTypeId>'
     },
-    SiVariant: {
-      name: 'Text',
-      fields: 'Vec<SiField>',
-      index: 'u8',
-      docs: 'Vec<Text>'
-    }
+    SiVariant
   }
 } as Definitions;
