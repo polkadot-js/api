@@ -57,7 +57,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     const isComplex = [TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
-      : createGetter(definitions, `as${getter}`, isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : (lookupName || type), imports, false) : (lookupName || type), imports);
+      : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);
     const isGetter = info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
@@ -106,7 +106,7 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
   const { info, lookupName, type } = def;
   const asGetter = type === 'Null'
     ? ''
-    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(registry, definitions, def, imports, false) : (lookupName || type), imports);
+    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, lookupName || (info === TypeDefInfo.Tuple ? formatType(registry, definitions, def, imports, false) : type), imports);
   const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
@@ -137,7 +137,7 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 
   setImports(definitions, imports, [def.type]);
 
-  return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false), inner);
+  return exportInterface(def.lookupIndex, def.name, def.lookupName || formatType(registry, definitions, def, imports, false), inner);
 }
 
 /** @internal */
@@ -164,10 +164,10 @@ function tsSet (_: Registry, definitions: Record<string, ModuleTypes>, { lookupI
 function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: structName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Struct']);
 
-  const keys = (sub as TypeDef[]).map((typedef): string => {
-    const returnType = formatType(registry, definitions, typedef, imports, false);
+  const keys = (sub as TypeDef[]).map((def): string => {
+    const returnType = def.lookupName || formatType(registry, definitions, def, imports, false);
 
-    return createGetter(definitions, typedef.name, returnType, imports);
+    return createGetter(definitions, def.name, returnType, imports);
   });
 
   return exportInterface(lookupIndex, structName, 'Struct', keys.join(''));
@@ -194,7 +194,7 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
     }
   }
 
-  return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false));
+  return exportInterface(def.lookupIndex, def.name, def.lookupName || formatType(registry, definitions, def, imports, false));
 }
 
 // handlers are defined externally to use - this means that when we do a

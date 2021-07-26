@@ -123,8 +123,8 @@ export interface SpRuntimeArithmeticError extends Enum {
   readonly isDivisionByZero: boolean;
 }
 
-/** @name FrameSupportTraitsTokensMiscBalanceStatus (31) */
-export interface FrameSupportTraitsTokensMiscBalanceStatus extends Enum {
+/** @name FrameSupportTokensMiscBalanceStatus (31) */
+export interface FrameSupportTokensMiscBalanceStatus extends Enum {
   readonly isFree: boolean;
   readonly isReserved: boolean;
 }
@@ -256,7 +256,7 @@ export interface SpVersionRuntimeVersion extends Struct {
 
 /** @name SpConsensusSlotsEquivocationProof (125) */
 export interface SpConsensusSlotsEquivocationProof extends Struct {
-  readonly offender: U8aFixed;
+  readonly offender: SpConsensusBabeAppPublic;
   readonly slot: u64;
   readonly firstHeader: SpRuntimeGenericHeader;
   readonly secondHeader: SpRuntimeGenericHeader;
@@ -355,10 +355,10 @@ export interface PalletStakingValidatorPrefs extends Struct {
 
 /** @name NodeRuntimeSessionKeys (208) */
 export interface NodeRuntimeSessionKeys extends Struct {
-  readonly grandpa: U8aFixed;
-  readonly babe: U8aFixed;
-  readonly imOnline: U8aFixed;
-  readonly authorityDiscovery: U8aFixed;
+  readonly grandpa: SpFinalityGrandpaAppPublic;
+  readonly babe: SpConsensusBabeAppPublic;
+  readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
+  readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
 }
 
 /** @name SpAuthorityDiscoveryAppPublic (209) */
@@ -666,9 +666,6 @@ export interface PalletAuthorshipUncleEntryItem extends Enum {
   readonly asUncle: ITuple<[H256, Option<AccountId32>]>;
 }
 
-/** @name FrameSupportStorageWeakBoundedVec (318) */
-export interface FrameSupportStorageWeakBoundedVec extends Vec<PalletBalancesBalanceLock> {}
-
 /** @name PalletBalancesBalanceLock (319) */
 export interface PalletBalancesBalanceLock extends Struct {
   readonly id: U8aFixed;
@@ -730,9 +727,6 @@ export interface PalletElectionProviderMultiPhaseRoundSnapshot extends Struct {
   readonly voters: Vec<ITuple<[AccountId32, u64, Vec<AccountId32>]>>;
   readonly targets: Vec<AccountId32>;
 }
-
-/** @name FrameSupportStorageBoundedBTreeMap (337) */
-export interface FrameSupportStorageBoundedBTreeMap extends BTreeMap<Vec<u128>, u32> {}
 
 /** @name PalletElectionProviderMultiPhaseSignedSignedSubmission (341) */
 export interface PalletElectionProviderMultiPhaseSignedSignedSubmission extends Struct {
@@ -983,8 +977,8 @@ export interface PalletContractsStorageRawAliveContractInfo extends Struct {
   readonly reserved: Option<Null>;
 }
 
-/** @name SpRuntimeTraitsBlakeTwo256 (404) */
-export type SpRuntimeTraitsBlakeTwo256 = Null;
+/** @name SpRuntimeBlakeTwo256 (404) */
+export type SpRuntimeBlakeTwo256 = Null;
 
 /** @name PalletContractsStorageDeletedContract (406) */
 export interface PalletContractsStorageDeletedContract extends Struct {

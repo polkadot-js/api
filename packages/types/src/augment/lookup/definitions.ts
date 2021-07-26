@@ -124,7 +124,7 @@ export default {
     /**
      * Lookup31: frame_support::traits::tokens::misc::BalanceStatus
      **/
-    FrameSupportTraitsTokensMiscBalanceStatus: {
+    FrameSupportTokensMiscBalanceStatus: {
       _enum: ['Free', 'Reserved']
     },
     /**
@@ -582,10 +582,6 @@ export default {
       }
     },
     /**
-     * Lookup318: frame_support::storage::weak_bounded_vec::WeakBoundedVec<pallet_balances::BalanceLock<Balance>, S>
-     **/
-    FrameSupportStorageWeakBoundedVec: 'Vec<PalletBalancesBalanceLock>',
-    /**
      * Lookup319: pallet_balances::BalanceLock<Balance>
      **/
     PalletBalancesBalanceLock: {
@@ -653,10 +649,6 @@ export default {
       voters: 'Vec<(AccountId32,u64,Vec<AccountId32>)>',
       targets: 'Vec<AccountId32>'
     },
-    /**
-     * Lookup337: frame_support::storage::bounded_btree_map::BoundedBTreeMap<K, V, S>
-     **/
-    FrameSupportStorageBoundedBTreeMap: 'BTreeMap<[u128;3], u32>',
     /**
      * Lookup341: pallet_election_provider_multi_phase::signed::SignedSubmission<sp_core::crypto::AccountId32, Balance, node_runtime::NposCompactSolution16>
      **/
@@ -930,7 +922,7 @@ export default {
     /**
      * Lookup404: sp_runtime::traits::BlakeTwo256
      **/
-    SpRuntimeTraitsBlakeTwo256: 'Null',
+    SpRuntimeBlakeTwo256: 'Null',
     /**
      * Lookup406: pallet_contracts::storage::DeletedContract
      **/

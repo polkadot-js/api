@@ -77,7 +77,7 @@ function expandType (encoded: string): string[] {
   return expandObject(JSON.parse(encoded) as Record<string, string | Record<string, string>>);
 }
 
-function expandTypeToString ({ lookupNameRoot, type }: TypeDef): string {
+function expandDefToString ({ lookupNameRoot, type }: TypeDef): string {
   if (lookupNameRoot) {
     return `'${lookupNameRoot}'`;
   }
@@ -141,7 +141,7 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
-      const def = expandTypeToString(typeDef);
+      const def = expandDefToString(typeDef);
 
       return {
         docs: [
@@ -173,15 +173,16 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
 function generateLookupTypes (meta: Metadata, destDir: string): void {
   const { lookup, registry } = meta.asLatest;
   const imports = {
-    ...createImports({
-      '@polkadot/types/interfaces': defaultDefinitions
-    }, { types: {} }),
+    ...createImports(
+      { '@polkadot/types/interfaces': defaultDefinitions },
+      { types: {} }
+    ),
     interfaces: []
   };
   const items = getFilteredTypes(lookup).map(({ id }) => {
     const typeDef = lookup.getTypeDef(id);
 
-    typeDef.name = typeDef.lookupName || registry.createLookupType(id);
+    typeDef.name = typeDef.lookupName;
 
     return typeDef.lookupNameRoot && typeDef.lookupName
       ? exportType(typeDef.lookupIndex, typeDef.lookupName, typeDef.lookupNameRoot)

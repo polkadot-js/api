@@ -38,7 +38,7 @@ const PRIMITIVE_SP = [
 ];
 
 // These we never use these as top-level names, they are wrappers
-const WRAPPERS = ['Box', 'BTreeMap', 'Cow', 'Result', 'Option'];
+const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
 
 // These are reserved and conflicts with built-in Codec definitions
 const RESERVED = ['entries', 'hash', 'keys', 'size'];
@@ -69,7 +69,6 @@ function removeDuplicateNames (names: [number, (string | null)][]): [number, (st
     lookupIndex,
     (
       !name ||
-      WRAPPERS.includes(name) ||
       names.some(([oIndex, oName]) =>
         name === oName &&
         lookupIndex !== oIndex
@@ -83,13 +82,13 @@ function removeDuplicateNames (names: [number, (string | null)][]): [number, (st
 function extractName (types: PortableType[], id: SiLookupTypeId, { params, path }: SiType): [number, string | null] {
   const lookupIndex = id.toNumber();
 
-  if (!path.length) {
+  if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
     return [lookupIndex, null];
   }
 
   const parts = path
     .map((p) => stringUpperFirst(stringCamelCase(p)))
-    .filter((p, index) => index !== 1 || !['Pallet', 'Types'].includes(p.toString()));
+    .filter((p, index) => index !== 1 || !['Pallet', 'Traits', 'Types'].includes(p.toString()));
 
   // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
   // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
