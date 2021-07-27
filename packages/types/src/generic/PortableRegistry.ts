@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
@@ -30,14 +30,15 @@ const PRIMITIVE_SP: (string | [string, string])[] = [
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
   'pallet_identity::types::IdentityFields',
-  // FIXME Convert to Set extraction
-  ['pallet_identity::types::BitFlags', 'IdentityFields'],
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress'
 ];
+
+// Mappings for types that should be converted to set via BitVec
+const SETS = ['pallet_identity::types::BitFlags'];
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
@@ -305,7 +306,27 @@ export class GenericPortableRegistry extends Struct {
       });
     }
 
-    return this.#extractFields(lookupIndex, fields);
+    const namespace = path.join('::');
+
+    return SETS.includes(namespace)
+      ? this.#extractCompositeSet(lookupIndex, params, fields)
+      : this.#extractFields(lookupIndex, fields);
+  }
+
+  #extractCompositeSet (lookupIndex: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
+    assert(params.length === 1 && fields.length === 1, `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
+
+    return withTypeString(this.registry, {
+      info: TypeDefInfo.Set,
+      length: this.registry.createType(this.registry.createLookupType(fields[0].type) as 'u32').bitLength(),
+      sub: this.getSiType(params[0].type.unwrap()).def.asVariant.variants.map(({ index, name }): TypeDef => ({
+        // This will be an issue > 2^53 - 1 ... don't have those (yet)
+        index: index.toNumber(),
+        info: TypeDefInfo.Plain,
+        name: name.toString(),
+        type: 'u32'
+      }))
+    });
   }
 
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
@@ -315,7 +336,7 @@ export class GenericPortableRegistry extends Struct {
     ]),
     [true, true]);
 
-    assert(isTuple || isStruct, 'PortableRegistry: Invalid fields type detected, expected either Tuple or Struct');
+    assert(isTuple || isStruct, `PortableRegistry: ${lookupIndex}: Invalid fields type detected, expected either Tuple or Struct`);
 
     if (fields.length === 0) {
       return {

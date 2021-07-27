@@ -509,6 +509,20 @@ export default {
       twitter: 'Data'
     },
     /**
+     * Lookup280: pallet_identity::types::BitFlags<pallet_identity::types::IdentityField>
+     **/
+    PalletIdentityBitFlags: {
+      _bitLength: 64,
+      Display: 1,
+      Legal: 2,
+      Web: 4,
+      Riot: 8,
+      Email: 16,
+      PgpFingerprint: 32,
+      Image: 64,
+      Twitter: 128
+    },
+    /**
      * Lookup281: pallet_identity::types::IdentityField
      **/
     PalletIdentityIdentityField: {
@@ -1091,7 +1105,7 @@ export default {
     PalletIdentityRegistrarInfo: {
       account: 'AccountId32',
       fee: 'u128',
-      fields: 'IdentityFields'
+      fields: 'PalletIdentityBitFlags'
     },
     /**
      * Lookup428: pallet_society::Bid<sp_core::crypto::AccountId32, Balance>

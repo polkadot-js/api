@@ -72,6 +72,17 @@ function encodeEnum (registry: Registry, typeDef: TypeDef): string {
     : encodeSubTypes(registry, sub, true);
 }
 
+function encodeSet (registry: Registry, typeDef: TypeDef): string {
+  assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Set type');
+
+  return stringify({
+    _set: typeDef.sub.reduce((all, { index, name }, count): Record<string, number> => ({
+      ...all,
+      [`${name || `Unknown${index || count}`}`]: index || count
+    }), { _bitLength: typeDef.length || 8 } as Record<string, number>)
+  });
+}
+
 function encodeStruct (registry: Registry, typeDef: TypeDef): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
 
@@ -137,7 +148,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     encodeWithParams(registry, typeDef, 'Result'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef) =>
-    typeDef.type,
+    encodeSet(registry, typeDef),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef) =>
     typeDef.lookupName || typeDef.type,

@@ -1,10 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Set, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Vote } from '@polkadot/types/interfaces/elections';
-import type { IdentityFields } from '@polkadot/types/interfaces/identity';
 import type { AccountId32, Call, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
 
@@ -471,6 +470,18 @@ export interface PalletIdentityIdentityInfo extends Struct {
   readonly pgpFingerprint: Option<U8aFixed>;
   readonly image: Data;
   readonly twitter: Data;
+}
+
+/** @name PalletIdentityBitFlags (280) */
+export interface PalletIdentityBitFlags extends Set {
+  readonly isDisplay: boolean;
+  readonly isLegal: boolean;
+  readonly isWeb: boolean;
+  readonly isRiot: boolean;
+  readonly isEmail: boolean;
+  readonly isPgpFingerprint: boolean;
+  readonly isImage: boolean;
+  readonly isTwitter: boolean;
 }
 
 /** @name PalletIdentityIdentityField (281) */
@@ -1133,7 +1144,7 @@ export interface PalletIdentityRegistration extends Struct {
 export interface PalletIdentityRegistrarInfo extends Struct {
   readonly account: AccountId32;
   readonly fee: u128;
-  readonly fields: IdentityFields;
+  readonly fields: PalletIdentityBitFlags;
 }
 
 /** @name PalletSocietyBid (428) */

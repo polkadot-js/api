@@ -38,24 +38,7 @@ function generateTypeDocs (registry: Registry, id: SiLookupTypeId | null, path: 
   return `${id ? `${registry.createLookupType(id)}${path.length ? ': ' : ''}` : ''}${path.map((p) => p.toString()).join('::')}${params.length ? `<${params.map((p) => generateParamType(registry, p)).join(', ')}>` : ''}`;
 }
 
-function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
-  const lines = Object.entries(parsed).reduce<string[]>((all, [k, v]) => {
-    const inner = isString(v)
-      ? expandType(v)
-      : Array.isArray(v)
-        ? [`[${(v as string[]).map((e) => `'${e}'`).join(', ')}]`]
-        : expandObject(v);
-
-    inner.forEach((l, index): void => {
-      all.push(`${
-        index === 0
-          ? `${k}: ${l}`
-          : `${l}`
-      }`);
-    });
-
-    return all;
-  }, []);
+function formatObject (lines: string[]): string[] {
   const max = lines.length - 1;
 
   return [
@@ -67,6 +50,42 @@ function expandObject (parsed: Record<string, string | Record<string, string>>):
     ),
     '}'
   ];
+}
+
+function expandSet (parsed: Record<string, number>): string[] {
+  return formatObject(
+    Object.entries(parsed).reduce<string[]>((all, [k, v]) => {
+      all.push(`${k}: ${v}`);
+
+      return all;
+    }, [])
+  );
+}
+
+function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
+  if (parsed._set) {
+    return expandSet(parsed._set as unknown as Record<string, number>);
+  }
+
+  return formatObject(
+    Object.entries(parsed).reduce<string[]>((all, [k, v]) => {
+      const inner = isString(v)
+        ? expandType(v)
+        : Array.isArray(v)
+          ? [`[${(v as string[]).map((e) => `'${e}'`).join(', ')}]`]
+          : expandObject(v);
+
+      inner.forEach((l, index): void => {
+        all.push(`${
+          index === 0
+            ? `${k}: ${l}`
+            : `${l}`
+        }`);
+      });
+
+      return all;
+    }, [])
+  );
 }
 
 function expandType (encoded: string): string[] {
