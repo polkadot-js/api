@@ -189,36 +189,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array, decoration?: ApiDecoration<ApiType>): FullDecoration<ApiType> {
-    const decoratedMeta = expandMetadata(registry.registry, registry.metadata);
-    const decoratedApi = decoration || {
-      consts: {},
-      errors: {},
-      events: {},
-      query: {}
-    } as ApiDecoration<ApiType>;
-
-    // adjust the versioned registry
-    augmentObject('consts', decoratedMeta.consts, decoratedApi.consts, fromEmpty);
-    augmentObject('errors', decoratedMeta.errors, decoratedApi.errors, fromEmpty);
-    augmentObject('events', decoratedMeta.events, decoratedApi.events, fromEmpty);
-
-    const storage = blockHash
-      ? this._decorateStorageAt(decoratedMeta, this._decorateMethod, blockHash)
-      : this._decorateStorage(decoratedMeta, this._decorateMethod);
-
-    augmentObject('query', storage, decoratedApi.query, fromEmpty);
-
-    return {
-      decoratedApi,
-      decoratedMeta
-    };
-  }
-
-  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
-    // clear the decoration, we are redoing it here
-    if (fromEmpty || !registry.decoration) {
-      registry.decoration = {
+  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array, decoratedApi?: ApiDecoration<ApiType>): FullDecoration<ApiType> {
+    if (!decoratedApi) {
+      decoratedApi = {
         consts: {},
         errors: {},
         events: {},
@@ -226,7 +199,39 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       } as ApiDecoration<ApiType>;
     }
 
-    return this._createDecorated(registry, fromEmpty, blockHash, registry.decoration);
+    if (!registry.decoratedMeta) {
+      registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
+    }
+
+    // adjust the versioned registry
+    augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
+    augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
+    augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
+
+    const storage = blockHash
+      ? this._decorateStorageAt(registry.decoratedMeta, this._decorateMethod, blockHash)
+      : this._decorateStorage(registry.decoratedMeta, this._decorateMethod);
+
+    augmentObject('query', storage, decoratedApi.query, fromEmpty);
+
+    return {
+      decoratedApi,
+      decoratedMeta: registry.decoratedMeta
+    };
+  }
+
+  protected _injectDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array): FullDecoration<ApiType> {
+    // clear the decoration, we are redoing it here
+    if (fromEmpty || !registry.decoratedApi) {
+      registry.decoratedApi = {
+        consts: {},
+        errors: {},
+        events: {},
+        query: {}
+      } as ApiDecoration<ApiType>;
+    }
+
+    return this._createDecorated(registry, fromEmpty, blockHash, registry.decoratedApi);
   }
 
   protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean): void {
