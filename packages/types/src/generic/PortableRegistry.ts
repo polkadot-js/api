@@ -24,17 +24,19 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PRIMITIVE_SP = [
+const PRIMITIVE_SP: (string | [string, string])[] = [
   'node_runtime::Call',
   'node_runtime::Event',
-  'sp_arithmetic::per_things::*',
-  'sp_core::crypto::AccountId32',
-  'sp_runtime::generic::era::Era',
-  'sp_runtime::multiaddress::MultiAddress',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
   'pallet_identity::types::IdentityFields',
-  'primitive_types::*'
+  // FIXME Convert to Set extraction
+  ['pallet_identity::types::BitFlags', 'IdentityFields'],
+  'primitive_types::*',
+  'sp_arithmetic::per_things::*',
+  'sp_core::crypto::AccountId32',
+  'sp_runtime::generic::era::Era',
+  'sp_runtime::multiaddress::MultiAddress'
 ];
 
 // These we never use these as top-level names, they are wrappers
@@ -44,24 +46,34 @@ const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Re
 const RESERVED = ['entries', 'hash', 'keys', 'size'];
 
 // check if the path matches the PRIMITIVE_SP (with wildcards)
-function isPrimitivePath (path: SiPath): boolean {
-  return !!path.length && (
-    (
-      path.length > 2 &&
-      path[0].eq('ink_env') &&
-      path[1].eq('types')
-    ) ||
-    PRIMITIVE_INK.includes(path[path.length - 1].toString()) ||
-    PRIMITIVE_SP
-      .map((p) => p.split('::'))
-      .some((parts) =>
-        path.length === parts.length &&
+function getPrimitivePath (path: SiPath): string | null {
+  if (path.length) {
+    const inkMatch = (
+      (path.length > 2 && path[0].eq('ink_env') && path[1].eq('types')) ||
+      PRIMITIVE_INK.includes(path[path.length - 1].toString())
+    );
+    const sp = PRIMITIVE_SP.find((item) => {
+      const parts = (
+        Array.isArray(item)
+          ? item[0]
+          : item
+      ).split('::');
+
+      return path.length === parts.length &&
         parts.every((p, index) =>
           p === '*' ||
           path[index].eq(p)
-        )
-      )
-  );
+        );
+    });
+
+    if (Array.isArray(sp)) {
+      return sp[1];
+    } else if (inkMatch || sp) {
+      return path[path.length - 1].toString();
+    }
+  }
+
+  return null;
 }
 
 function removeDuplicateNames (names: [number, (string | null)][]): [number, (string | null)][] {
@@ -88,15 +100,19 @@ function extractName (types: PortableType[], id: SiLookupTypeId, { params, path 
 
   const parts = path
     .map((p) => stringUpperFirst(stringCamelCase(p)))
-    .filter((p, index) => index !== 1 || !['Pallet', 'Traits', 'Types'].includes(p.toString()));
-
-  // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-  // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-  if (parts.length >= 2 && parts[parts.length - 1].toLowerCase() === parts[parts.length - 2].toLowerCase()) {
-    parts[parts.length - 2] = parts[parts.length - 1];
-    parts.pop();
-  }
-
+    .filter((p, index) =>
+      (
+        // Remove ::{pallet, traits, types}::
+        index !== 1 ||
+        !['Pallet', 'Traits', 'Types'].includes(p.toString())
+      ) &&
+      (
+        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+        index === path.length - 1 ||
+        p.toLowerCase() !== path[index + 1].toLowerCase()
+      )
+    );
   let typeName = parts.join('');
 
   if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
@@ -229,10 +245,11 @@ export class GenericPortableRegistry extends Struct {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const path = [...type.path];
     let typeDef: TypeDef;
+    const primType = getPrimitivePath(type.path);
 
     try {
-      if (isPrimitivePath(type.path)) {
-        typeDef = this.#extractPrimitivePath(lookupIndex, type);
+      if (primType) {
+        typeDef = this.#extractPrimitivePath(lookupIndex, primType);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
       } else if (type.def.isCompact) {
@@ -396,10 +413,10 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractPrimitivePath (_: number, type: SiType): TypeDef {
+  #extractPrimitivePath (_: number, type: string): TypeDef {
     return {
       info: TypeDefInfo.Plain,
-      type: type.path[type.path.length - 1].toString()
+      type
     };
   }
 

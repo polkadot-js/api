@@ -733,6 +733,7 @@ export interface PalletElectionProviderMultiPhaseSignedSignedSubmission extends 
   readonly who: AccountId32;
   readonly deposit: u128;
   readonly solution: PalletElectionProviderMultiPhaseRawSolution;
+  readonly reward: u128;
 }
 
 /** @name PalletStakingStakingLedger (343) */

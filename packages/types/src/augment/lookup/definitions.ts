@@ -655,7 +655,8 @@ export default {
     PalletElectionProviderMultiPhaseSignedSignedSubmission: {
       who: 'AccountId32',
       deposit: 'u128',
-      solution: 'PalletElectionProviderMultiPhaseRawSolution'
+      solution: 'PalletElectionProviderMultiPhaseRawSolution',
+      reward: 'u128'
     },
     /**
      * Lookup343: pallet_staking::StakingLedger<sp_core::crypto::AccountId32, Balance>
