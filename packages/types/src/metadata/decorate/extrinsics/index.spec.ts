@@ -6,7 +6,7 @@ import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
-import metadataStatic from '../../static';
+import metadataStatic from '../../v13/static';
 import { decorateExtrinsics } from '..';
 
 const keyring = createTestPairs({ type: 'ed25519' }, false);
