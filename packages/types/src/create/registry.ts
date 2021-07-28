@@ -62,13 +62,13 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
   // decorate the events
   pallets
     .filter(({ events }) => events.isSome)
-    .forEach((section, _sectionIndex): void => {
+    .forEach(({ events, index, name }, _sectionIndex): void => {
       const sectionIndex = metadata.version >= 12
-        ? section.index.toNumber()
+        ? index.toNumber()
         : _sectionIndex;
-      const sectionName = stringCamelCase(section.name);
+      const sectionName = stringCamelCase(name);
 
-      lookup.getSiType(section.events.unwrap().type).def.asVariant.variants.forEach((variant): void => {
+      lookup.getSiType(events.unwrap().type).def.asVariant.variants.forEach((variant): void => {
         const variantIndex = variant.index.toNumber();
         const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
         const meta = registry.createType('EventMetadataLatest', {
