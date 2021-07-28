@@ -47,7 +47,7 @@ function sortArray (a: Uint8Array | Codec[] | number[], b: Uint8Array | Codec[] 
 }
 
 /**
-* Sort keys/values of BTreeSet/BTreeMap in acending order for encoding compatibility with Rust's BTreeSet/BTreeMap
+* Sort keys/values of BTreeSet/BTreeMap in ascending order for encoding compatibility with Rust's BTreeSet/BTreeMap
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeSet.html)
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html)
 */
