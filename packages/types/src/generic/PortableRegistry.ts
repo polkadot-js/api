@@ -29,7 +29,6 @@ const PRIMITIVE_SP: (string | [string, string])[] = [
   'node_runtime::Event',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
-  'pallet_identity::types::IdentityFields',
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
   'sp_core::crypto::AccountId32',
