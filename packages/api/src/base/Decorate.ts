@@ -256,7 +256,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
    */
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    this._injectMetadata({ metadata, registry: registry || this.#registry, specVersion: BN_ZERO }, fromEmpty);
+    this._injectMetadata({ metadata, registry: registry || this.#registry, specName: this.#registry.createType('Text'), specVersion: BN_ZERO }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {

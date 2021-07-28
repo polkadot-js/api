@@ -151,8 +151,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom((this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash))
     );
 
-    // check for pre-existing registries
-    const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
+    // check for pre-existing registries. We also check specName, e.g. it
+    // could be changed like in Westmint with upgrade from  shell -> westmint
+    const existingViaVersion = this.#registries.find(({ specName, specVersion }) =>
+      specName.eq(version.specName) &&
+      specVersion.eq(version.specVersion)
+    );
 
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = blockHash;
@@ -169,7 +173,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
+    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -300,7 +304,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specName: runtimeVersion.specName, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate
