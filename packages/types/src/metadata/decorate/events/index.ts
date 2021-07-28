@@ -16,7 +16,9 @@ export function decorateEvents (_: Registry, { modules }: MetadataLatest, metaVe
   return modules
     .filter(({ events }) => events.isSome)
     .reduce((result: Events, { events, index, name }, _sectionIndex): Events => {
-      const sectionIndex = metaVersion >= 12 ? index.toNumber() : _sectionIndex;
+      const sectionIndex = metaVersion >= 12
+        ? index.toNumber()
+        : _sectionIndex;
 
       result[stringCamelCase(name)] = events.unwrap().reduce((newModule: ModuleEvents, meta, eventIndex): ModuleEvents => {
         // we don't camelCase the event name

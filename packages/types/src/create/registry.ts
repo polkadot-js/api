@@ -31,11 +31,13 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
   const modules = metadata.asLatest.modules;
 
   // decorate the errors
-  modules.forEach((section, _sectionIndex): void => {
-    const sectionIndex = metadata.version >= 12 ? section.index.toNumber() : _sectionIndex;
-    const sectionName = stringCamelCase(section.name);
+  modules.forEach(({ errors, index, name }, _sectionIndex): void => {
+    const sectionIndex = metadata.version >= 12
+      ? index.toNumber()
+      : _sectionIndex;
+    const sectionName = stringCamelCase(name);
 
-    section.errors.forEach(({ docs, name }, index): void => {
+    errors.forEach(({ docs, name }, index): void => {
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
@@ -54,13 +56,13 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
   // decorate the events
   metadata.asLatest.modules
     .filter(({ events }) => events.isSome)
-    .forEach((section, _sectionIndex): void => {
+    .forEach(({ events, index, name }, _sectionIndex): void => {
       const sectionIndex = metadata.version >= 12
-        ? section.index.toNumber()
+        ? index.toNumber()
         : _sectionIndex;
-      const sectionName = stringCamelCase(section.name);
+      const sectionName = stringCamelCase(name);
 
-      section.events.unwrap().forEach((meta, methodIndex): void => {
+      events.unwrap().forEach((meta, methodIndex): void => {
         const methodName = meta.name.toString();
         const typeDef = meta.args.map((arg) => getTypeDef(arg));
         let Types: Constructor<Codec>[] | null = null;

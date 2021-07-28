@@ -3,6 +3,7 @@
 
 import type { Metadata } from '@polkadot/types/metadata';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
+import type { Text } from '@polkadot/types/primitive';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { ApiDecoration, ApiTypes } from '../types';
@@ -14,5 +15,6 @@ export interface VersionedRegistry<ApiType extends ApiTypes> {
   lastBlockHash?: Uint8Array | null;
   metadata: Metadata;
   registry: Registry;
+  specName: Text;
   specVersion: BN;
 }
