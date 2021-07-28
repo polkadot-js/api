@@ -324,7 +324,7 @@ export class GenericPortableRegistry extends Struct {
         index: index.toNumber(),
         info: TypeDefInfo.Plain,
         name: name.toString(),
-        type: 'u32'
+        type: 'Null'
       }))
     });
   }

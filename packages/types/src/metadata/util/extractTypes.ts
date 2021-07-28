@@ -29,6 +29,7 @@ export function extractTypes (types: string[]): Extracted[] {
       case TypeDefInfo.Enum:
       case TypeDefInfo.HashMap:
       case TypeDefInfo.Result:
+      case TypeDefInfo.Set:
       case TypeDefInfo.Struct:
       case TypeDefInfo.Tuple:
         return extractTypes((decoded.sub as TypeDef[]).map(({ type }) => type));
