@@ -1,31 +1,39 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../../interfaces';
+import type { MetadataLatest, PortableRegistry, SiLookupTypeId } from '../../interfaces';
 import type { Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';
 
 /** @internal */
+function extractTypes (lookup: PortableRegistry, types: { type: SiLookupTypeId }[]): string[] {
+  return types.map(({ type }) =>
+    lookup.getTypeDef(type).type
+  );
+}
+
+/** @internal */
+function extractFieldTypes (lookup: PortableRegistry, type: SiLookupTypeId): string[][] {
+  return lookup.getSiType(type).def.asVariant.variants.map(({ fields }) =>
+    extractTypes(lookup, fields)
+  );
+}
+
+/** @internal */
 function getCallNames ({ lookup, pallets }: MetadataLatest): string[][][] {
   return pallets.map(({ calls }): string[][] =>
     calls.isNone
       ? []
-      : lookup.getSiType(calls.unwrap().type).def.asVariant.variants.map(({ fields }) =>
-        fields.map(({ type }) =>
-          lookup.getTypeDef(type).type
-        )
-      )
+      : extractFieldTypes(lookup, calls.unwrap().type)
   );
 }
 
 /** @internal */
 function getConstantNames ({ lookup, pallets }: MetadataLatest): string[][] {
   return pallets.map(({ constants }): string[] =>
-    constants.map(({ type }) =>
-      lookup.getTypeDef(type).type
-    )
+    extractTypes(lookup, constants)
   );
 }
 
@@ -34,11 +42,7 @@ function getEventNames ({ lookup, pallets }: MetadataLatest): string[][][] {
   return pallets.map(({ events }): string[][] =>
     events.isNone
       ? []
-      : lookup.getSiType(events.unwrap().type).def.asVariant.variants.map(({ fields }) =>
-        fields.map(({ type }) =>
-          lookup.getTypeDef(type).type
-        )
-      )
+      : extractFieldTypes(lookup, events.unwrap().type)
   );
 }
 
