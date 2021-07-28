@@ -43,8 +43,8 @@ const SETS = ['pallet_identity::types::BitFlags'];
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
 
-// These are reserved and conflicts with built-in Codec definitions
-const RESERVED = ['entries', 'hash', 'keys', 'size'];
+// These are reserved and/or conflicts with built-in Codec definitions
+const RESERVED = ['call', 'entries', 'hash', 'keys', 'new', 'size'];
 
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
@@ -271,7 +271,7 @@ export class GenericPortableRegistry extends Struct {
         throw new Error(`Invalid type at index ${lookupIndex}: No handler for ${type.def.toString()}`);
       }
     } catch (error) {
-      throw new Error(`PortableRegistry: Error extracting ${stringify(type)}: ${(error as Error).message}`);
+      throw new Error(`PortableRegistry: ${lookupIndex}: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
     return {
@@ -281,8 +281,8 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
-    assert(!length || length.toNumber() <= 256, 'PortableRegistry: Only support for [Type; <length>], where length <= 256');
+  #extractArray (lookupIndex: number, { len: length, type }: SiTypeDefArray): TypeDef {
+    assert(!length || length.toNumber() <= 256, () => `PortableRegistry: ${lookupIndex}: Only support for [Type; <length>], where length <= 256`);
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
@@ -314,7 +314,7 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractCompositeSet (lookupIndex: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
-    assert(params.length === 1 && fields.length === 1, `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
+    assert(params.length === 1 && fields.length === 1, () => `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
@@ -336,7 +336,7 @@ export class GenericPortableRegistry extends Struct {
     ]),
     [true, true]);
 
-    assert(isTuple || isStruct, `PortableRegistry: ${lookupIndex}: Invalid fields type detected, expected either Tuple or Struct`);
+    assert(isTuple || isStruct, () => `PortableRegistry: ${lookupIndex}: Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)`);
 
     if (fields.length === 0) {
       return {

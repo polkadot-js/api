@@ -1032,7 +1032,7 @@ export interface PalletContractsScheduleInstructionWeights extends Struct {
   readonly brIf: u32;
   readonly brTable: u32;
   readonly brTablePerEntry: u32;
-  readonly call: u32;
+  readonly call_: u32;
   readonly callIndirect: u32;
   readonly callIndirectPerParam: u32;
   readonly localGet: u32;
@@ -1109,7 +1109,7 @@ export interface PalletContractsScheduleHostFnWeights extends Struct {
   readonly getStorage: u64;
   readonly getStoragePerByte: u64;
   readonly transfer: u64;
-  readonly call: u64;
+  readonly call_: u64;
   readonly callTransferSurcharge: u64;
   readonly callPerInputByte: u64;
   readonly callPerOutputByte: u64;
@@ -1194,7 +1194,7 @@ export interface PalletRecoveryActiveRecovery extends Struct {
 export interface PalletSchedulerScheduledV2 extends Struct {
   readonly maybeId: Option<Bytes>;
   readonly priority: u8;
-  readonly call: Call;
+  readonly call_: Call;
   readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
   readonly origin: NodeRuntimeOriginCaller;
 }

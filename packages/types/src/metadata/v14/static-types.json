@@ -322,6 +322,19 @@
         "variant": {
           "variants": [
             {
+              "name": "Other",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 10,
+                  "typeName": "Vec<u8>",
+                  "docs": []
+                }
+              ],
+              "index": 0,
+              "docs": []
+            },
+            {
               "name": "ChangesTrieRoot",
               "fields": [
                 {
@@ -332,25 +345,6 @@
                 }
               ],
               "index": 2,
-              "docs": []
-            },
-            {
-              "name": "PreRuntime",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 14,
-                  "typeName": "ConsensusEngineId",
-                  "docs": []
-                },
-                {
-                  "name": null,
-                  "type": 10,
-                  "typeName": "Vec<u8>",
-                  "docs": []
-                }
-              ],
-              "index": 6,
               "docs": []
             },
             {
@@ -392,6 +386,25 @@
               "docs": []
             },
             {
+              "name": "PreRuntime",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 14,
+                  "typeName": "ConsensusEngineId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 10,
+                  "typeName": "Vec<u8>",
+                  "docs": []
+                }
+              ],
+              "index": 6,
+              "docs": []
+            },
+            {
               "name": "ChangesTrieSignal",
               "fields": [
                 {
@@ -402,19 +415,6 @@
                 }
               ],
               "index": 7,
-              "docs": []
-            },
-            {
-              "name": "Other",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 10,
-                  "typeName": "Vec<u8>",
-                  "docs": []
-                }
-              ],
-              "index": 0,
               "docs": []
             }
           ]
@@ -28795,6 +28795,19 @@
               "docs": []
             },
             {
+              "name": "Void",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 447,
+                  "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::Void",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": []
+            },
+            {
               "name": "Council",
               "fields": [
                 {
@@ -28818,19 +28831,6 @@
                 }
               ],
               "index": 13,
-              "docs": []
-            },
-            {
-              "name": "Void",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 447,
-                  "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::Void",
-                  "docs": []
-                }
-              ],
-              "index": 3,
               "docs": []
             }
           ]
