@@ -2,21 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '../../types';
+import type { Enum } from '../Enum';
 
-import { AbstractArray } from '../AbstractArray';
-import { AbstractInt } from '../AbstractInt';
-import { Enum, Struct } from '..';
+import { isBn, isFunction, isNumber, stringify } from '@polkadot/util';
 
 type SortArg = Codec | Codec[] | number[] | number | Uint8Array
 
 /** @internal **/
-function isArrayLike (arg: SortArg): arg is AbstractArray<Codec> | Uint8Array | Codec[] | number[] {
-  return arg instanceof AbstractArray || arg instanceof Uint8Array || Array.isArray(arg);
+function isArrayLike (arg: SortArg): arg is Uint8Array | Codec[] | number[] {
+  return arg instanceof Uint8Array || Array.isArray(arg);
 }
 
 /** @internal **/
 function isCodec (arg: SortArg): arg is Codec {
-  return !!(arg && typeof (arg as Codec).toU8a === 'function');
+  return isFunction(arg && (arg as Codec).toU8a);
+}
+
+/** @internal **/
+function isEnum (arg: SortArg): arg is Enum {
+  return isCodec(arg) && isNumber((arg as Enum).index) && isCodec((arg as Enum).value);
 }
 
 /**
@@ -25,16 +29,16 @@ function isCodec (arg: SortArg): arg is Codec {
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html)
 */
 export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
-  if (typeof a === 'number' && typeof b === 'number') {
+  if (isNumber(a) && isNumber(b)) {
     return a - b;
-  } else if (a instanceof Struct && b instanceof Struct) {
+  } else if (a instanceof Map && b instanceof Map) {
     return sortAsc(Array.from(a.values()), Array.from(b.values()));
-  } else if (a instanceof Enum && b instanceof Enum) {
+  } else if (isEnum(a) && isEnum(b)) {
     return sortAsc(a.index, b.index) || sortAsc(a.value, b.value);
   } else if (isArrayLike(a) && isArrayLike(b)) {
     // Vec, Tuple, Bytes etc.
-    let sortRes = 0; const lenA = a.length; const lenB = b.length;
-    const minLen = Math.min(lenA, lenB);
+    let sortRes = 0;
+    const minLen = Math.min(a.length, b.length);
 
     for (let i = 0; i < minLen; ++i) {
       sortRes = sortAsc(a[i], b[i]);
@@ -44,15 +48,15 @@ export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
       }
     }
 
-    return lenA - lenB;
-  } else if (a instanceof AbstractInt && b instanceof AbstractInt) {
+    return a.length - b.length;
+  } else if (isBn(a) && isBn(b)) {
     return a.cmp(b);
   } else if (isCodec(a) && isCodec(b)) {
     // Text, Bool etc.
     return sortAsc(a.toU8a(true), b.toU8a(true));
-  } else {
-    throw new Error(`Attempting to sort unrecognized value: ${JSON.stringify(a)}`);
   }
+
+  throw new Error(`Attempting to sort unrecognized value: ${stringify(a)}`);
 }
 
 export function sortSet<V extends Codec = Codec> (set: Set<V>): Set<V> {

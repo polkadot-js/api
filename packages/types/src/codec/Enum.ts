@@ -310,7 +310,7 @@ export class Enum implements Codec {
     } else if (this.#isBasic && isString(other)) {
       return this.type === other;
     } else if (isU8a(other)) {
-      return !this.toU8a().some((entry, index): boolean => entry !== other[index]);
+      return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isHex(other)) {
       return this.toHex() === other;
     } else if (other instanceof Enum) {
