@@ -1,58 +1,71 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { Codec } from '../../types';
+import type { Enum } from '../Enum';
 
-import { AbstractArray } from '../AbstractArray';
-import { AbstractInt } from '../AbstractInt';
-import { Enum, Struct } from '..';
+import { bnToBn, isBigInt, isBn, isFunction, isNumber, stringify } from '@polkadot/util';
 
-type SortArg = Codec | Codec[] | number[] | number | Uint8Array
+type SortArg = Codec | Codec[] | number[] | BN | bigint | number | Uint8Array;
 
 /** @internal **/
-function isArrayLike (arg: SortArg): arg is AbstractArray<Codec> | Uint8Array | Codec[] | number[] {
-  return arg instanceof AbstractArray || arg instanceof Uint8Array || Array.isArray(arg);
+function isArrayLike (arg: SortArg): arg is Uint8Array | Codec[] | number[] {
+  return arg instanceof Uint8Array || Array.isArray(arg);
 }
 
 /** @internal **/
 function isCodec (arg: SortArg): arg is Codec {
-  return !!(arg && typeof (arg as Codec).toU8a === 'function');
+  return isFunction(arg && (arg as Codec).toU8a);
+}
+
+/** @internal **/
+function isEnum (arg: SortArg): arg is Enum {
+  return isCodec(arg) && isNumber((arg as Enum).index) && isCodec((arg as Enum).value);
+}
+
+/** @internal */
+function isNumberLike (arg: SortArg): arg is BN | bigint | number {
+  return isNumber(arg) || isBn(arg) || isBigInt(arg);
+}
+
+/** @internal */
+function sortArray (a: Uint8Array | Codec[] | number[], b: Uint8Array | Codec[] | number[]): number {
+  // Vec, Tuple, Bytes etc.
+  let sortRes = 0;
+  const minLen = Math.min(a.length, b.length);
+
+  for (let i = 0; i < minLen; ++i) {
+    sortRes = sortAsc(a[i], b[i]);
+
+    if (sortRes !== 0) {
+      return sortRes;
+    }
+  }
+
+  return a.length - b.length;
 }
 
 /**
-* Sort keys/values of BTreeSet/BTreeMap in acending order for encoding compatibility with Rust's BTreeSet/BTreeMap
+* Sort keys/values of BTreeSet/BTreeMap in ascending order for encoding compatibility with Rust's BTreeSet/BTreeMap
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeSet.html)
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html)
 */
 export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
-  if (typeof a === 'number' && typeof b === 'number') {
-    return a - b;
-  } else if (a instanceof Struct && b instanceof Struct) {
+  if (isNumberLike(a) && isNumberLike(b)) {
+    return bnToBn(a).cmp(bnToBn(b));
+  } else if (a instanceof Map && b instanceof Map) {
     return sortAsc(Array.from(a.values()), Array.from(b.values()));
-  } else if (a instanceof Enum && b instanceof Enum) {
+  } else if (isEnum(a) && isEnum(b)) {
     return sortAsc(a.index, b.index) || sortAsc(a.value, b.value);
   } else if (isArrayLike(a) && isArrayLike(b)) {
-    // Vec, Tuple, Bytes etc.
-    let sortRes = 0; const lenA = a.length; const lenB = b.length;
-    const minLen = Math.min(lenA, lenB);
-
-    for (let i = 0; i < minLen; ++i) {
-      sortRes = sortAsc(a[i], b[i]);
-
-      if (sortRes !== 0) {
-        return sortRes;
-      }
-    }
-
-    return lenA - lenB;
-  } else if (a instanceof AbstractInt && b instanceof AbstractInt) {
-    return a.cmp(b);
+    return sortArray(a, b);
   } else if (isCodec(a) && isCodec(b)) {
     // Text, Bool etc.
     return sortAsc(a.toU8a(true), b.toU8a(true));
-  } else {
-    throw new Error(`Attempting to sort unrecognized value: ${JSON.stringify(a)}`);
   }
+
+  throw new Error(`Attempting to sort unrecognized values: ${stringify(a)} (typeof ${typeof a}) <-> ${stringify(b)} (typeof ${typeof b})`);
 }
 
 export function sortSet<V extends Codec = Codec> (set: Set<V>): Set<V> {

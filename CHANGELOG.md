@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Fix circular dependencies in codec utils
+- Fix `api.at(<blockHash>)` to correctly decorate with the storage hash
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+
+
 ## 5.2.1 Jul 26, 2021
 
 Upgrade priority: Low. Recommended for users of `BTreeMap` and `BTreeSet`

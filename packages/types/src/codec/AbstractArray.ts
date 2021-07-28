@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareArray } from './utils';
+import { compareArray } from './utils/compareArray';
 
 /**
  * @name AbstractArray
