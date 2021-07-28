@@ -22,65 +22,49 @@ function extractFieldTypes (lookup: PortableRegistry, type: SiLookupTypeId): str
 }
 
 /** @internal */
-function getCallNames ({ lookup, pallets }: MetadataLatest): string[][][] {
-  return pallets.map(({ calls }): string[][] =>
-    calls.isNone
-      ? []
-      : extractFieldTypes(lookup, calls.unwrap().type)
-  );
-}
+function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
+  return pallets.reduce<string[][][]>((all, { calls, constants, events, storage }) => {
+    all.push([extractTypes(lookup, constants)]);
 
-/** @internal */
-function getConstantNames ({ lookup, pallets }: MetadataLatest): string[][] {
-  return pallets.map(({ constants }): string[] =>
-    extractTypes(lookup, constants)
-  );
-}
+    if (calls.isSome) {
+      all.push(extractFieldTypes(lookup, calls.unwrap().type));
+    }
 
-/** @internal */
-function getEventNames ({ lookup, pallets }: MetadataLatest): string[][][] {
-  return pallets.map(({ events }): string[][] =>
-    events.isNone
-      ? []
-      : extractFieldTypes(lookup, events.unwrap().type)
-  );
-}
+    if (events.isSome) {
+      all.push(extractFieldTypes(lookup, events.unwrap().type));
+    }
 
-/** @internal */
-function getStorageNames ({ lookup, pallets }: MetadataLatest): string[][][] {
-  return pallets.map(({ storage }): string[][] =>
-    storage.unwrapOr({ items: [] }).items.map(({ type }) =>
-      type.isPlain
-        ? [
-          lookup.getTypeDef(type.asPlain).type
-        ]
-        : type.isMap
+    if (storage.isSome) {
+      all.push(storage.unwrap().items.map(({ type }) =>
+        type.isPlain
           ? [
-            lookup.getTypeDef(type.asMap.value).type,
-            lookup.getTypeDef(type.asMap.key).type
+            lookup.getTypeDef(type.asPlain).type
           ]
-          : type.isDoubleMap
+          : type.isMap
             ? [
-              lookup.getTypeDef(type.asDoubleMap.value).type,
-              lookup.getTypeDef(type.asDoubleMap.key1).type,
-              lookup.getTypeDef(type.asDoubleMap.key2).type
+              lookup.getTypeDef(type.asMap.value).type,
+              lookup.getTypeDef(type.asMap.key).type
             ]
-            : [
-              lookup.getTypeDef(type.asNMap.value).type,
-              ...lookup.getSiType(type.asNMap.key).def.asTuple.map((t) =>
-                lookup.getTypeDef(t).type
-              )
-            ]
-    )
-  );
+            : type.isDoubleMap
+              ? [
+                lookup.getTypeDef(type.asDoubleMap.value).type,
+                lookup.getTypeDef(type.asDoubleMap.key1).type,
+                lookup.getTypeDef(type.asDoubleMap.key2).type
+              ]
+              : [
+                lookup.getTypeDef(type.asNMap.value).type,
+                ...lookup.getSiType(type.asNMap.key).def.asTuple.map((t) =>
+                  lookup.getTypeDef(t).type
+                )
+              ]
+      ));
+    }
+
+    return all;
+  }, []);
 }
 
 /** @internal */
 export function getUniqTypes (registry: Registry, meta: MetadataLatest, throwError: boolean): string[] {
-  return validateTypes(registry, throwError, flattenUniq([
-    getCallNames(meta),
-    getConstantNames(meta),
-    getEventNames(meta),
-    getStorageNames(meta)
-  ]));
+  return validateTypes(registry, throwError, flattenUniq(getPalletNames(meta)));
 }
