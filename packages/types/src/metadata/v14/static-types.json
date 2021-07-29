@@ -2062,6 +2062,7 @@
       "path": [
         "pallet_staking",
         "pallet",
+        "pallet",
         "Event"
       ],
       "params": [
@@ -11137,6 +11138,7 @@
     "type": {
       "path": [
         "pallet_staking",
+        "pallet",
         "pallet",
         "Call"
       ],
@@ -23779,6 +23781,7 @@
     "type": {
       "path": [
         "pallet_staking",
+        "pallet",
         "pallet",
         "Error"
       ],
