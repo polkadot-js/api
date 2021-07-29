@@ -7,9 +7,7 @@ import type { Events, ModuleEvents } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-function isEvent <T extends AnyTuple> (event: IEvent<AnyTuple>, sectionIndex: number, eventIndex: number): event is IEvent<T> {
-  return event.index[0] === sectionIndex && event.index[1] === eventIndex;
-}
+import { variantToMeta } from '../errors';
 
 /** @internal */
 export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Events {
@@ -24,13 +22,9 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
         // we don't camelCase the event name
         newModule[variant.name.toString()] = {
           is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-            isEvent(eventRecord, sectionIndex, variant.index.toNumber()),
-          meta: registry.createType('EventMetadataLatest', {
-            ...variant,
-            args: variant.fields.map(({ type }) =>
-              lookup.getTypeDef(type).type
-            )
-          })
+            eventRecord.index[0] === sectionIndex &&
+            variant.index.eq(eventRecord.index[1]),
+          meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
         };
 
         return newModule;
