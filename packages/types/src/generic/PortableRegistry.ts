@@ -25,8 +25,9 @@ const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PRIMITIVE_SP: (string | [string, string])[] = [
-  'node_runtime::Call',
-  'node_runtime::Event',
+  // match {node, kusama, *}_runtime
+  '*_runtime::Call',
+  '*_runtime::Event',
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
   'primitive_types::*',
@@ -59,11 +60,19 @@ function getPrimitivePath (path: SiPath): string | null {
           : item
       ).split('::');
 
-      return path.length === parts.length &&
-        parts.every((p, index) =>
-          p === '*' ||
-          path[index].eq(p)
+      return path.length === parts.length && parts.every((p, index) => {
+        if (p === '*') {
+          return true;
+        }
+
+        const mparts = p.split('_');
+        const pparts = path[index].toString().split('_');
+
+        return mparts.length === pparts.length && mparts.every((m, index) =>
+          m === '*' ||
+          m === pparts[index]
         );
+      });
     });
 
     if (Array.isArray(sp)) {

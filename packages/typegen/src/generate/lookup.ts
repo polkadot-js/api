@@ -137,17 +137,20 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
         path.length === 2 &&
         (
           (
-            path[0].toString() === 'node_runtime' &&
+            // Ensure that we match {node, kusama, *}_runtime
+            path[0].toString().split('_')[1] === 'runtime' &&
             !['Call', 'Event'].includes(path[1].toString())
           ) ||
           path[0].toString().startsWith('pallet_')
         ) &&
-        MAP_ENUMS.includes(path[1].toString())
+        // Ensure we strip generics, e.g. Event<T>
+        MAP_ENUMS.includes(path[1].toString().split('<')[0])
       ) &&
       !(
-        path.length === 3 &&
-        path[1].toString() === 'pallet' &&
-        MAP_ENUMS.includes(path[2].toString())
+        path.length >= 3 &&
+        path[path.length - 2].toString() === 'pallet' &&
+        // As above, cater for generics
+        MAP_ENUMS.includes(path[path.length - 1].toString().split('<')[0])
       )
     );
   });
