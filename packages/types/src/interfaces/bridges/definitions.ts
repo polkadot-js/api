@@ -17,6 +17,16 @@ export default {
       authorityList: 'AuthorityList',
       setId: 'SetId',
       isHalted: 'bool'
+    },
+    Id: '[u8; 4]',
+    ChainId: 'Id',
+    LaneId: 'Id',
+    MessageNonce: 'u64',
+    // Overrides what is in cumulus, however needed - needs an alias
+    // MessageId: '(Id, u64)',
+    MessageKey: {
+      laneId: 'LaneId',
+      nonce: 'MessageNonce'
     }
   }
 } as Definitions;
