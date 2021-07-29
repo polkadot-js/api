@@ -10,7 +10,7 @@ import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import type { BeefyCommitment, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
-import type { BridgedBlockHash, BridgedBlockNumber, BridgedHeader, InitializationData } from '@polkadot/types/interfaces/bridges';
+import type { BridgedBlockHash, BridgedBlockNumber, BridgedHeader, ChainId, Id, InitializationData, LaneId, MessageKey, MessageNonce } from '@polkadot/types/interfaces/bridges';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -98,6 +98,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<LeasePeriod>': Compact<LeasePeriod>;
     'Compact<LeasePeriodOf>': Compact<LeasePeriodOf>;
     'Compact<MemberCount>': Compact<MemberCount>;
+    'Compact<MessageNonce>': Compact<MessageNonce>;
     'Compact<Moment>': Compact<Moment>;
     'Compact<MomentOf>': Compact<MomentOf>;
     'Compact<NominatorIndex>': Compact<NominatorIndex>;
@@ -280,6 +281,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<CandidateInfo>': Option<CandidateInfo>;
     'Option<CandidatePendingAvailability>': Option<CandidatePendingAvailability>;
     'Option<CandidateReceipt>': Option<CandidateReceipt>;
+    'Option<ChainId>': Option<ChainId>;
     'Option<ChainProperties>': Option<ChainProperties>;
     'Option<ChainType>': Option<ChainType>;
     'Option<ChangesTrieConfiguration>': Option<ChangesTrieConfiguration>;
@@ -544,6 +546,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<I64>': Option<I64>;
     'Option<i8>': Option<i8>;
     'Option<I8>': Option<I8>;
+    'Option<Id>': Option<Id>;
     'Option<IdentificationTuple>': Option<IdentificationTuple>;
     'Option<IdentityFields>': Option<IdentityFields>;
     'Option<IdentityInfo>': Option<IdentityInfo>;
@@ -585,6 +588,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<KeyValue>': Option<KeyValue>;
     'Option<KeyValueOption>': Option<KeyValueOption>;
     'Option<Kind>': Option<Kind>;
+    'Option<LaneId>': Option<LaneId>;
     'Option<LastContribution>': Option<LastContribution>;
     'Option<LastRuntimeUpgradeInfo>': Option<LastRuntimeUpgradeInfo>;
     'Option<LeasePeriod>': Option<LeasePeriod>;
@@ -602,6 +606,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<MembershipProof>': Option<MembershipProof>;
     'Option<MessageId>': Option<MessageId>;
     'Option<MessageIngestionType>': Option<MessageIngestionType>;
+    'Option<MessageKey>': Option<MessageKey>;
+    'Option<MessageNonce>': Option<MessageNonce>;
     'Option<MessageQueueChain>': Option<MessageQueueChain>;
     'Option<MessagingStateSnapshot>': Option<MessagingStateSnapshot>;
     'Option<MessagingStateSnapshotEgressEntry>': Option<MessagingStateSnapshotEgressEntry>;
@@ -1198,6 +1204,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<CandidateInfo>': Vec<CandidateInfo>;
     'Vec<CandidatePendingAvailability>': Vec<CandidatePendingAvailability>;
     'Vec<CandidateReceipt>': Vec<CandidateReceipt>;
+    'Vec<ChainId>': Vec<ChainId>;
     'Vec<ChainProperties>': Vec<ChainProperties>;
     'Vec<ChainType>': Vec<ChainType>;
     'Vec<ChangesTrieConfiguration>': Vec<ChangesTrieConfiguration>;
@@ -1462,6 +1469,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<I64>': Vec<I64>;
     'Vec<i8>': Vec<i8>;
     'Vec<I8>': Vec<I8>;
+    'Vec<Id>': Vec<Id>;
     'Vec<IdentificationTuple>': Vec<IdentificationTuple>;
     'Vec<IdentityFields>': Vec<IdentityFields>;
     'Vec<IdentityInfo>': Vec<IdentityInfo>;
@@ -1503,6 +1511,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<KeyValue>': Vec<KeyValue>;
     'Vec<KeyValueOption>': Vec<KeyValueOption>;
     'Vec<Kind>': Vec<Kind>;
+    'Vec<LaneId>': Vec<LaneId>;
     'Vec<LastContribution>': Vec<LastContribution>;
     'Vec<LastRuntimeUpgradeInfo>': Vec<LastRuntimeUpgradeInfo>;
     'Vec<LeasePeriod>': Vec<LeasePeriod>;
@@ -1520,6 +1529,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<MembershipProof>': Vec<MembershipProof>;
     'Vec<MessageId>': Vec<MessageId>;
     'Vec<MessageIngestionType>': Vec<MessageIngestionType>;
+    'Vec<MessageKey>': Vec<MessageKey>;
+    'Vec<MessageNonce>': Vec<MessageNonce>;
     'Vec<MessageQueueChain>': Vec<MessageQueueChain>;
     'Vec<MessagingStateSnapshot>': Vec<MessagingStateSnapshot>;
     'Vec<MessagingStateSnapshotEgressEntry>': Vec<MessagingStateSnapshotEgressEntry>;
@@ -2116,6 +2127,7 @@ declare module '@polkadot/types/types/registry' {
     CandidateInfo: CandidateInfo;
     CandidatePendingAvailability: CandidatePendingAvailability;
     CandidateReceipt: CandidateReceipt;
+    ChainId: ChainId;
     ChainProperties: ChainProperties;
     ChainType: ChainType;
     ChangesTrieConfiguration: ChangesTrieConfiguration;
@@ -2380,6 +2392,7 @@ declare module '@polkadot/types/types/registry' {
     I64: I64;
     i8: i8;
     I8: I8;
+    Id: Id;
     IdentificationTuple: IdentificationTuple;
     IdentityFields: IdentityFields;
     IdentityInfo: IdentityInfo;
@@ -2421,6 +2434,7 @@ declare module '@polkadot/types/types/registry' {
     KeyValue: KeyValue;
     KeyValueOption: KeyValueOption;
     Kind: Kind;
+    LaneId: LaneId;
     LastContribution: LastContribution;
     LastRuntimeUpgradeInfo: LastRuntimeUpgradeInfo;
     LeasePeriod: LeasePeriod;
@@ -2438,6 +2452,8 @@ declare module '@polkadot/types/types/registry' {
     MembershipProof: MembershipProof;
     MessageId: MessageId;
     MessageIngestionType: MessageIngestionType;
+    MessageKey: MessageKey;
+    MessageNonce: MessageNonce;
     MessageQueueChain: MessageQueueChain;
     MessagingStateSnapshot: MessagingStateSnapshot;
     MessagingStateSnapshotEgressEntry: MessagingStateSnapshotEgressEntry;
