@@ -28,30 +28,32 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
   const { lookup, pallets } = metadata.asLatest;
 
   // decorate the errors
-  pallets.forEach((section, _sectionIndex): void => {
-    const sectionIndex = metadata.version >= 12
-      ? section.index.toNumber()
-      : _sectionIndex;
-    const sectionName = stringCamelCase(section.name);
-
-    if (section.errors.isSome) {
-      lookup.getSiType(section.errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }): void => {
-        const variantIndex = index.toNumber();
-        const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-
-        metadataErrors[u8aToHex(eventIndex)] = {
-          args: fields.map(({ type }) =>
-            lookup.getTypeDef(type).type
-          ),
-          docs: docs.map((d) => d.toString()),
-          fields,
-          index: variantIndex,
-          method: name.toString(),
-          name: name.toString(),
-          section: sectionName
-        };
-      });
+  pallets.forEach(({ errors, index, name }, _sectionIndex): void => {
+    if (errors.isNone) {
+      return;
     }
+
+    const sectionIndex = metadata.version >= 12
+      ? index.toNumber()
+      : _sectionIndex;
+    const sectionName = stringCamelCase(name);
+
+    lookup.getSiType(errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }): void => {
+      const variantIndex = index.toNumber();
+      const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
+
+      metadataErrors[u8aToHex(eventIndex)] = {
+        args: fields.map(({ type }) =>
+          lookup.getTypeDef(type).type
+        ),
+        docs: docs.map((d) => d.toString()),
+        fields,
+        index: variantIndex,
+        method: name.toString(),
+        name: name.toString(),
+        section: sectionName
+      };
+    });
   });
 }
 
