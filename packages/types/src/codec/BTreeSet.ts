@@ -20,11 +20,10 @@ function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass
     types.push(ValClass);
   }
 
-  const result: Codec[] = [];
-  const values = decodeU8a(registry, u8a.subarray(offset), result, types);
+  const values = decodeU8a(registry, u8a.subarray(offset), types);
 
   for (let i = 0; i < values.length; i++) {
-    output.add(values[i] as V);
+    output.add(values[i]);
   }
 
   return output;

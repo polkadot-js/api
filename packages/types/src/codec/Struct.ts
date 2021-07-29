@@ -103,17 +103,7 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
     const keys = Object.keys(Types);
-    const values: Codec[] = [];
-
-    try {
-      decodeU8a(registry, value, values, Object.values(Types), keys);
-    } catch (error) {
-      if (values.length) {
-        throw new Error(`Failed on ${keys[values.length]}: Partially decoded: ${JSON.stringify(values.reduce((all, v, index) => ({ ...all, [keys[index]]: v.toJSON() }), {}))}: ${(error as Error).message}`);
-      }
-
-      throw error;
-    }
+    const values = decodeU8a(registry, value, Object.values(Types), keys);
 
     // Transform array of values to {key: value} mapping
     return keys.reduce((raw, key, index): T => {
