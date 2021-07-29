@@ -508,7 +508,8 @@ export class GenericPortableRegistry extends Struct {
     const sub: (TypeDef & { name: string })[] = [];
 
     // we may get entries out of order, arrange them first before creating with gaps filled
-    variants
+    // NOTE: Since we mutate, use a copy of the array as an input
+    [...variants]
       .sort((a, b) => a.index.cmp(b.index))
       .forEach(({ fields, index, name }) => {
         const desired = index.toNumber();

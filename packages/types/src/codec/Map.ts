@@ -26,7 +26,7 @@ function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (reg
   const values = decodeU8a(registry, u8a.subarray(offset), types);
 
   for (let i = 0; i < values.length; i += 2) {
-    output.set(values[i], values[i + 1] as V);
+    output.set(values[i] as K, values[i + 1] as V);
   }
 
   return output;
