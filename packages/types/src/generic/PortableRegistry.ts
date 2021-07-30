@@ -41,7 +41,9 @@ const PRIMITIVE_PATHS = [
 ].map((p) => p.split('::'));
 
 // Mappings for types that should be converted to set via BitVec
-const SETS = ['pallet_identity::types::BitFlags'];
+const SETS = [
+  'pallet_identity::types::BitFlags'
+].map((p) => p.split('::'));
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
@@ -298,9 +300,7 @@ export class GenericPortableRegistry extends Struct {
       });
     }
 
-    const namespace = path.join('::');
-
-    return SETS.includes(namespace)
+    return SETS.some((p) => matchParts(p, path))
       ? this.#extractCompositeSet(lookupIndex, params, fields)
       : this.#extractFields(lookupIndex, fields);
   }
