@@ -2,11 +2,15 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users of `api.at(...)` interfaces
+
 Changes:
 
+- Check specName & specVersion for historic registries (caters for runtime renames)
 - Fix circular dependencies in codec utils
-- Fix `api.at(<blockHash>)` to correctly decorate with the storage hash
+- Fix `api.at(<blockHash>)` to decorate with the correct storage hash
 - Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Add Kusama 9080 upgrade block
 
 
 ## 5.2.1 Jul 26, 2021
@@ -19,7 +23,7 @@ Contributed:
 
 Changes:
 
-- Adjust RPC to use registry.createType with optionality (required for metadata v14)
+- Adjust RPC to use `registry.createType` with optionality (required for metadata v14)
 - Adjust alphabetical sorting for TS type generation
 - Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
 - Provide the capability to convert v13 Metadata to upcoming v14
