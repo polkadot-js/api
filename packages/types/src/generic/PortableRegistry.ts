@@ -53,9 +53,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
 
-    return a === '*' || a === b
-      ? true
-      : a.includes('_') && matchParts(a.split('_'), b.split('_'));
+    return (a === '*' || a === b) || (a.includes('_') && matchParts(a.split('_'), b.split('_')));
   });
 }
 
