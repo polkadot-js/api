@@ -12,6 +12,7 @@ Changes:
 - Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
 - Add Kusama 9080 upgrade block
 - Align static metadata with latest Substrate
+- Add v13/v14 static metatadata for Polkadot
 
 
 ## 5.2.1 Jul 26, 2021
