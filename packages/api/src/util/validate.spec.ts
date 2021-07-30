@@ -4,7 +4,7 @@
 import type { Storage } from '@polkadot/types/metadata/decorate/types';
 
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
-import metaStatic from '@polkadot/types/metadata/static';
+import metaStatic from '@polkadot/types/metadata/static-substrate';
 
 import { extractStorageArgs } from './validate';
 

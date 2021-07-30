@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
-import metadataStatic from '../metadata/static';
+import metadataStatic from '../metadata/static-substrate';
 import { GenericCall as Call } from '.';
 
 const registry = new TypeRegistry();

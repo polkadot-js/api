@@ -11,16 +11,16 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: Record<string, unknown>): void {
-  it('decodes latest substrate properly', (): void => {
-    const metadata = new Metadata(registry, rpcData);
+export function decodeLatestMeta<Modules extends Codec> (registry: Registry, version: number, staticMeta: string, staticJson: Record<string, unknown>): void {
+  it('decodes metadata properly', (): void => {
+    const metadata = new Metadata(registry, staticMeta);
 
     registry.setMetadata(metadata);
 
     try {
       expect(metadata.version).toBe(version);
       expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-      expect(metadata.toJSON()).toEqual(staticSubstrate);
+      expect(metadata.toJSON()).toEqual(staticJson);
     } catch (error) {
       console.error(stringify(metadata.toJSON()));
 

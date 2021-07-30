@@ -7,7 +7,7 @@ import type { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
-import rpcMetadata from '../metadata/static';
+import rpcMetadata from '../metadata/static-substrate';
 import { Text, U32, u128 as U128 } from '../primitive';
 import { Tuple } from '.';
 
