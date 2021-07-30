@@ -8,7 +8,7 @@ import { TypeRegistry } from '../../create';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
 import { Metadata } from '../../metadata';
-import rpcMetadata from '../../metadata/static';
+import rpcMetadata from '../../metadata/static-substrate';
 
 describe('EventRecord', (): void => {
   const registry = new TypeRegistry();

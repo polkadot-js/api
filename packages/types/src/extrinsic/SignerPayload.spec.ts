@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
-import rpcMetadata from '../metadata/static';
+import rpcMetadata from '../metadata/static-substrate';
 import { GenericSignerPayload as SignerPayload } from '.';
 
 const registry = new TypeRegistry();

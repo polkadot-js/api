@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../create';
 import { Metadata } from './Metadata';
-import substrateData from './static';
+import substrateData from './static-substrate';
 
 describe('Metadata', (): void => {
   it('allows creation from hex with JSON equivalence', (): void => {

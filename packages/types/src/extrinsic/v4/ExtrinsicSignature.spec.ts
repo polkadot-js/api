@@ -6,7 +6,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../../metadata';
-import metadataStatic from '../../metadata/static';
+import metadataStatic from '../../metadata/static-substrate';
 import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
 
 const signOptions = {
