@@ -23,7 +23,7 @@ describe('MetadataV14 (substrate)', (): void => {
   defaultValues(registry, substrateData, true, true);
 });
 
-describe('MetadataV14 (substrate)', (): void => {
+describe('MetadataV14 (polkadot)', (): void => {
   const registry = new TypeRegistry();
 
   decodeLatestMeta(registry, 14, polkadotData, {
