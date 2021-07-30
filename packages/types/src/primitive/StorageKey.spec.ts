@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../create';
 import { decorateStorage, Metadata } from '../metadata';
-import rpcDataV11 from '../metadata/v11/static';
+import rpcDataV11 from '../metadata/v11/static-substrate';
 import { StorageKey } from '.';
 
 describe('StorageKey', (): void => {

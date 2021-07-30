@@ -4,7 +4,7 @@
 import type { Codec } from './types';
 
 import * as definitions from './interfaces/definitions';
-import metadataStatic from './metadata/static';
+import metadataStatic from './metadata/static-substrate';
 import { createTypeUnsafe, TypeRegistry } from './create';
 import * as exported from './index.types';
 import { Metadata } from './metadata';

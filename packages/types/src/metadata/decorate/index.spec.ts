@@ -6,7 +6,7 @@ import { u8aToHex } from '@polkadot/util';
 import { TypeRegistry } from '../../create';
 import { u32 } from '../../primitive';
 import { Metadata } from '../Metadata';
-import json from '../static';
+import json from '../static-substrate';
 import { decorateConstants, decorateExtrinsics, decorateStorage } from './';
 
 const registry = new TypeRegistry();

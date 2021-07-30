@@ -15,7 +15,7 @@ interface StaticData {
 }
 
 /** @internal */
-export function decodeLatestSubstrate (registry: Registry, version: number, rpcData: string, { substrate, types }: StaticData): void {
+export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { substrate, types }: StaticData): void {
   const metadata = new Metadata(registry, rpcData);
 
   registry.setMetadata(metadata);

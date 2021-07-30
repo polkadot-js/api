@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
-import staticData from '../static';
+import staticData from '../static-substrate';
 
 describe('toCallsOnly', (): void => {
   const registry = new TypeRegistry();

@@ -265,10 +265,18 @@ export interface SignedSubmission extends Struct {
   readonly who: AccountId;
   readonly deposit: Balance;
   readonly solution: RawSolution;
+  readonly reward: Balance;
 }
 
 /** @name SignedSubmissionOf */
 export interface SignedSubmissionOf extends SignedSubmission {}
+
+/** @name SignedSubmissionTo276 */
+export interface SignedSubmissionTo276 extends Struct {
+  readonly who: AccountId;
+  readonly deposit: Balance;
+  readonly solution: RawSolution;
+}
 
 /** @name SlashingSpans */
 export interface SlashingSpans extends Struct {
