@@ -4,6 +4,7 @@
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
+import type { Text } from '../primitive/Text';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
 
@@ -20,24 +21,29 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
   Str: 'Text'
 };
 
-// ink! specific overrides
-const PRIMITIVE_INK = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
-
 // These are types where we have a specific decoding/encoding override + helpers
-const PRIMITIVE_SP: (string | [string, string])[] = [
-  'node_runtime::Call',
-  'node_runtime::Event',
+const PRIMITIVE_PATHS = [
+  // match {node, polkadot, ...}_runtime
+  '*_runtime::Call',
+  '*_runtime::Event',
+  // these have a specific encoding or logic (for pallets)
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
-  'primitive_types::*',
-  'sp_arithmetic::per_things::*',
+  // these are well-known types with additional encoding
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
-  'sp_runtime::multiaddress::MultiAddress'
-];
+  'sp_runtime::multiaddress::MultiAddress',
+  // shorten some well-known types
+  'primitive_types::*',
+  'sp_arithmetic::per_things::*',
+  // ink!
+  'ink_env::types::*'
+].map((p) => p.split('::'));
 
 // Mappings for types that should be converted to set via BitVec
-const SETS = ['pallet_identity::types::BitFlags'];
+const SETS = [
+  'pallet_identity::types::BitFlags'
+].map((p) => p.split('::'));
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
@@ -45,35 +51,25 @@ const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Re
 // These are reserved and/or conflicts with built-in Codec definitions
 const RESERVED = ['call', 'entries', 'hash', 'keys', 'new', 'size'];
 
+function matchParts (first: string[], second: (string | Text)[]): boolean {
+  return first.length === second.length && first.every((a, index) => {
+    const b = second[index].toString();
+
+    return (a === '*') || (a === b) || (
+      a.includes('*') &&
+      a.includes('_') &&
+      b.includes('_') &&
+      matchParts(a.split('_'), b.split('_'))
+    );
+  });
+}
+
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
-  if (path.length) {
-    const inkMatch = (
-      (path.length > 2 && path[0].eq('ink_env') && path[1].eq('types')) ||
-      PRIMITIVE_INK.includes(path[path.length - 1].toString())
-    );
-    const sp = PRIMITIVE_SP.find((item) => {
-      const parts = (
-        Array.isArray(item)
-          ? item[0]
-          : item
-      ).split('::');
-
-      return path.length === parts.length &&
-        parts.every((p, index) =>
-          p === '*' ||
-          path[index].eq(p)
-        );
-    });
-
-    if (Array.isArray(sp)) {
-      return sp[1];
-    } else if (inkMatch || sp) {
-      return path[path.length - 1].toString();
-    }
-  }
-
-  return null;
+  // TODO We need to handle ink! Balance in some way
+  return path.length && PRIMITIVE_PATHS.some((p) => matchParts(p, path))
+    ? path[path.length - 1].toString()
+    : null;
 }
 
 function removeDuplicateNames (names: [number, (string | null)][]): [number, (string | null)][] {
@@ -305,9 +301,7 @@ export class GenericPortableRegistry extends Struct {
       });
     }
 
-    const namespace = path.join('::');
-
-    return SETS.includes(namespace)
+    return SETS.some((p) => matchParts(p, path))
       ? this.#extractCompositeSet(lookupIndex, params, fields)
       : this.#extractFields(lookupIndex, fields);
   }
