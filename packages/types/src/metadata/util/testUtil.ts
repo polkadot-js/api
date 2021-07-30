@@ -12,7 +12,7 @@ import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
 export function decodeLatestMeta<Modules extends Codec> (registry: Registry, version: number, staticMeta: string, staticJson: Record<string, unknown>): void {
-  it('decodes latest metadata properly', (): void => {
+  it('decodes metadata properly', (): void => {
     const metadata = new Metadata(registry, staticMeta);
 
     registry.setMetadata(metadata);
