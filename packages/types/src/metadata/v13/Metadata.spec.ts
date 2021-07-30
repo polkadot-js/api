@@ -3,14 +3,10 @@
 
 import { TypeRegistry } from '../../create';
 import { decodeLatestMeta, defaultValues, toLatest } from '../util/testUtil';
-// eslint-disable-next-line import/no-duplicates
-import polkadotData from './static-polkadot';
-// eslint-disable-next-line import/no-duplicates
-import polkadotJson from './static-polkadot.json';
-// eslint-disable-next-line import/no-duplicates
-import substrateData from './static-substrate';
-// eslint-disable-next-line import/no-duplicates
-import substrateJson from './static-substrate.json';
+import polkadotData from './hex/static-polkadot';
+import substrateData from './hex/static-substrate';
+import polkadotJson from './json/static-polkadot.json';
+import substrateJson from './json/static-substrate.json';
 
 describe('MetadataV13 (substrate)', (): void => {
   const registry = new TypeRegistry();

@@ -3,10 +3,8 @@
 
 import { TypeRegistry } from '../../create';
 import { decodeLatestMeta, defaultValues, toLatest } from '../util/testUtil';
-// eslint-disable-next-line import/no-duplicates
-import substrateData from './static-substrate';
-// eslint-disable-next-line import/no-duplicates
-import substrateJson from './static-substrate.json';
+import substrateData from './hex/static-substrate';
+import substrateJson from './json/static-substrate.json';
 
 describe('MetadataV9 (substrate)', (): void => {
   const registry = new TypeRegistry();

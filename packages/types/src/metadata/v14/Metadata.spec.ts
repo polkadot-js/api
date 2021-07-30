@@ -3,16 +3,12 @@
 
 import { TypeRegistry } from '../../create';
 import { decodeLatestMeta, defaultValues, toLatest } from '../util/testUtil';
-// eslint-disable-next-line import/no-duplicates
-import polkadotData from './static-polkadot';
-// eslint-disable-next-line import/no-duplicates
-import polkadotJson from './static-polkadot.json';
-import polkadotTypes from './static-polkadot-types.json';
-// eslint-disable-next-line import/no-duplicates
-import substrateData from './static-substrate';
-// eslint-disable-next-line import/no-duplicates
-import substrateJson from './static-substrate.json';
-import substrateTypes from './static-substrate-types.json';
+import polkadotData from './hex/static-polkadot';
+import substrateData from './hex/static-substrate';
+import polkadotJson from './json/static-polkadot.json';
+import polkadotTypes from './json/static-polkadot-types.json';
+import substrateJson from './json/static-substrate.json';
+import substrateTypes from './json/static-substrate-types.json';
 
 describe('MetadataV14 (substrate)', (): void => {
   const registry = new TypeRegistry();
@@ -27,7 +23,7 @@ describe('MetadataV14 (substrate)', (): void => {
   defaultValues(registry, substrateData, true, true);
 });
 
-describe('MetadataV15 (substrate)', (): void => {
+describe('MetadataV14 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
   decodeLatestMeta(registry, 14, polkadotData, {
