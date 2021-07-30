@@ -3,15 +3,13 @@
 
 import { TypeRegistry } from '../../create';
 import { decodeLatestMeta, defaultValues, toLatest } from '../util/testUtil';
-// eslint-disable-next-line import/no-duplicates
-import substrateData from './static-substrate';
-// eslint-disable-next-line import/no-duplicates
-import substrateJson from './static-substrate.json';
+import substrateData from './hex/static-substrate';
+import substrateJson from './json/static-substrate.json';
 
 describe('MetadataV11 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
-  decodeLatestMeta(registry, 11, substrateData, substrateJson);
+  decodeLatestMeta(registry, 11, substrateData, { substrate: substrateJson as Record<string, unknown> });
 
   toLatest(registry, 11, substrateData);
 
