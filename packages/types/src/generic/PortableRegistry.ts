@@ -58,6 +58,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
     return (a === '*') || (a === b) || (
       a.includes('*') &&
       a.includes('_') &&
+      b.includes('_') &&
       matchParts(a.split('_'), b.split('_'))
     );
   });
