@@ -22,7 +22,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 };
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PRIMITIVE_SP: string[] = [
+const PRIMITIVE_PATHS = [
   // match {node, polkadot, ...}_runtime
   '*_runtime::Call',
   '*_runtime::Event',
@@ -38,7 +38,7 @@ const PRIMITIVE_SP: string[] = [
   'sp_arithmetic::per_things::*',
   // ink!
   'ink_env::types::*'
-];
+].map((p) => p.split('::'));
 
 // Mappings for types that should be converted to set via BitVec
 const SETS = ['pallet_identity::types::BitFlags'];
@@ -53,14 +53,18 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
 
-    return (a === '*' || a === b) || (a.includes('_') && matchParts(a.split('_'), b.split('_')));
+    return (a === '*') || (a === b) || (
+      a.includes('*') &&
+      a.includes('_') &&
+      matchParts(a.split('_'), b.split('_'))
+    );
   });
 }
 
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PRIMITIVE_SP.find((item) => matchParts(item.split('::'), path))
+  return path.length && PRIMITIVE_PATHS.some((p) => matchParts(p, path))
     ? path[path.length - 1].toString()
     : null;
 }
