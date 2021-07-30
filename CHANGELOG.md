@@ -11,6 +11,7 @@ Changes:
 - Fix `api.at(<blockHash>)` to decorate with the correct storage hash
 - Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
 - Add Kusama 9080 upgrade block
+- Align static metadata with latest Substrate
 
 
 ## 5.2.1 Jul 26, 2021

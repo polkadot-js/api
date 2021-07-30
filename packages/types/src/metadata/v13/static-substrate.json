@@ -659,6 +659,13 @@
               "docs": [
                 " Batch of dispatches completed fully with no error."
               ]
+            },
+            {
+              "name": "ItemCompleted",
+              "args": [],
+              "docs": [
+                " A single item within a Batch of dispatches has completed with no error."
+              ]
             }
           ],
           "constants": [],
@@ -1119,7 +1126,18 @@
             }
           ],
           "events": null,
-          "constants": [],
+          "constants": [
+            {
+              "name": "UncleGenerations",
+              "type": "BlockNumber",
+              "value": "0x05000000",
+              "docs": [
+                " The number of blocks back we should accept uncles.",
+                " This means that we will deal with uncle-parents that are",
+                " `UncleGenerations + 1` before `now`."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "InvalidUncleParent",
@@ -1771,6 +1789,23 @@
               "docs": [
                 " The minimum amount required to keep an account open."
               ]
+            },
+            {
+              "name": "MaxLocks",
+              "type": "u32",
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of locks that should exist on an account.",
+                " Not strictly enforced, but used for weight estimation."
+              ]
+            },
+            {
+              "name": "MaxReserves",
+              "type": "u32",
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of named reserves that can exist on an account."
+              ]
             }
           ],
           "errors": [
@@ -2001,7 +2036,7 @@
                     "linked": false
                   }
                 },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000",
                 "docs": [
                   " Unchecked, signed solutions.",
                   "",
@@ -2225,6 +2260,34 @@
               ]
             },
             {
+              "name": "MinerTxPriority",
+              "type": "TransactionPriority",
+              "value": "0xfeffffffffffff7f",
+              "docs": [
+                " The priority of the unsigned transaction submitted in the unsigned-phase"
+              ]
+            },
+            {
+              "name": "MinerMaxIterations",
+              "type": "u32",
+              "value": "0x0a000000",
+              "docs": [
+                " Maximum number of iteration of balancing that will be executed in the embedded miner of",
+                " the pallet."
+              ]
+            },
+            {
+              "name": "MinerMaxWeight",
+              "type": "Weight",
+              "value": "0xc07c907c2d010000",
+              "docs": [
+                " Maximum weight that the miner should consume.",
+                "",
+                " The miner will ensure that the total weight of the unsigned solution will not exceed",
+                " this value, based on [`WeightInfo::submit_unsigned`]."
+              ]
+            },
+            {
               "name": "SignedMaxSubmissions",
               "type": "u32",
               "value": "0x0a000000",
@@ -2278,6 +2341,17 @@
               "value": "0x00000000000000000000000000000000",
               "docs": [
                 " Per-weight deposit for a signed solution."
+              ]
+            },
+            {
+              "name": "MinerMaxLength",
+              "type": "u32",
+              "value": "0x00003600",
+              "docs": [
+                " Maximum length (bytes) that the mined solution should consume.",
+                "",
+                " The miner will ensure that the total length of the unsigned solution will not exceed",
+                " this value."
               ]
             }
           ],
@@ -2886,7 +2960,7 @@
                 "docs": [
                   " The last planned session scheduled by the session pallet.",
                   "",
-                  " This is basically in sync with the call to [`SessionManager::new_session`]."
+                  " This is basically in sync with the call to [`pallet_session::SessionManager::new_session`]."
                 ]
               },
               {
@@ -2970,8 +3044,8 @@
                 " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
-                " Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount",
-                " that can be added.",
+                " Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose any limitation",
+                " on the amount that can be added.",
                 "",
                 " Emits `Bonded`.",
                 "",
@@ -3179,7 +3253,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " Same as [`set_validator_count`].",
+                " Same as [`Self::set_validator_count`].",
                 " # </weight>"
               ]
             },
@@ -3197,7 +3271,7 @@
                 " The dispatch origin must be Root.",
                 "",
                 " # <weight>",
-                " Same as [`set_validator_count`].",
+                " Same as [`Self::set_validator_count`].",
                 " # </weight>"
               ]
             },
@@ -3549,14 +3623,13 @@
                 "   bond required.",
                 "",
                 " This can be helpful if bond requirements are updated, and we need to remove old users",
-                " who do not satisfy these requirements.",
-                ""
+                " who do not satisfy these requirements."
               ]
             }
           ],
           "events": [
             {
-              "name": "EraPayout",
+              "name": "EraPaid",
               "args": [
                 "EraIndex",
                 "Balance",
@@ -3569,17 +3642,17 @@
               ]
             },
             {
-              "name": "Reward",
+              "name": "Rewarded",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "docs": [
-                " The staker has been rewarded by this amount. \\[stash, amount\\]"
+                " The nominator has been rewarded by this amount. \\[stash, amount\\]"
               ]
             },
             {
-              "name": "Slash",
+              "name": "Slashed",
               "args": [
                 "AccountId",
                 "Balance"
@@ -3600,7 +3673,7 @@
               ]
             },
             {
-              "name": "StakingElection",
+              "name": "StakersElected",
               "args": [],
               "docs": [
                 " A new set of stakers was elected."
@@ -3665,6 +3738,16 @@
               "docs": [
                 " An account has stopped participating as either a validator or nominator.",
                 " \\[stash\\]"
+              ]
+            },
+            {
+              "name": "PayoutStarted",
+              "args": [
+                "EraIndex",
+                "AccountId"
+              ],
+              "docs": [
+                " The stakers' rewards are getting paid. \\[era_index, validator_stash\\]"
               ]
             }
           ],
@@ -4903,10 +4986,10 @@
               "name": "Executed",
               "args": [
                 "ReferendumIndex",
-                "bool"
+                "DispatchResult"
               ],
               "docs": [
-                " A proposal has been enacted. \\[ref_index, is_ok\\]"
+                " A proposal has been enacted. \\[ref_index, result\\]"
               ]
             },
             {
@@ -5054,6 +5137,16 @@
               ]
             },
             {
+              "name": "InstantAllowed",
+              "type": "bool",
+              "value": "0x01",
+              "docs": [
+                " Indicator for whether an emergency origin is even allowed to happen. Some chains may want",
+                " to set this permanently to `false`, others may want to condition it on things such as",
+                " an upgrade having happened recently."
+              ]
+            },
+            {
               "name": "FastTrackVotingPeriod",
               "type": "BlockNumber",
               "value": "0x80510100",
@@ -5086,6 +5179,14 @@
                 "",
                 " Also used to compute weight, an overly big value can",
                 " lead to extrinsic with very big weight: see `delegate` for instance."
+              ]
+            },
+            {
+              "name": "MaxProposals",
+              "type": "u32",
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of public proposals that can exist at any time."
               ]
             }
           ],
@@ -6383,8 +6484,9 @@
                 "   origin is removed as a runner-up.",
                 " - `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "   removed as a member, consequently not being a candidate for the next round anymore.",
-                "   Similar to [`remove_members`], if replacement runners exists, they are immediately",
-                "   used. If the prime is renouncing, then no prime will exist until the next round.",
+                "   Similar to [`remove_member`](Self::remove_member), if replacement runners exists,",
+                "   they are immediately used. If the prime is renouncing, then no prime will exist until",
+                "   the next round.",
                 "",
                 " The dispatch origin of this call must be signed, and have one of the above roles.",
                 "",
@@ -7328,7 +7430,15 @@
               "type": "PalletId",
               "value": "0x70792f7472737279",
               "docs": [
-                " The treasury's module id, used for deriving its sovereign account ID."
+                " The treasury's pallet id, used for deriving its sovereign account ID."
+              ]
+            },
+            {
+              "name": "MaxApprovals",
+              "type": "u32",
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of approvals that can wait in the spending queue."
               ]
             }
           ],
@@ -8309,7 +8419,19 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "UnsignedPriority",
+              "type": "TransactionPriority",
+              "value": "0xffffffffffffffff",
+              "docs": [
+                " A configuration for base priority of unsigned transactions.",
+                "",
+                " This is exposed so that it can be tuned for particular runtime, when",
+                " multiple pallets send unsigned transactions."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "InvalidKey",
@@ -11156,7 +11278,7 @@
                 " Schedule a named task after a delay.",
                 "",
                 " # <weight>",
-                " Same as [`schedule_named`].",
+                " Same as [`schedule_named`](Self::schedule_named).",
                 " # </weight>"
               ]
             }
@@ -11194,7 +11316,26 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "MaximumWeight",
+              "type": "Weight",
+              "value": "0x00806e8774010000",
+              "docs": [
+                " The maximum weight that may be scheduled per block for any dispatchables of less priority",
+                " than `schedule::HARD_DEADLINE`."
+              ]
+            },
+            {
+              "name": "MaxScheduledPerBlock",
+              "type": "u32",
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of scheduled calls in the queue for a single block.",
+                " Not strictly enforced, but used for weight estimation."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "FailedToSchedule",
@@ -14068,7 +14209,49 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "AssetDeposit",
+              "type": "DepositBalanceOf",
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": "DepositBalanceOf",
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": "DepositBalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes you store in your",
+                " metadata."
+              ]
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": "DepositBalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved when creating a new approval."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": "u32",
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of a name or symbol stored on-chain."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "BalanceLow",
@@ -14148,7 +14331,7 @@
         {
           "name": "Mmr",
           "storage": {
-            "prefix": "MerkleMountainRange",
+            "prefix": "Mmr",
             "items": [
               {
                 "name": "RootHash",
@@ -14420,6 +14603,16 @@
               "docs": [
                 " The max number of calls available in a single lottery."
               ]
+            },
+            {
+              "name": "MaxGenerateRandom",
+              "type": "u32",
+              "value": "0x0a000000",
+              "docs": [
+                " Number of time we should try to generate a random number that has no modulo bias.",
+                " The larger this number, the more potential computation is used for picking the winner,",
+                " but also the more likely that the chosen winner is done fairly."
+              ]
             }
           ],
           "errors": [
@@ -14673,6 +14866,15 @@
             }
           ],
           "constants": [
+            {
+              "name": "IgnoredIssuance",
+              "type": "BalanceOf",
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get",
+                " the issuance by which we inflate or deflate the gilt."
+              ]
+            },
             {
               "name": "QueueCount",
               "type": "u32",
@@ -15855,7 +16057,73 @@
               ]
             }
           ],
-          "constants": [],
+          "constants": [
+            {
+              "name": "ClassDeposit",
+              "type": "DepositBalanceOf",
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset class."
+              ]
+            },
+            {
+              "name": "InstanceDeposit",
+              "type": "DepositBalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset instance."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": "DepositBalanceOf",
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "AttributeDepositBase",
+              "type": "DepositBalanceOf",
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding an attribute to an asset."
+              ]
+            },
+            {
+              "name": "DepositPerByte",
+              "type": "DepositBalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes store in metadata,",
+                " either \"normal\" metadata or attribute metadata."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": "u32",
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of data stored on-chain."
+              ]
+            },
+            {
+              "name": "KeyLimit",
+              "type": "u32",
+              "value": "0x20000000",
+              "docs": [
+                " The maximum length of an attribute key."
+              ]
+            },
+            {
+              "name": "ValueLimit",
+              "type": "u32",
+              "value": "0x00010000",
+              "docs": [
+                " The maximum length of an attribute value."
+              ]
+            }
+          ],
           "errors": [
             {
               "name": "NoPermission",

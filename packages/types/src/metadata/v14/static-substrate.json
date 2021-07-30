@@ -4659,7 +4659,7 @@
             {
               "name": "IgnoredIssuance",
               "type": 6,
-              "value": "0x00000000000000000000000000000000",
+              "value": "0x9c33ee170e636c010000000000000000",
               "docs": [
                 " The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get",
                 " the issuance by which we inflate or deflate the gilt."
