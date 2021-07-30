@@ -1352,8 +1352,9 @@ declare module '@polkadot/api/types/submittable' {
        * origin is removed as a runner-up.
        * - `origin` is a current member. In this case, the deposit is unreserved and origin is
        * removed as a member, consequently not being a candidate for the next round anymore.
-       * Similar to [`remove_members`], if replacement runners exists, they are immediately
-       * used. If the prime is renouncing, then no prime will exist until the next round.
+       * Similar to [`remove_member`](Self::remove_member), if replacement runners exists,
+       * they are immediately used. If the prime is renouncing, then no prime will exist until
+       * the next round.
        * 
        * The dispatch origin of this call must be signed, and have one of the above roles.
        * 
@@ -2556,7 +2557,7 @@ declare module '@polkadot/api/types/submittable' {
        * Schedule a named task after a delay.
        * 
        * # <weight>
-       * Same as [`schedule_named`].
+       * Same as [`schedule_named`](Self::schedule_named).
        * # </weight>
        **/
       scheduleNamedAfter: AugmentedSubmittable<(id: Bytes | string | Uint8Array, after: BlockNumber | AnyNumber | Uint8Array, maybePeriodic: Option<Period> | null | object | string | Uint8Array, priority: Priority | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, BlockNumber, Option<Period>, Priority, Call]>;
@@ -2954,8 +2955,8 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin for this call must be _Signed_ by the stash, not the controller.
        * 
        * Use this if there are additional funds in your stash account that you wish to bond.
-       * Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount
-       * that can be added.
+       * Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose any limitation
+       * on the amount that can be added.
        * 
        * Emits `Bonded`.
        * 
@@ -3017,7 +3018,6 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * This can be helpful if bond requirements are updated, and we need to remove old users
        * who do not satisfy these requirements.
-       * 
        **/
       chillOther: AugmentedSubmittable<(controller: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
       /**
@@ -3093,7 +3093,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin must be Root.
        * 
        * # <weight>
-       * Same as [`set_validator_count`].
+       * Same as [`Self::set_validator_count`].
        * # </weight>
        **/
       increaseValidatorCount: AugmentedSubmittable<(additional: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
@@ -3185,7 +3185,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin must be Root.
        * 
        * # <weight>
-       * Same as [`set_validator_count`].
+       * Same as [`Self::set_validator_count`].
        * # </weight>
        **/
       scaleValidatorCount: AugmentedSubmittable<(factor: Percent | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Percent]>;

@@ -939,7 +939,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The last planned session scheduled by the session pallet.
        * 
-       * This is basically in sync with the call to [`SessionManager::new_session`].
+       * This is basically in sync with the call to [`pallet_session::SessionManager::new_session`].
        **/
       currentPlannedSession: AugmentedQuery<ApiType, () => Observable<SessionIndex>, []> & QueryableStorageEntry<ApiType, []>;
       /**

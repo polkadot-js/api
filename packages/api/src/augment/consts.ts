@@ -1,19 +1,59 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Vec, bool, u16, u32, u64 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { Schedule } from '@polkadot/types/interfaces/contracts';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Perbill, Percent, Permill, RuntimeDbWeight, Weight } from '@polkadot/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Perbill, Percent, Permill, RuntimeDbWeight, TransactionPriority, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
+import type { DepositBalanceOf } from '@polkadot/types/interfaces/uniques';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
+    assets: {
+      /**
+       * The amount of funds that must be reserved when creating a new approval.
+       **/
+      approvalDeposit: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved for an asset.
+       **/
+      assetDeposit: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved when adding metadata to your asset.
+       **/
+      metadataDepositBase: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The additional funds that must be reserved for the number of bytes you store in your
+       * metadata.
+       **/
+      metadataDepositPerByte: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of a name or symbol stored on-chain.
+       **/
+      stringLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    authorship: {
+      /**
+       * The number of blocks back we should accept uncles.
+       * This means that we will deal with uncle-parents that are
+       * `UncleGenerations + 1` before `now`.
+       **/
+      uncleGenerations: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     babe: {
       /**
        * The amount of time, in slots, that each epoch should last.
@@ -39,6 +79,15 @@ declare module '@polkadot/api/types/consts' {
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: Balance & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of locks that should exist on an account.
+       * Not strictly enforced, but used for weight estimation.
+       **/
+      maxLocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of named reserves that can exist on an account.
+       **/
+      maxReserves: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -164,9 +213,19 @@ declare module '@polkadot/api/types/consts' {
        **/
       fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * Indicator for whether an emergency origin is even allowed to happen. Some chains may want
+       * to set this permanently to `false`, others may want to condition it on things such as
+       * an upgrade having happened recently.
+       **/
+      instantAllowed: bool & AugmentedConst<ApiType>;
+      /**
        * How often (in blocks) new public referenda are launched.
        **/
       launchPeriod: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of public proposals that can exist at any time.
+       **/
+      maxProposals: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
        * 
@@ -192,6 +251,29 @@ declare module '@polkadot/api/types/consts' {
       [key: string]: Codec;
     };
     electionProviderMultiPhase: {
+      /**
+       * Maximum number of iteration of balancing that will be executed in the embedded miner of
+       * the pallet.
+       **/
+      minerMaxIterations: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum length (bytes) that the mined solution should consume.
+       * 
+       * The miner will ensure that the total length of the unsigned solution will not exceed
+       * this value.
+       **/
+      minerMaxLength: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum weight that the miner should consume.
+       * 
+       * The miner will ensure that the total weight of the unsigned solution will not exceed
+       * this value, based on [`WeightInfo::submit_unsigned`].
+       **/
+      minerMaxWeight: Weight & AugmentedConst<ApiType>;
+      /**
+       * The priority of the unsigned transaction submitted in the unsigned-phase
+       **/
+      minerTxPriority: TransactionPriority & AugmentedConst<ApiType>;
       /**
        * The repeat threshold of the offchain worker.
        * 
@@ -296,6 +378,11 @@ declare module '@polkadot/api/types/consts' {
        **/
       fifoQueueLen: u32 & AugmentedConst<ApiType>;
       /**
+       * The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get
+       * the issuance by which we inflate or deflate the gilt.
+       **/
+      ignoredIssuance: BalanceOf & AugmentedConst<ApiType>;
+      /**
        * The number of blocks between consecutive attempts to issue more gilts in an effort to
        * get to the target amount to be frozen.
        * 
@@ -371,6 +458,19 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
+    imOnline: {
+      /**
+       * A configuration for base priority of unsigned transactions.
+       * 
+       * This is exposed so that it can be tuned for particular runtime, when
+       * multiple pallets send unsigned transactions.
+       **/
+      unsignedPriority: TransactionPriority & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     indices: {
       /**
        * The deposit needed for reserving an index.
@@ -386,6 +486,12 @@ declare module '@polkadot/api/types/consts' {
        * The max number of calls available in a single lottery.
        **/
       maxCalls: u32 & AugmentedConst<ApiType>;
+      /**
+       * Number of time we should try to generate a random number that has no modulo bias.
+       * The larger this number, the more potential computation is used for picking the winner,
+       * but also the more likely that the chosen winner is done fairly.
+       **/
+      maxGenerateRandom: u32 & AugmentedConst<ApiType>;
       /**
        * The Lottery's pallet id
        **/
@@ -490,6 +596,22 @@ declare module '@polkadot/api/types/consts' {
        * threshold.
        **/
       recoveryDeposit: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    scheduler: {
+      /**
+       * The maximum weight that may be scheduled per block for any dispatchables of less priority
+       * than `schedule::HARD_DEADLINE`.
+       **/
+      maximumWeight: Weight & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of scheduled calls in the queue for a single block.
+       * Not strictly enforced, but used for weight estimation.
+       **/
+      maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -657,7 +779,11 @@ declare module '@polkadot/api/types/consts' {
        **/
       burn: Permill & AugmentedConst<ApiType>;
       /**
-       * The treasury's module id, used for deriving its sovereign account ID.
+       * The maximum number of approvals that can wait in the spending queue.
+       **/
+      maxApprovals: u32 & AugmentedConst<ApiType>;
+      /**
+       * The treasury's pallet id, used for deriving its sovereign account ID.
        **/
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
@@ -673,6 +799,45 @@ declare module '@polkadot/api/types/consts' {
        * Period between successive spends.
        **/
       spendPeriod: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    uniques: {
+      /**
+       * The basic amount of funds that must be reserved when adding an attribute to an asset.
+       **/
+      attributeDepositBase: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved for an asset class.
+       **/
+      classDeposit: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The additional funds that must be reserved for the number of bytes store in metadata,
+       * either "normal" metadata or attribute metadata.
+       **/
+      depositPerByte: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved for an asset instance.
+       **/
+      instanceDeposit: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of an attribute key.
+       **/
+      keyLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved when adding metadata to your asset.
+       **/
+      metadataDepositBase: DepositBalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of data stored on-chain.
+       **/
+      stringLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of an attribute value.
+       **/
+      valueLimit: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

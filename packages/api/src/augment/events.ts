@@ -314,9 +314,9 @@ declare module '@polkadot/api/types/events' {
        **/
       Delegated: AugmentedEvent<ApiType, [AccountId, AccountId]>;
       /**
-       * A proposal has been enacted. \[ref_index, is_ok\]
+       * A proposal has been enacted. \[ref_index, result\]
        **/
-      Executed: AugmentedEvent<ApiType, [ReferendumIndex, bool]>;
+      Executed: AugmentedEvent<ApiType, [ReferendumIndex, DispatchResult]>;
       /**
        * An external proposal has been tabled.
        **/
@@ -819,7 +819,7 @@ declare module '@polkadot/api/types/events' {
        * the remainder from the maximum amount of reward.
        * \[era_index, validator_payout, remainder\]
        **/
-      EraPayout: AugmentedEvent<ApiType, [EraIndex, Balance, Balance]>;
+      EraPaid: AugmentedEvent<ApiType, [EraIndex, Balance, Balance]>;
       /**
        * A nominator has been kicked from a validator. \[nominator, stash\]
        **/
@@ -830,18 +830,22 @@ declare module '@polkadot/api/types/events' {
        **/
       OldSlashingReportDiscarded: AugmentedEvent<ApiType, [SessionIndex]>;
       /**
-       * The staker has been rewarded by this amount. \[stash, amount\]
+       * The stakers' rewards are getting paid. \[era_index, validator_stash\]
        **/
-      Reward: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      PayoutStarted: AugmentedEvent<ApiType, [EraIndex, AccountId]>;
+      /**
+       * The nominator has been rewarded by this amount. \[stash, amount\]
+       **/
+      Rewarded: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * One validator (and its nominators) has been slashed by the given amount.
        * \[validator, amount\]
        **/
-      Slash: AugmentedEvent<ApiType, [AccountId, Balance]>;
+      Slashed: AugmentedEvent<ApiType, [AccountId, Balance]>;
       /**
        * A new set of stakers was elected.
        **/
-      StakingElection: AugmentedEvent<ApiType, []>;
+      StakersElected: AugmentedEvent<ApiType, []>;
       /**
        * The election failed. No new era is planned.
        **/
@@ -1172,6 +1176,10 @@ declare module '@polkadot/api/types/events' {
        * well as the error. \[index, error\]
        **/
       BatchInterrupted: AugmentedEvent<ApiType, [u32, DispatchError]>;
+      /**
+       * A single item within a Batch of dispatches has completed with no error.
+       **/
+      ItemCompleted: AugmentedEvent<ApiType, []>;
       /**
        * Generic event
        **/
