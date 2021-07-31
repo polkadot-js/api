@@ -14,7 +14,7 @@ describe('MetadataV14 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
   decodeLatestMeta(registry, 14, substrateData, {
-    substrate: substrateJson as Record<string, unknown>,
+    compare: substrateJson as Record<string, unknown>,
     types: substrateTypes as Record<string, unknown>
   });
 
@@ -27,7 +27,7 @@ describe('MetadataV14 (polkadot)', (): void => {
   const registry = new TypeRegistry();
 
   decodeLatestMeta(registry, 14, polkadotData, {
-    substrate: polkadotJson as Record<string, unknown>,
+    compare: polkadotJson as Record<string, unknown>,
     types: polkadotTypes as Record<string, unknown>
   });
 

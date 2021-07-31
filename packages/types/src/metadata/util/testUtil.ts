@@ -10,12 +10,12 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 interface StaticData {
-  substrate: Record<string, unknown>;
+  compare: Record<string, unknown>;
   types?: Record<string, unknown>;
 }
 
 /** @internal */
-export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { substrate, types }: StaticData): void {
+export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { compare, types }: StaticData): void {
   const metadata = new Metadata(registry, rpcData);
 
   registry.setMetadata(metadata);
@@ -28,7 +28,7 @@ export function decodeLatestMeta (registry: Registry, version: number, rpcData: 
 
     try {
       expect(metadata.version).toBe(version);
-      expect(json).toEqual(substrate);
+      expect(json).toEqual(compare);
     } catch (error) {
       console.error(stringify(json));
 

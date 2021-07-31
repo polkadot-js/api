@@ -11,7 +11,7 @@ import substrateJson from './json/static-substrate.json';
 describe('MetadataV13 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
-  decodeLatestMeta(registry, 13, substrateData, { substrate: substrateJson as Record<string, unknown> });
+  decodeLatestMeta(registry, 13, substrateData, { compare: substrateJson as Record<string, unknown> });
 
   toLatest(registry, 13, substrateData);
 
@@ -21,7 +21,7 @@ describe('MetadataV13 (substrate)', (): void => {
 describe('MetadataV13 (polkadot)', (): void => {
   const registry = new TypeRegistry();
 
-  decodeLatestMeta(registry, 13, polkadotData, { substrate: polkadotJson as Record<string, unknown> });
+  decodeLatestMeta(registry, 13, polkadotData, { compare: polkadotJson as Record<string, unknown> });
 
   toLatest(registry, 13, polkadotData);
 
