@@ -3,11 +3,17 @@
 
 import { TypeRegistry } from '../create';
 import { Metadata } from './Metadata';
-import substrateData from './static-substrate';
+import polkadot from './static-polkadot';
+import substrate from './static-substrate';
+
+const allData: Record<string, string> = {
+  polkadot,
+  substrate
+};
 
 describe('Metadata', (): void => {
-  it('allows creation from hex with JSON equivalence', (): void => {
-    const test = new Metadata(new TypeRegistry(), substrateData);
+  it.each(['polkadot', 'substrate'])('allows creation from hex on %s', (type): void => {
+    const test = new Metadata(new TypeRegistry(), allData[type]);
 
     expect(
       new Metadata(new TypeRegistry(), test.toHex()).toJSON()
