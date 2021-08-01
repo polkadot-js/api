@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { testMeta } from '../util/testUtil';
-import substrateData from './hex/static-substrate';
-import substrateJson from './json/static-substrate.json';
+import substrateData from './substrate-hex';
+import substrateJson from './substrate-json.json';
 
 testMeta(12, {
   substrate: {

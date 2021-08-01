@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { testMeta } from '../util/testUtil';
-import polkadotData from './hex/static-polkadot';
-import substrateData from './hex/static-substrate';
-import polkadotJson from './json/static-polkadot.json';
-import substrateJson from './json/static-substrate.json';
+import polkadotData from './polkadot-hex';
+import polkadotJson from './polkadot-json.json';
+import substrateData from './substrate-hex';
+import substrateJson from './substrate-json.json';
 
 testMeta(13, {
   polkadot: {

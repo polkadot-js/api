@@ -12,8 +12,8 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { compare, types }: Check): void {
-  const metadata = new Metadata(registry, rpcData);
+export function decodeLatestMeta (registry: Registry, version: number, { compare, data, types }: Check): void {
+  const metadata = new Metadata(registry, data);
 
   registry.setMetadata(metadata);
 
@@ -76,7 +76,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         const inner = unwrapStorageType(registry, type, modifier.isOptional);
         const location = `${sectionName}.${stringCamelCase(name)}: ${inner}`;
 
-        it(`creates default types for ${location}`, (): void => {
+        it(location, (): void => {
           expect((): void => {
             try {
               const instance = registry.createTypeUnsafe(
@@ -106,15 +106,17 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
   });
 }
 
-export function testMeta (version: number, matchers: Record<string, Check>): void {
-  describe.each(Object.keys(matchers))(`MetadataV${version} (%p)`, (type): void => {
-    const matcher = matchers[type];
-    const registry = new TypeRegistry();
+export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
+  describe(`MetadataV${version}`, (): void => {
+    describe.each(Object.keys(matchers))('%s', (type): void => {
+      const matcher = matchers[type];
+      const registry = new TypeRegistry();
 
-    decodeLatestMeta(registry, version, matcher.data, matcher);
+      decodeLatestMeta(registry, version, matcher);
 
-    toLatest(registry, version, matcher.data);
+      toLatest(registry, version, matcher.data);
 
-    defaultValues(registry, matcher.data, true, true);
+      defaultValues(registry, matcher.data, true, withFallback);
+    });
   });
 }

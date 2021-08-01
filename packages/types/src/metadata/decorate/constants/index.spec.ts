@@ -7,7 +7,7 @@ import type { Constants } from '../types';
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
 import rpcMetadata from '../../static-substrate';
-import rpcMetadataV10 from '../../v10/hex/static-substrate';
+import rpcMetadataV10 from '../../v10/substrate-hex';
 import { decorateConstants } from '..';
 
 function init (meta: string): [Constants, TypeRegistry] {
