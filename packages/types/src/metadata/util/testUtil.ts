@@ -2,29 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '../../types';
+import type { Check } from './types';
 
 import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
+import { TypeRegistry } from '../../create';
 import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
-interface StaticData {
-  compare: Record<string, unknown>;
-  types?: Record<string, unknown>;
-}
-
 /** @internal */
-export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { compare, types }: StaticData): void {
+export function decodeLatestMeta (registry: Registry, version: number, rpcData: string, { compare, types }: Check): void {
   const metadata = new Metadata(registry, rpcData);
 
   registry.setMetadata(metadata);
 
   it('decodes latest substrate properly', (): void => {
-    const json = metadata.toJSON();
+    const json = metadata.toJSON() as Record<string, Record<string, Record<string, string>>>;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    delete (json as Record<string, Record<string, Record<string, string>>>).metadata?.[`v${metadata.version}`]?.lookup;
+    delete json.metadata?.[`v${metadata.version}`]?.lookup;
 
     try {
       expect(metadata.version).toBe(version);
@@ -106,5 +103,18 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         });
       });
     });
+  });
+}
+
+export function testMeta (version: number, matchers: Record<string, Check>): void {
+  describe.each(Object.keys(matchers))(`MetadataV${version} (%p)`, (type): void => {
+    const matcher = matchers[type];
+    const registry = new TypeRegistry();
+
+    decodeLatestMeta(registry, version, matcher.data, matcher);
+
+    toLatest(registry, version, matcher.data);
+
+    defaultValues(registry, matcher.data, true, true);
   });
 }
