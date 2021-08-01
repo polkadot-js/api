@@ -3,24 +3,26 @@
 
 import type { Codec, Registry } from '../../types';
 import type { MetadataInterface } from '../types';
+import type { Check } from './types';
 
 import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
+import { TypeRegistry } from '../../create';
 import { unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestMeta<Modules extends Codec> (registry: Registry, version: number, staticMeta: string, staticJson: Record<string, unknown>): void {
+export function decodeLatestMeta<Modules extends Codec> (registry: Registry, version: number, { compare, data }: Check): void {
   it('decodes metadata properly', (): void => {
-    const metadata = new Metadata(registry, staticMeta);
+    const metadata = new Metadata(registry, data);
 
     registry.setMetadata(metadata);
 
     try {
       expect(metadata.version).toBe(version);
       expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-      expect(metadata.toJSON()).toEqual(staticJson);
+      expect(metadata.toJSON()).toEqual(compare);
     } catch (error) {
       console.error(stringify(metadata.toJSON()));
 
@@ -57,7 +59,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
         const inner = unwrapStorageType(registry, type, modifier.isOptional);
         const location = `${mod.name.toString()}.${name.toString()}: ${inner}`;
 
-        it(`creates default types for ${location}`, (): void => {
+        it(location, (): void => {
           expect((): void => {
             try {
               const type = registry.createType(inner, hexToU8a(fallback.toHex()));
@@ -79,6 +81,21 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
           }).not.toThrow();
         });
       });
+    });
+  });
+}
+
+export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
+  describe(`MetadataV${version}`, (): void => {
+    describe.each(Object.keys(matchers))('%s', (type): void => {
+      const matcher = matchers[type];
+      const registry = new TypeRegistry();
+
+      decodeLatestMeta(registry, version, matcher);
+
+      toLatest(registry, version, matcher.data);
+
+      defaultValues(registry, matcher.data, true, withFallback);
     });
   });
 }

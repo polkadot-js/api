@@ -5,12 +5,12 @@ import type { MetadataAll } from '../../interfaces/metadata';
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
-import polkadotData from './hex/static-polkadot';
-import substrateData from './hex/static-substrate';
-import polkadotJson from './json/static-polkadot.json';
-import polkadotTypes from './json/static-polkadot-types.json';
-import substrateJson from './json/static-substrate.json';
-import substrateTypes from './json/static-substrate-types.json';
+import polkadotData from './polkadot-hex';
+import polkadotJson from './polkadot-json.json';
+import polkadotTypes from './polkadot-types.json';
+import substrateData from './substrate-hex';
+import substrateJson from './substrate-json.json';
+import substrateTypes from './substrate-types.json';
 
 describe('MetadataV14 (substrate)', (): void => {
   // FIXME This is to be replaced with the proper version (here as a stop-gap)
