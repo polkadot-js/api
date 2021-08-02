@@ -55,7 +55,7 @@ Handlebars.registerHelper({
       ...types
     ];
 
-    return defs.reduce((result, { file, types }): string => {
+    return [...defs].sort((a, b) => a.file.localeCompare(b.file)).reduce((result, { file, types }): string => {
       return types.length
         ? `${result}import type { ${types.sort().join(', ')} } from '${file}';\n`
         : result;

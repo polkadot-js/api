@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
 import type { AccountId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name AccountId32Junction */
 export interface AccountId32Junction extends Struct {
