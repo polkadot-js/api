@@ -254,7 +254,7 @@ export function generateTsDefFor (registry: Registry, importDefinitions: { [impo
     name: defName,
     types: [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
+        file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
         types: Object.keys(imports.localTypes[packagePath])
       }))
     ]

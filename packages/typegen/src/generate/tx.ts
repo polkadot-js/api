@@ -100,7 +100,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       modules,
       types: [
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath,
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

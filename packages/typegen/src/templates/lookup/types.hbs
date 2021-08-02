@@ -2,10 +2,12 @@
 
 {{{ imports }}}
 
+declare module '@polkadot/types/lookup' {
 {{#each items}}
 {{{this}}}
 
 {{/each}}
 
 export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';
+}
 {{> footer }}

@@ -7,6 +7,7 @@ import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { AccountId32, Call, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
 
+declare module '@polkadot/types/lookup' {
 /** @name FrameSystemAccountInfo (3) */
 export interface FrameSystemAccountInfo extends Struct {
   readonly nonce: u32;
@@ -1453,3 +1454,4 @@ export type FrameSystemExtensionsCheckWeight = Null;
 export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
 export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';
+}
