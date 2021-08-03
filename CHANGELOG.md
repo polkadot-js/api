@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 5.3.2 Aug 3, 2021
 
 Upgrade priority: Low. Recommended for users of bridges.
 
