@@ -237,12 +237,8 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (destDir: string, meta: Record<string, string> | string): void {
-  (
-    isString(meta)
-      ? [[undefined, meta]]
-      : Object.entries(meta)
-  ).reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
+function generateLookup (destDir: string, entries: [string | undefined, string][]): void {
+  entries.reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
     const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
     const filtered = getFilteredTypes(lookup, exclude);
 
@@ -259,10 +255,13 @@ function generateLookup (destDir: string, meta: Record<string, string> | string)
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
 export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', staticData?: string): void {
-  generateLookup(destDir, staticData || {
-    substrate: staticSubstrate,
-    // Substrate goes first....
-    // eslint-disable-next-line sort-keys
-    polkadot: staticPolkadot
-  });
+  generateLookup(
+    destDir,
+    staticData
+      ? [[undefined, staticData]]
+      : [
+        ['substrate', staticSubstrate],
+        ['polkadot', staticPolkadot]
+      ]
+  );
 }
