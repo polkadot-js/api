@@ -23,7 +23,7 @@ export default {
       begin: 'MessageNonce',
       end: 'MessageNonce',
       // pub type DispatchResultsBitVec = BitVec<Msb0, u8>;
-      dispatchResults: 'u8'
+      dispatchResults: 'BitVec'
     },
     DispatchFeePayment: {
       _enum: ['AtSourceChain', 'AtTargetChain']
