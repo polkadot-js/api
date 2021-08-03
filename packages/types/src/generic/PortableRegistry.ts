@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
 import type { Text } from '../primitive/Text';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
@@ -248,6 +248,8 @@ export class GenericPortableRegistry extends Struct {
         typeDef = this.#extractPrimitivePath(lookupIndex, primType);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
+      } else if (type.def.isBitSequence) {
+        typeDef = this.#extractBitSequence(lookupIndex, type.def.asBitSequence);
       } else if (type.def.isCompact) {
         typeDef = this.#extractCompact(lookupIndex, type.def.asCompact);
       } else if (type.def.isComposite) {
@@ -284,6 +286,22 @@ export class GenericPortableRegistry extends Struct {
       length: length.toNumber(),
       sub: this.#createSiDef(type)
     });
+  }
+
+  #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
+    const bitOrder = this.#createSiDef(bitOrderType);
+    const bitStore = this.#createSiDef(bitStoreType);
+
+    // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
+    // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
+    // we don't pass it though at all
+    assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
+
+    return {
+      info: TypeDefInfo.Plain,
+      type: 'BitVec'
+    };
   }
 
   #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
