@@ -15,6 +15,9 @@ import { withTypeString } from '../create/encodeTypes';
 import { getTypeDef } from '../create/getTypeDef';
 import { TypeDefInfo } from '../types';
 
+// Just a placeholder for a type.unrwapOr()
+const TYPE_UNWRAP = { toNumber: () => -1 };
+
 // Alias the primitive enum with out known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
@@ -72,14 +75,21 @@ function getPrimitivePath (path: SiPath): string | null {
     : null;
 }
 
-function removeDuplicateNames (names: [number, (string | null)][]): [number, (string | null)][] {
-  return names.map(([lookupIndex, name]): [number, string | null] => [
+function removeDuplicateNames (names: [number, string | null, SiTypeParameter[]][]): [number, (string | null)][] {
+  return names.map(([lookupIndex, name, params]): [number, string | null] => [
     lookupIndex,
     (
       !name ||
-      names.some(([oIndex, oName]) =>
+      names.some(([oIndex, oName, oParams]) =>
         name === oName &&
-        lookupIndex !== oIndex
+        lookupIndex !== oIndex &&
+        (
+          params.length !== oParams.length ||
+          params.some((p, index) =>
+            !p.name.eq(oParams[index].name) ||
+            p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== oParams[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
+          )
+        )
       )
     )
       ? null
@@ -87,11 +97,11 @@ function removeDuplicateNames (names: [number, (string | null)][]): [number, (st
   ]);
 }
 
-function extractName (types: PortableType[], id: SiLookupTypeId, { params, path }: SiType): [number, string | null] {
+function extractName (types: PortableType[], id: SiLookupTypeId, { params, path }: SiType): [number, string | null, SiTypeParameter[]] {
   const lookupIndex = id.toNumber();
 
   if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
-    return [lookupIndex, null];
+    return [lookupIndex, null, []];
   }
 
   const parts = path
@@ -120,7 +130,7 @@ function extractName (types: PortableType[], id: SiLookupTypeId, { params, path 
     }
   }
 
-  return [lookupIndex, typeName];
+  return [lookupIndex, typeName, params];
 }
 
 function extractNames (registry: Registry, types: PortableType[]): Record<number, string> {
@@ -163,6 +173,13 @@ export class GenericPortableRegistry extends Struct {
    */
   public get types (): Vec<PortableType> {
     return this.get('types') as Vec<PortableType>;
+  }
+
+  /**
+   * @description Returns the name for a specific lookup
+   */
+  public getName (lookupId: SiLookupTypeId | string | number): string | undefined {
+    return this.#names[this.#getLookupId(lookupId)];
   }
 
   /**

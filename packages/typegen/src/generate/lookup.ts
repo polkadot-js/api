@@ -130,7 +130,7 @@ function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): 
 }
 
 function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
-  return lookup.types.filter(({ id, type: { path } }) => {
+  const named = lookup.types.filter(({ id, type: { path } }) => {
     const typeDef = lookup.getTypeDef(id);
 
     return (
@@ -157,6 +157,14 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
       )
     );
   });
+  const names = named.map(({ id }) => lookup.getName(id));
+
+  return named.filter((_, index) =>
+    !names.some((n, iindex) =>
+      index > iindex &&
+      n === names[index]
+    )
+  );
 }
 
 function generateLookupDefs (meta: Metadata, destDir: string, subPath?: string): void {

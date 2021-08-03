@@ -94,10 +94,10 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
 
     return paramsNotation('Compact', sub.lookupName || formatType(registry, definitions, sub.type, imports, withShortcut));
   },
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, { lookupName }: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     setImports(definitions, imports, ['DoNotConstruct']);
 
-    return 'DoNotConstruct';
+    return paramsNotation('DoNotConstruct', lookupName || 'Null');
   },
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     if (typeDef.lookupName) {
