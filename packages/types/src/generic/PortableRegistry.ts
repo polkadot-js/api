@@ -288,17 +288,20 @@ export class GenericPortableRegistry extends Struct {
     });
   }
 
-  #extractBitSequence (lookupIndex: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
-    const error = `BitSequence is not yet mapped ${lookupIndex}: order=${bitOrderType.toString()}, type=${bitStoreType.toString()}`;
-
-    console.error(error);
-
+  #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
     const bitOrder = this.#createSiDef(bitOrderType);
     const bitStore = this.#createSiDef(bitStoreType);
 
-    console.error(stringify({ bitOrder, bitStore }));
+    // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
+    // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
+    // we don't pass it though at all
+    assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
 
-    throw new Error(error);
+    return {
+      info: TypeDefInfo.Plain,
+      type: 'BitVec'
+    };
   }
 
   #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
