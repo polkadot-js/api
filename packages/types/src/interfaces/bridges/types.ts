@@ -26,6 +26,9 @@ export interface CallOrigin extends Enum {
   readonly asSourceAccount: AccountId;
 }
 
+/** @name ChainId */
+export interface ChainId extends U8aFixed {}
+
 /** @name DeliveredMessages */
 export interface DeliveredMessages extends Struct {
   readonly begin: MessageNonce;
