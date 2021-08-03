@@ -801,7 +801,7 @@ declare module '@polkadot/api/types/events' {
        * the remainder from the maximum amount of reward.
        * \[era_index, validator_payout, remainder\]
        **/
-      EraPayout: AugmentedEvent<ApiType, [u32, u128, u128]>;
+      EraPaid: AugmentedEvent<ApiType, [u32, u128, u128]>;
       /**
        * A nominator has been kicked from a validator. \[nominator, stash\]
        **/
@@ -812,18 +812,22 @@ declare module '@polkadot/api/types/events' {
        **/
       OldSlashingReportDiscarded: AugmentedEvent<ApiType, [u32]>;
       /**
-       * The staker has been rewarded by this amount. \[stash, amount\]
+       * The stakers' rewards are getting paid. \[era_index, validator_stash\]
        **/
-      Reward: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      PayoutStarted: AugmentedEvent<ApiType, [u32, AccountId32]>;
+      /**
+       * The nominator has been rewarded by this amount. \[stash, amount\]
+       **/
+      Rewarded: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * One validator (and its nominators) has been slashed by the given amount.
        * \[validator, amount\]
        **/
-      Slash: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * A new set of stakers was elected.
        **/
-      StakingElection: AugmentedEvent<ApiType, []>;
+      StakersElected: AugmentedEvent<ApiType, []>;
       /**
        * The election failed. No new era is planned.
        **/
@@ -1154,6 +1158,10 @@ declare module '@polkadot/api/types/events' {
        * well as the error. \[index, error\]
        **/
       BatchInterrupted: AugmentedEvent<ApiType, [u32, SpRuntimeDispatchError]>;
+      /**
+       * A single item within a Batch of dispatches has completed with no error.
+       **/
+      ItemCompleted: AugmentedEvent<ApiType, []>;
       /**
        * Generic event
        **/
