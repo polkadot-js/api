@@ -10,7 +10,7 @@ import Handlebars from 'handlebars';
 
 import { getTypeDef, paramsNotation } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
-import { isNumber, isString, stringify } from '@polkadot/util';
+import { isString, stringify } from '@polkadot/util';
 
 import { readTemplate } from './file';
 import { ModuleTypes, setImports, TypeImports } from './imports';
@@ -97,7 +97,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, { lookupName }: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     setImports(definitions, imports, ['DoNotConstruct']);
 
-    return paramsNotation('DoNotConstruct', lookupName || 'Null');
+    return 'DoNotConstruct';
   },
   [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     if (typeDef.lookupName) {
@@ -242,7 +242,7 @@ export function formatType (registry: Registry, definitions: Record<string, Modu
     typeDef = type;
   }
 
-  setImports(definitions, imports, [isNumber(typeDef.lookupIndex) ? typeDef.lookupName : typeDef.type]);
+  setImports(definitions, imports, [typeDef.lookupName || typeDef.type]);
 
   return formatters[typeDef.info](registry, typeDef, definitions, imports, withShortcut);
 }

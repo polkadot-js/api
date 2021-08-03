@@ -145,26 +145,18 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
 };
 
 function encodeType (registry: Registry, typeDef: TypeDef, withLookup = true): string {
-  const encoder = encoders[typeDef.info];
-
-  assert(encoder, () => `Cannot encode type ${stringify(typeDef)}`);
-
   return withLookup && typeDef.lookupName
     ? typeDef.lookupName
-    : encoder(registry, typeDef);
+    : encoders[typeDef.info](registry, typeDef);
 }
 
 export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
-  assert(!isUndefined(typeDef.info), () => `Invalid type definition with no instance info, typeDef=${stringify(typeDef)}`);
-
   // In the case of contracts we do have the unfortunate situation where the displayName would
   // refer to "Option" when it is an option. For these, string it out, only using when actually
   // not a top-level element to be used
-  if (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i)) {
-    return typeDef.displayName;
-  }
-
-  return encodeType(registry, typeDef);
+  return (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i))
+    ? typeDef.displayName
+    : encodeType(registry, typeDef);
 }
 
 export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
