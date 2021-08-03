@@ -19,6 +19,7 @@ export default {
         SourceAccount: 'AccountId'
       }
     },
+    ChainId: '[u8; 4]',
     DeliveredMessages: {
       begin: 'MessageNonce',
       end: 'MessageNonce',
