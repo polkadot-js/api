@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add missing bridges types (Thanks to https://github.com/tomusdrw)
+
+
 ## 5.3.1 Aug 2, 2021
 
 Upgrade priority: Low. Recommended for users of `api.at(...)` interfaces
