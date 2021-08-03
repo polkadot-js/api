@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
 import type { Text } from '../primitive/Text';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
@@ -248,6 +248,8 @@ export class GenericPortableRegistry extends Struct {
         typeDef = this.#extractPrimitivePath(lookupIndex, primType);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
+      } else if (type.def.isBitSequence) {
+        typeDef = this.#extractBitSequence(lookupIndex, type.def.asBitSequence);
       } else if (type.def.isCompact) {
         typeDef = this.#extractCompact(lookupIndex, type.def.asCompact);
       } else if (type.def.isComposite) {
@@ -284,6 +286,19 @@ export class GenericPortableRegistry extends Struct {
       length: length.toNumber(),
       sub: this.#createSiDef(type)
     });
+  }
+
+  #extractBitSequence (lookupIndex: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
+    const error = `BitSequence is not yet mapped ${lookupIndex}: order=${bitOrderType.toString()}, type=${bitStoreType.toString()}`;
+
+    console.error(error);
+
+    const bitOrder = this.#createSiDef(bitOrderType);
+    const bitStore = this.#createSiDef(bitStoreType);
+
+    console.error(stringify({ bitOrder, bitStore }));
+
+    throw new Error(error);
   }
 
   #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
