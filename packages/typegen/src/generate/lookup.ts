@@ -251,7 +251,7 @@ export function generateDefaultLookup (destDir = 'packages/types/src/augment/loo
   if (staticData) {
     generateLookup(initMeta(staticData).metadata, destDir);
   } else {
-    generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
+    // generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
     generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot');
   }
 }

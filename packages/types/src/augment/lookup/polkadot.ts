@@ -500,7 +500,7 @@ export default {
       DepositReserveAsset: {
         assets: 'Vec<XcmV0MultiAsset>',
         dest: 'XcmV0MultiLocation',
-        effects: 'DoNotConstruct<Lookup116>',
+        effects: 'Vec<XcmV0Order>',
       },
       ExchangeAsset: {
         give: 'Vec<XcmV0MultiAsset>',
@@ -509,12 +509,12 @@ export default {
       InitiateReserveWithdraw: {
         assets: 'Vec<XcmV0MultiAsset>',
         reserve: 'XcmV0MultiLocation',
-        effects: 'DoNotConstruct<Lookup116>',
+        effects: 'Vec<XcmV0Order>',
       },
       InitiateTeleport: {
         assets: 'Vec<XcmV0MultiAsset>',
         dest: 'XcmV0MultiLocation',
-        effects: 'DoNotConstruct<Lookup116>',
+        effects: 'Vec<XcmV0Order>',
       },
       QueryHolding: {
         queryId: 'Compact<u64>',

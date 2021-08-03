@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, BitVec, Bytes, Compact, Data, DoNotConstruct, Enum, Null, Option, Set, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { BTreeMap, BitVec, Bytes, Compact, Data, Enum, Null, Option, Set, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { AccountId32, Call, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
@@ -513,7 +513,7 @@ declare module '@polkadot/types/lookup' {
     readonly asDepositReserveAsset: {
       readonly assets: Vec<XcmV0MultiAsset>;
       readonly dest: XcmV0MultiLocation;
-      readonly effects: Lookup116;
+      readonly effects: Vec<XcmV0Order>;
     } & Struct;
     readonly isExchangeAsset: boolean;
     readonly asExchangeAsset: {
@@ -524,13 +524,13 @@ declare module '@polkadot/types/lookup' {
     readonly asInitiateReserveWithdraw: {
       readonly assets: Vec<XcmV0MultiAsset>;
       readonly reserve: XcmV0MultiLocation;
-      readonly effects: Lookup116;
+      readonly effects: Vec<XcmV0Order>;
     } & Struct;
     readonly isInitiateTeleport: boolean;
     readonly asInitiateTeleport: {
       readonly assets: Vec<XcmV0MultiAsset>;
       readonly dest: XcmV0MultiLocation;
-      readonly effects: Lookup116;
+      readonly effects: Vec<XcmV0Order>;
     } & Struct;
     readonly isQueryHolding: boolean;
     readonly asQueryHolding: {
