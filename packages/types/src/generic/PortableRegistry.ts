@@ -208,14 +208,14 @@ export class GenericPortableRegistry extends Struct {
         type: this.registry.createLookupType(lookupIndex)
       };
 
-      // we set first for named items since we will get into circular lookups along the way
+      // Set named items since we will get into circular lookups along the way
       if (lookupName) {
         this.#typeDefs[lookupIndex] = empty;
       }
 
       const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
 
-      // For non-named items, we set this right at the end
+      // For non-named items, we only set this right at the end
       if (!lookupName) {
         this.#typeDefs[lookupIndex] = empty;
       }
