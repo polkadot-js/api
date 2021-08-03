@@ -145,23 +145,28 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
 };
 
 function encodeType (registry: Registry, typeDef: TypeDef, withLookup = true): string {
-  return withLookup && typeDef.lookupName
+  typeDef.type = withLookup && typeDef.lookupName
     ? typeDef.lookupName
     : encoders[typeDef.info](registry, typeDef);
+
+  return typeDef.type;
 }
 
 export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
   // In the case of contracts we do have the unfortunate situation where the displayName would
   // refer to "Option" when it is an option. For these, string it out, only using when actually
   // not a top-level element to be used
-  return (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i))
-    ? typeDef.displayName
-    : encodeType(registry, typeDef);
+  if (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i)) {
+    return typeDef.displayName;
+  }
+
+  return encodeType(registry, typeDef);
 }
 
 export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
-  return {
-    ...typeDef,
-    type: encodeType(registry, typeDef as TypeDef, false)
-  };
+  const typeDefOut = typeDef as TypeDef;
+
+  encodeType(registry, typeDefOut, false);
+
+  return typeDefOut;
 }
