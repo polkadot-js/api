@@ -1478,6 +1478,14 @@
               "docs": [
                 "Batch of dispatches completed fully with no error."
               ]
+            },
+            {
+              "name": "ItemCompleted",
+              "fields": [],
+              "index": 2,
+              "docs": [
+                "A single item within a Batch of dispatches has completed with no error."
+              ]
             }
           ]
         }
@@ -2075,7 +2083,7 @@
         "variant": {
           "variants": [
             {
-              "name": "EraPayout",
+              "name": "EraPaid",
               "fields": [
                 {
                   "name": null,
@@ -2104,7 +2112,7 @@
               ]
             },
             {
-              "name": "Reward",
+              "name": "Rewarded",
               "fields": [
                 {
                   "name": null,
@@ -2121,11 +2129,11 @@
               ],
               "index": 1,
               "docs": [
-                "The staker has been rewarded by this amount. \\[stash, amount\\]"
+                "The nominator has been rewarded by this amount. \\[stash, amount\\]"
               ]
             },
             {
-              "name": "Slash",
+              "name": "Slashed",
               "fields": [
                 {
                   "name": null,
@@ -2163,7 +2171,7 @@
               ]
             },
             {
-              "name": "StakingElection",
+              "name": "StakersElected",
               "fields": [],
               "index": 4,
               "docs": [
@@ -2280,6 +2288,27 @@
               "docs": [
                 "An account has stopped participating as either a validator or nominator.",
                 "\\[stash\\]"
+              ]
+            },
+            {
+              "name": "PayoutStarted",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 4,
+                  "typeName": "EraIndex",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                }
+              ],
+              "index": 11,
+              "docs": [
+                "The stakers' rewards are getting paid. \\[era_index, validator_stash\\]"
               ]
             }
           ]
