@@ -6,6 +6,7 @@ import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runti
 import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
+
   /** @name PolkadotRuntimeCommonClaimsEthereumAddress (66) */
   export interface PolkadotRuntimeCommonClaimsEthereumAddress extends U8aFixed {}
 
@@ -913,5 +914,4 @@ declare module '@polkadot/types/lookup' {
     readonly asEnding: u32;
   }
 
-  export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';
 }

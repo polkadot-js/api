@@ -8,6 +8,7 @@ import type { Event } from '@polkadot/types/interfaces/system';
 import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
+
   /** @name FrameSystemAccountInfo (3) */
   export interface FrameSystemAccountInfo extends Struct {
     readonly nonce: u32;
@@ -1453,5 +1454,4 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletTransactionPaymentChargeTransactionPayment (501) */
   export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
-  export type PHANTOM_PORTABLE_LOOKUP = 'PortableRegistryLookup';
 }
