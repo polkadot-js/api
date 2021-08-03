@@ -9,6 +9,8 @@ import Handlebars from 'handlebars';
 import path from 'path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import staticPolkadot from '@polkadot/types/metadata/static-polkadot';
+import staticSubstrate from '@polkadot/types/metadata/static-substrate';
 import { Registry } from '@polkadot/types/types';
 import { isString, stringify } from '@polkadot/util';
 
@@ -156,10 +158,10 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
   });
 }
 
-function generateLookupDefs (meta: Metadata, destDir: string): void {
+function generateLookupDefs (meta: Metadata, destDir: string, subPath = 'definitions'): void {
   const { lookup, registry } = meta.asLatest;
 
-  writeFile(path.join(destDir, 'definitions.ts'), (): string => {
+  writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
@@ -192,7 +194,7 @@ function generateLookupDefs (meta: Metadata, destDir: string): void {
   });
 }
 
-function generateLookupTypes (meta: Metadata, destDir: string): void {
+function generateLookupTypes (meta: Metadata, destDir: string, subPath?: string): void {
   const { lookup, registry } = meta.asLatest;
   const imports = {
     ...createImports(
@@ -211,7 +213,7 @@ function generateLookupTypes (meta: Metadata, destDir: string): void {
       : typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
   }).filter((t): t is string => !!t);
 
-  writeFile(path.join(destDir, 'types.ts'), () => generateLookupTypesTmpl({
+  writeFile(path.join(destDir, `types${subPath ? `-${subPath}` : ''}.ts`), () => generateLookupTypesTmpl({
     headerType: 'defs',
     imports,
     items,
@@ -225,14 +227,17 @@ function generateLookupTypes (meta: Metadata, destDir: string): void {
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (meta: Metadata, destDir: string): void {
-  generateLookupDefs(meta, destDir);
-  generateLookupTypes(meta, destDir);
+function generateLookup (meta: Metadata, destDir: string, subPath?: string): void {
+  generateLookupDefs(meta, destDir, subPath);
+  generateLookupTypes(meta, destDir, subPath);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
-export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', data?: string): void {
-  const { metadata } = initMeta(data, {});
-
-  return generateLookup(metadata, destDir);
+export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', staticData?: string): void {
+  if (staticData) {
+    generateLookup(initMeta(staticData).metadata, destDir);
+  } else {
+    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot');
+    generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
+  }
 }
