@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PortableRegistry, PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
-import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { TypeDef } from '@polkadot/types/types';
 
 import Handlebars from 'handlebars';
@@ -170,7 +169,7 @@ function getFilteredTypes (lookup: PortableRegistry, exclude: string[] = []): [P
     .filter(([, typeDef]) => !exclude.includes(typeDef.lookupName || '<invalid>'));
 }
 
-function generateLookupDefs (registry: Registry, lookup: PortableRegistry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
+function generateLookupDefs (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
   writeFile(path.join(destDir, `${subPath || 'definitions'}.ts`), (): string => {
     const all = filtered.map(([{ id, type: { params, path } }, typeDef]) => {
       const typeLookup = registry.createLookupType(id);
@@ -203,7 +202,7 @@ function generateLookupDefs (registry: Registry, lookup: PortableRegistry, filte
   });
 }
 
-function generateLookupTypes (registry: Registry, lookup: PortableRegistry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
+function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
   const imports = {
     ...createImports(
       { '@polkadot/types/interfaces': defaultDefinitions },
@@ -238,25 +237,32 @@ function generateLookupTypes (registry: Registry, lookup: PortableRegistry, filt
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (meta: Metadata, destDir: string, subPath?: string, exclude?: string[]): string[] {
-  const { lookup, registry } = meta.asLatest;
-  const filtered = getFilteredTypes(lookup, exclude);
+function generateLookup (destDir: string, meta: Record<string, string> | string): void {
+  (
+    isString(meta)
+      ? [[undefined, meta]]
+      : Object.entries(meta)
+  ).reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
+    const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
+    const filtered = getFilteredTypes(lookup, exclude);
 
-  generateLookupDefs(registry, lookup, filtered, destDir, subPath);
-  generateLookupTypes(registry, lookup, filtered, destDir, subPath);
+    generateLookupDefs(registry, filtered, destDir, subPath);
+    generateLookupTypes(registry, filtered, destDir, subPath);
 
-  return filtered
-    .map(([, typeDef]) => typeDef.lookupName)
-    .filter((n): n is string => !!n);
+    return exclude.concat(
+      ...filtered
+        .map(([, typeDef]) => typeDef.lookupName)
+        .filter((n): n is string => !!n)
+    );
+  }, []);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
 export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', staticData?: string): void {
-  if (staticData) {
-    generateLookup(initMeta(staticData).metadata, destDir);
-  } else {
-    const excludes = generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
-
-    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot', excludes);
-  }
+  generateLookup(destDir, staticData || {
+    substrate: staticSubstrate,
+    // Substrate goes first....
+    // eslint-disable-next-line sort-keys
+    polkadot: staticPolkadot
+  });
 }
