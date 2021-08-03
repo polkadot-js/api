@@ -129,7 +129,7 @@ function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): 
   }).join('\n');
 }
 
-function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
+function getFilteredTypes (lookup: PortableRegistry, exclude: string[] = []): [PortableType, TypeDef][] {
   const named = lookup.types.filter(({ id, type: { path } }) => {
     const typeDef = lookup.getTypeDef(id);
 
@@ -159,20 +159,20 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
   });
   const names = named.map(({ id }) => lookup.getName(id));
 
-  return named.filter((_, index) =>
-    !names.some((n, iindex) =>
-      index > iindex &&
-      n === names[index]
+  return named
+    .filter((_, index) =>
+      !names.some((n, iindex) =>
+        index > iindex &&
+        n === names[index]
+      )
     )
-  );
+    .map((p): [PortableType, TypeDef] => [p, lookup.getTypeDef(p.id)])
+    .filter(([, typeDef]) => !exclude.includes(typeDef.lookupName || '<invalid>'));
 }
 
-function generateLookupDefs (meta: Metadata, destDir: string, subPath?: string): void {
-  const { lookup, registry } = meta.asLatest;
-
+function generateLookupDefs (registry: Registry, lookup: PortableRegistry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
   writeFile(path.join(destDir, `${subPath || 'definitions'}.ts`), (): string => {
-    const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
-      const typeDef = lookup.getTypeDef(id);
+    const all = filtered.map(([{ id, type: { params, path } }, typeDef]) => {
       const typeLookup = registry.createLookupType(id);
       const def = expandDefToString(typeDef, subPath ? 2 : 4);
 
@@ -203,8 +203,7 @@ function generateLookupDefs (meta: Metadata, destDir: string, subPath?: string):
   });
 }
 
-function generateLookupTypes (meta: Metadata, destDir: string, subPath?: string): void {
-  const { lookup, registry } = meta.asLatest;
+function generateLookupTypes (registry: Registry, lookup: PortableRegistry, filtered: [PortableType, TypeDef][], destDir: string, subPath?: string): void {
   const imports = {
     ...createImports(
       { '@polkadot/types/interfaces': defaultDefinitions },
@@ -212,9 +211,7 @@ function generateLookupTypes (meta: Metadata, destDir: string, subPath?: string)
     ),
     interfaces: []
   };
-  const items = getFilteredTypes(lookup).map(({ id }) => {
-    const typeDef = lookup.getTypeDef(id);
-
+  const items = filtered.map(([, typeDef]) => {
     typeDef.name = typeDef.lookupName;
 
     return typeDef.lookupNameRoot && typeDef.lookupName
@@ -241,9 +238,16 @@ function generateLookupTypes (meta: Metadata, destDir: string, subPath?: string)
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (meta: Metadata, destDir: string, subPath?: string): void {
-  generateLookupDefs(meta, destDir, subPath);
-  generateLookupTypes(meta, destDir, subPath);
+function generateLookup (meta: Metadata, destDir: string, subPath?: string, exclude?: string[]): string[] {
+  const { lookup, registry } = meta.asLatest;
+  const filtered = getFilteredTypes(lookup, exclude);
+
+  generateLookupDefs(registry, lookup, filtered, destDir, subPath);
+  generateLookupTypes(registry, lookup, filtered, destDir, subPath);
+
+  return filtered
+    .map(([, typeDef]) => typeDef.lookupName)
+    .filter((n): n is string => !!n);
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
@@ -251,7 +255,8 @@ export function generateDefaultLookup (destDir = 'packages/types/src/augment/loo
   if (staticData) {
     generateLookup(initMeta(staticData).metadata, destDir);
   } else {
-    generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
-    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot');
+    const excludes = generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
+
+    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot', excludes);
   }
 }
