@@ -2,9 +2,15 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users of bridges.
+
 Contributed:
 
 - Add missing bridges types (Thanks to https://github.com/tomusdrw)
+
+Changes:
+
+- Align static metadata with latest Substrate
 
 
 ## 5.3.1 Aug 2, 2021
