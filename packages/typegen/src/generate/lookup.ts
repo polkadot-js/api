@@ -21,6 +21,7 @@ const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 const WITH_TYPEDEF = false;
 
 const generateLookupDefsTmpl = Handlebars.compile(readTemplate('lookup/defs'));
+const generateLookupDefsNamedTmpl = Handlebars.compile(readTemplate('lookup/defs-named'));
 const generateLookupIndexTmpl = Handlebars.compile(readTemplate('lookup/index'));
 const generateLookupTypesTmpl = Handlebars.compile(readTemplate('lookup/types'));
 
@@ -98,7 +99,7 @@ function expandType (encoded: string): string[] {
   return expandObject(JSON.parse(encoded) as Record<string, string | Record<string, string>>);
 }
 
-function expandDefToString ({ lookupNameRoot, type }: TypeDef): string {
+function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): string {
   if (lookupNameRoot) {
     return `'${lookupNameRoot}'`;
   }
@@ -112,7 +113,7 @@ function expandDefToString ({ lookupNameRoot, type }: TypeDef): string {
     if (l.endsWith('{')) {
       r = index === 0
         ? l
-        : `${' '.padStart(4 + inc)}${l}`;
+        : `${' '.padStart(indent + inc)}${l}`;
       inc += 2;
     } else {
       if (l.endsWith('},') || l.endsWith('}')) {
@@ -121,7 +122,7 @@ function expandDefToString ({ lookupNameRoot, type }: TypeDef): string {
 
       r = index === 0
         ? l
-        : `${' '.padStart(4 + inc)}${l}`;
+        : `${' '.padStart(indent + inc)}${l}`;
     }
 
     return r;
@@ -158,14 +159,14 @@ function getFilteredTypes (lookup: PortableRegistry): PortableType[] {
   });
 }
 
-function generateLookupDefs (meta: Metadata, destDir: string, subPath = 'definitions'): void {
+function generateLookupDefs (meta: Metadata, destDir: string, subPath?: string): void {
   const { lookup, registry } = meta.asLatest;
 
-  writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
+  writeFile(path.join(destDir, `${subPath || 'definitions'}.ts`), (): string => {
     const all = getFilteredTypes(lookup).map(({ id, type: { params, path } }) => {
       const typeDef = lookup.getTypeDef(id);
       const typeLookup = registry.createLookupType(id);
-      const def = expandDefToString(typeDef);
+      const def = expandDefToString(typeDef, subPath ? 2 : 4);
 
       return {
         docs: [
@@ -179,7 +180,7 @@ function generateLookupDefs (meta: Metadata, destDir: string, subPath = 'definit
     });
     const max = all.length - 1;
 
-    return generateLookupDefsTmpl({
+    return (subPath ? generateLookupDefsNamedTmpl : generateLookupDefsTmpl)({
       defs: all.map(({ docs, type }, i) => {
         const { def, typeLookup, typeName } = type;
 
@@ -216,7 +217,12 @@ function generateLookupTypes (meta: Metadata, destDir: string, subPath?: string)
   writeFile(path.join(destDir, `types${subPath ? `-${subPath}` : ''}.ts`), () => generateLookupTypesTmpl({
     headerType: 'defs',
     imports,
-    items,
+    items: items.map((l) =>
+      l
+        .split('\n')
+        .map((l) => l.length ? `  ${l}` : '')
+        .join('\n')
+    ),
     types: [
       ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
         file: packagePath,
@@ -237,7 +243,7 @@ export function generateDefaultLookup (destDir = 'packages/types/src/augment/loo
   if (staticData) {
     generateLookup(initMeta(staticData).metadata, destDir);
   } else {
-    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot');
     generateLookup(initMeta(staticSubstrate).metadata, destDir, 'substrate');
+    generateLookup(initMeta(staticPolkadot).metadata, destDir, 'polkadot');
   }
 }
