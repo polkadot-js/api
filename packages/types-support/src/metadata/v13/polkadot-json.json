@@ -499,7 +499,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000822300000000000038df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0100000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf502000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a80100000007000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000822300000000000038df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0100000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a80100000007000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -3306,7 +3306,7 @@
           ],
           "events": [
             {
-              "name": "EraPayout",
+              "name": "EraPaid",
               "args": [
                 "EraIndex",
                 "Balance",
@@ -3319,17 +3319,17 @@
               ]
             },
             {
-              "name": "Reward",
+              "name": "Rewarded",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "docs": [
-                " The staker has been rewarded by this amount. \\[stash, amount\\]"
+                " The nominator has been rewarded by this amount. \\[stash, amount\\]"
               ]
             },
             {
-              "name": "Slash",
+              "name": "Slashed",
               "args": [
                 "AccountId",
                 "Balance"
@@ -3350,7 +3350,7 @@
               ]
             },
             {
-              "name": "StakingElection",
+              "name": "StakersElected",
               "args": [],
               "docs": [
                 " A new set of stakers was elected."
@@ -3415,6 +3415,16 @@
               "docs": [
                 " An account has stopped participating as either a validator or nominator.",
                 " \\[stash\\]"
+              ]
+            },
+            {
+              "name": "PayoutStarted",
+              "args": [
+                "EraIndex",
+                "AccountId"
+              ],
+              "docs": [
+                " The stakers' rewards are getting paid. \\[era_index, validator_stash\\]"
               ]
             }
           ],
@@ -7994,6 +8004,13 @@
               "args": [],
               "docs": [
                 " Batch of dispatches completed fully with no error."
+              ]
+            },
+            {
+              "name": "ItemCompleted",
+              "args": [],
+              "docs": [
+                " A single item within a Batch of dispatches has completed with no error."
               ]
             }
           ],

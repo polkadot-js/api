@@ -11,7 +11,8 @@ const sharedTypes = {
   Keys: 'SessionKeys6',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
-  }
+  },
+  SignedSubmission: 'SignedSubmissionTo276'
 };
 
 const addrIndicesTypes = {

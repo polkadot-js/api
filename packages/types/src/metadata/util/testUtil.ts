@@ -44,9 +44,9 @@ export function decodeLatestMeta<Modules extends Codec> (registry: Registry, typ
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
+export function toLatest<Modules extends Codec> (registry: Registry, version: number, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
-    const metadata = new Metadata(registry, rpcData);
+    const metadata = new Metadata(registry, data);
 
     registry.setMetadata(metadata);
 
@@ -62,14 +62,14 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
+export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
-    const metadata = new Metadata(registry, rpcData);
+    const metadata = new Metadata(registry, data);
 
-    metadata.asLatest.modules.filter(({ storage }): boolean => storage.isSome).forEach((mod): void => {
-      mod.storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
+    metadata.asLatest.modules.filter(({ storage }) => storage.isSome).forEach((m): void => {
+      m.storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
         const inner = unwrapStorageType(registry, type, modifier.isOptional);
-        const location = `${mod.name.toString()}.${name.toString()}: ${inner}`;
+        const location = `${m.name.toString()}.${name.toString()}: ${inner}`;
 
         it(location, (): void => {
           expect((): void => {
@@ -84,7 +84,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;
 
-              if (withThrow) {
+              if (withThrow && !fails.some((f) => location.includes(f))) {
                 throw new Error(message);
               } else {
                 console.warn(message);
@@ -105,9 +105,9 @@ export function testMeta (version: number, matchers: Record<string, Check>, with
 
       decodeLatestMeta(registry, type, version, matcher);
 
-      toLatest(registry, version, matcher.data);
+      toLatest(registry, version, matcher);
 
-      defaultValues(registry, matcher.data, true, withFallback);
+      defaultValues(registry, matcher, true, withFallback);
     });
   });
 }
