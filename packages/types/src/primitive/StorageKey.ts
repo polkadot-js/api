@@ -105,10 +105,12 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
     return [] as unknown as A;
   }
 
-  const mapInfo = meta.type.asMap;
-  const keys = registry.lookup.getSiType(mapInfo.key).def.asTuple;
+  const { hashers, key } = meta.type.asMap;
+  const keys = hashers.length === 1
+    ? [key]
+    : registry.lookup.getSiType(key).def.asTuple;
 
-  return decodeHashers(registry, value, mapInfo.hashers.map((h, i) => [h, keys[i]]));
+  return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }
 
 /** @internal */

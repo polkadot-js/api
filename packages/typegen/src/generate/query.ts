@@ -49,13 +49,13 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
     return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
-    const nmap = storageEntry.type.asMap;
-    const keyDefs = nmap.hashers.length === 1
-      ? [lookup.getTypeDef(nmap.key)]
-      : lookup.getSiType(nmap.key).def.asTuple.map((k) => lookup.getTypeDef(k));
+    const { hashers, key, value } = storageEntry.type.asMap;
+    const keyDefs = hashers.length === 1
+      ? [lookup.getTypeDef(key)]
+      : lookup.getSiType(key).def.asTuple.map((k) => lookup.getTypeDef(k));
     const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
     const keyTypes = similarTypes.map((t) => t.join(' | '));
-    const defValue = lookup.getTypeDef(nmap.value);
+    const defValue = lookup.getTypeDef(value);
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
