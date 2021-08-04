@@ -6,6 +6,7 @@ Changes:
 
 - Handle `BitSequence` in `PortableRegistry`
 - Move all test-support static files into `@polkadot/types-support`
+- Align static Metadata with latest Substrate
 
 
 ## 5.3.2 Aug 3, 2021
