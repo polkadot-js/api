@@ -193,16 +193,14 @@ function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, ev
 }
 
 function createMapEntry (registry: Registry, sectionTypes: OverrideModuleType, types: TypeSpec[], { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
-  setTypeOverride(sectionTypes, [value, ...keys]);
+  setTypeOverride(sectionTypes, [value, ...(Array.isArray(keys) ? keys : [keys])]);
 
   return registry.createType('StorageEntryTypeV14', {
     Map: {
       hashers,
-      key: types.push({
-        def: {
-          Tuple: keys.map((t) => compatType(types, t))
-        }
-      }) - 1,
+      key: hashers.length === 1
+        ? compatType(types, keys[0])
+        : (types.push({ def: { Tuple: keys.map((t) => compatType(types, t)) } }) - 1),
       value: compatType(types, value)
     }
   });

@@ -145,13 +145,13 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
       const { hashers, key } = type.asMap;
 
       return hashers.length === 1
-        ? createKey(registry, itemFn, [key], hashers, arg as Arg[])
+        ? createKey(registry, itemFn, [key], hashers, [arg as Arg])
         : createKey(registry, itemFn, registry.lookup.getSiType(key).def.asTuple.map((t) => t), hashers, arg as Arg[]);
-    } else if (options.skipHashing) {
-      return compactAddLength(u8aToU8a(options.key));
-    } else {
-      return createKey(registry, itemFn, [], [], []);
     }
+
+    return options.skipHashing
+      ? compactAddLength(u8aToU8a(options.key))
+      : createKey(registry, itemFn, [], [], []);
   });
 
   if (type.isMap) {

@@ -29,10 +29,10 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
     expect(metadata.version).toBe(version);
 
     try {
-      expect(metadata.toJSON()).toEqual(compare);
+      expect(json).toEqual(compare);
     } catch (error) {
       if (process.env.GITHUB_REPOSITORY) {
-        console.error(stringify(metadata.toJSON()));
+        console.error(stringify(json));
 
         throw error;
       }
