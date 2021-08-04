@@ -26,6 +26,13 @@ declare module '@polkadot/types/lookup' {
     readonly feeFrozen: u128;
   }
 
+  /** @name FrameSupportWeightsPerDispatchClassU64 (7) */
+  export interface FrameSupportWeightsPerDispatchClassU64 extends Struct {
+    readonly normal: u64;
+    readonly operational: u64;
+    readonly mandatory: u64;
+  }
+
   /** @name SpRuntimeGenericDigest (11) */
   export interface SpRuntimeGenericDigest extends Struct {
     readonly logs: Vec<SpRuntimeGenericDigestDigestItem>;
@@ -214,11 +221,14 @@ declare module '@polkadot/types/lookup' {
   export interface FrameSystemLimitsBlockWeights extends Struct {
     readonly baseBlock: u64;
     readonly maxBlock: u64;
-    readonly perClass: {
-      readonly normal: FrameSystemLimitsWeightsPerClass;
-      readonly operational: FrameSystemLimitsWeightsPerClass;
-      readonly mandatory: FrameSystemLimitsWeightsPerClass;
-    } & Struct;
+    readonly perClass: FrameSupportWeightsPerDispatchClassWeightsPerClass;
+  }
+
+  /** @name FrameSupportWeightsPerDispatchClassWeightsPerClass (109) */
+  export interface FrameSupportWeightsPerDispatchClassWeightsPerClass extends Struct {
+    readonly normal: FrameSystemLimitsWeightsPerClass;
+    readonly operational: FrameSystemLimitsWeightsPerClass;
+    readonly mandatory: FrameSystemLimitsWeightsPerClass;
   }
 
   /** @name FrameSystemLimitsWeightsPerClass (110) */
@@ -231,11 +241,14 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSystemLimitsBlockLength (112) */
   export interface FrameSystemLimitsBlockLength extends Struct {
-    readonly max: {
-      readonly normal: u32;
-      readonly operational: u32;
-      readonly mandatory: u32;
-    } & Struct;
+    readonly max: FrameSupportWeightsPerDispatchClassU32;
+  }
+
+  /** @name FrameSupportWeightsPerDispatchClassU32 (113) */
+  export interface FrameSupportWeightsPerDispatchClassU32 extends Struct {
+    readonly normal: u32;
+    readonly operational: u32;
+    readonly mandatory: u32;
   }
 
   /** @name FrameSupportWeightsRuntimeDbWeight (114) */
@@ -407,19 +420,17 @@ declare module '@polkadot/types/lookup' {
   /** @name SpFinalityGrandpaEquivocation (222) */
   export interface SpFinalityGrandpaEquivocation extends Enum {
     readonly isPrevote: boolean;
-    readonly asPrevote: {
-      readonly roundNumber: u64;
-      readonly identity: SpFinalityGrandpaAppPublic;
-      readonly first: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
-      readonly second: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
-    } & Struct;
+    readonly asPrevote: FinalityGrandpaEquivocationPrevote;
     readonly isPrecommit: boolean;
-    readonly asPrecommit: {
-      readonly roundNumber: u64;
-      readonly identity: SpFinalityGrandpaAppPublic;
-      readonly first: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
-      readonly second: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
-    } & Struct;
+    readonly asPrecommit: FinalityGrandpaEquivocationPrecommit;
+  }
+
+  /** @name FinalityGrandpaEquivocationPrevote (223) */
+  export interface FinalityGrandpaEquivocationPrevote extends Struct {
+    readonly roundNumber: u64;
+    readonly identity: SpFinalityGrandpaAppPublic;
+    readonly first: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
+    readonly second: ITuple<[FinalityGrandpaPrevote, SpFinalityGrandpaAppSignature]>;
   }
 
   /** @name FinalityGrandpaPrevote (224) */
@@ -433,6 +444,14 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpCoreEd25519Signature (226) */
   export interface SpCoreEd25519Signature extends U8aFixed {}
+
+  /** @name FinalityGrandpaEquivocationPrecommit (229) */
+  export interface FinalityGrandpaEquivocationPrecommit extends Struct {
+    readonly roundNumber: u64;
+    readonly identity: SpFinalityGrandpaAppPublic;
+    readonly first: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
+    readonly second: ITuple<[FinalityGrandpaPrecommit, SpFinalityGrandpaAppSignature]>;
+  }
 
   /** @name FinalityGrandpaPrecommit (230) */
   export interface FinalityGrandpaPrecommit extends Struct {

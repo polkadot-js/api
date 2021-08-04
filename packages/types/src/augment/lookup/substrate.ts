@@ -26,6 +26,14 @@ export default {
     feeFrozen: 'u128'
   },
   /**
+   * Lookup7: frame_support::weights::PerDispatchClass<T>
+   **/
+  FrameSupportWeightsPerDispatchClassU64: {
+    normal: 'u64',
+    operational: 'u64',
+    mandatory: 'u64'
+  },
+  /**
    * Lookup11: sp_runtime::generic::digest::Digest<primitive_types::H256>
    **/
   SpRuntimeGenericDigest: {
@@ -220,11 +228,15 @@ export default {
   FrameSystemLimitsBlockWeights: {
     baseBlock: 'u64',
     maxBlock: 'u64',
-    perClass: {
-      normal: 'FrameSystemLimitsWeightsPerClass',
-      operational: 'FrameSystemLimitsWeightsPerClass',
-      mandatory: 'FrameSystemLimitsWeightsPerClass',
-    }
+    perClass: 'FrameSupportWeightsPerDispatchClassWeightsPerClass'
+  },
+  /**
+   * Lookup109: frame_support::weights::PerDispatchClass<frame_system::limits::WeightsPerClass>
+   **/
+  FrameSupportWeightsPerDispatchClassWeightsPerClass: {
+    normal: 'FrameSystemLimitsWeightsPerClass',
+    operational: 'FrameSystemLimitsWeightsPerClass',
+    mandatory: 'FrameSystemLimitsWeightsPerClass'
   },
   /**
    * Lookup110: frame_system::limits::WeightsPerClass
@@ -239,11 +251,15 @@ export default {
    * Lookup112: frame_system::limits::BlockLength
    **/
   FrameSystemLimitsBlockLength: {
-    max: {
-      normal: 'u32',
-      operational: 'u32',
-      mandatory: 'u32',
-    }
+    max: 'FrameSupportWeightsPerDispatchClassU32'
+  },
+  /**
+   * Lookup113: frame_support::weights::PerDispatchClass<T>
+   **/
+  FrameSupportWeightsPerDispatchClassU32: {
+    normal: 'u32',
+    operational: 'u32',
+    mandatory: 'u32'
   },
   /**
    * Lookup114: frame_support::weights::RuntimeDbWeight
@@ -431,19 +447,18 @@ export default {
    **/
   SpFinalityGrandpaEquivocation: {
     _enum: {
-      Prevote: {
-        roundNumber: 'u64',
-        identity: 'SpFinalityGrandpaAppPublic',
-        first: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)',
-        second: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)',
-      },
-      Precommit: {
-        roundNumber: 'u64',
-        identity: 'SpFinalityGrandpaAppPublic',
-        first: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)',
-        second: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)',
-      },
+      Prevote: 'FinalityGrandpaEquivocationPrevote',
+      Precommit: 'FinalityGrandpaEquivocationPrecommit',
     }
+  },
+  /**
+   * Lookup223: finality_grandpa::Equivocation<sp_finality_grandpa::app::Public, finality_grandpa::Prevote<primitive_types::H256, N>, sp_finality_grandpa::app::Signature>
+   **/
+  FinalityGrandpaEquivocationPrevote: {
+    roundNumber: 'u64',
+    identity: 'SpFinalityGrandpaAppPublic',
+    first: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)',
+    second: '(FinalityGrandpaPrevote,SpFinalityGrandpaAppSignature)'
   },
   /**
    * Lookup224: finality_grandpa::Prevote<primitive_types::H256, N>
@@ -460,6 +475,15 @@ export default {
    * Lookup226: sp_core::ed25519::Signature
    **/
   SpCoreEd25519Signature: '[u8;64]',
+  /**
+   * Lookup229: finality_grandpa::Equivocation<sp_finality_grandpa::app::Public, finality_grandpa::Precommit<primitive_types::H256, N>, sp_finality_grandpa::app::Signature>
+   **/
+  FinalityGrandpaEquivocationPrecommit: {
+    roundNumber: 'u64',
+    identity: 'SpFinalityGrandpaAppPublic',
+    first: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)',
+    second: '(FinalityGrandpaPrecommit,SpFinalityGrandpaAppSignature)'
+  },
   /**
    * Lookup230: finality_grandpa::Precommit<primitive_types::H256, N>
    **/
