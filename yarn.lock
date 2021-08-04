@@ -2074,6 +2074,7 @@ __metadata:
     "@polkadot/api": 5.3.3-0
     "@polkadot/rpc-provider": 5.3.3-0
     "@polkadot/types": 5.3.3-0
+    "@polkadot/types-support": 5.3.3-0
     "@polkadot/util": ^7.1.1
     "@types/websocket": ^1.0.4
     "@types/yargs": ^17.0.2
