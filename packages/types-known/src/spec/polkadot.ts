@@ -19,8 +19,7 @@ const sharedTypes = {
       IdentityJudgement: 5,
       CancelProxy: 6
     }
-  },
-  SignedSubmission: 'SignedSubmissionTo276'
+  }
 };
 
 const addrAccountIdTypes = {
