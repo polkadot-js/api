@@ -118,8 +118,12 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       // see if using the param type helps
-      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string] => {
+      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null] => {
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
+
+        if (!def.isPrimitive && !path.length) {
+          return [oIndex, null];
+        }
 
         return [
           oIndex,
@@ -131,6 +135,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // any dupes remaining?
       const noDupes = adjusted.every(([i, n]) =>
+        !!n &&
         !adjusted.some(([ai, an]) =>
           i !== ai &&
           n === an
@@ -140,7 +145,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       if (noDupes) {
         // we filtered above for null names
         adjusted.forEach(([index, name]): void => {
-          rewrite[index] = name;
+          rewrite[index] = name as string;
         });
       }
 
