@@ -212,11 +212,11 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
             let arg = '';
 
             if (func.type.isMap) {
-              const si = lookup.getSiType(func.type.asMap.key);
+              const { hashers, key } = func.type.asMap;
 
-              arg = si.def.isTuple
-                ? ('`' + si.def.asTuple.map((t) => t).join(', ') + '`')
-                : ('`' + func.type.asMap.key.toString() + '`');
+              arg = hashers.length === 1
+                ? ('`' + key.toString() + '`')
+                : ('`' + lookup.getSiType(key).def.asTuple.map((t) => t).join(', ') + '`');
             }
 
             const methodName = stringLowerFirst(func.name);

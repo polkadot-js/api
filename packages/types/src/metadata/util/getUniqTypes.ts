@@ -40,18 +40,18 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
           return [lookup.getTypeDef(type.asPlain).type];
         }
 
-        const si = lookup.getSiType(type.asMap.key);
+        const { hashers, key, value } = type.asMap;
 
-        return si.def.isTuple
+        return hashers.length === 1
           ? [
-            lookup.getTypeDef(type.asMap.value).type,
-            ...si.def.asTuple.map((t) =>
+            lookup.getTypeDef(value).type,
+            ...lookup.getSiType(key).def.asTuple.map((t) =>
               lookup.getTypeDef(t).type
             )
           ]
           : [
-            lookup.getTypeDef(type.asMap.value).type,
-            lookup.getTypeDef(type.asMap.key).type
+            lookup.getTypeDef(value).type,
+            lookup.getTypeDef(key).type
           ];
       }));
     }

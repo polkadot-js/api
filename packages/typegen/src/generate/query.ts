@@ -50,10 +50,9 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
     return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
     const nmap = storageEntry.type.asMap;
-    const si = lookup.getSiType(nmap.key);
-    const keyDefs = si.def.isTuple
-      ? lookup.getSiType(nmap.key).def.asTuple.map((k) => lookup.getTypeDef(k))
-      : [lookup.getTypeDef(nmap.key)];
+    const keyDefs = nmap.hashers.length === 1
+      ? [lookup.getTypeDef(nmap.key)]
+      : lookup.getSiType(nmap.key).def.asTuple.map((k) => lookup.getTypeDef(k));
     const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
     const keyTypes = similarTypes.map((t) => t.join(' | '));
     const defValue = lookup.getTypeDef(nmap.value);

@@ -112,17 +112,17 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 
     if (args.length) {
       if (type.isMap) {
-        const si = registry.lookup.getSiType(type.asMap.key);
-        const keys = si.def.isTuple
-          ? [...si.def.asTuple.map((t) => t)]
-          : [type.asMap.key];
-        const hashers = [...type.asMap.hashers];
+        const { hashers, key } = type.asMap;
+        const keys = hashers.length === 1
+          ? [key]
+          : [...registry.lookup.getSiType(key).def.asTuple.map((t) => t)];
+        const hashersVec = [...hashers];
 
         // remove the last entry
         keys.pop();
-        hashers.pop();
+        hashersVec.pop();
 
-        return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as Arg[]));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashersVec, args as Arg[]));
       }
     }
 
@@ -142,11 +142,11 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (arg?: Arg | Arg[]): Uint8Array => {
     if (type.isMap) {
-      const si = registry.lookup.getSiType(type.asMap.key);
+      const { hashers, key } = type.asMap;
 
-      return si.def.isTuple
-        ? createKey(registry, itemFn, si.def.asTuple.map((t) => t), type.asMap.hashers, arg as Arg[])
-        : createKey(registry, itemFn, [type.asMap.key], type.asMap.hashers, arg as Arg[]);
+      return hashers.length === 1
+        ? createKey(registry, itemFn, [key], hashers, arg as Arg[])
+        : createKey(registry, itemFn, registry.lookup.getSiType(key).def.asTuple.map((t) => t), hashers, arg as Arg[]);
     } else if (options.skipHashing) {
       return compactAddLength(u8aToU8a(options.key));
     } else {
