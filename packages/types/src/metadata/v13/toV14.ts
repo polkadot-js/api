@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageMetadataV13 } from '../../interfaces/metadata';
+import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageHasherV13, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { SiVariant } from '../../interfaces/scaleInfo';
 import type { Text } from '../../primitive/Text';
 import type { Type } from '../../primitive/Type';
@@ -17,6 +17,12 @@ interface TypeSpec {
     Variant?: { variants: SiVariant[] }
   },
   path?: string[];
+}
+
+interface MapDef {
+  hashers: StorageHasherV13[];
+  keys: Type[];
+  value: Type;
 }
 
 const BOXES = [['<', '>'], ['<', ','], [',', '>'], ['(', ')'], ['(', ','], [',', ','], [',', ')']];
@@ -186,16 +192,20 @@ function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, ev
   });
 }
 
-function createKeyType (sectionTypes: OverrideModuleType, types: TypeSpec[], value: Type, keys: Type[]): number {
+function createMapEntry (registry: Registry, sectionTypes: OverrideModuleType, types: TypeSpec[], { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
   setTypeOverride(sectionTypes, [value, ...keys]);
 
-  return types.push({
-    def: {
-      Tuple: keys.map((type) =>
-        compatType(types, type)
-      )
+  return registry.createType('StorageEntryTypeV14', {
+    Map: {
+      hashers,
+      key: types.push({
+        def: {
+          Tuple: keys.map((t) => compatType(types, t))
+        }
+      }) - 1,
+      value: compatType(types, value)
     }
-  }) - 1;
+  });
 }
 
 /**
@@ -218,32 +228,26 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
       } else if (type.isMap) {
         const map = type.asMap;
 
-        entryType = registry.createType('StorageEntryTypeV14', {
-          Map: {
-            hashers: [map.hasher],
-            key: createKeyType(sectionTypes, types, map.value, [map.key]),
-            value: compatType(types, map.value)
-          }
+        entryType = createMapEntry(registry, sectionTypes, types, {
+          hashers: [map.hasher],
+          keys: [map.key],
+          value: map.value
         });
       } else if (type.isDoubleMap) {
         const dm = type.asDoubleMap;
 
-        entryType = registry.createType('StorageEntryTypeV14', {
-          Map: {
-            hashers: [dm.hasher, dm.key2Hasher],
-            key: createKeyType(sectionTypes, types, dm.value, [dm.key1, dm.key2]),
-            value: compatType(types, dm.value)
-          }
+        entryType = createMapEntry(registry, sectionTypes, types, {
+          hashers: [dm.hasher, dm.key2Hasher],
+          keys: [dm.key1, dm.key2],
+          value: dm.value
         });
       } else {
         const nm = type.asNMap;
 
-        entryType = registry.createType('StorageEntryTypeV14', {
-          Map: {
-            hashers: nm.hashers,
-            key: createKeyType(sectionTypes, types, nm.value, nm.keyVec),
-            value: compatType(types, nm.value)
-          }
+        entryType = createMapEntry(registry, sectionTypes, types, {
+          hashers: nm.hashers,
+          keys: nm.keyVec,
+          value: nm.value
         });
       }
 
