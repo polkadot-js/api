@@ -88,21 +88,8 @@ export const v14: DefinitionsTypes = {
     _enum: {
       Plain: 'SiLookupTypeId',
       Map: {
-        hasher: 'StorageHasherV14',
-        key: 'SiLookupTypeId',
-        value: 'SiLookupTypeId'
-      },
-      DoubleMap: {
-        hasher: 'StorageHasherV14',
-        key1: 'SiLookupTypeId',
-        key2: 'SiLookupTypeId',
-        value: 'SiLookupTypeId',
-        key2Hasher: 'StorageHasherV14'
-      },
-      NMap: {
-        // NOTE: Renamed from "keys"
-        key: 'SiLookupTypeId',
         hashers: 'Vec<StorageHasherV14>',
+        key: 'SiLookupTypeId', // NOTE: Renamed from "keys"
         value: 'SiLookupTypeId'
       }
     }

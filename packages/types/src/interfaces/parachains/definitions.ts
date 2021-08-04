@@ -378,6 +378,12 @@ export default {
       codeUpgradeAllowed: 'Option<BlockNumber>',
       dmqLength: 'u32'
     },
+    UpgradeGoAhead: {
+      _enum: ['Abort', 'GoAhead']
+    },
+    UpgradeRestriction: {
+      _enum: ['Present']
+    },
     UpwardMessage: 'Bytes',
     ValidationFunctionParams: {
       maxCodeSize: 'u32',
