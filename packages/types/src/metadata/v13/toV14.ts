@@ -98,9 +98,9 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
       const orig = type.toString();
       const alias = Object
         .entries(sectionTypes)
-        .reduce((result: string, [from, to]) =>
-          BOXES.reduce((result, [one, two]) =>
-            result.replace(`${one}${from}${two}`, `${one}${to}${two}`), result), orig);
+        .reduce((result: string, [src, dst]) =>
+          BOXES.reduce((result, [a, z]) =>
+            result.replace(`${a}${src}${z}`, `${a}${dst}${z}`), result), orig);
 
       if (orig !== alias) {
         type.setOverride(alias);
@@ -179,8 +179,8 @@ function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, ev
 
     return registry.createType('SiVariant', {
       docs,
-      fields: args.map((type) =>
-        registry.createType('SiField', { type: compatType(types, type) })
+      fields: args.map((t) =>
+        registry.createType('SiField', { type: compatType(types, t) })
       ),
       index,
       name
