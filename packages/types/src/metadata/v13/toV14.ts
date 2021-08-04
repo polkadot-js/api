@@ -186,6 +186,18 @@ function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, ev
   });
 }
 
+function createKeyType (sectionTypes: OverrideModuleType, types: TypeSpec[], value: Type, keys: Type[]): number {
+  setTypeOverride(sectionTypes, [value, ...keys]);
+
+  return types.push({
+    def: {
+      Tuple: keys.map((type) =>
+        compatType(types, type)
+      )
+    }
+  }) - 1;
+}
+
 /**
  * Apply module-specific storage type overrides (always part of toV14)
  * @internal
@@ -206,46 +218,30 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
       } else if (type.isMap) {
         const map = type.asMap;
 
-        setTypeOverride(sectionTypes, [map.value, map.key]);
-
         entryType = registry.createType('StorageEntryTypeV14', {
           Map: {
-            hasher: map.hasher,
-            key: compatType(types, map.key),
+            hashers: [map.hasher],
+            key: createKeyType(sectionTypes, types, map.value, [map.key]),
             value: compatType(types, map.value)
           }
         });
       } else if (type.isDoubleMap) {
         const dm = type.asDoubleMap;
 
-        setTypeOverride(sectionTypes, [dm.value, dm.key1, dm.key2]);
-
         entryType = registry.createType('StorageEntryTypeV14', {
-          DoubleMap: {
-            hasher: dm.hasher,
-            key1: compatType(types, dm.key1),
-            key2: compatType(types, dm.key2),
-            key2Hasher: dm.key2Hasher,
+          Map: {
+            hashers: [dm.hasher, dm.key2Hasher],
+            key: createKeyType(sectionTypes, types, dm.value, [dm.key1, dm.key2]),
             value: compatType(types, dm.value)
           }
         });
       } else {
         const nm = type.asNMap;
 
-        setTypeOverride(sectionTypes, [nm.value, ...nm.keyVec]);
-
-        const key = types.push({
-          def: {
-            Tuple: nm.keyVec.map((type) =>
-              compatType(types, type)
-            )
-          }
-        }) - 1;
-
         entryType = registry.createType('StorageEntryTypeV14', {
-          NMap: {
+          Map: {
             hashers: nm.hashers,
-            key,
+            key: createKeyType(sectionTypes, types, nm.value, nm.keyVec),
             value: compatType(types, nm.value)
           }
         });
