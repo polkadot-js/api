@@ -32,13 +32,13 @@ export function decodeLatestMeta<Modules extends Codec> (registry: Registry, typ
         console.error(stringify(metadata.toJSON()));
 
         throw error;
-      } else {
-        fs.writeFileSync(
-          path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
-          JSON.stringify(metadata.toJSON(), null, 2),
-          { flag: 'w' }
-        );
       }
+
+      fs.writeFileSync(
+        path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
+        stringify(metadata.toJSON(), 2),
+        { flag: 'w' }
+      );
     }
   });
 }

@@ -13,6 +13,7 @@ import kusamaTypes from '@polkadot/types-support/metadata/v14/kusama-types.json'
 import substrateData from '@polkadot/types-support/metadata/v14/substrate-hex';
 import substrateJson from '@polkadot/types-support/metadata/v14/substrate-json.json';
 import substrateTypes from '@polkadot/types-support/metadata/v14/substrate-types.json';
+import { stringify } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
@@ -44,32 +45,32 @@ function testMeta (version: number, matchers: Record<string, Check>): void {
           expect(allJson).toEqual(compare);
         } catch (error) {
           if (process.env.GITHUB_REPOSITORY) {
-            console.error(JSON.stringify(allJson));
+            console.error(stringify(allJson));
 
             throw error;
-          } else {
-            fs.writeFileSync(
-              path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
-              JSON.stringify(allJson, null, 2),
-              { flag: 'w' }
-            );
           }
+
+          fs.writeFileSync(
+            path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
+            stringify(allJson, 2),
+            { flag: 'w' }
+          );
         }
 
         try {
           expect(jsonTypes).toEqual(types);
         } catch (error) {
           if (process.env.GITHUB_REPOSITORY) {
-            console.error(JSON.stringify(jsonTypes));
+            console.error(stringify(jsonTypes));
 
             throw error;
-          } else {
-            fs.writeFileSync(
-              path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-types.json`),
-              JSON.stringify(jsonTypes, null, 2),
-              { flag: 'w' }
-            );
           }
+
+          fs.writeFileSync(
+            path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-types.json`),
+            stringify(jsonTypes, 2),
+            { flag: 'w' }
+          );
         }
       });
     });
