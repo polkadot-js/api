@@ -439,11 +439,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       u8aToHex(compactStripLength(creator(
         creator.meta.type.isPlain
           ? undefined
-          : creator.meta.type.isMap
-            ? args[0]
-            : creator.meta.type.isDoubleMap
-              ? [args[0], args[1]]
-              : args
+          : args
       ))[1]);
 
     decorated.keyPrefix = (...keys: Arg[]): string =>
@@ -458,9 +454,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args), hash));
 
-    // FIXME NMap support
     // .keys() & .entries() only available on map types
-    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
+    if (creator.iterKey && creator.meta.type.isMap) {
       decorated.entries = decorateMethod(
         memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, args)));
@@ -520,11 +515,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       u8aToHex(compactStripLength(creator(
         creator.meta.type.isPlain
           ? undefined
-          : creator.meta.type.isMap
-            ? args[0]
-            : creator.meta.type.isDoubleMap
-              ? [args[0], args[1]]
-              : args
+          : args
       ))[1]);
 
     decorated.keyPrefix = (...keys: Arg[]): string =>
@@ -535,7 +526,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
-    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
+    if (creator.iterKey && creator.meta.type.isMap) {
       decorated.entries = decorateMethod(
         memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, blockHash, args)));
