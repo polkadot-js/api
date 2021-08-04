@@ -69,9 +69,9 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
 }
 
 /** @internal */
-export function toLatest (registry: Registry, version: number, rpcData: string, withThrow = true): void {
+export function toLatest (registry: Registry, version: number, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
-    const metadata = new Metadata(registry, rpcData);
+    const metadata = new Metadata(registry, data);
 
     registry.setMetadata(metadata);
 
@@ -84,9 +84,9 @@ export function toLatest (registry: Registry, version: number, rpcData: string, 
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, rpcData: string, withThrow = true, withFallbackCheck = false): void {
+export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
-    const metadata = new Metadata(registry, rpcData);
+    const metadata = new Metadata(registry, data);
     const { pallets } = metadata.asLatest;
 
     pallets.filter(({ storage }) => storage.isSome).forEach(({ name, storage }): void => {
@@ -113,7 +113,7 @@ export function defaultValues (registry: Registry, rpcData: string, withThrow = 
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;
 
-              if (withThrow) {
+              if (withThrow && !fails.some((f) => location.includes(f))) {
                 throw new Error(message);
               } else {
                 console.warn(message);
@@ -134,9 +134,9 @@ export function testMeta (version: number, matchers: Record<string, Check>, with
 
       decodeLatestMeta(registry, type, version, matcher);
 
-      toLatest(registry, version, matcher.data);
+      toLatest(registry, version, matcher);
 
-      defaultValues(registry, matcher.data, true, withFallback);
+      defaultValues(registry, matcher, true, withFallback);
     });
   });
 }

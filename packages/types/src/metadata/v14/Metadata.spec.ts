@@ -4,6 +4,9 @@
 import kusamaData from '@polkadot/types-support/metadata/v14/kusama-hex';
 import kusamaJson from '@polkadot/types-support/metadata/v14/kusama-json.json';
 import kusamaTypes from '@polkadot/types-support/metadata/v14/kusama-types.json';
+import polkadotData from '@polkadot/types-support/metadata/v14/polkadot-hex';
+import polkadotJson from '@polkadot/types-support/metadata/v14/polkadot-json.json';
+import polkadotTypes from '@polkadot/types-support/metadata/v14/polkadot-types.json';
 import substrateData from '@polkadot/types-support/metadata/v14/substrate-hex';
 import substrateJson from '@polkadot/types-support/metadata/v14/substrate-json.json';
 import substrateTypes from '@polkadot/types-support/metadata/v14/substrate-types.json';
@@ -15,6 +18,11 @@ testMeta(14, {
     compare: kusamaJson as Record<string, unknown>,
     data: kusamaData,
     types: kusamaTypes as Record<string, unknown>
+  },
+  polkadot: {
+    compare: polkadotJson as Record<string, unknown>,
+    data: polkadotData,
+    types: polkadotTypes as Record<string, unknown>
   },
   substrate: {
     compare: substrateJson as Record<string, unknown>,

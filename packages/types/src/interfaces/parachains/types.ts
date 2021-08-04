@@ -615,6 +615,17 @@ export interface TransientValidationData extends Struct {
   readonly dmqLength: u32;
 }
 
+/** @name UpgradeGoAhead */
+export interface UpgradeGoAhead extends Enum {
+  readonly isAbort: boolean;
+  readonly isGoAhead: boolean;
+}
+
+/** @name UpgradeRestriction */
+export interface UpgradeRestriction extends Enum {
+  readonly isPresent: boolean;
+}
+
 /** @name UpwardMessage */
 export interface UpwardMessage extends Bytes {}
 
