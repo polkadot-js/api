@@ -3,14 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import json1 from '@polkadot/types-support/json/Header.001.json';
+import json2 from '@polkadot/types-support/json/Header.002.json';
+import json3 from '@polkadot/types-support/json/Header.003.json';
+import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json';
+import block00301 from '@polkadot/types-support/json/SignedBlock.003.01.json';
 import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
-import json1 from '../../json/Header.001.json';
-import json2 from '../../json/Header.002.json';
-import json3 from '../../json/Header.003.json';
-import block00300 from '../../json/SignedBlock.003.00.json';
-import block00301 from '../../json/SignedBlock.003.01.json';
 
 describe('Header', (): void => {
   const registry = new TypeRegistry();

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../';
-import rpcMetadata from '../../static-substrate';
 import { decorateStorage } from '..';
 
 const keyring = createTestPairs({ type: 'ed25519' });

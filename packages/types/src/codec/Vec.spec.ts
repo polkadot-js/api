@@ -4,12 +4,12 @@
 import type { PropIndex } from '../interfaces/democracy';
 import type { Codec, CodecTo } from '../types';
 
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
 import { GenericAccountId as AccountId } from '../generic';
 import { Metadata } from '../metadata';
-import rpcMetadata from '../metadata/static-substrate';
 import { Text } from '../primitive';
 import { Tuple, Vec } from '.';
 

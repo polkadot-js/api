@@ -4,7 +4,7 @@
 import type { ExtraTypes } from '../generate/types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
-import staticData from '@polkadot/types/metadata/static-substrate';
+import staticData from '@polkadot/types-support/metadata/static-substrate';
 
 import { registerDefinitions } from './register';
 

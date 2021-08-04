@@ -4,10 +4,11 @@
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json';
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
+
 import { TypeRegistry } from '../create';
-import block00300 from '../json/SignedBlock.003.00.json';
 import { Metadata } from '../metadata';
-import metadataStatic from '../metadata/static-substrate';
 import { GenericBlock as Block } from './Block';
 
 const registry = new TypeRegistry();

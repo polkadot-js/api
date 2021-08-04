@@ -5,6 +5,9 @@ import type { Codec, Registry } from '../../types';
 import type { MetadataInterface } from '../types';
 import type { Check } from './types';
 
+import fs from 'fs';
+import path from 'path';
+
 import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
@@ -13,20 +16,29 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestMeta<Modules extends Codec> (registry: Registry, version: number, { compare, data }: Check): void {
+export function decodeLatestMeta<Modules extends Codec> (registry: Registry, type: string, version: number, { compare, data }: Check): void {
   it('decodes metadata properly', (): void => {
     const metadata = new Metadata(registry, data);
 
     registry.setMetadata(metadata);
 
+    expect(metadata.version).toBe(version);
+    expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
+
     try {
-      expect(metadata.version).toBe(version);
-      expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
       expect(metadata.toJSON()).toEqual(compare);
     } catch (error) {
-      console.error(stringify(metadata.toJSON()));
+      if (process.env.GITHUB_REPOSITORY) {
+        console.error(stringify(metadata.toJSON()));
 
-      throw error;
+        throw error;
+      }
+
+      fs.writeFileSync(
+        path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
+        stringify(metadata.toJSON(), 2),
+        { flag: 'w' }
+      );
     }
   });
 }
@@ -91,7 +103,7 @@ export function testMeta (version: number, matchers: Record<string, Check>, with
       const matcher = matchers[type];
       const registry = new TypeRegistry();
 
-      decodeLatestMeta(registry, version, matcher);
+      decodeLatestMeta(registry, type, version, matcher);
 
       toLatest(registry, version, matcher.data);
 

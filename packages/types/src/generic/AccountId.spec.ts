@@ -3,9 +3,10 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json';
+
 import { Raw } from '../codec/Raw';
 import { TypeRegistry } from '../create';
-import jsonVec from '../json/AccountIdVec.001.json';
 import { GenericAccountId as AccountId } from '.';
 
 describe('AccountId', (): void => {

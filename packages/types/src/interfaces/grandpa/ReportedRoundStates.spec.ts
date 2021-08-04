@@ -3,8 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import json3 from '@polkadot/types-support/json/GrandpaRoundstate.001.json';
+
 import { TypeRegistry } from '../../create';
-import json3 from '../../json/GrandpaRoundstate.001.json';
 
 describe('ReportedRoundStates', (): void => {
   const registry = new TypeRegistry();
