@@ -4,10 +4,11 @@
 import type { BlockNumber } from '../../../interfaces';
 import type { Constants } from '../types';
 
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import rpcMetadataV10 from '@polkadot/types-support/metadata/v10/substrate-hex';
+
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
-import rpcMetadata from '../../static-substrate';
-import rpcMetadataV10 from '../../v10/substrate-hex';
 import { decorateConstants } from '..';
 
 function init (meta: string): [Constants, TypeRegistry] {

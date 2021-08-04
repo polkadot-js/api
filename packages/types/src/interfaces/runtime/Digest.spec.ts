@@ -3,8 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import json3 from '@polkadot/types-support/json/Header.003.json';
+
 import { TypeRegistry } from '../../create';
-import json3 from '../../json/Header.003.json';
 
 describe('Digest', (): void => {
   const registry = new TypeRegistry();

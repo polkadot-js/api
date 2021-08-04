@@ -2100,12 +2100,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/types-support@5.3.3-0, @polkadot/types-support@workspace:packages/types-support":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-support@workspace:packages/types-support"
+  dependencies:
+    "@babel/runtime": ^7.14.8
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/types@5.3.3-0, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.14.8
     "@polkadot/keyring": ^7.1.1
+    "@polkadot/types-support": 5.3.3-0
     "@polkadot/util": ^7.1.1
     "@polkadot/util-crypto": ^7.1.1
     "@types/bn.js": ^4.11.6

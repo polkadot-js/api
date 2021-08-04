@@ -5,8 +5,9 @@
 
 import type { ExtrinsicStatus } from './types';
 
+import rpc from '@polkadot/types-support/json/ExtrinsicStatus.001.json';
+
 import { TypeRegistry } from '../../create';
-import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
   const registry = new TypeRegistry();

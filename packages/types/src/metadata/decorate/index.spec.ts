@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import json from '@polkadot/types-support/metadata/static-substrate';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
-import json from '../static-substrate';
 import { decorateConstants, decorateExtrinsics, decorateStorage } from './';
 
 const registry = new TypeRegistry();

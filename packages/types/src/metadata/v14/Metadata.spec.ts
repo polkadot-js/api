@@ -3,14 +3,15 @@
 
 import type { MetadataAll } from '../../interfaces/metadata';
 
+import polkadotData from '@polkadot/types-support/metadata/v14/polkadot-hex';
+import polkadotJson from '@polkadot/types-support/metadata/v14/polkadot-json.json';
+import polkadotTypes from '@polkadot/types-support/metadata/v14/polkadot-types.json';
+import substrateData from '@polkadot/types-support/metadata/v14/substrate-hex';
+import substrateJson from '@polkadot/types-support/metadata/v14/substrate-json.json';
+import substrateTypes from '@polkadot/types-support/metadata/v14/substrate-types.json';
+
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
-import polkadotData from './polkadot-hex';
-import polkadotJson from './polkadot-json.json';
-import polkadotTypes from './polkadot-types.json';
-import substrateData from './substrate-hex';
-import substrateJson from './substrate-json.json';
-import substrateTypes from './substrate-types.json';
 
 describe('MetadataV14 (substrate)', (): void => {
   // FIXME This is to be replaced with the proper version (here as a stop-gap)

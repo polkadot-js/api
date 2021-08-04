@@ -15,7 +15,7 @@ import { decorateStorage, Metadata } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import rpcMetadata from '@polkadot/types/metadata/static-substrate';
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { assert, BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 

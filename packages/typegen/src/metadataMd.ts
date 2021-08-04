@@ -9,9 +9,9 @@ import fs from 'fs';
 import { GenericCall as Call, Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
-import rpcdata from '@polkadot/types/metadata/static-substrate';
 import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import rpcdata from '@polkadot/types-support/metadata/static-substrate';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 interface SectionItem {

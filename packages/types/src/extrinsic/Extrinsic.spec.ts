@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
-import rpcMetadata from '../metadata/static-substrate';
 import { GenericExtrinsic as Extrinsic } from '.';
 
 const registry = new TypeRegistry();

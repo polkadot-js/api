@@ -1,8 +1,8 @@
 {
-  "name": "@polkadot/types-known",
+  "name": "@polkadot/types-support",
   "version": "5.3.3-0",
   "type": "module",
-  "description": "Known type definitions",
+  "description": "Supporting files for types, mostly for testing",
   "main": "index.js",
   "sideEffects": [
     "./detectPackage.js",
@@ -17,11 +17,8 @@
   "license": "Apache-2.0",
   "repository": "github:polkadot-js/api",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-support#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.8",
-    "@polkadot/networks": "^7.1.1",
-    "@polkadot/types": "5.3.3-0",
-    "@polkadot/util": "^7.1.1"
+    "@babel/runtime": "^7.14.8"
   }
 }

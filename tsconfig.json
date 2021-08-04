@@ -22,7 +22,9 @@
       "@polkadot/types": ["packages/types/src"],
       "@polkadot/types/*": ["packages/types/src/*"],
       "@polkadot/types-known": ["packages/types-known/src"],
-      "@polkadot/types-known/*": ["packages/types-known/src/*"]
+      "@polkadot/types-known/*": ["packages/types-known/src/*"],
+      "@polkadot/types-support": ["packages/types-support/src"],
+      "@polkadot/types-support/*": ["packages/types-support/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [
