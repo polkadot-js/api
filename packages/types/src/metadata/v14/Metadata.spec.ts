@@ -4,6 +4,9 @@
 import type { MetadataAll } from '../../interfaces/metadata';
 import type { Check } from '../util/types';
 
+import fs from 'fs';
+import path from 'path';
+
 import kusamaData from '@polkadot/types-support/metadata/v14/kusama-hex';
 import kusamaJson from '@polkadot/types-support/metadata/v14/kusama-json.json';
 import kusamaTypes from '@polkadot/types-support/metadata/v14/kusama-types.json';
@@ -40,17 +43,33 @@ function testMeta (version: number, matchers: Record<string, Check>): void {
         try {
           expect(allJson).toEqual(compare);
         } catch (error) {
-          console.error(JSON.stringify(allJson));
+          if (process.env.GITHUB_REPOSITORY) {
+            console.error(JSON.stringify(allJson));
 
-          throw error;
+            throw error;
+          } else {
+            fs.writeFileSync(
+              path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
+              JSON.stringify(allJson, null, 2),
+              { flag: 'w' }
+            );
+          }
         }
 
         try {
           expect(jsonTypes).toEqual(types);
         } catch (error) {
-          console.error(JSON.stringify(jsonTypes));
+          if (process.env.GITHUB_REPOSITORY) {
+            console.error(JSON.stringify(jsonTypes));
 
-          throw error;
+            throw error;
+          } else {
+            fs.writeFileSync(
+              path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-types.json`),
+              JSON.stringify(jsonTypes, null, 2),
+              { flag: 'w' }
+            );
+          }
         }
       });
     });
