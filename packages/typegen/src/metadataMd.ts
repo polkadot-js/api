@@ -209,7 +209,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
-            const arg = func.type.isNMap
+            const arg = func.type.isMap
               ? ('`' + lookup.getSiType(func.type.asMap.key).def.asTuple.map((t) => t).join(', ') + '`')
               : '';
             const methodName = stringLowerFirst(func.name);

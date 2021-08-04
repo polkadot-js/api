@@ -597,7 +597,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, args: Arg[]): Observable<StorageKey[]> {
-    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap), 'keys can only be retrieved on maps, linked maps and double maps');
+    assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
@@ -621,7 +621,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
-    assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap), 'keys can only be retrieved on maps, linked maps and double maps');
+    assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
     const headKey = iterKey(...opts.args).toHex();
 

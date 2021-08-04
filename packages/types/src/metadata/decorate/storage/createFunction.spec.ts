@@ -36,6 +36,12 @@ describe('createFunction', (): void => {
             {
               id: 3,
               type: {
+                def: { Tuple: [1, 0] }
+              }
+            },
+            {
+              id: 4,
+              type: {
                 def: { Tuple: [1, 0, 0] }
               }
             }
@@ -47,19 +53,20 @@ describe('createFunction', (): void => {
 
   registry.setMetadata(metadata);
 
-  it('allows creating of known DoubleMap keys (with Bytes)', (): void => {
+  it('allows creating of known 2 Map keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       meta: {
         type: {
-          asDoubleMap: {
-            hasher: registry.createType('StorageHasher', 'Twox64Concat'),
-            key1: 1,
-            key2: 0,
-            key2Hasher: registry.createType('StorageHasher', 'Blake2_256'),
-            value: 3
+          asMap: {
+            hashers: [
+              registry.createType('StorageHasher', 'Twox64Concat'),
+              registry.createType('StorageHasher', 'Blake2_256')
+            ],
+            key: 3,
+            value: 4
           },
-          isDoubleMap: true
+          isMap: true
         }
       } as any,
       method: 'NextKeys',
@@ -87,12 +94,12 @@ describe('createFunction', (): void => {
     );
   });
 
-  it('allows creating of NMap keys (with Bytes)', (): void => {
+  it('allows creating of 3 Map keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       meta: {
         type: {
-          asNMap: {
+          asMap: {
             hashers: [
               registry.createType('StorageHasher', 'Twox64Concat'),
               registry.createType('StorageHasher', 'Blake2_256'),
@@ -101,7 +108,7 @@ describe('createFunction', (): void => {
             key: 3,
             value: 2
           },
-          isNMap: true
+          isMap: true
         }
       } as any,
       method: 'NextKeys',
