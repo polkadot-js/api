@@ -209,9 +209,16 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
-            const arg = func.type.isMap
-              ? ('`' + lookup.getSiType(func.type.asMap.key).def.asTuple.map((t) => t).join(', ') + '`')
-              : '';
+            let arg = '';
+
+            if (func.type.isMap) {
+              const si = lookup.getSiType(func.type.asMap.key);
+
+              arg = si.def.isTuple
+                ? ('`' + si.def.asTuple.map((t) => t).join(', ') + '`')
+                : ('`' + func.type.asMap.key.toString() + '`');
+            }
+
             const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);
 

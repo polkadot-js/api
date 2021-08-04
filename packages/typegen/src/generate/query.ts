@@ -56,10 +56,13 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
       : [lookup.getTypeDef(nmap.key)];
     const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
     const keyTypes = similarTypes.map((t) => t.join(' | '));
+    const defValue = lookup.getTypeDef(nmap.value);
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
-      lookup.getTypeDef(nmap.value).type
+      defValue.lookupName
+        ? undefined
+        : defValue.type
     ]);
 
     return [

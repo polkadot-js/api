@@ -112,7 +112,10 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 
     if (args.length) {
       if (type.isMap) {
-        const keys = [...registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) => t)];
+        const si = registry.lookup.getSiType(type.asMap.key);
+        const keys = si.def.isTuple
+          ? [...si.def.asTuple.map((t) => t)]
+          : [type.asMap.key];
         const hashers = [...type.asMap.hashers];
 
         // remove the last entry
@@ -137,13 +140,19 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (arg?: Arg | Arg[]) =>
-    type.isMap
-      ? createKey(registry, itemFn, registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) => t), type.asMap.hashers, arg as Arg[])
-      : options.skipHashing
-        ? compactAddLength(u8aToU8a(options.key))
-        : createKey(registry, itemFn, [], [], [])
-  );
+  const storageFn = expandWithMeta(itemFn, (arg?: Arg | Arg[]): Uint8Array => {
+    if (type.isMap) {
+      const si = registry.lookup.getSiType(type.asMap.key);
+
+      return si.def.isTuple
+        ? createKey(registry, itemFn, si.def.asTuple.map((t) => t), type.asMap.hashers, arg as Arg[])
+        : createKey(registry, itemFn, [type.asMap.key], type.asMap.hashers, arg as Arg[]);
+    } else if (options.skipHashing) {
+      return compactAddLength(u8aToU8a(options.key));
+    } else {
+      return createKey(registry, itemFn, [], [], []);
+    }
+  });
 
   if (type.isMap) {
     extendPrefixedMap(registry, itemFn, storageFn);

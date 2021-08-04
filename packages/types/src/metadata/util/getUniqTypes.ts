@@ -35,18 +35,25 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
     }
 
     if (storage.isSome) {
-      all.push(storage.unwrap().items.map(({ type }) =>
-        type.isPlain
+      all.push(storage.unwrap().items.map(({ type }): string[] => {
+        if (type.isPlain) {
+          return [lookup.getTypeDef(type.asPlain).type];
+        }
+
+        const si = lookup.getSiType(type.asMap.key);
+
+        return si.def.isTuple
           ? [
-            lookup.getTypeDef(type.asPlain).type
-          ]
-          : [
             lookup.getTypeDef(type.asMap.value).type,
-            ...lookup.getSiType(type.asMap.key).def.asTuple.map((t) =>
+            ...si.def.asTuple.map((t) =>
               lookup.getTypeDef(t).type
             )
           ]
-      ));
+          : [
+            lookup.getTypeDef(type.asMap.value).type,
+            lookup.getTypeDef(type.asMap.key).type
+          ];
+      }));
     }
 
     return all;

@@ -13,7 +13,10 @@ function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiL
 
 function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry, any[]] {
   const { key } = creator.meta.type.asMap;
-  const keyVec = registry.lookup.getSiType(key).def.asTuple.map((t) => t);
+  const si = registry.lookup.getSiType(key);
+  const keyVec = si.def.isTuple
+    ? si.def.asTuple.map((t) => t)
+    : [key];
 
   assert(args.length === keyVec.length, () => `${sig(registry, creator, keyVec)} is a multi map, requiring ${keyVec.length} arguments, ${args.length} found`);
 
