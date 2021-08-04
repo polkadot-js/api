@@ -8,9 +8,9 @@ import Handlebars from 'handlebars';
 import path from 'path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import staticPolkadot from '@polkadot/types/metadata/static-polkadot';
-import staticSubstrate from '@polkadot/types/metadata/static-substrate';
 import { Registry } from '@polkadot/types/types';
+import staticKusama from '@polkadot/types-support/metadata/static-kusama';
+import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 import { isString, stringify } from '@polkadot/util';
 
 import { createImports, exportType, initMeta, readTemplate, writeFile } from '../util';
@@ -261,7 +261,7 @@ export function generateDefaultLookup (destDir = 'packages/types/src/augment/loo
       ? [[undefined, staticData]]
       : [
         ['substrate', staticSubstrate],
-        ['polkadot', staticPolkadot]
+        ['kusama', staticKusama]
       ]
   );
 }

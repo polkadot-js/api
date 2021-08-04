@@ -553,19 +553,6 @@ declare module '@polkadot/types/lookup' {
   /** @name SpCoreEcdsaPublic (471) */
   export interface SpCoreEcdsaPublic extends U8aFixed {}
 
-  /** @name SpRuntimeMultiSignature (474) */
-  export interface SpRuntimeMultiSignature extends Enum {
-    readonly isEd25519: boolean;
-    readonly asEd25519: SpCoreEd25519Signature;
-    readonly isSr25519: boolean;
-    readonly asSr25519: SpCoreSr25519Signature;
-    readonly isEcdsa: boolean;
-    readonly asEcdsa: SpCoreEcdsaSignature;
-  }
-
-  /** @name SpCoreEcdsaSignature (475) */
-  export interface SpCoreEcdsaSignature extends U8aFixed {}
-
   /** @name KusamaRuntimeOriginCaller (524) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;

@@ -3,13 +3,13 @@
 
 import type { Definitions } from '../../types';
 
-import polkadot from './polkadot';
+import kusama from './kusama';
 import substrate from './substrate';
 
 export default {
   rpc: {},
   types: {
-    ...polkadot,
+    ...kusama,
     ...substrate
   }
 } as Definitions;

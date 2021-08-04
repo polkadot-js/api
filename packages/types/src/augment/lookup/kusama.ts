@@ -553,20 +553,6 @@ export default {
    **/
   SpCoreEcdsaPublic: '[u8;33]',
   /**
-   * Lookup474: sp_runtime::MultiSignature
-   **/
-  SpRuntimeMultiSignature: {
-    _enum: {
-      Ed25519: 'SpCoreEd25519Signature',
-      Sr25519: 'SpCoreSr25519Signature',
-      Ecdsa: 'SpCoreEcdsaSignature',
-    }
-  },
-  /**
-   * Lookup475: sp_core::ecdsa::Signature
-   **/
-  SpCoreEcdsaSignature: '[u8;65]',
-  /**
    * Lookup524: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
