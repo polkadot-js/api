@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
-import metaStatic from '@polkadot/types/metadata/static-substrate';
+import metaStatic from '@polkadot/types-support/metadata/static-substrate';
 
 import { extractStorageArgs } from './validate';
 

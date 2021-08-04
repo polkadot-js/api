@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import polkadot from '@polkadot/types-support/metadata//static-polkadot';
+import substrate from '@polkadot/types-support/metadata/static-substrate';
+
 import { TypeRegistry } from '../create';
 import { Metadata } from './Metadata';
-import polkadot from './static-polkadot';
-import substrate from './static-substrate';
 
 const allData: Record<string, string> = {
   polkadot,

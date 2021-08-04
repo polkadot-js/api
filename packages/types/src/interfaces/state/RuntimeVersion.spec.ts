@@ -5,8 +5,9 @@
 
 import type { RuntimeVersion } from './types';
 
+import rpc from '@polkadot/types-support/json/RuntimeVersion.002.json';
+
 import { TypeRegistry } from '../../create';
-import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {
   const registry = new TypeRegistry();

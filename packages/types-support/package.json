@@ -1,0 +1,24 @@
+{
+  "name": "@polkadot/types-support",
+  "version": "5.3.3-1",
+  "type": "module",
+  "description": "Supporting files for types, mostly for testing",
+  "main": "index.js",
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "repository": "github:polkadot-js/api",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-support#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.14.8"
+  }
+}

@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import staticData from '@polkadot/types-support/metadata/static-substrate';
+
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../Metadata';
-import staticData from '../static-substrate';
 
 describe('toCallsOnly', (): void => {
   const registry = new TypeRegistry();

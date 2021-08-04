@@ -4,6 +4,9 @@
 import type { Registry } from '../../types';
 import type { Check } from './types';
 
+import fs from 'fs';
+import path from 'path';
+
 import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
@@ -12,7 +15,7 @@ import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 /** @internal */
-export function decodeLatestMeta (registry: Registry, version: number, { compare, data, types }: Check): void {
+export function decodeLatestMeta (registry: Registry, type: string, version: number, { compare, data, types }: Check): void {
   const metadata = new Metadata(registry, data);
 
   registry.setMetadata(metadata);
@@ -23,13 +26,22 @@ export function decodeLatestMeta (registry: Registry, version: number, { compare
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     delete json.metadata?.[`v${metadata.version}`]?.lookup;
 
-    try {
-      expect(metadata.version).toBe(version);
-      expect(json).toEqual(compare);
-    } catch (error) {
-      console.error(stringify(json));
+    expect(metadata.version).toBe(version);
 
-      throw error;
+    try {
+      expect(metadata.toJSON()).toEqual(compare);
+    } catch (error) {
+      if (process.env.GITHUB_REPOSITORY) {
+        console.error(stringify(metadata.toJSON()));
+
+        throw error;
+      }
+
+      fs.writeFileSync(
+        path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
+        stringify(metadata.toJSON(), 2),
+        { flag: 'w' }
+      );
     }
   });
 
@@ -40,9 +52,17 @@ export function decodeLatestMeta (registry: Registry, version: number, { compare
       try {
         expect(json).toEqual(types);
       } catch (error) {
-        console.error(stringify(json));
+        if (process.env.GITHUB_REPOSITORY) {
+          console.error(stringify(metadata.toJSON()));
 
-        throw error;
+          throw error;
+        }
+
+        fs.writeFileSync(
+          path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-types.json`),
+          stringify(json, 2),
+          { flag: 'w' }
+        );
       }
     }
   });
@@ -112,7 +132,7 @@ export function testMeta (version: number, matchers: Record<string, Check>, with
       const matcher = matchers[type];
       const registry = new TypeRegistry();
 
-      decodeLatestMeta(registry, version, matcher);
+      decodeLatestMeta(registry, type, version, matcher);
 
       toLatest(registry, version, matcher.data);
 
