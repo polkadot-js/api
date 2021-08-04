@@ -11,28 +11,8 @@ function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiL
   return `${section}.${method}(${args.map((a) => lookup.getTypeDef(a).type).join(', ')})`;
 }
 
-function doDoubleMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry, [any, any]] {
-  const { key1, key2 } = creator.meta.type.asDoubleMap;
-
-  assert(args.length === 2, () => `${sig(registry, creator, [key1, key2])} is a double map, requiring 2 arguments, ${args.length} found`);
-
-  // pass as tuple
-  return [creator, args as [any, any]];
-}
-
-function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry] | [StorageEntry, any] {
+function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry, any[]] {
   const { key } = creator.meta.type.asMap;
-
-  assert(args.length === 1, () => `${sig(registry, creator, [key])} is a map, requiring 1 argument, ${args.length} found`);
-
-  // expand
-  return args.length
-    ? [creator, args[0]]
-    : [creator];
-}
-
-function doNMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry, any[]] {
-  const { key } = creator.meta.type.asNMap;
   const keyVec = registry.lookup.getSiType(key).def.asTuple.map((t) => t);
 
   assert(args.length === keyVec.length, () => `${sig(registry, creator, keyVec)} is a multi map, requiring ${keyVec.length} arguments, ${args.length} found`);
@@ -46,12 +26,8 @@ function doNMap (registry: Registry, creator: StorageEntry, args: unknown[]): [S
 export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, any[]] | [StorageEntry] | [StorageEntry, any] {
   const args = _args.filter((arg) => !isUndefined(arg));
 
-  if (creator.meta.type.isDoubleMap) {
-    return doDoubleMap(registry, creator, args);
-  } else if (creator.meta.type.isMap) {
+  if (creator.meta.type.isMap) {
     return doMap(registry, creator, args);
-  } else if (creator.meta.type.isNMap) {
-    return doNMap(registry, creator, args);
   }
 
   assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);

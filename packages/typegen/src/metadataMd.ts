@@ -209,13 +209,9 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
-            const arg = func.type.isMap
-              ? ('`' + lookup.getTypeDef(func.type.asMap.key).type + '`')
-              : func.type.isDoubleMap
-                ? ('`' + lookup.getTypeDef(func.type.asDoubleMap.key1).type + ', ' + lookup.getTypeDef(func.type.asDoubleMap.key2).type + '`')
-                : func.type.isNMap
-                  ? ('`' + lookup.getSiType(func.type.asNMap.key).def.asTuple.map((t) => t).join(', ') + '`')
-                  : '';
+            const arg = func.type.isNMap
+              ? ('`' + lookup.getSiType(func.type.asMap.key).def.asTuple.map((t) => t).join(', ') + '`')
+              : '';
             const methodName = stringLowerFirst(func.name);
             const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);
 
@@ -236,9 +232,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
       items: Object.entries(substrate).map(([name, { meta }]) => {
         const arg = meta.type.isMap
           ? ('`' + lookup.getTypeDef(meta.type.asMap.key).type + '`')
-          : meta.type.isDoubleMap
-            ? ('`' + lookup.getTypeDef(meta.type.asDoubleMap.key1).type + ', ' + lookup.getTypeDef(meta.type.asDoubleMap.key2).type + '`')
-            : '';
+          : '';
         const methodName = stringLowerFirst(name);
         const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
 

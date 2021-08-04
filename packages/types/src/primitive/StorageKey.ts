@@ -36,11 +36,7 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
 export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
   return type.isPlain
     ? type.asPlain
-    : type.isMap
-      ? type.asMap.value
-      : type.isDoubleMap
-        ? type.asDoubleMap.value
-        : type.asNMap.value;
+    : type.asMap.value;
 }
 
 /** @internal */
@@ -105,26 +101,11 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
 
 /** @internal */
 function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
-  if (!meta || !(meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap)) {
+  if (!meta || !meta.type.isMap) {
     return [] as unknown as A;
   }
 
-  if (meta.type.isMap) {
-    const mapInfo = meta.type.asMap;
-
-    return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key]
-    ]);
-  } else if (meta.type.isDoubleMap) {
-    const mapInfo = meta.type.asDoubleMap;
-
-    return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key1],
-      [mapInfo.key2Hasher, mapInfo.key2]
-    ]);
-  }
-
-  const mapInfo = meta.type.asNMap;
+  const mapInfo = meta.type.asMap;
   const keys = registry.lookup.getSiType(mapInfo.key).def.asTuple;
 
   return decodeHashers(registry, value, mapInfo.hashers.map((h, i) => [h, keys[i]]));

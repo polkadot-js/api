@@ -40,23 +40,12 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
           ? [
             lookup.getTypeDef(type.asPlain).type
           ]
-          : type.isMap
-            ? [
-              lookup.getTypeDef(type.asMap.value).type,
-              lookup.getTypeDef(type.asMap.key).type
-            ]
-            : type.isDoubleMap
-              ? [
-                lookup.getTypeDef(type.asDoubleMap.value).type,
-                lookup.getTypeDef(type.asDoubleMap.key1).type,
-                lookup.getTypeDef(type.asDoubleMap.key2).type
-              ]
-              : [
-                lookup.getTypeDef(type.asNMap.value).type,
-                ...lookup.getSiType(type.asNMap.key).def.asTuple.map((t) =>
-                  lookup.getTypeDef(t).type
-                )
-              ]
+          : [
+            lookup.getTypeDef(type.asMap.value).type,
+            ...lookup.getSiType(type.asMap.key).def.asTuple.map((t) =>
+              lookup.getTypeDef(t).type
+            )
+          ]
       ));
     }
 

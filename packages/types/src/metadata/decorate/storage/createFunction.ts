@@ -80,13 +80,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _stora
 
 /** @internal */
 function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
-  const outputType = registry.createLookupType(
-    type.isMap
-      ? type.asMap.key
-      : type.isDoubleMap
-        ? type.asDoubleMap.key1
-        : type.asNMap.key
-  );
+  const outputType = registry.createLookupType(type.asMap.key);
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
@@ -111,18 +105,15 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
     assert(
       (
         (args.length === 0) ||
-        (type.isDoubleMap && args.length === 1) ||
-        (type.isNMap && args.length === (type.asNMap.hashers.length - 1))
+        (type.isMap && args.length === (type.asMap.hashers.length - 1))
       ),
       () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be one less than the full arguments, found [${args.join(', ')}]`
     );
 
     if (args.length) {
-      if (type.isDoubleMap) {
-        return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [type.asDoubleMap.hasher], args as Arg[]));
-      } else if (type.isNMap) {
-        const keys = [...registry.lookup.getSiType(type.asNMap.key).def.asTuple.map((t) => t)];
-        const hashers = [...type.asNMap.hashers];
+      if (type.isMap) {
+        const keys = [...registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) => t)];
+        const hashers = [...type.asMap.hashers];
 
         // remove the last entry
         keys.pop();
@@ -147,18 +138,14 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (arg?: Arg | Arg[]) =>
-    type.isPlain
-      ? options.skipHashing
+    type.isMap
+      ? createKey(registry, itemFn, registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) => t), type.asMap.hashers, arg as Arg[])
+      : options.skipHashing
         ? compactAddLength(u8aToU8a(options.key))
         : createKey(registry, itemFn, [], [], [])
-      : type.isMap
-        ? createKey(registry, itemFn, [type.asMap.key], [type.asMap.hasher], [arg as Arg])
-        : type.isDoubleMap
-          ? createKey(registry, itemFn, [type.asDoubleMap.key1, type.asDoubleMap.key2], [type.asDoubleMap.hasher, type.asDoubleMap.key2Hasher], arg as Arg[])
-          : createKey(registry, itemFn, registry.lookup.getSiType(type.asNMap.key).def.asTuple.map((t) => t), type.asNMap.hashers, arg as Arg[])
   );
 
-  if (type.isMap || type.isDoubleMap || type.isNMap) {
+  if (type.isMap) {
     extendPrefixedMap(registry, itemFn, storageFn);
   }
 
