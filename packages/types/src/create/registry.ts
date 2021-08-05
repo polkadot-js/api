@@ -242,8 +242,7 @@ export class TypeRegistry implements Registry {
    * @describe Creates an instance of the class
    */
   public createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return createClass(this, type) as any;
+    return createClass(this, type);
   }
 
   /**

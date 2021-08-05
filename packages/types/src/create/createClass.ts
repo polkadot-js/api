@@ -21,18 +21,6 @@ export function createClass<T extends Codec = Codec, K extends string = string> 
   );
 }
 
-// An unsafe version of the `createType` below. It's unsafe because the `type`
-// argument here can be any string, which, if it cannot be parsed, it will yield
-// a runtime error.
-export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): DetectConstructor<T, K> {
-  return createClass<T, K>(registry, name);
-}
-
-// alias for createClass
-export function ClassOf<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): DetectConstructor<T, K> {
-  return ClassOfUnsafe<T, K>(registry, name);
-}
-
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
