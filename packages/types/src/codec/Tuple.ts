@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, Registry } from '../types';
 
 import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -14,8 +14,8 @@ type TupleConstructors = Constructor[] | {
   [index: string]: Constructor;
 };
 
-type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
-  [index: string]: Constructor | keyof InterfaceTypes;
+type TupleTypes = (Constructor | string)[] | {
+  [index: string]: Constructor | string;
 };
 
 /** @internal */

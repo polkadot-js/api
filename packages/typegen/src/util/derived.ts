@@ -6,7 +6,7 @@ import type { Constructor, Registry } from '@polkadot/types/types';
 
 import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
-import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
+import { getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
@@ -30,7 +30,7 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable(
     (primitiveClasses as Record<string, any>)[primitiveName] ||
-    ClassOfUnsafe(registry, type)
+    registry.createClass(type)
   );
   const def = getTypeDef(type);
 
@@ -87,7 +87,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     return ['null'];
   }
 
-  const Clazz = ClassOfUnsafe(registry, type);
+  const Clazz = registry.createClass(type);
 
   if (isChildClass(Vec, Clazz)) {
     const vecDef = getTypeDef(type);

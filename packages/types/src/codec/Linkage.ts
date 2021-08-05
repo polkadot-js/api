@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, Registry } from '../types';
 
 import { Option } from './Option';
 import { Struct } from './Struct';
@@ -17,7 +17,7 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export class Linkage<T extends Codec> extends Struct {
-  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: unknown) {
+  constructor (registry: Registry, Type: Constructor | string, value?: unknown) {
     super(registry, {
       previous: Option.with(Type),
       // eslint-disable-next-line sort-keys
@@ -25,7 +25,7 @@ export class Linkage<T extends Codec> extends Struct {
     }, value as string);
   }
 
-  public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: Constructor | string): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);

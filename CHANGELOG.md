@@ -2,8 +2,11 @@
 
 ## master
 
+- **Important** The `ClassOf` alias for `createClass` has been removed, us `createClass` (with new generics) directly
+
 Changes:
 
+- `createType<T = Codec>('...': K)` now returns `Codec` when `K` is not in the InterfaceRegistry, with `T` override
 - Handle `BitSequence` in `PortableRegistry`
 - Move all static test support files into `@polkadot/types-support`
 - Align static Metadata with latest Substrate, Polkadot & Kusama

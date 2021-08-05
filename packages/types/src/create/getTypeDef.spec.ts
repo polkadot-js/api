@@ -512,7 +512,7 @@ describe('getTypeDef', (): void => {
       }
     });
 
-    const raw = registry.createType('Recursive' as 'u32').toRawType();
+    const raw = registry.createType('Recursive').toRawType();
 
     expect(
       getTypeDef(raw)

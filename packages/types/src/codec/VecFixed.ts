@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, Registry } from '../types';
 
 import { assert, compactToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
 
@@ -36,7 +36,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
     super(registry, ...decodeVecFixed(registry, Clazz, length, value));
@@ -44,7 +44,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
     this._Type = Clazz;
   }
 
-  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes, length: number): Constructor<VecFixed<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | string, length: number): Constructor<VecFixed<O>> {
     return class extends VecFixed<O> {
       constructor (registry: Registry, value?: any[]) {
         super(registry, Type, length, value);
