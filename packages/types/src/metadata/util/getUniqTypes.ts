@@ -45,13 +45,13 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
         return hashers.length === 1
           ? [
             lookup.getTypeDef(value).type,
-            ...lookup.getSiType(key).def.asTuple.map((t) =>
-              lookup.getTypeDef(t).type
-            )
+            lookup.getTypeDef(key).type
           ]
           : [
             lookup.getTypeDef(value).type,
-            lookup.getTypeDef(key).type
+            ...lookup.getSiType(key).def.asTuple.map((t) =>
+              lookup.getTypeDef(t).type
+            )
           ];
       }));
     }
