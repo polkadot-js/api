@@ -22,6 +22,7 @@ interface StorageKeyExtra {
   section: string;
 }
 
+// hasher type -> [initialHashLength, canDecodeKey]
 const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
   Blake2_128: [16, false], // eslint-disable-line camelcase
@@ -67,12 +68,12 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
       section: value.section
     };
   } else if (Array.isArray(value)) {
-    const [fn, arg] = value;
+    const [fn, args] = value;
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
     return {
-      key: fn(arg),
+      key: fn(args),
       method: fn.method,
       section: fn.section
     };

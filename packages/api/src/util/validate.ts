@@ -11,7 +11,17 @@ function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiL
   return `${section}.${method}(${args.map((a) => lookup.getTypeDef(a).type).join(', ')})`;
 }
 
-function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [StorageEntry, unknown | unknown[]] {
+// sets up the arguments in the form of [creator, args] ready to be used in a storage
+// call. Additionally, it verifies that the correct number of arguments have been passed
+export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, unknown[]] {
+  const args = _args.filter((arg) => !isUndefined(arg));
+
+  if (creator.meta.type.isPlain) {
+    assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
+
+    return [creator, []];
+  }
+
   const { hashers, key } = creator.meta.type.asMap;
   const keys = hashers.length === 1
     ? [key]
@@ -20,22 +30,5 @@ function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [St
   assert(args.length === keys.length, () => `${sig(registry, creator, keys)} is a map, requiring ${keys.length} arguments, ${args.length} found`);
 
   // pass as tuple
-  return hashers.length === 1
-    ? [creator, args[0]]
-    : [creator, args];
-}
-
-// sets up the arguments in the form of [creator, args] ready to be used in a storage
-// call. Additionally, it verifies that the correct number of arguments have been passed
-export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, unknown[]] | [StorageEntry] | [StorageEntry, unknown] {
-  const args = _args.filter((arg) => !isUndefined(arg));
-
-  if (creator.meta.type.isMap) {
-    return doMap(registry, creator, args);
-  }
-
-  assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
-
-  // no args
-  return [creator];
+  return [creator, args];
 }

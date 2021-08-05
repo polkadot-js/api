@@ -53,6 +53,42 @@ describe('createFunction', (): void => {
 
   registry.setMetadata(metadata);
 
+  it('allows creating a known 1 Map key', (): void => {
+    const storageFn = createFunction(registry, {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      meta: {
+        type: {
+          asMap: {
+            hashers: [
+              registry.createType('StorageHasher', 'Blake2_128Concat')
+            ],
+            key: 0,
+            value: 4
+          },
+          isMap: true
+        }
+      } as any,
+      method: 'Account',
+      prefix: 'System',
+      section: 'system'
+    }, {});
+
+    expect(
+      u8aToHex(
+        storageFn(
+          'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
+        )
+      )
+    ).toEqual(
+      '0x' +
+      '4101' +
+      '26aa394eea5630e07c48ae0c9558cef7' + // twox 128
+      'b99d880ec681799c0cf30e8886371da9' + // twox 128
+      '79c598d130209ab0dea15637a5b16be7' + // blake 128
+      '1a7938fede32e1275281b3eee5708706d88444a6dc898a4dec463f1eb298463f' // AccountId
+    );
+  });
+
   it('allows creating of known 2 Map keys (with Bytes)', (): void => {
     const storageFn = createFunction(registry, {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -76,12 +112,12 @@ describe('createFunction', (): void => {
 
     expect(
       u8aToHex(
-        storageFn([
+        storageFn(
           // hex, without length prefix
           '0x3a73657373696f6e3a6b657973',
           // address
           'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
-        ])
+        )
       )
     ).toEqual(
       '0x' +
@@ -105,7 +141,7 @@ describe('createFunction', (): void => {
               registry.createType('StorageHasher', 'Blake2_256'),
               registry.createType('StorageHasher', 'Blake2_256')
             ],
-            key: 3,
+            key: 4,
             value: 2
           },
           isMap: true
@@ -118,13 +154,13 @@ describe('createFunction', (): void => {
 
     expect(
       u8aToHex(
-        storageFn([
+        storageFn(
           // hex, without length prefix
           '0x3a73657373696f6e3a6b657973',
           // addresses
           'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4',
           'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
-        ])
+        )
       )
     ).toEqual(
       '0x' +
