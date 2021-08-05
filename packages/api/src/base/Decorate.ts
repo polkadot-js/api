@@ -360,7 +360,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         : this._rpcCore.state.queryStorageAt)(
         calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
-            ? [arg[0].creator, arg.slice(1)]
+            ? arg[0].creator.meta.type.asMap.hashers.length === 1
+              ? [arg[0].creator, arg.slice(1)]
+              : [arg[0].creator, ...arg.slice(1)]
             : [arg.creator])));
   }
 
