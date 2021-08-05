@@ -17,7 +17,7 @@ function doMap (registry: Registry, creator: StorageEntry, args: unknown[]): [St
     ? [key]
     : registry.lookup.getSiType(key).def.asTuple.map((t) => t);
 
-  assert(args.length === keyVec.length, () => `${sig(registry, creator, keyVec)} is a multi map, requiring ${keyVec.length} arguments, ${args.length} found`);
+  assert(args.length === keyVec.length, () => `${sig(registry, creator, keyVec)} is a map, requiring ${keyVec.length} arguments, ${args.length} found`);
 
   // pass as tuple
   return [creator, args];

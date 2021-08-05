@@ -62,33 +62,13 @@ describe('extractStorageArgs', (): void => {
     expect(
       (): any =>
         extractStorageArgs(registry, storage.staking.erasStakers, [])
-    ).toThrow('staking.erasStakers(u32, AccountId32) is a double map, requiring 2 arguments, 0 found');
+    ).toThrow('staking.erasStakers(u32, AccountId32) is a map, requiring 2 arguments, 0 found');
   });
 
   it('validates doublemap, 2 args (failing with 1 arg)', (): void => {
     expect(
       (): any =>
         extractStorageArgs(registry, storage.staking.erasStakers, [123])
-    ).toThrow('staking.erasStakers(u32, AccountId32) is a double map, requiring 2 arguments, 1 found');
-  });
-
-  // Linked maps have been removed
-  it.skip('validates linked map, no args', (): void => {
-    expect(
-      extractStorageArgs(registry, storage.staking.validators, [])
-    ).toEqual([storage.staking.validators]);
-  });
-
-  it.skip('validates linked map, single arg', (): void => {
-    expect(
-      extractStorageArgs(registry, storage.staking.validators, [123])
-    ).toEqual([storage.staking.validators, 123]);
-  });
-
-  it.skip('validates linked map (failing with extra args)', (): void => {
-    expect(
-      (): any[] =>
-        extractStorageArgs(registry, storage.staking.validators, [123, 456])
-    ).toThrow('staking.validators(AccountId32) is a linked map, requiring either 0 arguments (retrieving all) or 1 argument, 2 found');
+    ).toThrow('staking.erasStakers(u32, AccountId32) is a map, requiring 2 arguments, 1 found');
   });
 });
