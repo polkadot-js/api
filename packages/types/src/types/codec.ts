@@ -106,8 +106,9 @@ export interface Constructor<T = Codec> {
    */
   readonly __fallbackType?: string;
 
+  // NOTE: We need the any[] here, unknown[] does not work as expected
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...value: any[]): T;
+  new(registry: Registry, ...args: any[]): T;
 }
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
