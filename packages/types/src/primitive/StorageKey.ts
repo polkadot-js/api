@@ -50,7 +50,7 @@ export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLat
 }
 
 /** @internal */
-function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown]): Decoded {
+function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown[]]): Decoded {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   if (value instanceof StorageKey) {
     return {
@@ -115,7 +115,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
 }
 
 /** @internal */
-function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): StorageEntryMetadataLatest | undefined {
+function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown[]]): StorageEntryMetadataLatest | undefined {
   if (value instanceof StorageKey) {
     return value.meta;
   } else if (isFunction(value)) {
@@ -130,7 +130,7 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): S
 }
 
 /** @internal */
-function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
+function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
@@ -166,7 +166,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
   private _section?: string;
 
-  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown[]], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
@@ -178,7 +178,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   }
 
   /**
-   * @description Return the decoded arguments (applicable to map/doublemap with decodable values)
+   * @description Return the decoded arguments (applicable to map with decodable values)
    */
   public get args (): A {
     return this._args;

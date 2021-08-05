@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
 import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
-import type { Codec, Registry } from '../../../types';
+import type { Registry } from '../../../types';
 
 import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
@@ -31,10 +30,8 @@ interface IterFn {
   meta: StorageEntryMetadataLatest;
 }
 
-type Arg = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
-
 /** @internal */
-function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
+function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
   return u8aConcat(
     xxhashAsU8a(itemFn.prefix, 128),
     xxhashAsU8a(itemFn.method, 128),
@@ -47,7 +44,7 @@ function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupT
 }
 
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: Arg[]): Uint8Array {
+function createKey (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
   const { method, section } = itemFn;
 
   assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
@@ -60,7 +57,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: SiLookupType
 }
 
 /** @internal */
-function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (...args: Arg[]) => Uint8Array): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _storageFn: (...args: unknown[]) => Uint8Array): StorageEntry {
   const storageFn = _storageFn as StorageEntry;
 
   storageFn.meta = meta;
@@ -122,7 +119,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
         keysVec.pop();
         hashersVec.pop();
 
-        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec, hashersVec, args as Arg[]));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec, hashersVec, args));
       }
     }
 
@@ -140,7 +137,7 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
-  const storageFn = expandWithMeta(itemFn, (...args: Arg[]): Uint8Array => {
+  const storageFn = expandWithMeta(itemFn, (...args: unknown[]): Uint8Array => {
     if (type.isPlain) {
       return options.skipHashing
         ? compactAddLength(u8aToU8a(options.key))
