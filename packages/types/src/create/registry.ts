@@ -258,13 +258,7 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
-    try {
-      return createTypeUnsafe(this, type, params, options);
-    } catch (error) {
-      console.error(error, JSON.stringify(params));
-
-      throw new Error((error as Error).message);
-    }
+    return createTypeUnsafe(this, type, params, options);
   }
 
   // find a specific call

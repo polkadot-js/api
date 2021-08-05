@@ -331,22 +331,16 @@ export class RpcCore {
   }
 
   private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
-    try {
-      const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
-      const optText = reqArgCount === def.params.length
-        ? ''
-        : ` (${def.params.length - reqArgCount} optional)`;
+    const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
+    const optText = reqArgCount === def.params.length
+      ? ''
+      : ` (${def.params.length - reqArgCount} optional)`;
 
-      assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
-      return inputs.map((input, index): Codec =>
-        registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
-      );
-    } catch (error) {
-      console.error(error, JSON.stringify(inputs));
-
-      throw error;
-    }
+    return inputs.map((input, index): Codec =>
+      registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
+    );
   }
 
   private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {

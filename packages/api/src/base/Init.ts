@@ -373,8 +373,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
-      console.error(_error);
-
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
       l.error(error);
