@@ -98,17 +98,15 @@ describe('ApiPromise', (): void => {
         }
       }
 
-      const api = new ErrorApiPromise();
-
       try {
-        await api.isReadyOrError;
+        const api = await ErrorApiPromise.create({ provider, throwOnConnect: true });
+
+        await api.disconnect();
 
         fail('Expected an error but none occurred.');
       } catch {
         // Pass
       }
-
-      await api.disconnect();
     });
   });
 
