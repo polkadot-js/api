@@ -7,7 +7,7 @@ import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, CodecArg as Arg, DefinitionRpc, DefinitionRpcSub, IMethod, InterfaceTypes, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
@@ -164,7 +164,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return this.#registry.createType(type, ...params);
   }
 
@@ -379,7 +379,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
-    const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
+    const decorated = (...params: unknown[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
     // pass through the `.is`
@@ -425,17 +425,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, ...args: Arg[]): Observable<Codec> =>
+    decorated.at = decorateMethod((hash: Hash, ...args: unknown[]): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(args), hash));
 
-    decorated.hash = decorateMethod((...args: Arg[]): Observable<Hash> =>
+    decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args)));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
       key.section === creator.section &&
       key.method === creator.method;
 
-    decorated.key = (...args: Arg[]): string =>
+    decorated.key = (...args: unknown[]): string =>
       u8aToHex(compactStripLength(creator(
         creator.meta.type.isPlain
           ? undefined
@@ -446,27 +446,27 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               : args
       ))[1]);
 
-    decorated.keyPrefix = (...keys: Arg[]): string =>
+    decorated.keyPrefix = (...keys: unknown[]): string =>
       u8aToHex(creator.keyPrefix(...keys));
 
-    decorated.range = decorateMethod((range: [Hash, Hash?], ...args: Arg[]): Observable<[Hash, Codec][]> =>
+    decorated.range = decorateMethod((range: [Hash, Hash?], ...args: unknown[]): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, args, range));
 
-    decorated.size = decorateMethod((...args: Arg[]): Observable<u64> =>
+    decorated.size = decorateMethod((...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args)));
 
-    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<u64> =>
+    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args), hash));
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, args)));
 
       decorated.entriesAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, hash, args)));
 
       decorated.entriesPaged = decorateMethod(
@@ -474,11 +474,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapEntriesPaged(creator, opts)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (...args: Arg[]): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, null, args)));
 
       decorated.keysAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: Arg[]): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, hash, args)));
 
       decorated.keysPaged = decorateMethod(
@@ -488,7 +488,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     if (this.supportMulti) {
       // When using double map storage function, user need to pass double map key as an array
-      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
+      decorated.multi = decorateMethod((args: (unknown | unknown[])[]): Observable<Codec[]> =>
         this._retrieveMulti(args.map((arg) => [creator, arg])));
     }
 
@@ -504,19 +504,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    const decorated = decorateMethod((...args: Arg[]): Observable<Codec> =>
+    const decorated = decorateMethod((...args: unknown[]): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(args), blockHash));
 
     decorated.creator = creator;
 
-    decorated.hash = decorateMethod((...args: Arg[]): Observable<Hash> =>
+    decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args), blockHash));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
       key.section === creator.section &&
       key.method === creator.method;
 
-    decorated.key = (...args: Arg[]): string =>
+    decorated.key = (...args: unknown[]): string =>
       u8aToHex(compactStripLength(creator(
         creator.meta.type.isPlain
           ? undefined
@@ -527,21 +527,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               : args
       ))[1]);
 
-    decorated.keyPrefix = (...keys: Arg[]): string =>
+    decorated.keyPrefix = (...keys: unknown[]): string =>
       u8aToHex(creator.keyPrefix(...keys));
 
-    decorated.size = decorateMethod((...args: Arg[]): Observable<u64> =>
+    decorated.size = decorateMethod((...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args), blockHash));
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
     if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (...args: Arg[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, blockHash, args)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (...args: Arg[]): Observable<StorageKey[]> =>
+        memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, blockHash, args)));
     }
 
@@ -553,7 +553,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((...args: unknown[]): Observable<Codec> => {
       return this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(this.#registry, creator, args)]).pipe(
@@ -566,7 +565,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     });
   }
 
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: Arg[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
+  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: unknown[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
     const outputType = unwrapStorageType(this.#registry, decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
 
     return this._rpcCore.state
@@ -580,7 +579,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes
-  private _retrieveMulti (keys: [StorageEntry, Arg | Arg[]][]): Observable<Codec[]> {
+  private _retrieveMulti (keys: [StorageEntry, unknown | unknown[]][]): Observable<Codec[]> {
     if (!keys.length) {
       return of([]);
     }
@@ -596,7 +595,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, args: Arg[]): Observable<StorageKey[]> {
+  private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<StorageKey[]> {
     assert(iterKey && (meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap), 'keys can only be retrieved on maps, linked maps and double maps');
 
     const headKey = iterKey(...args).toHex();
@@ -630,7 +629,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: Arg[]): Observable<[StorageKey, Codec][]> {
+  private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<[StorageKey, Codec][]> {
     const query = at
       ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
       : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
