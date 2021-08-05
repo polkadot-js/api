@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '../primitive/Bytes';
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import type { CreateOptions, FromReg } from './types';
+import type { Codec, Constructor, DetectCodec, Registry } from '../types';
+import type { CreateOptions } from './types';
 
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -12,7 +12,7 @@ import { createClass } from './createClass';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-function checkInstance (created: FromReg<Codec, string>, value: Uint8Array): void {
+function checkInstance (created: Codec, value: Uint8Array): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
 
@@ -26,7 +26,7 @@ function checkInstance (created: FromReg<Codec, string>, value: Uint8Array): voi
   );
 }
 
-function checkPedantic (created: FromReg<Codec, string>, [value]: unknown[], isPedantic = false): void {
+function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false): void {
   if (isPedantic) {
     if (isU8a(value)) {
       checkInstance(created, value);
@@ -38,7 +38,7 @@ function checkPedantic (created: FromReg<Codec, string>, [value]: unknown[], isP
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): FromReg<T, K> {
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): DetectCodec<T, K> {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -54,8 +54,8 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
-  let Clazz: Constructor<FromReg<T, K>> | null = null;
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
+  let Clazz: Constructor | null = null;
   let firstError: Error | null = null;
 
   try {
@@ -85,6 +85,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<K extends keyof InterfaceTypes> (registry: Registry, type: K, ...params: unknown[]): InterfaceTypes[K] {
-  return createTypeUnsafe<InterfaceTypes[K], K>(registry, type, params);
+export function createType<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
+  return createTypeUnsafe<T, K>(registry, type, params);
 }

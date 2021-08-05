@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { U8aBitLength, UIntBitLength } from '../codec/types';
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import type { FromReg, TypeDef } from './types';
+import type { Codec, Constructor, DetectConstructor, Registry } from '../types';
+import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
@@ -12,9 +12,8 @@ import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FromReg<T, K>>(
+export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
+  return getTypeClass(
     registry,
     registry.isLookupType(type)
       ? registry.lookup.getTypeDef(type)
@@ -25,16 +24,13 @@ export function createClass<T extends Codec = Codec, K extends string = string> 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if it cannot be parsed, it will yield
 // a runtime error.
-export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): Constructor<FromReg<T, K>> {
+export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): DetectConstructor<T, K> {
   return createClass<T, K>(registry, name);
 }
 
 // alias for createClass
-export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceTypes[K]> {
-  // TS2589: Type instantiation is excessively deep and possibly infinite.
-  // The above happens with as Constructor<InterfaceTypes[K]>;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return ClassOfUnsafe<Codec, K>(registry, name) as any;
+export function ClassOf<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): DetectConstructor<T, K> {
+  return ClassOfUnsafe<T, K>(registry, name);
 }
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
@@ -49,24 +45,24 @@ function getSubDef (value: TypeDef): TypeDef {
   return value.sub;
 }
 
-function getSubType (value: TypeDef): keyof InterfaceTypes {
-  return getSubDef(value).type as keyof InterfaceTypes;
+function getSubType (value: TypeDef): string {
+  return getSubDef(value).type;
 }
 
 // create a maps of type string constructors from the input
-function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> {
-  const result: Record<string, keyof InterfaceTypes> = {};
+function getTypeClassMap (value: TypeDef): Record<string, string> {
+  const result: Record<string, string> = {};
 
-  return getSubDefArray(value).reduce<Record<string, keyof InterfaceTypes>>((result, sub) => {
-    result[sub.name as string] = sub.type as keyof InterfaceTypes;
+  return getSubDefArray(value).reduce<Record<string, string>>((result, sub) => {
+    result[sub.name as string] = sub.type;
 
     return result;
   }, result);
 }
 
 // create an array of type string constructors from the input
-function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
-  return getSubDefArray(value).map(({ type }) => type as keyof InterfaceTypes);
+function getTypeClassArray (value: TypeDef): string[] {
+  return getSubDefArray(value).map(({ type }) => type);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
@@ -184,7 +180,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
     assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
-    const subType = (sub as TypeDef).type as keyof InterfaceTypes;
+    const subType = (sub as TypeDef).type;
 
     return (
       subType === 'u8'

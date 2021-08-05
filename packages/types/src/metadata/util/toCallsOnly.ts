@@ -26,7 +26,7 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
   const calls = _calls.unwrapOr(null);
 
   return registry.createType(
-    'Option<Vec<FunctionMetadataLatest>>' as any,
+    'Option<Vec<FunctionMetadataLatest>>',
     calls
       ? calls.map(({ args, docs, name }) =>
         registry.createType('FunctionMetadataLatest', {
@@ -36,7 +36,7 @@ function mapCalls (registry: Registry, _calls: Option<Vec<FunctionMetadataLatest
         })
       )
       : null
-  ) as Option<Vec<FunctionMetadataLatest>>;
+  );
 }
 
 /** @internal */

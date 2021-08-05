@@ -5,7 +5,7 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -241,7 +241,7 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]> {
+  public createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return createClass(this, type) as any;
   }
@@ -249,14 +249,14 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K] {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return createTypeUnsafe(this, type, params);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T {
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
     return createTypeUnsafe(this, type, params, options);
   }
 
@@ -284,13 +284,13 @@ export class TypeRegistry implements Registry {
     return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
   }
 
-  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
+  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
       const definition = this.#definitions.get(name);
-      let BaseType: Constructor<Codec> | undefined;
+      let BaseType: Constructor | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
@@ -312,7 +312,7 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    return Type as Constructor<T>;
+    return Type as DetectConstructor<T, K>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
@@ -335,12 +335,12 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
-  public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
-    return assertReturn(this.get<T>(name), msg || `type ${name} not found`);
+  public getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K> {
+    return assertReturn(this.get<T, K>(name), msg || `type ${name} not found`);
   }
 
-  public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {
-    return this.get<T>(name, true) as Constructor<T>;
+  public getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K> {
+    return this.get<T, K>(name, true) as DetectConstructor<T, K>;
   }
 
   public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
