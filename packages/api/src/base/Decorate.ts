@@ -360,7 +360,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         : this._rpcCore.state.queryStorageAt)(
         calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
           Array.isArray(arg)
-            ? [arg[0].creator, ...arg.slice(1)]
+            ? [arg[0].creator, arg.slice(1)]
             : [arg.creator])));
   }
 
@@ -479,8 +479,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     if (this.supportMulti && creator.meta.type.isMap) {
       // When using double map storage function, user need to pass double map key as an array
-      decorated.multi = decorateMethod((...args: unknown[]): Observable<Codec[]> =>
-        this._retrieveMulti(args.map((a) => [creator, a as unknown[]]))
+      decorated.multi = decorateMethod((args: unknown[]): Observable<Codec[]> =>
+        creator.meta.type.asMap.hashers.length === 1
+          ? this._retrieveMulti(args.map((a) => [creator, [a]]))
+          : this._retrieveMulti(args.map((a) => [creator, a as unknown[]]))
       );
     }
 
