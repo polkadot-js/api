@@ -352,8 +352,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   #onProviderConnect = async (): Promise<void> => {
-    this.emit('connected');
     this._isConnected.next(true);
+    this.emit('connected');
 
     try {
       const [hasMeta, cryptoReady] = await Promise.all([
@@ -382,10 +382,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   #onProviderDisconnect = (): void => {
-    this.emit('disconnected');
     this._isConnected.next(false);
-
     this._unsubscribeHealth();
+    this.emit('disconnected');
   };
 
   #onProviderError = (error: Error): void => {
