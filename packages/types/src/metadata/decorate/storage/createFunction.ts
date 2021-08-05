@@ -37,7 +37,7 @@ function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupT
     xxhashAsU8a(itemFn.method, 128),
     ...keys.map((type, index) =>
       getHasher(hashers[index])(
-        registry.createType(registry.createLookupType(type) as 'Raw', args[index]).toU8a()
+        registry.createType(registry.createLookupType(type), args[index]).toU8a()
       )
     )
   );
@@ -138,6 +138,8 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   //   - storage.timestamp.blockPeriod()
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (...args: unknown[]): Uint8Array => {
+    console.error('createFunction', args);
+
     if (type.isPlain) {
       return options.skipHashing
         ? compactAddLength(u8aToU8a(options.key))

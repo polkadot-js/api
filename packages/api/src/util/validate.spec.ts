@@ -17,13 +17,13 @@ describe('extractStorageArgs', (): void => {
   it('validates no-arg plain', (): void => {
     expect(
       extractStorageArgs(registry, storage.timestamp.now, [])
-    ).toEqual([storage.timestamp.now]);
+    ).toEqual([storage.timestamp.now, []]);
   });
 
   it('validates no-arg plain (with undefined, undefined)', (): void => {
     expect(
       extractStorageArgs(registry, storage.timestamp.now, [undefined, undefined])
-    ).toEqual([storage.timestamp.now]);
+    ).toEqual([storage.timestamp.now, []]);
   });
 
   it('validates no-arg plain (failing when there are args)', (): void => {
@@ -35,7 +35,7 @@ describe('extractStorageArgs', (): void => {
   it('validates map, 1 arg', (): void => {
     expect(
       extractStorageArgs(registry, storage.staking.payee, ['abc'])
-    ).toEqual([storage.staking.payee, 'abc']);
+    ).toEqual([storage.staking.payee, ['abc']]);
   });
 
   it('validates map, 1 arg (failing with no args)', (): void => {

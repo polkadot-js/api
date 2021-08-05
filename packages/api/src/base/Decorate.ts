@@ -421,7 +421,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    const decorated = this._decorateStorageCall(creator, decorateMethod);
+    const decorated = this._decorateStorageCall(creator, decorateMethod) as QueryableStorageEntry<ApiType>;
 
     decorated.creator = creator;
 
@@ -436,14 +436,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       key.method === creator.method;
 
     decorated.key = (...args: unknown[]): string =>
-      u8aToHex(compactStripLength(creator(
-        creator.meta.type.isPlain
-          ? undefined
-          : args
-      ))[1]);
+      u8aToHex(compactStripLength(creator(...args))[1]);
 
-    decorated.keyPrefix = (...keys: unknown[]): string =>
-      u8aToHex(creator.keyPrefix(...keys));
+    decorated.keyPrefix = (...args: unknown[]): string =>
+      u8aToHex(creator.keyPrefix(...args));
 
     decorated.range = decorateMethod((range: [Hash, Hash?], ...args: unknown[]): Observable<[Hash, Codec][]> =>
       this._decorateStorageRange(decorated, args, range));
@@ -484,9 +480,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     if (this.supportMulti && creator.meta.type.isMap) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((...args: unknown[]): Observable<Codec[]> =>
-        creator.meta.type.asMap.hashers.length === 1
-          ? this._retrieveMulti(args.map((a) => [creator, [a]]))
-          : this._retrieveMulti(args.map((a) => [creator, a as unknown[]]))
+        this._retrieveMulti(args.map((a) => [creator, a as unknown[]]))
       );
     }
 

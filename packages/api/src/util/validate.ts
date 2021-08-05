@@ -18,16 +18,14 @@ export function extractStorageArgs (registry: Registry, creator: StorageEntry, _
 
   if (creator.meta.type.isPlain) {
     assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
+  } else {
+    const { hashers, key } = creator.meta.type.asMap;
+    const keys = hashers.length === 1
+      ? [key]
+      : registry.lookup.getSiType(key).def.asTuple.map((t) => t);
 
-    return [creator, []];
+    assert(args.length === keys.length, () => `${sig(registry, creator, keys)} is a map, requiring ${keys.length} arguments, ${args.length} found`);
   }
-
-  const { hashers, key } = creator.meta.type.asMap;
-  const keys = hashers.length === 1
-    ? [key]
-    : registry.lookup.getSiType(key).def.asTuple.map((t) => t);
-
-  assert(args.length === keys.length, () => `${sig(registry, creator, keys)} is a map, requiring ${keys.length} arguments, ${args.length} found`);
 
   // pass as tuple
   return [creator, args];

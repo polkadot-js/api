@@ -40,6 +40,8 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
             ? entry
             : new Type(registry, entry);
         } catch (error) {
+          l.error(error);
+
           l.error(`Unable to decode on index ${index}`, (error as Error).message);
 
           throw error;

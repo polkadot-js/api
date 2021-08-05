@@ -51,32 +51,36 @@ export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLat
 
 /** @internal */
 function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown[]]): Decoded {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof StorageKey) {
-    return {
-      key: value,
-      method: value.method,
-      section: value.section
-    };
-  } else if (!value || isString(value) || isU8a(value)) {
-    // let Bytes handle these inputs
-    return { key: value };
-  } else if (isFunction(value)) {
-    return {
-      key: value(),
-      method: value.method,
-      section: value.section
-    };
-  } else if (Array.isArray(value)) {
-    const [fn, args] = value;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    if (value instanceof StorageKey) {
+      return {
+        key: value,
+        method: value.method,
+        section: value.section
+      };
+    } else if (!value || isString(value) || isU8a(value)) {
+      // let Bytes handle these inputs
+      return { key: value };
+    } else if (isFunction(value)) {
+      return {
+        key: value(),
+        method: value.method,
+        section: value.section
+      };
+    } else if (Array.isArray(value)) {
+      const [fn, args] = value;
 
-    assert(isFunction(fn), 'Expected function input for key construction');
+      assert(isFunction(fn), 'Expected function input for key construction');
 
-    return {
-      key: fn(args),
-      method: fn.method,
-      section: fn.section
-    };
+      return {
+        key: fn(args),
+        method: fn.method,
+        section: fn.section
+      };
+    }
+  } catch (error) {
+    throw new Error(`StorageKey:: ${(error as Error).message}`);
   }
 
   throw new Error(`Unable to convert input ${value as string} to StorageKey`);
@@ -167,9 +171,15 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   private _section?: string;
 
   constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown[]], override: Partial<StorageKeyExtra> = {}) {
-    const { key, method, section } = decodeStorageKey(value);
+    try {
+      const { key, method, section } = decodeStorageKey(value);
 
-    super(registry, key);
+      super(registry, key);
+    } catch (error) {
+      console.error(error, JSON.stringify(value));
+
+      throw error;
+    }
 
     this._outputType = getType(registry, value as StorageKey);
 

@@ -144,7 +144,7 @@ describe('ApiPromise', (): void => {
     });
   });
 
-  describe('api.tx(...)', (): void => {
+  describe.only('api.tx(...)', (): void => {
     it('allows construction from existing extrinsic', async (): Promise<void> => {
       const { api, transfer } = await createTransfer();
 
