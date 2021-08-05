@@ -100,21 +100,13 @@ export interface Codec {
   toU8a (isBare?: BareOpts): Uint8Array;
 }
 
-// eslint-disable-next-line no-use-before-define
-export type CodecArg = Codec | BigInt | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
-
-// We cannot inline this into CodecArg, TS throws up when building docs
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface CodecArgArray extends Array<CodecArg> {}
-
 export interface Constructor<T = Codec> {
   /**
    * @description An internal fallback type (previous generation) if encoding fails
    */
   readonly __fallbackType?: string;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...value: any[]): T;
+  new(registry: Registry, ...value: unknown[]): T;
 }
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;

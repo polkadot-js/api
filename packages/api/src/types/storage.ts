@@ -5,34 +5,34 @@ import type { Observable } from 'rxjs';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, Callback, Codec, CodecArg, IStorageKey } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
 import type { ApiTypes, DropLast, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
+  <T extends Codec>(args: (unknown[] | unknown)[]): Observable<T[]>;
 }
 
 interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec>(args: (unknown[] | unknown)[]): Promise<T[]>;
+  <T extends Codec>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
-  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
-  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
+  (arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<Codec>;
+  <T extends Codec>(arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<T>;
   <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
-  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, arg3: CodecArg, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(arg: unknown, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(arg1: unknown, arg2: unknown, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(arg1: unknown, arg2: unknown, arg3: unknown, callback: Callback<T>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloadsAt {
-  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
-  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
+  (arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<Codec>;
+  <T extends Codec>(arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<T>;
 }
 
 // This is the most generic typings we can have for a storage entry function
-type GenericStorageEntryFunction = (...args: CodecArg[]) => Observable<Codec>
+type GenericStorageEntryFunction = (...args: unknown[]) => Observable<Codec>
 
 export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
   ApiType extends 'rxjs'
@@ -92,7 +92,7 @@ export interface QueryableModuleStorageAt<ApiType extends ApiTypes> {
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
   QueryableStorageEntry<ApiType> |
-  [QueryableStorageEntry<ApiType>, ...CodecArg[]];
+  [QueryableStorageEntry<ApiType>, ...unknown[]];
 
 export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
   <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;

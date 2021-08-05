@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { AnyJson, CodecArg, ISubmittableResult } from '@polkadot/types/types';
+import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { MapConstructorExec } from './types';
 
@@ -56,7 +56,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: CodecArg[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return this.api.tx.contracts
       .instantiateWithCode(
         value,
