@@ -69,7 +69,7 @@ describe('BTreeMap', (): void => {
   it('decodes within more complicated types', (): void => {
     const s = new Struct(registry, {
       placeholder: U32,
-      value: 'BTreeMap<Text, U32>' as 'u32'
+      value: 'BTreeMap<Text, U32>'
     });
 
     s.set('value', new (BTreeMap.with(Text, U32))(registry, mockU32TextMap));

@@ -17,6 +17,12 @@ import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
 
+export type DetectCodec<T extends Codec, K extends string> = K extends keyof InterfaceTypes
+  ? InterfaceTypes[K]
+  : T;
+
+export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
+
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
 export interface ChainUpgradeVersion {
@@ -121,16 +127,16 @@ export interface Registry {
   isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
-  createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
-  createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T;
-  get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
   getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
-  getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
+  getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
+  getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K>;
   setKnownTypes (types: RegisteredTypes): void;
   getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
   getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;

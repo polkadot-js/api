@@ -86,7 +86,7 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
               const id = scheduled.maybeId.unwrap().toHex();
 
               if (id.startsWith(DEMOCRACY_ID)) {
-                const [, index] = api.registry.createType('(u64, ReferendumIndex)' as any, id) as ITuple<[u64, ReferendumIndex]>;
+                const [, index] = api.registry.createType<ITuple<[u64, ReferendumIndex]>>('(u64, ReferendumIndex)', id);
                 const imageHash = scheduled.call.args[0] as Hash;
 
                 result.push({ at, imageHash, index });

@@ -1,13 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, InterfaceTypes } from '../types';
-
-// Type which says: if `K` is in the InterfaceTypes, then return InterfaceTypes[K], else fallback to T
-export type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceTypes
-  ? InterfaceTypes[K]
-  : T;
-
 export enum TypeDefInfo {
   BTreeMap,
   BTreeSet,

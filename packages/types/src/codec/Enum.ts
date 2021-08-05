@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -27,7 +27,7 @@ interface Decoded {
   value: Codec;
 }
 
-function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number>): def is Record<string, keyof InterfaceTypes | Constructor> {
+function isRustEnum (def: Record<string, string | Constructor> | Record<string, number>): def is Record<string, string | Constructor> {
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
@@ -39,7 +39,7 @@ function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | R
   return true;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+function extractDef (registry: Registry, _def: Record<string, string | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
   if (Array.isArray(_def)) {
     return {
       def: _def.reduce((def: TypesDef, key, index): TypesDef => {
@@ -180,7 +180,7 @@ export class Enum implements Codec {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, def: Record<string, string | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
@@ -193,7 +193,7 @@ export class Enum implements Codec {
     this.#raw = decoded.value;
   }
 
-  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
