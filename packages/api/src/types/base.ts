@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import type { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 
 export type Push<T extends readonly unknown[], V> = [...T, V]
 
@@ -57,9 +57,8 @@ export interface DecorateMethodOptions {
 
 export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
 
-// FIXME We need a solution for NMap
-export interface PaginationOptions<ArgType = CodecArg> {
-  args: ArgType[];
+export interface PaginationOptions<A = unknown> {
+  args: A[];
   pageSize: number;
   startKey?: string;
 }
