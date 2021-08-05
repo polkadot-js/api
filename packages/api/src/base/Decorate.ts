@@ -421,7 +421,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    const decorated = this._decorateStorageCall(creator, decorateMethod) as QueryableStorageEntry<ApiType>;
+    const decorated = this._decorateStorageCall(creator, decorateMethod);
 
     decorated.creator = creator;
 
