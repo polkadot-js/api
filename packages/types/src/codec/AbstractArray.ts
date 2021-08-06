@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, Codec, Registry } from '../types';
+import type { AnyJson, Codec, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -15,7 +15,7 @@ import { compareArray } from './utils/compareArray';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<Codec> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

@@ -6,7 +6,8 @@
 
 Changes:
 
-- `createType<T = Codec>('...': K)` now returns `Codec` when `K` is not in the InterfaceRegistry, with `T` override
+- `createType<T = Codec>('...': K)` now returns `Codec` when `K` is not known
+- `createType` does basic TypeScript type matching on the input type
 - Handle `BitSequence` in `PortableRegistry`
 - Ensure API `isConnected` is set before connect/disconnect events are fired
 - Move all static test support files into `@polkadot/types-support`
