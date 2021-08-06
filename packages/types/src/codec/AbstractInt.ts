@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyNumber, Codec, Registry } from '../types';
+import type { AnyNumber, INumber, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
 import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, stringify, u8aToBn } from '@polkadot/util';
@@ -60,7 +60,7 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
  * @ignore
  * @noInheritDoc
  */
-export abstract class AbstractInt extends BN implements Codec {
+export abstract class AbstractInt extends BN implements INumber {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

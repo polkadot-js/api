@@ -55,14 +55,12 @@ const hh = registry.createType('[u128; 32]');
 assert(hh[0].bitLength(), 'All ok');
 
 // tuple! ITuple<[u32, Compact<u64>, u128, Codec]>
-const tt1 = registry.createType('(u32, Compact< u64 >,u128, Something)');
+const tt1 = registry.createType('(u32, Compact< u64 >,    u128  , Something)');
 // unwraps into a u32
 const tt2 = registry.createType('( u32  )');
-// max number of params
-const tt3 = registry.createType('(u8,u16,u32,u64,u128)');
 // lots and lots of params
-const tt4 = registry.createType('(u8,u16,u32,u64,u8,u16,u32,u64,u8,u16,u32,u64,u8,u16,u32,u64)');
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u256,u128,u64,u32,u16,u8)');
 // empty
 const tt5 = registry.createType('()');
 
-assert(tt1[2].bitLength() && tt2.bitLength() && tt3[4].bitLength() && tt4[3].bitLength() && tt5.isEmpty, 'All ok');
+assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty, 'All ok');
