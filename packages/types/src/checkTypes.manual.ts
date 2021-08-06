@@ -23,12 +23,13 @@ const oo7 = registry.createType<Bytes>('u64');
 
 assert(oo0.divn(123) && [...oo1.values()] && oo2[6].isAscii && oo3.divn(3) && oo4.isAscii && oo5.unwrap().divn(1) && oo6.unwrap().unwrap().divn(1) && oo7.isAscii, 'All ok');
 
-// Should be AccountId
-const aa = registry.createType('AccountId');
+// There are in the interface registry
+const aa0 = registry.createType('AccountId');
+const aa1 = registry.createType('BlockAttestations');
 
-assert(aa.isAscii, 'All ok');
+assert(aa0.isAscii && aa1.receipt, 'All ok');
 
-// Should be Codec
+// Should be Codec, we don't know this one
 const bb = registry.createType('Something');
 
 assert(bb.toHuman(), 'All ok');
