@@ -4,7 +4,7 @@
 import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
 import type { Bytes } from '../primitive';
 import type { Codec, Constructor } from './codec';
-import type { ICompact, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
 export type DetectCodec<T extends Codec, K extends string> = __Expand<K, T>;
@@ -24,7 +24,7 @@ export type __Expand<K extends string, T extends Codec = Codec> = __Internal<Tri
 export type __Internal<K extends string, T extends Codec> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
-    : T extends ICompact | INumber | IOption | IStruct | ITuple | IU8a | IVec
+    : T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
       ? T
       : __Unwrap<K, T>;
 

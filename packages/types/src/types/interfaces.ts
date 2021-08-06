@@ -14,6 +14,15 @@ export interface ICompact<T extends INumber = INumber> extends Codec {
   unwrap (): T;
 }
 
+export interface IEnum extends Codec {
+  index: number;
+  isBasic: boolean
+  type: string;
+  value: Codec;
+
+  toNumber (): number;
+}
+
 export interface INumber extends Codec {
   bitLength (): number;
   toBigInt (): bigint;
