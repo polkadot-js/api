@@ -37,8 +37,8 @@ const bb = registry.createType('Something');
 
 assert(bb.toHuman(), 'All ok');
 
-// Should be Vec<Option<Compact<u32>>>
-const ee = registry.createType('Vec<Option<Compact<u32>>>');
+// Should be Vec<Option<Compact<ReferendumIndex>>>
+const ee = registry.createType('Vec<Option<Compact<ReferendumIndex>>>');
 // Option<Bytes>
 const vb = registry.createType('Option< Vec< u8 > >');
 
