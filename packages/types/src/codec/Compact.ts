@@ -3,8 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, AnyNumber, Constructor, ICompact, Registry } from '../types';
-import type { CompactEncodable } from './types';
+import type { AnyJson, AnyNumber, Constructor, ICompact, INumber, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
@@ -18,7 +17,7 @@ import { typeToConstructor } from './utils';
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export class Compact<T extends CompactEncodable> implements ICompact<T> {
+export class Compact<T extends INumber> implements ICompact<T> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
@@ -33,7 +32,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
     this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T> | string): Constructor<Compact<T>> {
+  public static with<T extends INumber> (Type: Constructor<T> | string): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
         super(registry, Type, value);
@@ -42,7 +41,7 @@ export class Compact<T extends CompactEncodable> implements ICompact<T> {
   }
 
   /** @internal */
-  public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
+  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): INumber {
     if (value instanceof Compact) {
       return new Type(registry, value.#raw);
     } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {

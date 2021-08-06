@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -160,10 +160,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
  * This implements an enum, that based on the value wraps a different type. It is effectively
  * an extension to enum where the value type is determined by the actual index.
  */
-// TODO:
-//   - As per Enum, actually use TS enum
-//   - It should rather probably extend Enum instead of copying code
-export class Enum implements Codec {
+export class Enum implements IEnum {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
