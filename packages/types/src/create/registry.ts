@@ -3,7 +3,7 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, InterfaceTypes, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -354,11 +354,11 @@ export class TypeRegistry implements Registry {
     return this.get<T, K>(name, true) as DetectConstructor<T, K>;
   }
 
-  public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
+  public getSignedExtensionExtra (): Record<string, string> {
     return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
   }
 
-  public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
+  public getSignedExtensionTypes (): Record<string, string> {
     return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
   }
 

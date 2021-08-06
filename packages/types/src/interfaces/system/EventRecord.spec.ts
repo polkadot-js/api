@@ -22,7 +22,7 @@ describe('EventRecord', (): void => {
     });
 
     it('decodes older EventRecord correctly', (): void => {
-      const records = registry.createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
+      const records = registry.createType('Vec<EventRecord>', json1.params.result.changes[0][1], true);
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');

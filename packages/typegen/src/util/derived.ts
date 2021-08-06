@@ -11,10 +11,8 @@ import { TypeDefInfo } from '@polkadot/types/create/types';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { bool, Null } from '@polkadot/types/primitive';
-import * as primitiveClasses from '@polkadot/types/primitive';
 import { isChildClass, stringify } from '@polkadot/util';
 
-import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
 import { ModuleTypes, setImports, TypeImports } from './imports';
 
@@ -23,46 +21,6 @@ function arrayToStrType (arr: string[]): string {
 }
 
 const voteConvictions = arrayToStrType(AllConvictions);
-
-// From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-/** @internal */
-export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
-  // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable(
-    (primitiveClasses as Record<string, any>)[primitiveName] ||
-    registry.createClass(type)
-  );
-  const def = getTypeDef(type);
-
-  setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
-
-  const types = [
-    {
-      info: TypeDefInfo.Option,
-      sub: def,
-      type
-    },
-    {
-      info: TypeDefInfo.Vec,
-      sub: def,
-      type
-    }
-  ];
-
-  if (isCompact) {
-    types.unshift({
-      info: TypeDefInfo.Compact,
-      sub: def,
-      type
-    });
-  }
-
-  const result = types.map((t) => formatType(registry, definitions, t, imports)).map((t) => `'${t}': ${t};`);
-
-  result.unshift(`${type}: ${type};`);
-
-  return result;
-}
 
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber

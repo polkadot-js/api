@@ -8,6 +8,7 @@ export * from '../create/types';
 export * from './calls';
 export * from './codec';
 export * from './definitions';
+export * from './detect';
 export * from './events';
 export * from './extrinsic';
 export * from './interfaces';

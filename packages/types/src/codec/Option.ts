@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IOption, Registry } from '../types';
 
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -47,7 +47,7 @@ function decodeOption (registry: Registry, typeName: Constructor | string, value
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export class Option<T extends Codec> implements Codec {
+export class Option<T extends Codec> implements IOption<T> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

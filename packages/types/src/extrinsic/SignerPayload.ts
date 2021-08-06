@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, InterfaceTypes, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -26,7 +26,7 @@ export interface SignerPayloadType extends Codec {
   version: u8;
 }
 
-const knownTypes: Record<string, keyof InterfaceTypes> = {
+const knownTypes: Record<string, string> = {
   address: 'Address',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
@@ -46,7 +46,7 @@ const knownTypes: Record<string, keyof InterfaceTypes> = {
  * A generic signer payload that can be used for serialization between API and signer
  */
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
-  private readonly _extraTypes: Record<string, keyof InterfaceTypes>;
+  private readonly _extraTypes: Record<string, string>;
 
   constructor (registry: Registry, value?: string | { [x: string]: any; } | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = {
@@ -60,7 +60,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     }, value);
 
     // add all extras that are not in the base types
-    this._extraTypes = Object.entries(extensionTypes).reduce<Record<string, keyof InterfaceTypes>>((map, [key, type]) => {
+    this._extraTypes = Object.entries(extensionTypes).reduce<Record<string, string>>((map, [key, type]) => {
       if (!knownTypes[key]) {
         map[key] = type;
       }

@@ -13,15 +13,10 @@ import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
+import type { DetectCodec, DetectConstructor } from './detect';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
-
-export type DetectCodec<T extends Codec, K extends string> = K extends keyof InterfaceTypes
-  ? InterfaceTypes[K]
-  : T;
-
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
@@ -138,8 +133,8 @@ export interface Registry {
   getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
   getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K>;
   setKnownTypes (types: RegisteredTypes): void;
-  getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
-  getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;
+  getSignedExtensionExtra (): Record<string, string>;
+  getSignedExtensionTypes (): Record<string, string>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
