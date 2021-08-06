@@ -39,17 +39,17 @@ export type __Params<X extends string> =
     ? [__Expand<A>, ...__Params<B>]
     : [__Expand<X>];
 
-export type __Tuple<X extends string, T extends Codec> =
+export type __Tuple<X extends string> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   X extends `${infer A},${infer B}`
     ? ITuple<__Params<X>>
-    : __Expand<X, T>;
+    : __Expand<X>;
 
 // vec support with short-circuit for u8
-export type __Vec<X extends string, T extends Codec> =
+export type __Vec<X extends string> =
   Trim<X> extends 'u8'
     ? Bytes
-    : Vec<__Expand<X, T>>;
+    : Vec<__Expand<X>>;
 
 // fixed vec support
 export type __VecFixed<X extends string> =
@@ -66,9 +66,9 @@ export type __Unwrap<K extends string, T extends Codec> =
     : K extends `Option<${infer X}>`
       ? Option<__Expand<X>>
       : K extends `Vec<${infer X}>`
-        ? __Vec<X, T>
+        ? __Vec<X>
         : K extends `[${infer X}]`
           ? __VecFixed<X>
           : K extends `(${infer X})`
-            ? __Tuple<X, T>
+            ? __Tuple<X>
             : T;

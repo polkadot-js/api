@@ -21,7 +21,7 @@ const oo4 = registry.createType<AccountId>('Option<u32>');
 const oo5 = registry.createType<IOption<u32>>('u32');
 const oo6 = registry.createType<Option<Compact<u32>>>('u32');
 const oo7 = registry.createType<Bytes>('u64');
-const oo8 = registry.createType<ITuple<[Bytes, u32]>>('Something');
+const oo8 = registry.createType<ITuple<[Bytes, u32]>>('(u32)');
 
 assert(oo0.divn(123) && [...oo1.values()] && oo2[6].isAscii && oo3.divn(3) && oo4.isAscii && oo5.unwrap().divn(1) && oo6.unwrap().unwrap().divn(1) && oo7.isAscii && oo8[1].toNumber(), 'All ok');
 
