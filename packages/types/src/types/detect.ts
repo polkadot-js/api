@@ -54,11 +54,11 @@ export type ExpandVec<X extends string, T extends Codec> = X extends 'u8'
 
 // fixed vec support
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type ExpandVecFixed<X extends string, T extends Codec> = X extends `${infer Y};${infer _}`
+export type ExpandVecFixed<X extends string> = X extends `${infer Y};${infer _}`
   ? Y extends 'u8'
     ? Raw
     : VecFixed<Expand<Y>>
-  : T;
+  : never;
 
 export type ExpandWrap<K extends string, T extends Codec> = K extends `Compact<${infer X}>`
   ? ExpandCompact<Expand<X>>
@@ -67,7 +67,7 @@ export type ExpandWrap<K extends string, T extends Codec> = K extends `Compact<$
     : K extends `Vec<${infer X}>`
       ? ExpandVec<X, T>
       : K extends `[${infer X}]`
-        ? ExpandVecFixed<X, T>
+        ? ExpandVecFixed<X>
         : K extends `(${infer X})`
           ? ExpandTuple<X, T>
           : T;

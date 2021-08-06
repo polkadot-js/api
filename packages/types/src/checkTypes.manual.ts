@@ -59,5 +59,7 @@ const tt2 = registry.createType('(u32)');
 const tt3 = registry.createType('(u8,u16,u32,u64,u128)');
 // lots and lots of params
 const tt4 = registry.createType('(u8,u16,u32,u64,u8,u16,u32,u64,u8,u16,u32,u64,u8,u16,u32,u64)');
+// empty
+const tt5 = registry.createType('()');
 
-assert(tt1[2].bitLength() && tt2.bitLength() && tt3[4].bitLength() && tt4[3].bitLength(), 'All ok');
+assert(tt1[2].bitLength() && tt2.bitLength() && tt3[4].bitLength() && tt4[3].bitLength() && tt5.isEmpty, 'All ok');
