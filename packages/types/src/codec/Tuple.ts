@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, Registry } from '../types';
+import type { AnyNumber, AnyString, AnyU8a, Codec, Constructor, ITuple, Registry } from '../types';
 
 import { isHex, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -49,7 +49,7 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
  * A Tuple defines an anonymous fixed-length array, where each element has its
  * own type. It extends the base JS `Array` object.
  */
-export class Tuple extends AbstractArray<Codec> {
+export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   private _Types: TupleConstructors;
 
   constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {

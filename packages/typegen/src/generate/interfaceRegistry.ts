@@ -8,7 +8,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
-import { createImports, getDerivedTypes, readTemplate, setImports, writeFile } from '../util';
+import { createImports, readTemplate, setImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
 const primitiveClasses = {
@@ -35,10 +35,10 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
     Object
       .keys(primitiveClasses)
       .filter((name) => !name.includes('Generic'))
-      .forEach((primitiveName) => {
+      .forEach((primitiveName): void => {
         setImports(definitions, imports, [primitiveName]);
 
-        items.push(...getDerivedTypes(registry, definitions, primitiveName, primitiveName, imports));
+        items.push(primitiveName);
       });
 
     const existingTypes: Record<string, boolean> = {};
@@ -55,10 +55,10 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
       const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
 
-      uniqueTypes.forEach((type) => {
+      uniqueTypes.forEach((type): void => {
         existingTypes[type] = true;
 
-        items.push(...getDerivedTypes(registry, definitions, type, types[type] as string, imports));
+        items.push(type);
       });
     });
 

@@ -7,12 +7,34 @@ import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../inte
 import type { Hash } from '../interfaces/runtime';
 import type { AnyTuple, ArgsDef, Codec } from './codec';
 
-export interface ICompact<T> extends Codec {
+export interface ICompact<T extends Codec> extends Codec {
   toBigInt (): bigint;
   toBn (): BN;
   toNumber (): number;
   unwrap (): T;
 }
+
+export interface IOption<T extends Codec> extends Codec {
+  isNone: boolean;
+  isSome: boolean;
+  value: Codec;
+
+  unwrap (): T;
+  unwrapOr <O>(other: O): T | O;
+  unwrapOrDefault (): T;
+}
+
+// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
+// FIXME Implement this generic <Sub> on Tuple.ts itself.
+export type ITuple<S extends AnyTuple> = S & Codec;
+
+export interface IU8a extends Uint8Array, Codec {
+  bitLength (): number;
+  toHuman (isExtended?: boolean): any;
+  toJSON (): any;
+}
+
+export type IVec<S extends Codec> = Array<S> & Codec;
 
 export interface IKeyringPair {
   address: string;
@@ -54,14 +76,4 @@ export interface IStorageKey<A extends AnyTuple> {
   readonly section: string | undefined;
 
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
-}
-
-// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
-// FIXME Implement this generic <Sub> on Tuple.ts itself.
-export type ITuple<Sub extends AnyTuple> = Sub & Codec
-
-export interface IU8a extends Uint8Array, Codec {
-  bitLength (): number;
-  toHuman (isExtended?: boolean): any;
-  toJSON (): any;
 }

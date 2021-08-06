@@ -5,7 +5,7 @@
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
     {{#each items}}
-    {{{this}}}
+    {{{this}}}: {{{this}}};
     {{/each}}
   }
 }
