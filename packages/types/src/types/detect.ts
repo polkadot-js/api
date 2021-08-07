@@ -19,23 +19,22 @@ export type __Unspace<K extends string> =
       ? __Unspace<`${A}${B}`>
       : K;
 
-export type __InnerConcat<X extends string, R extends [string, string]> = [R[0], `${R[1]}${X}`];
-
-export type __InnerCall<X extends string, R extends [string, string]> = __Inner<X, R[0], R[1]>;
+export type __InnerConcat<X extends string, E extends string, R extends [string, string]> =
+  __Inner<X, R[0], `${R[1]}${E}`>;
 
 export type __Inner<X extends string, K extends string, I extends string = ''> =
   K extends `${X}${infer Z}`
     ? [Z, I]
     : K extends `Compact<${infer Z}`
-      ? __InnerCall<X, __InnerConcat<'>', __Inner<'>', Z, `${I}Compact<`>>>
+      ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Compact<`>>
       : K extends `Option<${infer Z}`
-        ? __InnerCall<X, __InnerConcat<'>', __Inner<'>', Z, `${I}Option<`>>>
+        ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Option<`>>
         : K extends `Vec<${infer Z}`
-          ? __InnerCall<X, __InnerConcat<'>', __Inner<'>', Z, `${I}Vec<`>>>
+          ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Vec<`>>
           : K extends `(${infer Z}`
-            ? __InnerCall<X, __InnerConcat<')', __Inner<')', Z, `${I}(`>>>
+            ? __InnerConcat<X, ')', __Inner<')', Z, `${I}(`>>
             : K extends `[${infer Z}`
-              ? __InnerCall<X, __InnerConcat<']', __Inner<']', Z, `${I}[`>>>
+              ? __InnerConcat<X, ']', __Inner<']', Z, `${I}[`>>
               : K extends `${infer C}${infer Z}`
                 ? __Inner<X, Z, `${I}${C}`>
                 : ['', I];
