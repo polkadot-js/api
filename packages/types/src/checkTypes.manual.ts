@@ -41,8 +41,14 @@ assert(bb.toHuman(), 'All ok');
 const ee = registry.createType('Vec<Option<Compact<ReferendumIndex>>>');
 // Option<Bytes>
 const vb = registry.createType('Option< Vec< u8 > >');
+// nested vecs
+const vv = registry.createType('Vec< Vec< Vec< Vec<u8>> > >');
+// vec with tuple
+const vt = registry.createType('Vec<(u8, u16)>');
+// nested stuff from all-over
+const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])>');
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength(), 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman(), 'All ok');
 
 // Should end up as Raw
 const gg = registry.createType('[ u8   ;678]');
@@ -62,5 +68,13 @@ const tt2 = registry.createType('( u32  )');
 const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u256,u128,u64,u32,u16,u8)');
 // empty
 const tt5 = registry.createType('()');
+// nested tuples
+const tt6 = registry.createType('(u8, (u16, (u32, u64, u32)), (u64, u64))');
+// more nested tuples
+const tt7 = registry.createType('(((u8, u8), (u8, u8)), u16)');
+// nested tuples with a wrapper
+const tt8 = registry.createType('(u8, Vec<(u16, u32)>, Option<(u128, u128)>)');
+// same example as above
+const tt9 = registry.createType('(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])');
 
-assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty, 'All ok');
+assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman(), 'All ok');
