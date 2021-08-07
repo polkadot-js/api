@@ -66,19 +66,21 @@ export type __OptionImpl<T extends Codec> =
 export type __Struct<R extends [string, string]> = Codec;
 
 export type __Tuple<R extends [string, string]> =
-  // This is not great, should parse and then check the length... not sure how
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  R[1] extends `${infer A},${infer B}`
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore excessive comparison depth
-    ? ITuple<__TupleParams<__Next<',', R[1]>>>
-    : __Expand<R[1]>;
-export type __TupleParams<R extends [string, string]> =
+  __TupleWrap<__TupleParams<[], __Next<',', R[1]>>>;
+export type __TupleWrap<T extends Codec[]> =
+  T[1] extends Codec
+    ? ITuple<T>
+    : T[0] extends Codec
+      ? T[0]
+      : Codec;
+export type __TuplePush<T extends Codec[], V extends string> =
+  V extends ''
+    ? T
+    : [...T, __Expand<V>];
+export type __TupleParams<T extends Codec[], R extends [string, string]> =
   R[0] extends ''
-    ? [__Expand<R[1]>]
-    : R[1] extends ''
-      ? __TupleParams<__Next<',', R[0]>>
-      : [__Expand<R[1]>, ...__TupleParams<__Next<',', R[0]>>];
+    ? __TuplePush<T, R[1]>
+    : __TupleParams<__TuplePush<T, R[1]>, __Next<',', R[0]>>;
 
 // vec support with short-circuit for u8
 export type __Vec<R extends [string, string]> =

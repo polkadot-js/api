@@ -67,7 +67,7 @@ const tt1 = registry.createType('(u32, Compact< u64 >,    u128  , Something)');
 // unwraps into a u32
 const tt2 = registry.createType('( u32  )');
 // lots and lots of params
-const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u128,u64,u32)');
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u128,u64)');
 // empty
 const tt5 = registry.createType('()');
 // nested tuples
