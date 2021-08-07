@@ -35,9 +35,11 @@ export type __Next<X extends string, K extends string, I extends string = ''> =
             ? __NextCall<X, ')', __Next<')', Z, `${I}(`>>
             : K extends `[${infer Z}`
               ? __NextCall<X, ']', __Next<']', Z, `${I}[`>>
-              : K extends `${infer C}${infer Z}`
-                ? __Next<X, Z, `${I}${C}`>
-                : ['', I];
+              : K extends `{${infer Z}`
+                ? __NextCall<X, '}', __Next<'}', Z, `${I}(`>>
+                : K extends `${infer C}${infer Z}`
+                  ? __Next<X, Z, `${I}${C}`>
+                  : ['', I];
 
 export type __Expand<K extends string, T extends Codec = Codec> =
   K extends keyof InterfaceTypes
@@ -59,6 +61,9 @@ export type __OptionImpl<T extends Codec> =
   T extends Codec
     ? Option<T>
     : never;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type __Struct<R extends [string, string]> = Codec;
 
 export type __Tuple<R extends [string, string]> =
   // This is not great, should parse and then check the length... not sure how
@@ -99,4 +104,6 @@ export type __Unwrap<K extends string, T extends Codec> =
           ? __VecFixed<__Next<']', X>>
           : K extends `(${infer X}`
             ? __Tuple<__Next<')', X>>
-            : T;
+            : K extends `{${infer X}`
+              ? __Struct<__Next<'}', X>>
+              : T;

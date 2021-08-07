@@ -47,8 +47,10 @@ const vv = registry.createType('Vec< Vec< Vec< Vec<u8>> > >');
 const vt = registry.createType('Vec<(u8, u16)>');
 // nested stuff from all-over
 const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])>');
+// some struct stuff
+const ss = registry.createType('Vec<Option<{"foo":"Vec<u8>"}>>');
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman(), 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && ss.toHuman(), 'All ok');
 
 // Should end up as Raw
 const gg = registry.createType('[ u8   ;678]');
