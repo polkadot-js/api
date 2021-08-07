@@ -19,24 +19,24 @@ export type __Unspace<K extends string> =
       ? __Unspace<`${A}${B}`>
       : K;
 
-export type __InnerConcat<X extends string, E extends string, R extends [string, string]> =
-  __Inner<X, R[0], `${R[1]}${E}`>;
+export type __NextCall<X extends string, E extends string, R extends [string, string]> =
+  __Next<X, R[0], `${R[1]}${E}`>;
 
-export type __Inner<X extends string, K extends string, I extends string = ''> =
+export type __Next<X extends string, K extends string, I extends string = ''> =
   K extends `${X}${infer Z}`
     ? [Z, I]
     : K extends `Compact<${infer Z}`
-      ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Compact<`>>
+      ? __NextCall<X, '>', __Next<'>', Z, `${I}Compact<`>>
       : K extends `Option<${infer Z}`
-        ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Option<`>>
+        ? __NextCall<X, '>', __Next<'>', Z, `${I}Option<`>>
         : K extends `Vec<${infer Z}`
-          ? __InnerConcat<X, '>', __Inner<'>', Z, `${I}Vec<`>>
+          ? __NextCall<X, '>', __Next<'>', Z, `${I}Vec<`>>
           : K extends `(${infer Z}`
-            ? __InnerConcat<X, ')', __Inner<')', Z, `${I}(`>>
+            ? __NextCall<X, ')', __Next<')', Z, `${I}(`>>
             : K extends `[${infer Z}`
-              ? __InnerConcat<X, ']', __Inner<']', Z, `${I}[`>>
+              ? __NextCall<X, ']', __Next<']', Z, `${I}[`>>
               : K extends `${infer C}${infer Z}`
-                ? __Inner<X, Z, `${I}${C}`>
+                ? __Next<X, Z, `${I}${C}`>
                 : ['', I];
 
 export type __Expand<K extends string, T extends Codec = Codec> =
@@ -66,14 +66,14 @@ export type __Tuple<R extends [string, string]> =
   R[1] extends `${infer A},${infer B}`
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore excessive comparison depth
-    ? ITuple<__TupleParams<__Inner<',', R[1]>>>
+    ? ITuple<__TupleParams<__Next<',', R[1]>>>
     : __Expand<R[1]>;
 export type __TupleParams<R extends [string, string]> =
   R[0] extends ''
     ? [__Expand<R[1]>]
     : R[1] extends ''
-      ? __TupleParams<__Inner<',', R[0]>>
-      : [__Expand<R[1]>, ...__TupleParams<__Inner<',', R[0]>>];
+      ? __TupleParams<__Next<',', R[0]>>
+      : [__Expand<R[1]>, ...__TupleParams<__Next<',', R[0]>>];
 
 // vec support with short-circuit for u8
 export type __Vec<R extends [string, string]> =
@@ -82,7 +82,7 @@ export type __Vec<R extends [string, string]> =
     : Vec<__Expand<R[1]>>;
 
 // fixed vec support
-export type __VecFixed<R extends [string, string]> = __VecFixedInner<__Inner<';', R[1]>>;
+export type __VecFixed<R extends [string, string]> = __VecFixedInner<__Next<';', R[1]>>;
 export type __VecFixedInner<R extends [string, string]> =
   R[1] extends 'u8'
     ? Raw
@@ -90,13 +90,13 @@ export type __VecFixedInner<R extends [string, string]> =
 
 export type __Unwrap<K extends string, T extends Codec> =
   K extends `Compact<${infer X}`
-    ? __Compact<__Inner<'>', X>>
+    ? __Compact<__Next<'>', X>>
     : K extends `Option<${infer X}`
-      ? __Option<__Inner<'>', X>>
+      ? __Option<__Next<'>', X>>
       : K extends `Vec<${infer X}`
-        ? __Vec<__Inner<'>', X>>
+        ? __Vec<__Next<'>', X>>
         : K extends `[${infer X}`
-          ? __VecFixed<__Inner<']', X>>
+          ? __VecFixed<__Next<']', X>>
           : K extends `(${infer X}`
-            ? __Tuple<__Inner<')', X>>
+            ? __Tuple<__Next<')', X>>
             : T;
