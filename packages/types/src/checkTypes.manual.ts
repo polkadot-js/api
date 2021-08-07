@@ -65,7 +65,7 @@ const tt1 = registry.createType('(u32, Compact< u64 >,    u128  , Something)');
 // unwraps into a u32
 const tt2 = registry.createType('( u32  )');
 // lots and lots of params
-const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u256,u128,u64,u32,u16,u8)');
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u128,u64,u32)');
 // empty
 const tt5 = registry.createType('()');
 // nested tuples
@@ -78,3 +78,15 @@ const tt8 = registry.createType('(u8, Vec<(u16, u32)>, Option<(u128, u128)>)');
 const tt9 = registry.createType('(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])');
 
 assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman(), 'All ok');
+
+export function test (K: string, I = ''): [string, string] {
+  if (K.startsWith('>')) {
+    return [I, K.slice(1)];
+  } else if (K.startsWith('Vec<')) {
+    const [inner, remain] = test(K.slice(4), `${I}Vec<`);
+
+    return [`${inner}>`, remain.slice(1)];
+  }
+
+  return test(K.slice(1), `${I}${K[0]}`);
+}
