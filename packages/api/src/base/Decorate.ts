@@ -460,7 +460,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // FIXME NMap support
     // .keys() & .entries() only available on map types
-    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap)) {
+    if (creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap || creator.meta.type.isNMap)) {
       decorated.entries = decorateMethod(
         memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, args)));
