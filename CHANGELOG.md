@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 5.4.1 Aug 9, 2021
 
 - **Important** The `ClassOf` alias for `createClass` has been removed, use `createClass` (with new generics) directly
 
