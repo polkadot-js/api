@@ -41,23 +41,33 @@ export type __Next<X extends string, K extends string, I extends string = ''> =
                   ? __Next<X, Z, `${I}${C}`>
                   : ['', I];
 
+export type __ParseParams<K extends string | string[], T extends string[] = [], R extends string = ''> =
+  K extends string
+    ? K extends `,${infer Z}` | `;${infer Z}`
+      ? __ParseParams<Z, [...T, R]>
+      : K extends `${infer C}${infer Z}`
+        ? __ParseParams<Z, T, `${R}${C}`>
+        : [...T, R]
+    : [K, T];
 export type __Parse<K extends string, R extends string = ''> =
   K extends `{${infer Z}`
     ? ['Struct', __Parse<Z, R>]
     : K extends `(${infer Z}`
-      ? ['Tuple', __Parse<Z, R>]
-      : K extends `Compact<${infer Z}`
-        ? ['Compact', __Parse<Z>]
-        : K extends `Option<${infer Z}`
-          ? ['Option', __Parse<Z>]
-          : K extends `Vec<${infer Z}`
-            ? ['Vec', __Parse<Z>]
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            : K extends `>${infer _Z}` | `)${infer _Z}` | `}${infer _Z}`
-              ? R
-              : K extends `${infer C}${infer Z}`
-                ? __Parse<Z, `${R}${C}`>
-                : ['', R];
+      ? ['Tuple', __ParseParams<__Parse<Z, R>>]
+      : K extends `[${infer Z}`
+        ? ['VecFixed', __ParseParams<__Parse<Z, R>>]
+        : K extends `Compact<${infer Z}`
+          ? ['Compact', __Parse<Z>]
+          : K extends `Option<${infer Z}`
+            ? ['Option', __Parse<Z>]
+            : K extends `Vec<${infer Z}`
+              ? ['Vec', __Parse<Z>]
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              : K extends `>${infer _Z}` | `)${infer _Z}` | `}${infer _Z}`
+                ? R
+                : K extends `${infer C}${infer Z}`
+                  ? __Parse<Z, `${R}${C}`>
+                  : ['', R];
 
 type TEST_Parse_01 = __Parse<'Vec<u8>'>;
 type TEST_Parse_02 = __Parse<'Vec<Vec<u32>>'>;
@@ -65,6 +75,8 @@ type TEST_Parse_03 = __Parse<'Vec<Option<Compact<u32>>>'>;
 type TEST_Parse_04 = __Parse<'(u32,Vec<Option<Compact<u32>>>)'>;
 type TEST_Parse_05 = __Parse<'()'>;
 type TEST_Parse_06 = __Parse<'(u32)'>;
+type TEST_Parse_07 = __Parse<'(u32,u64)'>;
+type TEST_Parse_08 = __Parse<'Vec<(u32,Option<u64>)>'>;
 
 export type __Expand<K extends string, T extends Codec = Codec> =
   K extends keyof InterfaceTypes
