@@ -7,20 +7,21 @@ import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
-export type DetectCodec<T extends Codec, K extends string> = __Expand<K, T>;
+export type DetectCodec<T extends Codec, K extends string> = __Expand<__Unspace<K>, T>;
 
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<__Expand<K, T>>;
+export type DetectConstructor<T extends Codec, K extends string> = Constructor<__Expand<__Unspace<K>, T>>;
 
 // trim leading and trailing spaces
-export type Trim<K extends string> =
+export type __Unspace<K extends string> =
   K extends ` ${infer X} ` | ` ${infer X}` | `${infer X} `
-    ? Trim<X>
-    : K;
+    ? __Unspace<X>
+    : K extends `${infer A} ${infer B}`
+      ? __Unspace<`${A}${B}`>
+      : K;
 
 export type __Wrappers = 'Compact' | 'Option' | 'Vec';
 
-export type __Expand<K extends string, T extends Codec = Codec> = __ExpandImpl<Trim<K>, T>;
-export type __ExpandImpl<K extends string, T extends Codec> =
+export type __Expand<K extends string, T extends Codec = Codec> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
     : T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
@@ -41,8 +42,7 @@ export type __OptionImpl<T extends Codec> =
     ? Option<T>
     : never;
 
-export type __Params<X extends string> = __ParamsImpl<Trim<X>>;
-export type __ParamsImpl<X extends string> =
+export type __Params<X extends string> =
   X extends `Vec<${infer A}>,${infer B}`
     ? [__Vec<A>, ...__Params<B>]
     : X extends `Option<${infer A}>,${infer B}`
@@ -54,38 +54,33 @@ export type __ParamsImpl<X extends string> =
           : X extends `${infer A},${infer B}`
             ? __ParamsTuple<A, B>
             : [__ParamsExpand<X>];
-export type __ParamsTuple<A extends string, B extends string> = __ParamsTupleImpl<Trim<A>, Trim<B>>;
-export type __ParamsTupleImpl<A extends string, B extends string> =
+export type __ParamsTuple<A extends string, B extends string> =
   B extends `(${infer C}),${infer D}`
     ? [__ParamsExpand<A>, __Tuple<C>, ...__Params<D>]
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     : B extends `[${infer C}]` | `(${infer C})`
       ? [__ParamsExpand<A>, __Expand<B>]
       : [__ParamsExpand<A>, ...__Params<B>];
-export type __ParamsExpand<X extends string> = __ParamsExpandImpl<Trim<X>>;
-export type __ParamsExpandImpl<X extends string> =
+export type __ParamsExpand<X extends string> =
   // flatten nested tuples
   X extends `(${infer A})` | `(${infer A}` | `${infer A})`
     ? __ParamsExpand<A>
     : __Expand<X>;
 
-export type __Tuple<X extends string> = __TupleImpl<Trim<X>>;
-export type __TupleImpl<X extends string> =
+export type __Tuple<X extends string> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   X extends `${infer A},${infer B}`
     ? ITuple<__Params<X>>
     : __Expand<X>;
 
 // vec support with short-circuit for u8
-export type __Vec<X extends string> = __VecImpl<Trim<X>>;
-export type __VecImpl<X extends string> =
+export type __Vec<X extends string> =
   X extends 'u8'
     ? Bytes
     : Vec<__Expand<X>>;
 
 // fixed vec support
-export type __VecFixed<X extends string, L extends string> = __VecFixedImpl<Trim<X>, L>;
-export type __VecFixedImpl<X extends string, L extends string> =
+export type __VecFixed<X extends string, L extends string> =
   L extends string
     ? X extends 'u8'
       ? Raw
