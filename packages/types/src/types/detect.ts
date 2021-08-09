@@ -56,28 +56,29 @@ export type __TupleParams<X extends string> =
             ? [__Compact<A>, ...__TupleParams<B>]
             : X extends `Compact<${infer A}>`
               ? [__Compact<A>]
-              : X extends `{${infer A}},${infer B}`
-                ? [__Struct<A>, ...__TupleParams<B>]
-                : X extends `{${infer A}}`
-                  ? [__Struct<A>]
-                  : X extends `(${infer A}),(${infer B}`
-                    ? [__Tuple<A>, __Tuple<B>]
-                    : X extends `(${infer A}),${infer B}`
-                      ? [__Tuple<A>, ...__TupleParams<B>]
-                      : X extends `${infer A},(${infer B})`
-                        ? [__Expand<A>, __Tuple<B>]
+              : X extends `[${infer A}],${infer B}`
+                ? [__VecFixed<A>, ...__TupleParams<B>]
+                : X extends `[${infer A}]`
+                  ? [__VecFixed<A>]
+                  : X extends `{${infer A}},${infer B}`
+                    ? [__Struct<A>, ...__TupleParams<B>]
+                    : X extends `{${infer A}}`
+                      ? [__Struct<A>]
+                      // FIXME This also matches ((x, y), ... as (x, y
+                      : X extends `(${infer A}),${infer B}`
+                        ? [__Tuple<A>, ...__TupleParams<B>]
                         : X extends `(${infer A})`
-                          ? __Tuple<A>
-                          : X extends `(${infer A},${infer B}` | `${infer A},${infer B})`
+                          ? [__Tuple<A>]
+                          : X extends `${infer A},${infer B}`
                             ? [__Expand<A>, ...__TupleParams<B>]
-                            : X extends `${infer A},${infer B}`
-                              ? [__Expand<A>, ...__TupleParams<B>]
-                              : [__Expand<X>];
+                            : [__Expand<X>];
 
-export type __Tuple<X extends string> =
-  X extends `${infer A},${infer B}`
-    ? ITuple<__TupleParams<`${A},${B}`>>
-    : __Expand<X>;
+export type __Tuple<X extends string> = __TupleWrap<__TupleParams<X>>;
+
+export type __TupleWrap<X extends Codec[]> =
+  X[1] extends Codec
+    ? ITuple<X>
+    : X[0];
 
 // vec support with short-circuit for u8
 export type __Vec<X extends string> =
