@@ -9,7 +9,7 @@ import type { InterfaceTypes } from './registry';
 
 export type DetectCodec<T extends Codec, K extends string> = __Expand<__Unspace<K>, T>;
 
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<__Expand<__Unspace<K>, T>>;
+export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
 // trim leading and trailing spaces
 export type __Unspace<K extends string> =
@@ -18,8 +18,6 @@ export type __Unspace<K extends string> =
     : K extends `${infer A} ${infer B}`
       ? __Unspace<`${A}${B}`>
       : K;
-
-export type __Wrappers = 'Compact' | 'Option' | 'Vec';
 
 export type __Expand<K extends string, T extends Codec = Codec> =
   K extends keyof InterfaceTypes
@@ -45,15 +43,19 @@ export type __OptionImpl<T extends Codec> =
 export type __Params<X extends string> =
   X extends `Vec<${infer A}>,${infer B}`
     ? [__Vec<A>, ...__Params<B>]
-    : X extends `Option<${infer A}>,${infer B}`
-      ? [__Option<A>, ...__Params<B>]
-      : X extends `Vec<${infer A}>`
-        ? [__Vec<A>]
+    : X extends `Vec<${infer A}>`
+      ? [__Vec<A>]
+      : X extends `Option<${infer A}>,${infer B}`
+        ? [__Option<A>, ...__Params<B>]
         : X extends `Option<${infer A}>`
           ? [__Option<A>]
-          : X extends `${infer A},${infer B}`
-            ? __ParamsTuple<A, B>
-            : [__ParamsExpand<X>];
+          : X extends `Compact<${infer A}>,${infer B}`
+            ? [__Compact<A>, ...__Params<B>]
+            : X extends `Compact<${infer A}>`
+              ? [__Compact<A>]
+              : X extends `${infer A},${infer B}`
+                ? __ParamsTuple<A, B>
+                : [__ParamsExpand<X>];
 export type __ParamsTuple<A extends string, B extends string> =
   B extends `(${infer C}),${infer D}`
     ? [__ParamsExpand<A>, __Tuple<C>, ...__Params<D>]
@@ -88,12 +90,12 @@ export type __VecFixed<X extends string, L extends string> =
     : never;
 
 export type __Unwrap<K extends string, T extends Codec> =
-  K extends `Compact<${infer X}>`
-    ? __Compact<X>
+  K extends `Vec<${infer X}>`
+    ? __Vec<X>
     : K extends `Option<${infer X}>`
       ? __Option<X>
-      : K extends `Vec<${infer X}>`
-        ? __Vec<X>
+      : K extends `Compact<${infer X}>`
+        ? __Compact<X>
         : K extends `[${infer X};${infer L}]`
           ? __VecFixed<X, L>
           : K extends `(${infer X})`
