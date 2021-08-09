@@ -2,7 +2,13 @@
 
 ## 5.4.1 Aug 9, 2021
 
+Upgrade priority: Low. Recommended for potential users of NMap.
+
 - **Important** The `ClassOf` alias for `createClass` has been removed, use `createClass` (with new generics) directly
+
+Contributed:
+
+- Enable `.keys()/.entries()` on NMap (Thanks to https://github.com/hamidra)
 
 Changes:
 
