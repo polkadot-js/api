@@ -31,14 +31,14 @@ export type __Compact<X extends string> = __CompactImpl<__Expand<X>>;
 export type __CompactImpl<T extends Codec> =
   T extends INumber
     ? Compact<T>
-    : never;
+    : Codec;
 
 // handle option types
 export type __Option<X extends string> = __OptionImpl<__Expand<X>>;
 export type __OptionImpl<T extends Codec> =
   T extends Codec
     ? Option<T>
-    : never;
+    : Codec;
 
 export type __Params<X extends string> =
   X extends `Vec<${infer A}>,${infer B}`
@@ -53,9 +53,13 @@ export type __Params<X extends string> =
             ? [__Compact<A>, ...__Params<B>]
             : X extends `Compact<${infer A}>`
               ? [__Compact<A>]
-              : X extends `${infer A},${infer B}`
-                ? __ParamsTuple<A, B>
-                : [__ParamsExpand<X>];
+              : X extends `{${infer A}},${infer B}`
+                ? [__Struct<A>, ...__Params<B>]
+                : X extends `{${infer A}}`
+                  ? [__Struct<A>]
+                  : X extends `${infer A},${infer B}`
+                    ? __ParamsTuple<A, B>
+                    : [__ParamsExpand<X>];
 export type __ParamsTuple<A extends string, B extends string> =
   B extends `(${infer C}),${infer D}`
     ? [__ParamsExpand<A>, __Tuple<C>, ...__Params<D>]
@@ -68,6 +72,9 @@ export type __ParamsExpand<X extends string> =
   X extends `(${infer A})` | `(${infer A}` | `${infer A})`
     ? __ParamsExpand<A>
     : __Expand<X>;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type __Struct<_ extends string> = Codec;
 
 export type __Tuple<X extends string> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -82,12 +89,13 @@ export type __Vec<X extends string> =
     : Vec<__Expand<X>>;
 
 // fixed vec support
-export type __VecFixed<X extends string, L extends string> =
-  L extends string
-    ? X extends 'u8'
+export type __VecFixed<X extends string> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  X extends `${infer T};${infer _}`
+    ? T extends 'u8'
       ? Raw
-      : VecFixed<__Expand<X>>
-    : never;
+      : VecFixed<__Expand<T>>
+    : Codec;
 
 export type __Unwrap<K extends string, T extends Codec> =
   K extends `Vec<${infer X}>`
@@ -96,8 +104,10 @@ export type __Unwrap<K extends string, T extends Codec> =
       ? __Option<X>
       : K extends `Compact<${infer X}>`
         ? __Compact<X>
-        : K extends `[${infer X};${infer L}]`
-          ? __VecFixed<X, L>
+        : K extends `[${infer X}]`
+          ? __VecFixed<X>
           : K extends `(${infer X})`
             ? __Tuple<X>
-            : T;
+            : K extends `{${infer X}}`
+              ? __Struct<X>
+              : T;
