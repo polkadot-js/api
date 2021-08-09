@@ -60,20 +60,23 @@ export type __TupleParams<X extends string> =
                 ? [__Struct<A>, ...__TupleParams<B>]
                 : X extends `{${infer A}}`
                   ? [__Struct<A>]
-                  : X extends `(${infer A}),${infer B}`
-                    ? [__Tuple<A>, ...__TupleParams<B>]
-                    : X extends `(${infer A})`
-                      ? __TupleParams<A>
-                      : X extends `(${infer A},${infer B}` | `${infer A},${infer B})`
-                        ? [__Expand<A>, ...__TupleParams<B>]
-                        : X extends `${infer A},${infer B}`
-                          ? [__Expand<A>, ...__TupleParams<B>]
-                          : [__Expand<X>];
+                  : X extends `(${infer A}),(${infer B}`
+                    ? [__Tuple<A>, __Tuple<B>]
+                    : X extends `(${infer A}),${infer B}`
+                      ? [__Tuple<A>, ...__TupleParams<B>]
+                      : X extends `${infer A},(${infer B})`
+                        ? [__Expand<A>, __Tuple<B>]
+                        : X extends `(${infer A})`
+                          ? __Tuple<A>
+                          : X extends `(${infer A},${infer B}` | `${infer A},${infer B})`
+                            ? [__Expand<A>, ...__TupleParams<B>]
+                            : X extends `${infer A},${infer B}`
+                              ? [__Expand<A>, ...__TupleParams<B>]
+                              : [__Expand<X>];
 
 export type __Tuple<X extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   X extends `${infer A},${infer B}`
-    ? ITuple<__TupleParams<X>>
+    ? ITuple<__TupleParams<`${A},${B}`>>
     : __Expand<X>;
 
 // vec support with short-circuit for u8
