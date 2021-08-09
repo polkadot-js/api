@@ -40,46 +40,40 @@ export type __OptionImpl<T extends Codec> =
     ? Option<T>
     : Codec;
 
-export type __Params<X extends string> =
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type __Struct<_ extends string> = Codec;
+
+export type __TupleParams<X extends string> =
   X extends `Vec<${infer A}>,${infer B}`
-    ? [__Vec<A>, ...__Params<B>]
+    ? [__Vec<A>, ...__TupleParams<B>]
     : X extends `Vec<${infer A}>`
       ? [__Vec<A>]
       : X extends `Option<${infer A}>,${infer B}`
-        ? [__Option<A>, ...__Params<B>]
+        ? [__Option<A>, ...__TupleParams<B>]
         : X extends `Option<${infer A}>`
           ? [__Option<A>]
           : X extends `Compact<${infer A}>,${infer B}`
-            ? [__Compact<A>, ...__Params<B>]
+            ? [__Compact<A>, ...__TupleParams<B>]
             : X extends `Compact<${infer A}>`
               ? [__Compact<A>]
               : X extends `{${infer A}},${infer B}`
-                ? [__Struct<A>, ...__Params<B>]
+                ? [__Struct<A>, ...__TupleParams<B>]
                 : X extends `{${infer A}}`
                   ? [__Struct<A>]
-                  : X extends `${infer A},${infer B}`
-                    ? __ParamsTuple<A, B>
-                    : [__ParamsExpand<X>];
-export type __ParamsTuple<A extends string, B extends string> =
-  B extends `(${infer C}),${infer D}`
-    ? [__ParamsExpand<A>, __Tuple<C>, ...__Params<D>]
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    : B extends `[${infer C}]` | `(${infer C})`
-      ? [__ParamsExpand<A>, __Expand<B>]
-      : [__ParamsExpand<A>, ...__Params<B>];
-export type __ParamsExpand<X extends string> =
-  // flatten nested tuples
-  X extends `(${infer A})` | `(${infer A}` | `${infer A})`
-    ? __ParamsExpand<A>
-    : __Expand<X>;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type __Struct<_ extends string> = Codec;
+                  : X extends `(${infer A}),${infer B}`
+                    ? [__Tuple<A>, ...__TupleParams<B>]
+                    : X extends `(${infer A})`
+                      ? __TupleParams<A>
+                      : X extends `(${infer A},${infer B}` | `${infer A},${infer B})`
+                        ? [__Expand<A>, ...__TupleParams<B>]
+                        : X extends `${infer A},${infer B}`
+                          ? [__Expand<A>, ...__TupleParams<B>]
+                          : [__Expand<X>];
 
 export type __Tuple<X extends string> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   X extends `${infer A},${infer B}`
-    ? ITuple<__Params<X>>
+    ? ITuple<__TupleParams<X>>
     : __Expand<X>;
 
 // vec support with short-circuit for u8

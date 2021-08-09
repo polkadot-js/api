@@ -71,7 +71,7 @@ const tt5 = registry.createType('()');
 // nested tuples
 const tt6 = registry.createType('(u8, (u16, (u32, u64, u32)), (u64, u64))');
 // more nested tuples
-const tt7 = registry.createType('(((u8, u8), (u8, u8)), u16)');
+const tt7 = registry.createType('(((u8, u16, u32), (u32, u16, u8)), u128, u256)');
 // nested tuples with a wrapper
 const tt8 = registry.createType('(u8, Vec<(u16, u32)>, Option<(u128, u128)>)');
 // same example as above
