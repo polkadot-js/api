@@ -49,25 +49,30 @@ export type __ParseParams<K extends string | string[], T extends string[] = [], 
         ? __ParseParams<Z, T, `${R}${C}`>
         : [...T, R]
     : [K, T];
+export type __ParseWrap<T extends string, R extends string, Z extends string | unknown[]> =
+  R extends null
+    ? Z[1] extends string
+      ? [T, [Z[0], __Parse<Z[1]>]]
+      : [T, Z]
+    : [T, R, Z];
 export type __Parse<K extends string, R extends string = ''> =
   K extends `{${infer Z}`
-    ? ['Struct', __Parse<Z, R>]
+    ? __ParseWrap<'Struct', R, __Parse<Z>>
     : K extends `(${infer Z}`
-      ? ['Tuple', __ParseParams<__Parse<Z, R>>]
+      ? __ParseWrap<'Tuple', R, __Parse<Z>>
       : K extends `[${infer Z}`
-        ? ['VecFixed', __ParseParams<__Parse<Z, R>>]
+        ? __ParseWrap<'VecFixed', R, __Parse<Z>>
         : K extends `Compact<${infer Z}`
-          ? ['Compact', __Parse<Z>]
+          ? __ParseWrap<'Compact', R, __Parse<Z>>
           : K extends `Option<${infer Z}`
-            ? ['Option', __Parse<Z>]
+            ? __ParseWrap<'Option', R, __Parse<Z>>
             : K extends `Vec<${infer Z}`
-              ? ['Vec', __Parse<Z>]
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              : K extends `>${infer _Z}` | `)${infer _Z}` | `}${infer _Z}`
-                ? R
+              ? __ParseWrap<'Vec', R, __Parse<Z>>
+              : K extends `>${infer Z}` | `)${infer Z}` | `}${infer Z}`
+                ? [R, Z]
                 : K extends `${infer C}${infer Z}`
                   ? __Parse<Z, `${R}${C}`>
-                  : ['', R];
+                  : R;
 
 type TEST_Parse_01 = __Parse<'Vec<u8>'>;
 type TEST_Parse_02 = __Parse<'Vec<Vec<u32>>'>;
@@ -76,6 +81,7 @@ type TEST_Parse_04 = __Parse<'(u32,Vec<Option<Compact<u32>>>)'>;
 type TEST_Parse_05 = __Parse<'()'>;
 type TEST_Parse_06 = __Parse<'(u32)'>;
 type TEST_Parse_07 = __Parse<'(u32,u64)'>;
+type TEST_Parse_08 = __Parse<'((u16,u32),u64)'>;
 type TEST_Parse_08 = __Parse<'Vec<(u32,Option<u64>)>'>;
 
 export type __Expand<K extends string, T extends Codec = Codec> =
