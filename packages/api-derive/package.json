@@ -25,7 +25,7 @@
     "@polkadot/types": "5.4.2-0",
     "@polkadot/util": "^7.1.1",
     "@polkadot/util-crypto": "^7.1.1",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.3.0"
   },
   "devDependencies": {
     "@polkadot/keyring": "^7.1.1",
