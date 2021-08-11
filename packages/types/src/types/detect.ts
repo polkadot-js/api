@@ -30,26 +30,26 @@ type __ValuesInner = (string | Record<string, unknown> | __Values);
 type __Values = __ValuesInner[];
 
 type __ToCodec<K extends unknown, N extends unknown = unknown, C extends Codec = Codec> =
-  K extends Record<string, unknown>
-    ? IStruct
-    : K extends unknown[]
-      ? __ToTuple<__ToCodecs<K>>
-      : K extends '['
-        ? N extends 'u8'
-          ? Raw
-          : VecFixed<C>
-        : K extends 'Vec<'
+  K extends keyof InterfaceTypes
+    ? InterfaceTypes[K]
+    : K extends Record<string, unknown>
+      ? IStruct
+      : K extends unknown[]
+        ? __ToTuple<__ToCodecs<K>>
+        : K extends '['
           ? N extends 'u8'
-            ? Bytes
-            : Vec<C>
-          : K extends 'Option<'
-            ? Option<C>
-            : K extends 'Compact<'
-              ? C extends INumber
-                ? Compact<C>
-                : Codec
-              : K extends keyof InterfaceTypes
-                ? InterfaceTypes[K]
+            ? Raw
+            : VecFixed<C>
+          : K extends 'Vec<'
+            ? N extends 'u8'
+              ? Bytes
+              : Vec<C>
+            : K extends 'Option<'
+              ? Option<C>
+              : K extends 'Compact<'
+                ? C extends INumber
+                  ? Compact<C>
+                  : Codec
                 : Codec;
 
 type __ToTuple<O extends Codec[]> =
@@ -95,18 +95,24 @@ type __TokenizeTuple<T extends [__Values, string], V extends __Values, I extends
 type __Tokenize<K extends string, V extends __Values = [], I extends string = ''> =
   K extends '' | ')' | '>' | '}'
     ? [__Combine<V, I>, '']
-    : K extends `,${infer R}` | `>${infer R}`
-      ? __Tokenize<R, __Combine<V, I>>
-      : K extends `<${infer R}`
-        ? __Tokenize<R, __Combine<V, `${I}<`>>
-        : K extends `[${infer R}`
-          ? __Tokenize<R, __Combine<V, I, '['>>
-          : K extends `)${infer R}` | `}${infer R}`
-            ? [__Combine<V, I>, R]
-            : K extends `(${infer R}`
-              ? __TokenizeTuple<__Tokenize<R>, V, I>
-              : K extends `{${infer R}`
-                ? __TokenizeStruct<__Tokenize<R>, V, I>
-                : K extends `${infer C}${infer R}`
-                  ? __Tokenize<R, V, `${I}${C}`>
-                  : [__Combine<V, I>, ''];
+    : K extends `${keyof InterfaceTypes},${infer R}`
+      ? K extends `${infer X},${R}`
+        ? __Tokenize<`,${R}`, V, `${I}${X}`>
+        : never
+      : K extends `,${infer R}` | `>${infer R}`
+        ? __Tokenize<R, __Combine<V, I>>
+        : K extends `<${infer R}`
+          ? __Tokenize<R, __Combine<V, `${I}<`>>
+          : K extends `[${infer R}`
+            ? __Tokenize<R, __Combine<V, I, '['>>
+            : K extends `)${infer R}` | `}${infer R}`
+              ? [__Combine<V, I>, R]
+              : K extends `(${infer R}`
+                ? __TokenizeTuple<__Tokenize<R>, V, I>
+                : K extends `{${infer R}`
+                  ? __TokenizeStruct<__Tokenize<R>, V, I>
+                  : K extends `${infer C}${infer R}`
+                    ? __Tokenize<R, V, `${I}${C}`>
+                    : [__Combine<V, I>, ''];
+
+export type Test01 = __Tokenize<__Sanitize<'(Vec<ValidatorIndex>,CompactAssignmentsTo257,PhragmenScore,EraIndex)'>>;

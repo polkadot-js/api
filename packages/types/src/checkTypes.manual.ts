@@ -31,7 +31,7 @@ const aa1 = registry.createType('BlockAttestations');
 const aa2 = registry.createType('ExtrinsicEra');
 const aa3 = registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)');
 
-assert(aa0.isAscii && aa1.receipt && aa2.isMortalEra, 'All ok');
+assert(aa0.isAscii && aa1.receipt && aa2.isMortalEra && aa3[3].toNumber(), 'All ok');
 
 // Should be Codec, we don't know this one
 const bb = registry.createType('Something');

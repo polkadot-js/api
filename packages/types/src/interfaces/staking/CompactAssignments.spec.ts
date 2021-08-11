@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createTypeUnsafe, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 
 const ACTUAL = '0x' +
   // Vec<ValidatorIndex>
