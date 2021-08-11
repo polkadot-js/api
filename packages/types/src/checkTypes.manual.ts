@@ -29,6 +29,7 @@ assert(oo0.divn(123) && [...oo1.values()] && oo2[6].isAscii && oo3.divn(3) && oo
 const aa0 = registry.createType(' AccountId');
 const aa1 = registry.createType('BlockAttestations');
 const aa2 = registry.createType('ExtrinsicEra');
+const aa3 = registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)');
 
 assert(aa0.isAscii && aa1.receipt && aa2.isMortalEra, 'All ok');
 
