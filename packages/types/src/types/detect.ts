@@ -4,15 +4,15 @@
 import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
 import type { Bytes, Null } from '../primitive';
 import type { Codec, Constructor } from './codec';
-import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { INumber, IStruct, ITuple } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
-export type DetectCodec<T extends Codec, K extends string> =
-  T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
+export type DetectCodec<T extends Codec | undefined, K extends string> =
+  T extends Codec
     ? T
     : __ToCodecs<__Tokenize<__Sanitize<K>>[0]>[0];
 
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
+export type DetectConstructor<T extends Codec | undefined, K extends string> = Constructor<DetectCodec<T, K>>;
 
 // trim leading and trailing spaces and unused portions
 type __Sanitize<K extends string> =
@@ -95,24 +95,26 @@ type __TokenizeTuple<T extends [__Values, string], V extends __Values, I extends
 type __Tokenize<K extends string, V extends __Values = [], I extends string = ''> =
   K extends '' | ')' | '>' | '}'
     ? [__Combine<V, I>, '']
-    : K extends `${keyof InterfaceTypes},${infer R}`
-      ? K extends `${infer X},${R}`
-        ? __Tokenize<`,${R}`, V, `${I}${X}`>
-        : never
-      : K extends `,${infer R}` | `>${infer R}`
-        ? __Tokenize<R, __Combine<V, I>>
-        : K extends `<${infer R}`
-          ? __Tokenize<R, __Combine<V, `${I}<`>>
-          : K extends `[${infer R}`
-            ? __Tokenize<R, __Combine<V, I, '['>>
-            : K extends `)${infer R}` | `}${infer R}`
-              ? [__Combine<V, I>, R]
-              : K extends `(${infer R}`
-                ? __TokenizeTuple<__Tokenize<R>, V, I>
-                : K extends `{${infer R}`
-                  ? __TokenizeStruct<__Tokenize<R>, V, I>
-                  : K extends `${infer C}${infer R}`
-                    ? __Tokenize<R, V, `${I}${C}`>
-                    : [__Combine<V, I>, ''];
+    : K extends `${keyof InterfaceTypes}`
+      ? [__Combine<V, `${I}${K}`>, '']
+      : K extends `${keyof InterfaceTypes},${infer R}`
+        ? K extends `${infer X},${R}`
+          ? __Tokenize<`,${R}`, V, `${I}${X}`>
+          : never
+        : K extends `,${infer R}` | `>${infer R}`
+          ? __Tokenize<R, __Combine<V, I>>
+          : K extends `<${infer R}`
+            ? __Tokenize<R, __Combine<V, `${I}<`>>
+            : K extends `[${infer R}`
+              ? __Tokenize<R, __Combine<V, I, '['>>
+              : K extends `)${infer R}` | `}${infer R}`
+                ? [__Combine<V, I>, R]
+                : K extends `(${infer R}`
+                  ? __TokenizeTuple<__Tokenize<R>, V, I>
+                  : K extends `{${infer R}`
+                    ? __TokenizeStruct<__Tokenize<R>, V, I>
+                    : K extends `${infer C}${infer R}`
+                      ? __Tokenize<R, V, `${I}${C}`>
+                      : [__Combine<V, I>, ''];
 
 export type Test01 = __Tokenize<__Sanitize<'(Vec<ValidatorIndex>,CompactAssignmentsTo257,PhragmenScore,EraIndex)'>>;

@@ -12,7 +12,7 @@ import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
+export function createClass<T extends Codec | undefined = undefined, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
   return getTypeClass(
     registry,
     registry.isLookupType(type)
@@ -179,7 +179,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 };
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
+export function getTypeClass<T extends Codec | undefined = undefined> (registry: Registry, typeDef: TypeDef): Constructor<T> {
   let Type = registry.get<T>(typeDef.type) as Constructor<T> | undefined;
 
   if (Type) {

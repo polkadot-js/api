@@ -120,16 +120,16 @@ export interface Registry {
   isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
-  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  createClass <T extends Codec | undefined = undefined, K extends string = string> (type: K): DetectConstructor<T, K>;
+  createType <T extends Codec | undefined = undefined, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
+  get <T extends Codec | undefined = undefined, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
   getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
-  getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K>;
+  getOrThrow <T extends Codec | undefined = undefined, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
+  getOrUnknown <T extends Codec| undefined = undefined, K extends string = string> (name: K): DetectConstructor<T, K>;
   setKnownTypes (types: RegisteredTypes): void;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
