@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../../types';
+import type { Codec, IStruct, Registry } from '../../types';
 import type { MetadataInterface } from '../types';
 import type { Check } from './types';
 
@@ -74,7 +74,7 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
         it(location, (): void => {
           expect((): void => {
             try {
-              const type = registry.createType(inner, hexToU8a(fallback.toHex()));
+              const type = registry.createType<IStruct>(inner, hexToU8a(fallback.toHex()));
 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];

@@ -6,7 +6,7 @@ import type { Codec } from './types';
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 
 import * as definitions from './interfaces/definitions';
-import { createTypeUnsafe, TypeRegistry } from './create';
+import { TypeRegistry } from './create';
 import * as exported from './index.types';
 import { Metadata } from './metadata';
 

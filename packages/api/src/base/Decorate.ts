@@ -7,7 +7,7 @@ import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, IStruct, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
@@ -573,7 +573,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
         result.map(([blockHash, [value]]): [Hash, Codec] => [
           blockHash,
-          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
+          this.createType<IStruct>(outputType, value.isSome ? value.unwrap().toHex() : undefined)
         ])
       ));
   }
