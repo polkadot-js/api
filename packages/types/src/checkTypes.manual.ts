@@ -46,7 +46,7 @@ const vv = registry.createType('Vec< Vec< Vec< Vec<u8>> > >');
 // vec with tuple
 const vt = registry.createType('Vec<(u8, u16)>');
 // nested stuff from all-over
-const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32])>');
+const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])>');
 // tuple & struct
 const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"}, u16)');
 // nested fixed

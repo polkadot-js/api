@@ -10,26 +10,26 @@ import type { InterfaceTypes } from './registry';
 export type DetectCodec<T extends Codec, K extends string> =
   T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
     ? T
-    : __ToCodecs<__Expand<__Unspace<K>>[0]>[0];
+    : __ToCodecs<__Expand<__Sanitize<K>>[0]>[0];
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
-// trim leading and trailing spaces
-type __Unspace<K extends string> =
+// trim leading and trailing spaces and unused portions
+type __Sanitize<K extends string> =
   K extends ` ${infer X}` | `${infer X} ` | ` ${infer X} `
-    ? __Unspace<X>
+    ? __Sanitize<X>
     : K extends `${infer A} ${infer B}`
-      ? __Unspace<`${A}${B}`>
-      : K;
+      ? __Sanitize<`${A}${B}`>
+      : K extends `${infer A};${string}]${infer B}`
+        ? __Sanitize<`${A}${B}`>
+        : K extends `${infer A};${string}]`
+          ? __Sanitize<A>
+          : K;
 
 type __RemoveEmpty<T extends string> =
   T extends ''
     ? []
-    : T extends `${infer P};${string}]`
-      ? P extends ''
-        ? []
-        : [P]
-      : [T];
+    : [T];
 
 type __Values = (string | Record<string, unknown> | __Values)[];
 
@@ -44,7 +44,7 @@ type __ExpandStruct<T extends [__Values, string], E extends __Values, I extends 
 type __Combine<E extends __Values, I extends string, X extends string[] = []> =
   [...E, ...__RemoveEmpty<I>, ...X];
 
-// NOTE For recursion limits, it is more optimal to use __Unspace with conjunction with the __Expand
+// NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with the __Expand
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 type __Expand<K extends string, E extends __Values = [], I extends string = ''> =
   K extends `,${infer R}`
