@@ -46,9 +46,13 @@ const vv = registry.createType('Vec< Vec< Vec< Vec<u8>> > >');
 // vec with tuple
 const vt = registry.createType('Vec<(u8, u16)>');
 // nested stuff from all-over
-const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])>');
+const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32])>');
+// tuple & struct
+const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"}, u16)');
+// nested fixed
+const nf = registry.createType('[[[u8;32];5];3]');
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman(), 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && vs.toHuman() && nf.toHuman(), 'All ok');
 
 // Should end up as Raw
 const gg = registry.createType('[ u8   ;678]');
@@ -61,15 +65,15 @@ const hh = registry.createType('[u128; 32]');
 assert(hh[0].bitLength(), 'All ok');
 
 // tuple! ITuple<[u32, Compact<u64>, u128, Codec]>
-const tt1 = registry.createType('(u32, Compact< u64 >,    u128  , Something)');
+const tt1 = registry.createType('(u32, Compact<u64>,    u128  , Something)');
 // unwraps into a u32
-const tt2 = registry.createType('( u32  )');
-// lots and lots of params
-const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,Break,u256,u128,u64,u32,u16,u8)');
+const tt2 = registry.createType('(((u32)))');
+// lots and lots of params (indicates recursion limit)
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,u8,u16,u32,u64)');
 // empty
 const tt5 = registry.createType('()');
 // nested tuples
-const tt6 = registry.createType('(u8, (u16, (u32, u64, u32)), (u64, u64))');
+const tt6 = registry.createType('(u8, (u16, (u32, u64, u128)), (u64, u128))');
 // more nested tuples
 const tt7 = registry.createType('(((u8, u16, u32), (u32, u16, u8)), u128, u256)');
 // nested tuples with a wrapper

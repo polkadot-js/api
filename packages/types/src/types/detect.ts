@@ -2,110 +2,107 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
-import type { Bytes } from '../primitive';
+import type { Bytes, Null } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
-export type DetectCodec<T extends Codec, K extends string> = __Expand<__Unspace<K>, T>;
+export type DetectCodec<T extends Codec, K extends string> =
+  T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
+    ? T
+    : __ToCodecs<__Expand<__Unspace<K>>[0]>[0];
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
 // trim leading and trailing spaces
-export type __Unspace<K extends string> =
-  K extends ` ${infer X} ` | ` ${infer X}` | `${infer X} `
+type __Unspace<K extends string> =
+  K extends ` ${infer X}` | `${infer X} ` | ` ${infer X} `
     ? __Unspace<X>
     : K extends `${infer A} ${infer B}`
       ? __Unspace<`${A}${B}`>
       : K;
 
-export type __Expand<K extends string, T extends Codec = Codec> =
-  K extends keyof InterfaceTypes
-    ? InterfaceTypes[K]
-    : T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
-      ? T
-      : __Unwrap<K, T>;
+type __RemoveEmpty<T extends string> =
+  T extends ''
+    ? []
+    : T extends `${infer P};${string}]`
+      ? P extends ''
+        ? []
+        : [P]
+      : [T];
 
-// ensure whatever we wrap is always Compact-capable
-export type __Compact<X extends string> = __CompactImpl<__Expand<X>>;
-export type __CompactImpl<T extends Codec> =
-  T extends INumber
-    ? Compact<T>
-    : Codec;
+type __Values = (string | Record<string, unknown> | __Values)[];
 
-// handle option types
-export type __Option<X extends string> = __OptionImpl<__Expand<X>>;
-export type __OptionImpl<T extends Codec> =
-  T extends Codec
-    ? Option<T>
-    : Codec;
+type __ExpandTuple<T extends [__Values, string], E extends __Values, I extends string> =
+  __Expand<T[1], [...__RemoveEmpty<I>, ...E, T[0]]>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type __Struct<_ extends string> = Codec;
+// TODO At this point structs are fully empty, no field indicators
+type __ExpandStruct<T extends [__Values, string], E extends __Values, I extends string> =
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  __Expand<T[1], [...__RemoveEmpty<I>, ...E, {}]>;
 
-export type __TupleParams<X extends string> =
-  X extends `Vec<${infer A}>,${infer B}`
-    ? [__Vec<A>, ...__TupleParams<B>]
-    : X extends `Vec<${infer A}>`
-      ? [__Vec<A>]
-      : X extends `Option<${infer A}>,${infer B}`
-        ? [__Option<A>, ...__TupleParams<B>]
-        : X extends `Option<${infer A}>`
-          ? [__Option<A>]
-          : X extends `Compact<${infer A}>,${infer B}`
-            ? [__Compact<A>, ...__TupleParams<B>]
-            : X extends `Compact<${infer A}>`
-              ? [__Compact<A>]
-              : X extends `[${infer A}],${infer B}`
-                ? [__VecFixed<A>, ...__TupleParams<B>]
-                : X extends `[${infer A}]`
-                  ? [__VecFixed<A>]
-                  : X extends `{${infer A}},${infer B}`
-                    ? [__Struct<A>, ...__TupleParams<B>]
-                    : X extends `{${infer A}}`
-                      ? [__Struct<A>]
-                      // FIXME This also matches ((x, y), ... as (x, y
-                      : X extends `(${infer A}),${infer B}`
-                        ? [__Tuple<A>, ...__TupleParams<B>]
-                        : X extends `(${infer A})`
-                          ? [__Tuple<A>]
-                          : X extends `${infer A},${infer B}`
-                            ? [__Expand<A>, ...__TupleParams<B>]
-                            : [__Expand<X>];
+type __Combine<E extends __Values, I extends string, X extends string[] = []> =
+  [...E, ...__RemoveEmpty<I>, ...X];
 
-export type __Tuple<X extends string> = __TupleWrap<__TupleParams<X>>;
+// NOTE For recursion limits, it is more optimal to use __Unspace with conjunction with the __Expand
+// below, even while we do more matching (Number of characters iterated through is the most problematic)
+type __Expand<K extends string, E extends __Values = [], I extends string = ''> =
+  K extends `,${infer R}`
+    ? __Expand<R, __Combine<E, I>>
+    : K extends `(${infer R}`
+      ? __ExpandTuple<__Expand<R>, E, I>
+      : K extends `{${infer R}`
+        ? __ExpandStruct<__Expand<R>, E, I>
+        : K extends `${')' | '}'}${infer R}`
+          ? [__Combine<E, I>, R]
+          : K extends `<${infer R}`
+            ? __Expand<R, __Combine<E, `${I}<`>>
+            : K extends `>${infer R}`
+              ? __Expand<R, __Combine<E, I>>
+              : K extends `[${infer R}`
+                ? __Expand<R, __Combine<E, I, ['[']>>
+                : K extends `${infer C}${infer R}`
+                  ? __Expand<R, E, `${I}${C}`>
+                  : [__Combine<E, I>, K];
 
-export type __TupleWrap<X extends Codec[]> =
-  X[1] extends Codec
-    ? ITuple<X>
-    : X[0];
+type __ToCodec<K extends unknown, N extends unknown = unknown, C extends Codec = Codec> =
+  K extends Record<string, unknown>
+    ? IStruct
+    : K extends unknown[]
+      ? __ToTuple<__ToCodecs<K>>
+      : K extends '['
+        ? N extends 'u8'
+          ? Raw
+          : VecFixed<C>
+        : K extends 'Vec<'
+          ? N extends 'u8'
+            ? Bytes
+            : Vec<C>
+          : K extends 'Option<'
+            ? Option<C>
+            : K extends 'Compact<'
+              ? C extends INumber
+                ? Compact<C>
+                : Codec
+              : K extends keyof InterfaceTypes
+                ? InterfaceTypes[K]
+                : Codec;
 
-// vec support with short-circuit for u8
-export type __Vec<X extends string> =
-  X extends 'u8'
-    ? Bytes
-    : Vec<__Expand<X>>;
+type __ToTuple<O extends Codec[]> =
+  O[0] extends undefined
+    ? Null
+    : O[1] extends undefined
+      ? O[0]
+      : ITuple<O>;
 
-// fixed vec support
-export type __VecFixed<X extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  X extends `${infer T};${infer _}`
-    ? T extends 'u8'
-      ? Raw
-      : VecFixed<__Expand<T>>
-    : Codec;
+type __ToCodecsInner<K extends unknown, O extends unknown[], C extends Codec[]> =
+  K extends '[' | 'Vec<' | 'Option<' | 'Compact<'
+    ? C extends [unknown, ...infer X]
+      ? [__ToCodec<K, O[0], C[0]>, ...X]
+      : never
+    : [__ToCodec<K>, ...C];
 
-export type __Unwrap<K extends string, T extends Codec> =
-  K extends `Vec<${infer X}>`
-    ? __Vec<X>
-    : K extends `Option<${infer X}>`
-      ? __Option<X>
-      : K extends `Compact<${infer X}>`
-        ? __Compact<X>
-        : K extends `[${infer X}]`
-          ? __VecFixed<X>
-          : K extends `(${infer X})`
-            ? __Tuple<X>
-            : K extends `{${infer X}}`
-              ? __Struct<X>
-              : T;
+type __ToCodecs<T extends unknown[]> =
+  T extends [infer A, ...infer O]
+    ? __ToCodecsInner<A, O, __ToCodecs<O>>
+    : [];
