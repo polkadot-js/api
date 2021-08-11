@@ -93,18 +93,20 @@ type __TokenizeTuple<T extends [__Values, string], V extends __Values, I extends
 // NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 type __Tokenize<K extends string, V extends __Values = [], I extends string = ''> =
-  K extends `,${infer R}` | `>${infer R}`
-    ? __Tokenize<R, __Combine<V, I>>
-    : K extends `<${infer R}`
-      ? __Tokenize<R, __Combine<V, `${I}<`>>
-      : K extends `[${infer R}`
-        ? __Tokenize<R, __Combine<V, I, '['>>
-        : K extends `)${infer R}` | `}${infer R}`
-          ? [__Combine<V, I>, R]
-          : K extends `(${infer R}`
-            ? __TokenizeTuple<__Tokenize<R>, V, I>
-            : K extends `{${infer R}`
-              ? __TokenizeStruct<__Tokenize<R>, V, I>
-              : K extends `${infer C}${infer R}`
-                ? __Tokenize<R, V, `${I}${C}`>
-                : [__Combine<V, I>, ''];
+  K extends '' | ')' | '>' | '}'
+    ? [__Combine<V, I>, '']
+    : K extends `,${infer R}` | `>${infer R}`
+      ? __Tokenize<R, __Combine<V, I>>
+      : K extends `<${infer R}`
+        ? __Tokenize<R, __Combine<V, `${I}<`>>
+        : K extends `[${infer R}`
+          ? __Tokenize<R, __Combine<V, I, '['>>
+          : K extends `)${infer R}` | `}${infer R}`
+            ? [__Combine<V, I>, R]
+            : K extends `(${infer R}`
+              ? __TokenizeTuple<__Tokenize<R>, V, I>
+              : K extends `{${infer R}`
+                ? __TokenizeStruct<__Tokenize<R>, V, I>
+                : K extends `${infer C}${infer R}`
+                  ? __Tokenize<R, V, `${I}${C}`>
+                  : [__Combine<V, I>, ''];
