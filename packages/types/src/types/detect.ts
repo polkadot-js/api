@@ -10,7 +10,7 @@ import type { InterfaceTypes } from './registry';
 export type DetectCodec<T extends Codec, K extends string> =
   T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
     ? T
-    : __ToCodecs<__Expand<__Sanitize<K>>[0]>[0];
+    : __ToCodecs<__Tokenize<__Sanitize<K>>[0]>[0];
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
@@ -26,44 +26,8 @@ type __Sanitize<K extends string> =
           ? __Sanitize<A>
           : K;
 
-type __RemoveEmpty<T extends string> =
-  T extends ''
-    ? []
-    : [T];
-
-type __Values = (string | Record<string, unknown> | __Values)[];
-
-type __ExpandTuple<T extends [__Values, string], E extends __Values, I extends string> =
-  __Expand<T[1], [...__RemoveEmpty<I>, ...E, T[0]]>;
-
-// TODO At this point structs are fully empty, no field indicators
-type __ExpandStruct<T extends [__Values, string], E extends __Values, I extends string> =
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  __Expand<T[1], [...__RemoveEmpty<I>, ...E, {}]>;
-
-type __Combine<E extends __Values, I extends string, X extends string[] = []> =
-  [...E, ...__RemoveEmpty<I>, ...X];
-
-// NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with the __Expand
-// below, even while we do more matching (Number of characters iterated through is the most problematic)
-type __Expand<K extends string, E extends __Values = [], I extends string = ''> =
-  K extends `,${infer R}`
-    ? __Expand<R, __Combine<E, I>>
-    : K extends `(${infer R}`
-      ? __ExpandTuple<__Expand<R>, E, I>
-      : K extends `{${infer R}`
-        ? __ExpandStruct<__Expand<R>, E, I>
-        : K extends `${')' | '}'}${infer R}`
-          ? [__Combine<E, I>, R]
-          : K extends `<${infer R}`
-            ? __Expand<R, __Combine<E, `${I}<`>>
-            : K extends `>${infer R}`
-              ? __Expand<R, __Combine<E, I>>
-              : K extends `[${infer R}`
-                ? __Expand<R, __Combine<E, I, ['[']>>
-                : K extends `${infer C}${infer R}`
-                  ? __Expand<R, E, `${I}${C}`>
-                  : [__Combine<E, I>, K];
+type __ValuesInner = (string | Record<string, unknown> | __Values);
+type __Values = __ValuesInner[];
 
 type __ToCodec<K extends unknown, N extends unknown = unknown, C extends Codec = Codec> =
   K extends Record<string, unknown>
@@ -106,3 +70,41 @@ type __ToCodecs<T extends unknown[]> =
   T extends [infer A, ...infer O]
     ? __ToCodecsInner<A, O, __ToCodecs<O>>
     : [];
+
+type __RemoveEmpty<T extends string> =
+  T extends ''
+    ? []
+    : [T];
+
+type __Combine<V extends __Values, I extends string = '', T extends string = ''> =
+  [...V, ...__RemoveEmpty<I>, ...__RemoveEmpty<T>];
+
+type __CombineInner<V extends __Values, I extends string, X extends __ValuesInner> =
+  [...__RemoveEmpty<I>, ...V, X];
+
+// TODO At this point structs are fully empty, no field indicators
+type __TokenizeStruct<T extends [__Values, string], V extends __Values, I extends string> =
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  __Tokenize<T[1], __CombineInner<V, I, {}>>;
+
+type __TokenizeTuple<T extends [__Values, string], V extends __Values, I extends string> =
+  __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
+
+// NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
+// below, even while we do more matching (Number of characters iterated through is the most problematic)
+type __Tokenize<K extends string, V extends __Values = [], I extends string = ''> =
+  K extends `,${infer R}` | `>${infer R}`
+    ? __Tokenize<R, __Combine<V, I>>
+    : K extends `<${infer R}`
+      ? __Tokenize<R, __Combine<V, `${I}<`>>
+      : K extends `[${infer R}`
+        ? __Tokenize<R, __Combine<V, I, '['>>
+        : K extends `)${infer R}` | `}${infer R}`
+          ? [__Combine<V, I>, R]
+          : K extends `(${infer R}`
+            ? __TokenizeTuple<__Tokenize<R>, V, I>
+            : K extends `{${infer R}`
+              ? __TokenizeStruct<__Tokenize<R>, V, I>
+              : K extends `${infer C}${infer R}`
+                ? __Tokenize<R, V, `${I}${C}`>
+                : [__Combine<V, I>, ''];
