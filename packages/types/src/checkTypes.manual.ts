@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Compact, Option } from './codec';
+import type { CodecSet, Compact, Option } from './codec';
 import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces';
 import type { Bytes, u32 } from './primitive';
 import type { IOption, ITuple } from './types';
@@ -53,13 +53,15 @@ const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, 
 const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"},(u8,u16),{"foo":"Bar"},u16)');
 // nested fixed
 const nf = registry.createType('[[[u8;32];5];3]');
+// set!
+const st = registry.createType<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]);
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && vs.toHuman() && nf.toHuman(), 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && vs.toHuman() && nf.toHuman() && st.strings, 'All ok');
 
 // Should end up as Raw
 const gg = registry.createType('[ u8   ;678]');
 
-assert(gg.bitLength, 'All ok');
+assert(gg.subarray(1), 'All ok');
 
 // Should end up as VecFixed<u128>
 const hh = registry.createType('[u128; 32]');
@@ -82,5 +84,7 @@ const tt7 = registry.createType('(((u8, u16, u32), (u32, u16, u8)), u128, u256)'
 const tt8 = registry.createType('(u8, Vec<(u16, u32)>, Option<(u128, u128)>)');
 // same example as above
 const tt9 = registry.createType('(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])');
+// tuple with nested fixed
+const tta = registry.createType('([u8;32], [u16;5])');
 
-assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman(), 'All ok');
+assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman() && tta[1][1].bitLength(), 'All ok');

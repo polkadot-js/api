@@ -164,7 +164,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec | undefined = undefined, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return this.#registry.createType(type, ...params);
   }
 

@@ -136,7 +136,7 @@ export class Struct<
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

@@ -40,7 +40,9 @@ export interface IOption<T extends Codec = Codec> extends Codec {
   unwrapOrDefault (): T;
 }
 
-export interface IStruct extends Map<string, Codec>, Codec {}
+export interface ISet<K extends string = string> extends Set<K>, Codec {}
+
+export interface IStruct<K extends string | number | symbol = string, V extends Codec = Codec> extends Map<K, V>, Codec {}
 
 // A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
 // FIXME Implement this generic <Sub> on Tuple.ts itself.

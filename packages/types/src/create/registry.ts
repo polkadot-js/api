@@ -241,21 +241,21 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <T extends Codec | undefined = undefined, K extends string = string> (type: K): DetectConstructor<T, K> {
+  public createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K> {
     return createClass(this, type);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec | undefined = undefined, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return createTypeUnsafe(this, type, params);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends Codec | undefined = undefined, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
     return createTypeUnsafe(this, type, params, options);
   }
 
@@ -283,7 +283,7 @@ export class TypeRegistry implements Registry {
     return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
   }
 
-  public get <T extends Codec | undefined = undefined, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined {
+  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
@@ -334,11 +334,11 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
-  public getOrThrow <T extends Codec | undefined = undefined, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K> {
+  public getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K> {
     return assertReturn(this.get<T, K>(name), msg || `type ${name} not found`);
   }
 
-  public getOrUnknown <T extends Codec | undefined = undefined, K extends string = string> (name: K): DetectConstructor<T, K> {
+  public getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K> {
     return this.get<T, K>(name, true) as DetectConstructor<T, K>;
   }
 
