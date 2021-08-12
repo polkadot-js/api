@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+
 import { Tuple } from '../codec/Tuple';
 
 /**
@@ -14,8 +15,8 @@ export class RangeInclusive<T extends Codec> extends Tuple {
     super(
       registry,
       {
-        start: ty,
-        end: ty
+        end: ty,
+        start: ty
       },
       value
     );
@@ -25,20 +26,20 @@ export class RangeInclusive<T extends Codec> extends Tuple {
    * @description Returns the starting range value
    */
   public get start (): T {
-    return this[0] as T
+    return this[0] as T;
   }
 
   /**
    * @description Returns the ending range value
    */
-   public get end (): T {
+  public get end (): T {
     return this[1] as T;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-   public override toRawType (): string {
+  public override toRawType (): string {
     return `RangeInclusive<${this.start.toRawType()}>`;
   }
 }

@@ -20,6 +20,7 @@ describe('Range', (): void => {
 
   it('decodes', (): void => {
     const rslt = new Type(registry, new Uint8Array([1, 0, 0, 0, 2, 0, 0, 0]));
+
     expect(rslt.toJSON()).toEqual([1, 2]);
   });
 
