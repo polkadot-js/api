@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, Codec, Constructor, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IMap, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -14,7 +14,7 @@ import { compareMap, decodeU8a, sortMap, typeToConstructor } from './utils';
 const l = logger('Map');
 
 /** @internal */
-function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
+function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
   const types = [];
@@ -33,7 +33,7 @@ function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (reg
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
   const output = new Map<K, V>();
 
   value.forEach((val: any, key: any) => {
@@ -75,7 +75,7 @@ function decodeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (reg
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
@@ -92,7 +92,7 @@ function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: 
   throw new Error('Map: cannot decode type');
 }
 
-export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
+export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

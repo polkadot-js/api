@@ -4,7 +4,7 @@
 import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
 import type { Bytes, Null } from '../primitive';
 import type { Codec, Constructor } from './codec';
-import type { ICompact, IEnum, INumber, IOption, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
 export type DetectCodec<T extends Codec, K extends string> =
@@ -12,7 +12,7 @@ export type DetectCodec<T extends Codec, K extends string> =
   // it does work (as evident with checkTypes) and is problematic the other way around
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
-    : T extends ICompact | IEnum | INumber | IOption | ISet | IStruct | ITuple | IU8a | IVec
+    : T extends ICompact | IEnum | IMap | IMethod | INumber | IOption | IResult | ISet | IStruct | ITuple | IU8a | IVec
       ? T
       : __ExtractCodec<__ToCodecs<__Tokenize<__Sanitize<K>>[0]>>;
 

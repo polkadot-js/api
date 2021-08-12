@@ -54,7 +54,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
   constructor (registry: Registry, Types: TupleTypes, value?: AnyTuple) {
     const Clazzes = Array.isArray(Types)
-      ? Types.map((type): Constructor => typeToConstructor(registry, type))
+      ? Types.map((t) => typeToConstructor(registry, t))
       : mapToTypeMap(registry, Types);
 
     super(registry, ...decodeTuple(registry, Clazzes, value));

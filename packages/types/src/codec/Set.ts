@@ -18,25 +18,25 @@ function encodeSet (setValues: SetValues, value: string[]): BN {
 
 /** @internal */
 function decodeSetArray (setValues: SetValues, value: string[]): string[] {
-  return value.reduce((result, key): string[] => {
+  return value.reduce<string[]>((result, key): string[] => {
     assert(!isUndefined(setValues[key]), () => `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
     result.push(key);
 
     return result;
-  }, [] as string[]);
+  }, []);
 }
 
 /** @internal */
 function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
   const bn = bnToBn(_value);
-  const result = Object.keys(setValues).reduce((result, key): string[] => {
+  const result = Object.keys(setValues).reduce<string[]>((result, key): string[] => {
     if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
       result.push(key);
     }
 
     return result;
-  }, [] as string[]);
+  }, []);
 
   const computed = encodeSet(setValues, result);
 
@@ -74,7 +74,6 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * An Set is an array of string values, represented an an encoded type by
  * a bitwise representation of the values.
  */
-// FIXME This is a prime candidate to extend the JavaScript built-in Set
 export class CodecSet extends Set<string> implements ISet {
   public readonly registry: Registry;
 
@@ -98,13 +97,12 @@ export class CodecSet extends Set<string> implements ISet {
         super(registry, values, value as undefined, bitLength);
 
         Object.keys(values).forEach((_key): void => {
-          const name = stringUpperFirst(stringCamelCase(_key));
-          const iskey = `is${name}`;
+          const iskey = `is${stringUpperFirst(stringCamelCase(_key))}`;
 
           isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: (): boolean => this.strings.includes(_key)
+              get: () => this.strings.includes(_key)
             });
         });
       }

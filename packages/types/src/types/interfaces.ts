@@ -15,6 +15,8 @@ export interface ICompact<T extends INumber = INumber> extends Codec {
 }
 
 export interface IEnum extends Codec {
+  readonly defIndexes: number[];
+  readonly defKeys: string[];
   readonly index: number;
   readonly isBasic: boolean
   readonly type: string;
@@ -22,6 +24,8 @@ export interface IEnum extends Codec {
 
   toNumber (): number;
 }
+
+export interface IMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V>, Codec {}
 
 export interface INumber extends Codec {
   bitLength (): number;
@@ -40,24 +44,39 @@ export interface IOption<T extends Codec = Codec> extends Codec {
   unwrapOrDefault (): T;
 }
 
-export interface ISet<K extends string = string> extends Set<K>, Codec {
+export interface IResult<O extends Codec = Codec, E extends Codec = Codec> extends IEnum {
+  readonly asErr: E;
+  readonly asOk: O;
+  readonly isErr: boolean;
+  readonly isOk: boolean;
+}
+
+export interface ISet<K = string> extends Set<K>, Codec {
   readonly strings: string[];
   readonly valueEncoded: BN;
 }
 
-export interface IStruct<K extends string | number | symbol = string, V extends Codec = Codec> extends Map<K, V>, Codec {}
+export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>, Codec {
+  readonly defKeys: string[];
 
-// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
-// FIXME Implement this generic <Sub> on Tuple.ts itself.
-export type ITuple<S extends AnyTuple = Codec[]> = S & Codec;
+  getAtIndex (index: number): Codec
+  toArray (): Codec[];
+}
+
+export type ITuple<T extends AnyTuple = Codec[]> = T & Codec;
 
 export interface IU8a extends Uint8Array, Codec {
+  readonly isAscii: boolean;
+
   bitLength (): number;
   toHuman (isExtended?: boolean): any;
   toJSON (): any;
+  toUtf8 (): string;
 }
 
-export interface IVec<S extends Codec = Codec> extends Array<S>, Codec {}
+export interface IVec<T extends Codec = Codec> extends Array<T>, Codec {
+  toArray (): T[];
+}
 
 export interface IKeyringPair {
   readonly address: string;
