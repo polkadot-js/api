@@ -71,12 +71,12 @@ export interface DecodedMessage {
 }
 
 export interface BlueprintOptions {
-  gasLimit?: BigInt | string | number | BN;
+  gasLimit?: bigint | string | number | BN;
   salt?: Uint8Array | string | null;
-  value?: BigInt | string | number | BN;
+  value?: bigint | string | number | BN;
 }
 
 export interface ContractOptions {
-  gasLimit?: BigInt | BN | string | number;
-  value?: BigInt | BN | string | number;
+  gasLimit?: bigint | BN | string | number;
+  value?: bigint | BN | string | number;
 }
