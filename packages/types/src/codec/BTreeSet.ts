@@ -11,7 +11,7 @@ import { compareSet, decodeU8a, sortSet, typeToConstructor } from './utils';
 const l = logger('BTreeSet');
 
 /** @internal */
-function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
+function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
   const types = [];
@@ -30,7 +30,7 @@ function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
+function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
@@ -60,7 +60,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
+function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
   if (!value) {
     return new Set<V>();
   }

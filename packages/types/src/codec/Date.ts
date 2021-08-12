@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyNumber, Codec, Registry } from '../types';
+import type { AnyNumber, INumber, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
@@ -33,7 +33,7 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * and has all the methods available that are applicable to any `Date`
  * @noInheritDoc
  */
-export class CodecDate extends Date implements Codec {
+export class CodecDate extends Date implements INumber {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
