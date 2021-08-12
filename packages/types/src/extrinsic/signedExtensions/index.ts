@@ -23,7 +23,7 @@ export const allExtensions: ExtDef = {
 // This may not match 100% with the current defaults and are used when not specified
 // in the metadata (which is for very old chains). The order is important here, as
 // applied by default
-export const fallbackExtensions: Array<keyof typeof allExtensions> = [
+export const fallbackExtensions = [
   'CheckVersion',
   'CheckGenesis',
   'CheckEra',

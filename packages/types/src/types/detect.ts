@@ -2,110 +2,145 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
-import type { Bytes } from '../primitive';
+import type { Bytes, Null } from '../primitive';
 import type { Codec, Constructor } from './codec';
-import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { ICompact, IEnum, INumber, IOption, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
-export type DetectCodec<T extends Codec, K extends string> = __Expand<__Unspace<K>, T>;
+export type DetectCodec<T extends Codec, K extends string> =
+  // This is weird - it looks the wrong way around (i.e. T check should be done first), however
+  // it does work (as evident with checkTypes) and is problematic the other way around
+  K extends keyof InterfaceTypes
+    ? InterfaceTypes[K]
+    : T extends ICompact | IEnum | INumber | IOption | ISet | IStruct | ITuple | IU8a | IVec
+      ? T
+      : __ExtractCodec<__ToCodecs<__Tokenize<__Sanitize<K>>[0]>>;
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
-// trim leading and trailing spaces
-export type __Unspace<K extends string> =
-  K extends ` ${infer X} ` | ` ${infer X}` | `${infer X} `
-    ? __Unspace<X>
-    : K extends `${infer A} ${infer B}`
-      ? __Unspace<`${A}${B}`>
-      : K;
+export type __ExtractCodec<V extends Codec[]> =
+  V[0] extends Codec
+    ? V[0]
+    : Codec;
 
-export type __Expand<K extends string, T extends Codec = Codec> =
+// trim leading and trailing spaces and unused portions, e.g `...;<length>]`
+export type __Sanitize<K extends string> =
+  K extends ` ${infer X}` | `${infer X} ` | ` ${infer X} `
+    ? __Sanitize<X>
+    : K extends `${infer A} ${infer B}`
+      ? __Sanitize<`${A}${B}`>
+      : K extends `${infer A};${string}]${infer B}`
+        ? __Sanitize<`${A}${B}`>
+        : K extends `${infer X};${string}]`
+          ? __Sanitize<X>
+          : K;
+
+export type __Value = string | Record<string, unknown> | __Value[];
+
+export type __ToCodec<K extends unknown, C extends Codec[], N extends unknown[]> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
-    : T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
-      ? T
-      : __Unwrap<K, T>;
+    : K extends unknown[]
+      ? __ToTuple<__ToCodecs<K>>
+      : K extends Record<string, unknown>
+        ? K['_enum'] extends Record<string, unknown>
+          ? IEnum
+          : K['_set'] extends Record<string, unknown>
+            ? ISet
+            : IStruct
+        : K extends Set<unknown>
+          ? ISet
+          : K extends '['
+            ? N[0] extends 'u8'
+              ? Raw
+              : VecFixed<C[0]>
+            : K extends 'Vec<'
+              ? N[0] extends 'u8'
+                ? Bytes
+                : Vec<C[0]>
+              : K extends 'Option<'
+                ? Option<C[0]>
+                : K extends 'Compact<'
+                  ? C[0] extends INumber
+                    ? Compact<C[0]>
+                    : Codec
+                  : Codec;
 
-// ensure whatever we wrap is always Compact-capable
-export type __Compact<X extends string> = __CompactImpl<__Expand<X>>;
-export type __CompactImpl<T extends Codec> =
-  T extends INumber
-    ? Compact<T>
-    : Codec;
+export type __ToTuple<O extends Codec[]> =
+  O[0] extends Codec
+    ? O[1] extends Codec
+      ? ITuple<O>
+      : O[0]
+    : Null;
 
-// handle option types
-export type __Option<X extends string> = __OptionImpl<__Expand<X>>;
-export type __OptionImpl<T extends Codec> =
-  T extends Codec
-    ? Option<T>
-    : Codec;
+export type __ToCodecsInner<K extends unknown, N extends unknown[], C extends Codec[]> =
+  K extends '[' | 'Vec<' | 'Option<' | 'Compact<'
+    ? C extends [Codec, ...infer X]
+      ? [__ToCodec<K, C, N>, ...X]
+      : never
+    : [__ToCodec<K, C, N>, ...C];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type __Struct<_ extends string> = Codec;
+export type __ToCodecs<T extends unknown[]> =
+  T extends [infer K, ...infer O]
+    ? __ToCodecsInner<K, O, __ToCodecs<O>>
+    : [];
 
-export type __TupleParams<X extends string> =
-  X extends `Vec<${infer A}>,${infer B}`
-    ? [__Vec<A>, ...__TupleParams<B>]
-    : X extends `Vec<${infer A}>`
-      ? [__Vec<A>]
-      : X extends `Option<${infer A}>,${infer B}`
-        ? [__Option<A>, ...__TupleParams<B>]
-        : X extends `Option<${infer A}>`
-          ? [__Option<A>]
-          : X extends `Compact<${infer A}>,${infer B}`
-            ? [__Compact<A>, ...__TupleParams<B>]
-            : X extends `Compact<${infer A}>`
-              ? [__Compact<A>]
-              : X extends `[${infer A}],${infer B}`
-                ? [__VecFixed<A>, ...__TupleParams<B>]
-                : X extends `[${infer A}]`
-                  ? [__VecFixed<A>]
-                  : X extends `{${infer A}},${infer B}`
-                    ? [__Struct<A>, ...__TupleParams<B>]
-                    : X extends `{${infer A}}`
-                      ? [__Struct<A>]
-                      // FIXME This also matches ((x, y), ... as (x, y
-                      : X extends `(${infer A}),${infer B}`
-                        ? [__Tuple<A>, ...__TupleParams<B>]
-                        : X extends `(${infer A})`
-                          ? [__Tuple<A>]
-                          : X extends `${infer A},${infer B}`
-                            ? [__Expand<A>, ...__TupleParams<B>]
-                            : [__Expand<X>];
+export type __RemoveEmpty<T extends string> =
+  T extends ''
+    ? []
+    : [T];
 
-export type __Tuple<X extends string> = __TupleWrap<__TupleParams<X>>;
+export type __Combine<V extends __Value[], I extends string = '', T extends string = ''> =
+  [...V, ...__RemoveEmpty<I>, ...__RemoveEmpty<T>];
 
-export type __TupleWrap<X extends Codec[]> =
-  X[1] extends Codec
-    ? ITuple<X>
-    : X[0];
+export type __CombineInner<V extends __Value[], I extends string, X extends __Value> =
+  [...__RemoveEmpty<I>, ...V, X];
 
-// vec support with short-circuit for u8
-export type __Vec<X extends string> =
-  X extends 'u8'
-    ? Bytes
-    : Vec<__Expand<X>>;
+// TODO At this point structs are fully empty, no field indicators
+export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[], I extends string, R extends string> =
+  __Tokenize<T[1], __CombineInner<V, I,
+  R extends `"_set"${string}`
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    ? { _set: {} }
+    : R extends `"_enum"${string}`
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      ? { _enum: {} }
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      : { data: R }
+  >>;
 
-// fixed vec support
-export type __VecFixed<X extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  X extends `${infer T};${infer _}`
-    ? T extends 'u8'
-      ? Raw
-      : VecFixed<__Expand<T>>
-    : Codec;
+export type __TokenizeTuple<T extends [__Value[], string], V extends __Value[], I extends string> =
+  __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
 
-export type __Unwrap<K extends string, T extends Codec> =
-  K extends `Vec<${infer X}>`
-    ? __Vec<X>
-    : K extends `Option<${infer X}>`
-      ? __Option<X>
-      : K extends `Compact<${infer X}>`
-        ? __Compact<X>
-        : K extends `[${infer X}]`
-          ? __VecFixed<X>
-          : K extends `(${infer X})`
-            ? __Tuple<X>
-            : K extends `{${infer X}}`
-              ? __Struct<X>
-              : T;
+export type __TokenizeWrapper<K extends string, V extends __Value[], I extends string, R extends string> =
+  K extends `${infer X}${R}`
+    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+    : never;
+
+export type __TokenizeKnown<K extends string, V extends __Value[], I extends string, R extends string> =
+  K extends `${infer X}${',' | '>'}${R}`
+    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+    : never;
+
+// NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
+// below, even while we do more matching (Number of characters iterated through is the most problematic)
+export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
+  K extends '' | ')' | '>' | '}'
+    ? [__Combine<V, I>, '']
+    : K extends `${'Vec<' | 'Option<' | 'Compact<'}${infer R}`
+      ? __TokenizeWrapper<K, V, I, R>
+      : K extends `${',' | '>'}${infer R}`
+        ? __Tokenize<R, __Combine<V, I>>
+        : K extends `[${infer R}`
+          ? __Tokenize<R, __Combine<V, I, '['>>
+          : K extends `)${infer R}` | `}${infer R}`
+            ? [__Combine<V, I>, R]
+            : K extends `(${infer R}`
+              ? __TokenizeTuple<__Tokenize<R>, V, I>
+              : K extends `{${infer R}`
+                ? __TokenizeStruct<__Tokenize<R>, V, I, R>
+                : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
+                  ? __TokenizeKnown<K, V, I, R>
+                  : K extends `${infer C}${infer R}`
+                    ? __Tokenize<R, V, `${I}${C}`>
+                    : [__Combine<V, I>, ''];

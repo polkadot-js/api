@@ -12,15 +12,6 @@ import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
-  return getTypeClass(
-    registry,
-    registry.isLookupType(type)
-      ? registry.lookup.getTypeDef(type)
-      : getTypeDef(type)
-  );
-}
-
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
@@ -180,14 +171,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
-  let Type = registry.get<T>(typeDef.type) as Constructor<T> | undefined;
+  let Type = registry.get(typeDef.type);
 
   if (Type) {
-    return Type;
+    return Type as Constructor<T>;
   }
 
   try {
-    Type = infoMapping[typeDef.info](registry, typeDef) as Constructor<T>;
+    Type = infoMapping[typeDef.info](registry, typeDef);
 
     assert(Type, 'No class created');
 
@@ -198,8 +189,17 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeD
       Type.__fallbackType = typeDef.fallbackType;
     }
 
-    return Type;
+    return Type as Constructor<T>;
   } catch (error) {
     throw new Error(`Unable to construct class from ${stringify(typeDef)}: ${(error as Error).message}`);
   }
+}
+
+export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
+  return getTypeClass(
+    registry,
+    registry.isLookupType(type)
+      ? registry.lookup.getTypeDef(type)
+      : getTypeDef(type)
+  );
 }

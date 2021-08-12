@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec, ITuple } from '../types';
+
 import { TypeRegistry } from '../create/registry';
 import { Linkage } from '.';
 
@@ -32,7 +34,7 @@ describe('Linkage', (): void => {
 
     // actual check
     expect(
-      registry.createType(
+      registry.createType<ITuple<[Codec, Linkage<Codec>]>>(
         '(ValidatorPrefsWithCommission, Linkage<AccountId>)',
         '0x0284d7170001da30b68f54f686f586ddb29de12b682dd8bd1404566fb8a8db5dec20aa5b6b36'
       ).toHuman()

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { Codec, Constructor, Registry } from '../types';
+import type { Constructor, ISet, Registry } from '../types';
 
 import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -75,7 +75,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
-export class CodecSet extends Set<string> implements Codec {
+export class CodecSet extends Set<string> implements ISet {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
