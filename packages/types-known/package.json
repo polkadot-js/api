@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types-known",
-  "version": "5.4.2-3",
+  "version": "5.4.2-4",
   "type": "module",
   "description": "Known type definitions",
   "main": "index.js",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.8",
     "@polkadot/networks": "^7.1.1",
-    "@polkadot/types": "5.4.2-3",
+    "@polkadot/types": "5.4.2-4",
     "@polkadot/util": "^7.1.1"
   }
 }
