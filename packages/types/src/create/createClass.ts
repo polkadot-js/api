@@ -171,25 +171,25 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
-  const Type = registry.get(typeDef.type) as unknown;
+  let Type = registry.get(typeDef.type);
 
   if (Type) {
     return Type as Constructor<T>;
   }
 
   try {
-    const Clazz = infoMapping[typeDef.info](registry, typeDef);
+    Type = infoMapping[typeDef.info](registry, typeDef);
 
-    assert(Clazz, 'No class created');
+    assert(Type, 'No class created');
 
     // don't clobber any existing
-    if (!Clazz.__fallbackType && typeDef.fallbackType) {
+    if (!Type.__fallbackType && typeDef.fallbackType) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore ...this is the only place we we actually assign this...
       Type.__fallbackType = typeDef.fallbackType;
     }
 
-    return Clazz as Constructor<T>;
+    return Type as Constructor<T>;
   } catch (error) {
     throw new Error(`Unable to construct class from ${stringify(typeDef)}: ${(error as Error).message}`);
   }
