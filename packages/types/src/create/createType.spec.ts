@@ -149,7 +149,7 @@ describe('createType', (): void => {
 
     it('correctly decodes [u16; 4]', (): void => {
       expect(
-        registry.createType('[u16; 4]', ['0x0012002300450067'], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('[u16; 4]', ['0x0012002300450067'], { isPedantic: true }).toHex()
       ).toEqual('0x0012002300450067');
     });
   });
@@ -180,12 +180,12 @@ describe('createType', (): void => {
         }
       });
 
-      const value = registry.createType('TestComplex', [{
+      const value = registry.createType('TestComplex', {
         accountId: '0x1234567812345678123456781234567812345678123456781234567812345678',
         balance: 123,
         fromSrml: 0,
         log: [456, 789]
-      }]);
+      });
 
       expect(value instanceof createClass(registry, 'TestComplex')).toBe(true);
     });

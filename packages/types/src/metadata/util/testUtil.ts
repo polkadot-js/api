@@ -74,7 +74,7 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
         it(location, (): void => {
           expect((): void => {
             try {
-              const type = registry.createType<Codec>(inner, hexToU8a(fallback.toHex()));
+              const type = registry.createType(inner, hexToU8a(fallback.toHex()));
 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
