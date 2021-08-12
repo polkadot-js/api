@@ -40,25 +40,31 @@ export type __Value = string | Record<string, unknown> | __Value[];
 export type __ToCodec<K extends unknown, C extends Codec[], N extends unknown[]> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
-    : K extends Record<string, unknown>
-      ? IStruct
-      : K extends unknown[]
-        ? __ToTuple<__ToCodecs<K>>
-        : K extends '['
-          ? N[0] extends 'u8'
-            ? Raw
-            : VecFixed<C[0]>
-          : K extends 'Vec<'
+    : K extends unknown[]
+      ? __ToTuple<__ToCodecs<K>>
+      : K extends Record<string, unknown>
+        ? K['_enum'] extends Record<string, unknown>
+          ? IEnum
+          : K['_set'] extends Record<string, unknown>
+            ? ISet
+            : IStruct
+        : K extends Set<unknown>
+          ? ISet
+          : K extends '['
             ? N[0] extends 'u8'
-              ? Bytes
-              : Vec<C[0]>
-            : K extends 'Option<'
-              ? Option<C[0]>
-              : K extends 'Compact<'
-                ? C[0] extends INumber
-                  ? Compact<C[0]>
-                  : Codec
-                : Codec;
+              ? Raw
+              : VecFixed<C[0]>
+            : K extends 'Vec<'
+              ? N[0] extends 'u8'
+                ? Bytes
+                : Vec<C[0]>
+              : K extends 'Option<'
+                ? Option<C[0]>
+                : K extends 'Compact<'
+                  ? C[0] extends INumber
+                    ? Compact<C[0]>
+                    : Codec
+                  : Codec;
 
 export type __ToTuple<O extends Codec[]> =
   O[0] extends Codec
@@ -91,9 +97,17 @@ export type __CombineInner<V extends __Value[], I extends string, X extends __Va
   [...__RemoveEmpty<I>, ...V, X];
 
 // TODO At this point structs are fully empty, no field indicators
-export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[], I extends string> =
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  __Tokenize<T[1], __CombineInner<V, I, {}>>;
+export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[], I extends string, R extends string> =
+  __Tokenize<T[1], __CombineInner<V, I,
+  R extends `"_set"${string}`
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    ? { _set: {} }
+    : R extends `"_enum"${string}`
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      ? { _enum: {} }
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      : { data: R }
+  >>;
 
 export type __TokenizeTuple<T extends [__Value[], string], V extends __Value[], I extends string> =
   __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
@@ -124,7 +138,7 @@ export type __Tokenize<K extends string, V extends __Value[] = [], I extends str
             : K extends `(${infer R}`
               ? __TokenizeTuple<__Tokenize<R>, V, I>
               : K extends `{${infer R}`
-                ? __TokenizeStruct<__Tokenize<R>, V, I>
+                ? __TokenizeStruct<__Tokenize<R>, V, I, R>
                 : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
                   ? __TokenizeKnown<K, V, I, R>
                   : K extends `${infer C}${infer R}`

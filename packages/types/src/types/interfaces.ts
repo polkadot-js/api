@@ -15,10 +15,10 @@ export interface ICompact<T extends INumber = INumber> extends Codec {
 }
 
 export interface IEnum extends Codec {
-  index: number;
-  isBasic: boolean
-  type: string;
-  value: Codec;
+  readonly index: number;
+  readonly isBasic: boolean
+  readonly type: string;
+  readonly value: Codec;
 
   toNumber (): number;
 }
@@ -31,16 +31,19 @@ export interface INumber extends Codec {
 }
 
 export interface IOption<T extends Codec = Codec> extends Codec {
-  isNone: boolean;
-  isSome: boolean;
-  value: Codec;
+  readonly isNone: boolean;
+  readonly isSome: boolean;
+  readonly value: Codec;
 
   unwrap (): T;
   unwrapOr <O>(other: O): T | O;
   unwrapOrDefault (): T;
 }
 
-export interface ISet<K extends string = string> extends Set<K>, Codec {}
+export interface ISet<K extends string = string> extends Set<K>, Codec {
+  readonly strings: string[];
+  readonly valueEncoded: BN;
+}
 
 export interface IStruct<K extends string | number | symbol = string, V extends Codec = Codec> extends Map<K, V>, Codec {}
 
@@ -57,9 +60,9 @@ export interface IU8a extends Uint8Array, Codec {
 export interface IVec<S extends Codec = Codec> extends Array<S>, Codec {}
 
 export interface IKeyringPair {
-  address: string;
-  addressRaw: Uint8Array;
-  publicKey: Uint8Array;
+  readonly address: string;
+  readonly addressRaw: Uint8Array;
+  readonly publicKey: Uint8Array;
 
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }

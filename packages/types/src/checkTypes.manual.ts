@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecSet, Compact, Option } from './codec';
+import type { Compact, Option } from './codec';
 import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces';
 import type { Bytes, u32 } from './primitive';
 import type { IOption, ITuple } from './types';
@@ -49,14 +49,19 @@ const vv = registry.createType('Vec< Vec< Vec< Vec<u8>> > >');
 const vt = registry.createType('Vec<(u8, u16)>');
 // nested stuff from all-over
 const vn = registry.createType('Vec<(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8;32], [u128;32])>');
-// tuple & struct
-const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"},(u8,u16),{"foo":"Bar"},u16)');
 // nested fixed
 const nf = registry.createType('[[[u8;32];5];3]');
-// set!
-const st = registry.createType<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]);
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && vs.toHuman() && nf.toHuman() && st.strings, 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn.toHuman() && vt.toHuman() && nf.toHuman(), 'All ok');
+
+// tuple & struct
+const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"},(u8,u16),{"foo":"Bar"},u16)');
+// set
+const st = registry.createType('{"_set": { "A": 1, "B": 2, "C": 4 } }');
+// enum
+const en = registry.createType('{"_enum": { "A": 1, "B": 2, "C": 4 } }');
+
+assert(vs.toHuman() && st.strings && en.index, 'All ok');
 
 // Should end up as Raw
 const gg = registry.createType('[ u8   ;678]');
