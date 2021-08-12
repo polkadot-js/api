@@ -10,7 +10,11 @@ import type { InterfaceTypes } from './registry';
 export type DetectCodec<T extends Codec | undefined, K extends string> =
   T extends Codec
     ? T
-    : __ToCodecs<__Tokenize<__Sanitize<K>>[0]>[0];
+    : __ToCodecs<__Tokenize<__Sanitize<K>>[0]> extends [infer V]
+      ? V extends Codec
+        ? V
+        : Codec
+      : Codec;
 
 export type DetectConstructor<T extends Codec | undefined, K extends string> = Constructor<DetectCodec<T, K>>;
 
@@ -90,31 +94,35 @@ type __TokenizeStruct<T extends [__Values, string], V extends __Values, I extend
 type __TokenizeTuple<T extends [__Values, string], V extends __Values, I extends string> =
   __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
 
+type __TokenizeWrapper<K extends string, V extends __Values, I extends string, R extends string> =
+  K extends `${infer X}${R}`
+    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+    : never;
+
+type __TokenizeKnown<K extends string, V extends __Values, I extends string, R extends string> =
+  K extends `${infer X}${',' | '>'}${R}`
+    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+    : never;
+
 // NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 type __Tokenize<K extends string, V extends __Values = [], I extends string = ''> =
   K extends '' | ')' | '>' | '}'
     ? [__Combine<V, I>, '']
-    : K extends `${keyof InterfaceTypes}`
-      ? [__Combine<V, `${I}${K}`>, '']
-      : K extends `${keyof InterfaceTypes},${infer R}`
-        ? K extends `${infer X},${R}`
-          ? __Tokenize<`,${R}`, V, `${I}${X}`>
-          : never
-        : K extends `,${infer R}` | `>${infer R}`
+    : K extends `${'Vec<' | 'Option<' | 'Compact<'}${infer R}`
+      ? __TokenizeWrapper<K, V, I, R>
+      : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
+        ? __TokenizeKnown<K, V, I, R>
+        : K extends `${',' | '>'}${infer R}`
           ? __Tokenize<R, __Combine<V, I>>
-          : K extends `<${infer R}`
-            ? __Tokenize<R, __Combine<V, `${I}<`>>
-            : K extends `[${infer R}`
-              ? __Tokenize<R, __Combine<V, I, '['>>
-              : K extends `)${infer R}` | `}${infer R}`
-                ? [__Combine<V, I>, R]
-                : K extends `(${infer R}`
-                  ? __TokenizeTuple<__Tokenize<R>, V, I>
-                  : K extends `{${infer R}`
-                    ? __TokenizeStruct<__Tokenize<R>, V, I>
-                    : K extends `${infer C}${infer R}`
-                      ? __Tokenize<R, V, `${I}${C}`>
-                      : [__Combine<V, I>, ''];
-
-export type Test01 = __Tokenize<__Sanitize<'(Vec<ValidatorIndex>,CompactAssignmentsTo257,PhragmenScore,EraIndex)'>>;
+          : K extends `[${infer R}`
+            ? __Tokenize<R, __Combine<V, I, '['>>
+            : K extends `)${infer R}` | `}${infer R}`
+              ? [__Combine<V, I>, R]
+              : K extends `(${infer R}`
+                ? __TokenizeTuple<__Tokenize<R>, V, I>
+                : K extends `{${infer R}`
+                  ? __TokenizeStruct<__Tokenize<R>, V, I>
+                  : K extends `${infer C}${infer R}`
+                    ? __Tokenize<R, V, `${I}${C}`>
+                    : [__Combine<V, I>, ''];

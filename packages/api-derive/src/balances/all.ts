@@ -73,7 +73,8 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
   // Calculate the vesting balances,
   //  - offset = balance locked at startingBlock
   //  - perBlock is the unlock amount
-  const { locked: vestingTotal, perBlock, startingBlock } = vesting || api.registry.createType('VestingInfo');
+  const emptyVest = api.registry.createType('VestingInfo');
+  const { locked: vestingTotal, perBlock, startingBlock } = vesting || emptyVest;
   const isStarted = bestNumber.gt(startingBlock);
   const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
   const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
@@ -143,7 +144,14 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
     map(([optVesting, ...locks]): ResultBalance => {
       let offset = -1;
 
-      return [optVesting.unwrapOr(null), lockEmpty.map((e) => e ? api.registry.createType('Vec<BalanceLock>') : locks[++offset])];
+      return [
+        optVesting.unwrapOr(null),
+        lockEmpty.map((e) =>
+          e
+            ? api.registry.createType<Vec<BalanceLock>>('Vec<BalanceLock>')
+            : locks[++offset]
+        )
+      ];
     })
   );
 }

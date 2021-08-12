@@ -29,9 +29,10 @@ assert(oo0.divn(123) && [...oo1.values()] && oo2[6].isAscii && oo3.divn(3) && oo
 const aa0 = registry.createType(' AccountId');
 const aa1 = registry.createType('BlockAttestations');
 const aa2 = registry.createType('ExtrinsicEra');
-const aa3 = registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)');
+const aa3 = registry.createType('VestingInfo');
+const aa4 = registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)');
 
-assert(aa0.isAscii && aa1.receipt && aa2.isMortalEra && aa3[3].toNumber(), 'All ok');
+assert(aa0.isAscii && aa1.receipt && aa2.isMortalEra && aa3.toHuman() && aa4[3].toNumber(), 'All ok');
 
 // Should be Codec, we don't know this one
 const bb = registry.createType('Something');
@@ -70,7 +71,7 @@ const tt1 = registry.createType('(u32, Compact<u64>,    u128  , Something)');
 // unwraps into a u32
 const tt2 = registry.createType('(((u32)))');
 // lots and lots of params (indicates recursion limit)
-const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,u8,u16,u32,u64)');
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256)');
 // empty
 const tt5 = registry.createType('()');
 // nested tuples

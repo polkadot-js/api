@@ -38,7 +38,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): DetectCodec<T, K> {
+function initType<T extends Codec | undefined = undefined, K extends string = string> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): DetectCodec<T, K> {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -54,14 +54,14 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
+export function createTypeUnsafe<T extends Codec | undefined = undefined, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
   let Clazz: Constructor | null = null;
   let firstError: Error | null = null;
 
   try {
     Clazz = createClass<T, K>(registry, type);
 
-    return initType(registry, Clazz, params, options);
+    return initType<T, K>(registry, Clazz, params, options);
   } catch (error) {
     firstError = new Error(`createType(${type}):: ${(error as Error).message}`);
   }
@@ -70,7 +70,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     try {
       Clazz = createClass<T, K>(registry, Clazz.__fallbackType as unknown as K);
 
-      return initType(registry, Clazz, params, options);
+      return initType<T, K>(registry, Clazz, params, options);
     } catch {
       // swallow, we will throw the first error again
     }
@@ -85,6 +85,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
+export function createType<T extends Codec | undefined = undefined, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
   return createTypeUnsafe<T, K>(registry, type, params);
 }

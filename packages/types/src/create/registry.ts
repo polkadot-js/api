@@ -255,7 +255,7 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends | undefined = undefined, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
+  public createTypeUnsafe <T extends Codec | undefined = undefined, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
     return createTypeUnsafe(this, type, params, options);
   }
 
