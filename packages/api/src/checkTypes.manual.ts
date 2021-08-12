@@ -183,7 +183,7 @@ function types (api: ApiPromise): void {
   const compact = registry.createType('Compact<u32>', 2);
   // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
-  const gasUnsafe = registry.createType('Gas', [2]);
+  const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { CodecSet, Int } from '../codec';
-import { createClass, createTypeUnsafe, TypeRegistry } from '.';
+import { createClass, TypeRegistry } from '.';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();
@@ -27,7 +27,7 @@ describe('createType', (): void => {
 
   it('allows creation of a Struct', (): void => {
     const raw = '{"balance":"Balance","index":"u32"}';
-    const struct = registry.createType(raw, [{
+    const struct = registry.createTypeUnsafe(raw, [{
       balance: 1234,
       index: '0x10'
     }]);
@@ -41,49 +41,49 @@ describe('createType', (): void => {
 
   it('allows creation of a BTreeMap', (): void => {
     expect(
-      registry.createType('BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
+      registry.createTypeUnsafe('BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
     ).toEqual('{"bazzing":69}');
   });
 
   it('allows creation of a BTreeSet', (): void => {
     expect(
-      registry.createType('BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
+      registry.createTypeUnsafe('BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
     ).toEqual('[2,24,30,80]');
   });
 
   it('allows creation of a Enum (simple)', (): void => {
     expect(
-      registry.createType('{"_enum": ["A", "B", "C"]}', [1]).toJSON()
+      registry.createTypeUnsafe('{"_enum": ["A", "B", "C"]}', [1]).toJSON()
     ).toEqual('B');
   });
 
   it('allows creation of a Enum (with types)', (): void => {
     expect(
-      registry.createType('{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
+      registry.createTypeUnsafe('{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
     ).toEqual({ b: 0 });
   });
 
   it('allows creation of a Enum (with indexes)', (): void => {
     expect(
-      registry.createType('{"_enum": {"A": 42, "B": 69, "C": 255} }', [69]).toJSON()
+      registry.createTypeUnsafe('{"_enum": {"A": 42, "B": 69, "C": 255} }', [69]).toJSON()
     ).toEqual('B');
   });
 
   it('allows creation of a Result', (): void => {
     expect(
-      registry.createType('Result<u32,Text>', ['0x011064656667']).toJSON()
+      registry.createTypeUnsafe('Result<u32,Text>', ['0x011064656667']).toJSON()
     ).toEqual({ err: 'defg' });
   });
 
   it('allows creation of a Set', (): void => {
     expect(
-      createTypeUnsafe<CodecSet>(registry, '{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
+      registry.createTypeUnsafe<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
     ).toEqual(['A', 'C', 'E', 'H']);
   });
 
   it('allows creation of a Tuple', (): void => {
     expect(
-      registry.createType('(Balance,u32)', [[1234, 5678]]).toJSON()
+      registry.createTypeUnsafe('(Balance,u32)', [[1234, 5678]]).toJSON()
     ).toEqual([
       1234, // '0x000000000000000000000000000004d2',
       5678
@@ -112,38 +112,38 @@ describe('createType', (): void => {
 
   it('allows creation of a [u8; 8]', (): void => {
     expect(
-      registry.createType('[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()
+      registry.createTypeUnsafe('[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()
     ).toEqual('0x1200230045006700');
   });
 
   it('allows creation of a [u16; 4]', (): void => {
     expect(
-      registry.createType('[u16; 4]', [[0x1200, 0x2300, 0x4500, 0x6700]]).toU8a()
+      registry.createTypeUnsafe('[u16; 4]', [[0x1200, 0x2300, 0x4500, 0x6700]]).toU8a()
     ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
   });
 
   describe('isPedantic', (): void => {
     it('correctly decodes Bytes', (): void => {
       expect(
-        registry.createType('Bytes', ['0x12345678'], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('Bytes', ['0x12345678'], { isPedantic: true }).toHex()
       ).toEqual('0x12345678');
     });
 
     it('correctly decodes Bytes (prefixed)', (): void => {
       expect(
-        registry.createType('Bytes', [new Uint8Array([4 << 2, 0x12, 0x34, 0x56, 0x78])], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('Bytes', [new Uint8Array([4 << 2, 0x12, 0x34, 0x56, 0x78])], { isPedantic: true }).toHex()
       ).toEqual('0x12345678');
     });
 
     it('correctly decodes Text', (): void => {
       expect(
-        registry.createType('Text', ['0x70726f7669646572'], { isPedantic: true }).toString()
+        registry.createTypeUnsafe('Text', ['0x70726f7669646572'], { isPedantic: true }).toString()
       ).toEqual('provider');
     });
 
     it('correctly decodes Type', (): void => {
       expect(
-        registry.createType('Type', ['0x5665633c75383e'], { isPedantic: true }).toString()
+        registry.createTypeUnsafe('Type', ['0x5665633c75383e'], { isPedantic: true }).toString()
       ).toEqual('Bytes'); // Vec<u8> -> Bytes
     });
 

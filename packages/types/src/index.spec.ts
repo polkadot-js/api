@@ -34,7 +34,7 @@ function testTypes (type: string, typeNames: string[]): void {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name}`, (): void => {
           const constructFn = (): Codec =>
-            registry.createType<Codec>(name);
+            registry.createType(name);
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();
@@ -49,7 +49,7 @@ function testTypes (type: string, typeNames: string[]): void {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {
           const constructFn = (): Codec =>
-            registry.createType(name, [registry.createType('Bytes')]);
+            registry.createType(name, registry.createType('Bytes'));
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();

@@ -573,7 +573,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
         result.map(([blockHash, [value]]): [Hash, Codec] => [
           blockHash,
-          this.createType<Codec>(outputType, value.isSome ? value.unwrap().toHex() : undefined)
+          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
         ])
       ));
   }

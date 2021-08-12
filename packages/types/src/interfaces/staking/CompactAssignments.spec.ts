@@ -181,15 +181,15 @@ describe('CompactAssignments', (): void => {
 
   it('has a valid vote1 ([Type; <number>] equivalency)', (): void => {
     expect(test.votes1.toHex()).toEqual(
-      registry.createType('Vec<(u32, u16)>', [[
+      registry.createType('Vec<(u32, u16)>', [
         [1, 3]
-      ]]).toHex()
+      ]).toHex()
     );
   });
 
   it('hash valid vote2 (actual tuple values)', (): void => {
     expect(test.votes2.toHex()).toEqual(
-      registry.createType('Vec<(u32, [(u16, u16); 1], u16)>', [votes2]).toHex()
+      registry.createType('Vec<(u32, [(u16, u16); 1], u16)>', votes2).toHex()
     );
   });
 
@@ -199,7 +199,7 @@ describe('CompactAssignments', (): void => {
 
   it('decodes an actual solution from the chain', (): void => {
     expect(
-      registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)', [ACTUAL]).toHex()
+      registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)', ACTUAL).toHex()
     ).toEqual(ACTUAL);
   });
 });
