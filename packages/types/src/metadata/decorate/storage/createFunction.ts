@@ -30,7 +30,7 @@ interface IterFn {
   meta: StorageEntryMetadataLatest;
 }
 
-type Arg = boolean | string | number | null | BN | BigInt | Uint8Array | Codec;
+type Arg = boolean | string | number | null | BN | bigint | Uint8Array | Codec;
 
 /** @internal */
 function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: Type[], hashers: StorageHasher[], args: Arg[]): Uint8Array {

@@ -9,7 +9,7 @@ export type AnyJson = string | number | boolean | null | undefined | AnyJson[] |
 
 export type AnyFunction = (...args: any[]) => any;
 
-export type AnyNumber = BN | BigInt | Uint8Array | number | string;
+export type AnyNumber = BN | bigint | Uint8Array | number | string;
 
 export type AnyString = string | string;
 

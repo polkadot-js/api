@@ -17,7 +17,7 @@ const MAX_2BYTE = new BN(1).shln(16);
 const MAX_4BYTE = new BN(1).shln(32);
 
 /** @internal */
-function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | number | string {
+function decodeAccountIndex (value: AnyNumber): BN | bigint | Uint8Array | number | string {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   if (value instanceof GenericAccountIndex) {
     // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
