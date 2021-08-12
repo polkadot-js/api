@@ -10,10 +10,14 @@ import type { InterfaceTypes } from './registry';
 export type DetectCodec<T extends Codec | undefined, K extends string> =
   T extends Codec
     ? T
-    : __ToCodecs<__Tokenize<__Sanitize<K>>[0]> extends [infer V]
-      ? V extends Codec
-        ? V
-        : Codec
+    : __Sanitize<K> extends `${infer S}`
+      ? S extends keyof InterfaceTypes
+        ? InterfaceTypes[S]
+        : __ToCodecs<__Tokenize<S>[0]> extends [infer V]
+          ? V extends Codec
+            ? V
+            : Codec
+          : Codec
       : Codec;
 
 export type DetectConstructor<T extends Codec | undefined, K extends string> = Constructor<DetectCodec<T, K>>;
