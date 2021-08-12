@@ -6,7 +6,7 @@ import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { Tuple } from '../codec/Tuple';
 
 /**
- * @name Result
+ * @name Range
  * @description
  * Rust `Range<T>` representation
  */
