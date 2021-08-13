@@ -10,5 +10,5 @@ import { Int } from '../codec/Int';
  */
 export class i16 extends Int.with(16) {
   // NOTE without this, we cannot properly determine extensions
-  public readonly __IntType = 'u16';
+  public readonly __IntType = 'i16';
 }

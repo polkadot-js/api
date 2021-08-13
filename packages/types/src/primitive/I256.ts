@@ -10,5 +10,5 @@ import { Int } from '../codec/Int';
  */
 export class i256 extends Int.with(256) {
   // NOTE without this, we cannot properly determine extensions
-  public readonly __IntType = 'u256';
+  public readonly __IntType = 'i256';
 }
