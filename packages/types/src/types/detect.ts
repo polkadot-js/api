@@ -14,11 +14,11 @@ export type DetectCodec<T extends Codec, K extends string> =
     ? InterfaceTypes[K]
     : T extends ICompact | IEnum | IMap | IMethod | INumber | IOption | IResult | ISet | IStruct | ITuple | IU8a | IVec
       ? T
-      : __ExtractCodec<__ToCodecs<__Tokenize<__Sanitize<K>>[0]>>;
+      : __Codec<__Codecs<__Tokenize<__Sanitize<K>>[0]>>;
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
-export type __ExtractCodec<V extends Codec[]> =
+export type __Codec<V extends Codec[]> =
   V[0] extends Codec
     ? V[0]
     : Codec;
@@ -73,33 +73,35 @@ export type __ToTuple<O extends Codec[]> =
       : O[0]
     : Null;
 
-export type __ToCodec<K extends unknown, C extends Codec[]> =
+export type __CodecFirst<K extends unknown, C extends Codec[], X extends unknown[]> = [
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
     : K extends unknown[]
-      ? __ToTuple<__ToCodecs<K>>
+      ? __ToTuple<__Codecs<K>>
       : K extends Record<string, unknown>
         ? __ToStruct<K>
         : K extends __WrapOne
           ? __MapWrapOne<C[0]>[K]
           : K extends __WrapTwo
             ? __MapWrapTwo<C[0], C[1]>[K]
-            : Codec;
+            : Codec,
+  ...X
+];
 
-export type __ToCodecsInner<K extends unknown, C extends Codec[]> =
+export type __CodecsNext<K extends unknown, C extends Codec[]> =
   K extends __WrapOne
     ? C extends [Codec, ...infer X]
-      ? [__ToCodec<K, C>, ...X]
+      ? __CodecFirst<K, C, X>
       : never
     : K extends __WrapTwo
       ? C extends [Codec, Codec, ...infer X]
-        ? [__ToCodec<K, C>, ...X]
+        ? __CodecFirst<K, C, X>
         : never
-      : [__ToCodec<K, C>, ...C];
+      : __CodecFirst<K, C, C>;
 
-export type __ToCodecs<T extends unknown[]> =
+export type __Codecs<T extends unknown[]> =
   T extends [infer K, ...infer N]
-    ? __ToCodecsInner<K, __ToCodecs<N>>
+    ? __CodecsNext<K, __Codecs<N>>
     : [];
 
 export type __Combine<V extends __Value[], I extends string> =
