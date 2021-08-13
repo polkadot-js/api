@@ -53,7 +53,6 @@ export interface IResult<O extends Codec = Codec, E extends Codec = Codec> exten
 
 export interface ISet<K = string> extends Set<K>, Codec {
   readonly strings: string[];
-  readonly valueEncoded: BN;
 }
 
 export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>, Codec {
