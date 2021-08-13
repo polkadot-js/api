@@ -27,8 +27,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
     "@babel/core": "^7.15.0",
-    "@babel/register": "^7.14.5",
-    "@babel/runtime": "^7.14.8",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.15.3",
     "@polkadot/api": "5.4.2-5",
     "@polkadot/rpc-provider": "5.4.2-5",
     "@polkadot/types": "5.4.2-5",

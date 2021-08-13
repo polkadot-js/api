@@ -1345,9 +1345,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/register@npm:^7.14.5":
-  version: 7.14.5
-  resolution: "@babel/register@npm:7.14.5"
+"@babel/register@npm:^7.14.5, @babel/register@npm:^7.15.3":
+  version: 7.15.3
+  resolution: "@babel/register@npm:7.15.3"
   dependencies:
     clone-deep: ^4.0.1
     find-cache-dir: ^2.0.0
@@ -1356,16 +1356,16 @@ __metadata:
     source-map-support: ^0.5.16
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: 5fab2384f5e3588cf5978312997afcc4cabcfc519eb6db7ebe3c5e704dc7faa7eef691b6939bc086937f732cdfbba028ea3fec0bdc23c41f19443bea13135a97
+  checksum: 7da9d0399baebe6a5e517abd864cb22eef17d608e893d4f3b95d10411f0038b2b39c954fc611da9c3dc3d87427b8bdb45a576b1528100e65b36c1e9ad31987ca
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.8.4":
-  version: 7.14.8
-  resolution: "@babel/runtime@npm:7.14.8"
+"@babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.15.3, @babel/runtime@npm:^7.8.4":
+  version: 7.15.3
+  resolution: "@babel/runtime@npm:7.15.3"
   dependencies:
     regenerator-runtime: ^0.13.4
-  checksum: d2dd0ce51ddab78ac93928b04042425145d0dc8cc2b70150d47934f8703f55702eb0b2894f9bd47f66794ad04d8bb03a6a847d0138fbb7aa0b970b5ccd5cc8b7
+  checksum: 2f0b8d2d4e36035ab1d84af0ec26aafa098536870f27c8e07de0a0e398f7a394fdea68a88165535ffb52ded6a68912bdc3450bdf91f229eb132e1c89470789f5
   languageName: node
   linkType: hard
 
@@ -1866,7 +1866,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/api": 5.4.2-5
     "@polkadot/types": 5.4.2-5
     "@polkadot/util": ^7.1.1
@@ -1878,7 +1878,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/api": 5.4.2-5
     "@polkadot/keyring": ^7.1.1
     "@polkadot/rpc-core": 5.4.2-5
@@ -1894,7 +1894,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/api-derive": 5.4.2-5
     "@polkadot/keyring": ^7.1.1
     "@polkadot/rpc-core": 5.4.2-5
@@ -1908,9 +1908,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.58":
-  version: 0.62.58
-  resolution: "@polkadot/dev@npm:0.62.58"
+"@polkadot/dev@npm:^0.62.59":
+  version: 0.62.59
+  resolution: "@polkadot/dev@npm:0.62.59"
   dependencies:
     "@babel/cli": ^7.14.8
     "@babel/core": ^7.15.0
@@ -1997,7 +1997,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: 10dfbc5b2afa1131a6643b69777e13c9d298a6e15c743a475f2eaa4849e44372cd22672ad838010a31cd7b0428ac5326f4dd6a75dbf9c3864c1044e858416a63
+  checksum: 2955f2b907bd23447b98f3b567284cb994ad0f75b6564286dfa96d90b072fc58ca7333865768a76c887e31ead100e4b9f6da476c90046d7ac38b40f4110a091e
   languageName: node
   linkType: hard
 
@@ -2028,7 +2028,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.1.1
     "@polkadot/rpc-provider": 5.4.2-5
     "@polkadot/types": 5.4.2-5
@@ -2041,7 +2041,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.1.1
     "@polkadot/types": 5.4.2-5
     "@polkadot/util": ^7.1.1
@@ -2069,8 +2069,8 @@ __metadata:
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
     "@babel/core": ^7.15.0
-    "@babel/register": ^7.14.5
-    "@babel/runtime": ^7.14.8
+    "@babel/register": ^7.15.3
+    "@babel/runtime": ^7.15.3
     "@polkadot/api": 5.4.2-5
     "@polkadot/rpc-provider": 5.4.2-5
     "@polkadot/types": 5.4.2-5
@@ -2094,7 +2094,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/networks": ^7.1.1
     "@polkadot/types": 5.4.2-5
     "@polkadot/util": ^7.1.1
@@ -2105,7 +2105,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/util": ^7.1.1
   languageName: unknown
   linkType: soft
@@ -2114,7 +2114,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.1.1
     "@polkadot/types-support": 5.4.2-5
     "@polkadot/util": ^7.1.1
@@ -9624,9 +9624,9 @@ resolve@^2.0.0-next.3:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/core": ^7.15.0
-    "@babel/register": ^7.14.5
-    "@babel/runtime": ^7.14.8
-    "@polkadot/dev": ^0.62.58
+    "@babel/register": ^7.15.3
+    "@babel/runtime": ^7.15.3
+    "@polkadot/dev": ^0.62.59
     "@polkadot/ts": ^0.4.4
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^26.0.24
