@@ -8,4 +8,7 @@ import { UInt } from '../codec/UInt';
  * @description
  * An 8-bit unsigned integer
  */
-export class u8 extends UInt.with(8) {}
+export class u8 extends UInt.with(8) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __UIntType = 'u8';
+}

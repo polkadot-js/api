@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
-import type { Bytes, Null } from '../primitive';
+import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Raw, Struct, Vec, VecFixed } from '../codec';
+import type { Bytes, Null, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
@@ -14,11 +14,11 @@ export type DetectCodec<T extends Codec, K extends string> =
     ? InterfaceTypes[K]
     : T extends ICompact | IEnum | IMap | IMethod | INumber | IOption | IResult | ISet | IStruct | ITuple | IU8a | IVec
       ? T
-      : __ExtractCodec<__ToCodecs<__Tokenize<__Sanitize<K>>[0]>>;
+      : __Codec<__Codecs<__Tokenize<__Sanitize<K>>[0]>>;
 
 export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
-export type __ExtractCodec<V extends Codec[]> =
+export type __Codec<V extends Codec[]> =
   V[0] extends Codec
     ? V[0]
     : Codec;
@@ -37,34 +37,34 @@ export type __Sanitize<K extends string> =
 
 export type __Value = string | Record<string, unknown> | __Value[];
 
-export type __ToCodec<K extends unknown, C extends Codec[], N extends unknown[]> =
-  K extends keyof InterfaceTypes
-    ? InterfaceTypes[K]
-    : K extends unknown[]
-      ? __ToTuple<__ToCodecs<K>>
-      : K extends Record<string, unknown>
-        ? K['_enum'] extends Record<string, unknown>
-          ? IEnum
-          : K['_set'] extends Record<string, unknown>
-            ? ISet
-            : IStruct
-        : K extends Set<unknown>
-          ? ISet
-          : K extends '['
-            ? N[0] extends 'u8'
-              ? Raw
-              : VecFixed<C[0]>
-            : K extends 'Vec<'
-              ? N[0] extends 'u8'
-                ? Bytes
-                : Vec<C[0]>
-              : K extends 'Option<'
-                ? Option<C[0]>
-                : K extends 'Compact<'
-                  ? C[0] extends INumber
-                    ? Compact<C[0]>
-                    : Codec
-                  : Codec;
+export type __MapWrapOne<C extends Codec> = {
+  'BTreeSet<': BTreeSet<C>;
+  'Compact<': C extends INumber ? Compact<C> : Codec;
+  'Linkage<': Linkage<C>;
+  'Option<': Option<C>;
+  'Vec<': C extends u8 ? Bytes : Vec<C>;
+  '[': C extends u8 ? Raw : VecFixed<C>;
+};
+
+// FIXME We don't cater for Int< & UInt< here. These could be problematic, since it has
+// a variable number of inner arguments, better would be to just strip them inside the sanitize
+export type __MapWrapTwo<K extends Codec, V extends Codec> = {
+  'BTreeMap<': BTreeMap<K, V>;
+  'HashMap<': HashMap<K, V>;
+};
+
+export type __WrapOne = keyof __MapWrapOne<Codec>;
+
+export type __WrapTwo = keyof __MapWrapTwo<Codec, Codec>;
+
+export type __Wrap = __WrapOne | __WrapTwo;
+
+export type __ToStruct<K extends Record<string, unknown>> =
+  K['_enum'] extends true
+    ? Enum
+    : K['_set'] extends true
+      ? CodecSet
+      : Struct;
 
 export type __ToTuple<O extends Codec[]> =
   O[0] extends Codec
@@ -73,48 +73,64 @@ export type __ToTuple<O extends Codec[]> =
       : O[0]
     : Null;
 
-export type __ToCodecsInner<K extends unknown, N extends unknown[], C extends Codec[]> =
-  K extends '[' | 'Vec<' | 'Option<' | 'Compact<'
-    ? C extends [Codec, ...infer X]
-      ? [__ToCodec<K, C, N>, ...X]
-      : never
-    : [__ToCodec<K, C, N>, ...C];
+export type __CodecFirst<K extends unknown, C extends Codec[], X extends unknown[]> = [
+  K extends keyof InterfaceTypes
+    ? InterfaceTypes[K]
+    : K extends unknown[]
+      ? __ToTuple<__Codecs<K>>
+      : K extends Record<string, unknown>
+        ? __ToStruct<K>
+        : K extends __WrapOne
+          ? __MapWrapOne<C[0]>[K]
+          : K extends __WrapTwo
+            ? __MapWrapTwo<C[0], C[1]>[K]
+            : Codec,
+  ...X
+];
 
-export type __ToCodecs<T extends unknown[]> =
-  T extends [infer K, ...infer O]
-    ? __ToCodecsInner<K, O, __ToCodecs<O>>
+export type __CodecsNext<K extends unknown, C extends Codec[]> =
+  K extends __WrapOne
+    ? C extends [Codec, ...infer X]
+      ? __CodecFirst<K, C, X>
+      : never
+    : K extends __WrapTwo
+      ? C extends [Codec, Codec, ...infer X]
+        ? __CodecFirst<K, C, X>
+        : never
+      : __CodecFirst<K, C, C>;
+
+export type __Codecs<T extends unknown[]> =
+  T extends [infer K, ...infer N]
+    ? __CodecsNext<K, __Codecs<N>>
     : [];
 
-export type __RemoveEmpty<T extends string> =
-  T extends ''
-    ? []
-    : [T];
-
-export type __Combine<V extends __Value[], I extends string = '', T extends string = ''> =
-  [...V, ...__RemoveEmpty<I>, ...__RemoveEmpty<T>];
+export type __Combine<V extends __Value[], I extends string> =
+  I extends ''
+    ? V
+    : [...V, I];
 
 export type __CombineInner<V extends __Value[], I extends string, X extends __Value> =
-  [...__RemoveEmpty<I>, ...V, X];
+  I extends ''
+    ? [...V, X]
+    : [I, ...V, X];
 
-// TODO At this point structs are fully empty, no field indicators
+// FIXME At this point enum/set/struct are empty, no field indicators, just type indicators
 export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[], I extends string, R extends string> =
-  __Tokenize<T[1], __CombineInner<V, I,
-  R extends `"_set"${string}`
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    ? { _set: {} }
+  __Tokenize<T[1], __CombineInner<V, I, R extends `"_set"${string}`
+    ? { _set: true }
     : R extends `"_enum"${string}`
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      ? { _enum: {} }
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      : { data: R }
+      ? { _enum: true }
+      : { _fields: true }
   >>;
 
 export type __TokenizeTuple<T extends [__Value[], string], V extends __Value[], I extends string> =
   __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
 
-export type __TokenizeWrapper<K extends string, V extends __Value[], I extends string, R extends string> =
+export type __TokenizeWrapped<K extends string, V extends __Value[], I extends string, R extends string> =
   K extends `${infer X}${R}`
-    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+    ? X extends '['
+      ? __Tokenize<R, [...__Combine<V, I>, '[']>
+      : __Tokenize<R, __Combine<V, `${I}${X}`>>
     : never;
 
 export type __TokenizeKnown<K extends string, V extends __Value[], I extends string, R extends string> =
@@ -127,20 +143,18 @@ export type __TokenizeKnown<K extends string, V extends __Value[], I extends str
 export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
   K extends '' | ')' | '>' | '}'
     ? [__Combine<V, I>, '']
-    : K extends `${'Vec<' | 'Option<' | 'Compact<'}${infer R}`
-      ? __TokenizeWrapper<K, V, I, R>
+    : K extends `${__Wrap}${infer R}`
+      ? __TokenizeWrapped<K, V, I, R>
       : K extends `${',' | '>'}${infer R}`
         ? __Tokenize<R, __Combine<V, I>>
-        : K extends `[${infer R}`
-          ? __Tokenize<R, __Combine<V, I, '['>>
-          : K extends `)${infer R}` | `}${infer R}`
-            ? [__Combine<V, I>, R]
-            : K extends `(${infer R}`
-              ? __TokenizeTuple<__Tokenize<R>, V, I>
-              : K extends `{${infer R}`
-                ? __TokenizeStruct<__Tokenize<R>, V, I, R>
-                : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
-                  ? __TokenizeKnown<K, V, I, R>
-                  : K extends `${infer C}${infer R}`
-                    ? __Tokenize<R, V, `${I}${C}`>
-                    : [__Combine<V, I>, ''];
+        : K extends `)${infer R}` | `}${infer R}`
+          ? [__Combine<V, I>, R]
+          : K extends `(${infer R}`
+            ? __TokenizeTuple<__Tokenize<R>, V, I>
+            : K extends `{${infer R}`
+              ? __TokenizeStruct<__Tokenize<R>, V, I, R>
+              : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
+                ? __TokenizeKnown<K, V, I, R>
+                : K extends `${infer C}${infer R}`
+                  ? __Tokenize<R, V, `${I}${C}`>
+                  : [__Combine<V, I>, ''];
