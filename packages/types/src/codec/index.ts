@@ -21,8 +21,6 @@ export { CodecMap, CodecMap as Map } from './Map';
 export { Option } from './Option';
 export { Raw } from './Raw';
 export { Result } from './Result';
-export { Range } from './Range';
-export { RangeInclusive } from './RangeInclusive';
 export { CodecSet, CodecSet as Set } from './Set';
 export { Struct } from './Struct';
 export { Tuple } from './Tuple';

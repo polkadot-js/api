@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import { U32 } from '../primitive';
-import { RangeInclusive } from '.';
+import { Range, U32 } from '.';
 
-describe('RangeInclusive', (): void => {
+describe('Range', (): void => {
   const registry = new TypeRegistry();
-  const Type = RangeInclusive.with([U32, U32]);
-  let range: RangeInclusive<U32>;
+  const Type = Range.with([U32, U32]);
+  let range: Range<U32>;
 
   beforeEach((): void => {
-    range = new RangeInclusive(
+    range = new Range(
       registry,
       U32,
       [new U32(registry, 1), new U32(registry, 2)]
@@ -29,6 +28,6 @@ describe('RangeInclusive', (): void => {
   });
 
   it('has a sane toRawType representation', (): void => {
-    expect(range.toRawType()).toEqual('RangeInclusive<u32>');
+    expect(range.toRawType()).toEqual('Range<u32>');
   });
 });

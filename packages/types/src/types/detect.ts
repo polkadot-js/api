@@ -73,31 +73,25 @@ export type __ToTuple<O extends Codec[]> =
       : O[0]
     : Null;
 
-export type __CodecFirst<K extends unknown, C extends Codec[], X extends unknown[]> = [
+export type __CodecFirst<K extends unknown> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
     : K extends unknown[]
       ? __ToTuple<__Codecs<K>>
       : K extends Record<string, unknown>
         ? __ToStruct<K>
-        : K extends __WrapOne
-          ? __MapWrapOne<C[0]>[K]
-          : K extends __WrapTwo
-            ? __MapWrapTwo<C[0], C[1]>[K]
-            : Codec,
-  ...X
-];
+        : Codec;
 
 export type __CodecsNext<K extends unknown, C extends Codec[]> =
   K extends __WrapOne
     ? C extends [Codec, ...infer X]
-      ? __CodecFirst<K, C, X>
-      : never
+      ? [__MapWrapOne<C[0]>[K], ...X]
+      : Codec
     : K extends __WrapTwo
       ? C extends [Codec, Codec, ...infer X]
-        ? __CodecFirst<K, C, X>
-        : never
-      : __CodecFirst<K, C, C>;
+        ? [__MapWrapTwo<C[0], C[1]>[K], ...X]
+        : Codec
+      : [__CodecFirst<K>, ...C];
 
 export type __Codecs<T extends unknown[]> =
   T extends [infer K, ...infer N]
@@ -141,13 +135,13 @@ export type __TokenizeKnown<K extends string, V extends __Value[], I extends str
 // NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
-  K extends '' | ')' | '>' | '}'
+  K extends '' | '>' | ')' | '}'
     ? [__Combine<V, I>, '']
     : K extends `${__Wrap}${infer R}`
       ? __TokenizeWrapped<K, V, I, R>
       : K extends `${',' | '>'}${infer R}`
         ? __Tokenize<R, __Combine<V, I>>
-        : K extends `)${infer R}` | `}${infer R}`
+        : K extends `${')' | '}'}${infer R}`
           ? [__Combine<V, I>, R]
           : K extends `(${infer R}`
             ? __TokenizeTuple<__Tokenize<R>, V, I>

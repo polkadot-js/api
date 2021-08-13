@@ -1,25 +1,24 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { Codec, Constructor, Registry } from '../types';
 
 import { Tuple } from '../codec/Tuple';
+
+type RangeType = 'Range' | 'RangeInclusive';
 
 /**
  * @name Range
  * @description
  * Rust `Range<T>` representation
  */
-export class Range<T extends Codec> extends Tuple {
-  constructor (registry: Registry, ty: Constructor<T> | keyof InterfaceTypes, value: [T, T]) {
-    super(
-      registry,
-      {
-        end: ty,
-        start: ty
-      },
-      value
-    );
+export class Range<T extends Codec = Codec> extends Tuple {
+  #rangeType: RangeType;
+
+  constructor (registry: Registry, type: Constructor<T> | string, value?: [T, T] | Uint8Array, rangeType: RangeType = 'Range') {
+    super(registry, { end: type, start: type }, value);
+
+    this.#rangeType = rangeType;
   }
 
   /**
@@ -40,6 +39,6 @@ export class Range<T extends Codec> extends Tuple {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `Range<${this.start.toRawType()}>`;
+    return `${this.#rangeType}<${this.start.toRawType()}>`;
   }
 }

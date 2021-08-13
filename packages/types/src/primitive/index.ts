@@ -15,6 +15,7 @@ export { i64, i64 as I64 } from './I64';
 export { i128, i128 as I128 } from './I128';
 export { i256, i256 as I256 } from './I256';
 export { Null } from './Null';
+export { Range, Range as RangeInclusive } from './Range';
 export { StorageKey } from './StorageKey';
 export { Text } from './Text';
 export { Type } from './Type';
