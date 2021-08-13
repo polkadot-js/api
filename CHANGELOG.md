@@ -9,6 +9,7 @@ Contributed:
 
 Changes:
 
+- Loose pedantic check not to fail on all-empty values
 - Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`
 
 
