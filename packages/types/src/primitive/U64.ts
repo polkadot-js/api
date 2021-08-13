@@ -8,4 +8,7 @@ import { UInt } from '../codec/UInt';
  * @description
  * A 64-bit unsigned integer
  */
-export class u64 extends UInt.with(64) {}
+export class u64 extends UInt.with(64) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __UIntType = 'u64';
+}

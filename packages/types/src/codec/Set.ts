@@ -74,7 +74,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * An Set is an array of string values, represented an an encoded type by
  * a bitwise representation of the values.
  */
-export class CodecSet extends Set<string> implements ISet {
+export class CodecSet extends Set<string> implements ISet<string> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;

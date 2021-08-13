@@ -8,4 +8,7 @@ import { Int } from '../codec/Int';
  * @description
  * A 16-bit signed integer
  */
-export class i16 extends Int.with(16) {}
+export class i16 extends Int.with(16) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __IntType = 'u16';
+}

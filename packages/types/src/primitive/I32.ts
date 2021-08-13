@@ -8,4 +8,7 @@ import { Int } from '../codec/Int';
  * @description
  * A 32-bit signed integer
  */
-export class i32 extends Int.with(32) {}
+export class i32 extends Int.with(32) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __IntType = 'u32';
+}

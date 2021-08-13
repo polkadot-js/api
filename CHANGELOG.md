@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add `Range` & `RangeInclusive` types (Thanks to https://github.com/c410-f3r)
+- Always use TS `bigint` type (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`
+
+
 ## 5.4.1 Aug 9, 2021
 
 Upgrade priority: Low. Recommended for potential users of NMap.

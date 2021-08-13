@@ -8,4 +8,7 @@ import { Int } from '../codec/Int';
  * @description
  * A 128-bit signed integer
  */
-export class i128 extends Int.with(128) {}
+export class i128 extends Int.with(128) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __IntType = 'u128';
+}
