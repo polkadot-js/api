@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Raw, Result, Struct, Vec, VecFixed } from '../codec';
-import type { Bytes, Null, Range, u8 } from '../primitive';
+import type { Bytes, Null, Range, RangeInclusive, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
@@ -42,7 +42,8 @@ export type __MapWrapOne<C extends Codec> = {
   'Compact<': C extends INumber ? Compact<C> : Codec;
   'Linkage<': Linkage<C>;
   'Option<': Option<C>;
-  'Range<': Range<C>;
+  'Range<': C extends INumber ? Range<C> : Codec;
+  'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
   'Vec<': C extends u8 ? Bytes : Vec<C>;
   '[': C extends u8 ? Raw : VecFixed<C>;
 };
