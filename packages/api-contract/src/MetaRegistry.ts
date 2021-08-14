@@ -4,7 +4,7 @@
 import type { ChainProperties, ContractDisplayName, Si0Field, Si0LookupTypeId, Si0Type, Si0TypeDefArray, Si0TypeDefSequence, Si0TypeDefTuple, Si0TypeDefVariant, Si0Variant } from '@polkadot/types/interfaces';
 import type { InterfaceTypes, TypeDef } from '@polkadot/types/types';
 
-import { TypeDefInfo, TypeRegistry, withTypeString } from '@polkadot/types';
+import { TypeRegistry, withTypeString } from '@polkadot/types';
 import { assert, isUndefined } from '@polkadot/util';
 
 interface PartialTypeSpec {
@@ -141,7 +141,7 @@ export class MetaRegistry extends TypeRegistry {
     assert(!length || length.toNumber() <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
 
     return {
-      info: TypeDefInfo.VecFixed,
+      info: 'VecFixed',
       length: length.toNumber(),
       sub: this.getMetaTypeDef({ type })
     };
@@ -169,8 +169,8 @@ export class MetaRegistry extends TypeRegistry {
       : {
         // check for tuple first (no fields may be available)
         info: isTuple
-          ? TypeDefInfo.Tuple
-          : TypeDefInfo.Struct,
+          ? 'Tuple'
+          : 'Struct',
         sub
       };
   }
@@ -179,14 +179,14 @@ export class MetaRegistry extends TypeRegistry {
     const typeStr = type.def.asPrimitive.type.toString();
 
     return {
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
     };
   }
 
   #extractPrimitivePath = (type: Si0Type): TypeDef => {
     return {
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       type: type.path[type.path.length - 1].toString()
     };
   }
@@ -195,7 +195,7 @@ export class MetaRegistry extends TypeRegistry {
     assert(!!type, () => `ContractRegistry: Invalid sequence type found at id ${id.toString()}`);
 
     return {
-      info: TypeDefInfo.Vec,
+      info: 'Vec',
       sub: this.getMetaTypeDef({ type })
     };
   }
@@ -204,7 +204,7 @@ export class MetaRegistry extends TypeRegistry {
     return ids.length === 1
       ? this.getMetaTypeDef({ type: ids[0] })
       : {
-        info: TypeDefInfo.Tuple,
+        info: 'Tuple',
         sub: ids.map((type) => this.getMetaTypeDef({ type }))
       };
   }
@@ -215,19 +215,19 @@ export class MetaRegistry extends TypeRegistry {
 
     return specialVariant === 'Option'
       ? {
-        info: TypeDefInfo.Option,
+        info: 'Option',
         sub: this.getMetaTypeDef({ type: params[0] })
       }
       : specialVariant === 'Result'
         ? {
-          info: TypeDefInfo.Result,
+          info: 'Result',
           sub: params.map((type, index) => ({
             name: ['Ok', 'Error'][index],
             ...this.getMetaTypeDef({ type })
           }))
         }
         : {
-          info: TypeDefInfo.Enum,
+          info: 'Enum',
           sub: this.#extractVariantSub(variants)
         };
   }
@@ -240,7 +240,7 @@ export class MetaRegistry extends TypeRegistry {
             ? { ext: { discriminant: discriminant.unwrap().toNumber() } }
             : {}
         ),
-        info: TypeDefInfo.Plain,
+        info: 'Plain',
         name: name.toString(),
         type: 'Null'
       }))

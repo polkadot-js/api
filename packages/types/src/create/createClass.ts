@@ -57,19 +57,19 @@ function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap)
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor<Codec>> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  BTreeMap: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createHashMap(value, BTreeMap),
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  BTreeSet: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     BTreeSet.with(getSubType(value)),
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Compact: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     Compact.with(getSubType(value)),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  DoNotConstruct: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     DoNotConstruct.with(value.displayName || value.type),
 
-  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+  Enum: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const subs = getSubDefArray(value);
 
     return Enum.with(
@@ -83,14 +83,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  HashMap: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createHashMap(value, HashMap),
 
-  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Int: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
-  [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+  Linkage: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const type = `Option<${getSubType(value)}>`;
     // eslint-disable-next-line sort-keys
     const Clazz = Struct.with({ previous: type, next: type } as any);
@@ -105,26 +105,26 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor<Codec> =>
+  Null: (registry: Registry, _: TypeDef): Constructor<Codec> =>
     Null,
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Option: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     Option.with(getSubType(value)),
 
-  [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Plain: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     registry.getOrUnknown(value.type),
 
-  [TypeDefInfo.Range]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Range: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     (value.type.includes('RangeInclusive') ? RangeInclusive : Range).with(getSubType(value)),
 
-  [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+  Result: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const [Ok, Err] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return Result.with({ Err, Ok });
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+  Set: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const result: Record<string, number> = {};
 
     return CodecSet.with(
@@ -137,19 +137,19 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Si: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Struct: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     Struct.with(getTypeClassMap(value), value.alias),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  Tuple: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     Tuple.with(getTypeClassArray(value)),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+  UInt: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createInt(value, UInt),
 
-  [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+  Vec: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const subType = getSubType(value);
 
     return (
@@ -159,7 +159,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor<Codec> => {
+  VecFixed: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor<Codec> => {
     assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
     const subType = (sub as TypeDef).type;

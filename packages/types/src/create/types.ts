@@ -1,29 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export enum TypeDefInfo {
-  BTreeMap,
-  BTreeSet,
-  Compact,
-  Enum,
-  Linkage,
-  Option,
-  Plain,
-  Result,
-  Set,
-  Struct,
-  Tuple,
-  Vec,
-  VecFixed,
-  HashMap,
-  Int,
-  UInt,
-  DoNotConstruct,
-  Si,
-  Range,
-  // anything not fully supported (keep this as the last entry)
-  Null
-}
+export type TypeDefInfo = 'BTreeMap' | 'BTreeSet' | 'Compact' | 'DoNotConstruct' | 'Enum' | 'HashMap' | 'Int' |'Linkage' | 'Null' | 'Option' | 'Plain' | 'Range' | 'Result' | 'Set' | 'Si' | 'Struct' | 'Tuple' | 'UInt' | 'Vec' | 'VecFixed';
 
 export interface TypeDef {
   alias?: Map<string, string>;

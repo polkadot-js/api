@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from './types';
+import type { TypeDef, TypeDefInfo } from './types';
 
 import { assert, isNumber, isString } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
-import { TypeDefInfo } from './types';
 import { typeSplit } from './typeSplit';
 
 interface TypeDefOptions {
@@ -40,13 +39,13 @@ function isRustEnum (details: Record<string, string> | Record<string, number>): 
 //  { _enum: { A: AccountId, B: Balance, C: u32 } }
 //  { _enum: { A: 1, B: 2 } }
 function _decodeEnum (value: TypeDef, details: string[] | Record<string, string> | Record<string, number>, count: number): TypeDef {
-  value.info = TypeDefInfo.Enum;
+  value.info = 'Enum';
 
   // not as pretty, but remain compatible with oo7 for both struct and Array types
   if (Array.isArray(details)) {
     value.sub = details.map((name, index): TypeDef => ({
       index,
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       name,
       type: 'Null'
     }));
@@ -58,7 +57,7 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
   } else {
     value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
       index,
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       name,
       type: 'Null'
     }));
@@ -70,14 +69,14 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 // decode a set of the form
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
 function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
-  value.info = TypeDefInfo.Set;
+  value.info = 'Set';
   value.length = details._bitLength;
   value.sub = Object
     .entries(details)
     .filter(([name]): boolean => !name.startsWith('_'))
     .map(([name, index]): TypeDef => ({
       index,
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       name,
       type: name
     }));
@@ -196,27 +195,27 @@ function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, a
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [
-  ['[', ']', TypeDefInfo.VecFixed, _decodeFixedVec],
-  ['{', '}', TypeDefInfo.Struct, _decodeStruct],
-  ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
+  ['[', ']', 'VecFixed', _decodeFixedVec],
+  ['{', '}', 'Struct', _decodeStruct],
+  ['(', ')', 'Tuple', _decodeTuple],
   // the inner for these are the same as tuple, multiple values
-  ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
-  ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
-  ['Int<', '>', TypeDefInfo.Int, _decodeInt],
+  ['BTreeMap<', '>', 'BTreeMap', _decodeTuple],
+  ['HashMap<', '>', 'HashMap', _decodeTuple],
+  ['Int<', '>', 'Int', _decodeInt],
   // Not sure about these, have a specific implementation?
-  ['Range<', '>', TypeDefInfo.Tuple, _decodeRange],
-  ['RangeInclusive<', '>', TypeDefInfo.Tuple, _decodeRange],
-  ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
-  ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt],
-  ['DoNotConstruct<', '>', TypeDefInfo.DoNotConstruct, _decodeDoNotConstruct]
+  ['Range<', '>', 'Tuple', _decodeRange],
+  ['RangeInclusive<', '>', 'Tuple', _decodeRange],
+  ['Result<', '>', 'Result', _decodeTuple],
+  ['UInt<', '>', 'UInt', _decodeUInt],
+  ['DoNotConstruct<', '>', 'DoNotConstruct', _decodeDoNotConstruct]
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [
-  ['BTreeSet<', '>', TypeDefInfo.BTreeSet],
-  ['Compact<', '>', TypeDefInfo.Compact],
-  ['Linkage<', '>', TypeDefInfo.Linkage],
-  ['Option<', '>', TypeDefInfo.Option],
-  ['Vec<', '>', TypeDefInfo.Vec]
+  ['BTreeSet<', '>', 'BTreeSet'],
+  ['Compact<', '>', 'Compact'],
+  ['Linkage<', '>', 'Linkage'],
+  ['Option<', '>', 'Option'],
+  ['Vec<', '>', 'Vec']
 ];
 
 function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any?]): string {
@@ -227,7 +226,7 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
 export function getTypeDef (_type: String | string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
-  const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
+  const value: TypeDef = { displayName, info: 'Plain', name, type };
 
   assert(++count !== MAX_NESTED, 'getTypeDef: Maximum nested limit reached');
 

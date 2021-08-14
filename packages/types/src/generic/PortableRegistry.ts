@@ -13,7 +13,6 @@ import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirs
 import { Struct } from '../codec/Struct';
 import { withTypeString } from '../create/encodeTypes';
 import { getTypeDef } from '../create/getTypeDef';
-import { TypeDefInfo } from '../types';
 
 // Alias the primitive enum with out known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
@@ -185,7 +184,7 @@ export class GenericPortableRegistry extends Struct {
     if (!this.#typeDefs[lookupIndex]) {
       // we set first since we will get into circular lookups along the way
       this.#typeDefs[lookupIndex] = {
-        info: TypeDefInfo.DoNotConstruct,
+        info: 'DoNotConstruct',
         lookupIndex,
         lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupIndex)
@@ -201,7 +200,7 @@ export class GenericPortableRegistry extends Struct {
       });
 
       // don't set lookupName on lower-level, we want to always direct to the type
-      if (extracted.info === TypeDefInfo.Plain) {
+      if (extracted.info === 'Plain') {
         this.#typeDefs[lookupIndex].lookupNameRoot = this.#typeDefs[lookupIndex].lookupName;
         delete this.#typeDefs[lookupIndex].lookupName;
       }
@@ -215,10 +214,10 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = lookupId.toNumber();
 
     // Setup for a lookup on complex types
-    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
+    return ['Enum', 'Struct'].includes(typeDef.info) && typeDef.lookupName
       ? {
         docs: typeDef.docs,
-        info: TypeDefInfo.Si,
+        info: 'Si',
         lookupIndex,
         lookupName: this.#names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
@@ -282,7 +281,7 @@ export class GenericPortableRegistry extends Struct {
     assert(!length || length.toNumber() <= 256, () => `PortableRegistry: ${lookupIndex}: Only support for [Type; <length>], where length <= 256`);
 
     return withTypeString(this.registry, {
-      info: TypeDefInfo.VecFixed,
+      info: 'VecFixed',
       length: length.toNumber(),
       sub: this.#createSiDef(type)
     });
@@ -296,17 +295,17 @@ export class GenericPortableRegistry extends Struct {
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
     // we don't pass it though at all
     assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
-    assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    assert(bitStore.info === 'Plain' && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
 
     return {
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       type: 'BitVec'
     };
   }
 
   #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
     return withTypeString(this.registry, {
-      info: TypeDefInfo.Compact,
+      info: 'Compact',
       sub: this.#createSiDef(type)
     });
   }
@@ -314,7 +313,7 @@ export class GenericPortableRegistry extends Struct {
   #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
     if (path.length === 1 && path[0].eq('BTreeMap')) {
       return withTypeString(this.registry, {
-        info: TypeDefInfo.BTreeMap,
+        info: 'BTreeMap',
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
       });
     }
@@ -328,12 +327,12 @@ export class GenericPortableRegistry extends Struct {
     assert(params.length === 1 && fields.length === 1, () => `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
 
     return withTypeString(this.registry, {
-      info: TypeDefInfo.Set,
+      info: 'Set',
       length: this.registry.createType(this.registry.createLookupType(fields[0].type) as 'u32').bitLength(),
       sub: this.getSiType(params[0].type.unwrap()).def.asVariant.variants.map(({ index, name }): TypeDef => ({
         // This will be an issue > 2^53 - 1 ... don't have those (yet)
         index: index.toNumber(),
-        info: TypeDefInfo.Plain,
+        info: 'Plain',
         name: name.toString(),
         type: 'Null'
       }))
@@ -351,7 +350,7 @@ export class GenericPortableRegistry extends Struct {
 
     if (fields.length === 0) {
       return {
-        info: TypeDefInfo.Null,
+        info: 'Null',
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
@@ -375,8 +374,8 @@ export class GenericPortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: isTuple // Tuple check first
-        ? TypeDefInfo.Tuple
-        : TypeDefInfo.Struct,
+        ? 'Tuple'
+        : 'Struct',
       ...(
         alias.size
           ? { alias }
@@ -440,14 +439,14 @@ export class GenericPortableRegistry extends Struct {
     const typeStr = type.def.asPrimitive.type.toString();
 
     return {
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       type: PRIMITIVE_ALIAS[typeStr] || typeStr.toLowerCase()
     };
   }
 
   #extractPrimitivePath (_: number, type: string): TypeDef {
     return {
-      info: TypeDefInfo.Plain,
+      info: 'Plain',
       type
     };
   }
@@ -457,13 +456,13 @@ export class GenericPortableRegistry extends Struct {
 
     if (sub.type === 'u8') {
       return {
-        info: TypeDefInfo.Plain,
+        info: 'Plain',
         type: 'Bytes'
       };
     }
 
     return withTypeString(this.registry, {
-      info: TypeDefInfo.Vec,
+      info: 'Vec',
       lookupIndex,
       lookupName: this.#names[lookupIndex],
       sub
@@ -473,7 +472,7 @@ export class GenericPortableRegistry extends Struct {
   #extractTuple (lookupIndex: number, ids: SiTypeDefTuple): TypeDef {
     if (ids.length === 0) {
       return {
-        info: TypeDefInfo.Null,
+        info: 'Null',
         type: 'Null'
       };
     } else if (ids.length === 1) {
@@ -483,7 +482,7 @@ export class GenericPortableRegistry extends Struct {
     const sub = ids.map((type) => this.#createSiDef(type));
 
     return withTypeString(this.registry, {
-      info: TypeDefInfo.Tuple,
+      info: 'Tuple',
       lookupIndex,
       lookupName: this.#names[lookupIndex],
       sub
@@ -495,12 +494,12 @@ export class GenericPortableRegistry extends Struct {
 
     if (specialVariant === 'Option') {
       return withTypeString(this.registry, {
-        info: TypeDefInfo.Option,
+        info: 'Option',
         sub: this.#createSiDef(params[0].type.unwrap())
       });
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
-        info: TypeDefInfo.Result,
+        info: 'Result',
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap())).map((def, index) => ({
           name: ['Ok', 'Error'][index],
           ...def
@@ -508,7 +507,7 @@ export class GenericPortableRegistry extends Struct {
       });
     } else if (variants.length === 0) {
       return {
-        info: TypeDefInfo.Null,
+        info: 'Null',
         type: 'Null'
       };
     }
@@ -529,7 +528,7 @@ export class GenericPortableRegistry extends Struct {
         while (sub.length !== desired) {
           sub.push({
             index: sub.length,
-            info: TypeDefInfo.Null,
+            info: 'Null',
             name: `Unused${sub.length}`,
             type: 'Null'
           });
@@ -543,7 +542,7 @@ export class GenericPortableRegistry extends Struct {
       });
 
     return withTypeString(this.registry, {
-      info: TypeDefInfo.Enum,
+      info: 'Enum',
       lookupIndex,
       lookupName: this.#names[lookupIndex],
       sub

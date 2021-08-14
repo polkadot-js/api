@@ -30,7 +30,7 @@ export function createGetter (definitions: Record<string, ModuleTypes>, name = '
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorUnhandled (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
-  throw new Error(`Generate: ${def.name || ''}: Unhandled type ${TypeDefInfo[def.info]}`);
+  throw new Error(`Generate: ${def.name || ''}: Unhandled type ${def.info}`);
 }
 
 /** @internal */
@@ -54,29 +54,29 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
   const keys = (sub as TypeDef[]).map((def, index): string => {
     const { info, name = `unknown${index}`, type } = def;
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const isComplex = [TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
-    const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
+    const isComplex = ['Struct', 'Tuple', 'Vec', 'VecFixed'].includes(info);
+    const asGetter = type === 'Null' || info === 'DoNotConstruct'
       ? ''
-      : createGetter(definitions, `as${getter}`, isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports) : type, imports);
-    const isGetter = info === TypeDefInfo.DoNotConstruct
+      : createGetter(definitions, `as${getter}`, isComplex ? formatType(registry, definitions, info === 'Struct' ? def : type, imports) : type, imports);
+    const isGetter = info === 'DoNotConstruct'
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
-      case TypeDefInfo.Compact:
-      case TypeDefInfo.Plain:
-      case TypeDefInfo.Struct:
-      case TypeDefInfo.Tuple:
-      case TypeDefInfo.Vec:
-      case TypeDefInfo.Option:
-      case TypeDefInfo.VecFixed:
+      case 'Compact':
+      case 'Plain':
+      case 'Struct':
+      case 'Tuple':
+      case 'Vec':
+      case 'Option':
+      case 'VecFixed':
         return `${isGetter}${asGetter}`;
 
-      case TypeDefInfo.DoNotConstruct:
+      case 'DoNotConstruct':
         return '';
 
       default:
-        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
+        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${info}`);
     }
   });
 
@@ -94,18 +94,18 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
   const { info, type } = def;
   const asGetter = type === 'Null'
     ? ''
-    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(registry, definitions, def, imports) : type, imports);
+    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, info === 'Tuple' ? formatType(registry, definitions, def, imports) : type, imports);
   const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
-    case TypeDefInfo.Plain:
-    case TypeDefInfo.Tuple:
-    case TypeDefInfo.Vec:
-    case TypeDefInfo.Option:
+    case 'Plain':
+    case 'Tuple':
+    case 'Vec':
+    case 'Option':
       return `${isGetter}${asGetter}`;
 
     default:
-      throw new Error(`Result: ${resultName}: Unhandled type ${TypeDefInfo[info]}`);
+      throw new Error(`Result: ${resultName}: Unhandled type ${info}`);
   }
 }
 
@@ -127,7 +127,7 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, { type }: TypeDef, imports: TypeImports): string {
-  throw new Error('Unable to generate string definition from TypeDefInfo.Si');
+  throw new Error('Unable to generate string definition from Si');
 }
 
 /** @internal */
@@ -165,7 +165,7 @@ function tsUInt (registry: Registry, definitions: Record<string, ModuleTypes>, d
 function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
   const type = (def.sub as TypeDef).type;
 
-  if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
+  if (def.info === 'VecFixed' && type === 'u8') {
     setImports(definitions, imports, ['U8aFixed']);
 
     return exportType(def.name, 'U8aFixed');
@@ -178,26 +178,26 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
 // `generators[typedef.info](...)` TS will show any unhandled types. Rather
 // we are being explicit in having no handlers where we do not support (yet)
 const encoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports) => string> = {
-  [TypeDefInfo.BTreeMap]: tsBTreeMap,
-  [TypeDefInfo.BTreeSet]: tsBTreeSet,
-  [TypeDefInfo.Compact]: tsCompact,
-  [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
-  [TypeDefInfo.Enum]: tsEnum,
-  [TypeDefInfo.HashMap]: tsHashMap,
-  [TypeDefInfo.Int]: tsInt,
-  [TypeDefInfo.Linkage]: errorUnhandled,
-  [TypeDefInfo.Null]: errorUnhandled,
-  [TypeDefInfo.Option]: tsOption,
-  [TypeDefInfo.Plain]: tsPlain,
-  [TypeDefInfo.Range]: errorUnhandled,
-  [TypeDefInfo.Result]: tsResult,
-  [TypeDefInfo.Set]: tsSet,
-  [TypeDefInfo.Si]: tsSi,
-  [TypeDefInfo.Struct]: tsStruct,
-  [TypeDefInfo.Tuple]: tsTuple,
-  [TypeDefInfo.UInt]: tsUInt,
-  [TypeDefInfo.Vec]: tsVec,
-  [TypeDefInfo.VecFixed]: tsVec
+  BTreeMap: tsBTreeMap,
+  BTreeSet: tsBTreeSet,
+  Compact: tsCompact,
+  DoNotConstruct: tsDoNotConstruct,
+  Enum: tsEnum,
+  HashMap: tsHashMap,
+  Int: tsInt,
+  Linkage: errorUnhandled,
+  Null: errorUnhandled,
+  Option: tsOption,
+  Plain: tsPlain,
+  Range: errorUnhandled,
+  Result: tsResult,
+  Set: tsSet,
+  Si: tsSi,
+  Struct: tsStruct,
+  Tuple: tsTuple,
+  UInt: tsUInt,
+  Vec: tsVec,
+  VecFixed: tsVec
 };
 
 /** @internal */

@@ -24,14 +24,14 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
   const { info, sub } = typeDef;
 
   switch (info) {
-    case TypeDefInfo.BTreeMap:
-    case TypeDefInfo.BTreeSet:
-    case TypeDefInfo.Compact:
-    case TypeDefInfo.HashMap:
-    case TypeDefInfo.Linkage:
-    case TypeDefInfo.Option:
-    case TypeDefInfo.Result:
-    case TypeDefInfo.Vec:
+    case 'BTreeMap':
+    case 'BTreeSet':
+    case 'Compact':
+    case 'HashMap':
+    case 'Linkage':
+    case 'Option':
+    case 'Result':
+    case 'Vec':
       return paramsNotation(outer, sub, (param) => encodeTypeDef(registry, param));
   }
 
@@ -109,49 +109,49 @@ function encodeVecFixed (registry: Registry, { length, sub }: TypeDef): string {
 // We setup a record here to ensure we have comprehensive coverage (any item not covered will result
 // in a compile-time error with the missing index)
 const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => string> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef) =>
+  BTreeMap: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'BTreeMap'),
-  [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef) =>
+  BTreeSet: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'BTreeSet'),
-  [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef) =>
+  Compact: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Compact'),
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, typeDef: TypeDef) =>
+  DoNotConstruct: (registry: Registry, typeDef: TypeDef) =>
     encodeDoNotConstruct(registry, typeDef),
-  [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef) =>
+  Enum: (registry: Registry, typeDef: TypeDef) =>
     encodeEnum(registry, typeDef),
-  [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef) =>
+  HashMap: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'HashMap'),
-  [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef) =>
+  Int: (registry: Registry, typeDef: TypeDef) =>
     encodeUInt(registry, typeDef, 'Int'),
-  [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef) =>
+  Linkage: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef) =>
+  Null: (registry: Registry, typeDef: TypeDef) =>
     'Null',
-  [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef) =>
+  Option: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Option'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef) =>
+  Plain: (registry: Registry, typeDef: TypeDef) =>
     typeDef.displayName || typeDef.type,
-  [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef) =>
+  Range: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, typeDef.type.includes('RangeInclusive') ? 'RangeInclusive' : 'Range'),
-  [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef) =>
+  Result: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Result'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef) =>
+  Set: (registry: Registry, typeDef: TypeDef) =>
     typeDef.type,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef) =>
+  Si: (registry: Registry, typeDef: TypeDef) =>
     typeDef.lookupName || typeDef.type,
-  [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef) =>
+  Struct: (registry: Registry, typeDef: TypeDef) =>
     encodeStruct(registry, typeDef),
-  [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef) =>
+  Tuple: (registry: Registry, typeDef: TypeDef) =>
     encodeTuple(registry, typeDef),
-  [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef) =>
+  UInt: (registry: Registry, typeDef: TypeDef) =>
     encodeUInt(registry, typeDef, 'UInt'),
-  [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef) =>
+  Vec: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Vec'),
-  [TypeDefInfo.VecFixed]: (registry: Registry, typeDef: TypeDef) =>
+  VecFixed: (registry: Registry, typeDef: TypeDef) =>
     encodeVecFixed(registry, typeDef)
 };
 
