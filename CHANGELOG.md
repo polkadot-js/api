@@ -9,7 +9,7 @@ Contributed:
 
 Changes:
 
-- Loose pedantic check not to fail on all-empty values
+- Loosen pedantic check to not fail on all-empty values
 - Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`
 - Convert `TypeDefInfo` to TS union type from enum
 
