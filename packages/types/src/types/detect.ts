@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Raw, Struct, Vec, VecFixed } from '../codec';
+import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Raw, Result, Struct, Vec, VecFixed } from '../codec';
 import type { Bytes, Null, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
@@ -42,6 +42,8 @@ export type __MapWrapOne<C extends Codec> = {
   'Compact<': C extends INumber ? Compact<C> : Codec;
   'Linkage<': Linkage<C>;
   'Option<': Option<C>;
+  'Range<': C extends INumber ? Range<C> : Codec;
+  'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
   'Vec<': C extends u8 ? Bytes : Vec<C>;
   '[': C extends u8 ? Raw : VecFixed<C>;
 };
@@ -51,6 +53,7 @@ export type __MapWrapOne<C extends Codec> = {
 export type __MapWrapTwo<K extends Codec, V extends Codec> = {
   'BTreeMap<': BTreeMap<K, V>;
   'HashMap<': HashMap<K, V>;
+  'Result<': Result<K, V>;
 };
 
 export type __WrapOne = keyof __MapWrapOne<Codec>;
@@ -73,31 +76,25 @@ export type __ToTuple<O extends Codec[]> =
       : O[0]
     : Null;
 
-export type __CodecFirst<K extends unknown, C extends Codec[], X extends unknown[]> = [
+export type __CodecFirst<K extends unknown> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
     : K extends unknown[]
       ? __ToTuple<__Codecs<K>>
       : K extends Record<string, unknown>
         ? __ToStruct<K>
-        : K extends __WrapOne
-          ? __MapWrapOne<C[0]>[K]
-          : K extends __WrapTwo
-            ? __MapWrapTwo<C[0], C[1]>[K]
-            : Codec,
-  ...X
-];
+        : Codec;
 
 export type __CodecsNext<K extends unknown, C extends Codec[]> =
   K extends __WrapOne
     ? C extends [Codec, ...infer X]
-      ? __CodecFirst<K, C, X>
-      : never
+      ? [__MapWrapOne<C[0]>[K], ...X]
+      : Codec
     : K extends __WrapTwo
       ? C extends [Codec, Codec, ...infer X]
-        ? __CodecFirst<K, C, X>
-        : never
-      : __CodecFirst<K, C, C>;
+        ? [__MapWrapTwo<C[0], C[1]>[K], ...X]
+        : Codec
+      : [__CodecFirst<K>, ...C];
 
 export type __Codecs<T extends unknown[]> =
   T extends [infer K, ...infer N]
@@ -141,13 +138,13 @@ export type __TokenizeKnown<K extends string, V extends __Value[], I extends str
 // NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
-  K extends '' | ')' | '>' | '}'
+  K extends '' | '>' | ')' | '}'
     ? [__Combine<V, I>, '']
     : K extends `${__Wrap}${infer R}`
       ? __TokenizeWrapped<K, V, I, R>
       : K extends `${',' | '>'}${infer R}`
         ? __Tokenize<R, __Combine<V, I>>
-        : K extends `)${infer R}` | `}${infer R}`
+        : K extends `${')' | '}'}${infer R}`
           ? [__Combine<V, I>, R]
           : K extends `(${infer R}`
             ? __TokenizeTuple<__Tokenize<R>, V, I>

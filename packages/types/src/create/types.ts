@@ -20,6 +20,7 @@ export enum TypeDefInfo {
   UInt,
   DoNotConstruct,
   Si,
+  Range,
   // anything not fully supported (keep this as the last entry)
   Null
 }
