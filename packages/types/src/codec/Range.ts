@@ -12,11 +12,11 @@ type RangeType = 'Range' | 'RangeInclusive';
  * @description
  * Rust `Range<T>` representation
  */
-export class Range<T extends INumber = INumber> extends Tuple {
+export class Range<T extends INumber> extends Tuple {
   #rangeType: RangeType;
 
-  constructor (registry: Registry, type: Constructor<T> | string, value?: [T, T] | Uint8Array, rangeType: RangeType = 'Range') {
-    super(registry, { end: type, start: type }, value);
+  constructor (registry: Registry, Type: Constructor<T> | string, value?: [T, T] | Uint8Array, rangeType: RangeType = 'Range') {
+    super(registry, { end: Type, start: Type }, value);
 
     this.#rangeType = rangeType;
   }
