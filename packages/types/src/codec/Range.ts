@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constructor, INumber, Registry } from '../types';
+import type { AnyTuple, Constructor, INumber, Registry } from '../types';
 
 import { Tuple } from '../codec/Tuple';
 
@@ -15,10 +15,18 @@ type RangeType = 'Range' | 'RangeInclusive';
 export class Range<T extends INumber> extends Tuple {
   #rangeType: RangeType;
 
-  constructor (registry: Registry, Type: Constructor<T> | string, value?: [T, T] | Uint8Array, rangeType: RangeType = 'Range') {
+  constructor (registry: Registry, Type: Constructor<T> | string, value?: AnyTuple, rangeType: RangeType = 'Range') {
     super(registry, { end: Type, start: Type }, value);
 
     this.#rangeType = rangeType;
+  }
+
+  public static override with<O extends INumber> (Type: Constructor<O> | string): Constructor<Range<O>> {
+    return class extends Range<O> {
+      constructor (registry: Registry, value?: AnyTuple) {
+        super(registry, Type, value);
+      }
+    };
   }
 
   /**
@@ -44,7 +52,7 @@ export class Range<T extends INumber> extends Tuple {
 }
 
 export class RangeInclusive<T extends INumber = INumber> extends Range<T> {
-  constructor (registry: Registry, type: Constructor<T> | string, value?: [T, T] | Uint8Array) {
+  constructor (registry: Registry, type: Constructor<T> | string, value?: AnyTuple) {
     super(registry, type, value, 'RangeInclusive');
   }
 }
