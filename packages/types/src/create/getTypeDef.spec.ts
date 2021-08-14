@@ -105,7 +105,7 @@ describe('getTypeDef', (): void => {
           type: 'u32'
         },
         {
-          info: 'Result',
+          info: 'Compact',
           sub: {
             info: 'Plain',
             type: 'u32'
