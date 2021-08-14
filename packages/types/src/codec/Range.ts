@@ -13,12 +13,12 @@ type RangeType = 'Range' | 'RangeInclusive';
  * Rust `Range<T>` representation
  */
 export class Range<T extends INumber> extends Tuple {
-  #rangeType: RangeType;
+  #rangeName: RangeType;
 
-  constructor (registry: Registry, Type: Constructor<T> | string, value?: AnyTuple, rangeType: RangeType = 'Range') {
+  constructor (registry: Registry, Type: Constructor<T> | string, value?: AnyTuple, rangeName: RangeType = 'Range') {
     super(registry, { end: Type, start: Type }, value);
 
-    this.#rangeType = rangeType;
+    this.#rangeName = rangeName;
   }
 
   public static override with <T extends INumber> (Types: Constructor<T> | string): Constructor<Range<T>> {
@@ -47,7 +47,7 @@ export class Range<T extends INumber> extends Tuple {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `${this.#rangeType}<${this.start.toRawType()}>`;
+    return `${this.#rangeName}<${this.start.toRawType()}>`;
   }
 }
 
