@@ -1,23 +1,23 @@
 [
   {
-    "info": 6,
+    "info": "Plain",
     "type": "i32"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u32"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u8"
   },
   {
     "displayName": "Variant",
     "namespace": "enum_example::enum_example",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "None",
         "type": "()"
@@ -25,13 +25,13 @@
       {
         "displayName": "Weekday",
         "namespace": "enum_example::enum_example",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
             "ext": {
               "discriminant": 0
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Monday",
             "type": "Null"
           },
@@ -39,7 +39,7 @@
             "ext": {
               "discriminant": 1
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Tuesday",
             "type": "Null"
           },
@@ -47,7 +47,7 @@
             "ext": {
               "discriminant": 2
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Wednesday",
             "type": "Null"
           },
@@ -55,7 +55,7 @@
             "ext": {
               "discriminant": 3
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Thursday",
             "type": "Null"
           },
@@ -63,7 +63,7 @@
             "ext": {
               "discriminant": 4
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Friday",
             "type": "Null"
           },
@@ -71,7 +71,7 @@
             "ext": {
               "discriminant": 5
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Saturday",
             "type": "Null"
           },
@@ -79,7 +79,7 @@
             "ext": {
               "discriminant": 6
             },
-            "info": 6,
+            "info": "Plain",
             "name": "Sunday",
             "type": "Null"
           }
@@ -90,15 +90,15 @@
       {
         "displayName": "TupleMaybeSigned",
         "namespace": "enum_example::enum_example",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "i32",
             "name": "Signed"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "Unsigned"
           }
@@ -109,13 +109,13 @@
       {
         "displayName": "NamedMaybeSigned",
         "namespace": "enum_example::enum_example",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
-            "info": 9,
+            "info": "Struct",
             "sub": [
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "i32",
                 "name": "value"
               }
@@ -124,10 +124,10 @@
             "type": "{\"value\":\"i32\"}"
           },
           {
-            "info": 9,
+            "info": "Struct",
             "sub": [
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u32",
                 "name": "value"
               }
@@ -142,47 +142,47 @@
       {
         "displayName": "Color",
         "namespace": "enum_example::enum_example",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
-            "info": 10,
+            "info": "Tuple",
             "sub": [],
             "name": "Red",
             "type": "()"
           },
           {
-            "info": 10,
+            "info": "Tuple",
             "sub": [],
             "name": "Blue",
             "type": "()"
           },
           {
-            "info": 10,
+            "info": "Tuple",
             "sub": [],
             "name": "Green",
             "type": "()"
           },
           {
-            "info": 10,
+            "info": "Tuple",
             "sub": [],
             "name": "Yellow",
             "type": "()"
           },
           {
-            "info": 9,
+            "info": "Struct",
             "sub": [
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "r"
               },
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "g"
               },
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "b"
               }
@@ -191,25 +191,25 @@
             "type": "{\"r\":\"u8\",\"g\":\"u8\",\"b\":\"u8\"}"
           },
           {
-            "info": 9,
+            "info": "Struct",
             "sub": [
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "r"
               },
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "g"
               },
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "b"
               },
               {
-                "info": 6,
+                "info": "Plain",
                 "type": "u8",
                 "name": "a"
               }
@@ -227,13 +227,13 @@
   {
     "displayName": "Weekday",
     "namespace": "enum_example::enum_example",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
         "ext": {
           "discriminant": 0
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Monday",
         "type": "Null"
       },
@@ -241,7 +241,7 @@
         "ext": {
           "discriminant": 1
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Tuesday",
         "type": "Null"
       },
@@ -249,7 +249,7 @@
         "ext": {
           "discriminant": 2
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Wednesday",
         "type": "Null"
       },
@@ -257,7 +257,7 @@
         "ext": {
           "discriminant": 3
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Thursday",
         "type": "Null"
       },
@@ -265,7 +265,7 @@
         "ext": {
           "discriminant": 4
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Friday",
         "type": "Null"
       },
@@ -273,7 +273,7 @@
         "ext": {
           "discriminant": 5
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Saturday",
         "type": "Null"
       },
@@ -281,7 +281,7 @@
         "ext": {
           "discriminant": 6
         },
-        "info": 6,
+        "info": "Plain",
         "name": "Sunday",
         "type": "Null"
       }
@@ -291,15 +291,15 @@
   {
     "displayName": "TupleMaybeSigned",
     "namespace": "enum_example::enum_example",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "i32",
         "name": "Signed"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "Unsigned"
       }
@@ -309,13 +309,13 @@
   {
     "displayName": "NamedMaybeSigned",
     "namespace": "enum_example::enum_example",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "i32",
             "name": "value"
           }
@@ -324,10 +324,10 @@
         "type": "{\"value\":\"i32\"}"
       },
       {
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "value"
           }
@@ -341,47 +341,47 @@
   {
     "displayName": "Color",
     "namespace": "enum_example::enum_example",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "Red",
         "type": "()"
       },
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "Blue",
         "type": "()"
       },
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "Green",
         "type": "()"
       },
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "Yellow",
         "type": "()"
       },
       {
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "r"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "g"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "b"
           }
@@ -390,25 +390,25 @@
         "type": "{\"r\":\"u8\",\"g\":\"u8\",\"b\":\"u8\"}"
       },
       {
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "r"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "g"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "b"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u8",
             "name": "a"
           }
