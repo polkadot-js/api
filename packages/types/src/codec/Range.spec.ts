@@ -7,7 +7,7 @@ import { Range } from '.';
 
 describe('Range', (): void => {
   const registry = new TypeRegistry();
-  const Type = Range.with(U32);
+  const Type = Range.with([U32, U32]);
   let range: Range<U32>;
 
   beforeEach((): void => {

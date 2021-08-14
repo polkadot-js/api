@@ -21,14 +21,6 @@ export class Range<T extends INumber> extends Tuple {
     this.#rangeType = rangeType;
   }
 
-  public static override with<O extends INumber> (Type: Constructor<O> | string): Constructor<Range<O>> {
-    return class extends Range<O> {
-      constructor (registry: Registry, value?: AnyTuple) {
-        super(registry, Type, value);
-      }
-    };
-  }
-
   /**
    * @description Returns the starting range value
    */
