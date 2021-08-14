@@ -21,6 +21,14 @@ export class Range<T extends INumber> extends Tuple {
     this.#rangeType = rangeType;
   }
 
+  public static override with <T extends INumber> (Types: Constructor<T> | string): Constructor<Range<T>> {
+    return class extends Range<T> {
+      constructor (registry: Registry, value?: AnyTuple) {
+        super(registry, Types, value);
+      }
+    };
+  }
+
   /**
    * @description Returns the starting range value
    */
@@ -46,5 +54,13 @@ export class Range<T extends INumber> extends Tuple {
 export class RangeInclusive<T extends INumber = INumber> extends Range<T> {
   constructor (registry: Registry, type: Constructor<T> | string, value?: AnyTuple) {
     super(registry, type, value, 'RangeInclusive');
+  }
+
+  public static override with <T extends INumber> (Types: Constructor<T> | string): Constructor<RangeInclusive<T>> {
+    return class extends RangeInclusive<T> {
+      constructor (registry: Registry, value?: AnyTuple) {
+        super(registry, Types, value);
+      }
+    };
   }
 }

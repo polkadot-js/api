@@ -7,21 +7,19 @@ import { Range } from '.';
 
 describe('Range', (): void => {
   const registry = new TypeRegistry();
-  const Type = Range.with([U32, U32]);
   let range: Range<U32>;
 
   beforeEach((): void => {
-    range = new Range(
+    const Clazz = Range.with(U32);
+
+    range = new Clazz(
       registry,
-      U32,
       [new U32(registry, 1), new U32(registry, 2)]
     );
   });
 
   it('decodes', (): void => {
-    const rslt = new Type(registry, new Uint8Array([1, 0, 0, 0, 2, 0, 0, 0]));
-
-    expect(rslt.toJSON()).toEqual([1, 2]);
+    expect(range.toJSON()).toEqual([1, 2]);
   });
 
   it('encodes', (): void => {
