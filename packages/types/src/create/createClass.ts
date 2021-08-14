@@ -7,7 +7,7 @@ import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
-import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
+import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
 import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
@@ -113,6 +113,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     registry.getOrUnknown(value.type),
+
+  [TypeDefInfo.Range]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+    (value.type.includes('RangeInclusive') ? RangeInclusive : Range).with(getSubType(value)),
 
   [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const [Ok, Err] = getTypeClassArray(value);

@@ -189,6 +189,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<str
   [TypeDefInfo.Null]: errorUnhandled,
   [TypeDefInfo.Option]: tsOption,
   [TypeDefInfo.Plain]: tsPlain,
+  [TypeDefInfo.Range]: errorUnhandled,
   [TypeDefInfo.Result]: tsResult,
   [TypeDefInfo.Set]: tsSet,
   [TypeDefInfo.Si]: tsSi,

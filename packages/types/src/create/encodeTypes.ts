@@ -133,6 +133,8 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef) =>
     typeDef.displayName || typeDef.type,
+  [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef) =>
+    encodeWithParams(registry, typeDef, typeDef.type.includes('RangeInclusive') ? 'RangeInclusive' : 'Range'),
   [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Result'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
