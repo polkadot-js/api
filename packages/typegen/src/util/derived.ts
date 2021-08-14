@@ -7,7 +7,6 @@ import type { Constructor, Registry } from '@polkadot/types/types';
 import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
 import { getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { bool, Null } from '@polkadot/types/primitive';
@@ -53,9 +52,9 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
 
     // this could be that we define a Vec type and refer to it by name
     if (subDef) {
-      if (subDef.info === TypeDefInfo.Plain) {
+      if (subDef.info === 'Plain') {
         possibleTypes.push(`(${getSimilarTypes(registry, definitions, subDef.type, imports).join(' | ')})[]`);
-      } else if (subDef.info === TypeDefInfo.Tuple) {
+      } else if (subDef.info === 'Tuple') {
         const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
           getSimilarTypes(registry, definitions, type, imports).join(' | ')
         );

@@ -5,7 +5,6 @@ import type { TypeDef } from '../../types';
 
 // we are attempting to avoid circular refs, hence the path import
 import { getTypeDef } from '../../create/getTypeDef';
-import { TypeDefInfo } from '../../create/types';
 
 type Extracted = string | Extracted[];
 
@@ -15,20 +14,21 @@ export function extractTypes (types: string[]): Extracted[] {
     const decoded = getTypeDef(type);
 
     switch (decoded.info) {
-      case TypeDefInfo.Plain:
+      case 'Plain':
         return decoded.type;
 
-      case TypeDefInfo.BTreeSet:
-      case TypeDefInfo.Compact:
-      case TypeDefInfo.Option:
-      case TypeDefInfo.Vec:
-      case TypeDefInfo.VecFixed:
+      case 'BTreeSet':
+      case 'Compact':
+      case 'Option':
+      case 'Range':
+      case 'Vec':
+      case 'VecFixed':
         return extractTypes([(decoded.sub as TypeDef).type]);
 
-      case TypeDefInfo.BTreeMap:
-      case TypeDefInfo.HashMap:
-      case TypeDefInfo.Result:
-      case TypeDefInfo.Tuple:
+      case 'BTreeMap':
+      case 'HashMap':
+      case 'Result':
+      case 'Tuple':
         return extractTypes((decoded.sub as TypeDef[]).map(({ type }) => type));
 
       default:

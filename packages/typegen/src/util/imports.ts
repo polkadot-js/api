@@ -3,7 +3,6 @@
 
 import * as codecClasses from '@polkadot/types/codec';
 import { getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as extrinsicClasses from '@polkadot/types/extrinsic';
 import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
@@ -60,12 +59,12 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
       // since that represents a tuple's similar types, which are covered in the next block
       const typeDef = getTypeDef(type);
 
-      setImports(allDefs, imports, [TypeDefInfo[typeDef.info]]);
+      setImports(allDefs, imports, [typeDef.info]);
 
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
         typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.lookupName || subType.type]));
-      } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
+      } else if (typeDef.sub && (typeDef.info !== 'VecFixed' || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.lookupName || typeDef.sub.type]);
       }

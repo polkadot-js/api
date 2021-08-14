@@ -3,7 +3,6 @@
 
 import { encodeTypeDef } from './encodeTypes';
 import { TypeRegistry } from './registry';
-import { TypeDefInfo } from './types';
 
 describe('encodeTypeDef', (): void => {
   const registry = new TypeRegistry();
@@ -11,27 +10,27 @@ describe('encodeTypeDef', (): void => {
   it('correctly encodes a complex struct', (): void => {
     expect(
       JSON.parse(encodeTypeDef(registry, {
-        info: TypeDefInfo.Struct,
+        info: 'Struct',
         sub: [
           {
-            info: TypeDefInfo.Plain,
+            info: 'Plain',
             name: 'a',
             type: 'u32'
           },
           {
-            info: TypeDefInfo.Struct,
+            info: 'Struct',
             name: 'b',
             sub: [
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'c',
                 type: 'u32'
               },
               {
-                info: TypeDefInfo.Vec,
+                info: 'Vec',
                 name: 'd',
                 sub: {
-                  info: TypeDefInfo.Plain,
+                  info: 'Plain',
                   type: 'u32'
                 },
                 type: ''
@@ -51,28 +50,28 @@ describe('encodeTypeDef', (): void => {
   it('correctly encodes a complex struct (named)', (): void => {
     expect(
       JSON.parse(encodeTypeDef(registry, {
-        info: TypeDefInfo.Struct,
+        info: 'Struct',
         sub: [
           {
-            info: TypeDefInfo.Plain,
+            info: 'Plain',
             name: 'a',
             type: 'u32'
           },
           {
-            info: TypeDefInfo.Struct,
+            info: 'Struct',
             name: 'b',
             sub: [
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'c',
                 type: 'u32'
               },
               {
                 displayName: 'Something',
-                info: TypeDefInfo.Vec,
+                info: 'Vec',
                 name: 'd',
                 sub: {
-                  info: TypeDefInfo.Plain,
+                  info: 'Plain',
                   type: 'u32'
                 },
                 type: ''
@@ -92,27 +91,27 @@ describe('encodeTypeDef', (): void => {
   it('correctly encodes a complex enum', (): void => {
     expect(
       JSON.parse(encodeTypeDef(registry, {
-        info: TypeDefInfo.Enum,
+        info: 'Enum',
         sub: [
           {
-            info: TypeDefInfo.Plain,
+            info: 'Plain',
             name: 'a',
             type: 'u32'
           },
           {
-            info: TypeDefInfo.Struct,
+            info: 'Struct',
             name: 'b',
             sub: [
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'c',
                 type: 'u32'
               },
               {
-                info: TypeDefInfo.Vec,
+                info: 'Vec',
                 name: 'd',
                 sub: {
-                  info: TypeDefInfo.Plain,
+                  info: 'Plain',
                   type: 'u32'
                 },
                 type: ''
@@ -121,16 +120,16 @@ describe('encodeTypeDef', (): void => {
             type: ''
           },
           {
-            info: TypeDefInfo.Enum,
+            info: 'Enum',
             name: 'f',
             sub: [
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'g',
                 type: 'Null'
               },
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'h',
                 type: 'Null'
               }
@@ -152,28 +151,28 @@ describe('encodeTypeDef', (): void => {
   it('correctly encodes a complex enum (named)', (): void => {
     expect(
       JSON.parse(encodeTypeDef(registry, {
-        info: TypeDefInfo.Enum,
+        info: 'Enum',
         sub: [
           {
-            info: TypeDefInfo.Plain,
+            info: 'Plain',
             name: 'a',
             type: 'u32'
           },
           {
             displayName: 'Something',
-            info: TypeDefInfo.Struct,
+            info: 'Struct',
             name: 'b',
             sub: [
               {
-                info: TypeDefInfo.Plain,
+                info: 'Plain',
                 name: 'c',
                 type: 'u32'
               },
               {
-                info: TypeDefInfo.Vec,
+                info: 'Vec',
                 name: 'd',
                 sub: {
-                  info: TypeDefInfo.Plain,
+                  info: 'Plain',
                   type: 'u32'
                 },
                 type: ''
@@ -183,18 +182,18 @@ describe('encodeTypeDef', (): void => {
           },
           {
             displayName: 'Option',
-            info: TypeDefInfo.Option,
+            info: 'Option',
             name: 'e',
             sub: {
               displayName: 'Result',
-              info: TypeDefInfo.Result,
+              info: 'Result',
               sub: [
                 {
-                  info: TypeDefInfo.Null,
+                  info: 'Null',
                   type: ''
                 },
                 {
-                  info: TypeDefInfo.Plain,
+                  info: 'Plain',
                   type: 'u32'
                 }
               ],
