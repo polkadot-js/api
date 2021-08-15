@@ -12,7 +12,7 @@ Contributed:
 Changes:
 
 - Loosen pedantic check not to fail on all-empty values
-- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`
+- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`, `Range`
 - Add Polkadot 9080 upgrade block
 
 
