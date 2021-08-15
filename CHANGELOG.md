@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## master
+## 5.5.1 Aug 15, 2021
 
-Upgrade priority: Low.
+Upgrade priority: Low. Recommended for users for TS for `createType` and `bigint` adjustments.
 
 Contributed:
 
