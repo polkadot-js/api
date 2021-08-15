@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Raw, Result, Struct, Vec, VecFixed } from '../codec';
+import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Result, Struct, U8aFixed, Vec, VecFixed } from '../codec';
 import type { Bytes, Null, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
@@ -45,7 +45,7 @@ export type __MapWrapOne<C extends Codec> = {
   'Range<': C extends INumber ? Range<C> : Codec;
   'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
   'Vec<': C extends u8 ? Bytes : Vec<C>;
-  '[': C extends u8 ? Raw : VecFixed<C>;
+  '[': C extends u8 ? U8aFixed : VecFixed<C>;
 };
 
 // FIXME We don't cater for Int< & UInt< here. These could be problematic, since it has
