@@ -5,24 +5,23 @@ export enum TypeDefInfo {
   BTreeMap,
   BTreeSet,
   Compact,
+  DoNotConstruct,
   Enum,
-  Linkage,
-  Option,
-  Plain,
-  Result,
-  Set,
-  Struct,
-  Tuple,
-  Vec,
-  VecFixed,
   HashMap,
   Int,
-  UInt,
-  DoNotConstruct,
-  Si,
+  Linkage,
+  Null,
+  Option,
+  Plain,
   Range,
-  // anything not fully supported (keep this as the last entry)
-  Null
+  Result,
+  Set,
+  Si,
+  Struct,
+  Tuple,
+  UInt,
+  Vec,
+  VecFixed
 }
 
 export interface TypeDef {
