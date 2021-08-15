@@ -2,6 +2,8 @@
 
 ## master
 
+Upgrade priority: Low.
+
 Contributed:
 
 - Add `Range` & `RangeInclusive` types (Thanks to https://github.com/c410-f3r)
@@ -9,8 +11,9 @@ Contributed:
 
 Changes:
 
-- Loose pedantic check not to fail on all-empty values
+- Loosen pedantic check not to fail on all-empty values
 - Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`
+- Add Polkadot 9080 upgrade block
 
 
 ## 5.4.1 Aug 9, 2021
