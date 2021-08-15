@@ -2,30 +2,30 @@
   {
     "displayName": "AccountId",
     "namespace": "ink_env::types",
-    "info": 6,
+    "info": "Plain",
     "type": "AccountId"
   },
   {
-    "info": 12,
+    "info": "VecFixed",
     "length": 32,
     "sub": {
-      "info": 6,
+      "info": "Plain",
       "type": "u8"
     },
     "type": "[u8;32]"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u8"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "i32"
   },
   {
     "displayName": "Hash",
     "namespace": "ink_env::types",
-    "info": 6,
+    "info": "Plain",
     "type": "Hash"
   }
 ]
