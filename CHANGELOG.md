@@ -2,7 +2,7 @@
 
 ## 5.5.1 Aug 15, 2021
 
-Upgrade priority: Low. Recommended for users for TS for `createType` and `bigint` adjustments.
+Upgrade priority: Low. Recommended for users of TS (`createType` and `bigint` adjustments)
 
 Contributed:
 
