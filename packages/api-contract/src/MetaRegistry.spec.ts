@@ -4,27 +4,35 @@
 import fs from 'fs';
 import path from 'path';
 
+import { TypeDefInfo } from '@polkadot/types/types';
+
 import abis from '../test/contracts';
 import { Abi } from '.';
+
+function stringifyInfo (key: string, value: unknown): unknown {
+  return key === 'info'
+    ? TypeDefInfo[value as number]
+    : value;
+}
 
 describe('MetaRegistry', (): void => {
   Object.keys(abis).forEach((abiName) => {
     it(`initializes from a contract ABI (${abiName})`, (): void => {
       const abi = new Abi(abis[abiName]);
+      const json = JSON.stringify(abi.registry.metaTypeDefs, stringifyInfo, 2);
+      const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
 
       try {
-        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        expect(JSON.parse(json)).toEqual(require(cmpPath));
+      } catch (error) {
+        if (process.env.GITHUB_REPOSITORY) {
+          console.error(JSON.stringify(abi.registry.metaTypeDefs, stringifyInfo));
 
-        if (!fs.existsSync(cmpPath)) {
-          fs.writeFileSync(cmpPath, JSON.stringify(abi.registry.metaTypeDefs, null, 2), { flag: 'w' });
+          throw error;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        expect(abi.registry.metaTypeDefs).toEqual(require(cmpPath));
-      } catch (error) {
-        console.error(JSON.stringify(abi.registry.metaTypeDefs));
-
-        throw error;
+        fs.writeFileSync(cmpPath, json, { flag: 'w' });
       }
     });
   });
