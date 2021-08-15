@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-core",
-  "version": "5.5.0",
+  "version": "5.5.1",
   "type": "module",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
@@ -20,8 +20,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@polkadot/rpc-provider": "5.5.0",
-    "@polkadot/types": "5.5.0",
+    "@polkadot/rpc-provider": "5.5.1",
+    "@polkadot/types": "5.5.1",
     "@polkadot/util": "^7.2.1",
     "rxjs": "^7.3.0"
   },
