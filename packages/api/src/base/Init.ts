@@ -332,6 +332,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return true;
   }
 
+  private _subscribeHealth (): void {
+    // Only enable the health keepalive on WS, not needed on HTTP
+    this.#healthTimer = this.hasSubscriptions
+      ? setInterval((): void => {
+        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
+      }, KEEPALIVE_INTERVAL)
+      : null;
+  }
+
   private _unsubscribeHealth (): void {
     if (this.#healthTimer) {
       clearInterval(this.#healthTimer);
@@ -363,15 +372,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
           : cryptoWaitReady()
       ]);
 
+      this._subscribeHealth();
+
       if (hasMeta && !this._isReady && cryptoReady) {
         this._isReady = true;
 
         this.emit('ready', this);
       }
-
-      this.#healthTimer = setInterval((): void => {
-        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
-      }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
