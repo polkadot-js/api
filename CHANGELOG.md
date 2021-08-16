@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Only enable API health keepalive on connections supporting subscriptions
+
+
 ## 5.5.1 Aug 15, 2021
 
 Upgrade priority: Low. Recommended for users of TS (`createType` and `bigint` adjustments)
