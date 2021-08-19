@@ -23,6 +23,17 @@ interface DecodedMethod extends DecodeMethodInput {
 }
 
 /**
+ * @name GenericCallIndex
+ * @description
+ * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
+ */
+export class GenericCallIndex extends U8aFixed {
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, value, 16);
+  }
+}
+
+/**
  * Get a mapping of `argument name -> argument type` for the function, from
  * its metadata.
  *
@@ -44,9 +55,6 @@ function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef 
 function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
   // we only pass args/methodsIndex out
   const { args, callIndex } = value;
-
-  // Get the correct lookupIndex
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const lookupIndex = callIndex instanceof GenericCallIndex
     ? callIndex.toU8a()
     : callIndex;
@@ -102,48 +110,52 @@ function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8A
 }
 
 /**
- * @name GenericCallIndex
- * @description
- * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
- */
-export class GenericCallIndex extends U8aFixed {
-  constructor (registry: Registry, value?: AnyU8a) {
-    super(registry, value, 16);
-  }
-}
-
-/**
  * @name GenericCall
  * @description
  * Extrinsic function descriptor
  */
 export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
+  #decodingError: string | null = null;
+
   protected _meta: FunctionMetadataLatest;
 
-  constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
-    const decoded = decodeCall(registry, value, meta);
+  constructor (registry: Registry, value: unknown, metaSupplied?: FunctionMetadataLatest, throwError = true) {
+    const { args: argsData, argsDef, callIndex, meta } = decodeCall(registry, value, metaSupplied);
+    const Args = Struct.with(argsDef);
+    let args: unknown;
+    let decodingError: string | null = null;
 
     try {
-      super(registry, {
-        callIndex: GenericCallIndex,
-        // eslint-disable-next-line sort-keys
-        args: Struct.with(decoded.argsDef)
-      }, decoded);
+      args = new Args(registry, argsData);
     } catch (error) {
       let method = 'unknown.unknown';
 
       try {
-        const c = registry.findMetaCall(decoded.callIndex);
+        const c = registry.findMetaCall(callIndex);
 
+        decodingError = (error as Error).message;
         method = `${c.section}.${c.method}`;
       } catch (error) {
         // ignore
       }
 
-      throw new Error(`Call: failed decoding ${method}:: ${(error as Error).message}`);
+      const message = `Call: failed decoding ${method}:: ${(error as Error).message}`;
+
+      if (throwError) {
+        throw new Error(message);
+      } else {
+        console.error(message);
+      }
     }
 
-    this._meta = decoded.meta;
+    super(registry, {
+      callIndex: GenericCallIndex,
+      // eslint-disable-next-line sort-keys
+      args: Args
+    }, { args, callIndex });
+
+    this._meta = meta;
+    this.#decodingError = decodingError;
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
@@ -183,6 +195,13 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    */
   public get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
+  }
+
+  /**
+   * @description A flag indicating a decoding error (on arguments)
+   */
+  public get decodingError (): string | null {
+    return this.#decodingError;
   }
 
   /**

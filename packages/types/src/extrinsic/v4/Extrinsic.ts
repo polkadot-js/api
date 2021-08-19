@@ -23,16 +23,16 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
-  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { callThrow = true, isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
       // eslint-disable-next-line sort-keys
       method: 'Call'
-    }, GenericExtrinsicV4.decodeExtrinsic(registry, value, isSigned));
+    }, GenericExtrinsicV4.decodeExtrinsic(registry, callThrow, value, isSigned));
   }
 
   /** @internal */
-  public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
+  public static decodeExtrinsic (registry: Registry, callThrow: boolean, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
     } else if (value instanceof registry.createClass('Call')) {
@@ -40,7 +40,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = registry.createType('ExtrinsicSignatureV4', value, { isSigned });
-      const method = registry.createType('Call', value.subarray(signature.encodedLength));
+      const method = registry.createType('Call', value.subarray(signature.encodedLength), undefined, callThrow);
 
       return {
         method,

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Be more lenient on `Call` decoding failures, expose `decodingError` field
+
+
 ## 5.5.2 Aug 19, 2021
 
 Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.

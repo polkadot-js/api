@@ -173,7 +173,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /** @internal */
-  private static _newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _newFromValue (registry: Registry, value: unknown, version: number, callThrow: boolean): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof GenericExtrinsic) {
       return value._raw;
     }
@@ -183,24 +183,27 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a
     // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return registry.createType(type, value, { isSigned, version });
+    return registry.createType(type, value, { callThrow, isSigned, version });
   }
 
   /** @internal */
   private static _decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-      return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value), version);
+    const fromHex = isHex(value);
+
+    if (fromHex || isU8a(value) || Array.isArray(value)) {
+      // `as string` here, TS doesn't remember the isHex check above
+      return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value as (string | Uint8Array | number[])), version, !fromHex);
     } else if (value instanceof registry.createClass('Call')) {
-      return GenericExtrinsic._newFromValue(registry, { method: value }, version);
+      return GenericExtrinsic._newFromValue(registry, { method: value }, version, true);
     }
 
-    return GenericExtrinsic._newFromValue(registry, value, version);
+    return GenericExtrinsic._newFromValue(registry, value, version, true);
   }
 
   /** @internal */
-  private static _decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeU8a (registry: Registry, value: Uint8Array, version: number, callThrow: boolean): ExtrinsicVx | ExtrinsicUnknown {
     if (!value.length) {
-      return GenericExtrinsic._newFromValue(registry, new Uint8Array(), version);
+      return GenericExtrinsic._newFromValue(registry, new Uint8Array(), version, true);
     }
 
     const [offset, length] = compactFromU8a(value);
@@ -210,7 +213,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
     const data = value.subarray(offset, total);
 
-    return GenericExtrinsic._newFromValue(registry, data.subarray(1), data[0]);
+    return GenericExtrinsic._newFromValue(registry, data.subarray(1), data[0], callThrow);
   }
 
   /**

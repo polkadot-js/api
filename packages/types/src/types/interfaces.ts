@@ -90,6 +90,7 @@ export interface IMethod<A extends AnyTuple = AnyTuple> extends Codec {
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
+  readonly decodingError?: string | null;
   readonly hash: Hash;
   readonly meta: FunctionMetadataLatest;
 

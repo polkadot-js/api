@@ -4,6 +4,7 @@
 import type { AnyNumber } from '../types';
 
 export interface ExtrinsicOptions {
+  callThrow: boolean;
   isSigned: boolean;
   version: number;
 }
