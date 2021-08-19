@@ -1,9 +1,12 @@
 # CHANGELOG
 
-## master
+## 5.5.2 Aug 19, 2021
+
+Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.
 
 Changes:
 
+- Adjust `ValidDisputeStatementKind` enum to latest version
 - Only enable API health keepalive on connections supporting subscriptions
 
 
