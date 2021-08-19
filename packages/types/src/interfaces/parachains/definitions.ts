@@ -159,7 +159,7 @@ export default {
     DisputeStatementSet: {
       candidateHash: 'CandidateHash',
       session: 'SessionIndex',
-      statements: 'Vec<(DisputeStatement, ValidatorIndex, ValidatorSignature)>'
+      statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
     },
     MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
     DisputeStatement: {
@@ -169,12 +169,12 @@ export default {
       }
     },
     ValidDisputeStatementKind: {
-      _enum: [
-        'Explicit',
-        'BackingSeconded',
-        'BackingValid',
-        'ApprovalChecking'
-      ]
+      _enum: {
+        Explicit: 'Null',
+        BackingSeconded: 'Hash',
+        BackingValid: 'Hash',
+        ApprovalChecking: 'Null'
+      }
     },
     InvalidDisputeStatementKind: {
       _enum: [
