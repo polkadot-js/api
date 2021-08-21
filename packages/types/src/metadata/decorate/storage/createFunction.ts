@@ -108,21 +108,21 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
       (
         (args.length === 0) ||
         (type.isDoubleMap && args.length === 1) ||
-        (type.isNMap && args.length === (type.asNMap.hashers.length - 1))
+        (type.isNMap && args.length < (type.asNMap.hashers.length))
       ),
-      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be one less than the full arguments, found [${args.join(', ')}]`
+      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`
     );
 
     if (args.length) {
       if (type.isDoubleMap) {
         return new Raw(registry, createKeyRaw(registry, itemFn, [type.asDoubleMap.key1], [type.asDoubleMap.hasher], args as Arg[]));
       } else if (type.isNMap) {
-        const keys = [...type.asNMap.keyVec];
-        const hashers = [...type.asNMap.hashers];
+        let keys = [...type.asNMap.keyVec];
+        let hashers = [...type.asNMap.hashers];
 
-        // remove the last entry
-        keys.pop();
-        hashers.pop();
+        // pick the first n entries where n = args.length which is already verified above to be less that the full arguments.
+        keys = keys.slice(0, args.length);
+        hashers = hashers.slice(0, args.length);
 
         return new Raw(registry, createKeyRaw(registry, itemFn, keys, hashers, args as Arg[]));
       }
