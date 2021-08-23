@@ -192,7 +192,10 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [9010, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      AssetInstance: 'AssetInstanceV0',
+      MultiAsset: 'MultiAssetV0',
+      XcmOrder: 'XcmOrderV0'
     }
   }
 ];

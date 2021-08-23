@@ -81,6 +81,12 @@ const typesModules: Record<string, OverrideModuleType> = {
   },
   treasury: {
     Proposal: 'TreasuryProposal'
+  },
+  xcm: {
+    AssetId: 'XcmAssetId'
+  },
+  xcmPallet: {
+    AssetId: 'XcmAssetId'
   }
 };
 
