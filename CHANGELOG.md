@@ -2,7 +2,7 @@
 
 ## 5.6.1 Aug 23, 2021
 
-Upgrade priority: Low. Recommended for users of Xcm v1, preparing for Kusama/Westend 9100
+Upgrade priority: Low. Recommended for users of Xcm, preparing for Kusama/Westend 9100
 
 Contributed:
 
@@ -11,6 +11,7 @@ Contributed:
 Changes:
 
 - Updated XCM types, `AssetId`, `MultiAssets`, `MultiAssetV1`, `AssetInstanceV1`, `XcmOrderV1`
+- Rename `Null` entry in `MultiLocation` to `Here` (Xcm V1)
 - Westend 9090 upgrade block
 - Bump static Substrate, Kusama & Polkadot metadata
 
