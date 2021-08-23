@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 5.6.1 Aug 23, 2021
+
+Upgrade priority: Low. Recommended for users of Xcm v1, preparing for Kusama/Westend 9100
+
+Contributed:
+
+- Support 0...N-1 args on `keys/entries` (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- Updated XCM types, `AssetId`, `MultiAssets`, `MultiAssetV1`, `AssetInstanceV1`, `XcmOrderV1`
+- Westend 9090 upgrade block
+- Bump static Substrate, Kusama & Polkadot metadata
+
+
 ## 5.5.2 Aug 19, 2021
 
 Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.

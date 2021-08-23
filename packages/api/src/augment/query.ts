@@ -94,7 +94,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       currentSlot: AugmentedQuery<ApiType, () => Observable<Slot>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The configuration for the current epoch. Should never be `None` as it is initialized in genesis.
+       * The configuration for the current epoch. Should never be `None` as it is initialized in
+       * genesis.
        **/
       epochConfig: AugmentedQuery<ApiType, () => Observable<Option<BabeEpochConfiguration>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -916,9 +917,9 @@ declare module '@polkadot/api/types/storage' {
        **/
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The threshold for when users can start calling `chill_other` for other validators / nominators.
-       * The threshold is compared to the actual number of validators / nominators (`CountFor*`) in
-       * the system compared to the configured max (`Max*Count`).
+       * The threshold for when users can start calling `chill_other` for other validators /
+       * nominators. The threshold is compared to the actual number of validators / nominators
+       * (`CountFor*`) in the system compared to the configured max (`Max*Count`).
        **/
       chillThreshold: AugmentedQuery<ApiType, () => Observable<Option<Percent>>, []> & QueryableStorageEntry<ApiType, []>;
       /**

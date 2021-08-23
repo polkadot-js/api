@@ -278,10 +278,11 @@
                 " # <weight>",
                 " - `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`",
                 " - 1 storage write (codec `O(C)`).",
-                " - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).",
+                " - 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is",
+                "   expensive).",
                 " - 1 event.",
-                " The weight of this function is dependent on the runtime, but generally this is very expensive.",
-                " We will treat this as a full block.",
+                " The weight of this function is dependent on the runtime, but generally this is very",
+                " expensive. We will treat this as a full block.",
                 " # </weight>"
               ]
             },
@@ -300,8 +301,8 @@
                 " - `O(C)` where `C` length of `code`",
                 " - 1 storage write (codec `O(C)`).",
                 " - 1 event.",
-                " The weight of this function is dependent on the runtime. We will treat this as a full block.",
-                " # </weight>"
+                " The weight of this function is dependent on the runtime. We will treat this as a full",
+                " block. # </weight>"
               ]
             },
             {
@@ -824,8 +825,8 @@
               "type": "Weight",
               "value": "0x00806e8774010000",
               "docs": [
-                " The maximum weight that may be scheduled per block for any dispatchables of less priority",
-                " than `schedule::HARD_DEADLINE`."
+                " The maximum weight that may be scheduled per block for any dispatchables of less",
+                " priority than `schedule::HARD_DEADLINE`."
               ]
             },
             {
@@ -1068,7 +1069,8 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The configuration for the current epoch. Should never be `None` as it is initialized in genesis."
+                  " The configuration for the current epoch. Should never be `None` as it is initialized in",
+                  " genesis."
                 ]
               },
               {
@@ -1242,7 +1244,8 @@
                 "",
                 " # <weight>",
                 " - `O(1)` (Note that implementations of `OnTimestampSet` must also be `O(1)`)",
-                " - 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)",
+                " - 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in",
+                "   `on_finalize`)",
                 " - 1 event handler `on_timestamp_set`. Must be `O(1)`.",
                 " # </weight>"
               ]
@@ -1255,10 +1258,10 @@
               "type": "Moment",
               "value": "0xb80b000000000000",
               "docs": [
-                " The minimum period between blocks. Beware that this is different to the *expected* period",
-                " that the block production apparatus provides. Your chosen consensus system will generally",
-                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
-                " period on default settings."
+                " The minimum period between blocks. Beware that this is different to the *expected*",
+                " period that the block production apparatus provides. Your chosen consensus system will",
+                " generally work with this to determine a sensible block time. e.g. For Aura, it will be",
+                " double this period on default settings."
               ]
             }
           ],
@@ -1431,7 +1434,8 @@
                 }
               ],
               "docs": [
-                " Freeze an index so it will always point to the sender account. This consumes the deposit.",
+                " Freeze an index so it will always point to the sender account. This consumes the",
+                " deposit.",
                 "",
                 " The dispatch origin for this call must be _Signed_ and the signing account must have a",
                 " non-frozen account `index`.",
@@ -1632,18 +1636,19 @@
                 " The dispatch origin for this call must be `Signed` by the transactor.",
                 "",
                 " # <weight>",
-                " - Dependent on arguments but not critical, given proper implementations for",
-                "   input config types. See related functions below.",
-                " - It contains a limited number of reads and writes internally and no complex computation.",
+                " - Dependent on arguments but not critical, given proper implementations for input config",
+                "   types. See related functions below.",
+                " - It contains a limited number of reads and writes internally and no complex",
+                "   computation.",
                 "",
                 " Related functions:",
                 "",
                 "   - `ensure_can_withdraw` is always called internally but has a bounded complexity.",
                 "   - Transferring balances to accounts that did not exist before will cause",
-                "      `T::OnNewAccount::on_new_account` to be called.",
+                "     `T::OnNewAccount::on_new_account` to be called.",
                 "   - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.",
-                "   - `transfer_keep_alive` works the same way as `transfer`, but has an additional",
-                "     check that the transfer will not kill the origin account.",
+                "   - `transfer_keep_alive` works the same way as `transfer`, but has an additional check",
+                "     that the transfer will not kill the origin account.",
                 " ---------------------------------",
                 " - Base Weight: 73.64 µs, worst case scenario (account created, account removed)",
                 " - DB Weight: 1 Read and 1 Write to destination account",
@@ -1708,8 +1713,8 @@
                 " Exactly as `transfer`, except the origin must be root and the source account may be",
                 " specified.",
                 " # <weight>",
-                " - Same as transfer, but additional read and write because the source account is",
-                "   not assumed to be in the overlay.",
+                " - Same as transfer, but additional read and write because the source account is not",
+                "   assumed to be in the overlay.",
                 " # </weight>"
               ]
             },
@@ -1766,8 +1771,7 @@
                 " - `keep_alive`: A boolean to determine if the `transfer_all` operation should send all",
                 "   of the funds the account has, causing the sender account to be killed (false), or",
                 "   transfer everything except at least the existential deposit, which will guarantee to",
-                "   keep the sender account alive (true).",
-                "   # <weight>",
+                "   keep the sender account alive (true). # <weight>",
                 " - O(1). Just like transfer, but reading the user's transferable balance first.",
                 "   #</weight>"
               ]
@@ -2662,9 +2666,9 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The threshold for when users can start calling `chill_other` for other validators / nominators.",
-                  " The threshold is compared to the actual number of validators / nominators (`CountFor*`) in",
-                  " the system compared to the configured max (`Max*Count`)."
+                  " The threshold for when users can start calling `chill_other` for other validators /",
+                  " nominators. The threshold is compared to the actual number of validators / nominators",
+                  " (`CountFor*`) in the system compared to the configured max (`Max*Count`)."
                 ]
               }
             ]
@@ -2721,8 +2725,8 @@
                 " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
-                " Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose any limitation",
-                " on the amount that can be added.",
+                " Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose",
+                " any limitation on the amount that can be added.",
                 "",
                 " Emits `Bonded`.",
                 "",
@@ -3034,8 +3038,8 @@
                 " # <weight>",
                 " O(S) where S is the number of slashing spans to be removed",
                 " Reads: Bonded, Slashing Spans, Account, Locks",
-                " Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks",
-                " Writes Each: SpanSlash * S",
+                " Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                " Account, Locks Writes Each: SpanSlash * S",
                 " # </weight>"
               ]
             },
@@ -3161,10 +3165,10 @@
                 "",
                 " Parameters:",
                 " - `new_history_depth`: The new history depth you would like to set.",
-                " - `era_items_deleted`: The number of items that will be deleted by this dispatch.",
-                "    This should report all the storage items that will be deleted by clearing old",
-                "    era history. Needed to report an accurate weight for the dispatch. Trusted by",
-                "    `Root` to report an accurate number.",
+                " - `era_items_deleted`: The number of items that will be deleted by this dispatch. This",
+                "   should report all the storage items that will be deleted by clearing old era history.",
+                "   Needed to report an accurate weight for the dispatch. Trusted by `Root` to report an",
+                "   accurate number.",
                 "",
                 " Origin must be root.",
                 "",
@@ -3175,7 +3179,8 @@
                 "     - Reads: Current Era, History Depth",
                 "     - Writes: History Depth",
                 "     - Clear Prefix Each: Era Stakers, EraStakersClipped, ErasValidatorPrefs",
-                "     - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake, ErasStartSessionIndex",
+                "     - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake,",
+                "       ErasStartSessionIndex",
                 " # </weight>"
               ]
             },
@@ -3204,7 +3209,8 @@
                 " Complexity: O(S) where S is the number of slashing spans on the account.",
                 " DB Weight:",
                 " - Reads: Stash Account, Bonded, Slashing Spans, Locks",
-                " - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Stash Account, Locks",
+                " - Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "   Stash Account, Locks",
                 " - Writes Each: SpanSlash * S",
                 " # </weight>"
               ]
@@ -3260,10 +3266,10 @@
                 "",
                 " * `min_nominator_bond`: The minimum active bond needed to be a nominator.",
                 " * `min_validator_bond`: The minimum active bond needed to be a validator.",
-                " * `max_nominator_count`: The max number of users who can be a nominator at once.",
-                "   When set to `None`, no limit is enforced.",
-                " * `max_validator_count`: The max number of users who can be a validator at once.",
-                "   When set to `None`, no limit is enforced.",
+                " * `max_nominator_count`: The max number of users who can be a nominator at once. When",
+                "   set to `None`, no limit is enforced.",
+                " * `max_validator_count`: The max number of users who can be a validator at once. When",
+                "   set to `None`, no limit is enforced.",
                 "",
                 " Origin must be Root to call this function.",
                 "",
@@ -3463,8 +3469,8 @@
               "docs": [
                 " The maximum number of nominators rewarded for each validator.",
                 "",
-                " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can claim",
-                " their reward. This used to limit the i/o cost for the nominator payout."
+                " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can",
+                " claim their reward. This used to limit the i/o cost for the nominator payout."
               ]
             },
             {
@@ -3604,15 +3610,15 @@
             {
               "name": "TooManyNominators",
               "docs": [
-                " There are too many nominators in the system. Governance needs to adjust the staking settings",
-                " to keep things safe for the runtime."
+                " There are too many nominators in the system. Governance needs to adjust the staking",
+                " settings to keep things safe for the runtime."
               ]
             },
             {
               "name": "TooManyValidators",
               "docs": [
-                " There are too many validators in the system. Governance needs to adjust the staking settings",
-                " to keep things safe for the runtime."
+                " There are too many validators in the system. Governance needs to adjust the staking",
+                " settings to keep things safe for the runtime."
               ]
             }
           ],
@@ -3861,8 +3867,8 @@
                 "SessionIndex"
               ],
               "docs": [
-                " New session has happened. Note that the argument is the \\[session_index\\], not the block",
-                " number as the type might suggest."
+                " New session has happened. Note that the argument is the \\[session_index\\], not the",
+                " block number as the type might suggest."
               ]
             }
           ],
@@ -4214,8 +4220,8 @@
               ],
               "docs": [
                 " # <weight>",
-                " - Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)",
-                "   and E is length of `heartbeat.network_state.external_address`",
+                " - Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len) and E is",
+                "   length of `heartbeat.network_state.external_address`",
                 "   - `O(K)`: decoding of length `K`",
                 "   - `O(E)`: decoding/encoding of length `E`",
                 " - DbReads: pallet_session `Validators`, pallet_session `CurrentIndex`, `Keys`,",
@@ -4784,8 +4790,8 @@
                 " - `to`: The account whose voting the `target` account's voting power will follow.",
                 " - `conviction`: The conviction that will be attached to the delegated votes. When the",
                 "   account is undelegated, the funds will be locked for the corresponding period.",
-                " - `balance`: The amount of the account's balance to be used in delegating. This must",
-                "   not be more than the account's current balance.",
+                " - `balance`: The amount of the account's balance to be used in delegating. This must not",
+                "   be more than the account's current balance.",
                 "",
                 " Emits `Delegated`.",
                 "",
@@ -4908,8 +4914,8 @@
                 " The dispatch origin of this call must be _Signed_.",
                 "",
                 " - `proposal_hash`: The preimage hash of a proposal.",
-                " - `proposal_length_upper_bound`: an upper bound on length of the proposal.",
-                "   Extrinsic is weighted according to this value with no refund.",
+                " - `proposal_length_upper_bound`: an upper bound on length of the proposal. Extrinsic is",
+                "   weighted according to this value with no refund.",
                 "",
                 " This will only work after `VotingPeriod` blocks from the time that the preimage was",
                 " noted, if it's the same account doing it. If it's a different account, then it'll only",
@@ -5090,7 +5096,8 @@
                 "Vec<AccountId>"
               ],
               "docs": [
-                " A public proposal has been tabled for referendum vote. \\[proposal_index, deposit, depositors\\]"
+                " A public proposal has been tabled for referendum vote. \\[proposal_index, deposit,",
+                " depositors\\]"
               ]
             },
             {
@@ -5236,15 +5243,6 @@
               ]
             },
             {
-              "name": "Unlocked",
-              "args": [
-                "AccountId"
-              ],
-              "docs": [
-                " An \\[account\\] has been unlocked successfully."
-              ]
-            },
-            {
               "name": "Blacklisted",
               "args": [
                 "Hash"
@@ -5260,11 +5258,12 @@
               "type": "BlockNumber",
               "value": "0x00270600",
               "docs": [
-                " The minimum period of locking and the period between a proposal being approved and enacted.",
+                " The minimum period of locking and the period between a proposal being approved and",
+                " enacted.",
                 "",
                 " It should generally be a little more than the unstake period to ensure that",
-                " voting stakers have an opportunity to remove themselves from the system in the case where",
-                " they are on the losing side of a vote."
+                " voting stakers have an opportunity to remove themselves from the system in the case",
+                " where they are on the losing side of a vote."
               ]
             },
             {
@@ -5296,9 +5295,9 @@
               "type": "bool",
               "value": "0x01",
               "docs": [
-                " Indicator for whether an emergency origin is even allowed to happen. Some chains may want",
-                " to set this permanently to `false`, others may want to condition it on things such as",
-                " an upgrade having happened recently."
+                " Indicator for whether an emergency origin is even allowed to happen. Some chains may",
+                " want to set this permanently to `false`, others may want to condition it on things such",
+                " as an upgrade having happened recently."
               ]
             },
             {
@@ -5359,12 +5358,6 @@
               ]
             },
             {
-              "name": "BadIndex",
-              "docs": [
-                " Unknown index"
-              ]
-            },
-            {
               "name": "AlreadyCanceled",
               "docs": [
                 " Cannot cancel the same proposal twice"
@@ -5404,12 +5397,6 @@
               "name": "AlreadyVetoed",
               "docs": [
                 " Identity may not veto a proposal twice"
-              ]
-            },
-            {
-              "name": "NotDelegated",
-              "docs": [
-                " Not delegated"
               ]
             },
             {
@@ -5458,18 +5445,6 @@
               "name": "NoneWaiting",
               "docs": [
                 " No proposals waiting"
-              ]
-            },
-            {
-              "name": "NotLocked",
-              "docs": [
-                " The target account does not have a lock."
-              ]
-            },
-            {
-              "name": "NotExpired",
-              "docs": [
-                " The lock on the account to be unlocked has not yet expired."
               ]
             },
             {
@@ -5531,12 +5506,6 @@
               "name": "MaxVotesReached",
               "docs": [
                 " Maximum number of votes reached."
-              ]
-            },
-            {
-              "name": "InvalidWitness",
-              "docs": [
-                " The provided witness data is wrong."
               ]
             },
             {
@@ -6639,9 +6608,9 @@
                 "   origin is removed as a runner-up.",
                 " - `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "   removed as a member, consequently not being a candidate for the next round anymore.",
-                "   Similar to [`remove_member`](Self::remove_member), if replacement runners exists,",
-                "   they are immediately used. If the prime is renouncing, then no prime will exist until",
-                "   the next round.",
+                "   Similar to [`remove_member`](Self::remove_member), if replacement runners exists, they",
+                "   are immediately used. If the prime is renouncing, then no prime will exist until the",
+                "   next round.",
                 "",
                 " The dispatch origin of this call must be signed, and have one of the above roles.",
                 "",
@@ -7918,7 +7887,8 @@
                 "",
                 " May be called from any origin.",
                 "",
-                " - `calls`: The calls to be dispatched from the same origin.",
+                " - `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "   exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 " If origin is root then call are dispatch without checking origin filter. (This includes",
                 " bypassing `frame_system::Config::BaseCallFilter`).",
@@ -7976,7 +7946,8 @@
                 "",
                 " May be called from any origin.",
                 "",
-                " - `calls`: The calls to be dispatched from the same origin.",
+                " - `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "   exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 " If origin is root then call are dispatch without checking origin filter. (This includes",
                 " bypassing `frame_system::Config::BaseCallFilter`).",
@@ -8014,8 +7985,24 @@
               ]
             }
           ],
-          "constants": [],
-          "errors": [],
+          "constants": [
+            {
+              "name": "batched_calls_limit",
+              "type": "u32",
+              "value": "0x0cc30000",
+              "docs": [
+                " The limit on the number of batched calls."
+              ]
+            }
+          ],
+          "errors": [
+            {
+              "name": "TooManyCalls",
+              "docs": [
+                " Too many calls batched."
+              ]
+            }
+          ],
           "index": 26
         },
         {
@@ -8627,8 +8614,8 @@
               "value": "0x80f884b02e0000000000000000000000",
               "docs": [
                 " The amount held on deposit for a registered subaccount. This should account for the fact",
-                " that one storage item's value will increase by the size of an account ID, and there will be",
-                " another trie item whose value is the size of an account ID plus 32 bytes."
+                " that one storage item's value will increase by the size of an account ID, and there will",
+                " be another trie item whose value is the size of an account ID plus 32 bytes."
               ]
             },
             {
@@ -9159,7 +9146,8 @@
               ],
               "docs": [
                 " Anonymous account has been created by new proxy with given",
-                " disambiguation index and proxy type. \\[anonymous, who, proxy_type, disambiguation_index\\]"
+                " disambiguation index and proxy type. \\[anonymous, who, proxy_type,",
+                " disambiguation_index\\]"
               ]
             },
             {
@@ -9193,9 +9181,9 @@
               "docs": [
                 " The amount of currency needed per proxy added.",
                 "",
-                " This is held for adding 32 bytes plus an instance of `ProxyType` more into a pre-existing",
-                " storage value. Thus, when configuring `ProxyDepositFactor` one should take into account",
-                " `32 + proxy_type.encode().len()` bytes of data."
+                " This is held for adding 32 bytes plus an instance of `ProxyType` more into a",
+                " pre-existing storage value. Thus, when configuring `ProxyDepositFactor` one should take",
+                " into account `32 + proxy_type.encode().len()` bytes of data."
               ]
             },
             {
@@ -9221,7 +9209,8 @@
               "docs": [
                 " The base amount of currency needed to reserve for creating an announcement.",
                 "",
-                " This is held when a new storage item holding a `Balance` is created (typically 16 bytes)."
+                " This is held when a new storage item holding a `Balance` is created (typically 16",
+                " bytes)."
               ]
             },
             {
@@ -9424,9 +9413,8 @@
                 " - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 " - One event.",
                 " - The weight of the `call`.",
-                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "   deposit taken for its lifetime of",
-                "   `DepositBase + threshold * DepositFactor`.",
+                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "   taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 " -------------------------------",
                 " - DB Weight:",
                 "     - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)",
@@ -9488,9 +9476,8 @@
                 " - Up to one binary search and insert (`O(logS + S)`).",
                 " - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 " - One event.",
-                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "   deposit taken for its lifetime of",
-                "   `DepositBase + threshold * DepositFactor`.",
+                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "   taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 " ----------------------------------",
                 " - DB Weight:",
                 "     - Read: Multisig Storage, [Caller Account]",
@@ -9605,8 +9592,8 @@
               "type": "BalanceOf",
               "value": "0x008c61c52e0000000000000000000000",
               "docs": [
-                " The base amount of currency needed to reserve for creating a multisig execution or to store",
-                " a dispatch call for later.",
+                " The base amount of currency needed to reserve for creating a multisig execution or to",
+                " store a dispatch call for later.",
                 "",
                 " This is held for an additional storage item whose value size is",
                 " `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is",
@@ -10713,7 +10700,7 @@
               "name": "submit_unsigned",
               "args": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": "RawSolution"
                 },
                 {
@@ -10777,7 +10764,7 @@
               "name": "submit",
               "args": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": "RawSolution"
                 },
                 {
@@ -10967,7 +10954,7 @@
             {
               "name": "SignedDepositBase",
               "type": "BalanceOf",
-              "value": "0x00d0ed902e0000000000000000000000",
+              "value": "0x00a0db215d0000000000000000000000",
               "docs": [
                 " Base deposit for a signed solution."
               ]
@@ -10975,7 +10962,7 @@
             {
               "name": "SignedDepositByte",
               "type": "BalanceOf",
-              "value": "0xca9a3b00000000000000000000000000",
+              "value": "0x787d0100000000000000000000000000",
               "docs": [
                 " Per-byte deposit for a signed solution."
               ]

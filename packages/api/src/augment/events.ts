@@ -204,8 +204,8 @@ declare module '@polkadot/api/types/events' {
        * # Params
        * 
        * - `contract`: The contract that emitted the event.
-       * - `data`: Data supplied by the contract. Metadata generated during contract
-       * compilation is needed to decode it.
+       * - `data`: Data supplied by the contract. Metadata generated during contract compilation
+       * is needed to decode it.
        **/
       ContractEmitted: AugmentedEvent<ApiType, [AccountId, Bytes]>;
       /**
@@ -362,17 +362,14 @@ declare module '@polkadot/api/types/events' {
        **/
       Started: AugmentedEvent<ApiType, [ReferendumIndex, VoteThreshold]>;
       /**
-       * A public proposal has been tabled for referendum vote. \[proposal_index, deposit, depositors\]
+       * A public proposal has been tabled for referendum vote. \[proposal_index, deposit,
+       * depositors\]
        **/
       Tabled: AugmentedEvent<ApiType, [PropIndex, Balance, Vec<AccountId>]>;
       /**
        * An \[account\] has cancelled a previous delegation operation.
        **/
       Undelegated: AugmentedEvent<ApiType, [AccountId]>;
-      /**
-       * An \[account\] has been unlocked successfully.
-       **/
-      Unlocked: AugmentedEvent<ApiType, [AccountId]>;
       /**
        * An external proposal has been vetoed. \[who, proposal_hash, until\]
        **/
@@ -653,7 +650,8 @@ declare module '@polkadot/api/types/events' {
       Announced: AugmentedEvent<ApiType, [AccountId, AccountId, Hash]>;
       /**
        * Anonymous account has been created by new proxy with given
-       * disambiguation index and proxy type. \[anonymous, who, proxy_type, disambiguation_index\]
+       * disambiguation index and proxy type. \[anonymous, who, proxy_type,
+       * disambiguation_index\]
        **/
       AnonymousCreated: AugmentedEvent<ApiType, [AccountId, AccountId, ProxyType, u16]>;
       /**
@@ -719,8 +717,8 @@ declare module '@polkadot/api/types/events' {
     };
     session: {
       /**
-       * New session has happened. Note that the argument is the \[session_index\], not the block
-       * number as the type might suggest.
+       * New session has happened. Note that the argument is the \[session_index\], not the
+       * block number as the type might suggest.
        **/
       NewSession: AugmentedEvent<ApiType, [SessionIndex]>;
       /**

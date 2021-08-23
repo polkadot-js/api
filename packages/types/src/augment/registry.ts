@@ -57,7 +57,7 @@ import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, InboundStatus, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, OutboundStatus, Outcome, PluralityJunction, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOrigin, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
+import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, BodyId, BodyPart, DoubleEncodedCall, Fungibility, InboundStatus, Junction, MultiAsset, MultiAssetFilter, MultiAssetV0, MultiAssetV1, MultiAssets, MultiLocation, NetworkId, OutboundStatus, Outcome, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WildFungibility, WildMultiAsset, Xcm, XcmAssetId, XcmError, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrigin, XcmOriginKind, XcmResponse, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -68,17 +68,14 @@ declare module '@polkadot/types/types/registry' {
     AccountId: AccountId;
     AccountId20: AccountId20;
     AccountId32: AccountId32;
-    AccountId32Junction: AccountId32Junction;
     AccountIdOf: AccountIdOf;
     AccountIndex: AccountIndex;
-    AccountIndex64Junction: AccountIndex64Junction;
     AccountInfo: AccountInfo;
     AccountInfoWithDualRefCount: AccountInfoWithDualRefCount;
     AccountInfoWithProviders: AccountInfoWithProviders;
     AccountInfoWithRefCount: AccountInfoWithRefCount;
     AccountInfoWithRefCountU8: AccountInfoWithRefCountU8;
     AccountInfoWithTripleRefCount: AccountInfoWithTripleRefCount;
-    AccountKey20Junction: AccountKey20Junction;
     AccountStatus: AccountStatus;
     AccountValidity: AccountValidity;
     AccountVote: AccountVote;
@@ -105,6 +102,8 @@ declare module '@polkadot/types/types/registry' {
     AssetDetails: AssetDetails;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
+    AssetInstanceV0: AssetInstanceV0;
+    AssetInstanceV1: AssetInstanceV1;
     AssetMetadata: AssetMetadata;
     AssetOptions: AssetOptions;
     AssignmentId: AssignmentId;
@@ -158,9 +157,6 @@ declare module '@polkadot/types/types/registry' {
     BlockWeights: BlockWeights;
     BodyId: BodyId;
     BodyPart: BodyPart;
-    BodyPartAtLeastProportion: BodyPartAtLeastProportion;
-    BodyPartFraction: BodyPartFraction;
-    BodyPartMoreThanProportion: BodyPartMoreThanProportion;
     bool: bool;
     Bool: Bool;
     Bounty: Bounty;
@@ -405,6 +401,7 @@ declare module '@polkadot/types/types/registry' {
     FunctionMetadataV9: FunctionMetadataV9;
     FundIndex: FundIndex;
     FundInfo: FundInfo;
+    Fungibility: Fungibility;
     Gas: Gas;
     GiltBid: GiltBid;
     GlobalValidationData: GlobalValidationData;
@@ -550,10 +547,10 @@ declare module '@polkadot/types/types/registry' {
     MortalEra: MortalEra;
     MultiAddress: MultiAddress;
     MultiAsset: MultiAsset;
-    MultiAssetAbstractFungible: MultiAssetAbstractFungible;
-    MultiAssetAbstractNonFungible: MultiAssetAbstractNonFungible;
-    MultiAssetConcreteFungible: MultiAssetConcreteFungible;
-    MultiAssetConcreteNonFungible: MultiAssetConcreteNonFungible;
+    MultiAssetFilter: MultiAssetFilter;
+    MultiAssets: MultiAssets;
+    MultiAssetV0: MultiAssetV0;
+    MultiAssetV1: MultiAssetV1;
     MultiDisputeStatementSet: MultiDisputeStatementSet;
     MultiLocation: MultiLocation;
     Multiplier: Multiplier;
@@ -656,7 +653,6 @@ declare module '@polkadot/types/types/registry' {
     PhantomData: PhantomData;
     Phase: Phase;
     PhragmenScore: PhragmenScore;
-    PluralityJunction: PluralityJunction;
     Points: Points;
     PortableRegistry: PortableRegistry;
     PortableType: PortableType;
@@ -971,36 +967,22 @@ declare module '@polkadot/types/types/registry' {
     WeightMultiplier: WeightMultiplier;
     WeightPerClass: WeightPerClass;
     WeightToFeeCoefficient: WeightToFeeCoefficient;
+    WildFungibility: WildFungibility;
+    WildMultiAsset: WildMultiAsset;
     WinnersData: WinnersData;
     WinnersDataTuple: WinnersDataTuple;
     WinningData: WinningData;
     WinningDataEntry: WinningDataEntry;
     WithdrawReasons: WithdrawReasons;
     Xcm: Xcm;
-    XcmAssetEffects: XcmAssetEffects;
+    XcmAssetId: XcmAssetId;
     XcmError: XcmError;
-    XcmHrmpChannelAccepted: XcmHrmpChannelAccepted;
-    XcmHrmpChannelClosing: XcmHrmpChannelClosing;
-    XcmHrmpNewChannelOpenRequest: XcmHrmpNewChannelOpenRequest;
     XcmOrder: XcmOrder;
-    XcmOrderBuyExecution: XcmOrderBuyExecution;
-    XcmOrderDepositAsset: XcmOrderDepositAsset;
-    XcmOrderDepositReserveAsset: XcmOrderDepositReserveAsset;
-    XcmOrderExchangeAsset: XcmOrderExchangeAsset;
-    XcmOrderInitiateReserveWithdraw: XcmOrderInitiateReserveWithdraw;
-    XcmOrderInitiateTeleport: XcmOrderInitiateTeleport;
-    XcmOrderQueryHolding: XcmOrderQueryHolding;
+    XcmOrderV0: XcmOrderV0;
+    XcmOrderV1: XcmOrderV1;
     XcmOrigin: XcmOrigin;
     XcmOriginKind: XcmOriginKind;
     XcmpMessageFormat: XcmpMessageFormat;
-    XcmQueryResponse: XcmQueryResponse;
-    XcmRelayedFrom: XcmRelayedFrom;
-    XcmReserveAssetDeposit: XcmReserveAssetDeposit;
     XcmResponse: XcmResponse;
-    XcmTeleportAsset: XcmTeleportAsset;
-    XcmTransact: XcmTransact;
-    XcmTransferAsset: XcmTransferAsset;
-    XcmTransferReserveAsset: XcmTransferReserveAsset;
-    XcmWithdrawAsset: XcmWithdrawAsset;
   }
 }
