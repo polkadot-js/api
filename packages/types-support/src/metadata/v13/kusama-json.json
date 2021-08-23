@@ -13544,7 +13544,7 @@
                 "type": {
                   "map": {
                     "hasher": "Twox64Concat",
-                    "key": "ValidatorIndex",
+                    "key": "ParaValidatorIndex",
                     "value": "AvailabilityBitfieldRecord",
                     "linked": false
                   }
@@ -13846,7 +13846,7 @@
                 "name": "ValidatorGroups",
                 "modifier": "Default",
                 "type": {
-                  "plain": "Vec<Vec<ValidatorIndex>>"
+                  "plain": "Vec<Vec<ParaValidatorIndex>>"
                 },
                 "fallback": "0x00",
                 "docs": [
