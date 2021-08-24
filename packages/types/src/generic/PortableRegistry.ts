@@ -280,8 +280,8 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
-  #extractArray (lookupIndex: number, { len: length, type }: SiTypeDefArray): TypeDef {
-    assert(!length || length.toNumber() <= 256, () => `PortableRegistry: ${lookupIndex}: Only support for [Type; <length>], where length <= 256`);
+  #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
+    assert(!length || length.toNumber() <= 256, 'Only support for [Type; <length>], where length <= 256');
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
@@ -326,8 +326,8 @@ export class GenericPortableRegistry extends Struct {
       : this.#extractFields(lookupIndex, fields);
   }
 
-  #extractCompositeSet (lookupIndex: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
-    assert(params.length === 1 && fields.length === 1, () => `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
+  #extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
+    assert(params.length === 1 && fields.length === 1, 'Set handling expects param/field as single entries');
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
@@ -349,7 +349,7 @@ export class GenericPortableRegistry extends Struct {
     ]),
     [true, true]);
 
-    assert(isTuple || isStruct, () => `PortableRegistry: ${lookupIndex}: Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)`);
+    assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
     if (fields.length === 0) {
       return {
@@ -516,9 +516,9 @@ export class GenericPortableRegistry extends Struct {
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Result,
-        sub: params.map(({ type }) => this.#createSiDef(type.unwrap())).map((def, index) => ({
+        sub: params.map(({ type }, index) => ({
           name: ['Ok', 'Error'][index],
-          ...def
+          ...this.#createSiDef(type.unwrap())
         }))
       });
     } else if (variants.length === 0) {
