@@ -57,7 +57,7 @@ import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, BodyId, BodyPart, DoubleEncodedCall, Fungibility, InboundStatus, Junction, MultiAsset, MultiAssetFilter, MultiAssetV0, MultiAssetV1, MultiAssets, MultiLocation, NetworkId, OutboundStatus, Outcome, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, WildFungibility, WildMultiAsset, Xcm, XcmAssetId, XcmError, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrigin, XcmOriginKind, XcmResponse, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
+import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, BodyId, BodyPart, DoubleEncodedCall, Fungibility, InboundStatus, Junction, MultiAsset, MultiAssetFilter, MultiAssetFilterV1, MultiAssetV0, MultiAssetV1, MultiAssets, MultiAssetsV1, MultiLocation, MultiLocationV0, MultiLocationV1, NetworkId, OutboundStatus, Outcome, QueueConfigData, VersionedMultiAsset, VersionedMultiAssets, VersionedMultiLocation, VersionedXcm, WildFungibility, WildMultiAsset, WildMultiAssetV1, Xcm, XcmAssetId, XcmError, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrigin, XcmOriginKind, XcmResponse, XcmV0, XcmV1, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -548,11 +548,15 @@ declare module '@polkadot/types/types/registry' {
     MultiAddress: MultiAddress;
     MultiAsset: MultiAsset;
     MultiAssetFilter: MultiAssetFilter;
+    MultiAssetFilterV1: MultiAssetFilterV1;
     MultiAssets: MultiAssets;
+    MultiAssetsV1: MultiAssetsV1;
     MultiAssetV0: MultiAssetV0;
     MultiAssetV1: MultiAssetV1;
     MultiDisputeStatementSet: MultiDisputeStatementSet;
     MultiLocation: MultiLocation;
+    MultiLocationV0: MultiLocationV0;
+    MultiLocationV1: MultiLocationV1;
     Multiplier: Multiplier;
     Multisig: Multisig;
     MultiSignature: MultiSignature;
@@ -943,6 +947,7 @@ declare module '@polkadot/types/types/registry' {
     ValidityAttestation: ValidityAttestation;
     VecInboundHrmpMessage: VecInboundHrmpMessage;
     VersionedMultiAsset: VersionedMultiAsset;
+    VersionedMultiAssets: VersionedMultiAssets;
     VersionedMultiLocation: VersionedMultiLocation;
     VersionedXcm: VersionedXcm;
     VestingInfo: VestingInfo;
@@ -969,6 +974,7 @@ declare module '@polkadot/types/types/registry' {
     WeightToFeeCoefficient: WeightToFeeCoefficient;
     WildFungibility: WildFungibility;
     WildMultiAsset: WildMultiAsset;
+    WildMultiAssetV1: WildMultiAssetV1;
     WinnersData: WinnersData;
     WinnersDataTuple: WinnersDataTuple;
     WinningData: WinningData;
@@ -984,5 +990,7 @@ declare module '@polkadot/types/types/registry' {
     XcmOriginKind: XcmOriginKind;
     XcmpMessageFormat: XcmpMessageFormat;
     XcmResponse: XcmResponse;
+    XcmV0: XcmV0;
+    XcmV1: XcmV1;
   }
 }

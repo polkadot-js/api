@@ -142,15 +142,21 @@ export interface Junction extends Enum {
 export interface MultiAsset extends MultiAssetV1 {}
 
 /** @name MultiAssetFilter */
-export interface MultiAssetFilter extends Enum {
+export interface MultiAssetFilter extends MultiAssetFilterV1 {}
+
+/** @name MultiAssetFilterV1 */
+export interface MultiAssetFilterV1 extends Enum {
   readonly isDefinite: boolean;
-  readonly asDefinite: MultiAssets;
+  readonly asDefinite: MultiAssetsV1;
   readonly isWild: boolean;
-  readonly asWild: WildMultiAsset;
+  readonly asWild: WildMultiAssetV1;
 }
 
 /** @name MultiAssets */
 export interface MultiAssets extends Vec<MultiAsset> {}
+
+/** @name MultiAssetsV1 */
+export interface MultiAssetsV1 extends Vec<MultiAssetV1> {}
 
 /** @name MultiAssetV0 */
 export interface MultiAssetV0 extends Enum {
@@ -215,6 +221,12 @@ export interface MultiLocation extends Enum {
   readonly asX8: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
 }
 
+/** @name MultiLocationV0 */
+export interface MultiLocationV0 extends MultiLocation {}
+
+/** @name MultiLocationV1 */
+export interface MultiLocationV1 extends MultiLocation {}
+
 /** @name NetworkId */
 export interface NetworkId extends Enum {
   readonly isAny: boolean;
@@ -252,19 +264,33 @@ export interface QueueConfigData extends Struct {
 /** @name VersionedMultiAsset */
 export interface VersionedMultiAsset extends Enum {
   readonly isV0: boolean;
-  readonly asV0: MultiAsset;
+  readonly asV0: MultiAssetV0;
+  readonly isV1: boolean;
+  readonly asV1: MultiAssetV1;
+}
+
+/** @name VersionedMultiAssets */
+export interface VersionedMultiAssets extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: Vec<MultiAssetV0>;
+  readonly isV1: boolean;
+  readonly asV1: MultiAssetsV1;
 }
 
 /** @name VersionedMultiLocation */
 export interface VersionedMultiLocation extends Enum {
   readonly isV0: boolean;
-  readonly asV0: MultiLocation;
+  readonly asV0: MultiLocationV0;
+  readonly isV1: boolean;
+  readonly asV1: MultiLocationV1;
 }
 
 /** @name VersionedXcm */
 export interface VersionedXcm extends Enum {
   readonly isV0: boolean;
-  readonly asV0: Xcm;
+  readonly asV0: XcmV0;
+  readonly isV1: boolean;
+  readonly asV1: XcmV1;
 }
 
 /** @name WildFungibility */
@@ -274,7 +300,10 @@ export interface WildFungibility extends Enum {
 }
 
 /** @name WildMultiAsset */
-export interface WildMultiAsset extends Enum {
+export interface WildMultiAsset extends WildMultiAssetV1 {}
+
+/** @name WildMultiAssetV1 */
+export interface WildMultiAssetV1 extends Enum {
   readonly isAll: boolean;
   readonly isAllOf: boolean;
   readonly asAllOf: {
@@ -284,66 +313,7 @@ export interface WildMultiAsset extends Enum {
 }
 
 /** @name Xcm */
-export interface Xcm extends Enum {
-  readonly isWithdrawAsset: boolean;
-  readonly asWithdrawAsset: {
-    readonly assets: MultiAssets;
-    readonly effects: Vec<XcmOrderV0>;
-  } & Struct;
-  readonly isReserveAssetDeposit: boolean;
-  readonly asReserveAssetDeposit: {
-    readonly assets: MultiAssets;
-    readonly effects: Vec<XcmOrderV0>;
-  } & Struct;
-  readonly isReceiveTeleportedAsset: boolean;
-  readonly asReceiveTeleportedAsset: {
-    readonly assets: MultiAssets;
-    readonly effects: Vec<XcmOrderV0>;
-  } & Struct;
-  readonly isQueryResponse: boolean;
-  readonly asQueryResponse: {
-    readonly queryId: Compact<u64>;
-    readonly response: XcmResponse;
-  } & Struct;
-  readonly isTransferAsset: boolean;
-  readonly asTransferAsset: {
-    readonly assets: MultiAssets;
-    readonly dest: MultiLocation;
-  } & Struct;
-  readonly isTransferReserveAsset: boolean;
-  readonly asTransferReserveAsset: {
-    readonly assets: MultiAssets;
-    readonly dest: MultiLocation;
-    readonly effects: Vec<XcmOrderV0>;
-  } & Struct;
-  readonly isTransact: boolean;
-  readonly asTransact: {
-    readonly originType: XcmOriginKind;
-    readonly requireWeightAtMost: u64;
-    readonly call: DoubleEncodedCall;
-  } & Struct;
-  readonly isHrmpNewChannelOpenRequest: boolean;
-  readonly asHrmpNewChannelOpenRequest: {
-    readonly sender: Compact<u32>;
-    readonly maxMessageSize: Compact<u32>;
-    readonly maxCapacity: Compact<u32>;
-  } & Struct;
-  readonly isHrmpChannelAccepted: boolean;
-  readonly asHrmpChannelAccepted: {
-    readonly recipient: Compact<u32>;
-  } & Struct;
-  readonly isHrmpChannelClosing: boolean;
-  readonly asHrmpChannelClosing: {
-    readonly initiator: Compact<u32>;
-    readonly sender: Compact<u32>;
-    readonly recipient: Compact<u32>;
-  } & Struct;
-  readonly isRelayedFrom: boolean;
-  readonly asRelayedFrom: {
-    readonly who: MultiLocation;
-    readonly message: Xcm;
-  } & Struct;
-}
+export interface Xcm extends XcmV1 {}
 
 /** @name XcmAssetId */
 export interface XcmAssetId extends Enum {
@@ -393,37 +363,37 @@ export interface XcmOrderV0 extends Enum {
   readonly isNull: boolean;
   readonly isDepositAsset: boolean;
   readonly asDepositAsset: {
-    readonly assets: Vec<MultiAsset>;
-    readonly dest: MultiLocation;
+    readonly assets: Vec<MultiAssetV0>;
+    readonly dest: MultiLocationV0;
   } & Struct;
   readonly isDepositReserveAsset: boolean;
   readonly asDepositReserveAsset: {
-    readonly assets: Vec<MultiAsset>;
-    readonly dest: MultiLocation;
+    readonly assets: Vec<MultiAssetV0>;
+    readonly dest: MultiLocationV0;
     readonly effects: Vec<XcmOrderV0>;
   } & Struct;
   readonly isExchangeAsset: boolean;
   readonly asExchangeAsset: {
-    readonly give: Vec<MultiAsset>;
-    readonly receive: Vec<MultiAsset>;
+    readonly give: Vec<MultiAssetV0>;
+    readonly receive: Vec<MultiAssetV0>;
   } & Struct;
   readonly isInitiateReserveWithdraw: boolean;
   readonly asInitiateReserveWithdraw: {
-    readonly assets: Vec<MultiAsset>;
-    readonly reserve: MultiLocation;
+    readonly assets: Vec<MultiAssetV0>;
+    readonly reserve: MultiLocationV0;
     readonly effects: Vec<XcmOrderV0>;
   } & Struct;
   readonly isInitiateTeleport: boolean;
   readonly asInitiateTeleport: {
     readonly assets: Vec<MultiAsset>;
-    readonly dest: MultiLocation;
+    readonly dest: MultiLocationV0;
     readonly effects: Vec<XcmOrderV0>;
   } & Struct;
   readonly isQueryHolding: boolean;
   readonly asQueryHolding: {
     readonly queryId: Compact<u64>;
-    readonly dest: MultiLocation;
-    readonly assets: Vec<MultiAsset>;
+    readonly dest: MultiLocationV0;
+    readonly assets: Vec<MultiAssetV0>;
   } & Struct;
   readonly isBuyExecution: boolean;
   readonly asBuyExecution: {
@@ -431,7 +401,7 @@ export interface XcmOrderV0 extends Enum {
     readonly weight: u64;
     readonly debt: u64;
     readonly haltOnError: bool;
-    readonly xcm: Vec<Xcm>;
+    readonly xcm: Vec<XcmV0>;
   } & Struct;
 }
 
@@ -440,39 +410,39 @@ export interface XcmOrderV1 extends Enum {
   readonly isNoop: boolean;
   readonly isDepositAsset: boolean;
   readonly asDepositAsset: {
-    readonly assets: MultiAssetFilter;
+    readonly assets: MultiAssetFilterV1;
     readonly maxAssets: u32;
-    readonly beneficiary: MultiLocation;
+    readonly beneficiary: MultiLocationV1;
   } & Struct;
   readonly isDepositReserveAsset: boolean;
   readonly asDepositReserveAsset: {
-    readonly assets: MultiAssetFilter;
+    readonly assets: MultiAssetFilterV1;
     readonly maxAssets: u32;
-    readonly dest: MultiLocation;
+    readonly dest: MultiLocationV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isExchangeAsset: boolean;
   readonly asExchangeAsset: {
-    readonly give: MultiAssetFilter;
-    readonly receive: MultiAssets;
+    readonly give: MultiAssetFilterV1;
+    readonly receive: MultiAssetsV1;
   } & Struct;
   readonly isInitiateReserveWithdraw: boolean;
   readonly asInitiateReserveWithdraw: {
-    readonly assets: MultiAssetFilter;
-    readonly reserve: MultiLocation;
+    readonly assets: MultiAssetFilterV1;
+    readonly reserve: MultiLocationV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isInitiateTeleport: boolean;
   readonly asInitiateTeleport: {
-    readonly assets: MultiAssetFilter;
-    readonly dest: MultiLocation;
+    readonly assets: MultiAssetFilterV1;
+    readonly dest: MultiLocationV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isQueryHolding: boolean;
   readonly asQueryHolding: {
     readonly queryId: Compact<u64>;
-    readonly dest: MultiLocation;
-    readonly assets: MultiAssetFilter;
+    readonly dest: MultiLocationV1;
+    readonly assets: MultiAssetFilterV1;
   } & Struct;
   readonly isBuyExecution: boolean;
   readonly asBuyExecution: {
@@ -481,7 +451,7 @@ export interface XcmOrderV1 extends Enum {
     readonly debt: u64;
     readonly haltOnError: bool;
     readonly orders: Vec<XcmOrderV1>;
-    readonly instructions: Vec<Xcm>;
+    readonly instructions: Vec<XcmV1>;
   } & Struct;
 }
 
@@ -510,6 +480,130 @@ export interface XcmpMessageFormat extends Enum {
 export interface XcmResponse extends Enum {
   readonly isAssets: boolean;
   readonly asAssets: Vec<MultiAsset>;
+}
+
+/** @name XcmV0 */
+export interface XcmV0 extends Enum {
+  readonly isWithdrawAsset: boolean;
+  readonly asWithdrawAsset: {
+    readonly assets: Vec<MultiAssetV0>;
+    readonly effects: Vec<XcmOrderV0>;
+  } & Struct;
+  readonly isReserveAssetDeposit: boolean;
+  readonly asReserveAssetDeposit: {
+    readonly assets: Vec<MultiAssetV0>;
+    readonly effects: Vec<XcmOrderV0>;
+  } & Struct;
+  readonly isReceiveTeleportedAsset: boolean;
+  readonly asReceiveTeleportedAsset: {
+    readonly assets: Vec<MultiAssetV0>;
+    readonly effects: Vec<XcmOrderV0>;
+  } & Struct;
+  readonly isQueryResponse: boolean;
+  readonly asQueryResponse: {
+    readonly queryId: Compact<u64>;
+    readonly response: XcmResponse;
+  } & Struct;
+  readonly isTransferAsset: boolean;
+  readonly asTransferAsset: {
+    readonly assets: Vec<MultiAssetV0>;
+    readonly dest: MultiLocationV0;
+  } & Struct;
+  readonly isTransferReserveAsset: boolean;
+  readonly asTransferReserveAsset: {
+    readonly assets: Vec<MultiAssetV0>;
+    readonly dest: MultiLocationV0;
+    readonly effects: Vec<XcmOrderV0>;
+  } & Struct;
+  readonly isTransact: boolean;
+  readonly asTransact: {
+    readonly originType: XcmOriginKind;
+    readonly requireWeightAtMost: u64;
+    readonly call: DoubleEncodedCall;
+  } & Struct;
+  readonly isHrmpNewChannelOpenRequest: boolean;
+  readonly asHrmpNewChannelOpenRequest: {
+    readonly sender: Compact<u32>;
+    readonly maxMessageSize: Compact<u32>;
+    readonly maxCapacity: Compact<u32>;
+  } & Struct;
+  readonly isHrmpChannelAccepted: boolean;
+  readonly asHrmpChannelAccepted: {
+    readonly recipient: Compact<u32>;
+  } & Struct;
+  readonly isHrmpChannelClosing: boolean;
+  readonly asHrmpChannelClosing: {
+    readonly initiator: Compact<u32>;
+    readonly sender: Compact<u32>;
+    readonly recipient: Compact<u32>;
+  } & Struct;
+  readonly isRelayedFrom: boolean;
+  readonly asRelayedFrom: {
+    readonly who: MultiLocationV0;
+    readonly message: XcmV0;
+  } & Struct;
+}
+
+/** @name XcmV1 */
+export interface XcmV1 extends Enum {
+  readonly isWithdrawAsset: boolean;
+  readonly asWithdrawAsset: {
+    readonly Vassets: MultiAssetsV1;
+    readonly effects: Vec<XcmOrderV1>;
+  } & Struct;
+  readonly isReserveAssetDeposit: boolean;
+  readonly asReserveAssetDeposit: {
+    readonly Vassets: MultiAssetsV1;
+    readonly effects: Vec<XcmOrderV1>;
+  } & Struct;
+  readonly isReceiveTeleportedAsset: boolean;
+  readonly asReceiveTeleportedAsset: {
+    readonly Vassets: MultiAssetsV1;
+    readonly effects: Vec<XcmOrderV1>;
+  } & Struct;
+  readonly isQueryResponse: boolean;
+  readonly asQueryResponse: {
+    readonly queryId: Compact<u64>;
+    readonly response: XcmResponse;
+  } & Struct;
+  readonly isTransferAsset: boolean;
+  readonly asTransferAsset: {
+    readonly Vassets: MultiAssetsV1;
+    readonly dest: MultiLocationV1;
+  } & Struct;
+  readonly isTransferReserveAsset: boolean;
+  readonly asTransferReserveAsset: {
+    readonly Vassets: MultiAssetsV1;
+    readonly dest: MultiLocationV1;
+    readonly effects: Vec<XcmOrderV1>;
+  } & Struct;
+  readonly isTransact: boolean;
+  readonly asTransact: {
+    readonly originType: XcmOriginKind;
+    readonly requireWeightAtMost: u64;
+    readonly call: DoubleEncodedCall;
+  } & Struct;
+  readonly isHrmpNewChannelOpenRequest: boolean;
+  readonly asHrmpNewChannelOpenRequest: {
+    readonly sender: Compact<u32>;
+    readonly maxMessageSize: Compact<u32>;
+    readonly maxCapacity: Compact<u32>;
+  } & Struct;
+  readonly isHrmpChannelAccepted: boolean;
+  readonly asHrmpChannelAccepted: {
+    readonly recipient: Compact<u32>;
+  } & Struct;
+  readonly isHrmpChannelClosing: boolean;
+  readonly asHrmpChannelClosing: {
+    readonly initiator: Compact<u32>;
+    readonly sender: Compact<u32>;
+    readonly recipient: Compact<u32>;
+  } & Struct;
+  readonly isRelayedFrom: boolean;
+  readonly asRelayedFrom: {
+    readonly who: MultiLocationV1;
+    readonly message: XcmV1;
+  } & Struct;
 }
 
 export type PHANTOM_XCM = 'xcm';
