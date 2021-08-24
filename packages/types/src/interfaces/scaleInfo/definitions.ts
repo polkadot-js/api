@@ -40,10 +40,12 @@ export default {
         Sequence: 'SiTypeDefSequence',
         Array: 'SiTypeDefArray',
         Tuple: 'SiTypeDefTuple',
-        Range: 'SiTypeDefRange',
+        // Range: 'SiTypeDefRange',
         Primitive: 'SiTypeDefPrimitive',
         Compact: 'SiTypeDefCompact',
         BitSequence: 'SiTypeDefBitSequence',
+        // FIXME Move to commented-out area as soon as available on Substrate master
+        Range: 'SiTypeDefRange',
         // NOTE: This is specific to the implementation for pre-v14 metadata
         // compatibility (always keep this as the last entry in the enum)
         HistoricMetaCompat: 'Type'

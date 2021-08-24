@@ -152,14 +152,14 @@ export interface SiTypeDef extends Enum {
   readonly asArray: SiTypeDefArray;
   readonly isTuple: boolean;
   readonly asTuple: SiTypeDefTuple;
-  readonly isRange: boolean;
-  readonly asRange: SiTypeDefRange;
   readonly isPrimitive: boolean;
   readonly asPrimitive: SiTypeDefPrimitive;
   readonly isCompact: boolean;
   readonly asCompact: SiTypeDefCompact;
   readonly isBitSequence: boolean;
   readonly asBitSequence: SiTypeDefBitSequence;
+  readonly isRange: boolean;
+  readonly asRange: SiTypeDefRange;
   readonly isHistoricMetaCompat: boolean;
   readonly asHistoricMetaCompat: Type;
 }
