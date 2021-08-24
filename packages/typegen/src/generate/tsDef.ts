@@ -76,7 +76,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
         return '';
 
       default:
-        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}`);
+        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled nested "${TypeDefInfo[info]}" type`);
     }
   });
 

@@ -40,9 +40,12 @@ export default {
         Sequence: 'SiTypeDefSequence',
         Array: 'SiTypeDefArray',
         Tuple: 'SiTypeDefTuple',
+        // Range: 'SiTypeDefRange',
         Primitive: 'SiTypeDefPrimitive',
         Compact: 'SiTypeDefCompact',
         BitSequence: 'SiTypeDefBitSequence',
+        // FIXME Move to commented-out area as soon as available on Substrate master
+        Range: 'SiTypeDefRange',
         // NOTE: This is specific to the implementation for pre-v14 metadata
         // compatibility (always keep this as the last entry in the enum)
         HistoricMetaCompat: 'Type'
@@ -62,11 +65,13 @@ export default {
     SiTypeDefComposite: {
       fields: 'Vec<SiField>'
     },
-    SiTypeDefVariant: {
-      variants: 'Vec<SiVariant>'
-    },
     SiTypeDefPrimitive: {
       _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'U256', 'I8', 'I16', 'I32', 'I64', 'I128', 'I256']
+    },
+    SiTypeDefRange: {
+      start: 'SiLookupTypeId',
+      end: 'SiLookupTypeId',
+      inclusive: 'bool'
     },
     SiTypeDefSequence: {
       type: 'SiLookupTypeId'
@@ -75,6 +80,9 @@ export default {
     SiTypeParameter: {
       name: 'Text',
       type: 'Option<SiLookupTypeId>'
+    },
+    SiTypeDefVariant: {
+      variants: 'Vec<SiVariant>'
     },
     SiVariant
   }
