@@ -40,6 +40,7 @@ export default {
         Sequence: 'SiTypeDefSequence',
         Array: 'SiTypeDefArray',
         Tuple: 'SiTypeDefTuple',
+        Range: 'SiTypeDefRange',
         Primitive: 'SiTypeDefPrimitive',
         Compact: 'SiTypeDefCompact',
         BitSequence: 'SiTypeDefBitSequence',
@@ -62,11 +63,13 @@ export default {
     SiTypeDefComposite: {
       fields: 'Vec<SiField>'
     },
-    SiTypeDefVariant: {
-      variants: 'Vec<SiVariant>'
-    },
     SiTypeDefPrimitive: {
       _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'U256', 'I8', 'I16', 'I32', 'I64', 'I128', 'I256']
+    },
+    SiTypeDefRange: {
+      start: 'SiLookupTypeId',
+      end: 'SiLookupTypeId',
+      inclusive: 'bool'
     },
     SiTypeDefSequence: {
       type: 'SiLookupTypeId'
@@ -75,6 +78,9 @@ export default {
     SiTypeParameter: {
       name: 'Text',
       type: 'Option<SiLookupTypeId>'
+    },
+    SiTypeDefVariant: {
+      variants: 'Vec<SiVariant>'
     },
     SiVariant
   }

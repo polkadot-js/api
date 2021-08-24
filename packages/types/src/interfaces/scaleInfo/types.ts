@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Compact, Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types';
+import type { Compact, Enum, Null, Option, Struct, Text, Type, Vec, bool, u32, u64, u8 } from '@polkadot/types';
 
 /** @name Si0Field */
 export interface Si0Field extends Struct {
@@ -152,6 +152,8 @@ export interface SiTypeDef extends Enum {
   readonly asArray: SiTypeDefArray;
   readonly isTuple: boolean;
   readonly asTuple: SiTypeDefTuple;
+  readonly isRange: boolean;
+  readonly asRange: SiTypeDefRange;
   readonly isPrimitive: boolean;
   readonly asPrimitive: SiTypeDefPrimitive;
   readonly isCompact: boolean;
@@ -201,6 +203,13 @@ export interface SiTypeDefPrimitive extends Enum {
   readonly isI64: boolean;
   readonly isI128: boolean;
   readonly isI256: boolean;
+}
+
+/** @name SiTypeDefRange */
+export interface SiTypeDefRange extends Struct {
+  readonly start: SiLookupTypeId;
+  readonly end: SiLookupTypeId;
+  readonly inclusive: bool;
 }
 
 /** @name SiTypeDefSequence */
