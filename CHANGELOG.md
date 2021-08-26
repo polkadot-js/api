@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust output for enums in `toHuman`
+- Ensure Statemint (current) defaults to xcm v0
+- Adjust aliasses for new parachain module locations
+- Support for versioned xcm types (Polkadot master)
+- Add support for `Range` in `PortableRegistry` (used in Metadata 14)
+- Add Kusama 9090 upgrade block
+
+
 ## 5.6.1 Aug 23, 2021
 
 Upgrade priority: Low. Recommended for users of Xcm, preparing for Kusama/Westend 9100
