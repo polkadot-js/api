@@ -61,7 +61,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
         ? [typeToConstructor(registry, Types)]
         : mapToTypeMap(registry, Types);
 
-    super(registry, ...decodeTuple(registry, Clazzes, value));
+    super(registry, decodeTuple(registry, Clazzes, value));
 
     this._Types = Clazzes;
   }
