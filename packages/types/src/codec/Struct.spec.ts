@@ -90,15 +90,15 @@ describe('Struct', (): void => {
 
     try {
       data = new Struct(registry, {
-        id: 'u32',
-        iid: 'H256',
-        oid: 'H256',
+        a: 'u32',
+        b: 'H256',
+        c: 'H256',
         swap: Enum.with({
           A: 'u256',
           B: 'u256'
         }),
-        source: Vec.with('u8'),
-        filter: 'u8'
+        d: Vec.with('u8'),
+        e: 'u8'
       }, TEST_A);
     } catch (error) {
       console.error(error);
@@ -106,7 +106,7 @@ describe('Struct', (): void => {
       throw error;
     }
 
-    expect(data.get('source')).toHaveLength(50000);
+    expect(data.get('d')).toHaveLength(50000);
   });
 
   it('decodes from a Map input', (): void => {
