@@ -7,7 +7,8 @@ import type { CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
 import { Text, U32 } from '../primitive';
-import { Struct, Vec } from '.';
+import { TEST_A } from './Struct.data';
+import { Enum, Struct, Vec } from '.';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();
@@ -82,6 +83,30 @@ describe('Struct', (): void => {
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
 
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
+  });
+
+  it('decodes a previously problematic input', (): void => {
+    let data;
+
+    try {
+      data = new Struct(registry, {
+        id: 'u32',
+        iid: 'H256',
+        oid: 'H256',
+        swap: Enum.with({
+          A: 'u256',
+          B: 'u256'
+        }),
+        source: Vec.with('u8'),
+        filter: 'u8'
+      }, TEST_A);
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+
+    expect(data.get('source')).toHaveLength(50000);
   });
 
   it('decodes from a Map input', (): void => {
