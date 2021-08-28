@@ -1854,40 +1854,40 @@ __metadata:
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
     "@babel/runtime": ^7.15.3
-    "@polkadot/api": 5.6.2-9
-    "@polkadot/types": 5.6.2-9
+    "@polkadot/api": 5.6.2-10
+    "@polkadot/types": 5.6.2-10
     "@polkadot/util": ^7.3.1
     rxjs: ^7.3.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api-derive@5.6.2-9, @polkadot/api-derive@workspace:packages/api-derive":
+"@polkadot/api-derive@5.6.2-10, @polkadot/api-derive@workspace:packages/api-derive":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
     "@babel/runtime": ^7.15.3
-    "@polkadot/api": 5.6.2-9
+    "@polkadot/api": 5.6.2-10
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/rpc-core": 5.6.2-9
-    "@polkadot/rpc-provider": 5.6.2-9
-    "@polkadot/types": 5.6.2-9
+    "@polkadot/rpc-core": 5.6.2-10
+    "@polkadot/rpc-provider": 5.6.2-10
+    "@polkadot/types": 5.6.2-10
     "@polkadot/util": ^7.3.1
     "@polkadot/util-crypto": ^7.3.1
     rxjs: ^7.3.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api@5.6.2-9, @polkadot/api@workspace:packages/api":
+"@polkadot/api@5.6.2-10, @polkadot/api@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.15.3
-    "@polkadot/api-derive": 5.6.2-9
+    "@polkadot/api-derive": 5.6.2-10
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/rpc-core": 5.6.2-9
-    "@polkadot/rpc-provider": 5.6.2-9
-    "@polkadot/types": 5.6.2-9
-    "@polkadot/types-known": 5.6.2-9
+    "@polkadot/rpc-core": 5.6.2-10
+    "@polkadot/rpc-provider": 5.6.2-10
+    "@polkadot/types": 5.6.2-10
+    "@polkadot/types-known": 5.6.2-10
     "@polkadot/util": ^7.3.1
     "@polkadot/util-crypto": ^7.3.1
     eventemitter3: ^4.0.7
@@ -2012,26 +2012,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@5.6.2-9, @polkadot/rpc-core@workspace:packages/rpc-core":
+"@polkadot/rpc-core@5.6.2-10, @polkadot/rpc-core@workspace:packages/rpc-core":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/rpc-provider": 5.6.2-9
-    "@polkadot/types": 5.6.2-9
+    "@polkadot/rpc-provider": 5.6.2-10
+    "@polkadot/types": 5.6.2-10
     "@polkadot/util": ^7.3.1
     rxjs: ^7.3.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-provider@5.6.2-9, @polkadot/rpc-provider@workspace:packages/rpc-provider":
+"@polkadot/rpc-provider@5.6.2-10, @polkadot/rpc-provider@workspace:packages/rpc-provider":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/types": 5.6.2-9
+    "@polkadot/types": 5.6.2-10
     "@polkadot/util": ^7.3.1
     "@polkadot/util-crypto": ^7.3.1
     "@polkadot/x-fetch": ^7.3.1
@@ -2059,10 +2059,10 @@ __metadata:
     "@babel/core": ^7.15.0
     "@babel/register": ^7.15.3
     "@babel/runtime": ^7.15.3
-    "@polkadot/api": 5.6.2-9
-    "@polkadot/rpc-provider": 5.6.2-9
-    "@polkadot/types": 5.6.2-9
-    "@polkadot/types-support": 5.6.2-9
+    "@polkadot/api": 5.6.2-10
+    "@polkadot/rpc-provider": 5.6.2-10
+    "@polkadot/types": 5.6.2-10
+    "@polkadot/types-support": 5.6.2-10
     "@polkadot/util": ^7.3.1
     "@types/websocket": ^1.0.4
     "@types/yargs": ^17.0.2
@@ -2078,18 +2078,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-known@5.6.2-9, @polkadot/types-known@workspace:packages/types-known":
+"@polkadot/types-known@5.6.2-10, @polkadot/types-known@workspace:packages/types-known":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.15.3
     "@polkadot/networks": ^7.3.1
-    "@polkadot/types": 5.6.2-9
+    "@polkadot/types": 5.6.2-10
     "@polkadot/util": ^7.3.1
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-support@5.6.2-9, @polkadot/types-support@workspace:packages/types-support":
+"@polkadot/types-support@5.6.2-10, @polkadot/types-support@workspace:packages/types-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
@@ -2098,13 +2098,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@5.6.2-9, @polkadot/types@workspace:packages/types":
+"@polkadot/types@5.6.2-10, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.15.3
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/types-support": 5.6.2-9
+    "@polkadot/types-support": 5.6.2-10
     "@polkadot/util": ^7.3.1
     "@polkadot/util-crypto": ^7.3.1
     "@types/bn.js": ^4.11.6
