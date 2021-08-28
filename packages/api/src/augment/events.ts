@@ -171,7 +171,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * A code with the specified hash was removed.
        * \[code_hash\]
-       *
+       * 
        * This happens when the last contract that uses this code hash was removed or evicted.
        **/
       CodeRemoved: AugmentedEvent<ApiType, [H256]>;
@@ -182,9 +182,9 @@ declare module '@polkadot/api/types/events' {
       /**
        * A custom event emitted by the contract.
        * \[contract, data\]
-       *
+       * 
        * # Params
-       *
+       * 
        * - `contract`: The contract that emitted the event.
        * - `data`: Data supplied by the contract. Metadata generated during contract compilation
        * is needed to decode it.
@@ -201,9 +201,9 @@ declare module '@polkadot/api/types/events' {
       /**
        * Restoration of a contract has been successful.
        * \[restorer, dest, code_hash, rent_allowance\]
-       *
+       * 
        * # Params
-       *
+       * 
        * - `restorer`: Account ID of the restoring contract.
        * - `dest`: Account ID of the restored contract.
        * - `code_hash`: Code hash of the restored contract.
@@ -213,23 +213,23 @@ declare module '@polkadot/api/types/events' {
       /**
        * Triggered when the current schedule is updated.
        * \[version\]
-       *
+       * 
        * # Params
-       *
+       * 
        * - `version`: The version of the newly set schedule.
        **/
       ScheduleUpdated: AugmentedEvent<ApiType, [u32]>;
       /**
        * Contract has been terminated without leaving a tombstone.
        * \[contract, beneficiary\]
-       *
+       * 
        * # Params
-       *
+       * 
        * - `contract`: The contract that was terminated.
        * - `beneficiary`: The account that received the contracts remaining balance.
-       *
+       * 
        * # Note
-       *
+       * 
        * The only way for a contract to be removed without a tombstone and emitting
        * this event is by calling `seal_terminate`.
        **/
@@ -381,10 +381,10 @@ declare module '@polkadot/api/types/events' {
       Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * A solution was stored with the given compute.
-       *
+       * 
        * If the solution is signed, this means that it hasn't yet been processed. If the
        * solution is unsigned, this means that it has also been processed.
-       *
+       * 
        * The `bool` is `true` when a previous solution was ejected to make room for this one.
        **/
       SolutionStored: AugmentedEvent<ApiType, [PalletElectionProviderMultiPhaseElectionCompute, bool]>;
@@ -401,7 +401,7 @@ declare module '@polkadot/api/types/events' {
       /**
        * A \[candidate\] was slashed by \[amount\] due to failing to obtain a seat as member or
        * runner-up.
-       *
+       * 
        * Note that old members and runners-up are also candidates.
        **/
       CandidateSlashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
@@ -784,7 +784,7 @@ declare module '@polkadot/api/types/events' {
     staking: {
       /**
        * An account has bonded this amount. \[stash, amount\]
-       *
+       * 
        * NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,
        * it will not be emitted for staking rewards when they are added to stake.
        **/
@@ -1167,12 +1167,12 @@ declare module '@polkadot/api/types/events' {
     };
     vesting: {
       /**
-       * An \[account\] has become fully vested. No further vesting can happen.
+       * An \[account\] has become fully vested.
        **/
       VestingCompleted: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * The amount vested has been updated. This could indicate more funds are available. The
-       * balance given is the amount which is left unvested (and thus locked).
+       * The amount vested has been updated. This could indicate a change in funds available.
+       * The balance given is the amount which is left unvested (and thus locked).
        * \[account, unvested\]
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId32, u128]>;

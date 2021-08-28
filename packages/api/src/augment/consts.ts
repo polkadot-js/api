@@ -853,6 +853,7 @@ declare module '@polkadot/api/types/consts' {
       [key: string]: Codec;
     };
     vesting: {
+      maxVestingSchedules: u32 & AugmentedConst<ApiType>;
       /**
        * The minimum amount transferred to call `vested_transfer`.
        **/

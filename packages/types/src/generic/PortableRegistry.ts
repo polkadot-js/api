@@ -75,7 +75,7 @@ function getPrimitivePath (path: SiPath): string | null {
     : null;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
+function removeDuplicateNames (lookup: GenericPortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
   const rewrite: Record<number, string> = {};
 
   return names
@@ -196,7 +196,7 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   return [lookupIndex, typeName, params];
 }
 
-function extractNames (lookup: PortableRegistry, types: PortableType[]): Record<number, string> {
+function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): Record<number, string> {
   const dedup = removeDuplicateNames(lookup, types.map((t) =>
     extractName(types, t)
   ));

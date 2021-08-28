@@ -1347,9 +1347,15 @@ declare module '@polkadot/api/types/storage' {
     };
     vesting: {
       /**
+       * Storage version of the pallet.
+       * 
+       * New networks start with latest version, as determined by the genesis build.
+       **/
+      storageVersion: AugmentedQuery<ApiType, () => Observable<PalletVestingReleases>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Information regarding the vesting of a given account.
        **/
-      vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletVestingVestingInfo>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Vec<PalletVestingVestingInfo>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
