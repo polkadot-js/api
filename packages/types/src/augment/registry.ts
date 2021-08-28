@@ -44,7 +44,7 @@ import type { AccountStatus, AccountValidity } from '@polkadot/types/interfaces/
 import type { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import type { AccountId, AccountId20, AccountId32, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, BlockNumberFor, BlockNumberOf, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
-import type { Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDef, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefCompact, Si0TypeDefComposite, Si0TypeDefPhantom, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefTuple, Si0TypeDefVariant, Si0TypeParameter, Si0Variant, SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefPrimitive, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '@polkadot/types/interfaces/scaleInfo';
+import type { Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDef, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefCompact, Si0TypeDefComposite, Si0TypeDefPhantom, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefTuple, Si0TypeDefVariant, Si0TypeParameter, Si0Variant, SiField, SiLookupTypeId, SiPath, SiType, SiTypeDef, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefPrimitive, SiTypeDefRange, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '@polkadot/types/interfaces/scaleInfo';
 import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, ScheduledTo254, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { BeefyKey, FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys10, SessionKeys10B, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys6B, SessionKeys7, SessionKeys7B, SessionKeys8, SessionKeys8B, SessionKeys9, SessionKeys9B, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
@@ -57,7 +57,7 @@ import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { AccountId32Junction, AccountIndex64Junction, AccountKey20Junction, AssetInstance, BodyId, BodyPart, BodyPartAtLeastProportion, BodyPartFraction, BodyPartMoreThanProportion, DoubleEncodedCall, InboundStatus, Junction, MultiAsset, MultiAssetAbstractFungible, MultiAssetAbstractNonFungible, MultiAssetConcreteFungible, MultiAssetConcreteNonFungible, MultiLocation, NetworkId, OutboundStatus, Outcome, PluralityJunction, QueueConfigData, VersionedMultiAsset, VersionedMultiLocation, VersionedXcm, Xcm, XcmAssetEffects, XcmError, XcmHrmpChannelAccepted, XcmHrmpChannelClosing, XcmHrmpNewChannelOpenRequest, XcmOrder, XcmOrderBuyExecution, XcmOrderDepositAsset, XcmOrderDepositReserveAsset, XcmOrderExchangeAsset, XcmOrderInitiateReserveWithdraw, XcmOrderInitiateTeleport, XcmOrderQueryHolding, XcmOrigin, XcmOriginKind, XcmQueryResponse, XcmRelayedFrom, XcmReserveAssetDeposit, XcmResponse, XcmTeleportAsset, XcmTransact, XcmTransferAsset, XcmTransferReserveAsset, XcmWithdrawAsset, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
+import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, BodyId, BodyPart, DoubleEncodedCall, Fungibility, InboundStatus, Junction, MultiAsset, MultiAssetFilter, MultiAssetFilterV1, MultiAssetV0, MultiAssetV1, MultiAssets, MultiAssetsV1, MultiLocation, MultiLocationV0, MultiLocationV1, NetworkId, OutboundStatus, Outcome, QueueConfigData, VersionedMultiAsset, VersionedMultiAssets, VersionedMultiLocation, VersionedXcm, WildFungibility, WildMultiAsset, WildMultiAssetV1, Xcm, XcmAssetId, XcmError, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrigin, XcmOriginKind, XcmResponse, XcmV0, XcmV1, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -68,17 +68,14 @@ declare module '@polkadot/types/types/registry' {
     AccountId: AccountId;
     AccountId20: AccountId20;
     AccountId32: AccountId32;
-    AccountId32Junction: AccountId32Junction;
     AccountIdOf: AccountIdOf;
     AccountIndex: AccountIndex;
-    AccountIndex64Junction: AccountIndex64Junction;
     AccountInfo: AccountInfo;
     AccountInfoWithDualRefCount: AccountInfoWithDualRefCount;
     AccountInfoWithProviders: AccountInfoWithProviders;
     AccountInfoWithRefCount: AccountInfoWithRefCount;
     AccountInfoWithRefCountU8: AccountInfoWithRefCountU8;
     AccountInfoWithTripleRefCount: AccountInfoWithTripleRefCount;
-    AccountKey20Junction: AccountKey20Junction;
     AccountStatus: AccountStatus;
     AccountValidity: AccountValidity;
     AccountVote: AccountVote;
@@ -105,6 +102,8 @@ declare module '@polkadot/types/types/registry' {
     AssetDetails: AssetDetails;
     AssetId: AssetId;
     AssetInstance: AssetInstance;
+    AssetInstanceV0: AssetInstanceV0;
+    AssetInstanceV1: AssetInstanceV1;
     AssetMetadata: AssetMetadata;
     AssetOptions: AssetOptions;
     AssignmentId: AssignmentId;
@@ -158,9 +157,6 @@ declare module '@polkadot/types/types/registry' {
     BlockWeights: BlockWeights;
     BodyId: BodyId;
     BodyPart: BodyPart;
-    BodyPartAtLeastProportion: BodyPartAtLeastProportion;
-    BodyPartFraction: BodyPartFraction;
-    BodyPartMoreThanProportion: BodyPartMoreThanProportion;
     bool: bool;
     Bool: Bool;
     Bounty: Bounty;
@@ -405,6 +401,7 @@ declare module '@polkadot/types/types/registry' {
     FunctionMetadataV9: FunctionMetadataV9;
     FundIndex: FundIndex;
     FundInfo: FundInfo;
+    Fungibility: Fungibility;
     Gas: Gas;
     GiltBid: GiltBid;
     GlobalValidationData: GlobalValidationData;
@@ -548,12 +545,16 @@ declare module '@polkadot/types/types/registry' {
     MortalEra: MortalEra;
     MultiAddress: MultiAddress;
     MultiAsset: MultiAsset;
-    MultiAssetAbstractFungible: MultiAssetAbstractFungible;
-    MultiAssetAbstractNonFungible: MultiAssetAbstractNonFungible;
-    MultiAssetConcreteFungible: MultiAssetConcreteFungible;
-    MultiAssetConcreteNonFungible: MultiAssetConcreteNonFungible;
+    MultiAssetFilter: MultiAssetFilter;
+    MultiAssetFilterV1: MultiAssetFilterV1;
+    MultiAssets: MultiAssets;
+    MultiAssetsV1: MultiAssetsV1;
+    MultiAssetV0: MultiAssetV0;
+    MultiAssetV1: MultiAssetV1;
     MultiDisputeStatementSet: MultiDisputeStatementSet;
     MultiLocation: MultiLocation;
+    MultiLocationV0: MultiLocationV0;
+    MultiLocationV1: MultiLocationV1;
     Multiplier: Multiplier;
     Multisig: Multisig;
     MultiSignature: MultiSignature;
@@ -654,7 +655,6 @@ declare module '@polkadot/types/types/registry' {
     PhantomData: PhantomData;
     Phase: Phase;
     PhragmenScore: PhragmenScore;
-    PluralityJunction: PluralityJunction;
     Points: Points;
     PortableRegistry: PortableRegistry;
     PortableType: PortableType;
@@ -808,6 +808,7 @@ declare module '@polkadot/types/types/registry' {
     SiTypeDefCompact: SiTypeDefCompact;
     SiTypeDefComposite: SiTypeDefComposite;
     SiTypeDefPrimitive: SiTypeDefPrimitive;
+    SiTypeDefRange: SiTypeDefRange;
     SiTypeDefSequence: SiTypeDefSequence;
     SiTypeDefTuple: SiTypeDefTuple;
     SiTypeDefVariant: SiTypeDefVariant;
@@ -944,6 +945,7 @@ declare module '@polkadot/types/types/registry' {
     ValidityAttestation: ValidityAttestation;
     VecInboundHrmpMessage: VecInboundHrmpMessage;
     VersionedMultiAsset: VersionedMultiAsset;
+    VersionedMultiAssets: VersionedMultiAssets;
     VersionedMultiLocation: VersionedMultiLocation;
     VersionedXcm: VersionedXcm;
     VestingInfo: VestingInfo;
@@ -968,36 +970,25 @@ declare module '@polkadot/types/types/registry' {
     WeightMultiplier: WeightMultiplier;
     WeightPerClass: WeightPerClass;
     WeightToFeeCoefficient: WeightToFeeCoefficient;
+    WildFungibility: WildFungibility;
+    WildMultiAsset: WildMultiAsset;
+    WildMultiAssetV1: WildMultiAssetV1;
     WinnersData: WinnersData;
     WinnersDataTuple: WinnersDataTuple;
     WinningData: WinningData;
     WinningDataEntry: WinningDataEntry;
     WithdrawReasons: WithdrawReasons;
     Xcm: Xcm;
-    XcmAssetEffects: XcmAssetEffects;
+    XcmAssetId: XcmAssetId;
     XcmError: XcmError;
-    XcmHrmpChannelAccepted: XcmHrmpChannelAccepted;
-    XcmHrmpChannelClosing: XcmHrmpChannelClosing;
-    XcmHrmpNewChannelOpenRequest: XcmHrmpNewChannelOpenRequest;
     XcmOrder: XcmOrder;
-    XcmOrderBuyExecution: XcmOrderBuyExecution;
-    XcmOrderDepositAsset: XcmOrderDepositAsset;
-    XcmOrderDepositReserveAsset: XcmOrderDepositReserveAsset;
-    XcmOrderExchangeAsset: XcmOrderExchangeAsset;
-    XcmOrderInitiateReserveWithdraw: XcmOrderInitiateReserveWithdraw;
-    XcmOrderInitiateTeleport: XcmOrderInitiateTeleport;
-    XcmOrderQueryHolding: XcmOrderQueryHolding;
+    XcmOrderV0: XcmOrderV0;
+    XcmOrderV1: XcmOrderV1;
     XcmOrigin: XcmOrigin;
     XcmOriginKind: XcmOriginKind;
     XcmpMessageFormat: XcmpMessageFormat;
-    XcmQueryResponse: XcmQueryResponse;
-    XcmRelayedFrom: XcmRelayedFrom;
-    XcmReserveAssetDeposit: XcmReserveAssetDeposit;
     XcmResponse: XcmResponse;
-    XcmTeleportAsset: XcmTeleportAsset;
-    XcmTransact: XcmTransact;
-    XcmTransferAsset: XcmTransferAsset;
-    XcmTransferReserveAsset: XcmTransferReserveAsset;
-    XcmWithdrawAsset: XcmWithdrawAsset;
+    XcmV0: XcmV0;
+    XcmV1: XcmV1;
   }
 }

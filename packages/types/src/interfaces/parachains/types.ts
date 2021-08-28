@@ -5,7 +5,6 @@ import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
-import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 import type { ITuple } from '@polkadot/types/types';
 
 /** @name AbridgedCandidateReceipt */
@@ -189,7 +188,7 @@ export interface DisputeStatement extends Enum {
 export interface DisputeStatementSet extends Struct {
   readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
-  readonly statements: Vec<ITuple<[DisputeStatement, ValidatorIndex, ValidatorSignature]>>;
+  readonly statements: Vec<ITuple<[DisputeStatement, ParaValidatorIndex, ValidatorSignature]>>;
 }
 
 /** @name DoubleVoteReport */
@@ -661,7 +660,9 @@ export interface ValidatorSignature extends Signature {}
 export interface ValidDisputeStatementKind extends Enum {
   readonly isExplicit: boolean;
   readonly isBackingSeconded: boolean;
+  readonly asBackingSeconded: Hash;
   readonly isBackingValid: boolean;
+  readonly asBackingValid: Hash;
   readonly isApprovalChecking: boolean;
 }
 

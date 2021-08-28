@@ -212,6 +212,7 @@ export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions:
   [TypeDefInfo.Null]: tsNull,
   [TypeDefInfo.Option]: tsOption,
   [TypeDefInfo.Plain]: tsPlain,
+  [TypeDefInfo.Range]: errorUnhandled,
   [TypeDefInfo.Result]: tsResult,
   [TypeDefInfo.Set]: tsSet,
   [TypeDefInfo.Si]: tsSi,

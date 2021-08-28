@@ -12,18 +12,25 @@ import { createClass } from './createClass';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-function checkInstance (created: Codec, value: Uint8Array): void {
+function checkInstance (created: Codec, matcher: Uint8Array): void {
   const u8a = created.toU8a();
   const rawType = created.toRawType();
-
-  assert(
-    u8aEq(value, u8a) || (
-      // when length-prefixed from hex, just check the actual length
+  const isOk = (
+    // full match, all ok
+    u8aEq(u8a, matcher) ||
+    (
+      // on a length-prefixed type, just check the actual length
       ['Bytes', 'Text', 'Type'].includes(rawType) &&
-      value.length === (created as Bytes).length
-    ),
-    () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(value, 512)} (${value.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`
+      matcher.length === (created as Bytes).length
+    ) ||
+    (
+      // when the created is empty and matcher is also empty, let it slide...
+      created.isEmpty &&
+      matcher.every((v) => !v)
+    )
   );
+
+  assert(isOk, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(matcher, 512)} (${matcher.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
 }
 
 function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false): void {
@@ -38,7 +45,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): DetectCodec<T, K> {
+function initType<T extends Codec> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -59,7 +66,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
   let firstError: Error | null = null;
 
   try {
-    Clazz = createClass<T, K>(registry, type);
+    Clazz = createClass(registry, type);
 
     return initType(registry, Clazz, params, options);
   } catch (error) {
@@ -68,7 +75,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
 
   if (Clazz && Clazz.__fallbackType) {
     try {
-      Clazz = createClass<T, K>(registry, Clazz.__fallbackType as unknown as K);
+      Clazz = createClass(registry, Clazz.__fallbackType as unknown as K);
 
       return initType(registry, Clazz, params, options);
     } catch {
@@ -86,5 +93,5 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * @param params - The value to instantiate the type with
  */
 export function createType<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
-  return createTypeUnsafe<T, K>(registry, type, params);
+  return createTypeUnsafe(registry, type, params);
 }

@@ -17,14 +17,14 @@ import { extractOptions, isOptions } from '../util';
 export const EMPTY_SALT = new Uint8Array();
 
 export function createBluePrintTx <ApiType extends ApiTypes, R extends SubmittableResult> (fn: (options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>): BlueprintDeploy<ApiType> {
-  return (options: BigInt | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
+  return (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
     isOptions(options)
       ? fn(options, params)
       : fn(...extractOptions(options, params));
 }
 
 export function createBluePrintWithId <T> (fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => T): ContractGeneric<BlueprintOptions, T> {
-  return (constructorOrId: AbiConstructor | string | number, options: BigInt | string | number | BN | BlueprintOptions, ...params: unknown[]): T =>
+  return (constructorOrId: AbiConstructor | string | number, options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): T =>
     isOptions(options)
       ? fn(constructorOrId, options, params)
       : fn(constructorOrId, ...extractOptions(options, params));

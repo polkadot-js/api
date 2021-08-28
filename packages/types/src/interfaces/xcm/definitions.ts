@@ -7,97 +7,261 @@
 import type { Definitions } from '../../types';
 
 const xcm = {
-  XcmAssetEffects: {
-    assets: 'Vec<MultiAsset>',
-    effects: 'Vec<XcmOrder>'
-  },
-  XcmWithdrawAsset: 'XcmAssetEffects',
-  XcmReserveAssetDeposit: 'XcmAssetEffects',
-  XcmTeleportAsset: 'XcmAssetEffects',
-  XcmQueryResponse: { queryId: 'Compact<u64>', response: 'XcmResponse' },
-  XcmTransferAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation' },
-  XcmTransferReserveAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmTransact: { originType: 'XcmOriginKind', requireWeightAtMost: 'u64', call: 'DoubleEncodedCall' },
-  XcmHrmpNewChannelOpenRequest: { sender: 'Compact<u32>', maxMessageSize: 'Compact<u32>', maxCapacity: 'Compact<u32>' },
-  XcmHrmpChannelAccepted: { recipient: 'Compact<u32>' },
-  XcmHrmpChannelClosing: { initiator: 'Compact<u32>', sender: 'Compact<u32>', recipient: 'Compact<u32>' },
-  XcmRelayedFrom: { who: 'MultiLocation', message: 'Xcm' },
   XcmOrigin: {
     _enum: {
       Xcm: 'MultiLocation'
     }
   },
-  Xcm: {
+  Xcm: 'XcmV1',
+  XcmV0: {
     _enum: {
-      WithdrawAsset: 'XcmWithdrawAsset',
-      ReserveAssetDeposit: 'XcmReserveAssetDeposit',
-      TeleportAsset: 'XcmTeleportAsset',
-      QueryResponse: 'XcmQueryResponse',
-      TransferAsset: 'XcmTransferAsset',
-      TransferReserveAsset: 'XcmTransferReserveAsset',
-      Transact: 'XcmTransact',
-      HrmpNewChannelOpenRequest: 'XcmHrmpNewChannelOpenRequest',
-      HrmpChannelAccepted: 'XcmHrmpChannelAccepted',
-      HrmpChannelClosing: 'XcmHrmpChannelClosing',
-      RelayedFrom: 'XcmRelayedFrom'
+      WithdrawAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      ReserveAssetDeposit: {
+        assets: 'Vec<MultiAssetV0>',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      ReceiveTeleportedAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmResponse'
+      },
+      TransferAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        dest: 'MultiLocationV0'
+      },
+      TransferReserveAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        dest: 'MultiLocationV0',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      Transact: {
+        originType: 'XcmOriginKind',
+        requireWeightAtMost: 'u64',
+        call: 'DoubleEncodedCall'
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>'
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>'
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>'
+      },
+      RelayedFrom: {
+        who: 'MultiLocationV0',
+        message: 'XcmV0'
+      }
+    }
+  },
+  XcmV1: {
+    _enum: {
+      WithdrawAsset: {
+        Vassets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      ReserveAssetDeposit: {
+        Vassets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      ReceiveTeleportedAsset: {
+        Vassets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmResponse'
+      },
+      TransferAsset: {
+        Vassets: 'MultiAssetsV1',
+        dest: 'MultiLocationV1'
+      },
+      TransferReserveAsset: {
+        Vassets: 'MultiAssetsV1',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      Transact: {
+        originType: 'XcmOriginKind',
+        requireWeightAtMost: 'u64',
+        call: 'DoubleEncodedCall'
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>'
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>'
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>'
+      },
+      RelayedFrom: {
+        who: 'MultiLocationV1',
+        message: 'XcmV1'
+      }
     }
   },
   XcmpMessageFormat: {
     _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
-  },
-  VersionedXcm: {
-    _enum: {
-      V0: 'Xcm'
-    }
   }
 };
 
 const xmcOrder = {
-  XcmOrderDepositAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation' },
-  XcmOrderDepositReserveAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderExchangeAsset: { give: 'Vec<MultiAsset>', receive: 'Vec<MultiAsset>' },
-  XcmOrderInitiateReserveWithdraw: { assets: 'Vec<MultiAsset>', reserve: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderInitiateTeleport: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderQueryHolding: { queryId: 'Compact<u64>', dest: 'MultiLocation', assets: 'Vec<MultiAsset>' },
-  XcmOrderBuyExecution: { fees: 'MultiAsset', weight: 'u64', debt: 'u64', haltOnError: 'bool', xcm: 'Vec<Xcm>' },
-  XcmOrder: {
+  XcmOrder: 'XcmOrderV1',
+  XcmOrderV0: {
     _enum: {
       Null: 'Null',
-      DepositAsset: 'XcmOrderDepositAsset',
-      DepositReserveAsset: 'XcmOrderDepositReserveAsset',
-      ExchangeAsset: 'XcmOrderExchangeAsset',
-      InitiateReserveWithdraw: 'XcmOrderInitiateReserveWithdraw',
-      InitiateTeleport: 'XcmOrderInitiateTeleport',
-      QueryHolding: 'XcmOrderQueryHolding',
-      BuyExecution: 'XcmOrderBuyExecution'
+      DepositAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        dest: 'MultiLocationV0'
+      },
+      DepositReserveAsset: {
+        assets: 'Vec<MultiAssetV0>',
+        dest: 'MultiLocationV0',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      ExchangeAsset: {
+        give: 'Vec<MultiAssetV0>',
+        receive: 'Vec<MultiAssetV0>'
+      },
+      InitiateReserveWithdraw: {
+        assets: 'Vec<MultiAssetV0>',
+        reserve: 'MultiLocationV0',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      InitiateTeleport: {
+        assets: 'Vec<MultiAsset>',
+        dest: 'MultiLocationV0',
+        effects: 'Vec<XcmOrderV0>'
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'MultiLocationV0',
+        assets: 'Vec<MultiAssetV0>'
+      },
+      BuyExecution: {
+        fees: 'MultiAsset',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        xcm: 'Vec<XcmV0>'
+      }
+    }
+  },
+  XcmOrderV1: {
+    _enum: {
+      Noop: 'Null',
+      DepositAsset: {
+        assets: 'MultiAssetFilterV1',
+        maxAssets: 'u32',
+        beneficiary: 'MultiLocationV1'
+      },
+      DepositReserveAsset: {
+        assets: 'MultiAssetFilterV1',
+        maxAssets: 'u32',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      ExchangeAsset: {
+        give: 'MultiAssetFilterV1',
+        receive: 'MultiAssetsV1'
+      },
+      InitiateReserveWithdraw: {
+        assets: 'MultiAssetFilterV1',
+        reserve: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      InitiateTeleport: {
+        assets: 'MultiAssetFilterV1',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1>'
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'MultiLocationV1',
+        assets: 'MultiAssetFilterV1'
+      },
+      BuyExecution: {
+        fees: 'MultiAsset',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        orders: 'Vec<XcmOrderV1>',
+        instructions: 'Vec<XcmV1>'
+      }
     }
   }
 };
 
 const multiAsset = {
+  XcmAssetId: {
+    _enum: {
+      Concrete: 'MultiLocation',
+      Abstract: 'Bytes'
+    }
+  },
+  AssetInstance: 'AssetInstanceV1',
+  AssetInstanceV0: {
+    _enum: {
+      Undefined: 'Null',
+      Index8: 'u8',
+      Index16: 'Compact<u16>',
+      Index32: 'Compact<u32>',
+      Index64: 'Compact<u64>',
+      Index128: 'Compact<u128>',
+      Array4: '[u8; 4]',
+      Array8: '[u8; 8]',
+      Array16: '[u8; 16]',
+      Array32: '[u8; 32]',
+      Blob: 'Vec<u8>'
+    }
+  },
+  AssetInstanceV1: {
+    _enum: {
+      Undefined: 'Null',
+      Index: 'Compact<u128>',
+      Array4: '[u8; 4]',
+      Array8: '[u8; 8]',
+      Array16: '[u8; 16]',
+      Array32: '[u8; 32]',
+      Blob: 'Bytes'
+    }
+  },
+  Fungibility: {
+    _enum: {
+      Fungible: 'u128',
+      NonFungible: 'AssetInstance'
+    }
+  },
   InboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
   OutboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
-  MultiAssetAbstractFungible: {
-    id: 'Vec<u8>',
-    instance: 'Compact<u128>'
+  MultiAssetFilter: 'MultiAssetFilterV1',
+  MultiAssetFilterV1: {
+    _enum: {
+      Definite: 'MultiAssetsV1',
+      Wild: 'WildMultiAssetV1'
+    }
   },
-  MultiAssetAbstractNonFungible: {
-    class: 'Vec<u8>',
-    instance: 'AssetInstance'
-  },
-  MultiAssetConcreteFungible: {
-    id: 'MultiLocation',
-    amount: 'Compact<u128>'
-  },
-  MultiAssetConcreteNonFungible: {
-    class: 'MultiLocation',
-    instance: 'AssetInstance'
-  },
-  MultiAsset: {
+  MultiAsset: 'MultiAssetV1',
+  MultiAssetV0: {
     _enum: {
       None: 'Null',
       All: 'Null',
@@ -107,15 +271,41 @@ const multiAsset = {
       AllAbstractNonFungible: 'Vec<u8>',
       AllConcreteFungible: 'MultiLocation',
       AllConcreteNonFungible: 'MultiLocation',
-      AbstractFungible: 'MultiAssetAbstractFungible',
-      AbstractNonFungible: 'MultiAssetAbstractNonFungible',
-      ConcreteFungible: 'MultiAssetConcreteFungible',
-      ConcreteNonFungible: 'MultiAssetConcreteNonFungible'
+      AbstractFungible: {
+        id: 'Vec<u8>',
+        instance: 'Compact<u128>'
+      },
+      AbstractNonFungible: {
+        class: 'Vec<u8>',
+        instance: 'AssetInstance'
+      },
+      ConcreteFungible: {
+        id: 'MultiLocation',
+        amount: 'Compact<u128>'
+      },
+      ConcreteNonFungible: {
+        class: 'MultiLocation',
+        instance: 'AssetInstance'
+      }
     }
   },
-  VersionedMultiAsset: {
+  MultiAssetV1: {
+    id: 'XcmAssetId',
+    fungibility: 'Fungibility'
+  },
+  MultiAssets: 'Vec<MultiAsset>',
+  MultiAssetsV1: 'Vec<MultiAssetV1>',
+  WildFungibility: {
+    _enum: ['Fungible', 'NonFungible']
+  },
+  WildMultiAsset: 'WildMultiAssetV1',
+  WildMultiAssetV1: {
     _enum: {
-      V0: 'MultiAsset'
+      All: 'Null',
+      AllOf: {
+        id: 'XcmAssetId',
+        fungibility: 'WildFungibility'
+      }
     }
   }
 };
@@ -136,42 +326,44 @@ const junction = {
     _enum: {
       Voice: 'Null',
       Members: 'Compact<u32>',
-      Fraction: 'BodyPartFraction',
-      AtLeastProportion: 'BodyPartAtLeastProportion',
-      MoreThanProportion: 'BodyPartMoreThanProportion'
+      Fraction: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      AtLeastProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      MoreThanProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      }
     }
-  },
-  BodyPartFraction: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  BodyPartAtLeastProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  BodyPartMoreThanProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  AccountId32Junction: {
-    network: 'NetworkId',
-    id: 'AccountId'
-  },
-  AccountIndex64Junction: {
-    network: 'NetworkId',
-    index: 'Compact<u64>'
-  },
-  AccountKey20Junction: {
-    network: 'NetworkId',
-    key: '[u8; 20]'
-  },
-  PluralityJunction: {
-    id: 'BodyId',
-    part: 'BodyPart'
   },
   Junction: {
     _enum: {
       Parent: 'Null',
       Parachain: 'Compact<u32>',
-      AccountId32: 'AccountId32Junction',
-      AccountIndex64: 'AccountIndex64Junction',
-      AccountKey20: 'AccountKey20Junction',
+      AccountId32: {
+        network: 'NetworkId',
+        id: 'AccountId'
+      },
+      AccountIndex64: {
+        network: 'NetworkId',
+        index: 'Compact<u64>'
+      },
+      AccountKey20: {
+        network: 'NetworkId',
+        key: '[u8; 20]'
+      },
       PalletInstance: 'u8',
       GeneralIndex: 'Compact<u128>',
       GeneralKey: 'Vec<u8>',
       OnlyChild: 'Null',
-      Plurality: 'PluralityJunction'
+      Plurality: {
+        id: 'BodyId',
+        part: 'BodyPart'
+      }
     }
   },
   NetworkId: {
@@ -230,9 +422,11 @@ export default {
         TooExpensive: 'Null'
       }
     },
+    MultiLocationV0: 'MultiLocation',
+    MultiLocationV1: 'MultiLocation',
     MultiLocation: {
       _enum: {
-        Null: 'Null',
+        Here: 'Null',
         X1: 'Junction',
         X2: '(Junction, Junction)',
         X3: '(Junction, Junction, Junction)',
@@ -257,24 +451,28 @@ export default {
       thresholdWeight: 'Weight',
       weightRestrictDecay: 'Weight'
     },
-    VersionedMultiLocation: {
+    VersionedMultiAsset: {
       _enum: {
-        V0: 'MultiLocation'
+        V0: 'MultiAssetV0',
+        V1: 'MultiAssetV1'
       }
     },
-    AssetInstance: {
+    VersionedMultiAssets: {
       _enum: {
-        Undefined: 'Null',
-        Index8: 'u8',
-        Index16: 'Compact<u16>',
-        Index32: 'Compact<u32>',
-        Index64: 'Compact<u64>',
-        Index128: 'Compact<u128>',
-        Array4: '[u8; 4]',
-        Array8: '[u8; 8]',
-        Array16: '[u8; 16]',
-        Array32: '[u8; 32]',
-        Blob: 'Vec<u8>'
+        V0: 'Vec<MultiAssetV0>',
+        V1: 'MultiAssetsV1'
+      }
+    },
+    VersionedMultiLocation: {
+      _enum: {
+        V0: 'MultiLocationV0',
+        V1: 'MultiLocationV1'
+      }
+    },
+    VersionedXcm: {
+      _enum: {
+        V0: 'XcmV0',
+        V1: 'XcmV1'
       }
     }
   }

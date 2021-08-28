@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '../codec/Vec';
-import type { PortableRegistry, PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
+import type { PortableType } from '../interfaces/metadata';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefRange, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
 import type { Text } from '../primitive/Text';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
@@ -326,7 +326,7 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extract (type: SiType, lookupIndex: number): TypeDef {
-    const path = [...type.path];
+    const namespace = [...type.path].join('::');
     let typeDef: TypeDef;
     const primType = getPrimitivePath(type.path);
 
@@ -345,6 +345,8 @@ export class GenericPortableRegistry extends Struct {
         typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat);
       } else if (type.def.isPrimitive) {
         typeDef = this.#extractPrimitive(lookupIndex, type);
+      } else if (type.def.isRange) {
+        typeDef = this.#extractRange(lookupIndex, type.def.asRange);
       } else if (type.def.isSequence) {
         typeDef = this.#extractSequence(lookupIndex, type.def.asSequence);
       } else if (type.def.isTuple) {
@@ -352,21 +354,21 @@ export class GenericPortableRegistry extends Struct {
       } else if (type.def.isVariant) {
         typeDef = this.#extractVariant(lookupIndex, type, type.def.asVariant);
       } else {
-        throw new Error(`Invalid type at index ${lookupIndex}: No handler for ${type.def.toString()}`);
+        throw new Error(`No SiTypeDef handler for ${type.def.toString()}`);
       }
     } catch (error) {
-      throw new Error(`PortableRegistry: ${lookupIndex}: Error extracting ${stringify(type)}: ${(error as Error).message}`);
+      throw new Error(`PortableRegistry: ${lookupIndex}${namespace ? ` (${namespace})` : ''}: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
     return {
       docs: type.docs.map((d) => d.toString()),
-      namespace: path.join('::'),
+      namespace,
       ...typeDef
     };
   }
 
-  #extractArray (lookupIndex: number, { len: length, type }: SiTypeDefArray): TypeDef {
-    assert(!length || length.toNumber() <= 256, () => `PortableRegistry: ${lookupIndex}: Only support for [Type; <length>], where length <= 256`);
+  #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
+    assert(!length || length.toNumber() <= 256, 'Only support for [Type; <length>], where length <= 256');
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
@@ -411,8 +413,8 @@ export class GenericPortableRegistry extends Struct {
       : this.#extractFields(lookupIndex, fields);
   }
 
-  #extractCompositeSet (lookupIndex: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
-    assert(params.length === 1 && fields.length === 1, () => `PortableRegistry: ${lookupIndex}: Set handling expects since param and single field`);
+  #extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
+    assert(params.length === 1 && fields.length === 1, 'Set handling expects param/field as single entries');
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
@@ -434,7 +436,7 @@ export class GenericPortableRegistry extends Struct {
     ]),
     [true, true]);
 
-    assert(isTuple || isStruct, () => `PortableRegistry: ${lookupIndex}: Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)`);
+    assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
     if (fields.length === 0) {
       return {
@@ -539,6 +541,19 @@ export class GenericPortableRegistry extends Struct {
     };
   }
 
+  #extractRange (lookupIndex: number, { end, start }: SiTypeDefRange): TypeDef {
+    // NOTE Currently we don't handle SiTypeDefRange.inclusive
+    return withTypeString(this.registry, {
+      info: TypeDefInfo.Range,
+      lookupIndex,
+      lookupName: this.#names[lookupIndex],
+      sub: [
+        this.#createSiDef(start),
+        this.#createSiDef(end)
+      ]
+    });
+  }
+
   #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
     const sub = this.#createSiDef(type);
 
@@ -588,9 +603,9 @@ export class GenericPortableRegistry extends Struct {
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Result,
-        sub: params.map(({ type }) => this.#createSiDef(type.unwrap())).map((def, index) => ({
+        sub: params.map(({ type }, index) => ({
           name: ['Ok', 'Error'][index],
-          ...def
+          ...this.#createSiDef(type.unwrap())
         }))
       });
     } else if (variants.length === 0) {

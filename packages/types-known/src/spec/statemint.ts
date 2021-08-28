@@ -5,7 +5,7 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-// these are override types for Polkadot
+// these are override types for Statemine, Statemint, Westmint
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, undefined],
@@ -21,7 +21,11 @@ const versioned: OverrideVersionedType[] = [
           'AssetManager',
           'Staking'
         ]
-      }
+      },
+      AssetInstance: 'AssetInstanceV0',
+      MultiAsset: 'MultiAssetV0',
+      Xcm: 'XcmV0',
+      XcmOrder: 'XcmOrderV0'
     }
   }
 ];

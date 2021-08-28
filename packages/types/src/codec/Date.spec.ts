@@ -25,7 +25,7 @@ describe('Date', (): void => {
   });
 
   describe('encode', (): void => {
-    const testEncode = (to: 'toBigInt' | 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BigInt | BN | number | string | Uint8Array): void =>
+    const testEncode = (to: 'toBigInt' | 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: bigint | BN | number | string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
         expect(new CodecDate(registry, 421)[to]()).toEqual(expected);
       });

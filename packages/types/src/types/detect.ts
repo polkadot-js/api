@@ -1,74 +1,157 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Compact, Option, Raw, Vec, VecFixed } from '../codec';
-import type { Bytes } from '../primitive';
+import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Result, Struct, U8aFixed, Vec, VecFixed } from '../codec';
+import type { Bytes, Null, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
-import type { ICompact, IEnum, INumber, IOption, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 import type { InterfaceTypes } from './registry';
 
-export type DetectCodec<T extends Codec, K extends string> = __Expand<K, T>;
-
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<__Expand<K, T>>;
-
-// trim leading and trailing spaces
-export type Trim<K extends string> =
-  K extends ` ${infer X}`
-    ? Trim<X>
-    : K extends `${infer X} `
-      ? Trim<X>
-      : K;
-
-export type __Expand<K extends string, T extends Codec = Codec> = __Internal<Trim<K>, T>;
-
-export type __Internal<K extends string, T extends Codec> =
+export type DetectCodec<T extends Codec, K extends string> =
+  // This is weird - it looks the wrong way around (i.e. T check should be done first), however
+  // it does work (as evident with checkTypes) and is problematic the other way around
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
-    : T extends ICompact | IEnum | INumber | IOption | IStruct | ITuple | IU8a | IVec
+    : T extends ICompact | IEnum | IMap | IMethod | INumber | IOption | IResult | ISet | IStruct | ITuple | IU8a | IVec
       ? T
-      : __Unwrap<K, T>;
+      : __Codec<__Codecs<__Tokenize<__Sanitize<K>>[0]>>;
 
-// ensure whatever we wrap is always Compact-capable
-export type __Compact<T extends Codec> =
-  T extends INumber
-    ? Compact<T>
+export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
+
+export type __Codec<V extends Codec[]> =
+  V[0] extends Codec
+    ? V[0]
+    : Codec;
+
+// trim leading and trailing spaces and unused portions, e.g `...;<length>]`
+export type __Sanitize<K extends string> =
+  K extends ` ${infer X}` | `${infer X} ` | ` ${infer X} `
+    ? __Sanitize<X>
+    : K extends `${infer A} ${infer B}`
+      ? __Sanitize<`${A}${B}`>
+      : K extends `${infer A};${string}]${infer B}`
+        ? __Sanitize<`${A}${B}`>
+        : K extends `${infer X};${string}]`
+          ? __Sanitize<X>
+          : K;
+
+export type __Value = string | Record<string, unknown> | __Value[];
+
+export type __MapWrapOne<C extends Codec> = {
+  'BTreeSet<': BTreeSet<C>;
+  'Compact<': C extends INumber ? Compact<C> : Codec;
+  'Linkage<': Linkage<C>;
+  'Option<': Option<C>;
+  'Range<': C extends INumber ? Range<C> : Codec;
+  'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
+  'Vec<': C extends u8 ? Bytes : Vec<C>;
+  '[': C extends u8 ? U8aFixed : VecFixed<C>;
+};
+
+// FIXME We don't cater for Int< & UInt< here. These could be problematic, since it has
+// a variable number of inner arguments, better would be to just strip them inside the sanitize
+export type __MapWrapTwo<K extends Codec, V extends Codec> = {
+  'BTreeMap<': BTreeMap<K, V>;
+  'HashMap<': HashMap<K, V>;
+  'Result<': Result<K, V>;
+};
+
+export type __WrapOne = keyof __MapWrapOne<Codec>;
+
+export type __WrapTwo = keyof __MapWrapTwo<Codec, Codec>;
+
+export type __Wrap = __WrapOne | __WrapTwo;
+
+export type __ToStruct<K extends Record<string, unknown>> =
+  K['_enum'] extends true
+    ? Enum
+    : K['_set'] extends true
+      ? CodecSet
+      : Struct;
+
+export type __ToTuple<O extends Codec[]> =
+  O[0] extends Codec
+    ? O[1] extends Codec
+      ? ITuple<O>
+      : O[0]
+    : Null;
+
+export type __CodecFirst<K extends unknown> =
+  K extends keyof InterfaceTypes
+    ? InterfaceTypes[K]
+    : K extends unknown[]
+      ? __ToTuple<__Codecs<K>>
+      : K extends Record<string, unknown>
+        ? __ToStruct<K>
+        : Codec;
+
+export type __CodecsNext<K extends unknown, C extends Codec[]> =
+  K extends __WrapOne
+    ? C extends [Codec, ...infer X]
+      ? [__MapWrapOne<C[0]>[K], ...X]
+      : Codec
+    : K extends __WrapTwo
+      ? C extends [Codec, Codec, ...infer X]
+        ? [__MapWrapTwo<C[0], C[1]>[K], ...X]
+        : Codec
+      : [__CodecFirst<K>, ...C];
+
+export type __Codecs<T extends unknown[]> =
+  T extends [infer K, ...infer N]
+    ? __CodecsNext<K, __Codecs<N>>
+    : [];
+
+export type __Combine<V extends __Value[], I extends string> =
+  I extends ''
+    ? V
+    : [...V, I];
+
+export type __CombineInner<V extends __Value[], I extends string, X extends __Value> =
+  I extends ''
+    ? [...V, X]
+    : [I, ...V, X];
+
+// FIXME At this point enum/set/struct are empty, no field indicators, just type indicators
+export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[], I extends string, R extends string> =
+  __Tokenize<T[1], __CombineInner<V, I, R extends `"_set"${string}`
+    ? { _set: true }
+    : R extends `"_enum"${string}`
+      ? { _enum: true }
+      : { _fields: true }
+  >>;
+
+export type __TokenizeTuple<T extends [__Value[], string], V extends __Value[], I extends string> =
+  __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
+
+export type __TokenizeWrapped<K extends string, V extends __Value[], I extends string, R extends string> =
+  K extends `${infer X}${R}`
+    ? X extends '['
+      ? __Tokenize<R, [...__Combine<V, I>, '[']>
+      : __Tokenize<R, __Combine<V, `${I}${X}`>>
     : never;
 
-export type __Params<X extends string> =
-  X extends `${infer A},${infer B}`
-    ? [__Expand<A>, ...__Params<B>]
-    : [__Expand<X>];
-
-export type __Tuple<X extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  X extends `${infer A},${infer B}`
-    ? ITuple<__Params<X>>
-    : __Expand<X>;
-
-// vec support with short-circuit for u8
-export type __Vec<X extends string> =
-  Trim<X> extends 'u8'
-    ? Bytes
-    : Vec<__Expand<X>>;
-
-// fixed vec support
-export type __VecFixed<X extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  X extends `${infer Y};${infer _}`
-    ? Trim<Y> extends 'u8'
-      ? Raw
-      : VecFixed<__Expand<Y>>
+export type __TokenizeKnown<K extends string, V extends __Value[], I extends string, R extends string> =
+  K extends `${infer X}${',' | '>'}${R}`
+    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
     : never;
 
-export type __Unwrap<K extends string, T extends Codec> =
-  K extends `Compact<${infer X}>`
-    ? __Compact<__Expand<X>>
-    : K extends `Option<${infer X}>`
-      ? Option<__Expand<X>>
-      : K extends `Vec<${infer X}>`
-        ? __Vec<X>
-        : K extends `[${infer X}]`
-          ? __VecFixed<X>
-          : K extends `(${infer X})`
-            ? __Tuple<X>
-            : T;
+// NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
+// below, even while we do more matching (Number of characters iterated through is the most problematic)
+export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
+  K extends '' | '>' | ')' | '}'
+    ? [__Combine<V, I>, '']
+    : K extends `${__Wrap}${infer R}`
+      ? __TokenizeWrapped<K, V, I, R>
+      : K extends `${',' | '>'}${infer R}`
+        ? __Tokenize<R, __Combine<V, I>>
+        : K extends `${')' | '}'}${infer R}`
+          ? [__Combine<V, I>, R]
+          : K extends `(${infer R}`
+            ? __TokenizeTuple<__Tokenize<R>, V, I>
+            : K extends `{${infer R}`
+              ? __TokenizeStruct<__Tokenize<R>, V, I, R>
+              : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
+                ? __TokenizeKnown<K, V, I, R>
+                : K extends `${infer C}${infer R}`
+                  ? __Tokenize<R, V, `${I}${C}`>
+                  : [__Combine<V, I>, ''];

@@ -57,7 +57,7 @@ export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | s
 /**
  * @description Based on the chain and runtimeVersion, get the applicable types (ready for registration)
  */
-export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: BigInt | BN | number): RegistryTypes {
+export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: bigint | BN | number): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();

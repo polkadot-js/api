@@ -27,14 +27,14 @@ const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is
 const l = logger('Contract');
 
 function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
-  return (origin: string | AccountId | Uint8Array, options: BigInt | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
+  return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
     isOptions(options)
       ? fn(origin, options, params)
       : fn(origin, ...extractOptions(options, params));
 }
 
 function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
-  return (options: BigInt | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
+  return (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
       ? fn(options, params)
       : fn(...extractOptions(options, params));
@@ -90,7 +90,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #getGas = (_gasLimit: BigInt | BN | string | number, isCall = false): BN => {
+  #getGas = (_gasLimit: bigint | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
     return gasLimit.lte(BN_ZERO)

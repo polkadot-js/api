@@ -8,4 +8,7 @@ import { Int } from '../codec/Int';
  * @description
  * A 64-bit signed integer
  */
-export class i64 extends Int.with(64) {}
+export class i64 extends Int.with(64) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __IntType = 'i64';
+}

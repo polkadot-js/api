@@ -102,9 +102,9 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
     assert(
       (
         (args.length === 0) ||
-        (type.isMap && args.length === (type.asMap.hashers.length - 1))
+        (type.isMap && args.length < type.asMap.hashers.length)
       ),
-      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be one less than the full arguments, found [${args.join(', ')}]`
+      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`
     );
 
     if (args.length) {
@@ -115,11 +115,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
           : [...registry.lookup.getSiType(key).def.asTuple.map((t) => t)];
         const hashersVec = [...hashers];
 
-        // remove the last entry
-        keysVec.pop();
-        hashersVec.pop();
-
-        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec, hashersVec, args));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec.slice(0, args.length), hashersVec.slice(0, args.length), args));
       }
     }
 

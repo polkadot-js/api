@@ -39,7 +39,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
-       * No provider reference exists to allow a non-zero balance of a non-self-sufficient asset.
+       * No provider reference exists to allow a non-zero balance of a non-self-sufficient
+       * asset.
        **/
       NoProvider: AugmentedError<ApiType>;
       /**
@@ -425,10 +426,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       AlreadyVetoed: AugmentedError<ApiType>;
       /**
-       * Unknown index
-       **/
-      BadIndex: AugmentedError<ApiType>;
-      /**
        * Preimage already noted
        **/
       DuplicatePreimage: AugmentedError<ApiType>;
@@ -453,10 +450,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       InvalidHash: AugmentedError<ApiType>;
       /**
-       * The provided witness data is wrong.
-       **/
-      InvalidWitness: AugmentedError<ApiType>;
-      /**
        * Maximum number of votes reached.
        **/
       MaxVotesReached: AugmentedError<ApiType>;
@@ -477,25 +470,13 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoProposal: AugmentedError<ApiType>;
       /**
-       * Not delegated
-       **/
-      NotDelegated: AugmentedError<ApiType>;
-      /**
        * The account is not currently delegating.
        **/
       NotDelegating: AugmentedError<ApiType>;
       /**
-       * The lock on the account to be unlocked has not yet expired.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
        * Not imminent
        **/
       NotImminent: AugmentedError<ApiType>;
-      /**
-       * The target account does not have a lock.
-       **/
-      NotLocked: AugmentedError<ApiType>;
       /**
        * Next external proposal not simple majority
        **/
@@ -680,8 +661,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       AmountTooSmall: AugmentedError<ApiType>;
       /**
-       * The queue for the bid's duration is full and the amount bid is too low to get in through
-       * replacing an existing bid.
+       * The queue for the bid's duration is full and the amount bid is too low to get in
+       * through replacing an existing bid.
        **/
       BidTooLow: AugmentedError<ApiType>;
       /**
@@ -1271,8 +1252,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
       /**
-       * There are too many nominators in the system. Governance needs to adjust the staking settings
-       * to keep things safe for the runtime.
+       * There are too many nominators in the system. Governance needs to adjust the staking
+       * settings to keep things safe for the runtime.
        **/
       TooManyNominators: AugmentedError<ApiType>;
       /**
@@ -1280,8 +1261,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyTargets: AugmentedError<ApiType>;
       /**
-       * There are too many validators in the system. Governance needs to adjust the staking settings
-       * to keep things safe for the runtime.
+       * There are too many validators in the system. Governance needs to adjust the staking
+       * settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
       /**
@@ -1536,6 +1517,16 @@ declare module '@polkadot/api/types/errors' {
        * The owner turned out to be different to what was expected.
        **/
       WrongOwner: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    utility: {
+      /**
+       * Too many calls batched.
+       **/
+      TooManyCalls: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

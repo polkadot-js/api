@@ -2342,8 +2342,8 @@
               ],
               "index": 0,
               "docs": [
-                "New session has happened. Note that the argument is the \\[session_index\\], not the block",
-                "number as the type might suggest."
+                "New session has happened. Note that the argument is the \\[session_index\\], not the",
+                "block number as the type might suggest."
               ]
             }
           ]
@@ -2417,7 +2417,8 @@
               ],
               "index": 1,
               "docs": [
-                "A public proposal has been tabled for referendum vote. \\[proposal_index, deposit, depositors\\]"
+                "A public proposal has been tabled for referendum vote. \\[proposal_index, deposit,",
+                "depositors\\]"
               ]
             },
             {
@@ -2712,21 +2713,6 @@
               ]
             },
             {
-              "name": "Unlocked",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 0,
-                  "typeName": "T::AccountId",
-                  "docs": []
-                }
-              ],
-              "index": 16,
-              "docs": [
-                "An \\[account\\] has been unlocked successfully."
-              ]
-            },
-            {
               "name": "Blacklisted",
               "fields": [
                 {
@@ -2736,7 +2722,7 @@
                   "docs": []
                 }
               ],
-              "index": 17,
+              "index": 16,
               "docs": [
                 "A proposal \\[hash\\] has been blacklisted permanently."
               ]
@@ -4043,8 +4029,8 @@
                 "# Params",
                 "",
                 "- `contract`: The contract that emitted the event.",
-                "- `data`: Data supplied by the contract. Metadata generated during contract",
-                "          compilation is needed to decode it."
+                "- `data`: Data supplied by the contract. Metadata generated during contract compilation",
+                "  is needed to decode it."
               ]
             },
             {
@@ -5215,8 +5201,8 @@
               ],
               "index": 0,
               "docs": [
-                "The amount vested has been updated. This could indicate more funds are available. The",
-                "balance given is the amount which is left unvested (and thus locked).",
+                "The amount vested has been updated. This could indicate a change in funds available.",
+                "The balance given is the amount which is left unvested (and thus locked).",
                 "\\[account, unvested\\]"
               ]
             },
@@ -5232,7 +5218,7 @@
               ],
               "index": 1,
               "docs": [
-                "An \\[account\\] has become fully vested. No further vesting can happen."
+                "An \\[account\\] has become fully vested."
               ]
             }
           ]
@@ -5454,7 +5440,8 @@
               "index": 1,
               "docs": [
                 "Anonymous account has been created by new proxy with given",
-                "disambiguation index and proxy type. \\[anonymous, who, proxy_type, disambiguation_index\\]"
+                "disambiguation index and proxy type. \\[anonymous, who, proxy_type,",
+                "disambiguation_index\\]"
               ]
             },
             {
@@ -7750,10 +7737,11 @@
                 "# <weight>",
                 "- `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`",
                 "- 1 storage write (codec `O(C)`).",
-                "- 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).",
+                "- 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is",
+                "  expensive).",
                 "- 1 event.",
-                "The weight of this function is dependent on the runtime, but generally this is very expensive.",
-                "We will treat this as a full block.",
+                "The weight of this function is dependent on the runtime, but generally this is very",
+                "expensive. We will treat this as a full block.",
                 "# </weight>"
               ]
             },
@@ -7775,8 +7763,8 @@
                 "- `O(C)` where `C` length of `code`",
                 "- 1 storage write (codec `O(C)`).",
                 "- 1 event.",
-                "The weight of this function is dependent on the runtime. We will treat this as a full block.",
-                "# </weight>"
+                "The weight of this function is dependent on the runtime. We will treat this as a full",
+                "block. # </weight>"
               ]
             },
             {
@@ -8453,7 +8441,8 @@
                 "",
                 "May be called from any origin.",
                 "",
-                "- `calls`: The calls to be dispatched from the same origin.",
+                "- `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "  exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 "If origin is root then call are dispatch without checking origin filter. (This includes",
                 "bypassing `frame_system::Config::BaseCallFilter`).",
@@ -8519,7 +8508,8 @@
                 "",
                 "May be called from any origin.",
                 "",
-                "- `calls`: The calls to be dispatched from the same origin.",
+                "- `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "  exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 "If origin is root then call are dispatch without checking origin filter. (This includes",
                 "bypassing `frame_system::Config::BaseCallFilter`).",
@@ -9032,7 +9022,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 125,
-                  "typeName": "EquivocationProof<T::Header>",
+                  "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
@@ -9056,7 +9046,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 125,
-                  "typeName": "EquivocationProof<T::Header>",
+                  "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
@@ -9438,7 +9428,8 @@
                 "",
                 "# <weight>",
                 "- `O(1)` (Note that implementations of `OnTimestampSet` must also be `O(1)`)",
-                "- 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)",
+                "- 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in",
+                "  `on_finalize`)",
                 "- 1 event handler `on_timestamp_set`. Must be `O(1)`.",
                 "# </weight>"
               ]
@@ -9697,7 +9688,8 @@
               ],
               "index": 4,
               "docs": [
-                "Freeze an index so it will always point to the sender account. This consumes the deposit.",
+                "Freeze an index so it will always point to the sender account. This consumes the",
+                "deposit.",
                 "",
                 "The dispatch origin for this call must be _Signed_ and the signing account must have a",
                 "non-frozen account `index`.",
@@ -9773,18 +9765,19 @@
                 "The dispatch origin for this call must be `Signed` by the transactor.",
                 "",
                 "# <weight>",
-                "- Dependent on arguments but not critical, given proper implementations for",
-                "  input config types. See related functions below.",
-                "- It contains a limited number of reads and writes internally and no complex computation.",
+                "- Dependent on arguments but not critical, given proper implementations for input config",
+                "  types. See related functions below.",
+                "- It contains a limited number of reads and writes internally and no complex",
+                "  computation.",
                 "",
                 "Related functions:",
                 "",
                 "  - `ensure_can_withdraw` is always called internally but has a bounded complexity.",
                 "  - Transferring balances to accounts that did not exist before will cause",
-                "     `T::OnNewAccount::on_new_account` to be called.",
+                "    `T::OnNewAccount::on_new_account` to be called.",
                 "  - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.",
-                "  - `transfer_keep_alive` works the same way as `transfer`, but has an additional",
-                "    check that the transfer will not kill the origin account.",
+                "  - `transfer_keep_alive` works the same way as `transfer`, but has an additional check",
+                "    that the transfer will not kill the origin account.",
                 "---------------------------------",
                 "- Base Weight: 73.64 µs, worst case scenario (account created, account removed)",
                 "- DB Weight: 1 Read and 1 Write to destination account",
@@ -9863,8 +9856,8 @@
                 "Exactly as `transfer`, except the origin must be root and the source account may be",
                 "specified.",
                 "# <weight>",
-                "- Same as transfer, but additional read and write because the source account is",
-                "  not assumed to be in the overlay.",
+                "- Same as transfer, but additional read and write because the source account is not",
+                "  assumed to be in the overlay.",
                 "# </weight>"
               ]
             },
@@ -9931,8 +9924,7 @@
                 "- `keep_alive`: A boolean to determine if the `transfer_all` operation should send all",
                 "  of the funds the account has, causing the sender account to be killed (false), or",
                 "  transfer everything except at least the existential deposit, which will guarantee to",
-                "  keep the sender account alive (true).",
-                "  # <weight>",
+                "  keep the sender account alive (true). # <weight>",
                 "- O(1). Just like transfer, but reading the user's transferable balance first.",
                 "  #</weight>"
               ]
@@ -10072,9 +10064,9 @@
               "name": "submit_unsigned",
               "fields": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": 143,
-                  "typeName": "RawSolution<CompactOf<T>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
                 {
@@ -10147,9 +10139,9 @@
               "name": "submit",
               "fields": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": 143,
-                  "typeName": "RawSolution<CompactOf<T>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
                 {
@@ -10193,7 +10185,7 @@
       ],
       "params": [
         {
-          "name": "C",
+          "name": "S",
           "type": 144
         }
       ],
@@ -10201,9 +10193,9 @@
         "composite": {
           "fields": [
             {
-              "name": "compact",
+              "name": "solution",
               "type": 144,
-              "typeName": "C",
+              "typeName": "S",
               "docs": []
             },
             {
@@ -10229,7 +10221,7 @@
     "type": {
       "path": [
         "node_runtime",
-        "NposCompactSolution16"
+        "NposSolution16"
       ],
       "params": [],
       "def": {
@@ -11267,8 +11259,8 @@
                 "The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
                 "",
                 "Use this if there are additional funds in your stash account that you wish to bond.",
-                "Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose any limitation",
-                "on the amount that can be added.",
+                "Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose",
+                "any limitation on the amount that can be added.",
                 "",
                 "Emits `Bonded`.",
                 "",
@@ -11618,8 +11610,8 @@
                 "# <weight>",
                 "O(S) where S is the number of slashing spans to be removed",
                 "Reads: Bonded, Slashing Spans, Account, Locks",
-                "Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks",
-                "Writes Each: SpanSlash * S",
+                "Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "Account, Locks Writes Each: SpanSlash * S",
                 "# </weight>"
               ]
             },
@@ -11764,10 +11756,10 @@
                 "",
                 "Parameters:",
                 "- `new_history_depth`: The new history depth you would like to set.",
-                "- `era_items_deleted`: The number of items that will be deleted by this dispatch.",
-                "   This should report all the storage items that will be deleted by clearing old",
-                "   era history. Needed to report an accurate weight for the dispatch. Trusted by",
-                "   `Root` to report an accurate number.",
+                "- `era_items_deleted`: The number of items that will be deleted by this dispatch. This",
+                "  should report all the storage items that will be deleted by clearing old era history.",
+                "  Needed to report an accurate weight for the dispatch. Trusted by `Root` to report an",
+                "  accurate number.",
                 "",
                 "Origin must be root.",
                 "",
@@ -11778,7 +11770,8 @@
                 "    - Reads: Current Era, History Depth",
                 "    - Writes: History Depth",
                 "    - Clear Prefix Each: Era Stakers, EraStakersClipped, ErasValidatorPrefs",
-                "    - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake, ErasStartSessionIndex",
+                "    - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake,",
+                "      ErasStartSessionIndex",
                 "# </weight>"
               ]
             },
@@ -11812,7 +11805,8 @@
                 "Complexity: O(S) where S is the number of slashing spans on the account.",
                 "DB Weight:",
                 "- Reads: Stash Account, Bonded, Slashing Spans, Locks",
-                "- Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Stash Account, Locks",
+                "- Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "  Stash Account, Locks",
                 "- Writes Each: SpanSlash * S",
                 "# </weight>"
               ]
@@ -11882,10 +11876,10 @@
                 "",
                 "* `min_nominator_bond`: The minimum active bond needed to be a nominator.",
                 "* `min_validator_bond`: The minimum active bond needed to be a validator.",
-                "* `max_nominator_count`: The max number of users who can be a nominator at once.",
-                "  When set to `None`, no limit is enforced.",
-                "* `max_validator_count`: The max number of users who can be a validator at once.",
-                "  When set to `None`, no limit is enforced.",
+                "* `max_nominator_count`: The max number of users who can be a nominator at once. When",
+                "  set to `None`, no limit is enforced.",
+                "* `max_validator_count`: The max number of users who can be a validator at once. When",
+                "  set to `None`, no limit is enforced.",
                 "",
                 "Origin must be Root to call this function.",
                 "",
@@ -12603,8 +12597,8 @@
                 "- `to`: The account whose voting the `target` account's voting power will follow.",
                 "- `conviction`: The conviction that will be attached to the delegated votes. When the",
                 "  account is undelegated, the funds will be locked for the corresponding period.",
-                "- `balance`: The amount of the account's balance to be used in delegating. This must",
-                "  not be more than the account's current balance.",
+                "- `balance`: The amount of the account's balance to be used in delegating. This must not",
+                "  be more than the account's current balance.",
                 "",
                 "Emits `Delegated`.",
                 "",
@@ -12746,8 +12740,8 @@
                 "The dispatch origin of this call must be _Signed_.",
                 "",
                 "- `proposal_hash`: The preimage hash of a proposal.",
-                "- `proposal_length_upper_bound`: an upper bound on length of the proposal.",
-                "  Extrinsic is weighted according to this value with no refund.",
+                "- `proposal_length_upper_bound`: an upper bound on length of the proposal. Extrinsic is",
+                "  weighted according to this value with no refund.",
                 "",
                 "This will only work after `VotingPeriod` blocks from the time that the preimage was",
                 "noted, if it's the same account doing it. If it's a different account, then it'll only",
@@ -13831,9 +13825,9 @@
                 "  origin is removed as a runner-up.",
                 "- `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "  removed as a member, consequently not being a candidate for the next round anymore.",
-                "  Similar to [`remove_member`](Self::remove_member), if replacement runners exists,",
-                "  they are immediately used. If the prime is renouncing, then no prime will exist until",
-                "  the next round.",
+                "  Similar to [`remove_member`](Self::remove_member), if replacement runners exists, they",
+                "  are immediately used. If the prime is renouncing, then no prime will exist until the",
+                "  next round.",
                 "",
                 "The dispatch origin of this call must be signed, and have one of the above roles.",
                 "",
@@ -14132,7 +14126,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 222,
-                  "typeName": "EquivocationProof<T::Hash, T::BlockNumber>",
+                  "typeName": "Box<EquivocationProof<T::Hash, T::BlockNumber>>",
                   "docs": []
                 },
                 {
@@ -14156,7 +14150,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 222,
-                  "typeName": "EquivocationProof<T::Hash, T::BlockNumber>",
+                  "typeName": "Box<EquivocationProof<T::Hash, T::BlockNumber>>",
                   "docs": []
                 },
                 {
@@ -14790,7 +14784,8 @@
                 "",
                 "Instantiation is executed as follows:",
                 "",
-                "- The supplied `code` is instrumented, deployed, and a `code_hash` is created for that code.",
+                "- The supplied `code` is instrumented, deployed, and a `code_hash` is created for that",
+                "  code.",
                 "- If the `code_hash` already exists on the chain the underlying `code` will be shared.",
                 "- The destination address is computed based on the sender, code_hash and the salt.",
                 "- The smart-contract account is created at the computed address.",
@@ -14961,7 +14956,8 @@
               ],
               "index": 2,
               "docs": [
-                "Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
+                "Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo",
+                "key.",
                 "",
                 "The dispatch origin for this call must be _Signed_.",
                 "",
@@ -15047,8 +15043,8 @@
               "index": 0,
               "docs": [
                 "# <weight>",
-                "- Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)",
-                "  and E is length of `heartbeat.network_state.external_address`",
+                "- Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len) and E is",
+                "  length of `heartbeat.network_state.external_address`",
                 "  - `O(K)`: decoding of length `K`",
                 "  - `O(E)`: decoding/encoding of length `E`",
                 "- DbReads: pallet_session `Validators`, pallet_session `CurrentIndex`, `Keys`,",
@@ -15306,7 +15302,7 @@
                 {
                   "name": "info",
                   "type": 245,
-                  "typeName": "IdentityInfo<T::MaxAdditionalFields>",
+                  "typeName": "Box<IdentityInfo<T::MaxAdditionalFields>>",
                   "docs": []
                 }
               ],
@@ -17668,13 +17664,13 @@
                 "The dispatch origin for this call must be _Signed_.",
                 "",
                 "Parameters:",
-                "- `friends`: A list of friends you trust to vouch for recovery attempts.",
-                "  Should be ordered and contain no duplicate values.",
-                "- `threshold`: The number of friends that must vouch for a recovery attempt",
-                "  before the account can be recovered. Should be less than or equal to",
-                "  the length of the list of friends.",
-                "- `delay_period`: The number of blocks after a recovery attempt is initialized",
-                "  that needs to pass before the account can be recovered.",
+                "- `friends`: A list of friends you trust to vouch for recovery attempts. Should be",
+                "  ordered and contain no duplicate values.",
+                "- `threshold`: The number of friends that must vouch for a recovery attempt before the",
+                "  account can be recovered. Should be less than or equal to the length of the list of",
+                "  friends.",
+                "- `delay_period`: The number of blocks after a recovery attempt is initialized that",
+                "  needs to pass before the account can be recovered.",
                 "",
                 "# <weight>",
                 "- Key: F (len of friends)",
@@ -17709,8 +17705,8 @@
                 "The dispatch origin for this call must be _Signed_.",
                 "",
                 "Parameters:",
-                "- `account`: The lost account that you want to recover. This account",
-                "  needs to be recoverable (i.e. have a recovery configuration).",
+                "- `account`: The lost account that you want to recover. This account needs to be",
+                "  recoverable (i.e. have a recovery configuration).",
                 "",
                 "# <weight>",
                 "- One storage read to check that account is recoverable. O(F)",
@@ -17750,8 +17746,7 @@
                 "",
                 "Parameters:",
                 "- `lost`: The lost account that you want to recover.",
-                "- `rescuer`: The account trying to rescue the lost account that you",
-                "  want to vouch for.",
+                "- `rescuer`: The account trying to rescue the lost account that you want to vouch for.",
                 "",
                 "The combination of these two parameters must point to an active recovery",
                 "process.",
@@ -17788,8 +17783,8 @@
                 "`threshold` or more vouches, waited `delay_period` blocks since initiation.",
                 "",
                 "Parameters:",
-                "- `account`: The lost account that you want to claim has been successfully",
-                "  recovered by you.",
+                "- `account`: The lost account that you want to claim has been successfully recovered by",
+                "  you.",
                 "",
                 "# <weight>",
                 "Key: F (len of friends in config), V (len of vouching friends)",
@@ -17986,11 +17981,12 @@
                 "",
                 "The dispatch origin for this call must be _Signed_.",
                 "",
-                "- `target`: The account that should be transferred the vested funds.",
-                "- `amount`: The amount of funds to transfer and will be vested.",
+                "- `target`: The account receiving the vested funds.",
                 "- `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 "Emits `VestingCreated`.",
+                "",
+                "NOTE: This will unlock all schedules through the current block.",
                 "",
                 "# <weight>",
                 "- `O(1)`.",
@@ -18030,10 +18026,11 @@
                 "",
                 "- `source`: The account whose funds should be transferred.",
                 "- `target`: The account that should be transferred the vested funds.",
-                "- `amount`: The amount of funds to transfer and will be vested.",
                 "- `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 "Emits `VestingCreated`.",
+                "",
+                "NOTE: This will unlock all schedules through the current block.",
                 "",
                 "# <weight>",
                 "- `O(1)`.",
@@ -18041,6 +18038,47 @@
                 "    - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "    - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "# </weight>"
+              ]
+            },
+            {
+              "name": "merge_schedules",
+              "fields": [
+                {
+                  "name": "schedule1_index",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                },
+                {
+                  "name": "schedule2_index",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "Merge two vesting schedules together, creating a new vesting schedule that unlocks over",
+                "the highest possible start and end blocks. If both schedules have already started the",
+                "current block will be used as the schedule start; with the caveat that if one schedule",
+                "is finished by the current block, the other will be treated as the new merged schedule,",
+                "unmodified.",
+                "",
+                "NOTE: If `schedule1_index == schedule2_index` this is a no-op.",
+                "NOTE: This will unlock all schedules through the current block prior to merging.",
+                "NOTE: If both schedules have ended by the current block, no new schedule will be created",
+                "and both will be removed.",
+                "",
+                "Merged schedule attributes:",
+                "- `starting_block`: `MAX(schedule1.starting_block, scheduled2.starting_block,",
+                "  current_block)`.",
+                "- `ending_block`: `MAX(schedule1.ending_block, schedule2.ending_block)`.",
+                "- `locked`: `schedule1.locked_at(current_block) + schedule2.locked_at(current_block)`.",
+                "",
+                "The dispatch origin for this call must be _Signed_.",
+                "",
+                "- `schedule1_index`: index of the first schedule to merge.",
+                "- `schedule2_index`: index of the second schedule to merge."
               ]
             }
           ]
@@ -18056,6 +18094,7 @@
     "type": {
       "path": [
         "pallet_vesting",
+        "vesting_info",
         "VestingInfo"
       ],
       "params": [
@@ -18984,9 +19023,8 @@
                 "- I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 "- One event.",
                 "- The weight of the `call`.",
-                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "  deposit taken for its lifetime of",
-                "  `DepositBase + threshold * DepositFactor`.",
+                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "  taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 "-------------------------------",
                 "- DB Weight:",
                 "    - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)",
@@ -19059,9 +19097,8 @@
                 "- Up to one binary search and insert (`O(logS + S)`).",
                 "- I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 "- One event.",
-                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "  deposit taken for its lifetime of",
-                "  `DepositBase + threshold * DepositFactor`.",
+                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "  taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 "----------------------------------",
                 "- DB Weight:",
                 "    - Read: Multisig Storage, [Caller Account]",
@@ -19804,8 +19841,8 @@
                 "- `id`: The identifier of the new asset. This must not be currently in use to identify",
                 "an existing asset.",
                 "- `owner`: The owner of this class of assets. The owner has full superuser permissions",
-                "over this asset, but may later change and configure the permissions using `transfer_ownership`",
-                "and `set_team`.",
+                "over this asset, but may later change and configure the permissions using",
+                "`transfer_ownership` and `set_team`.",
                 "- `min_balance`: The minimum balance of this new asset that any single account must",
                 "have. If an account's balance is reduced below this, then it collapses to zero.",
                 "",
@@ -21945,9 +21982,9 @@
               ],
               "index": 0,
               "docs": [
-                "Index and store data on chain. Minimum data size is 1 bytes, maximum is `MaxTransactionSize`.",
-                "Data will be removed after `STORAGE_PERIOD` blocks, unless `renew` is called.",
-                "# <weight>",
+                "Index and store data on chain. Minimum data size is 1 bytes, maximum is",
+                "`MaxTransactionSize`. Data will be removed after `STORAGE_PERIOD` blocks, unless `renew`",
+                "is called. # <weight>",
                 "- n*log(n) of data size, as all data is pushed to an in-memory trie.",
                 "Additionally contains a DB write.",
                 "# </weight>"
@@ -21995,7 +22032,8 @@
                 "Check storage proof for block number `block_number() - StoragePeriod`.",
                 "If such block does not exist the proof is expected to be `None`.",
                 "# <weight>",
-                "- Linear w.r.t the number of indexed transactions in the proved block for random probing.",
+                "- Linear w.r.t the number of indexed transactions in the proved block for random",
+                "  probing.",
                 "There's a DB read for each transaction.",
                 "Here we assume a maximum of 100 probed transactions.",
                 "# </weight>"
@@ -22041,18 +22079,51 @@
   {
     "id": 308,
     "type": {
+      "path": [
+        "pallet_utility",
+        "pallet",
+        "Error"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": null
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "TooManyCalls",
+              "fields": [],
+              "index": 0,
+              "docs": [
+                "Too many calls batched."
+              ]
+            }
+          ]
+        }
+      },
+      "docs": [
+        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+      ]
+    }
+  },
+  {
+    "id": 309,
+    "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 309
+          "type": 310
         }
       },
       "docs": []
     }
   },
   {
-    "id": 309,
+    "id": 310,
     "type": {
       "path": [],
       "params": [],
@@ -22066,7 +22137,7 @@
     }
   },
   {
-    "id": 310,
+    "id": 311,
     "type": {
       "path": [],
       "params": [],
@@ -22079,7 +22150,7 @@
     }
   },
   {
-    "id": 311,
+    "id": 312,
     "type": {
       "path": [
         "Option"
@@ -22119,7 +22190,7 @@
     }
   },
   {
-    "id": 312,
+    "id": 313,
     "type": {
       "path": [
         "sp_consensus_babe",
@@ -22148,7 +22219,7 @@
     }
   },
   {
-    "id": 313,
+    "id": 314,
     "type": {
       "path": [
         "pallet_babe",
@@ -22197,20 +22268,20 @@
     }
   },
   {
-    "id": 314,
+    "id": 315,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 315
+          "type": 316
         }
       },
       "docs": []
     }
   },
   {
-    "id": 315,
+    "id": 316,
     "type": {
       "path": [
         "pallet_authorship",
@@ -22272,7 +22343,7 @@
     }
   },
   {
-    "id": 316,
+    "id": 317,
     "type": {
       "path": [
         "pallet_authorship",
@@ -22353,7 +22424,7 @@
     }
   },
   {
-    "id": 317,
+    "id": 318,
     "type": {
       "path": [],
       "params": [],
@@ -22368,7 +22439,7 @@
     }
   },
   {
-    "id": 318,
+    "id": 319,
     "type": {
       "path": [
         "pallet_indices",
@@ -22433,7 +22504,7 @@
     }
   },
   {
-    "id": 319,
+    "id": 320,
     "type": {
       "path": [
         "frame_support",
@@ -22444,7 +22515,7 @@
       "params": [
         {
           "name": "T",
-          "type": 320
+          "type": 321
         },
         {
           "name": "S",
@@ -22456,7 +22527,7 @@
           "fields": [
             {
               "name": null,
-              "type": 322,
+              "type": 323,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22467,7 +22538,7 @@
     }
   },
   {
-    "id": 320,
+    "id": 321,
     "type": {
       "path": [
         "pallet_balances",
@@ -22496,7 +22567,7 @@
             },
             {
               "name": "reasons",
-              "type": 321,
+              "type": 322,
               "typeName": "Reasons",
               "docs": []
             }
@@ -22507,7 +22578,7 @@
     }
   },
   {
-    "id": 321,
+    "id": 322,
     "type": {
       "path": [
         "pallet_balances",
@@ -22542,20 +22613,20 @@
     }
   },
   {
-    "id": 322,
+    "id": 323,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 320
+          "type": 321
         }
       },
       "docs": []
     }
   },
   {
-    "id": 323,
+    "id": 324,
     "type": {
       "path": [
         "frame_support",
@@ -22566,7 +22637,7 @@
       "params": [
         {
           "name": "T",
-          "type": 324
+          "type": 325
         },
         {
           "name": "S",
@@ -22578,7 +22649,7 @@
           "fields": [
             {
               "name": null,
-              "type": 325,
+              "type": 326,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22589,7 +22660,7 @@
     }
   },
   {
-    "id": 324,
+    "id": 325,
     "type": {
       "path": [
         "pallet_balances",
@@ -22627,20 +22698,20 @@
     }
   },
   {
-    "id": 325,
+    "id": 326,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 324
+          "type": 325
         }
       },
       "docs": []
     }
   },
   {
-    "id": 326,
+    "id": 327,
     "type": {
       "path": [
         "pallet_balances",
@@ -22669,7 +22740,7 @@
     }
   },
   {
-    "id": 327,
+    "id": 328,
     "type": {
       "path": [
         "pallet_balances",
@@ -22762,7 +22833,7 @@
     }
   },
   {
-    "id": 328,
+    "id": 329,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -22786,7 +22857,7 @@
     }
   },
   {
-    "id": 329,
+    "id": 330,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -22815,20 +22886,20 @@
     }
   },
   {
-    "id": 330,
+    "id": 331,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 331
+          "type": 332
         }
       },
       "docs": []
     }
   },
   {
-    "id": 331,
+    "id": 332,
     "type": {
       "path": [
         "frame_support",
@@ -22875,7 +22946,7 @@
     }
   },
   {
-    "id": 332,
+    "id": 333,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22907,7 +22978,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 333,
+                  "type": 334,
                   "typeName": "(bool, Bn)",
                   "docs": []
                 }
@@ -22928,7 +22999,7 @@
     }
   },
   {
-    "id": 333,
+    "id": 334,
     "type": {
       "path": [],
       "params": [],
@@ -22942,7 +23013,7 @@
     }
   },
   {
-    "id": 334,
+    "id": 335,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22982,7 +23053,7 @@
     }
   },
   {
-    "id": 335,
+    "id": 336,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22999,7 +23070,7 @@
           "fields": [
             {
               "name": "voters",
-              "type": 336,
+              "type": 337,
               "typeName": "Vec<(A, VoteWeight, Vec<A>)>",
               "docs": []
             },
@@ -23016,20 +23087,20 @@
     }
   },
   {
-    "id": 336,
+    "id": 337,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 337
+          "type": 338
         }
       },
       "docs": []
     }
   },
   {
-    "id": 337,
+    "id": 338,
     "type": {
       "path": [],
       "params": [],
@@ -23044,7 +23115,7 @@
     }
   },
   {
-    "id": 338,
+    "id": 339,
     "type": {
       "path": [
         "frame_support",
@@ -23071,7 +23142,7 @@
           "fields": [
             {
               "name": null,
-              "type": 339,
+              "type": 340,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -23082,7 +23153,7 @@
     }
   },
   {
-    "id": 339,
+    "id": 340,
     "type": {
       "path": [
         "BTreeMap"
@@ -23102,7 +23173,7 @@
           "fields": [
             {
               "name": null,
-              "type": 340,
+              "type": 341,
               "typeName": null,
               "docs": []
             }
@@ -23113,20 +23184,20 @@
     }
   },
   {
-    "id": 340,
+    "id": 341,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 341
+          "type": 342
         }
       },
       "docs": []
     }
   },
   {
-    "id": 341,
+    "id": 342,
     "type": {
       "path": [],
       "params": [],
@@ -23140,7 +23211,7 @@
     }
   },
   {
-    "id": 342,
+    "id": 343,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23157,7 +23228,7 @@
           "type": 6
         },
         {
-          "name": "CompactSolution",
+          "name": "Solution",
           "type": 144
         }
       ],
@@ -23177,9 +23248,9 @@
               "docs": []
             },
             {
-              "name": "solution",
+              "name": "raw_solution",
               "type": 143,
-              "typeName": "RawSolution<CompactSolution>",
+              "typeName": "RawSolution<Solution>",
               "docs": []
             },
             {
@@ -23195,7 +23266,7 @@
     }
   },
   {
-    "id": 343,
+    "id": 344,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23308,7 +23379,7 @@
     }
   },
   {
-    "id": 344,
+    "id": 345,
     "type": {
       "path": [
         "pallet_staking",
@@ -23347,7 +23418,7 @@
             },
             {
               "name": "unlocking",
-              "type": 345,
+              "type": 346,
               "typeName": "Vec<UnlockChunk<Balance>>",
               "docs": []
             },
@@ -23364,20 +23435,20 @@
     }
   },
   {
-    "id": 345,
+    "id": 346,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 346
+          "type": 347
         }
       },
       "docs": []
     }
   },
   {
-    "id": 346,
+    "id": 347,
     "type": {
       "path": [
         "pallet_staking",
@@ -23411,7 +23482,7 @@
     }
   },
   {
-    "id": 347,
+    "id": 348,
     "type": {
       "path": [
         "pallet_staking",
@@ -23451,7 +23522,7 @@
     }
   },
   {
-    "id": 348,
+    "id": 349,
     "type": {
       "path": [
         "pallet_staking",
@@ -23480,7 +23551,7 @@
     }
   },
   {
-    "id": 349,
+    "id": 350,
     "type": {
       "path": [],
       "params": [],
@@ -23494,7 +23565,7 @@
     }
   },
   {
-    "id": 350,
+    "id": 351,
     "type": {
       "path": [
         "pallet_staking",
@@ -23517,7 +23588,7 @@
             },
             {
               "name": "individual",
-              "type": 351,
+              "type": 352,
               "typeName": "BTreeMap<AccountId, RewardPoint>",
               "docs": []
             }
@@ -23528,7 +23599,7 @@
     }
   },
   {
-    "id": 351,
+    "id": 352,
     "type": {
       "path": [
         "BTreeMap"
@@ -23548,7 +23619,7 @@
           "fields": [
             {
               "name": null,
-              "type": 352,
+              "type": 353,
               "typeName": null,
               "docs": []
             }
@@ -23559,20 +23630,20 @@
     }
   },
   {
-    "id": 352,
+    "id": 353,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 353
+          "type": 354
         }
       },
       "docs": []
     }
   },
   {
-    "id": 353,
+    "id": 354,
     "type": {
       "path": [],
       "params": [],
@@ -23586,7 +23657,7 @@
     }
   },
   {
-    "id": 354,
+    "id": 355,
     "type": {
       "path": [
         "pallet_staking",
@@ -23627,20 +23698,20 @@
     }
   },
   {
-    "id": 355,
+    "id": 356,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 356
+          "type": 357
         }
       },
       "docs": []
     }
   },
   {
-    "id": 356,
+    "id": 357,
     "type": {
       "path": [
         "pallet_staking",
@@ -23696,7 +23767,7 @@
     }
   },
   {
-    "id": 357,
+    "id": 358,
     "type": {
       "path": [],
       "params": [],
@@ -23710,7 +23781,7 @@
     }
   },
   {
-    "id": 358,
+    "id": 359,
     "type": {
       "path": [
         "pallet_staking",
@@ -23752,7 +23823,7 @@
     }
   },
   {
-    "id": 359,
+    "id": 360,
     "type": {
       "path": [
         "pallet_staking",
@@ -23787,7 +23858,7 @@
     }
   },
   {
-    "id": 360,
+    "id": 361,
     "type": {
       "path": [
         "pallet_staking",
@@ -23846,7 +23917,7 @@
     }
   },
   {
-    "id": 361,
+    "id": 362,
     "type": {
       "path": [
         "pallet_staking",
@@ -24036,8 +24107,8 @@
               "fields": [],
               "index": 21,
               "docs": [
-                "There are too many nominators in the system. Governance needs to adjust the staking settings",
-                "to keep things safe for the runtime."
+                "There are too many nominators in the system. Governance needs to adjust the staking",
+                "settings to keep things safe for the runtime."
               ]
             },
             {
@@ -24045,8 +24116,8 @@
               "fields": [],
               "index": 22,
               "docs": [
-                "There are too many validators in the system. Governance needs to adjust the staking settings",
-                "to keep things safe for the runtime."
+                "There are too many validators in the system. Governance needs to adjust the staking",
+                "settings to keep things safe for the runtime."
               ]
             }
           ]
@@ -24058,20 +24129,20 @@
     }
   },
   {
-    "id": 362,
+    "id": 363,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 363
+          "type": 364
         }
       },
       "docs": []
     }
   },
   {
-    "id": 363,
+    "id": 364,
     "type": {
       "path": [],
       "params": [],
@@ -24085,13 +24156,13 @@
     }
   },
   {
-    "id": 364,
+    "id": 365,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          365,
+          366,
           10
         ]
       },
@@ -24099,7 +24170,7 @@
     }
   },
   {
-    "id": 365,
+    "id": 366,
     "type": {
       "path": [
         "sp_core",
@@ -24123,7 +24194,7 @@
     }
   },
   {
-    "id": 366,
+    "id": 367,
     "type": {
       "path": [
         "pallet_session",
@@ -24187,20 +24258,20 @@
     }
   },
   {
-    "id": 367,
+    "id": 368,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 368
+          "type": 369
         }
       },
       "docs": []
     }
   },
   {
-    "id": 368,
+    "id": 369,
     "type": {
       "path": [],
       "params": [],
@@ -24215,7 +24286,7 @@
     }
   },
   {
-    "id": 369,
+    "id": 370,
     "type": {
       "path": [],
       "params": [],
@@ -24229,7 +24300,7 @@
     }
   },
   {
-    "id": 370,
+    "id": 371,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24309,7 +24380,7 @@
     }
   },
   {
-    "id": 371,
+    "id": 372,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24338,7 +24409,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 372,
+                  "type": 373,
                   "typeName": "ReferendumStatus<BlockNumber, Hash, Balance>",
                   "docs": []
                 }
@@ -24372,7 +24443,7 @@
     }
   },
   {
-    "id": 372,
+    "id": 373,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24422,7 +24493,7 @@
             },
             {
               "name": "tally",
-              "type": 373,
+              "type": 374,
               "typeName": "Tally<Balance>",
               "docs": []
             }
@@ -24433,7 +24504,7 @@
     }
   },
   {
-    "id": 373,
+    "id": 374,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24474,7 +24545,7 @@
     }
   },
   {
-    "id": 374,
+    "id": 375,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24503,19 +24574,19 @@
               "fields": [
                 {
                   "name": "votes",
-                  "type": 375,
+                  "type": 376,
                   "typeName": "Vec<(ReferendumIndex, AccountVote<Balance>)>",
                   "docs": []
                 },
                 {
                   "name": "delegations",
-                  "type": 377,
+                  "type": 378,
                   "typeName": "Delegations<Balance>",
                   "docs": []
                 },
                 {
                   "name": "prior",
-                  "type": 378,
+                  "type": 379,
                   "typeName": "PriorLock<BlockNumber, Balance>",
                   "docs": []
                 }
@@ -24546,13 +24617,13 @@
                 },
                 {
                   "name": "delegations",
-                  "type": 377,
+                  "type": 378,
                   "typeName": "Delegations<Balance>",
                   "docs": []
                 },
                 {
                   "name": "prior",
-                  "type": 378,
+                  "type": 379,
                   "typeName": "PriorLock<BlockNumber, Balance>",
                   "docs": []
                 }
@@ -24567,20 +24638,20 @@
     }
   },
   {
-    "id": 375,
+    "id": 376,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 376
+          "type": 377
         }
       },
       "docs": []
     }
   },
   {
-    "id": 376,
+    "id": 377,
     "type": {
       "path": [],
       "params": [],
@@ -24594,7 +24665,7 @@
     }
   },
   {
-    "id": 377,
+    "id": 378,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24629,7 +24700,7 @@
     }
   },
   {
-    "id": 378,
+    "id": 379,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24668,7 +24739,7 @@
     }
   },
   {
-    "id": 379,
+    "id": 380,
     "type": {
       "path": [],
       "params": [],
@@ -24682,7 +24753,7 @@
     }
   },
   {
-    "id": 380,
+    "id": 381,
     "type": {
       "path": [],
       "params": [],
@@ -24696,7 +24767,7 @@
     }
   },
   {
-    "id": 381,
+    "id": 382,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24719,7 +24790,7 @@
     }
   },
   {
-    "id": 382,
+    "id": 383,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24752,17 +24823,9 @@
               ]
             },
             {
-              "name": "BadIndex",
-              "fields": [],
-              "index": 2,
-              "docs": [
-                "Unknown index"
-              ]
-            },
-            {
               "name": "AlreadyCanceled",
               "fields": [],
-              "index": 3,
+              "index": 2,
               "docs": [
                 "Cannot cancel the same proposal twice"
               ]
@@ -24770,7 +24833,7 @@
             {
               "name": "DuplicateProposal",
               "fields": [],
-              "index": 4,
+              "index": 3,
               "docs": [
                 "Proposal already made"
               ]
@@ -24778,7 +24841,7 @@
             {
               "name": "ProposalBlacklisted",
               "fields": [],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "Proposal still blacklisted"
               ]
@@ -24786,7 +24849,7 @@
             {
               "name": "NotSimpleMajority",
               "fields": [],
-              "index": 6,
+              "index": 5,
               "docs": [
                 "Next external proposal not simple majority"
               ]
@@ -24794,7 +24857,7 @@
             {
               "name": "InvalidHash",
               "fields": [],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Invalid hash"
               ]
@@ -24802,7 +24865,7 @@
             {
               "name": "NoProposal",
               "fields": [],
-              "index": 8,
+              "index": 7,
               "docs": [
                 "No external proposal"
               ]
@@ -24810,23 +24873,15 @@
             {
               "name": "AlreadyVetoed",
               "fields": [],
-              "index": 9,
+              "index": 8,
               "docs": [
                 "Identity may not veto a proposal twice"
               ]
             },
             {
-              "name": "NotDelegated",
-              "fields": [],
-              "index": 10,
-              "docs": [
-                "Not delegated"
-              ]
-            },
-            {
               "name": "DuplicatePreimage",
               "fields": [],
-              "index": 11,
+              "index": 9,
               "docs": [
                 "Preimage already noted"
               ]
@@ -24834,7 +24889,7 @@
             {
               "name": "NotImminent",
               "fields": [],
-              "index": 12,
+              "index": 10,
               "docs": [
                 "Not imminent"
               ]
@@ -24842,7 +24897,7 @@
             {
               "name": "TooEarly",
               "fields": [],
-              "index": 13,
+              "index": 11,
               "docs": [
                 "Too early"
               ]
@@ -24850,7 +24905,7 @@
             {
               "name": "Imminent",
               "fields": [],
-              "index": 14,
+              "index": 12,
               "docs": [
                 "Imminent"
               ]
@@ -24858,7 +24913,7 @@
             {
               "name": "PreimageMissing",
               "fields": [],
-              "index": 15,
+              "index": 13,
               "docs": [
                 "Preimage not found"
               ]
@@ -24866,7 +24921,7 @@
             {
               "name": "ReferendumInvalid",
               "fields": [],
-              "index": 16,
+              "index": 14,
               "docs": [
                 "Vote given for invalid referendum"
               ]
@@ -24874,7 +24929,7 @@
             {
               "name": "PreimageInvalid",
               "fields": [],
-              "index": 17,
+              "index": 15,
               "docs": [
                 "Invalid preimage"
               ]
@@ -24882,31 +24937,15 @@
             {
               "name": "NoneWaiting",
               "fields": [],
-              "index": 18,
+              "index": 16,
               "docs": [
                 "No proposals waiting"
               ]
             },
             {
-              "name": "NotLocked",
-              "fields": [],
-              "index": 19,
-              "docs": [
-                "The target account does not have a lock."
-              ]
-            },
-            {
-              "name": "NotExpired",
-              "fields": [],
-              "index": 20,
-              "docs": [
-                "The lock on the account to be unlocked has not yet expired."
-              ]
-            },
-            {
               "name": "NotVoter",
               "fields": [],
-              "index": 21,
+              "index": 17,
               "docs": [
                 "The given account did not vote on the referendum."
               ]
@@ -24914,7 +24953,7 @@
             {
               "name": "NoPermission",
               "fields": [],
-              "index": 22,
+              "index": 18,
               "docs": [
                 "The actor has no permission to conduct the action."
               ]
@@ -24922,7 +24961,7 @@
             {
               "name": "AlreadyDelegating",
               "fields": [],
-              "index": 23,
+              "index": 19,
               "docs": [
                 "The account is already delegating."
               ]
@@ -24930,7 +24969,7 @@
             {
               "name": "InsufficientFunds",
               "fields": [],
-              "index": 24,
+              "index": 20,
               "docs": [
                 "Too high a balance was provided that the account cannot afford."
               ]
@@ -24938,7 +24977,7 @@
             {
               "name": "NotDelegating",
               "fields": [],
-              "index": 25,
+              "index": 21,
               "docs": [
                 "The account is not currently delegating."
               ]
@@ -24946,7 +24985,7 @@
             {
               "name": "VotesExist",
               "fields": [],
-              "index": 26,
+              "index": 22,
               "docs": [
                 "The account currently has votes attached to it and the operation cannot succeed until",
                 "these are removed, either through `unvote` or `reap_vote`."
@@ -24955,7 +24994,7 @@
             {
               "name": "InstantNotAllowed",
               "fields": [],
-              "index": 27,
+              "index": 23,
               "docs": [
                 "The instant referendum origin is currently disallowed."
               ]
@@ -24963,7 +25002,7 @@
             {
               "name": "Nonsense",
               "fields": [],
-              "index": 28,
+              "index": 24,
               "docs": [
                 "Delegation to oneself makes no sense."
               ]
@@ -24971,7 +25010,7 @@
             {
               "name": "WrongUpperBound",
               "fields": [],
-              "index": 29,
+              "index": 25,
               "docs": [
                 "Invalid upper bound."
               ]
@@ -24979,23 +25018,15 @@
             {
               "name": "MaxVotesReached",
               "fields": [],
-              "index": 30,
+              "index": 26,
               "docs": [
                 "Maximum number of votes reached."
               ]
             },
             {
-              "name": "InvalidWitness",
-              "fields": [],
-              "index": 31,
-              "docs": [
-                "The provided witness data is wrong."
-              ]
-            },
-            {
               "name": "TooManyProposals",
               "fields": [],
-              "index": 32,
+              "index": 27,
               "docs": [
                 "Maximum number of proposals reached."
               ]
@@ -25009,7 +25040,7 @@
     }
   },
   {
-    "id": 383,
+    "id": 384,
     "type": {
       "path": [
         "frame_support",
@@ -25043,7 +25074,7 @@
     }
   },
   {
-    "id": 384,
+    "id": 385,
     "type": {
       "path": [
         "pallet_collective",
@@ -25099,7 +25130,7 @@
     }
   },
   {
-    "id": 385,
+    "id": 386,
     "type": {
       "path": [
         "pallet_collective",
@@ -25205,7 +25236,7 @@
     }
   },
   {
-    "id": 386,
+    "id": 387,
     "type": {
       "path": [
         "frame_support",
@@ -25239,7 +25270,7 @@
     }
   },
   {
-    "id": 387,
+    "id": 388,
     "type": {
       "path": [
         "pallet_collective",
@@ -25345,20 +25376,20 @@
     }
   },
   {
-    "id": 388,
+    "id": 389,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 389
+          "type": 390
         }
       },
       "docs": []
     }
   },
   {
-    "id": 389,
+    "id": 390,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25402,7 +25433,7 @@
     }
   },
   {
-    "id": 390,
+    "id": 391,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25446,7 +25477,7 @@
     }
   },
   {
-    "id": 391,
+    "id": 392,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25607,7 +25638,7 @@
     }
   },
   {
-    "id": 392,
+    "id": 393,
     "type": {
       "path": [
         "pallet_membership",
@@ -25651,7 +25682,7 @@
     }
   },
   {
-    "id": 393,
+    "id": 394,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -25723,7 +25754,7 @@
     }
   },
   {
-    "id": 394,
+    "id": 395,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -25769,7 +25800,7 @@
     }
   },
   {
-    "id": 395,
+    "id": 396,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -25852,7 +25883,7 @@
     }
   },
   {
-    "id": 396,
+    "id": 397,
     "type": {
       "path": [
         "pallet_treasury",
@@ -25902,7 +25933,7 @@
     }
   },
   {
-    "id": 397,
+    "id": 398,
     "type": {
       "path": [
         "frame_support",
@@ -25936,7 +25967,7 @@
     }
   },
   {
-    "id": 398,
+    "id": 399,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -25960,7 +25991,7 @@
     }
   },
   {
-    "id": 399,
+    "id": 400,
     "type": {
       "path": [
         "frame_support",
@@ -25983,7 +26014,7 @@
     }
   },
   {
-    "id": 400,
+    "id": 401,
     "type": {
       "path": [
         "pallet_treasury",
@@ -26036,7 +26067,7 @@
     }
   },
   {
-    "id": 401,
+    "id": 402,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26078,7 +26109,7 @@
             },
             {
               "name": "_reserved",
-              "type": 402,
+              "type": 403,
               "typeName": "Option<()>",
               "docs": []
             },
@@ -26101,7 +26132,7 @@
     }
   },
   {
-    "id": 402,
+    "id": 403,
     "type": {
       "path": [
         "Option"
@@ -26141,7 +26172,7 @@
     }
   },
   {
-    "id": 403,
+    "id": 404,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26162,7 +26193,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 404,
+                  "type": 405,
                   "typeName": "AliveContractInfo<T>",
                   "docs": []
                 }
@@ -26175,7 +26206,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 405,
+                  "type": 406,
                   "typeName": "TombstoneContractInfo<T>",
                   "docs": []
                 }
@@ -26190,7 +26221,7 @@
     }
   },
   {
-    "id": 404,
+    "id": 405,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26264,7 +26295,7 @@
             },
             {
               "name": "_reserved",
-              "type": 402,
+              "type": 403,
               "typeName": "Option<()>",
               "docs": []
             }
@@ -26275,7 +26306,7 @@
     }
   },
   {
-    "id": 405,
+    "id": 406,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26308,20 +26339,20 @@
     }
   },
   {
-    "id": 406,
+    "id": 407,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 407
+          "type": 408
         }
       },
       "docs": []
     }
   },
   {
-    "id": 407,
+    "id": 408,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26351,7 +26382,7 @@
     }
   },
   {
-    "id": 408,
+    "id": 409,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26369,19 +26400,19 @@
           "fields": [
             {
               "name": "limits",
-              "type": 409,
+              "type": 410,
               "typeName": "Limits",
               "docs": []
             },
             {
               "name": "instruction_weights",
-              "type": 410,
+              "type": 411,
               "typeName": "InstructionWeights<T>",
               "docs": []
             },
             {
               "name": "host_fn_weights",
-              "type": 411,
+              "type": 412,
               "typeName": "HostFnWeights<T>",
               "docs": []
             }
@@ -26392,7 +26423,7 @@
     }
   },
   {
-    "id": 409,
+    "id": 410,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26476,7 +26507,7 @@
     }
   },
   {
-    "id": 410,
+    "id": 411,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26811,7 +26842,7 @@
     }
   },
   {
-    "id": 411,
+    "id": 412,
     "type": {
       "path": [
         "pallet_contracts",
@@ -27116,7 +27147,7 @@
     }
   },
   {
-    "id": 412,
+    "id": 413,
     "type": {
       "path": [
         "pallet_contracts",
@@ -27444,7 +27475,7 @@
     }
   },
   {
-    "id": 413,
+    "id": 414,
     "type": {
       "path": [
         "pallet_sudo",
@@ -27477,7 +27508,7 @@
     }
   },
   {
-    "id": 414,
+    "id": 415,
     "type": {
       "path": [],
       "params": [],
@@ -27490,7 +27521,7 @@
     }
   },
   {
-    "id": 415,
+    "id": 416,
     "type": {
       "path": [
         "pallet_im_online",
@@ -27531,7 +27562,7 @@
     }
   },
   {
-    "id": 416,
+    "id": 417,
     "type": {
       "path": [
         "sp_staking",
@@ -27570,7 +27601,7 @@
     }
   },
   {
-    "id": 417,
+    "id": 418,
     "type": {
       "path": [],
       "params": [],
@@ -27584,7 +27615,7 @@
     }
   },
   {
-    "id": 418,
+    "id": 419,
     "type": {
       "path": [
         "pallet_identity",
@@ -27610,7 +27641,7 @@
           "fields": [
             {
               "name": "judgements",
-              "type": 419,
+              "type": 420,
               "typeName": "BoundedVec<(RegistrarIndex, Judgement<Balance>), MaxJudgements>",
               "docs": []
             },
@@ -27633,7 +27664,7 @@
     }
   },
   {
-    "id": 419,
+    "id": 420,
     "type": {
       "path": [
         "frame_support",
@@ -27644,7 +27675,7 @@
       "params": [
         {
           "name": "T",
-          "type": 420
+          "type": 421
         },
         {
           "name": "S",
@@ -27656,7 +27687,7 @@
           "fields": [
             {
               "name": null,
-              "type": 421,
+              "type": 422,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27667,7 +27698,7 @@
     }
   },
   {
-    "id": 420,
+    "id": 421,
     "type": {
       "path": [],
       "params": [],
@@ -27681,34 +27712,34 @@
     }
   },
   {
-    "id": 421,
+    "id": 422,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 420
+          "type": 421
         }
       },
       "docs": []
     }
   },
   {
-    "id": 422,
+    "id": 423,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          423
+          424
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 423,
+    "id": 424,
     "type": {
       "path": [
         "frame_support",
@@ -27742,7 +27773,7 @@
     }
   },
   {
-    "id": 424,
+    "id": 425,
     "type": {
       "path": [
         "frame_support",
@@ -27753,7 +27784,7 @@
       "params": [
         {
           "name": "T",
-          "type": 425
+          "type": 426
         },
         {
           "name": "S",
@@ -27765,7 +27796,7 @@
           "fields": [
             {
               "name": null,
-              "type": 427,
+              "type": 428,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27776,7 +27807,7 @@
     }
   },
   {
-    "id": 425,
+    "id": 426,
     "type": {
       "path": [
         "Option"
@@ -27784,7 +27815,7 @@
       "params": [
         {
           "name": "T",
-          "type": 426
+          "type": 427
         }
       ],
       "def": {
@@ -27801,7 +27832,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 426,
+                  "type": 427,
                   "typeName": null,
                   "docs": []
                 }
@@ -27816,7 +27847,7 @@
     }
   },
   {
-    "id": 426,
+    "id": 427,
     "type": {
       "path": [
         "pallet_identity",
@@ -27861,20 +27892,20 @@
     }
   },
   {
-    "id": 427,
+    "id": 428,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 425
+          "type": 426
         }
       },
       "docs": []
     }
   },
   {
-    "id": 428,
+    "id": 429,
     "type": {
       "path": [
         "pallet_identity",
@@ -28027,20 +28058,20 @@
     }
   },
   {
-    "id": 429,
+    "id": 430,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 430
+          "type": 431
         }
       },
       "docs": []
     }
   },
   {
-    "id": 430,
+    "id": 431,
     "type": {
       "path": [
         "pallet_society",
@@ -28067,7 +28098,7 @@
             },
             {
               "name": "kind",
-              "type": 431,
+              "type": 432,
               "typeName": "BidKind<AccountId, Balance>",
               "docs": []
             },
@@ -28084,7 +28115,7 @@
     }
   },
   {
-    "id": 431,
+    "id": 432,
     "type": {
       "path": [
         "pallet_society",
@@ -28142,21 +28173,21 @@
     }
   },
   {
-    "id": 432,
+    "id": 433,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          431
+          432
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 433,
+    "id": 434,
     "type": {
       "path": [
         "pallet_society",
@@ -28185,20 +28216,20 @@
     }
   },
   {
-    "id": 434,
+    "id": 435,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 435
+          "type": 436
         }
       },
       "docs": []
     }
   },
   {
-    "id": 435,
+    "id": 436,
     "type": {
       "path": [],
       "params": [],
@@ -28212,7 +28243,7 @@
     }
   },
   {
-    "id": 436,
+    "id": 437,
     "type": {
       "path": [],
       "params": [],
@@ -28226,7 +28257,7 @@
     }
   },
   {
-    "id": 437,
+    "id": 438,
     "type": {
       "path": [
         "pallet_society",
@@ -28261,7 +28292,7 @@
     }
   },
   {
-    "id": 438,
+    "id": 439,
     "type": {
       "path": [
         "pallet_society",
@@ -28433,7 +28464,7 @@
     }
   },
   {
-    "id": 439,
+    "id": 440,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28487,7 +28518,7 @@
     }
   },
   {
-    "id": 440,
+    "id": 441,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28535,7 +28566,7 @@
     }
   },
   {
-    "id": 441,
+    "id": 442,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28688,7 +28719,83 @@
     }
   },
   {
-    "id": 442,
+    "id": 443,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 288
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 444,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 444,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 288
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 445,
+    "type": {
+      "path": [
+        "pallet_vesting",
+        "Releases"
+      ],
+      "params": [],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "V0",
+              "fields": [],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "V1",
+              "fields": [],
+              "index": 1,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 446,
     "type": {
       "path": [
         "pallet_vesting",
@@ -28713,11 +28820,12 @@
               ]
             },
             {
-              "name": "ExistingVestingSchedule",
+              "name": "AtMaxVestingSchedules",
               "fields": [],
               "index": 1,
               "docs": [
-                "An existing vesting schedule already exists for this account that cannot be clobbered."
+                "The account already has `MaxVestingSchedules` count of schedules and thus",
+                "cannot add another one. Consider merging existing schedules in order to add another."
               ]
             },
             {
@@ -28726,6 +28834,22 @@
               "index": 2,
               "docs": [
                 "Amount being transferred is too low to create a vesting schedule."
+              ]
+            },
+            {
+              "name": "ScheduleIndexOutOfBounds",
+              "fields": [],
+              "index": 3,
+              "docs": [
+                "An index was out of bounds of the vesting schedules."
+              ]
+            },
+            {
+              "name": "InvalidScheduleParams",
+              "fields": [],
+              "index": 4,
+              "docs": [
+                "Failed to create a new schedule because some parameter was invalid."
               ]
             }
           ]
@@ -28737,20 +28861,20 @@
     }
   },
   {
-    "id": 443,
+    "id": 447,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 444
+          "type": 448
         }
       },
       "docs": []
     }
   },
   {
-    "id": 444,
+    "id": 448,
     "type": {
       "path": [
         "Option"
@@ -28758,7 +28882,7 @@
       "params": [
         {
           "name": "T",
-          "type": 445
+          "type": 449
         }
       ],
       "def": {
@@ -28775,7 +28899,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 445,
+                  "type": 449,
                   "typeName": null,
                   "docs": []
                 }
@@ -28790,7 +28914,7 @@
     }
   },
   {
-    "id": 445,
+    "id": 449,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -28807,7 +28931,7 @@
         },
         {
           "name": "PalletsOrigin",
-          "type": 446
+          "type": 450
         },
         {
           "name": "AccountId",
@@ -28843,7 +28967,7 @@
             },
             {
               "name": "origin",
-              "type": 446,
+              "type": 450,
               "typeName": "PalletsOrigin",
               "docs": []
             }
@@ -28854,7 +28978,7 @@
     }
   },
   {
-    "id": 446,
+    "id": 450,
     "type": {
       "path": [
         "node_runtime",
@@ -28869,7 +28993,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 447,
+                  "type": 451,
                   "typeName": "frame_system::Origin<Runtime>",
                   "docs": []
                 }
@@ -28882,7 +29006,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 448,
+                  "type": 452,
                   "typeName": "pallet_collective::Origin<Runtime, pallet_collective::Instance1>",
                   "docs": []
                 }
@@ -28895,7 +29019,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 449,
+                  "type": 453,
                   "typeName": "pallet_collective::Origin<Runtime, pallet_collective::Instance2>",
                   "docs": []
                 }
@@ -28908,7 +29032,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 450,
+                  "type": 454,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::Void",
                   "docs": []
                 }
@@ -28923,7 +29047,7 @@
     }
   },
   {
-    "id": 447,
+    "id": 451,
     "type": {
       "path": [
         "frame_system",
@@ -28970,7 +29094,7 @@
     }
   },
   {
-    "id": 448,
+    "id": 452,
     "type": {
       "path": [
         "pallet_collective",
@@ -29034,7 +29158,7 @@
     }
   },
   {
-    "id": 449,
+    "id": 453,
     "type": {
       "path": [
         "pallet_collective",
@@ -29098,7 +29222,7 @@
     }
   },
   {
-    "id": 450,
+    "id": 454,
     "type": {
       "path": [
         "sp_core",
@@ -29114,7 +29238,7 @@
     }
   },
   {
-    "id": 451,
+    "id": 455,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -29143,7 +29267,7 @@
     }
   },
   {
-    "id": 452,
+    "id": 456,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -29200,115 +29324,6 @@
     }
   },
   {
-    "id": 453,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
-          454,
-          6
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 454,
-    "type": {
-      "path": [
-        "frame_support",
-        "storage",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 455
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 456,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 455,
-    "type": {
-      "path": [
-        "pallet_proxy",
-        "ProxyDefinition"
-      ],
-      "params": [
-        {
-          "name": "AccountId",
-          "type": 0
-        },
-        {
-          "name": "ProxyType",
-          "type": 80
-        },
-        {
-          "name": "BlockNumber",
-          "type": 4
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": "delegate",
-              "type": 0,
-              "typeName": "AccountId",
-              "docs": []
-            },
-            {
-              "name": "proxy_type",
-              "type": 80,
-              "typeName": "ProxyType",
-              "docs": []
-            },
-            {
-              "name": "delay",
-              "type": 4,
-              "typeName": "BlockNumber",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 456,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 455
-        }
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 457,
     "type": {
       "path": [],
@@ -29361,6 +29376,115 @@
     "type": {
       "path": [
         "pallet_proxy",
+        "ProxyDefinition"
+      ],
+      "params": [
+        {
+          "name": "AccountId",
+          "type": 0
+        },
+        {
+          "name": "ProxyType",
+          "type": 80
+        },
+        {
+          "name": "BlockNumber",
+          "type": 4
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": "delegate",
+              "type": 0,
+              "typeName": "AccountId",
+              "docs": []
+            },
+            {
+              "name": "proxy_type",
+              "type": 80,
+              "typeName": "ProxyType",
+              "docs": []
+            },
+            {
+              "name": "delay",
+              "type": 4,
+              "typeName": "BlockNumber",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 460,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 459
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 461,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          462,
+          6
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 462,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 463
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 464,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 463,
+    "type": {
+      "path": [
+        "pallet_proxy",
         "Announcement"
       ],
       "params": [
@@ -29405,20 +29529,20 @@
     }
   },
   {
-    "id": 460,
+    "id": 464,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 459
+          "type": 463
         }
       },
       "docs": []
     }
   },
   {
-    "id": 461,
+    "id": 465,
     "type": {
       "path": [
         "pallet_proxy",
@@ -29507,7 +29631,7 @@
     }
   },
   {
-    "id": 462,
+    "id": 466,
     "type": {
       "path": [],
       "params": [],
@@ -29521,7 +29645,7 @@
     }
   },
   {
-    "id": 463,
+    "id": 467,
     "type": {
       "path": [
         "pallet_multisig",
@@ -29575,7 +29699,7 @@
     }
   },
   {
-    "id": 464,
+    "id": 468,
     "type": {
       "path": [],
       "params": [],
@@ -29590,7 +29714,7 @@
     }
   },
   {
-    "id": 465,
+    "id": 469,
     "type": {
       "path": [
         "pallet_multisig",
@@ -29727,7 +29851,7 @@
     }
   },
   {
-    "id": 466,
+    "id": 470,
     "type": {
       "path": [
         "pallet_bounties",
@@ -29782,7 +29906,7 @@
             },
             {
               "name": "status",
-              "type": 467,
+              "type": 471,
               "typeName": "BountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -29793,7 +29917,7 @@
     }
   },
   {
-    "id": 467,
+    "id": 471,
     "type": {
       "path": [
         "pallet_bounties",
@@ -29894,7 +30018,7 @@
     }
   },
   {
-    "id": 468,
+    "id": 472,
     "type": {
       "path": [
         "pallet_bounties",
@@ -29991,7 +30115,7 @@
     }
   },
   {
-    "id": 469,
+    "id": 473,
     "type": {
       "path": [
         "pallet_tips",
@@ -30067,7 +30191,7 @@
     }
   },
   {
-    "id": 470,
+    "id": 474,
     "type": {
       "path": [
         "pallet_tips",
@@ -30139,7 +30263,7 @@
     }
   },
   {
-    "id": 471,
+    "id": 475,
     "type": {
       "path": [
         "pallet_assets",
@@ -30242,7 +30366,7 @@
     }
   },
   {
-    "id": 472,
+    "id": 476,
     "type": {
       "path": [
         "pallet_assets",
@@ -30293,7 +30417,7 @@
     }
   },
   {
-    "id": 473,
+    "id": 477,
     "type": {
       "path": [],
       "params": [],
@@ -30308,7 +30432,7 @@
     }
   },
   {
-    "id": 474,
+    "id": 478,
     "type": {
       "path": [
         "pallet_assets",
@@ -30347,7 +30471,7 @@
     }
   },
   {
-    "id": 475,
+    "id": 479,
     "type": {
       "path": [
         "pallet_assets",
@@ -30404,7 +30528,7 @@
     }
   },
   {
-    "id": 476,
+    "id": 480,
     "type": {
       "path": [
         "pallet_assets",
@@ -30493,7 +30617,8 @@
               "fields": [],
               "index": 8,
               "docs": [
-                "No provider reference exists to allow a non-zero balance of a non-self-sufficient asset."
+                "No provider reference exists to allow a non-zero balance of a non-self-sufficient",
+                "asset."
               ]
             },
             {
@@ -30529,7 +30654,7 @@
     }
   },
   {
-    "id": 477,
+    "id": 481,
     "type": {
       "path": [
         "pallet_lottery",
@@ -30585,21 +30710,21 @@
     }
   },
   {
-    "id": 478,
+    "id": 482,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          479
+          483
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 479,
+    "id": 483,
     "type": {
       "path": [],
       "params": [],
@@ -30612,7 +30737,7 @@
     }
   },
   {
-    "id": 480,
+    "id": 484,
     "type": {
       "path": [
         "pallet_lottery",
@@ -30693,20 +30818,20 @@
     }
   },
   {
-    "id": 481,
+    "id": 485,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 482
+          "type": 486
         }
       },
       "docs": []
     }
   },
   {
-    "id": 482,
+    "id": 486,
     "type": {
       "path": [
         "pallet_gilt",
@@ -30745,7 +30870,7 @@
     }
   },
   {
-    "id": 483,
+    "id": 487,
     "type": {
       "path": [
         "pallet_gilt",
@@ -30792,7 +30917,7 @@
     }
   },
   {
-    "id": 484,
+    "id": 488,
     "type": {
       "path": [
         "pallet_gilt",
@@ -30847,7 +30972,7 @@
     }
   },
   {
-    "id": 485,
+    "id": 489,
     "type": {
       "path": [
         "pallet_gilt",
@@ -30892,8 +31017,8 @@
               "fields": [],
               "index": 3,
               "docs": [
-                "The queue for the bid's duration is full and the amount bid is too low to get in through",
-                "replacing an existing bid."
+                "The queue for the bid's duration is full and the amount bid is too low to get in",
+                "through replacing an existing bid."
               ]
             },
             {
@@ -30937,7 +31062,7 @@
     }
   },
   {
-    "id": 486,
+    "id": 490,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31024,7 +31149,7 @@
     }
   },
   {
-    "id": 487,
+    "id": 491,
     "type": {
       "path": [],
       "params": [],
@@ -31039,7 +31164,7 @@
     }
   },
   {
-    "id": 488,
+    "id": 492,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31090,7 +31215,7 @@
     }
   },
   {
-    "id": 489,
+    "id": 493,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31135,7 +31260,7 @@
     }
   },
   {
-    "id": 490,
+    "id": 494,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31180,7 +31305,7 @@
     }
   },
   {
-    "id": 491,
+    "id": 495,
     "type": {
       "path": [],
       "params": [],
@@ -31195,7 +31320,7 @@
     }
   },
   {
-    "id": 492,
+    "id": 496,
     "type": {
       "path": [],
       "params": [],
@@ -31209,7 +31334,7 @@
     }
   },
   {
-    "id": 493,
+    "id": 497,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31318,20 +31443,20 @@
     }
   },
   {
-    "id": 494,
+    "id": 498,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 495
+          "type": 499
         }
       },
       "docs": []
     }
   },
   {
-    "id": 495,
+    "id": 499,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -31372,7 +31497,7 @@
     }
   },
   {
-    "id": 496,
+    "id": 500,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -31501,7 +31626,7 @@
     }
   },
   {
-    "id": 497,
+    "id": 501,
     "type": {
       "path": [
         "sp_runtime",
@@ -31520,11 +31645,11 @@
         },
         {
           "name": "Signature",
-          "type": 498
+          "type": 502
         },
         {
           "name": "Extra",
-          "type": 501
+          "type": 505
         }
       ],
       "def": {
@@ -31543,7 +31668,7 @@
     }
   },
   {
-    "id": 498,
+    "id": 502,
     "type": {
       "path": [
         "sp_runtime",
@@ -31584,7 +31709,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 499,
+                  "type": 503,
                   "typeName": "ecdsa::Signature",
                   "docs": []
                 }
@@ -31599,7 +31724,7 @@
     }
   },
   {
-    "id": 499,
+    "id": 503,
     "type": {
       "path": [
         "sp_core",
@@ -31612,7 +31737,7 @@
           "fields": [
             {
               "name": null,
-              "type": 500,
+              "type": 504,
               "typeName": "[u8; 65]",
               "docs": []
             }
@@ -31623,7 +31748,7 @@
     }
   },
   {
-    "id": 500,
+    "id": 504,
     "type": {
       "path": [],
       "params": [],
@@ -31637,26 +31762,26 @@
     }
   },
   {
-    "id": 501,
+    "id": 505,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          502,
-          503,
-          504,
-          505,
+          506,
           507,
           508,
-          509
+          509,
+          511,
+          512,
+          513
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 502,
+    "id": 506,
     "type": {
       "path": [
         "frame_system",
@@ -31679,7 +31804,7 @@
     }
   },
   {
-    "id": 503,
+    "id": 507,
     "type": {
       "path": [
         "frame_system",
@@ -31702,7 +31827,7 @@
     }
   },
   {
-    "id": 504,
+    "id": 508,
     "type": {
       "path": [
         "frame_system",
@@ -31725,7 +31850,7 @@
     }
   },
   {
-    "id": 505,
+    "id": 509,
     "type": {
       "path": [
         "frame_system",
@@ -31744,7 +31869,7 @@
           "fields": [
             {
               "name": null,
-              "type": 506,
+              "type": 510,
               "typeName": "Era",
               "docs": []
             }
@@ -31755,7 +31880,7 @@
     }
   },
   {
-    "id": 506,
+    "id": 510,
     "type": {
       "path": [
         "sp_runtime",
@@ -35095,7 +35220,7 @@
     }
   },
   {
-    "id": 507,
+    "id": 511,
     "type": {
       "path": [
         "frame_system",
@@ -35125,7 +35250,7 @@
     }
   },
   {
-    "id": 508,
+    "id": 512,
     "type": {
       "path": [
         "frame_system",
@@ -35148,7 +35273,7 @@
     }
   },
   {
-    "id": 509,
+    "id": 513,
     "type": {
       "path": [
         "pallet_transaction_payment",

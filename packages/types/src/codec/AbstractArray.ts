@@ -15,13 +15,17 @@ import { compareArray } from './utils/compareArray';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<Codec> {
+export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
 
-  protected constructor (registry: Registry, ...values: T[]) {
-    super(...values);
+  protected constructor (registry: Registry, values: T[]) {
+    super(values.length);
+
+    for (let i = 0; i < values.length; i++) {
+      this[i] = values[i];
+    }
 
     this.registry = registry;
   }

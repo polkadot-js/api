@@ -2,20 +2,20 @@
   {
     "displayName": "Header",
     "namespace": "ink_storage::collections::stash",
-    "info": 9,
+    "info": "Struct",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "last_vacant"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "len"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "len_entries"
       }
@@ -23,7 +23,7 @@
     "type": "{\"last_vacant\":\"u32\",\"len\":\"u32\",\"len_entries\":\"u32\"}"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u32"
   },
   {
@@ -33,15 +33,15 @@
       {
         "displayName": "VacantEntry",
         "namespace": "ink_storage::collections::stash",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "next"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "prev"
           }
@@ -52,45 +52,45 @@
       {
         "displayName": "Hash",
         "namespace": "ink_env::types",
-        "info": 6,
+        "info": "Plain",
         "type": "Hash",
         "name": "Occupied"
       }
     ],
-    "info": 3,
+    "info": "Enum",
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"Hash\"}}"
   },
   {
     "displayName": "Hash",
     "namespace": "ink_env::types",
-    "info": 6,
+    "info": "Plain",
     "type": "Hash"
   },
   {
-    "info": 12,
+    "info": "VecFixed",
     "length": 32,
     "sub": {
-      "info": 6,
+      "info": "Plain",
       "type": "u8"
     },
     "type": "[u8;32]"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u8"
   },
   {
     "displayName": "VacantEntry",
     "namespace": "ink_storage::collections::stash",
-    "info": 9,
+    "info": "Struct",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "next"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "prev"
       }
@@ -104,23 +104,23 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 6,
+        "info": "Plain",
         "type": "AccountId",
         "name": "value"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "key_index"
       }
     ],
-    "info": 9,
+    "info": "Struct",
     "type": "{\"value\":\"AccountId\",\"key_index\":\"u32\"}"
   },
   {
     "displayName": "AccountId",
     "namespace": "ink_env::types",
-    "info": 6,
+    "info": "Plain",
     "type": "AccountId"
   },
   {
@@ -128,7 +128,7 @@
     "sub": [
       {
         "name": "Ok",
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()"
       },
@@ -136,13 +136,13 @@
         "name": "Error",
         "displayName": "Error",
         "namespace": "dns::dns",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
             "ext": {
               "discriminant": 0
             },
-            "info": 6,
+            "info": "Plain",
             "name": "NameAlreadyExists",
             "type": "Null"
           },
@@ -150,7 +150,7 @@
             "ext": {
               "discriminant": 1
             },
-            "info": 6,
+            "info": "Plain",
             "name": "CallerIsNotOwner",
             "type": "Null"
           }
@@ -158,24 +158,24 @@
         "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
       }
     ],
-    "info": 7,
+    "info": "Result",
     "type": "Result<(), Error>"
   },
   {
-    "info": 10,
+    "info": "Tuple",
     "sub": [],
     "type": "()"
   },
   {
     "displayName": "Error",
     "namespace": "dns::dns",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
         "ext": {
           "discriminant": 0
         },
-        "info": 6,
+        "info": "Plain",
         "name": "NameAlreadyExists",
         "type": "Null"
       },
@@ -183,7 +183,7 @@
         "ext": {
           "discriminant": 1
         },
-        "info": 6,
+        "info": "Plain",
         "name": "CallerIsNotOwner",
         "type": "Null"
       }
@@ -195,10 +195,10 @@
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
-      "info": 6,
+      "info": "Plain",
       "type": "AccountId"
     },
-    "info": 5,
+    "info": "Option",
     "type": "Option<AccountId>"
   }
 ]

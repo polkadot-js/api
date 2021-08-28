@@ -48,6 +48,15 @@ const typesModules: Record<string, OverrideModuleType> = {
   inclusion: {
     ValidatorIndex: 'ParaValidatorIndex'
   },
+  paraInclusion: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
+  paraScheduler: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
+  paraShared: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
   parachains: {
     Id: 'ParaId'
   },
@@ -81,6 +90,12 @@ const typesModules: Record<string, OverrideModuleType> = {
   },
   treasury: {
     Proposal: 'TreasuryProposal'
+  },
+  xcm: {
+    AssetId: 'XcmAssetId'
+  },
+  xcmPallet: {
+    AssetId: 'XcmAssetId'
   }
 };
 

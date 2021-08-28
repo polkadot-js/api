@@ -259,14 +259,15 @@ export class Enum implements IEnum {
    * @description Checks if the Enum points to a [[Null]] type
    */
   public get isNone (): boolean {
-    return this.isNull;
+    return this.#raw instanceof Null;
   }
 
   /**
-   * @description Checks if the Enum points to a [[Null]] type (deprecated, use isNone)
+   * @description Checks if the Enum points to a [[Null]] type
+   * @deprecated use isNone
    */
   public get isNull (): boolean {
-    return this.#raw instanceof Null;
+    return this.isNone;
   }
 
   /**
@@ -331,7 +332,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#isBasic
+    return this.#isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }

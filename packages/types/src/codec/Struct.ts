@@ -137,7 +137,7 @@ export class Struct<
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
@@ -148,9 +148,7 @@ export class Struct<
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value: V | Map<unknown, unknown> | unknown[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
-    super(Object.entries(
-      decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)
-    ) as [keyof S, Codec][]);
+    super(Object.entries(decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)));
 
     this.registry = registry;
     this.#jsonMap = jsonMap;
@@ -182,7 +180,7 @@ export class Struct<
   }
 
   /**
-   * @description The available keys for this enum
+   * @description The available keys for this struct
    */
   public get defKeys (): string[] {
     return Object.keys(this.#Types);
@@ -208,7 +206,7 @@ export class Struct<
    */
   public get Type (): E {
     return (Object
-      .entries(this.#Types) as [keyof S, Constructor][])
+      .entries(this.#Types))
       .reduce((result: E, [key, Type]): E => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (result as any)[key] = new Type(this.registry).toRawType();
@@ -302,9 +300,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(
-      Struct.typesToMap(this.registry, this.#Types)
-    );
+    return stringify(Struct.typesToMap(this.registry, this.#Types));
   }
 
   /**

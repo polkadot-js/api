@@ -2,7 +2,71 @@
 
 ## master
 
+Upgrade priority: Low.
+
+Changes:
+
+- Optimize `Vec` construction (no re-create on new arrays)
+- Adjust output for enums in `toHuman`
+- Adjust aliases for new parachain module locations
+- Support for versioned xcm types (Polkadot master)
+- Add support for `Range` in `PortableRegistry` (used in Metadata 14)
+- Adjust balances derive for non-existent instances
+- Ensure Statemint (current) defaults to xcm v0
+- Add Kusama 9090 upgrade block
+
+
+## 5.6.1 Aug 23, 2021
+
+Upgrade priority: Low. Recommended for users of Xcm, preparing for Kusama/Westend 9100
+
+Contributed:
+
+- Support 0...N-1 args on `keys/entries` (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- Updated XCM types, `AssetId`, `MultiAssets`, `MultiAssetV1`, `AssetInstanceV1`, `XcmOrderV1`
+- Rename `Null` entry in `MultiLocation` to `Here` (Xcm V1)
+- Westend 9090 upgrade block
+- Bump static Substrate, Kusama & Polkadot metadata
+
+
+## 5.5.2 Aug 19, 2021
+
+Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.
+
+Changes:
+
+- Adjust `ValidDisputeStatementKind` enum to latest version
+- Only enable API health keepalive on connections supporting subscriptions
+
+
+## 5.5.1 Aug 15, 2021
+
+Upgrade priority: Low. Recommended for users of TS (`createType` and `bigint` adjustments)
+
+Contributed:
+
+- Add `Range` & `RangeInclusive` types (Thanks to https://github.com/c410-f3r)
+- Always use TS `bigint` type (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Loosen pedantic check not to fail on all-empty values
+- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`, `Range`
+- Add Polkadot 9080 upgrade block
+
+
+## 5.4.1 Aug 9, 2021
+
+Upgrade priority: Low. Recommended for potential users of NMap.
+
 - **Important** The `ClassOf` alias for `createClass` has been removed, use `createClass` (with new generics) directly
+
+Contributed:
+
+- Enable `.keys()/.entries()` on NMap (Thanks to https://github.com/hamidra)
 
 Changes:
 

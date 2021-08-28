@@ -19,6 +19,7 @@ export { Json } from './Json';
 export { Linkage } from './Linkage';
 export { CodecMap, CodecMap as Map } from './Map';
 export { Option } from './Option';
+export { Range, RangeInclusive } from './Range';
 export { Raw } from './Raw';
 export { Result } from './Result';
 export { CodecSet, CodecSet as Set } from './Set';

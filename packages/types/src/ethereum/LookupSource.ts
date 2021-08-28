@@ -12,7 +12,7 @@ import { GenericAccountIndex } from '../generic/AccountIndex';
 import { GenericEthereumAccountId } from './AccountId';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BigInt | BN | GenericEthereumLookupSource | GenericEthereumAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = bigint | BN | GenericEthereumLookupSource | GenericEthereumAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 

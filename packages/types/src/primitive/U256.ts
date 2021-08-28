@@ -8,4 +8,7 @@ import { UInt } from '../codec/UInt';
  * @description
  * A 256-bit unsigned integer
  */
-export class u256 extends UInt.with(256) {}
+export class u256 extends UInt.with(256) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __UIntType = 'u256';
+}
