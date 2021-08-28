@@ -2,13 +2,17 @@
 
 ## master
 
+Upgrade priority: Low.
+
 Changes:
 
+- Optimize `Vec` construction (no re-create on new arrays)
 - Adjust output for enums in `toHuman`
-- Ensure Statemint (current) defaults to xcm v0
-- Adjust aliasses for new parachain module locations
+- Adjust aliases for new parachain module locations
 - Support for versioned xcm types (Polkadot master)
 - Add support for `Range` in `PortableRegistry` (used in Metadata 14)
+- Adjust balances derive for non-existent instances
+- Ensure Statemint (current) defaults to xcm v0
 - Add Kusama 9090 upgrade block
 
 
