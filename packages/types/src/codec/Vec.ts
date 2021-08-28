@@ -25,7 +25,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   constructor (registry: Registry, Type: Constructor<T> | string, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
 
-    super(registry, ...Vec.decodeVec(registry, Clazz, value));
+    super(registry, Vec.decodeVec(registry, Clazz, value));
 
     this._Type = Clazz;
   }

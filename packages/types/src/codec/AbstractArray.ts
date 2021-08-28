@@ -20,8 +20,12 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: Hash;
 
-  protected constructor (registry: Registry, ...values: T[]) {
-    super(...values);
+  protected constructor (registry: Registry, values: T[]) {
+    super(values.length);
+
+    for (let i = 0; i < values.length; i++) {
+      this[i] = values[i];
+    }
 
     this.registry = registry;
   }
