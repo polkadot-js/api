@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
+import type { ApiInterfaceRx, QueryableStorageEntry } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { assert, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -39,15 +39,11 @@ function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenF
   };
 }
 
-function calcBalances (api: ApiInterfaceRx, [accountId, [accountNonce, balances]]: [AccountId, Result]): DeriveBalancesAccount {
-  const primary = balances[0];
-
-  assert(primary, 'No balances retrieved for account');
-
+function calcBalances (api: ApiInterfaceRx, [accountId, [accountNonce, [primary, ...additional]]]: [AccountId, Result]): DeriveBalancesAccount {
   return {
     accountId,
     accountNonce,
-    additional: balances.filter((_, index) => index !== 0).map((b) => getBalance(api, b)),
+    additional: additional.map((b) => getBalance(api, b)),
     ...getBalance(api, primary)
   };
 }
@@ -66,34 +62,44 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   );
 }
 
-function querySystemNonce (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
-  return api.query.system.accountNonce<Index>(accountId).pipe(
-    map((accountNonce): Result => [
-      accountNonce,
-      [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
-    ])
-  );
+function queryNonceOnly (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+  const fill = (nonce: Index): Result => [
+    nonce,
+    [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+  ];
+
+  return isFunction(api.query.system.account)
+    ? api.query.system.account(accountId).pipe(
+      map(({ nonce }) => fill(nonce))
+    )
+    : isFunction(api.query.system.accountNonce)
+      ? api.query.system.accountNonce<Index>(accountId).pipe(
+        map((nonce) => fill(nonce))
+      )
+      : of(fill(api.registry.createType('Index')));
 }
 
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
-  const balances = modules.map(
-    (m): QueryableStorageMultiArg<'rxjs'> => [
-      (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m].account,
-      accountId
-    ]
-  );
+  const balances = modules
+    .map((m): QueryableStorageEntry<'rxjs'> => (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m]?.account)
+    .filter((q) => isFunction(q))
+    .map((q): [QueryableStorageEntry<'rxjs'>, AccountId] => [q, accountId]);
 
-  const extract = (data: AccountData[]) =>
-    data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen]);
+  const extract = (nonce: Index, data: AccountData[]): Result => [
+    nonce,
+    data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen])
+  ];
 
   // NOTE this is for the first case where we do have instances specified
-  return isFunction(api.query.system.account)
-    ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
-      map(([{ nonce }, ...balances]): Result => [nonce, extract(balances)])
-    )
-    : api.queryMulti<[Index, ...(AccountData[])]>([[api.query.system.accountNonce, accountId], ...balances]).pipe(
-      map(([nonce, ...balances]): Result => [nonce, extract(balances)])
-    );
+  return balances.length
+    ? isFunction(api.query.system.account)
+      ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
+        map(([{ nonce }, ...balances]) => extract(nonce, balances))
+      )
+      : api.queryMulti<[Index, ...(AccountData[])]>([[api.query.system.accountNonce, accountId], ...balances]).pipe(
+        map(([nonce, ...balances]) => extract(nonce, balances))
+      )
+    : queryNonceOnly(api, accountId);
 }
 
 function querySystemAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
@@ -140,10 +146,6 @@ function querySystemAccount (api: ApiInterfaceRx, accountId: AccountId): Observa
  */
 export function account (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
-  const empty: Result = [
-    api.registry.createType('Index'),
-    [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
-  ];
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
     api.derive.accounts.accountId(address).pipe(
@@ -159,11 +161,12 @@ export function account (instanceId: string, api: ApiInterfaceRx): (address: Acc
                   ? queryBalancesAccount(api, accountId)
                   : isFunction(api.query.balances?.freeBalance)
                     ? queryBalancesFree(api, accountId)
-                    : isFunction(api.query.system?.accountNonce)
-                      ? querySystemNonce(api, accountId)
-                      : of(empty)
+                    : queryNonceOnly(api, accountId)
           ])
-          : of([api.registry.createType('AccountId'), empty])
+          : of([api.registry.createType('AccountId'), [
+            api.registry.createType('Index'),
+            [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+          ]])
         )
       ),
       map((result): DeriveBalancesAccount => calcBalances(api, result))
