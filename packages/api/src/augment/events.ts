@@ -637,6 +637,10 @@ declare module '@polkadot/api/types/events' {
        **/
       AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, NodeRuntimeProxyType, u16]>;
       /**
+       * A proxy was added. \[delegator, delegatee, proxy_type, delay\]
+       **/
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, NodeRuntimeProxyType, u32]>;
+      /**
        * A proxy was executed correctly, with the given \[result\].
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
@@ -1109,7 +1113,7 @@ declare module '@polkadot/api/types/events' {
        **/
       Frozen: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * An asset `instace` was issued. \[ class, instance, owner \]
+       * An asset `instance` was issued. \[ class, instance, owner \]
        **/
       Issued: AugmentedEvent<ApiType, [u32, u32, AccountId32]>;
       /**
@@ -1138,7 +1142,7 @@ declare module '@polkadot/api/types/events' {
        **/
       Thawed: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * An asset `instace` was transferred. \[ class, instance, from, to \]
+       * An asset `instance` was transferred. \[ class, instance, from, to \]
        **/
       Transferred: AugmentedEvent<ApiType, [u32, u32, AccountId32, AccountId32]>;
       /**

@@ -5470,6 +5470,39 @@
               "docs": [
                 "An announcement was placed to make a call in the future. \\[real, proxy, call_hash\\]"
               ]
+            },
+            {
+              "name": "ProxyAdded",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 80,
+                  "typeName": "T::ProxyType",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 4,
+                  "typeName": "T::BlockNumber",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": [
+                "A proxy was added. \\[delegator, delegatee, proxy_type, delay\\]"
+              ]
             }
           ]
         }
@@ -6845,7 +6878,7 @@
               ],
               "index": 3,
               "docs": [
-                "An asset `instace` was issued. \\[ class, instance, owner \\]"
+                "An asset `instance` was issued. \\[ class, instance, owner \\]"
               ]
             },
             {
@@ -6878,7 +6911,7 @@
               ],
               "index": 4,
               "docs": [
-                "An asset `instace` was transferred. \\[ class, instance, from, to \\]"
+                "An asset `instance` was transferred. \\[ class, instance, from, to \\]"
               ]
             },
             {
