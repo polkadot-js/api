@@ -655,6 +655,10 @@ declare module '@polkadot/api/types/events' {
        **/
       AnonymousCreated: AugmentedEvent<ApiType, [AccountId, AccountId, ProxyType, u16]>;
       /**
+       * A proxy was added. \[delegator, delegatee, proxy_type, delay\]
+       **/
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId, AccountId, ProxyType, BlockNumber]>;
+      /**
        * A proxy was executed correctly, with the given \[result\].
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [DispatchResult]>;
@@ -1127,7 +1131,7 @@ declare module '@polkadot/api/types/events' {
        **/
       Frozen: AugmentedEvent<ApiType, [ClassId, InstanceId]>;
       /**
-       * An asset `instace` was issued. \[ class, instance, owner \]
+       * An asset `instance` was issued. \[ class, instance, owner \]
        **/
       Issued: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId]>;
       /**
@@ -1156,7 +1160,7 @@ declare module '@polkadot/api/types/events' {
        **/
       Thawed: AugmentedEvent<ApiType, [ClassId, InstanceId]>;
       /**
-       * An asset `instace` was transferred. \[ class, instance, from, to \]
+       * An asset `instance` was transferred. \[ class, instance, from, to \]
        **/
       Transferred: AugmentedEvent<ApiType, [ClassId, InstanceId, AccountId, AccountId]>;
       /**
@@ -1185,12 +1189,12 @@ declare module '@polkadot/api/types/events' {
     };
     vesting: {
       /**
-       * An \[account\] has become fully vested. No further vesting can happen.
+       * An \[account\] has become fully vested.
        **/
       VestingCompleted: AugmentedEvent<ApiType, [AccountId]>;
       /**
-       * The amount vested has been updated. This could indicate more funds are available. The
-       * balance given is the amount which is left unvested (and thus locked).
+       * The amount vested has been updated. This could indicate a change in funds available.
+       * The balance given is the amount which is left unvested (and thus locked).
        * \[account, unvested\]
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId, Balance]>;

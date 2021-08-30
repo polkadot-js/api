@@ -130,7 +130,10 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Events deposited for the current block."
+                  " Events deposited for the current block.",
+                  "",
+                  " NOTE: This storage item is explicitly unbounded since it is never intended to be read",
+                  " from within the runtime."
                 ]
               },
               {
@@ -500,7 +503,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x186b7573616d61347061726974792d6b7573616d6102000000822300000000000038df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0100000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a80100000005000000",
+              "value": "0x186b7573616d61347061726974792d6b7573616d61020000008c2300000000000038df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0100000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a80100000005000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -9804,13 +9807,26 @@
                   "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
-                    "value": "VestingInfo",
+                    "value": "Vec<VestingInfo>",
                     "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
                   " Information regarding the vesting of a given account."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": "Releases"
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with latest version, as determined by the genesis build."
                 ]
               }
             ]
@@ -9878,11 +9894,12 @@
                 "",
                 " The dispatch origin for this call must be _Signed_.",
                 "",
-                " - `target`: The account that should be transferred the vested funds.",
-                " - `amount`: The amount of funds to transfer and will be vested.",
+                " - `target`: The account receiving the vested funds.",
                 " - `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 " Emits `VestingCreated`.",
+                "",
+                " NOTE: This will unlock all schedules through the current block.",
                 "",
                 " # <weight>",
                 " - `O(1)`.",
@@ -9915,10 +9932,11 @@
                 "",
                 " - `source`: The account whose funds should be transferred.",
                 " - `target`: The account that should be transferred the vested funds.",
-                " - `amount`: The amount of funds to transfer and will be vested.",
                 " - `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 " Emits `VestingCreated`.",
+                "",
+                " NOTE: This will unlock all schedules through the current block.",
                 "",
                 " # <weight>",
                 " - `O(1)`.",
@@ -9926,6 +9944,42 @@
                 "     - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "merge_schedules",
+              "args": [
+                {
+                  "name": "schedule1_index",
+                  "type": "u32"
+                },
+                {
+                  "name": "schedule2_index",
+                  "type": "u32"
+                }
+              ],
+              "docs": [
+                " Merge two vesting schedules together, creating a new vesting schedule that unlocks over",
+                " the highest possible start and end blocks. If both schedules have already started the",
+                " current block will be used as the schedule start; with the caveat that if one schedule",
+                " is finished by the current block, the other will be treated as the new merged schedule,",
+                " unmodified.",
+                "",
+                " NOTE: If `schedule1_index == schedule2_index` this is a no-op.",
+                " NOTE: This will unlock all schedules through the current block prior to merging.",
+                " NOTE: If both schedules have ended by the current block, no new schedule will be created",
+                " and both will be removed.",
+                "",
+                " Merged schedule attributes:",
+                " - `starting_block`: `MAX(schedule1.starting_block, scheduled2.starting_block,",
+                "   current_block)`.",
+                " - `ending_block`: `MAX(schedule1.ending_block, schedule2.ending_block)`.",
+                " - `locked`: `schedule1.locked_at(current_block) + schedule2.locked_at(current_block)`.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `schedule1_index`: index of the first schedule to merge.",
+                " - `schedule2_index`: index of the second schedule to merge."
               ]
             }
           ],
@@ -9937,8 +9991,8 @@
                 "Balance"
               ],
               "docs": [
-                " The amount vested has been updated. This could indicate more funds are available. The",
-                " balance given is the amount which is left unvested (and thus locked).",
+                " The amount vested has been updated. This could indicate a change in funds available.",
+                " The balance given is the amount which is left unvested (and thus locked).",
                 " \\[account, unvested\\]"
               ]
             },
@@ -9948,7 +10002,7 @@
                 "AccountId"
               ],
               "docs": [
-                " An \\[account\\] has become fully vested. No further vesting can happen."
+                " An \\[account\\] has become fully vested."
               ]
             }
           ],
@@ -9960,6 +10014,12 @@
               "docs": [
                 " The minimum amount transferred to call `vested_transfer`."
               ]
+            },
+            {
+              "name": "MaxVestingSchedules",
+              "type": "u32",
+              "value": "0x1c000000",
+              "docs": []
             }
           ],
           "errors": [
@@ -9970,15 +10030,28 @@
               ]
             },
             {
-              "name": "ExistingVestingSchedule",
+              "name": "AtMaxVestingSchedules",
               "docs": [
-                " An existing vesting schedule already exists for this account that cannot be clobbered."
+                " The account already has `MaxVestingSchedules` count of schedules and thus",
+                " cannot add another one. Consider merging existing schedules in order to add another."
               ]
             },
             {
               "name": "AmountLow",
               "docs": [
                 " Amount being transferred is too low to create a vesting schedule."
+              ]
+            },
+            {
+              "name": "ScheduleIndexOutOfBounds",
+              "docs": [
+                " An index was out of bounds of the vesting schedules."
+              ]
+            },
+            {
+              "name": "InvalidScheduleParams",
+              "docs": [
+                " Failed to create a new schedule because some parameter was invalid."
               ]
             }
           ],
@@ -10709,6 +10782,18 @@
               ],
               "docs": [
                 " An announcement was placed to make a call in the future. \\[real, proxy, call_hash\\]"
+              ]
+            },
+            {
+              "name": "ProxyAdded",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "ProxyType",
+                "BlockNumber"
+              ],
+              "docs": [
+                " A proxy was added. \\[delegator, delegatee, proxy_type, delay\\]"
               ]
             }
           ],
@@ -16457,7 +16542,54 @@
           "name": "XcmPallet",
           "storage": {
             "prefix": "XcmPallet",
-            "items": []
+            "items": [
+              {
+                "name": "QueryCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": "QueryId"
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The latest available query index."
+                ]
+              },
+              {
+                "name": "Queries",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hasher": "Blake2_128Concat",
+                    "key": "QueryId",
+                    "value": "QueryStatus",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The ongoing queries."
+                ]
+              },
+              {
+                "name": "AssetTraps",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hasher": "Identity",
+                    "key": "H256",
+                    "value": "u32",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The existing asset traps.",
+                  "",
+                  " Key is the blake2 256 hash of (origin, versioned `MultiAssets`) pair. Value is the number of",
+                  " times this pair has been trapped (usually just 1 if it exists at all)."
+                ]
+              }
+            ]
           },
           "calls": [
             {
@@ -16465,11 +16597,11 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "MultiLocation"
+                  "type": "VersionedMultiLocation"
                 },
                 {
                   "name": "message",
-                  "type": "Xcm"
+                  "type": "VersionedXcm"
                 }
               ],
               "docs": []
@@ -16479,23 +16611,19 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "MultiLocation"
+                  "type": "VersionedMultiLocation"
                 },
                 {
                   "name": "beneficiary",
-                  "type": "MultiLocation"
+                  "type": "VersionedMultiLocation"
                 },
                 {
                   "name": "assets",
-                  "type": "MultiAssets"
+                  "type": "VersionedMultiAssets"
                 },
                 {
                   "name": "fee_asset_item",
                   "type": "u32"
-                },
-                {
-                  "name": "dest_weight",
-                  "type": "Weight"
                 }
               ],
               "docs": [
@@ -16519,23 +16647,19 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "MultiLocation"
+                  "type": "VersionedMultiLocation"
                 },
                 {
                   "name": "beneficiary",
-                  "type": "MultiLocation"
+                  "type": "VersionedMultiLocation"
                 },
                 {
                   "name": "assets",
-                  "type": "MultiAssets"
+                  "type": "VersionedMultiAssets"
                 },
                 {
                   "name": "fee_asset_item",
                   "type": "u32"
-                },
-                {
-                  "name": "dest_weight",
-                  "type": "Weight"
                 }
               ],
               "docs": [
@@ -16551,8 +16675,8 @@
                 "   an `AccountId32` value.",
                 " - `assets`: The assets to be withdrawn. This should include the assets used to pay the fee on the",
                 "   `dest` side.",
-                " - `dest_weight`: Equal to the total weight on `dest` of the XCM message",
-                "   `ReserveAssetDeposited { assets, effects: [ BuyExecution{..}, DepositAsset{..} ] }`."
+                " - `fee_asset_item`: The index into `assets` of the item which should be used to pay",
+                "   fees."
               ]
             },
             {
@@ -16560,7 +16684,7 @@
               "args": [
                 {
                   "name": "message",
-                  "type": "Xcm"
+                  "type": "VersionedXcm"
                 },
                 {
                   "name": "max_weight",
@@ -16588,7 +16712,11 @@
               "args": [
                 "Outcome"
               ],
-              "docs": []
+              "docs": [
+                " Execution of an XCM message was attempted.",
+                "",
+                " \\[ outcome \\]"
+              ]
             },
             {
               "name": "Sent",
@@ -16597,18 +16725,172 @@
                 "MultiLocation",
                 "Xcm"
               ],
-              "docs": []
+              "docs": [
+                " A XCM message was sent.",
+                "",
+                " \\[ origin, destination, message \\]"
+              ]
+            },
+            {
+              "name": "UnexpectedResponse",
+              "args": [
+                "MultiLocation",
+                "QueryId"
+              ],
+              "docs": [
+                " Query response received which does not match a registered query. This may be because a",
+                " matching query was never registered, it may be because it is a duplicate response, or",
+                " because the query timed out.",
+                "",
+                " \\[ origin location, id \\]"
+              ]
+            },
+            {
+              "name": "ResponseReady",
+              "args": [
+                "QueryId",
+                "Response"
+              ],
+              "docs": [
+                " Query response has been received and is ready for taking with `take_response`. There is",
+                " no registered notification call.",
+                "",
+                " \\[ id, response \\]"
+              ]
+            },
+            {
+              "name": "Notified",
+              "args": [
+                "QueryId",
+                "u8",
+                "u8"
+              ],
+              "docs": [
+                " Query response has been received and query is removed. The registered notification has",
+                " been dispatched and executed successfully.",
+                "",
+                " \\[ id, pallet index, call index \\]"
+              ]
+            },
+            {
+              "name": "NotifyOverweight",
+              "args": [
+                "QueryId",
+                "u8",
+                "u8",
+                "Weight",
+                "Weight"
+              ],
+              "docs": [
+                " Query response has been received and query is removed. The registered notification could",
+                " not be dispatched because the dispatch weight is greater than the maximum weight",
+                " originally budgeted by this runtime for the query result.",
+                "",
+                " \\[ id, pallet index, call index, actual weight, max budgeted weight \\]"
+              ]
+            },
+            {
+              "name": "NotifyDispatchError",
+              "args": [
+                "QueryId",
+                "u8",
+                "u8"
+              ],
+              "docs": [
+                " Query response has been received and query is removed. There was a general error with",
+                " dispatching the notification call.",
+                "",
+                " \\[ id, pallet index, call index \\]"
+              ]
+            },
+            {
+              "name": "NotifyDecodeFailed",
+              "args": [
+                "QueryId",
+                "u8",
+                "u8"
+              ],
+              "docs": [
+                " Query response has been received and query is removed. The dispatch was unable to be",
+                " decoded into a `Call`; this might be due to dispatch function having a signature which",
+                " is not `(origin, QueryId, Response)`.",
+                "",
+                " \\[ id, pallet index, call index \\]"
+              ]
+            },
+            {
+              "name": "InvalidResponder",
+              "args": [
+                "MultiLocation",
+                "QueryId",
+                "MultiLocation"
+              ],
+              "docs": [
+                " Expected query response has been received but the origin location of the response does",
+                " not match that expected. The query remains registered for a later, valid, response to",
+                " be received and acted upon.",
+                "",
+                " \\[ origin location, id, expected location \\]"
+              ]
+            },
+            {
+              "name": "InvalidResponderVersion",
+              "args": [
+                "MultiLocation",
+                "QueryId"
+              ],
+              "docs": [
+                " Expected query response has been received but the expected origin location placed in",
+                " storate by this runtime previously cannot be decoded. The query remains registered.",
+                "",
+                " This is unexpected (since a location placed in storage in a previously executing",
+                " runtime should be readable prior to query timeout) and dangerous since the possibly",
+                " valid response will be dropped. Manual governance intervention is probably going to be",
+                " needed.",
+                "",
+                " \\[ origin location, id \\]"
+              ]
+            },
+            {
+              "name": "ResponseTaken",
+              "args": [
+                "QueryId"
+              ],
+              "docs": [
+                " Received query response has been read and removed.",
+                "",
+                " \\[ id \\]"
+              ]
+            },
+            {
+              "name": "AssetsTrapped",
+              "args": [
+                "H256",
+                "MultiLocation",
+                "VersionedMultiAssets"
+              ],
+              "docs": [
+                " Some assets have been placed in an asset trap.",
+                "",
+                " \\[ hash, origin, assets \\]"
+              ]
             }
           ],
           "constants": [],
           "errors": [
             {
               "name": "Unreachable",
-              "docs": []
+              "docs": [
+                " The desired destination was unreachable, generally because there is a no way of routing",
+                " to it."
+              ]
             },
             {
               "name": "SendFailure",
-              "docs": []
+              "docs": [
+                " There was some other issue (i.e. not to do with routing) in sending the message. Perhaps",
+                " a lack of space for buffering the message."
+              ]
             },
             {
               "name": "Filtered",
@@ -16620,6 +16902,12 @@
               "name": "UnweighableMessage",
               "docs": [
                 " The message's weight could not be determined."
+              ]
+            },
+            {
+              "name": "DestinationNotInvertible",
+              "docs": [
+                " The destination `MultiLocation` provided cannot be inverted."
               ]
             },
             {
@@ -16644,6 +16932,12 @@
               "name": "InvalidOrigin",
               "docs": [
                 " Origin is invalid for sending."
+              ]
+            },
+            {
+              "name": "BadVersion",
+              "docs": [
+                " The version of the `Versioned` value used is not able to be interpreted."
               ]
             }
           ],
