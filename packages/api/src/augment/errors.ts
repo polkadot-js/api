@@ -1538,13 +1538,22 @@ declare module '@polkadot/api/types/errors' {
        **/
       AmountLow: AugmentedError<ApiType>;
       /**
-       * An existing vesting schedule already exists for this account that cannot be clobbered.
+       * The account already has `MaxVestingSchedules` count of schedules and thus
+       * cannot add another one. Consider merging existing schedules in order to add another.
        **/
-      ExistingVestingSchedule: AugmentedError<ApiType>;
+      AtMaxVestingSchedules: AugmentedError<ApiType>;
+      /**
+       * Failed to create a new schedule because some parameter was invalid.
+       **/
+      InvalidScheduleParams: AugmentedError<ApiType>;
       /**
        * The account given is not vesting.
        **/
       NotVesting: AugmentedError<ApiType>;
+      /**
+       * An index was out of bounds of the vesting schedules.
+       **/
+      ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

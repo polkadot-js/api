@@ -4391,10 +4391,11 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `source`: The account whose funds should be transferred.
        * - `target`: The account that should be transferred the vested funds.
-       * - `amount`: The amount of funds to transfer and will be vested.
        * - `schedule`: The vesting schedule attached to the transfer.
        * 
        * Emits `VestingCreated`.
+       * 
+       * NOTE: This will unlock all schedules through the current block.
        * 
        * # <weight>
        * - `O(1)`.
@@ -4404,6 +4405,30 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       forceVestedTransfer: AugmentedSubmittable<(source: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, target: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, schedule: VestingInfo | { locked?: any; perBlock?: any; startingBlock?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, LookupSource, VestingInfo]>;
+      /**
+       * Merge two vesting schedules together, creating a new vesting schedule that unlocks over
+       * the highest possible start and end blocks. If both schedules have already started the
+       * current block will be used as the schedule start; with the caveat that if one schedule
+       * is finished by the current block, the other will be treated as the new merged schedule,
+       * unmodified.
+       * 
+       * NOTE: If `schedule1_index == schedule2_index` this is a no-op.
+       * NOTE: This will unlock all schedules through the current block prior to merging.
+       * NOTE: If both schedules have ended by the current block, no new schedule will be created
+       * and both will be removed.
+       * 
+       * Merged schedule attributes:
+       * - `starting_block`: `MAX(schedule1.starting_block, scheduled2.starting_block,
+       * current_block)`.
+       * - `ending_block`: `MAX(schedule1.ending_block, schedule2.ending_block)`.
+       * - `locked`: `schedule1.locked_at(current_block) + schedule2.locked_at(current_block)`.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * - `schedule1_index`: index of the first schedule to merge.
+       * - `schedule2_index`: index of the second schedule to merge.
+       **/
+      mergeSchedules: AugmentedSubmittable<(schedule1Index: u32 | AnyNumber | Uint8Array, schedule2Index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Unlock any vested funds of the sender account.
        * 
@@ -4425,11 +4450,12 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * The dispatch origin for this call must be _Signed_.
        * 
-       * - `target`: The account that should be transferred the vested funds.
-       * - `amount`: The amount of funds to transfer and will be vested.
+       * - `target`: The account receiving the vested funds.
        * - `schedule`: The vesting schedule attached to the transfer.
        * 
        * Emits `VestingCreated`.
+       * 
+       * NOTE: This will unlock all schedules through the current block.
        * 
        * # <weight>
        * - `O(1)`.

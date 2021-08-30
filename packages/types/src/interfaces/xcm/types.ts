@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { AccountId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, BlockNumber, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AssetInstance */
 export interface AssetInstance extends AssetInstanceV1 {}
@@ -158,6 +158,9 @@ export interface MultiAssets extends Vec<MultiAsset> {}
 /** @name MultiAssetsV1 */
 export interface MultiAssetsV1 extends Vec<MultiAssetV1> {}
 
+/** @name MultiAssetsV2 */
+export interface MultiAssetsV2 extends MultiAssetsV1 {}
+
 /** @name MultiAssetV0 */
 export interface MultiAssetV0 extends Enum {
   readonly isNone: boolean;
@@ -169,9 +172,9 @@ export interface MultiAssetV0 extends Enum {
   readonly isAllAbstractNonFungible: boolean;
   readonly asAllAbstractNonFungible: Bytes;
   readonly isAllConcreteFungible: boolean;
-  readonly asAllConcreteFungible: MultiLocation;
+  readonly asAllConcreteFungible: MultiLocationV0;
   readonly isAllConcreteNonFungible: boolean;
-  readonly asAllConcreteNonFungible: MultiLocation;
+  readonly asAllConcreteNonFungible: MultiLocationV0;
   readonly isAbstractFungible: boolean;
   readonly asAbstractFungible: {
     readonly id: Bytes;
@@ -180,17 +183,17 @@ export interface MultiAssetV0 extends Enum {
   readonly isAbstractNonFungible: boolean;
   readonly asAbstractNonFungible: {
     readonly class: Bytes;
-    readonly instance: AssetInstance;
+    readonly instance: AssetInstanceV0;
   } & Struct;
   readonly isConcreteFungible: boolean;
   readonly asConcreteFungible: {
-    readonly id: MultiLocation;
+    readonly id: MultiLocationV0;
     readonly amount: Compact<u128>;
   } & Struct;
   readonly isConcreteNonFungible: boolean;
   readonly asConcreteNonFungible: {
-    readonly class: MultiLocation;
-    readonly instance: AssetInstance;
+    readonly class: MultiLocationV0;
+    readonly instance: AssetInstanceV0;
   } & Struct;
 }
 
@@ -199,6 +202,9 @@ export interface MultiAssetV1 extends Struct {
   readonly id: XcmAssetId;
   readonly fungibility: Fungibility;
 }
+
+/** @name MultiAssetV2 */
+export interface MultiAssetV2 extends MultiAssetV1 {}
 
 /** @name MultiLocation */
 export interface MultiLocation extends Enum {
@@ -227,6 +233,9 @@ export interface MultiLocationV0 extends MultiLocation {}
 /** @name MultiLocationV1 */
 export interface MultiLocationV1 extends MultiLocation {}
 
+/** @name MultiLocationV2 */
+export interface MultiLocationV2 extends MultiLocation {}
+
 /** @name NetworkId */
 export interface NetworkId extends Enum {
   readonly isAny: boolean;
@@ -247,9 +256,27 @@ export interface Outcome extends Enum {
   readonly isComplete: boolean;
   readonly asComplete: Weight;
   readonly isIncomplete: boolean;
-  readonly asIncomplete: ITuple<[Weight, XcmError]>;
+  readonly asIncomplete: ITuple<[Weight, XcmErrorV0]>;
   readonly isError: boolean;
-  readonly asError: XcmError;
+  readonly asError: XcmErrorV0;
+}
+
+/** @name QueryId */
+export interface QueryId extends u64 {}
+
+/** @name QueryStatus */
+export interface QueryStatus extends Enum {
+  readonly isPending: boolean;
+  readonly asPending: {
+    readonly responder: VersionedMultiLocation;
+    readonly maybeNotify: Option<ITuple<[u8, u8]>>;
+    readonly timeout: BlockNumber;
+  } & Struct;
+  readonly isReady: boolean;
+  readonly asReady: {
+    readonly response: VersionedResponse;
+    readonly at: BlockNumber;
+  } & Struct;
 }
 
 /** @name QueueConfigData */
@@ -261,12 +288,52 @@ export interface QueueConfigData extends Struct {
   readonly weightRestrictDecay: Weight;
 }
 
+/** @name Response */
+export interface Response extends ResponseV1 {}
+
+/** @name ResponseV0 */
+export interface ResponseV0 extends Enum {
+  readonly isAssets: boolean;
+  readonly asAssets: Vec<MultiAssetV0>;
+}
+
+/** @name ResponseV1 */
+export interface ResponseV1 extends Enum {
+  readonly isAssets: boolean;
+  readonly asAssets: MultiAssetsV1;
+}
+
+/** @name ResponseV2 */
+export interface ResponseV2 extends Enum {
+  readonly isNull: boolean;
+  readonly isAssets: boolean;
+  readonly asAssets: MultiAssetsV2;
+  readonly isExecutionResult: boolean;
+  readonly asExecutionResult: ResponseV2Result;
+}
+
+/** @name ResponseV2Error */
+export interface ResponseV2Error extends ITuple<[u32, XcmErrorV2]> {}
+
+/** @name ResponseV2Result */
+export interface ResponseV2Result extends Result<Null, ResponseV2Error> {
+  readonly isErr: boolean;
+  readonly asErr: ResponseV2Error;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: ResponseV2Error;
+  readonly isOk: boolean;
+}
+
 /** @name VersionedMultiAsset */
 export interface VersionedMultiAsset extends Enum {
   readonly isV0: boolean;
   readonly asV0: MultiAssetV0;
   readonly isV1: boolean;
   readonly asV1: MultiAssetV1;
+  readonly isV2: boolean;
+  readonly asV2: MultiAssetV2;
 }
 
 /** @name VersionedMultiAssets */
@@ -275,6 +342,8 @@ export interface VersionedMultiAssets extends Enum {
   readonly asV0: Vec<MultiAssetV0>;
   readonly isV1: boolean;
   readonly asV1: MultiAssetsV1;
+  readonly isV2: boolean;
+  readonly asV2: MultiAssetsV2;
 }
 
 /** @name VersionedMultiLocation */
@@ -283,6 +352,15 @@ export interface VersionedMultiLocation extends Enum {
   readonly asV0: MultiLocationV0;
   readonly isV1: boolean;
   readonly asV1: MultiLocationV1;
+  readonly isV2: boolean;
+  readonly asV2: MultiLocationV2;
+}
+
+/** @name VersionedResponse */
+export interface VersionedResponse extends Struct {
+  readonly V0: ResponseV0;
+  readonly V1: ResponseV1;
+  readonly V2: ResponseV2;
 }
 
 /** @name VersionedXcm */
@@ -323,8 +401,8 @@ export interface XcmAssetId extends Enum {
   readonly asAbstract: Bytes;
 }
 
-/** @name XcmError */
-export interface XcmError extends Enum {
+/** @name XcmErrorV0 */
+export interface XcmErrorV0 extends Enum {
   readonly isUndefined: boolean;
   readonly isOverflow: boolean;
   readonly isUnimplemented: boolean;
@@ -353,6 +431,80 @@ export interface XcmError extends Enum {
   readonly isNotWithdrawable: boolean;
   readonly isLocationCannotHold: boolean;
   readonly isTooExpensive: boolean;
+}
+
+/** @name XcmErrorV1 */
+export interface XcmErrorV1 extends Enum {
+  readonly isUndefined: boolean;
+  readonly isOverflow: boolean;
+  readonly isUnimplemented: boolean;
+  readonly isUnhandledXcmVersion: boolean;
+  readonly isUnhandledXcmMessage: boolean;
+  readonly isUnhandledEffect: boolean;
+  readonly isEscalationOfPrivilege: boolean;
+  readonly isUntrustedReserveLocation: boolean;
+  readonly isUntrustedTeleportLocation: boolean;
+  readonly isDestinationBufferOverflow: boolean;
+  readonly isSendFailed: boolean;
+  readonly isCannotReachDestination: boolean;
+  readonly asCannotReachDestination: ITuple<[MultiLocationV1, XcmV1]>;
+  readonly isMultiLocationFull: boolean;
+  readonly isFailedToDecode: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isExceedsMaxMessageSize: boolean;
+  readonly isFailedToTransactAsset: boolean;
+  readonly isWeightLimitReached: boolean;
+  readonly asWeightLimitReached: Weight;
+  readonly isWildcard: boolean;
+  readonly isTooMuchWeightRequired: boolean;
+  readonly isNotHoldingFees: boolean;
+  readonly isWeightNotComputable: boolean;
+  readonly isBarrier: boolean;
+  readonly isNotWithdrawable: boolean;
+  readonly isLocationCannotHold: boolean;
+  readonly isTooExpensive: boolean;
+  readonly isAssetNotFound: boolean;
+  readonly isDestinationUnsupported: boolean;
+  readonly isRecursionLimitReached: boolean;
+}
+
+/** @name XcmErrorV2 */
+export interface XcmErrorV2 extends Enum {
+  readonly isUndefined: boolean;
+  readonly isOverflow: boolean;
+  readonly isUnimplemented: boolean;
+  readonly isUnhandledXcmVersion: boolean;
+  readonly isUnhandledXcmMessage: boolean;
+  readonly isUnhandledEffect: boolean;
+  readonly isEscalationOfPrivilege: boolean;
+  readonly isUntrustedReserveLocation: boolean;
+  readonly isUntrustedTeleportLocation: boolean;
+  readonly isDestinationBufferOverflow: boolean;
+  readonly isMultiLocationFull: boolean;
+  readonly isMultiLocationNotInvertible: boolean;
+  readonly isFailedToDecode: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isExceedsMaxMessageSize: boolean;
+  readonly isFailedToTransactAsset: boolean;
+  readonly isWeightLimitReached: boolean;
+  readonly asWeightLimitReached: Weight;
+  readonly isWildcard: boolean;
+  readonly isTooMuchWeightRequired: boolean;
+  readonly isNotHoldingFees: boolean;
+  readonly isWeightNotComputable: boolean;
+  readonly isBarrier: boolean;
+  readonly isNotWithdrawable: boolean;
+  readonly isLocationCannotHold: boolean;
+  readonly isTooExpensive: boolean;
+  readonly isAssetNotFound: boolean;
+  readonly isDestinationUnsupported: boolean;
+  readonly isRecursionLimitReached: boolean;
+  readonly isTransport: boolean;
+  readonly isUnroutable: boolean;
+  readonly isUnknownWeightRequired: boolean;
+  readonly isTrap: boolean;
+  readonly asTrap: u64;
+  readonly isUnknownClaim: boolean;
 }
 
 /** @name XcmOrder */
@@ -476,12 +628,6 @@ export interface XcmpMessageFormat extends Enum {
   readonly isSignals: boolean;
 }
 
-/** @name XcmResponse */
-export interface XcmResponse extends Enum {
-  readonly isAssets: boolean;
-  readonly asAssets: Vec<MultiAsset>;
-}
-
 /** @name XcmV0 */
 export interface XcmV0 extends Enum {
   readonly isWithdrawAsset: boolean;
@@ -502,7 +648,7 @@ export interface XcmV0 extends Enum {
   readonly isQueryResponse: boolean;
   readonly asQueryResponse: {
     readonly queryId: Compact<u64>;
-    readonly response: XcmResponse;
+    readonly response: ResponseV0;
   } & Struct;
   readonly isTransferAsset: boolean;
   readonly asTransferAsset: {
@@ -564,7 +710,7 @@ export interface XcmV1 extends Enum {
   readonly isQueryResponse: boolean;
   readonly asQueryResponse: {
     readonly queryId: Compact<u64>;
-    readonly response: XcmResponse;
+    readonly response: ResponseV1;
   } & Struct;
   readonly isTransferAsset: boolean;
   readonly asTransferAsset: {

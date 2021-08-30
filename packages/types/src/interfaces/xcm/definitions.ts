@@ -29,7 +29,7 @@ const xcm = {
       },
       QueryResponse: {
         queryId: 'Compact<u64>',
-        response: 'XcmResponse'
+        response: 'ResponseV0'
       },
       TransferAsset: {
         assets: 'Vec<MultiAssetV0>',
@@ -80,7 +80,7 @@ const xcm = {
       },
       QueryResponse: {
         queryId: 'Compact<u64>',
-        response: 'XcmResponse'
+        response: 'ResponseV1'
       },
       TransferAsset: {
         Vassets: 'MultiAssetsV1',
@@ -113,6 +113,106 @@ const xcm = {
         who: 'MultiLocationV1',
         message: 'XcmV1'
       }
+    }
+  },
+  XcmErrorV0: {
+    _enum: {
+      Undefined: 'Null',
+      Overflow: 'Null',
+      Unimplemented: 'Null',
+      UnhandledXcmVersion: 'Null',
+      UnhandledXcmMessage: 'Null',
+      UnhandledEffect: 'Null',
+      EscalationOfPrivilege: 'Null',
+      UntrustedReserveLocation: 'Null',
+      UntrustedTeleportLocation: 'Null',
+      DestinationBufferOverflow: 'Null',
+      SendFailed: 'Null',
+      CannotReachDestination: '(MultiLocation, Xcm)',
+      MultiLocationFull: 'Null',
+      FailedToDecode: 'Null',
+      BadOrigin: 'Null',
+      ExceedsMaxMessageSize: 'Null',
+      FailedToTransactAsset: 'Null',
+      WeightLimitReached: 'Weight',
+      Wildcard: 'Null',
+      TooMuchWeightRequired: 'Null',
+      NotHoldingFees: 'Null',
+      WeightNotComputable: 'Null',
+      Barrier: 'Null',
+      NotWithdrawable: 'Null',
+      LocationCannotHold: 'Null',
+      TooExpensive: 'Null'
+    }
+  },
+  XcmErrorV1: {
+    _enum: {
+      Undefined: 'Null',
+      Overflow: 'Null',
+      Unimplemented: 'Null',
+      UnhandledXcmVersion: 'Null',
+      UnhandledXcmMessage: 'Null',
+      UnhandledEffect: 'Null',
+      EscalationOfPrivilege: 'Null',
+      UntrustedReserveLocation: 'Null',
+      UntrustedTeleportLocation: 'Null',
+      DestinationBufferOverflow: 'Null',
+      SendFailed: 'Null',
+      CannotReachDestination: '(MultiLocationV1, XcmV1)',
+      MultiLocationFull: 'Null',
+      FailedToDecode: 'Null',
+      BadOrigin: 'Null',
+      ExceedsMaxMessageSize: 'Null',
+      FailedToTransactAsset: 'Null',
+      WeightLimitReached: 'Weight',
+      Wildcard: 'Null',
+      TooMuchWeightRequired: 'Null',
+      NotHoldingFees: 'Null',
+      WeightNotComputable: 'Null',
+      Barrier: 'Null',
+      NotWithdrawable: 'Null',
+      LocationCannotHold: 'Null',
+      TooExpensive: 'Null',
+      AssetNotFound: 'Null',
+      DestinationUnsupported: 'Null',
+      RecursionLimitReached: 'Null'
+    }
+  },
+  XcmErrorV2: {
+    _enum: {
+      Undefined: 'Null',
+      Overflow: 'Null',
+      Unimplemented: 'Null',
+      UnhandledXcmVersion: 'Null',
+      UnhandledXcmMessage: 'Null',
+      UnhandledEffect: 'Null',
+      EscalationOfPrivilege: 'Null',
+      UntrustedReserveLocation: 'Null',
+      UntrustedTeleportLocation: 'Null',
+      DestinationBufferOverflow: 'Null',
+      MultiLocationFull: 'Null',
+      MultiLocationNotInvertible: 'Null',
+      FailedToDecode: 'Null',
+      BadOrigin: 'Null',
+      ExceedsMaxMessageSize: 'Null',
+      FailedToTransactAsset: 'Null',
+      WeightLimitReached: 'Weight',
+      Wildcard: 'Null',
+      TooMuchWeightRequired: 'Null',
+      NotHoldingFees: 'Null',
+      WeightNotComputable: 'Null',
+      Barrier: 'Null',
+      NotWithdrawable: 'Null',
+      LocationCannotHold: 'Null',
+      TooExpensive: 'Null',
+      AssetNotFound: 'Null',
+      DestinationUnsupported: 'Null',
+      RecursionLimitReached: 'Null',
+      Transport: 'Null',
+      Unroutable: 'Null',
+      UnknownWeightRequired: 'Null',
+      Trap: 'u64',
+      UnknownClaim: 'Null'
     }
   },
   XcmpMessageFormat: {
@@ -269,23 +369,23 @@ const multiAsset = {
       AllNonFungible: 'Null',
       AllAbstractFungible: 'Vec<u8>',
       AllAbstractNonFungible: 'Vec<u8>',
-      AllConcreteFungible: 'MultiLocation',
-      AllConcreteNonFungible: 'MultiLocation',
+      AllConcreteFungible: 'MultiLocationV0',
+      AllConcreteNonFungible: 'MultiLocationV0',
       AbstractFungible: {
         id: 'Vec<u8>',
         instance: 'Compact<u128>'
       },
       AbstractNonFungible: {
         class: 'Vec<u8>',
-        instance: 'AssetInstance'
+        instance: 'AssetInstanceV0'
       },
       ConcreteFungible: {
-        id: 'MultiLocation',
+        id: 'MultiLocationV0',
         amount: 'Compact<u128>'
       },
       ConcreteNonFungible: {
-        class: 'MultiLocation',
-        instance: 'AssetInstance'
+        class: 'MultiLocationV0',
+        instance: 'AssetInstanceV0'
       }
     }
   },
@@ -293,8 +393,10 @@ const multiAsset = {
     id: 'XcmAssetId',
     fungibility: 'Fungibility'
   },
+  MultiAssetV2: 'MultiAssetV1',
   MultiAssets: 'Vec<MultiAsset>',
   MultiAssetsV1: 'Vec<MultiAssetV1>',
+  MultiAssetsV2: 'MultiAssetsV1',
   WildFungibility: {
     _enum: ['Fungible', 'NonFungible']
   },
@@ -310,7 +412,7 @@ const multiAsset = {
   }
 };
 
-const junction = {
+const location = {
   BodyId: {
     _enum: {
       Unit: 'Null',
@@ -366,6 +468,19 @@ const junction = {
       }
     }
   },
+  MultiLocation: {
+    _enum: {
+      Here: 'Null',
+      X1: 'Junction',
+      X2: '(Junction, Junction)',
+      X3: '(Junction, Junction, Junction)',
+      X4: '(Junction, Junction, Junction, Junction)',
+      X5: '(Junction, Junction, Junction, Junction, Junction)',
+      X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
+      X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
+      X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
+    }
+  },
   NetworkId: {
     _enum: {
       Any: 'Null',
@@ -379,69 +494,58 @@ const junction = {
 export default {
   rpc: {},
   types: {
-    ...junction,
+    ...location,
     ...multiAsset,
     ...xcm,
     ...xmcOrder,
-    DoubleEncodedCall: { encoded: 'Vec<u8>' },
+    DoubleEncodedCall: {
+      encoded: 'Vec<u8>'
+    },
     XcmOriginKind: {
       _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
     },
-    XcmResponse: {
+    Response: 'ResponseV1',
+    ResponseV0: {
       _enum: {
-        Assets: 'Vec<MultiAsset>'
+        Assets: 'Vec<MultiAssetV0>'
       }
     },
-    XcmError: {
+    ResponseV1: {
       _enum: {
-        Undefined: 'Null',
-        Overflow: 'Null',
-        Unimplemented: 'Null',
-        UnhandledXcmVersion: 'Null',
-        UnhandledXcmMessage: 'Null',
-        UnhandledEffect: 'Null',
-        EscalationOfPrivilege: 'Null',
-        UntrustedReserveLocation: 'Null',
-        UntrustedTeleportLocation: 'Null',
-        DestinationBufferOverflow: 'Null',
-        SendFailed: 'Null', // (#[codec(skip)] &'static str),
-        CannotReachDestination: '(MultiLocation, Xcm)',
-        MultiLocationFull: 'Null',
-        FailedToDecode: 'Null',
-        BadOrigin: 'Null',
-        ExceedsMaxMessageSize: 'Null',
-        FailedToTransactAsset: 'Null', // (#[codec(skip)] &'static str),
-        WeightLimitReached: 'Weight',
-        Wildcard: 'Null',
-        TooMuchWeightRequired: 'Null',
-        NotHoldingFees: 'Null',
-        WeightNotComputable: 'Null',
-        Barrier: 'Null',
-        NotWithdrawable: 'Null',
-        LocationCannotHold: 'Null',
-        TooExpensive: 'Null'
+        Assets: 'MultiAssetsV1'
       }
     },
+    ResponseV2: {
+      _enum: {
+        Null: 'Null',
+        Assets: 'MultiAssetsV2',
+        ExecutionResult: 'ResponseV2Result'
+      }
+    },
+    ResponseV2Error: '(u32, XcmErrorV2)',
+    ResponseV2Result: 'Result<Null, ResponseV2Error>',
     MultiLocationV0: 'MultiLocation',
     MultiLocationV1: 'MultiLocation',
-    MultiLocation: {
-      _enum: {
-        Here: 'Null',
-        X1: 'Junction',
-        X2: '(Junction, Junction)',
-        X3: '(Junction, Junction, Junction)',
-        X4: '(Junction, Junction, Junction, Junction)',
-        X5: '(Junction, Junction, Junction, Junction, Junction)',
-        X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
-        X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
-        X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
-      }
-    },
+    MultiLocationV2: 'MultiLocation',
     Outcome: {
       _enum: {
         Complete: 'Weight',
-        Incomplete: '(Weight, XcmError)',
-        Error: 'XcmError'
+        Incomplete: '(Weight, XcmErrorV0)',
+        Error: 'XcmErrorV0'
+      }
+    },
+    QueryId: 'u64',
+    QueryStatus: {
+      _enum: {
+        Pending: {
+          responder: 'VersionedMultiLocation',
+          maybeNotify: 'Option<(u8, u8)>',
+          timeout: 'BlockNumber'
+        },
+        Ready: {
+          response: 'VersionedResponse',
+          at: 'BlockNumber'
+        }
       }
     },
     QueueConfigData: {
@@ -454,20 +558,28 @@ export default {
     VersionedMultiAsset: {
       _enum: {
         V0: 'MultiAssetV0',
-        V1: 'MultiAssetV1'
+        V1: 'MultiAssetV1',
+        V2: 'MultiAssetV2'
       }
     },
     VersionedMultiAssets: {
       _enum: {
         V0: 'Vec<MultiAssetV0>',
-        V1: 'MultiAssetsV1'
+        V1: 'MultiAssetsV1',
+        V2: 'MultiAssetsV2'
       }
     },
     VersionedMultiLocation: {
       _enum: {
         V0: 'MultiLocationV0',
-        V1: 'MultiLocationV1'
+        V1: 'MultiLocationV1',
+        V2: 'MultiLocationV2'
       }
+    },
+    VersionedResponse: {
+      V0: 'ResponseV0',
+      V1: 'ResponseV1',
+      V2: 'ResponseV2'
     },
     VersionedXcm: {
       _enum: {

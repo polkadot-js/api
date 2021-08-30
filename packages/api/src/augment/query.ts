@@ -1146,6 +1146,9 @@ declare module '@polkadot/api/types/storage' {
       eventCount: AugmentedQuery<ApiType, () => Observable<EventIndex>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Events deposited for the current block.
+       * 
+       * NOTE: This storage item is explicitly unbounded since it is never intended to be read
+       * from within the runtime.
        **/
       events: AugmentedQuery<ApiType, () => Observable<Vec<EventRecord>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -1373,9 +1376,15 @@ declare module '@polkadot/api/types/storage' {
     };
     vesting: {
       /**
+       * Storage version of the pallet.
+       * 
+       * New networks start with latest version, as determined by the genesis build.
+       **/
+      storageVersion: AugmentedQuery<ApiType, () => Observable<Releases>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Information regarding the vesting of a given account.
        **/
-      vesting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<VestingInfo>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
+      vesting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<Vec<VestingInfo>>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
        * Generic query
        **/

@@ -130,7 +130,10 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Events deposited for the current block."
+                  " Events deposited for the current block.",
+                  "",
+                  " NOTE: This storage item is explicitly unbounded since it is never intended to be read",
+                  " from within the runtime."
                 ]
               },
               {
@@ -7788,7 +7791,7 @@
             {
               "name": "Schedule",
               "type": "Schedule",
-              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000810600004e6202009680030050150000ee180000c2090000cf140000b52600009a000000cc5101005dc002004d090000a206000059080000d80600002b1c0000d41e0000ec0900005ca8b5082d08000043070000e40a00000a0700008d0600000d0600009a0600001f08000010080000be0700008f080000040800004c080000ff07000024080000520800001d080000ac0700003608000029070000ec1f0000881e0000cb200000771e000032080000b7070000f2070000900900000d09000094080000810800001e0800008a25230000000000902e2300000000006c4e22000000000054624900000000008a53220000000000ea3e2200000000003e2c220000000000de18220000000000f04c220000000000ee3a220000000000b2054300000000004e5011000000000050d6650000000000f2030000000000005037410000000000e30100000000000050a02b2000000000587eaf290000000004ece30800000000d4e9550000000000ae7c7f0000000000cabfbe0700000000b90500000000000002af120000000000d2c0170000000000ead5bf07000000009601000000000000d2280c08000000005242e201000000006b03000000000000c2e5520a000000006a36c80f00000000a2c639080000000039010000000000001302000000000000d2b3ac22000000004a010000000000002d02000000000000de0600000000000086ad210000000000a11100000000000080ad220000000000f00b000000000000487b1e0000000000fe0400000000000092fe1e0000000000fe04000000000000",
+              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000eb130000ae310000ab370000ba160000bb2b0000222000008c1a0000c83000005200000021e2020044620400151300005c1000005415000042150000f02600000731000070100000d5e3c402001600004016000011160000fb150000e5150000f815000026160000c01600004a16000070160000ac16000091160000cf160000d3160000eb160000f8150000f21600009d1600007a1600005c160000072f00000e250000d22f0000ad2400007c1a0000831600008716000002170000b51600008916000090160000a81600003ee4140000000000de0715000000000020e9140000000000aadd3b0000000000c4ea1400000000004af614000000000074fe14000000000044f714000000000088d614000000000084ee140000000000065f3100000000006276090000000000f0a6310000000000a504000000000000103d260000000000db020000000000007045df1f0000000028135a290000000056f6e60800000000a4bd4300000000003cfe6f000000000032eac2070000000078070000000000006c0f0c00000000001a3c0e0000000000007eb107000000005303000000000000b275fd0700000000c4bed00100000000170500000000000016ed470a000000003677ec24000000009a5c380800000000df02000000000000a2040000000000002888813700000000df02000000000000a0040000000000008b0800000000000028e015000000000085130000000000008a22170000000000b90d0000000000005cbe120000000000b906000000000000a8d6120000000000ba06000000000000",
               "docs": [
                 " Cost schedule and limits."
               ]
@@ -7875,7 +7878,7 @@
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0x18040000",
+              "value": "0xed030000",
               "docs": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -10864,13 +10867,26 @@
                   "map": {
                     "hasher": "Blake2_128Concat",
                     "key": "AccountId",
-                    "value": "VestingInfo",
+                    "value": "Vec<VestingInfo>",
                     "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
                   " Information regarding the vesting of a given account."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": "Releases"
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with latest version, as determined by the genesis build."
                 ]
               }
             ]
@@ -10938,11 +10954,12 @@
                 "",
                 " The dispatch origin for this call must be _Signed_.",
                 "",
-                " - `target`: The account that should be transferred the vested funds.",
-                " - `amount`: The amount of funds to transfer and will be vested.",
+                " - `target`: The account receiving the vested funds.",
                 " - `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 " Emits `VestingCreated`.",
+                "",
+                " NOTE: This will unlock all schedules through the current block.",
                 "",
                 " # <weight>",
                 " - `O(1)`.",
@@ -10975,10 +10992,11 @@
                 "",
                 " - `source`: The account whose funds should be transferred.",
                 " - `target`: The account that should be transferred the vested funds.",
-                " - `amount`: The amount of funds to transfer and will be vested.",
                 " - `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 " Emits `VestingCreated`.",
+                "",
+                " NOTE: This will unlock all schedules through the current block.",
                 "",
                 " # <weight>",
                 " - `O(1)`.",
@@ -10986,6 +11004,42 @@
                 "     - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "     - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
                 " # </weight>"
+              ]
+            },
+            {
+              "name": "merge_schedules",
+              "args": [
+                {
+                  "name": "schedule1_index",
+                  "type": "u32"
+                },
+                {
+                  "name": "schedule2_index",
+                  "type": "u32"
+                }
+              ],
+              "docs": [
+                " Merge two vesting schedules together, creating a new vesting schedule that unlocks over",
+                " the highest possible start and end blocks. If both schedules have already started the",
+                " current block will be used as the schedule start; with the caveat that if one schedule",
+                " is finished by the current block, the other will be treated as the new merged schedule,",
+                " unmodified.",
+                "",
+                " NOTE: If `schedule1_index == schedule2_index` this is a no-op.",
+                " NOTE: This will unlock all schedules through the current block prior to merging.",
+                " NOTE: If both schedules have ended by the current block, no new schedule will be created",
+                " and both will be removed.",
+                "",
+                " Merged schedule attributes:",
+                " - `starting_block`: `MAX(schedule1.starting_block, scheduled2.starting_block,",
+                "   current_block)`.",
+                " - `ending_block`: `MAX(schedule1.ending_block, schedule2.ending_block)`.",
+                " - `locked`: `schedule1.locked_at(current_block) + schedule2.locked_at(current_block)`.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `schedule1_index`: index of the first schedule to merge.",
+                " - `schedule2_index`: index of the second schedule to merge."
               ]
             }
           ],
@@ -10997,8 +11051,8 @@
                 "Balance"
               ],
               "docs": [
-                " The amount vested has been updated. This could indicate more funds are available. The",
-                " balance given is the amount which is left unvested (and thus locked).",
+                " The amount vested has been updated. This could indicate a change in funds available.",
+                " The balance given is the amount which is left unvested (and thus locked).",
                 " \\[account, unvested\\]"
               ]
             },
@@ -11008,7 +11062,7 @@
                 "AccountId"
               ],
               "docs": [
-                " An \\[account\\] has become fully vested. No further vesting can happen."
+                " An \\[account\\] has become fully vested."
               ]
             }
           ],
@@ -11020,6 +11074,12 @@
               "docs": [
                 " The minimum amount transferred to call `vested_transfer`."
               ]
+            },
+            {
+              "name": "MaxVestingSchedules",
+              "type": "u32",
+              "value": "0x1c000000",
+              "docs": []
             }
           ],
           "errors": [
@@ -11030,15 +11090,28 @@
               ]
             },
             {
-              "name": "ExistingVestingSchedule",
+              "name": "AtMaxVestingSchedules",
               "docs": [
-                " An existing vesting schedule already exists for this account that cannot be clobbered."
+                " The account already has `MaxVestingSchedules` count of schedules and thus",
+                " cannot add another one. Consider merging existing schedules in order to add another."
               ]
             },
             {
               "name": "AmountLow",
               "docs": [
                 " Amount being transferred is too low to create a vesting schedule."
+              ]
+            },
+            {
+              "name": "ScheduleIndexOutOfBounds",
+              "docs": [
+                " An index was out of bounds of the vesting schedules."
+              ]
+            },
+            {
+              "name": "InvalidScheduleParams",
+              "docs": [
+                " Failed to create a new schedule because some parameter was invalid."
               ]
             }
           ],
@@ -11769,6 +11842,18 @@
               ],
               "docs": [
                 " An announcement was placed to make a call in the future. \\[real, proxy, call_hash\\]"
+              ]
+            },
+            {
+              "name": "ProxyAdded",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "ProxyType",
+                "BlockNumber"
+              ],
+              "docs": [
+                " A proxy was added. \\[delegator, delegatee, proxy_type, delay\\]"
               ]
             }
           ],
@@ -15846,7 +15931,7 @@
                 "AccountId"
               ],
               "docs": [
-                " An asset `instace` was issued. \\[ class, instance, owner \\]"
+                " An asset `instance` was issued. \\[ class, instance, owner \\]"
               ]
             },
             {
@@ -15858,7 +15943,7 @@
                 "AccountId"
               ],
               "docs": [
-                " An asset `instace` was transferred. \\[ class, instance, from, to \\]"
+                " An asset `instance` was transferred. \\[ class, instance, from, to \\]"
               ]
             },
             {

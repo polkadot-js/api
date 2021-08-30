@@ -195,6 +195,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       AssetInstance: 'AssetInstanceV0',
       MultiAsset: 'MultiAssetV0',
+      Response: 'ResponseV0',
       Xcm: 'XcmV0',
       XcmOrder: 'XcmOrderV0'
     }
