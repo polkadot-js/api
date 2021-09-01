@@ -16,18 +16,5 @@ module.exports = {
     // eslint-disable-next-line sort-keys
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
-  modulePathIgnorePatterns: [
-    '<rootDir>/packages/api/build',
-    '<rootDir>/packages/api-contract/build',
-    '<rootDir>/packages/api-derive/build',
-    '<rootDir>/packages/metadata/build',
-    '<rootDir>/packages/rpc-core/build',
-    '<rootDir>/packages/rpc-provider/build',
-    '<rootDir>/packages/typegen/build',
-    '<rootDir>/packages/types/build',
-    '<rootDir>/packages/types-known/build',
-    '<rootDir>/packages/types-support/build'
-  ],
-  testTimeout: 30000,
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
+  testTimeout: 30000
 };
