@@ -1494,5 +1494,9 @@ export default {
   /**
    * Lookup513: pallet_transaction_payment::ChargeTransactionPayment<T>
    **/
-  PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>'
+  PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
+  /**
+   * Lookup514: node_runtime::Runtime
+   **/
+  NodeRuntimeRuntime: 'Null'
 } as DefinitionsTypes;

@@ -1492,4 +1492,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletTransactionPaymentChargeTransactionPayment (513) */
   export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
+  /** @name NodeRuntimeRuntime (514) */
+  export type NodeRuntimeRuntime = Null;
+
 }

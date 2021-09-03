@@ -641,10 +641,6 @@ declare module '@polkadot/api/types/events' {
        **/
       ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, NodeRuntimeProxyType, u32]>;
       /**
-       * A proxy was added. \[delegator, delegatee, proxy_type, delay\]
-       **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId, AccountId, ProxyType, BlockNumber]>;
-      /**
        * A proxy was executed correctly, with the given \[result\].
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
