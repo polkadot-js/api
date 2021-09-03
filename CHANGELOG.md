@@ -2,6 +2,13 @@
 
 ## master
 
+Changes:
+
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.7.1 Aug 29, 2021
+
 Upgrade priority: Low.
 
 Changes:
