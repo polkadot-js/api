@@ -244,13 +244,6 @@ declare module '@polkadot/api/types/consts' {
        **/
       voteLockingPeriod: u32 & AugmentedConst<ApiType>;
       /**
-       * The minimum period of vote locking.
-       * 
-       * It should be no shorter than enactment period to ensure that in the case of an approval,
-       * those successful voters are locked into the consequences that their votes entail.
-       **/
-      voteLockingPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
        * How often (in blocks) to check for new votes.
        **/
       votingPeriod: u32 & AugmentedConst<ApiType>;
