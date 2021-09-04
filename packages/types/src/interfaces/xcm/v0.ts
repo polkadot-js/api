@@ -51,6 +51,9 @@ export const v0: DefinitionsTypes = {
     }
   },
   MultiLocationV0: 'MultiLocation',
+  OriginKindV0: {
+    _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
+  },
   ResponseV0: {
     _enum: {
       Assets: 'Vec<MultiAssetV0>'

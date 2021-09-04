@@ -29,7 +29,11 @@ export const v1: DefinitionsTypes = {
       Wild: 'WildMultiAssetV1'
     }
   },
-  MultiLocationV1: 'MultiLocation',
+  MultiLocationV1: {
+    parents: 'u8',
+    interior: 'Junctions'
+  },
+  OriginKindV1: 'OriginKindV0',
   ResponseV1: {
     _enum: {
       Assets: 'MultiAssetsV1'

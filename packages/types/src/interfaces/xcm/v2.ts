@@ -10,7 +10,8 @@ export const v2: DefinitionsTypes = {
   MultiAssetsV2: 'MultiAssetsV1',
   MultiAssetV2: 'MultiAssetV1',
   MultiAssetFilterV2: 'MultiAssetFilterV1',
-  MultiLocationV2: 'MultiLocation',
+  MultiLocationV2: 'MultiLocationV1',
+  OriginKindV2: 'OriginKindV1',
   ResponseV2: {
     _enum: {
       Null: 'Null',
@@ -20,6 +21,12 @@ export const v2: DefinitionsTypes = {
   },
   ResponseV2Error: '(u32, XcmErrorV2)',
   ResponseV2Result: 'Result<Null, ResponseV2Error>',
+  WeightLimitV2: {
+    _enum: {
+      Unlimited: 'Null',
+      Limited: 'Compact<u64>'
+    }
+  },
   InstructionV2: {
     _enum: {
       WithdrawAsset: 'MultiAssetsV2',
@@ -40,7 +47,7 @@ export const v2: DefinitionsTypes = {
         xcm: 'XcmV2'
       },
       Transact: {
-        originType: OriginKind,
+        originType: 'OriginKindV2',
         requireWeightAtMost: 'u64',
         call: 'DoubleEncodedCall'
       },
@@ -97,7 +104,7 @@ export const v2: DefinitionsTypes = {
       },
       BuyExecution: {
         fees: 'MultiAssetV2',
-        weightLimit: WeightLimit
+        weightLimit: 'WeightLimitV2'
       },
       RefundSurplus: 'Null',
       SetErrorHandler: 'XcmV2',
