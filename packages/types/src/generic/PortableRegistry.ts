@@ -3,7 +3,7 @@
 
 import type { Vec } from '../codec/Vec';
 import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefRange, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
 import type { Text } from '../primitive/Text';
 import type { Type } from '../primitive/Type';
 import type { Registry, TypeDef } from '../types';
@@ -258,8 +258,6 @@ export class GenericPortableRegistry extends Struct {
         typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat);
       } else if (type.def.isPrimitive) {
         typeDef = this.#extractPrimitive(lookupIndex, type);
-      } else if (type.def.isRange) {
-        typeDef = this.#extractRange(lookupIndex, type.def.asRange);
       } else if (type.def.isSequence) {
         typeDef = this.#extractSequence(lookupIndex, type.def.asSequence);
       } else if (type.def.isTuple) {
@@ -314,10 +312,22 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
-    if (path.length === 1 && path[0].eq('BTreeMap')) {
+    const specialVariant = path[0].toString();
+
+    if (path.length === 1 && specialVariant === 'BTreeMap') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.BTreeMap,
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
+      });
+    } else if (['Range', 'RangeInclusive'].includes(specialVariant)) {
+      return withTypeString(this.registry, {
+        info: TypeDefInfo.Range,
+        sub: fields.map(({ name, type }, index) => ({
+          name: name.isSome
+            ? name.unwrap().toString()
+            : ['start', 'end'][index],
+          ...this.#createSiDef(type)
+        }))
       });
     }
 
@@ -452,19 +462,6 @@ export class GenericPortableRegistry extends Struct {
       info: TypeDefInfo.Plain,
       type
     };
-  }
-
-  #extractRange (lookupIndex: number, { end, start }: SiTypeDefRange): TypeDef {
-    // NOTE Currently we don't handle SiTypeDefRange.inclusive
-    return withTypeString(this.registry, {
-      info: TypeDefInfo.Range,
-      lookupIndex,
-      lookupName: this.#names[lookupIndex],
-      sub: [
-        this.#createSiDef(start),
-        this.#createSiDef(end)
-      ]
-    });
   }
 
   #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {

@@ -202,8 +202,7 @@ declare module '@polkadot/api/types/consts' {
        **/
       cooloffPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
-       * The minimum period of locking and the period between a proposal being approved and
-       * enacted.
+       * The period between a proposal being approved and enacted.
        * 
        * It should generally be a little more than the unstake period to ensure that
        * voting stakers have an opportunity to remove themselves from the system in the case
@@ -243,6 +242,13 @@ declare module '@polkadot/api/types/consts' {
        * The amount of balance that must be deposited per byte of preimage stored.
        **/
       preimageByteDeposit: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * The minimum period of vote locking.
+       * 
+       * It should be no shorter than enactment period to ensure that in the case of an approval,
+       * those successful voters are locked into the consequences that their votes entail.
+       **/
+      voteLockingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * How often (in blocks) to check for new votes.
        **/

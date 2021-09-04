@@ -20,6 +20,7 @@ const xcm = {
   XcmpMessageFormat: {
     _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
   },
+  XcmError: 'XcmErrorV1',
   XcmOrder: 'XcmOrderV1',
   XcmAssetId: {
     _enum: {
@@ -173,6 +174,14 @@ export default {
       thresholdWeight: 'Weight',
       weightRestrictDecay: 'Weight'
     },
+    VersionMigrationStage: {
+      _enum: {
+        MigrateSupportedVersion: 'Null',
+        MigrateVersionNotifiers: 'Null',
+        NotifyCurrentTargets: 'Option<Bytes>',
+        MigrateAndNotifyOldTargets: 'Null'
+      }
+    },
     VersionedMultiAsset: {
       _enum: {
         V0: 'MultiAssetV0',
@@ -205,6 +214,7 @@ export default {
         V1: 'XcmV1',
         V2: 'XcmV2'
       }
-    }
+    },
+    XcmVersion: 'u32'
   }
 } as Definitions;
