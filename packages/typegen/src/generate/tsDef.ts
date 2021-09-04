@@ -138,7 +138,11 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 
   setImports(definitions, imports, [def.type]);
 
-  return exportInterface(def.lookupIndex, def.name, def.lookupName || formatType(registry, definitions, def, imports, false), inner);
+  const fmtType = def.lookupName && def.name !== def.lookupName
+    ? def.lookupName
+    : formatType(registry, definitions, def, imports, false);
+
+  return exportInterface(def.lookupIndex, def.name, fmtType, inner);
 }
 
 /** @internal */
@@ -166,9 +170,11 @@ function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>,
   setImports(definitions, imports, ['Struct']);
 
   const keys = (sub as TypeDef[]).map((def): string => {
-    const returnType = def.lookupName || formatType(registry, definitions, def, imports, false);
+    const fmtType = def.lookupName && def.name !== def.lookupName
+      ? def.lookupName
+      : formatType(registry, definitions, def, imports, false);
 
-    return createGetter(definitions, def.name, returnType, imports);
+    return createGetter(definitions, def.name, fmtType, imports);
   });
 
   return exportInterface(lookupIndex, structName, 'Struct', keys.join(''));
@@ -195,7 +201,11 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
     }
   }
 
-  return exportInterface(def.lookupIndex, def.name, def.lookupName || formatType(registry, definitions, def, imports, false));
+  const fmtType = def.lookupName && def.name !== def.lookupName
+    ? def.lookupName
+    : formatType(registry, definitions, def, imports, false);
+
+  return exportInterface(def.lookupIndex, def.name, fmtType);
 }
 
 // handlers are defined externally to use - this means that when we do a

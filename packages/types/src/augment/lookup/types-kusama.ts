@@ -206,7 +206,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name XcmV2Xcm (119) */
-  export interface XcmV2Xcm extends XcmV2Xcm {}
+  export interface XcmV2Xcm extends Vec<XcmV2Instruction> {}
 
   /** @name XcmV2Instruction (121) */
   export interface XcmV2Instruction extends Enum {
@@ -324,7 +324,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name XcmV1MultiassetMultiAssets (122) */
-  export interface XcmV1MultiassetMultiAssets extends XcmV1MultiassetMultiAssets {}
+  export interface XcmV1MultiassetMultiAssets extends Vec<XcmV1MultiAsset> {}
 
   /** @name XcmV1MultiAsset (124) */
   export interface XcmV1MultiAsset extends Struct {
