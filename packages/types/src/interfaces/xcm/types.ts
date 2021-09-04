@@ -371,6 +371,15 @@ export interface VersionedXcm extends Enum {
   readonly asV1: XcmV1;
 }
 
+/** @name VersionMigrationStage */
+export interface VersionMigrationStage extends Enum {
+  readonly isMigrateSupportedVersion: boolean;
+  readonly isMigrateVersionNotifiers: boolean;
+  readonly isNotifyCurrentTargets: boolean;
+  readonly asNotifyCurrentTargets: Option<Bytes>;
+  readonly isMigrateAndNotifyOldTargets: boolean;
+}
+
 /** @name WildFungibility */
 export interface WildFungibility extends Enum {
   readonly isFungible: boolean;
@@ -400,6 +409,9 @@ export interface XcmAssetId extends Enum {
   readonly isAbstract: boolean;
   readonly asAbstract: Bytes;
 }
+
+/** @name XcmError */
+export interface XcmError extends XcmErrorV1 {}
 
 /** @name XcmErrorV0 */
 export interface XcmErrorV0 extends Enum {
@@ -751,5 +763,8 @@ export interface XcmV1 extends Enum {
     readonly message: XcmV1;
   } & Struct;
 }
+
+/** @name XcmVersion */
+export interface XcmVersion extends u32 {}
 
 export type PHANTOM_XCM = 'xcm';
