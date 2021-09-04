@@ -4950,8 +4950,7 @@
               "type": "BlockNumber",
               "value": "0x00c20100",
               "docs": [
-                " The minimum period of locking and the period between a proposal being approved and",
-                " enacted.",
+                " The period between a proposal being approved and enacted.",
                 "",
                 " It should generally be a little more than the unstake period to ensure that",
                 " voting stakers have an opportunity to remove themselves from the system in the case",
@@ -4972,6 +4971,17 @@
               "value": "0xc0890100",
               "docs": [
                 " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "VoteLockingPeriod",
+              "type": "BlockNumber",
+              "value": "0x00c20100",
+              "docs": [
+                " The minimum period of vote locking.",
+                "",
+                " It should be no shorter than enactment period to ensure that in the case of an approval,",
+                " those successful voters are locked into the consequences that their votes entail."
               ]
             },
             {
@@ -16544,7 +16554,7 @@
             "prefix": "XcmPallet",
             "items": [
               {
-                "name": "QueryCount",
+                "name": "QueryCounter",
                 "modifier": "Default",
                 "type": {
                   "plain": "QueryId"
@@ -16587,6 +16597,94 @@
                   "",
                   " Key is the blake2 256 hash of (origin, versioned `MultiAssets`) pair. Value is the number of",
                   " times this pair has been trapped (usually just 1 if it exists at all)."
+                ]
+              },
+              {
+                "name": "SafeXcmVersion",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "XcmVersion"
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Default version to encode XCM when latest version of destination is unknown. If `None`,",
+                  " then the destinations whose XCM version is unknown are considered unreachable."
+                ]
+              },
+              {
+                "name": "SupportedVersion",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "XcmVersion",
+                    "key2": "VersionedMultiLocation",
+                    "value": "XcmVersion",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Latest versions that we know various locations support."
+                ]
+              },
+              {
+                "name": "VersionNotifiers",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "XcmVersion",
+                    "key2": "VersionedMultiLocation",
+                    "value": "QueryId",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " All locations that we have requested version notifications from."
+                ]
+              },
+              {
+                "name": "VersionNotifyTargets",
+                "modifier": "Optional",
+                "type": {
+                  "doubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "XcmVersion",
+                    "key2": "VersionedMultiLocation",
+                    "value": "(QueryId,u64,XcmVersion)",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The target locations that are subscribed to our version changes, as well as the most recent",
+                  " of our versions we informed them of."
+                ]
+              },
+              {
+                "name": "VersionDiscoveryQueue",
+                "modifier": "Default",
+                "type": {
+                  "plain": "Vec<(VersionedMultiLocation,u32)>"
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Destinations whose latest XCM version we would like to know. Duplicates not allowed, and",
+                  " the `u32` counter is the number of times that a send to the destination has been attempted,",
+                  " which is used as a prioritization."
+                ]
+              },
+              {
+                "name": "CurrentMigration",
+                "modifier": "Optional",
+                "type": {
+                  "plain": "VersionMigrationStage"
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current migration's stage, if any."
                 ]
               }
             ]
@@ -16703,6 +16801,75 @@
                 "",
                 " NOTE: A successful return to this does *not* imply that the `msg` was executed successfully",
                 " to completion; only that *some* of it was executed."
+              ]
+            },
+            {
+              "name": "force_xcm_version",
+              "args": [
+                {
+                  "name": "location",
+                  "type": "MultiLocation"
+                },
+                {
+                  "name": "xcm_version",
+                  "type": "XcmVersion"
+                }
+              ],
+              "docs": [
+                " Extoll that a particular destination can be communicated with through a particular",
+                " version of XCM.",
+                "",
+                " - `origin`: Must be Root.",
+                " - `location`: The destination that is being described.",
+                " - `xcm_version`: The latest version of XCM that `location` supports."
+              ]
+            },
+            {
+              "name": "force_default_xcm_version",
+              "args": [
+                {
+                  "name": "maybe_xcm_version",
+                  "type": "Option<XcmVersion>"
+                }
+              ],
+              "docs": [
+                " Set a safe XCM version (the version that XCM should be encoded with if the most recent",
+                " version a destination can accept is unknown).",
+                "",
+                " - `origin`: Must be Root.",
+                " - `maybe_xcm_version`: The default XCM encoding version, or `None` to disable."
+              ]
+            },
+            {
+              "name": "force_subscribe_version_notify",
+              "args": [
+                {
+                  "name": "location",
+                  "type": "VersionedMultiLocation"
+                }
+              ],
+              "docs": [
+                " Ask a location to notify us regarding their XCM version and any changes to it.",
+                "",
+                " - `origin`: Must be Root.",
+                " - `location`: The location to which we should subscribe for XCM version notifications."
+              ]
+            },
+            {
+              "name": "force_unsubscribe_version_notify",
+              "args": [
+                {
+                  "name": "location",
+                  "type": "VersionedMultiLocation"
+                }
+              ],
+              "docs": [
+                " Require that a particular destination should no longer notify us regarding any XCM",
+                " version changes.",
+                "",
+                " - `origin`: Must be Root.",
+                " - `location`: The location to which we are currently subscribed for XCM version",
+                "   notifications which we no longer desire."
               ]
             }
           ],
@@ -16823,7 +16990,7 @@
               "args": [
                 "MultiLocation",
                 "QueryId",
-                "MultiLocation"
+                "Option<MultiLocation>"
               ],
               "docs": [
                 " Expected query response has been received but the origin location of the response does",
@@ -16873,6 +17040,58 @@
                 " Some assets have been placed in an asset trap.",
                 "",
                 " \\[ hash, origin, assets \\]"
+              ]
+            },
+            {
+              "name": "VersionChangeNotified",
+              "args": [
+                "MultiLocation",
+                "XcmVersion"
+              ],
+              "docs": [
+                " An XCM version change notification message has been attempted to be sent.",
+                "",
+                " \\[ destination, result \\]"
+              ]
+            },
+            {
+              "name": "SupportedVersionChanged",
+              "args": [
+                "MultiLocation",
+                "XcmVersion"
+              ],
+              "docs": [
+                " The supported version of a location has been changed. This might be through an",
+                " automatic notification or a manual intervention.",
+                "",
+                " \\[ location, XCM version \\]"
+              ]
+            },
+            {
+              "name": "NotifyTargetSendFail",
+              "args": [
+                "MultiLocation",
+                "QueryId",
+                "XcmError"
+              ],
+              "docs": [
+                " A given location which had a version change subscription was dropped owing to an error",
+                " sending the notification to it.",
+                "",
+                " \\[ location, query ID, error \\]"
+              ]
+            },
+            {
+              "name": "NotifyTargetMigrationFail",
+              "args": [
+                "VersionedMultiLocation",
+                "QueryId"
+              ],
+              "docs": [
+                " A given location which had a version change subscription was dropped owing to an error",
+                " migrating the location to our new XCM format.",
+                "",
+                " \\[ location, query ID \\]"
               ]
             }
           ],
@@ -16938,6 +17157,25 @@
               "name": "BadVersion",
               "docs": [
                 " The version of the `Versioned` value used is not able to be interpreted."
+              ]
+            },
+            {
+              "name": "BadLocation",
+              "docs": [
+                " The given location could not be used (e.g. because it cannot be expressed in the",
+                " desired version of XCM)."
+              ]
+            },
+            {
+              "name": "NoSubscription",
+              "docs": [
+                " The referenced subscription could not be found."
+              ]
+            },
+            {
+              "name": "AlreadySubscribed",
+              "docs": [
+                " The location is invalid since it already has a subscription from us."
               ]
             }
           ],
