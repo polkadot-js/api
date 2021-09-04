@@ -90,7 +90,10 @@ declare module '@polkadot/types/lookup' {
     readonly asTechnicalCommittee: PalletCollectiveRawOriginInstance2;
   }
 
-  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (440) */
+  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (444) */
   export type PolkadotRuntimeCommonClaimsPrevalidateAttests = Null;
+
+  /** @name PolkadotRuntimeRuntime (445) */
+  export type PolkadotRuntimeRuntime = Null;
 
 }

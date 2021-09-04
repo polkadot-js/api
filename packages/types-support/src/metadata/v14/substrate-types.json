@@ -35332,5 +35332,21 @@
       },
       "docs": []
     }
+  },
+  {
+    "id": 514,
+    "type": {
+      "path": [
+        "node_runtime",
+        "Runtime"
+      ],
+      "params": [],
+      "def": {
+        "composite": {
+          "fields": []
+        }
+      },
+      "docs": []
+    }
   }
 ]

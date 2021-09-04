@@ -10,7 +10,7 @@ export default {
    * Lookup78: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   },
   /**
    * Lookup89: polkadot_primitives::v1::CandidateReceipt<primitive_types::H256>
@@ -42,19 +42,19 @@ export default {
    **/
   PolkadotPrimitivesV0CollatorAppSignature: 'SpCoreSr25519Signature',
   /**
-   * Lookup102: xcm::v0::traits::Outcome
+   * Lookup102: xcm::v2::traits::Outcome
    **/
-  XcmV0TraitsOutcome: {
+  XcmV2TraitsOutcome: {
     _enum: {
       Complete: 'u64',
-      Incomplete: '(u64,XcmV0TraitsError)',
-      Error: 'XcmV0TraitsError',
+      Incomplete: '(u64,XcmV2TraitsError)',
+      Error: 'XcmV2TraitsError',
     }
   },
   /**
-   * Lookup103: xcm::v0::traits::Error
+   * Lookup103: xcm::v2::traits::Error
    **/
-  XcmV0TraitsError: {
+  XcmV2TraitsError: {
     _enum: {
       Undefined: 'Null',
       Overflow: 'Null',
@@ -66,9 +66,8 @@ export default {
       UntrustedReserveLocation: 'Null',
       UntrustedTeleportLocation: 'Null',
       DestinationBufferOverflow: 'Null',
-      SendFailed: 'Null',
-      CannotReachDestination: '(XcmV0MultiLocation,XcmV0Xcm)',
       MultiLocationFull: 'Null',
+      MultiLocationNotInvertible: 'Null',
       FailedToDecode: 'Null',
       BadOrigin: 'Null',
       ExceedsMaxMessageSize: 'Null',
@@ -83,30 +82,51 @@ export default {
       LocationCannotHold: 'Null',
       TooExpensive: 'Null',
       AssetNotFound: 'Null',
+      DestinationUnsupported: 'Null',
+      RecursionLimitReached: 'Null',
+      Transport: 'Null',
+      Unroutable: 'Null',
+      UnknownWeightRequired: 'Null',
+      Trap: 'u64',
+      UnknownClaim: 'Null',
+      InvalidLocation: 'Null',
     }
   },
   /**
-   * Lookup104: xcm::v0::multi_location::MultiLocation
+   * Lookup105: polkadot_parachain::primitives::HrmpChannelId
    **/
-  XcmV0MultiLocation: {
+  PolkadotParachainPrimitivesHrmpChannelId: {
+    sender: 'u32',
+    recipient: 'u32'
+  },
+  /**
+   * Lookup111: xcm::v1::multilocation::MultiLocation
+   **/
+  XcmV1MultiLocation: {
+    parents: 'u8',
+    interior: 'XcmV1MultilocationJunctions'
+  },
+  /**
+   * Lookup112: xcm::v1::multilocation::Junctions
+   **/
+  XcmV1MultilocationJunctions: {
     _enum: {
-      Null: 'Null',
-      X1: 'XcmV0Junction',
-      X2: '(XcmV0Junction,XcmV0Junction)',
-      X3: '(XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X4: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X5: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X6: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X7: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X8: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      Here: 'Null',
+      X1: 'XcmV1Junction',
+      X2: '(XcmV1Junction,XcmV1Junction)',
+      X3: '(XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X4: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X5: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X6: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X7: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X8: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
     }
   },
   /**
-   * Lookup105: xcm::v0::junction::Junction
+   * Lookup113: xcm::v1::junction::Junction
    **/
-  XcmV0Junction: {
+  XcmV1Junction: {
     _enum: {
-      Parent: 'Null',
       Parachain: 'Compact<u32>',
       AccountId32: {
         network: 'XcmV0JunctionNetworkId',
@@ -121,9 +141,7 @@ export default {
         key: '[u8;20]',
       },
       PalletInstance: 'u8',
-      GeneralIndex: {
-        id: 'Compact<u128>',
-      },
+      GeneralIndex: 'Compact<u128>',
       GeneralKey: 'Bytes',
       OnlyChild: 'Null',
       Plurality: {
@@ -133,7 +151,7 @@ export default {
     }
   },
   /**
-   * Lookup107: xcm::v0::junction::NetworkId
+   * Lookup115: xcm::v0::junction::NetworkId
    **/
   XcmV0JunctionNetworkId: {
     _enum: {
@@ -144,15 +162,13 @@ export default {
     }
   },
   /**
-   * Lookup109: xcm::v0::junction::BodyId
+   * Lookup117: xcm::v0::junction::BodyId
    **/
   XcmV0JunctionBodyId: {
     _enum: {
       Unit: 'Null',
       Named: 'Bytes',
-      Index: {
-        id: 'Compact<u32>',
-      },
+      Index: 'Compact<u32>',
       Executive: 'Null',
       Technical: 'Null',
       Legislative: 'Null',
@@ -160,7 +176,7 @@ export default {
     }
   },
   /**
-   * Lookup110: xcm::v0::junction::BodyPart
+   * Lookup118: xcm::v0::junction::BodyPart
    **/
   XcmV0JunctionBodyPart: {
     _enum: {
@@ -183,7 +199,482 @@ export default {
     }
   },
   /**
-   * Lookup111: xcm::v0::Xcm<Call>
+   * Lookup119: xcm::v2::Xcm<Call>
+   **/
+  XcmV2Xcm: 'Vec<XcmV2Instruction>',
+  /**
+   * Lookup121: xcm::v2::Instruction<Call>
+   **/
+  XcmV2Instruction: {
+    _enum: {
+      WithdrawAsset: 'XcmV1MultiassetMultiAssets',
+      ReserveAssetDeposited: 'XcmV1MultiassetMultiAssets',
+      ReceiveTeleportedAsset: 'XcmV1MultiassetMultiAssets',
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmV2Response',
+        maxWeight: 'Compact<u64>',
+      },
+      TransferAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      TransferReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        dest: 'XcmV1MultiLocation',
+        xcm: 'XcmV2Xcm',
+      },
+      Transact: {
+        _alias: {
+          call_: 'call',
+        },
+        originType: 'XcmV0OriginKind',
+        requireWeightAtMost: 'Compact<u64>',
+        call_: 'XcmDoubleEncoded',
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>',
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>',
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>',
+      },
+      ClearOrigin: 'Null',
+      DescendOrigin: 'XcmV1MultilocationJunctions',
+      ReportError: {
+        queryId: 'Compact<u64>',
+        dest: 'XcmV1MultiLocation',
+        maxResponseWeight: 'Compact<u64>',
+      },
+      DepositAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'Compact<u32>',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      DepositReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'Compact<u32>',
+        dest: 'XcmV1MultiLocation',
+        xcm: 'XcmV2Xcm',
+      },
+      ExchangeAsset: {
+        give: 'XcmV1MultiassetMultiAssetFilter',
+        receive: 'XcmV1MultiassetMultiAssets',
+      },
+      InitiateReserveWithdraw: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        reserve: 'XcmV1MultiLocation',
+        xcm: 'XcmV2Xcm',
+      },
+      InitiateTeleport: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        dest: 'XcmV1MultiLocation',
+        xcm: 'XcmV2Xcm',
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'XcmV1MultiLocation',
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxResponseWeight: 'Compact<u64>',
+      },
+      BuyExecution: {
+        fees: 'XcmV1MultiAsset',
+        weightLimit: 'XcmV2WeightLimit',
+      },
+      RefundSurplus: 'Null',
+      SetErrorHandler: 'XcmV2Xcm',
+      SetAppendix: 'XcmV2Xcm',
+      ClearError: 'Null',
+      ClaimAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        ticket: 'XcmV1MultiLocation',
+      },
+      Trap: 'Compact<u64>',
+      SubscribeVersion: {
+        queryId: 'Compact<u64>',
+        maxResponseWeight: 'Compact<u64>',
+      },
+      UnsubscribeVersion: 'Null',
+    }
+  },
+  /**
+   * Lookup122: xcm::v1::multiasset::MultiAssets
+   **/
+  XcmV1MultiassetMultiAssets: 'Vec<XcmV1MultiAsset>',
+  /**
+   * Lookup124: xcm::v1::multiasset::MultiAsset
+   **/
+  XcmV1MultiAsset: {
+    id: 'XcmV1MultiassetAssetId',
+    fun: 'XcmV1MultiassetFungibility'
+  },
+  /**
+   * Lookup125: xcm::v1::multiasset::AssetId
+   **/
+  XcmV1MultiassetAssetId: {
+    _enum: {
+      Concrete: 'XcmV1MultiLocation',
+      Abstract: 'Bytes',
+    }
+  },
+  /**
+   * Lookup126: xcm::v1::multiasset::Fungibility
+   **/
+  XcmV1MultiassetFungibility: {
+    _enum: {
+      Fungible: 'Compact<u128>',
+      NonFungible: 'XcmV1MultiassetAssetInstance',
+    }
+  },
+  /**
+   * Lookup127: xcm::v1::multiasset::AssetInstance
+   **/
+  XcmV1MultiassetAssetInstance: {
+    _enum: {
+      Undefined: 'Null',
+      Index: 'Compact<u128>',
+      Array4: '[u8;4]',
+      Array8: '[u8;8]',
+      Array16: '[u8;16]',
+      Array32: '[u8;32]',
+      Blob: 'Bytes',
+    }
+  },
+  /**
+   * Lookup129: xcm::v2::Response
+   **/
+  XcmV2Response: {
+    _enum: {
+      Null: 'Null',
+      Assets: 'XcmV1MultiassetMultiAssets',
+      ExecutionResult: 'Result<Null, (u32,XcmV2TraitsError)>',
+      Version: 'u32',
+    }
+  },
+  /**
+   * Lookup132: xcm::v0::OriginKind
+   **/
+  XcmV0OriginKind: {
+    _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
+  },
+  /**
+   * Lookup133: xcm::double_encoded::DoubleEncoded<T>
+   **/
+  XcmDoubleEncoded: {
+    encoded: 'Bytes'
+  },
+  /**
+   * Lookup134: xcm::v1::multiasset::MultiAssetFilter
+   **/
+  XcmV1MultiassetMultiAssetFilter: {
+    _enum: {
+      Definite: 'XcmV1MultiassetMultiAssets',
+      Wild: 'XcmV1MultiassetWildMultiAsset',
+    }
+  },
+  /**
+   * Lookup135: xcm::v1::multiasset::WildMultiAsset
+   **/
+  XcmV1MultiassetWildMultiAsset: {
+    _enum: {
+      All: 'Null',
+      AllOf: {
+        id: 'XcmV1MultiassetAssetId',
+        fun: 'XcmV1MultiassetWildFungibility',
+      },
+    }
+  },
+  /**
+   * Lookup136: xcm::v1::multiasset::WildFungibility
+   **/
+  XcmV1MultiassetWildFungibility: {
+    _enum: ['Fungible', 'NonFungible']
+  },
+  /**
+   * Lookup137: xcm::v2::WeightLimit
+   **/
+  XcmV2WeightLimit: {
+    _enum: {
+      Unlimited: 'Null',
+      Limited: 'Compact<u64>',
+    }
+  },
+  /**
+   * Lookup139: xcm::VersionedMultiAssets
+   **/
+  XcmVersionedMultiAssets: {
+    _enum: {
+      V0: 'Vec<XcmV0MultiAsset>',
+      V1: 'XcmV1MultiassetMultiAssets',
+    }
+  },
+  /**
+   * Lookup141: xcm::v0::multi_asset::MultiAsset
+   **/
+  XcmV0MultiAsset: {
+    _enum: {
+      None: 'Null',
+      All: 'Null',
+      AllFungible: 'Null',
+      AllNonFungible: 'Null',
+      AllAbstractFungible: {
+        id: 'Bytes',
+      },
+      AllAbstractNonFungible: {
+        class: 'Bytes',
+      },
+      AllConcreteFungible: {
+        id: 'XcmV0MultiLocation',
+      },
+      AllConcreteNonFungible: {
+        class: 'XcmV0MultiLocation',
+      },
+      AbstractFungible: {
+        id: 'Bytes',
+        amount: 'Compact<u128>',
+      },
+      AbstractNonFungible: {
+        class: 'Bytes',
+        instance: 'XcmV1MultiassetAssetInstance',
+      },
+      ConcreteFungible: {
+        id: 'XcmV0MultiLocation',
+        amount: 'Compact<u128>',
+      },
+      ConcreteNonFungible: {
+        class: 'XcmV0MultiLocation',
+        instance: 'XcmV1MultiassetAssetInstance',
+      },
+    }
+  },
+  /**
+   * Lookup142: xcm::v0::multi_location::MultiLocation
+   **/
+  XcmV0MultiLocation: {
+    _enum: {
+      Null: 'Null',
+      X1: 'XcmV0Junction',
+      X2: '(XcmV0Junction,XcmV0Junction)',
+      X3: '(XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X4: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X5: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X6: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X7: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X8: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+    }
+  },
+  /**
+   * Lookup143: xcm::v0::junction::Junction
+   **/
+  XcmV0Junction: {
+    _enum: {
+      Parent: 'Null',
+      Parachain: 'Compact<u32>',
+      AccountId32: {
+        network: 'XcmV0JunctionNetworkId',
+        id: '[u8;32]',
+      },
+      AccountIndex64: {
+        network: 'XcmV0JunctionNetworkId',
+        index: 'Compact<u64>',
+      },
+      AccountKey20: {
+        network: 'XcmV0JunctionNetworkId',
+        key: '[u8;20]',
+      },
+      PalletInstance: 'u8',
+      GeneralIndex: 'Compact<u128>',
+      GeneralKey: 'Bytes',
+      OnlyChild: 'Null',
+      Plurality: {
+        id: 'XcmV0JunctionBodyId',
+        part: 'XcmV0JunctionBodyPart',
+      },
+    }
+  },
+  /**
+   * Lookup144: xcm::VersionedMultiLocation
+   **/
+  XcmVersionedMultiLocation: {
+    _enum: {
+      V0: 'XcmV0MultiLocation',
+      V1: 'XcmV1MultiLocation',
+    }
+  },
+  /**
+   * Lookup240: kusama_runtime::SessionKeys
+   **/
+  KusamaRuntimeSessionKeys: {
+    grandpa: 'SpFinalityGrandpaAppPublic',
+    babe: 'SpConsensusBabeAppPublic',
+    imOnline: 'PalletImOnlineSr25519AppSr25519Public',
+    paraValidator: 'PolkadotPrimitivesV0ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV1AssignmentAppPublic',
+    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
+  },
+  /**
+   * Lookup363: kusama_runtime::NposCompactSolution24
+   **/
+  KusamaRuntimeNposCompactSolution24: {
+    votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
+    votes2: 'Vec<(Compact<u32>,(Compact<u16>,Compact<PerU16>),Compact<u16>)>',
+    votes3: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);2],Compact<u16>)>',
+    votes4: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);3],Compact<u16>)>',
+    votes5: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);4],Compact<u16>)>',
+    votes6: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);5],Compact<u16>)>',
+    votes7: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);6],Compact<u16>)>',
+    votes8: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);7],Compact<u16>)>',
+    votes9: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);8],Compact<u16>)>',
+    votes10: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);9],Compact<u16>)>',
+    votes11: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);10],Compact<u16>)>',
+    votes12: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);11],Compact<u16>)>',
+    votes13: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);12],Compact<u16>)>',
+    votes14: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);13],Compact<u16>)>',
+    votes15: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);14],Compact<u16>)>',
+    votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>',
+    votes17: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);16],Compact<u16>)>',
+    votes18: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);17],Compact<u16>)>',
+    votes19: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);18],Compact<u16>)>',
+    votes20: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);19],Compact<u16>)>',
+    votes21: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);20],Compact<u16>)>',
+    votes22: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);21],Compact<u16>)>',
+    votes23: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);22],Compact<u16>)>',
+    votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
+  },
+  /**
+   * Lookup451: polkadot_primitives::v1::InherentData<sp_runtime::generic::header::Header<Number, sp_runtime::traits::BlakeTwo256>>
+   **/
+  PolkadotPrimitivesV1InherentData: {
+    bitfields: 'Vec<PolkadotPrimitivesV1SignedUncheckedSigned>',
+    backedCandidates: 'Vec<PolkadotPrimitivesV1BackedCandidate>',
+    disputes: 'Vec<PolkadotPrimitivesV1DisputeStatementSet>',
+    parentHeader: 'SpRuntimeGenericHeader'
+  },
+  /**
+   * Lookup453: polkadot_primitives::v1::signed::UncheckedSigned<polkadot_primitives::v1::AvailabilityBitfield, polkadot_primitives::v1::AvailabilityBitfield>
+   **/
+  PolkadotPrimitivesV1SignedUncheckedSigned: {
+    payload: 'BitVec',
+    validatorIndex: 'u32',
+    signature: 'PolkadotPrimitivesV0ValidatorAppSignature'
+  },
+  /**
+   * Lookup456: bitvec::order::Lsb0
+   **/
+  BitvecOrderLsb0: 'Null',
+  /**
+   * Lookup458: polkadot_primitives::v0::validator_app::Signature
+   **/
+  PolkadotPrimitivesV0ValidatorAppSignature: 'SpCoreSr25519Signature',
+  /**
+   * Lookup460: polkadot_primitives::v1::BackedCandidate<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV1BackedCandidate: {
+    candidate: 'PolkadotPrimitivesV1CommittedCandidateReceipt',
+    validityVotes: 'Vec<PolkadotPrimitivesV0ValidityAttestation>',
+    validatorIndices: 'BitVec'
+  },
+  /**
+   * Lookup461: polkadot_primitives::v1::CommittedCandidateReceipt<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV1CommittedCandidateReceipt: {
+    descriptor: 'PolkadotPrimitivesV1CandidateDescriptor',
+    commitments: 'PolkadotPrimitivesV1CandidateCommitments'
+  },
+  /**
+   * Lookup462: polkadot_primitives::v1::CandidateCommitments<N>
+   **/
+  PolkadotPrimitivesV1CandidateCommitments: {
+    upwardMessages: 'Vec<Bytes>',
+    horizontalMessages: 'Vec<PolkadotCorePrimitivesOutboundHrmpMessage>',
+    newValidationCode: 'Option<Bytes>',
+    headData: 'Bytes',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'u32'
+  },
+  /**
+   * Lookup464: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
+   **/
+  PolkadotCorePrimitivesOutboundHrmpMessage: {
+    recipient: 'u32',
+    data: 'Bytes'
+  },
+  /**
+   * Lookup468: polkadot_primitives::v0::ValidityAttestation
+   **/
+  PolkadotPrimitivesV0ValidityAttestation: {
+    _enum: {
+      Unused0: 'Null',
+      Implicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
+      Explicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
+    }
+  },
+  /**
+   * Lookup470: polkadot_primitives::v1::DisputeStatementSet
+   **/
+  PolkadotPrimitivesV1DisputeStatementSet: {
+    candidateHash: 'H256',
+    session: 'u32',
+    statements: 'Vec<(PolkadotPrimitivesV1DisputeStatement,u32,PolkadotPrimitivesV0ValidatorAppSignature)>'
+  },
+  /**
+   * Lookup474: polkadot_primitives::v1::DisputeStatement
+   **/
+  PolkadotPrimitivesV1DisputeStatement: {
+    _enum: {
+      Valid: 'PolkadotPrimitivesV1ValidDisputeStatementKind',
+      Invalid: 'PolkadotPrimitivesV1InvalidDisputeStatementKind',
+    }
+  },
+  /**
+   * Lookup475: polkadot_primitives::v1::ValidDisputeStatementKind
+   **/
+  PolkadotPrimitivesV1ValidDisputeStatementKind: {
+    _enum: {
+      Explicit: 'Null',
+      BackingSeconded: 'H256',
+      BackingValid: 'H256',
+      ApprovalChecking: 'Null',
+    }
+  },
+  /**
+   * Lookup476: polkadot_primitives::v1::InvalidDisputeStatementKind
+   **/
+  PolkadotPrimitivesV1InvalidDisputeStatementKind: {
+    _enum: ['Explicit']
+  },
+  /**
+   * Lookup488: sp_runtime::MultiSigner
+   **/
+  SpRuntimeMultiSigner: {
+    _enum: {
+      Ed25519: 'SpCoreEd25519Public',
+      Sr25519: 'SpCoreSr25519Public',
+      Ecdsa: 'SpCoreEcdsaPublic',
+    }
+  },
+  /**
+   * Lookup489: sp_core::ecdsa::Public
+   **/
+  SpCoreEcdsaPublic: '[u8;33]',
+  /**
+   * Lookup495: xcm::VersionedXcm<Call>
+   **/
+  XcmVersionedXcm: {
+    _enum: {
+      V0: 'XcmV0Xcm',
+      V1: 'XcmV1Xcm',
+      V2: 'XcmV2Xcm',
+    }
+  },
+  /**
+   * Lookup496: xcm::v0::Xcm<Call>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -240,62 +731,7 @@ export default {
     }
   },
   /**
-   * Lookup113: xcm::v0::multi_asset::MultiAsset
-   **/
-  XcmV0MultiAsset: {
-    _enum: {
-      None: 'Null',
-      All: 'Null',
-      AllFungible: 'Null',
-      AllNonFungible: 'Null',
-      AllAbstractFungible: {
-        id: 'Bytes',
-      },
-      AllAbstractNonFungible: {
-        class: 'Bytes',
-      },
-      AllConcreteFungible: {
-        id: 'XcmV0MultiLocation',
-      },
-      AllConcreteNonFungible: {
-        class: 'XcmV0MultiLocation',
-      },
-      AbstractFungible: {
-        id: 'Bytes',
-        amount: 'Compact<u128>',
-      },
-      AbstractNonFungible: {
-        class: 'Bytes',
-        instance: 'XcmV0MultiAssetAssetInstance',
-      },
-      ConcreteFungible: {
-        id: 'XcmV0MultiLocation',
-        amount: 'Compact<u128>',
-      },
-      ConcreteNonFungible: {
-        class: 'XcmV0MultiLocation',
-        instance: 'XcmV0MultiAssetAssetInstance',
-      },
-    }
-  },
-  /**
-   * Lookup114: xcm::v0::multi_asset::AssetInstance
-   **/
-  XcmV0MultiAssetAssetInstance: {
-    _enum: {
-      Undefined: 'Null',
-      Index: {
-        id: 'Compact<u128>',
-      },
-      Array4: '[u8;4]',
-      Array8: '[u8;8]',
-      Array16: '[u8;16]',
-      Array32: '[u8;32]',
-      Blob: 'Bytes',
-    }
-  },
-  /**
-   * Lookup117: xcm::v0::order::Order<Call>
+   * Lookup498: xcm::v0::order::Order<Call>
    **/
   XcmV0Order: {
     _enum: {
@@ -338,7 +774,7 @@ export default {
     }
   },
   /**
-   * Lookup119: xcm::v0::Response
+   * Lookup500: xcm::v0::Response
    **/
   XcmV0Response: {
     _enum: {
@@ -346,182 +782,123 @@ export default {
     }
   },
   /**
-   * Lookup120: xcm::v0::OriginKind
+   * Lookup501: xcm::v1::Xcm<Call>
    **/
-  XcmV0OriginKind: {
-    _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
-  },
-  /**
-   * Lookup121: xcm::double_encoded::DoubleEncoded<T>
-   **/
-  XcmDoubleEncoded: {
-    encoded: 'Bytes'
-  },
-  /**
-   * Lookup123: polkadot_parachain::primitives::HrmpChannelId
-   **/
-  PolkadotParachainPrimitivesHrmpChannelId: {
-    sender: 'u32',
-    recipient: 'u32'
-  },
-  /**
-   * Lookup224: kusama_runtime::SessionKeys
-   **/
-  KusamaRuntimeSessionKeys: {
-    grandpa: 'SpFinalityGrandpaAppPublic',
-    babe: 'SpConsensusBabeAppPublic',
-    imOnline: 'PalletImOnlineSr25519AppSr25519Public',
-    paraValidator: 'PolkadotPrimitivesV0ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV1AssignmentAppPublic',
-    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
-  },
-  /**
-   * Lookup347: kusama_runtime::NposCompactSolution24
-   **/
-  KusamaRuntimeNposCompactSolution24: {
-    votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
-    votes2: 'Vec<(Compact<u32>,(Compact<u16>,Compact<PerU16>),Compact<u16>)>',
-    votes3: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);2],Compact<u16>)>',
-    votes4: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);3],Compact<u16>)>',
-    votes5: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);4],Compact<u16>)>',
-    votes6: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);5],Compact<u16>)>',
-    votes7: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);6],Compact<u16>)>',
-    votes8: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);7],Compact<u16>)>',
-    votes9: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);8],Compact<u16>)>',
-    votes10: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);9],Compact<u16>)>',
-    votes11: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);10],Compact<u16>)>',
-    votes12: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);11],Compact<u16>)>',
-    votes13: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);12],Compact<u16>)>',
-    votes14: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);13],Compact<u16>)>',
-    votes15: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);14],Compact<u16>)>',
-    votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>',
-    votes17: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);16],Compact<u16>)>',
-    votes18: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);17],Compact<u16>)>',
-    votes19: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);18],Compact<u16>)>',
-    votes20: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);19],Compact<u16>)>',
-    votes21: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);20],Compact<u16>)>',
-    votes22: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);21],Compact<u16>)>',
-    votes23: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);22],Compact<u16>)>',
-    votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
-  },
-  /**
-   * Lookup435: polkadot_primitives::v1::InherentData<sp_runtime::generic::header::Header<Number, sp_runtime::traits::BlakeTwo256>>
-   **/
-  PolkadotPrimitivesV1InherentData: {
-    bitfields: 'Vec<PolkadotPrimitivesV1SignedUncheckedSigned>',
-    backedCandidates: 'Vec<PolkadotPrimitivesV1BackedCandidate>',
-    disputes: 'Vec<PolkadotPrimitivesV1DisputeStatementSet>',
-    parentHeader: 'SpRuntimeGenericHeader'
-  },
-  /**
-   * Lookup437: polkadot_primitives::v1::signed::UncheckedSigned<polkadot_primitives::v1::AvailabilityBitfield, polkadot_primitives::v1::AvailabilityBitfield>
-   **/
-  PolkadotPrimitivesV1SignedUncheckedSigned: {
-    payload: 'BitVec',
-    validatorIndex: 'u32',
-    signature: 'PolkadotPrimitivesV0ValidatorAppSignature'
-  },
-  /**
-   * Lookup440: bitvec::order::Lsb0
-   **/
-  BitvecOrderLsb0: 'Null',
-  /**
-   * Lookup442: polkadot_primitives::v0::validator_app::Signature
-   **/
-  PolkadotPrimitivesV0ValidatorAppSignature: 'SpCoreSr25519Signature',
-  /**
-   * Lookup444: polkadot_primitives::v1::BackedCandidate<primitive_types::H256>
-   **/
-  PolkadotPrimitivesV1BackedCandidate: {
-    candidate: 'PolkadotPrimitivesV1CommittedCandidateReceipt',
-    validityVotes: 'Vec<PolkadotPrimitivesV0ValidityAttestation>',
-    validatorIndices: 'BitVec'
-  },
-  /**
-   * Lookup445: polkadot_primitives::v1::CommittedCandidateReceipt<primitive_types::H256>
-   **/
-  PolkadotPrimitivesV1CommittedCandidateReceipt: {
-    descriptor: 'PolkadotPrimitivesV1CandidateDescriptor',
-    commitments: 'PolkadotPrimitivesV1CandidateCommitments'
-  },
-  /**
-   * Lookup446: polkadot_primitives::v1::CandidateCommitments<N>
-   **/
-  PolkadotPrimitivesV1CandidateCommitments: {
-    upwardMessages: 'Vec<Bytes>',
-    horizontalMessages: 'Vec<PolkadotCorePrimitivesOutboundHrmpMessage>',
-    newValidationCode: 'Option<Bytes>',
-    headData: 'Bytes',
-    processedDownwardMessages: 'u32',
-    hrmpWatermark: 'u32'
-  },
-  /**
-   * Lookup448: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
-   **/
-  PolkadotCorePrimitivesOutboundHrmpMessage: {
-    recipient: 'u32',
-    data: 'Bytes'
-  },
-  /**
-   * Lookup452: polkadot_primitives::v0::ValidityAttestation
-   **/
-  PolkadotPrimitivesV0ValidityAttestation: {
+  XcmV1Xcm: {
     _enum: {
-      Unused0: 'Null',
-      Implicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
-      Explicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
+      WithdrawAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ReserveAssetDeposited: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ReceiveTeleportedAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmV1Response',
+      },
+      TransferAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      TransferReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      Transact: {
+        _alias: {
+          call_: 'call',
+        },
+        originType: 'XcmV0OriginKind',
+        requireWeightAtMost: 'u64',
+        call_: 'XcmDoubleEncoded',
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>',
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>',
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>',
+      },
+      RelayedFrom: {
+        who: 'XcmV1MultilocationJunctions',
+        message: 'XcmV1Xcm',
+      },
+      SubscribeVersion: {
+        queryId: 'Compact<u64>',
+        maxResponseWeight: 'Compact<u64>',
+      },
+      UnsubscribeVersion: 'Null',
     }
   },
   /**
-   * Lookup454: polkadot_primitives::v1::DisputeStatementSet
+   * Lookup503: xcm::v1::order::Order<Call>
    **/
-  PolkadotPrimitivesV1DisputeStatementSet: {
-    candidateHash: 'H256',
-    session: 'u32',
-    statements: 'Vec<(PolkadotPrimitivesV1DisputeStatement,u32,PolkadotPrimitivesV0ValidatorAppSignature)>'
-  },
-  /**
-   * Lookup458: polkadot_primitives::v1::DisputeStatement
-   **/
-  PolkadotPrimitivesV1DisputeStatement: {
+  XcmV1Order: {
     _enum: {
-      Valid: 'PolkadotPrimitivesV1ValidDisputeStatementKind',
-      Invalid: 'PolkadotPrimitivesV1InvalidDisputeStatementKind',
+      Noop: 'Null',
+      DepositAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'u32',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      DepositReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'u32',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ExchangeAsset: {
+        give: 'XcmV1MultiassetMultiAssetFilter',
+        receive: 'XcmV1MultiassetMultiAssets',
+      },
+      InitiateReserveWithdraw: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        reserve: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      InitiateTeleport: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'XcmV1MultiLocation',
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+      },
+      BuyExecution: {
+        fees: 'XcmV1MultiAsset',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        instructions: 'Vec<XcmV1Xcm>',
+      },
     }
   },
   /**
-   * Lookup459: polkadot_primitives::v1::ValidDisputeStatementKind
+   * Lookup505: xcm::v1::Response
    **/
-  PolkadotPrimitivesV1ValidDisputeStatementKind: {
+  XcmV1Response: {
     _enum: {
-      Explicit: 'Null',
-      BackingSeconded: 'H256',
-      BackingValid: 'H256',
-      ApprovalChecking: 'Null',
+      Assets: 'XcmV1MultiassetMultiAssets',
+      Version: 'u32',
     }
   },
   /**
-   * Lookup460: polkadot_primitives::v1::InvalidDisputeStatementKind
-   **/
-  PolkadotPrimitivesV1InvalidDisputeStatementKind: {
-    _enum: ['Explicit']
-  },
-  /**
-   * Lookup472: sp_runtime::MultiSigner
-   **/
-  SpRuntimeMultiSigner: {
-    _enum: {
-      Ed25519: 'SpCoreEd25519Public',
-      Sr25519: 'SpCoreSr25519Public',
-      Ecdsa: 'SpCoreEcdsaPublic',
-    }
-  },
-  /**
-   * Lookup473: sp_core::ecdsa::Public
-   **/
-  SpCoreEcdsaPublic: '[u8;33]',
-  /**
-   * Lookup527: kusama_runtime::OriginCaller
+   * Lookup566: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -628,7 +1005,7 @@ export default {
     }
   },
   /**
-   * Lookup531: polkadot_runtime_parachains::origin::pallet::Origin
+   * Lookup570: polkadot_runtime_parachains::origin::pallet::Origin
    **/
   PolkadotRuntimeParachainsOriginPalletOrigin: {
     _enum: {
@@ -636,15 +1013,16 @@ export default {
     }
   },
   /**
-   * Lookup532: pallet_xcm::pallet::Origin
+   * Lookup571: pallet_xcm::pallet::Origin
    **/
   PalletXcmOrigin: {
     _enum: {
-      Xcm: 'XcmV0MultiLocation',
+      Xcm: 'XcmV1MultiLocation',
+      Response: 'XcmV1MultiLocation',
     }
   },
   /**
-   * Lookup571: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
+   * Lookup610: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
    **/
   PolkadotRuntimeParachainsConfigurationHostConfiguration: {
     maxCodeSize: 'u32',
@@ -689,14 +1067,14 @@ export default {
     relayVrfModuloSamples: 'u32'
   },
   /**
-   * Lookup575: polkadot_runtime_parachains::inclusion::AvailabilityBitfieldRecord<N>
+   * Lookup614: polkadot_runtime_parachains::inclusion::AvailabilityBitfieldRecord<N>
    **/
   PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord: {
     bitfield: 'BitVec',
     submittedAt: 'u32'
   },
   /**
-   * Lookup576: polkadot_runtime_parachains::inclusion::CandidatePendingAvailability<primitive_types::H256, N>
+   * Lookup615: polkadot_runtime_parachains::inclusion::CandidatePendingAvailability<primitive_types::H256, N>
    **/
   PolkadotRuntimeParachainsInclusionCandidatePendingAvailability: {
     _alias: {
@@ -712,32 +1090,32 @@ export default {
     backingGroup: 'u32'
   },
   /**
-   * Lookup580: polkadot_runtime_parachains::scheduler::ParathreadClaimQueue
+   * Lookup619: polkadot_runtime_parachains::scheduler::ParathreadClaimQueue
    **/
   PolkadotRuntimeParachainsSchedulerParathreadClaimQueue: {
     queue: 'Vec<PolkadotRuntimeParachainsSchedulerQueuedParathread>',
     nextCoreOffset: 'u32'
   },
   /**
-   * Lookup582: polkadot_runtime_parachains::scheduler::QueuedParathread
+   * Lookup621: polkadot_runtime_parachains::scheduler::QueuedParathread
    **/
   PolkadotRuntimeParachainsSchedulerQueuedParathread: {
     claim: 'PolkadotPrimitivesV1ParathreadEntry',
     coreOffset: 'u32'
   },
   /**
-   * Lookup583: polkadot_primitives::v1::ParathreadEntry
+   * Lookup622: polkadot_primitives::v1::ParathreadEntry
    **/
   PolkadotPrimitivesV1ParathreadEntry: {
     claim: 'PolkadotPrimitivesV1ParathreadClaim',
     retries: 'u32'
   },
   /**
-   * Lookup584: polkadot_primitives::v1::ParathreadClaim
+   * Lookup623: polkadot_primitives::v1::ParathreadClaim
    **/
   PolkadotPrimitivesV1ParathreadClaim: '(u32,PolkadotPrimitivesV0CollatorAppPublic)',
   /**
-   * Lookup587: polkadot_primitives::v1::CoreOccupied
+   * Lookup626: polkadot_primitives::v1::CoreOccupied
    **/
   PolkadotPrimitivesV1CoreOccupied: {
     _enum: {
@@ -746,7 +1124,7 @@ export default {
     }
   },
   /**
-   * Lookup590: polkadot_runtime_parachains::scheduler::CoreAssignment
+   * Lookup629: polkadot_runtime_parachains::scheduler::CoreAssignment
    **/
   PolkadotRuntimeParachainsSchedulerCoreAssignment: {
     core: 'u32',
@@ -755,7 +1133,7 @@ export default {
     groupIdx: 'u32'
   },
   /**
-   * Lookup591: polkadot_runtime_parachains::scheduler::AssignmentKind
+   * Lookup630: polkadot_runtime_parachains::scheduler::AssignmentKind
    **/
   PolkadotRuntimeParachainsSchedulerAssignmentKind: {
     _enum: {
@@ -764,39 +1142,39 @@ export default {
     }
   },
   /**
-   * Lookup592: polkadot_runtime_parachains::paras::ParaLifecycle
+   * Lookup631: polkadot_runtime_parachains::paras::ParaLifecycle
    **/
   PolkadotRuntimeParachainsParasParaLifecycle: {
     _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingParathread', 'DowngradingParachain', 'OffboardingParathread', 'OffboardingParachain']
   },
   /**
-   * Lookup594: polkadot_runtime_parachains::paras::ParaPastCodeMeta<N>
+   * Lookup633: polkadot_runtime_parachains::paras::ParaPastCodeMeta<N>
    **/
   PolkadotRuntimeParachainsParasParaPastCodeMeta: {
     upgradeTimes: 'Vec<PolkadotRuntimeParachainsParasReplacementTimes>',
     lastPruned: 'Option<u32>'
   },
   /**
-   * Lookup596: polkadot_runtime_parachains::paras::ReplacementTimes<N>
+   * Lookup635: polkadot_runtime_parachains::paras::ReplacementTimes<N>
    **/
   PolkadotRuntimeParachainsParasReplacementTimes: {
     expectedAt: 'u32',
     activatedAt: 'u32'
   },
   /**
-   * Lookup598: polkadot_primitives::v1::UpgradeGoAhead
+   * Lookup637: polkadot_primitives::v1::UpgradeGoAhead
    **/
   PolkadotPrimitivesV1UpgradeGoAhead: {
     _enum: ['Abort', 'GoAhead']
   },
   /**
-   * Lookup599: polkadot_primitives::v1::UpgradeRestriction
+   * Lookup638: polkadot_primitives::v1::UpgradeRestriction
    **/
   PolkadotPrimitivesV1UpgradeRestriction: {
     _enum: ['Present']
   },
   /**
-   * Lookup600: polkadot_runtime_parachains::paras::ParaGenesisArgs
+   * Lookup639: polkadot_runtime_parachains::paras::ParaGenesisArgs
    **/
   PolkadotRuntimeParachainsParasParaGenesisArgs: {
     genesisHead: 'Bytes',
@@ -804,7 +1182,7 @@ export default {
     parachain: 'bool'
   },
   /**
-   * Lookup603: polkadot_runtime_parachains::initializer::BufferedSessionChange
+   * Lookup642: polkadot_runtime_parachains::initializer::BufferedSessionChange
    **/
   PolkadotRuntimeParachainsInitializerBufferedSessionChange: {
     validators: 'Vec<PolkadotPrimitivesV0ValidatorAppPublic>',
@@ -812,14 +1190,14 @@ export default {
     sessionIndex: 'u32'
   },
   /**
-   * Lookup605: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
+   * Lookup644: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
    **/
   PolkadotCorePrimitivesInboundDownwardMessage: {
     sentAt: 'u32',
     msg: 'Bytes'
   },
   /**
-   * Lookup606: polkadot_runtime_parachains::hrmp::HrmpOpenChannelRequest
+   * Lookup645: polkadot_runtime_parachains::hrmp::HrmpOpenChannelRequest
    **/
   PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest: {
     confirmed: 'bool',
@@ -830,7 +1208,7 @@ export default {
     maxTotalSize: 'u32'
   },
   /**
-   * Lookup608: polkadot_runtime_parachains::hrmp::HrmpChannel
+   * Lookup647: polkadot_runtime_parachains::hrmp::HrmpChannel
    **/
   PolkadotRuntimeParachainsHrmpHrmpChannel: {
     maxCapacity: 'u32',
@@ -843,14 +1221,14 @@ export default {
     recipientDeposit: 'u128'
   },
   /**
-   * Lookup611: polkadot_core_primitives::InboundHrmpMessage<BlockNumber>
+   * Lookup650: polkadot_core_primitives::InboundHrmpMessage<BlockNumber>
    **/
   PolkadotCorePrimitivesInboundHrmpMessage: {
     sentAt: 'u32',
     data: 'Bytes'
   },
   /**
-   * Lookup616: polkadot_primitives::v1::SessionInfo
+   * Lookup655: polkadot_primitives::v1::SessionInfo
    **/
   PolkadotPrimitivesV1SessionInfo: {
     validators: 'Vec<PolkadotPrimitivesV0ValidatorAppPublic>',
@@ -865,7 +1243,7 @@ export default {
     neededApprovals: 'u32'
   },
   /**
-   * Lookup618: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
+   * Lookup657: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PolkadotRuntimeCommonParasRegistrarParaInfo: {
     manager: 'AccountId32',
@@ -873,7 +1251,7 @@ export default {
     locked: 'bool'
   },
   /**
-   * Lookup628: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
+   * Lookup667: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
    **/
   PolkadotRuntimeCommonCrowdloanFundInfo: {
     depositor: 'AccountId32',
@@ -888,7 +1266,7 @@ export default {
     trieIndex: 'u32'
   },
   /**
-   * Lookup629: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
+   * Lookup668: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
    **/
   PolkadotRuntimeCommonCrowdloanLastContribution: {
     _enum: {
@@ -896,5 +1274,50 @@ export default {
       PreEnding: 'u32',
       Ending: 'u32',
     }
-  }
+  },
+  /**
+   * Lookup670: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   **/
+  PalletXcmQueryStatus: {
+    _enum: {
+      Pending: {
+        responder: 'XcmVersionedMultiLocation',
+        maybeNotify: 'Option<(u8,u8)>',
+        timeout: 'u32',
+      },
+      VersionNotifier: {
+        origin: 'XcmVersionedMultiLocation',
+        isActive: 'bool',
+      },
+      Ready: {
+        response: 'XcmVersionedResponse',
+        at: 'u32',
+      },
+    }
+  },
+  /**
+   * Lookup673: xcm::VersionedResponse
+   **/
+  XcmVersionedResponse: {
+    _enum: {
+      V0: 'XcmV0Response',
+      V1: 'XcmV1Response',
+      V2: 'XcmV2Response',
+    }
+  },
+  /**
+   * Lookup679: pallet_xcm::pallet::VersionMigrationStage
+   **/
+  PalletXcmVersionMigrationStage: {
+    _enum: {
+      MigrateSupportedVersion: 'Null',
+      MigrateVersionNotifiers: 'Null',
+      NotifyCurrentTargets: 'Option<Bytes>',
+      MigrateAndNotifyOldTargets: 'Null',
+    }
+  },
+  /**
+   * Lookup691: kusama_runtime::Runtime
+   **/
+  KusamaRuntimeRuntime: 'Null'
 } as DefinitionsTypes;

@@ -2216,8 +2216,8 @@
               ],
               "index": 0,
               "docs": [
-                "New session has happened. Note that the argument is the \\[session_index\\], not the block",
-                "number as the type might suggest."
+                "New session has happened. Note that the argument is the \\[session_index\\], not the",
+                "block number as the type might suggest."
               ]
             }
           ]
@@ -2664,7 +2664,8 @@
               ],
               "index": 1,
               "docs": [
-                "A public proposal has been tabled for referendum vote. \\[proposal_index, deposit, depositors\\]"
+                "A public proposal has been tabled for referendum vote. \\[proposal_index, deposit,",
+                "depositors\\]"
               ]
             },
             {
@@ -2959,21 +2960,6 @@
               ]
             },
             {
-              "name": "Unlocked",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 0,
-                  "typeName": "T::AccountId",
-                  "docs": []
-                }
-              ],
-              "index": 16,
-              "docs": [
-                "An \\[account\\] has been unlocked successfully."
-              ]
-            },
-            {
               "name": "Blacklisted",
               "fields": [
                 {
@@ -2983,7 +2969,7 @@
                   "docs": []
                 }
               ],
-              "index": 17,
+              "index": 16,
               "docs": [
                 "A proposal \\[hash\\] has been blacklisted permanently."
               ]
@@ -4054,8 +4040,8 @@
               ],
               "index": 0,
               "docs": [
-                "The amount vested has been updated. This could indicate more funds are available. The",
-                "balance given is the amount which is left unvested (and thus locked).",
+                "The amount vested has been updated. This could indicate a change in funds available.",
+                "The balance given is the amount which is left unvested (and thus locked).",
                 "\\[account, unvested\\]"
               ]
             },
@@ -4071,7 +4057,7 @@
               ],
               "index": 1,
               "docs": [
-                "An \\[account\\] has become fully vested. No further vesting can happen."
+                "An \\[account\\] has become fully vested."
               ]
             }
           ]
@@ -4446,7 +4432,8 @@
               "index": 1,
               "docs": [
                 "Anonymous account has been created by new proxy with given",
-                "disambiguation index and proxy type. \\[anonymous, who, proxy_type, disambiguation_index\\]"
+                "disambiguation index and proxy type. \\[anonymous, who, proxy_type,",
+                "disambiguation_index\\]"
               ]
             },
             {
@@ -4474,6 +4461,39 @@
               "index": 2,
               "docs": [
                 "An announcement was placed to make a call in the future. \\[real, proxy, call_hash\\]"
+              ]
+            },
+            {
+              "name": "ProxyAdded",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 75,
+                  "typeName": "T::ProxyType",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 4,
+                  "typeName": "T::BlockNumber",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": [
+                "A proxy was added. \\[delegator, delegatee, proxy_type, delay\\]"
               ]
             }
           ]
@@ -5461,10 +5481,11 @@
                 "# <weight>",
                 "- `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`",
                 "- 1 storage write (codec `O(C)`).",
-                "- 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is expensive).",
+                "- 1 call to `can_set_code`: `O(S)` (calls `sp_io::misc::runtime_version` which is",
+                "  expensive).",
                 "- 1 event.",
-                "The weight of this function is dependent on the runtime, but generally this is very expensive.",
-                "We will treat this as a full block.",
+                "The weight of this function is dependent on the runtime, but generally this is very",
+                "expensive. We will treat this as a full block.",
                 "# </weight>"
               ]
             },
@@ -5486,8 +5507,8 @@
                 "- `O(C)` where `C` length of `code`",
                 "- 1 storage write (codec `O(C)`).",
                 "- 1 event.",
-                "The weight of this function is dependent on the runtime. We will treat this as a full block.",
-                "# </weight>"
+                "The weight of this function is dependent on the runtime. We will treat this as a full",
+                "block. # </weight>"
               ]
             },
             {
@@ -6915,7 +6936,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 115,
-                  "typeName": "EquivocationProof<T::Header>",
+                  "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
@@ -6939,7 +6960,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 115,
-                  "typeName": "EquivocationProof<T::Header>",
+                  "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
@@ -7321,7 +7342,8 @@
                 "",
                 "# <weight>",
                 "- `O(1)` (Note that implementations of `OnTimestampSet` must also be `O(1)`)",
-                "- 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in `on_finalize`)",
+                "- 1 storage read and 1 storage mutation (codec `O(1)`). (because of `DidUpdate::take` in",
+                "  `on_finalize`)",
                 "- 1 event handler `on_timestamp_set`. Must be `O(1)`.",
                 "# </weight>"
               ]
@@ -7527,7 +7549,8 @@
               ],
               "index": 4,
               "docs": [
-                "Freeze an index so it will always point to the sender account. This consumes the deposit.",
+                "Freeze an index so it will always point to the sender account. This consumes the",
+                "deposit.",
                 "",
                 "The dispatch origin for this call must be _Signed_ and the signing account must have a",
                 "non-frozen account `index`.",
@@ -7603,18 +7626,19 @@
                 "The dispatch origin for this call must be `Signed` by the transactor.",
                 "",
                 "# <weight>",
-                "- Dependent on arguments but not critical, given proper implementations for",
-                "  input config types. See related functions below.",
-                "- It contains a limited number of reads and writes internally and no complex computation.",
+                "- Dependent on arguments but not critical, given proper implementations for input config",
+                "  types. See related functions below.",
+                "- It contains a limited number of reads and writes internally and no complex",
+                "  computation.",
                 "",
                 "Related functions:",
                 "",
                 "  - `ensure_can_withdraw` is always called internally but has a bounded complexity.",
                 "  - Transferring balances to accounts that did not exist before will cause",
-                "     `T::OnNewAccount::on_new_account` to be called.",
+                "    `T::OnNewAccount::on_new_account` to be called.",
                 "  - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.",
-                "  - `transfer_keep_alive` works the same way as `transfer`, but has an additional",
-                "    check that the transfer will not kill the origin account.",
+                "  - `transfer_keep_alive` works the same way as `transfer`, but has an additional check",
+                "    that the transfer will not kill the origin account.",
                 "---------------------------------",
                 "- Base Weight: 73.64 µs, worst case scenario (account created, account removed)",
                 "- DB Weight: 1 Read and 1 Write to destination account",
@@ -7693,8 +7717,8 @@
                 "Exactly as `transfer`, except the origin must be root and the source account may be",
                 "specified.",
                 "# <weight>",
-                "- Same as transfer, but additional read and write because the source account is",
-                "  not assumed to be in the overlay.",
+                "- Same as transfer, but additional read and write because the source account is not",
+                "  assumed to be in the overlay.",
                 "# </weight>"
               ]
             },
@@ -7761,8 +7785,7 @@
                 "- `keep_alive`: A boolean to determine if the `transfer_all` operation should send all",
                 "  of the funds the account has, causing the sender account to be killed (false), or",
                 "  transfer everything except at least the existential deposit, which will guarantee to",
-                "  keep the sender account alive (true).",
-                "  # <weight>",
+                "  keep the sender account alive (true). # <weight>",
                 "- O(1). Just like transfer, but reading the user's transferable balance first.",
                 "  #</weight>"
               ]
@@ -8012,8 +8035,8 @@
                 "The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
                 "",
                 "Use this if there are additional funds in your stash account that you wish to bond.",
-                "Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose any limitation",
-                "on the amount that can be added.",
+                "Unlike [`bond`](Self::bond) or [`unbond`](Self::unbond) this function does not impose",
+                "any limitation on the amount that can be added.",
                 "",
                 "Emits `Bonded`.",
                 "",
@@ -8363,8 +8386,8 @@
                 "# <weight>",
                 "O(S) where S is the number of slashing spans to be removed",
                 "Reads: Bonded, Slashing Spans, Account, Locks",
-                "Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Account, Locks",
-                "Writes Each: SpanSlash * S",
+                "Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "Account, Locks Writes Each: SpanSlash * S",
                 "# </weight>"
               ]
             },
@@ -8509,10 +8532,10 @@
                 "",
                 "Parameters:",
                 "- `new_history_depth`: The new history depth you would like to set.",
-                "- `era_items_deleted`: The number of items that will be deleted by this dispatch.",
-                "   This should report all the storage items that will be deleted by clearing old",
-                "   era history. Needed to report an accurate weight for the dispatch. Trusted by",
-                "   `Root` to report an accurate number.",
+                "- `era_items_deleted`: The number of items that will be deleted by this dispatch. This",
+                "  should report all the storage items that will be deleted by clearing old era history.",
+                "  Needed to report an accurate weight for the dispatch. Trusted by `Root` to report an",
+                "  accurate number.",
                 "",
                 "Origin must be root.",
                 "",
@@ -8523,7 +8546,8 @@
                 "    - Reads: Current Era, History Depth",
                 "    - Writes: History Depth",
                 "    - Clear Prefix Each: Era Stakers, EraStakersClipped, ErasValidatorPrefs",
-                "    - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake, ErasStartSessionIndex",
+                "    - Writes Each: ErasValidatorReward, ErasRewardPoints, ErasTotalStake,",
+                "      ErasStartSessionIndex",
                 "# </weight>"
               ]
             },
@@ -8557,7 +8581,8 @@
                 "Complexity: O(S) where S is the number of slashing spans on the account.",
                 "DB Weight:",
                 "- Reads: Stash Account, Bonded, Slashing Spans, Locks",
-                "- Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators, Stash Account, Locks",
+                "- Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,",
+                "  Stash Account, Locks",
                 "- Writes Each: SpanSlash * S",
                 "# </weight>"
               ]
@@ -8627,10 +8652,10 @@
                 "",
                 "* `min_nominator_bond`: The minimum active bond needed to be a nominator.",
                 "* `min_validator_bond`: The minimum active bond needed to be a validator.",
-                "* `max_nominator_count`: The max number of users who can be a nominator at once.",
-                "  When set to `None`, no limit is enforced.",
-                "* `max_validator_count`: The max number of users who can be a validator at once.",
-                "  When set to `None`, no limit is enforced.",
+                "* `max_nominator_count`: The max number of users who can be a nominator at once. When",
+                "  set to `None`, no limit is enforced.",
+                "* `max_validator_count`: The max number of users who can be a validator at once. When",
+                "  set to `None`, no limit is enforced.",
                 "",
                 "Origin must be Root to call this function.",
                 "",
@@ -9141,7 +9166,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 147,
-                  "typeName": "EquivocationProof<T::Hash, T::BlockNumber>",
+                  "typeName": "Box<EquivocationProof<T::Hash, T::BlockNumber>>",
                   "docs": []
                 },
                 {
@@ -9165,7 +9190,7 @@
                 {
                   "name": "equivocation_proof",
                   "type": 147,
-                  "typeName": "EquivocationProof<T::Hash, T::BlockNumber>",
+                  "typeName": "Box<EquivocationProof<T::Hash, T::BlockNumber>>",
                   "docs": []
                 },
                 {
@@ -9623,8 +9648,8 @@
               "index": 0,
               "docs": [
                 "# <weight>",
-                "- Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len)",
-                "  and E is length of `heartbeat.network_state.external_address`",
+                "- Complexity: `O(K + E)` where K is length of `Keys` (heartbeat.validators_len) and E is",
+                "  length of `heartbeat.network_state.external_address`",
                 "  - `O(K)`: decoding of length `K`",
                 "  - `O(E)`: decoding/encoding of length `E`",
                 "- DbReads: pallet_session `Validators`, pallet_session `CurrentIndex`, `Keys`,",
@@ -10177,8 +10202,8 @@
                 "- `to`: The account whose voting the `target` account's voting power will follow.",
                 "- `conviction`: The conviction that will be attached to the delegated votes. When the",
                 "  account is undelegated, the funds will be locked for the corresponding period.",
-                "- `balance`: The amount of the account's balance to be used in delegating. This must",
-                "  not be more than the account's current balance.",
+                "- `balance`: The amount of the account's balance to be used in delegating. This must not",
+                "  be more than the account's current balance.",
                 "",
                 "Emits `Delegated`.",
                 "",
@@ -10320,8 +10345,8 @@
                 "The dispatch origin of this call must be _Signed_.",
                 "",
                 "- `proposal_hash`: The preimage hash of a proposal.",
-                "- `proposal_length_upper_bound`: an upper bound on length of the proposal.",
-                "  Extrinsic is weighted according to this value with no refund.",
+                "- `proposal_length_upper_bound`: an upper bound on length of the proposal. Extrinsic is",
+                "  weighted according to this value with no refund.",
                 "",
                 "This will only work after `VotingPeriod` blocks from the time that the preimage was",
                 "noted, if it's the same account doing it. If it's a different account, then it'll only",
@@ -11405,9 +11430,9 @@
                 "  origin is removed as a runner-up.",
                 "- `origin` is a current member. In this case, the deposit is unreserved and origin is",
                 "  removed as a member, consequently not being a candidate for the next round anymore.",
-                "  Similar to [`remove_member`](Self::remove_member), if replacement runners exists,",
-                "  they are immediately used. If the prime is renouncing, then no prime will exist until",
-                "  the next round.",
+                "  Similar to [`remove_member`](Self::remove_member), if replacement runners exists, they",
+                "  are immediately used. If the prime is renouncing, then no prime will exist until the",
+                "  next round.",
                 "",
                 "The dispatch origin of this call must be signed, and have one of the above roles.",
                 "",
@@ -12264,11 +12289,12 @@
                 "",
                 "The dispatch origin for this call must be _Signed_.",
                 "",
-                "- `target`: The account that should be transferred the vested funds.",
-                "- `amount`: The amount of funds to transfer and will be vested.",
+                "- `target`: The account receiving the vested funds.",
                 "- `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 "Emits `VestingCreated`.",
+                "",
+                "NOTE: This will unlock all schedules through the current block.",
                 "",
                 "# <weight>",
                 "- `O(1)`.",
@@ -12308,10 +12334,11 @@
                 "",
                 "- `source`: The account whose funds should be transferred.",
                 "- `target`: The account that should be transferred the vested funds.",
-                "- `amount`: The amount of funds to transfer and will be vested.",
                 "- `schedule`: The vesting schedule attached to the transfer.",
                 "",
                 "Emits `VestingCreated`.",
+                "",
+                "NOTE: This will unlock all schedules through the current block.",
                 "",
                 "# <weight>",
                 "- `O(1)`.",
@@ -12319,6 +12346,47 @@
                 "    - Reads: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "    - Writes: Vesting Storage, Balances Locks, Target Account, Source Account",
                 "# </weight>"
+              ]
+            },
+            {
+              "name": "merge_schedules",
+              "fields": [
+                {
+                  "name": "schedule1_index",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                },
+                {
+                  "name": "schedule2_index",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "Merge two vesting schedules together, creating a new vesting schedule that unlocks over",
+                "the highest possible start and end blocks. If both schedules have already started the",
+                "current block will be used as the schedule start; with the caveat that if one schedule",
+                "is finished by the current block, the other will be treated as the new merged schedule,",
+                "unmodified.",
+                "",
+                "NOTE: If `schedule1_index == schedule2_index` this is a no-op.",
+                "NOTE: This will unlock all schedules through the current block prior to merging.",
+                "NOTE: If both schedules have ended by the current block, no new schedule will be created",
+                "and both will be removed.",
+                "",
+                "Merged schedule attributes:",
+                "- `starting_block`: `MAX(schedule1.starting_block, scheduled2.starting_block,",
+                "  current_block)`.",
+                "- `ending_block`: `MAX(schedule1.ending_block, schedule2.ending_block)`.",
+                "- `locked`: `schedule1.locked_at(current_block) + schedule2.locked_at(current_block)`.",
+                "",
+                "The dispatch origin for this call must be _Signed_.",
+                "",
+                "- `schedule1_index`: index of the first schedule to merge.",
+                "- `schedule2_index`: index of the second schedule to merge."
               ]
             }
           ]
@@ -12334,6 +12402,7 @@
     "type": {
       "path": [
         "pallet_vesting",
+        "vesting_info",
         "VestingInfo"
       ],
       "params": [
@@ -12406,7 +12475,8 @@
                 "",
                 "May be called from any origin.",
                 "",
-                "- `calls`: The calls to be dispatched from the same origin.",
+                "- `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "  exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 "If origin is root then call are dispatch without checking origin filter. (This includes",
                 "bypassing `frame_system::Config::BaseCallFilter`).",
@@ -12472,7 +12542,8 @@
                 "",
                 "May be called from any origin.",
                 "",
-                "- `calls`: The calls to be dispatched from the same origin.",
+                "- `calls`: The calls to be dispatched from the same origin. The number of call must not",
+                "  exceed the constant: `batched_calls_limit` (available in constant metadata).",
                 "",
                 "If origin is root then call are dispatch without checking origin filter. (This includes",
                 "bypassing `frame_system::Config::BaseCallFilter`).",
@@ -12553,7 +12624,7 @@
                 {
                   "name": "info",
                   "type": 189,
-                  "typeName": "IdentityInfo<T::MaxAdditionalFields>",
+                  "typeName": "Box<IdentityInfo<T::MaxAdditionalFields>>",
                   "docs": []
                 }
               ],
@@ -14857,9 +14928,8 @@
                 "- I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 "- One event.",
                 "- The weight of the `call`.",
-                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "  deposit taken for its lifetime of",
-                "  `DepositBase + threshold * DepositFactor`.",
+                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "  taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 "-------------------------------",
                 "- DB Weight:",
                 "    - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)",
@@ -14932,9 +15002,8 @@
                 "- Up to one binary search and insert (`O(logS + S)`).",
                 "- I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
                 "- One event.",
-                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
-                "  deposit taken for its lifetime of",
-                "  `DepositBase + threshold * DepositFactor`.",
+                "- Storage: inserts one item, value size bounded by `MaxSignatories`, with a deposit",
+                "  taken for its lifetime of `DepositBase + threshold * DepositFactor`.",
                 "----------------------------------",
                 "- DB Weight:",
                 "    - Read: Multisig Storage, [Caller Account]",
@@ -15591,9 +15660,9 @@
               "name": "submit_unsigned",
               "fields": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": 235,
-                  "typeName": "RawSolution<CompactOf<T>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
                 {
@@ -15666,9 +15735,9 @@
               "name": "submit",
               "fields": [
                 {
-                  "name": "solution",
+                  "name": "raw_solution",
                   "type": 235,
-                  "typeName": "RawSolution<CompactOf<T>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
                 {
@@ -15712,7 +15781,7 @@
       ],
       "params": [
         {
-          "name": "C",
+          "name": "S",
           "type": 236
         }
       ],
@@ -15720,9 +15789,9 @@
         "composite": {
           "fields": [
             {
-              "name": "compact",
+              "name": "solution",
               "type": 236,
-              "typeName": "C",
+              "typeName": "S",
               "docs": []
             },
             {
@@ -18618,8 +18687,8 @@
               "fields": [],
               "index": 21,
               "docs": [
-                "There are too many nominators in the system. Governance needs to adjust the staking settings",
-                "to keep things safe for the runtime."
+                "There are too many nominators in the system. Governance needs to adjust the staking",
+                "settings to keep things safe for the runtime."
               ]
             },
             {
@@ -18627,8 +18696,8 @@
               "fields": [],
               "index": 22,
               "docs": [
-                "There are too many validators in the system. Governance needs to adjust the staking settings",
-                "to keep things safe for the runtime."
+                "There are too many validators in the system. Governance needs to adjust the staking",
+                "settings to keep things safe for the runtime."
               ]
             }
           ]
@@ -19642,17 +19711,9 @@
               ]
             },
             {
-              "name": "BadIndex",
-              "fields": [],
-              "index": 2,
-              "docs": [
-                "Unknown index"
-              ]
-            },
-            {
               "name": "AlreadyCanceled",
               "fields": [],
-              "index": 3,
+              "index": 2,
               "docs": [
                 "Cannot cancel the same proposal twice"
               ]
@@ -19660,7 +19721,7 @@
             {
               "name": "DuplicateProposal",
               "fields": [],
-              "index": 4,
+              "index": 3,
               "docs": [
                 "Proposal already made"
               ]
@@ -19668,7 +19729,7 @@
             {
               "name": "ProposalBlacklisted",
               "fields": [],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "Proposal still blacklisted"
               ]
@@ -19676,7 +19737,7 @@
             {
               "name": "NotSimpleMajority",
               "fields": [],
-              "index": 6,
+              "index": 5,
               "docs": [
                 "Next external proposal not simple majority"
               ]
@@ -19684,7 +19745,7 @@
             {
               "name": "InvalidHash",
               "fields": [],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Invalid hash"
               ]
@@ -19692,7 +19753,7 @@
             {
               "name": "NoProposal",
               "fields": [],
-              "index": 8,
+              "index": 7,
               "docs": [
                 "No external proposal"
               ]
@@ -19700,23 +19761,15 @@
             {
               "name": "AlreadyVetoed",
               "fields": [],
-              "index": 9,
+              "index": 8,
               "docs": [
                 "Identity may not veto a proposal twice"
               ]
             },
             {
-              "name": "NotDelegated",
-              "fields": [],
-              "index": 10,
-              "docs": [
-                "Not delegated"
-              ]
-            },
-            {
               "name": "DuplicatePreimage",
               "fields": [],
-              "index": 11,
+              "index": 9,
               "docs": [
                 "Preimage already noted"
               ]
@@ -19724,7 +19777,7 @@
             {
               "name": "NotImminent",
               "fields": [],
-              "index": 12,
+              "index": 10,
               "docs": [
                 "Not imminent"
               ]
@@ -19732,7 +19785,7 @@
             {
               "name": "TooEarly",
               "fields": [],
-              "index": 13,
+              "index": 11,
               "docs": [
                 "Too early"
               ]
@@ -19740,7 +19793,7 @@
             {
               "name": "Imminent",
               "fields": [],
-              "index": 14,
+              "index": 12,
               "docs": [
                 "Imminent"
               ]
@@ -19748,7 +19801,7 @@
             {
               "name": "PreimageMissing",
               "fields": [],
-              "index": 15,
+              "index": 13,
               "docs": [
                 "Preimage not found"
               ]
@@ -19756,7 +19809,7 @@
             {
               "name": "ReferendumInvalid",
               "fields": [],
-              "index": 16,
+              "index": 14,
               "docs": [
                 "Vote given for invalid referendum"
               ]
@@ -19764,7 +19817,7 @@
             {
               "name": "PreimageInvalid",
               "fields": [],
-              "index": 17,
+              "index": 15,
               "docs": [
                 "Invalid preimage"
               ]
@@ -19772,31 +19825,15 @@
             {
               "name": "NoneWaiting",
               "fields": [],
-              "index": 18,
+              "index": 16,
               "docs": [
                 "No proposals waiting"
               ]
             },
             {
-              "name": "NotLocked",
-              "fields": [],
-              "index": 19,
-              "docs": [
-                "The target account does not have a lock."
-              ]
-            },
-            {
-              "name": "NotExpired",
-              "fields": [],
-              "index": 20,
-              "docs": [
-                "The lock on the account to be unlocked has not yet expired."
-              ]
-            },
-            {
               "name": "NotVoter",
               "fields": [],
-              "index": 21,
+              "index": 17,
               "docs": [
                 "The given account did not vote on the referendum."
               ]
@@ -19804,7 +19841,7 @@
             {
               "name": "NoPermission",
               "fields": [],
-              "index": 22,
+              "index": 18,
               "docs": [
                 "The actor has no permission to conduct the action."
               ]
@@ -19812,7 +19849,7 @@
             {
               "name": "AlreadyDelegating",
               "fields": [],
-              "index": 23,
+              "index": 19,
               "docs": [
                 "The account is already delegating."
               ]
@@ -19820,7 +19857,7 @@
             {
               "name": "InsufficientFunds",
               "fields": [],
-              "index": 24,
+              "index": 20,
               "docs": [
                 "Too high a balance was provided that the account cannot afford."
               ]
@@ -19828,7 +19865,7 @@
             {
               "name": "NotDelegating",
               "fields": [],
-              "index": 25,
+              "index": 21,
               "docs": [
                 "The account is not currently delegating."
               ]
@@ -19836,7 +19873,7 @@
             {
               "name": "VotesExist",
               "fields": [],
-              "index": 26,
+              "index": 22,
               "docs": [
                 "The account currently has votes attached to it and the operation cannot succeed until",
                 "these are removed, either through `unvote` or `reap_vote`."
@@ -19845,7 +19882,7 @@
             {
               "name": "InstantNotAllowed",
               "fields": [],
-              "index": 27,
+              "index": 23,
               "docs": [
                 "The instant referendum origin is currently disallowed."
               ]
@@ -19853,7 +19890,7 @@
             {
               "name": "Nonsense",
               "fields": [],
-              "index": 28,
+              "index": 24,
               "docs": [
                 "Delegation to oneself makes no sense."
               ]
@@ -19861,7 +19898,7 @@
             {
               "name": "WrongUpperBound",
               "fields": [],
-              "index": 29,
+              "index": 25,
               "docs": [
                 "Invalid upper bound."
               ]
@@ -19869,23 +19906,15 @@
             {
               "name": "MaxVotesReached",
               "fields": [],
-              "index": 30,
+              "index": 26,
               "docs": [
                 "Maximum number of votes reached."
               ]
             },
             {
-              "name": "InvalidWitness",
-              "fields": [],
-              "index": 31,
-              "docs": [
-                "The provided witness data is wrong."
-              ]
-            },
-            {
               "name": "TooManyProposals",
               "fields": [],
-              "index": 32,
+              "index": 27,
               "docs": [
                 "Maximum number of proposals reached."
               ]
@@ -20803,6 +20832,82 @@
     "id": 386,
     "type": {
       "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 185
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 387,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 387,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 185
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 388,
+    "type": {
+      "path": [
+        "pallet_vesting",
+        "Releases"
+      ],
+      "params": [],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "V0",
+              "fields": [],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "V1",
+              "fields": [],
+              "index": 1,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 389,
+    "type": {
+      "path": [
         "pallet_vesting",
         "pallet",
         "Error"
@@ -20825,11 +20930,12 @@
               ]
             },
             {
-              "name": "ExistingVestingSchedule",
+              "name": "AtMaxVestingSchedules",
               "fields": [],
               "index": 1,
               "docs": [
-                "An existing vesting schedule already exists for this account that cannot be clobbered."
+                "The account already has `MaxVestingSchedules` count of schedules and thus",
+                "cannot add another one. Consider merging existing schedules in order to add another."
               ]
             },
             {
@@ -20838,6 +20944,22 @@
               "index": 2,
               "docs": [
                 "Amount being transferred is too low to create a vesting schedule."
+              ]
+            },
+            {
+              "name": "ScheduleIndexOutOfBounds",
+              "fields": [],
+              "index": 3,
+              "docs": [
+                "An index was out of bounds of the vesting schedules."
+              ]
+            },
+            {
+              "name": "InvalidScheduleParams",
+              "fields": [],
+              "index": 4,
+              "docs": [
+                "Failed to create a new schedule because some parameter was invalid."
               ]
             }
           ]
@@ -20849,7 +20971,40 @@
     }
   },
   {
-    "id": 387,
+    "id": 390,
+    "type": {
+      "path": [
+        "pallet_utility",
+        "pallet",
+        "Error"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": null
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "TooManyCalls",
+              "fields": [],
+              "index": 0,
+              "docs": [
+                "Too many calls batched."
+              ]
+            }
+          ]
+        }
+      },
+      "docs": [
+        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+      ]
+    }
+  },
+  {
+    "id": 391,
     "type": {
       "path": [
         "pallet_identity",
@@ -20875,7 +21030,7 @@
           "fields": [
             {
               "name": "judgements",
-              "type": 388,
+              "type": 392,
               "typeName": "BoundedVec<(RegistrarIndex, Judgement<Balance>), MaxJudgements>",
               "docs": []
             },
@@ -20898,7 +21053,7 @@
     }
   },
   {
-    "id": 388,
+    "id": 392,
     "type": {
       "path": [
         "frame_support",
@@ -20909,7 +21064,7 @@
       "params": [
         {
           "name": "T",
-          "type": 389
+          "type": 393
         },
         {
           "name": "S",
@@ -20921,7 +21076,7 @@
           "fields": [
             {
               "name": null,
-              "type": 390,
+              "type": 394,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -20932,7 +21087,7 @@
     }
   },
   {
-    "id": 389,
+    "id": 393,
     "type": {
       "path": [],
       "params": [],
@@ -20946,34 +21101,34 @@
     }
   },
   {
-    "id": 390,
+    "id": 394,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 389
+          "type": 393
         }
       },
       "docs": []
     }
   },
   {
-    "id": 391,
+    "id": 395,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          392
+          396
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 392,
+    "id": 396,
     "type": {
       "path": [
         "frame_support",
@@ -21007,7 +21162,7 @@
     }
   },
   {
-    "id": 393,
+    "id": 397,
     "type": {
       "path": [
         "frame_support",
@@ -21018,7 +21173,7 @@
       "params": [
         {
           "name": "T",
-          "type": 394
+          "type": 398
         },
         {
           "name": "S",
@@ -21030,7 +21185,7 @@
           "fields": [
             {
               "name": null,
-              "type": 396,
+              "type": 400,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -21041,7 +21196,7 @@
     }
   },
   {
-    "id": 394,
+    "id": 398,
     "type": {
       "path": [
         "Option"
@@ -21049,7 +21204,7 @@
       "params": [
         {
           "name": "T",
-          "type": 395
+          "type": 399
         }
       ],
       "def": {
@@ -21066,7 +21221,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 395,
+                  "type": 399,
                   "typeName": null,
                   "docs": []
                 }
@@ -21081,7 +21236,7 @@
     }
   },
   {
-    "id": 395,
+    "id": 399,
     "type": {
       "path": [
         "pallet_identity",
@@ -21126,20 +21281,20 @@
     }
   },
   {
-    "id": 396,
+    "id": 400,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 394
+          "type": 398
         }
       },
       "docs": []
     }
   },
   {
-    "id": 397,
+    "id": 401,
     "type": {
       "path": [
         "pallet_identity",
@@ -21292,115 +21447,6 @@
     }
   },
   {
-    "id": 398,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
-          399,
-          6
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 399,
-    "type": {
-      "path": [
-        "frame_support",
-        "storage",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 400
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 401,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 400,
-    "type": {
-      "path": [
-        "pallet_proxy",
-        "ProxyDefinition"
-      ],
-      "params": [
-        {
-          "name": "AccountId",
-          "type": 0
-        },
-        {
-          "name": "ProxyType",
-          "type": 75
-        },
-        {
-          "name": "BlockNumber",
-          "type": 4
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": "delegate",
-              "type": 0,
-              "typeName": "AccountId",
-              "docs": []
-            },
-            {
-              "name": "proxy_type",
-              "type": 75,
-              "typeName": "ProxyType",
-              "docs": []
-            },
-            {
-              "name": "delay",
-              "type": 4,
-              "typeName": "BlockNumber",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 401,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 400
-        }
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 402,
     "type": {
       "path": [],
@@ -21453,6 +21499,115 @@
     "type": {
       "path": [
         "pallet_proxy",
+        "ProxyDefinition"
+      ],
+      "params": [
+        {
+          "name": "AccountId",
+          "type": 0
+        },
+        {
+          "name": "ProxyType",
+          "type": 75
+        },
+        {
+          "name": "BlockNumber",
+          "type": 4
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": "delegate",
+              "type": 0,
+              "typeName": "AccountId",
+              "docs": []
+            },
+            {
+              "name": "proxy_type",
+              "type": 75,
+              "typeName": "ProxyType",
+              "docs": []
+            },
+            {
+              "name": "delay",
+              "type": 4,
+              "typeName": "BlockNumber",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 405,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 404
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 406,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          407,
+          6
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 407,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 408
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 409,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 408,
+    "type": {
+      "path": [
+        "pallet_proxy",
         "Announcement"
       ],
       "params": [
@@ -21497,20 +21652,20 @@
     }
   },
   {
-    "id": 405,
+    "id": 409,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 404
+          "type": 408
         }
       },
       "docs": []
     }
   },
   {
-    "id": 406,
+    "id": 410,
     "type": {
       "path": [
         "pallet_proxy",
@@ -21599,7 +21754,7 @@
     }
   },
   {
-    "id": 407,
+    "id": 411,
     "type": {
       "path": [],
       "params": [],
@@ -21613,7 +21768,7 @@
     }
   },
   {
-    "id": 408,
+    "id": 412,
     "type": {
       "path": [
         "pallet_multisig",
@@ -21667,7 +21822,7 @@
     }
   },
   {
-    "id": 409,
+    "id": 413,
     "type": {
       "path": [],
       "params": [],
@@ -21682,7 +21837,7 @@
     }
   },
   {
-    "id": 410,
+    "id": 414,
     "type": {
       "path": [
         "pallet_multisig",
@@ -21819,7 +21974,7 @@
     }
   },
   {
-    "id": 411,
+    "id": 415,
     "type": {
       "path": [
         "pallet_bounties",
@@ -21874,7 +22029,7 @@
             },
             {
               "name": "status",
-              "type": 412,
+              "type": 416,
               "typeName": "BountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -21885,7 +22040,7 @@
     }
   },
   {
-    "id": 412,
+    "id": 416,
     "type": {
       "path": [
         "pallet_bounties",
@@ -21986,7 +22141,7 @@
     }
   },
   {
-    "id": 413,
+    "id": 417,
     "type": {
       "path": [
         "pallet_bounties",
@@ -22083,7 +22238,7 @@
     }
   },
   {
-    "id": 414,
+    "id": 418,
     "type": {
       "path": [
         "pallet_tips",
@@ -22159,7 +22314,7 @@
     }
   },
   {
-    "id": 415,
+    "id": 419,
     "type": {
       "path": [
         "pallet_tips",
@@ -22231,7 +22386,7 @@
     }
   },
   {
-    "id": 416,
+    "id": 420,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22263,7 +22418,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 417,
+                  "type": 421,
                   "typeName": "(bool, Bn)",
                   "docs": []
                 }
@@ -22284,7 +22439,7 @@
     }
   },
   {
-    "id": 417,
+    "id": 421,
     "type": {
       "path": [],
       "params": [],
@@ -22298,7 +22453,7 @@
     }
   },
   {
-    "id": 418,
+    "id": 422,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22338,7 +22493,7 @@
     }
   },
   {
-    "id": 419,
+    "id": 423,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22355,7 +22510,7 @@
           "fields": [
             {
               "name": "voters",
-              "type": 420,
+              "type": 424,
               "typeName": "Vec<(A, VoteWeight, Vec<A>)>",
               "docs": []
             },
@@ -22363,103 +22518,6 @@
               "name": "targets",
               "type": 55,
               "typeName": "Vec<A>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 420,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 421
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 421,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
-          0,
-          8,
-          55
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 422,
-    "type": {
-      "path": [
-        "frame_support",
-        "storage",
-        "bounded_btree_map",
-        "BoundedBTreeMap"
-      ],
-      "params": [
-        {
-          "name": "K",
-          "type": 287
-        },
-        {
-          "name": "V",
-          "type": 4
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 423,
-              "typeName": "BTreeMap<K, V>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 423,
-    "type": {
-      "path": [
-        "BTreeMap"
-      ],
-      "params": [
-        {
-          "name": "K",
-          "type": 287
-        },
-        {
-          "name": "V",
-          "type": 4
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 424,
-              "typeName": null,
               "docs": []
             }
           ]
@@ -22488,6 +22546,103 @@
       "params": [],
       "def": {
         "tuple": [
+          0,
+          8,
+          55
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 426,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_btree_map",
+        "BoundedBTreeMap"
+      ],
+      "params": [
+        {
+          "name": "K",
+          "type": 287
+        },
+        {
+          "name": "V",
+          "type": 4
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 427,
+              "typeName": "BTreeMap<K, V>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 427,
+    "type": {
+      "path": [
+        "BTreeMap"
+      ],
+      "params": [
+        {
+          "name": "K",
+          "type": 287
+        },
+        {
+          "name": "V",
+          "type": 4
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 428,
+              "typeName": null,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 428,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 429
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 429,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
           287,
           4
         ]
@@ -22496,7 +22651,7 @@
     }
   },
   {
-    "id": 426,
+    "id": 430,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22513,7 +22668,7 @@
           "type": 6
         },
         {
-          "name": "CompactSolution",
+          "name": "Solution",
           "type": 236
         }
       ],
@@ -22533,9 +22688,9 @@
               "docs": []
             },
             {
-              "name": "solution",
+              "name": "raw_solution",
               "type": 235,
-              "typeName": "RawSolution<CompactSolution>",
+              "typeName": "RawSolution<Solution>",
               "docs": []
             },
             {
@@ -22551,7 +22706,7 @@
     }
   },
   {
-    "id": 427,
+    "id": 431,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -22664,7 +22819,7 @@
     }
   },
   {
-    "id": 428,
+    "id": 432,
     "type": {
       "path": [
         "sp_runtime",
@@ -22683,11 +22838,11 @@
         },
         {
           "name": "Signature",
-          "type": 429
+          "type": 433
         },
         {
           "name": "Extra",
-          "type": 431
+          "type": 435
         }
       ],
       "def": {
@@ -22706,7 +22861,7 @@
     }
   },
   {
-    "id": 429,
+    "id": 433,
     "type": {
       "path": [
         "sp_runtime",
@@ -22747,7 +22902,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 430,
+                  "type": 434,
                   "typeName": "ecdsa::Signature",
                   "docs": []
                 }
@@ -22762,7 +22917,7 @@
     }
   },
   {
-    "id": 430,
+    "id": 434,
     "type": {
       "path": [
         "sp_core",
@@ -22786,27 +22941,27 @@
     }
   },
   {
-    "id": 431,
+    "id": 435,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          432,
-          433,
-          434,
-          435,
+          436,
           437,
           438,
           439,
-          440
+          441,
+          442,
+          443,
+          444
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 432,
+    "id": 436,
     "type": {
       "path": [
         "frame_system",
@@ -22829,7 +22984,7 @@
     }
   },
   {
-    "id": 433,
+    "id": 437,
     "type": {
       "path": [
         "frame_system",
@@ -22852,7 +23007,7 @@
     }
   },
   {
-    "id": 434,
+    "id": 438,
     "type": {
       "path": [
         "frame_system",
@@ -22875,7 +23030,7 @@
     }
   },
   {
-    "id": 435,
+    "id": 439,
     "type": {
       "path": [
         "frame_system",
@@ -22894,7 +23049,7 @@
           "fields": [
             {
               "name": null,
-              "type": 436,
+              "type": 440,
               "typeName": "Era",
               "docs": []
             }
@@ -22905,7 +23060,7 @@
     }
   },
   {
-    "id": 436,
+    "id": 440,
     "type": {
       "path": [
         "sp_runtime",
@@ -26245,7 +26400,7 @@
     }
   },
   {
-    "id": 437,
+    "id": 441,
     "type": {
       "path": [
         "frame_system",
@@ -26275,7 +26430,7 @@
     }
   },
   {
-    "id": 438,
+    "id": 442,
     "type": {
       "path": [
         "frame_system",
@@ -26298,7 +26453,7 @@
     }
   },
   {
-    "id": 439,
+    "id": 443,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -26326,7 +26481,7 @@
     }
   },
   {
-    "id": 440,
+    "id": 444,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -26339,6 +26494,22 @@
           "type": null
         }
       ],
+      "def": {
+        "composite": {
+          "fields": []
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 445,
+    "type": {
+      "path": [
+        "polkadot_runtime",
+        "Runtime"
+      ],
+      "params": [],
       "def": {
         "composite": {
           "fields": []

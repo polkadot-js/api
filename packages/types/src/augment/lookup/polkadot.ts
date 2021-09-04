@@ -91,7 +91,11 @@ export default {
     }
   },
   /**
-   * Lookup440: polkadot_runtime_common::claims::PrevalidateAttests<T>
+   * Lookup444: polkadot_runtime_common::claims::PrevalidateAttests<T>
    **/
-  PolkadotRuntimeCommonClaimsPrevalidateAttests: 'Null'
+  PolkadotRuntimeCommonClaimsPrevalidateAttests: 'Null',
+  /**
+   * Lookup445: polkadot_runtime::Runtime
+   **/
+  PolkadotRuntimeRuntime: 'Null'
 } as DefinitionsTypes;
