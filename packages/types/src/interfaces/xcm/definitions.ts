@@ -80,6 +80,20 @@ const location = {
       }
     }
   },
+  InteriorMultiLocation: 'Junctions',
+  Junctions: {
+    _enum: {
+      Here: 'Null',
+      X1: 'Junction',
+      X2: '(Junction, Junction)',
+      X3: '(Junction, Junction, Junction)',
+      X4: '(Junction, Junction, Junction, Junction)',
+      X5: '(Junction, Junction, Junction, Junction, Junction)',
+      X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
+      X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
+      X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
+    }
+  },
   Junction: {
     _enum: {
       Parent: 'Null',
@@ -106,19 +120,7 @@ const location = {
       }
     }
   },
-  MultiLocation: {
-    _enum: {
-      Here: 'Null',
-      X1: 'Junction',
-      X2: '(Junction, Junction)',
-      X3: '(Junction, Junction, Junction)',
-      X4: '(Junction, Junction, Junction, Junction)',
-      X5: '(Junction, Junction, Junction, Junction, Junction)',
-      X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
-      X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
-      X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
-    }
-  },
+  MultiLocation: 'Junctions',
   NetworkId: {
     _enum: {
       Any: 'Null',
@@ -209,7 +211,8 @@ export default {
     VersionedXcm: {
       _enum: {
         V0: 'XcmV0',
-        V1: 'XcmV1'
+        V1: 'XcmV1',
+        V2: 'XcmV2'
       }
     },
     XcmVersion: 'u32'
