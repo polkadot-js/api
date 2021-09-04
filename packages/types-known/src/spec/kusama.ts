@@ -10,7 +10,7 @@ const sharedTypes = {
   RawSolution: 'RawSolutionWith24',
   Keys: 'SessionKeys6',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   }
 };
 
