@@ -27,7 +27,7 @@ interface ReplyDef {
   };
 }
 
-global.WebSocket = WebSocket;
+global.WebSocket = WebSocket as typeof global.WebSocket;
 
 export const TEST_WS_URL = 'ws://localhost:9955';
 
