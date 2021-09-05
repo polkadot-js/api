@@ -418,7 +418,7 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
-      handler.callback(error, undefined);
+      handler.callback(error as Error, undefined);
     }
 
     delete this.#handlers[response.id];
@@ -446,7 +446,7 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
-      handler.callback(error, undefined);
+      handler.callback(error as Error, undefined);
     }
   }
 

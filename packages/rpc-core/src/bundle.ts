@@ -305,7 +305,7 @@ export class RpcCore {
 
           subscriptionPromise = this._createSubscriber({ paramsJson, subName, subType, update }, errorHandler);
         } catch (error) {
-          errorHandler(error);
+          errorHandler(error as Error);
         }
 
         // Teardown logic
