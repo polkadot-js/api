@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 5.8.2 Sep 6, 2021
+
+Contributed:
+
+- Correct Xcm V1 `MultiLocation` definitions (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Adjust Kusama Xcm overrides
+
+
 ## 5.8.1 Sep 6, 2021
 
 Upgrade priority: Low.

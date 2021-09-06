@@ -81,20 +81,8 @@ const location = {
     }
   },
   InteriorMultiLocation: 'Junctions',
-  Junctions: {
-    _enum: {
-      Here: 'Null',
-      X1: 'JunctionV1',
-      X2: '(JunctionV1, JunctionV1)',
-      X3: '(JunctionV1, JunctionV1, JunctionV1)',
-      X4: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
-      X5: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
-      X6: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
-      X7: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
-      X8: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)'
-    }
-  },
   Junction: 'JunctionV1',
+  Junctions: 'JunctionsV1',
   MultiLocation: 'MultiLocationV1',
   NetworkId: {
     _enum: {
