@@ -84,43 +84,18 @@ const location = {
   Junctions: {
     _enum: {
       Here: 'Null',
-      X1: 'Junction',
-      X2: '(Junction, Junction)',
-      X3: '(Junction, Junction, Junction)',
-      X4: '(Junction, Junction, Junction, Junction)',
-      X5: '(Junction, Junction, Junction, Junction, Junction)',
-      X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
-      X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
-      X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
+      X1: 'JunctionV1',
+      X2: '(JunctionV1, JunctionV1)',
+      X3: '(JunctionV1, JunctionV1, JunctionV1)',
+      X4: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X5: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X6: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X7: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X8: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)'
     }
   },
-  Junction: {
-    _enum: {
-      Parent: 'Null',
-      Parachain: 'Compact<u32>',
-      AccountId32: {
-        network: 'NetworkId',
-        id: 'AccountId'
-      },
-      AccountIndex64: {
-        network: 'NetworkId',
-        index: 'Compact<u64>'
-      },
-      AccountKey20: {
-        network: 'NetworkId',
-        key: '[u8; 20]'
-      },
-      PalletInstance: 'u8',
-      GeneralIndex: 'Compact<u128>',
-      GeneralKey: 'Vec<u8>',
-      OnlyChild: 'Null',
-      Plurality: {
-        id: 'BodyId',
-        part: 'BodyPart'
-      }
-    }
-  },
-  MultiLocation: 'Junctions',
+  Junction: 'JunctionV1',
+  MultiLocation: 'MultiLocationV1',
   NetworkId: {
     _enum: {
       Any: 'Null',

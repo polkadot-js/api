@@ -18,6 +18,31 @@ export const v1: DefinitionsTypes = {
       Blob: 'Bytes'
     }
   },
+  JunctionV1: {
+    _enum: {
+      Parachain: 'Compact<u32>',
+      AccountId32: {
+        network: 'NetworkId',
+        id: 'AccountId'
+      },
+      AccountIndex64: {
+        network: 'NetworkId',
+        index: 'Compact<u64>'
+      },
+      AccountKey20: {
+        network: 'NetworkId',
+        key: '[u8; 20]'
+      },
+      PalletInstance: 'u8',
+      GeneralIndex: 'Compact<u128>',
+      GeneralKey: 'Vec<u8>',
+      OnlyChild: 'Null',
+      Plurality: {
+        id: 'BodyId',
+        part: 'BodyPart'
+      }
+    }
+  },
   MultiAssetsV1: 'Vec<MultiAssetV1>',
   MultiAssetV1: {
     id: 'XcmAssetId',

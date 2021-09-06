@@ -22,6 +22,32 @@ export const v0: DefinitionsTypes = {
       Blob: 'Vec<u8>'
     }
   },
+  JunctionV0: {
+    _enum: {
+      Parent: 'Null',
+      Parachain: 'Compact<u32>',
+      AccountId32: {
+        network: 'NetworkId',
+        id: 'AccountId'
+      },
+      AccountIndex64: {
+        network: 'NetworkId',
+        index: 'Compact<u64>'
+      },
+      AccountKey20: {
+        network: 'NetworkId',
+        key: '[u8; 20]'
+      },
+      PalletInstance: 'u8',
+      GeneralIndex: 'Compact<u128>',
+      GeneralKey: 'Vec<u8>',
+      OnlyChild: 'Null',
+      Plurality: {
+        id: 'BodyId',
+        part: 'BodyPart'
+      }
+    }
+  },
   MultiAssetV0: {
     _enum: {
       None: 'Null',
@@ -50,7 +76,19 @@ export const v0: DefinitionsTypes = {
       }
     }
   },
-  MultiLocationV0: 'MultiLocation',
+  MultiLocationV0: {
+    _enum: {
+      Here: 'Null',
+      X1: 'JunctionV0',
+      X2: '(JunctionV0, JunctionV0)',
+      X3: '(JunctionV0, JunctionV0, JunctionV0)',
+      X4: '(JunctionV0, JunctionV0, JunctionV0, JunctionV0)',
+      X5: '(JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0)',
+      X6: '(JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0)',
+      X7: '(JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0)',
+      X8: '(JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0)'
+    }
+  },
   OriginKindV0: {
     _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
   },
