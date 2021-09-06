@@ -224,7 +224,10 @@ export interface InteriorMultiLocation extends Junctions {}
 export interface Junction extends JunctionV1 {}
 
 /** @name Junctions */
-export interface Junctions extends Enum {
+export interface Junctions extends JunctionsV1 {}
+
+/** @name JunctionsV1 */
+export interface JunctionsV1 extends Enum {
   readonly isHere: boolean;
   readonly isX1: boolean;
   readonly asX1: JunctionV1;
@@ -243,6 +246,9 @@ export interface Junctions extends Enum {
   readonly isX8: boolean;
   readonly asX8: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
 }
+
+/** @name JunctionsV2 */
+export interface JunctionsV2 extends JunctionsV1 {}
 
 /** @name JunctionV0 */
 export interface JunctionV0 extends Enum {
@@ -310,6 +316,9 @@ export interface JunctionV1 extends Enum {
     readonly part: BodyPart;
   } & Struct;
 }
+
+/** @name JunctionV2 */
+export interface JunctionV2 extends JunctionV1 {}
 
 /** @name MultiAsset */
 export interface MultiAsset extends MultiAssetV1 {}
@@ -409,7 +418,7 @@ export interface MultiLocationV0 extends Enum {
 /** @name MultiLocationV1 */
 export interface MultiLocationV1 extends Struct {
   readonly parents: u8;
-  readonly interior: Junctions;
+  readonly interior: JunctionsV1;
 }
 
 /** @name MultiLocationV2 */
