@@ -1,6 +1,17 @@
 # CHANGELOG
 
+## 5.8.3 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust Statemint, Rococo and Westend Xcm overrides
+
+
 ## 5.8.2 Sep 6, 2021
+
+Upgrade priority: Low.
 
 Contributed:
 
