@@ -1,9 +1,14 @@
 # CHANGELOG
 
-## master
+## 5.8.1 Sep 6, 2021
+
+Upgrade priority: Low.
 
 Changes:
 
+- Add `Auction` to Kusama `ProxyType` definition
+- Adjust Xcm definitions with latest v1 & v2 types
+- Support for `scale-info` 1.0 `Range` mapping
 - Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
