@@ -7,6 +7,8 @@
 import type { DefinitionsTypes } from '../../types';
 
 export const v2: DefinitionsTypes = {
+  JunctionV2: 'JunctionV1',
+  JunctionsV2: 'JunctionsV1',
   MultiAssetsV2: 'MultiAssetsV1',
   MultiAssetV2: 'MultiAssetV1',
   MultiAssetFilterV2: 'MultiAssetFilterV1',

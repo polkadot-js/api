@@ -43,6 +43,19 @@ export const v1: DefinitionsTypes = {
       }
     }
   },
+  JunctionsV1: {
+    _enum: {
+      Here: 'Null',
+      X1: 'JunctionV1',
+      X2: '(JunctionV1, JunctionV1)',
+      X3: '(JunctionV1, JunctionV1, JunctionV1)',
+      X4: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X5: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X6: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X7: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)',
+      X8: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)'
+    }
+  },
   MultiAssetsV1: 'Vec<MultiAssetV1>',
   MultiAssetV1: {
     id: 'XcmAssetId',
@@ -56,7 +69,7 @@ export const v1: DefinitionsTypes = {
   },
   MultiLocationV1: {
     parents: 'u8',
-    interior: 'Junctions'
+    interior: 'JunctionsV1'
   },
   OriginKindV1: 'OriginKindV0',
   ResponseV1: {
