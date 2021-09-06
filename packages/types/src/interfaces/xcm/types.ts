@@ -221,7 +221,31 @@ export interface InstructionV2 extends Enum {
 export interface InteriorMultiLocation extends Junctions {}
 
 /** @name Junction */
-export interface Junction extends Enum {
+export interface Junction extends JunctionV1 {}
+
+/** @name Junctions */
+export interface Junctions extends Enum {
+  readonly isHere: boolean;
+  readonly isX1: boolean;
+  readonly asX1: JunctionV1;
+  readonly isX2: boolean;
+  readonly asX2: ITuple<[JunctionV1, JunctionV1]>;
+  readonly isX3: boolean;
+  readonly asX3: ITuple<[JunctionV1, JunctionV1, JunctionV1]>;
+  readonly isX4: boolean;
+  readonly asX4: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+  readonly isX5: boolean;
+  readonly asX5: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+  readonly isX6: boolean;
+  readonly asX6: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+  readonly isX7: boolean;
+  readonly asX7: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+  readonly isX8: boolean;
+  readonly asX8: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+}
+
+/** @name JunctionV0 */
+export interface JunctionV0 extends Enum {
   readonly isParent: boolean;
   readonly isParachain: boolean;
   readonly asParachain: Compact<u32>;
@@ -254,25 +278,37 @@ export interface Junction extends Enum {
   } & Struct;
 }
 
-/** @name Junctions */
-export interface Junctions extends Enum {
-  readonly isHere: boolean;
-  readonly isX1: boolean;
-  readonly asX1: Junction;
-  readonly isX2: boolean;
-  readonly asX2: ITuple<[Junction, Junction]>;
-  readonly isX3: boolean;
-  readonly asX3: ITuple<[Junction, Junction, Junction]>;
-  readonly isX4: boolean;
-  readonly asX4: ITuple<[Junction, Junction, Junction, Junction]>;
-  readonly isX5: boolean;
-  readonly asX5: ITuple<[Junction, Junction, Junction, Junction, Junction]>;
-  readonly isX6: boolean;
-  readonly asX6: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction]>;
-  readonly isX7: boolean;
-  readonly asX7: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
-  readonly isX8: boolean;
-  readonly asX8: ITuple<[Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction]>;
+/** @name JunctionV1 */
+export interface JunctionV1 extends Enum {
+  readonly isParachain: boolean;
+  readonly asParachain: Compact<u32>;
+  readonly isAccountId32: boolean;
+  readonly asAccountId32: {
+    readonly network: NetworkId;
+    readonly id: AccountId;
+  } & Struct;
+  readonly isAccountIndex64: boolean;
+  readonly asAccountIndex64: {
+    readonly network: NetworkId;
+    readonly index: Compact<u64>;
+  } & Struct;
+  readonly isAccountKey20: boolean;
+  readonly asAccountKey20: {
+    readonly network: NetworkId;
+    readonly key: U8aFixed;
+  } & Struct;
+  readonly isPalletInstance: boolean;
+  readonly asPalletInstance: u8;
+  readonly isGeneralIndex: boolean;
+  readonly asGeneralIndex: Compact<u128>;
+  readonly isGeneralKey: boolean;
+  readonly asGeneralKey: Bytes;
+  readonly isOnlyChild: boolean;
+  readonly isPlurality: boolean;
+  readonly asPlurality: {
+    readonly id: BodyId;
+    readonly part: BodyPart;
+  } & Struct;
 }
 
 /** @name MultiAsset */
@@ -347,10 +383,28 @@ export interface MultiAssetV1 extends Struct {
 export interface MultiAssetV2 extends MultiAssetV1 {}
 
 /** @name MultiLocation */
-export interface MultiLocation extends Junctions {}
+export interface MultiLocation extends MultiLocationV1 {}
 
 /** @name MultiLocationV0 */
-export interface MultiLocationV0 extends MultiLocation {}
+export interface MultiLocationV0 extends Enum {
+  readonly isHere: boolean;
+  readonly isX1: boolean;
+  readonly asX1: JunctionV0;
+  readonly isX2: boolean;
+  readonly asX2: ITuple<[JunctionV0, JunctionV0]>;
+  readonly isX3: boolean;
+  readonly asX3: ITuple<[JunctionV0, JunctionV0, JunctionV0]>;
+  readonly isX4: boolean;
+  readonly asX4: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+  readonly isX5: boolean;
+  readonly asX5: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+  readonly isX6: boolean;
+  readonly asX6: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+  readonly isX7: boolean;
+  readonly asX7: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+  readonly isX8: boolean;
+  readonly asX8: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+}
 
 /** @name MultiLocationV1 */
 export interface MultiLocationV1 extends Struct {
