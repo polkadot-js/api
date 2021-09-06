@@ -94,8 +94,8 @@ const location = {
       X8: '(JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1)'
     }
   },
-  Junction: "JunctionV1",
-  MultiLocation: "MultiLocationV1",
+  Junction: 'JunctionV1',
+  MultiLocation: 'MultiLocationV1',
   NetworkId: {
     _enum: {
       Any: 'Null',
