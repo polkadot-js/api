@@ -30,10 +30,54 @@ const cumulusTypes = {
   }
 };
 
+const disputeTypes = {
+  DisputeLocation: {
+    _enum: ['Local', 'Remote']
+  },
+  DisputeResult: {
+    _enum: ['Valid', 'Invalid']
+  },
+  DisputeState: {
+    validatorsFor: 'BitVec',
+    validatorsAgainst: 'BitVec',
+    start: 'BlockNumber',
+    concludedAt: 'Option<BlockNumber>'
+  },
+  DisputeStatement: {
+    _enum: {
+      Valid: 'ValidDisputeStatementKind',
+      Invalid: 'InvalidDisputeStatementKind'
+    }
+  },
+  DisputeStatementSet: {
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex',
+    statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
+  },
+  ExplicitDisputeStatement: {
+    valid: 'bool',
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex'
+  },
+  InvalidDisputeStatementKind: {
+    _enum: ['Explicit']
+  },
+  MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+  ValidDisputeStatementKind: {
+    _enum: {
+      Explicit: 'Null',
+      BackingSeconded: 'Hash',
+      BackingValid: 'Hash',
+      ApprovalChecking: 'Null'
+    }
+  }
+};
+
 export default {
   rpc: {},
   types: {
     ...cumulusTypes,
+    ...disputeTypes,
     ...hrmpTypes,
     ...proposeTypes,
     ...slotTypes,
@@ -155,36 +199,6 @@ export default {
         Parathread: 'ParathreadEntry',
         Parachain: 'Null'
       }
-    },
-    DisputeStatementSet: {
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex',
-      statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
-    },
-    MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
-    DisputeStatement: {
-      _enum: {
-        Valid: 'ValidDisputeStatementKind',
-        Invalid: 'InvalidDisputeStatementKind'
-      }
-    },
-    ValidDisputeStatementKind: {
-      _enum: {
-        Explicit: 'Null',
-        BackingSeconded: 'Hash',
-        BackingValid: 'Hash',
-        ApprovalChecking: 'Null'
-      }
-    },
-    InvalidDisputeStatementKind: {
-      _enum: [
-        'Explicit'
-      ]
-    },
-    ExplicitDisputeStatement: {
-      valid: 'bool',
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex'
     },
     DoubleVoteReport: {
       identity: 'ValidatorId',
