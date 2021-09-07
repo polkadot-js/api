@@ -4,6 +4,7 @@
 
 Changes:
 
+- Additional types for parachain Disputes
 - Add Polkadot 9090 upgrade block
 
 

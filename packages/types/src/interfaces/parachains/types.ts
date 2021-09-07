@@ -176,6 +176,26 @@ export interface CoreOccupied extends Enum {
   readonly isParachain: boolean;
 }
 
+/** @name DisputeLocation */
+export interface DisputeLocation extends Enum {
+  readonly isLocal: boolean;
+  readonly isRemote: boolean;
+}
+
+/** @name DisputeResult */
+export interface DisputeResult extends Enum {
+  readonly isValid: boolean;
+  readonly isInvalid: boolean;
+}
+
+/** @name DisputeState */
+export interface DisputeState extends Struct {
+  readonly validatorsFor: BitVec;
+  readonly validatorsAgainst: BitVec;
+  readonly start: BlockNumber;
+  readonly concludedAt: Option<BlockNumber>;
+}
+
 /** @name DisputeStatement */
 export interface DisputeStatement extends Enum {
   readonly isValid: boolean;
