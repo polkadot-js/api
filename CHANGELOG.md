@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add Polkadot 9090 upgrade block
+
+
 ## 5.8.3 Sep 6, 2021
 
 Upgrade priority: Low.
