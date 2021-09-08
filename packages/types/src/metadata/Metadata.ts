@@ -15,11 +15,15 @@ const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 const EMPTY_U8A = new Uint8Array();
 
 function toU8a (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
-  return isHex(value)
-    ? toU8a(u8aToU8a(value))
-    : isU8a(value) && value.length === 0
+  if (isHex(value)) {
+    return toU8a(u8aToU8a(value));
+  } else if (isU8a(value)) {
+    return value.length === 0
       ? EMPTY_METADATA
       : value;
+  }
+
+  throw new Error('Invalid type passed to Metadata constructor');
 }
 
 function decodeMetadata (registry: Registry, _value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>): MetadataVersioned {
