@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types-support",
-  "version": "5.8.4-1",
+  "version": "5.8.4-2",
   "type": "module",
   "description": "Supporting files for types, mostly for testing",
   "main": "index.js",
