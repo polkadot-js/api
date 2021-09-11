@@ -154,7 +154,8 @@ export const v2: DefinitionsTypes = {
       Unroutable: 'Null',
       UnknownWeightRequired: 'Null',
       Trap: 'u64',
-      UnknownClaim: 'Null'
+      UnknownClaim: 'Null',
+      InvalidLocation: 'Null'
     }
   }
 };

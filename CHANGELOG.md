@@ -5,6 +5,7 @@
 Changes:
 
 - Additional types for parachain Disputes
+- Adjust Xcm Error enum types
 - Add Polkadot 9090 upgrade block
 
 
