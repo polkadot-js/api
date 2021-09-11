@@ -175,7 +175,9 @@ export const v0: DefinitionsTypes = {
       Barrier: 'Null',
       NotWithdrawable: 'Null',
       LocationCannotHold: 'Null',
-      TooExpensive: 'Null'
+      TooExpensive: 'Null',
+      AssetNotFound: 'Null',
+      RecursionLimitReached: 'Null'
     }
   },
   XcmOrderV0: {
