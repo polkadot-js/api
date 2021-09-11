@@ -654,6 +654,8 @@ export interface XcmErrorV0 extends Enum {
   readonly isNotWithdrawable: boolean;
   readonly isLocationCannotHold: boolean;
   readonly isTooExpensive: boolean;
+  readonly isAssetNotFound: boolean;
+  readonly isRecursionLimitReached: boolean;
 }
 
 /** @name XcmErrorV1 */
@@ -728,6 +730,7 @@ export interface XcmErrorV2 extends Enum {
   readonly isTrap: boolean;
   readonly asTrap: u64;
   readonly isUnknownClaim: boolean;
+  readonly isInvalidLocation: boolean;
 }
 
 /** @name XcmOrder */
