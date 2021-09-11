@@ -66,19 +66,48 @@ const sharedTypes = {
   RegistryInfo: {
     fields: 'Vec<Bytes>',
     ownerCanBurn: 'bool'
+  },
+
+  ProxyType: {
+    _enum: [
+      'Any',
+      'NonTransfer',
+      'Governance',
+      'Staking',
+      'NonProxy'
+    ]
   }
+};
+
+const standaloneTypes = {
+  ...sharedTypes,
+  AccountInfo: 'AccountInfoWithRefCount',
+  Address: 'LookupSource',
+  LookupSource: 'IndicesLookupSource',
+  Multiplier: 'Fixed64',
+  RefCount: 'RefCountTo259'
 };
 
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [240, 999],
+    minmax: [240, 243],
     types: {
-      ...sharedTypes,
-      AccountInfo: 'AccountInfoWithRefCount',
-      Address: 'LookupSource',
-      LookupSource: 'IndicesLookupSource',
-      Multiplier: 'Fixed64',
-      RefCount: 'RefCountTo259'
+      ...standaloneTypes,
+      ProxyType: {
+        _enum: [
+          'Any',
+          'NonTransfer',
+          'Governance',
+          'Staking',
+          'Vesting'
+        ]
+      }
+    }
+  },
+  {
+    minmax: [244, 999],
+    types: {
+      ...standaloneTypes
     }
   },
   {
