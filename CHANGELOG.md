@@ -1,12 +1,19 @@
 # CHANGELOG
 
-## master
+## 5.9.1 Sep 13, 2021
+
+Upgrade priority: Low. Recommended for chain using Xcm.
+
+Contributed:
+
+- Adjust Centrifuge `ProxyType` (Thanks to https://github.com/branan)
 
 Changes:
 
 - Additional types for parachain Disputes
 - Adjust Xcm Error enum types
 - Add Polkadot 9090 upgrade block
+- Decoding enhancements with narrowing checks for TS
 
 
 ## 5.8.3 Sep 6, 2021
