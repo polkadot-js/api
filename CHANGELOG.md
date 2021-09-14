@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust Kusama `IdentityInfo` type for historic versions
+- All `null` values in bundles min/max
+
+
 ## 5.9.1 Sep 13, 2021
 
 Upgrade priority: Low. Recommended for chain using Xcm.
