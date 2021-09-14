@@ -150,7 +150,7 @@ const typesBundle = {
 
       types: [
         {
-          minmax: [0, undefined] as [number?, number?],
+          minmax: [0, undefined],
           types: {
             Balance: 'u64',
             BalanceOf: 'Balance',

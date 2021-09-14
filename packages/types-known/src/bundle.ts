@@ -7,7 +7,7 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
-import { bnToBn, isUndefined } from '@polkadot/util';
+import { bnToBn, isNull, isUndefined } from '@polkadot/util';
 
 import typesChain from './chain';
 import typesModules from './modules';
@@ -22,8 +22,8 @@ export { packageInfo } from './packageInfo';
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }) =>
-      (isUndefined(min) || specVersion >= min) &&
-      (isUndefined(max) || specVersion <= max)
+      (isUndefined(min) || isNull(min) || specVersion >= min) &&
+      (isUndefined(max) || isNull(max) || specVersion <= max)
     )
     .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
       ...result,
