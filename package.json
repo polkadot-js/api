@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
@@ -29,8 +29,8 @@
     "@babel/core": "^7.15.5",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.15.4",
-    "@polkadot/dev": "^0.62.66",
-    "@polkadot/ts": "^0.4.7",
+    "@polkadot/dev": "^0.62.67",
+    "@polkadot/ts": "^0.4.8",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^27.0.1",
     "copyfiles": "^2.4.1"
