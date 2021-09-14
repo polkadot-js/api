@@ -29,6 +29,12 @@ describe('Http', (): void => {
     ).not.toThrow();
   });
 
+  it('allow clone', (): void => {
+    const clone = http.clone();
+    expect((clone as any)['#endpoint']).toEqual((http as any)['#endpoint']);
+    expect((clone as any)['#headers']).toEqual((http as any)['#headers']);
+  });
+
   it('always returns isConnected true', (): void => {
     expect(http.isConnected).toEqual(true);
   });
