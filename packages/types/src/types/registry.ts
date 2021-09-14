@@ -46,7 +46,8 @@ export interface RegistryError {
 }
 
 export interface OverrideVersionedType {
-  minmax: [number | undefined | null, number | undefined | null] | [number?, number?]; // min (v >= min) and max (v <= max)
+  // min (v >= min) and max (v <= max)
+  minmax: [number | undefined | null, number | undefined | null] | [number?, number?] | (number | undefined | null)[];
   types: RegistryTypes;
 }
 
