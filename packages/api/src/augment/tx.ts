@@ -719,18 +719,6 @@ declare module '@polkadot/api/types/submittable' {
        **/
       call: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Weight> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, Compact<BalanceOf>, Compact<Weight>, Bytes]>;
       /**
-       * Allows block producers to claim a small reward for evicting a contract. If a block
-       * producer fails to do so, a regular users will be allowed to claim the reward.
-       * 
-       * In case of a successful eviction no fees are charged from the sender. However, the
-       * reward is capped by the total amount of rent that was paid by the contract while
-       * it was alive.
-       * 
-       * If contract is not evicted as a result of this call, [`Error::ContractNotEvictable`]
-       * is returned and the sender is not eligible for the reward.
-       **/
-      claimSurcharge: AugmentedSubmittable<(dest: AccountId | string | Uint8Array, auxSender: Option<AccountId> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, Option<AccountId>]>;
-      /**
        * Instantiates a contract from a previously deployed wasm binary.
        * 
        * This function is identical to [`Self::instantiate_with_code`] but without the
@@ -783,7 +771,8 @@ declare module '@polkadot/api/types/submittable' {
        * If the close operation completes successfully with disapproval, the transaction fee will
        * be waived. Otherwise execution of the approved operation will be charged to the caller.
        * 
-       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.
+       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed
+       * proposal.
        * + `length_bound`: The upper bound for the length of the proposal in storage. Checked via
        * `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.
        * 
@@ -796,14 +785,16 @@ declare module '@polkadot/api/types/submittable' {
        * - `P2` is proposal-count (code-bounded)
        * - DB:
        * - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
-       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)
+       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec
+       * `O(P2)`)
        * - any mutations done while executing `proposal` (`P1`)
        * - up to 3 events
        * # </weight>
        **/
       close: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<ProposalIndex>, Compact<Weight>, Compact<u32>]>;
       /**
-       * Disapprove a proposal, close, and remove it from the system, regardless of its current state.
+       * Disapprove a proposal, close, and remove it from the system, regardless of its current
+       * state.
        * 
        * Must be called by the Root origin.
        * 
@@ -825,7 +816,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * # <weight>
        * ## Weight
-       * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`
+       * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+       * `proposal`
        * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
        * - 1 event
        * # </weight>
@@ -866,8 +858,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `new_members`: The new member list. Be nice to the chain and provide it sorted.
        * - `prime`: The prime member whose vote sets the default.
-       * - `old_count`: The upper bound for the previous number of members in storage.
-       * Used for weight estimation.
+       * - `old_count`: The upper bound for the previous number of members in storage. Used for
+       * weight estimation.
        * 
        * Requires root origin.
        * 
@@ -881,7 +873,8 @@ declare module '@polkadot/api/types/submittable' {
        * - `N` new-members-count (code- and governance-bounded)
        * - `P` proposals-count (code-bounded)
        * - DB:
-       * - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members
+       * - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the
+       * members
        * - 1 storage read (codec `O(P)`) for reading the proposals
        * - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal
        * - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
@@ -894,7 +887,8 @@ declare module '@polkadot/api/types/submittable' {
        * Requires the sender to be a member.
        * 
        * Transaction fees will be waived if the member is voting on any particular proposal
-       * for the first time and the call is successful. Subsequent vote changes will charge a fee.
+       * for the first time and the call is successful. Subsequent vote changes will charge a
+       * fee.
        * # <weight>
        * ## Weight
        * - `O(M)` where `M` is members-count (code- and governance-bounded)
@@ -3529,7 +3523,8 @@ declare module '@polkadot/api/types/submittable' {
        * If the close operation completes successfully with disapproval, the transaction fee will
        * be waived. Otherwise execution of the approved operation will be charged to the caller.
        * 
-       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.
+       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed
+       * proposal.
        * + `length_bound`: The upper bound for the length of the proposal in storage. Checked via
        * `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.
        * 
@@ -3542,14 +3537,16 @@ declare module '@polkadot/api/types/submittable' {
        * - `P2` is proposal-count (code-bounded)
        * - DB:
        * - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
-       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)
+       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec
+       * `O(P2)`)
        * - any mutations done while executing `proposal` (`P1`)
        * - up to 3 events
        * # </weight>
        **/
       close: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: Compact<ProposalIndex> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<ProposalIndex>, Compact<Weight>, Compact<u32>]>;
       /**
-       * Disapprove a proposal, close, and remove it from the system, regardless of its current state.
+       * Disapprove a proposal, close, and remove it from the system, regardless of its current
+       * state.
        * 
        * Must be called by the Root origin.
        * 
@@ -3571,7 +3568,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * # <weight>
        * ## Weight
-       * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`
+       * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+       * `proposal`
        * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
        * - 1 event
        * # </weight>
@@ -3612,8 +3610,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `new_members`: The new member list. Be nice to the chain and provide it sorted.
        * - `prime`: The prime member whose vote sets the default.
-       * - `old_count`: The upper bound for the previous number of members in storage.
-       * Used for weight estimation.
+       * - `old_count`: The upper bound for the previous number of members in storage. Used for
+       * weight estimation.
        * 
        * Requires root origin.
        * 
@@ -3627,7 +3625,8 @@ declare module '@polkadot/api/types/submittable' {
        * - `N` new-members-count (code- and governance-bounded)
        * - `P` proposals-count (code-bounded)
        * - DB:
-       * - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members
+       * - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the
+       * members
        * - 1 storage read (codec `O(P)`) for reading the proposals
        * - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal
        * - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
@@ -3640,7 +3639,8 @@ declare module '@polkadot/api/types/submittable' {
        * Requires the sender to be a member.
        * 
        * Transaction fees will be waived if the member is voting on any particular proposal
-       * for the first time and the call is successful. Subsequent vote changes will charge a fee.
+       * for the first time and the call is successful. Subsequent vote changes will charge a
+       * fee.
        * # <weight>
        * ## Weight
        * - `O(M)` where `M` is members-count (code- and governance-bounded)
@@ -3746,10 +3746,9 @@ declare module '@polkadot/api/types/submittable' {
        * as the hash of the tuple of the original tip `reason` and the beneficiary account ID.
        * 
        * # <weight>
-       * - Complexity: `O(T)` where `T` is the number of tippers.
-       * decoding `Tipper` vec of length `T`.
-       * `T` is charged as upper bound given by `ContainsLengthBound`.
-       * The actual cost depends on the implementation of `T::Tippers`.
+       * - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length
+       * `T`. `T` is charged as upper bound given by `ContainsLengthBound`. The actual cost
+       * depends on the implementation of `T::Tippers`.
        * - DbReads: `Tips`, `Tippers`, `tip finder`
        * - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`
        * # </weight>
@@ -3830,10 +3829,9 @@ declare module '@polkadot/api/types/submittable' {
        * has started.
        * 
        * # <weight>
-       * - Complexity: `O(T)` where `T` is the number of tippers.
-       * decoding `Tipper` vec of length `T`, insert tip and check closing,
-       * `T` is charged as upper bound given by `ContainsLengthBound`.
-       * The actual cost depends on the implementation of `T::Tippers`.
+       * - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length
+       * `T`, insert tip and check closing, `T` is charged as upper bound given by
+       * `ContainsLengthBound`. The actual cost depends on the implementation of `T::Tippers`.
        * 
        * Actually weight could be lower as it depends on how many tips are in `OpenTip` but it
        * is weighted as if almost full i.e of length `T-1`.
@@ -3858,9 +3856,9 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * # <weight>
        * - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.
-       * - `O(T)`: decoding `Tipper` vec of length `T`
-       * `T` is charged as upper bound given by `ContainsLengthBound`.
-       * The actual cost depends on the implementation of `T::Tippers`.
+       * - `O(T)`: decoding `Tipper` vec of length `T`. `T` is charged as upper bound given by
+       * `ContainsLengthBound`. The actual cost depends on the implementation of
+       * `T::Tippers`.
        * - `O(R)`: hashing and encoding of reason of length `R`
        * - DbReads: `Tippers`, `Reasons`
        * - DbWrites: `Reasons`, `Tips`

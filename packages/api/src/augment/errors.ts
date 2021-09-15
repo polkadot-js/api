@@ -196,9 +196,8 @@ declare module '@polkadot/api/types/errors' {
     contracts: {
       /**
        * Performing the requested transfer would have brought the contract below
-       * the subsistence threshold. No transfer is allowed to do this in order to allow
-       * for a tombstone to be created. Use `seal_terminate` to remove a contract without
-       * leaving a tombstone behind.
+       * the subsistence threshold. No transfer is allowed to do this. Use `seal_terminate`
+       * to recover a deposit.
        **/
       BelowSubsistenceThreshold: AugmentedError<ApiType>;
       /**
@@ -210,20 +209,6 @@ declare module '@polkadot/api/types/errors' {
        * current schedule.
        **/
       CodeTooLarge: AugmentedError<ApiType>;
-      /**
-       * A tombstone exist at the specified address.
-       * 
-       * Tombstone cannot be called. Anyone can use `seal_restore_to` in order to revive
-       * the contract, though.
-       **/
-      ContractIsTombstone: AugmentedError<ApiType>;
-      /**
-       * A contract could not be evicted because it has enough balance to pay rent.
-       * 
-       * This can be returned from [`Pallet::claim_surcharge`] because the target
-       * contract has enough balance to pay for its rent.
-       **/
-      ContractNotEvictable: AugmentedError<ApiType>;
       /**
        * No contract was found at the specified address.
        **/
@@ -243,7 +228,7 @@ declare module '@polkadot/api/types/errors' {
       /**
        * Removal of a contract failed because the deletion queue is full.
        * 
-       * This can happen when either calling [`Pallet::claim_surcharge`] or `seal_terminate`.
+       * This can happen when calling `seal_terminate`.
        * The queue is filled by deleting contracts and emptied by a fixed amount each block.
        * Trying again during another block is the only way to resolve this issue.
        **/
@@ -261,29 +246,9 @@ declare module '@polkadot/api/types/errors' {
        **/
       InputForwarded: AugmentedError<ApiType>;
       /**
-       * An origin TrieId written in the current block.
-       **/
-      InvalidContractOrigin: AugmentedError<ApiType>;
-      /**
-       * Cannot restore to nonexisting or alive contract.
-       **/
-      InvalidDestinationContract: AugmentedError<ApiType>;
-      /**
        * A new schedule must have a greater version than the current one.
        **/
       InvalidScheduleVersion: AugmentedError<ApiType>;
-      /**
-       * Cannot restore from nonexisting or tombstone contract.
-       **/
-      InvalidSourceContract: AugmentedError<ApiType>;
-      /**
-       * An origin must be signed or inherent and auxiliary sender only provided on inherent.
-       **/
-      InvalidSurchargeClaim: AugmentedError<ApiType>;
-      /**
-       * Tombstones don't match.
-       **/
-      InvalidTombstone: AugmentedError<ApiType>;
       /**
        * Performing a call was denied because the calling depth reached the limit
        * of what is specified in the schedule.
@@ -321,15 +286,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       ReentranceDenied: AugmentedError<ApiType>;
       /**
-       * The called contract does not have enough balance to pay for its storage.
-       * 
-       * The contract ran out of balance and is therefore eligible for eviction into a
-       * tombstone. Anyone can evict the contract by submitting a `claim_surcharge`
-       * extrinsic. Alternatively, a plain balance transfer can be used in order to
-       * increase the contracts funds so that it can be called again.
-       **/
-      RentNotPaid: AugmentedError<ApiType>;
-      /**
        * A storage modification exhausted the 32bit type that holds the storage size.
        * 
        * This can either happen when the accumulated storage in bytes is too large or
@@ -339,12 +295,12 @@ declare module '@polkadot/api/types/errors' {
       /**
        * A contract self destructed in its constructor.
        * 
-       * This can be triggered by a call to `seal_terminate` or `seal_restore_to`.
+       * This can be triggered by a call to `seal_terminate`.
        **/
       TerminatedInConstructor: AugmentedError<ApiType>;
       /**
        * Termination of a contract is not allowed while the contract is already
-       * on the call stack. Can be triggered by `seal_terminate` or `seal_restore_to.
+       * on the call stack. Can be triggered by `seal_terminate`.
        **/
       TerminatedWhileReentrant: AugmentedError<ApiType>;
       /**
