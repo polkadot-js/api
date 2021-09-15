@@ -99,6 +99,7 @@ export interface DigestItem extends Enum {
   readonly asPreRuntime: PreRuntime;
   readonly isChangesTrieSignal: boolean;
   readonly asChangesTrieSignal: ChangesTrieSignal;
+  readonly isRuntimeEnvironmentUpdated: boolean;
 }
 
 /** @name EncodedJustification */

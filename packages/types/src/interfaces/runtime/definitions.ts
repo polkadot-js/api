@@ -65,7 +65,8 @@ export default {
         Consensus: 'Consensus', // 4
         Seal: 'Seal', // 5
         PreRuntime: 'PreRuntime', // 6
-        ChangesTrieSignal: 'ChangesTrieSignal' // 7
+        ChangesTrieSignal: 'ChangesTrieSignal', // 7
+        RuntimeEnvironmentUpdated: 'Null' // 8
       }
     },
     ExtrinsicsWeight: {
