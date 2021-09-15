@@ -123,6 +123,13 @@ declare module '@polkadot/api/types/consts' {
     };
     contracts: {
       /**
+       * The deposit that must be placed into the contract's account to instantiate it.
+       * This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].
+       * The minimum balance for a contract's account can be queried using
+       * [`Pallet::subsistence_threshold`].
+       **/
+      contractDeposit: u128 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of tries that can be queued for deletion.
        **/
       deletionQueueDepth: u32 & AugmentedConst<ApiType>;
@@ -131,60 +138,9 @@ declare module '@polkadot/api/types/consts' {
        **/
       deletionWeightLimit: u64 & AugmentedConst<ApiType>;
       /**
-       * The balance every contract needs to deposit to stay alive indefinitely.
-       * 
-       * This is different from the [`Self::TombstoneDeposit`] because this only needs to be
-       * deposited while the contract is alive. Costs for additional storage are added to
-       * this base cost.
-       * 
-       * This is a simple way to ensure that contracts with empty storage eventually get deleted
-       * by making them pay rent. This creates an incentive to remove them early in order to save
-       * rent.
-       **/
-      depositPerContract: u128 & AugmentedConst<ApiType>;
-      /**
-       * The balance a contract needs to deposit per storage byte to stay alive indefinitely.
-       * 
-       * Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1
-       * BU/byte/day, then a contract with 1,000,000 BU that uses 1,000 bytes of storage would
-       * pay no rent. But if the balance reduced to 500,000 BU and the storage stayed the same at
-       * 1,000, then it would pay 500 BU/day.
-       **/
-      depositPerStorageByte: u128 & AugmentedConst<ApiType>;
-      /**
-       * The balance a contract needs to deposit per storage item to stay alive indefinitely.
-       * 
-       * It works the same as [`Self::DepositPerStorageByte`] but for storage items.
-       **/
-      depositPerStorageItem: u128 & AugmentedConst<ApiType>;
-      /**
-       * The fraction of the deposit that should be used as rent per block.
-       * 
-       * When a contract hasn't enough balance deposited to stay alive indefinitely it needs
-       * to pay per block for the storage it consumes that is not covered by the deposit.
-       * This determines how high this rent payment is per block as a fraction of the deposit.
-       **/
-      rentFraction: Perbill & AugmentedConst<ApiType>;
-      /**
        * Cost schedule and limits.
        **/
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
-      /**
-       * Number of block delay an extrinsic claim surcharge has.
-       * 
-       * When claim surcharge is called by an extrinsic the rent is checked
-       * for current_block - delay
-       **/
-      signedClaimHandicap: u32 & AugmentedConst<ApiType>;
-      /**
-       * Reward that is received by the party whose touch has led
-       * to removal of a contract.
-       **/
-      surchargeReward: u128 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount required to generate a tombstone.
-       **/
-      tombstoneDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -253,11 +209,6 @@ declare module '@polkadot/api/types/consts' {
       [key: string]: Codec;
     };
     electionProviderMultiPhase: {
-      /**
-       * Maximum number of iteration of balancing that will be executed in the embedded miner of
-       * the pallet.
-       **/
-      minerMaxIterations: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum length (bytes) that the mined solution should consume.
        * 
@@ -740,7 +691,7 @@ declare module '@polkadot/api/types/consts' {
     };
     tips: {
       /**
-       * The amount held on deposit per byte within the tip report reason.
+       * The amount held on deposit per byte within the tip report reason or bounty description.
        **/
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
@@ -752,7 +703,7 @@ declare module '@polkadot/api/types/consts' {
        **/
       tipCountdown: u32 & AugmentedConst<ApiType>;
       /**
-       * The amount of the final tip which goes to the original reporter of the tip.
+       * The percent of the final tip which goes to the original reporter of the tip.
        **/
       tipFindersFee: Percent & AugmentedConst<ApiType>;
       /**

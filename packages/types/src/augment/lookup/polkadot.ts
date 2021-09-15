@@ -7,6 +7,18 @@ import type { DefinitionsTypes } from '../../types';
 
 export default {
   /**
+   * Lookup58: pallet_collective::Instance1
+   **/
+  PalletCollectiveInstance1: 'Null',
+  /**
+   * Lookup61: pallet_collective::Instance2
+   **/
+  PalletCollectiveInstance2: 'Null',
+  /**
+   * Lookup66: pallet_membership::Instance1
+   **/
+  PalletMembershipInstance1: 'Null',
+  /**
    * Lookup69: polkadot_runtime_common::claims::EthereumAddress
    **/
   PolkadotRuntimeCommonClaimsEthereumAddress: '[u8;20]',
@@ -88,6 +100,26 @@ export default {
       Unused14: 'Null',
       Council: 'PalletCollectiveRawOriginInstance1',
       TechnicalCommittee: 'PalletCollectiveRawOriginInstance2',
+    }
+  },
+  /**
+   * Lookup295: pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance1>
+   **/
+  PalletCollectiveRawOriginInstance1: {
+    _enum: {
+      Members: '(u32,u32)',
+      Member: 'AccountId32',
+      _Phantom: 'Null',
+    }
+  },
+  /**
+   * Lookup296: pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance2>
+   **/
+  PalletCollectiveRawOriginInstance2: {
+    _enum: {
+      Members: '(u32,u32)',
+      Member: 'AccountId32',
+      _Phantom: 'Null',
     }
   },
   /**

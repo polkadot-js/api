@@ -2,10 +2,19 @@
 /* eslint-disable */
 
 import type { Compact, Enum, Null, Struct, U8aFixed, Vec, u16, u32 } from '@polkadot/types';
-import type { PerU16 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, PerU16 } from '@polkadot/types/interfaces/runtime';
 import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
+
+  /** @name PalletCollectiveInstance1 (58) */
+  export type PalletCollectiveInstance1 = Null;
+
+  /** @name PalletCollectiveInstance2 (61) */
+  export type PalletCollectiveInstance2 = Null;
+
+  /** @name PalletMembershipInstance1 (66) */
+  export type PalletMembershipInstance1 = Null;
 
   /** @name PolkadotRuntimeCommonClaimsEthereumAddress (69) */
   export interface PolkadotRuntimeCommonClaimsEthereumAddress extends U8aFixed {}
@@ -88,6 +97,24 @@ declare module '@polkadot/types/lookup' {
     readonly asCouncil: PalletCollectiveRawOriginInstance1;
     readonly isTechnicalCommittee: boolean;
     readonly asTechnicalCommittee: PalletCollectiveRawOriginInstance2;
+  }
+
+  /** @name PalletCollectiveRawOriginInstance1 (295) */
+  export interface PalletCollectiveRawOriginInstance1 extends Enum {
+    readonly isMembers: boolean;
+    readonly asMembers: ITuple<[u32, u32]>;
+    readonly isMember: boolean;
+    readonly asMember: AccountId32;
+    readonly isPhantom: boolean;
+  }
+
+  /** @name PalletCollectiveRawOriginInstance2 (296) */
+  export interface PalletCollectiveRawOriginInstance2 extends Enum {
+    readonly isMembers: boolean;
+    readonly asMembers: ITuple<[u32, u32]>;
+    readonly isMember: boolean;
+    readonly asMember: AccountId32;
+    readonly isPhantom: boolean;
   }
 
   /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (444) */

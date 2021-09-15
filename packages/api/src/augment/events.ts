@@ -172,7 +172,7 @@ declare module '@polkadot/api/types/events' {
        * A code with the specified hash was removed.
        * \[code_hash\]
        * 
-       * This happens when the last contract that uses this code hash was removed or evicted.
+       * This happens when the last contract that uses this code hash was removed.
        **/
       CodeRemoved: AugmentedEvent<ApiType, [H256]>;
       /**
@@ -191,25 +191,9 @@ declare module '@polkadot/api/types/events' {
        **/
       ContractEmitted: AugmentedEvent<ApiType, [AccountId32, Bytes]>;
       /**
-       * Contract has been evicted and is now in tombstone state. \[contract\]
-       **/
-      Evicted: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
        * Contract deployed by address at the specified address. \[deployer, contract\]
        **/
       Instantiated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
-      /**
-       * Restoration of a contract has been successful.
-       * \[restorer, dest, code_hash, rent_allowance\]
-       * 
-       * # Params
-       * 
-       * - `restorer`: Account ID of the restoring contract.
-       * - `dest`: Account ID of the restored contract.
-       * - `code_hash`: Code hash of the restored contract.
-       * - `rent_allowance`: Rent allowance of the restored contract.
-       **/
-      Restored: AugmentedEvent<ApiType, [AccountId32, AccountId32, H256, u128]>;
       /**
        * Triggered when the current schedule is updated.
        * \[version\]
@@ -220,7 +204,7 @@ declare module '@polkadot/api/types/events' {
        **/
       ScheduleUpdated: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Contract has been terminated without leaving a tombstone.
+       * Contract has been removed.
        * \[contract, beneficiary\]
        * 
        * # Params
@@ -230,8 +214,8 @@ declare module '@polkadot/api/types/events' {
        * 
        * # Note
        * 
-       * The only way for a contract to be removed without a tombstone and emitting
-       * this event is by calling `seal_terminate`.
+       * The only way for a contract to be removed and emitting this event is by calling
+       * `seal_terminate`.
        **/
       Terminated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
       /**
