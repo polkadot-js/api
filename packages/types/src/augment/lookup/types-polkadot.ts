@@ -2,24 +2,15 @@
 /* eslint-disable */
 
 import type { Compact, Enum, Null, Struct, U8aFixed, Vec, u16, u32 } from '@polkadot/types';
-import type { AccountId32, PerU16 } from '@polkadot/types/interfaces/runtime';
+import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
-  /** @name PalletCollectiveInstance1 (58) */
-  export type PalletCollectiveInstance1 = Null;
-
-  /** @name PalletCollectiveInstance2 (61) */
-  export type PalletCollectiveInstance2 = Null;
-
-  /** @name PalletMembershipInstance1 (66) */
-  export type PalletMembershipInstance1 = Null;
-
-  /** @name PolkadotRuntimeCommonClaimsEthereumAddress (69) */
+  /** @name PolkadotRuntimeCommonClaimsEthereumAddress (66) */
   export interface PolkadotRuntimeCommonClaimsEthereumAddress extends U8aFixed {}
 
-  /** @name PolkadotRuntimeProxyType (75) */
+  /** @name PolkadotRuntimeProxyType (72) */
   export interface PolkadotRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -30,7 +21,7 @@ declare module '@polkadot/types/lookup' {
     readonly isCancelProxy: boolean;
   }
 
-  /** @name PolkadotRuntimeSessionKeys (142) */
+  /** @name PolkadotRuntimeSessionKeys (139) */
   export interface PolkadotRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -40,22 +31,22 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name PolkadotPrimitivesV0ValidatorAppPublic (143) */
+  /** @name PolkadotPrimitivesV0ValidatorAppPublic (140) */
   export interface PolkadotPrimitivesV0ValidatorAppPublic extends SpCoreSr25519Public {}
 
-  /** @name PolkadotPrimitivesV1AssignmentAppPublic (144) */
+  /** @name PolkadotPrimitivesV1AssignmentAppPublic (141) */
   export interface PolkadotPrimitivesV1AssignmentAppPublic extends SpCoreSr25519Public {}
 
-  /** @name PolkadotRuntimeCommonClaimsEcdsaSignature (178) */
+  /** @name PolkadotRuntimeCommonClaimsEcdsaSignature (175) */
   export interface PolkadotRuntimeCommonClaimsEcdsaSignature extends U8aFixed {}
 
-  /** @name PolkadotRuntimeCommonClaimsStatementKind (183) */
+  /** @name PolkadotRuntimeCommonClaimsStatementKind (180) */
   export interface PolkadotRuntimeCommonClaimsStatementKind extends Enum {
     readonly isRegular: boolean;
     readonly isSaft: boolean;
   }
 
-  /** @name PolkadotRuntimeNposCompactSolution16 (236) */
+  /** @name PolkadotRuntimeNposCompactSolution16 (233) */
   export interface PolkadotRuntimeNposCompactSolution16 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -75,7 +66,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes16: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PolkadotRuntimeOriginCaller (293) */
+  /** @name PolkadotRuntimeOriginCaller (290) */
   export interface PolkadotRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
@@ -94,33 +85,15 @@ declare module '@polkadot/types/lookup' {
     readonly isUnused13: boolean;
     readonly isUnused14: boolean;
     readonly isCouncil: boolean;
-    readonly asCouncil: PalletCollectiveRawOriginInstance1;
+    readonly asCouncil: PalletCollectiveRawOrigin;
     readonly isTechnicalCommittee: boolean;
-    readonly asTechnicalCommittee: PalletCollectiveRawOriginInstance2;
+    readonly asTechnicalCommittee: PalletCollectiveRawOrigin;
   }
 
-  /** @name PalletCollectiveRawOriginInstance1 (295) */
-  export interface PalletCollectiveRawOriginInstance1 extends Enum {
-    readonly isMembers: boolean;
-    readonly asMembers: ITuple<[u32, u32]>;
-    readonly isMember: boolean;
-    readonly asMember: AccountId32;
-    readonly isPhantom: boolean;
-  }
-
-  /** @name PalletCollectiveRawOriginInstance2 (296) */
-  export interface PalletCollectiveRawOriginInstance2 extends Enum {
-    readonly isMembers: boolean;
-    readonly asMembers: ITuple<[u32, u32]>;
-    readonly isMember: boolean;
-    readonly asMember: AccountId32;
-    readonly isPhantom: boolean;
-  }
-
-  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (444) */
+  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (441) */
   export type PolkadotRuntimeCommonClaimsPrevalidateAttests = Null;
 
-  /** @name PolkadotRuntimeRuntime (445) */
+  /** @name PolkadotRuntimeRuntime (442) */
   export type PolkadotRuntimeRuntime = Null;
 
 }

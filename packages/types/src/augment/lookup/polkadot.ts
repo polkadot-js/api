@@ -7,29 +7,17 @@ import type { DefinitionsTypes } from '../../types';
 
 export default {
   /**
-   * Lookup58: pallet_collective::Instance1
-   **/
-  PalletCollectiveInstance1: 'Null',
-  /**
-   * Lookup61: pallet_collective::Instance2
-   **/
-  PalletCollectiveInstance2: 'Null',
-  /**
-   * Lookup66: pallet_membership::Instance1
-   **/
-  PalletMembershipInstance1: 'Null',
-  /**
-   * Lookup69: polkadot_runtime_common::claims::EthereumAddress
+   * Lookup66: polkadot_runtime_common::claims::EthereumAddress
    **/
   PolkadotRuntimeCommonClaimsEthereumAddress: '[u8;20]',
   /**
-   * Lookup75: polkadot_runtime::ProxyType
+   * Lookup72: polkadot_runtime::ProxyType
    **/
   PolkadotRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'Unused4', 'IdentityJudgement', 'CancelProxy']
   },
   /**
-   * Lookup142: polkadot_runtime::SessionKeys
+   * Lookup139: polkadot_runtime::SessionKeys
    **/
   PolkadotRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -40,25 +28,25 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup143: polkadot_primitives::v0::validator_app::Public
+   * Lookup140: polkadot_primitives::v0::validator_app::Public
    **/
   PolkadotPrimitivesV0ValidatorAppPublic: 'SpCoreSr25519Public',
   /**
-   * Lookup144: polkadot_primitives::v1::assignment_app::Public
+   * Lookup141: polkadot_primitives::v1::assignment_app::Public
    **/
   PolkadotPrimitivesV1AssignmentAppPublic: 'SpCoreSr25519Public',
   /**
-   * Lookup178: polkadot_runtime_common::claims::EcdsaSignature
+   * Lookup175: polkadot_runtime_common::claims::EcdsaSignature
    **/
   PolkadotRuntimeCommonClaimsEcdsaSignature: '[u8;65]',
   /**
-   * Lookup183: polkadot_runtime_common::claims::StatementKind
+   * Lookup180: polkadot_runtime_common::claims::StatementKind
    **/
   PolkadotRuntimeCommonClaimsStatementKind: {
     _enum: ['Regular', 'Saft']
   },
   /**
-   * Lookup236: polkadot_runtime::NposCompactSolution16
+   * Lookup233: polkadot_runtime::NposCompactSolution16
    **/
   PolkadotRuntimeNposCompactSolution16: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -79,7 +67,7 @@ export default {
     votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>'
   },
   /**
-   * Lookup293: polkadot_runtime::OriginCaller
+   * Lookup290: polkadot_runtime::OriginCaller
    **/
   PolkadotRuntimeOriginCaller: {
     _enum: {
@@ -98,36 +86,16 @@ export default {
       Unused12: 'Null',
       Unused13: 'Null',
       Unused14: 'Null',
-      Council: 'PalletCollectiveRawOriginInstance1',
-      TechnicalCommittee: 'PalletCollectiveRawOriginInstance2'
+      Council: 'PalletCollectiveRawOrigin',
+      TechnicalCommittee: 'PalletCollectiveRawOrigin'
     }
   },
   /**
-   * Lookup295: pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance1>
-   **/
-  PalletCollectiveRawOriginInstance1: {
-    _enum: {
-      Members: '(u32,u32)',
-      Member: 'AccountId32',
-      _Phantom: 'Null'
-    }
-  },
-  /**
-   * Lookup296: pallet_collective::RawOrigin<sp_core::crypto::AccountId32, pallet_collective::Instance2>
-   **/
-  PalletCollectiveRawOriginInstance2: {
-    _enum: {
-      Members: '(u32,u32)',
-      Member: 'AccountId32',
-      _Phantom: 'Null'
-    }
-  },
-  /**
-   * Lookup444: polkadot_runtime_common::claims::PrevalidateAttests<T>
+   * Lookup441: polkadot_runtime_common::claims::PrevalidateAttests<T>
    **/
   PolkadotRuntimeCommonClaimsPrevalidateAttests: 'Null',
   /**
-   * Lookup445: polkadot_runtime::Runtime
+   * Lookup442: polkadot_runtime::Runtime
    **/
   PolkadotRuntimeRuntime: 'Null'
 } as DefinitionsTypes;
