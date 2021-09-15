@@ -23,9 +23,7 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
   it('decodes latest substrate properly', (): void => {
     const json = metadata.toJSON() as Record<string, Record<string, Record<string, string>>>;
 
-    if (json.metadata && json.metadata[`v${metadata.version}`]) {
-      delete json.metadata[`v${metadata.version}`].lookup;
-    }
+    delete json.metadata[`v${metadata.version}`].lookup;
 
     expect(metadata.version).toBe(version);
 
