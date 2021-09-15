@@ -23,8 +23,9 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
   it('decodes latest substrate properly', (): void => {
     const json = metadata.toJSON() as Record<string, Record<string, Record<string, string>>>;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    delete json.metadata?.[`v${metadata.version}`]?.lookup;
+    if (json.metadata && json.metadata[`v${metadata.version}`]) {
+      delete json.metadata[`v${metadata.version}`].lookup;
+    }
 
     expect(metadata.version).toBe(version);
 
@@ -39,7 +40,7 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
 
       fs.writeFileSync(
         path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
-        stringify(metadata.toJSON(), 2),
+        stringify(json, 2),
         { flag: 'w' }
       );
     }
