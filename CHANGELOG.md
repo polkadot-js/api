@@ -2,10 +2,15 @@
 
 ## master
 
+Contributed:
+
+- Allow for `.clone` on Http provider (Thanks to https://github.com/ianhe8x)
+
 Changes:
 
 - Adjust Kusama `IdentityInfo` type for historic versions
 - All `null` values in bundles min/max
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 5.9.1 Sep 13, 2021
