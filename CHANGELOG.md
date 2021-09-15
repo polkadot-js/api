@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Align `DigestItem` to latest Substrate
 - Adjust Kusama `IdentityInfo` type for historic versions
 - All `null` values in bundles min/max
 - Bump static metadata for latest Substrate, Polkadot & Kusama
