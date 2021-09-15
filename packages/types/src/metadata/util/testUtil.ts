@@ -14,6 +14,14 @@ import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
+function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {
+  fs.writeFileSync(
+    path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-${sub}.json`),
+    stringify(json, 2),
+    { flag: 'w' }
+  );
+}
+
 /** @internal */
 export function decodeLatestMeta (registry: Registry, type: string, version: number, { compare, data, types }: Check): void {
   const metadata = new Metadata(registry, data);
@@ -36,11 +44,7 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
         throw error;
       }
 
-      fs.writeFileSync(
-        path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
-        stringify(json, 2),
-        { flag: 'w' }
-      );
+      writeJson(json, version, type, 'json');
     }
   });
 
@@ -57,11 +61,7 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
           throw error;
         }
 
-        fs.writeFileSync(
-          path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-types.json`),
-          stringify(json, 2),
-          { flag: 'w' }
-        );
+        writeJson(json, version, type, 'types');
       }
     }
   });
