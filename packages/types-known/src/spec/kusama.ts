@@ -45,6 +45,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
+      IdentityInfo: 'IdentityInfoTo198',
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -195,6 +196,7 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       AssetInstance: 'AssetInstanceV0',
       MultiAsset: 'MultiAssetV0',
+      MultiLocation: 'MultiLocationV0',
       Response: 'ResponseV0',
       Xcm: 'XcmV0',
       XcmOrder: 'XcmOrderV0'

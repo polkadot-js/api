@@ -3,7 +3,7 @@
 
 import type { ApiTypes } from '@polkadot/api/types';
 import type { U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
-import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
+import type { BalanceOf, Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 import type { Codec } from '@polkadot/types/types';
 
@@ -123,6 +123,13 @@ declare module '@polkadot/api/types/consts' {
     };
     contracts: {
       /**
+       * The deposit that must be placed into the contract's account to instantiate it.
+       * This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].
+       * The minimum balance for a contract's account can be queried using
+       * [`Pallet::subsistence_threshold`].
+       **/
+      contractDeposit: BalanceOf & AugmentedConst<ApiType>;
+      /**
        * The maximum number of tries that can be queued for deletion.
        **/
       deletionQueueDepth: u32 & AugmentedConst<ApiType>;
@@ -132,11 +139,11 @@ declare module '@polkadot/api/types/consts' {
       deletionWeightLimit: u64 & AugmentedConst<ApiType>;
       /**
        * The balance every contract needs to deposit to stay alive indefinitely.
-       * 
+       *
        * This is different from the [`Self::TombstoneDeposit`] because this only needs to be
        * deposited while the contract is alive. Costs for additional storage are added to
        * this base cost.
-       * 
+       *
        * This is a simple way to ensure that contracts with empty storage eventually get deleted
        * by making them pay rent. This creates an incentive to remove them early in order to save
        * rent.
@@ -144,7 +151,7 @@ declare module '@polkadot/api/types/consts' {
       depositPerContract: u128 & AugmentedConst<ApiType>;
       /**
        * The balance a contract needs to deposit per storage byte to stay alive indefinitely.
-       * 
+       *
        * Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1
        * BU/byte/day, then a contract with 1,000,000 BU that uses 1,000 bytes of storage would
        * pay no rent. But if the balance reduced to 500,000 BU and the storage stayed the same at
@@ -153,13 +160,13 @@ declare module '@polkadot/api/types/consts' {
       depositPerStorageByte: u128 & AugmentedConst<ApiType>;
       /**
        * The balance a contract needs to deposit per storage item to stay alive indefinitely.
-       * 
+       *
        * It works the same as [`Self::DepositPerStorageByte`] but for storage items.
        **/
       depositPerStorageItem: u128 & AugmentedConst<ApiType>;
       /**
        * The fraction of the deposit that should be used as rent per block.
-       * 
+       *
        * When a contract hasn't enough balance deposited to stay alive indefinitely it needs
        * to pay per block for the storage it consumes that is not covered by the deposit.
        * This determines how high this rent payment is per block as a fraction of the deposit.
@@ -171,7 +178,7 @@ declare module '@polkadot/api/types/consts' {
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
       /**
        * Number of block delay an extrinsic claim surcharge has.
-       * 
+       *
        * When claim surcharge is called by an extrinsic the rent is checked
        * for current_block - delay
        **/
@@ -197,7 +204,7 @@ declare module '@polkadot/api/types/consts' {
       cooloffPeriod: u32 & AugmentedConst<ApiType>;
       /**
        * The period between a proposal being approved and enacted.
-       * 
+       *
        * It should generally be a little more than the unstake period to ensure that
        * voting stakers have an opportunity to remove themselves from the system in the case
        * where they are on the losing side of a vote.
@@ -223,7 +230,7 @@ declare module '@polkadot/api/types/consts' {
       maxProposals: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
-       * 
+       *
        * Also used to compute weight, an overly big value can
        * lead to extrinsic with very big weight: see `delegate` for instance.
        **/
@@ -238,7 +245,7 @@ declare module '@polkadot/api/types/consts' {
       preimageByteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The minimum period of vote locking.
-       * 
+       *
        * It should be no shorter than enactment period to ensure that in the case of an approval,
        * those successful voters are locked into the consequences that their votes entail.
        **/
@@ -254,20 +261,15 @@ declare module '@polkadot/api/types/consts' {
     };
     electionProviderMultiPhase: {
       /**
-       * Maximum number of iteration of balancing that will be executed in the embedded miner of
-       * the pallet.
-       **/
-      minerMaxIterations: u32 & AugmentedConst<ApiType>;
-      /**
        * Maximum length (bytes) that the mined solution should consume.
-       * 
+       *
        * The miner will ensure that the total length of the unsigned solution will not exceed
        * this value.
        **/
       minerMaxLength: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum weight that the miner should consume.
-       * 
+       *
        * The miner will ensure that the total weight of the unsigned solution will not exceed
        * this value, based on [`WeightInfo::submit_unsigned`].
        **/
@@ -278,7 +280,7 @@ declare module '@polkadot/api/types/consts' {
       minerTxPriority: u64 & AugmentedConst<ApiType>;
       /**
        * The repeat threshold of the offchain worker.
-       * 
+       *
        * For example, if it is 5, that means that at least 5 blocks will elapse between attempts
        * to submit the worker's solution.
        **/
@@ -297,7 +299,7 @@ declare module '@polkadot/api/types/consts' {
       signedDepositWeight: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum number of signed submissions that can be queued.
-       * 
+       *
        * It is best to avoid adjusting this during an election, as it impacts downstream data
        * structures. In particular, `SignedSubmissionIndices<T>` is bounded on this value. If you
        * update this value during an election, you _must_ ensure that
@@ -307,7 +309,7 @@ declare module '@polkadot/api/types/consts' {
       signedMaxSubmissions: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum weight of a signed solution.
-       * 
+       *
        * This should probably be similar to [`Config::MinerMaxWeight`].
        **/
       signedMaxWeight: u64 & AugmentedConst<ApiType>;
@@ -358,7 +360,7 @@ declare module '@polkadot/api/types/consts' {
       termDuration: u32 & AugmentedConst<ApiType>;
       /**
        * Base deposit associated with voting.
-       * 
+       *
        * This should be sensibly high to economically ensure the pallet cannot be attacked by
        * creating a gigantic number of votes.
        **/
@@ -375,7 +377,7 @@ declare module '@polkadot/api/types/consts' {
     gilt: {
       /**
        * Portion of the queue which is free from ordering and just a FIFO.
-       * 
+       *
        * Must be no greater than `MaxQueueLen`.
        **/
       fifoQueueLen: u32 & AugmentedConst<ApiType>;
@@ -387,7 +389,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The number of blocks between consecutive attempts to issue more gilts in an effort to
        * get to the target amount to be frozen.
-       * 
+       *
        * A larger value results in fewer storage hits each block, but a slower period to get to
        * the target.
        **/
@@ -406,7 +408,7 @@ declare module '@polkadot/api/types/consts' {
        * The minimum amount of funds that may be offered to freeze for a gilt. Note that this
        * does not actually limit the amount which may be frozen in a gilt since gilts may be
        * split up in order to satisfy the desired amount of funds under gilts.
-       * 
+       *
        * It should be at least big enough to ensure that there is no possible storage spam attack
        * or queue-filling attack.
        **/
@@ -463,7 +465,7 @@ declare module '@polkadot/api/types/consts' {
     imOnline: {
       /**
        * A configuration for base priority of unsigned transactions.
-       * 
+       *
        * This is exposed so that it can be tuned for particular runtime, when
        * multiple pallets send unsigned transactions.
        **/
@@ -507,7 +509,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The base amount of currency needed to reserve for creating a multisig execution or to
        * store a dispatch call for later.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is
        * `32 + sizeof(AccountId)` bytes.
@@ -515,7 +517,7 @@ declare module '@polkadot/api/types/consts' {
       depositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per unit threshold when creating a multisig execution.
-       * 
+       *
        * This is held for adding 32 bytes more into a pre-existing storage value.
        **/
       depositFactor: u128 & AugmentedConst<ApiType>;
@@ -531,14 +533,14 @@ declare module '@polkadot/api/types/consts' {
     proxy: {
       /**
        * The base amount of currency needed to reserve for creating an announcement.
-       * 
+       *
        * This is held when a new storage item holding a `Balance` is created (typically 16
        * bytes).
        **/
       announcementDepositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per announcement made.
-       * 
+       *
        * This is held for adding an `AccountId`, `Hash` and `BlockNumber` (typically 68 bytes)
        * into a pre-existing storage value.
        **/
@@ -553,14 +555,14 @@ declare module '@polkadot/api/types/consts' {
       maxProxies: u32 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for creating a proxy.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `sizeof(Balance)` bytes and whose key size is `sizeof(AccountId)` bytes.
        **/
       proxyDepositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per proxy added.
-       * 
+       *
        * This is held for adding 32 bytes plus an instance of `ProxyType` more into a
        * pre-existing storage value. Thus, when configuring `ProxyDepositFactor` one should take
        * into account `32 + proxy_type.encode().len()` bytes of data.
@@ -574,7 +576,7 @@ declare module '@polkadot/api/types/consts' {
     recovery: {
       /**
        * The base amount of currency needed to reserve for creating a recovery configuration.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `2 + sizeof(BlockNumber, Balance)` bytes.
        **/
@@ -582,7 +584,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * The amount of currency needed per additional user when creating a recovery
        * configuration.
-       * 
+       *
        * This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage
        * value.
        **/
@@ -593,7 +595,7 @@ declare module '@polkadot/api/types/consts' {
       maxFriends: u16 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for starting a recovery.
-       * 
+       *
        * This is primarily held for deterring malicious recovery attempts, and should
        * have a value large enough that a bad actor would choose not to place this
        * deposit. It also acts to fund additional storage item whose value size is
@@ -670,7 +672,7 @@ declare module '@polkadot/api/types/consts' {
       maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
-       * 
+       *
        * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can
        * claim their reward. This used to limit the i/o cost for the nominator payout.
        **/
@@ -681,7 +683,7 @@ declare module '@polkadot/api/types/consts' {
       sessionsPerEra: u32 & AugmentedConst<ApiType>;
       /**
        * Number of eras that slashes are deferred by, after computation.
-       * 
+       *
        * This should be less than the bonding duration. Set to 0 if slashes
        * should be applied immediately, without opportunity for intervention.
        **/
@@ -710,7 +712,7 @@ declare module '@polkadot/api/types/consts' {
       dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The designated SS85 prefix of this chain.
-       * 
+       *
        * This replaces the "ss58Format" property declared in the chain spec. Reason is
        * that the runtime should know about the prefix in order to make use of it as
        * an identifier of the chain.
@@ -740,7 +742,7 @@ declare module '@polkadot/api/types/consts' {
     };
     tips: {
       /**
-       * The amount held on deposit per byte within the tip report reason.
+       * The amount held on deposit per byte within the tip report reason or bounty description.
        **/
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
@@ -752,7 +754,7 @@ declare module '@polkadot/api/types/consts' {
        **/
       tipCountdown: u32 & AugmentedConst<ApiType>;
       /**
-       * The amount of the final tip which goes to the original reporter of the tip.
+       * The percent of the final tip which goes to the original reporter of the tip.
        **/
       tipFindersFee: Percent & AugmentedConst<ApiType>;
       /**

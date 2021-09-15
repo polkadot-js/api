@@ -503,7 +503,7 @@
             {
               "name": "Version",
               "type": "RuntimeVersion",
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000b0100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000b0100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -2290,15 +2290,6 @@
               "value": "0xfeffffffffffff7f",
               "docs": [
                 " The priority of the unsigned transaction submitted in the unsigned-phase"
-              ]
-            },
-            {
-              "name": "MinerMaxIterations",
-              "type": "u32",
-              "value": "0x0a000000",
-              "docs": [
-                " Maximum number of iteration of balancing that will be executed in the embedded miner of",
-                " the pallet."
               ]
             },
             {
@@ -5396,7 +5387,7 @@
         {
           "name": "Council",
           "storage": {
-            "prefix": "Instance1Collective",
+            "prefix": "Council",
             "items": [
               {
                 "name": "Proposals",
@@ -5498,8 +5489,8 @@
                 "",
                 " - `new_members`: The new member list. Be nice to the chain and provide it sorted.",
                 " - `prime`: The prime member whose vote sets the default.",
-                " - `old_count`: The upper bound for the previous number of members in storage.",
-                "                Used for weight estimation.",
+                " - `old_count`: The upper bound for the previous number of members in storage. Used for",
+                "   weight estimation.",
                 "",
                 " Requires root origin.",
                 "",
@@ -5513,7 +5504,8 @@
                 "   - `N` new-members-count (code- and governance-bounded)",
                 "   - `P` proposals-count (code-bounded)",
                 " - DB:",
-                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members",
+                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the",
+                "     members",
                 "   - 1 storage read (codec `O(P)`) for reading the proposals",
                 "   - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal",
                 "   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one",
@@ -5539,7 +5531,8 @@
                 "",
                 " # <weight>",
                 " ## Weight",
-                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`",
+                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching",
+                "   `proposal`",
                 " - DB: 1 read (codec `O(M)`) + DB access of `proposal`",
                 " - 1 event",
                 " # </weight>"
@@ -5613,7 +5606,8 @@
                 " Requires the sender to be a member.",
                 "",
                 " Transaction fees will be waived if the member is voting on any particular proposal",
-                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
+                " for the first time and the call is successful. Subsequent vote changes will charge a",
+                " fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -5658,9 +5652,10 @@
                 " If the close operation completes successfully with disapproval, the transaction fee will",
                 " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
-                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
+                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed",
+                " proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
-                "                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
+                " `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
                 "",
                 " # <weight>",
                 " ## Weight",
@@ -5671,7 +5666,8 @@
                 "   - `P2` is proposal-count (code-bounded)",
                 " - DB:",
                 "  - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)",
-                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
+                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec",
+                "    `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
                 " # </weight>"
@@ -5686,7 +5682,8 @@
                 }
               ],
               "docs": [
-                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current",
+                " state.",
                 "",
                 " Must be called by the Root origin.",
                 "",
@@ -5855,7 +5852,7 @@
         {
           "name": "TechnicalCommittee",
           "storage": {
-            "prefix": "Instance2Collective",
+            "prefix": "TechnicalCommittee",
             "items": [
               {
                 "name": "Proposals",
@@ -5957,8 +5954,8 @@
                 "",
                 " - `new_members`: The new member list. Be nice to the chain and provide it sorted.",
                 " - `prime`: The prime member whose vote sets the default.",
-                " - `old_count`: The upper bound for the previous number of members in storage.",
-                "                Used for weight estimation.",
+                " - `old_count`: The upper bound for the previous number of members in storage. Used for",
+                "   weight estimation.",
                 "",
                 " Requires root origin.",
                 "",
@@ -5972,7 +5969,8 @@
                 "   - `N` new-members-count (code- and governance-bounded)",
                 "   - `P` proposals-count (code-bounded)",
                 " - DB:",
-                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members",
+                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the",
+                "     members",
                 "   - 1 storage read (codec `O(P)`) for reading the proposals",
                 "   - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal",
                 "   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one",
@@ -5998,7 +5996,8 @@
                 "",
                 " # <weight>",
                 " ## Weight",
-                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`",
+                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching",
+                "   `proposal`",
                 " - DB: 1 read (codec `O(M)`) + DB access of `proposal`",
                 " - 1 event",
                 " # </weight>"
@@ -6072,7 +6071,8 @@
                 " Requires the sender to be a member.",
                 "",
                 " Transaction fees will be waived if the member is voting on any particular proposal",
-                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
+                " for the first time and the call is successful. Subsequent vote changes will charge a",
+                " fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -6117,9 +6117,10 @@
                 " If the close operation completes successfully with disapproval, the transaction fee will",
                 " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
-                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
+                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed",
+                " proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
-                "                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
+                " `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
                 "",
                 " # <weight>",
                 " ## Weight",
@@ -6130,7 +6131,8 @@
                 "   - `P2` is proposal-count (code-bounded)",
                 " - DB:",
                 "  - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)",
-                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
+                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec",
+                "    `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
                 " # </weight>"
@@ -6145,7 +6147,8 @@
                 }
               ],
               "docs": [
-                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current",
+                " state.",
                 "",
                 " Must be called by the Root origin.",
                 "",
@@ -6794,7 +6797,7 @@
         {
           "name": "TechnicalMembership",
           "storage": {
-            "prefix": "Instance1Membership",
+            "prefix": "TechnicalMembership",
             "items": [
               {
                 "name": "Members",
@@ -7657,30 +7660,6 @@
                 " code deployment step. Instead, the `code_hash` of an on-chain deployed wasm binary",
                 " must be supplied."
               ]
-            },
-            {
-              "name": "claim_surcharge",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "aux_sender",
-                  "type": "Option<AccountId>"
-                }
-              ],
-              "docs": [
-                " Allows block producers to claim a small reward for evicting a contract. If a block",
-                " producer fails to do so, a regular users will be allowed to claim the reward.",
-                "",
-                " In case of a successful eviction no fees are charged from the sender. However, the",
-                " reward is capped by the total amount of rent that was paid by the contract while",
-                " it was alive.",
-                "",
-                " If contract is not evicted as a result of this call, [`Error::ContractNotEvictable`]",
-                " is returned and the sender is not eligible for the reward."
-              ]
             }
           ],
           "events": [
@@ -7695,22 +7674,13 @@
               ]
             },
             {
-              "name": "Evicted",
-              "args": [
-                "AccountId"
-              ],
-              "docs": [
-                " Contract has been evicted and is now in tombstone state. \\[contract\\]"
-              ]
-            },
-            {
               "name": "Terminated",
               "args": [
                 "AccountId",
                 "AccountId"
               ],
               "docs": [
-                " Contract has been terminated without leaving a tombstone.",
+                " Contract has been removed.",
                 " \\[contract, beneficiary\\]",
                 "",
                 " # Params",
@@ -7720,28 +7690,8 @@
                 "",
                 " # Note",
                 "",
-                " The only way for a contract to be removed without a tombstone and emitting",
-                " this event is by calling `seal_terminate`."
-              ]
-            },
-            {
-              "name": "Restored",
-              "args": [
-                "AccountId",
-                "AccountId",
-                "Hash",
-                "Balance"
-              ],
-              "docs": [
-                " Restoration of a contract has been successful.",
-                " \\[restorer, dest, code_hash, rent_allowance\\]",
-                "",
-                " # Params",
-                "",
-                " - `restorer`: Account ID of the restoring contract.",
-                " - `dest`: Account ID of the restored contract.",
-                " - `code_hash`: Code hash of the restored contract.",
-                " - `rent_allowance`: Rent allowance of the restored contract."
+                " The only way for a contract to be removed and emitting this event is by calling",
+                " `seal_terminate`."
               ]
             },
             {
@@ -7793,7 +7743,7 @@
                 " A code with the specified hash was removed.",
                 " \\[code_hash\\]",
                 "",
-                " This happens when the last contract that uses this code hash was removed or evicted."
+                " This happens when the last contract that uses this code hash was removed."
               ]
             }
           ],
@@ -7801,94 +7751,26 @@
             {
               "name": "Schedule",
               "type": "Schedule",
-              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000eb130000ae310000ab370000ba160000bb2b0000222000008c1a0000c83000005200000021e2020044620400151300005c1000005415000042150000f02600000731000070100000d5e3c402001600004016000011160000fb150000e5150000f815000026160000c01600004a16000070160000ac16000091160000cf160000d3160000eb160000f8150000f21600009d1600007a1600005c160000072f00000e250000d22f0000ad2400007c1a0000831600008716000002170000b51600008916000090160000a81600003ee4140000000000de0715000000000020e9140000000000aadd3b0000000000c4ea1400000000004af614000000000074fe14000000000044f714000000000088d614000000000084ee140000000000065f3100000000006276090000000000f0a6310000000000a504000000000000103d260000000000db020000000000007045df1f0000000028135a290000000056f6e60800000000a4bd4300000000003cfe6f000000000032eac2070000000078070000000000006c0f0c00000000001a3c0e0000000000007eb107000000005303000000000000b275fd0700000000c4bed00100000000170500000000000016ed470a000000003677ec24000000009a5c380800000000df02000000000000a2040000000000002888813700000000df02000000000000a0040000000000008b0800000000000028e015000000000085130000000000008a22170000000000b90d0000000000005cbe120000000000b906000000000000a8d6120000000000ba06000000000000",
+              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000a4150000f03200004a3d0000280f0000ce220000f4150000180b0000521c00000000000046c10200a8030400c80f000000050000c0080000000000009a15000052170000241300009b684a028e1200008e1200008e1200007012000000000000000000002a120000a410000086100000640f00001e0f0000b00e00005e100000ae10000072100000fe100000d61000006810000004100000d20f0000a6270000be1e000072290000141e0000d61000000e1000005a0f0000320f0000ae100000500f0000140f0000dc0f0000f425130000000000de3113000000000068f81200000000001a1e360000000000be38130000000000d616130000000000043e1300000000005411130000000000281a13000000000040572c000000000018ad0800000000001a531000000000007301000000000000d8f563000000000068020000000000000072a4200000000038093c0000000000aa696900000000007e4ebd07000000005306000000000000d81c0b0000000000fc4b1b0600000000bf02000000000000001e180600000000faf6d001000000004704000000000000caeb080a000000007a612d1f000000005aced709000000006c02000000000000e0030000000000002ef30132000000006b02000000000000d703000000000000b1070000000000005e6a1400000000000b1300000000000040781500000000003c0d0000000000005855110000000000420600000000000012461100000000004206000000000000c22a500900000000",
               "docs": [
                 " Cost schedule and limits."
               ]
             },
             {
-              "name": "SignedClaimHandicap",
-              "type": "BlockNumber",
-              "value": "0x02000000",
-              "docs": [
-                " Number of block delay an extrinsic claim surcharge has.",
-                "",
-                " When claim surcharge is called by an extrinsic the rent is checked",
-                " for current_block - delay"
-              ]
-            },
-            {
-              "name": "TombstoneDeposit",
+              "name": "ContractDeposit",
               "type": "BalanceOf",
-              "value": "0x00f0e8857a9c02000000000000000000",
+              "value": "0x00f0436de36a01000000000000000000",
               "docs": [
-                " The minimum amount required to generate a tombstone."
-              ]
-            },
-            {
-              "name": "DepositPerContract",
-              "type": "BalanceOf",
-              "value": "0x00f0e8857a9c02000000000000000000",
-              "docs": [
-                " The balance every contract needs to deposit to stay alive indefinitely.",
-                "",
-                " This is different from the [`Self::TombstoneDeposit`] because this only needs to be",
-                " deposited while the contract is alive. Costs for additional storage are added to",
-                " this base cost.",
-                "",
-                " This is a simple way to ensure that contracts with empty storage eventually get deleted",
-                " by making them pay rent. This creates an incentive to remove them early in order to save",
-                " rent."
-              ]
-            },
-            {
-              "name": "DepositPerStorageByte",
-              "type": "BalanceOf",
-              "value": "0x0060defb740500000000000000000000",
-              "docs": [
-                " The balance a contract needs to deposit per storage byte to stay alive indefinitely.",
-                "",
-                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1",
-                " BU/byte/day, then a contract with 1,000,000 BU that uses 1,000 bytes of storage would",
-                " pay no rent. But if the balance reduced to 500,000 BU and the storage stayed the same at",
-                " 1,000, then it would pay 500 BU/day."
-              ]
-            },
-            {
-              "name": "DepositPerStorageItem",
-              "type": "BalanceOf",
-              "value": "0x00f0ab75a40d00000000000000000000",
-              "docs": [
-                " The balance a contract needs to deposit per storage item to stay alive indefinitely.",
-                "",
-                " It works the same as [`Self::DepositPerStorageByte`] but for storage items."
-              ]
-            },
-            {
-              "name": "RentFraction",
-              "type": "Perbill",
-              "value": "0x85040000",
-              "docs": [
-                " The fraction of the deposit that should be used as rent per block.",
-                "",
-                " When a contract hasn't enough balance deposited to stay alive indefinitely it needs",
-                " to pay per block for the storage it consumes that is not covered by the deposit.",
-                " This determines how high this rent payment is per block as a fraction of the deposit."
-              ]
-            },
-            {
-              "name": "SurchargeReward",
-              "type": "BalanceOf",
-              "value": "0x005cb2ec220000000000000000000000",
-              "docs": [
-                " Reward that is received by the party whose touch has led",
-                " to removal of a contract."
+                " The deposit that must be placed into the contract's account to instantiate it.",
+                " This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].",
+                " The minimum balance for a contract's account can be queried using",
+                " [`Pallet::subsistence_threshold`]."
               ]
             },
             {
               "name": "DeletionQueueDepth",
               "type": "u32",
-              "value": "0xed030000",
+              "value": "0xa2ba0100",
               "docs": [
                 " The maximum number of tries that can be queued for deletion."
               ]
@@ -7910,36 +7792,6 @@
               ]
             },
             {
-              "name": "InvalidSurchargeClaim",
-              "docs": [
-                " An origin must be signed or inherent and auxiliary sender only provided on inherent."
-              ]
-            },
-            {
-              "name": "InvalidSourceContract",
-              "docs": [
-                " Cannot restore from nonexisting or tombstone contract."
-              ]
-            },
-            {
-              "name": "InvalidDestinationContract",
-              "docs": [
-                " Cannot restore to nonexisting or alive contract."
-              ]
-            },
-            {
-              "name": "InvalidTombstone",
-              "docs": [
-                " Tombstones don't match."
-              ]
-            },
-            {
-              "name": "InvalidContractOrigin",
-              "docs": [
-                " An origin TrieId written in the current block."
-              ]
-            },
-            {
               "name": "OutOfGas",
               "docs": [
                 " The executed contract exhausted its gas limit."
@@ -7955,9 +7807,8 @@
               "name": "BelowSubsistenceThreshold",
               "docs": [
                 " Performing the requested transfer would have brought the contract below",
-                " the subsistence threshold. No transfer is allowed to do this in order to allow",
-                " for a tombstone to be created. Use `seal_terminate` to remove a contract without",
-                " leaving a tombstone behind."
+                " the subsistence threshold. No transfer is allowed to do this. Use `seal_terminate`",
+                " to recover a deposit."
               ]
             },
             {
@@ -7986,26 +7837,6 @@
               "name": "ContractNotFound",
               "docs": [
                 " No contract was found at the specified address."
-              ]
-            },
-            {
-              "name": "ContractIsTombstone",
-              "docs": [
-                " A tombstone exist at the specified address.",
-                "",
-                " Tombstone cannot be called. Anyone can use `seal_restore_to` in order to revive",
-                " the contract, though."
-              ]
-            },
-            {
-              "name": "RentNotPaid",
-              "docs": [
-                " The called contract does not have enough balance to pay for its storage.",
-                "",
-                " The contract ran out of balance and is therefore eligible for eviction into a",
-                " tombstone. Anyone can evict the contract by submitting a `claim_surcharge`",
-                " extrinsic. Alternatively, a plain balance transfer can be used in order to",
-                " increase the contracts funds so that it can be called again."
               ]
             },
             {
@@ -8049,7 +7880,7 @@
               "name": "TerminatedWhileReentrant",
               "docs": [
                 " Termination of a contract is not allowed while the contract is already",
-                " on the call stack. Can be triggered by `seal_terminate` or `seal_restore_to."
+                " on the call stack. Can be triggered by `seal_terminate`."
               ]
             },
             {
@@ -8089,18 +7920,9 @@
               "docs": [
                 " Removal of a contract failed because the deletion queue is full.",
                 "",
-                " This can happen when either calling [`Pallet::claim_surcharge`] or `seal_terminate`.",
+                " This can happen when calling `seal_terminate`.",
                 " The queue is filled by deleting contracts and emptied by a fixed amount each block.",
                 " Trying again during another block is the only way to resolve this issue."
-              ]
-            },
-            {
-              "name": "ContractNotEvictable",
-              "docs": [
-                " A contract could not be evicted because it has enough balance to pay rent.",
-                "",
-                " This can be returned from [`Pallet::claim_surcharge`] because the target",
-                " contract has enough balance to pay for its rent."
               ]
             },
             {
@@ -8123,7 +7945,7 @@
               "docs": [
                 " A contract self destructed in its constructor.",
                 "",
-                " This can be triggered by a call to `seal_terminate` or `seal_restore_to`."
+                " This can be triggered by a call to `seal_terminate`."
               ]
             },
             {
@@ -12875,7 +12697,7 @@
         {
           "name": "Tips",
           "storage": {
-            "prefix": "Treasury",
+            "prefix": "Tips",
             "items": [
               {
                 "name": "Tips",
@@ -13011,9 +12833,9 @@
                 "",
                 " # <weight>",
                 " - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.",
-                "   - `O(T)`: decoding `Tipper` vec of length `T`",
-                "     `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "     The actual cost depends on the implementation of `T::Tippers`.",
+                "   - `O(T)`: decoding `Tipper` vec of length `T`. `T` is charged as upper bound given by",
+                "     `ContainsLengthBound`. The actual cost depends on the implementation of",
+                "     `T::Tippers`.",
                 "   - `O(R)`: hashing and encoding of reason of length `R`",
                 " - DbReads: `Tippers`, `Reasons`",
                 " - DbWrites: `Reasons`, `Tips`",
@@ -13048,10 +12870,9 @@
                 " has started.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`, insert tip and check closing,",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length",
+                "   `T`, insert tip and check closing, `T` is charged as upper bound given by",
+                "   `ContainsLengthBound`. The actual cost depends on the implementation of `T::Tippers`.",
                 "",
                 "   Actually weight could be lower as it depends on how many tips are in `OpenTip` but it",
                 "   is weighted as if almost full i.e of length `T-1`.",
@@ -13079,10 +12900,9 @@
                 "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`.",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length",
+                "   `T`. `T` is charged as upper bound given by `ContainsLengthBound`. The actual cost",
+                "   depends on the implementation of `T::Tippers`.",
                 " - DbReads: `Tips`, `Tippers`, `tip finder`",
                 " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
                 " # </weight>"
@@ -13165,6 +12985,22 @@
           ],
           "constants": [
             {
+              "name": "MaximumReasonLength",
+              "type": "u32",
+              "value": "0x00400000",
+              "docs": [
+                " Maximum acceptable reason length."
+              ]
+            },
+            {
+              "name": "DataDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "docs": [
+                " The amount held on deposit per byte within the tip report reason or bounty description."
+              ]
+            },
+            {
               "name": "TipCountdown",
               "type": "BlockNumber",
               "value": "0x80700000",
@@ -13177,7 +13013,7 @@
               "type": "Percent",
               "value": "0x14",
               "docs": [
-                " The amount of the final tip which goes to the original reporter of the tip."
+                " The percent of the final tip which goes to the original reporter of the tip."
               ]
             },
             {
@@ -13186,22 +13022,6 @@
               "value": "0x00407a10f35a00000000000000000000",
               "docs": [
                 " The amount held on deposit for placing a tip report."
-              ]
-            },
-            {
-              "name": "DataDepositPerByte",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "docs": [
-                " The amount held on deposit per byte within the tip report reason."
-              ]
-            },
-            {
-              "name": "MaximumReasonLength",
-              "type": "u32",
-              "value": "0x00400000",
-              "docs": [
-                " Maximum acceptable reason length."
               ]
             }
           ],
@@ -14956,7 +14776,7 @@
             {
               "name": "IgnoredIssuance",
               "type": "BalanceOf",
-              "value": "0x00000000000000000000000000000000",
+              "value": "0x996af44a87686c010000000000000000",
               "docs": [
                 " The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get",
                 " the issuance by which we inflate or deflate the gilt."

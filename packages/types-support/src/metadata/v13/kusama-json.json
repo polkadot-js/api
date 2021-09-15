@@ -5222,7 +5222,7 @@
         {
           "name": "Council",
           "storage": {
-            "prefix": "Instance1Collective",
+            "prefix": "Council",
             "items": [
               {
                 "name": "Proposals",
@@ -5324,8 +5324,8 @@
                 "",
                 " - `new_members`: The new member list. Be nice to the chain and provide it sorted.",
                 " - `prime`: The prime member whose vote sets the default.",
-                " - `old_count`: The upper bound for the previous number of members in storage.",
-                "                Used for weight estimation.",
+                " - `old_count`: The upper bound for the previous number of members in storage. Used for",
+                "   weight estimation.",
                 "",
                 " Requires root origin.",
                 "",
@@ -5339,7 +5339,8 @@
                 "   - `N` new-members-count (code- and governance-bounded)",
                 "   - `P` proposals-count (code-bounded)",
                 " - DB:",
-                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members",
+                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the",
+                "     members",
                 "   - 1 storage read (codec `O(P)`) for reading the proposals",
                 "   - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal",
                 "   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one",
@@ -5365,7 +5366,8 @@
                 "",
                 " # <weight>",
                 " ## Weight",
-                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`",
+                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching",
+                "   `proposal`",
                 " - DB: 1 read (codec `O(M)`) + DB access of `proposal`",
                 " - 1 event",
                 " # </weight>"
@@ -5439,7 +5441,8 @@
                 " Requires the sender to be a member.",
                 "",
                 " Transaction fees will be waived if the member is voting on any particular proposal",
-                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
+                " for the first time and the call is successful. Subsequent vote changes will charge a",
+                " fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -5484,9 +5487,10 @@
                 " If the close operation completes successfully with disapproval, the transaction fee will",
                 " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
-                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
+                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed",
+                " proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
-                "                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
+                " `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
                 "",
                 " # <weight>",
                 " ## Weight",
@@ -5497,7 +5501,8 @@
                 "   - `P2` is proposal-count (code-bounded)",
                 " - DB:",
                 "  - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)",
-                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
+                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec",
+                "    `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
                 " # </weight>"
@@ -5512,7 +5517,8 @@
                 }
               ],
               "docs": [
-                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current",
+                " state.",
                 "",
                 " Must be called by the Root origin.",
                 "",
@@ -5681,7 +5687,7 @@
         {
           "name": "TechnicalCommittee",
           "storage": {
-            "prefix": "Instance2Collective",
+            "prefix": "TechnicalCommittee",
             "items": [
               {
                 "name": "Proposals",
@@ -5783,8 +5789,8 @@
                 "",
                 " - `new_members`: The new member list. Be nice to the chain and provide it sorted.",
                 " - `prime`: The prime member whose vote sets the default.",
-                " - `old_count`: The upper bound for the previous number of members in storage.",
-                "                Used for weight estimation.",
+                " - `old_count`: The upper bound for the previous number of members in storage. Used for",
+                "   weight estimation.",
                 "",
                 " Requires root origin.",
                 "",
@@ -5798,7 +5804,8 @@
                 "   - `N` new-members-count (code- and governance-bounded)",
                 "   - `P` proposals-count (code-bounded)",
                 " - DB:",
-                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the members",
+                "   - 1 storage mutation (codec `O(M)` read, `O(N)` write) for reading and writing the",
+                "     members",
                 "   - 1 storage read (codec `O(P)`) for reading the proposals",
                 "   - `P` storage mutations (codec `O(M)`) for updating the votes for each proposal",
                 "   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one",
@@ -5824,7 +5831,8 @@
                 "",
                 " # <weight>",
                 " ## Weight",
-                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching `proposal`",
+                " - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching",
+                "   `proposal`",
                 " - DB: 1 read (codec `O(M)`) + DB access of `proposal`",
                 " - 1 event",
                 " # </weight>"
@@ -5898,7 +5906,8 @@
                 " Requires the sender to be a member.",
                 "",
                 " Transaction fees will be waived if the member is voting on any particular proposal",
-                " for the first time and the call is successful. Subsequent vote changes will charge a fee.",
+                " for the first time and the call is successful. Subsequent vote changes will charge a",
+                " fee.",
                 " # <weight>",
                 " ## Weight",
                 " - `O(M)` where `M` is members-count (code- and governance-bounded)",
@@ -5943,9 +5952,10 @@
                 " If the close operation completes successfully with disapproval, the transaction fee will",
                 " be waived. Otherwise execution of the approved operation will be charged to the caller.",
                 "",
-                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed proposal.",
+                " + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed",
+                " proposal.",
                 " + `length_bound`: The upper bound for the length of the proposal in storage. Checked via",
-                "                   `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
+                " `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.",
                 "",
                 " # <weight>",
                 " ## Weight",
@@ -5956,7 +5966,8 @@
                 "   - `P2` is proposal-count (code-bounded)",
                 " - DB:",
                 "  - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)",
-                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec `O(P2)`)",
+                "  - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec",
+                "    `O(P2)`)",
                 "  - any mutations done while executing `proposal` (`P1`)",
                 " - up to 3 events",
                 " # </weight>"
@@ -5971,7 +5982,8 @@
                 }
               ],
               "docs": [
-                " Disapprove a proposal, close, and remove it from the system, regardless of its current state.",
+                " Disapprove a proposal, close, and remove it from the system, regardless of its current",
+                " state.",
                 "",
                 " Must be called by the Root origin.",
                 "",
@@ -6620,7 +6632,7 @@
         {
           "name": "TechnicalMembership",
           "storage": {
-            "prefix": "Instance1Membership",
+            "prefix": "TechnicalMembership",
             "items": [
               {
                 "name": "Members",
@@ -11815,7 +11827,7 @@
         {
           "name": "Tips",
           "storage": {
-            "prefix": "Treasury",
+            "prefix": "Tips",
             "items": [
               {
                 "name": "Tips",
@@ -11951,9 +11963,9 @@
                 "",
                 " # <weight>",
                 " - Complexity: `O(R + T)` where `R` length of `reason`, `T` is the number of tippers.",
-                "   - `O(T)`: decoding `Tipper` vec of length `T`",
-                "     `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "     The actual cost depends on the implementation of `T::Tippers`.",
+                "   - `O(T)`: decoding `Tipper` vec of length `T`. `T` is charged as upper bound given by",
+                "     `ContainsLengthBound`. The actual cost depends on the implementation of",
+                "     `T::Tippers`.",
                 "   - `O(R)`: hashing and encoding of reason of length `R`",
                 " - DbReads: `Tippers`, `Reasons`",
                 " - DbWrites: `Reasons`, `Tips`",
@@ -11988,10 +12000,9 @@
                 " has started.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`, insert tip and check closing,",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length",
+                "   `T`, insert tip and check closing, `T` is charged as upper bound given by",
+                "   `ContainsLengthBound`. The actual cost depends on the implementation of `T::Tippers`.",
                 "",
                 "   Actually weight could be lower as it depends on how many tips are in `OpenTip` but it",
                 "   is weighted as if almost full i.e of length `T-1`.",
@@ -12019,10 +12030,9 @@
                 "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
                 "",
                 " # <weight>",
-                " - Complexity: `O(T)` where `T` is the number of tippers.",
-                "   decoding `Tipper` vec of length `T`.",
-                "   `T` is charged as upper bound given by `ContainsLengthBound`.",
-                "   The actual cost depends on the implementation of `T::Tippers`.",
+                " - Complexity: `O(T)` where `T` is the number of tippers. decoding `Tipper` vec of length",
+                "   `T`. `T` is charged as upper bound given by `ContainsLengthBound`. The actual cost",
+                "   depends on the implementation of `T::Tippers`.",
                 " - DbReads: `Tips`, `Tippers`, `tip finder`",
                 " - DbWrites: `Reasons`, `Tips`, `Tippers`, `tip finder`",
                 " # </weight>"
@@ -12105,6 +12115,22 @@
           ],
           "constants": [
             {
+              "name": "MaximumReasonLength",
+              "type": "u32",
+              "value": "0x00400000",
+              "docs": [
+                " Maximum acceptable reason length."
+              ]
+            },
+            {
+              "name": "DataDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x55a0fc01000000000000000000000000",
+              "docs": [
+                " The amount held on deposit per byte within the tip report reason or bounty description."
+              ]
+            },
+            {
               "name": "TipCountdown",
               "type": "BlockNumber",
               "value": "0x40380000",
@@ -12117,7 +12143,7 @@
               "type": "Percent",
               "value": "0x14",
               "docs": [
-                " The amount of the final tip which goes to the original reporter of the tip."
+                " The percent of the final tip which goes to the original reporter of the tip."
               ]
             },
             {
@@ -12126,22 +12152,6 @@
               "value": "0x34a1aec6000000000000000000000000",
               "docs": [
                 " The amount held on deposit for placing a tip report."
-              ]
-            },
-            {
-              "name": "DataDepositPerByte",
-              "type": "BalanceOf",
-              "value": "0x55a0fc01000000000000000000000000",
-              "docs": [
-                " The amount held on deposit per byte within the tip report reason."
-              ]
-            },
-            {
-              "name": "MaximumReasonLength",
-              "type": "u32",
-              "value": "0x00400000",
-              "docs": [
-                " Maximum acceptable reason length."
               ]
             }
           ],
@@ -12542,15 +12552,6 @@
               "value": "0x65666666666666e6",
               "docs": [
                 " The priority of the unsigned transaction submitted in the unsigned-phase"
-              ]
-            },
-            {
-              "name": "MinerMaxIterations",
-              "type": "u32",
-              "value": "0x0a000000",
-              "docs": [
-                " Maximum number of iteration of balancing that will be executed in the embedded miner of",
-                " the pallet."
               ]
             },
             {
@@ -13438,7 +13439,7 @@
               "name": "set_hrmp_open_request_ttl",
               "args": [
                 {
-                  "name": "new",
+                  "name": "_new",
                   "type": "u32"
                 }
               ],
@@ -13865,6 +13866,13 @@
               "name": "InvalidValidationCodeHash",
               "docs": [
                 " The validation code hash of the candidate is not valid."
+              ]
+            },
+            {
+              "name": "ParaHeadMismatch",
+              "docs": [
+                " The `para_head` hash in the candidate descriptor doesn't match the hash of the actual para head in the",
+                " commitments."
               ]
             }
           ],
@@ -15080,6 +15088,22 @@
                 " If there are pending HRMP close channel requests, you can use this",
                 " function process all of those requests immediately."
               ]
+            },
+            {
+              "name": "hrmp_cancel_open_request",
+              "args": [
+                {
+                  "name": "channel_id",
+                  "type": "HrmpChannelId"
+                }
+              ],
+              "docs": [
+                " This cancels a pending open channel request. It can be canceled be either of the sender",
+                " or the recipient for that request. The origin must be either of those.",
+                "",
+                " The cancelling happens immediately. It is not possible to cancel the request if it is",
+                " already accepted."
+              ]
             }
           ],
           "events": [
@@ -15094,6 +15118,17 @@
               "docs": [
                 " Open HRMP channel requested.",
                 " `[sender, recipient, proposed_max_capacity, proposed_max_message_size]`"
+              ]
+            },
+            {
+              "name": "OpenChannelCanceled",
+              "args": [
+                "ParaId",
+                "HrmpChannelId"
+              ],
+              "docs": [
+                " An HRMP channel request sent by the receiver was canceled by either party.",
+                " `[by_parachain, channel_id]`"
               ]
             },
             {
@@ -15207,6 +15242,24 @@
               "name": "CloseHrmpChannelAlreadyUnderway",
               "docs": [
                 " The channel close request is already requested."
+              ]
+            },
+            {
+              "name": "CancelHrmpOpenChannelUnauthorized",
+              "docs": [
+                " Canceling is requested by neither the sender nor recipient of the open channel request."
+              ]
+            },
+            {
+              "name": "OpenHrmpChannelDoesntExist",
+              "docs": [
+                " The open request doesn't exist."
+              ]
+            },
+            {
+              "name": "OpenHrmpChannelAlreadyConfirmed",
+              "docs": [
+                " Cannot cancel an HRMP open channel request because it is already confirmed."
               ]
             }
           ],

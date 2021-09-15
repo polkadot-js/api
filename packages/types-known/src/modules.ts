@@ -48,6 +48,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   inclusion: {
     ValidatorIndex: 'ParaValidatorIndex'
   },
+  paraDisputes: {
+    ValidatorIndex: 'ParaValidatorIndex'
+  },
   paraInclusion: {
     ValidatorIndex: 'ParaValidatorIndex'
   },
@@ -59,6 +62,9 @@ const typesModules: Record<string, OverrideModuleType> = {
   },
   parachains: {
     Id: 'ParaId'
+  },
+  parasDisputes: {
+    ValidatorIndex: 'ParaValidatorIndex'
   },
   parasInclusion: {
     ValidatorIndex: 'ParaValidatorIndex'

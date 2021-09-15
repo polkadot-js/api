@@ -2,8 +2,64 @@
 
 ## master
 
+Contributed:
+
+- Allow for `.clone` on Http provider (Thanks to https://github.com/ianhe8x)
+
 Changes:
 
+- Adjust Kusama `IdentityInfo` type for historic versions
+- All `null` values in bundles min/max
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.9.1 Sep 13, 2021
+
+Upgrade priority: Low. Recommended for chain using Xcm.
+
+Contributed:
+
+- Adjust Centrifuge `ProxyType` (Thanks to https://github.com/branan)
+
+Changes:
+
+- Additional types for parachain Disputes
+- Adjust Xcm Error enum types
+- Add Polkadot 9090 upgrade block
+- Decoding enhancements with narrowing checks for TS
+
+
+## 5.8.3 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust Statemint, Rococo and Westend Xcm overrides
+
+
+## 5.8.2 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Correct Xcm V1 `MultiLocation` definitions (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Adjust Kusama Xcm overrides
+
+
+## 5.8.1 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Add `Auction` to Kusama `ProxyType` definition
+- Adjust Xcm definitions with latest v1 & v2 types
+- Support for `scale-info` 1.0 `Range` mapping
 - Bump static metadata for latest Substrate, Polkadot & Kusama
 
 

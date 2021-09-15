@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
@@ -26,15 +26,15 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.15.5",
     "@babel/register": "^7.15.3",
-    "@babel/runtime": "^7.15.3",
-    "@polkadot/dev": "^0.62.64",
-    "@polkadot/ts": "^0.4.6",
+    "@babel/runtime": "^7.15.4",
+    "@polkadot/dev": "^0.62.67",
+    "@polkadot/ts": "^0.4.8",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^27.0.1",
     "copyfiles": "^2.4.1"
   },
-  "version": "5.7.2-5",
+  "version": "5.9.2-4",
   "packageManager": "yarn@3.0.1"
 }

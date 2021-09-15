@@ -80,45 +80,10 @@ const location = {
       }
     }
   },
-  Junction: {
-    _enum: {
-      Parent: 'Null',
-      Parachain: 'Compact<u32>',
-      AccountId32: {
-        network: 'NetworkId',
-        id: 'AccountId'
-      },
-      AccountIndex64: {
-        network: 'NetworkId',
-        index: 'Compact<u64>'
-      },
-      AccountKey20: {
-        network: 'NetworkId',
-        key: '[u8; 20]'
-      },
-      PalletInstance: 'u8',
-      GeneralIndex: 'Compact<u128>',
-      GeneralKey: 'Vec<u8>',
-      OnlyChild: 'Null',
-      Plurality: {
-        id: 'BodyId',
-        part: 'BodyPart'
-      }
-    }
-  },
-  MultiLocation: {
-    _enum: {
-      Here: 'Null',
-      X1: 'Junction',
-      X2: '(Junction, Junction)',
-      X3: '(Junction, Junction, Junction)',
-      X4: '(Junction, Junction, Junction, Junction)',
-      X5: '(Junction, Junction, Junction, Junction, Junction)',
-      X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
-      X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
-      X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
-    }
-  },
+  InteriorMultiLocation: 'Junctions',
+  Junction: 'JunctionV1',
+  Junctions: 'JunctionsV1',
+  MultiLocation: 'MultiLocationV1',
   NetworkId: {
     _enum: {
       Any: 'Null',
@@ -209,7 +174,8 @@ export default {
     VersionedXcm: {
       _enum: {
         V0: 'XcmV0',
-        V1: 'XcmV1'
+        V1: 'XcmV1',
+        V2: 'XcmV2'
       }
     },
     XcmVersion: 'u32'

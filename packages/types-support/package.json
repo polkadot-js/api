@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types-support",
-  "version": "5.7.2-5",
+  "version": "5.9.2-4",
   "type": "module",
   "description": "Supporting files for types, mostly for testing",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-support#readme",
   "dependencies": {
-    "@babel/runtime": "^7.15.3",
+    "@babel/runtime": "^7.15.4",
     "@polkadot/util": "^7.3.1"
   }
 }
