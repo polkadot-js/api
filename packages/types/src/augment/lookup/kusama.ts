@@ -48,7 +48,7 @@ export default {
     _enum: {
       Complete: 'u64',
       Incomplete: '(u64,XcmV2TraitsError)',
-      Error: 'XcmV2TraitsError',
+      Error: 'XcmV2TraitsError'
     }
   },
   /**
@@ -89,7 +89,7 @@ export default {
       UnknownWeightRequired: 'Null',
       Trap: 'u64',
       UnknownClaim: 'Null',
-      InvalidLocation: 'Null',
+      InvalidLocation: 'Null'
     }
   },
   /**
@@ -119,7 +119,7 @@ export default {
       X5: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
       X6: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
       X7: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
-      X8: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)',
+      X8: '(XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction,XcmV1Junction)'
     }
   },
   /**
@@ -146,8 +146,8 @@ export default {
       OnlyChild: 'Null',
       Plurality: {
         id: 'XcmV0JunctionBodyId',
-        part: 'XcmV0JunctionBodyPart',
-      },
+        part: 'XcmV0JunctionBodyPart'
+      }
     }
   },
   /**
@@ -158,7 +158,7 @@ export default {
       Any: 'Null',
       Named: 'Bytes',
       Polkadot: 'Null',
-      Kusama: 'Null',
+      Kusama: 'Null'
     }
   },
   /**
@@ -172,7 +172,7 @@ export default {
       Executive: 'Null',
       Technical: 'Null',
       Legislative: 'Null',
-      Judicial: 'Null',
+      Judicial: 'Null'
     }
   },
   /**
@@ -194,8 +194,8 @@ export default {
       },
       MoreThanProportion: {
         nom: 'Compact<u32>',
-        denom: 'Compact<u32>',
-      },
+        denom: 'Compact<u32>'
+      }
     }
   },
   /**
@@ -300,7 +300,7 @@ export default {
         queryId: 'Compact<u64>',
         maxResponseWeight: 'Compact<u64>',
       },
-      UnsubscribeVersion: 'Null',
+      UnsubscribeVersion: 'Null'
     }
   },
   /**
@@ -320,7 +320,7 @@ export default {
   XcmV1MultiassetAssetId: {
     _enum: {
       Concrete: 'XcmV1MultiLocation',
-      Abstract: 'Bytes',
+      Abstract: 'Bytes'
     }
   },
   /**
@@ -329,7 +329,7 @@ export default {
   XcmV1MultiassetFungibility: {
     _enum: {
       Fungible: 'Compact<u128>',
-      NonFungible: 'XcmV1MultiassetAssetInstance',
+      NonFungible: 'XcmV1MultiassetAssetInstance'
     }
   },
   /**
@@ -343,7 +343,7 @@ export default {
       Array8: '[u8;8]',
       Array16: '[u8;16]',
       Array32: '[u8;32]',
-      Blob: 'Bytes',
+      Blob: 'Bytes'
     }
   },
   /**
@@ -354,7 +354,7 @@ export default {
       Null: 'Null',
       Assets: 'XcmV1MultiassetMultiAssets',
       ExecutionResult: 'Result<Null, (u32,XcmV2TraitsError)>',
-      Version: 'u32',
+      Version: 'u32'
     }
   },
   /**
@@ -375,7 +375,7 @@ export default {
   XcmV1MultiassetMultiAssetFilter: {
     _enum: {
       Definite: 'XcmV1MultiassetMultiAssets',
-      Wild: 'XcmV1MultiassetWildMultiAsset',
+      Wild: 'XcmV1MultiassetWildMultiAsset'
     }
   },
   /**
@@ -386,8 +386,8 @@ export default {
       All: 'Null',
       AllOf: {
         id: 'XcmV1MultiassetAssetId',
-        fun: 'XcmV1MultiassetWildFungibility',
-      },
+        fun: 'XcmV1MultiassetWildFungibility'
+      }
     }
   },
   /**
@@ -402,7 +402,7 @@ export default {
   XcmV2WeightLimit: {
     _enum: {
       Unlimited: 'Null',
-      Limited: 'Compact<u64>',
+      Limited: 'Compact<u64>'
     }
   },
   /**
@@ -411,7 +411,7 @@ export default {
   XcmVersionedMultiAssets: {
     _enum: {
       V0: 'Vec<XcmV0MultiAsset>',
-      V1: 'XcmV1MultiassetMultiAssets',
+      V1: 'XcmV1MultiassetMultiAssets'
     }
   },
   /**
@@ -449,8 +449,8 @@ export default {
       },
       ConcreteNonFungible: {
         class: 'XcmV0MultiLocation',
-        instance: 'XcmV1MultiassetAssetInstance',
-      },
+        instance: 'XcmV1MultiassetAssetInstance'
+      }
     }
   },
   /**
@@ -466,7 +466,7 @@ export default {
       X5: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
       X6: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
       X7: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
-      X8: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)',
+      X8: '(XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction,XcmV0Junction)'
     }
   },
   /**
@@ -494,8 +494,8 @@ export default {
       OnlyChild: 'Null',
       Plurality: {
         id: 'XcmV0JunctionBodyId',
-        part: 'XcmV0JunctionBodyPart',
-      },
+        part: 'XcmV0JunctionBodyPart'
+      }
     }
   },
   /**
@@ -504,7 +504,7 @@ export default {
   XcmVersionedMultiLocation: {
     _enum: {
       V0: 'XcmV0MultiLocation',
-      V1: 'XcmV1MultiLocation',
+      V1: 'XcmV1MultiLocation'
     }
   },
   /**
@@ -612,7 +612,7 @@ export default {
     _enum: {
       Unused0: 'Null',
       Implicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
-      Explicit: 'PolkadotPrimitivesV0ValidatorAppSignature',
+      Explicit: 'PolkadotPrimitivesV0ValidatorAppSignature'
     }
   },
   /**
@@ -629,7 +629,7 @@ export default {
   PolkadotPrimitivesV1DisputeStatement: {
     _enum: {
       Valid: 'PolkadotPrimitivesV1ValidDisputeStatementKind',
-      Invalid: 'PolkadotPrimitivesV1InvalidDisputeStatementKind',
+      Invalid: 'PolkadotPrimitivesV1InvalidDisputeStatementKind'
     }
   },
   /**
@@ -640,7 +640,7 @@ export default {
       Explicit: 'Null',
       BackingSeconded: 'H256',
       BackingValid: 'H256',
-      ApprovalChecking: 'Null',
+      ApprovalChecking: 'Null'
     }
   },
   /**
@@ -656,7 +656,7 @@ export default {
     _enum: {
       Ed25519: 'SpCoreEd25519Public',
       Sr25519: 'SpCoreSr25519Public',
-      Ecdsa: 'SpCoreEcdsaPublic',
+      Ecdsa: 'SpCoreEcdsaPublic'
     }
   },
   /**
@@ -670,7 +670,7 @@ export default {
     _enum: {
       V0: 'XcmV0Xcm',
       V1: 'XcmV1Xcm',
-      V2: 'XcmV2Xcm',
+      V2: 'XcmV2Xcm'
     }
   },
   /**
@@ -726,8 +726,8 @@ export default {
       },
       RelayedFrom: {
         who: 'XcmV0MultiLocation',
-        message: 'XcmV0Xcm',
-      },
+        message: 'XcmV0Xcm'
+      }
     }
   },
   /**
@@ -769,8 +769,8 @@ export default {
         weight: 'u64',
         debt: 'u64',
         haltOnError: 'bool',
-        xcm: 'Vec<XcmV0Xcm>',
-      },
+        xcm: 'Vec<XcmV0Xcm>'
+      }
     }
   },
   /**
@@ -778,7 +778,7 @@ export default {
    **/
   XcmV0Response: {
     _enum: {
-      Assets: 'Vec<XcmV0MultiAsset>',
+      Assets: 'Vec<XcmV0MultiAsset>'
     }
   },
   /**
@@ -840,7 +840,7 @@ export default {
         queryId: 'Compact<u64>',
         maxResponseWeight: 'Compact<u64>',
       },
-      UnsubscribeVersion: 'Null',
+      UnsubscribeVersion: 'Null'
     }
   },
   /**
@@ -884,8 +884,8 @@ export default {
         weight: 'u64',
         debt: 'u64',
         haltOnError: 'bool',
-        instructions: 'Vec<XcmV1Xcm>',
-      },
+        instructions: 'Vec<XcmV1Xcm>'
+      }
     }
   },
   /**
@@ -894,7 +894,7 @@ export default {
   XcmV1Response: {
     _enum: {
       Assets: 'XcmV1MultiassetMultiAssets',
-      Version: 'u32',
+      Version: 'u32'
     }
   },
   /**
@@ -1001,7 +1001,7 @@ export default {
       Unused96: 'Null',
       Unused97: 'Null',
       Unused98: 'Null',
-      XcmPallet: 'PalletXcmOrigin',
+      XcmPallet: 'PalletXcmOrigin'
     }
   },
   /**
@@ -1009,7 +1009,7 @@ export default {
    **/
   PolkadotRuntimeParachainsOriginPalletOrigin: {
     _enum: {
-      Parachain: 'u32',
+      Parachain: 'u32'
     }
   },
   /**
@@ -1018,7 +1018,7 @@ export default {
   PalletXcmOrigin: {
     _enum: {
       Xcm: 'XcmV1MultiLocation',
-      Response: 'XcmV1MultiLocation',
+      Response: 'XcmV1MultiLocation'
     }
   },
   /**
@@ -1078,7 +1078,7 @@ export default {
    **/
   PolkadotRuntimeParachainsInclusionCandidatePendingAvailability: {
     _alias: {
-      hash_: 'hash',
+      hash_: 'hash'
     },
     core: 'u32',
     hash_: 'H256',
@@ -1120,7 +1120,7 @@ export default {
   PolkadotPrimitivesV1CoreOccupied: {
     _enum: {
       Parathread: 'PolkadotPrimitivesV1ParathreadEntry',
-      Parachain: 'Null',
+      Parachain: 'Null'
     }
   },
   /**
@@ -1138,7 +1138,7 @@ export default {
   PolkadotRuntimeParachainsSchedulerAssignmentKind: {
     _enum: {
       Parachain: 'Null',
-      Parathread: '(PolkadotPrimitivesV0CollatorAppPublic,u32)',
+      Parathread: '(PolkadotPrimitivesV0CollatorAppPublic,u32)'
     }
   },
   /**
@@ -1272,7 +1272,7 @@ export default {
     _enum: {
       Never: 'Null',
       PreEnding: 'u32',
-      Ending: 'u32',
+      Ending: 'u32'
     }
   },
   /**
@@ -1291,8 +1291,8 @@ export default {
       },
       Ready: {
         response: 'XcmVersionedResponse',
-        at: 'u32',
-      },
+        at: 'u32'
+      }
     }
   },
   /**
@@ -1302,7 +1302,7 @@ export default {
     _enum: {
       V0: 'XcmV0Response',
       V1: 'XcmV1Response',
-      V2: 'XcmV2Response',
+      V2: 'XcmV2Response'
     }
   },
   /**
@@ -1313,7 +1313,7 @@ export default {
       MigrateSupportedVersion: 'Null',
       MigrateVersionNotifiers: 'Null',
       NotifyCurrentTargets: 'Option<Bytes>',
-      MigrateAndNotifyOldTargets: 'Null',
+      MigrateAndNotifyOldTargets: 'Null'
     }
   },
   /**

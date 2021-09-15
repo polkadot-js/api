@@ -54,6 +54,7 @@ declare module '@polkadot/types/lookup' {
     readonly asPreRuntime: ITuple<[U8aFixed, Bytes]>;
     readonly isChangesTrieSignal: boolean;
     readonly asChangesTrieSignal: SpRuntimeGenericDigestChangesTrieSignal;
+    readonly isRuntimeEnvironmentUpdated: boolean;
   }
 
   /** @name SpRuntimeGenericDigestChangesTrieSignal (15) */

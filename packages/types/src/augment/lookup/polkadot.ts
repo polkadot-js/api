@@ -99,7 +99,7 @@ export default {
       Unused13: 'Null',
       Unused14: 'Null',
       Council: 'PalletCollectiveRawOriginInstance1',
-      TechnicalCommittee: 'PalletCollectiveRawOriginInstance2',
+      TechnicalCommittee: 'PalletCollectiveRawOriginInstance2'
     }
   },
   /**
@@ -109,7 +109,7 @@ export default {
     _enum: {
       Members: '(u32,u32)',
       Member: 'AccountId32',
-      _Phantom: 'Null',
+      _Phantom: 'Null'
     }
   },
   /**
@@ -119,7 +119,7 @@ export default {
     _enum: {
       Members: '(u32,u32)',
       Member: 'AccountId32',
-      _Phantom: 'Null',
+      _Phantom: 'Null'
     }
   },
   /**

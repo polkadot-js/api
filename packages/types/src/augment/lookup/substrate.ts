@@ -52,6 +52,7 @@ export default {
       Seal: '([u8;4],Bytes)',
       PreRuntime: '([u8;4],Bytes)',
       ChangesTrieSignal: 'SpRuntimeGenericDigestChangesTrieSignal',
+      RuntimeEnvironmentUpdated: 'Null'
     }
   },
   /**
@@ -59,7 +60,7 @@ export default {
    **/
   SpRuntimeGenericDigestChangesTrieSignal: {
     _enum: {
-      NewConfiguration: 'Option<SpCoreChangesTrieChangesTrieConfiguration>',
+      NewConfiguration: 'Option<SpCoreChangesTrieChangesTrieConfiguration>'
     }
   },
   /**
@@ -112,7 +113,7 @@ export default {
       ConsumerRemaining: 'Null',
       NoProviders: 'Null',
       Token: 'SpRuntimeTokenError',
-      Arithmetic: 'SpRuntimeArithmeticError',
+      Arithmetic: 'SpRuntimeArithmeticError'
     }
   },
   /**
@@ -200,7 +201,7 @@ export default {
     _enum: {
       ApplyExtrinsic: 'u32',
       Finalization: 'Null',
-      Initialization: 'Null',
+      Initialization: 'Null'
     }
   },
   /**
@@ -311,8 +312,8 @@ export default {
       Unused0: 'Null',
       V1: {
         c: '(u64,u64)',
-        allowedSlots: 'SpConsensusBabeAllowedSlots',
-      },
+        allowedSlots: 'SpConsensusBabeAllowedSlots'
+      }
     }
   },
   /**
@@ -373,7 +374,7 @@ export default {
       Stash: 'Null',
       Controller: 'Null',
       Account: 'AccountId32',
-      None: 'Null',
+      None: 'Null'
     }
   },
   /**
@@ -407,8 +408,8 @@ export default {
       },
       Split: {
         aye: 'u128',
-        nay: 'u128',
-      },
+        nay: 'u128'
+      }
     }
   },
   /**
@@ -424,7 +425,7 @@ export default {
     _enum: {
       Member: 'Null',
       RunnerUp: 'Null',
-      Candidate: 'Compact<u32>',
+      Candidate: 'Compact<u32>'
     }
   },
   /**
@@ -440,7 +441,7 @@ export default {
   SpFinalityGrandpaEquivocation: {
     _enum: {
       Prevote: 'FinalityGrandpaEquivocationPrevote',
-      Precommit: 'FinalityGrandpaEquivocationPrecommit',
+      Precommit: 'FinalityGrandpaEquivocationPrecommit'
     }
   },
   /**
@@ -553,7 +554,7 @@ export default {
       KnownGood: 'Null',
       OutOfDate: 'Null',
       LowQuality: 'Null',
-      Erroneous: 'Null',
+      Erroneous: 'Null'
     }
   },
   /**
@@ -606,7 +607,7 @@ export default {
   PalletAuthorshipUncleEntryItem: {
     _enum: {
       InclusionHeight: 'u32',
-      Uncle: '(H256,Option<AccountId32>)',
+      Uncle: '(H256,Option<AccountId32>)'
     }
   },
   /**
@@ -659,7 +660,7 @@ export default {
       Off: 'Null',
       Signed: 'Null',
       Unsigned: '(bool,u32)',
-      Emergency: 'Null',
+      Emergency: 'Null'
     }
   },
   /**
@@ -778,8 +779,8 @@ export default {
         provider: 'AccountId32',
         deposit: 'u128',
         since: 'u32',
-        expiry: 'Option<u32>',
-      },
+        expiry: 'Option<u32>'
+      }
     }
   },
   /**
@@ -790,8 +791,8 @@ export default {
       Ongoing: 'PalletDemocracyReferendumStatus',
       Finished: {
         approved: 'bool',
-        end: 'u32',
-      },
+        end: 'u32'
+      }
     }
   },
   /**
@@ -827,8 +828,8 @@ export default {
         target: 'AccountId32',
         conviction: 'PalletDemocracyConviction',
         delegations: 'PalletDemocracyDelegations',
-        prior: 'PalletDemocracyVotePriorLock',
-      },
+        prior: 'PalletDemocracyVotePriorLock'
+      }
     }
   },
   /**
@@ -887,8 +888,8 @@ export default {
       Paused: 'Null',
       PendingResume: {
         scheduledAt: 'u32',
-        delay: 'u32',
-      },
+        delay: 'u32'
+      }
     }
   },
   /**
@@ -969,7 +970,7 @@ export default {
   PalletContractsScheduleInstructionWeights: {
     _alias: {
       r_if: 'r#if',
-      call_: 'call',
+      call_: 'call'
     },
     version: 'u32',
     i64Const: 'u32',
@@ -1030,7 +1031,7 @@ export default {
   PalletContractsScheduleHostFnWeights: {
     _alias: {
       r_return: 'r#return',
-      call_: 'call',
+      call_: 'call'
     },
     caller: 'u64',
     address: 'u64',
@@ -1114,7 +1115,7 @@ export default {
   PalletSocietyBidKind: {
     _enum: {
       Deposit: 'u128',
-      Vouch: '(AccountId32,u128)',
+      Vouch: '(AccountId32,u128)'
     }
   },
   /**
@@ -1157,7 +1158,7 @@ export default {
    **/
   PalletSchedulerScheduledV2: {
     _alias: {
-      call_: 'call',
+      call_: 'call'
     },
     maybeId: 'Option<Bytes>',
     priority: 'u8',
@@ -1183,7 +1184,7 @@ export default {
       Unused10: 'Null',
       Unused11: 'Null',
       Council: 'PalletCollectiveRawOrigin',
-      TechnicalCommittee: 'PalletCollectiveRawOrigin',
+      TechnicalCommittee: 'PalletCollectiveRawOrigin'
     }
   },
   /**
@@ -1193,7 +1194,7 @@ export default {
     _enum: {
       Root: 'Null',
       Signed: 'AccountId32',
-      None: 'Null',
+      None: 'Null'
     }
   },
   /**
@@ -1203,7 +1204,7 @@ export default {
     _enum: {
       Members: '(u32,u32)',
       Member: 'AccountId32',
-      _Phantom: 'Null',
+      _Phantom: 'Null'
     }
   },
   /**
@@ -1270,8 +1271,8 @@ export default {
       PendingPayout: {
         curator: 'AccountId32',
         beneficiary: 'AccountId32',
-        unlockAt: 'u32',
-      },
+        unlockAt: 'u32'
+      }
     }
   },
   /**
@@ -1409,7 +1410,7 @@ export default {
    **/
   PalletTransactionStorageTransactionInfo: {
     _alias: {
-      size_: 'size',
+      size_: 'size'
     },
     chunkRoot: 'H256',
     contentHash: 'H256',
@@ -1423,7 +1424,7 @@ export default {
     _enum: {
       Ed25519: 'SpCoreEd25519Signature',
       Sr25519: 'SpCoreSr25519Signature',
-      Ecdsa: 'SpCoreEcdsaSignature',
+      Ecdsa: 'SpCoreEcdsaSignature'
     }
   },
   /**

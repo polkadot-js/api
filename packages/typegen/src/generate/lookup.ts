@@ -47,7 +47,7 @@ function formatObject (lines: string[]): string[] {
   return [
     '{',
     ...lines.map((l, index) =>
-      (l.endsWith(',') || l.endsWith('{') || index === max)
+      (l.endsWith(',') || l.endsWith('{') || index === max || lines[index + 1].endsWith('}') || lines[index + 1].endsWith('}'))
         ? l
         : `${l},`
     ),

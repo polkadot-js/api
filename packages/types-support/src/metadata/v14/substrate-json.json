@@ -421,6 +421,12 @@
                       ],
                       "index": 0,
                       "docs": []
+                    },
+                    {
+                      "name": "RuntimeEnvironmentUpdated",
+                      "fields": [],
+                      "index": 8,
+                      "docs": []
                     }
                   ]
                 }
