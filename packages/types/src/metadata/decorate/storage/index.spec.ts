@@ -28,7 +28,7 @@ describe('decorateStorage', (): void => {
   });
 
   it('should throw if the storage function expects tuple arguments', (): void => {
-    expect(() => query.staking.erasStakers(1)).toThrowError('Call to staking.erasStakers needs 2 arguments, provided in tuple format');
+    expect(() => query.staking.erasStakers(1)).toThrowError('Call to staking.erasStakers needs 2 arguments');
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {

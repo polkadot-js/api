@@ -7,6 +7,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
@@ -30,32 +31,54 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: ExtraTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: ExtraTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
-      .filter(({ calls }) => calls.unwrapOr([]).length !== 0)
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
+      .sort(compareName)
+      .filter(({ calls }) => calls.isSome)
       .map(({ calls, name }) => {
         setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
 
-        const items = calls.unwrap()
-          .map(({ args, docs, name }) => {
-            const params = args
-              .map(({ name, type }) => {
-                const typeStr = type.toString();
+        const sectionName = stringCamelCase(name);
+        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
+          .map(({ docs, fields, name }) => {
+            const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => {
+              const typeDef = registry.lookup.getTypeDef(type);
+
+              return [
+                name.isSome
+                  ? mapName(name.unwrap())
+                  : `param${index}`,
+                typeName.isSome
+                  ? typeName.toString()
+                  : typeDef.type,
+                typeDef.isFromSi
+                  ? typeDef.type
+                  : typeDef.lookupName || typeDef.type
+              ];
+            });
+            const params = typesInfo
+              .map(([name,, typeStr]) => {
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                return `${mapName(name)}: ${similarTypes.join(' | ')}`;
+                return `${name}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
 
             return {
-              args: args.map(({ type }) => formatType(registry, allDefs, type.toString(), imports)).join(', '),
+              args: typesInfo.map(([,, typeStr]) =>
+                formatType(registry, allDefs, typeStr, imports)
+              ).join(', '),
               docs,
               name: stringCamelCase(name),
               params
@@ -65,7 +88,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
         return {
           items,
-          name: stringCamelCase(name)
+          name: sectionName
         };
       })
       .sort(compareName);
@@ -77,7 +100,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       modules,
       types: [
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath,
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

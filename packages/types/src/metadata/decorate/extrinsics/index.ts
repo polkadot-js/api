@@ -10,20 +10,29 @@ import { stringCamelCase } from '@polkadot/util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { modules }: MetadataLatest, metaVersion: number): Extrinsics {
-  return modules
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Extrinsics {
+  return pallets
     .filter(({ calls }) => calls.isSome)
     .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
+      const sectionName = stringCamelCase(name);
       const sectionIndex = metaVersion >= 12
         ? index.toNumber()
         : _sectionIndex;
-      const section = stringCamelCase(name);
 
-      result[section] = calls.unwrap().reduce((newModule: ModuleExtrinsics, callMetadata, methodIndex): ModuleExtrinsics => {
-        newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, section, new Uint8Array([sectionIndex, methodIndex]), callMetadata);
+      result[sectionName] = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
+        .reduce((newModule: ModuleExtrinsics, variant): ModuleExtrinsics => {
+          const callMetadata = registry.createType('FunctionMetadataLatest', {
+            ...variant,
+            args: variant.fields.map(({ name, type }, index) => ({
+              name: stringCamelCase(name.unwrapOr(`param${index}`)),
+              type: lookup.getTypeDef(type).type
+            }))
+          });
 
-        return newModule;
-      }, {});
+          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);
+
+          return newModule;
+        }, {});
 
       return result;
     }, {});

@@ -7,7 +7,7 @@ import type { CreateOptions } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -37,7 +37,9 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface RegistryError {
+  args: string[];
   docs: string[];
+  fields: SiField[];
   index: number;
   // compat
   method: string;

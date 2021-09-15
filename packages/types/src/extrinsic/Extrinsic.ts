@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
-import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
+import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Address, Balance, Call, Index } from '../interfaces/runtime';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';

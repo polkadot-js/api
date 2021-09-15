@@ -6,6 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -17,14 +18,19 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
+    const { lookup, pallets, registry } = meta.asLatest;
 
-    const modules = meta.asLatest.modules
-      .filter((mod) => mod.constants.length > 0)
+    const modules = pallets
+      .filter(({ constants }) => constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
           setImports(allDefs, imports, ['Codec']);
@@ -32,7 +38,8 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
         const items = constants
           .map(({ docs, name, type }) => {
-            const returnType = formatType(meta.registry, allDefs, type.toString(), imports);
+            const typeDef = lookup.getTypeDef(type);
+            const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
             setImports(allDefs, imports, [returnType]);
 
@@ -57,8 +64,8 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       isStrict,
       modules,
       types: [
-        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath,
+        ...Object.keys(imports.localTypes).sort().map<{ file: string; types: string[] }>((packagePath) => ({
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

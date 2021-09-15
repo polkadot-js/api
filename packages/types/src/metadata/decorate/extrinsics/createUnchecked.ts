@@ -12,11 +12,11 @@ function isTx <A extends AnyTuple> (tx: IMethod<AnyTuple>, callIndex: Uint8Array
 
 /** @internal */
 export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
-  const expectedArgs = callMetadata.args;
+  const expectedArgs = callMetadata.fields;
   const funcName = stringCamelCase(callMetadata.name);
 
   const extrinsicFn = (...args: any[]): Call => {
-    assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+    assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length} arguments, got ${args.length}.`);
 
     return registry.createType('Call', {
       args,

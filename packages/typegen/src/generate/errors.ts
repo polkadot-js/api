@@ -17,11 +17,11 @@ const generateForMetaTemplate = Handlebars.compile(template);
 function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void {
   writeFile(dest, (): string => {
     const imports = createImports({});
-
-    const modules = meta.asLatest.modules
-      .filter((mod) => mod.errors.length > 0)
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
+      .filter(({ errors }) => errors.isSome)
       .map(({ errors, name }) => ({
-        items: errors
+        items: lookup.getSiType(errors.unwrap().type).def.asVariant.variants
           .map(({ docs, name }) => ({
             docs,
             name: name.toString()

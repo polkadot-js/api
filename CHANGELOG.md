@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Allow for Metadata v14 parsing & usage
 - Align `DigestItem` to latest Substrate
 - Adjust Kusama `IdentityInfo` type for historic versions
 - All `null` values in bundles min/max

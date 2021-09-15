@@ -17,14 +17,14 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [decorateConstants(registry, metadata.asLatest, 12), registry];
+  return [decorateConstants(registry, metadata.asLatest, metadata.version), registry];
 }
 
 describe('decorateConstants', (): void => {
   it('should return constants with the correct type and value', (): void => {
-    const [consts, registry] = init(rpcMetadata);
+    const [consts] = init(rpcMetadata);
 
-    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
+    expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).bitLength()).toBe(32);
     // 3 second blocks, 28 days
     expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });

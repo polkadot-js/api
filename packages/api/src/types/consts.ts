@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
+import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { ApiTypes } from './base';
 
@@ -10,7 +10,7 @@ export interface AugmentedConsts<ApiType extends ApiTypes> { }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface AugmentedConst<ApiType extends ApiTypes> {
-  meta: ModuleConstantMetadataLatest;
+  meta: PalletConstantMetadataLatest;
 }
 
 export interface QueryableModuleConsts {

@@ -1,63 +1,84 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../../types';
-import type { MetadataInterface } from '../types';
+import type { Registry } from '../../types';
 import type { Check } from './types';
 
 import fs from 'fs';
 import path from 'path';
 
-import { assert, hexToU8a, stringify, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
-import { unwrapStorageType } from '../../primitive/StorageKey';
+import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
 import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
-/** @internal */
-export function decodeLatestMeta<Modules extends Codec> (registry: Registry, type: string, version: number, { compare, data }: Check): void {
-  it('decodes metadata properly', (): void => {
-    const metadata = new Metadata(registry, data);
+function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {
+  fs.writeFileSync(
+    path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-${sub}.json`),
+    stringify(json, 2),
+    { flag: 'w' }
+  );
+}
 
-    registry.setMetadata(metadata);
+/** @internal */
+export function decodeLatestMeta (registry: Registry, type: string, version: number, { compare, data, types }: Check): void {
+  const metadata = new Metadata(registry, data);
+
+  registry.setMetadata(metadata);
+
+  it('decodes latest substrate properly', (): void => {
+    const json = metadata.toJSON() as Record<string, Record<string, Record<string, string>>>;
+
+    delete json.metadata[`v${metadata.version}`].lookup;
 
     expect(metadata.version).toBe(version);
-    expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
 
     try {
-      expect(metadata.toJSON()).toEqual(compare);
+      expect(json).toEqual(compare);
     } catch (error) {
       if (process.env.GITHUB_REPOSITORY) {
-        console.error(stringify(metadata.toJSON()));
+        console.error(stringify(json));
 
         throw error;
       }
 
-      fs.writeFileSync(
-        path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-json.json`),
-        stringify(metadata.toJSON(), 2),
-        { flag: 'w' }
-      );
+      writeJson(json, version, type, 'json');
+    }
+  });
+
+  it('decodes latest types correctly', (): void => {
+    if (types) {
+      const json = metadata.asLatest.lookup.types.toJSON();
+
+      try {
+        expect(json).toEqual(types);
+      } catch (error) {
+        if (process.env.GITHUB_REPOSITORY) {
+          console.error(stringify(metadata.toJSON()));
+
+          throw error;
+        }
+
+        writeJson(json, version, type, 'types');
+      }
     }
   });
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, { data }: Check, withThrow = true): void {
+export function toLatest (registry: Registry, version: number, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, data);
 
     registry.setMetadata(metadata);
 
-    const metadataInit = metadata[`asV${version}` as keyof Metadata];
-    const metadataLatest = metadata.asLatest;
+    const latest = metadata.asLatest;
 
-    expect(
-      getUniqTypes(registry, metadataInit as unknown as MetadataInterface<Modules>, withThrow)
-    ).toEqual(
-      getUniqTypes(registry, metadataLatest, withThrow)
-    );
+    if (metadata.version < 14) {
+      getUniqTypes(registry, latest, withThrow);
+    }
   });
 }
 
@@ -65,19 +86,26 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, data);
+    const { pallets } = metadata.asLatest;
 
-    metadata.asLatest.modules.filter(({ storage }) => storage.isSome).forEach((m): void => {
-      m.storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
+    pallets.filter(({ storage }) => storage.isSome).forEach(({ name, storage }): void => {
+      const sectionName = stringCamelCase(name);
+
+      storage.unwrap().items.forEach(({ fallback, modifier, name, type }): void => {
         const inner = unwrapStorageType(registry, type, modifier.isOptional);
-        const location = `${m.name.toString()}.${name.toString()}: ${inner}`;
+        const location = `${sectionName}.${stringCamelCase(name)}: ${inner}`;
 
         it(location, (): void => {
           expect((): void => {
             try {
-              const type = registry.createType(inner, hexToU8a(fallback.toHex()));
+              const instance = registry.createTypeUnsafe(
+                registry.createLookupType(unwrapStorageSi(type)),
+                [hexToU8a(fallback.toHex())],
+                { isOptional: modifier.isOptional }
+              );
 
               if (withFallbackCheck) {
-                const [hexType, hexOrig] = [u8aToHex(type.toU8a()), u8aToHex(fallback.toU8a(true))];
+                const [hexType, hexOrig] = [u8aToHex(instance.toU8a()), u8aToHex(fallback.toU8a(true))];
 
                 assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
               }

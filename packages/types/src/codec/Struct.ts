@@ -24,22 +24,23 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     const jsonKey = (jsonMap.get(key as any) && !value[key])
       ? jsonMap.get(key as any)
       : key;
+    const Type = Types[key];
 
     try {
       if (Array.isArray(value)) {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Types[key]
+        (raw as any)[key] = value[index] instanceof Type
           ? value[index]
-          : new Types[key](registry, value[index]);
+          : new Type(registry, value[index]);
       } else if (value instanceof Map) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const mapped = value.get(jsonKey);
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = mapped instanceof Types[key]
+        (raw as any)[key] = mapped instanceof Type
           ? mapped
-          : new Types[key](registry, mapped);
+          : new Type(registry, mapped);
       } else if (isObject(value)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         let assign = value[jsonKey as string];
@@ -59,17 +60,17 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         }
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = assign instanceof Types[key]
+        (raw as any)[key] = assign instanceof Type
           ? assign
-          : new Types[key](registry, assign);
+          : new Type(registry, assign);
       } else {
         throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
     } catch (error) {
-      let type = Types[key].name;
+      let type = Type.name;
 
       try {
-        type = new Types[key](registry).toRawType();
+        type = new Type(registry).toRawType();
       } catch (error) {
         // ignore
       }

@@ -52,7 +52,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
-    return decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
+    return decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type));
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Vec<O>> {

@@ -79,7 +79,7 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
       index,
       info: TypeDefInfo.Plain,
       name,
-      type: name
+      type: 'Null'
     }));
 
   return value;

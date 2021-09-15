@@ -78,7 +78,8 @@ describe('derive', (): void => {
         }
       },
       provider: new MockProvider(registry),
-      registry
+      registry,
+      throwOnConnect: true
     });
 
     beforeAll((done): void => {

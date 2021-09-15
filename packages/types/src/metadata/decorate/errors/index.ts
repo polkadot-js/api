@@ -1,20 +1,34 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, ModuleErrors } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-function isError ({ error, index }: DispatchErrorModule, sectionIndex: number, errorIndex: number): boolean {
-  return index.eq(sectionIndex) && error.eq(errorIndex);
+interface ItemMeta {
+  args: string[];
+  name: Text;
+  fields: SiField[];
+  index: u8;
+  docs: Text[];
+}
+
+export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): ItemMeta {
+  return {
+    ...variant,
+    args: variant.fields.map(({ type }) =>
+      lookup.getTypeDef(type).type
+    )
+  };
 }
 
 /** @internal */
-export function decorateErrors (_: Registry, { modules }: MetadataLatest, metaVersion: number): Errors {
-  return modules.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
-    if (!errors.length) {
+export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
+  return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
+    if (!errors.isSome) {
       return result;
     }
 
@@ -22,12 +36,13 @@ export function decorateErrors (_: Registry, { modules }: MetadataLatest, metaVe
       ? index.toNumber()
       : _sectionIndex;
 
-    result[stringCamelCase(name)] = errors.reduce((newModule: ModuleErrors, meta, errorIndex): ModuleErrors => {
+    result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, variant): ModuleErrors => {
       // we don't camelCase the error name
-      newModule[meta.name.toString()] = {
-        is: (moduleError: DispatchErrorModule): boolean =>
-          isError(moduleError, sectionIndex, errorIndex),
-        meta
+      newModule[variant.name.toString()] = {
+        is: ({ error, index }: DispatchErrorModule) =>
+          index.eq(sectionIndex) &&
+          error.eq(variant.index),
+        meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
       };
 
       return newModule;

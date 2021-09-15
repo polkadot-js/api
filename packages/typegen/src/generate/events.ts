@@ -6,6 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -17,29 +18,34 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
-      .filter((mod) => mod.events.isSome)
+    const { lookup, pallets, registry } = meta.asLatest;
+    const modules = pallets
+      .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
-        items: events
-          .unwrap()
-          .sort(compareName)
-          .map(({ args, docs, name }) => {
-            const types = args.map((type) => formatType(meta.registry, allDefs, type.toString(), imports));
+        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
+          .map(({ docs, fields, name }) => {
+            const args = fields
+              .map(({ type }) => lookup.getTypeDef(type))
+              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
 
-            setImports(allDefs, imports, types);
+            setImports(allDefs, imports, args);
 
             return {
               docs,
               name: name.toString(),
-              type: types.join(', ')
+              type: args.join(', ')
             };
-          }).sort(compareName),
+          })
+          .sort(compareName),
         name: stringCamelCase(name)
       }))
       .sort(compareName);
@@ -51,7 +57,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       modules,
       types: [
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath,
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

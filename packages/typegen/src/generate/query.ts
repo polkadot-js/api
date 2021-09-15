@@ -1,15 +1,16 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { PortableRegistry, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Registry } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageSi } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, TypeImports, writeFile } from '../util';
@@ -17,69 +18,56 @@ import { ModuleTypes } from '../util/imports';
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string, string] {
-  const outputType = unwrapStorageType(registry, storageEntry.type, storageEntry.modifier.isOptional);
+function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [boolean, string, string, string] {
+  const outputType = lookup.getTypeDef(unwrapStorageSi(storageEntry.type));
+
+  // else if (storageEntry.type.isMap) {
+  //   const map = storageEntry.type.asMap;
+  //   const keyDef = lookup.getTypeDef(map.key);
+  //   const valDef = lookup.getTypeDef(map.value);
+
+  //   // Find similar types of the `key` type
+  //   const similarTypes = getSimilarTypes(registry, allDefs, keyDef.lookupName || keyDef.type, imports);
+
+  //   setImports(allDefs, imports, [
+  //     ...similarTypes,
+  //     valDef.lookupName || valDef.type
+  //   ]);
+
+  //   return [
+  //     storageEntry.modifier.isOptional,
+  //     formatType(registry, allDefs, keyDef.lookupName || keyDef.type, imports),
+  //     `arg: ${similarTypes.join(' | ')}`,
+  //     formatType(registry, allDefs, outputType, imports)
+  //   ];
+  // }
 
   if (storageEntry.type.isPlain) {
-    setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
+    const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
 
-    return ['', '', formatType(registry, allDefs, outputType, imports)];
+    setImports(allDefs, imports, [typeDef.lookupName || typeDef.type]);
+
+    return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
-    const map = storageEntry.type.asMap;
-
-    // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(registry, allDefs, map.key.toString(), imports);
-
-    setImports(allDefs, imports, [
-      ...similarTypes,
-      map.value.toString()
-    ]);
-
-    return [
-      formatType(registry, allDefs, map.key.toString(), imports),
-      `arg: ${similarTypes.join(' | ')}`,
-      formatType(registry, allDefs, outputType, imports)
-    ];
-  } else if (storageEntry.type.isDoubleMap) {
-    const dm = storageEntry.type.asDoubleMap;
-
-    // Find similar types of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(registry, allDefs, dm.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(registry, allDefs, dm.key2.toString(), imports);
-
-    setImports(allDefs, imports, [
-      ...similarTypes1,
-      ...similarTypes2,
-      dm.value.toString()
-    ]);
-
-    const key1Types = similarTypes1.join(' | ');
-    const key2Types = similarTypes2.join(' | ');
-
-    return [
-      [
-        formatType(registry, allDefs, dm.key1.toString(), imports),
-        formatType(registry, allDefs, dm.key2.toString(), imports)
-      ].join(', '),
-      `arg1: ${key1Types}, arg2: ${key2Types}`,
-      formatType(registry, allDefs, outputType, imports)
-    ];
-  } else if (storageEntry.type.isNMap) {
-    const nmap = storageEntry.type.asNMap;
-
-    // Find similar types for all keys
-    const similarTypes = nmap.keyVec.map((k) => getSimilarTypes(registry, allDefs, k.toString(), imports));
+    const { hashers, key, value } = storageEntry.type.asMap;
+    const keyDefs = hashers.length === 1
+      ? [lookup.getTypeDef(key)]
+      : lookup.getSiType(key).def.asTuple.map((k) => lookup.getTypeDef(k));
+    const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
+    const keyTypes = similarTypes.map((t) => t.join(' | '));
+    const defValue = lookup.getTypeDef(value);
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
-      nmap.value.toString()
+      defValue.lookupName
+        ? undefined
+        : defValue.type
     ]);
 
-    const keyTypes = similarTypes.map((t) => t.join(' | '));
-
     return [
-      nmap.keyVec.map((k) => formatType(registry, allDefs, k.toString(), imports)).join(', '),
-      keyTypes.map((t, i) => `arg${i + 1}: ${t}`).join(', '),
+      storageEntry.modifier.isOptional,
+      keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
+      keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
       formatType(registry, allDefs, outputType, imports)
     ];
   }
@@ -93,19 +81,25 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: ExtraTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: ExtraTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
-      .sort(compareName)
-      .filter((mod) => !mod.storage.isNone)
+    const { lookup, pallets } = meta.asLatest;
+    const modules = pallets
+      .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
-            const [args, params, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+            const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, storageEntry, imports);
+            const returnType = isOptional
+              ? `Option<${_returnType}>`
+              : _returnType;
 
             return {
               args,
@@ -134,7 +128,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       modules,
       types: [
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath,
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

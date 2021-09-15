@@ -6,7 +6,7 @@ import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 
-import { GenericCall as Call, Metadata, TypeRegistry, Vec } from '@polkadot/types';
+import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
 import { Text } from '@polkadot/types/primitive';
@@ -45,9 +45,15 @@ const DESC_STORAGE = `The following sections contain Storage methods are part of
 /** @internal */
 function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
   const md = docLines
-    .map((docLine) => docLine && docLine.substring(1)) // trim the leading space
-    .reduce((md, docLine): string => // generate paragraphs
-      !docLine.trim().length
+    .map((docLine) =>
+      docLine
+        .toString()
+        .trimStart()
+        .replace(/^r"/g, '')
+        .trimStart()
+    )
+    .reduce((md, docLine) => // generate paragraphs
+      !docLine.length
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
@@ -162,25 +168,25 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addConstants (metadata: MetadataLatest): string {
+function addConstants ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_CONSTANTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
-      .map((moduleMetadata) => {
-        const sectionName = stringLowerFirst(moduleMetadata.name);
+      .filter(({ constants }) => !constants.isEmpty)
+      .map(({ constants, name }) => {
+        const sectionName = stringLowerFirst(name);
 
         return {
-          items: moduleMetadata.constants
+          items: constants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
+            .map(({ docs, name, type }) => {
+              const methodName = stringCamelCase(name);
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
-                name: `${methodName}: ` + '`' + func.type.toString() + '`',
-                ...(func.docs.length && { summary: func.docs })
+                name: `${methodName}: ` + '`' + lookup.getTypeDef(type).type + '`',
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
@@ -191,9 +197,9 @@ function addConstants (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage (metadata: MetadataLatest): string {
-  const { substrate } = getSubstrateStorage(metadata.registry);
-  const moduleSections = metadata.modules
+function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
+  const { substrate } = getSubstrateStorage(registry);
+  const moduleSections = pallets
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
     .map((moduleMetadata): Section => {
@@ -203,15 +209,18 @@ function addStorage (metadata: MetadataLatest): string {
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
-            const arg = func.type.isMap
-              ? ('`' + func.type.asMap.key.toString() + '`')
-              : func.type.isDoubleMap
-                ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
-                : func.type.isNMap
-                  ? ('`' + func.type.asNMap.keyVec.map((k) => k.toString()).join(', ') + '`')
-                  : '';
+            let arg = '';
+
+            if (func.type.isMap) {
+              const { hashers, key } = func.type.asMap;
+
+              arg = hashers.length === 1
+                ? ('`' + key.toString() + '`')
+                : ('`' + lookup.getSiType(key).def.asTuple.map((t) => t).join(', ') + '`');
+            }
+
             const methodName = stringLowerFirst(func.name);
-            const outputType = unwrapStorageType(metadata.registry, func.type, func.modifier.isOptional);
+            const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);
 
             return {
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
@@ -229,12 +238,10 @@ function addStorage (metadata: MetadataLatest): string {
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
         const arg = meta.type.isMap
-          ? ('`' + meta.type.asMap.key.toString() + '`')
-          : meta.type.isDoubleMap
-            ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
-            : '';
+          ? ('`' + lookup.getTypeDef(meta.type.asMap.key).type + '`')
+          : '';
         const methodName = stringLowerFirst(name);
-        const outputType = unwrapStorageType(metadata.registry, meta.type, meta.modifier.isOptional);
+        const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
 
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',
@@ -249,26 +256,26 @@ function addStorage (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addExtrinsics (metadata: MetadataLatest): string {
+function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EXTRINSICS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
-      .map((meta) => {
-        const sectionName = stringCamelCase(meta.name);
+      .filter(({ calls }) => calls.isSome)
+      .map(({ calls, name }) => {
+        const sectionName = stringCamelCase(name);
 
         return {
-          items: meta.calls.unwrap()
+          items: lookup.getSiType(calls.unwrap().type).def.asVariant.variants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
-              const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
+            .map(({ docs, fields, name }, index) => {
+              const methodName = stringCamelCase(name);
+              const args = fields.map(({ name, type }) => `${name.isSome ? name.toString() : `param${index}`}: ` + '`' + lookup.getTypeDef(type).type + '`').join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
                 name: `${methodName}(${args})`,
-                ...(func.docs.length && { summary: func.docs })
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
@@ -279,23 +286,23 @@ function addExtrinsics (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addEvents (metadata: MetadataLatest): string {
+function addEvents ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EVENTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
+      .filter(({ events }) => events.isSome)
       .map((meta) => ({
-        items: meta.events.unwrap()
+        items: lookup.getSiType(meta.events.unwrap().type).def.asVariant.variants
           .sort(sortByName)
-          .map((func) => {
-            const methodName = func.name.toString();
-            const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
+          .map(({ docs, fields, name }) => {
+            const methodName = name.toString();
+            const args = fields.map(({ type }) => '`' + lookup.getTypeDef(type).type + '`').join(', ');
 
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
               name: `${methodName}(${args})`,
-              ...(func.docs.length && { summary: func.docs })
+              ...(docs.length && { summary: docs })
             };
           }),
         name: stringCamelCase(meta.name)
@@ -305,14 +312,14 @@ function addEvents (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addErrors (metadata: MetadataLatest): string {
+function addErrors ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_ERRORS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
+      .filter(({ errors }) => errors.isSome)
       .map((moduleMetadata) => ({
-        items: moduleMetadata.errors
+        items: lookup.getSiType(moduleMetadata.errors.unwrap().type).def.asVariant.variants
           .sort(sortByName)
           .map((error) => ({
             interface: '`' + `api.errors.${stringCamelCase(moduleMetadata.name)}.${error.name.toString()}.is` + '`',

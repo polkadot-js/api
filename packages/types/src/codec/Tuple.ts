@@ -86,7 +86,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type): string => new Type(this.registry).toRawType())
+      ? this._Types.map((Type) => new Type(this.registry).toRawType())
       : Object.keys(this._Types);
   }
 

@@ -1,15 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
+import type { FunctionMetadataLatest } from '../interfaces/metadata';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, InterfaceTypes, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { U8aFixed } from '../codec/U8aFixed';
-import { getTypeClass } from '../create/createClass';
-import { getTypeDef } from '../create/getTypeDef';
 
 interface DecodeMethodInput {
   args: unknown;
@@ -30,11 +28,8 @@ interface DecodedMethod extends DecodeMethodInput {
  * @internal
  */
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return GenericCall.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-    const Type = getTypeClass(registry, getTypeDef(type));
-
-    result[name.toString()] = Type;
+  return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
+    result[name.unwrapOr(`param${index}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
 
     return result;
   }, {} as ArgsDef);
@@ -144,16 +139,6 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     }
 
     this._meta = decoded.meta;
-  }
-
-  // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
-    // FIXME should be `arg.type !== Origin`, but doesn't work...
-    return meta
-      ? meta.args.filter(({ type }): boolean =>
-        type.toString() !== 'Origin'
-      )
-      : [];
   }
 
   /**

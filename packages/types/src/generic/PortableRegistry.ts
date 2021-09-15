@@ -15,6 +15,9 @@ import { withTypeString } from '../create/encodeTypes';
 import { getTypeDef } from '../create/getTypeDef';
 import { TypeDefInfo } from '../types';
 
+// Just a placeholder for a type.unrwapOr()
+const TYPE_UNWRAP = { toNumber: () => -1 };
+
 // Alias the primitive enum with out known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
@@ -72,26 +75,96 @@ function getPrimitivePath (path: SiPath): string | null {
     : null;
 }
 
-function removeDuplicateNames (names: [number, (string | null)][]): [number, (string | null)][] {
-  return names.map(([lookupIndex, name]): [number, string | null] => [
-    lookupIndex,
-    (
-      !name ||
-      names.some(([oIndex, oName]) =>
-        name === oName &&
-        lookupIndex !== oIndex
-      )
-    )
-      ? null
-      : name
-  ]);
+function removeDuplicateNames (lookup: GenericPortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
+  const rewrite: Record<number, string> = {};
+
+  return names
+    .map(([lookupIndex, name, params]): [number, string | null] => {
+      if (!name) {
+        return [lookupIndex, null];
+      }
+
+      // those where the name is matching
+      const allSame = names.filter(([, oName]) => name === oName);
+
+      // are there among matching names
+      const anyDiff = allSame.some(([oIndex,, oParams]) =>
+        lookupIndex !== oIndex && (
+          params.length !== oParams.length ||
+          params.some((p, index) =>
+            !p.name.eq(oParams[index].name) ||
+            p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== oParams[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
+          )
+        )
+      );
+
+      // everything matches, we can combine these
+      if (!anyDiff || !allSame[0][2].length) {
+        return [lookupIndex, name];
+      }
+
+      // find the first parameter that yields differences
+      const paramIdx = allSame[0][2].findIndex(({ type }, index) =>
+        allSame.every(([,, params]) => params[index].type.isSome) &&
+        allSame.every(([,, params], aIndex) =>
+          aIndex === 0 ||
+          !params[index].type.eq(type)
+        )
+      );
+
+      // No param found that is different
+      if (paramIdx === -1) {
+        return [lookupIndex, name];
+      }
+
+      // see if using the param type helps
+      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null] => {
+        const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
+
+        if (!def.isPrimitive && !path.length) {
+          return [oIndex, null];
+        }
+
+        return [
+          oIndex,
+          def.isPrimitive
+            ? `${oName as string}${def.asPrimitive.toString()}`
+            : `${oName as string}${path[path.length - 1].toString()}`
+        ];
+      });
+
+      // any dupes remaining?
+      const noDupes = adjusted.every(([i, n]) =>
+        !!n &&
+        !adjusted.some(([ai, an]) =>
+          i !== ai &&
+          n === an
+        )
+      );
+
+      if (noDupes) {
+        // we filtered above for null names
+        adjusted.forEach(([index, name]): void => {
+          rewrite[index] = name as string;
+        });
+      }
+
+      return noDupes
+        ? [lookupIndex, name]
+        : [lookupIndex, null];
+    })
+    .filter((n): n is [number, string] => !!n[1])
+    .map(([lookupIndex, name]) => [
+      lookupIndex,
+      rewrite[lookupIndex] || name
+    ]);
 }
 
-function extractName (types: PortableType[], id: SiLookupTypeId, { params, path }: SiType): [number, string | null] {
+function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string | null, SiTypeParameter[]] {
   const lookupIndex = id.toNumber();
 
   if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
-    return [lookupIndex, null];
+    return [lookupIndex, null, []];
   }
 
   const parts = path
@@ -120,28 +193,25 @@ function extractName (types: PortableType[], id: SiLookupTypeId, { params, path 
     }
   }
 
-  return [lookupIndex, typeName];
+  return [lookupIndex, typeName, params];
 }
 
-function extractNames (registry: Registry, types: PortableType[]): Record<number, string> {
-  const dedup = removeDuplicateNames(
-    types.map(({ id, type }) =>
-      extractName(types, id, type)
-    )
-  );
-  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name], index) => {
-    if (name) {
-      // We set the name for this specific type
-      names[index] = name;
+function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): Record<number, string> {
+  const dedup = removeDuplicateNames(lookup, types.map((t) =>
+    extractName(types, t)
+  ));
 
-      // we map to the actual lookupIndex
-      types[name] = registry.createLookupType(lookupIndex);
-    }
+  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name]) => {
+    // We set the name for this specific type
+    names[lookupIndex] = name;
+
+    // we map to the actual lookupIndex
+    types[name] = lookup.registry.createLookupType(lookupIndex);
 
     return [names, types];
   }, [{}, {}]);
 
-  registry.register(typesNew);
+  lookup.registry.register(typesNew);
 
   return names;
 }
@@ -155,7 +225,7 @@ export class GenericPortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    this.#names = extractNames(registry, this.types);
+    this.#names = extractNames(this, this.types);
   }
 
   /**
@@ -163,6 +233,13 @@ export class GenericPortableRegistry extends Struct {
    */
   public get types (): Vec<PortableType> {
     return this.get('types') as Vec<PortableType>;
+  }
+
+  /**
+   * @description Returns the name for a specific lookup
+   */
+  public getName (lookupId: SiLookupTypeId | string | number): string | undefined {
+    return this.#names[this.#getLookupId(lookupId)];
   }
 
   /**
@@ -183,15 +260,25 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = this.#getLookupId(lookupId);
 
     if (!this.#typeDefs[lookupIndex]) {
-      // we set first since we will get into circular lookups along the way
-      this.#typeDefs[lookupIndex] = {
+      const lookupName = this.#names[lookupIndex];
+      const empty = {
         info: TypeDefInfo.DoNotConstruct,
         lookupIndex,
-        lookupName: this.#names[lookupIndex],
+        lookupName,
         type: this.registry.createLookupType(lookupIndex)
       };
 
+      // Set named items since we will get into circular lookups along the way
+      if (lookupName) {
+        this.#typeDefs[lookupIndex] = empty;
+      }
+
       const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
+
+      // For non-named items, we only set this right at the end
+      if (!lookupName) {
+        this.#typeDefs[lookupIndex] = empty;
+      }
 
       Object.keys(extracted).forEach((k): void => {
         if (k !== 'lookupName' || extracted[k]) {

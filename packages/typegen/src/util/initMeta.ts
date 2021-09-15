@@ -4,7 +4,7 @@
 import type { ExtraTypes } from '../generate/types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
-import staticData from '@polkadot/types-support/metadata/static-substrate';
+import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 
 import { registerDefinitions } from './register';
 
@@ -13,12 +13,12 @@ interface Result {
   registry: TypeRegistry;
 }
 
-export function initMeta (data = staticData, extraTypes: ExtraTypes = {}): Result {
+export function initMeta (staticMeta = staticSubstrate, extraTypes: ExtraTypes = {}): Result {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);
 
-  const metadata = new Metadata(registry, data);
+  const metadata = new Metadata(registry, staticMeta);
 
   registry.setMetadata(metadata);
 

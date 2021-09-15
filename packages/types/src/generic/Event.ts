@@ -4,7 +4,7 @@
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';
@@ -49,13 +49,15 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
-    super(registry, Types, value);
+  constructor (registry: Registry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
+    const fields = meta?.fields || [];
+
+    super(registry, fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
 
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = typeDef;
+    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
   }
 
   /**
