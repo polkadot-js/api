@@ -73,7 +73,7 @@ export class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: this.registry.createType('MetadataAll', toCallsOnly(this.registry, this.asLatest), this.version)
+      metadata: this.registry.createType('MetadataAll', toCallsOnly(this.registry, this.asLatest), LATEST_VERSION)
     });
   }
 
