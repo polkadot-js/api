@@ -2,6 +2,10 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users of the latest Substrate/Polkadot with Metadata v14.
+
+- **Important** The Metadata v14 change allows the metadata to expose the chain types. This has been a major overhaul of the metadata handling, hence the major version bump.
+
 Contributed:
 
 - Allow for `.clone` on Http provider (Thanks to https://github.com/ianhe8x)
@@ -17,7 +21,7 @@ Changes:
 
 ## 5.9.1 Sep 13, 2021
 
-Upgrade priority: Low. Recommended for chain using Xcm.
+Upgrade priority: Low. Recommended for chains using Xcm.
 
 Contributed:
 
