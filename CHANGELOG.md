@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Fix `api.query.substrate.*` key generation
+
+
 ## 6.0.1 Sep 18, 2021
 
 Upgrade priority: Low. Recommended for users of the latest Substrate/Polkadot with Metadata v14.
