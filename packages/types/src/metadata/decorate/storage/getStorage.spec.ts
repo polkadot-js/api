@@ -1,13 +1,19 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create';
+import { Metadata } from '../../Metadata';
 import { getStorage } from './getStorage';
 
+const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
+
+registry.setMetadata(metadata);
+
 describe('getSorage', (): void => {
-  const registry = new TypeRegistry();
   const storage = getStorage(registry);
 
   it('should return well known keys', (): void => {

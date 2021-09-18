@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.0.2 Sep 18, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.1, especially those using `api.query.substrate.*` calls
 
 Changes:
 
