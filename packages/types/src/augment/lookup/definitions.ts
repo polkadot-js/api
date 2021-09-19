@@ -10,8 +10,10 @@ import substrate from './substrate';
 export default {
   rpc: {},
   types: {
+    // Not 100% sure it is relevant, however the order here is the same
+    // as exposed in the typegen lookup order
+    ...substrate,
     ...polkadot,
-    ...kusama,
-    ...substrate
+    ...kusama
   }
 } as Definitions;
