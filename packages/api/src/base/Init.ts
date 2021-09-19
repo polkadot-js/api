@@ -165,7 +165,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // nothing has been found, construct new
-    const registry = new TypeRegistry(blockHash);
+    const registry = new TypeRegistry(blockHash, this.registry.compatSpecs);
     const metadata = new Metadata(registry,
       await firstValueFrom((this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash))
     );

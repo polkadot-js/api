@@ -5,19 +5,10 @@ import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, Extrinsi
 import type { SiVariant } from '../../interfaces/scaleInfo';
 import type { Text } from '../../primitive/Text';
 import type { Type } from '../../primitive/Type';
-import type { OverrideModuleType, Registry } from '../../types';
+import type { OverrideModuleType, Registry, TypeSpec } from '../../types';
 
 import { getModuleTypes, knownOrigins } from '@polkadot/types-known';
 import { stringCamelCase } from '@polkadot/util';
-
-interface TypeSpec {
-  def: {
-    HistoricMetaCompat?: string;
-    Tuple?: number[];
-    Variant?: { variants: SiVariant[] }
-  },
-  path?: string[];
-}
 
 interface MapDef {
   hashers: StorageHasherV13[];
@@ -113,14 +104,14 @@ function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertCalls (registry: Registry, types: TypeSpec[], modName: Text, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
+function convertCalls (registry: Registry, modName: Text, calls: FunctionMetadataV13[], sectionTypes: OverrideModuleType): PalletCallMetadataV14 {
   const variants = calls.map(({ args, docs, name }, index): SiVariant => {
     setTypeOverride(sectionTypes, args.map(({ type }) => type));
 
     return registry.createType('SiVariant', {
       docs,
       fields: args.map(({ name, type }) =>
-        registry.createType('SiField', { name, type: compatType(types, type) })
+        registry.createType('SiField', { name, type: compatType(registry.compatSpecs, type) })
       ),
       index,
       name
@@ -128,7 +119,7 @@ function convertCalls (registry: Registry, types: TypeSpec[], modName: Text, cal
   });
 
   return registry.createType('PalletCallMetadataV14', {
-    type: variantType(modName, 'Call', types, variants)
+    type: variantType(modName, 'Call', registry.compatSpecs, variants)
   });
 }
 
@@ -136,14 +127,14 @@ function convertCalls (registry: Registry, types: TypeSpec[], modName: Text, cal
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  */
-function convertConstants (registry: Registry, types: TypeSpec[], constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): PalletConstantMetadataV14[] {
+function convertConstants (registry: Registry, constants: ModuleConstantMetadataV13[], sectionTypes: OverrideModuleType): PalletConstantMetadataV14[] {
   return constants.map(({ docs, name, type, value }): PalletConstantMetadataV14 => {
     setTypeOverride(sectionTypes, [type]);
 
     return registry.createType('PalletConstantMetadataV14', {
       docs,
       name,
-      type: compatType(types, type),
+      type: compatType(registry.compatSpecs, type),
       value
     });
   });
@@ -154,7 +145,7 @@ function convertConstants (registry: Registry, types: TypeSpec[], constants: Mod
  * @internal
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function convertErrors (registry: Registry, types: TypeSpec[], modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
+function convertErrors (registry: Registry, modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
   const variants = errors.map(({ docs, name }, index): SiVariant =>
     registry.createType('SiVariant', {
       docs,
@@ -165,7 +156,7 @@ function convertErrors (registry: Registry, types: TypeSpec[], modName: Text, er
   );
 
   return registry.createType('PalletErrorMetadataV14', {
-    type: variantType(modName, 'Error', types, variants)
+    type: variantType(modName, 'Error', registry.compatSpecs, variants)
   });
 }
 
@@ -173,14 +164,14 @@ function convertErrors (registry: Registry, types: TypeSpec[], modName: Text, er
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  **/
-function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, events: EventMetadataV13[], sectionTypes: OverrideModuleType): PalletEventMetadataV14 {
+function convertEvents (registry: Registry, modName: Text, events: EventMetadataV13[], sectionTypes: OverrideModuleType): PalletEventMetadataV14 {
   const variants = events.map(({ args, docs, name }, index): SiVariant => {
     setTypeOverride(sectionTypes, args);
 
     return registry.createType('SiVariant', {
       docs,
       fields: args.map((t) =>
-        registry.createType('SiField', { type: compatType(types, t) })
+        registry.createType('SiField', { type: compatType(registry.compatSpecs, t) })
       ),
       index,
       name
@@ -188,20 +179,20 @@ function convertEvents (registry: Registry, types: TypeSpec[], modName: Text, ev
   });
 
   return registry.createType('PalletEventMetadataV14', {
-    type: variantType(modName, 'Event', types, variants)
+    type: variantType(modName, 'Event', registry.compatSpecs, variants)
   });
 }
 
-function createMapEntry (registry: Registry, sectionTypes: OverrideModuleType, types: TypeSpec[], { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
+function createMapEntry (registry: Registry, sectionTypes: OverrideModuleType, { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
   setTypeOverride(sectionTypes, [value, ...(Array.isArray(keys) ? keys : [keys])]);
 
   return registry.createType('StorageEntryTypeV14', {
     Map: {
       hashers,
       key: hashers.length === 1
-        ? compatType(types, keys[0])
-        : (types.push({ def: { Tuple: keys.map((t) => compatType(types, t)) } }) - 1),
-      value: compatType(types, value)
+        ? compatType(registry.compatSpecs, keys[0])
+        : (registry.compatSpecs.push({ def: { Tuple: keys.map((t) => compatType(registry.compatSpecs, t)) } }) - 1),
+      value: compatType(registry.compatSpecs, value)
     }
   });
 }
@@ -210,7 +201,7 @@ function createMapEntry (registry: Registry, sectionTypes: OverrideModuleType, t
  * Apply module-specific storage type overrides (always part of toV14)
  * @internal
  **/
-function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
   return registry.createType('PalletStorageMetadataV14', {
     items: items.map(({ docs, fallback, modifier, name, type }): StorageEntryMetadataV14 => {
       let entryType: StorageEntryTypeV14;
@@ -221,12 +212,12 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
         setTypeOverride(sectionTypes, [plain]);
 
         entryType = registry.createType('StorageEntryTypeV14', {
-          Plain: compatType(types, plain)
+          Plain: compatType(registry.compatSpecs, plain)
         });
       } else if (type.isMap) {
         const map = type.asMap;
 
-        entryType = createMapEntry(registry, sectionTypes, types, {
+        entryType = createMapEntry(registry, sectionTypes, {
           hashers: [map.hasher],
           keys: [map.key],
           value: map.value
@@ -234,7 +225,7 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
       } else if (type.isDoubleMap) {
         const dm = type.asDoubleMap;
 
-        entryType = createMapEntry(registry, sectionTypes, types, {
+        entryType = createMapEntry(registry, sectionTypes, {
           hashers: [dm.hasher, dm.key2Hasher],
           keys: [dm.key1, dm.key2],
           value: dm.value
@@ -242,7 +233,7 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
       } else {
         const nm = type.asNMap;
 
-        entryType = createMapEntry(registry, sectionTypes, types, {
+        entryType = createMapEntry(registry, sectionTypes, {
           hashers: nm.hashers,
           keys: nm.keyVec,
           value: nm.value
@@ -263,7 +254,7 @@ function convertStorage (registry: Registry, types: TypeSpec[], { items, prefix 
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function convertExtrinsic (registry: Registry, _types: TypeSpec[], { signedExtensions, version }: ExtrinsicMetadataV13): ExtrinsicMetadataV14 {
+function convertExtrinsic (registry: Registry, { signedExtensions, version }: ExtrinsicMetadataV13): ExtrinsicMetadataV14 {
   return registry.createType('ExtrinsicMetadataV14', {
     signedExtensions: signedExtensions.map((identifier) => ({
       identifier,
@@ -275,17 +266,17 @@ function convertExtrinsic (registry: Registry, _types: TypeSpec[], { signedExten
 }
 
 /** @internal */
-function createPallet (registry: Registry, types: TypeSpec[], mod: ModuleMetadataV13, { calls, constants, errors, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], errors: ErrorMetadataV13[] | null, events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
+function createPallet (registry: Registry, mod: ModuleMetadataV13, { calls, constants, errors, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], errors: ErrorMetadataV13[] | null, events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
   const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
 
   return registry.createType('PalletMetadataV14', {
-    calls: calls && convertCalls(registry, types, mod.name, calls, sectionTypes),
-    constants: convertConstants(registry, types, constants, sectionTypes),
-    errors: errors && convertErrors(registry, types, mod.name, errors, sectionTypes),
-    events: events && convertEvents(registry, types, mod.name, events, sectionTypes),
+    calls: calls && convertCalls(registry, mod.name, calls, sectionTypes),
+    constants: convertConstants(registry, constants, sectionTypes),
+    errors: errors && convertErrors(registry, mod.name, errors, sectionTypes),
+    events: events && convertEvents(registry, mod.name, events, sectionTypes),
     index: mod.index,
     name: mod.name,
-    storage: storage && convertStorage(registry, types, storage, sectionTypes)
+    storage: storage && convertStorage(registry, storage, sectionTypes)
   });
 }
 
@@ -294,15 +285,12 @@ function createPallet (registry: Registry, types: TypeSpec[], mod: ModuleMetadat
  * @internal
  **/
 export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number): MetadataV14 {
-  // the types that we will pass
-  const types: TypeSpec[] = [];
-
-  compatType(types, 'Null'); // position 0 always has Null
+  compatType(registry.compatSpecs, 'Null'); // position 0 always has Null
   registerOriginCaller(registry, v13.modules, metaVersion);
 
-  const extrinsic = convertExtrinsic(registry, types, v13.extrinsic);
+  const extrinsic = convertExtrinsic(registry, v13.extrinsic);
   const pallets = v13.modules.map((mod) =>
-    createPallet(registry, types, mod, {
+    createPallet(registry, mod, {
       calls: mod.calls.unwrapOr(null),
       constants: mod.constants,
       errors: mod.errors.length ? mod.errors : null,
@@ -314,7 +302,7 @@ export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number
   return registry.createType('MetadataV14', {
     extrinsic,
     lookup: {
-      types: types.map((type, id) =>
+      types: registry.compatSpecs.map((type, id) =>
         registry.createType('PortableType', { id, type })
       )
     },

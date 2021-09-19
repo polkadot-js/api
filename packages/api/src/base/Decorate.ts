@@ -358,12 +358,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       (this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage
         : this._rpcCore.state.queryStorageAt)(
-        calls.map((arg: QueryableStorageMultiArg<ApiType>) =>
-          Array.isArray(arg)
-            ? arg[0].creator.meta.type.asMap.hashers.length === 1
-              ? [arg[0].creator, arg.slice(1)]
-              : [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator])));
+        calls.map((args: QueryableStorageMultiArg<ApiType>) =>
+          Array.isArray(args)
+            ? args[0].creator.meta.type.asMap.hashers.length === 1
+              ? [args[0].creator, args.slice(1)]
+              : [args[0].creator, ...args.slice(1)]
+            : [args.creator])));
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
@@ -418,7 +418,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(this.#registry, creator, args);
+    const getArgs = (args: unknown[]) => extractStorageArgs(this.#registry, creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */

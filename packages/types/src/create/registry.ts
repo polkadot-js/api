@@ -3,7 +3,7 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes, TypeSpec } from '../types';
 import type { CreateOptions } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
@@ -145,13 +145,19 @@ export class TypeRegistry implements Registry {
 
   #userExtensions?: ExtDef;
 
+  public compatSpecs: TypeSpec[] = [];
+
   public createdAtHash?: Hash;
 
-  constructor (createdAtHash?: Hash | Uint8Array | string) {
+  constructor (createdAtHash?: Hash | Uint8Array | string, compatSpecs?: TypeSpec[]) {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
+
+    if (compatSpecs) {
+      this.compatSpecs = compatSpecs;
+    }
 
     if (createdAtHash) {
       this.createdAtHash = this.createType('Hash', createdAtHash);
