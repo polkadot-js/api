@@ -198,7 +198,8 @@ function generateLookupDefs (registry: Registry, filtered: [PortableType, TypeDe
           ].map(([n, t]) => `${n}: ${t}`),
           docs
         };
-      })
+      }),
+      headerType: 'defs'
     });
   });
 }

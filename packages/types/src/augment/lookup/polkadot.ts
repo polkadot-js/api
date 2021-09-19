@@ -1,4 +1,4 @@
-// Auto-generated via `yarn polkadot-types-from-`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
 /* eslint-disable sort-keys */

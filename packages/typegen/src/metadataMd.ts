@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { MetadataLatest, PortableRegistry, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
@@ -118,6 +118,12 @@ function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
+function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
+  const typeDef = lookup.getTypeDef(type);
+
+  return typeDef.lookupName || typeDef.type;
+}
+
 /** @internal */
 function addRpc (): string {
   const sections = Object
@@ -185,7 +191,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
-                name: `${methodName}: ` + '`' + lookup.getTypeDef(type).type + '`',
+                name: `${methodName}: ` + '`' + getSiName(lookup, type) + '`',
                 ...(docs.length && { summary: docs })
               };
             }),
@@ -214,9 +220,11 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
             if (func.type.isMap) {
               const { hashers, key } = func.type.asMap;
 
-              arg = hashers.length === 1
-                ? ('`' + key.toString() + '`')
-                : ('`' + lookup.getSiType(key).def.asTuple.map((t) => t).join(', ') + '`');
+              arg = '`' + (
+                hashers.length === 1
+                  ? getSiName(lookup, key)
+                  : lookup.getSiType(key).def.asTuple.map((t) => getSiName(lookup, t)).join(', ')
+              ) + '`';
             }
 
             const methodName = stringLowerFirst(func.name);
@@ -238,7 +246,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
         const arg = meta.type.isMap
-          ? ('`' + lookup.getTypeDef(meta.type.asMap.key).type + '`')
+          ? ('`' + getSiName(lookup, meta.type.asMap.key) + '`')
           : '';
         const methodName = stringLowerFirst(name);
         const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
@@ -270,7 +278,9 @@ function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
             .sort(sortByName)
             .map(({ docs, fields, name }, index) => {
               const methodName = stringCamelCase(name);
-              const args = fields.map(({ name, type }) => `${name.isSome ? name.toString() : `param${index}`}: ` + '`' + lookup.getTypeDef(type).type + '`').join(', ');
+              const args = fields.map(({ name, type }) =>
+                `${name.isSome ? name.toString() : `param${index}`}: ` + '`' + getSiName(lookup, type) + '`'
+              ).join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
@@ -297,7 +307,9 @@ function addEvents ({ lookup, pallets }: MetadataLatest): string {
           .sort(sortByName)
           .map(({ docs, fields, name }) => {
             const methodName = name.toString();
-            const args = fields.map(({ type }) => '`' + lookup.getTypeDef(type).type + '`').join(', ');
+            const args = fields.map(({ type }) =>
+              '`' + getSiName(lookup, type) + '`'
+            ).join(', ');
 
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',

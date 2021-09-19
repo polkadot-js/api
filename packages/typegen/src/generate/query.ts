@@ -21,27 +21,6 @@ import { ModuleTypes } from '../util/imports';
 function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [boolean, string, string, string] {
   const outputType = lookup.getTypeDef(unwrapStorageSi(storageEntry.type));
 
-  // else if (storageEntry.type.isMap) {
-  //   const map = storageEntry.type.asMap;
-  //   const keyDef = lookup.getTypeDef(map.key);
-  //   const valDef = lookup.getTypeDef(map.value);
-
-  //   // Find similar types of the `key` type
-  //   const similarTypes = getSimilarTypes(registry, allDefs, keyDef.lookupName || keyDef.type, imports);
-
-  //   setImports(allDefs, imports, [
-  //     ...similarTypes,
-  //     valDef.lookupName || valDef.type
-  //   ]);
-
-  //   return [
-  //     storageEntry.modifier.isOptional,
-  //     formatType(registry, allDefs, keyDef.lookupName || keyDef.type, imports),
-  //     `arg: ${similarTypes.join(' | ')}`,
-  //     formatType(registry, allDefs, outputType, imports)
-  //   ];
-  // }
-
   if (storageEntry.type.isPlain) {
     const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
 
