@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 6.0.3 Sep 20, 2021
+## 6.0.4 Sep 20, 2021
 
 Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
 
