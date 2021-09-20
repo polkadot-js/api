@@ -7,7 +7,7 @@ import type { CreateOptions } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { SiField, SiLookupTypeId, SiVariant } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
@@ -45,17 +45,6 @@ export interface RegistryError {
   method: string;
   name: string;
   section: string;
-}
-
-export interface TypeSpec {
-  def: {
-    HistoricMetaCompat?: string;
-    Tuple?: number[];
-    Variant?: {
-      variants: SiVariant[];
-    }
-  },
-  path?: string[];
 }
 
 export interface OverrideVersionedType {
@@ -123,7 +112,6 @@ export interface Registry {
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 
-  compatSpecs: TypeSpec[];
   createdAtHash?: Hash;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;

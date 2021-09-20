@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 6.0.5 Sep 20, 2012
+
+Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
+
+Changes:
+
+- Revert cross-registry (now-inactive) change introduced in 6.0.3
+- Ensure `Option` is correctly imported for TS query generation
+
+
 ## 6.0.4 Sep 20, 2021
 
 Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
