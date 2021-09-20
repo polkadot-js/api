@@ -87,7 +87,7 @@ export default {
         },
         {
           name: 'keys',
-          type: 'Vec<StorageKey>,'
+          type: 'Vec<StorageKey>'
         },
         {
           name: 'at',
