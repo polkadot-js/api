@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- `api.query.<module>.<method>.at` will now use `at.at(<hash>)`
+
+
 ## 6.0.3 Sep 19, 2021
 
 Upgrade priority: Low. Recommended for all users on 6.0.2 using `api.query.*.*.at` calls
