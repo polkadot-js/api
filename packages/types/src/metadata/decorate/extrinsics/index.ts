@@ -7,6 +7,7 @@ import type { Extrinsics, ModuleExtrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
+import { getSiName } from '../../util';
 import { createUnchecked } from './createUnchecked';
 
 /** @internal */
@@ -25,7 +26,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
             ...variant,
             args: variant.fields.map(({ name, type }, index) => ({
               name: stringCamelCase(name.unwrapOr(`param${index}`)),
-              type: lookup.getTypeDef(type).type
+              type: getSiName(lookup, type)
             }))
           });
 

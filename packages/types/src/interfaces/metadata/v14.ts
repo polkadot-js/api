@@ -28,7 +28,7 @@ export const v14: DefinitionsTypes = {
   FunctionArgumentMetadataV14: 'FunctionArgumentMetadataV13',
   FunctionMetadataV14: {
     ...SiVariant,
-    args: 'Vec<FunctionArgumentMetadataLatest>'
+    args: 'Vec<FunctionArgumentMetadataV14>'
   },
 
   // V14

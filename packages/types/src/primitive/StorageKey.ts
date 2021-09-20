@@ -9,6 +9,7 @@ import type { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
+import { getSiName } from '../metadata/util';
 import { Bytes } from './Bytes';
 
 interface Decoded {
@@ -42,8 +43,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const typeDef = registry.lookup.getTypeDef(unwrapStorageSi(type));
-  const outputType = typeDef.lookupName || typeDef.type;
+  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes
