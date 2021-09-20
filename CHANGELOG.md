@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add `childstate_getStorageEntries` RPC
+
+
 ## 6.0.5 Sep 20, 2012
 
 Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
