@@ -24,7 +24,12 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
   if (storageEntry.type.isPlain) {
     const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
 
-    setImports(allDefs, imports, [typeDef.lookupName || typeDef.type]);
+    setImports(allDefs, imports, [
+      typeDef.lookupName || typeDef.type,
+      storageEntry.modifier.isOptional
+        ? 'Option'
+        : null
+    ]);
 
     return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
   } else if (storageEntry.type.isMap) {
@@ -38,6 +43,9 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
+      storageEntry.modifier.isOptional
+        ? 'Option'
+        : null,
       defValue.lookupName
         ? undefined
         : defValue.type
