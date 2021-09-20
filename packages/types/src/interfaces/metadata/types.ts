@@ -132,7 +132,7 @@ export interface FunctionMetadataV14 extends Struct {
   readonly fields: Vec<SiField>;
   readonly index: u8;
   readonly docs: Vec<Text>;
-  readonly args: Vec<FunctionArgumentMetadataLatest>;
+  readonly args: Vec<FunctionArgumentMetadataV14>;
 }
 
 /** @name FunctionMetadataV9 */
