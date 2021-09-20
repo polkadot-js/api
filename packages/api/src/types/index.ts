@@ -112,4 +112,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   errors: DecoratedErrors<ApiType>;
   events: DecoratedEvents<ApiType>;
   query: QueryableStorage<ApiType>;
+  rx: {
+    query: QueryableStorage<'rxjs'>;
+  }
 }

@@ -149,15 +149,11 @@ export class TypeRegistry implements Registry {
 
   public createdAtHash?: Hash;
 
-  constructor (createdAtHash?: Hash | Uint8Array | string, compatSpecs?: TypeSpec[]) {
+  constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
-
-    if (compatSpecs) {
-      this.compatSpecs = compatSpecs;
-    }
 
     if (createdAtHash) {
       this.createdAtHash = this.createType('Hash', createdAtHash);

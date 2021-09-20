@@ -12,7 +12,7 @@ import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
-import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
 
 import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
@@ -154,6 +154,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
 
+  public abstract at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>>;
+
   /**
    * @description Return the current used registry
    */
@@ -195,7 +197,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         consts: {},
         errors: {},
         events: {},
-        query: {}
+        query: {},
+        rx: {
+          query: {}
+        }
       } as ApiDecoration<ApiType>;
     }
 
@@ -211,8 +216,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const storage = blockHash
       ? this._decorateStorageAt(registry.decoratedMeta, this._decorateMethod, blockHash)
       : this._decorateStorage(registry.decoratedMeta, this._decorateMethod);
+    const storageRx = blockHash
+      ? this._decorateStorageAt(registry.decoratedMeta, this._rxDecorateMethod, blockHash)
+      : this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod);
 
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
+    augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
 
     return {
       decoratedApi,
@@ -227,7 +236,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         consts: {},
         errors: {},
         events: {},
-        query: {}
+        query: {},
+        rx: {
+          query: {}
+        }
       } as ApiDecoration<ApiType>;
     }
 
@@ -237,6 +249,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._errors = decoratedApi.errors;
     this._events = decoratedApi.events;
     this._query = decoratedApi.query;
+    this._rx.query = decoratedApi.rx.query;
 
     if (fromEmpty || !this._extrinsics) {
       this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
@@ -246,8 +259,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
     }
 
-    // rx
-    augmentObject(null, this._decorateStorage(decoratedMeta, this._rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
 
@@ -428,7 +439,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.creator = creator;
 
     decorated.at = decorateMethod((hash: Hash, ...args: unknown[]): Observable<Codec> =>
-      this._rpcCore.state.getStorage(getArgs(args), hash));
+      from(this.at(hash)).pipe(
+        switchMap((api): Observable<Codec> => {
+          assert(api.rx.query[creator.section] && api.rx.query[creator.section][creator.method], () => `query.${creator.section}.${creator.method} is not available in this version of the metadata`);
+
+          return api.rx.query[creator.section][creator.method](...args);
+        })
+      ));
 
     decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args)));
