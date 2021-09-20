@@ -1,10 +1,13 @@
 # CHANGELOG
 
-## master
+## 6.0.3 Sep 20, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
 
 Changes:
 
 - `api.query.<module>.<method>.at` will now use `at.at(<hash>)`
+- Use and expose `metadata/util/getSiName` to get human type names
 
 
 ## 6.0.3 Sep 19, 2021
