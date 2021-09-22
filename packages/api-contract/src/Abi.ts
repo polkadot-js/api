@@ -49,12 +49,10 @@ export class Abi {
 
     assert(majorVer <= 1, () => `Unable to handle contract with metadata version ${json.metadataVersion as string}`);
 
-    const types = majorVer === 0
-      ? convertSiV0toV1(this.registry, this.registry.createType('Vec<Si0Type>', json.types as unknown as Si0Type[]))
-      : this.registry.createType('Vec<PortableType>', json.types as unknown as Si1Type[]);
-
     this.registry.setLookup(this.registry.createType('PortableRegistry', {
-      types
+      types: majorVer === 0
+        ? convertSiV0toV1(this.registry, this.registry.createType('Vec<Si0Type>', json.types as unknown as Si0Type[]))
+        : this.registry.createType('Vec<PortableType>', json.types as unknown as Si1Type[])
     }));
 
     this.project = this.registry.createType('ContractProject', json);
@@ -77,7 +75,7 @@ export class Abi {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.registry.lookup.getTypeDef(typeSpec.type)
+          ? this.registry.lookup.getTypeDef(typeSpec.type.toNumber())
           : null
       });
     });
@@ -124,7 +122,7 @@ export class Abi {
 
         return {
           name: stringCamelCase(arg.name),
-          type: this.registry.lookup.getTypeDef(arg.type.type)
+          type: this.registry.lookup.getTypeDef(arg.type.type.toNumber())
         };
       } catch (error) {
         l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
