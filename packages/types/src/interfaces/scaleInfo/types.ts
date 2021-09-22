@@ -130,7 +130,7 @@ export interface Si1Field extends Struct {
 export interface Si1LookupTypeId extends Compact<u32> {}
 
 /** @name Si1Path */
-export interface Si1Path extends Vec<Text> {}
+export interface Si1Path extends Si0Path {}
 
 /** @name Si1Type */
 export interface Si1Type extends Struct {
@@ -185,23 +185,7 @@ export interface Si1TypeDefComposite extends Struct {
 }
 
 /** @name Si1TypeDefPrimitive */
-export interface Si1TypeDefPrimitive extends Enum {
-  readonly isBool: boolean;
-  readonly isChar: boolean;
-  readonly isStr: boolean;
-  readonly isU8: boolean;
-  readonly isU16: boolean;
-  readonly isU32: boolean;
-  readonly isU64: boolean;
-  readonly isU128: boolean;
-  readonly isU256: boolean;
-  readonly isI8: boolean;
-  readonly isI16: boolean;
-  readonly isI32: boolean;
-  readonly isI64: boolean;
-  readonly isI128: boolean;
-  readonly isI256: boolean;
-}
+export interface Si1TypeDefPrimitive extends Si0TypeDefPrimitive {}
 
 /** @name Si1TypeDefSequence */
 export interface Si1TypeDefSequence extends Struct {

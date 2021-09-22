@@ -21,7 +21,7 @@ export const v1: DefinitionsTypes = {
     docs: 'Vec<Text>'
   },
   Si1LookupTypeId: 'Compact<u32>',
-  Si1Path: 'Vec<Text>',
+  Si1Path: 'Si0Path',
   Si1Type: {
     path: 'Si1Path',
     params: 'Vec<Si1TypeParameter>',
@@ -57,9 +57,7 @@ export const v1: DefinitionsTypes = {
   Si1TypeDefComposite: {
     fields: 'Vec<Si1Field>'
   },
-  Si1TypeDefPrimitive: {
-    _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'U256', 'I8', 'I16', 'I32', 'I64', 'I128', 'I256']
-  },
+  Si1TypeDefPrimitive: 'Si0TypeDefPrimitive',
   Si1TypeDefSequence: {
     type: 'Si1LookupTypeId'
   },
