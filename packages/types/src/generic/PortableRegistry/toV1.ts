@@ -118,7 +118,7 @@ function convertDef (registry: Registry, { def, path }: Si0Type): Si1TypeDef {
   throw new Error(`Cannot convert type ${def.toString()}`);
 }
 
-export function fromV0ToV1 (registry: Registry, types: Si0Type[]): PortableType[] {
+export function toV1 (registry: Registry, types: Si0Type[]): PortableType[] {
   return types.map((t, id) =>
     registry.createType('PortableType', {
       id,
