@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
-import type { SiField, SiLookupTypeId, SiType } from '@polkadot/types/interfaces/scaleInfo';
+import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
@@ -22,7 +22,7 @@ export interface ErrorMetadataV13 extends ErrorMetadataV12 {}
 /** @name ErrorMetadataV14 */
 export interface ErrorMetadataV14 extends Struct {
   readonly name: Text;
-  readonly fields: Vec<SiField>;
+  readonly fields: Vec<Si1Field>;
   readonly index: u8;
   readonly docs: Vec<Text>;
   readonly args: Vec<Type>;
@@ -52,7 +52,7 @@ export interface EventMetadataV13 extends EventMetadataV12 {}
 /** @name EventMetadataV14 */
 export interface EventMetadataV14 extends Struct {
   readonly name: Text;
-  readonly fields: Vec<SiField>;
+  readonly fields: Vec<Si1Field>;
   readonly index: u8;
   readonly docs: Vec<Text>;
   readonly args: Vec<Type>;
@@ -129,7 +129,7 @@ export interface FunctionMetadataV13 extends FunctionMetadataV12 {}
 /** @name FunctionMetadataV14 */
 export interface FunctionMetadataV14 extends Struct {
   readonly name: Text;
-  readonly fields: Vec<SiField>;
+  readonly fields: Vec<Si1Field>;
   readonly index: u8;
   readonly docs: Vec<Text>;
   readonly args: Vec<FunctionArgumentMetadataV14>;
@@ -327,12 +327,18 @@ export interface PalletStorageMetadataV14 extends Struct {
 }
 
 /** @name PortableRegistry */
-export interface PortableRegistry extends GenericPortableRegistry {}
+export interface PortableRegistry extends PortableRegistryV14 {}
+
+/** @name PortableRegistryV14 */
+export interface PortableRegistryV14 extends GenericPortableRegistry {}
 
 /** @name PortableType */
-export interface PortableType extends Struct {
-  readonly id: SiLookupTypeId;
-  readonly type: SiType;
+export interface PortableType extends PortableTypeV14 {}
+
+/** @name PortableTypeV14 */
+export interface PortableTypeV14 extends Struct {
+  readonly id: Si1LookupTypeId;
+  readonly type: Si1Type;
 }
 
 /** @name SignedExtensionMetadataLatest */
