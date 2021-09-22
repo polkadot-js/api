@@ -75,7 +75,7 @@ export class Abi {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.registry.lookup.getTypeDef(typeSpec.type.toNumber())
+          ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
     });
@@ -122,7 +122,7 @@ export class Abi {
 
         return {
           name: stringCamelCase(arg.name),
-          type: this.registry.lookup.getTypeDef(arg.type.type.toNumber())
+          type: this.registry.lookup.getTypeDef(arg.type.type)
         };
       } catch (error) {
         l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
