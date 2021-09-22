@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProject } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec } from '@polkadot/types/types';
+import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProject, Si0Type, Si1Type } from '@polkadot/types/interfaces';
+import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
+import { TypeRegistry } from '@polkadot/types';
+import { convertSiV0toV1 } from '@polkadot/types/generic/PortableRegistry';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
-
-import { MetaRegistry } from './MetaRegistry';
 
 const l = logger('Abi');
 
@@ -33,9 +33,9 @@ export class Abi {
 
   public readonly project: ContractProject;
 
-  public readonly registry: MetaRegistry;
+  public readonly registry: Registry;
 
-  constructor (abiJson: AnyJson, chainProperties?: ChainProperties) {
+  constructor (abiJson: AnyJson) {
     const json = isString(abiJson)
       ? JSON.parse(abiJson) as AnyJson
       : abiJson;
@@ -43,13 +43,22 @@ export class Abi {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.json = json;
-    this.registry = new MetaRegistry(json.metadataVersion as string, chainProperties);
+    this.registry = new TypeRegistry();
+
+    const [major] = (json.metadataVersion as string).split('.').map((n) => parseInt(n, 10));
+
+    assert(major <= 1, () => `Unable to handle contract with metadata version ${json.metadataVersion as string}`);
+
+    const types = major === 0
+      ? convertSiV0toV1(this.registry, this.registry.createType('Vec<Si0Type>', json.types as unknown as Si0Type[]))
+      : this.registry.createType('Vec<Si1Type>', json.types as unknown as Si1Type[]);
+
+    this.registry.setLookup(this.registry.createType('PortableRegistry', { types }));
+
     this.project = this.registry.createType('ContractProject', json);
 
-    this.registry.setMetaTypes(this.project.types);
-
-    this.project.types.forEach((_, index) =>
-      this.registry.getMetaTypeDef({ type: this.registry.createType('Si0LookupTypeId', index + this.registry.typeOffset) })
+    this.registry.lookup.types.forEach((_, index) =>
+      this.registry.lookup.getTypeDef(index)
     );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
@@ -66,7 +75,7 @@ export class Abi {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.registry.getMetaTypeDef(typeSpec)
+          ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
     });
@@ -113,7 +122,7 @@ export class Abi {
 
         return {
           name: stringCamelCase(arg.name),
-          type: this.registry.getMetaTypeDef(arg.type)
+          type: this.registry.lookup.getTypeDef(arg.type.type)
         };
       } catch (error) {
         l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
