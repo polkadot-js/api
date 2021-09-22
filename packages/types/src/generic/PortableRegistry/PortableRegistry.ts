@@ -218,6 +218,7 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
 export class GenericPortableRegistry extends Struct {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
+  #types: Record<number, PortableType> = {};
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
@@ -225,6 +226,12 @@ export class GenericPortableRegistry extends Struct {
     }, value);
 
     this.#names = extractNames(this, this.types);
+
+    // types have an id, which means they are to be named by
+    // the specified id - ensure we have a mapping lookup for these
+    this.types.forEach((t): void => {
+      this.#types[t.id.toNumber()] = t;
+    });
   }
 
   /**
@@ -245,7 +252,7 @@ export class GenericPortableRegistry extends Struct {
    * @description Finds a specific type in the registry
    */
   public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
-    const found = this.types[this.#getLookupId(lookupId)];
+    const found = this.#types[this.#getLookupId(lookupId)];
 
     assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
 

@@ -45,20 +45,22 @@ export class Abi {
     this.json = json;
     this.registry = new TypeRegistry();
 
-    const [major] = (json.metadataVersion as string).split('.').map((n) => parseInt(n, 10));
+    const [majorVer] = (json.metadataVersion as string).split('.').map((n) => parseInt(n, 10));
 
-    assert(major <= 1, () => `Unable to handle contract with metadata version ${json.metadataVersion as string}`);
+    assert(majorVer <= 1, () => `Unable to handle contract with metadata version ${json.metadataVersion as string}`);
 
-    const types = major === 0
+    const types = majorVer === 0
       ? convertSiV0toV1(this.registry, this.registry.createType('Vec<Si0Type>', json.types as unknown as Si0Type[]))
-      : this.registry.createType('Vec<Si1Type>', json.types as unknown as Si1Type[]);
+      : this.registry.createType('Vec<PortableType>', json.types as unknown as Si1Type[]);
 
-    this.registry.setLookup(this.registry.createType('PortableRegistry', { types }));
+    this.registry.setLookup(this.registry.createType('PortableRegistry', {
+      types
+    }));
 
     this.project = this.registry.createType('ContractProject', json);
 
-    this.registry.lookup.types.forEach((_, index) =>
-      this.registry.lookup.getTypeDef(index)
+    this.registry.lookup.types.forEach(({ id }) =>
+      this.registry.lookup.getTypeDef(id.toNumber())
     );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
