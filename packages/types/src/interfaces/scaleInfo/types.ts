@@ -118,116 +118,145 @@ export interface Si0Variant extends Struct {
   readonly docs: Vec<Text>;
 }
 
-/** @name SiField */
-export interface SiField extends Struct {
+/** @name Si1Field */
+export interface Si1Field extends Struct {
   readonly name: Option<Text>;
-  readonly type: SiLookupTypeId;
+  readonly type: Si1LookupTypeId;
   readonly typeName: Option<Text>;
   readonly docs: Vec<Text>;
 }
 
-/** @name SiLookupTypeId */
-export interface SiLookupTypeId extends Compact<u32> {}
+/** @name Si1LookupTypeId */
+export interface Si1LookupTypeId extends Compact<u32> {}
 
-/** @name SiPath */
-export interface SiPath extends Vec<Text> {}
+/** @name Si1Path */
+export interface Si1Path extends Si0Path {}
 
-/** @name SiType */
-export interface SiType extends Struct {
-  readonly path: SiPath;
-  readonly params: Vec<SiTypeParameter>;
-  readonly def: SiTypeDef;
+/** @name Si1Type */
+export interface Si1Type extends Struct {
+  readonly path: Si1Path;
+  readonly params: Vec<Si1TypeParameter>;
+  readonly def: Si1TypeDef;
   readonly docs: Vec<Text>;
 }
 
-/** @name SiTypeDef */
-export interface SiTypeDef extends Enum {
+/** @name Si1TypeDef */
+export interface Si1TypeDef extends Enum {
   readonly isComposite: boolean;
-  readonly asComposite: SiTypeDefComposite;
+  readonly asComposite: Si1TypeDefComposite;
   readonly isVariant: boolean;
-  readonly asVariant: SiTypeDefVariant;
+  readonly asVariant: Si1TypeDefVariant;
   readonly isSequence: boolean;
-  readonly asSequence: SiTypeDefSequence;
+  readonly asSequence: Si1TypeDefSequence;
   readonly isArray: boolean;
-  readonly asArray: SiTypeDefArray;
+  readonly asArray: Si1TypeDefArray;
   readonly isTuple: boolean;
-  readonly asTuple: SiTypeDefTuple;
+  readonly asTuple: Si1TypeDefTuple;
   readonly isPrimitive: boolean;
-  readonly asPrimitive: SiTypeDefPrimitive;
+  readonly asPrimitive: Si1TypeDefPrimitive;
   readonly isCompact: boolean;
-  readonly asCompact: SiTypeDefCompact;
+  readonly asCompact: Si1TypeDefCompact;
   readonly isBitSequence: boolean;
-  readonly asBitSequence: SiTypeDefBitSequence;
+  readonly asBitSequence: Si1TypeDefBitSequence;
   readonly isHistoricMetaCompat: boolean;
   readonly asHistoricMetaCompat: Type;
 }
 
-/** @name SiTypeDefArray */
-export interface SiTypeDefArray extends Struct {
+/** @name Si1TypeDefArray */
+export interface Si1TypeDefArray extends Struct {
   readonly len: u32;
-  readonly type: SiLookupTypeId;
+  readonly type: Si1LookupTypeId;
 }
 
-/** @name SiTypeDefBitSequence */
-export interface SiTypeDefBitSequence extends Struct {
-  readonly bitStoreType: SiLookupTypeId;
-  readonly bitOrderType: SiLookupTypeId;
+/** @name Si1TypeDefBitSequence */
+export interface Si1TypeDefBitSequence extends Struct {
+  readonly bitStoreType: Si1LookupTypeId;
+  readonly bitOrderType: Si1LookupTypeId;
 }
 
-/** @name SiTypeDefCompact */
-export interface SiTypeDefCompact extends Struct {
-  readonly type: SiLookupTypeId;
+/** @name Si1TypeDefCompact */
+export interface Si1TypeDefCompact extends Struct {
+  readonly type: Si1LookupTypeId;
 }
 
-/** @name SiTypeDefComposite */
-export interface SiTypeDefComposite extends Struct {
-  readonly fields: Vec<SiField>;
+/** @name Si1TypeDefComposite */
+export interface Si1TypeDefComposite extends Struct {
+  readonly fields: Vec<Si1Field>;
 }
 
-/** @name SiTypeDefPrimitive */
-export interface SiTypeDefPrimitive extends Enum {
-  readonly isBool: boolean;
-  readonly isChar: boolean;
-  readonly isStr: boolean;
-  readonly isU8: boolean;
-  readonly isU16: boolean;
-  readonly isU32: boolean;
-  readonly isU64: boolean;
-  readonly isU128: boolean;
-  readonly isU256: boolean;
-  readonly isI8: boolean;
-  readonly isI16: boolean;
-  readonly isI32: boolean;
-  readonly isI64: boolean;
-  readonly isI128: boolean;
-  readonly isI256: boolean;
+/** @name Si1TypeDefPrimitive */
+export interface Si1TypeDefPrimitive extends Si0TypeDefPrimitive {}
+
+/** @name Si1TypeDefSequence */
+export interface Si1TypeDefSequence extends Struct {
+  readonly type: Si1LookupTypeId;
 }
 
-/** @name SiTypeDefSequence */
-export interface SiTypeDefSequence extends Struct {
-  readonly type: SiLookupTypeId;
+/** @name Si1TypeDefTuple */
+export interface Si1TypeDefTuple extends Vec<Si1LookupTypeId> {}
+
+/** @name Si1TypeDefVariant */
+export interface Si1TypeDefVariant extends Struct {
+  readonly variants: Vec<Si1Variant>;
 }
 
-/** @name SiTypeDefTuple */
-export interface SiTypeDefTuple extends Vec<SiLookupTypeId> {}
-
-/** @name SiTypeDefVariant */
-export interface SiTypeDefVariant extends Struct {
-  readonly variants: Vec<SiVariant>;
-}
-
-/** @name SiTypeParameter */
-export interface SiTypeParameter extends Struct {
+/** @name Si1TypeParameter */
+export interface Si1TypeParameter extends Struct {
   readonly name: Text;
-  readonly type: Option<SiLookupTypeId>;
+  readonly type: Option<Si1LookupTypeId>;
 }
 
-/** @name SiVariant */
-export interface SiVariant extends Struct {
+/** @name Si1Variant */
+export interface Si1Variant extends Struct {
   readonly name: Text;
-  readonly fields: Vec<SiField>;
+  readonly fields: Vec<Si1Field>;
   readonly index: u8;
   readonly docs: Vec<Text>;
 }
+
+/** @name SiField */
+export interface SiField extends Si1Field {}
+
+/** @name SiLookupTypeId */
+export interface SiLookupTypeId extends Si1LookupTypeId {}
+
+/** @name SiPath */
+export interface SiPath extends Si1Path {}
+
+/** @name SiType */
+export interface SiType extends Si1Type {}
+
+/** @name SiTypeDef */
+export interface SiTypeDef extends Si1TypeDef {}
+
+/** @name SiTypeDefArray */
+export interface SiTypeDefArray extends Si1TypeDefArray {}
+
+/** @name SiTypeDefBitSequence */
+export interface SiTypeDefBitSequence extends Si1TypeDefBitSequence {}
+
+/** @name SiTypeDefCompact */
+export interface SiTypeDefCompact extends Si1TypeDefCompact {}
+
+/** @name SiTypeDefComposite */
+export interface SiTypeDefComposite extends Si1TypeDefComposite {}
+
+/** @name SiTypeDefPrimitive */
+export interface SiTypeDefPrimitive extends Si1TypeDefPrimitive {}
+
+/** @name SiTypeDefSequence */
+export interface SiTypeDefSequence extends Si1TypeDefSequence {}
+
+/** @name SiTypeDefTuple */
+export interface SiTypeDefTuple extends Si1TypeDefTuple {}
+
+/** @name SiTypeDefVariant */
+export interface SiTypeDefVariant extends Si1TypeDefVariant {}
+
+/** @name SiTypeParameter */
+export interface SiTypeParameter extends Si1TypeParameter {}
+
+/** @name SiVariant */
+export interface SiVariant extends Si1Variant {}
 
 export type PHANTOM_SCALEINFO = 'scaleInfo';

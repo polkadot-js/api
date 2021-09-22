@@ -1,19 +1,18 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Vec } from '../codec/Vec';
-import type { PortableType } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../interfaces/scaleInfo';
-import type { Text } from '../primitive/Text';
-import type { Type } from '../primitive/Type';
-import type { Registry, TypeDef } from '../types';
+import type { Vec } from '../../codec';
+import type { PortableType } from '../../interfaces/metadata';
+import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
+import type { Text, Type } from '../../primitive';
+import type { Registry, TypeDef } from '../../types';
 
 import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
 
-import { Struct } from '../codec/Struct';
-import { withTypeString } from '../create/encodeTypes';
-import { getTypeDef } from '../create/getTypeDef';
-import { TypeDefInfo } from '../types';
+import { Struct } from '../../codec/Struct';
+import { withTypeString } from '../../create/encodeTypes';
+import { getTypeDef } from '../../create/getTypeDef';
+import { TypeDefInfo } from '../../types';
 
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };

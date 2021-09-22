@@ -26,6 +26,10 @@ export default {
     ...v13,
     ...v14,
 
+    // registry mapping to latest
+    PortableRegistry: 'PortableRegistryV14',
+    PortableType: 'PortableTypeV14',
+
     // latest mappings
     ErrorMetadataLatest: 'ErrorMetadataV14',
     EventMetadataLatest: 'EventMetadataV14',
