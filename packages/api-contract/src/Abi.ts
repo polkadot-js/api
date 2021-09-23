@@ -55,7 +55,7 @@ function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | C
 }
 
 export class Abi {
-  readonly #events: AbiEvent[];
+  public readonly events: AbiEvent[];
 
   public readonly constructors: AbiConstructor[];
 
@@ -83,7 +83,7 @@ export class Abi {
         isConstructor: true
       })
     );
-    this.#events = this.project.spec.events.map((spec: ContractEventSpec, index) =>
+    this.events = this.project.spec.events.map((spec: ContractEventSpec, index) =>
       this.#createEvent(spec, index)
     );
     this.messages = this.project.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
@@ -104,7 +104,7 @@ export class Abi {
    */
   public decodeEvent (data: Bytes | Uint8Array): DecodedEvent {
     const index = data[0];
-    const event = this.#events[index];
+    const event = this.events[index];
 
     assert(event, () => `Unable to find event with index ${index}`);
 
