@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProjectV0, ContractProjectV1 } from '@polkadot/types/interfaces';
+import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProjectLatest } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
 import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
-import { convertSiV0toV1 } from '@polkadot/types/generic/PortableRegistry';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-interface AbiJson {
+import { toLatest } from './toLatest';
+
+interface V0AbiJson {
   metadataVersion: string;
   spec: {
     constructors: unknown[];
@@ -34,16 +35,15 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | ContractProjectV1 {
-  const [majorVer] = json.metadataVersion.split('.').map((n) => parseInt(n, 10));
-  const project = majorVer === 0
-    ? registry.createType('ContractProjectV0', json)
-    : registry.createType('ContractProjectV1', json);
-  const lookup = registry.createType('PortableRegistry', {
-    types: majorVer === 0
-      ? convertSiV0toV1(registry, (project as ContractProjectV0).types)
-      : (project as ContractProjectV1).types
-  });
+function parseProject (registry: Registry, json: AnyJson): ContractProjectLatest {
+  const project = registry.createType('ContractProject', isString((json as unknown as V0AbiJson).metadataVersion)
+    ? { V0: json }
+    : json
+  );
+  const latest = project.isV0
+    ? toLatest(registry, project.asV0)
+    : project.asV1;
+  const lookup = registry.createType('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);
@@ -53,7 +53,7 @@ function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | C
     lookup.getTypeDef(id)
   );
 
-  return project;
+  return latest;
 }
 
 export class Abi {
@@ -61,20 +61,18 @@ export class Abi {
 
   public readonly constructors: AbiConstructor[];
 
-  public readonly json: AbiJson;
+  public readonly json: AnyJson;
 
   public readonly messages: AbiMessage[];
 
-  public readonly project: ContractProjectV0 | ContractProjectV1;
+  public readonly project: ContractProjectLatest;
 
   public readonly registry: Registry;
 
   constructor (abiJson: AnyJson) {
     const json = isString(abiJson)
-      ? JSON.parse(abiJson) as AbiJson
-      : abiJson as unknown as AbiJson;
-
-    assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages) && Array.isArray(json.types), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
+      ? JSON.parse(abiJson) as AnyJson
+      : abiJson;
 
     this.json = json;
     this.registry = new TypeRegistry();

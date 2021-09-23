@@ -9,8 +9,14 @@ import path from 'path';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import abis from '../test/contracts';
+import abis from '../../test/contracts';
 import { Abi } from '.';
+
+interface SpecDef {
+  messages: {
+    name: string[] | string
+  }[]
+}
 
 interface JSONAbi {
   source: {
@@ -19,10 +25,9 @@ interface JSONAbi {
     language: string,
     wasm: string
   },
-  spec: {
-    messages: {
-      name: string[] | string
-    }[]
+  spec: SpecDef;
+  V1: {
+    spec: SpecDef;
   }
 }
 
@@ -42,10 +47,10 @@ function stringifyJson (registry: Registry): string {
 
 describe('Abi', (): void => {
   describe('ABI', (): void => {
-    Object.entries(abis).forEach(([abiName, abi]) => {
+    Object.entries(abis).forEach(([abiName, abi]: [string, JSONAbi]) => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         try {
-          const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
+          const messageIds = (abi.V1 ? abi.V1 : abi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
           const inkAbi = new Abi(abis[abiName]);
 
           expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);

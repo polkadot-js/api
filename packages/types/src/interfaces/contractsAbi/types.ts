@@ -115,7 +115,12 @@ export interface ContractMessageSpec extends Struct {
 }
 
 /** @name ContractProject */
-export interface ContractProject extends ContractProjectV1 {}
+export interface ContractProject extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: ContractProjectV0;
+  readonly isV1: boolean;
+  readonly asV1: ContractProjectV1;
+}
 
 /** @name ContractProjectContract */
 export interface ContractProjectContract extends Struct {
@@ -128,6 +133,9 @@ export interface ContractProjectContract extends Struct {
   readonly homepage: Option<Text>;
   readonly license: Option<Text>;
 }
+
+/** @name ContractProjectLatest */
+export interface ContractProjectLatest extends ContractProjectV1 {}
 
 /** @name ContractProjectSource */
 export interface ContractProjectSource extends Struct {

@@ -125,7 +125,13 @@ export default {
       // storage: 'ContractStorageLayout',
       spec: 'ContractContractSpec'
     },
-    ContractProject: 'ContractProjectV1',
+    ContractProject: {
+      _enum: {
+        V0: 'ContractProjectV0',
+        V1: 'ContractProjectV1'
+      }
+    },
+    ContractProjectLatest: 'ContractProjectV1',
     ContractProjectContract: {
       _alias: {
         docs: 'documentation'
