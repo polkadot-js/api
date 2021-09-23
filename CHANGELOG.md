@@ -9,7 +9,7 @@ Changes:
 
 ## 6.0.5 Sep 20, 2012
 
-Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
+Upgrade priority: Low. Recommended for all users on 6.0.4 using `api.query.*.*.at` calls
 
 Changes:
 
