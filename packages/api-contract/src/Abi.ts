@@ -40,7 +40,7 @@ function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | C
   const lookup = registry.createType('PortableRegistry', {
     types: majorVer === 0
       ? convertSiV0toV1(registry, (project as ContractProjectV0).types)
-      : project.types
+      : (project as ContractProjectV1).types
   });
 
   // attach the lookup to the registry - now the types are known
