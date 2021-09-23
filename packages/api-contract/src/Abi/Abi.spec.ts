@@ -68,7 +68,7 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         const abi = new Abi(abis[abiName]);
         const json = stringifyJson(abi.registry);
-        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+        const cmpPath = path.join(__dirname, `../../test/compare/${abiName}.test.json`);
 
         try {
           // eslint-disable-next-line @typescript-eslint/no-var-requires

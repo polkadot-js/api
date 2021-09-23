@@ -40,7 +40,7 @@ function parseJson (json: AnyJson): [AnyJson, Registry, ContractMetadataLatest, 
   const info = registry.createType('ContractProjectInfo', json);
   const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
     ? { V0: json }
-    : json
+    : { V1: (json as Record<string, AnyJson>).V1 }
   );
   const latest = metadata.isV0
     ? toLatest(registry, metadata.asV0)
