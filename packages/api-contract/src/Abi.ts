@@ -6,7 +6,7 @@ import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSp
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
-import { TypeRegistry } from '@polkadot/types';
+import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
 import { convertSiV0toV1 } from '@polkadot/types/generic/PortableRegistry';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -21,6 +21,8 @@ interface AbiJson {
 }
 
 const l = logger('Abi');
+
+const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string | number): T {
   const message = isNumber(messageOrId)
@@ -134,13 +136,20 @@ export class Abi {
   }
 
   #createArgs = (args: ContractMessageParamSpec[], spec: unknown): AbiParam[] => {
-    return args.map((arg, index): AbiParam => {
+    return args.map(({ name, type }, index): AbiParam => {
       try {
-        assert(isObject(arg.type), 'Invalid type definition found');
+        assert(isObject(type), 'Invalid type definition found');
+
+        const lastPath = type.displayName.length
+          ? type.displayName[type.displayName.length - 1].toString()
+          : '';
+        const isPrimitive = PRIMITIVE_ALWAYS.includes(lastPath);
 
         return {
-          name: stringCamelCase(arg.name),
-          type: this.registry.lookup.getTypeDef(arg.type.type)
+          name: stringCamelCase(name),
+          type: isPrimitive
+            ? { info: TypeDefInfo.Plain, type: lastPath }
+            : this.registry.lookup.getTypeDef(type.type)
         };
       } catch (error) {
         l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
