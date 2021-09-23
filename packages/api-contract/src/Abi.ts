@@ -140,16 +140,28 @@ export class Abi {
       try {
         assert(isObject(type), 'Invalid type definition found');
 
-        const lastPath = type.displayName.length
+        const displayName = type.displayName.length
           ? type.displayName[type.displayName.length - 1].toString()
-          : '';
-        const isPrimitive = PRIMITIVE_ALWAYS.includes(lastPath);
+          : undefined;
+        const camelName = stringCamelCase(name);
+
+        if (!!displayName && PRIMITIVE_ALWAYS.includes(displayName)) {
+          return {
+            name: camelName,
+            type: {
+              info: TypeDefInfo.Plain,
+              type: displayName
+            }
+          };
+        }
+
+        const typeDef = this.registry.lookup.getTypeDef(type.type);
 
         return {
-          name: stringCamelCase(name),
-          type: isPrimitive
-            ? { info: TypeDefInfo.Plain, type: lastPath }
-            : this.registry.lookup.getTypeDef(type.type)
+          name: camelName,
+          type: displayName && !typeDef.type.startsWith(displayName)
+            ? { displayName, ...typeDef }
+            : typeDef
         };
       } catch (error) {
         l.error(`Error expanding argument ${index} in ${stringify(spec)}`);
