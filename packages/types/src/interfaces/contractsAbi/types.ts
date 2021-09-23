@@ -4,6 +4,7 @@
 import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { PortableType } from '@polkadot/types/interfaces/metadata';
 import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {
@@ -114,13 +115,31 @@ export interface ContractMessageSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
-/** @name ContractProject */
-export interface ContractProject extends Enum {
+/** @name ContractMetadata */
+export interface ContractMetadata extends Enum {
   readonly isV0: boolean;
-  readonly asV0: ContractProjectV0;
+  readonly asV0: ContractMetadataV0;
   readonly isV1: boolean;
-  readonly asV1: ContractProjectV1;
+  readonly asV1: ContractMetadataV1;
 }
+
+/** @name ContractMetadataLatest */
+export interface ContractMetadataLatest extends ContractMetadataV1 {}
+
+/** @name ContractMetadataV0 */
+export interface ContractMetadataV0 extends Struct {
+  readonly types: Vec<Si0Type>;
+  readonly spec: ContractContractSpec;
+}
+
+/** @name ContractMetadataV1 */
+export interface ContractMetadataV1 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpec;
+}
+
+/** @name ContractProject */
+export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
 
 /** @name ContractProjectContract */
 export interface ContractProjectContract extends Struct {
@@ -134,8 +153,11 @@ export interface ContractProjectContract extends Struct {
   readonly license: Option<Text>;
 }
 
-/** @name ContractProjectLatest */
-export interface ContractProjectLatest extends ContractProjectV1 {}
+/** @name ContractProjectInfo */
+export interface ContractProjectInfo extends Struct {
+  readonly source: ContractProjectSource;
+  readonly contract: ContractProjectContract;
+}
 
 /** @name ContractProjectSource */
 export interface ContractProjectSource extends Struct {
@@ -151,15 +173,6 @@ export interface ContractProjectV0 extends Struct {
   readonly source: ContractProjectSource;
   readonly contract: ContractProjectContract;
   readonly types: Vec<Si0Type>;
-  readonly spec: ContractContractSpec;
-}
-
-/** @name ContractProjectV1 */
-export interface ContractProjectV1 extends Struct {
-  readonly metadataVersion: Text;
-  readonly source: ContractProjectSource;
-  readonly contract: ContractProjectContract;
-  readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpec;
 }
 

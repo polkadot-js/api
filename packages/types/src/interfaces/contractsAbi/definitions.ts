@@ -99,39 +99,42 @@ const spec = {
   }
 };
 
+const ContractMetadataV0 = {
+  types: 'Vec<Si0Type>',
+  spec: 'ContractContractSpec'
+};
+
+const ContractMetadataV1 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpec'
+};
+
+const ContractProjectInfo = {
+  source: 'ContractProjectSource',
+  contract: 'ContractProjectContract'
+};
+
 export default {
   rpc: {},
   types: {
     ...layout,
     ...spec,
-    ContractProjectV0: {
-      // added by ABI serialization
-      metadataVersion: 'Text',
-      source: 'ContractProjectSource',
-      contract: 'ContractProjectContract',
-      // expanded scale registry: RegistryReadOnly
-      types: 'Vec<Si0Type>',
-      // renamed from layout (ignored for now, incomplete)
-      // storage: 'ContractStorageLayout',
-      spec: 'ContractContractSpec'
-    },
-    ContractProjectV1: {
-      // added by ABI serialization
-      metadataVersion: 'Text',
-      source: 'ContractProjectSource',
-      contract: 'ContractProjectContract',
-      types: 'Vec<PortableType>',
-      // renamed from layout (ignored for now, incomplete)
-      // storage: 'ContractStorageLayout',
-      spec: 'ContractContractSpec'
-    },
-    ContractProject: {
+    ContractProjectInfo,
+    ContractMetadataV0,
+    ContractMetadataV1,
+    ContractMetadata: {
       _enum: {
-        V0: 'ContractProjectV0',
-        V1: 'ContractProjectV1'
+        V0: 'ContractMetadataV0',
+        V1: 'ContractMetadataV1'
       }
     },
-    ContractProjectLatest: 'ContractProjectV1',
+    ContractMetadataLatest: 'ContractMetadataV1',
+    ContractProjectV0: {
+      metadataVersion: 'Text',
+      ...ContractProjectInfo,
+      ...ContractMetadataV0
+    },
+    ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
       _alias: {
         docs: 'documentation'

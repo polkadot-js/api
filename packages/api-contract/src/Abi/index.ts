@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProjectLatest } from '@polkadot/types/interfaces';
+import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
@@ -35,14 +35,16 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function parseProject (registry: Registry, json: AnyJson): ContractProjectLatest {
-  const project = registry.createType('ContractProject', isString((json as unknown as V0AbiJson).metadataVersion)
+function parseJson (json: AnyJson): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
+  const registry = new TypeRegistry();
+  const info = registry.createType('ContractProjectInfo', json);
+  const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
     ? { V0: json }
     : json
   );
-  const latest = project.isV0
-    ? toLatest(registry, project.asV0)
-    : project.asV1;
+  const latest = metadata.isV0
+    ? toLatest(registry, metadata.asV0)
+    : metadata.asV1;
   const lookup = registry.createType('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
@@ -53,7 +55,7 @@ function parseProject (registry: Registry, json: AnyJson): ContractProjectLatest
     lookup.getTypeDef(id)
   );
 
-  return latest;
+  return [json, registry, latest, info];
 }
 
 export class Abi {
@@ -61,32 +63,31 @@ export class Abi {
 
   public readonly constructors: AbiConstructor[];
 
+  public readonly info: ContractProjectInfo;
+
   public readonly json: AnyJson;
 
   public readonly messages: AbiMessage[];
 
-  public readonly project: ContractProjectLatest;
+  public readonly metadata: ContractMetadataLatest;
 
   public readonly registry: Registry;
 
   constructor (abiJson: AnyJson) {
-    const json = isString(abiJson)
-      ? JSON.parse(abiJson) as AnyJson
-      : abiJson;
-
-    this.json = json;
-    this.registry = new TypeRegistry();
-    this.project = parseProject(this.registry, json);
-
-    this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
+    [this.json, this.registry, this.metadata, this.info] = parseJson(
+      isString(abiJson)
+        ? JSON.parse(abiJson) as AnyJson
+        : abiJson
+    );
+    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true
       })
     );
-    this.events = this.project.spec.events.map((spec: ContractEventSpec, index) =>
+    this.events = this.metadata.spec.events.map((spec: ContractEventSpec, index) =>
       this.#createEvent(spec, index)
     );
-    this.messages = this.project.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
+    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
