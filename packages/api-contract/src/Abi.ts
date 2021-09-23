@@ -48,7 +48,7 @@ function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | C
 
   // warm-up the actual type, pre-use
   lookup.types.forEach(({ id }) =>
-    lookup.getTypeDef(id.toNumber())
+    lookup.getTypeDef(id)
   );
 
   return project;
