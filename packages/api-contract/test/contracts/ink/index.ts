@@ -1,12 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { createVersionedExport } from '../util';
 import * as v0 from './v0';
+import * as v1 from './v1';
 
-const exp: Record<string, unknown> = {};
+const exp = createVersionedExport('v0', v0, {});
 
-Object.entries(v0).forEach(([name, json]): void => {
-  exp[`v0_${name}`] = json;
-});
-
-export default exp;
+export default createVersionedExport('v1', v1, exp);
