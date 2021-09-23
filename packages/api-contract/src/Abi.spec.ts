@@ -1,6 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import fs from 'fs';
+import path from 'path';
+
+import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import abis from '../test/contracts';
@@ -20,19 +24,50 @@ interface JSONAbi {
   }
 }
 
+function stringifyInfo (key: string, value: unknown): unknown {
+  return key === 'info'
+    ? TypeDefInfo[value as number]
+    : value;
+}
+
 describe('Abi', (): void => {
-  Object.entries(abis).forEach(([abiName, abi]) => {
-    it(`initializes from a contract ABI (${abiName})`, (): void => {
-      try {
-        const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
-        const inkAbi = new Abi(abis[abiName]);
+  describe('ABI', (): void => {
+    Object.entries(abis).forEach(([abiName, abi]) => {
+      it(`initializes from a contract ABI (${abiName})`, (): void => {
+        try {
+          const messageIds = (abi as JSONAbi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
+          const inkAbi = new Abi(abis[abiName]);
 
-        expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
-      } catch (error) {
-        console.error(error);
+          expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
+        } catch (error) {
+          console.error(error);
 
-        throw error;
-      }
+          throw error;
+        }
+      });
+    });
+  });
+
+  describe('TypeDef', (): void => {
+    Object.keys(abis).forEach((abiName) => {
+      it(`initializes from a contract ABI (${abiName})`, (): void => {
+        const abi = new Abi(abis[abiName]);
+        const json = JSON.stringify(abi.registry.lookup.types, stringifyInfo, 2);
+        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          expect(JSON.parse(json)).toEqual(require(cmpPath));
+        } catch (error) {
+          if (process.env.GITHUB_REPOSITORY) {
+            console.error(JSON.stringify(abi.registry.lookup.types, stringifyInfo));
+
+            throw error;
+          }
+
+          fs.writeFileSync(cmpPath, json, { flag: 'w' });
+        }
+      });
     });
   });
 
