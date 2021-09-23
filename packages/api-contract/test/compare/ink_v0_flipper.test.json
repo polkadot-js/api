@@ -1,6 +1,9 @@
 [
   {
     "info": "Plain",
-    "type": "bool"
+    "lookupIndex": 1,
+    "type": "bool",
+    "docs": [],
+    "namespace": ""
   }
 ]

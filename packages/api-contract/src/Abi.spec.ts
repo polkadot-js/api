@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types/types';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -30,6 +32,14 @@ function stringifyInfo (key: string, value: unknown): unknown {
     : value;
 }
 
+function stringifyJson (registry: Registry): string {
+  const defs = registry.lookup.types.map(({ id }) =>
+    registry.lookup.getTypeDef(id)
+  );
+
+  return JSON.stringify(defs, stringifyInfo, 2);
+}
+
 describe('Abi', (): void => {
   describe('ABI', (): void => {
     Object.entries(abis).forEach(([abiName, abi]) => {
@@ -52,7 +62,7 @@ describe('Abi', (): void => {
     Object.keys(abis).forEach((abiName) => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         const abi = new Abi(abis[abiName]);
-        const json = JSON.stringify(abi.registry.lookup.types, stringifyInfo, 2);
+        const json = stringifyJson(abi.registry);
         const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
 
         try {
@@ -60,7 +70,7 @@ describe('Abi', (): void => {
           expect(JSON.parse(json)).toEqual(require(cmpPath));
         } catch (error) {
           if (process.env.GITHUB_REPOSITORY) {
-            console.error(JSON.stringify(abi.registry.lookup.types, stringifyInfo));
+            console.error(json);
 
             throw error;
           }
@@ -72,7 +82,7 @@ describe('Abi', (): void => {
   });
 
   it('has the correct hash for the source', (): void => {
-    const bundle = abis.ink_flipperBundle as JSONAbi;
+    const bundle = abis.ink_v0_flipperBundle as JSONAbi;
     const abi = new Abi(bundle as any);
 
     // manual

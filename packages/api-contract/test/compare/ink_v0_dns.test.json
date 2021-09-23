@@ -1,204 +1,232 @@
 [
   {
-    "displayName": "Header",
-    "namespace": "ink_storage::collections::stash",
     "info": "Struct",
+    "lookupIndex": 1,
+    "lookupName": "InkStorageCollectionsStashHeader",
+    "type": "{\"lastVacant\":\"u32\",\"len\":\"u32\",\"lenEntries\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Header",
     "sub": [
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
-        "name": "last_vacant"
+        "docs": [],
+        "namespace": "",
+        "name": "lastVacant"
       },
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
+        "docs": [],
+        "namespace": "",
         "name": "len"
       },
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
-        "name": "len_entries"
+        "docs": [],
+        "namespace": "",
+        "name": "lenEntries"
       }
-    ],
-    "type": "{\"last_vacant\":\"u32\",\"len\":\"u32\",\"len_entries\":\"u32\"}"
+    ]
   },
   {
     "info": "Plain",
-    "type": "u32"
+    "lookupIndex": 2,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
   },
   {
-    "displayName": "Entry",
-    "namespace": "ink_storage::collections::stash",
+    "info": "Enum",
+    "lookupIndex": 3,
+    "lookupName": "InkStorageCollectionsStashEntry",
+    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"Hash\"}}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Entry",
     "sub": [
       {
-        "displayName": "VacantEntry",
-        "namespace": "ink_storage::collections::stash",
-        "info": "Struct",
-        "sub": [
-          {
-            "info": "Plain",
-            "type": "u32",
-            "name": "next"
-          },
-          {
-            "info": "Plain",
-            "type": "u32",
-            "name": "prev"
-          }
-        ],
-        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 7,
+        "lookupName": "InkStorageCollectionsStashVacantEntry",
+        "type": "Lookup7",
+        "index": 0,
         "name": "Vacant"
       },
       {
-        "displayName": "Hash",
-        "namespace": "ink_env::types",
         "info": "Plain",
+        "lookupIndex": 4,
         "type": "Hash",
+        "docs": [],
+        "namespace": "ink_env::types::Hash",
+        "lookupNameRoot": "InkEnvHash",
+        "index": 1,
         "name": "Occupied"
       }
-    ],
-    "info": "Enum",
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"Hash\"}}"
+    ]
   },
   {
-    "displayName": "Hash",
-    "namespace": "ink_env::types",
     "info": "Plain",
-    "type": "Hash"
+    "lookupIndex": 4,
+    "type": "Hash",
+    "docs": [],
+    "namespace": "ink_env::types::Hash",
+    "lookupNameRoot": "InkEnvHash"
   },
   {
     "info": "VecFixed",
+    "lookupIndex": 5,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
     "length": 32,
     "sub": {
       "info": "Plain",
-      "type": "u8"
-    },
-    "type": "[u8;32]"
+      "lookupIndex": 6,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
   },
   {
     "info": "Plain",
-    "type": "u8"
+    "lookupIndex": 6,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
   },
   {
-    "displayName": "VacantEntry",
-    "namespace": "ink_storage::collections::stash",
     "info": "Struct",
+    "lookupIndex": 7,
+    "lookupName": "InkStorageCollectionsStashVacantEntry",
+    "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::VacantEntry",
     "sub": [
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
+        "docs": [],
+        "namespace": "",
         "name": "next"
       },
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
+        "docs": [],
+        "namespace": "",
         "name": "prev"
       }
-    ],
-    "type": "{\"next\":\"u32\",\"prev\":\"u32\"}"
+    ]
   },
   {
-    "displayName": "ValueEntry",
-    "namespace": "ink_storage::collections::hashmap",
+    "info": "Struct",
+    "lookupIndex": 8,
+    "lookupName": "InkStorageCollectionsHashmapValueEntry",
+    "type": "{\"value\":\"AccountId\",\"keyIndex\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::hashmap::ValueEntry",
     "sub": [
       {
-        "displayName": "AccountId",
-        "namespace": "ink_env::types",
         "info": "Plain",
+        "lookupIndex": 9,
         "type": "AccountId",
+        "docs": [],
+        "namespace": "ink_env::types::AccountId",
+        "lookupNameRoot": "InkEnvAccountId",
         "name": "value"
       },
       {
         "info": "Plain",
+        "lookupIndex": 2,
         "type": "u32",
-        "name": "key_index"
+        "docs": [],
+        "namespace": "",
+        "name": "keyIndex"
       }
-    ],
-    "info": "Struct",
-    "type": "{\"value\":\"AccountId\",\"key_index\":\"u32\"}"
+    ]
   },
   {
-    "displayName": "AccountId",
-    "namespace": "ink_env::types",
     "info": "Plain",
-    "type": "AccountId"
+    "lookupIndex": 9,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_env::types::AccountId",
+    "lookupNameRoot": "InkEnvAccountId"
   },
   {
-    "displayName": "Result",
+    "info": "Result",
+    "lookupIndex": 10,
+    "type": "Result<Null, DnsError>",
+    "docs": [],
+    "namespace": "Result",
     "sub": [
       {
         "name": "Ok",
-        "info": "Tuple",
-        "sub": [],
-        "type": "()"
+        "info": "Null",
+        "lookupIndex": 11,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
       },
       {
         "name": "Error",
-        "displayName": "Error",
-        "namespace": "dns::dns",
-        "info": "Enum",
-        "sub": [
-          {
-            "ext": {
-              "discriminant": 0
-            },
-            "info": "Plain",
-            "name": "NameAlreadyExists",
-            "type": "Null"
-          },
-          {
-            "ext": {
-              "discriminant": 1
-            },
-            "info": "Plain",
-            "name": "CallerIsNotOwner",
-            "type": "Null"
-          }
-        ],
-        "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 12,
+        "lookupName": "DnsError",
+        "type": "Lookup12"
       }
-    ],
-    "info": "Result",
-    "type": "Result<(), Error>"
+    ]
   },
   {
-    "info": "Tuple",
-    "sub": [],
-    "type": "()"
+    "info": "Null",
+    "lookupIndex": 11,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
   },
   {
-    "displayName": "Error",
-    "namespace": "dns::dns",
     "info": "Enum",
+    "lookupIndex": 12,
+    "lookupName": "DnsError",
+    "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}",
+    "docs": [],
+    "namespace": "dns::dns::Error",
     "sub": [
       {
-        "ext": {
-          "discriminant": 0
-        },
-        "info": "Plain",
-        "name": "NameAlreadyExists",
-        "type": "Null"
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "NameAlreadyExists"
       },
       {
-        "ext": {
-          "discriminant": 1
-        },
-        "info": "Plain",
-        "name": "CallerIsNotOwner",
-        "type": "Null"
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CallerIsNotOwner"
       }
-    ],
-    "type": "{\"_enum\":[\"NameAlreadyExists\",\"CallerIsNotOwner\"]}"
+    ]
   },
   {
-    "displayName": "Option",
-    "sub": {
-      "displayName": "AccountId",
-      "namespace": "ink_env::types",
-      "info": "Plain",
-      "type": "AccountId"
-    },
     "info": "Option",
-    "type": "Option<AccountId>"
+    "lookupIndex": 13,
+    "type": "Option<AccountId>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 9,
+      "type": "AccountId",
+      "docs": [],
+      "namespace": "ink_env::types::AccountId",
+      "lookupNameRoot": "InkEnvAccountId"
+    }
   }
 ]

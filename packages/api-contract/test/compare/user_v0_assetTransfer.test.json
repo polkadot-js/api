@@ -1,28 +1,54 @@
 [
   {
     "info": "Plain",
-    "type": "u256"
+    "lookupIndex": 1,
+    "type": "u256",
+    "docs": [],
+    "namespace": ""
   },
   {
     "info": "Plain",
-    "type": "u8"
+    "lookupIndex": 2,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
   },
   {
     "info": "VecFixed",
+    "lookupIndex": 3,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
     "length": 32,
     "sub": {
       "info": "Plain",
-      "type": "u8"
-    },
-    "type": "[u8;32]"
+      "lookupIndex": 2,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
   },
   {
-    "displayName": "AccountId",
-    "info": "Plain",
-    "type": "AccountId"
+    "info": "VecFixed",
+    "lookupIndex": 4,
+    "lookupName": "AccountId",
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 2,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
   },
   {
     "info": "Plain",
-    "type": "Text"
+    "lookupIndex": 5,
+    "type": "Text",
+    "docs": [],
+    "namespace": ""
   }
 ]

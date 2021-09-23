@@ -1,8 +1,8 @@
 [
   {
     "info": "Plain",
-    "lookupIndex": 1,
-    "type": "u256",
+    "lookupIndex": 0,
+    "type": "bool",
     "docs": [],
     "namespace": ""
   }

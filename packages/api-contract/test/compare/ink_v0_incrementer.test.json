@@ -1,6 +1,9 @@
 [
   {
     "info": "Plain",
-    "type": "i32"
+    "lookupIndex": 1,
+    "type": "i32",
+    "docs": [],
+    "namespace": ""
   }
 ]

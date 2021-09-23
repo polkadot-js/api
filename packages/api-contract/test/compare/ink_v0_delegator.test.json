@@ -1,31 +1,47 @@
 [
   {
-    "displayName": "AccountId",
-    "namespace": "ink_env::types",
     "info": "Plain",
-    "type": "AccountId"
+    "lookupIndex": 1,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_env::types::AccountId",
+    "lookupNameRoot": "InkEnvAccountId"
   },
   {
     "info": "VecFixed",
+    "lookupIndex": 2,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
     "length": 32,
     "sub": {
       "info": "Plain",
-      "type": "u8"
-    },
-    "type": "[u8;32]"
+      "lookupIndex": 3,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
   },
   {
     "info": "Plain",
-    "type": "u8"
+    "lookupIndex": 3,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
   },
   {
     "info": "Plain",
-    "type": "i32"
+    "lookupIndex": 4,
+    "type": "i32",
+    "docs": [],
+    "namespace": ""
   },
   {
-    "displayName": "Hash",
-    "namespace": "ink_env::types",
     "info": "Plain",
-    "type": "Hash"
+    "lookupIndex": 5,
+    "type": "Hash",
+    "docs": [],
+    "namespace": "ink_env::types::Hash",
+    "lookupNameRoot": "InkEnvHash"
   }
 ]
