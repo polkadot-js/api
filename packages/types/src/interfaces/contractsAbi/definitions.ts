@@ -104,18 +104,28 @@ export default {
   types: {
     ...layout,
     ...spec,
-    ContractProject: {
+    ContractProjectV0: {
       // added by ABI serialization
       metadataVersion: 'Text',
       source: 'ContractProjectSource',
       contract: 'ContractProjectContract',
       // expanded scale registry: RegistryReadOnly
-      // NOTE We ignore this field (types handled separately for conversion)
-      // types: 'Vec<SiType>',
+      types: 'Vec<Si0Type>',
       // renamed from layout (ignored for now, incomplete)
       // storage: 'ContractStorageLayout',
       spec: 'ContractContractSpec'
     },
+    ContractProjectV1: {
+      // added by ABI serialization
+      metadataVersion: 'Text',
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract',
+      types: 'Vec<PortableType>',
+      // renamed from layout (ignored for now, incomplete)
+      // storage: 'ContractStorageLayout',
+      spec: 'ContractContractSpec'
+    },
+    ContractProject: 'ContractProjectV1',
     ContractProjectContract: {
       _alias: {
         docs: 'documentation'

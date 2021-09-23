@@ -2,7 +2,8 @@
 /* eslint-disable */
 
 import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
+import type { PortableType } from '@polkadot/types/interfaces/metadata';
+import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {
@@ -114,12 +115,7 @@ export interface ContractMessageSpec extends Struct {
 }
 
 /** @name ContractProject */
-export interface ContractProject extends Struct {
-  readonly metadataVersion: Text;
-  readonly source: ContractProjectSource;
-  readonly contract: ContractProjectContract;
-  readonly spec: ContractContractSpec;
-}
+export interface ContractProject extends ContractProjectV1 {}
 
 /** @name ContractProjectContract */
 export interface ContractProjectContract extends Struct {
@@ -139,6 +135,24 @@ export interface ContractProjectSource extends Struct {
   readonly language: Text;
   readonly compiler: Text;
   readonly wasm: Raw;
+}
+
+/** @name ContractProjectV0 */
+export interface ContractProjectV0 extends Struct {
+  readonly metadataVersion: Text;
+  readonly source: ContractProjectSource;
+  readonly contract: ContractProjectContract;
+  readonly types: Vec<Si0Type>;
+  readonly spec: ContractContractSpec;
+}
+
+/** @name ContractProjectV1 */
+export interface ContractProjectV1 extends Struct {
+  readonly metadataVersion: Text;
+  readonly source: ContractProjectSource;
+  readonly contract: ContractProjectContract;
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpec;
 }
 
 /** @name ContractSelector */

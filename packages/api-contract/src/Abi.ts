@@ -2,13 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProject, Si0Type, Si1Type } from '@polkadot/types/interfaces';
+import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProjectV0, ContractProjectV1 } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { convertSiV0toV1 } from '@polkadot/types/generic/PortableRegistry';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+
+interface AbiJson {
+  metadataVersion: string;
+  spec: {
+    constructors: unknown[];
+    events: unknown[];
+    messages: unknown[];
+  };
+  types: unknown[];
+}
 
 const l = logger('Abi');
 
@@ -22,44 +32,52 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
+function parseProject (registry: Registry, json: AbiJson): ContractProjectV0 | ContractProjectV1 {
+  const [majorVer] = json.metadataVersion.split('.').map((n) => parseInt(n, 10));
+  const project = majorVer === 0
+    ? registry.createType('ContractProjectV0', json)
+    : registry.createType('ContractProjectV1', json);
+  const lookup = registry.createType('PortableRegistry', {
+    types: majorVer === 0
+      ? convertSiV0toV1(registry, (project as ContractProjectV0).types)
+      : project.types
+  });
+
+  // attach the lookup to the registry - now the types are known
+  registry.setLookup(lookup);
+
+  // warm-up the actual type, pre-use
+  lookup.types.forEach(({ id }) =>
+    lookup.getTypeDef(id.toNumber())
+  );
+
+  return project;
+}
+
 export class Abi {
   readonly #events: AbiEvent[];
 
   public readonly constructors: AbiConstructor[];
 
-  public readonly json: AnyJson;
+  public readonly json: AbiJson;
 
   public readonly messages: AbiMessage[];
 
-  public readonly project: ContractProject;
+  public readonly project: ContractProjectV0 | ContractProjectV1;
 
   public readonly registry: Registry;
 
   constructor (abiJson: AnyJson) {
     const json = isString(abiJson)
-      ? JSON.parse(abiJson) as AnyJson
-      : abiJson;
+      ? JSON.parse(abiJson) as AbiJson
+      : abiJson as unknown as AbiJson;
 
-    assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
+    assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages) && Array.isArray(json.types), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.json = json;
     this.registry = new TypeRegistry();
+    this.project = parseProject(this.registry, json);
 
-    const [majorVer] = (json.metadataVersion as string).split('.').map((n) => parseInt(n, 10));
-
-    assert(majorVer <= 1, () => `Unable to handle contract with metadata version ${json.metadataVersion as string}`);
-
-    this.registry.setLookup(this.registry.createType('PortableRegistry', {
-      types: majorVer === 0
-        ? convertSiV0toV1(this.registry, this.registry.createType('Vec<Si0Type>', json.types as unknown as Si0Type[]))
-        : this.registry.createType('Vec<PortableType>', json.types as unknown as Si1Type[])
-    }));
-
-    this.project = this.registry.createType('ContractProject', json);
-
-    this.registry.lookup.types.forEach(({ id }) =>
-      this.registry.lookup.getTypeDef(id.toNumber())
-    );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true

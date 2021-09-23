@@ -17,7 +17,7 @@ import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import type { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultErr, ContractExecResultErrModule, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractExecResultTo267, ContractInfo, ContractInstantiateResult, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateReturnValue, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
+import type { ContractConstructorSpec, ContractContractSpec, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEventParamSpec, ContractEventSpec, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpec, ContractMessageSpec, ContractProject, ContractProjectContract, ContractProjectSource, ContractProjectV0, ContractProjectV1, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
 import type { ConfigData, MessageId, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -239,6 +239,8 @@ declare module '@polkadot/types/types/registry' {
     ContractProject: ContractProject;
     ContractProjectContract: ContractProjectContract;
     ContractProjectSource: ContractProjectSource;
+    ContractProjectV0: ContractProjectV0;
+    ContractProjectV1: ContractProjectV1;
     ContractSelector: ContractSelector;
     ContractStorageKey: ContractStorageKey;
     ContractStorageLayout: ContractStorageLayout;
