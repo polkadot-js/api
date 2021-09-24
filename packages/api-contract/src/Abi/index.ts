@@ -144,7 +144,7 @@ export class Abi {
           : undefined;
         const camelName = stringCamelCase(name);
 
-        if (!!displayName && PRIMITIVE_ALWAYS.includes(displayName)) {
+        if (displayName && PRIMITIVE_ALWAYS.includes(displayName)) {
           return {
             name: camelName,
             type: {
