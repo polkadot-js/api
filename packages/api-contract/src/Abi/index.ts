@@ -218,8 +218,8 @@ export class Abi {
     // no length added (this allows use with events as well)
     let offset = 0;
 
-    return args.map(({ type }): Codec => {
-      const value = this.registry.createType(type.type as 'Text', data.subarray(offset));
+    return args.map(({ type: { lookupName, type } }): Codec => {
+      const value = this.registry.createType(lookupName || type, data.subarray(offset));
 
       offset += value.encodedLength;
 
@@ -243,7 +243,9 @@ export class Abi {
     return compactAddLength(
       u8aConcat(
         this.registry.createType('ContractSelector', selector).toU8a(),
-        ...args.map(({ type }, index) => this.registry.createType(type.type as 'Text', data[index]).toU8a())
+        ...args.map(({ type: { lookupName, type } }, index) =>
+          this.registry.createType(lookupName || type, data[index]).toU8a()
+        )
       )
     );
   }
