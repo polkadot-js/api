@@ -102,9 +102,9 @@ export interface OperatingMode extends Enum {
 
 /** @name OutboundLaneData */
 export interface OutboundLaneData extends Struct {
-  readonly latestGeneratedNonce: MessageNonce;
-  readonly latestReceivedNonce: MessageNonce;
   readonly oldestUnprunedNonce: MessageNonce;
+  readonly latestReceivedNonce: MessageNonce;
+  readonly latestGeneratedNonce: MessageNonce;
 }
 
 /** @name OutboundMessageFee */
