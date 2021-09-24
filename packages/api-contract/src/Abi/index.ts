@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
@@ -35,7 +35,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function parseJson (json: AnyJson): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
+function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json);
   const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
@@ -49,6 +49,10 @@ function parseJson (json: AnyJson): [AnyJson, Registry, ContractMetadataLatest, 
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);
+
+  if (chainProperties) {
+    registry.setChainProperties(chainProperties);
+  }
 
   // warm-up the actual type, pre-use
   lookup.types.forEach(({ id }) =>
@@ -73,11 +77,12 @@ export class Abi {
 
   public readonly registry: Registry;
 
-  constructor (abiJson: AnyJson) {
+  constructor (abiJson: AnyJson, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as AnyJson
-        : abiJson
+        : abiJson,
+      chainProperties
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
