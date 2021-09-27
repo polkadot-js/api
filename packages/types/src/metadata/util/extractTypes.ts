@@ -24,7 +24,7 @@ export function extractTypes (types: string[]): Extracted[] {
 
     switch (decoded.info) {
       case TypeDefInfo.Plain:
-        return decoded.type;
+        return decoded.lookupName || decoded.type;
 
       case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Compact:
