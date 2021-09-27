@@ -21,7 +21,8 @@ export enum TypeDefInfo {
   Tuple,
   UInt,
   Vec,
-  VecFixed
+  VecFixed,
+  WrapperOpaque
 }
 
 export interface TypeDef {
