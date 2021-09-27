@@ -41,6 +41,10 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
     const keyTypes = similarTypes.map((t) => t.join(' | '));
     const defValue = lookup.getTypeDef(value);
 
+    if (value.toNumber() === 416) {
+      console.log(JSON.stringify(defValue));
+    }
+
     setImports(allDefs, imports, [
       ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
       storageEntry.modifier.isOptional

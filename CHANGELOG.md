@@ -5,6 +5,8 @@
 Changes:
 
 - Added `BridgeMessageId` & `SpecVersion` types for bridges
+- Added `WrapperOpaque` encoding/decoding (as per latest Substrate)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.1.1 Sep 27, 2021
