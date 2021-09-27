@@ -203,7 +203,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
       return 'U8aFixed';
     }
 
-    return singleParamNotation(registry, 'VecFixed', typeDef, definitions, imports, withShortcut);
+    return singleParamNotation(registry, 'Vec', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
