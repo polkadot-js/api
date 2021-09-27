@@ -46,6 +46,7 @@ const tsHashMap = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
 const tsTuple = tsExport;
+const tsWrapperOpaque = tsExport;
 
 /** @internal */
 function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
@@ -72,6 +73,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
       case TypeDefInfo.Vec:
       case TypeDefInfo.Option:
       case TypeDefInfo.VecFixed:
+      case TypeDefInfo.WrapperOpaque:
         return `${isGetter}${asGetter}`;
 
       case TypeDefInfo.DoNotConstruct:
@@ -111,11 +113,12 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
   const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
+    case TypeDefInfo.Option:
     case TypeDefInfo.Plain:
     case TypeDefInfo.Si:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
-    case TypeDefInfo.Option:
+    case TypeDefInfo.WrapperOpaque:
       return `${isGetter}${asGetter}`;
 
     case TypeDefInfo.Null:
@@ -231,7 +234,8 @@ export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions:
   [TypeDefInfo.Tuple]: tsTuple,
   [TypeDefInfo.UInt]: tsUInt,
   [TypeDefInfo.Vec]: tsVec,
-  [TypeDefInfo.VecFixed]: tsVec
+  [TypeDefInfo.VecFixed]: tsVec,
+  [TypeDefInfo.WrapperOpaque]: tsWrapperOpaque
 };
 
 /** @internal */

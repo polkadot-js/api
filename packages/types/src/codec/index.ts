@@ -30,3 +30,4 @@ export { U8aFixed } from './U8aFixed';
 export { Vec } from './Vec';
 // export { VecAny } from './VecAny';
 export { VecFixed } from './VecFixed';
+export { WrapperOpaque } from './WrapperOpaque';

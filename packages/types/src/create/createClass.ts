@@ -7,7 +7,7 @@ import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
 
-import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed } from '../codec';
+import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '../codec';
 import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
@@ -169,7 +169,10 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
         : VecFixed.with(subType, length)
     );
-  }
+  },
+
+  [TypeDefInfo.WrapperOpaque]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+    WrapperOpaque.with(getSubType(value))
 };
 
 // Returns the type Class for construction

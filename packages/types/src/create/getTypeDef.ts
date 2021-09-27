@@ -216,7 +216,8 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
-  ['Vec<', '>', TypeDefInfo.Vec]
+  ['Vec<', '>', TypeDefInfo.Vec],
+  ['WrapperOpaque<', '>', TypeDefInfo.WrapperOpaque]
 ];
 
 function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any?]): string {
