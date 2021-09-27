@@ -211,7 +211,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    return singleParamNotation(registry, 'BtreeSet', typeDef, definitions, imports, withShortcut);
+    return singleParamNotation(registry, 'BTreeSet', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
