@@ -1,13 +1,19 @@
 # CHANGELOG
 
-## master
+## 6.1.1 Sep 27, 2021
+
+Contributed:
+
+- Adjust bridges `OutboundLaneData` type (Thanks to https://github.com/HackFisher)
+- Fix README 404 (Thanks to https://github.com/nblogist)
 
 Changes:
 
 - Add `childstate_getStorageEntries` RPC
+- Allow for scale-info v0 -> v1 conversion
 
 
-## 6.0.5 Sep 20, 2012
+## 6.0.5 Sep 20, 2021
 
 Upgrade priority: Low. Recommended for all users on 6.0.4 using `api.query.*.*.at` calls
 
