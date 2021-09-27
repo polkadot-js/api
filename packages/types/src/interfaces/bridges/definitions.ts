@@ -12,6 +12,7 @@ export default {
     BridgedBlockHash: 'H256',
     BridgedBlockNumber: 'BlockNumber',
     BridgedHeader: 'Header',
+    BridgeMessageId: '(LaneId, MessageNonce)',
     CallOrigin: {
       _enum: {
         SourceRoot: 'Null',

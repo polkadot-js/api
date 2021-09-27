@@ -10,7 +10,7 @@ import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
 import type { BeefyCommitment, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
-import type { BridgedBlockHash, BridgedBlockNumber, BridgedHeader, CallOrigin, ChainId, DeliveredMessages, DispatchFeePayment, InboundLaneData, InboundRelayer, InitializationData, LaneId, MessageData, MessageKey, MessageNonce, MessagesDeliveryProofOf, MessagesProofOf, OperatingMode, OutboundLaneData, OutboundMessageFee, OutboundPayload, Parameter, RelayerId, UnrewardedRelayer, UnrewardedRelayersState } from '@polkadot/types/interfaces/bridges';
+import type { BridgeMessageId, BridgedBlockHash, BridgedBlockNumber, BridgedHeader, CallOrigin, ChainId, DeliveredMessages, DispatchFeePayment, InboundLaneData, InboundRelayer, InitializationData, LaneId, MessageData, MessageKey, MessageNonce, MessagesDeliveryProofOf, MessagesProofOf, OperatingMode, OutboundLaneData, OutboundMessageFee, OutboundPayload, Parameter, RelayerId, UnrewardedRelayer, UnrewardedRelayersState } from '@polkadot/types/interfaces/bridges';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { EthereumAddress, StatementKind } from '@polkadot/types/interfaces/claims';
@@ -49,7 +49,7 @@ import type { Period, Priority, SchedulePeriod, SchedulePriority, Scheduled, Sch
 import type { BeefyKey, FullIdentification, IdentificationTuple, Keys, MembershipProof, SessionIndex, SessionKeys1, SessionKeys10, SessionKeys10B, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6, SessionKeys6B, SessionKeys7, SessionKeys7B, SessionKeys8, SessionKeys8B, SessionKeys9, SessionKeys9B, ValidatorCount } from '@polkadot/types/interfaces/session';
 import type { Bid, BidKind, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import type { ActiveEraInfo, CompactAssignments, CompactAssignmentsTo257, CompactAssignmentsTo265, CompactAssignmentsWith16, CompactAssignmentsWith24, CompactScore, CompactScoreCompact, ElectionCompute, ElectionPhase, ElectionResult, ElectionScore, ElectionSize, ElectionStatus, EraIndex, EraPoints, EraRewardPoints, EraRewards, Exposure, ExtendedBalance, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, NominatorIndex, NominatorIndexCompact, OffchainAccuracy, OffchainAccuracyCompact, PhragmenScore, Points, RawSolution, RawSolutionTo265, RawSolutionWith16, RawSolutionWith24, ReadySolution, RewardDestination, RewardPoint, RoundSnapshot, SeatHolder, SignedSubmission, SignedSubmissionOf, SignedSubmissionTo276, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SolutionOrSnapshotSize, SolutionSupport, SolutionSupports, SpanIndex, SpanRecord, StakingLedger, StakingLedgerTo223, StakingLedgerTo240, SubmissionIndicesOf, Supports, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorIndexCompact, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196, ValidatorPrefsWithBlocked, ValidatorPrefsWithCommission, VoteWeight, Voter } from '@polkadot/types/interfaces/staking';
-import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
+import type { ApiId, BlockTrace, BlockTraceEvent, BlockTraceEventData, BlockTraceSpan, KeyValueOption, ReadProof, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial, SpecVersion, StorageChangeSet, TraceBlockResponse, TraceError } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders, AccountInfoWithRefCount, AccountInfoWithRefCountU8, AccountInfoWithTripleRefCount, ApplyExtrinsicResult, ArithmeticError, BlockLength, BlockWeights, ChainProperties, ChainType, ConsumedWeight, DigestOf, DispatchClass, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchInfo, DispatchInfoTo190, DispatchInfoTo244, DispatchOutcome, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, Health, InvalidTransaction, Key, LastRuntimeUpgradeInfo, NetworkState, NetworkStatePeerset, NetworkStatePeersetInfo, NodeRole, NotConnectedPeer, Peer, PeerEndpoint, PeerEndpointAddr, PeerInfo, PeerPing, PerDispatchClassU32, PerDispatchClassWeight, PerDispatchClassWeightsPerClass, Phase, RawOrigin, RefCount, RefCountTo259, SyncState, SystemOrigin, TokenError, TransactionValidityError, UnknownTransaction, WeightPerClass } from '@polkadot/types/interfaces/system';
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -168,6 +168,7 @@ declare module '@polkadot/types/types/registry' {
     BridgedBlockHash: BridgedBlockHash;
     BridgedBlockNumber: BridgedBlockNumber;
     BridgedHeader: BridgedHeader;
+    BridgeMessageId: BridgeMessageId;
     BufferedSessionChange: BufferedSessionChange;
     Bytes: Bytes;
     Call: Call;
@@ -871,6 +872,7 @@ declare module '@polkadot/types/types/registry' {
     SolutionSupports: SolutionSupports;
     SpanIndex: SpanIndex;
     SpanRecord: SpanRecord;
+    SpecVersion: SpecVersion;
     Sr25519Signature: Sr25519Signature;
     StakingLedger: StakingLedger;
     StakingLedgerTo223: StakingLedgerTo223;

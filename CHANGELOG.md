@@ -1,6 +1,15 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Added `BridgeMessageId` & `SpecVersion` types for bridges
+
+
 ## 6.1.1 Sep 27, 2021
+
+Upgrade priority: Low. Minor maintenance changes from the 6.0.x versions.
 
 Contributed:
 
