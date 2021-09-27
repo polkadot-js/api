@@ -1121,9 +1121,6 @@ declare module '@polkadot/types/lookup' {
     readonly ecdsaRecover: u64;
   }
 
-  /** @name FrameSupportMiscWrapperOpaque (416) */
-  export interface FrameSupportMiscWrapperOpaque extends PalletImOnlineBoundedOpaqueNetworkState {}
-
   /** @name PalletImOnlineBoundedOpaqueNetworkState (417) */
   export interface PalletImOnlineBoundedOpaqueNetworkState extends Struct {
     readonly peerId: Bytes;

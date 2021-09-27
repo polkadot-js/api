@@ -415,7 +415,7 @@ export class GenericPortableRegistry extends Struct {
           ...this.#createSiDef(type)
         }))
       });
-    } else if (specialVariant === 'WrapperOpaque') {
+    } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.WrapperOpaque,
         sub: this.#createSiDef(params[0].type.unwrap())

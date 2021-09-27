@@ -1075,10 +1075,6 @@ export default {
     ecdsaRecover: 'u64'
   },
   /**
-   * Lookup416: frame_support::traits::misc::WrapperOpaque<pallet_im_online::BoundedOpaqueNetworkState<PeerIdEncodingLimit, MultiAddrEncodingLimit, AddressesLimit>>
-   **/
-  FrameSupportMiscWrapperOpaque: 'PalletImOnlineBoundedOpaqueNetworkState',
-  /**
    * Lookup417: pallet_im_online::BoundedOpaqueNetworkState<PeerIdEncodingLimit, MultiAddrEncodingLimit, AddressesLimit>
    **/
   PalletImOnlineBoundedOpaqueNetworkState: {
