@@ -436,6 +436,7 @@ export default {
       specName: 'Text',
       specVersion: 'u32'
     },
+    SpecVersion: 'u32',
     StorageChangeSet: {
       block: 'Hash',
       changes: 'Vec<KeyValueOption>'
