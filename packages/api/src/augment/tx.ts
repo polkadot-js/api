@@ -462,6 +462,23 @@ declare module '@polkadot/api/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    bagsList: {
+      /**
+       * Declare that some `dislocated` account has, through rewards or penalties, sufficiently
+       * changed its weight that it should properly fall into a different bag than its current
+       * one.
+       * 
+       * Anyone can call this function about any potentially dislocated account.
+       * 
+       * Will never return an error; if `dislocated` does not exist or doesn't need a rebag, then
+       * it is a noop and fees are still collected from `origin`.
+       **/
+      rebag: AugmentedSubmittable<(dislocated: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     balances: {
       /**
        * Exactly as `transfer`, except the origin must be root and the source account may be
@@ -472,6 +489,12 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       forceTransfer: AugmentedSubmittable<(source: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, MultiAddress, Compact<u128>]>;
+      /**
+       * Unreserve some balance from a user by force.
+       * 
+       * Can only be called by ROOT.
+       **/
+      forceUnreserve: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u128]>;
       /**
        * Set the balances of a given account.
        * 
@@ -587,7 +610,8 @@ declare module '@polkadot/api/types/submittable' {
        **/
       approveBounty: AugmentedSubmittable<(bountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
-       * Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.
+       * Award bounty to a beneficiary account. The beneficiary will be able to claim the funds
+       * after a delay.
        * 
        * The dispatch origin for this call must be the curator of this bounty.
        * 
@@ -667,8 +691,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * This function can only be called by the `RejectOrigin` a signed origin.
        * 
-       * If this function is called by the `RejectOrigin`, we assume that the curator is malicious
-       * or inactive. As a result, we will slash the curator when possible.
+       * If this function is called by the `RejectOrigin`, we assume that the curator is
+       * malicious or inactive. As a result, we will slash the curator when possible.
        * 
        * If the origin is the curator, we take this as a sign they are unable to do their job and
        * they willingly give up. We could slash them, but for now we allow them to recover their
@@ -2599,12 +2623,13 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage read to retrieve all current candidates. O(C)
        * - One storage read to retrieve all members. O(M)
        * - Storage Writes:
-       * - One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)
+       * - One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization
+       * w/ read)
        * - Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)
        * - Notable Computation:
        * - O(B + C + log M) search to check user is not already a part of society.
        * - O(log B) search to insert the new bid sorted.
-       * - External Module Operations:
+       * - External Pallet Operations:
        * - One balance reserve operation. O(X)
        * - Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.
        * - Events:
@@ -2638,7 +2663,7 @@ declare module '@polkadot/api/types/submittable' {
        * Found the society.
        * 
        * This is done as a discrete action in order to allow for the
-       * module to be included into a running chain and can only be done once.
+       * pallet to be included into a running chain and can only be done once.
        * 
        * The dispatch origin for this call must be from the _FounderSetOrigin_.
        * 
@@ -2712,13 +2737,14 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Parameters:
        * - `who` - The suspended member to be judged.
-       * - `forgive` - A boolean representing whether the suspension judgement origin
-       * forgives (`true`) or rejects (`false`) a suspended member.
+       * - `forgive` - A boolean representing whether the suspension judgement origin forgives
+       * (`true`) or rejects (`false`) a suspended member.
        * 
        * # <weight>
        * Key: B (len of bids), M (len of members)
        * - One storage read to check `who` is a suspended member. O(1)
-       * - Up to one storage write O(M) with O(log M) binary search to add a member back to society.
+       * - Up to one storage write O(M) with O(log M) binary search to add a member back to
+       * society.
        * - Up to 3 storage removals O(1) to clean up a removed member.
        * - Up to one storage write O(B) with O(B) search to remove vouched bid from bids.
        * - Up to one additional event if unvouch takes place.
@@ -2732,7 +2758,8 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Transfer the first matured payout for the sender and remove it from the records.
        * 
-       * NOTE: This extrinsic needs to be called multiple times to claim multiple matured payouts.
+       * NOTE: This extrinsic needs to be called multiple times to claim multiple matured
+       * payouts.
        * 
        * Payment: The member will receive a payment equal to their first matured
        * payout to their free balance.
@@ -2834,8 +2861,8 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Parameters:
        * - `candidate`: The candidate that the member would like to bid on.
-       * - `approve`: A boolean which says if the candidate should be
-       * approved (`true`) or rejected (`false`).
+       * - `approve`: A boolean which says if the candidate should be approved (`true`) or
+       * rejected (`false`).
        * 
        * # <weight>
        * Key: C (len of candidates), M (len of members)
@@ -2879,13 +2906,14 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage read to retrieve all current candidates. O(C)
        * - Storage Writes:
        * - One storage write to insert vouching status to the member. O(1)
-       * - One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)
+       * - One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization
+       * w/ read)
        * - Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)
        * - Notable Computation:
        * - O(log M) search to check sender is a member.
        * - O(B + C + log M) search to check user is not already a part of society.
        * - O(log B) search to insert the new bid sorted.
-       * - External Module Operations:
+       * - External Pallet Operations:
        * - One balance reserve operation. O(X)
        * - Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.
        * - Events:

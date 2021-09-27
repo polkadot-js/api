@@ -92,6 +92,16 @@ declare module '@polkadot/api/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    bagsList: {
+      /**
+       * Moved an account from one bag to another. \[who, from, to\].
+       **/
+      Rebagged: AugmentedEvent<ApiType, [AccountId32, u64, u64]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     balances: {
       /**
        * A balance was set by root. \[who, free, reserved\]
@@ -761,7 +771,8 @@ declare module '@polkadot/api/types/events' {
       Vote: AugmentedEvent<ApiType, [AccountId32, AccountId32, bool]>;
       /**
        * A membership bid just happened by vouching. The given account is the candidate's ID and
-       * their offer is the second. The vouching party is the third. \[candidate_id, offer, vouching\]
+       * their offer is the second. The vouching party is the third. \[candidate_id, offer,
+       * vouching\]
        **/
       Vouch: AugmentedEvent<ApiType, [AccountId32, u128, AccountId32]>;
       /**

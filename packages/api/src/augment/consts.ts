@@ -64,6 +64,62 @@ declare module '@polkadot/api/types/consts' {
        **/
       expectedBlockTime: u64 & AugmentedConst<ApiType>;
       /**
+       * Max number of authorities allowed
+       **/
+      maxAuthorities: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    bagsList: {
+      /**
+       * The list of thresholds separating the various bags.
+       * 
+       * Ids are separated into unsorted bags according to their vote weight. This specifies the
+       * thresholds separating the bags. An id's bag is the largest bag for which the id's weight
+       * is less than or equal to its upper threshold.
+       * 
+       * When ids are iterated, higher bags are iterated completely before lower bags. This means
+       * that iteration is _semi-sorted_: ids of higher weight tend to come before ids of lower
+       * weight, but peer ids within a particular bag are sorted in insertion order.
+       * 
+       * # Expressing the constant
+       * 
+       * This constant must be sorted in strictly increasing order. Duplicate items are not
+       * permitted.
+       * 
+       * There is an implied upper limit of `VoteWeight::MAX`; that value does not need to be
+       * specified within the bag. For any two threshold lists, if one ends with
+       * `VoteWeight::MAX`, the other one does not, and they are otherwise equal, the two lists
+       * will behave identically.
+       * 
+       * # Calculation
+       * 
+       * It is recommended to generate the set of thresholds in a geometric series, such that
+       * there exists some constant ratio such that `threshold[k + 1] == (threshold[k] *
+       * constant_ratio).max(threshold[k] + 1)` for all `k`.
+       * 
+       * The helpers in the `/utils/frame/generate-bags` module can simplify this calculation.
+       * 
+       * # Examples
+       * 
+       * - If `BagThresholds::get().is_empty()`, then all ids are put into the same bag, and
+       * iteration is strictly in insertion order.
+       * - If `BagThresholds::get().len() == 64`, and the thresholds are determined according to
+       * the procedure given above, then the constant ratio is equal to 2.
+       * - If `BagThresholds::get().len() == 200`, and the thresholds are determined according to
+       * the procedure given above, then the constant ratio is approximately equal to 1.248.
+       * - If the threshold list begins `[1, 2, 3, ...]`, then an id with weight 0 or 1 will fall
+       * into bag 0, an id with weight 2 will fall into bag 1, etc.
+       * 
+       * # Migration
+       * 
+       * In the event that this list ever changes, a copy of the old bags list must be retained.
+       * With that `List::migrate` can be called, which will perform the appropriate migration.
+       **/
+      bagThresholds: Vec<u64> & AugmentedConst<ApiType>;
+      /**
        * Generic const
        **/
       [key: string]: Codec;
@@ -89,7 +145,8 @@ declare module '@polkadot/api/types/consts' {
     };
     bounties: {
       /**
-       * Percentage of the curator fee that will be reserved upfront as deposit for bounty curator.
+       * Percentage of the curator fee that will be reserved upfront as deposit for bounty
+       * curator.
        **/
       bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
       /**
@@ -109,7 +166,7 @@ declare module '@polkadot/api/types/consts' {
        **/
       bountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
-       * The amount held on deposit per byte within bounty description.
+       * The amount held on deposit per byte within the tip report reason or bounty description.
        **/
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
@@ -280,6 +337,15 @@ declare module '@polkadot/api/types/consts' {
        **/
       unsignedPhase: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum number of voters to put in the snapshot. At the moment, snapshots are only
+       * over a single block, but once multi-block elections are introduced they will take place
+       * over multiple blocks.
+       * 
+       * Also, note the data type: If the voters are represented by a `u32` in `type
+       * CompactSolution`, the same `u32` is used here to ensure bounds are respected.
+       **/
+      voterSnapshotPerBlock: u32 & AugmentedConst<ApiType>;
+      /**
        * Generic const
        **/
       [key: string]: Codec;
@@ -372,6 +438,16 @@ declare module '@polkadot/api/types/consts' {
        * this value multiplied by `Period`.
        **/
       queueCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    grandpa: {
+      /**
+       * Max Authorities in use
+       **/
+      maxAuthorities: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -583,16 +659,20 @@ declare module '@polkadot/api/types/consts' {
        **/
       challengePeriod: u32 & AugmentedConst<ApiType>;
       /**
-       * Maximum candidate intake per round.
+       * The maximum number of candidates that we accept per round.
        **/
       maxCandidateIntake: u32 & AugmentedConst<ApiType>;
       /**
-       * The number of times a member may vote the wrong way (or not at all, when they are a skeptic)
-       * before they become suspended.
+       * The maximum duration of the payout lock.
+       **/
+      maxLockDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of times a member may vote the wrong way (or not at all, when they are a
+       * skeptic) before they become suspended.
        **/
       maxStrikes: u32 & AugmentedConst<ApiType>;
       /**
-       * The societies's module id
+       * The societies's pallet id
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
