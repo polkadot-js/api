@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletSchedulerScheduledV2 } from '@polkador/types/lookup';
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, u64, Vec } from '@polkadot/types';
-import type { BlockNumber, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
+import type { Option, Vec } from '@polkadot/types';
+import type { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
+import type { PalletSchedulerScheduledV2 } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveDispatch, DeriveProposalImage } from '../types';
 
