@@ -4,6 +4,7 @@
 
 Changes:
 
+- Fix `.at` queries/decoration for pre-V13 metadata
 - Added `BridgeMessageId` & `SpecVersion` types for bridges
 - Added `WrapperOpaque` encoding/decoding (as per latest Substrate)
 - Bump static metadata for latest Substrate, Polkadot & Kusama
