@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletSchedulerScheduledV2 } from '@polkador/types/lookup';
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u64, Vec } from '@polkadot/types';
@@ -42,7 +43,7 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Option<Scheduled>[] | null)[]]> {
+function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV2>[] | null)[]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -56,11 +57,11 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Opt
       return blockNumbers.length
         ? combineLatest([
           of(blockNumbers),
-          // this should simply be api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>,
+          // this should simply be api.query.scheduler.agenda.multi,
           // however we have had cases on Darwinia where the indices have moved around after an
           // upgrade, which results in invalid on-chain data
           combineLatest(blockNumbers.map((blockNumber) =>
-            api.query.scheduler.agenda<Vec<Option<Scheduled>>>(blockNumber).pipe(
+            api.query.scheduler.agenda(blockNumber).pipe(
               // this does create an issue since it discards all at that block
               catchError(() => of(null))
             )
@@ -86,7 +87,7 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
               const id = scheduled.maybeId.unwrap().toHex();
 
               if (id.startsWith(DEMOCRACY_ID)) {
-                const [, index] = api.registry.createType<ITuple<[u64, ReferendumIndex]>>('(u64, ReferendumIndex)', id);
+                const [, index] = api.registry.createType('(u64, ReferendumIndex)', id);
                 const imageHash = scheduled.call.args[0] as Hash;
 
                 result.push({ at, imageHash, index });

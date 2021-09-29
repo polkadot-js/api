@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal, ReferendumIndex, ReferendumInfoTo239, ReferendumStatus, Vote, VoteThreshold } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal, ReferendumIndex, ReferendumInfoTo239, Vote, VoteThreshold } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumStatus } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface DeriveDemocracyLock {
@@ -48,7 +49,7 @@ export interface DeriveReferendum {
   index: ReferendumIndex;
   image?: DeriveProposalImage;
   imageHash: Hash;
-  status: ReferendumStatus | ReferendumInfoTo239;
+  status: PalletDemocracyReferendumStatus | ReferendumInfoTo239;
 }
 
 export interface DeriveReferendumVote {

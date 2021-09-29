@@ -3,7 +3,8 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Bytes, Option } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
@@ -18,12 +19,12 @@ interface ApproxState {
   votedTotal: BN;
 }
 
-function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
+function isOldInfo (info: PalletDemocracyReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
   return !!(info as ReferendumInfoTo239).proposalHash;
 }
 
-function isCurrentStatus (status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
-  return !!(status as ReferendumStatus).tally;
+function isCurrentStatus (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): status is PalletDemocracyReferendumStatus {
+  return !!(status as PalletDemocracyReferendumStatus).tally;
 }
 
 function isCurrentPreimage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
@@ -57,18 +58,18 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-function calcPassingOther (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
+function calcPassingOther (threshold: PalletDemocracyVoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
     ? false
-    : threshold.isSupermajorityapproval
+    : threshold.isSuperMajorityApprove
       ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
       : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
 }
 
-export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
-  return threshold.isSimplemajority
+export function calcPassing (threshold: PalletDemocracyVoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
+  return threshold.isSimpleMajority
     ? state.votedAye.gt(state.votedNay)
     : calcPassingOther(threshold, sqrtElectorate, state);
 }
@@ -134,7 +135,7 @@ export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, vot
   };
 }
 
-export function getStatus (info: Option<ReferendumInfo | ReferendumInfoTo239>): ReferendumStatus | ReferendumInfoTo239 | null {
+export function getStatus (info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>): PalletDemocracyReferendumStatus | ReferendumInfoTo239 | null {
   if (info.isNone) {
     return null;
   }

@@ -59,7 +59,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
   const allIds = [...proposalIds, ...approvalIds];
 
   return combineLatest([
-    api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
+    api.query.treasury.proposals.multi(allIds),
     api.derive.council
       ? api.derive.council.proposals()
       : of([] as DeriveCollectiveProposal[])

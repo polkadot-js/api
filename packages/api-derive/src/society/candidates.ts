@@ -24,7 +24,7 @@ export function candidates (instanceId: string, api: ApiInterfaceRx): () => Obse
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi<ResultSuspend>(
+          api.query.society.suspendedCandidates.multi(
             candidates.map(({ who }): AccountId => who))
         ])
       ),

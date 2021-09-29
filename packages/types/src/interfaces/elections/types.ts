@@ -41,9 +41,9 @@ export interface VoterInfo extends Struct {
 
 /** @name VoteThreshold */
 export interface VoteThreshold extends Enum {
-  readonly isSupermajorityapproval: boolean;
-  readonly isSupermajorityrejection: boolean;
-  readonly isSimplemajority: boolean;
+  readonly isSuperMajorityApprove: boolean;
+  readonly isSuperMajorityAgainst: boolean;
+  readonly isSimpleMajority: boolean;
 }
 
 export type PHANTOM_ELECTIONS = 'elections';
