@@ -13,13 +13,17 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, NodeRuntimeSessionKeys][], nextKeys: Option<NodeRuntimeSessionKeys>): DeriveStakingKeys {
+function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, NodeRuntimeSessionKeys | AccountId[]][], nextKeys: Option<NodeRuntimeSessionKeys>): DeriveStakingKeys {
   const sessionIds = (queuedKeys.find(([currentId]) => currentId.eq(stashId)) || [undefined, [] as AccountId[]])[1];
   const nextSessionIds = nextKeys.unwrapOr([] as AccountId[]);
 
   return {
-    nextSessionIds,
-    sessionIds
+    nextSessionIds: Array.isArray(nextSessionIds)
+      ? nextSessionIds
+      : [...nextSessionIds.values()] as AccountId[],
+    sessionIds: Array.isArray(sessionIds)
+      ? sessionIds
+      : [...sessionIds.values()] as AccountId[]
   };
 }
 
