@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.1.2 Sep 29, 2021
+
+Upgrade priority: Low. Recommended for 6.x users using historic queries.
 
 Changes:
 
