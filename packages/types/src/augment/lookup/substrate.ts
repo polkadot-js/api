@@ -965,8 +965,7 @@ export default {
    **/
   PalletContractsScheduleInstructionWeights: {
     _alias: {
-      r_if: 'r#if',
-      call_: 'call'
+      r_if: 'r#if'
     },
     version: 'u32',
     i64Const: 'u32',
@@ -978,7 +977,7 @@ export default {
     brIf: 'u32',
     brTable: 'u32',
     brTablePerEntry: 'u32',
-    call_: 'u32',
+    call: 'u32',
     callIndirect: 'u32',
     callIndirectPerParam: 'u32',
     localGet: 'u32',
@@ -1026,8 +1025,7 @@ export default {
    **/
   PalletContractsScheduleHostFnWeights: {
     _alias: {
-      r_return: 'r#return',
-      call_: 'call'
+      r_return: 'r#return'
     },
     caller: 'u64',
     address: 'u64',
@@ -1056,7 +1054,7 @@ export default {
     getStorage: 'u64',
     getStoragePerByte: 'u64',
     transfer: 'u64',
-    call_: 'u64',
+    call: 'u64',
     callTransferSurcharge: 'u64',
     callPerInputByte: 'u64',
     callPerOutputByte: 'u64',
@@ -1160,12 +1158,9 @@ export default {
    * Lookup454: pallet_scheduler::ScheduledV2<node_runtime::Call, BlockNumber, node_runtime::OriginCaller, sp_core::crypto::AccountId32>
    **/
   PalletSchedulerScheduledV2: {
-    _alias: {
-      call_: 'call'
-    },
     maybeId: 'Option<Bytes>',
     priority: 'u8',
-    call_: 'Call',
+    call: 'Call',
     maybePeriodic: 'Option<(u32,u32)>',
     origin: 'NodeRuntimeOriginCaller'
   },

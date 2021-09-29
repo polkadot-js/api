@@ -50,8 +50,8 @@ const SETS = [
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperOpaque'];
 
-// These are reserved and/or conflicts with built-in Codec definitions
-const RESERVED = ['call', 'entries', 'hash', 'keys', 'new', 'size'];
+// These are reserved and/or conflicts with built-in Codec or JS definitions
+const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {

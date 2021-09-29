@@ -8,13 +8,19 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
 import type { ApiTypes, DropLast, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
-interface StorageEntryObservableMulti {
-  <T extends Codec>(args: (unknown[] | unknown)[]): Observable<T[]>;
+type AsCodec<R extends Codec | any> = R extends Codec
+  ? R
+  : Codec;
+
+type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType<F>>>;
+
+interface StorageEntryObservableMulti<R extends Codec = Codec> {
+  <T extends Codec = R>(args: (unknown[] | unknown)[]): Observable<T[]>;
 }
 
-interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: (unknown[] | unknown)[]): Promise<T[]>;
-  <T extends Codec>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
+interface StorageEntryPromiseMulti<R extends Codec = Codec> {
+  <T extends Codec = R>(args: (unknown[] | unknown)[]): Promise<T[]>;
+  <T extends Codec = R>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -52,28 +58,23 @@ export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQ
   [key: string]: QueryableModuleStorageAt<ApiType>;
 }
 
-export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
-  at: <T extends Codec | any = ObsInnerType<ReturnType<F>>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
+export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> extends StorageEntryBaseAt<ApiType, F, A> {
+  at: <T extends Codec | any = ReturnCodec<F>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
-  entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
-  entriesAt: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
-  entriesPaged: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
-  hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
-  is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
-  key: (...args: Parameters<F>) => string;
-  keyPrefix: (...args: DropLast<Parameters<F>>) => string;
-  keys: <K extends AnyTuple = A> (...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
+  entriesAt: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesPaged: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   keysAt: <K extends AnyTuple = A> (hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   keysPaged: <K extends AnyTuple = A> (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   // @deprecated The underlying RPC this been marked unsafe and is generally not exposed
-  range: <T extends Codec | any = ObsInnerType<ReturnType<F>>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
-  size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+  range: <T extends Codec | any = ReturnCodec<F>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
   sizeAt: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
-  multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
+  multi: ApiType extends 'rxjs'
+    ? StorageEntryObservableMulti<ReturnCodec<F>>
+    : StorageEntryPromiseMulti<ReturnCodec<F>>;
 }
 
 export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
-  entries: <T extends Codec | any = ObsInnerType<ReturnType<F>>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entries: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
   key: (...args: Parameters<F>) => string;

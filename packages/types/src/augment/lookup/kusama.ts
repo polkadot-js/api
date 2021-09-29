@@ -138,12 +138,9 @@ export default {
         xcm: 'XcmV2Xcm',
       },
       Transact: {
-        _alias: {
-          call_: 'call',
-        },
         originType: 'XcmV0OriginKind',
         requireWeightAtMost: 'Compact<u64>',
-        call_: 'XcmDoubleEncoded',
+        call: 'XcmDoubleEncoded',
       },
       HrmpNewChannelOpenRequest: {
         sender: 'Compact<u32>',
@@ -501,12 +498,9 @@ export default {
         effects: 'Vec<XcmV0Order>',
       },
       Transact: {
-        _alias: {
-          call_: 'call',
-        },
         originType: 'XcmV0OriginKind',
         requireWeightAtMost: 'u64',
-        call_: 'XcmDoubleEncoded',
+        call: 'XcmDoubleEncoded',
       },
       HrmpNewChannelOpenRequest: {
         sender: 'Compact<u32>',
@@ -609,12 +603,9 @@ export default {
         effects: 'Vec<XcmV1Order>',
       },
       Transact: {
-        _alias: {
-          call_: 'call',
-        },
         originType: 'XcmV0OriginKind',
         requireWeightAtMost: 'u64',
-        call_: 'XcmDoubleEncoded',
+        call: 'XcmDoubleEncoded',
       },
       HrmpNewChannelOpenRequest: {
         sender: 'Compact<u32>',

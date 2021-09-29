@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Bytes, Option } from '@polkadot/types';
-import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 import type { DeriveBounties, DeriveCollectiveProposal } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -12,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 import { memo } from '../util';
 import { filterBountiesProposals } from './helpers/filterBountyProposals';
 
-type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
+type Result = [Option<PalletBountiesBounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
 
 function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
@@ -53,8 +54,8 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
         const ids = keys.map(({ args: [id] }) => id);
 
         return combineLatest([
-          bountyBase.bounties.multi<Option<Bounty>>(ids),
-          bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids),
+          bountyBase.bounties.multi(ids),
+          bountyBase.bountyDescriptions.multi(ids),
           of(ids),
           of(filterBountiesProposals(api, proposals))
         ]);

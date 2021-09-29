@@ -156,7 +156,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: Compact<u64>;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {
@@ -539,7 +539,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: u64;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {
@@ -654,7 +654,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: u64;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {
