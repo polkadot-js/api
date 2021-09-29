@@ -32,6 +32,7 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.WrapperOpaque:
       return paramsNotation(outer, sub, (p) => encodeTypeDef(registry, p));
   }
 
@@ -134,7 +135,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Unable to encode VecFixed type');
 
     return `[${sub.type};${length}]`;
-  }
+  },
+  [TypeDefInfo.WrapperOpaque]: (registry: Registry, typeDef: TypeDef) =>
+    encodeWithParams(registry, typeDef, 'WrapperOpaque')
 };
 
 function encodeType (registry: Registry, typeDef: TypeDef, withLookup = true): string {

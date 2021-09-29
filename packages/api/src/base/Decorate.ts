@@ -198,6 +198,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         errors: {},
         events: {},
         query: {},
+        registry: registry.registry,
         rx: {
           query: {}
         }
@@ -237,6 +238,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         errors: {},
         events: {},
         query: {},
+        registry: registry.registry,
         rx: {
           query: {}
         }
@@ -415,10 +417,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }, {} as QueryableStorage<ApiType>);
   }
 
-  protected _decorateStorageAt<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
+  protected _decorateStorageAt<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
     return Object.entries(query).reduce((out, [name, section]): QueryableStorageAt<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorageAt<ApiType> => {
-        out[name] = this._decorateStorageEntryAt(method, decorateMethod, blockHash);
+        out[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash);
 
         return out;
       }, {} as QueryableModuleStorageAt<ApiType>);
@@ -510,9 +512,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private _decorateStorageEntryAt<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
+  private _decorateStorageEntryAt<ApiType extends ApiTypes> (registry: Registry, creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(this.#registry, creator, args);
+    const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(registry, creator, args);
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */

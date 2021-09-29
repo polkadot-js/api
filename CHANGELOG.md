@@ -1,15 +1,35 @@
 # CHANGELOG
 
-## master
+## 6.1.2 Sep 29, 2021
+
+Upgrade priority: Low. Recommended for 6.x users using historic queries.
+
+Changes:
+
+- Fix `.at` queries/decoration for pre-V13 metadata
+- Added `BridgeMessageId` & `SpecVersion` types for bridges
+- Added `WrapperOpaque` encoding/decoding (as per latest Substrate)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.1.1 Sep 27, 2021
+
+Upgrade priority: Low. Minor maintenance changes from the 6.0.x versions.
+
+Contributed:
+
+- Adjust bridges `OutboundLaneData` type (Thanks to https://github.com/HackFisher)
+- Fix README 404 (Thanks to https://github.com/nblogist)
 
 Changes:
 
 - Add `childstate_getStorageEntries` RPC
+- Allow for scale-info v0 -> v1 conversion
 
 
-## 6.0.5 Sep 20, 2012
+## 6.0.5 Sep 20, 2021
 
-Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
+Upgrade priority: Low. Recommended for all users on 6.0.4 using `api.query.*.*.at` calls
 
 Changes:
 

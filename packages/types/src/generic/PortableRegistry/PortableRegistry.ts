@@ -48,7 +48,7 @@ const SETS = [
 ].map((p) => p.split('::'));
 
 // These we never use these as top-level names, they are wrappers
-const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec'];
+const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperOpaque'];
 
 // These are reserved and/or conflicts with built-in Codec definitions
 const RESERVED = ['call', 'entries', 'hash', 'keys', 'new', 'size'];
@@ -428,6 +428,11 @@ export class GenericPortableRegistry extends Struct {
             : ['start', 'end'][index],
           ...this.#createSiDef(type)
         }))
+      });
+    } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
+      return withTypeString(this.registry, {
+        info: TypeDefInfo.WrapperOpaque,
+        sub: this.#createSiDef(params[0].type.unwrap())
       });
     }
 

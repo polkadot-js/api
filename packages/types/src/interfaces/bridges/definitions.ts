@@ -12,6 +12,7 @@ export default {
     BridgedBlockHash: 'H256',
     BridgedBlockNumber: 'BlockNumber',
     BridgedHeader: 'Header',
+    BridgeMessageId: '(LaneId, MessageNonce)',
     CallOrigin: {
       _enum: {
         SourceRoot: 'Null',
@@ -66,9 +67,9 @@ export default {
       _enum: ['Normal', 'RejectingOutboundMessages', 'Halted']
     },
     OutboundLaneData: {
-      latestGeneratedNonce: 'MessageNonce',
+      oldestUnprunedNonce: 'MessageNonce',
       latestReceivedNonce: 'MessageNonce',
-      oldestUnprunedNonce: 'MessageNonce'
+      latestGeneratedNonce: 'MessageNonce'
     },
     OutboundMessageFee: 'Balance',
     OutboundPayload: {

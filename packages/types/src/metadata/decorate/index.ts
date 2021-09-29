@@ -27,6 +27,7 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
     errors: decorateErrors(registry, latest, version),
     events: decorateEvents(registry, latest, version),
     query: decorateStorage(registry, latest, version),
+    registry,
     tx: decorateExtrinsics(registry, latest, version)
   };
 }

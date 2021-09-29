@@ -3,7 +3,7 @@
 
 import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
 import type { StorageEntry } from '../../primitive/types';
-import type { AnyTuple, CallFunction, Codec, IEvent } from '../../types';
+import type { AnyTuple, CallFunction, Codec, IEvent, Registry } from '../../types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: PalletConstantMetadataLatest;
@@ -46,5 +46,6 @@ export interface DecoratedMeta {
   readonly errors: Errors;
   readonly events: Events;
   readonly query: Storage;
+  readonly registry: Registry;
   readonly tx: Extrinsics
 }

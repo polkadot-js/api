@@ -68,6 +68,9 @@ export interface RuntimeVersionPartial extends Struct {
   readonly specVersion: u32;
 }
 
+/** @name SpecVersion */
+export interface SpecVersion extends u32 {}
+
 /** @name StorageChangeSet */
 export interface StorageChangeSet extends Struct {
   readonly block: Hash;
