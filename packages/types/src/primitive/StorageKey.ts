@@ -51,7 +51,7 @@ export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLat
 }
 
 /** @internal */
-function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
+function decodeStorageKey (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   if (value instanceof StorageKey) {
     return {
@@ -72,6 +72,12 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
     const [fn, args = []] = value;
 
     assert(isFunction(fn), 'Expected function input for key construction');
+
+    if (fn.meta && fn.meta.type.isMap) {
+      const map = fn.meta.type.asMap;
+
+      assert(Array.isArray(args) && args.length === map.hashers.length, () => `Expected an array of ${map.hashers.length} values as params to a Map query`);
+    }
 
     return {
       key: fn(...args),
@@ -168,7 +174,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   private _section?: string;
 
   constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
-    const { key, method, section } = decodeStorageKey(value);
+    const { key, method, section } = decodeStorageKey(registry, value);
 
     super(registry, key);
 
