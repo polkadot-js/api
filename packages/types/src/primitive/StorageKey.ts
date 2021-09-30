@@ -73,7 +73,7 @@ function decodeStorageKey (registry: Registry, value?: string | Uint8Array | Sto
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
-    if (fn.meta.type.isMap) {
+    if (fn.meta && fn.meta.type.isMap) {
       const map = fn.meta.type.asMap;
 
       assert(Array.isArray(args) && args.length === map.hashers.length, () => `Expected an array of ${map.hashers.length} values as params to a Map query`);
