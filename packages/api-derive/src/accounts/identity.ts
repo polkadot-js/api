@@ -113,8 +113,8 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf
       ? combineLatest([
-        api.query.identity.identityOf.multi<Option<Registration>>(accountIds),
-        api.query.identity.superOf.multi<Option<ITuple<[AccountId, Data]>>>(accountIds)
+        api.query.identity.identityOf.multi(accountIds),
+        api.query.identity.superOf.multi(accountIds)
       ]).pipe(
         map(([identities, supers]) =>
           identities.map((identityOfOpt, index): DeriveHasIdentity => {

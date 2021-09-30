@@ -3,9 +3,10 @@
 
 import type { Codec } from './types';
 
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
+
 import * as definitions from './interfaces/definitions';
-import metadataStatic from './metadata/static';
-import { createTypeUnsafe, TypeRegistry } from './create';
+import { TypeRegistry } from './create';
 import * as exported from './index.types';
 import { Metadata } from './metadata';
 
@@ -33,7 +34,7 @@ function testTypes (type: string, typeNames: string[]): void {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name}`, (): void => {
           const constructFn = (): Codec =>
-            createTypeUnsafe(registry, name);
+            registry.createType(name);
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();
@@ -48,7 +49,7 @@ function testTypes (type: string, typeNames: string[]): void {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {
           const constructFn = (): Codec =>
-            createTypeUnsafe(registry, name, [createTypeUnsafe(registry, 'Bytes')]);
+            registry.createType(name, registry.createType('Bytes'));
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();

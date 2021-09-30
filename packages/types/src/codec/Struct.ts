@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Registry } from '../types';
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -24,22 +24,23 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     const jsonKey = (jsonMap.get(key as any) && !value[key])
       ? jsonMap.get(key as any)
       : key;
+    const Type = Types[key];
 
     try {
       if (Array.isArray(value)) {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Types[key]
+        (raw as any)[key] = value[index] instanceof Type
           ? value[index]
-          : new Types[key](registry, value[index]);
+          : new Type(registry, value[index]);
       } else if (value instanceof Map) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const mapped = value.get(jsonKey);
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = mapped instanceof Types[key]
+        (raw as any)[key] = mapped instanceof Type
           ? mapped
-          : new Types[key](registry, mapped);
+          : new Type(registry, mapped);
       } else if (isObject(value)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         let assign = value[jsonKey as string];
@@ -59,17 +60,17 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         }
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = assign instanceof Types[key]
+        (raw as any)[key] = assign instanceof Type
           ? assign
-          : new Types[key](registry, assign);
+          : new Type(registry, assign);
       } else {
         throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
     } catch (error) {
-      let type = Types[key].name;
+      let type = Type.name;
 
       try {
-        type = new Types[key](registry).toRawType();
+        type = new Type(registry).toRawType();
       } catch (error) {
         // ignore
       }
@@ -136,7 +137,7 @@ export class Struct<
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
@@ -147,9 +148,7 @@ export class Struct<
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value: V | Map<unknown, unknown> | unknown[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
-    super(Object.entries(
-      decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)
-    ) as [keyof S, Codec][]);
+    super(Object.entries(decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)));
 
     this.registry = registry;
     this.#jsonMap = jsonMap;
@@ -181,7 +180,7 @@ export class Struct<
   }
 
   /**
-   * @description The available keys for this enum
+   * @description The available keys for this struct
    */
   public get defKeys (): string[] {
     return Object.keys(this.#Types);
@@ -207,7 +206,7 @@ export class Struct<
    */
   public get Type (): E {
     return (Object
-      .entries(this.#Types) as [keyof S, Constructor][])
+      .entries(this.#Types))
       .reduce((result: E, [key, Type]): E => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (result as any)[key] = new Type(this.registry).toRawType();
@@ -301,9 +300,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(
-      Struct.typesToMap(this.registry, this.#Types)
-    );
+    return stringify(Struct.typesToMap(this.registry, this.#Types));
   }
 
   /**

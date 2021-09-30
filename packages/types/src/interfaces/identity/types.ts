@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Data, Enum, Option, Set, Struct, Vec, u32 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
 import type { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name IdentityFields */
 export interface IdentityFields extends Set {
@@ -32,6 +32,18 @@ export interface IdentityInfo extends Struct {
 
 /** @name IdentityInfoAdditional */
 export interface IdentityInfoAdditional extends ITuple<[Data, Data]> {}
+
+/** @name IdentityInfoTo198 */
+export interface IdentityInfoTo198 extends Struct {
+  readonly additional: Vec<IdentityInfoAdditional>;
+  readonly display: Data;
+  readonly legal: Data;
+  readonly web: Data;
+  readonly riot: Data;
+  readonly email: Data;
+  readonly pgpFingerprint: Option<H160>;
+  readonly image: Data;
+}
 
 /** @name IdentityJudgement */
 export interface IdentityJudgement extends Enum {
@@ -64,5 +76,12 @@ export interface Registration extends Struct {
 
 /** @name RegistrationJudgement */
 export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}
+
+/** @name RegistrationTo198 */
+export interface RegistrationTo198 extends Struct {
+  readonly judgements: Vec<RegistrationJudgement>;
+  readonly deposit: Balance;
+  readonly info: IdentityInfoTo198;
+}
 
 export type PHANTOM_IDENTITY = 'identity';

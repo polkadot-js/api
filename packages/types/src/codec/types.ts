@@ -1,16 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-import type { Codec } from '../types';
-
-export interface CompactEncodable extends Codec {
-  bitLength (): number;
-  toBigInt (): bigint;
-  toBn (): BN;
-  toNumber (): number;
-}
-
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 // The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature,

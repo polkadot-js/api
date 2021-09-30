@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { decorateExtrinsics, Metadata } from '../../metadata';
-import rpcMetadata from '../../metadata/static';
 import { GenericExtrinsicV4 as Extrinsic } from '.';
 
 const registry = new TypeRegistry();

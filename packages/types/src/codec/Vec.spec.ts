@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropIndex } from '../interfaces/democracy';
-import type { Codec, CodecTo } from '../types';
+import type { Codec, CodecTo, ITuple } from '../types';
 
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
 import { GenericAccountId as AccountId } from '../generic';
 import { Metadata } from '../metadata';
-import rpcMetadata from '../metadata/static';
 import { Text } from '../primitive';
-import { Tuple, Vec } from '.';
+import { Vec } from '.';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -69,20 +69,19 @@ describe('Vec', (): void => {
   });
 
   it('decodes a complex type via construction', (): void => {
-    const test = createTypeUnsafe(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
+    const test = createTypeUnsafe<Vec<ITuple<[PropIndex, AccountId]>>>(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
       4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ])]);
-    const first = (test as Vec<Codec>)[0] as Tuple;
 
-    expect((first[0] as PropIndex).toNumber()).toEqual(10);
-    expect((first[1] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
+    expect(test[0][0].toNumber()).toEqual(10);
+    expect(test[0][1].toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
   });
 
   it('decodes a complex type via construction', (): void => {
     const INPUT = '0x08cc0200000000ce0200000001';
-    const test = createTypeUnsafe(registry, 'Vec<(u32, [u32; 0], u16)>' as any, [INPUT]);
+    const test = createTypeUnsafe<Vec<Codec>>(registry, 'Vec<(u32, [u32; 0], u16)>', [INPUT]);
 
-    expect((test as Vec<any>).length).toEqual(2);
+    expect(test).toHaveLength(2);
     expect(test.toHex()).toEqual(INPUT);
   });
 

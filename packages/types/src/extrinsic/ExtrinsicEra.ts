@@ -208,12 +208,14 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static _decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (value instanceof GenericExtrinsicEra) {
+    if (!value) {
+      return new Uint8Array([0]);
+    } else if (value instanceof GenericExtrinsicEra) {
       return GenericExtrinsicEra._decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
       return GenericExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
-    } else if (!value || isU8a(value)) {
-      return (!value?.length || value[0] === 0)
+    } else if (isU8a(value)) {
+      return (!value.length || value[0] === 0)
         ? new Uint8Array([0])
         : new Uint8Array([1, value[0], value[1]]);
     } else if (isObject(value)) {

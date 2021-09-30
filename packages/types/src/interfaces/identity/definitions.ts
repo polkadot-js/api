@@ -24,7 +24,18 @@ export default {
       }
     },
     IdentityInfoAdditional: '(Data, Data)',
+    IdentityInfoTo198: {
+      additional: 'Vec<IdentityInfoAdditional>',
+      display: 'Data',
+      legal: 'Data',
+      web: 'Data',
+      riot: 'Data',
+      email: 'Data',
+      pgpFingerprint: 'Option<H160>',
+      image: 'Data'
+    },
     IdentityInfo: {
+      _fallback: 'IdentityInfoTo198',
       additional: 'Vec<IdentityInfoAdditional>',
       display: 'Data',
       legal: 'Data',
@@ -47,7 +58,13 @@ export default {
       }
     },
     RegistrationJudgement: '(RegistrarIndex, IdentityJudgement)',
+    RegistrationTo198: {
+      judgements: 'Vec<RegistrationJudgement>',
+      deposit: 'Balance',
+      info: 'IdentityInfoTo198'
+    },
     Registration: {
+      _fallback: 'RegistrationTo198',
       judgements: 'Vec<RegistrationJudgement>',
       deposit: 'Balance',
       info: 'IdentityInfo'

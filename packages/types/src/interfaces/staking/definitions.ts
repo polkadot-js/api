@@ -139,6 +139,13 @@ const phragmen = {
     deposit: 'Balance'
   },
   SignedSubmission: {
+    _fallback: 'SignedSubmissionTo276',
+    who: 'AccountId',
+    deposit: 'Balance',
+    solution: 'RawSolution',
+    reward: 'Balance'
+  },
+  SignedSubmissionTo276: {
     who: 'AccountId',
     deposit: 'Balance',
     solution: 'RawSolution'

@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option } from '@polkadot/types';
-import type { AccountId, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
+import type { AccountId, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveDemocracyLock } from '../types';
 
@@ -25,7 +25,7 @@ function parseEnd (api: ApiInterfaceRx, vote: Vote, { approved, end }: Referendu
   ];
 }
 
-function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDirectVote, referendum: ReferendumInfo): DeriveDemocracyLock {
+function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDirectVote, referendum: PalletDemocracyReferendumInfo): DeriveDemocracyLock {
   const { balance, vote } = accountVote.asStandard;
   const [referendumEnd, unlockAt] = referendum.isFinished
     ? parseEnd(api, vote, referendum.asFinished)
@@ -57,13 +57,13 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
     return of([]);
   }
 
-  return api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo | ReferendumInfoTo239>>(votes.map(([referendumId]) => referendumId)).pipe(
+  return api.query.democracy.referendumInfoOf.multi(votes.map(([referendumId]) => referendumId)).pipe(
     map((referendums) =>
       votes
-        .map((vote, index): [VotingDirectVote, ReferendumInfo | ReferendumInfoTo239 | null] =>
+        .map((vote, index): [VotingDirectVote, PalletDemocracyReferendumInfo | ReferendumInfoTo239 | null] =>
           [vote, referendums[index].unwrapOr(null)]
         )
-        .filter((item): item is [VotingDirectVote, ReferendumInfo] =>
+        .filter((item): item is [VotingDirectVote, PalletDemocracyReferendumInfo] =>
           !!item[1] && isUndefined((item[1] as ReferendumInfoTo239).end) && item[0][1].isStandard
         )
         .map(([directVote, referendum]) =>

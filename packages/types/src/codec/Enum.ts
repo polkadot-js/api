@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -27,7 +27,7 @@ interface Decoded {
   value: Codec;
 }
 
-function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number>): def is Record<string, keyof InterfaceTypes | Constructor> {
+function isRustEnum (def: Record<string, string | Constructor> | Record<string, number>): def is Record<string, string | Constructor> {
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
@@ -39,7 +39,7 @@ function isRustEnum (def: Record<string, keyof InterfaceTypes | Constructor> | R
   return true;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+function extractDef (registry: Registry, _def: Record<string, string | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
   if (Array.isArray(_def)) {
     return {
       def: _def.reduce((def: TypesDef, key, index): TypesDef => {
@@ -160,10 +160,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
  * This implements an enum, that based on the value wraps a different type. It is effectively
  * an extension to enum where the value type is determined by the actual index.
  */
-// TODO:
-//   - As per Enum, actually use TS enum
-//   - It should rather probably extend Enum instead of copying code
-export class Enum implements Codec {
+export class Enum implements IEnum {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
@@ -180,7 +177,7 @@ export class Enum implements Codec {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, def: Record<string, string | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
@@ -193,7 +190,7 @@ export class Enum implements Codec {
     this.#raw = decoded.value;
   }
 
-  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
@@ -262,14 +259,15 @@ export class Enum implements Codec {
    * @description Checks if the Enum points to a [[Null]] type
    */
   public get isNone (): boolean {
-    return this.isNull;
+    return this.#raw instanceof Null;
   }
 
   /**
-   * @description Checks if the Enum points to a [[Null]] type (deprecated, use isNone)
+   * @description Checks if the Enum points to a [[Null]] type
+   * @deprecated use isNone
    */
   public get isNull (): boolean {
-    return this.#raw instanceof Null;
+    return this.isNone;
   }
 
   /**
@@ -310,7 +308,7 @@ export class Enum implements Codec {
     } else if (this.#isBasic && isString(other)) {
       return this.type === other;
     } else if (isU8a(other)) {
-      return !this.toU8a().some((entry, index): boolean => entry !== other[index]);
+      return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isHex(other)) {
       return this.toHex() === other;
     } else if (other instanceof Enum) {
@@ -334,7 +332,7 @@ export class Enum implements Codec {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#isBasic
+    return this.#isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }

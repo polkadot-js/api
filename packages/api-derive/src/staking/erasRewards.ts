@@ -38,7 +38,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
       return of(cached);
     }
 
-    return api.query.staking.erasValidatorReward.multi<Option<Balance>>(remaining).pipe(
+    return api.query.staking.erasValidatorReward.multi(remaining).pipe(
       map((optRewards) => {
         const query = mapRewards(remaining, optRewards);
 

@@ -22,6 +22,11 @@ describe('misc online tests', (): void => {
     await api.disconnect();
   });
 
+  it('expose rpc and rx definition', (): void => {
+    console.error(api.rpc.payment.queryFeeDetails.meta);
+    console.error(api.rx.rpc.chain.getBlock.meta);
+  });
+
   it.skip('retrieves balances correctly', async (): Promise<void> => {
     console.error(JSON.stringify(
       await api.query.system.account('FPzukZw2mphWsXDqdkNzLaxnanjZEWH9i2vqwobTdtde5me')
@@ -63,11 +68,5 @@ describe('misc online tests', (): void => {
     console.error(JSON.stringify(
       await api.query.society.defenderVotes('Dab4bfYTZRUDMWjYAUQuFbDreQ9mt7nULWu3Dw7jodbzVe9')
     ));
-  });
-
-  it('expose rpc and rx definition', (): void => {
-    console.error(api.rpc.payment.queryFeeDetails.meta);
-
-    console.error(api.rx.rpc.chain.getBlock.meta);
   });
 });

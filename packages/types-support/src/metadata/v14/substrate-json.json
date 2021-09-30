@@ -1,0 +1,5394 @@
+{
+  "magicNumber": 1635018093,
+  "metadata": {
+    "v14": {
+      "pallets": [
+        {
+          "name": "System",
+          "storage": {
+            "prefix": "System",
+            "items": [
+              {
+                "name": "Account",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 3
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The full account information for a particular account ID."
+                ]
+              },
+              {
+                "name": "ExtrinsicCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Total extrinsics count for the current block."
+                ]
+              },
+              {
+                "name": "BlockWeight",
+                "modifier": "Default",
+                "type": {
+                  "plain": 7
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The current weight for the block."
+                ]
+              },
+              {
+                "name": "AllExtrinsicsLen",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Total length (in bytes) for all extrinsics put together, for the current block."
+                ]
+              },
+              {
+                "name": "BlockHash",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 9
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Map of block numbers to block hashes."
+                ]
+              },
+              {
+                "name": "ExtrinsicData",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 10
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Extrinsics data for the current block (maps an extrinsic's index to its data)."
+                ]
+              },
+              {
+                "name": "Number",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The current block number being processed. Set by `execute_block`."
+                ]
+              },
+              {
+                "name": "ParentHash",
+                "modifier": "Default",
+                "type": {
+                  "plain": 9
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Hash of the previous block."
+                ]
+              },
+              {
+                "name": "Digest",
+                "modifier": "Default",
+                "type": {
+                  "plain": 11
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Digest of the current block, also part of the block header."
+                ]
+              },
+              {
+                "name": "Events",
+                "modifier": "Default",
+                "type": {
+                  "plain": 18
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Events deposited for the current block.",
+                  "",
+                  " NOTE: This storage item is explicitly unbounded since it is never intended to be read",
+                  " from within the runtime."
+                ]
+              },
+              {
+                "name": "EventCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The number of events in the `Events<T>` list."
+                ]
+              },
+              {
+                "name": "EventTopics",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 9,
+                    "value": 96
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Mapping between a topic (represented by T::Hash) and a vector of indexes",
+                  " of events in the `<Events<T>>` list.",
+                  "",
+                  " All topic vectors have deterministic storage locations depending on the topic. This",
+                  " allows light-clients to leverage the changes trie storage tracking mechanism and",
+                  " in case of changes fetch the list of events of interest.",
+                  "",
+                  " The value has the type `(T::BlockNumber, EventIndex)` because if we used only just",
+                  " the `EventIndex` then in case if the topic has the same contents on the next block",
+                  " no notification will be triggered thus the event might be lost."
+                ]
+              },
+              {
+                "name": "LastRuntimeUpgrade",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 97
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened."
+                ]
+              },
+              {
+                "name": "UpgradedToU32RefCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if we have upgraded so that `type RefCount` is `u32`. False (default) if not."
+                ]
+              },
+              {
+                "name": "UpgradedToTripleRefCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if we have upgraded so that AccountInfo contains three types of `RefCount`. False",
+                  " (default) if not."
+                ]
+              },
+              {
+                "name": "ExecutionPhase",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 94
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The execution phase of the block."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 100
+          },
+          "events": {
+            "type": 21
+          },
+          "constants": [
+            {
+              "name": "BlockWeights",
+              "type": 105,
+              "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
+              "docs": [
+                " Block & extrinsics weights: base values and limits."
+              ]
+            },
+            {
+              "name": "BlockLength",
+              "type": 109,
+              "value": "0x00003c000000500000005000",
+              "docs": [
+                " The maximum length of a block (in bytes)."
+              ]
+            },
+            {
+              "name": "BlockHashCount",
+              "type": 4,
+              "value": "0x60090000",
+              "docs": [
+                " Maximum number of block number to block hash mappings to keep (oldest pruned first)."
+              ]
+            },
+            {
+              "name": "DbWeight",
+              "type": 111,
+              "value": "0x40787d010000000000e1f50500000000",
+              "docs": [
+                " The weight of runtime database operations the runtime can invoke."
+              ]
+            },
+            {
+              "name": "Version",
+              "type": 112,
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000b0100000100000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
+              "docs": [
+                " Get the chain's current version."
+              ]
+            },
+            {
+              "name": "SS58Prefix",
+              "type": 77,
+              "value": "0x2a00",
+              "docs": [
+                " The designated SS85 prefix of this chain.",
+                "",
+                " This replaces the \"ss58Format\" property declared in the chain spec. Reason is",
+                " that the runtime should know about the prefix in order to make use of it as",
+                " an identifier of the chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 117
+          },
+          "index": 0
+        },
+        {
+          "name": "Utility",
+          "storage": null,
+          "calls": {
+            "type": 118
+          },
+          "events": {
+            "type": 28
+          },
+          "constants": [
+            {
+              "name": "batched_calls_limit",
+              "type": 4,
+              "value": "0x73ed0000",
+              "docs": [
+                " The limit on the number of batched calls."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 306
+          },
+          "index": 1
+        },
+        {
+          "name": "Babe",
+          "storage": {
+            "prefix": "Babe",
+            "items": [
+              {
+                "name": "EpochIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " Current epoch index."
+                ]
+              },
+              {
+                "name": "Authorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 307
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Current epoch authorities."
+                ]
+              },
+              {
+                "name": "GenesisSlot",
+                "modifier": "Default",
+                "type": {
+                  "plain": 126
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The slot at which the first epoch actually started. This is 0",
+                  " until the first block of the chain."
+                ]
+              },
+              {
+                "name": "CurrentSlot",
+                "modifier": "Default",
+                "type": {
+                  "plain": 126
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " Current slot number."
+                ]
+              },
+              {
+                "name": "Randomness",
+                "modifier": "Default",
+                "type": {
+                  "plain": 1
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The epoch randomness for the *current* epoch.",
+                  "",
+                  " # Security",
+                  "",
+                  " This MUST NOT be used for gambling, as it can be influenced by a",
+                  " malicious validator in the short term. It MAY be used in many",
+                  " cryptographic protocols, however, so long as one remembers that this",
+                  " (like everything else on-chain) it is public. For example, it can be",
+                  " used where a number is needed that cannot have been chosen by an",
+                  " adversary, for purposes such as public-coin zero-knowledge proofs."
+                ]
+              },
+              {
+                "name": "PendingEpochConfigChange",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 128
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Pending epoch configuration change that will be applied when the next epoch is enacted."
+                ]
+              },
+              {
+                "name": "NextRandomness",
+                "modifier": "Default",
+                "type": {
+                  "plain": 1
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Next epoch randomness."
+                ]
+              },
+              {
+                "name": "NextAuthorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 307
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Next epoch authorities."
+                ]
+              },
+              {
+                "name": "SegmentIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Randomness under construction.",
+                  "",
+                  " We make a tradeoff between storage accesses and list length.",
+                  " We store the under-construction randomness in segments of up to",
+                  " `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.",
+                  "",
+                  " Once a segment reaches this length, we begin the next one.",
+                  " We reset all segments and return to `0` at the beginning of every",
+                  " epoch."
+                ]
+              },
+              {
+                "name": "UnderConstruction",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 310
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " TWOX-NOTE: `SegmentIndex` is an increasing integer, so this is okay."
+                ]
+              },
+              {
+                "name": "Initialized",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 312
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Temporary value (cleared at block finalization) which is `Some`",
+                  " if per-block initialization has already been called for current block."
+                ]
+              },
+              {
+                "name": "AuthorVrfRandomness",
+                "modifier": "Default",
+                "type": {
+                  "plain": 312
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " This field should always be populated during block processing unless",
+                  " secondary plain slots are enabled (which don't contain a VRF output).",
+                  "",
+                  " It is set in `on_initialize`, before it will contain the value from the last block."
+                ]
+              },
+              {
+                "name": "EpochStart",
+                "modifier": "Default",
+                "type": {
+                  "plain": 73
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The block numbers when the last and current epoch have started, respectively `N-1` and",
+                  " `N`.",
+                  " NOTE: We track this is in order to annotate the block number when a given pool of",
+                  " entropy was fixed (i.e. it was known to chain observers). Since epochs are defined in",
+                  " slots, which may be skipped, the block numbers may not line up with the slot numbers."
+                ]
+              },
+              {
+                "name": "Lateness",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " How late the current block is compared to its parent.",
+                  "",
+                  " This entry is populated as part of block execution and is cleaned up",
+                  " on block finalization. Querying this storage entry outside of block",
+                  " execution context should always yield zero."
+                ]
+              },
+              {
+                "name": "EpochConfig",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 313
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The configuration for the current epoch. Should never be `None` as it is initialized in",
+                  " genesis."
+                ]
+              },
+              {
+                "name": "NextEpochConfig",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 313
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The configuration for the next epoch, `None` if the config will not change",
+                  " (you can fallback to `EpochConfig` instead in that case)."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 121
+          },
+          "events": null,
+          "constants": [
+            {
+              "name": "EpochDuration",
+              "type": 8,
+              "value": "0xc800000000000000",
+              "docs": [
+                " The amount of time, in slots, that each epoch should last.",
+                " NOTE: Currently it is not possible to change the epoch duration after",
+                " the chain has started. Attempting to do so will brick block production."
+              ]
+            },
+            {
+              "name": "ExpectedBlockTime",
+              "type": 8,
+              "value": "0xb80b000000000000",
+              "docs": [
+                " The expected average block time at which BABE should be creating",
+                " blocks. Since BABE is probabilistic it is not trivial to figure out",
+                " what the expected average block time should be based on the slot",
+                " duration and the security parameter `c` (where `1 - c` represents",
+                " the probability of a slot being empty)."
+              ]
+            },
+            {
+              "name": "MaxAuthorities",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " Max number of authorities allowed"
+              ]
+            }
+          ],
+          "errors": {
+            "type": 314
+          },
+          "index": 2
+        },
+        {
+          "name": "Timestamp",
+          "storage": {
+            "prefix": "Timestamp",
+            "items": [
+              {
+                "name": "Now",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " Current time for the current block."
+                ]
+              },
+              {
+                "name": "DidUpdate",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Did the timestamp get updated in this block?"
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 131
+          },
+          "events": null,
+          "constants": [
+            {
+              "name": "MinimumPeriod",
+              "type": 8,
+              "value": "0xdc05000000000000",
+              "docs": [
+                " The minimum period between blocks. Beware that this is different to the *expected*",
+                " period that the block production apparatus provides. Your chosen consensus system will",
+                " generally work with this to determine a sensible block time. e.g. For Aura, it will be",
+                " double this period on default settings."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 3
+        },
+        {
+          "name": "Authorship",
+          "storage": {
+            "prefix": "Authorship",
+            "items": [
+              {
+                "name": "Uncles",
+                "modifier": "Default",
+                "type": {
+                  "plain": 315
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Uncles"
+                ]
+              },
+              {
+                "name": "Author",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Author of current block."
+                ]
+              },
+              {
+                "name": "DidSetUncles",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Whether uncles were already set in this block."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 133
+          },
+          "events": null,
+          "constants": [
+            {
+              "name": "UncleGenerations",
+              "type": 4,
+              "value": "0x05000000",
+              "docs": [
+                " The number of blocks back we should accept uncles.",
+                " This means that we will deal with uncle-parents that are",
+                " `UncleGenerations + 1` before `now`."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 317
+          },
+          "index": 4
+        },
+        {
+          "name": "Indices",
+          "storage": {
+            "prefix": "Indices",
+            "items": [
+              {
+                "name": "Accounts",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 318
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The lookup from index to account."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 135
+          },
+          "events": {
+            "type": 29
+          },
+          "constants": [
+            {
+              "name": "Deposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The deposit needed for reserving an index."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 319
+          },
+          "index": 5
+        },
+        {
+          "name": "Balances",
+          "storage": {
+            "prefix": "Balances",
+            "items": [
+              {
+                "name": "TotalIssuance",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The total units issued in the system."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 5
+                  }
+                },
+                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The balance of an account.",
+                  "",
+                  " NOTE: This is only used in the case that this pallet is used to store balances."
+                ]
+              },
+              {
+                "name": "Locks",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 320
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Any liquidity locks on some account balances.",
+                  " NOTE: Should only be accessed when setting, changing and freeing a lock."
+                ]
+              },
+              {
+                "name": "Reserves",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 324
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Named reserves on some account balances."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 327
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " This is set to v2.0.0 for new networks."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 136
+          },
+          "events": {
+            "type": 30
+          },
+          "constants": [
+            {
+              "name": "ExistentialDeposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The minimum amount required to keep an account open."
+              ]
+            },
+            {
+              "name": "MaxLocks",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of locks that should exist on an account.",
+                " Not strictly enforced, but used for weight estimation."
+              ]
+            },
+            {
+              "name": "MaxReserves",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of named reserves that can exist on an account."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 328
+          },
+          "index": 6
+        },
+        {
+          "name": "TransactionPayment",
+          "storage": {
+            "prefix": "TransactionPayment",
+            "items": [
+              {
+                "name": "NextFeeMultiplier",
+                "modifier": "Default",
+                "type": {
+                  "plain": 329
+                },
+                "fallback": "0x000064a7b3b6e00d0000000000000000",
+                "docs": []
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 330
+                },
+                "fallback": "0x00",
+                "docs": []
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [
+            {
+              "name": "TransactionByteFee",
+              "type": 6,
+              "value": "0x00e40b54020000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "WeightToFee",
+              "type": 331,
+              "value": "0x0401000000000000000000000000000000000000000001",
+              "docs": [
+                " The polynomial that is applied in order to derive fee from weight."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 7
+        },
+        {
+          "name": "ElectionProviderMultiPhase",
+          "storage": {
+            "prefix": "ElectionProviderMultiPhase",
+            "items": [
+              {
+                "name": "Round",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x01000000",
+                "docs": [
+                  " Internal counter for the number of rounds.",
+                  "",
+                  " This is useful for de-duplication of transactions submitted to the pool, and general",
+                  " diagnostics of the pallet.",
+                  "",
+                  " This is merely incremented once per every time that an upstream `elect` is called."
+                ]
+              },
+              {
+                "name": "CurrentPhase",
+                "modifier": "Default",
+                "type": {
+                  "plain": 333
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Current phase."
+                ]
+              },
+              {
+                "name": "QueuedSolution",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 335
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Current best solution, signed or unsigned, queued to be returned upon `elect`."
+                ]
+              },
+              {
+                "name": "Snapshot",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 336
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Snapshot data of the round.",
+                  "",
+                  " This is created at the beginning of the signed phase and cleared upon calling `elect`."
+                ]
+              },
+              {
+                "name": "DesiredTargets",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Desired number of targets to elect for this round.",
+                  "",
+                  " Only exists when [`Snapshot`] is present."
+                ]
+              },
+              {
+                "name": "SnapshotMetadata",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 193
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The metadata of the [`RoundSnapshot`]",
+                  "",
+                  " Only exists when [`Snapshot`] is present."
+                ]
+              },
+              {
+                "name": "SignedSubmissionNextIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The next index to be assigned to an incoming signed submission.",
+                  "",
+                  " Every accepted submission is assigned a unique index; that index is bound to that particular",
+                  " submission for the duration of the election. On election finalization, the next index is",
+                  " reset to 0.",
+                  "",
+                  " We can't just use `SignedSubmissionIndices.len()`, because that's a bounded set; past its",
+                  " capacity, it will simply saturate. We can't just iterate over `SignedSubmissionsMap`,",
+                  " because iteration is slow. Instead, we store the value here."
+                ]
+              },
+              {
+                "name": "SignedSubmissionIndices",
+                "modifier": "Default",
+                "type": {
+                  "plain": 339
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A sorted, bounded set of `(score, index)`, where each `index` points to a value in",
+                  " `SignedSubmissions`.",
+                  "",
+                  " We never need to process more than a single signed submission at a time. Signed submissions",
+                  " can be quite large, so we're willing to pay the cost of multiple database accesses to access",
+                  " them one at a time instead of reading and decoding all of them at once."
+                ]
+              },
+              {
+                "name": "SignedSubmissionsMap",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 343
+                  }
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000",
+                "docs": [
+                  " Unchecked, signed solutions.",
+                  "",
+                  " Together with `SubmissionIndices`, this stores a bounded set of `SignedSubmissions` while",
+                  " allowing us to keep only a single one in memory at a time.",
+                  "",
+                  " Twox note: the key of the map is an auto-incrementing index which users cannot inspect or",
+                  " affect; we shouldn't need a cryptographically secure hasher."
+                ]
+              },
+              {
+                "name": "MinimumUntrustedScore",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 192
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The minimum score that each 'untrusted' solution must attain in order to be considered",
+                  " feasible.",
+                  "",
+                  " Can be set via `set_minimum_untrusted_score`."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 139
+          },
+          "events": {
+            "type": 32
+          },
+          "constants": [
+            {
+              "name": "UnsignedPhase",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " Duration of the unsigned phase."
+              ]
+            },
+            {
+              "name": "SignedPhase",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " Duration of the signed phase."
+              ]
+            },
+            {
+              "name": "SolutionImprovementThreshold",
+              "type": 101,
+              "value": "0xa0860100",
+              "docs": [
+                " The minimum amount of improvement to the solution score that defines a solution as",
+                " \"better\" (in any phase)."
+              ]
+            },
+            {
+              "name": "OffchainRepeat",
+              "type": 4,
+              "value": "0x05000000",
+              "docs": [
+                " The repeat threshold of the offchain worker.",
+                "",
+                " For example, if it is 5, that means that at least 5 blocks will elapse between attempts",
+                " to submit the worker's solution."
+              ]
+            },
+            {
+              "name": "MinerTxPriority",
+              "type": 8,
+              "value": "0xfeffffffffffff7f",
+              "docs": [
+                " The priority of the unsigned transaction submitted in the unsigned-phase"
+              ]
+            },
+            {
+              "name": "MinerMaxWeight",
+              "type": 8,
+              "value": "0xc07c907c2d010000",
+              "docs": [
+                " Maximum weight that the miner should consume.",
+                "",
+                " The miner will ensure that the total weight of the unsigned solution will not exceed",
+                " this value, based on [`WeightInfo::submit_unsigned`]."
+              ]
+            },
+            {
+              "name": "SignedMaxSubmissions",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " Maximum number of signed submissions that can be queued.",
+                "",
+                " It is best to avoid adjusting this during an election, as it impacts downstream data",
+                " structures. In particular, `SignedSubmissionIndices<T>` is bounded on this value. If you",
+                " update this value during an election, you _must_ ensure that",
+                " `SignedSubmissionIndices.len()` is less than or equal to the new value. Otherwise,",
+                " attempts to submit new solutions may cause a runtime panic."
+              ]
+            },
+            {
+              "name": "SignedMaxWeight",
+              "type": 8,
+              "value": "0xc07c907c2d010000",
+              "docs": [
+                " Maximum weight of a signed solution.",
+                "",
+                " This should probably be similar to [`Config::MinerMaxWeight`]."
+              ]
+            },
+            {
+              "name": "SignedRewardBase",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " Base reward for a signed solution"
+              ]
+            },
+            {
+              "name": "SignedDepositBase",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " Base deposit for a signed solution."
+              ]
+            },
+            {
+              "name": "SignedDepositByte",
+              "type": 6,
+              "value": "0x0010a5d4e80000000000000000000000",
+              "docs": [
+                " Per-byte deposit for a signed solution."
+              ]
+            },
+            {
+              "name": "SignedDepositWeight",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " Per-weight deposit for a signed solution."
+              ]
+            },
+            {
+              "name": "VoterSnapshotPerBlock",
+              "type": 4,
+              "value": "0x10270000",
+              "docs": [
+                " The maximum number of voters to put in the snapshot. At the moment, snapshots are only",
+                " over a single block, but once multi-block elections are introduced they will take place",
+                " over multiple blocks.",
+                "",
+                " Also, note the data type: If the voters are represented by a `u32` in `type",
+                " CompactSolution`, the same `u32` is used here to ensure bounds are respected."
+              ]
+            },
+            {
+              "name": "MinerMaxLength",
+              "type": 4,
+              "value": "0x00003600",
+              "docs": [
+                " Maximum length (bytes) that the mined solution should consume.",
+                "",
+                " The miner will ensure that the total length of the unsigned solution will not exceed",
+                " this value."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 344
+          },
+          "index": 8
+        },
+        {
+          "name": "Staking",
+          "storage": {
+            "prefix": "Staking",
+            "items": [
+              {
+                "name": "HistoryDepth",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x54000000",
+                "docs": [
+                  " Number of eras to keep in history.",
+                  "",
+                  " Information is kept for eras in `[current_era - history_depth; current_era]`.",
+                  "",
+                  " Must be more than the number of eras delayed by session otherwise. I.e. active era must",
+                  " always be in history. I.e. `active_era > current_era - history_depth` must be",
+                  " guaranteed."
+                ]
+              },
+              {
+                "name": "ValidatorCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The ideal number of staking participants."
+                ]
+              },
+              {
+                "name": "MinimumValidatorCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Minimum number of staking participants before emergency conditions are imposed."
+                ]
+              },
+              {
+                "name": "Invulnerables",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're",
+                  " easy to initialize and the performance hit is minimal (we expect no more than four",
+                  " invulnerables) and restricted to testnets."
+                ]
+              },
+              {
+                "name": "Bonded",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Map from all locked \"stash\" accounts to the controller account."
+                ]
+              },
+              {
+                "name": "MinNominatorBond",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The minimum active bond to become and maintain the role of a nominator."
+                ]
+              },
+              {
+                "name": "MinValidatorBond",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The minimum active bond to become and maintain the role of a validator."
+                ]
+              },
+              {
+                "name": "Ledger",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 345
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
+                ]
+              },
+              {
+                "name": "Payee",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 199
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Where the reward payment should be made. Keyed by stash."
+                ]
+              },
+              {
+                "name": "Validators",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 200
+                  }
+                },
+                "fallback": "0x0000",
+                "docs": [
+                  " The map from (wannabe) validator stash key to the preferences of that validator.",
+                  "",
+                  " When updating this storage item, you must also update the `CounterForValidators`."
+                ]
+              },
+              {
+                "name": "CounterForValidators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " A tracker to keep count of the number of items in the `Validators` map."
+                ]
+              },
+              {
+                "name": "MaxValidatorsCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The maximum validator count before we stop allowing new validators to join.",
+                  "",
+                  " When this value is not set, no limits are enforced."
+                ]
+              },
+              {
+                "name": "Nominators",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 348
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The map from nominator stash key to the set of stash keys of all validators to nominate.",
+                  "",
+                  " When updating this storage item, you must also update the `CounterForNominators`."
+                ]
+              },
+              {
+                "name": "CounterForNominators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " A tracker to keep count of the number of items in the `Nominators` map."
+                ]
+              },
+              {
+                "name": "MaxNominatorsCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The maximum nominator count before we stop allowing new validators to join.",
+                  "",
+                  " When this value is not set, no limits are enforced."
+                ]
+              },
+              {
+                "name": "CurrentEra",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current era index.",
+                  "",
+                  " This is the latest planned era, depending on how the Session pallet queues the validator",
+                  " set, it might be active or not."
+                ]
+              },
+              {
+                "name": "ActiveEra",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 349
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The active era information, it holds index and start.",
+                  "",
+                  " The active era is the era being currently rewarded. Validator set of this era must be",
+                  " equal to [`SessionInterface::validators`]."
+                ]
+              },
+              {
+                "name": "ErasStartSessionIndex",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The session index at which the era start for the last `HISTORY_DEPTH` eras.",
+                  "",
+                  " Note: This tracks the starting session (i.e. session index when era start being active)",
+                  " for the eras in `[CurrentEra - HISTORY_DEPTH, CurrentEra]`."
+                ]
+              },
+              {
+                "name": "ErasStakers",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 62
+                  }
+                },
+                "fallback": "0x000000",
+                "docs": [
+                  " Exposure of validator at era.",
+                  "",
+                  " This is keyed first by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                ]
+              },
+              {
+                "name": "ErasStakersClipped",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 62
+                  }
+                },
+                "fallback": "0x000000",
+                "docs": [
+                  " Clipped Exposure of validator at era.",
+                  "",
+                  " This is similar to [`ErasStakers`] but number of nominators exposed is reduced to the",
+                  " `T::MaxNominatorRewardedPerValidator` biggest stakers.",
+                  " (Note: the field `total` and `own` of the exposure remains unchanged).",
+                  " This is used to limit the i/o cost for the nominator payout.",
+                  "",
+                  " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                ]
+              },
+              {
+                "name": "ErasValidatorPrefs",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 200
+                  }
+                },
+                "fallback": "0x0000",
+                "docs": [
+                  " Similar to `ErasStakers`, this holds the preferences of validators.",
+                  "",
+                  " This is keyed first by the era index to allow bulk deletion and then the stash account.",
+                  "",
+                  " Is it removed after `HISTORY_DEPTH` eras."
+                ]
+              },
+              {
+                "name": "ErasValidatorReward",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 6
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The total validator era payout for the last `HISTORY_DEPTH` eras.",
+                  "",
+                  " Eras that haven't finished yet or has been removed doesn't have reward."
+                ]
+              },
+              {
+                "name": "ErasRewardPoints",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 351
+                  }
+                },
+                "fallback": "0x0000000000",
+                "docs": [
+                  " Rewards for the last `HISTORY_DEPTH` eras.",
+                  " If reward hasn't been set or has been removed then 0 reward is returned."
+                ]
+              },
+              {
+                "name": "ErasTotalStake",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 6
+                  }
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The total amount staked for the last `HISTORY_DEPTH` eras.",
+                  " If total hasn't been set or has been removed then 0 stake is returned."
+                ]
+              },
+              {
+                "name": "ForceEra",
+                "modifier": "Default",
+                "type": {
+                  "plain": 355
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Mode of era forcing."
+                ]
+              },
+              {
+                "name": "SlashRewardFraction",
+                "modifier": "Default",
+                "type": {
+                  "plain": 101
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The percentage of the slash that is distributed to reporters.",
+                  "",
+                  " The rest of the slashed value is handled by the `Slash`."
+                ]
+              },
+              {
+                "name": "CanceledSlashPayout",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The amount of currency given to reporters of a slash event which was",
+                  " canceled by extraordinary circumstances (e.g. governance)."
+                ]
+              },
+              {
+                "name": "UnappliedSlashes",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 356
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " All unapplied slashes that are queued for later."
+                ]
+              },
+              {
+                "name": "BondedEras",
+                "modifier": "Default",
+                "type": {
+                  "plain": 96
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A mapping from still-bonded eras to the first session index of that era.",
+                  "",
+                  " Must contains information for eras for the range:",
+                  " `[active_era - bounding_duration; active_era]`"
+                ]
+              },
+              {
+                "name": "ValidatorSlashInEra",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 358
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " All slashing events on validators, mapped by era to the highest slash proportion",
+                  " and slash value of the era."
+                ]
+              },
+              {
+                "name": "NominatorSlashInEra",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 6
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " All slashing events on nominators, mapped by era to the highest slash value of the era."
+                ]
+              },
+              {
+                "name": "SlashingSpans",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 359
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Slashing spans for stash accounts."
+                ]
+              },
+              {
+                "name": "SpanSlash",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 354,
+                    "value": 360
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Records information about the maximum slash of a stash within a slashing span,",
+                  " as well as how much reward has been paid out."
+                ]
+              },
+              {
+                "name": "EarliestUnappliedSlash",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The earliest era for which we have a pending, unapplied slash."
+                ]
+              },
+              {
+                "name": "CurrentPlannedSession",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The last planned session scheduled by the session pallet.",
+                  "",
+                  " This is basically in sync with the call to [`pallet_session::SessionManager::new_session`]."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 361
+                },
+                "fallback": "0x07",
+                "docs": [
+                  " True if network has been upgraded to this version.",
+                  " Storage version of the pallet.",
+                  "",
+                  " This is set to v7.0.0 for new networks."
+                ]
+              },
+              {
+                "name": "ChillThreshold",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 203
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The threshold for when users can start calling `chill_other` for other validators /",
+                  " nominators. The threshold is compared to the actual number of validators / nominators",
+                  " (`CountFor*`) in the system compared to the configured max (`Max*Count`)."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 198
+          },
+          "events": {
+            "type": 36
+          },
+          "constants": [
+            {
+              "name": "SessionsPerEra",
+              "type": 4,
+              "value": "0x06000000",
+              "docs": [
+                " Number of sessions per era."
+              ]
+            },
+            {
+              "name": "BondingDuration",
+              "type": 4,
+              "value": "0xa0020000",
+              "docs": [
+                " Number of eras that staked funds must remain bonded for."
+              ]
+            },
+            {
+              "name": "SlashDeferDuration",
+              "type": 4,
+              "value": "0xa8000000",
+              "docs": [
+                " Number of eras that slashes are deferred by, after computation.",
+                "",
+                " This should be less than the bonding duration. Set to 0 if slashes",
+                " should be applied immediately, without opportunity for intervention."
+              ]
+            },
+            {
+              "name": "MaxNominatorRewardedPerValidator",
+              "type": 4,
+              "value": "0x00010000",
+              "docs": [
+                " The maximum number of nominators rewarded for each validator.",
+                "",
+                " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can",
+                " claim their reward. This used to limit the i/o cost for the nominator payout."
+              ]
+            },
+            {
+              "name": "MaxNominations",
+              "type": 4,
+              "value": "0x10000000",
+              "docs": []
+            }
+          ],
+          "errors": {
+            "type": 362
+          },
+          "index": 9
+        },
+        {
+          "name": "Session",
+          "storage": {
+            "prefix": "Session",
+            "items": [
+              {
+                "name": "Validators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current set of validators."
+                ]
+              },
+              {
+                "name": "CurrentIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Current index of the session."
+                ]
+              },
+              {
+                "name": "QueuedChanged",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if the underlying economic identities or weighting behind the validators",
+                  " has changed in the queued validator set."
+                ]
+              },
+              {
+                "name": "QueuedKeys",
+                "modifier": "Default",
+                "type": {
+                  "plain": 363
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The queued keys for the next session. When the next session begins, these keys",
+                  " will be used to determine the validator's session keys."
+                ]
+              },
+              {
+                "name": "DisabledValidators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 88
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Indices of disabled validators.",
+                  "",
+                  " The set is cleared when `on_session_ending` returns a new set of identities."
+                ]
+              },
+              {
+                "name": "NextKeys",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 206
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The next session keys for a validator."
+                ]
+              },
+              {
+                "name": "KeyOwner",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 365,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The owner of a key. The key is the `KeyTypeId` + the encoded key."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 205
+          },
+          "events": {
+            "type": 37
+          },
+          "constants": [],
+          "errors": {
+            "type": 367
+          },
+          "index": 10
+        },
+        {
+          "name": "Democracy",
+          "storage": {
+            "prefix": "Democracy",
+            "items": [
+              {
+                "name": "PublicPropCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The number of (public) proposals that have been made so far."
+                ]
+              },
+              {
+                "name": "PublicProps",
+                "modifier": "Default",
+                "type": {
+                  "plain": 368
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The public proposals. Unsorted. The second item is the proposal's hash."
+                ]
+              },
+              {
+                "name": "DepositOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 370
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Those who have locked a deposit.",
+                  "",
+                  " TWOX-NOTE: Safe, as increasing integer keys are safe."
+                ]
+              },
+              {
+                "name": "Preimages",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 371
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Map of hashes to the proposal preimage, along with who registered it and their deposit.",
+                  " The block number is the block at which it was deposited."
+                ]
+              },
+              {
+                "name": "ReferendumCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The next free referendum index, aka the number of referenda started so far."
+                ]
+              },
+              {
+                "name": "LowestUnbaked",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The lowest referendum index representing an unbaked referendum. Equal to",
+                  " `ReferendumCount` if there isn't a unbaked referendum."
+                ]
+              },
+              {
+                "name": "ReferendumInfoOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 372
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Information concerning any given referendum.",
+                  "",
+                  " TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
+                ]
+              },
+              {
+                "name": "VotingOf",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 375
+                  }
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " All votes for a particular voter. We store the balance for the number of votes that we",
+                  " have recorded. The second item is the total amount of delegations, that will be added.",
+                  "",
+                  " TWOX-NOTE: SAFE as `AccountId`s are crypto hashes anyway."
+                ]
+              },
+              {
+                "name": "Locks",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Accounts for which there are locks in action which may be removed at some point in the",
+                  " future. The value is the block number at which the lock expires and may be removed.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
+                ]
+              },
+              {
+                "name": "LastTabledWasExternal",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if the last referendum tabled was submitted externally. False if it was a public",
+                  " proposal."
+                ]
+              },
+              {
+                "name": "NextExternal",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 380
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The referendum to be tabled whenever it would be valid to table an external proposal.",
+                  " This happens when a referendum needs to be tabled and one of two conditions are met:",
+                  " - `LastTabledWasExternal` is `false`; or",
+                  " - `PublicProps` is empty."
+                ]
+              },
+              {
+                "name": "Blacklist",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 381
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A record of who vetoed what. Maps proposal hash to a possible existent block number",
+                  " (until when it may not be resubmitted) and who vetoed it."
+                ]
+              },
+              {
+                "name": "Cancellations",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 34
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Record of all proposals that have been subject to emergency cancellation."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 382
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with last version."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 208
+          },
+          "events": {
+            "type": 38
+          },
+          "constants": [
+            {
+              "name": "EnactmentPeriod",
+              "type": 4,
+              "value": "0x002f0d00",
+              "docs": [
+                " The period between a proposal being approved and enacted.",
+                "",
+                " It should generally be a little more than the unstake period to ensure that",
+                " voting stakers have an opportunity to remove themselves from the system in the case",
+                " where they are on the losing side of a vote."
+              ]
+            },
+            {
+              "name": "LaunchPeriod",
+              "type": 4,
+              "value": "0x004e0c00",
+              "docs": [
+                " How often (in blocks) new public referenda are launched."
+              ]
+            },
+            {
+              "name": "VotingPeriod",
+              "type": 4,
+              "value": "0x004e0c00",
+              "docs": [
+                " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "VoteLockingPeriod",
+              "type": 4,
+              "value": "0x002f0d00",
+              "docs": [
+                " The minimum period of vote locking.",
+                "",
+                " It should be no shorter than enactment period to ensure that in the case of an approval,",
+                " those successful voters are locked into the consequences that their votes entail."
+              ]
+            },
+            {
+              "name": "MinimumDeposit",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The minimum amount to be used as a deposit for a public referendum proposal."
+              ]
+            },
+            {
+              "name": "InstantAllowed",
+              "type": 34,
+              "value": "0x01",
+              "docs": [
+                " Indicator for whether an emergency origin is even allowed to happen. Some chains may",
+                " want to set this permanently to `false`, others may want to condition it on things such",
+                " as an upgrade having happened recently."
+              ]
+            },
+            {
+              "name": "FastTrackVotingPeriod",
+              "type": 4,
+              "value": "0x80510100",
+              "docs": [
+                " Minimum voting period allowed for a fast-track referendum."
+              ]
+            },
+            {
+              "name": "CooloffPeriod",
+              "type": 4,
+              "value": "0x004e0c00",
+              "docs": [
+                " Period in blocks where an external proposal may not be re-submitted after being vetoed."
+              ]
+            },
+            {
+              "name": "PreimageByteDeposit",
+              "type": 6,
+              "value": "0x0010a5d4e80000000000000000000000",
+              "docs": [
+                " The amount of balance that must be deposited per byte of preimage stored."
+              ]
+            },
+            {
+              "name": "MaxVotes",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of votes for an account.",
+                "",
+                " Also used to compute weight, an overly big value can",
+                " lead to extrinsic with very big weight: see `delegate` for instance."
+              ]
+            },
+            {
+              "name": "MaxProposals",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of public proposals that can exist at any time."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 383
+          },
+          "index": 11
+        },
+        {
+          "name": "Council",
+          "storage": {
+            "prefix": "Council",
+            "items": [
+              {
+                "name": "Proposals",
+                "modifier": "Default",
+                "type": {
+                  "plain": 384
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The hashes of the active proposals."
+                ]
+              },
+              {
+                "name": "ProposalOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 120
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Actual proposal for a given hash, if it's current."
+                ]
+              },
+              {
+                "name": "Voting",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 385
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Votes on a given proposal, if it is ongoing."
+                ]
+              },
+              {
+                "name": "ProposalCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Proposals so far."
+                ]
+              },
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current members of the collective. This is stored sorted (just by value)."
+                ]
+              },
+              {
+                "name": "Prime",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The prime member that helps determine the default vote behavior in case of absentations."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 212
+          },
+          "events": {
+            "type": 43
+          },
+          "constants": [],
+          "errors": {
+            "type": 386
+          },
+          "index": 12
+        },
+        {
+          "name": "TechnicalCommittee",
+          "storage": {
+            "prefix": "TechnicalCommittee",
+            "items": [
+              {
+                "name": "Proposals",
+                "modifier": "Default",
+                "type": {
+                  "plain": 387
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The hashes of the active proposals."
+                ]
+              },
+              {
+                "name": "ProposalOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 120
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Actual proposal for a given hash, if it's current."
+                ]
+              },
+              {
+                "name": "Voting",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 385
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Votes on a given proposal, if it is ongoing."
+                ]
+              },
+              {
+                "name": "ProposalCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Proposals so far."
+                ]
+              },
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current members of the collective. This is stored sorted (just by value)."
+                ]
+              },
+              {
+                "name": "Prime",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The prime member that helps determine the default vote behavior in case of absentations."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 214
+          },
+          "events": {
+            "type": 44
+          },
+          "constants": [],
+          "errors": {
+            "type": 388
+          },
+          "index": 13
+        },
+        {
+          "name": "Elections",
+          "storage": {
+            "prefix": "Elections",
+            "items": [
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "plain": 389
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current elected members.",
+                  "",
+                  " Invariant: Always sorted based on account id."
+                ]
+              },
+              {
+                "name": "RunnersUp",
+                "modifier": "Default",
+                "type": {
+                  "plain": 389
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current reserved runners-up.",
+                  "",
+                  " Invariant: Always sorted based on rank (worse to best). Upon removal of a member, the",
+                  " last (i.e. _best_) runner-up will be replaced."
+                ]
+              },
+              {
+                "name": "Candidates",
+                "modifier": "Default",
+                "type": {
+                  "plain": 46
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The present candidate list. A current member or runner-up can never enter this vector",
+                  " and is always implicitly assumed to be a candidate.",
+                  "",
+                  " Second element is the deposit.",
+                  "",
+                  " Invariant: Always sorted based on account id."
+                ]
+              },
+              {
+                "name": "ElectionRounds",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The total number of vote rounds that have happened, excluding the upcoming one."
+                ]
+              },
+              {
+                "name": "Voting",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 391
+                  }
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Votes and locked stake of a particular voter.",
+                  "",
+                  " TWOX-NOTE: SAFE as `AccountId` is a crypto hash."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 215
+          },
+          "events": {
+            "type": 45
+          },
+          "constants": [
+            {
+              "name": "PalletId",
+              "type": 116,
+              "value": "0x706872656c656374",
+              "docs": [
+                " Identifier for the elections-phragmen pallet's lock"
+              ]
+            },
+            {
+              "name": "CandidacyBond",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " How much should be locked up in order to submit one's candidacy."
+              ]
+            },
+            {
+              "name": "VotingBondBase",
+              "type": 6,
+              "value": "0x00f0436de36a01000000000000000000",
+              "docs": [
+                " Base deposit associated with voting.",
+                "",
+                " This should be sensibly high to economically ensure the pallet cannot be attacked by",
+                " creating a gigantic number of votes."
+              ]
+            },
+            {
+              "name": "VotingBondFactor",
+              "type": 6,
+              "value": "0x0000cc7b9fae00000000000000000000",
+              "docs": [
+                " The amount of bond that need to be locked for each vote (32 bytes)."
+              ]
+            },
+            {
+              "name": "DesiredMembers",
+              "type": 4,
+              "value": "0x0d000000",
+              "docs": [
+                " Number of members to elect."
+              ]
+            },
+            {
+              "name": "DesiredRunnersUp",
+              "type": 4,
+              "value": "0x07000000",
+              "docs": [
+                " Number of runners_up to keep."
+              ]
+            },
+            {
+              "name": "TermDuration",
+              "type": 4,
+              "value": "0x80130300",
+              "docs": [
+                " How long each seat is kept. This defines the next block number at which an election",
+                " round will happen. If set to zero, no elections are ever triggered and the module will",
+                " be in passive mode."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 392
+          },
+          "index": 14
+        },
+        {
+          "name": "TechnicalMembership",
+          "storage": {
+            "prefix": "TechnicalMembership",
+            "items": [
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current membership, stored as an ordered Vec."
+                ]
+              },
+              {
+                "name": "Prime",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current prime member, if one exists."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 217
+          },
+          "events": {
+            "type": 48
+          },
+          "constants": [],
+          "errors": {
+            "type": 393
+          },
+          "index": 15
+        },
+        {
+          "name": "Grandpa",
+          "storage": {
+            "prefix": "Grandpa",
+            "items": [
+              {
+                "name": "State",
+                "modifier": "Default",
+                "type": {
+                  "plain": 394
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " State of the current authority set."
+                ]
+              },
+              {
+                "name": "PendingChange",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 395
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Pending change: (signaled at, scheduled change)."
+                ]
+              },
+              {
+                "name": "NextForced",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " next block number where we can force a change."
+                ]
+              },
+              {
+                "name": "Stalled",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 73
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " `true` if we are currently stalled."
+                ]
+              },
+              {
+                "name": "CurrentSetId",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The number of changes (both in terms of keys and underlying economic responsibilities)",
+                  " in the \"set\" of Grandpa validators from genesis."
+                ]
+              },
+              {
+                "name": "SetIdSession",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 8,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A mapping from grandpa set ID to the index of the *most recent* session for which its",
+                  " members were responsible.",
+                  "",
+                  " TWOX-NOTE: `SetId` is not under user control."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 218
+          },
+          "events": {
+            "type": 49
+          },
+          "constants": [
+            {
+              "name": "MaxAuthorities",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " Max Authorities in use"
+              ]
+            }
+          ],
+          "errors": {
+            "type": 397
+          },
+          "index": 16
+        },
+        {
+          "name": "Treasury",
+          "storage": {
+            "prefix": "Treasury",
+            "items": [
+              {
+                "name": "ProposalCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Number of proposals that have been made."
+                ]
+              },
+              {
+                "name": "Proposals",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 398
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Proposals that have been made."
+                ]
+              },
+              {
+                "name": "Approvals",
+                "modifier": "Default",
+                "type": {
+                  "plain": 399
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Proposal indices that have been approved but not yet awarded."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 230
+          },
+          "events": {
+            "type": 54
+          },
+          "constants": [
+            {
+              "name": "ProposalBond",
+              "type": 400,
+              "value": "0x50c30000",
+              "docs": [
+                " Fraction of a proposal's value that should be bonded in order to place the proposal.",
+                " An accepted proposal gets these back. A rejected proposal does not."
+              ]
+            },
+            {
+              "name": "ProposalBondMinimum",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "SpendPeriod",
+              "type": 4,
+              "value": "0x80700000",
+              "docs": [
+                " Period between successive spends."
+              ]
+            },
+            {
+              "name": "Burn",
+              "type": 400,
+              "value": "0x20a10700",
+              "docs": [
+                " Percentage of spare funds (if any) that are burnt per spend period."
+              ]
+            },
+            {
+              "name": "PalletId",
+              "type": 401,
+              "value": "0x70792f7472737279",
+              "docs": [
+                " The treasury's pallet id, used for deriving its sovereign account ID."
+              ]
+            },
+            {
+              "name": "MaxApprovals",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of approvals that can wait in the spending queue."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 402
+          },
+          "index": 17
+        },
+        {
+          "name": "Contracts",
+          "storage": {
+            "prefix": "Contracts",
+            "items": [
+              {
+                "name": "PristineCode",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 10
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A mapping from an original code hash to the original code, untouched by instrumentation."
+                ]
+              },
+              {
+                "name": "CodeStorage",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 403
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A mapping between an original code hash and instrumented wasm code, ready for execution."
+                ]
+              },
+              {
+                "name": "AccountCounter",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The subtrie counter."
+                ]
+              },
+              {
+                "name": "ContractInfoOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 405
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The code associated with a given account.",
+                  "",
+                  " TWOX-NOTE: SAFE since `AccountId` is a secure hash."
+                ]
+              },
+              {
+                "name": "DeletionQueue",
+                "modifier": "Default",
+                "type": {
+                  "plain": 406
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Evicted contracts that await child trie deletion.",
+                  "",
+                  " Child trie deletion is a heavy operation depending on the amount of storage items",
+                  " stored in said trie. Therefore this operation is performed lazily in `on_initialize`."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 231
+          },
+          "events": {
+            "type": 55
+          },
+          "constants": [
+            {
+              "name": "Schedule",
+              "type": 408,
+              "value": "0x040000000002000000010000800000001000000000100000000100002000000020000000004000000000020002000000a4150000f03200004a3d0000280f0000ce220000f4150000180b0000521c00000000000046c10200a8030400c80f000000050000c0080000000000009a15000052170000241300009b684a028e1200008e1200008e1200007012000000000000000000002a120000a410000086100000640f00001e0f0000b00e00005e100000ae10000072100000fe100000d61000006810000004100000d20f0000a6270000be1e000072290000141e0000d61000000e1000005a0f0000320f0000ae100000500f0000140f0000dc0f0000f425130000000000de3113000000000068f81200000000001a1e360000000000be38130000000000d616130000000000043e1300000000005411130000000000281a13000000000040572c000000000018ad0800000000001a531000000000007301000000000000d8f563000000000068020000000000000072a4200000000038093c0000000000aa696900000000007e4ebd07000000005306000000000000d81c0b0000000000fc4b1b0600000000bf02000000000000001e180600000000faf6d001000000004704000000000000caeb080a000000007a612d1f000000005aced709000000006c02000000000000e0030000000000002ef30132000000006b02000000000000d703000000000000b1070000000000005e6a1400000000000b1300000000000040781500000000003c0d0000000000005855110000000000420600000000000012461100000000004206000000000000c22a500900000000",
+              "docs": [
+                " Cost schedule and limits."
+              ]
+            },
+            {
+              "name": "ContractDeposit",
+              "type": 6,
+              "value": "0x00f0436de36a01000000000000000000",
+              "docs": [
+                " The deposit that must be placed into the contract's account to instantiate it.",
+                " This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].",
+                " The minimum balance for a contract's account can be queried using",
+                " [`Pallet::subsistence_threshold`]."
+              ]
+            },
+            {
+              "name": "DeletionQueueDepth",
+              "type": 4,
+              "value": "0xa2ba0100",
+              "docs": [
+                " The maximum number of tries that can be queued for deletion."
+              ]
+            },
+            {
+              "name": "DeletionWeightLimit",
+              "type": 8,
+              "value": "0x00d0ed902e000000",
+              "docs": [
+                " The maximum amount of weight that can be consumed per block for lazy trie removal."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 412
+          },
+          "index": 18
+        },
+        {
+          "name": "Sudo",
+          "storage": {
+            "prefix": "Sudo",
+            "items": [
+              {
+                "name": "Key",
+                "modifier": "Default",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The `AccountId` of the sudo key."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 232
+          },
+          "events": {
+            "type": 56
+          },
+          "constants": [],
+          "errors": {
+            "type": 413
+          },
+          "index": 19
+        },
+        {
+          "name": "ImOnline",
+          "storage": {
+            "prefix": "ImOnline",
+            "items": [
+              {
+                "name": "HeartbeatAfter",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The block number after which it's ok to send heartbeats in the current",
+                  " session.",
+                  "",
+                  " At the beginning of each session we set this to a value that should fall",
+                  " roughly in the middle of the session duration. The idea is to first wait for",
+                  " the validators to produce a block in the current session, so that the",
+                  " heartbeat later on will not be necessary.",
+                  "",
+                  " This value will only be used as a fallback if we fail to get a proper session",
+                  " progress estimate from `NextSessionRotation`, as those estimates should be",
+                  " more accurate then the value we calculate for `HeartbeatAfter`."
+                ]
+              },
+              {
+                "name": "Keys",
+                "modifier": "Default",
+                "type": {
+                  "plain": 414
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current set of keys that may issue a heartbeat."
+                ]
+              },
+              {
+                "name": "ReceivedHeartbeats",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 73,
+                    "value": 416
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " For each session index, we keep a mapping of 'SessionIndex` and `AuthIndex` to",
+                  " `WrapperOpaque<BoundedOpaqueNetworkState>`."
+                ]
+              },
+              {
+                "name": "AuthoredBlocks",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 350,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " For each session index, we keep a mapping of `ValidatorId<T>` to the",
+                  " number of blocks authored by the given authority."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 233
+          },
+          "events": {
+            "type": 57
+          },
+          "constants": [
+            {
+              "name": "UnsignedPriority",
+              "type": 8,
+              "value": "0xffffffffffffffff",
+              "docs": [
+                " A configuration for base priority of unsigned transactions.",
+                "",
+                " This is exposed so that it can be tuned for particular runtime, when",
+                " multiple pallets send unsigned transactions."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 421
+          },
+          "index": 20
+        },
+        {
+          "name": "AuthorityDiscovery",
+          "storage": null,
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 21
+        },
+        {
+          "name": "Offences",
+          "storage": {
+            "prefix": "Offences",
+            "items": [
+              {
+                "name": "Reports",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 9,
+                    "value": 422
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The primary structure that holds all offence records keyed by report identifiers."
+                ]
+              },
+              {
+                "name": "ConcurrentReportsIndex",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 423,
+                    "value": 95
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A vector of reports of the same kind that happened at the same time slot."
+                ]
+              },
+              {
+                "name": "ReportsByKindIndex",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 67,
+                    "value": 10
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Enumerates all reports of a kind along with the time they happened.",
+                  "",
+                  " All reports are sorted by the time of offence.",
+                  "",
+                  " Note that the actual type of this mapping is `Vec<u8>`, this is because values of",
+                  " different types are not supported at the moment so we are doing the manual serialization."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": {
+            "type": 66
+          },
+          "constants": [],
+          "errors": null,
+          "index": 22
+        },
+        {
+          "name": "Historical",
+          "storage": null,
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 23
+        },
+        {
+          "name": "RandomnessCollectiveFlip",
+          "storage": {
+            "prefix": "RandomnessCollectiveFlip",
+            "items": [
+              {
+                "name": "RandomMaterial",
+                "modifier": "Default",
+                "type": {
+                  "plain": 95
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Series of block headers from the last 81 blocks that acts as random seed material. This",
+                  " is arranged as a ring buffer with `block_number % 81` being the index into the `Vec` of",
+                  " the oldest hash."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 24
+        },
+        {
+          "name": "Identity",
+          "storage": {
+            "prefix": "Identity",
+            "items": [
+              {
+                "name": "IdentityOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 424
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Information that is pertinent to identify the entity behind an account.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
+                ]
+              },
+              {
+                "name": "SuperOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 277
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The super-identity of an alternative \"sub\" identity together with its name, within that",
+                  " context. If the account is not some other account's sub-identity, then just `None`."
+                ]
+              },
+              {
+                "name": "SubsOf",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 428
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "docs": [
+                  " Alternative \"sub\" identities of this account.",
+                  "",
+                  " The first item is the deposit, the second is a vector of the accounts.",
+                  "",
+                  " TWOX-NOTE: OK ― `AccountId` is a secure hash."
+                ]
+              },
+              {
+                "name": "Registrars",
+                "modifier": "Default",
+                "type": {
+                  "plain": 430
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of registrars. Not expected to get very big as can only be added through a",
+                  " special origin (likely a council motion).",
+                  "",
+                  " The index into this can be cast to `RegistrarIndex` to get a valid value."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 241
+          },
+          "events": {
+            "type": 68
+          },
+          "constants": [
+            {
+              "name": "BasicDeposit",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The amount held on deposit for a registered identity"
+              ]
+            },
+            {
+              "name": "FieldDeposit",
+              "type": 6,
+              "value": "0x00a031a95fe300000000000000000000",
+              "docs": [
+                " The amount held on deposit per additional field for a registered identity."
+              ]
+            },
+            {
+              "name": "SubAccountDeposit",
+              "type": 6,
+              "value": "0x0080f420e6b500000000000000000000",
+              "docs": [
+                " The amount held on deposit for a registered subaccount. This should account for the fact",
+                " that one storage item's value will increase by the size of an account ID, and there will",
+                " be another trie item whose value is the size of an account ID plus 32 bytes."
+              ]
+            },
+            {
+              "name": "MaxSubAccounts",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " The maximum number of sub-accounts allowed per identified account."
+              ]
+            },
+            {
+              "name": "MaxAdditionalFields",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O",
+                " required to access an identity, but can be pretty high."
+              ]
+            },
+            {
+              "name": "MaxRegistrars",
+              "type": 4,
+              "value": "0x14000000",
+              "docs": [
+                " Maxmimum number of registrars allowed in the system. Needed to bound the complexity",
+                " of, e.g., updating judgements."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 434
+          },
+          "index": 25
+        },
+        {
+          "name": "Society",
+          "storage": {
+            "prefix": "Society",
+            "items": [
+              {
+                "name": "Founder",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The first member."
+                ]
+              },
+              {
+                "name": "Rules",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 9
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A hash of the rules of this society concerning membership. Can only be set once and",
+                  " only by the founder."
+                ]
+              },
+              {
+                "name": "Candidates",
+                "modifier": "Default",
+                "type": {
+                  "plain": 435
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current set of candidates; bidders that are attempting to become members."
+                ]
+              },
+              {
+                "name": "SuspendedCandidates",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 438
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of suspended candidates."
+                ]
+              },
+              {
+                "name": "Pot",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " Amount of our account balance that is specifically for the next round's bid(s)."
+                ]
+              },
+              {
+                "name": "Head",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The most primary from the most recently approved members."
+                ]
+              },
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "plain": 39
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current set of members, ordered."
+                ]
+              },
+              {
+                "name": "SuspendedMembers",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 34
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of suspended members."
+                ]
+              },
+              {
+                "name": "Bids",
+                "modifier": "Default",
+                "type": {
+                  "plain": 435
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current bids, stored ordered by the value of the bid."
+                ]
+              },
+              {
+                "name": "Vouching",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 439
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Members currently vouching or banned from vouching again"
+                ]
+              },
+              {
+                "name": "Payouts",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 440
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Pending payouts; ordered by block number, with the amount that should be paid out."
+                ]
+              },
+              {
+                "name": "Strikes",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The ongoing number of losing votes cast by the member."
+                ]
+              },
+              {
+                "name": "Votes",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 442,
+                    "value": 443
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Double map from Candidate -> Voter -> (Maybe) Vote."
+                ]
+              },
+              {
+                "name": "Defender",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The defending member currently being challenged."
+                ]
+              },
+              {
+                "name": "DefenderVotes",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 443
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Votes for the defender."
+                ]
+              },
+              {
+                "name": "MaxMembers",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The max number of members for the society at one time."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 281
+          },
+          "events": {
+            "type": 69
+          },
+          "constants": [
+            {
+              "name": "PalletId",
+              "type": 401,
+              "value": "0x70792f736f636965",
+              "docs": [
+                " The societies's pallet id"
+              ]
+            },
+            {
+              "name": "CandidateDeposit",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The minimum amount of a deposit required for a bid to be made."
+              ]
+            },
+            {
+              "name": "WrongSideDeduction",
+              "type": 6,
+              "value": "0x0080f420e6b500000000000000000000",
+              "docs": [
+                " The amount of the unpaid reward that gets deducted in the case that either a skeptic",
+                " doesn't vote or someone votes in the wrong way."
+              ]
+            },
+            {
+              "name": "MaxStrikes",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The number of times a member may vote the wrong way (or not at all, when they are a",
+                " skeptic) before they become suspended."
+              ]
+            },
+            {
+              "name": "PeriodSpend",
+              "type": 6,
+              "value": "0x0000c52ebca2b1000000000000000000",
+              "docs": [
+                " The amount of incentive paid within each period. Doesn't include VoterTip."
+              ]
+            },
+            {
+              "name": "RotationPeriod",
+              "type": 4,
+              "value": "0x00770100",
+              "docs": [
+                " The number of blocks between candidate/membership rotation periods."
+              ]
+            },
+            {
+              "name": "MaxLockDuration",
+              "type": 4,
+              "value": "0x009cda01",
+              "docs": [
+                " The maximum duration of the payout lock."
+              ]
+            },
+            {
+              "name": "ChallengePeriod",
+              "type": 4,
+              "value": "0x80130300",
+              "docs": [
+                " The number of blocks between membership challenges."
+              ]
+            },
+            {
+              "name": "MaxCandidateIntake",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The maximum number of candidates that we accept per round."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 444
+          },
+          "index": 26
+        },
+        {
+          "name": "Recovery",
+          "storage": {
+            "prefix": "Recovery",
+            "items": [
+              {
+                "name": "Recoverable",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 445
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of recoverable accounts and their recovery configuration."
+                ]
+              },
+              {
+                "name": "ActiveRecoveries",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 442,
+                    "value": 446
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Active recovery attempts.",
+                  "",
+                  " First account is the account to be recovered, and the second account",
+                  " is the user trying to recover the account."
+                ]
+              },
+              {
+                "name": "Proxy",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The list of allowed proxy accounts.",
+                  "",
+                  " Map from the user who can access it to the recovered account."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 283
+          },
+          "events": {
+            "type": 70
+          },
+          "constants": [
+            {
+              "name": "ConfigDepositBase",
+              "type": 6,
+              "value": "0x00406352bfc601000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating a recovery configuration.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `2 + sizeof(BlockNumber, Balance)` bytes."
+              ]
+            },
+            {
+              "name": "FriendDepositFactor",
+              "type": 6,
+              "value": "0x00203d88792d00000000000000000000",
+              "docs": [
+                " The amount of currency needed per additional user when creating a recovery",
+                " configuration.",
+                "",
+                " This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage",
+                " value."
+              ]
+            },
+            {
+              "name": "MaxFriends",
+              "type": 77,
+              "value": "0x0900",
+              "docs": [
+                " The maximum amount of friends allowed in a recovery configuration."
+              ]
+            },
+            {
+              "name": "RecoveryDeposit",
+              "type": 6,
+              "value": "0x00406352bfc601000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for starting a recovery.",
+                "",
+                " This is primarily held for deterring malicious recovery attempts, and should",
+                " have a value large enough that a bad actor would choose not to place this",
+                " deposit. It also acts to fund additional storage item whose value size is",
+                " `sizeof(BlockNumber, Balance + T * AccountId)` bytes. Where T is a configurable",
+                " threshold."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 447
+          },
+          "index": 27
+        },
+        {
+          "name": "Vesting",
+          "storage": {
+            "prefix": "Vesting",
+            "items": [
+              {
+                "name": "Vesting",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 448
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Information regarding the vesting of a given account."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 450
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with latest version, as determined by the genesis build."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 284
+          },
+          "events": {
+            "type": 71
+          },
+          "constants": [
+            {
+              "name": "MinVestedTransfer",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The minimum amount transferred to call `vested_transfer`."
+              ]
+            },
+            {
+              "name": "MaxVestingSchedules",
+              "type": 4,
+              "value": "0x1c000000",
+              "docs": []
+            }
+          ],
+          "errors": {
+            "type": 451
+          },
+          "index": 28
+        },
+        {
+          "name": "Scheduler",
+          "storage": {
+            "prefix": "Scheduler",
+            "items": [
+              {
+                "name": "Agenda",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 452
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Items to be executed, indexed by the block number that they should be executed on."
+                ]
+              },
+              {
+                "name": "Lookup",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 10,
+                    "value": 73
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Lookup from identity to the block number and index of the task."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 460
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with last version."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 286
+          },
+          "events": {
+            "type": 72
+          },
+          "constants": [
+            {
+              "name": "MaximumWeight",
+              "type": 8,
+              "value": "0x00806e8774010000",
+              "docs": [
+                " The maximum weight that may be scheduled per block for any dispatchables of less",
+                " priority than `schedule::HARD_DEADLINE`."
+              ]
+            },
+            {
+              "name": "MaxScheduledPerBlock",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of scheduled calls in the queue for a single block.",
+                " Not strictly enforced, but used for weight estimation."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 461
+          },
+          "index": 29
+        },
+        {
+          "name": "Proxy",
+          "storage": {
+            "prefix": "Proxy",
+            "items": [
+              {
+                "name": "Proxies",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 462
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "docs": [
+                  " The set of account proxies. Maps the account which has delegated to the accounts",
+                  " which are being delegated to, together with the amount held on deposit."
+                ]
+              },
+              {
+                "name": "Announcements",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 466
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "docs": [
+                  " The announcements made by the proxy (key)."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 288
+          },
+          "events": {
+            "type": 75
+          },
+          "constants": [
+            {
+              "name": "ProxyDepositBase",
+              "type": 6,
+              "value": "0x00f09e544c3900000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating a proxy.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `sizeof(Balance)` bytes and whose key size is `sizeof(AccountId)` bytes."
+              ]
+            },
+            {
+              "name": "ProxyDepositFactor",
+              "type": 6,
+              "value": "0x0060aa7714b400000000000000000000",
+              "docs": [
+                " The amount of currency needed per proxy added.",
+                "",
+                " This is held for adding 32 bytes plus an instance of `ProxyType` more into a",
+                " pre-existing storage value. Thus, when configuring `ProxyDepositFactor` one should take",
+                " into account `32 + proxy_type.encode().len()` bytes of data."
+              ]
+            },
+            {
+              "name": "MaxProxies",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum amount of proxies allowed for a single account."
+              ]
+            },
+            {
+              "name": "MaxPending",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum amount of time-delayed announcements that are allowed to be pending."
+              ]
+            },
+            {
+              "name": "AnnouncementDepositBase",
+              "type": 6,
+              "value": "0x00f09e544c3900000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating an announcement.",
+                "",
+                " This is held when a new storage item holding a `Balance` is created (typically 16",
+                " bytes)."
+              ]
+            },
+            {
+              "name": "AnnouncementDepositFactor",
+              "type": 6,
+              "value": "0x00c054ef286801000000000000000000",
+              "docs": [
+                " The amount of currency needed per announcement made.",
+                "",
+                " This is held for adding an `AccountId`, `Hash` and `BlockNumber` (typically 68 bytes)",
+                " into a pre-existing storage value."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 470
+          },
+          "index": 30
+        },
+        {
+          "name": "Multisig",
+          "storage": {
+            "prefix": "Multisig",
+            "items": [
+              {
+                "name": "Multisigs",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 471,
+                    "value": 472
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of open multisig operations."
+                ]
+              },
+              {
+                "name": "Calls",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 1,
+                    "value": 473
+                  }
+                },
+                "fallback": "0x00",
+                "docs": []
+              }
+            ]
+          },
+          "calls": {
+            "type": 290
+          },
+          "events": {
+            "type": 78
+          },
+          "constants": [
+            {
+              "name": "DepositBase",
+              "type": 6,
+              "value": "0x00f01c0adbed01000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating a multisig execution or to",
+                " store a dispatch call for later.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is",
+                " `32 + sizeof(AccountId)` bytes."
+              ]
+            },
+            {
+              "name": "DepositFactor",
+              "type": 6,
+              "value": "0x0000cc7b9fae00000000000000000000",
+              "docs": [
+                " The amount of currency needed per unit threshold when creating a multisig execution.",
+                "",
+                " This is held for adding 32 bytes more into a pre-existing storage value."
+              ]
+            },
+            {
+              "name": "MaxSignatories",
+              "type": 77,
+              "value": "0x6400",
+              "docs": [
+                " The maximum amount of signatories allowed in the multisig."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 474
+          },
+          "index": 31
+        },
+        {
+          "name": "Bounties",
+          "storage": {
+            "prefix": "Bounties",
+            "items": [
+              {
+                "name": "BountyCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Number of bounty proposals that have been made."
+                ]
+              },
+              {
+                "name": "Bounties",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 475
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Bounties that have been made."
+                ]
+              },
+              {
+                "name": "BountyDescriptions",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 10
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The description of each bounty."
+                ]
+              },
+              {
+                "name": "BountyApprovals",
+                "modifier": "Default",
+                "type": {
+                  "plain": 88
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Bounty indices that have been approved but not yet funded."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 292
+          },
+          "events": {
+            "type": 80
+          },
+          "constants": [
+            {
+              "name": "BountyDepositBase",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The amount held on deposit for placing a bounty proposal."
+              ]
+            },
+            {
+              "name": "BountyDepositPayoutDelay",
+              "type": 4,
+              "value": "0x80700000",
+              "docs": [
+                " The delay period for which a bounty beneficiary need to wait before claim the payout."
+              ]
+            },
+            {
+              "name": "BountyUpdatePeriod",
+              "type": 4,
+              "value": "0x00270600",
+              "docs": [
+                " Bounty duration in blocks."
+              ]
+            },
+            {
+              "name": "BountyCuratorDeposit",
+              "type": 400,
+              "value": "0x20a10700",
+              "docs": [
+                " Percentage of the curator fee that will be reserved upfront as deposit for bounty",
+                " curator."
+              ]
+            },
+            {
+              "name": "BountyValueMinimum",
+              "type": 6,
+              "value": "0x00406352bfc601000000000000000000",
+              "docs": [
+                " Minimum value for a bounty."
+              ]
+            },
+            {
+              "name": "DataDepositPerByte",
+              "type": 6,
+              "value": "0x0010a5d4e80000000000000000000000",
+              "docs": [
+                " The amount held on deposit per byte within the tip report reason or bounty description."
+              ]
+            },
+            {
+              "name": "MaximumReasonLength",
+              "type": 4,
+              "value": "0x00400000",
+              "docs": [
+                " Maximum acceptable reason length."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 477
+          },
+          "index": 32
+        },
+        {
+          "name": "Tips",
+          "storage": {
+            "prefix": "Tips",
+            "items": [
+              {
+                "name": "Tips",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 9,
+                    "value": 478
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " TipsMap that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
+                  " This has the insecure enumerable hash function since the key itself is already",
+                  " guaranteed to be a secure hash."
+                ]
+              },
+              {
+                "name": "Reasons",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 9,
+                    "value": 10
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Simple preimage lookup from the reason's hash to the original data. Again, has an",
+                  " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 293
+          },
+          "events": {
+            "type": 81
+          },
+          "constants": [
+            {
+              "name": "MaximumReasonLength",
+              "type": 4,
+              "value": "0x00400000",
+              "docs": [
+                " Maximum acceptable reason length."
+              ]
+            },
+            {
+              "name": "DataDepositPerByte",
+              "type": 6,
+              "value": "0x0010a5d4e80000000000000000000000",
+              "docs": [
+                " The amount held on deposit per byte within the tip report reason or bounty description."
+              ]
+            },
+            {
+              "name": "TipCountdown",
+              "type": 4,
+              "value": "0x80700000",
+              "docs": [
+                " The period for which a tip remains open after is has achieved threshold tippers."
+              ]
+            },
+            {
+              "name": "TipFindersFee",
+              "type": 203,
+              "value": "0x14",
+              "docs": [
+                " The percent of the final tip which goes to the original reporter of the tip."
+              ]
+            },
+            {
+              "name": "TipReportDepositBase",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The amount held on deposit for placing a tip report."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 479
+          },
+          "index": 33
+        },
+        {
+          "name": "Assets",
+          "storage": {
+            "prefix": "Assets",
+            "items": [
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 480
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of an asset."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 350,
+                    "value": 481
+                  }
+                },
+                "fallback": "0x00000000000000000000",
+                "docs": [
+                  " The number of units of assets held by any given account."
+                ]
+              },
+              {
+                "name": "Approvals",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 482,
+                    "value": 483
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Approved balance transfers. First balance is the amount approved for transfer. Second",
+                  " is the amount of `T::Currency` reserved for storing this.",
+                  " First key is the asset ID, second key is the owner and third key is the delegate."
+                ]
+              },
+              {
+                "name": "Metadata",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 484
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000",
+                "docs": [
+                  " Metadata of an asset."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 294
+          },
+          "events": {
+            "type": 82
+          },
+          "constants": [
+            {
+              "name": "AssetDeposit",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes you store in your",
+                " metadata."
+              ]
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved when creating a new approval."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of a name or symbol stored on-chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 485
+          },
+          "index": 34
+        },
+        {
+          "name": "Mmr",
+          "storage": {
+            "prefix": "Mmr",
+            "items": [
+              {
+                "name": "RootHash",
+                "modifier": "Default",
+                "type": {
+                  "plain": 9
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Latest MMR Root hash."
+                ]
+              },
+              {
+                "name": "NumberOfLeaves",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " Current size of the MMR (number of leaves)."
+                ]
+              },
+              {
+                "name": "Nodes",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 8,
+                    "value": 9
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Hashes of the nodes in the MMR.",
+                  "",
+                  " Note this collection only contains MMR peaks, the inner nodes (and leaves)",
+                  " are pruned and only stored in the Offchain DB."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 35
+        },
+        {
+          "name": "Lottery",
+          "storage": {
+            "prefix": "Lottery",
+            "items": [
+              {
+                "name": "LotteryIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": []
+              },
+              {
+                "name": "Lottery",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 486
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The configuration for the current lottery."
+                ]
+              },
+              {
+                "name": "Participants",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 487
+                  }
+                },
+                "fallback": "0x0000000000",
+                "docs": [
+                  " Users who have purchased a ticket. (Lottery Index, Tickets Purchased)"
+                ]
+              },
+              {
+                "name": "TicketsCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Total number of tickets sold."
+                ]
+              },
+              {
+                "name": "Tickets",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Each ticket's owner.",
+                  "",
+                  " May have residual storage from previous lotteries. Use `TicketsCount` to see which ones",
+                  " are actually valid ticket mappings."
+                ]
+              },
+              {
+                "name": "CallIndices",
+                "modifier": "Default",
+                "type": {
+                  "plain": 488
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The calls stored in this pallet to be used in an active lottery if configured",
+                  " by `Config::ValidateCall`."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 296
+          },
+          "events": {
+            "type": 83
+          },
+          "constants": [
+            {
+              "name": "PalletId",
+              "type": 401,
+              "value": "0x70792f6c6f74746f",
+              "docs": [
+                " The Lottery's pallet id"
+              ]
+            },
+            {
+              "name": "MaxCalls",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The max number of calls available in a single lottery."
+              ]
+            },
+            {
+              "name": "MaxGenerateRandom",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " Number of time we should try to generate a random number that has no modulo bias.",
+                " The larger this number, the more potential computation is used for picking the winner,",
+                " but also the more likely that the chosen winner is done fairly."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 489
+          },
+          "index": 36
+        },
+        {
+          "name": "Gilt",
+          "storage": {
+            "prefix": "Gilt",
+            "items": [
+              {
+                "name": "QueueTotals",
+                "modifier": "Default",
+                "type": {
+                  "plain": 440
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The totals of items and balances within each queue. Saves a lot of storage reads in the",
+                  " case of sparsely packed queues.",
+                  "",
+                  " The vector is indexed by duration in `Period`s, offset by one, so information on the queue",
+                  " whose duration is one `Period` would be storage `0`."
+                ]
+              },
+              {
+                "name": "Queues",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 490
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The queues of bids ready to become gilts. Indexed by duration (in `Period`s)."
+                ]
+              },
+              {
+                "name": "ActiveTotal",
+                "modifier": "Default",
+                "type": {
+                  "plain": 492
+                },
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Information relating to the gilts currently active."
+                ]
+              },
+              {
+                "name": "Active",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 493
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The currently active gilts, indexed according to the order of creation."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 297
+          },
+          "events": {
+            "type": 85
+          },
+          "constants": [
+            {
+              "name": "IgnoredIssuance",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get",
+                " the issuance by which we inflate or deflate the gilt."
+              ]
+            },
+            {
+              "name": "QueueCount",
+              "type": 4,
+              "value": "0x2c010000",
+              "docs": [
+                " Number of duration queues in total. This sets the maximum duration supported, which is",
+                " this value multiplied by `Period`."
+              ]
+            },
+            {
+              "name": "MaxQueueLen",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " Maximum number of items that may be in each duration queue."
+              ]
+            },
+            {
+              "name": "FifoQueueLen",
+              "type": 4,
+              "value": "0xf4010000",
+              "docs": [
+                " Portion of the queue which is free from ordering and just a FIFO.",
+                "",
+                " Must be no greater than `MaxQueueLen`."
+              ]
+            },
+            {
+              "name": "Period",
+              "type": 4,
+              "value": "0x002f0d00",
+              "docs": [
+                " The base period for the duration queues. This is the common multiple across all",
+                " supported freezing durations that can be bid upon."
+              ]
+            },
+            {
+              "name": "MinFreeze",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The minimum amount of funds that may be offered to freeze for a gilt. Note that this",
+                " does not actually limit the amount which may be frozen in a gilt since gilts may be",
+                " split up in order to satisfy the desired amount of funds under gilts.",
+                "",
+                " It should be at least big enough to ensure that there is no possible storage spam attack",
+                " or queue-filling attack."
+              ]
+            },
+            {
+              "name": "IntakePeriod",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The number of blocks between consecutive attempts to issue more gilts in an effort to",
+                " get to the target amount to be frozen.",
+                "",
+                " A larger value results in fewer storage hits each block, but a slower period to get to",
+                " the target."
+              ]
+            },
+            {
+              "name": "MaxIntakeBids",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The maximum amount of bids that can be turned into issued gilts each block. A larger",
+                " value here means less of the block available for transactions should there be a glut of",
+                " bids to make into gilts to reach the target."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 494
+          },
+          "index": 37
+        },
+        {
+          "name": "Uniques",
+          "storage": {
+            "prefix": "Uniques",
+            "items": [
+              {
+                "name": "Class",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 495
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of an asset class."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 496,
+                    "value": 42
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The assets held by any given account; set out this way so that assets owned by a single",
+                  " account can be enumerated."
+                ]
+              },
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 73,
+                    "value": 497
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The assets in existence and their ownership details."
+                ]
+              },
+              {
+                "name": "ClassMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 498
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of an asset class."
+                ]
+              },
+              {
+                "name": "InstanceMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 73,
+                    "value": 499
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of an asset instance."
+                ]
+              },
+              {
+                "name": "Attribute",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 500,
+                    "value": 501
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of an asset class."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 300
+          },
+          "events": {
+            "type": 86
+          },
+          "constants": [
+            {
+              "name": "ClassDeposit",
+              "type": 6,
+              "value": "0x0000c16ff28623000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset class."
+              ]
+            },
+            {
+              "name": "InstanceDeposit",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset instance."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "AttributeDepositBase",
+              "type": 6,
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding an attribute to an asset."
+              ]
+            },
+            {
+              "name": "DepositPerByte",
+              "type": 6,
+              "value": "0x00407a10f35a00000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes store in metadata,",
+                " either \"normal\" metadata or attribute metadata."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of data stored on-chain."
+              ]
+            },
+            {
+              "name": "KeyLimit",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum length of an attribute key."
+              ]
+            },
+            {
+              "name": "ValueLimit",
+              "type": 4,
+              "value": "0x00010000",
+              "docs": [
+                " The maximum length of an attribute value."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 502
+          },
+          "index": 38
+        },
+        {
+          "name": "TransactionStorage",
+          "storage": {
+            "prefix": "TransactionStorage",
+            "items": [
+              {
+                "name": "Transactions",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 503
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Collection of transaction metadata by block number."
+                ]
+              },
+              {
+                "name": "ChunkCount",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Count indexed chunks for each block."
+                ]
+              },
+              {
+                "name": "ByteFee",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage fee per byte."
+                ]
+              },
+              {
+                "name": "EntryFee",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage fee per transaction."
+                ]
+              },
+              {
+                "name": "MaxTransactionSize",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Maximum data set in a single transaction in bytes."
+                ]
+              },
+              {
+                "name": "MaxBlockTransactions",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Maximum number of indexed transactions in the block."
+                ]
+              },
+              {
+                "name": "StoragePeriod",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Storage period for data in blocks. Should match `sp_storage_proof::DEFAULT_STORAGE_PERIOD`",
+                  " for block authoring."
+                ]
+              },
+              {
+                "name": "BlockTransactions",
+                "modifier": "Default",
+                "type": {
+                  "plain": 503
+                },
+                "fallback": "0x00",
+                "docs": []
+              },
+              {
+                "name": "ProofChecked",
+                "modifier": "Default",
+                "type": {
+                  "plain": 34
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Was the proof checked in this block?"
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 303
+          },
+          "events": {
+            "type": 92
+          },
+          "constants": [],
+          "errors": {
+            "type": 505
+          },
+          "index": 39
+        },
+        {
+          "name": "BagsList",
+          "storage": {
+            "prefix": "BagsList",
+            "items": [
+              {
+                "name": "CounterForListNodes",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " How many ids are registered."
+                ]
+              },
+              {
+                "name": "ListNodes",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 506
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A single node, within some bag.",
+                  "",
+                  " Nodes store links forward and back within their respective bags."
+                ]
+              },
+              {
+                "name": "ListBags",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 8,
+                    "value": 507
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A bag stored in storage.",
+                  "",
+                  " Stores a `Bag` struct, which stores head and tail pointers to itself."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 305
+          },
+          "events": {
+            "type": 93
+          },
+          "constants": [
+            {
+              "name": "BagThresholds",
+              "type": 508,
+              "value": "0x210300407a10f35a00006a70ccd4a96000009ef3397fbc660000a907ccd5306d00003d9a67fb0c740000a9bfa275577b0000a6fdf73217830000034f5d91538b0000132445651494000078081001629d00000302f63c45a70000392e6f7fc7b10000f59c23c6f2bc00004ae76aafd1c80000598a64846fd50000129fb243d8e200003f22e1ac18f1000033a4844c3e000100e2e51b895710010076a2c0b0732101006789b407a3330100793ed8d7f646010078131b81815b01000c1cf38a567101004437eeb68a8801009eb56d1434a10100335e9f156abb010067c3c7a545d701003218f340e1f40100de0b230d59140200699c11f5ca350200ad50a2c4565902009ae41c471e7f0200d0244e6745a70200f984ad51f2d10200ace7a7984dff0200a118325b822f0300ffa4c76dbe620300580bfd8532990300a9afce6812d30300109ad81b95100400d9caa519f551040038df488970970400bee1727949e10400cc73401fc62f0500b304f91831830500828bffb4d9db05001235383d143a0600a5b42a473a9e060036662d09ab080700f73aeab4cb790700b87e93d707f20700ffec23c0d1710800b84b0beca2f90800c9dcae7afc89090091752ba867230a0064f1cd4f76c60a003609be76c3730b0078655fdff32b0c00a407f5a5b6ef0c0052f61be7c5bf0d00da71bb70e79c0e000de9127eed870f001477987fb7811000ebee65ef328b11001269fe325ca5120033f8428b3fd113008ba57a13fa0f15001b2b60d0ba6216000d1d37d0c3ca17006c64fa5c6b4919002622c7411de01a00045bb9245c901c00233d83f6c25b1e00c8771c79064420003013fddef64a2200aa8b6e848172240082c096c4b2bc260016a3faebb72b29008296524ae1c12b00a636a865a4812e00d0e2d4509e6d31009c0a9a2796883400e4faafb27fd53700e6e64d367e573b000e4bd66de7113f0088b17db746084300b07def72603e470034de249635b84b00d48bd57b077a5000d0bd20ef5b885500b8f0467801e85a0010f88aee139e60003892925301b066009c95e4fc8e236d00b4126d10dffe730028b43e5976487b00a08a1c7a42078300b09ab083a0428b002846b2f463029400c861a42ade4e9d0050d23d4ae630a700805101a7e1b1b10038e501b2ccdbbc002016527844b9c800388924ba9055d50070ca35a4aebce200805fb1355cfbf0008035685d241f0001a0c3dcd96b361001d07862e87e50210160e852d09f7d330190662c5816cf460110274c3340575b01804be277a22971013082b92dfc5a880180d276075a01a101b0f511592b34bb014031745f580cd701802f6cee59a4f40140ff799b521814026075607d2986350260fde999a60d590200e5e71c91d07e02c0df2575cff2a602a07fd975899ad102a067009d4cf0fe0220dc29a1321f2f0320ff526b0a5562038088caa383c29803e05683fb5c9bd203401dd75d9516100400317e39a06e5104c0b071129de1960480b48c9192b1e00480e8124aad242f05c007ca7082858205007c13c45623db0540836fe869523906c0700f81466c9d0640f09c5017d00707c0e624b301e37807c0332ac78510f10780074ca1e4ca700800d5a9eb8c8bf80800a849588ed3880900804254142c220a80a25170e826c50a00e8d5fafc5e720b801df64e00792a0c80d4fe64f923ee0c006dd038ee19be0d001e90a494209b0e0010bf570e0a860f00da6a9db0b57f1000bf64afd810891100bb5b60cd17a31200f963f3aed6ce1300d5f004766a0d1500e099770202601600103d663bdfc71700de3e2d4158461900ecdbadb2d8dc1a0045c70007e38c1c00b8bde0fc11581e00ba5c2a211a402000407de46dcb462200dea55b03136e2400aaf1f3fcfcb7260014226f63b62629006492803e8fbc2b008486a6c7fc7b2e002cf05fc09b673100da63f7ed32823400f0b13fbdb5ce3700f291c41047503b00422a1a3c3c0a3f002c24212f20004300ac9342d4b6354700cc6ed7a400af4b00c4d022773e70500020017d89f57d5500f86387cef3dc5a008c4c7f7e54926000206207f284a36600cc1e05cb49166d00b42a7a70c4f07300d43a90e278397b0038f461ec53f78200a07264b9b1318b0048c9b3d464f09300007fe998bd3b9d0010058f17921ca70000dfaf7f469cb100e80c880bd6c4bc0058bdcb7ddca0c80038d18d37a03bd50030d55bf01ca1e200704ac01a0fdef0ffffffffffffffff",
+              "docs": [
+                " The list of thresholds separating the various bags.",
+                "",
+                " Ids are separated into unsorted bags according to their vote weight. This specifies the",
+                " thresholds separating the bags. An id's bag is the largest bag for which the id's weight",
+                " is less than or equal to its upper threshold.",
+                "",
+                " When ids are iterated, higher bags are iterated completely before lower bags. This means",
+                " that iteration is _semi-sorted_: ids of higher weight tend to come before ids of lower",
+                " weight, but peer ids within a particular bag are sorted in insertion order.",
+                "",
+                " # Expressing the constant",
+                "",
+                " This constant must be sorted in strictly increasing order. Duplicate items are not",
+                " permitted.",
+                "",
+                " There is an implied upper limit of `VoteWeight::MAX`; that value does not need to be",
+                " specified within the bag. For any two threshold lists, if one ends with",
+                " `VoteWeight::MAX`, the other one does not, and they are otherwise equal, the two lists",
+                " will behave identically.",
+                "",
+                " # Calculation",
+                "",
+                " It is recommended to generate the set of thresholds in a geometric series, such that",
+                " there exists some constant ratio such that `threshold[k + 1] == (threshold[k] *",
+                " constant_ratio).max(threshold[k] + 1)` for all `k`.",
+                "",
+                " The helpers in the `/utils/frame/generate-bags` module can simplify this calculation.",
+                "",
+                " # Examples",
+                "",
+                " - If `BagThresholds::get().is_empty()`, then all ids are put into the same bag, and",
+                "   iteration is strictly in insertion order.",
+                " - If `BagThresholds::get().len() == 64`, and the thresholds are determined according to",
+                "   the procedure given above, then the constant ratio is equal to 2.",
+                " - If `BagThresholds::get().len() == 200`, and the thresholds are determined according to",
+                "   the procedure given above, then the constant ratio is approximately equal to 1.248.",
+                " - If the threshold list begins `[1, 2, 3, ...]`, then an id with weight 0 or 1 will fall",
+                "   into bag 0, an id with weight 2 will fall into bag 1, etc.",
+                "",
+                " # Migration",
+                "",
+                " In the event that this list ever changes, a copy of the old bags list must be retained.",
+                " With that `List::migrate` can be called, which will perform the appropriate migration."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 40
+        }
+      ],
+      "extrinsic": {
+        "type": 509,
+        "version": 4,
+        "signedExtensions": [
+          {
+            "identifier": "CheckSpecVersion",
+            "type": 514,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckTxVersion",
+            "type": 515,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckGenesis",
+            "type": 516,
+            "additionalSigned": 9
+          },
+          {
+            "identifier": "CheckMortality",
+            "type": 517,
+            "additionalSigned": 9
+          },
+          {
+            "identifier": "CheckNonce",
+            "type": 519,
+            "additionalSigned": 42
+          },
+          {
+            "identifier": "CheckWeight",
+            "type": 520,
+            "additionalSigned": 42
+          },
+          {
+            "identifier": "ChargeTransactionPayment",
+            "type": 521,
+            "additionalSigned": 42
+          }
+        ]
+      }
+    }
+  }
+}

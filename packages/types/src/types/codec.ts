@@ -3,13 +3,13 @@
 
 import type { BN } from '@polkadot/util';
 import type { Hash } from '../interfaces/runtime';
-import type { Registry } from './registry';
+import type { InterfaceTypes, Registry } from './registry';
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
 
 export type AnyFunction = (...args: any[]) => any;
 
-export type AnyNumber = BN | BigInt | Uint8Array | number | string;
+export type AnyNumber = BN | bigint | Uint8Array | number | string;
 
 export type AnyString = string | string;
 
@@ -100,23 +100,17 @@ export interface Codec {
   toU8a (isBare?: BareOpts): Uint8Array;
 }
 
-// eslint-disable-next-line no-use-before-define
-export type CodecArg = Codec | BigInt | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
-
-// We cannot inline this into CodecArg, TS throws up when building docs
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface CodecArgArray extends Array<CodecArg> {}
-
 export interface Constructor<T = Codec> {
   /**
    * @description An internal fallback type (previous generation) if encoding fails
    */
   readonly __fallbackType?: string;
 
+  // NOTE: We need the any[] here, unknown[] does not work as expected
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...value: any[]): T;
+  new(registry: Registry, ...args: any[]): T;
 }
 
-export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
 
-export type ArgsDef = Record<string, Constructor>;
+export type ArgsDef = Record<string, Constructor | keyof InterfaceTypes>;

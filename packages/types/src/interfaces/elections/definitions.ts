@@ -33,9 +33,9 @@ export default {
     },
     VoteThreshold: {
       _enum: [
-        'Super majority approval',
-        'Super majority rejection',
-        'Simple majority'
+        'Super Majority Approve',
+        'Super Majority Against',
+        'Simple Majority'
       ]
     }
   }

@@ -10,7 +10,7 @@ const sharedTypes = {
   RawSolution: 'RawSolutionWith24',
   Keys: 'SessionKeys6',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   }
 };
 
@@ -45,6 +45,7 @@ const versioned: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
+      IdentityInfo: 'IdentityInfoTo198',
       Keys: 'SessionKeys5',
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
@@ -192,7 +193,13 @@ const versioned: OverrideVersionedType[] = [
   {
     minmax: [9010, undefined],
     types: {
-      ...sharedTypes
+      ...sharedTypes,
+      AssetInstance: 'AssetInstanceV0',
+      MultiAsset: 'MultiAssetV0',
+      MultiLocation: 'MultiLocationV0',
+      Response: 'ResponseV0',
+      Xcm: 'XcmV0',
+      XcmOrder: 'XcmOrderV0'
     }
   }
 ];

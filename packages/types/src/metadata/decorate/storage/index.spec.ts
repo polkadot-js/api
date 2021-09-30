@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../';
-import rpcMetadata from '../../static';
 import { decorateStorage } from '..';
 
 const keyring = createTestPairs({ type: 'ed25519' });
@@ -28,7 +28,7 @@ describe('decorateStorage', (): void => {
   });
 
   it('should throw if the storage function expects tuple arguments', (): void => {
-    expect(() => query.staking.erasStakers(1)).toThrowError('Call to staking.erasStakers needs 2 arguments, provided in tuple format');
+    expect(() => query.staking.erasStakers(1)).toThrowError('Call to staking.erasStakers needs 2 arguments');
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {

@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { BTreeMap, Compact, Enum, Option, Struct, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
 import type { AccountId, Balance, BlockNumber, Moment, PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name ActiveEraInfo */
 export interface ActiveEraInfo extends Struct {
@@ -265,10 +265,18 @@ export interface SignedSubmission extends Struct {
   readonly who: AccountId;
   readonly deposit: Balance;
   readonly solution: RawSolution;
+  readonly reward: Balance;
 }
 
 /** @name SignedSubmissionOf */
 export interface SignedSubmissionOf extends SignedSubmission {}
+
+/** @name SignedSubmissionTo276 */
+export interface SignedSubmissionTo276 extends Struct {
+  readonly who: AccountId;
+  readonly deposit: Balance;
+  readonly solution: RawSolution;
+}
 
 /** @name SlashingSpans */
 export interface SlashingSpans extends Struct {

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { BN_ZERO } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { Metadata } from '../../metadata';
-import metadataStatic from '../../metadata/static';
 import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
 
 const signOptions = {

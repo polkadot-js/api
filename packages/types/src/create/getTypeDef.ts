@@ -79,7 +79,7 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
       index,
       info: TypeDefInfo.Plain,
       name,
-      type: name
+      type: 'Null'
     }));
 
   return value;
@@ -142,6 +142,14 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   return value;
 }
 
+function _decodeRange (value: TypeDef, _: string, subType: string): TypeDef {
+  const Type = getTypeDef(subType);
+
+  value.sub = [Type, Type];
+
+  return value;
+}
+
 // decode a tuple
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
@@ -195,6 +203,9 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
   ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
+  // Not sure about these, have a specific implementation?
+  ['Range<', '>', TypeDefInfo.Tuple, _decodeRange],
+  ['RangeInclusive<', '>', TypeDefInfo.Tuple, _decodeRange],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt],
   ['DoNotConstruct<', '>', TypeDefInfo.DoNotConstruct, _decodeDoNotConstruct]
@@ -205,7 +216,8 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
-  ['Vec<', '>', TypeDefInfo.Vec]
+  ['Vec<', '>', TypeDefInfo.Vec],
+  ['WrapperOpaque<', '>', TypeDefInfo.WrapperOpaque]
 ];
 
 function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any?]): string {

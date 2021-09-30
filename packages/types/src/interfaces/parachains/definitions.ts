@@ -30,10 +30,54 @@ const cumulusTypes = {
   }
 };
 
+const disputeTypes = {
+  DisputeLocation: {
+    _enum: ['Local', 'Remote']
+  },
+  DisputeResult: {
+    _enum: ['Valid', 'Invalid']
+  },
+  DisputeState: {
+    validatorsFor: 'BitVec',
+    validatorsAgainst: 'BitVec',
+    start: 'BlockNumber',
+    concludedAt: 'Option<BlockNumber>'
+  },
+  DisputeStatement: {
+    _enum: {
+      Valid: 'ValidDisputeStatementKind',
+      Invalid: 'InvalidDisputeStatementKind'
+    }
+  },
+  DisputeStatementSet: {
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex',
+    statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
+  },
+  ExplicitDisputeStatement: {
+    valid: 'bool',
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex'
+  },
+  InvalidDisputeStatementKind: {
+    _enum: ['Explicit']
+  },
+  MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+  ValidDisputeStatementKind: {
+    _enum: {
+      Explicit: 'Null',
+      BackingSeconded: 'Hash',
+      BackingValid: 'Hash',
+      ApprovalChecking: 'Null'
+    }
+  }
+};
+
 export default {
   rpc: {},
   types: {
     ...cumulusTypes,
+    ...disputeTypes,
     ...hrmpTypes,
     ...proposeTypes,
     ...slotTypes,
@@ -156,36 +200,6 @@ export default {
         Parachain: 'Null'
       }
     },
-    DisputeStatementSet: {
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex',
-      statements: 'Vec<(DisputeStatement, ValidatorIndex, ValidatorSignature)>'
-    },
-    MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
-    DisputeStatement: {
-      _enum: {
-        Valid: 'ValidDisputeStatementKind',
-        Invalid: 'InvalidDisputeStatementKind'
-      }
-    },
-    ValidDisputeStatementKind: {
-      _enum: [
-        'Explicit',
-        'BackingSeconded',
-        'BackingValid',
-        'ApprovalChecking'
-      ]
-    },
-    InvalidDisputeStatementKind: {
-      _enum: [
-        'Explicit'
-      ]
-    },
-    ExplicitDisputeStatement: {
-      valid: 'bool',
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex'
-    },
     DoubleVoteReport: {
       identity: 'ValidatorId',
       first: '(Statement, ValidatorSignature)',
@@ -296,7 +310,7 @@ export default {
       _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
     },
     ParaPastCodeMeta: {
-      upgradeTimes: 'Vec<BlockNumber>',
+      upgradeTimes: 'Vec<ReplacementTimes>',
       lastPruned: 'Option<BlockNumber>'
     },
     ParaScheduling: {
@@ -318,15 +332,19 @@ export default {
       relayParentStorageRoot: 'Hash',
       maxPovSize: 'u32'
     },
-    RelayBlockNumber: 'u32',
-    RelayChainBlockNumber: 'RelayBlockNumber',
-    RelayHash: 'Hash',
-    RelayChainHash: 'RelayHash',
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
     },
+    RelayBlockNumber: 'u32',
+    RelayChainBlockNumber: 'RelayBlockNumber',
+    RelayHash: 'Hash',
+    RelayChainHash: 'RelayHash',
     Remark: '[u8; 32]',
+    ReplacementTimes: {
+      expectedAt: 'BlockNumber',
+      activatedAt: 'BlockNumber'
+    },
     Retriable: {
       _enum: {
         Never: 'Null',
@@ -373,6 +391,12 @@ export default {
       balance: 'Balance',
       codeUpgradeAllowed: 'Option<BlockNumber>',
       dmqLength: 'u32'
+    },
+    UpgradeGoAhead: {
+      _enum: ['Abort', 'GoAhead']
+    },
+    UpgradeRestriction: {
+      _enum: ['Present']
     },
     UpwardMessage: 'Bytes',
     ValidationFunctionParams: {

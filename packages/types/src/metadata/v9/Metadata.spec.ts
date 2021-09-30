@@ -1,17 +1,14 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../../create';
-import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
-import substrateData from './static';
-import substrateJson from './static-substrate.json';
+import substrateData from '@polkadot/types-support/metadata/v9/substrate-hex';
+import substrateJson from '@polkadot/types-support/metadata/v9/substrate-json.json';
 
-describe('MetadataV9 (substrate)', (): void => {
-  const registry = new TypeRegistry();
+import { testMeta } from '../util/testUtil';
 
-  decodeLatestSubstrate(registry, 9, substrateData, substrateJson);
-
-  toLatest(registry, 9, substrateData);
-
-  defaultValues(registry, substrateData);
-});
+testMeta(9, {
+  substrate: {
+    compare: substrateJson as Record<string, unknown>,
+    data: substrateData
+  }
+}, false);

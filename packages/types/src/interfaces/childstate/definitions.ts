@@ -78,6 +78,26 @@ export default {
       ],
       type: 'Option<StorageData>'
     },
+    getStorageEntries: {
+      description: 'Returns child storage entries for multiple keys at a specific block state',
+      params: [
+        {
+          name: 'childKey',
+          type: 'PrefixedStorageKey'
+        },
+        {
+          name: 'keys',
+          type: 'Vec<StorageKey>'
+        },
+        {
+          name: 'at',
+          type: 'Hash',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'Vec<Option<StorageData>>'
+    },
     getStorageHash: {
       description: 'Returns the hash of a child storage entry at a block state',
       params: [

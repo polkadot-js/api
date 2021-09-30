@@ -3,7 +3,7 @@
 
 import type { Bytes } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractProject } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec, CodecArg } from '@polkadot/types/types';
+import type { AnyJson, Codec } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from './types';
 
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -49,7 +49,7 @@ export class Abi {
     this.registry.setMetaTypes(this.project.types);
 
     this.project.types.forEach((_, index) =>
-      this.registry.getMetaTypeDef({ type: this.registry.createType('SiLookupTypeId', index + this.registry.typeOffset) })
+      this.registry.getMetaTypeDef({ type: this.registry.createType('Si0LookupTypeId', index + this.registry.typeOffset) })
     );
     this.constructors = this.project.spec.constructors.map((spec: ContractConstructorSpec, index) =>
       this.#createMessage(spec, index, {
@@ -154,7 +154,7 @@ export class Abi {
       index,
       method: stringCamelCase(identifier),
       selector: spec.selector,
-      toU8a: (params: CodecArg[]) =>
+      toU8a: (params: unknown[]) =>
         this.#encodeArgs(spec, args, params)
     };
 
@@ -185,7 +185,7 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   }
 
-  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: CodecArg[]): Uint8Array => {
+  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: unknown[]): Uint8Array => {
     assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
 
     return compactAddLength(

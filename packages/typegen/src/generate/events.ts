@@ -6,6 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -17,50 +18,53 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-
-    const modules = meta.asLatest.modules
-      .sort(compareName)
-      .filter((mod) => mod.events.isSome)
+    const { lookup, pallets, registry } = meta.asLatest;
+    const modules = pallets
+      .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
-        items: events
-          .unwrap()
-          .sort(compareName)
-          .map(({ args, documentation, name }) => {
-            const types = args.map((type) => formatType(allDefs, type.toString(), imports));
+        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
+          .map(({ docs, fields, name }) => {
+            const args = fields
+              .map(({ type }) => lookup.getTypeDef(type))
+              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
 
-            setImports(allDefs, imports, types);
+            setImports(allDefs, imports, args);
 
             return {
-              docs: documentation,
+              docs,
               name: name.toString(),
-              type: types.join(', ')
+              type: args.join(', ')
             };
-          }),
+          })
+          .sort(compareName),
         name: stringCamelCase(name)
-      }));
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
+      }))
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }

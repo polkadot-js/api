@@ -48,7 +48,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 
     return !remaining.length
       ? of(cached)
-      : api.query.staking.erasRewardPoints.multi<EraRewardPoints>(remaining).pipe(
+      : api.query.staking.erasRewardPoints.multi(remaining).pipe(
         map((points): DeriveEraPoints[] => {
           const query = mapPoints(remaining, points);
 

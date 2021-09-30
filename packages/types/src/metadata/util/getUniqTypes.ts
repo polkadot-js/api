@@ -1,145 +1,66 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Vec } from '../../codec';
-import type { Text, Type } from '../../primitive';
-import type { Codec, Registry } from '../../types';
+import type { MetadataLatest, PortableRegistry, SiLookupTypeId } from '../../interfaces';
+import type { Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';
 
-type Arg = { type: Type } & Codec;
-
-type Item = {
-  type: {
-    isDoubleMap: boolean;
-    isMap: boolean;
-    isNMap: boolean;
-    isPlain: boolean;
-    asDoubleMap: {
-      key1: Text;
-      key2: Text;
-      value: Text;
-    };
-    asMap: {
-      key: Text;
-      value: Text;
-    };
-    asNMap: {
-      keyVec: Text[];
-      value: Text;
-    },
-    asPlain: Text;
-  };
-} & Codec;
-
-type Storage = Option<{ items: Vec<Item> } & Codec>;
-
-type Call = { args: Vec<Arg> } & Codec;
-
-type Calls = Option<Vec<Call>>;
-
-type Event = { args: Vec<Type> } & Codec;
-
-type Events = Option<Vec<Event>>;
-
-type Module = {
-  // V1+
-  calls?: Calls;
-  // V6+
-  constants?: Vec<{ type: Text } & Codec>;
-  events?: Events;
-  storage?: Storage;
-} & Codec;
-
-interface ExtractionMetadata {
-  modules: Vec<Module>;
-}
-
 /** @internal */
-function unwrapCalls (mod: Module): Call[] {
-  return mod.calls
-    ? mod.calls.unwrapOr([])
-    : [];
-}
-
-/** @internal */
-function typeToString ({ type }: Arg): string {
-  return type.toString();
-}
-
-/** @internal */
-function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map((mod): string[][] =>
-    unwrapCalls(mod).map(({ args }): string[] =>
-      args.map(typeToString)
-    )
+function extractTypes (lookup: PortableRegistry, types: { type: SiLookupTypeId }[]): string[] {
+  return types.map(({ type }) =>
+    lookup.getTypeDef(type).type
   );
 }
 
 /** @internal */
-function getConstantNames ({ modules }: ExtractionMetadata): string[][] {
-  return modules.map(({ constants }): string[] =>
-    (constants || []).map(typeToString)
+function extractFieldTypes (lookup: PortableRegistry, type: SiLookupTypeId): string[][] {
+  return lookup.getSiType(type).def.asVariant.variants.map(({ fields }) =>
+    extractTypes(lookup, fields)
   );
 }
 
 /** @internal */
-function unwrapEvents (events?: Events): Event[] {
-  return events
-    ? events.unwrapOr([])
-    : [];
-}
+function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
+  return pallets.reduce<string[][][]>((all, { calls, constants, events, storage }) => {
+    all.push([extractTypes(lookup, constants)]);
 
-/** @internal */
-function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map(({ events }): string[][] =>
-    unwrapEvents(events).map(({ args }: Event): string[] =>
-      args.map((a) => a.toString())
-    )
-  );
-}
+    if (calls.isSome) {
+      all.push(extractFieldTypes(lookup, calls.unwrap().type));
+    }
 
-/** @internal */
-function unwrapStorage (storage?: Storage): Item[] {
-  return storage
-    ? storage.unwrapOr({ items: [] }).items
-    : [];
-}
+    if (events.isSome) {
+      all.push(extractFieldTypes(lookup, events.unwrap().type));
+    }
 
-/** @internal */
-function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map(({ storage }): string[][] =>
-    unwrapStorage(storage).map(({ type }) =>
-      type.isPlain
-        ? [
-          type.asPlain.toString()
-        ]
-        : type.isMap
+    if (storage.isSome) {
+      all.push(storage.unwrap().items.map(({ type }): string[] => {
+        if (type.isPlain) {
+          return [lookup.getTypeDef(type.asPlain).type];
+        }
+
+        const { hashers, key, value } = type.asMap;
+
+        return hashers.length === 1
           ? [
-            type.asMap.value.toString(),
-            type.asMap.key.toString()
+            lookup.getTypeDef(value).type,
+            lookup.getTypeDef(key).type
           ]
-          : type.isDoubleMap
-            ? [
-              type.asDoubleMap.value.toString(),
-              type.asDoubleMap.key1.toString(),
-              type.asDoubleMap.key2.toString()
-            ]
-            : [
-              type.asNMap.value.toString(),
-              ...type.asNMap.keyVec.map((k) => k.toString())
-            ]
-    )
-  );
+          : [
+            lookup.getTypeDef(value).type,
+            ...lookup.getSiType(key).def.asTuple.map((t) =>
+              lookup.getTypeDef(t).type
+            )
+          ];
+      }));
+    }
+
+    return all;
+  }, []);
 }
 
 /** @internal */
-export function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
-  return validateTypes(registry, throwError, flattenUniq([
-    getCallNames(meta),
-    getConstantNames(meta),
-    getEventNames(meta),
-    getStorageNames(meta)
-  ]));
+export function getUniqTypes (registry: Registry, meta: MetadataLatest, throwError: boolean): string[] {
+  return validateTypes(registry, throwError, flattenUniq(getPalletNames(meta)));
 }

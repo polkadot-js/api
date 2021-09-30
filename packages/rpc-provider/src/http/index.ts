@@ -62,7 +62,7 @@ export class HttpProvider implements ProviderInterface {
    * @description Returns a clone of the object
    */
   public clone (): HttpProvider {
-    throw new Error('Unimplemented');
+    return new HttpProvider(this.#endpoint, this.#headers);
   }
 
   /**

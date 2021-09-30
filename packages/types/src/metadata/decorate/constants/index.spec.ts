@@ -4,10 +4,11 @@
 import type { BlockNumber } from '../../../interfaces';
 import type { Constants } from '../types';
 
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import rpcMetadataV10 from '@polkadot/types-support/metadata/v10/substrate-hex';
+
 import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
-import rpcMetadata from '../../static';
-import rpcMetadataV10 from '../../v10/static';
 import { decorateConstants } from '..';
 
 function init (meta: string): [Constants, TypeRegistry] {
@@ -16,14 +17,14 @@ function init (meta: string): [Constants, TypeRegistry] {
 
   registry.setMetadata(metadata);
 
-  return [decorateConstants(registry, metadata.asLatest, 12), registry];
+  return [decorateConstants(registry, metadata.asLatest, metadata.version), registry];
 }
 
 describe('decorateConstants', (): void => {
   it('should return constants with the correct type and value', (): void => {
-    const [consts, registry] = init(rpcMetadata);
+    const [consts] = init(rpcMetadata);
 
-    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
+    expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).bitLength()).toBe(32);
     // 3 second blocks, 28 days
     expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });

@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import json from '@polkadot/types-support/metadata/static-substrate';
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
+import { u32 } from '../../primitive';
 import { Metadata } from '../Metadata';
-import json from '../static';
 import { decorateConstants, decorateExtrinsics, decorateStorage } from './';
 
 const registry = new TypeRegistry();
@@ -48,7 +49,7 @@ describe('Decorated', () => {
   it('should return constants with the correct type and value', (): void => {
     const consts = decorateConstants(registry, metadata.asLatest, metadata.version);
 
-    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
+    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(u32); // BlockNumber
     expect(consts.democracy.cooloffPeriod.toHex()).toEqual('0x000c4e00');
   });
 });

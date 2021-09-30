@@ -3,13 +3,17 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
+import type { CreateOptions } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata } from '../metadata';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
+import type { DetectCodec, DetectConstructor } from './detect';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterfaceTypes { }
@@ -33,7 +37,9 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface RegistryError {
-  documentation: string[];
+  args: string[];
+  docs: string[];
+  fields: SiField[];
   index: number;
   // compat
   method: string;
@@ -42,7 +48,8 @@ export interface RegistryError {
 }
 
 export interface OverrideVersionedType {
-  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
+  // min (v >= min) and max (v <= max)
+  minmax: [number | undefined | null, number | undefined | null] | [number?, number?] | (number | undefined | null)[];
   types: RegistryTypes;
 }
 
@@ -100,6 +107,8 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
+  readonly lookup: PortableRegistry;
+  readonly metadata: MetadataLatest;
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 
@@ -111,18 +120,22 @@ export interface Registry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
-  createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
-  createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
-  get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
+  isLookupType (value: string): boolean;
+  createLookupType (lookupId: SiLookupTypeId | number): string;
+
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
   getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
-  getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
+  getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
+  getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K>;
   setKnownTypes (types: RegisteredTypes): void;
-  getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
-  getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;
+  getSignedExtensionExtra (): Record<string, string>;
+  getSignedExtensionTypes (): Record<string, string>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

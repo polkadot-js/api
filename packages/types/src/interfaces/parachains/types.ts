@@ -2,11 +2,10 @@
 /* eslint-disable */
 
 import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
-import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {
@@ -177,6 +176,26 @@ export interface CoreOccupied extends Enum {
   readonly isParachain: boolean;
 }
 
+/** @name DisputeLocation */
+export interface DisputeLocation extends Enum {
+  readonly isLocal: boolean;
+  readonly isRemote: boolean;
+}
+
+/** @name DisputeResult */
+export interface DisputeResult extends Enum {
+  readonly isValid: boolean;
+  readonly isInvalid: boolean;
+}
+
+/** @name DisputeState */
+export interface DisputeState extends Struct {
+  readonly validatorsFor: BitVec;
+  readonly validatorsAgainst: BitVec;
+  readonly start: BlockNumber;
+  readonly concludedAt: Option<BlockNumber>;
+}
+
 /** @name DisputeStatement */
 export interface DisputeStatement extends Enum {
   readonly isValid: boolean;
@@ -189,7 +208,7 @@ export interface DisputeStatement extends Enum {
 export interface DisputeStatementSet extends Struct {
   readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
-  readonly statements: Vec<ITuple<[DisputeStatement, ValidatorIndex, ValidatorSignature]>>;
+  readonly statements: Vec<ITuple<[DisputeStatement, ParaValidatorIndex, ValidatorSignature]>>;
 }
 
 /** @name DoubleVoteReport */
@@ -454,7 +473,7 @@ export interface ParaLifecycle extends Enum {
 
 /** @name ParaPastCodeMeta */
 export interface ParaPastCodeMeta extends Struct {
-  readonly upgradeTimes: Vec<BlockNumber>;
+  readonly upgradeTimes: Vec<ReplacementTimes>;
   readonly lastPruned: Option<BlockNumber>;
 }
 
@@ -516,6 +535,12 @@ export interface RelayHash extends Hash {}
 
 /** @name Remark */
 export interface Remark extends U8aFixed {}
+
+/** @name ReplacementTimes */
+export interface ReplacementTimes extends Struct {
+  readonly expectedAt: BlockNumber;
+  readonly activatedAt: BlockNumber;
+}
 
 /** @name Retriable */
 export interface Retriable extends Enum {
@@ -609,6 +634,17 @@ export interface TransientValidationData extends Struct {
   readonly dmqLength: u32;
 }
 
+/** @name UpgradeGoAhead */
+export interface UpgradeGoAhead extends Enum {
+  readonly isAbort: boolean;
+  readonly isGoAhead: boolean;
+}
+
+/** @name UpgradeRestriction */
+export interface UpgradeRestriction extends Enum {
+  readonly isPresent: boolean;
+}
+
 /** @name UpwardMessage */
 export interface UpwardMessage extends Bytes {}
 
@@ -644,7 +680,9 @@ export interface ValidatorSignature extends Signature {}
 export interface ValidDisputeStatementKind extends Enum {
   readonly isExplicit: boolean;
   readonly isBackingSeconded: boolean;
+  readonly asBackingSeconded: Hash;
   readonly isBackingValid: boolean;
+  readonly asBackingValid: Hash;
   readonly isApprovalChecking: boolean;
 }
 

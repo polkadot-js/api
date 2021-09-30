@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { EraIndex } from '@polkadot/types/interfaces';
 import type { DeriveStakerPrefs } from '../types';
 
 import { map, switchMap } from 'rxjs';
@@ -13,7 +13,7 @@ import { memo } from '../util';
 export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerPrefs[]> =>
-    api.query.staking.erasValidatorPrefs.multi<ValidatorPrefs>(eras.map((era) => [era, accountId])).pipe(
+    api.query.staking.erasValidatorPrefs.multi(eras.map((era) => [era, accountId])).pipe(
       map((all): DeriveStakerPrefs[] =>
         all.map((validatorPrefs, index): DeriveStakerPrefs => ({
           era: eras[index],

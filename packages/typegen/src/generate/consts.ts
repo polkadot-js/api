@@ -6,6 +6,7 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
+import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -17,57 +18,61 @@ const generateForMetaTemplate = Handlebars.compile(template);
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes = {
+      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
+    const { lookup, pallets, registry } = meta.asLatest;
 
-    const modules = meta.asLatest.modules
-      .sort(compareName)
-      .filter((mod) => mod.constants.length > 0)
+    const modules = pallets
+      .filter(({ constants }) => constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
           setImports(allDefs, imports, ['Codec']);
         }
 
         const items = constants
-          .sort(compareName)
-          .map(({ documentation, name, type }) => {
-            const returnType = formatType(allDefs, type.toString(), imports);
+          .map(({ docs, name, type }) => {
+            const typeDef = lookup.getTypeDef(type);
+            const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
             setImports(allDefs, imports, [returnType]);
 
             return {
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               type: returnType
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
+      })
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map<{ file: string; types: string[] }>((packagePath) => ({
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['ApiTypes']
+        }
+      ]
     });
   });
 }

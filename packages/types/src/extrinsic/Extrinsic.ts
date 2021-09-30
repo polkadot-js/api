@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
-import type { FunctionMetadataLatest } from '../interfaces/metadata/types';
+import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Address, Balance, Call, Index } from '../interfaces/runtime';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, InterfaceTypes, Registry, SignatureOptions } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
@@ -24,7 +24,7 @@ interface CreateOptions {
 type ExtrinsicVx = ExtrinsicV4;
 type ExtrinsicValue = ExtrinsicValueV4;
 
-const VERSIONS: (keyof InterfaceTypes)[] = [
+const VERSIONS = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
@@ -183,7 +183,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a
     // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
+    return registry.createType(type, value, { isSigned, version });
   }
 
   /** @internal */

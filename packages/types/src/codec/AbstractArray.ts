@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyJson, Codec, Registry } from '../types';
+import type { AnyJson, Codec, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareArray } from './utils';
+import { compareArray } from './utils/compareArray';
 
 /**
  * @name AbstractArray
@@ -15,13 +15,17 @@ import { compareArray } from './utils';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
 
-  protected constructor (registry: Registry, ...values: T[]) {
-    super(...values);
+  protected constructor (registry: Registry, values: T[]) {
+    super(values.length);
+
+    for (let i = 0; i < values.length; i++) {
+      this[i] = values[i];
+    }
 
     this.registry = registry;
   }

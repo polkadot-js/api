@@ -21,7 +21,8 @@ function consts (api: ApiPromise): void {
   console.log(
     api.consts.foo.bar,
     api.consts.balances.existentialDeposit.toNumber(),
-    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.existentialDeposit.meta.docs.map((s) => s.toString()).join(''),
+    api.consts.system.blockWeights.maxBlock.divn(123).toNumber()
   );
 }
 
@@ -81,7 +82,7 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
-  const multi = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  const multi = await api.query.balances.freeBalance.multi([pairs.alice.address, pairs.bob.address]);
 
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
@@ -190,7 +191,7 @@ function types (api: ApiPromise): void {
 }
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  // transfer, also allows for BigInt inputs here
+  // transfer, also allows for bigint inputs here
   const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
 
   console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);

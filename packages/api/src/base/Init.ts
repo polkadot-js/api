@@ -114,9 +114,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const u8aHash = u8aToU8a(blockHash);
     const registry = await this.getBlockRegistry(u8aHash);
 
-    return registry.decoration
-      ? registry.decoration
-      : this._injectDecorated(registry, true, u8aHash).decoratedApi;
+    // always create a new decoration for this specific hash
+    return this._createDecorated(registry, true, u8aHash).decoratedApi;
   }
 
   /**
@@ -152,8 +151,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom((this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash))
     );
 
-    // check for pre-existing registries
-    const existingViaVersion = this.#registries.find(({ specVersion }) => specVersion.eq(version.specVersion));
+    // check for pre-existing registries. We also check specName, e.g. it
+    // could be changed like in Westmint with upgrade from  shell -> westmint
+    const existingViaVersion = this.#registries.find(({ specName, specVersion }) =>
+      specName.eq(version.specName) &&
+      specVersion.eq(version.specVersion)
+    );
 
     if (existingViaVersion) {
       existingViaVersion.lastBlockHash = blockHash;
@@ -170,7 +173,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { lastBlockHash: blockHash, metadata, registry, specVersion: version.specVersion };
+    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
 
     this.#registries.push(result);
 
@@ -213,7 +216,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       });
     });
 
-    this._filterRpcMethods(methods);
+    this._filterRpc(methods, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
 
     return [source.genesisHash, source.runtimeMetadata];
   }
@@ -296,12 +299,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
-    this._filterRpc(rpcMethods, getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._filterRpc(rpcMethods.methods.map((t) => t.toString()), getSpecRpc(this.registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specVersion: runtimeVersion.specVersion });
+      this.#registries.push({ isDefault: true, metadata, registry: this.registry, specName: runtimeVersion.specName, specVersion: runtimeVersion.specVersion });
     }
 
     // get unique types & validate
@@ -329,6 +332,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return true;
   }
 
+  private _subscribeHealth (): void {
+    // Only enable the health keepalive on WS, not needed on HTTP
+    this.#healthTimer = this.hasSubscriptions
+      ? setInterval((): void => {
+        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
+      }, KEEPALIVE_INTERVAL)
+      : null;
+  }
+
   private _unsubscribeHealth (): void {
     if (this.#healthTimer) {
       clearInterval(this.#healthTimer);
@@ -349,8 +361,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   #onProviderConnect = async (): Promise<void> => {
-    this.emit('connected');
     this._isConnected.next(true);
+    this.emit('connected');
 
     try {
       const [hasMeta, cryptoReady] = await Promise.all([
@@ -360,15 +372,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
           : cryptoWaitReady()
       ]);
 
+      this._subscribeHealth();
+
       if (hasMeta && !this._isReady && cryptoReady) {
         this._isReady = true;
 
         this.emit('ready', this);
       }
-
-      this.#healthTimer = setInterval((): void => {
-        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
-      }, KEEPALIVE_INTERVAL);
     } catch (_error) {
       const error = new Error(`FATAL: Unable to initialize the API: ${(_error as Error).message}`);
 
@@ -379,10 +389,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   #onProviderDisconnect = (): void => {
-    this.emit('disconnected');
     this._isConnected.next(false);
-
     this._unsubscribeHealth();
+    this.emit('disconnected');
   };
 
   #onProviderError = (error: Error): void => {

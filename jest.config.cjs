@@ -12,21 +12,9 @@ module.exports = {
     '@polkadot/metadata(.*)$': '<rootDir>/packages/metadata/src/$1',
     '@polkadot/rpc-(core|provider)(.*)$': '<rootDir>/packages/rpc-$1/src/$2',
     '@polkadot/typegen(.*)$': '<rootDir>/packages/typegen/src/$1',
-    '@polkadot/types-known(.*)$': '<rootDir>/packages/types-known/src/$1',
+    '@polkadot/types-(known|support)(.*)$': '<rootDir>/packages/types-$1/src/$2',
     // eslint-disable-next-line sort-keys
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
-  modulePathIgnorePatterns: [
-    '<rootDir>/packages/api/build',
-    '<rootDir>/packages/api-contract/build',
-    '<rootDir>/packages/api-derive/build',
-    '<rootDir>/packages/metadata/build',
-    '<rootDir>/packages/rpc-core/build',
-    '<rootDir>/packages/rpc-provider/build',
-    '<rootDir>/packages/typegen/build',
-    '<rootDir>/packages/types/build',
-    '<rootDir>/packages/types-known/build'
-  ],
-  testTimeout: 30000,
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
+  testTimeout: 30000
 };

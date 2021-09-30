@@ -1,5 +1,283 @@
 # CHANGELOG
 
+## 6.1.2 Sep 29, 2021
+
+Upgrade priority: Low. Recommended for 6.x users using historic queries.
+
+Changes:
+
+- Fix `.at` queries/decoration for pre-V13 metadata
+- Added `BridgeMessageId` & `SpecVersion` types for bridges
+- Added `WrapperOpaque` encoding/decoding (as per latest Substrate)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.1.1 Sep 27, 2021
+
+Upgrade priority: Low. Minor maintenance changes from the 6.0.x versions.
+
+Contributed:
+
+- Adjust bridges `OutboundLaneData` type (Thanks to https://github.com/HackFisher)
+- Fix README 404 (Thanks to https://github.com/nblogist)
+
+Changes:
+
+- Add `childstate_getStorageEntries` RPC
+- Allow for scale-info v0 -> v1 conversion
+
+
+## 6.0.5 Sep 20, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.4 using `api.query.*.*.at` calls
+
+Changes:
+
+- Revert cross-registry (now-inactive) change introduced in 6.0.3
+- Ensure `Option` is correctly imported for TS query generation
+
+
+## 6.0.4 Sep 20, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
+
+Changes:
+
+- `api.query.<module>.<method>.at` will now use `at.at(<hash>)`
+- Use and expose `metadata/util/getSiName` to get human type names
+
+
+## 6.0.3 Sep 19, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.2 using `api.query.*.*.at` calls
+
+Changes:
+
+- Fix `api.query.<module>.<method>.at` queries
+- Adjust typegen formatting for metadata documentation
+
+
+## 6.0.2 Sep 18, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.1, especially those using `api.query.substrate.*` calls
+
+Changes:
+
+- Fix `api.query.substrate.*` key generation
+
+
+## 6.0.1 Sep 18, 2021
+
+Upgrade priority: Low. Recommended for users of the latest Substrate/Polkadot with Metadata v14.
+
+- **Important** The Metadata v14 change allows the metadata to expose the chain types. This has been a major overhaul of the metadata handling, hence the major version bump.
+
+Contributed:
+
+- Allow for `.clone` on Http provider (Thanks to https://github.com/ianhe8x)
+
+Changes:
+
+- Allow for Metadata v14 parsing & usage
+- Align `DigestItem` to latest Substrate
+- Adjust Kusama `IdentityInfo` type for historic versions
+- All `null` values in bundles min/max
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.9.1 Sep 13, 2021
+
+Upgrade priority: Low. Recommended for chains using Xcm.
+
+Contributed:
+
+- Adjust Centrifuge `ProxyType` (Thanks to https://github.com/branan)
+
+Changes:
+
+- Additional types for parachain Disputes
+- Adjust Xcm Error enum types
+- Add Polkadot 9090 upgrade block
+- Decoding enhancements with narrowing checks for TS
+
+
+## 5.8.3 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust Statemint, Rococo and Westend Xcm overrides
+
+
+## 5.8.2 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Correct Xcm V1 `MultiLocation` definitions (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Adjust Kusama Xcm overrides
+
+
+## 5.8.1 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Add `Auction` to Kusama `ProxyType` definition
+- Adjust Xcm definitions with latest v1 & v2 types
+- Support for `scale-info` 1.0 `Range` mapping
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.7.1 Aug 29, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Optimize `Vec` construction (no re-create on new arrays)
+- Adjust output for enums in `toHuman`
+- Adjust aliases for new parachain module locations
+- Support for versioned xcm types (Polkadot master)
+- Add support for `Range` in `PortableRegistry` (used in Metadata 14)
+- Adjust balances derive for non-existent instances
+- Ensure Statemint (current) defaults to xcm v0
+- Add Kusama 9090 upgrade block
+
+
+## 5.6.1 Aug 23, 2021
+
+Upgrade priority: Low. Recommended for users of Xcm, preparing for Kusama/Westend 9100
+
+Contributed:
+
+- Support 0...N-1 args on `keys/entries` (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- Updated XCM types, `AssetId`, `MultiAssets`, `MultiAssetV1`, `AssetInstanceV1`, `XcmOrderV1`
+- Rename `Null` entry in `MultiLocation` to `Here` (Xcm V1)
+- Westend 9090 upgrade block
+- Bump static Substrate, Kusama & Polkadot metadata
+
+
+## 5.5.2 Aug 19, 2021
+
+Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.
+
+Changes:
+
+- Adjust `ValidDisputeStatementKind` enum to latest version
+- Only enable API health keepalive on connections supporting subscriptions
+
+
+## 5.5.1 Aug 15, 2021
+
+Upgrade priority: Low. Recommended for users of TS (`createType` and `bigint` adjustments)
+
+Contributed:
+
+- Add `Range` & `RangeInclusive` types (Thanks to https://github.com/c410-f3r)
+- Always use TS `bigint` type (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Loosen pedantic check not to fail on all-empty values
+- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`, `Range`
+- Add Polkadot 9080 upgrade block
+
+
+## 5.4.1 Aug 9, 2021
+
+Upgrade priority: Low. Recommended for potential users of NMap.
+
+- **Important** The `ClassOf` alias for `createClass` has been removed, use `createClass` (with new generics) directly
+
+Contributed:
+
+- Enable `.keys()/.entries()` on NMap (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- `createType<T = Codec>('...': K)` now returns `Codec` when `K` is not known
+- `createType` does basic TypeScript type matching on the input type
+- Handle `BitSequence` in `PortableRegistry`
+- Ensure API `isConnected` is set before connect/disconnect events are fired
+- Move all static test support files into `@polkadot/types-support`
+- Align static Metadata with latest Substrate, Polkadot & Kusama
+- Adjust v14 Metadata definitions to latest version
+
+
+## 5.3.2 Aug 3, 2021
+
+Upgrade priority: Low. Recommended for users of bridges.
+
+Contributed:
+
+- Add missing bridges types (Thanks to https://github.com/tomusdrw)
+
+Changes:
+
+- Align static metadata with latest Substrate
+
+
+## 5.3.1 Aug 2, 2021
+
+Upgrade priority: Low. Recommended for users of `api.at(...)` interfaces
+
+Changes:
+
+- Check specName & specVersion for historic registries (caters for runtime renames)
+- Fix circular dependencies in codec utils
+- Fix `api.at(<blockHash>)` to decorate with the correct storage hash
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Add Kusama 9080 upgrade block
+- Add v13/v14 static metadata for Polkadot
+- Align static metadata with latest Substrate
+
+
+## 5.2.1 Jul 26, 2021
+
+Upgrade priority: Low. Recommended for users of `BTreeMap` and `BTreeSet`
+
+Contributed:
+
+- Perform sorting on `BTree{Map, Set}`, aligning with Substrate (Thanks to https://github.com/Lezek123)
+
+Changes:
+
+- Adjust RPC to use `registry.createType` with optionality (required for metadata v14)
+- Adjust alphabetical sorting for TS type generation
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Provide the capability to convert v13 Metadata to upcoming v14
+
+
+## 5.1.1 Jul 19, 2021
+
+Upgrade priority: Low. Recommended for users of XCM with type fixes.
+
+- **Breaking changes** With the support for v14 metadata parsing, the `documentation` fields on metadata was renamed to `docs` for consistency, aligning with the SCALE type generators.
+
+Contributed:
+
+- Don't clear rpc decoration on Api clone (Thanks to https://github.com/ianhe8x)
+- Align Xcm Junction type with Substrate (Thanks to https://github.com/dt665m)
+
+Changes:
+
+- Update `ParaPastCodeMeta` with `ReplacementTimes`
+- Add mappings for `AccountId20` & `AccountId32` types
+- Adjust scale-info types with Substrate (mapping for api-contracts to old)
+- Allow nested structs in enum definitions & generation
+- Allow for parsing of v14 metadata (not enabled by default, not merged into Substrate as of yet)
+
+
 ## 5.0.1 Jul 11, 2021
 
 Upgrade priority: Low. Recommended for users of current-generation Substrate chains.

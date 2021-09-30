@@ -7,13 +7,14 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
-import { bnToBn, isUndefined } from '@polkadot/util';
+import { bnToBn, isNull, isUndefined } from '@polkadot/util';
 
 import typesChain from './chain';
 import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
 
+export { knownOrigins } from './knownOrigins';
 export { packageInfo } from './packageInfo';
 
 // flatten a VersionedType[] into a Record<string, string>
@@ -21,8 +22,8 @@ export { packageInfo } from './packageInfo';
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }) =>
-      (isUndefined(min) || specVersion >= min) &&
-      (isUndefined(max) || specVersion <= max)
+      (isUndefined(min) || isNull(min) || specVersion >= min) &&
+      (isUndefined(max) || isNull(max) || specVersion <= max)
     )
     .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
       ...result,
@@ -56,7 +57,7 @@ export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | s
 /**
  * @description Based on the chain and runtimeVersion, get the applicable types (ready for registration)
  */
-export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: BigInt | BN | number): RegistryTypes {
+export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: bigint | BN | number): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();

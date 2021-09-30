@@ -8,4 +8,7 @@ import { UInt } from '../codec/UInt';
  * @description
  * A 32-bit unsigned integer
  */
-export class u32 extends UInt.with(32) {}
+export class u32 extends UInt.with(32) {
+  // NOTE without this, we cannot properly determine extensions
+  public readonly __UIntType = 'u32';
+}

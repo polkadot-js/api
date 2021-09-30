@@ -90,7 +90,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
             return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
           });
 
-          type = formatType(allDefs, def.type, imports);
+          type = formatType(registry, allDefs, def.type, imports);
           generic = '';
         }
 
@@ -126,18 +126,16 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
     imports.typesTypes.Observable = true;
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      }))
-    ];
-
     return generateRpcTypesTemplate({
       headerType: 'chain',
       imports,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
+          types: Object.keys(imports.localTypes[packagePath])
+        }))
+      ]
     });
   });
 }

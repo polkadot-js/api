@@ -1,0 +1,15 @@
+{{> header }}
+
+/* eslint-disable sort-keys */
+
+import type { DefinitionsTypes } from '../../types';
+
+export default {
+  {{#each defs}}
+  {{> docs}}
+  {{#each defs}}
+  {{{this}}}
+  {{/each}}
+  {{/each}}
+} as DefinitionsTypes;
+{{> footer }}

@@ -2,20 +2,20 @@
   {
     "displayName": "Header",
     "namespace": "ink_storage::collections::stash",
-    "info": 9,
+    "info": "Struct",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "last_vacant"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "len"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "len_entries"
       }
@@ -23,7 +23,7 @@
     "type": "{\"last_vacant\":\"u32\",\"len\":\"u32\",\"len_entries\":\"u32\"}"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u32"
   },
   {
@@ -33,15 +33,15 @@
       {
         "displayName": "VacantEntry",
         "namespace": "ink_storage::collections::stash",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "next"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "prev"
           }
@@ -50,73 +50,73 @@
         "name": "Vacant"
       },
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32"
           },
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 6,
+            "info": "Plain",
             "type": "AccountId"
           }
         ],
-        "type": "(u32, AccountId)",
+        "type": "(u32,AccountId)",
         "name": "Occupied"
       }
     ],
-    "info": 3,
-    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(u32, AccountId)\"}}"
+    "info": "Enum",
+    "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"(u32,AccountId)\"}}"
   },
   {
-    "info": 10,
+    "info": "Tuple",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32"
       },
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 6,
+        "info": "Plain",
         "type": "AccountId"
       }
     ],
-    "type": "(u32, AccountId)"
+    "type": "(u32,AccountId)"
   },
   {
     "displayName": "AccountId",
     "namespace": "ink_env::types",
-    "info": 6,
+    "info": "Plain",
     "type": "AccountId"
   },
   {
-    "info": 12,
+    "info": "VecFixed",
     "length": 32,
     "sub": {
-      "info": 6,
+      "info": "Plain",
       "type": "u8"
     },
     "type": "[u8;32]"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u8"
   },
   {
     "displayName": "VacantEntry",
     "namespace": "ink_storage::collections::stash",
-    "info": 9,
+    "info": "Struct",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "next"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "prev"
       }
@@ -128,22 +128,22 @@
     "namespace": "ink_storage::collections::hashmap",
     "sub": [
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()",
         "name": "value"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "key_index"
       }
     ],
-    "info": 9,
+    "info": "Struct",
     "type": "{\"value\":\"()\",\"key_index\":\"u32\"}"
   },
   {
-    "info": 10,
+    "info": "Tuple",
     "sub": [],
     "type": "()"
   },
@@ -154,15 +154,15 @@
       {
         "displayName": "VacantEntry",
         "namespace": "ink_storage::collections::stash",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "next"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "prev"
           }
@@ -171,12 +171,12 @@
         "name": "Vacant"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "Occupied"
       }
     ],
-    "info": 3,
+    "info": "Enum",
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"u32\"}}"
   },
   {
@@ -184,17 +184,17 @@
     "namespace": "ink_storage::collections::hashmap",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "value"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "key_index"
       }
     ],
-    "info": 9,
+    "info": "Struct",
     "type": "{\"value\":\"u32\",\"key_index\":\"u32\"}"
   },
   {
@@ -204,15 +204,15 @@
       {
         "displayName": "VacantEntry",
         "namespace": "ink_storage::collections::stash",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "next"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "prev"
           }
@@ -223,41 +223,41 @@
       {
         "displayName": "Transaction",
         "namespace": "multisig_plain::multisig_plain",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
             "displayName": "AccountId",
             "namespace": "ink_env::types",
-            "info": 6,
+            "info": "Plain",
             "type": "AccountId",
             "name": "callee"
           },
           {
-            "info": 12,
+            "info": "VecFixed",
             "length": 4,
             "sub": {
-              "info": 6,
+              "info": "Plain",
               "type": "u8"
             },
             "type": "[u8;4]",
             "name": "selector"
           },
           {
-            "info": 11,
+            "info": "Vec",
             "sub": {
-              "info": 6,
+              "info": "Plain",
               "type": "u8"
             },
             "type": "Vec<u8>",
             "name": "input"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u128",
             "name": "transferred_value"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u64",
             "name": "gas_limit"
           }
@@ -266,47 +266,47 @@
         "name": "Occupied"
       }
     ],
-    "info": 3,
+    "info": "Enum",
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"Transaction\"}}"
   },
   {
     "displayName": "Transaction",
     "namespace": "multisig_plain::multisig_plain",
-    "info": 9,
+    "info": "Struct",
     "sub": [
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 6,
+        "info": "Plain",
         "type": "AccountId",
         "name": "callee"
       },
       {
-        "info": 12,
+        "info": "VecFixed",
         "length": 4,
         "sub": {
-          "info": 6,
+          "info": "Plain",
           "type": "u8"
         },
         "type": "[u8;4]",
         "name": "selector"
       },
       {
-        "info": 11,
+        "info": "Vec",
         "sub": {
-          "info": 6,
+          "info": "Plain",
           "type": "u8"
         },
         "type": "Vec<u8>",
         "name": "input"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u128",
         "name": "transferred_value"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u64",
         "name": "gas_limit"
       }
@@ -314,28 +314,28 @@
     "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
   },
   {
-    "info": 12,
+    "info": "VecFixed",
     "length": 4,
     "sub": {
-      "info": 6,
+      "info": "Plain",
       "type": "u8"
     },
     "type": "[u8;4]"
   },
   {
-    "info": 11,
+    "info": "Vec",
     "sub": {
-      "info": 6,
+      "info": "Plain",
       "type": "u8"
     },
     "type": "Vec<u8>"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u128"
   },
   {
-    "info": 6,
+    "info": "Plain",
     "type": "u64"
   },
   {
@@ -345,15 +345,15 @@
       {
         "displayName": "VacantEntry",
         "namespace": "ink_storage::collections::stash",
-        "info": 9,
+        "info": "Struct",
         "sub": [
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "next"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "prev"
           }
@@ -364,44 +364,44 @@
       {
         "displayName": "AccountId",
         "namespace": "ink_env::types",
-        "info": 6,
+        "info": "Plain",
         "type": "AccountId",
         "name": "Occupied"
       }
     ],
-    "info": 3,
+    "info": "Enum",
     "type": "{\"_enum\":{\"Vacant\":\"VacantEntry\",\"Occupied\":\"AccountId\"}}"
   },
   {
-    "info": 11,
+    "info": "Vec",
     "sub": {
       "displayName": "AccountId",
       "namespace": "ink_env::types",
-      "info": 6,
+      "info": "Plain",
       "type": "AccountId"
     },
     "type": "Vec<AccountId>"
   },
   {
-    "info": 10,
+    "info": "Tuple",
     "sub": [
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32"
       },
       {
         "displayName": "ConfirmationStatus",
         "namespace": "multisig_plain::multisig_plain",
-        "info": 3,
+        "info": "Enum",
         "sub": [
           {
-            "info": 10,
+            "info": "Tuple",
             "sub": [],
             "name": "Confirmed",
             "type": "()"
           },
           {
-            "info": 6,
+            "info": "Plain",
             "type": "u32",
             "name": "ConfirmationsNeeded"
           }
@@ -409,21 +409,21 @@
         "type": "{\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}}"
       }
     ],
-    "type": "(u32, ConfirmationStatus)"
+    "type": "(u32,ConfirmationStatus)"
   },
   {
     "displayName": "ConfirmationStatus",
     "namespace": "multisig_plain::multisig_plain",
-    "info": 3,
+    "info": "Enum",
     "sub": [
       {
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "name": "Confirmed",
         "type": "()"
       },
       {
-        "info": 6,
+        "info": "Plain",
         "type": "u32",
         "name": "ConfirmationsNeeded"
       }
@@ -435,18 +435,18 @@
     "sub": [
       {
         "name": "Ok",
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()"
       },
       {
         "name": "Error",
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()"
       }
     ],
-    "info": 7,
+    "info": "Result",
     "type": "Result<(), ()>"
   },
   {
@@ -454,21 +454,21 @@
     "sub": [
       {
         "name": "Ok",
-        "info": 11,
+        "info": "Vec",
         "sub": {
-          "info": 6,
+          "info": "Plain",
           "type": "u8"
         },
         "type": "Vec<u8>"
       },
       {
         "name": "Error",
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()"
       }
     ],
-    "info": 7,
+    "info": "Result",
     "type": "Result<Vec<u8>, ()>"
   },
   {
@@ -478,37 +478,37 @@
         "name": "Ok",
         "displayName": "Option",
         "sub": {
-          "info": 11,
+          "info": "Vec",
           "sub": {
-            "info": 6,
+            "info": "Plain",
             "type": "u8"
           },
           "type": "Vec<u8>"
         },
-        "info": 5,
+        "info": "Option",
         "type": "Option<Vec<u8>>"
       },
       {
         "name": "Error",
-        "info": 10,
+        "info": "Tuple",
         "sub": [],
         "type": "()"
       }
     ],
-    "info": 7,
+    "info": "Result",
     "type": "Result<Option<Vec<u8>>, ()>"
   },
   {
     "displayName": "Option",
     "sub": {
-      "info": 11,
+      "info": "Vec",
       "sub": {
-        "info": 6,
+        "info": "Plain",
         "type": "u8"
       },
       "type": "Vec<u8>"
     },
-    "info": 5,
+    "info": "Option",
     "type": "Option<Vec<u8>>"
   }
 ]

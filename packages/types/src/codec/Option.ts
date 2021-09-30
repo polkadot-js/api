@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecHash, Hash } from '../interfaces';
-import type { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, Codec, Constructor, IOption, Registry } from '../types';
 
 import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -17,7 +17,7 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 }
 
 /** @internal */
-function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: unknown): Codec {
+function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null) {
     return new Null(registry);
   }
@@ -47,7 +47,7 @@ function decodeOption (registry: Registry, typeName: Constructor | keyof Interfa
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export class Option<T extends Codec> implements Codec {
+export class Option<T extends Codec> implements IOption<T> {
   public readonly registry: Registry;
 
   public createdAtHash?: Hash;
@@ -56,13 +56,13 @@ export class Option<T extends Codec> implements Codec {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: unknown) {
+  constructor (registry: Registry, typeName: Constructor<T> | string, value?: unknown) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, typeName);
     this.#raw = decodeOption(registry, typeName, value) as T;
   }
 
-  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);

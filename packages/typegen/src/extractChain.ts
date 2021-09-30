@@ -12,7 +12,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 /** @internal */
 async function run (ws: string): Promise<void> {
   const provider = new WsProvider(ws);
-  const api = await ApiPromise.create({ provider });
+  const api = await ApiPromise.create({ provider, throwOnConnect: true });
   const [chain, props] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.properties()
