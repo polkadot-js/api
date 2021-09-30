@@ -184,7 +184,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     }
 
     #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
+      const assetId = options.assetId
+        ? this.registry.createType('Option<AssetId>', options.assetId)
+        : this.registry.createType('Option<AssetId>');
+
+      delete options.assetId;
+
       return {
+        assetId,
         blockHash: api.genesisHash,
         genesisHash: api.genesisHash,
         ...options,

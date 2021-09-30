@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Option } from '..';
 import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
-import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
+import type { Address, AssetId, Balance, Call, H256, Index } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
 import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from './codec';
 import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
@@ -159,6 +160,7 @@ export interface SignatureOptions {
   signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
+  assetId: Option<AssetId>;
 }
 
 interface ExtrinsicSignatureBase {
@@ -179,6 +181,7 @@ export interface ExtrinsicPayloadValue {
   specVersion: AnyNumber;
   tip: AnyNumber;
   transactionVersion: AnyNumber;
+  assetId: Option<AssetId>;
 }
 
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {

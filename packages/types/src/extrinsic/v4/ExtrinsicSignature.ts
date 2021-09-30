@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
+import type { Address, AssetId, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
@@ -13,6 +13,7 @@ import { Enum } from '../../codec/Enum';
 import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
+import { Option } from '@polkadot/types';
 
 const FAKE_NONE = new Uint8Array();
 const FAKE_SOME = new Uint8Array([1]);
@@ -138,8 +139,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): GenericExtrinsicPayloadV4 {
+  public createPayload (method: Call, { assetId, blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): GenericExtrinsicPayloadV4 {
     return new GenericExtrinsicPayloadV4(this.registry, {
+      assetId,
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
