@@ -92,6 +92,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV4 {
+    console.debug('sign options:', options);
     this.signature.sign(this.method, account, options);
 
     return this;
