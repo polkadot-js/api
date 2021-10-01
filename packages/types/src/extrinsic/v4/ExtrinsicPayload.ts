@@ -3,11 +3,12 @@
 
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
-import type { Balance, Hash, Index } from '../../interfaces/runtime';
+import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
+import { Option } from '../../codec/Option';
 import { Struct } from '../../codec/Struct';
 import { Bytes } from '../../primitive/Bytes';
 import { u32 } from '../../primitive/U32';
@@ -90,6 +91,13 @@ export class GenericExtrinsicPayloadV4 extends Struct {
    */
   public get transactionVersion (): u32 {
     return this.get('transactionVersion') as u32;
+  }
+
+  /**
+   * @description The asset id
+   */
+  public get assetId (): Option<AssetId> {
+    return this.get('assetId') as Option<AssetId>;
   }
 
   /**

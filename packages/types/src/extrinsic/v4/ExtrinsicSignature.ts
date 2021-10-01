@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
+import type { Address, AssetId, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, stringify, u8aConcat } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
+import { Option } from '../../codec/Option';
 import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
@@ -114,12 +115,20 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     return this.get('tip') as Compact<Balance>;
   }
 
-  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, { era, nonce, tip }: GenericExtrinsicPayloadV4): IExtrinsicSignature {
+  /**
+   * @description The asset id
+   */
+  public get assetId (): Option<AssetId> {
+    return this.get('assetId') as Option<AssetId>;
+  }
+
+  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, { assetId, era, nonce, tip }: GenericExtrinsicPayloadV4): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
     this.set('signature', signature);
     this.set('tip', tip);
+    this.set('assetId', assetId);
 
     return this;
   }
