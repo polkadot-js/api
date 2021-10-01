@@ -4,14 +4,15 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
-import type { AccountId, EraIndex, Exposure, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingExposure, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { DeriveStakingQuery, StakingQueryFlags } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<Nominations>, rewardDestination: RewardDestination, validatorPrefs: ValidatorPrefs, exposure: Exposure, stakingLedgerOpt: Option<StakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestination: PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt && controllerIdOpt.unwrapOr(null),
@@ -26,21 +27,21 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
   };
 }
 
-function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<StakingLedger>[]> {
+function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<PalletStakingStakingLedger>[]> {
   const ids = optIds
     .filter((opt): opt is Option<AccountId> => withLedger && !!opt && opt.isSome)
     .map((opt) => opt.unwrap());
-  const emptyLed = api.registry.createType('Option<StakingLedger>');
+  const emptyLed = api.registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>');
 
   return (
     ids.length
       ? api.query.staking.ledger.multi(ids)
       : of([])
   ).pipe(
-    map((optLedgers): Option<StakingLedger>[] => {
+    map((optLedgers): Option<PalletStakingStakingLedger>[] => {
       let offset = -1;
 
-      return optIds.map((opt): Option<StakingLedger> =>
+      return optIds.map((opt): Option<PalletStakingStakingLedger> =>
         opt && opt.isSome
           ? optLedgers[++offset] || emptyLed
           : emptyLed
@@ -49,11 +50,11 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
   );
 }
 
-function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<Nominations>[], RewardDestination[], ValidatorPrefs[], Exposure[]]> {
-  const emptyNoms = api.registry.createType('Option<Nominations>');
-  const emptyRewa = api.registry.createType('RewardDestination');
-  const emptyExpo = api.registry.createType('Exposure');
-  const emptyPrefs = api.registry.createType('ValidatorPrefs');
+function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], PalletStakingRewardDestination[], PalletStakingValidatorPrefs[], PalletStakingExposure[]]> {
+  const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
+  const emptyRewa = api.registry.createType<PalletStakingRewardDestination>('RewardDestination');
+  const emptyExpo = api.registry.createType<PalletStakingExposure>('Exposure');
+  const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
 
   return combineLatest([
     withController || withLedger

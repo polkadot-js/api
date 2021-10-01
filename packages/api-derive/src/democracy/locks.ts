@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountId, ReferendumInfoFinished, ReferendumInfoTo239, Vote, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo } from '@polkadot/types/lookup';
+import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveDemocracyLock } from '../types';
 
@@ -13,6 +13,11 @@ import { map, of, switchMap } from 'rxjs';
 import { BN_ZERO, isUndefined } from '@polkadot/util';
 
 import { memo } from '../util';
+
+type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
+type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
+type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
+type VotingDirectVote = VotingDirect['votes'][0];
 
 const LOCKUPS = [0, 1, 2, 4, 8, 16, 32];
 

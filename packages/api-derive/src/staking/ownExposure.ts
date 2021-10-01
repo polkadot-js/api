@@ -3,7 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
-import type { EraIndex, Exposure } from '@polkadot/types/interfaces';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveOwnExposure } from '../types';
 
 import { map, of, switchMap } from 'rxjs';
@@ -14,7 +15,7 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
     eras.length
-      ? api.queryMulti<Exposure[]>([
+      ? api.queryMulti<PalletStakingExposure[]>([
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [era, accountId]]),
         ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [era, accountId]])
       ]).pipe(
