@@ -6,7 +6,7 @@ import type { Address, AssetId, Balance, Call, Index } from '../../interfaces/ru
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, stringify, u8aConcat } from '@polkadot/util';
+import { assert, isU8a, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
