@@ -116,7 +116,8 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   }
 
   /**
-   * @description The asset id
+   * @description
+   * The (optional) asset id for this signature for chains that support transaction fees in assets
    */
   public get assetId (): Option<AssetId> {
     return this.get('assetId') as Option<AssetId>;
