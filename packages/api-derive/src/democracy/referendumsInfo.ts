@@ -4,8 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, ReferendumInfoTo239, Vote, Voting, VotingDelegating, VotingDirectVote } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo } from '@polkadot/types/lookup';
+import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
@@ -15,6 +15,10 @@ import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 import { calcVotes, getStatus, parseImage } from './util';
+
+type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
+type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
+type VotingDirectVote = VotingDirect['votes'][0];
 
 function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
@@ -42,7 +46,7 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
   );
 }
 
-function extractVotes (mapped: [AccountId, Voting][], referendumId: BN): DeriveReferendumVote[] {
+function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referendumId: BN): DeriveReferendumVote[] {
   return mapped
     .filter(([, voting]) => voting.isDirect)
     .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
@@ -67,9 +71,9 @@ function extractVotes (mapped: [AccountId, Voting][], referendumId: BN): DeriveR
 }
 
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
-  return api.query.democracy.votingOf.entries<Voting, [AccountId]>().pipe(
+  return api.query.democracy.votingOf.entries().pipe(
     map((allVoting): DeriveReferendumVote[] => {
-      const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, Voting] => [accountId, voting]);
+      const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, PalletDemocracyVoteVoting] => [accountId, voting]);
       const votes = extractVotes(mapped, referendumId);
       const delegations = mapped
         .filter(([, voting]) => voting.isDelegating)

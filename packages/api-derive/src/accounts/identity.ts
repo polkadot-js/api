@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Data, Option } from '@polkadot/types';
-import type { AccountId, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
@@ -13,6 +14,8 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 import { isHex, u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
+
+type IdentityInfoAdditional = PalletIdentityIdentityInfo['additional'][0];
 
 const UNDEF_HEX = { toHex: () => undefined };
 
@@ -37,7 +40,7 @@ function extractOther (additional: IdentityInfoAdditional[]): Record<string, str
   }, {});
 }
 
-function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
+function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
   }
@@ -61,7 +64,7 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
   };
 }
 
-function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> {
+function getParent (api: ApiInterfaceRx, identityOfOpt: Option<PalletIdentityRegistration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<PalletIdentityRegistration> | undefined, [AccountId, Data] | undefined]> {
   if (identityOfOpt?.isSome) {
     // this identity has something set
     return of([identityOfOpt, undefined]);
@@ -70,7 +73,7 @@ function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | u
 
     // we have a super
     return combineLatest([
-      api.query.identity.identityOf<Option<Registration>>(superOf[0]),
+      api.query.identity.identityOf(superOf[0]),
       of(superOf)
     ]);
   }
@@ -79,9 +82,9 @@ function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | u
   return of([undefined, undefined]);
 }
 
-function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
   return accountId && api.query.identity?.identityOf
-    ? api.queryMulti<[Option<Registration>, Option<ITuple<[AccountId, Data]>>]>([
+    ? api.queryMulti<[Option<PalletIdentityRegistration>, Option<ITuple<[AccountId, Data]>>]>([
       [api.query.identity.identityOf, accountId],
       [api.query.identity.superOf, accountId]
     ])

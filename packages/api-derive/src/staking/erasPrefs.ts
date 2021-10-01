@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
-import type { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -13,7 +14,7 @@ import { deriveCache, memo } from '../util';
 
 const CACHE_KEY = 'eraPrefs';
 
-function mapPrefs (era: EraIndex, all: [StorageKey, ValidatorPrefs][]): DeriveEraPrefs {
+function mapPrefs (era: EraIndex, all: [StorageKey, PalletStakingValidatorPrefs][]): DeriveEraPrefs {
   const validators: DeriveEraValPrefs = {};
 
   all.forEach(([key, prefs]): void => {

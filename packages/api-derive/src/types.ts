@@ -2,51 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
-import type { AccountId, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, Bounty, BountyIndex, Hash, Index, Proposal, ProposalIndex, SetIndex, SocietyVote, StrikeCount, TreasuryProposal, Votes, VouchingStatus } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, TreasuryProposal, Votes } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export * from './accounts/types';
+export * from './balances/types';
 export * from './council/types';
 export * from './crowdloan/types';
 export * from './democracy/types';
 export * from './elections/types';
 export * from './parachains/types';
 export * from './session/types';
+export * from './society/types';
 export * from './staking/types';
 export * from './type/types';
-
-export interface DeriveBalancesAccountData {
-  freeBalance: Balance;
-  frozenFee: Balance;
-  frozenMisc: Balance;
-  reservedBalance: Balance;
-  votingBalance: Balance;
-}
-
-export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
-  accountId: AccountId;
-  accountNonce: Index;
-  additional: DeriveBalancesAccountData[];
-}
-
-export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData {
-  availableBalance: Balance;
-  lockedBalance: Balance;
-  lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
-  vestingLocked: Balance;
-}
-
-export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData {
-  additional: DeriveBalancesAllAccountData[];
-  isVesting: boolean;
-  vestedBalance: Balance;
-  vestedClaimable: Balance;
-  vestingEndBlock: BlockNumber;
-  vestingPerBlock: Balance;
-  vestingTotal: Balance;
-}
-
-export type DeriveBalancesMap = Record<string, DeriveBalancesAll>;
 
 export interface DeriveContractFees {
   callBaseFee: BN;
@@ -90,33 +60,6 @@ export interface RecentlyOffline {
 
 export type DeriveRecentlyOffline = Record<string, RecentlyOffline[]>;
 
-export interface DeriveSociety {
-  bids: Bid[];
-  defender?: AccountId;
-  hasDefender: boolean;
-  head?: AccountId;
-  founder?: AccountId;
-  maxMembers: u32;
-  pot: BalanceOf;
-}
-
-export interface DeriveSocietyCandidate {
-  accountId: AccountId;
-  kind: BidKind;
-  value: Balance;
-  isSuspended: boolean;
-}
-
-export interface DeriveSocietyMember {
-  accountId: AccountId;
-  isDefenderVoter: boolean;
-  isSuspended: boolean;
-  payouts: [BlockNumber, Balance][];
-  strikes: StrikeCount;
-  vote?: SocietyVote;
-  vouching?: VouchingStatus;
-}
-
 export interface DeriveTreasuryProposal {
   council: DeriveCollectiveProposal[];
   id: ProposalIndex;
@@ -138,7 +81,7 @@ export interface VoterPosition {
 export type DeriveVoterPositions = Record<string, VoterPosition>;
 
 export interface DeriveBounty {
-  bounty: Bounty;
+  bounty: PalletBountiesBounty;
   description: string;
   index: BountyIndex;
   proposals: DeriveCollectiveProposal[];
