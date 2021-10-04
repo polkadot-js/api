@@ -3108,7 +3108,7 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " For each session index, we keep a mapping of 'SessionIndex` and `AuthIndex` to",
+                  " For each session index, we keep a mapping of `SessionIndex` and `AuthIndex` to",
                   " `WrapperOpaque<BoundedOpaqueNetworkState>`."
                 ]
               },
