@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 6.2.1 Oct 4, 2021
+
+Upgrade priority: Low. Maintenance updates.
+
+Contributed:
+
+- Cater for new asset fee payment extension (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Extend error messages for malformed `queryMulti` inputs
+- Correctly handle non-map queries passed to `queryMulti` in map form
+- Use new metadata v14 lookup type in derive results
+- Adjust definitions to infer TS types in `.multi` queries
+- Fix TS lookup enum generation with nested Option & Tuple
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
 ## 6.1.2 Sep 29, 2021
 
 Upgrade priority: Low. Recommended for 6.x users using historic queries.
