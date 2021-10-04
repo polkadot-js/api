@@ -15,6 +15,7 @@ Changes:
 - Use new metadata v14 lookup type in derive results
 - Adjust definitions to infer TS types in `.multi` queries
 - Fix TS lookup enum generation with nested Option & Tuple
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.1.2 Sep 29, 2021
