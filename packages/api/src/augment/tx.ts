@@ -2572,8 +2572,8 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin of this function must be signed.
        * 
        * # <weight>
-       * - Complexity: `O(1)` in number of key types.
-       * Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.
+       * - Complexity: `O(1)` in number of key types. Actual cost depends on the number of length
+       * of `T::Keys::key_ids()` which is fixed.
        * - DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`
        * - DbWrites: `NextKeys`, `origin account`
        * - DbWrites per key id: `KeyOwner`
@@ -2588,8 +2588,8 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin of this function must be signed.
        * 
        * # <weight>
-       * - Complexity: `O(1)`
-       * Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.
+       * - Complexity: `O(1)`. Actual cost depends on the number of length of
+       * `T::Keys::key_ids()` which is fixed.
        * - DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`
        * - DbWrites: `origin account`, `NextKeys`
        * - DbReads per key id: `KeyOwner`

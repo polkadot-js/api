@@ -55,7 +55,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
   const keys = (sub as TypeDef[]).map((def, index): string => {
     const { info, lookupName, name = `unknown${index}`, type } = def;
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const isComplex = [TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
+    const isComplex = [TypeDefInfo.Option, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);

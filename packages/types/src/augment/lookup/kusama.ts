@@ -263,7 +263,7 @@ export default {
     _enum: {
       Null: 'Null',
       Assets: 'XcmV1MultiassetMultiAssets',
-      ExecutionResult: 'Result<Null, (u32,XcmV2TraitsError)>',
+      ExecutionResult: 'Option<(u32,XcmV2TraitsError)>',
       Version: 'u32'
     }
   },

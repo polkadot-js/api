@@ -14,6 +14,7 @@ Changes:
 - Correctly handle non-map queries passed to `queryMulti` in map form
 - Use new metadata v14 lookup type in derive results
 - Adjust definitions to infer TS types in `.multi` queries
+- Fix TS lookup enum generation with nested Option & Tuple
 
 
 ## 6.1.2 Sep 29, 2021
