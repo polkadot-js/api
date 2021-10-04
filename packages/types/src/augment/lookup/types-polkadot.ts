@@ -59,42 +59,34 @@ declare module '@polkadot/types/lookup' {
 
   /** @name XcmV2TraitsError (96) */
   export interface XcmV2TraitsError extends Enum {
-    readonly isUndefined: boolean;
     readonly isOverflow: boolean;
     readonly isUnimplemented: boolean;
-    readonly isUnhandledXcmVersion: boolean;
-    readonly isUnhandledXcmMessage: boolean;
-    readonly isUnhandledEffect: boolean;
-    readonly isEscalationOfPrivilege: boolean;
     readonly isUntrustedReserveLocation: boolean;
     readonly isUntrustedTeleportLocation: boolean;
-    readonly isDestinationBufferOverflow: boolean;
     readonly isMultiLocationFull: boolean;
     readonly isMultiLocationNotInvertible: boolean;
-    readonly isFailedToDecode: boolean;
     readonly isBadOrigin: boolean;
-    readonly isExceedsMaxMessageSize: boolean;
+    readonly isInvalidLocation: boolean;
+    readonly isAssetNotFound: boolean;
     readonly isFailedToTransactAsset: boolean;
-    readonly isWeightLimitReached: boolean;
-    readonly asWeightLimitReached: u64;
-    readonly isWildcard: boolean;
-    readonly isTooMuchWeightRequired: boolean;
-    readonly isNotHoldingFees: boolean;
-    readonly isWeightNotComputable: boolean;
-    readonly isBarrier: boolean;
     readonly isNotWithdrawable: boolean;
     readonly isLocationCannotHold: boolean;
-    readonly isTooExpensive: boolean;
-    readonly isAssetNotFound: boolean;
+    readonly isExceedsMaxMessageSize: boolean;
     readonly isDestinationUnsupported: boolean;
-    readonly isRecursionLimitReached: boolean;
     readonly isTransport: boolean;
     readonly isUnroutable: boolean;
-    readonly isUnknownWeightRequired: boolean;
+    readonly isUnknownClaim: boolean;
+    readonly isFailedToDecode: boolean;
+    readonly isTooMuchWeightRequired: boolean;
+    readonly isNotHoldingFees: boolean;
+    readonly isTooExpensive: boolean;
     readonly isTrap: boolean;
     readonly asTrap: u64;
-    readonly isUnknownClaim: boolean;
-    readonly isInvalidLocation: boolean;
+    readonly isUnhandledXcmVersion: boolean;
+    readonly isWeightLimitReached: boolean;
+    readonly asWeightLimitReached: u64;
+    readonly isBarrier: boolean;
+    readonly isWeightNotComputable: boolean;
   }
 
   /** @name PolkadotParachainPrimitivesHrmpChannelId (98) */

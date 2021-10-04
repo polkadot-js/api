@@ -2163,6 +2163,7 @@
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Event"
       ],
       "params": [],
@@ -2189,8 +2190,7 @@
         }
       },
       "docs": [
-        "Events for this module.",
-        ""
+        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6868,116 +6868,109 @@
         "variant": {
           "variants": [
             {
-              "name": "Undefined",
+              "name": "Overflow",
               "fields": [],
               "index": 0,
               "docs": []
             },
             {
-              "name": "Overflow",
+              "name": "Unimplemented",
               "fields": [],
               "index": 1,
               "docs": []
             },
             {
-              "name": "Unimplemented",
+              "name": "UntrustedReserveLocation",
               "fields": [],
               "index": 2,
               "docs": []
             },
             {
-              "name": "UnhandledXcmVersion",
+              "name": "UntrustedTeleportLocation",
               "fields": [],
               "index": 3,
               "docs": []
             },
             {
-              "name": "UnhandledXcmMessage",
+              "name": "MultiLocationFull",
               "fields": [],
               "index": 4,
               "docs": []
             },
             {
-              "name": "UnhandledEffect",
+              "name": "MultiLocationNotInvertible",
               "fields": [],
               "index": 5,
               "docs": []
             },
             {
-              "name": "EscalationOfPrivilege",
+              "name": "BadOrigin",
               "fields": [],
               "index": 6,
               "docs": []
             },
             {
-              "name": "UntrustedReserveLocation",
+              "name": "InvalidLocation",
               "fields": [],
               "index": 7,
               "docs": []
             },
             {
-              "name": "UntrustedTeleportLocation",
+              "name": "AssetNotFound",
               "fields": [],
               "index": 8,
               "docs": []
             },
             {
-              "name": "DestinationBufferOverflow",
+              "name": "FailedToTransactAsset",
               "fields": [],
               "index": 9,
               "docs": []
             },
             {
-              "name": "MultiLocationFull",
+              "name": "NotWithdrawable",
               "fields": [],
               "index": 10,
               "docs": []
             },
             {
-              "name": "MultiLocationNotInvertible",
+              "name": "LocationCannotHold",
               "fields": [],
               "index": 11,
               "docs": []
             },
             {
-              "name": "FailedToDecode",
+              "name": "ExceedsMaxMessageSize",
               "fields": [],
               "index": 12,
               "docs": []
             },
             {
-              "name": "BadOrigin",
+              "name": "DestinationUnsupported",
               "fields": [],
               "index": 13,
               "docs": []
             },
             {
-              "name": "ExceedsMaxMessageSize",
+              "name": "Transport",
               "fields": [],
               "index": 14,
               "docs": []
             },
             {
-              "name": "FailedToTransactAsset",
+              "name": "Unroutable",
               "fields": [],
               "index": 15,
               "docs": []
             },
             {
-              "name": "WeightLimitReached",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 8,
-                  "typeName": "Weight",
-                  "docs": []
-                }
-              ],
+              "name": "UnknownClaim",
+              "fields": [],
               "index": 16,
               "docs": []
             },
             {
-              "name": "Wildcard",
+              "name": "FailedToDecode",
               "fields": [],
               "index": 17,
               "docs": []
@@ -6995,69 +6988,9 @@
               "docs": []
             },
             {
-              "name": "WeightNotComputable",
-              "fields": [],
-              "index": 20,
-              "docs": []
-            },
-            {
-              "name": "Barrier",
-              "fields": [],
-              "index": 21,
-              "docs": []
-            },
-            {
-              "name": "NotWithdrawable",
-              "fields": [],
-              "index": 22,
-              "docs": []
-            },
-            {
-              "name": "LocationCannotHold",
-              "fields": [],
-              "index": 23,
-              "docs": []
-            },
-            {
               "name": "TooExpensive",
               "fields": [],
-              "index": 24,
-              "docs": []
-            },
-            {
-              "name": "AssetNotFound",
-              "fields": [],
-              "index": 25,
-              "docs": []
-            },
-            {
-              "name": "DestinationUnsupported",
-              "fields": [],
-              "index": 26,
-              "docs": []
-            },
-            {
-              "name": "RecursionLimitReached",
-              "fields": [],
-              "index": 27,
-              "docs": []
-            },
-            {
-              "name": "Transport",
-              "fields": [],
-              "index": 28,
-              "docs": []
-            },
-            {
-              "name": "Unroutable",
-              "fields": [],
-              "index": 29,
-              "docs": []
-            },
-            {
-              "name": "UnknownWeightRequired",
-              "fields": [],
-              "index": 30,
+              "index": 20,
               "docs": []
             },
             {
@@ -7070,19 +7003,38 @@
                   "docs": []
                 }
               ],
-              "index": 31,
+              "index": 21,
               "docs": []
             },
             {
-              "name": "UnknownClaim",
+              "name": "UnhandledXcmVersion",
               "fields": [],
-              "index": 32,
+              "index": 22,
               "docs": []
             },
             {
-              "name": "InvalidLocation",
+              "name": "WeightLimitReached",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 8,
+                  "typeName": "Weight",
+                  "docs": []
+                }
+              ],
+              "index": 23,
+              "docs": []
+            },
+            {
+              "name": "Barrier",
               "fields": [],
-              "index": 33,
+              "index": 24,
+              "docs": []
+            },
+            {
+              "name": "WeightNotComputable",
+              "fields": [],
+              "index": 25,
               "docs": []
             }
           ]
@@ -9916,7 +9868,7 @@
                 {
                   "name": null,
                   "type": 127,
-                  "typeName": "result::Result<(), (u32, Error)>",
+                  "typeName": "Option<(u32, Error)>",
                   "docs": []
                 }
               ],
@@ -9946,15 +9898,11 @@
     "id": 127,
     "type": {
       "path": [
-        "Result"
+        "Option"
       ],
       "params": [
         {
           "name": "T",
-          "type": 53
-        },
-        {
-          "name": "E",
           "type": 128
         }
       ],
@@ -9962,20 +9910,13 @@
         "variant": {
           "variants": [
             {
-              "name": "Ok",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 53,
-                  "typeName": null,
-                  "docs": []
-                }
-              ],
+              "name": "None",
+              "fields": [],
               "index": 0,
               "docs": []
             },
             {
-              "name": "Err",
+              "name": "Some",
               "fields": [
                 {
                   "name": null,
@@ -15843,6 +15784,7 @@
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Call"
       ],
       "params": [
@@ -15879,8 +15821,8 @@
                 "The dispatch origin of this function must be signed.",
                 "",
                 "# <weight>",
-                "- Complexity: `O(1)`",
-                "  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                "- Complexity: `O(1)`. Actual cost depends on the number of length of",
+                "  `T::Keys::key_ids()` which is fixed.",
                 "- DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`",
                 "- DbWrites: `origin account`, `NextKeys`",
                 "- DbReads per key id: `KeyOwner`",
@@ -15899,8 +15841,8 @@
                 "The dispatch origin of this function must be signed.",
                 "",
                 "# <weight>",
-                "- Complexity: `O(1)` in number of key types.",
-                "  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                "- Complexity: `O(1)` in number of key types. Actual cost depends on the number of length",
+                "  of `T::Keys::key_ids()` which is fixed.",
                 "- DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`",
                 "- DbWrites: `NextKeys`, `origin account`",
                 "- DbWrites per key id: `KeyOwner`",
@@ -15911,9 +15853,7 @@
         }
       },
       "docs": [
-        "Dispatchable calls.",
-        "",
-        "Each variant of this enum maps to a dispatchable function from the associated module."
+        "Contains one variant per dispatchable that can be called by an extrinsic."
       ]
     }
   },
@@ -15922,6 +15862,7 @@
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Error"
       ],
       "params": [
@@ -15977,7 +15918,7 @@
         }
       },
       "docs": [
-        "Error for the session module."
+        "Error for the session pallet."
       ]
     }
   },
@@ -16740,6 +16681,12 @@
       "def": {
         "composite": {
           "fields": [
+            {
+              "name": null,
+              "type": 111,
+              "typeName": null,
+              "docs": []
+            },
             {
               "name": null,
               "type": 265,
@@ -28989,7 +28936,7 @@
                 "parameters.",
                 "",
                 "- `proposed_max_capacity` - specifies how many messages can be in the channel at once.",
-                "- `proposed_max_message_size` - specifies the maximum size of any of the messages.",
+                "- `proposed_max_message_size` - specifies the maximum size of the messages.",
                 "",
                 "These numbers are a subject to the relay-chain configuration limits.",
                 "",
@@ -38073,17 +38020,9 @@
               ]
             },
             {
-              "name": "UnoccupiedBitInBitfield",
-              "fields": [],
-              "index": 12,
-              "docs": [
-                "The bitfield contains a bit relating to an unassigned availability core."
-              ]
-            },
-            {
               "name": "InvalidGroupIndex",
               "fields": [],
-              "index": 13,
+              "index": 12,
               "docs": [
                 "Invalid group index in core assignment."
               ]
@@ -38091,7 +38030,7 @@
             {
               "name": "InsufficientBacking",
               "fields": [],
-              "index": 14,
+              "index": 13,
               "docs": [
                 "Insufficient (non-majority) backing."
               ]
@@ -38099,7 +38038,7 @@
             {
               "name": "InvalidBacking",
               "fields": [],
-              "index": 15,
+              "index": 14,
               "docs": [
                 "Invalid (bad signature, unknown validator, etc.) backing."
               ]
@@ -38107,7 +38046,7 @@
             {
               "name": "NotCollatorSigned",
               "fields": [],
-              "index": 16,
+              "index": 15,
               "docs": [
                 "Collator did not sign PoV."
               ]
@@ -38115,7 +38054,7 @@
             {
               "name": "ValidationDataHashMismatch",
               "fields": [],
-              "index": 17,
+              "index": 16,
               "docs": [
                 "The validation data hash does not match expected."
               ]
@@ -38123,7 +38062,7 @@
             {
               "name": "InternalError",
               "fields": [],
-              "index": 18,
+              "index": 17,
               "docs": [
                 "Internal error only returned when compiled with debug assertions."
               ]
@@ -38131,7 +38070,7 @@
             {
               "name": "IncorrectDownwardMessageHandling",
               "fields": [],
-              "index": 19,
+              "index": 18,
               "docs": [
                 "The downward message queue is not processed correctly."
               ]
@@ -38139,7 +38078,7 @@
             {
               "name": "InvalidUpwardMessages",
               "fields": [],
-              "index": 20,
+              "index": 19,
               "docs": [
                 "At least one upward message sent does not pass the acceptance criteria."
               ]
@@ -38147,7 +38086,7 @@
             {
               "name": "HrmpWatermarkMishandling",
               "fields": [],
-              "index": 21,
+              "index": 20,
               "docs": [
                 "The candidate didn't follow the rules of HRMP watermark advancement."
               ]
@@ -38155,7 +38094,7 @@
             {
               "name": "InvalidOutboundHrmp",
               "fields": [],
-              "index": 22,
+              "index": 21,
               "docs": [
                 "The HRMP messages sent by the candidate is not valid."
               ]
@@ -38163,7 +38102,7 @@
             {
               "name": "InvalidValidationCodeHash",
               "fields": [],
-              "index": 23,
+              "index": 22,
               "docs": [
                 "The validation code hash of the candidate is not valid."
               ]
@@ -38171,7 +38110,7 @@
             {
               "name": "ParaHeadMismatch",
               "fields": [],
-              "index": 24,
+              "index": 23,
               "docs": [
                 "The `para_head` hash in the candidate descriptor doesn't match the hash of the actual para head in the",
                 "commitments."
@@ -38221,11 +38160,11 @@
               ]
             },
             {
-              "name": "CandidateCouldBeInvalid",
+              "name": "CandidateConcludedInvalid",
               "fields": [],
               "index": 2,
               "docs": [
-                "Potentially invalid candidate."
+                "Disputed candidate that was concluded invalid."
               ]
             }
           ]
@@ -40206,7 +40145,7 @@
               "fields": [],
               "index": 3,
               "docs": [
-                "The last lease period cannot be more then 3 periods after the first period."
+                "The last lease period cannot be more than 3 periods after the first period."
               ]
             },
             {
