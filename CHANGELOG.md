@@ -4,6 +4,10 @@
 
 Upgrade priority: Low. Maintenance updates.
 
+Contributed:
+
+- Cater for new asset fee payment extension (Thanks to https://github.com/apopiak)
+
 Changes:
 
 - Extend error messages for malformed `queryMulti` inputs
