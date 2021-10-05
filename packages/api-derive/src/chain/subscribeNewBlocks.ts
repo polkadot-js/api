@@ -3,11 +3,9 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Vec } from '@polkadot/types';
-import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
-import type { HeaderExtended, SignedBlockExtended } from '../type/types';
+import type { SignedBlockExtended } from '../type/types';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
 import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';
@@ -19,18 +17,20 @@ import { memo } from '../util';
 export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): () => Observable<SignedBlockExtended> {
   return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeNewHeads().pipe(
-      switchMap((header): Observable<[SignedBlock, Vec<EventRecord>, HeaderExtended]> => {
+      switchMap((header) => {
         const blockHash = header.createdAtHash || header.hash;
 
-        return combineLatest(
-          api.rpc.chain.getBlock(blockHash),
-          api.query.system.events.at(blockHash),
-          of(header)
+        // we get the block first, setting up the registry
+        return api.rpc.chain.getBlock(blockHash).pipe(
+          switchMap((block) =>
+            api.query.system.events.at(blockHash).pipe(
+              map((events) =>
+                createSignedBlockExtended(block.registry, block, events, header.validators)
+              )
+            )
+          )
         );
-      }),
-      map(([block, events, header]) =>
-        createSignedBlockExtended(block.registry, block, events, header.validators)
-      )
+      })
     )
   );
 }
