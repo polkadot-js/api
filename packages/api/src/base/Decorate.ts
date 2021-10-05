@@ -432,8 +432,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
-    // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (args: unknown[]) => extractStorageArgs(this.#registry, creator, args);
+    const getArgs = (args: unknown[], registry?: Registry) =>
+      extractStorageArgs(registry || this.#registry, creator, args);
+
+    const getQueryAt = (blockHash: Hash | Uint8Array | string) =>
+      from(this.at(blockHash)).pipe(
+        map((api) => {
+          assert(api.rx.query[creator.section] && api.rx.query[creator.section][creator.method], () => `query.${creator.section}.${creator.method} is not available in this version of the metadata`);
+
+          return api.rx.query[creator.section][creator.method];
+        })
+      );
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
@@ -442,13 +451,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, ...args: unknown[]): Observable<Codec> =>
-      from(this.at(hash)).pipe(
-        switchMap((api): Observable<Codec> => {
-          assert(api.rx.query[creator.section] && api.rx.query[creator.section][creator.method], () => `query.${creator.section}.${creator.method} is not available in this version of the metadata`);
-
-          return api.rx.query[creator.section][creator.method](...args);
-        })
+    decorated.at = decorateMethod((blockHash: Hash, ...args: unknown[]): Observable<Codec> =>
+      getQueryAt(blockHash).pipe(
+        switchMap((q) => q(...args))
       ));
 
     decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
@@ -470,8 +475,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.size = decorateMethod((...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args)));
 
-    decorated.sizeAt = decorateMethod((hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
-      this._rpcCore.state.getStorageSize(getArgs(args), hash));
+    decorated.sizeAt = decorateMethod((blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
+      getQueryAt(blockHash).pipe(
+        switchMap((q) =>
+          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry), blockHash)
+        )
+      )
+    );
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {
@@ -480,8 +490,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapEntries(creator, null, args)));
 
       decorated.entriesAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntries(creator, hash, args)));
+        memo(this.#instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<[StorageKey, Codec][]> =>
+          getQueryAt(blockHash).pipe(
+            switchMap((q) => this._retrieveMapEntries(q.creator, blockHash, args)))));
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
@@ -492,8 +503,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapKeys(creator, null, args)));
 
       decorated.keysAt = decorateMethod(
-        memo(this.#instanceId, (hash: Hash | Uint8Array | string, ...args: unknown[]): Observable<StorageKey[]> =>
-          this._retrieveMapKeys(creator, hash, args)));
+        memo(this.#instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<StorageKey[]> =>
+          getQueryAt(blockHash).pipe(
+            switchMap((q) => this._retrieveMapKeys(q.creator, blockHash, args)))));
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
@@ -515,7 +527,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _decorateStorageEntryAt<ApiType extends ApiTypes> (registry: Registry, creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
-    // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (args: unknown[]): unknown[] => extractStorageArgs(registry, creator, args);
 
     // Disable this where it occurs for each field we are decorating
@@ -546,7 +557,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.size = decorateMethod((...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args), blockHash));
 
-    // FIXME NMap support
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {
       decorated.entries = decorateMethod(
@@ -678,7 +688,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const specName = this._runtimeVersion?.specName.toString();
     const derives = {
       ...this._options.derives,
-      ...(this._options.typesBundle?.spec?.[specName ?? '']?.derives || {})
+      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
     };
 
     // Pull in derive from api-derive

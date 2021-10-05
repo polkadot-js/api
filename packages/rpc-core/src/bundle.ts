@@ -12,7 +12,7 @@ import type { RpcInterface, RpcInterfaceMethod } from './types';
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
@@ -205,6 +205,9 @@ export class RpcCore {
       const blockHash = hashIndex === -1
         ? null
         : values[hashIndex] as (Uint8Array | string | null | undefined);
+
+      outputAs === 'scale' && blockHash && this.#getBlockRegistry && console.log('callWithRegistry', rpcName, u8aToHex(u8aToU8a(blockHash)));
+
       const { registry } = outputAs === 'scale' && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
