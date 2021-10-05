@@ -59,14 +59,18 @@ export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQ
 }
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> extends StorageEntryBaseAt<ApiType, F, A> {
+  /** @deprecated Use api.at(<blockHash>) */
   at: <T extends Codec | any = ReturnCodec<F>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
+  /** @deprecated Use api.at(<blockHash>) */
   entriesAt: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   entriesPaged: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  /** @deprecated Use api.at(<blockHash>) */
   keysAt: <K extends AnyTuple = A> (hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   keysPaged: <K extends AnyTuple = A> (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
-  // @deprecated The underlying RPC this been marked unsafe and is generally not exposed
+  /** @deprecated The underlying RPC this been marked unsafe and is generally not exposed */
   range: <T extends Codec | any = ReturnCodec<F>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
+  /** @deprecated Use api.at(<blockHash>) */
   sizeAt: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs'
     ? StorageEntryObservableMulti<ReturnCodec<F>>

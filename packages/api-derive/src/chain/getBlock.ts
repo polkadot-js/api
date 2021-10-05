@@ -24,20 +24,19 @@ import { memo } from '../util';
  * ```
  */
 export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
-  return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
-    // we get the block first, setting up the registry
-    api.rpc.chain.getBlock(hash).pipe(
-      switchMap((signedBlock) =>
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
+    api.queryAt(blockHash).pipe(
+      switchMap((queryAt) =>
         combineLatest([
-          api.query.system.events.at(hash),
-          api.query.session
-            ? api.query.session.validators.at(hash)
+          api.rpc.chain.getBlock(blockHash),
+          queryAt.system.events(),
+          queryAt.session
+            ? queryAt.session.validators()
             : of([])
-        ]).pipe(
-          map(([events, validators]) =>
-            createSignedBlockExtended(api.registry, signedBlock, events, validators)
-          )
-        )
+        ])
+      ),
+      map(([signedBlock, events, validators]) =>
+        createSignedBlockExtended(api.registry, signedBlock, events, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
