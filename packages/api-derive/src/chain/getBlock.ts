@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { SignedBlockExtended } from '../type/types';
 
-import { catchError, combineLatest, map, of } from 'rxjs';
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';
@@ -25,15 +25,19 @@ import { memo } from '../util';
  */
 export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
   return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
-    combineLatest([
-      api.rpc.chain.getBlock(hash),
-      api.query.system.events.at(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
-    ]).pipe(
-      map(([signedBlock, events, validators]): SignedBlockExtended =>
-        createSignedBlockExtended(api.registry, signedBlock, events, validators)
+    // we get the block first, setting up the registry
+    api.rpc.chain.getBlock(hash).pipe(
+      switchMap((signedBlock) =>
+        combineLatest([
+          api.query.system.events.at(hash),
+          api.query.session
+            ? api.query.session.validators.at(hash)
+            : of([])
+        ]).pipe(
+          map(([events, validators]) =>
+            createSignedBlockExtended(api.registry, signedBlock, events, validators)
+          )
+        )
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
