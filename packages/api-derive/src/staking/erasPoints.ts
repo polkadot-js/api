@@ -3,7 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
 import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
 import { map, of, switchMap } from 'rxjs';
@@ -15,7 +16,7 @@ import { filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
 
-function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
+function mapValidators ({ individual }: PalletStakingEraRewardPoints): DeriveEraValPoints {
   return [...individual.entries()]
     .filter(([, points]) => points.gt(BN_ZERO))
     .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
@@ -25,7 +26,7 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-function mapPoints (eras: EraIndex[], points: EraRewardPoints[]): DeriveEraPoints[] {
+function mapPoints (eras: EraIndex[], points: PalletStakingEraRewardPoints[]): DeriveEraPoints[] {
   return eras.map((era, index): DeriveEraPoints => ({
     era,
     eraPoints: points[index].total,
@@ -48,7 +49,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 
     return !remaining.length
       ? of(cached)
-      : api.query.staking.erasRewardPoints.multi<EraRewardPoints>(remaining).pipe(
+      : api.query.staking.erasRewardPoints.multi(remaining).pipe(
         map((points): DeriveEraPoints[] => {
           const query = mapPoints(remaining, points);
 

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 import type { ITuple } from '@polkadot/types/types';
 
@@ -156,7 +156,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: Compact<u64>;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {
@@ -290,7 +290,7 @@ declare module '@polkadot/types/lookup' {
     readonly isAssets: boolean;
     readonly asAssets: XcmV1MultiassetMultiAssets;
     readonly isExecutionResult: boolean;
-    readonly asExecutionResult: Result<Null, ITuple<[u32, XcmV2TraitsError]>>;
+    readonly asExecutionResult: Option<ITuple<[u32, XcmV2TraitsError]>>;
     readonly isVersion: boolean;
     readonly asVersion: u32;
   }
@@ -539,7 +539,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: u64;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {
@@ -654,7 +654,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTransact: {
       readonly originType: XcmV0OriginKind;
       readonly requireWeightAtMost: u64;
-      readonly call_: XcmDoubleEncoded;
+      readonly call: XcmDoubleEncoded;
     } & Struct;
     readonly isHrmpNewChannelOpenRequest: boolean;
     readonly asHrmpNewChannelOpenRequest: {

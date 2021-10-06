@@ -3,8 +3,9 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid, PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveSocietyCandidate } from '../types';
 
@@ -12,20 +13,21 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-type ResultSuspend = Option<ITuple<[BalanceOf, BidKind]>>;
-type Result = [Bid[], ResultSuspend[]]
+type ResultSuspend = Option<ITuple<[BalanceOf, PalletSocietyBidKind]>>;
+type Result = [PalletSocietyBid[], ResultSuspend[]]
 
 /**
  * @description Get the candidate info for a society
  */
 export function candidates (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
   return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
-    api.query.society.candidates<Vec<Bid>>().pipe(
-      switchMap((candidates: Vec<Bid>): Observable<Result> =>
+    api.query.society.candidates().pipe(
+      switchMap((candidates): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi<ResultSuspend>(
-            candidates.map(({ who }): AccountId => who))
+          api.query.society.suspendedCandidates.multi(
+            candidates.map(({ who }) => who)
+          )
         ])
       ),
       map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>

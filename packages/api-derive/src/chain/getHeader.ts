@@ -3,9 +3,10 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { HeaderExtended } from '../type/types';
 
-import { catchError, combineLatest, map, of } from 'rxjs';
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
@@ -26,13 +27,16 @@ import { memo } from '../util';
  */
 export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
   return memo(instanceId, (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    combineLatest([
-      api.rpc.chain.getHeader(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
-    ]).pipe(
-      map(([header, validators]): HeaderExtended =>
+    api.queryAt(hash).pipe(
+      switchMap((queryAt) =>
+        combineLatest([
+          api.rpc.chain.getHeader(hash),
+          queryAt.session
+            ? queryAt.session.validators()
+            : of([] as AccountId[])
+        ])
+      ),
+      map(([header, validators]) =>
         createHeaderExtended(header.registry, header, validators)
       ),
       catchError((): Observable<undefined> =>

@@ -604,7 +604,7 @@ declare module '@polkadot/api/types/storage' {
        **/
       keys: AugmentedQuery<ApiType, () => Observable<Vec<PalletImOnlineSr25519AppSr25519Public>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * For each session index, we keep a mapping of 'SessionIndex` and `AuthIndex` to
+       * For each session index, we keep a mapping of `SessionIndex` and `AuthIndex` to
        * `WrapperOpaque<BoundedOpaqueNetworkState>`.
        **/
       receivedHeartbeats: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;

@@ -301,7 +301,7 @@
             {
               "name": "batched_calls_limit",
               "type": 4,
-              "value": "0x73ed0000",
+              "value": "0x8ee30000",
               "docs": [
                 " The limit on the number of batched calls."
               ]
@@ -3108,7 +3108,7 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " For each session index, we keep a mapping of 'SessionIndex` and `AuthIndex` to",
+                  " For each session index, we keep a mapping of `SessionIndex` and `AuthIndex` to",
                   " `WrapperOpaque<BoundedOpaqueNetworkState>`."
                 ]
               },

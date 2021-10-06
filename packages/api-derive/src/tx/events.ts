@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
 
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -15,15 +15,15 @@ interface Result {
 }
 
 export function events (instanceId: string, api: ApiInterfaceRx): (at: Hash) => Observable<Result> {
-  return memo(instanceId, (at: Hash): Observable<Result> =>
-    combineLatest([
-      api.query.system.events.at(at),
-      api.rpc.chain.getBlock(at)
-    ]).pipe(
-      map(([events, block]) => ({
-        block,
-        events
-      }))
+  return memo(instanceId, (blockHash: Hash) =>
+    api.queryAt(blockHash).pipe(
+      switchMap((queryAt) =>
+        combineLatest([
+          api.rpc.chain.getBlock(blockHash),
+          queryAt.system.events()
+        ])
+      ),
+      map(([block, events]): Result => ({ block, events }))
     )
   );
 }

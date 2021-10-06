@@ -73,6 +73,12 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 
     assert(isFunction(fn), 'Expected function input for key construction');
 
+    if (fn.meta && fn.meta.type.isMap) {
+      const map = fn.meta.type.asMap;
+
+      assert(Array.isArray(args) && args.length === map.hashers.length, () => `Expected an array of ${map.hashers.length} values as params to a Map query`);
+    }
+
     return {
       key: fn(...args),
       method: fn.method,

@@ -3,7 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Balance, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
+import type { PalletStakingStakingLedger, PalletStakingUnlockChunk } from '@polkadot/types/lookup';
 import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import { combineLatest, map, switchMap } from 'rxjs';
@@ -19,7 +20,7 @@ const QUERY_OPTS = {
   withPrefs: true
 };
 
-function groupByEra (list: UnlockChunk[]): Record<string, BN> {
+function groupByEra (list: PalletStakingUnlockChunk[]): Record<string, BN> {
   return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
     const key = era.toString();
 
@@ -29,7 +30,7 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   }, {});
 }
 
-function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
+function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
   const results = Object
     .entries(groupByEra(
       (stakingLedger?.unlocking || []).filter(({ era }) => era.unwrap().gt(sessionInfo.activeEra))
@@ -44,8 +45,8 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger |
     : undefined;
 }
 
-function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
-  return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as UnlockChunk[]).reduce((total, { era, value }): BN => {
+function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
+  return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
     return sessionInfo.activeEra.gte(era.unwrap())
       ? total.iadd(value.unwrap())
       : total;

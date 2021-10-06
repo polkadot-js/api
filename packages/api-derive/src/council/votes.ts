@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, QueryableModuleStorage } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
-import type { AccountId, Balance, Voter } from '@polkadot/types/interfaces';
+import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
@@ -13,9 +14,9 @@ import { combineLatest, map, of } from 'rxjs';
 import { memo } from '../util';
 
 // Voter is current tuple is 2.x-era
-type VoteEntry = Voter | ITuple<[Balance, Vec<AccountId>]>;
+type VoteEntry = PalletElectionsPhragmenVoter | ITuple<[Balance, Vec<AccountId>]>;
 
-function isVoter (value: VoteEntry): value is Voter {
+function isVoter (value: VoteEntry): value is PalletElectionsPhragmenVoter {
   return !Array.isArray(value);
 }
 

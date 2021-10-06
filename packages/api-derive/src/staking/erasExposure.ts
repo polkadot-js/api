@@ -4,14 +4,15 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
-import type { AccountId, EraIndex, Exposure } from '@polkadot/types/interfaces';
+import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 
-type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, Exposure][];
+type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
 
 const CACHE_KEY = 'eraExposure';
 

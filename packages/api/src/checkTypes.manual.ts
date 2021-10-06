@@ -80,11 +80,11 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
   const override = await api.query.balances.totalIssuance<Header>(); // override is still available
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
-  // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
-  // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
-  const multi = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  // For older queries we can cast with `<Balance>` (newer chain have multi typed)
+  const multia = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  const multib = await api.query.system.account.multi([pairs.alice.address, pairs.bob.address]);
 
-  console.log('query types:', bar, bal, bal2, override, oldBal, multi);
+  console.log('query types:', bar, bal, bal2, override, oldBal, multia, multib);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([

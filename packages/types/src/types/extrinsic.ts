@@ -159,6 +159,7 @@ export interface SignatureOptions {
   signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
+  assetId?: AnyNumber;
 }
 
 interface ExtrinsicSignatureBase {
@@ -179,6 +180,7 @@ export interface ExtrinsicPayloadValue {
   specVersion: AnyNumber;
   tip: AnyNumber;
   transactionVersion: AnyNumber;
+  assetId?: AnyNumber;
 }
 
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {

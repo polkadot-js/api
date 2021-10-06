@@ -40,9 +40,6 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
         // however we have had cases on Edgeware where the indices have moved around after an
         // upgrade, which results in invalid on-chain data
         combineLatest(hashes.map((hash) =>
-          // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
-          // however we have had cases on Edgeware where the indices have moved around after an
-          // upgrade, which results in invalid on-chain data
           api.query[section].proposalOf<Option<Proposal>>(hash).pipe(
             catchError(() => of(null))
           )
