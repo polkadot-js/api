@@ -7,7 +7,7 @@ import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
@@ -18,7 +18,7 @@ import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -173,6 +173,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   /**
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
+  }
+
+  /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
@@ -225,6 +239,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
+
+    decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
+      registry.registry.findMetaCall(u8aToU8a(callIndex));
+    decoratedApi.findError = (errorIndex: Uint8Array | string): RegistryError =>
+      registry.registry.findMetaError(u8aToU8a(errorIndex));
 
     return {
       decoratedApi,
