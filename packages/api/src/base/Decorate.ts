@@ -173,6 +173,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   /**
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
+  }
+
+  /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
