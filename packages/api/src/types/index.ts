@@ -4,6 +4,7 @@
 // Augment the modules
 import '@polkadot/api/augment';
 
+import type { Observable } from 'rxjs';
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
@@ -94,6 +95,7 @@ export interface ApiInterfaceRx {
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
+  queryAt: (blockHash: Uint8Array | string) => Observable<QueryableStorage<'rxjs'>>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;

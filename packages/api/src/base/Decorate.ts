@@ -138,6 +138,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#instanceId = `${++instanceCounter}`;
     this.#registry = options.source?.registry || options.registry || new TypeRegistry();
+    this._rx.queryAt = (blockHash: Uint8Array | string) =>
+      from(this.at(blockHash)).pipe(map((a) => a.rx.query));
     this._rx.registry = this.#registry;
 
     const thisProvider = options.source
@@ -453,8 +455,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.at = decorateMethod((blockHash: Hash, ...args: unknown[]): Observable<Codec> =>
       getQueryAt(blockHash).pipe(
-        switchMap((q) => q(...args))
-      ));
+        switchMap((q) => q(...args))));
 
     decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args)));
@@ -478,10 +479,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.sizeAt = decorateMethod((blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
       getQueryAt(blockHash).pipe(
         switchMap((q) =>
-          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry), blockHash)
-        )
-      )
-    );
+          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry), blockHash))));
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {

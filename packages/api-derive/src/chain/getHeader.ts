@@ -6,16 +6,10 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { HeaderExtended } from '../type/types';
 
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
-
-function _getValidators (api: ApiInterfaceRx, hash: Uint8Array | string): Observable<AccountId[]> {
-  return api.query.session
-    ? api.query.session.validators.at(hash)
-    : of([] as AccountId[]);
-}
 
 /**
  * @name getHeader
@@ -33,14 +27,17 @@ function _getValidators (api: ApiInterfaceRx, hash: Uint8Array | string): Observ
  */
 export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
   return memo(instanceId, (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    // we get the header first, setting up the registry
-    api.rpc.chain.getHeader(hash).pipe(
-      switchMap((header) =>
-        _getValidators(api, hash).pipe(
-          map((validators) =>
-            createHeaderExtended(header.registry, header, validators)
-          )
-        )
+    api.queryAt(hash).pipe(
+      switchMap((queryAt) =>
+        combineLatest([
+          api.rpc.chain.getHeader(hash),
+          queryAt.session
+            ? queryAt.session.validators()
+            : of([] as AccountId[])
+        ])
+      ),
+      map(([header, validators]) =>
+        createHeaderExtended(header.registry, header, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
