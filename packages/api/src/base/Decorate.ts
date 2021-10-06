@@ -18,13 +18,14 @@ import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
+import { findCall, findError } from './find';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -173,20 +174,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   /**
-   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
-   */
-  public findCall (callIndex: Uint8Array | string): CallFunction {
-    return this.registry.findMetaCall(u8aToU8a(callIndex));
-  }
-
-  /**
-   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
-   */
-  public findError (errorIndex: Uint8Array | string): RegistryError {
-    return this.registry.findMetaError(u8aToU8a(errorIndex));
-  }
-
-  /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
@@ -241,9 +228,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
-      registry.registry.findMetaCall(u8aToU8a(callIndex));
+      findCall(registry.registry, callIndex);
     decoratedApi.findError = (errorIndex: Uint8Array | string): RegistryError =>
-      registry.registry.findMetaError(u8aToU8a(errorIndex));
+      findError(registry.registry, errorIndex);
 
     return {
       decoratedApi,
