@@ -11,7 +11,7 @@ import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
-import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
+import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
@@ -118,4 +118,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   rx: {
     query: QueryableStorage<'rxjs'>;
   }
+
+  findCall (callIndex: Uint8Array | string): CallFunction;
+  findError (errorIndex: Uint8Array | string): RegistryError;
 }
