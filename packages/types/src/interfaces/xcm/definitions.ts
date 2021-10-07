@@ -38,7 +38,7 @@ const xcm = {
   },
   Fungibility: {
     _enum: {
-      Fungible: 'u128',
+      Fungible: 'Compact<u128>',
       NonFungible: 'AssetInstance'
     }
   },

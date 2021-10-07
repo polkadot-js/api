@@ -96,7 +96,7 @@ export interface DoubleEncodedCall extends Struct {
 /** @name Fungibility */
 export interface Fungibility extends Enum {
   readonly isFungible: boolean;
-  readonly asFungible: u128;
+  readonly asFungible: Compact<u128>;
   readonly isNonFungible: boolean;
   readonly asNonFungible: AssetInstance;
 }
