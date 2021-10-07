@@ -418,7 +418,7 @@ export default {
     }
   },
   /**
-   * Lookup239: kusama_runtime::SessionKeys
+   * Lookup241: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -429,7 +429,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup369: kusama_runtime::NposCompactSolution24
+   * Lookup371: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -458,7 +458,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup502: xcm::VersionedXcm<Call>
+   * Lookup504: xcm::VersionedXcm<Call>
    **/
   XcmVersionedXcm: {
     _enum: {
@@ -468,7 +468,7 @@ export default {
     }
   },
   /**
-   * Lookup503: xcm::v0::Xcm<Call>
+   * Lookup505: xcm::v0::Xcm<Call>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -522,7 +522,7 @@ export default {
     }
   },
   /**
-   * Lookup505: xcm::v0::order::Order<Call>
+   * Lookup507: xcm::v0::order::Order<Call>
    **/
   XcmV0Order: {
     _enum: {
@@ -565,7 +565,7 @@ export default {
     }
   },
   /**
-   * Lookup507: xcm::v0::Response
+   * Lookup509: xcm::v0::Response
    **/
   XcmV0Response: {
     _enum: {
@@ -573,7 +573,7 @@ export default {
     }
   },
   /**
-   * Lookup508: xcm::v1::Xcm<Call>
+   * Lookup510: xcm::v1::Xcm<Call>
    **/
   XcmV1Xcm: {
     _enum: {
@@ -632,7 +632,7 @@ export default {
     }
   },
   /**
-   * Lookup510: xcm::v1::order::Order<Call>
+   * Lookup512: xcm::v1::order::Order<Call>
    **/
   XcmV1Order: {
     _enum: {
@@ -677,7 +677,7 @@ export default {
     }
   },
   /**
-   * Lookup512: xcm::v1::Response
+   * Lookup514: xcm::v1::Response
    **/
   XcmV1Response: {
     _enum: {
@@ -686,7 +686,7 @@ export default {
     }
   },
   /**
-   * Lookup573: kusama_runtime::OriginCaller
+   * Lookup575: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -793,7 +793,7 @@ export default {
     }
   },
   /**
-   * Lookup578: pallet_xcm::pallet::Origin
+   * Lookup580: pallet_xcm::pallet::Origin
    **/
   PalletXcmOrigin: {
     _enum: {
@@ -802,7 +802,7 @@ export default {
     }
   },
   /**
-   * Lookup682: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup689: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -822,7 +822,7 @@ export default {
     }
   },
   /**
-   * Lookup685: xcm::VersionedResponse
+   * Lookup692: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -832,7 +832,7 @@ export default {
     }
   },
   /**
-   * Lookup691: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup698: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -843,7 +843,7 @@ export default {
     }
   },
   /**
-   * Lookup703: kusama_runtime::Runtime
+   * Lookup710: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 } as DefinitionsTypes;
