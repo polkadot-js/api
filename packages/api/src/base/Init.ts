@@ -14,7 +14,7 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, isUndefined, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { detectedCapabilities } from './capabilities';
@@ -30,6 +30,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #registries: VersionedRegistry<ApiType>[] = [];
 
   #updateSub?: Subscription | null = null;
+
+  #waitingRegistries: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -118,18 +120,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return this._createDecorated(registry, true, u8aHash).decoratedApi;
   }
 
-  /**
-   * @description Sets up a registry based on the block hash defined
-   */
-  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
-    const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
-      lastBlockHash && u8aEq(lastBlockHash, blockHash)
-    );
-
-    if (existingViaHash) {
-      return existingViaHash;
-    }
-
+  private async _getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
     // ensure we have everything required
     assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve data on an uninitialized chain');
 
@@ -177,10 +168,37 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this.#registries.push(result);
 
-    // TODO This could be useful for historic, disabled due to cross-looping, i.e. .at queries
-    // this._detectCapabilities(registry, blockHash);
-
     return result;
+  }
+
+  /**
+   * @description Sets up a registry based on the block hash defined
+   */
+  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
+    const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
+      lastBlockHash && u8aEq(lastBlockHash, blockHash)
+    );
+
+    if (existingViaHash) {
+      return existingViaHash;
+    }
+
+    const blockHashHex = u8aToHex(blockHash);
+    let waiting = this.#waitingRegistries[blockHashHex];
+
+    if (isUndefined(waiting)) {
+      waiting = this._getBlockRegistry(blockHash);
+      this.#waitingRegistries[blockHashHex] = waiting;
+
+      // when we have resolved, remove this from the waiting list
+      waiting
+        .then((): void => {
+          delete this.#waitingRegistries[blockHashHex];
+        })
+        .catch(() => undefined);
+    }
+
+    return waiting;
   }
 
   protected async _loadMeta (): Promise<boolean> {

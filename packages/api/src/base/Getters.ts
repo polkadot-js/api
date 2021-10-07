@@ -5,11 +5,13 @@ import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
+import type { CallFunction, RegistryError } from '@polkadot/types/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { assertReturn } from '@polkadot/util';
 
 import { packageInfo } from '../packageInfo';
+import { findCall, findError } from './find';
 import { Init } from './Init';
 
 interface PkgJson {
@@ -209,5 +211,19 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    */
   public get tx (): SubmittableExtrinsics<ApiType> {
     return assertResult(this._extrinsics);
+  }
+
+  /**
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return findCall(this.registry, callIndex);
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return findError(this.registry, errorIndex);
   }
 }

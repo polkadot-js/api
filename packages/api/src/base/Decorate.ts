@@ -7,7 +7,7 @@ import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
@@ -25,6 +25,7 @@ import { augmentObject } from '../util/augmentObject';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
+import { findCall, findError } from './find';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -225,6 +226,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
+
+    decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
+      findCall(registry.registry, callIndex);
+    decoratedApi.findError = (errorIndex: Uint8Array | string): RegistryError =>
+      findError(registry.registry, errorIndex);
 
     return {
       decoratedApi,

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
+import type { SignerPayloadRawBase } from '@polkadot/types/types';
 import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
 
 import { assert, isString, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -53,20 +53,6 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
     this._unsubscribe();
 
     return this._rpcCore.disconnect();
-  }
-
-  /**
-   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
-   */
-  public findCall (callIndex: Uint8Array | string): CallFunction {
-    return this.registry.findMetaCall(u8aToU8a(callIndex));
-  }
-
-  /**
-   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
-   */
-  public findError (errorIndex: Uint8Array | string): RegistryError {
-    return this.registry.findMetaError(u8aToU8a(errorIndex));
   }
 
   /**
