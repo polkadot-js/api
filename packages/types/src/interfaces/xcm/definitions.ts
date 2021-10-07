@@ -16,7 +16,7 @@ export const XCM_MAPPINGS = [
 
 const XCM_LATEST = 'V2';
 
-export function mapXcm (version: 'V0' | 'V1'): Record<string, string> {
+export function mapXcm (version: 'V0' | 'V1' | 'V2'): Record<string, string> {
   return XCM_MAPPINGS.reduce<Record<string, string>>((all, key) => ({
     ...all,
     [key]: `${key}${version}`

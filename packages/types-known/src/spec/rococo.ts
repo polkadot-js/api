@@ -52,6 +52,13 @@ const versioned: OverrideVersionedType[] = [
       ...sharedTypes,
       ...mapXcm('V1')
     }
+  },
+  {
+    // metadata v14
+    minmax: [9110, undefined],
+    types: {
+      ...sharedTypes
+    }
   }
 ];
 
