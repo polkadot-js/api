@@ -14,7 +14,7 @@
         "name": "A"
       },
       {
-        "info": "DoNotConstruct",
+        "info": "Si",
         "lookupIndex": 1,
         "lookupName": "RecursiveMyEnum",
         "type": "Lookup1",
