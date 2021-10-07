@@ -10,9 +10,7 @@ import { v0 } from './v0';
 import { v1 } from './v1';
 import { v2 } from './v2';
 
-export const XCM_MAPPINGS = [
-  'AssetInstance', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'
-];
+export const XCM_MAPPINGS = ['AssetInstance', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
 
 const XCM_LATEST = 'V2';
 
