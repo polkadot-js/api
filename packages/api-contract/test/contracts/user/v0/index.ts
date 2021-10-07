@@ -3,4 +3,5 @@
 
 export { default as assetTransfer } from './assetTransfer.json';
 export { default as enumExample } from './enumExample.json';
+export { default as recursive } from './recursive.contract.json';
 export { default as withString } from './withString.json';

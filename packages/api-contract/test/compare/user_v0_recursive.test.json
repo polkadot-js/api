@@ -1,0 +1,26 @@
+[
+  {
+    "info": "Enum",
+    "lookupIndex": 1,
+    "lookupName": "RecursiveMyEnum",
+    "type": "{\"_enum\":{\"A\":\"Null\",\"B\":\"RecursiveMyEnum\"}}",
+    "docs": [],
+    "namespace": "recursive::MyEnum",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "A"
+      },
+      {
+        "info": "DoNotConstruct",
+        "lookupIndex": 1,
+        "lookupName": "RecursiveMyEnum",
+        "type": "Lookup1",
+        "index": 1,
+        "name": "B"
+      }
+    ]
+  }
+]
