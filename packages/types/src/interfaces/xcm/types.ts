@@ -94,12 +94,18 @@ export interface DoubleEncodedCall extends Struct {
 }
 
 /** @name Fungibility */
-export interface Fungibility extends Enum {
+export interface Fungibility extends FungibilityV1 {}
+
+/** @name FungibilityV1 */
+export interface FungibilityV1 extends Enum {
   readonly isFungible: boolean;
   readonly asFungible: Compact<u128>;
   readonly isNonFungible: boolean;
-  readonly asNonFungible: AssetInstance;
+  readonly asNonFungible: AssetInstanceV1;
 }
+
+/** @name FungibilityV2 */
+export interface FungibilityV2 extends FungibilityV1 {}
 
 /** @name InboundStatus */
 export interface InboundStatus extends Enum {
@@ -388,7 +394,7 @@ export interface MultiAssetV0 extends Enum {
 /** @name MultiAssetV1 */
 export interface MultiAssetV1 extends Struct {
   readonly id: XcmAssetId;
-  readonly fungibility: Fungibility;
+  readonly fungibility: FungibilityV1;
 }
 
 /** @name MultiAssetV2 */
@@ -595,10 +601,16 @@ export interface WeightLimitV2 extends Enum {
 }
 
 /** @name WildFungibility */
-export interface WildFungibility extends Enum {
+export interface WildFungibility extends WildFungibilityV1 {}
+
+/** @name WildFungibilityV1 */
+export interface WildFungibilityV1 extends Enum {
   readonly isFungible: boolean;
   readonly isNonFungible: boolean;
 }
+
+/** @name WildFungibilityV2 */
+export interface WildFungibilityV2 extends WildFungibilityV1 {}
 
 /** @name WildMultiAsset */
 export interface WildMultiAsset extends WildMultiAssetV2 {}
@@ -609,7 +621,7 @@ export interface WildMultiAssetV1 extends Enum {
   readonly isAllOf: boolean;
   readonly asAllOf: {
     readonly id: XcmAssetId;
-    readonly fungibility: WildFungibility;
+    readonly fungibility: WildFungibilityV1;
   } & Struct;
 }
 

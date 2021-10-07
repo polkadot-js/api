@@ -8,6 +8,7 @@ import type { DefinitionsTypes } from '../../types';
 
 export const v2: DefinitionsTypes = {
   AssetInstanceV2: 'AssetInstanceV1',
+  FungibilityV2: 'FungibilityV1',
   JunctionV2: 'JunctionV1',
   JunctionsV2: 'JunctionsV1',
   MultiAssetsV2: 'MultiAssetsV1',
@@ -15,6 +16,7 @@ export const v2: DefinitionsTypes = {
   MultiAssetFilterV2: 'MultiAssetFilterV1',
   MultiLocationV2: 'MultiLocationV1',
   OriginKindV2: 'OriginKindV1',
+  WildFungibilityV2: 'WildFungibilityV1',
   ResponseV2: {
     _enum: {
       Null: 'Null',

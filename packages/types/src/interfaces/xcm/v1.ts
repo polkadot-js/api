@@ -18,6 +18,12 @@ export const v1: DefinitionsTypes = {
       Blob: 'Bytes'
     }
   },
+  FungibilityV1: {
+    _enum: {
+      Fungible: 'Compact<u128>',
+      NonFungible: 'AssetInstanceV1'
+    }
+  },
   JunctionV1: {
     _enum: {
       Parachain: 'Compact<u32>',
@@ -59,7 +65,7 @@ export const v1: DefinitionsTypes = {
   MultiAssetsV1: 'Vec<MultiAssetV1>',
   MultiAssetV1: {
     id: 'XcmAssetId',
-    fungibility: 'Fungibility'
+    fungibility: 'FungibilityV1'
   },
   MultiAssetFilterV1: {
     _enum: {
@@ -77,12 +83,15 @@ export const v1: DefinitionsTypes = {
       Assets: 'MultiAssetsV1'
     }
   },
+  WildFungibilityV1: {
+    _enum: ['Fungible', 'NonFungible']
+  },
   WildMultiAssetV1: {
     _enum: {
       All: 'Null',
       AllOf: {
         id: 'XcmAssetId',
-        fungibility: 'WildFungibility'
+        fungibility: 'WildFungibilityV1'
       }
     }
   },

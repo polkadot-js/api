@@ -36,12 +36,6 @@ const xcm = {
       Abstract: 'Bytes'
     }
   },
-  Fungibility: {
-    _enum: {
-      Fungible: 'Compact<u128>',
-      NonFungible: 'AssetInstance'
-    }
-  },
   InboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
@@ -49,9 +43,8 @@ const xcm = {
     _enum: ['Ok', 'Suspended']
   },
   MultiAssets: 'Vec<MultiAsset>',
-  WildFungibility: {
-    _enum: ['Fungible', 'NonFungible']
-  }
+  Fungibility: 'FungibilityV1',
+  WildFungibility: 'WildFungibilityV1'
 };
 
 const location = {
