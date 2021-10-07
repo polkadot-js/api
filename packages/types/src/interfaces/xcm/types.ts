@@ -6,7 +6,7 @@ import type { AccountId, BlockNumber, Weight } from '@polkadot/types/interfaces/
 import type { ITuple } from '@polkadot/types/types';
 
 /** @name AssetInstance */
-export interface AssetInstance extends AssetInstanceV1 {}
+export interface AssetInstance extends AssetInstanceV2 {}
 
 /** @name AssetInstanceV0 */
 export interface AssetInstanceV0 extends Enum {
@@ -49,6 +49,9 @@ export interface AssetInstanceV1 extends Enum {
   readonly isBlob: boolean;
   readonly asBlob: Bytes;
 }
+
+/** @name AssetInstanceV2 */
+export interface AssetInstanceV2 extends AssetInstanceV1 {}
 
 /** @name BodyId */
 export interface BodyId extends Enum {
@@ -221,10 +224,10 @@ export interface InstructionV2 extends Enum {
 export interface InteriorMultiLocation extends Junctions {}
 
 /** @name Junction */
-export interface Junction extends JunctionV1 {}
+export interface Junction extends JunctionV2 {}
 
 /** @name Junctions */
-export interface Junctions extends JunctionsV1 {}
+export interface Junctions extends JunctionsV2 {}
 
 /** @name JunctionsV1 */
 export interface JunctionsV1 extends Enum {
@@ -321,10 +324,10 @@ export interface JunctionV1 extends Enum {
 export interface JunctionV2 extends JunctionV1 {}
 
 /** @name MultiAsset */
-export interface MultiAsset extends MultiAssetV1 {}
+export interface MultiAsset extends MultiAssetV2 {}
 
 /** @name MultiAssetFilter */
-export interface MultiAssetFilter extends MultiAssetFilterV1 {}
+export interface MultiAssetFilter extends MultiAssetFilterV2 {}
 
 /** @name MultiAssetFilterV1 */
 export interface MultiAssetFilterV1 extends Enum {
@@ -392,7 +395,7 @@ export interface MultiAssetV1 extends Struct {
 export interface MultiAssetV2 extends MultiAssetV1 {}
 
 /** @name MultiLocation */
-export interface MultiLocation extends MultiLocationV1 {}
+export interface MultiLocation extends MultiLocationV2 {}
 
 /** @name MultiLocationV0 */
 export interface MultiLocationV0 extends Enum {
@@ -491,7 +494,7 @@ export interface QueueConfigData extends Struct {
 }
 
 /** @name Response */
-export interface Response extends ResponseV1 {}
+export interface Response extends ResponseV2 {}
 
 /** @name ResponseV0 */
 export interface ResponseV0 extends Enum {
@@ -598,7 +601,7 @@ export interface WildFungibility extends Enum {
 }
 
 /** @name WildMultiAsset */
-export interface WildMultiAsset extends WildMultiAssetV1 {}
+export interface WildMultiAsset extends WildMultiAssetV2 {}
 
 /** @name WildMultiAssetV1 */
 export interface WildMultiAssetV1 extends Enum {
@@ -610,8 +613,11 @@ export interface WildMultiAssetV1 extends Enum {
   } & Struct;
 }
 
+/** @name WildMultiAssetV2 */
+export interface WildMultiAssetV2 extends WildMultiAssetV1 {}
+
 /** @name Xcm */
-export interface Xcm extends XcmV1 {}
+export interface Xcm extends XcmV2 {}
 
 /** @name XcmAssetId */
 export interface XcmAssetId extends Enum {
@@ -622,7 +628,7 @@ export interface XcmAssetId extends Enum {
 }
 
 /** @name XcmError */
-export interface XcmError extends XcmErrorV1 {}
+export interface XcmError extends XcmErrorV2 {}
 
 /** @name XcmErrorV0 */
 export interface XcmErrorV0 extends Enum {
@@ -734,7 +740,7 @@ export interface XcmErrorV2 extends Enum {
 }
 
 /** @name XcmOrder */
-export interface XcmOrder extends XcmOrderV1 {}
+export interface XcmOrder extends XcmOrderV2 {}
 
 /** @name XcmOrderV0 */
 export interface XcmOrderV0 extends Enum {
@@ -832,6 +838,9 @@ export interface XcmOrderV1 extends Enum {
     readonly instructions: Vec<XcmV1>;
   } & Struct;
 }
+
+/** @name XcmOrderV2 */
+export interface XcmOrderV2 extends XcmOrderV1 {}
 
 /** @name XcmOrigin */
 export interface XcmOrigin extends Enum {

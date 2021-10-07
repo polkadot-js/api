@@ -7,6 +7,7 @@
 import type { DefinitionsTypes } from '../../types';
 
 export const v2: DefinitionsTypes = {
+  AssetInstanceV2: 'AssetInstanceV1',
   JunctionV2: 'JunctionV1',
   JunctionsV2: 'JunctionsV1',
   MultiAssetsV2: 'MultiAssetsV1',
@@ -119,6 +120,7 @@ export const v2: DefinitionsTypes = {
       Trap: 'u64'
     }
   },
+  WildMultiAssetV2: 'WildMultiAssetV1',
   XcmV2: 'Vec<InstructionV2>',
   XcmErrorV2: {
     _enum: {
@@ -157,5 +159,6 @@ export const v2: DefinitionsTypes = {
       UnknownClaim: 'Null',
       InvalidLocation: 'Null'
     }
-  }
+  },
+  XcmOrderV2: 'XcmOrderV1'
 };
