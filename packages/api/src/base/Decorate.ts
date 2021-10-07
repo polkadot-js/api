@@ -9,7 +9,7 @@ import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -47,6 +47,12 @@ const PAGE_SIZE_V = 250; // limited since the data may be very large (e.g. misfi
 const l = logger('api/init');
 
 let instanceCounter = 0;
+
+function getAtQueryFn<ApiType extends ApiTypes> (api: ApiDecoration<ApiType>, { method, section }: StorageEntry): AugmentedQuery<'rxjs', GenericStorageEntryFunction, AnyTuple> {
+  assert(api.rx.query[section] && api.rx.query[section][method], () => `query.${section}.${method} is not available in this version of the metadata`);
+
+  return api.rx.query[section][method];
+}
 
 export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   readonly #instanceId: string;
@@ -231,6 +237,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       findCall(registry.registry, callIndex);
     decoratedApi.findError = (errorIndex: Uint8Array | string): RegistryError =>
       findError(registry.registry, errorIndex);
+    decoratedApi.queryMulti = blockHash
+      ? this._decorateMultiAt(decoratedApi, this._decorateMethod, blockHash)
+      : this._decorateMulti(this._decorateMethod);
 
     return {
       decoratedApi,
@@ -389,6 +398,26 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             : [args.creator])));
   }
 
+  protected _decorateMultiAt<ApiType extends ApiTypes> (atApi: ApiDecoration<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array | string): QueryableStorageMulti<ApiType> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
+      this._rpcCore.state.queryStorageAt(
+        calls.map((args: QueryableStorageMultiArg<ApiType>) => {
+          if (Array.isArray(args)) {
+            const { creator } = getAtQueryFn(atApi, args[0].creator);
+
+            return creator.meta.type.isPlain
+              ? [creator]
+              : creator.meta.type.asMap.hashers.length === 1
+                ? [creator, args.slice(1)]
+                : [creator, ...args.slice(1)];
+          }
+
+          return [getAtQueryFn(atApi, args.creator).creator];
+        }),
+        blockHash));
+  }
+
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx, decorateMethod);
 
@@ -443,14 +472,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const getArgs = (args: unknown[], registry?: Registry) =>
       extractStorageArgs(registry || this.#registry, creator, args);
 
-    const getQueryAt = (blockHash: Hash | Uint8Array | string) =>
+    const getQueryAt = (blockHash: Hash | Uint8Array | string): Observable<AugmentedQuery<'rxjs', GenericStorageEntryFunction, AnyTuple>> =>
       from(this.at(blockHash)).pipe(
-        map((api) => {
-          assert(api.rx.query[creator.section] && api.rx.query[creator.section][creator.method], () => `query.${creator.section}.${creator.method} is not available in this version of the metadata`);
-
-          return api.rx.query[creator.section][creator.method];
-        })
-      );
+        map((api) => getAtQueryFn(api, creator)));
 
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */

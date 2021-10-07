@@ -121,4 +121,5 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
 
   findCall (callIndex: Uint8Array | string): CallFunction;
   findError (errorIndex: Uint8Array | string): RegistryError;
+  queryMulti: QueryableStorageMulti<ApiType>;
 }
