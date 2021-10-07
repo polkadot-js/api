@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api/types';
-import type { U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
+import type { U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 import type { Codec } from '@polkadot/types/types';
@@ -396,11 +396,6 @@ declare module '@polkadot/api/types/consts' {
        * Must be no greater than `MaxQueueLen`.
        **/
       fifoQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The issuance to ignore. This is subtracted from the `Currency`'s `total_issuance` to get
-       * the issuance by which we inflate or deflate the gilt.
-       **/
-      ignoredIssuance: u128 & AugmentedConst<ApiType>;
       /**
        * The number of blocks between consecutive attempts to issue more gilts in an effort to
        * get to the target amount to be frozen.
@@ -796,6 +791,30 @@ declare module '@polkadot/api/types/consts' {
       [key: string]: Codec;
     };
     transactionPayment: {
+      /**
+       * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
+       * `priority`
+       * 
+       * This value is multipled by the `final_fee` to obtain a "virtual tip" that is later
+       * added to a tip component in regular `priority` calculations.
+       * It means that a `Normal` transaction can front-run a similarly-sized `Operational`
+       * extrinsic (with no tip), by including a tip value greater than the virtual tip.
+       * 
+       * ```rust,ignore
+       * // For `Normal`
+       * let priority = priority_calc(tip);
+       * 
+       * // For `Operational`
+       * let virtual_tip = (inclusion_fee + tip) * OperationalFeeMultiplier;
+       * let priority = priority_calc(tip + virtual_tip);
+       * ```
+       * 
+       * Note that since we use `final_fee` the multiplier applies also to the regular `tip`
+       * sent with the transaction. So, not only does the transaction get a priority bump based
+       * on the `inclusion_fee`, but we also amplify the impact of tips applied to `Operational`
+       * transactions.
+       **/
+      operationalFeeMultiplier: u8 & AugmentedConst<ApiType>;
       /**
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
