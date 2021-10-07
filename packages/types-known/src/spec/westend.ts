@@ -5,6 +5,8 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { mapXcm } from '@polkadot/types/interfaces/xcm/definitions';
+
 const sharedTypes = {
   // 16 validators
   CompactAssignments: 'CompactAssignmentsWith16',
@@ -89,15 +91,24 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [50, undefined],
+    minmax: [50, 9099],
     types: {
       ...sharedTypes,
-      AssetInstance: 'AssetInstanceV0',
-      MultiAsset: 'MultiAssetV0',
-      MultiLocation: 'MultiLocationV0',
-      Response: 'ResponseV0',
-      Xcm: 'XcmV0',
-      XcmOrder: 'XcmOrderV0'
+      ...mapXcm('V0')
+    }
+  },
+  {
+    minmax: [9100, 9105],
+    types: {
+      ...sharedTypes,
+      ...mapXcm('V1')
+    }
+  },
+  {
+    // metadata v14
+    minmax: [9106, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];

@@ -5,6 +5,8 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { mapXcm } from '@polkadot/types/interfaces/xcm/definitions';
+
 // structs need to be in order
 /* eslint-disable sort-keys */
 
@@ -38,15 +40,24 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [229, undefined],
+    minmax: [229, 9099],
     types: {
       ...sharedTypes,
-      AssetInstance: 'AssetInstanceV0',
-      MultiAsset: 'MultiAssetV0',
-      MultiLocation: 'MultiLocationV0',
-      Response: 'ResponseV0',
-      Xcm: 'XcmV0',
-      XcmOrder: 'XcmOrderV0'
+      ...mapXcm('V0')
+    }
+  },
+  {
+    minmax: [9100, 9105],
+    types: {
+      ...sharedTypes,
+      ...mapXcm('V1')
+    }
+  },
+  {
+    // metadata v14
+    minmax: [9106, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];
