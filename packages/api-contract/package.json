@@ -23,6 +23,6 @@
     "@polkadot/api": "6.2.2-10",
     "@polkadot/types": "6.2.2-10",
     "@polkadot/util": "^7.4.1",
-    "rxjs": "^7.3.0"
+    "rxjs": "^7.4.0"
   }
 }
