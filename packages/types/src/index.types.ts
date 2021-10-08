@@ -3,4 +3,4 @@
 
 export * from './extrinsic';
 export * from './generic';
-export * from './primitive';
+export * from './primitive/index-unaliased';
