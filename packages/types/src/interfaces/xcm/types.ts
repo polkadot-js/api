@@ -94,7 +94,10 @@ export interface DoubleEncodedCall extends Struct {
 }
 
 /** @name Fungibility */
-export interface Fungibility extends FungibilityV1 {}
+export interface Fungibility extends FungibilityV2 {}
+
+/** @name FungibilityV0 */
+export interface FungibilityV0 extends FungibilityV1 {}
 
 /** @name FungibilityV1 */
 export interface FungibilityV1 extends Enum {
@@ -601,7 +604,10 @@ export interface WeightLimitV2 extends Enum {
 }
 
 /** @name WildFungibility */
-export interface WildFungibility extends WildFungibilityV1 {}
+export interface WildFungibility extends WildFungibilityV2 {}
+
+/** @name WildFungibilityV0 */
+export interface WildFungibilityV0 extends WildFungibilityV1 {}
 
 /** @name WildFungibilityV1 */
 export interface WildFungibilityV1 extends Enum {
