@@ -8,7 +8,6 @@ export * from './codec';
 export * from './create';
 export * from './index.types';
 export * from './metadata';
-export * from './primitive/index-aliased'; // these are not contained in index.types
 
 export { TypeDefInfo } from './create/types';
 export { packageInfo } from './packageInfo';
