@@ -10,29 +10,30 @@ import { v0 } from './v0';
 import { v1 } from './v1';
 import { v2 } from './v2';
 
+export const XCM_MAPPINGS = ['AssetInstance', 'Fungibility', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildFungibility', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
+
+const XCM_LATEST = 'V2';
+
+export function mapXcm (version: 'V0' | 'V1' | 'V2'): Record<string, string> {
+  return XCM_MAPPINGS.reduce<Record<string, string>>((all, key) => ({
+    ...all,
+    [key]: `${key}${version}`
+  }), {});
+}
+
 const xcm = {
   XcmOrigin: {
     _enum: {
       Xcm: 'MultiLocation'
     }
   },
-  Xcm: 'XcmV1',
   XcmpMessageFormat: {
     _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
   },
-  XcmError: 'XcmErrorV1',
-  XcmOrder: 'XcmOrderV1',
   XcmAssetId: {
     _enum: {
       Concrete: 'MultiLocation',
       Abstract: 'Bytes'
-    }
-  },
-  AssetInstance: 'AssetInstanceV1',
-  Fungibility: {
-    _enum: {
-      Fungible: 'u128',
-      NonFungible: 'AssetInstance'
     }
   },
   InboundStatus: {
@@ -41,13 +42,7 @@ const xcm = {
   OutboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
-  MultiAssetFilter: 'MultiAssetFilterV1',
-  MultiAsset: 'MultiAssetV1',
-  MultiAssets: 'Vec<MultiAsset>',
-  WildFungibility: {
-    _enum: ['Fungible', 'NonFungible']
-  },
-  WildMultiAsset: 'WildMultiAssetV1'
+  MultiAssets: 'Vec<MultiAsset>'
 };
 
 const location = {
@@ -81,9 +76,6 @@ const location = {
     }
   },
   InteriorMultiLocation: 'Junctions',
-  Junction: 'JunctionV1',
-  Junctions: 'JunctionsV1',
-  MultiLocation: 'MultiLocationV1',
   NetworkId: {
     _enum: {
       Any: 'Null',
@@ -102,13 +94,13 @@ export default {
     ...v0,
     ...v1,
     ...v2,
+    ...mapXcm(XCM_LATEST),
     DoubleEncodedCall: {
       encoded: 'Vec<u8>'
     },
     XcmOriginKind: {
       _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
     },
-    Response: 'ResponseV1',
     Outcome: {
       _enum: {
         Complete: 'Weight',

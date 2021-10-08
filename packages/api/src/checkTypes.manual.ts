@@ -104,6 +104,16 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   ]);
 
   console.log(multiRes);
+
+  // check multi, via at
+  const apiAt = await api.at('0x12345678');
+  const multiResAt = await apiAt.queryMulti([
+    api.query.timestamp.now,
+    [apiAt.query.staking.validators],
+    [apiAt.query.system.account, pairs.eve.address]
+  ]);
+
+  console.log(multiResAt);
 }
 
 async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
