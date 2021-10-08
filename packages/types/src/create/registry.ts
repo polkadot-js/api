@@ -327,10 +327,17 @@ export class TypeRegistry implements Registry {
   }
 
   public getClassName (Type: Constructor): string | undefined {
-    const entry = [...this.#classes.entries()].find(([, Clazz]) => Type === Clazz);
+    // we cannot rely on export order (anymore), so in the case of items such as
+    // u32 & U32, we get the lowercase versions here... not quite as optimal
+    // (previously this used to be a simple find & return)
+    const names = [...this.#classes.entries()]
+      .filter(([, Clazz]) => Type === Clazz)
+      .map(([name]) => name)
+      .sort()
+      .reverse();
 
-    return entry
-      ? entry[0]
+    return names.length
+      ? names[0]
       : undefined;
   }
 
