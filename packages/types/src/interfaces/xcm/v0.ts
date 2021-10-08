@@ -7,6 +7,8 @@
 import type { DefinitionsTypes } from '../../types';
 
 export const v0: DefinitionsTypes = {
+  FungibilityV0: 'FungibilityV1',
+  WildFungibilityV0: 'WildFungibilityV1',
   AssetInstanceV0: {
     _enum: {
       Undefined: 'Null',

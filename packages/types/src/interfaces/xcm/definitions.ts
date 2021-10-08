@@ -10,7 +10,7 @@ import { v0 } from './v0';
 import { v1 } from './v1';
 import { v2 } from './v2';
 
-export const XCM_MAPPINGS = ['AssetInstance', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
+export const XCM_MAPPINGS = ['AssetInstance', 'Fungibility', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildFungibility', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
 
 const XCM_LATEST = 'V2';
 
@@ -36,22 +36,13 @@ const xcm = {
       Abstract: 'Bytes'
     }
   },
-  Fungibility: {
-    _enum: {
-      Fungible: 'u128',
-      NonFungible: 'AssetInstance'
-    }
-  },
   InboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
   OutboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
-  MultiAssets: 'Vec<MultiAsset>',
-  WildFungibility: {
-    _enum: ['Fungible', 'NonFungible']
-  }
+  MultiAssets: 'Vec<MultiAsset>'
 };
 
 const location = {
