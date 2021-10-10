@@ -4,7 +4,7 @@
 
 Changes:
 
-- Adjust Statemint known types for version with metadata v14
+- Adjust Statemint known types for version 4+
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
 
 

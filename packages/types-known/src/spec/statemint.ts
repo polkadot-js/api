@@ -25,15 +25,22 @@ const sharedTypes = {
 // these are override types for Statemine, Statemint, Westmint
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 3],
+    minmax: [0, 4],
     types: {
       ...sharedTypes,
       ...mapXcm('V0')
     }
   },
   {
+    minmax: [4, 4],
+    types: {
+      ...sharedTypes,
+      ...mapXcm('V1')
+    }
+  },
+  {
     // metadata V14
-    minmax: [4, undefined],
+    minmax: [5, undefined],
     types: {
       ...sharedTypes
     }
