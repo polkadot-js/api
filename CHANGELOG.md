@@ -4,12 +4,13 @@
 
 Changes:
 
+- Adjust Statemint known types for version with metadata v14
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
 
 
 ## 6.3.1 Oct 9, 2021
 
-Upgrade priority: Low. Recoemmended for Kusama & Polkadot runtime 9100+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9100+
 
 Changes:
 
