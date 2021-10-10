@@ -25,7 +25,7 @@ const sharedTypes = {
 // these are override types for Statemine, Statemint, Westmint
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, 4],
+    minmax: [0, 3],
     types: {
       ...sharedTypes,
       ...mapXcm('V0')
