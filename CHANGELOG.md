@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add Kusama & Polkadot upgrade blocks for 9100/9110
+
+
 ## 6.3.1 Oct 9, 2021
 
 Upgrade priority: Low. Recoemmended for Kusama & Polkadot runtime 9100+
