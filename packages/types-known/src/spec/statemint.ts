@@ -5,29 +5,37 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { mapXcm } from '@polkadot/types/interfaces/xcm/definitions';
+
+const sharedTypes = {
+  TAssetBalance: 'u128',
+  ProxyType: {
+    _enum: [
+      'Any',
+      'NonTransfer',
+      'CancelProxy',
+      'Assets',
+      'AssetOwner',
+      'AssetManager',
+      'Staking'
+    ]
+  }
+};
+
 // these are override types for Statemine, Statemint, Westmint
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [0, undefined],
+    minmax: [0, 3],
     types: {
-      TAssetBalance: 'u128',
-      ProxyType: {
-        _enum: [
-          'Any',
-          'NonTransfer',
-          'CancelProxy',
-          'Assets',
-          'AssetOwner',
-          'AssetManager',
-          'Staking'
-        ]
-      },
-      AssetInstance: 'AssetInstanceV0',
-      MultiAsset: 'MultiAssetV0',
-      MultiLocation: 'MultiLocationV0',
-      Response: 'ResponseV0',
-      Xcm: 'XcmV0',
-      XcmOrder: 'XcmOrderV0'
+      ...sharedTypes,
+      ...mapXcm('V0')
+    }
+  },
+  {
+    // metadata V14
+    minmax: [4, undefined],
+    types: {
+      ...sharedTypes
     }
   }
 ];
