@@ -4,6 +4,7 @@
 
 Changes:
 
+- Adjust Statemint known types for version 4+
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
 - Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
 
