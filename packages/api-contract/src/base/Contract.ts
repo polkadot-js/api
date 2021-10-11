@@ -13,7 +13,6 @@ import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { createTypeUnsafe } from '@polkadot/types';
 import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
@@ -153,7 +152,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
                 ? gasRequired
                 : gasConsumed,
               output: result.isOk && message.returnType
-                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+                ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
                 : null,
               result
             }))

@@ -119,13 +119,16 @@ function convertDef (registry: Registry, { def, path }: Si0Type): Si1TypeDef {
 }
 
 export function toV1 (registry: Registry, types: Si0Type[]): PortableType[] {
-  return types.map((t, id) =>
+  return types.map((t, index) =>
     registry.createType('PortableType', {
-      id,
+      // offsets are +1 from v0
+      id: index + 1,
       type: {
         def: convertDef(registry, t),
         docs: [],
-        params: t.params.map((p) => p.toNumber()),
+        params: t.params.map((p) => registry.createType('Si1TypeParameter', {
+          type: p.toNumber()
+        })),
         path: t.path.map((p) => p.toString())
       }
     })

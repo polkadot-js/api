@@ -121,6 +121,8 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
+  #lookup?: PortableRegistry;
+
   #metadata?: MetadataLatest;
 
   readonly #metadataCalls: Record<string, CallFunction> = {};
@@ -223,7 +225,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.metadata.lookup;
+    return this.#lookup || this.metadata.lookup;
   }
 
   public get metadata (): MetadataLatest {
@@ -440,6 +442,10 @@ export class TypeRegistry implements Registry {
 
   setKnownTypes (knownTypes: RegisteredTypes): void {
     this.#knownTypes = knownTypes;
+  }
+
+  setLookup (lookup: PortableRegistry): void {
+    this.#lookup = lookup;
   }
 
   // sets the metadata

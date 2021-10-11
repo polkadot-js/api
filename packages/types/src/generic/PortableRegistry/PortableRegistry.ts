@@ -228,9 +228,20 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
   return names;
 }
 
+// types have an id, which means they are to be named by
+// the specified id - ensure we have a mapping lookup for these
+function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
+  return types.reduce<Record<number, PortableType>>((types, pt) => {
+    types[pt.id.toNumber()] = pt;
+
+    return types;
+  }, {});
+}
+
 export class GenericPortableRegistry extends Struct {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
+  #types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
@@ -238,6 +249,7 @@ export class GenericPortableRegistry extends Struct {
     }, value);
 
     this.#names = extractNames(this, this.types);
+    this.#types = extractTypeMap(this.types);
   }
 
   /**
@@ -258,7 +270,9 @@ export class GenericPortableRegistry extends Struct {
    * @description Finds a specific type in the registry
    */
   public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
-    const found = this.types[this.#getLookupId(lookupId)];
+    // NOTE catch-22 - this may already be used as part of the constructor, so
+    // ensure that we have actually initialized it correctly
+    const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
 
     assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
 
@@ -314,7 +328,7 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = lookupId.toNumber();
 
     // Setup for a lookup on complex types
-    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
+    return [TypeDefInfo.DoNotConstruct, TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
       ? {
         docs: typeDef.docs,
         info: TypeDefInfo.Si,

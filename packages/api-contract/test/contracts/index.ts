@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import * as ink from './ink';
-import * as solang from './solang';
-import * as user from './user';
+import ink from './ink';
+import solang from './solang';
+import user from './user';
 
 const all: Record<string, any> = {};
 

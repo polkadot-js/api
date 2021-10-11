@@ -2,7 +2,9 @@
 /* eslint-disable */
 
 import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { Si0LookupTypeId, Si0Path, Si0Type } from '@polkadot/types/interfaces/scaleInfo';
+import type { PortableType } from '@polkadot/types/interfaces/metadata';
+import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name ContractConstructorSpec */
 export interface ContractConstructorSpec extends Struct {
@@ -31,7 +33,7 @@ export interface ContractCryptoHasher extends Enum {
 export interface ContractDiscriminant extends u32 {}
 
 /** @name ContractDisplayName */
-export interface ContractDisplayName extends Si0Path {}
+export interface ContractDisplayName extends SiPath {}
 
 /** @name ContractEventParamSpec */
 export interface ContractEventParamSpec extends Struct {
@@ -59,7 +61,7 @@ export interface ContractLayoutArray extends Struct {
 /** @name ContractLayoutCell */
 export interface ContractLayoutCell extends Struct {
   readonly key: ContractLayoutKey;
-  readonly ty: Si0LookupTypeId;
+  readonly ty: SiLookupTypeId;
 }
 
 /** @name ContractLayoutEnum */
@@ -113,14 +115,31 @@ export interface ContractMessageSpec extends Struct {
   readonly docs: Vec<Text>;
 }
 
-/** @name ContractProject */
-export interface ContractProject extends Struct {
-  readonly metadataVersion: Text;
-  readonly source: ContractProjectSource;
-  readonly contract: ContractProjectContract;
+/** @name ContractMetadata */
+export interface ContractMetadata extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: ContractMetadataV0;
+  readonly isV1: boolean;
+  readonly asV1: ContractMetadataV1;
+}
+
+/** @name ContractMetadataLatest */
+export interface ContractMetadataLatest extends ContractMetadataV1 {}
+
+/** @name ContractMetadataV0 */
+export interface ContractMetadataV0 extends Struct {
   readonly types: Vec<Si0Type>;
   readonly spec: ContractContractSpec;
 }
+
+/** @name ContractMetadataV1 */
+export interface ContractMetadataV1 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpec;
+}
+
+/** @name ContractProject */
+export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
 
 /** @name ContractProjectContract */
 export interface ContractProjectContract extends Struct {
@@ -134,12 +153,27 @@ export interface ContractProjectContract extends Struct {
   readonly license: Option<Text>;
 }
 
+/** @name ContractProjectInfo */
+export interface ContractProjectInfo extends Struct {
+  readonly source: ContractProjectSource;
+  readonly contract: ContractProjectContract;
+}
+
 /** @name ContractProjectSource */
 export interface ContractProjectSource extends Struct {
   readonly wasmHash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
   readonly wasm: Raw;
+}
+
+/** @name ContractProjectV0 */
+export interface ContractProjectV0 extends Struct {
+  readonly metadataVersion: Text;
+  readonly source: ContractProjectSource;
+  readonly contract: ContractProjectContract;
+  readonly types: Vec<Si0Type>;
+  readonly spec: ContractContractSpec;
 }
 
 /** @name ContractSelector */
@@ -161,7 +195,7 @@ export interface ContractStorageLayout extends Enum {
 
 /** @name ContractTypeSpec */
 export interface ContractTypeSpec extends Struct {
-  readonly type: Si0LookupTypeId;
+  readonly type: SiLookupTypeId;
   readonly displayName: ContractDisplayName;
 }
 

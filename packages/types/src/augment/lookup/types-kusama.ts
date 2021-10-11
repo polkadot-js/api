@@ -226,6 +226,10 @@ declare module '@polkadot/types/lookup' {
       readonly weightLimit: XcmV2WeightLimit;
     } & Struct;
     readonly isRefundSurplus: boolean;
+    readonly isSetErrorHandler: boolean;
+    readonly asSetErrorHandler: XcmV2Xcm;
+    readonly isSetAppendix: boolean;
+    readonly asSetAppendix: XcmV2Xcm;
     readonly isClearError: boolean;
     readonly isClaimAsset: boolean;
     readonly asClaimAsset: {
