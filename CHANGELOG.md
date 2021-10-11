@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust Statemint known types for version 4+
+- Add Kusama & Polkadot upgrade blocks for 9100/9110
+- Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
+
+
+## 6.3.1 Oct 9, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9100+
+
+Changes:
+
+- Mark `api.query.*.*.at` as deprecated (use `api.at`)
+- Expose `queryMulti`, `findError` and `findCall` on `api.at`
+- Optimize parallel metadata retrieval/decoration
+- Rework derive `.at` to ensure no additional metadata calls
+- Adjust Xcm types for Kusama, Polkadot, Westend (V1 & V2 usage)
+- Fix Xcm Fungibility type
+- Add upgrade blocks for Westend
+- Prepare for v14 metadata swap in Kusama/Polkadot (9110 runtime)
+- Adjust metadata wilcard path matching (event extraction)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
 ## 6.2.1 Oct 4, 2021
 
 Upgrade priority: Low. Maintenance updates.

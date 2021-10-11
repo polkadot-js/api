@@ -57,12 +57,25 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
 
-    return (a === '*') || (a === b) || (
-      a.includes('*') &&
-      a.includes('_') &&
-      b.includes('_') &&
-      matchParts(a.split('_'), b.split('_'))
-    );
+    if ((a === '*') || (a === b)) {
+      return true;
+    }
+
+    if (a.includes('*') && a.includes('_') && b.includes('_')) {
+      const suba = a.split('_');
+      const subb = b.split('_');
+
+      if (suba[0] === '*') {
+        // the first parts where the length is greater is always a match
+        while (suba.length < subb.length) {
+          subb.shift();
+        }
+      }
+
+      return matchParts(suba, subb);
+    }
+
+    return false;
   });
 }
 

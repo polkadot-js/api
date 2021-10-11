@@ -277,16 +277,27 @@ export default {
       data: 'Bytes',
       salt: 'Bytes'
     },
+    ContractInstantiateResultTo267: {
+      _enum: {
+        Ok: 'InstantiateReturnValueTo267',
+        Err: 'Null'
+      }
+    },
     ContractInstantiateResult: {
       _enum: {
         Ok: 'InstantiateReturnValue',
         Err: 'Null'
       }
     },
-    InstantiateReturnValue: {
+    InstantiateReturnValueTo267: {
       result: 'ExecReturnValue',
       accountId: 'AccountId',
       rentProjection: 'Option<RentProjection>'
+    },
+    InstantiateReturnValue: {
+      _fallback: 'InstantiateReturnValueTo267',
+      result: 'ExecReturnValue',
+      accountId: 'AccountId'
     },
     InstructionWeights: {
       i64const: 'u32',
