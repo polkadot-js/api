@@ -5550,7 +5550,8 @@
             "additionalSigned": 32
           }
         ]
-      }
+      },
+      "type": 586
     }
   }
 }

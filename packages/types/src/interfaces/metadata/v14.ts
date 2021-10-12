@@ -40,7 +40,8 @@ export const v14: DefinitionsTypes = {
   MetadataV14: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV14>',
-    extrinsic: 'ExtrinsicMetadataV14'
+    extrinsic: 'ExtrinsicMetadataV14',
+    type: 'SiLookupTypeId'
   },
   PalletCallMetadataV14: {
     type: 'SiLookupTypeId'

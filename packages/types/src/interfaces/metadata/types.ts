@@ -189,6 +189,7 @@ export interface MetadataV14 extends Struct {
   readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV14>;
   readonly extrinsic: ExtrinsicMetadataV14;
+  readonly type: SiLookupTypeId;
 }
 
 /** @name MetadataV9 */
