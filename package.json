@@ -35,6 +35,6 @@
     "@types/jest": "^27.0.2",
     "copyfiles": "^2.4.1"
   },
-  "version": "6.3.2-8",
+  "version": "6.3.2-9",
   "packageManager": "yarn@3.0.1"
 }
