@@ -6,11 +6,11 @@ import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/typ
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletVestingVestingInfo } from '@polkadot/types/lookup';
-import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData } from '../types';
+import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { BN, bnMax, isFunction } from '@polkadot/util';
+import { BN, BN_ZERO, bnMax, bnMin, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -69,29 +69,48 @@ function calcShared (api: ApiInterfaceRx, bestNumber: BlockNumber, data: DeriveB
   };
 }
 
-function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLocks]]: Result): DeriveBalancesAll {
-  const shared = calcShared(api, bestNumber, data, allLocks[0]);
+function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountData, _vesting: PalletVestingVestingInfo[] | null): DeriveBalancesAllVesting {
   // Calculate the vesting balances,
   //  - offset = balance locked at startingBlock
   //  - perBlock is the unlock amount
-  const emptyVest = api.registry.createType<PalletVestingVestingInfo>('VestingInfo');
-  const { locked: vestingTotal, perBlock, startingBlock } = vesting ? vesting[0] : emptyVest;
-  const isStarted = bestNumber.gt(startingBlock);
-  const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
-  const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
-  const isVesting = isStarted && !shared.vestingLocked.isZero();
+  const vesting = _vesting || [];
+  const isVesting = !shared.vestingLocked.isZero();
+  const vestedBalances = vesting.map(({ locked, perBlock, startingBlock }) =>
+    bestNumber.gt(startingBlock)
+      ? bnMin(locked, perBlock.mul(bestNumber.sub(startingBlock)))
+      : BN_ZERO
+  );
+  const vestedBalance = vestedBalances.reduce<BN>((all, value) => all.iadd(value), new BN(0));
+  const vestingTotal = vesting.reduce<BN>((all, { locked }) => all.iadd(locked), new BN(0));
+
+  return {
+    isVesting,
+    vestedBalance,
+    vestedClaimable: isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : BN_ZERO,
+    vesting: vesting
+      .map(({ locked, perBlock, startingBlock }, index) => ({
+        endBlock: locked.div(perBlock).iadd(startingBlock),
+        locked,
+        perBlock,
+        startingBlock,
+        vested: vestedBalances[index]
+      }))
+      .filter(({ locked }) => !locked.isZero()),
+    vestingTotal
+  };
+}
+
+function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLocks]]: Result): DeriveBalancesAll {
+  const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
   return {
     ...shared,
+    ...calcVesting(bestNumber, shared, vesting),
     accountId: data.accountId,
     accountNonce: data.accountNonce,
-    additional: allLocks.filter((_, index) => index !== 0).map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
-    isVesting,
-    vestedBalance,
-    vestedClaimable: api.registry.createType('Balance', isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : 0),
-    vestingEndBlock: api.registry.createType('BlockNumber', isVesting ? vestingTotal.div(perBlock).add(startingBlock) : 0),
-    vestingPerBlock: perBlock,
-    vestingTotal
+    additional: allLocks
+      .filter((_, index) => index !== 0)
+      .map((l, index) => calcShared(api, bestNumber, data.additional[index], l))
   };
 }
 
