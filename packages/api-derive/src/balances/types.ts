@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Balance, BalanceLockTo212, BlockNumber, Index } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BalanceLockTo212, Index } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 export interface DeriveBalancesAccountData {
   freeBalance: Balance;
@@ -26,16 +27,22 @@ export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData 
 }
 
 export interface DeriveBalancesVesting {
-  isVesting: boolean;
-  vestedBalance: Balance;
-  vestedClaimable: Balance;
-  vestingEndBlocks: BlockNumber[];
-  vestingPerBlocks: Balance[];
-  vestingTotal: Balance;
-  vestingTotals: Balance[];
+  startingBlock: BN;
+  endBlock: BN;
+  perBlock: BN;
+  locked: BN;
+  vested: BN;
 }
 
-export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData, DeriveBalancesVesting {
+export interface DeriveBalancesAllVesting {
+  isVesting: boolean;
+  vestedBalance: BN;
+  vestedClaimable: BN;
+  vesting: DeriveBalancesVesting[];
+  vestingTotal: BN;
+}
+
+export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData, DeriveBalancesAllVesting {
   additional: DeriveBalancesAllAccountData[];
 }
 
