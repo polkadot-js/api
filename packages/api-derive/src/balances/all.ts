@@ -10,7 +10,7 @@ import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAl
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { BN, BN_ZERO, bnMax, isFunction } from '@polkadot/util';
+import { BN, BN_ZERO, bnMax, bnMin, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -74,16 +74,12 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   //  - offset = balance locked at startingBlock
   //  - perBlock is the unlock amount
   const vesting = _vesting || [];
-  const isVesting = vesting.some(({ startingBlock }) => bestNumber.gt(startingBlock)) && !shared.vestingLocked.isZero();
-  const vestedBalances = vesting.map(({ locked, perBlock, startingBlock }) => {
-    if (bestNumber.gt(startingBlock)) {
-      const vested = perBlock.mul(bestNumber.sub(startingBlock));
-
-      return vested.gt(locked) ? locked : vested;
-    }
-
-    return BN_ZERO;
-  });
+  const isVesting = !shared.vestingLocked.isZero();
+  const vestedBalances = vesting.map(({ locked, perBlock, startingBlock }) =>
+    bestNumber.gt(startingBlock)
+      ? bnMin(locked, perBlock.mul(bestNumber.sub(startingBlock)))
+      : BN_ZERO
+  );
   const vestedBalance = vestedBalances.reduce<BN>((all, value) => all.iadd(value), new BN(0));
   const vestingTotal = vesting.reduce<BN>((all, { locked }) => all.iadd(locked), new BN(0));
 
