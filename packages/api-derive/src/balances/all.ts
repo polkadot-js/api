@@ -16,7 +16,7 @@ import { memo } from '../util';
 
 type BalanceLocksEntry = Vec<PalletBalancesBalanceLock | BalanceLockTo212>;
 type BalanceLocks = BalanceLocksEntry[];
-type ResultBalance = [PalletVestingVestingInfo | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[]];
+type ResultBalance = [PalletVestingVestingInfo[] | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[]];
 type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
 
 interface AllLocked {
@@ -75,7 +75,7 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
   //  - offset = balance locked at startingBlock
   //  - perBlock is the unlock amount
   const emptyVest = api.registry.createType<PalletVestingVestingInfo>('VestingInfo');
-  const { locked: vestingTotal, perBlock, startingBlock } = vesting || emptyVest;
+  const { locked: vestingTotal, perBlock, startingBlock } = vesting ? vesting[0] : emptyVest;
   const isStarted = bestNumber.gt(startingBlock);
   const vestedNow = isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : new BN(0);
   const vestedBalance = vestedNow.gt(vestingTotal) ? vestingTotal : api.registry.createType('Balance', vestedNow);
@@ -110,7 +110,12 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
         vestingNew = api.registry.createType<PalletVestingVestingInfo>('VestingInfo', { locked, perBlock, startingBlock });
       }
 
-      return [vestingNew, [locks]];
+      return [
+        vestingNew
+          ? [vestingNew]
+          : null,
+        [locks]
+      ];
     })
   );
 }
@@ -127,7 +132,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
 
   return (
     api.query.vesting?.vesting
-      ? api.queryMulti<[Option<PalletVestingVestingInfo>, ...BalanceLocks]>([[api.query.vesting.vesting, accountId], ...queries])
+      ? api.queryMulti<[Option<PalletVestingVestingInfo> | Option<Vec<PalletVestingVestingInfo>>, ...BalanceLocks]>([[api.query.vesting.vesting, accountId], ...queries])
       // TODO We need to check module instances here as well, not only the balances module
       : queries.length
         ? api.queryMulti<[...(Vec<PalletBalancesBalanceLock>)[]]>(queries).pipe(
@@ -137,9 +142,14 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
   ).pipe(
     map(([opt, ...locks]): ResultBalance => {
       let offset = -1;
+      const vesting = opt.unwrapOr(null);
 
       return [
-        opt.unwrapOr(null),
+        vesting
+          ? Array.isArray(vesting)
+            ? vesting
+            : [vesting]
+          : null,
         lockEmpty.map((e) => e ? api.registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offset])
       ];
     })
