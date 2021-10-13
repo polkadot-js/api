@@ -25,14 +25,18 @@ export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData 
   vestingLocked: Balance;
 }
 
-export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData {
-  additional: DeriveBalancesAllAccountData[];
+export interface DeriveBalancesVesting {
   isVesting: boolean;
   vestedBalance: Balance;
   vestedClaimable: Balance;
-  vestingEndBlock: BlockNumber;
-  vestingPerBlock: Balance;
+  vestingEndBlocks: BlockNumber[];
+  vestingPerBlocks: Balance[];
   vestingTotal: Balance;
+  vestingTotals: Balance[];
+}
+
+export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData, DeriveBalancesVesting {
+  additional: DeriveBalancesAllAccountData[];
 }
 
 export type DeriveBalancesMap = Record<string, DeriveBalancesAll>;
