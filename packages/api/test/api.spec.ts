@@ -5,7 +5,7 @@ import { jest } from '@jest/globals';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
-describe('misc online tests', (): void => {
+describe.skip('misc online tests', (): void => {
   let api: ApiPromise;
 
   beforeEach(async () => {
