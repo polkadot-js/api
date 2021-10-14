@@ -32,7 +32,7 @@ const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [4, 4],
+    minmax: [4, 5],
     types: {
       ...sharedTypes,
       ...mapXcm('V1')
@@ -40,7 +40,7 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata V14
-    minmax: [5, undefined],
+    minmax: [500, undefined],
     types: {
       ...sharedTypes
     }
