@@ -526,7 +526,7 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type }) => {
+    const sub = fields.map(({ docs, name, type, typeName }) => {
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
@@ -546,6 +546,10 @@ export class GenericPortableRegistry extends Struct {
 
       if (nameOrig) {
         alias.set(nameField, nameOrig);
+      }
+
+      if (typeName.isSome) {
+        typeDef.typeName = typeName.unwrap().toString();
       }
 
       return {

@@ -35,7 +35,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           .map(({ docs, fields, name }) => {
             const args = fields
               .map(({ type }) => lookup.getTypeDef(type))
-              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
+              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports, false, typeDef.typeName));
 
             setImports(allDefs, imports, args);
 

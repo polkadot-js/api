@@ -3,7 +3,7 @@
 
 import type { Bytes, Compact, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { PerU16 } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
+import type { ITuple, NamedType } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
@@ -137,7 +137,7 @@ declare module '@polkadot/types/lookup' {
     readonly asReceiveTeleportedAsset: XcmV1MultiassetMultiAssets;
     readonly isQueryResponse: boolean;
     readonly asQueryResponse: {
-      readonly queryId: Compact<u64>;
+      readonly queryId: Compact<NamedType<'QueryId', u64>>;
       readonly response: XcmV2Response;
       readonly maxWeight: Compact<u64>;
     } & Struct;
@@ -179,7 +179,7 @@ declare module '@polkadot/types/lookup' {
     readonly asDescendOrigin: XcmV1MultilocationJunctions;
     readonly isReportError: boolean;
     readonly asReportError: {
-      readonly queryId: Compact<u64>;
+      readonly queryId: Compact<NamedType<'QueryId', u64>>;
       readonly dest: XcmV1MultiLocation;
       readonly maxResponseWeight: Compact<u64>;
     } & Struct;
@@ -215,7 +215,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isQueryHolding: boolean;
     readonly asQueryHolding: {
-      readonly queryId: Compact<u64>;
+      readonly queryId: Compact<NamedType<'QueryId', u64>>;
       readonly dest: XcmV1MultiLocation;
       readonly assets: XcmV1MultiassetMultiAssetFilter;
       readonly maxResponseWeight: Compact<u64>;
@@ -240,7 +240,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTrap: Compact<u64>;
     readonly isSubscribeVersion: boolean;
     readonly asSubscribeVersion: {
-      readonly queryId: Compact<u64>;
+      readonly queryId: Compact<NamedType<'QueryId', u64>>;
       readonly maxResponseWeight: Compact<u64>;
     } & Struct;
     readonly isUnsubscribeVersion: boolean;
@@ -869,7 +869,7 @@ declare module '@polkadot/types/lookup' {
     readonly asPending: {
       readonly responder: XcmVersionedMultiLocation;
       readonly maybeNotify: Option<ITuple<[u8, u8]>>;
-      readonly timeout: u32;
+      readonly timeout: NamedType<'BlockNumber', u32>;
     } & Struct;
     readonly isVersionNotifier: boolean;
     readonly asVersionNotifier: {
@@ -879,7 +879,7 @@ declare module '@polkadot/types/lookup' {
     readonly isReady: boolean;
     readonly asReady: {
       readonly response: XcmVersionedResponse;
-      readonly at: u32;
+      readonly at: NamedType<'BlockNumber', u32>;
     } & Struct;
   }
 

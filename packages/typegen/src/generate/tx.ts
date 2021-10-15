@@ -50,7 +50,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         const sectionName = stringCamelCase(name);
         const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
           .map(({ docs, fields, name }) => {
-            const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => {
+            const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string, string?] => {
               const typeDef = registry.lookup.getTypeDef(type);
 
               return [
@@ -62,7 +62,10 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                   : typeDef.type,
                 typeDef.isFromSi
                   ? typeDef.type
-                  : typeDef.lookupName || typeDef.type
+                  : typeDef.lookupName || typeDef.type,
+                typeName.isSome
+                  ? typeName.toString()
+                  : undefined
               ];
             });
             const params = typesInfo
@@ -76,8 +79,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
               .join(', ');
 
             return {
-              args: typesInfo.map(([,, typeStr]) =>
-                formatType(registry, allDefs, typeStr, imports)
+              args: typesInfo.map(([,, typeStr, typeName]) =>
+                formatType(registry, allDefs, typeStr, imports, false, typeName)
               ).join(', '),
               docs,
               name: stringCamelCase(name),

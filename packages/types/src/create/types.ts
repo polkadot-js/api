@@ -41,6 +41,7 @@ export interface TypeDef {
   namespace?: string;
   sub?: TypeDef | TypeDef[];
   type: string;
+  typeName?: string;
 }
 
 export interface CreateOptions {

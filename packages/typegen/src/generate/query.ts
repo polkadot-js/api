@@ -31,7 +31,7 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
         : null
     ]);
 
-    return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
+    return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports, false, outputType.typeName)];
   } else if (storageEntry.type.isMap) {
     const { hashers, key, value } = storageEntry.type.asMap;
     const keyDefs = hashers.length === 1
@@ -53,9 +53,9 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
     return [
       storageEntry.modifier.isOptional,
-      keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
+      keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports, false, k.typeName)).join(', '),
       keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
-      formatType(registry, allDefs, outputType, imports)
+      formatType(registry, allDefs, outputType, imports, false, outputType.typeName)
     ];
   }
 

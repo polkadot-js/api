@@ -26,6 +26,7 @@ interface This {
 }
 
 const NO_CODEC = ['Tuple', 'VecFixed'];
+const NO_NAMED = ['N', 'T', 'Vec<u8>'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
@@ -86,12 +87,12 @@ export function exportType (lookupIndex = -1, name = '', base: string): string {
   return exportInterface(lookupIndex, name, base);
 }
 
-function singleParamNotation (registry: Registry, wrapper: string, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean): string {
+function singleParamNotation (registry: Registry, wrapper: string, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string): string {
   const sub = (typeDef.sub as TypeDef);
 
   setImports(definitions, imports, [wrapper, sub.lookupName]);
 
-  return paramsNotation(wrapper, sub.lookupName || formatType(registry, definitions, sub.type, imports, withShortcut));
+  return paramsNotation(wrapper, sub.lookupName || formatType(registry, definitions, sub.type, imports, withShortcut, typeName));
 }
 
 function dualParamsNotation (registry: Registry, wrapper: string, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean): string {
@@ -105,18 +106,28 @@ function dualParamsNotation (registry: Registry, wrapper: string, typeDef: TypeD
   ]);
 }
 
-const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => string> = {
-  [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    return singleParamNotation(registry, 'Compact', typeDef, definitions, imports, withShortcut);
+function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImports, type: string, typeName?: string): string {
+  if (!typeName || type.includes(typeName) || NO_NAMED.includes(typeName)) {
+    return type;
+  }
+
+  setImports(definitions, imports, ['NamedType']);
+
+  return `NamedType<'${typeName}', ${type}>`;
+}
+
+const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => string> = {
+  [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
+    return singleParamNotation(registry, 'Compact', typeDef, definitions, imports, withShortcut, typeName);
   },
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, { lookupName }: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.DoNotConstruct]: (registry: Registry, { lookupName }: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     setImports(definitions, imports, ['DoNotConstruct']);
 
     return 'DoNotConstruct';
   },
 
-  [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     if (typeDef.lookupName) {
       return typeDef.lookupName;
     }
@@ -124,43 +135,47 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     throw new Error(`TypeDefInfo.UInt: Not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     setImports(definitions, imports, ['Null']);
 
     return 'Null';
   },
 
-  [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    return singleParamNotation(registry, 'Option', typeDef, definitions, imports, withShortcut);
+  [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
+    if (typeName) {
+      typeName = typeName.replace(/^Option<(.*)>$/, '$1');
+    }
+
+    return singleParamNotation(registry, 'Option', typeDef, definitions, imports, withShortcut, typeName);
   },
 
-  [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     setImports(definitions, imports, [typeDef.type]);
 
-    return typeDef.type;
+    return createNamed(definitions, imports, typeDef.type, typeName);
   },
 
-  [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     throw new Error(`TypeDefInfo.Range: Not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports, withShortcut);
   },
 
-  [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     if (typeDef.lookupName) {
       return typeDef.lookupName;
     }
@@ -170,14 +185,14 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     setImports(definitions, imports, ['Struct', ...sub.map(({ lookupName }) => lookupName)]);
 
     return `{${withShortcut ? ' ' : '\n'}${
-      sub.map(({ lookupName, name, type }, index) => [
+      sub.map(({ lookupName, name, type, typeName }, index) => [
         name || `unknown${index}`,
-        lookupName || formatType(registry, definitions, type, imports, withShortcut)
-      ]).map(([k, t]) => `${withShortcut ? '' : '    readonly '}${k}: ${t};`).join(withShortcut ? ' ' : '\n')
+        lookupName || formatType(registry, definitions, type, imports, withShortcut, typeName)
+      ]).map(([k, t, n]) => `${withShortcut ? '' : '    readonly '}${k}: ${t};`).join(withShortcut ? ' ' : '\n')
     }${withShortcut ? ' ' : '\n  '}} & Struct`;
   },
 
-  [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Tuple]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     const sub = typeDef.sub as TypeDef[];
 
     setImports(definitions, imports, ['ITuple', ...sub.map(({ lookupName }) => lookupName)]);
@@ -190,11 +205,11 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     }]`);
   },
 
-  [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return singleParamNotation(registry, 'Vec', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.VecFixed]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     const sub = (typeDef.sub as TypeDef);
 
     if (sub.type === 'u8') {
@@ -206,27 +221,27 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return singleParamNotation(registry, 'Vec', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return dualParamsNotation(registry, 'BTreeMap', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return singleParamNotation(registry, 'BTreeSet', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return dualParamsNotation(registry, 'HashMap', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return singleParamNotation(registry, 'Linkage', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return dualParamsNotation(registry, 'Result', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.WrapperOpaque]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.WrapperOpaque]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => {
     return singleParamNotation(registry, 'WrapperOpaque', typeDef, definitions, imports, withShortcut);
   }
 };
@@ -236,7 +251,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
  */
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports, withShortcut = false): string {
+export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports, withShortcut = false, typeName?: string): string {
   let typeDef: TypeDef;
 
   if (isString(type)) {
@@ -255,5 +270,5 @@ export function formatType (registry: Registry, definitions: Record<string, Modu
 
   setImports(definitions, imports, [typeDef.lookupName || typeDef.type]);
 
-  return formatters[typeDef.info](registry, typeDef, definitions, imports, withShortcut);
+  return formatters[typeDef.info](registry, typeDef, definitions, imports, withShortcut, typeName);
 }

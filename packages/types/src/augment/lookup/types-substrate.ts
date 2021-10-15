@@ -5,7 +5,7 @@ import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Set, Struct, T
 import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { AccountId32, Call, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
-import type { ITuple } from '@polkadot/types/types';
+import type { ITuple, NamedType } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
@@ -376,12 +376,12 @@ declare module '@polkadot/types/lookup' {
     readonly isStandard: boolean;
     readonly asStandard: {
       readonly vote: Vote;
-      readonly balance: u128;
+      readonly balance: NamedType<'Balance', u128>;
     } & Struct;
     readonly isSplit: boolean;
     readonly asSplit: {
-      readonly aye: u128;
-      readonly nay: u128;
+      readonly aye: NamedType<'Balance', u128>;
+      readonly nay: NamedType<'Balance', u128>;
     } & Struct;
   }
 
@@ -849,9 +849,9 @@ declare module '@polkadot/types/lookup' {
     readonly asAvailable: {
       readonly data: Bytes;
       readonly provider: AccountId32;
-      readonly deposit: u128;
-      readonly since: u32;
-      readonly expiry: Option<u32>;
+      readonly deposit: NamedType<'Balance', u128>;
+      readonly since: NamedType<'BlockNumber', u32>;
+      readonly expiry: Option<NamedType<'BlockNumber', u32>>;
     } & Struct;
   }
 
@@ -862,7 +862,7 @@ declare module '@polkadot/types/lookup' {
     readonly isFinished: boolean;
     readonly asFinished: {
       readonly approved: bool;
-      readonly end: u32;
+      readonly end: NamedType<'BlockNumber', u32>;
     } & Struct;
   }
 
@@ -892,7 +892,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isDelegating: boolean;
     readonly asDelegating: {
-      readonly balance: u128;
+      readonly balance: NamedType<'Balance', u128>;
       readonly target: AccountId32;
       readonly conviction: PalletDemocracyConviction;
       readonly delegations: PalletDemocracyDelegations;
@@ -1296,13 +1296,13 @@ declare module '@polkadot/types/lookup' {
     readonly isActive: boolean;
     readonly asActive: {
       readonly curator: AccountId32;
-      readonly updateDue: u32;
+      readonly updateDue: NamedType<'BlockNumber', u32>;
     } & Struct;
     readonly isPendingPayout: boolean;
     readonly asPendingPayout: {
       readonly curator: AccountId32;
       readonly beneficiary: AccountId32;
-      readonly unlockAt: u32;
+      readonly unlockAt: NamedType<'BlockNumber', u32>;
     } & Struct;
   }
 

@@ -30,6 +30,9 @@ export type Callback<T, E = undefined> = E extends Codec
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type NamedType<N extends string, T extends Codec> = T;
+
 /**
  * @name Codec
  * @description
