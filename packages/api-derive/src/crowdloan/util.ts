@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
-import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
+import type { EventRecord } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 interface Changes {
   added: string[];
@@ -10,7 +11,7 @@ interface Changes {
   removed: string[];
 }
 
-export function extractContributed (paraId: string | number | ParaId, events: Vec<EventRecord>): Changes {
+export function extractContributed (paraId: string | number | BN, events: Vec<EventRecord>): Changes {
   const added: string[] = [];
   const removed: string[] = [];
 
