@@ -26,7 +26,7 @@ interface This {
 }
 
 const NO_CODEC = ['Tuple', 'VecFixed'];
-const NO_NAMED = ['N', 'T', 'Vec<u8>'];
+const NO_NAMED = ['N', 'T', 'H256', 'MultiAddress', 'Vec<u8>'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
@@ -107,7 +107,13 @@ function dualParamsNotation (registry: Registry, wrapper: string, typeDef: TypeD
 }
 
 function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImports, type: string, typeName?: string): string {
-  if (!typeName || type.includes(typeName) || NO_NAMED.includes(typeName)) {
+  if (!typeName || NO_NAMED.includes(type)) {
+    return type;
+  }
+
+  typeName = typeName.replace(/T::/g, '');
+
+  if (type.includes(typeName) || NO_NAMED.includes(typeName)) {
     return type;
   }
 
@@ -199,8 +205,8 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
 
     // `(a,b)` gets transformed into `ITuple<[a, b]>`
     return paramsNotation('ITuple', `[${
-      sub.map(({ lookupName, type }) =>
-        lookupName || formatType(registry, definitions, type, imports, withShortcut)
+      sub.map(({ lookupName, type, typeName }) =>
+        lookupName || formatType(registry, definitions, type, imports, withShortcut, typeName)
       ).join(', ')
     }]`);
   },

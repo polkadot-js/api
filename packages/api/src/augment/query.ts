@@ -83,7 +83,7 @@ declare module '@polkadot/api/types/storage' {
        * entropy was fixed (i.e. it was known to chain observers). Since epochs are defined in
        * slots, which may be skipped, the block numbers may not line up with the slot numbers.
        **/
-      epochStart: AugmentedQuery<ApiType, () => Observable<ITuple<[u32, u32]>>, []> & QueryableStorageEntry<ApiType, []>;
+      epochStart: AugmentedQuery<ApiType, () => Observable<ITuple<[NamedType<'RefCount', u32>, NamedType<'RefCount', u32>]>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The slot at which the first epoch actually started. This is 0
        * until the first block of the chain.
@@ -169,7 +169,7 @@ declare module '@polkadot/api/types/storage' {
        * 
        * Nodes store links forward and back within their respective bags.
        **/
-      listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [NamedType<'T::AccountId', AccountId32>]> & QueryableStorageEntry<ApiType, [NamedType<'T::AccountId', AccountId32>]>;
+      listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
@@ -236,7 +236,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * A mapping between an original code hash and instrumented wasm code, ready for execution.
        **/
-      codeStorage: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletContractsWasmPrefabWasmModule>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      codeStorage: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletContractsWasmPrefabWasmModule>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * The code associated with a given account.
        * 
@@ -253,7 +253,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * A mapping from an original code hash to the original code, untouched by instrumentation.
        **/
-      pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -275,7 +275,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Actual proposal for a given hash, if it's current.
        **/
-      proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Call>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Call>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * The hashes of the active proposals.
        **/
@@ -283,7 +283,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Votes on a given proposal, if it is ongoing.
        **/
-      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -294,17 +294,17 @@ declare module '@polkadot/api/types/storage' {
        * A record of who vetoed what. Maps proposal hash to a possible existent block number
        * (until when it may not be resubmitted) and who vetoed it.
        **/
-      blacklist: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<ITuple<[u32, Vec<AccountId32>]>>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      blacklist: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<ITuple<[NamedType<'BlockNumber', u32>, Vec<AccountId32>]>>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Record of all proposals that have been subject to emergency cancellation.
        **/
-      cancellations: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<bool>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      cancellations: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<bool>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Those who have locked a deposit.
        * 
        * TWOX-NOTE: Safe, as increasing integer keys are safe.
        **/
-      depositOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[Vec<AccountId32>, u128]>>>, [NamedType<'EraIndex', u32>]> & QueryableStorageEntry<ApiType, [NamedType<'EraIndex', u32>]>;
+      depositOf: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[Vec<AccountId32>, NamedType<'Balance', u128>]>>>, [NamedType<'EraIndex', u32>]> & QueryableStorageEntry<ApiType, [NamedType<'EraIndex', u32>]>;
       /**
        * True if the last referendum tabled was submitted externally. False if it was a public
        * proposal.
@@ -568,7 +568,7 @@ declare module '@polkadot/api/types/storage' {
        * 
        * TWOX-NOTE: OK ― `AccountId` is a secure hash.
        **/
-      subsOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[u128, Vec<AccountId32>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      subsOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[NamedType<'Balance', u128>, Vec<AccountId32>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The super-identity of an alternative "sub" identity together with its name, within that
        * context. If the account is not some other account's sub-identity, then just `None`.
@@ -617,7 +617,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The lookup from index to account.
        **/
-      accounts: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId32, u128, bool]>>>, [NamedType<'RefCount', u32>]> & QueryableStorageEntry<ApiType, [NamedType<'RefCount', u32>]>;
+      accounts: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId32, NamedType<'Balance', u128>, bool]>>>, [NamedType<'RefCount', u32>]> & QueryableStorageEntry<ApiType, [NamedType<'RefCount', u32>]>;
       /**
        * Generic query
        **/
@@ -637,7 +637,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Users who have purchased a ticket. (Lottery Index, Tickets Purchased)
        **/
-      participants: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[u32, Vec<ITuple<[u8, u8]>>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      participants: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[NamedType<'BlockNumber', u32>, Vec<ITuple<[u8, u8]>>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Each ticket's owner.
        * 
@@ -661,7 +661,7 @@ declare module '@polkadot/api/types/storage' {
        * Note this collection only contains MMR peaks, the inner nodes (and leaves)
        * are pruned and only stored in the Offchain DB.
        **/
-      nodes: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<NamedType<'Hash', H256>>>, [NamedType<'Balance', u64>]> & QueryableStorageEntry<ApiType, [NamedType<'Balance', u64>]>;
+      nodes: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<H256>>, [NamedType<'Balance', u64>]> & QueryableStorageEntry<ApiType, [NamedType<'Balance', u64>]>;
       /**
        * Current size of the MMR (number of leaves).
        **/
@@ -669,14 +669,14 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Latest MMR Root hash.
        **/
-      rootHash: AugmentedQuery<ApiType, () => Observable<NamedType<'Hash', H256>>, []> & QueryableStorageEntry<ApiType, []>;
+      rootHash: AugmentedQuery<ApiType, () => Observable<H256>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     multisig: {
-      calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[Bytes, AccountId32, u128]>>>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
+      calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[NamedType<'TrieId', Bytes>, AccountId32, NamedType<'Balance', u128>]>>>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
       /**
        * The set of open multisig operations.
        **/
@@ -694,7 +694,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The primary structure that holds all offence records keyed by report identifiers.
        **/
-      reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<SpStakingOffenceOffenceDetails>>, [NamedType<'CodeHash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'CodeHash', H256>]>;
+      reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<SpStakingOffenceOffenceDetails>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Enumerates all reports of a kind along with the time they happened.
        * 
@@ -713,12 +713,12 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The announcements made by the proxy (key).
        **/
-      announcements: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyAnnouncement>, u128]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      announcements: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyAnnouncement>, NamedType<'Balance', u128>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The set of account proxies. Maps the account which has delegated to the accounts
        * which are being delegated to, together with the amount held on deposit.
        **/
-      proxies: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyProxyDefinition>, u128]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      proxies: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyProxyDefinition>, NamedType<'Balance', u128>]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
@@ -767,7 +767,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Lookup from identity to the block number and index of the task.
        **/
-      lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<ITuple<[u32, u32]>>>, [NamedType<'TrieId', Bytes>]> & QueryableStorageEntry<ApiType, [NamedType<'TrieId', Bytes>]>;
+      lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<ITuple<[NamedType<'BlockNumber', u32>, NamedType<'BlockNumber', u32>]>>>, [NamedType<'TrieId', Bytes>]> & QueryableStorageEntry<ApiType, [NamedType<'TrieId', Bytes>]>;
       /**
        * Storage version of the pallet.
        * 
@@ -864,7 +864,7 @@ declare module '@polkadot/api/types/storage' {
        * A hash of the rules of this society concerning membership. Can only be set once and
        * only by the founder.
        **/
-      rules: AugmentedQuery<ApiType, () => Observable<Option<NamedType<'CodeHash', H256>>>, []> & QueryableStorageEntry<ApiType, []>;
+      rules: AugmentedQuery<ApiType, () => Observable<Option<H256>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The ongoing number of losing votes cast by the member.
        **/
@@ -872,7 +872,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The set of suspended candidates.
        **/
-      suspendedCandidates: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[u128, PalletSocietyBidKind]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      suspendedCandidates: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[NamedType<'Balance', u128>, PalletSocietyBidKind]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The set of suspended members.
        **/
@@ -1113,7 +1113,7 @@ declare module '@polkadot/api/types/storage' {
        * All slashing events on validators, mapped by era to the highest slash proportion
        * and slash value of the era.
        **/
-      validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[Perbill, u128]>>>, [NamedType<'RewardPoint', u32>, AccountId32]> & QueryableStorageEntry<ApiType, [NamedType<'RewardPoint', u32>, AccountId32]>;
+      validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[Perbill, NamedType<'Balance', u128>]>>>, [NamedType<'RewardPoint', u32>, AccountId32]> & QueryableStorageEntry<ApiType, [NamedType<'RewardPoint', u32>, AccountId32]>;
       /**
        * Generic query
        **/
@@ -1228,7 +1228,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Actual proposal for a given hash, if it's current.
        **/
-      proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Call>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Call>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * The hashes of the active proposals.
        **/
@@ -1236,7 +1236,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Votes on a given proposal, if it is ongoing.
        **/
-      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -1275,13 +1275,13 @@ declare module '@polkadot/api/types/storage' {
        * Simple preimage lookup from the reason's hash to the original data. Again, has an
        * insecure enumerable hash since the key is guaranteed to be the result of a secure hash.
        **/
-      reasons: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<NamedType<'TrieId', Bytes>>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      reasons: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<NamedType<'TrieId', Bytes>>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * TipsMap that are not yet completed. Keyed by the hash of `(reason, who)` from the value.
        * This has the insecure enumerable hash function since the key itself is already
        * guaranteed to be a secure hash.
        **/
-      tips: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletTipsOpenTip>>, [NamedType<'Hash', H256>]> & QueryableStorageEntry<ApiType, [NamedType<'Hash', H256>]>;
+      tips: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletTipsOpenTip>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
@@ -1366,7 +1366,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Metadata of an asset class.
        **/
-      attribute: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: Option<u32> | null | object | string | Uint8Array, arg3: Bytes | string | Uint8Array) => Observable<Option<ITuple<[Bytes, u128]>>>, [u32, Option<NamedType<'BlockNumber', u32>>, Bytes]> & QueryableStorageEntry<ApiType, [u32, Option<NamedType<'BlockNumber', u32>>, Bytes]>;
+      attribute: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: Option<u32> | null | object | string | Uint8Array, arg3: Bytes | string | Uint8Array) => Observable<Option<ITuple<[Bytes, NamedType<'DepositBalance', u128>]>>>, [u32, Option<NamedType<'BlockNumber', u32>>, Bytes]> & QueryableStorageEntry<ApiType, [u32, Option<NamedType<'BlockNumber', u32>>, Bytes]>;
       /**
        * Details of an asset class.
        **/

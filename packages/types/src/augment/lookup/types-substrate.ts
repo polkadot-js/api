@@ -679,7 +679,7 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpConsensusBabeBabeEpochConfiguration (313) */
   export interface SpConsensusBabeBabeEpochConfiguration extends Struct {
-    readonly c: ITuple<[u64, u64]>;
+    readonly c: ITuple<[NamedType<'VoteWeight', u64>, NamedType<'VoteWeight', u64>]>;
     readonly allowedSlots: SpConsensusBabeAllowedSlots;
   }
 
@@ -907,7 +907,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name PalletDemocracyVotePriorLock (381) */
-  export interface PalletDemocracyVotePriorLock extends ITuple<[u32, u128]> {}
+  export interface PalletDemocracyVotePriorLock extends ITuple<[u32, NamedType<'DepositBalance', u128>]> {}
 
   /** @name PalletDemocracyReleases (384) */
   export interface PalletDemocracyReleases extends Enum {
