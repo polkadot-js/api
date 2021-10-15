@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
-import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import { map } from 'rxjs';
 
@@ -13,7 +14,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
 
-function createChildKey ({ trieIndex }: FundInfo): string {
+function createChildKey ({ trieIndex }: PolkadotRuntimeCommonCrowdloanFundInfo): string {
   return u8aToHex(
     u8aConcat(
       ':child_storage:default:',
@@ -24,9 +25,9 @@ function createChildKey ({ trieIndex }: FundInfo): string {
   );
 }
 
-export function childKey (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | ParaId) => Observable<string | null> {
-  return memo(instanceId, (paraId: string | number | ParaId): Observable<string | null> =>
-    api.query.crowdloan.funds<Option<FundInfo>>(paraId).pipe(
+export function childKey (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | BN) => Observable<string | null> {
+  return memo(instanceId, (paraId: string | number | BN): Observable<string | null> =>
+    api.query.crowdloan.funds<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
       map((optInfo) =>
         optInfo.isSome
           ? createChildKey(optInfo.unwrap())
