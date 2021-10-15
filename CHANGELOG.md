@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust Statemint known types for version 4+
+- Adjust crowdloan derives to use paged key retrieval
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
 - Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
 
