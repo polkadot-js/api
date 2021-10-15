@@ -678,7 +678,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isRelayedFrom: boolean;
     readonly asRelayedFrom: {
-      readonly who: XcmV1MultilocationJunctions;
+      readonly who: As<'InteriorMultiLocation', XcmV1MultilocationJunctions>;
       readonly message: XcmV1Xcm;
     } & Struct;
     readonly isSubscribeVersion: boolean;

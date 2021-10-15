@@ -8,7 +8,7 @@ import type { Registry } from '@polkadot/types/types';
 
 import Handlebars from 'handlebars';
 
-import { getTypeDef, paramsNotation } from '@polkadot/types/create';
+import { getTypeDef, paramsNotation, sanitize } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import { isString, stringify } from '@polkadot/util';
 
@@ -107,11 +107,11 @@ function dualParamsNotation (registry: Registry, wrapper: string, typeDef: TypeD
 }
 
 function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImports, type: string, typeName?: string): string {
-  if (!typeName || NO_NAMED.includes(type)) {
+  if (!typeName || NO_NAMED.includes(type) || typeName.startsWith('(') || typeName.startsWith('[') || typeName.startsWith('Vec<')) {
     return type;
   }
 
-  typeName = typeName.replace(/T::/g, '');
+  typeName = sanitize(typeName);
 
   if (type.includes(typeName) || NO_NAMED.includes(typeName)) {
     return type;
@@ -193,7 +193,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return `{${withShortcut ? ' ' : '\n'}${
       sub.map(({ lookupName, name, type, typeName }, index) => [
         name || `unknown${index}`,
-        lookupName || formatType(registry, definitions, type, imports, withShortcut, typeName)
+        lookupName
+          ? createNamed(definitions, imports, lookupName, typeName)
+          : formatType(registry, definitions, type, imports, withShortcut, typeName)
       ]).map(([k, t, n]) => `${withShortcut ? '' : '    readonly '}${k}: ${t};`).join(withShortcut ? ' ' : '\n')
     }${withShortcut ? ' ' : '\n  '}} & Struct`;
   },
@@ -206,7 +208,9 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     // `(a,b)` gets transformed into `ITuple<[a, b]>`
     return paramsNotation('ITuple', `[${
       sub.map(({ lookupName, type, typeName }) =>
-        lookupName || formatType(registry, definitions, type, imports, withShortcut, typeName)
+        lookupName
+          ? createNamed(definitions, imports, lookupName, typeName)
+          : formatType(registry, definitions, type, imports, withShortcut, typeName)
       ).join(', ')
     }]`);
   },

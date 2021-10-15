@@ -395,7 +395,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name PolkadotPrimitivesV1ParathreadClaim (526) */
-  export interface PolkadotPrimitivesV1ParathreadClaim extends ITuple<[As<'ParaId', u32>, PolkadotPrimitivesV0CollatorAppPublic]> {}
+  export interface PolkadotPrimitivesV1ParathreadClaim extends ITuple<[As<'ParaId', u32>, As<'CollatorId', PolkadotPrimitivesV0CollatorAppPublic>]> {}
 
   /** @name PolkadotPrimitivesV1CoreOccupied (529) */
   export interface PolkadotPrimitivesV1CoreOccupied extends Enum {
