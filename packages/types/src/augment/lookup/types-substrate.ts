@@ -5,7 +5,7 @@ import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Set, Struct, T
 import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { AccountId32, Call, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
-import type { ITuple, NamedType } from '@polkadot/types/types';
+import type { ITuple, TypeAs } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
@@ -376,12 +376,12 @@ declare module '@polkadot/types/lookup' {
     readonly isStandard: boolean;
     readonly asStandard: {
       readonly vote: Vote;
-      readonly balance: NamedType<'Balance', u128>;
+      readonly balance: TypeAs<'Balance', u128>;
     } & Struct;
     readonly isSplit: boolean;
     readonly asSplit: {
-      readonly aye: NamedType<'Balance', u128>;
-      readonly nay: NamedType<'Balance', u128>;
+      readonly aye: TypeAs<'Balance', u128>;
+      readonly nay: TypeAs<'Balance', u128>;
     } & Struct;
   }
 
@@ -679,7 +679,7 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpConsensusBabeBabeEpochConfiguration (313) */
   export interface SpConsensusBabeBabeEpochConfiguration extends Struct {
-    readonly c: ITuple<[NamedType<'VoteWeight', u64>, NamedType<'VoteWeight', u64>]>;
+    readonly c: ITuple<[TypeAs<'VoteWeight', u64>, TypeAs<'VoteWeight', u64>]>;
     readonly allowedSlots: SpConsensusBabeAllowedSlots;
   }
 
@@ -849,9 +849,9 @@ declare module '@polkadot/types/lookup' {
     readonly asAvailable: {
       readonly data: Bytes;
       readonly provider: AccountId32;
-      readonly deposit: NamedType<'Balance', u128>;
-      readonly since: NamedType<'BlockNumber', u32>;
-      readonly expiry: Option<NamedType<'BlockNumber', u32>>;
+      readonly deposit: TypeAs<'Balance', u128>;
+      readonly since: TypeAs<'BlockNumber', u32>;
+      readonly expiry: Option<TypeAs<'BlockNumber', u32>>;
     } & Struct;
   }
 
@@ -862,7 +862,7 @@ declare module '@polkadot/types/lookup' {
     readonly isFinished: boolean;
     readonly asFinished: {
       readonly approved: bool;
-      readonly end: NamedType<'BlockNumber', u32>;
+      readonly end: TypeAs<'BlockNumber', u32>;
     } & Struct;
   }
 
@@ -892,7 +892,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isDelegating: boolean;
     readonly asDelegating: {
-      readonly balance: NamedType<'Balance', u128>;
+      readonly balance: TypeAs<'Balance', u128>;
       readonly target: AccountId32;
       readonly conviction: PalletDemocracyConviction;
       readonly delegations: PalletDemocracyDelegations;
@@ -907,7 +907,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name PalletDemocracyVotePriorLock (381) */
-  export interface PalletDemocracyVotePriorLock extends ITuple<[u32, NamedType<'DepositBalance', u128>]> {}
+  export interface PalletDemocracyVotePriorLock extends ITuple<[u32, TypeAs<'DepositBalance', u128>]> {}
 
   /** @name PalletDemocracyReleases (384) */
   export interface PalletDemocracyReleases extends Enum {
@@ -1296,13 +1296,13 @@ declare module '@polkadot/types/lookup' {
     readonly isActive: boolean;
     readonly asActive: {
       readonly curator: AccountId32;
-      readonly updateDue: NamedType<'BlockNumber', u32>;
+      readonly updateDue: TypeAs<'BlockNumber', u32>;
     } & Struct;
     readonly isPendingPayout: boolean;
     readonly asPendingPayout: {
       readonly curator: AccountId32;
       readonly beneficiary: AccountId32;
-      readonly unlockAt: NamedType<'BlockNumber', u32>;
+      readonly unlockAt: TypeAs<'BlockNumber', u32>;
     } & Struct;
   }
 

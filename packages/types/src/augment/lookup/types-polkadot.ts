@@ -3,7 +3,7 @@
 
 import type { BitVec, Bytes, Compact, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
 import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
-import type { ITuple, NamedType } from '@polkadot/types/types';
+import type { ITuple, TypeAs } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
@@ -395,7 +395,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name PolkadotPrimitivesV1ParathreadClaim (526) */
-  export interface PolkadotPrimitivesV1ParathreadClaim extends ITuple<[NamedType<'ParaId', u32>, PolkadotPrimitivesV0CollatorAppPublic]> {}
+  export interface PolkadotPrimitivesV1ParathreadClaim extends ITuple<[TypeAs<'ParaId', u32>, PolkadotPrimitivesV0CollatorAppPublic]> {}
 
   /** @name PolkadotPrimitivesV1CoreOccupied (529) */
   export interface PolkadotPrimitivesV1CoreOccupied extends Enum {

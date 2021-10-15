@@ -117,9 +117,9 @@ function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImp
     return type;
   }
 
-  setImports(definitions, imports, ['NamedType']);
+  setImports(definitions, imports, ['TypeAs']);
 
-  return `NamedType<'${typeName}', ${type}>`;
+  return `TypeAs<'${typeName}', ${type}>`;
 }
 
 const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean, typeName?: string) => string> = {
