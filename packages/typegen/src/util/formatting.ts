@@ -106,7 +106,7 @@ function dualParamsNotation (registry: Registry, wrapper: string, typeDef: TypeD
   ]);
 }
 
-function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImports, type: string, typeName?: string): string {
+export function createNamed (definitions: Record<string, ModuleTypes>, imports: TypeImports, type: string, typeName?: string): string {
   if (!typeName || NO_NAMED.includes(type) || typeName.startsWith('(') || typeName.startsWith('[') || typeName.startsWith('Vec<')) {
     return type;
   }

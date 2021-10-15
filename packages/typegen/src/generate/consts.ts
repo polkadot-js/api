@@ -10,7 +10,7 @@ import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
+import { compareName, createImports, createNamed, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
 
 const template = readTemplate('consts');
 const generateForMetaTemplate = Handlebars.compile(template);
@@ -39,7 +39,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         const items = constants
           .map(({ docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
-            const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports, false, typeDef.typeName);
+            const returnType = typeDef.lookupName
+              ? createNamed(allDefs, imports, typeDef.lookupName, typeDef.typeName)
+              : formatType(registry, allDefs, typeDef, imports, false, typeDef.typeName);
 
             setImports(allDefs, imports, [returnType]);
 
