@@ -1,13 +1,21 @@
 # CHANGELOG
 
-## master
+## 6.4.1 Oct 17, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9110+
 
 Changes:
 
 - Adjust Statemint known types for version 4+
+- Adjust balance derives to return multiple vesting schedules
 - Adjust crowdloan derives to use paged key retrieval
+- Ensure account indices (derived) are `Accountindex` types
+- Adjust metadata v14 to include top-level type field from metadata
+- Filter metadata v14 unused enum fields in TS generation
+- Adjust derives to use more metadata v14 types on returns
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
 - Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
+- Adjust for eslint v8 checks
 
 
 ## 6.3.1 Oct 9, 2021
