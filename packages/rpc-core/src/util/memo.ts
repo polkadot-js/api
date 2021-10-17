@@ -18,15 +18,18 @@ type ObsFn <T> = (...params: unknown[]) => Observable<T>;
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function memo <T> (instanceId: string, inner: Function): Memoized<ObsFn<T>> {
-  const cached = memoize((...params: unknown[]): Observable<T> =>
-    new Observable((observer: Observer<T>): TeardownLogic => {
-      const subscription = (inner as ObsFn<T>)(...params).subscribe(observer);
+  const options = { getInstanceId: () => instanceId };
+  const cached = memoize(
+    (...params: unknown[]): Observable<T> =>
+      new Observable((observer: Observer<T>): TeardownLogic => {
+        const subscription = (inner as ObsFn<T>)(...params).subscribe(observer);
 
-      return (): void => {
-        cached.unmemoize(...params);
-        subscription.unsubscribe();
-      };
-    }).pipe(drr()), { getInstanceId: () => instanceId }
+        return (): void => {
+          cached.unmemoize(...params);
+          subscription.unsubscribe();
+        };
+      }).pipe(drr()),
+    options
   );
 
   return cached;
