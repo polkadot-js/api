@@ -14,8 +14,10 @@ Changes:
 - Filter metadata v14 unused enum fields in TS generation
 - Adjust derives to use more metadata v14 types on returns
 - Add Kusama & Polkadot upgrade blocks for 9100/9110
+- Align contract usage with latrest `PortableRegistry` (remove old-generation)
 - Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
 - Adjust for eslint v8 checks
+- Don't run any online tests on CI by default (uncontrolled external dependencies)
 
 
 ## 6.3.1 Oct 9, 2021
