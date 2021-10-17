@@ -66,13 +66,14 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
       }
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const e = new (Clazz as Constructor)(registry) as Enum;
+    const { defKeys, isBasic } = new (Clazz as Constructor)(registry) as Enum;
+    const keys = defKeys.filter((v) => !v.startsWith('__Unused'));
 
-    if (e.isBasic) {
-      possibleTypes.push(arrayToStrType(e.defKeys), 'number');
+    if (isBasic) {
+      possibleTypes.push(arrayToStrType(keys), 'number');
     } else {
       // TODO We don't really want any here, these should be expanded
-      possibleTypes.push(...e.defKeys.map((key): string => `{ ${key}: any }`), 'string');
+      possibleTypes.push(...keys.map((k) => `{ ${k}: any }`), 'string');
     }
 
     possibleTypes.push('Uint8Array');
