@@ -98,15 +98,15 @@ export const v1: DefinitionsTypes = {
   XcmV1: {
     _enum: {
       WithdrawAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       ReserveAssetDeposit: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       ReceiveTeleportedAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       QueryResponse: {
@@ -114,11 +114,11 @@ export const v1: DefinitionsTypes = {
         response: 'ResponseV1'
       },
       TransferAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         dest: 'MultiLocationV1'
       },
       TransferReserveAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         dest: 'MultiLocationV1',
         effects: 'Vec<XcmOrderV1>'
       },
@@ -213,11 +213,10 @@ export const v1: DefinitionsTypes = {
         assets: 'MultiAssetFilterV1'
       },
       BuyExecution: {
-        fees: 'MultiAsset',
+        fees: 'MultiAssetV1',
         weight: 'u64',
         debt: 'u64',
         haltOnError: 'bool',
-        orders: 'Vec<XcmOrderV1>',
         instructions: 'Vec<XcmV1>'
       }
     }
