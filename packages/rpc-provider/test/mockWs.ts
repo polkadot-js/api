@@ -6,7 +6,7 @@ import { Server, WebSocket } from 'mock-socket';
 import { stringify } from '@polkadot/util';
 
 interface Scope {
-  body: { [index: string]: Record<string, any> };
+  body: { [index: string]: Record<string, unknown> };
   requests: number;
   server: Server;
   done: any;
@@ -27,12 +27,22 @@ interface ReplyDef {
   };
 }
 
+interface RpcBase {
+  id: number;
+  jsonrpc: '2.0';
+}
+
+type RpcError = RpcBase & ErrorDef;
+type RpcReply = RpcBase & { result: unknown };
+
+type Request = { method: string } & (ErrorDef | ReplyDef);
+
 global.WebSocket = WebSocket as typeof global.WebSocket;
 
 export const TEST_WS_URL = 'ws://localhost:9955';
 
 // should be JSONRPC def return
-function createError ({ error: { code, message }, id }: ErrorDef): any {
+function createError ({ error: { code, message }, id }: ErrorDef): RpcError {
   return {
     error: {
       code,
@@ -44,7 +54,7 @@ function createError ({ error: { code, message }, id }: ErrorDef): any {
 }
 
 // should be JSONRPC def return
-function createReply ({ id, reply: { result } }: ReplyDef): any {
+function createReply ({ id, reply: { result } }: ReplyDef): RpcReply {
   return {
     id,
     jsonrpc: '2.0',
@@ -53,7 +63,7 @@ function createReply ({ id, reply: { result } }: ReplyDef): any {
 }
 
 // scope definition returned
-export function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: string = TEST_WS_URL): Scope {
+export function mockWs (requests: Request[], wsUrl: string = TEST_WS_URL): Scope {
   const server = new Server(wsUrl);
 
   let requestCount = 0;
@@ -69,16 +79,13 @@ export function mockWs (requests: ({ method: string } & ErrorDef)[], wsUrl: stri
   };
 
   server.on('connection', (socket): void => {
-    // FIXME This whole any mess is a mess
-    socket.on('message', (body: any): void => {
-      const request: any = requests[requestCount];
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-      const response: any = request.error
-        ? createError(request)
-        : createReply(request);
+    socket.on('message', (body): void => {
+      const request = requests[requestCount];
+      const response = (request as ErrorDef).error
+        ? createError(request as ErrorDef)
+        : createReply(request as ReplyDef);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-      scope.body[request.method] = body;
+      scope.body[request.method] = body as unknown as Record<string, unknown>;
       requestCount++;
 
       socket.send(stringify(response));

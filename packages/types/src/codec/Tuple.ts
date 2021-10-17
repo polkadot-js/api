@@ -68,7 +68,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
   public static with (Types: TupleTypes | TupleType): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (registry: Registry, value?: AnyTuple) {
+      constructor (registry: Registry, value?: AnyTupleValue) {
         super(registry, Types, value);
       }
     };

@@ -36,7 +36,7 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
 function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
   const output = new Map<K, V>();
 
-  value.forEach((val: any, key: any) => {
+  value.forEach((val: unknown, key: unknown) => {
     const isComplex = KeyClass.prototype instanceof AbstractArray ||
       KeyClass.prototype instanceof Struct ||
       KeyClass.prototype instanceof Enum;
@@ -45,7 +45,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
       output.set(
         key instanceof KeyClass
           ? key
-          : new KeyClass(registry, isComplex ? JSON.parse(key) : key),
+          : new KeyClass(registry, isComplex ? JSON.parse(key as string) : key),
         val instanceof ValClass
           ? val
           : new ValClass(registry, val)

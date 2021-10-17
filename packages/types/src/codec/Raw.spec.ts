@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecTo } from '../types';
+import type { AnyU8a, CodecTo } from '../types';
 
 import { TypeRegistry } from '../create';
 import { Raw } from '.';
@@ -15,7 +15,7 @@ const testDecode = (type: string, input: any, expected: string): void =>
     expect(e.toString()).toBe(expected);
   });
 
-const testEncode = (to: CodecTo, expected: any): void =>
+const testEncode = (to: CodecTo, expected: AnyU8a): void =>
   it(`can encode ${to}`, (): void => {
     const e = new Raw(registry, [1, 2, 3, 4, 5]);
 
