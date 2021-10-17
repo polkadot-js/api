@@ -441,7 +441,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       method.is(other);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this._decorateFunctionMeta(method as any, decorated as any) as unknown as SubmittableExtrinsicFunction<ApiType>;
+    return this._decorateFunctionMeta(method as unknown as MetaDecoration, decorated as unknown as MetaDecoration) as unknown as SubmittableExtrinsicFunction<ApiType>;
   }
 
   protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
@@ -479,7 +479,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    const decorated = this._decorateStorageCall(creator, decorateMethod);
+    const decorated: AugmentedQuery<'rxjs', GenericStorageEntryFunction, AnyTuple> & MetaDecoration = this._decorateStorageCall(creator, decorateMethod);
 
     decorated.creator = creator;
 
@@ -551,7 +551,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
+    return this._decorateFunctionMeta(creator as unknown as MetaDecoration, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
   private _decorateStorageEntryAt<ApiType extends ApiTypes> (registry: Registry, creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageEntryAt<ApiType> {
@@ -560,7 +560,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Disable this where it occurs for each field we are decorating
     /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    const decorated = decorateMethod((...args: unknown[]): Observable<Codec> =>
+    const decorated: AugmentedQuery<'rxjs', GenericStorageEntryFunction, AnyTuple> & MetaDecoration = decorateMethod((...args: unknown[]): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(args), blockHash));
 
     decorated.creator = creator;
@@ -598,7 +598,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-    return this._decorateFunctionMeta(creator as any, decorated) as unknown as QueryableStorageEntry<ApiType>;
+    return this._decorateFunctionMeta(creator as unknown as MetaDecoration, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
   // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)

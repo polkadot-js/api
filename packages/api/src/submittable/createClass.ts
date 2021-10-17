@@ -3,7 +3,7 @@
 
 /* eslint-disable no-dupe-class-members */
 
-import type { Observable } from 'rxjs';
+import type { Observable, OperatorFunction } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
 import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
@@ -123,7 +123,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
+          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this) as OperatorFunction<number | undefined, this>)
       )();
     }
 
@@ -223,7 +223,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
-        mapTo(updateId)
+        mapTo(updateId) as OperatorFunction<void, number | undefined>
       );
     };
 
