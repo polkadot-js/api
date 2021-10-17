@@ -65,7 +65,7 @@ export class MetadataVersioned extends Struct {
    */
   #metadata = (): MetadataAll => {
     return this.get('metadata') as MetadataAll;
-  }
+  };
 
   /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version

@@ -21,5 +21,5 @@ export class ProposalFactory {
 
   public proposalIndex = (index: number): ProposalIndex => {
     return this.#registry.createType('ProposalIndex', index);
-  }
+  };
 }

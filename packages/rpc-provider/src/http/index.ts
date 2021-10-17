@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { assert, logger } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
@@ -103,7 +103,7 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
-  public async send <T = any> (method: string, params: unknown[]): Promise<T> {
+  public async send <T> (method: string, params: unknown[]): Promise<T> {
     const body = this.#coder.encodeJson(method, params);
     const response = await fetch(this.#endpoint, {
       body,
@@ -118,8 +118,7 @@ export class HttpProvider implements ProviderInterface {
 
     assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result = await response.json();
+    const result = (await response.json()) as JsonRpcResponse;
 
     return this.#coder.decodeResponse(result) as T;
   }

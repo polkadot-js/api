@@ -405,7 +405,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
       this.emit('error', error);
     }
-  }
+  };
 
   #onProviderDisconnect = (): void => {
     this._isConnected.next(false);

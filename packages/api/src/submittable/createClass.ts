@@ -3,7 +3,7 @@
 
 /* eslint-disable no-dupe-class-members */
 
-import type { Observable } from 'rxjs';
+import type { Observable, OperatorFunction } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
 import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
@@ -123,7 +123,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
+          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this) as OperatorFunction<number | undefined, this>)
       )();
     }
 
@@ -181,7 +181,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
         }),
         nonce
       });
-    }
+    };
 
     #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
       return {
@@ -193,7 +193,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
         signedExtensions: api.registry.signedExtensions,
         version: api.extrinsicType
       } as SignatureOptions;
-    }
+    };
 
     #makeSignAndSendOptions = (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] => {
       let options: Partial<SignerOptions> = {};
@@ -205,7 +205,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       }
 
       return [options, statusCb];
-    }
+    };
 
     #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
@@ -223,9 +223,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
-        mapTo(updateId)
+        mapTo(updateId) as OperatorFunction<void, number | undefined>
       );
-    }
+    };
 
     #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
@@ -247,7 +247,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           of(this.#transformResult(new SubmittableResult({ internalError, status })))
         )
       );
-    }
+    };
 
     #observeSend = (updateId = -1): Observable<Hash> => {
       return api.rpc.author.submitExtrinsic(this).pipe(
@@ -255,7 +255,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           this.#updateSigner(updateId, hash);
         })
       );
-    }
+    };
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
       const hash = this.hash;
@@ -268,7 +268,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           this.#updateSigner(updateId, status);
         })
       );
-    }
+    };
 
     // NOTE here we actually override nonce if it was specified (backwards compat for
     // the previous signature - don't let user space break, but allow then time to upgrade)
@@ -276,7 +276,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
         : optionsOrNonce;
-    }
+    };
 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
       const signer = options.signer || api.signer;
@@ -305,13 +305,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       super.addSignature(address, result.signature, payload.toPayload());
 
       return result.id;
-    }
+    };
 
     #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
       if ((updateId !== -1) && api.signer && api.signer.update) {
         api.signer.update(updateId, status);
       }
-    }
+    };
   }
 
   return Submittable;
