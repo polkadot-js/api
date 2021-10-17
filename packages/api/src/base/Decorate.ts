@@ -735,5 +735,5 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    */
   protected _rxDecorateMethod = <Method extends AnyFunction>(method: Method): Method => {
     return method;
-  }
+  };
 }

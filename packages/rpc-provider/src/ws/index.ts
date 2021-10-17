@@ -337,7 +337,7 @@ export class WsProvider implements ProviderInterface {
 
   #emit = (type: ProviderInterfaceEmitted, ...args: unknown[]): void => {
     this.#eventemitter.emit(type, ...args);
-  }
+  };
 
   #onSocketClose = (event: CloseEvent): void => {
     const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
@@ -369,12 +369,12 @@ export class WsProvider implements ProviderInterface {
         });
       }, this.#autoConnectMs);
     }
-  }
+  };
 
   #onSocketError = (error: Event): void => {
     l.debug(() => ['socket error', error]);
     this.#emit('error', error);
-  }
+  };
 
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
@@ -384,7 +384,7 @@ export class WsProvider implements ProviderInterface {
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
       : this.#onSocketMessageSubscribe(response);
-  }
+  };
 
   #onSocketMessageResult = (response: JsonRpcResponse): void => {
     const handler = this.#handlers[response.id];
@@ -422,7 +422,7 @@ export class WsProvider implements ProviderInterface {
     }
 
     delete this.#handlers[response.id];
-  }
+  };
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const method = ALIASES[response.method as string] || response.method || 'invalid';
@@ -448,7 +448,7 @@ export class WsProvider implements ProviderInterface {
     } catch (error) {
       handler.callback(error as Error, undefined);
     }
-  }
+  };
 
   #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
@@ -461,7 +461,7 @@ export class WsProvider implements ProviderInterface {
     this.#resubscribe();
 
     return true;
-  }
+  };
 
   #resubscribe = (): void => {
     const subscriptions = this.#subscriptions;
@@ -484,5 +484,5 @@ export class WsProvider implements ProviderInterface {
         l.error(error);
       }
     })).catch(l.error);
-  }
+  };
 }

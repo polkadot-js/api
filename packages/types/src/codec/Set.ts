@@ -156,7 +156,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
     super.add(key);
 
     return this;
-  }
+  };
 
   /**
    * @description Compares the value of the input to see if there is a match
