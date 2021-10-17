@@ -31,9 +31,9 @@ const mockU32U32MapUint8Array = Uint8Array.from([16, 4, 49, 2, 0, 0, 0, 8, 50, 5
 
 describe('CodecMap', (): void => {
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: any, output: string): void =>
+    const testDecode = (type: string, input: unknown, output: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new CodecMap(registry, Text, U32, input);
+        const s = new CodecMap(registry, Text, U32, input as string);
 
         expect(s.toString()).toBe(output);
       });

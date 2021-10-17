@@ -173,7 +173,7 @@ export class Abi {
         throw error;
       }
     });
-  }
+  };
 
   #createEvent = (spec: ContractEventSpec, index: number): AbiEvent => {
     const args = this.#createArgs(spec.args, spec);
@@ -189,7 +189,7 @@ export class Abi {
     };
 
     return event;
-  }
+  };
 
   #createMessage = (spec: ContractMessageSpec | ContractConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
@@ -211,7 +211,7 @@ export class Abi {
     };
 
     return message;
-  }
+  };
 
   #decodeArgs = (args: AbiParam[], data: Uint8Array): Codec[] => {
     // for decoding we expect the input to be just the arg data, no selectors
@@ -225,7 +225,7 @@ export class Abi {
 
       return value;
     });
-  }
+  };
 
   #decodeMessage = (type: 'constructor' | 'message', list: AbiMessage[], data: Uint8Array): DecodedMessage => {
     const [, trimmed] = compactStripLength(data);
@@ -235,7 +235,7 @@ export class Abi {
     assert(message, `Unable to find ${type} with selector ${u8aToHex(selector)}`);
 
     return message.fromU8a(trimmed.subarray(4));
-  }
+  };
 
   #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: unknown[]): Uint8Array => {
     assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
@@ -248,5 +248,5 @@ export class Abi {
         )
       )
     );
-  }
+  };
 }

@@ -71,7 +71,7 @@ export function main (): void {
         process.exit(1);
       };
 
-      websocket.onerror = (event: any): void => {
+      websocket.onerror = (event: unknown): void => {
         console.error(event);
         process.exit(1);
       };
@@ -81,15 +81,14 @@ export function main (): void {
         websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
       };
 
-      websocket.onmessage = (message: any): void => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        generate(JSON.parse(message.data).result, pkg, output, isStrict);
+      websocket.onmessage = (message: unknown): void => {
+        generate((JSON.parse((message as Record<string, string>).data) as Record<string, string>).result, pkg, output, isStrict);
       };
     } catch (error) {
       process.exit(1);
     }
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
-    generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    generate((require(path.join(process.cwd(), endpoint)) as Record<string, string>).result, pkg, output, isStrict);
   }
 }

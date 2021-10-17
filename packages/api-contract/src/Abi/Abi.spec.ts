@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '@polkadot/types/types';
+import type { AnyJson, Registry } from '@polkadot/types/types';
 
 import fs from 'fs';
 import path from 'path';
@@ -51,7 +51,7 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         try {
           const messageIds = (abi.V1 ? abi.V1 : abi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
-          const inkAbi = new Abi(abis[abiName]);
+          const inkAbi = new Abi(abis[abiName] as AnyJson);
 
           expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
         } catch (error) {
@@ -66,7 +66,7 @@ describe('Abi', (): void => {
   describe('TypeDef', (): void => {
     Object.keys(abis).forEach((abiName) => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
-        const abi = new Abi(abis[abiName]);
+        const abi = new Abi(abis[abiName] as AnyJson);
         const json = stringifyJson(abi.registry);
         const cmpPath = path.join(__dirname, `../../test/compare/${abiName}.test.json`);
 
@@ -88,7 +88,7 @@ describe('Abi', (): void => {
 
   it('has the correct hash for the source', (): void => {
     const bundle = abis.ink_v0_flipperBundle as JSONAbi;
-    const abi = new Abi(bundle as any);
+    const abi = new Abi(bundle as unknown as AnyJson);
 
     // manual
     expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));

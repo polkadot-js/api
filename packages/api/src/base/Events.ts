@@ -8,7 +8,7 @@ import EventEmitter from 'eventemitter3';
 export class Events {
   #eventemitter = new EventEmitter();
 
-  protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {
+  protected emit (type: ApiInterfaceEvents, ...args: unknown[]): boolean {
     return this.#eventemitter.emit(type, ...args);
   }
 

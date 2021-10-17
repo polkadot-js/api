@@ -76,5 +76,5 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
           [])
         ) || []))
       );
-  }
+  };
 }

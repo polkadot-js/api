@@ -64,9 +64,9 @@ const mockEnumSetObj = [
 
 describe('BTreeSet', (): void => {
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: any, output: string): void =>
+    const testDecode = (type: string, input: unknown, output: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new BTreeSet(registry, U32, input);
+        const s = new BTreeSet(registry, U32, input as string);
 
         expect(s.toString()).toBe(output);
       });
