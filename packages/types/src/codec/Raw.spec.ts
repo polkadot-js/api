@@ -8,7 +8,7 @@ import { Raw } from '.';
 
 const registry = new TypeRegistry();
 
-const testDecode = (type: string, input: any, expected: string): void =>
+const testDecode = (type: string, input: AnyU8a, expected: string): void =>
   it(`can decode from ${type}`, (): void => {
     const e = new Raw(registry, input);
 

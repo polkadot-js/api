@@ -71,7 +71,7 @@ export function main (): void {
         process.exit(1);
       };
 
-      websocket.onerror = (event: any): void => {
+      websocket.onerror = (event: unknown): void => {
         console.error(event);
         process.exit(1);
       };
@@ -88,7 +88,7 @@ export function main (): void {
       process.exit(1);
     }
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
-    generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    generate((require(path.join(process.cwd(), endpoint)) as Record<string, string>).result, pkg, output, isStrict);
   }
 }

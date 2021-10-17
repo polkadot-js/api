@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Constructor } from '@polkadot/types/types';
+import type { Request } from '../../test/mockWs';
 
 import { mockWs } from '../../test/mockWs';
 import { Global, Mock } from './../mock/types';
@@ -14,7 +15,7 @@ const TEST_WS_URL = 'ws://localhost-send.spec.ts:9965';
 let provider: WsProvider | null;
 let mock: Mock;
 
-function createMock (requests: any[]): void {
+function createMock (requests: Request[]): void {
   mock = mockWs(requests, TEST_WS_URL);
 }
 
@@ -89,7 +90,8 @@ describe('send', (): void => {
         code: 666,
         message: 'error'
       },
-      id: 1
+      id: 1,
+      method: 'something'
     }]);
 
     return createWs().then((ws) =>

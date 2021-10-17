@@ -35,7 +35,7 @@ interface RpcBase {
 type RpcError = RpcBase & ErrorDef;
 type RpcReply = RpcBase & { result: unknown };
 
-type Request = { method: string } & (ErrorDef | ReplyDef);
+export type Request = { method: string } & (ErrorDef | ReplyDef);
 
 global.WebSocket = WebSocket as typeof global.WebSocket;
 
