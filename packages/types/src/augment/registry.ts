@@ -23,7 +23,7 @@ import type { ConfigData, MessageId, OverweightIndex, PageCounter, PageIndexData
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
-import type { EthAccount, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumLookupSource, EthereumSignature } from '@polkadot/types/interfaces/eth';
+import type { BlockV0, BlockV1, BlockV2, EIP1559Transaction, EIP2930Transaction, EthAccessList, EthAccessListItem, EthAccount, EthAddress, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumLookupSource, EthereumSignature, LegacyTransaction, TransactionV0, TransactionV1, TransactionV2 } from '@polkadot/types/interfaces/eth';
 import type { EvmAccount, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Era, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
@@ -155,6 +155,9 @@ declare module '@polkadot/types/types/registry' {
     BlockTraceEvent: BlockTraceEvent;
     BlockTraceEventData: BlockTraceEventData;
     BlockTraceSpan: BlockTraceSpan;
+    BlockV0: BlockV0;
+    BlockV1: BlockV1;
+    BlockV2: BlockV2;
     BlockWeights: BlockWeights;
     BodyId: BodyId;
     BodyPart: BodyPart;
@@ -293,6 +296,8 @@ declare module '@polkadot/types/types/registry' {
     DownwardMessage: DownwardMessage;
     EcdsaSignature: EcdsaSignature;
     Ed25519Signature: Ed25519Signature;
+    EIP1559Transaction: EIP1559Transaction;
+    EIP2930Transaction: EIP2930Transaction;
     ElectionCompute: ElectionCompute;
     ElectionPhase: ElectionPhase;
     ElectionResult: ElectionResult;
@@ -314,7 +319,10 @@ declare module '@polkadot/types/types/registry' {
     ErrorMetadataV13: ErrorMetadataV13;
     ErrorMetadataV14: ErrorMetadataV14;
     ErrorMetadataV9: ErrorMetadataV9;
+    EthAccessList: EthAccessList;
+    EthAccessListItem: EthAccessListItem;
     EthAccount: EthAccount;
+    EthAddress: EthAddress;
     EthBlock: EthBlock;
     EthBloom: EthBloom;
     EthCallRequest: EthCallRequest;
@@ -522,6 +530,7 @@ declare module '@polkadot/types/types/registry' {
     LastRuntimeUpgradeInfo: LastRuntimeUpgradeInfo;
     LeasePeriod: LeasePeriod;
     LeasePeriodOf: LeasePeriodOf;
+    LegacyTransaction: LegacyTransaction;
     Limits: Limits;
     LimitsTo264: LimitsTo264;
     LocalValidationData: LocalValidationData;
@@ -951,6 +960,9 @@ declare module '@polkadot/types/types/registry' {
     TransactionInfo: TransactionInfo;
     TransactionPriority: TransactionPriority;
     TransactionStorageProof: TransactionStorageProof;
+    TransactionV0: TransactionV0;
+    TransactionV1: TransactionV1;
+    TransactionV2: TransactionV2;
     TransactionValidityError: TransactionValidityError;
     TransientValidationData: TransientValidationData;
     TreasuryProposal: TreasuryProposal;
