@@ -459,9 +459,9 @@ export class TypeRegistry implements Registry {
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        metadata.asLatest.extrinsic.version.gt(BN_ZERO)
+        this.#metadata.extrinsic.version.gt(BN_ZERO)
           // FIXME Use the extension and their injected types
-          ? metadata.asLatest.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
       userExtensions

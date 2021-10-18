@@ -1,9 +1,12 @@
 # CHANGELOG
 
-## master
+## 6.4.2 Oct 18, 2021
+
+Upgrade priority: Low. Recommended for Westmine runtime 500+
 
 Changes:
 
+- Ensure `SignerPayload` correctly serializes `Option` with `None`
 - Add Ethereum `BlockV{0, 1, 2}` types, aligning with latest Frontier
 - Additional tests for metadata serialization/de-serialization
 

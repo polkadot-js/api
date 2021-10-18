@@ -27,6 +27,7 @@ describe('Option', (): void => {
     expect(new Option(registry, Text, undefined).isNone).toBe(true);
     expect(new Option(registry, Text, null).isNone).toBe(true);
     expect(new Option(registry, Text, 'test').isNone).toBe(false);
+    expect(new Option(registry, Text, '0x').isNone).toBe(true);
   });
 
   it('converts an option to an option', (): void => {

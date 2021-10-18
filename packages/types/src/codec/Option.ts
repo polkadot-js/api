@@ -18,7 +18,7 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 
 /** @internal */
 function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
-  if (isNull(value) || isUndefined(value) || value instanceof Null) {
+  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
     return new Null(registry);
   }
 
