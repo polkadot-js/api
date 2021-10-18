@@ -2,7 +2,7 @@
 
 ## 6.4.2 Oct 18, 2021
 
-Upgrade priority: Low. Recommended for Westmine runtime 500+
+Upgrade priority: Low. Recommended for Westmint runtime 500+
 
 Changes:
 
