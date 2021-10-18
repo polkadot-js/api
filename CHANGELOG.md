@@ -4,6 +4,7 @@
 
 Changes:
 
+- Add Ethereum `BlockV{0, 1, 2}` types, aligning with latest Frontier
 - Additional tests for metadata serialization/de-serialization
 
 
