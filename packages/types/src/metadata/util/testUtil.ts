@@ -125,16 +125,29 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
   });
 }
 
+function serialize (registry: Registry, { data }: Check): void {
+  const newHex = new Metadata(registry, data).toHex();
+
+  it('serializes to and from hex', (): void => {
+    expect(newHex).toEqual(data);
+  });
+
+  it('can construct from a re-seralized form', (): void => {
+    expect(
+      () => new Metadata(registry, newHex)
+    ).not.toThrow();
+  });
+}
+
 export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
   describe(`MetadataV${version}`, (): void => {
     describe.each(Object.keys(matchers))('%s', (type): void => {
       const matcher = matchers[type];
       const registry = new TypeRegistry();
 
+      serialize(registry, matcher);
       decodeLatestMeta(registry, type, version, matcher);
-
       toLatest(registry, version, matcher);
-
       defaultValues(registry, matcher, true, withFallback);
     });
   });
