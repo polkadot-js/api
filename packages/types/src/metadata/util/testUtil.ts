@@ -125,16 +125,39 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
   });
 }
 
+function serialize (registry: Registry, { data }: Check): void {
+  const metadata = new Metadata(registry, data);
+
+  it('serializes to hex in the same form as retrieved', (): void => {
+    expect(metadata.toHex()).toEqual(data);
+  });
+
+  // NOTE Assuming the first passes this is actually something that doesn't test
+  // anything new. If the first line in this function passed and the above values
+  // are equivalent, this would be as well.
+  it.skip('can construct from a re-serialized form', (): void => {
+    expect(
+      () => new Metadata(registry, metadata.toHex())
+    ).not.toThrow();
+  });
+
+  // as used in the extension
+  it('can construct from asCallsOnly.toHex()', (): void => {
+    expect(
+      () => new Metadata(registry, metadata.asCallsOnly.toHex())
+    ).not.toThrow();
+  });
+}
+
 export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
   describe(`MetadataV${version}`, (): void => {
     describe.each(Object.keys(matchers))('%s', (type): void => {
       const matcher = matchers[type];
       const registry = new TypeRegistry();
 
+      serialize(registry, matcher);
       decodeLatestMeta(registry, type, version, matcher);
-
       toLatest(registry, version, matcher);
-
       defaultValues(registry, matcher, true, withFallback);
     });
   });
