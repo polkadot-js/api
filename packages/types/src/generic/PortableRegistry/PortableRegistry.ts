@@ -664,7 +664,7 @@ export class GenericPortableRegistry extends Struct {
           sub.push({
             index: sub.length,
             info: TypeDefInfo.Null,
-            name: `Unused${sub.length}`,
+            name: `__Unused${sub.length}`,
             type: 'Null'
           });
         }

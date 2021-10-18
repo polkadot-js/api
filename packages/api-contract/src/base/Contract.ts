@@ -100,7 +100,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           : this.api.consts.system.maximumBlockWeight as Weight
         ).muln(64).div(BN_HUNDRED)
       : gasLimit;
-  }
+  };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
@@ -126,7 +126,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             .filter((decoded): decoded is DecodedEvent => !!decoded)
         ))
       );
-  }
+  };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
@@ -159,5 +159,5 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           )
       )
     };
-  }
+  };
 }

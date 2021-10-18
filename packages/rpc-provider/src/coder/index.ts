@@ -46,7 +46,7 @@ export class RpcCoder {
     return response.result;
   }
 
-  public encodeJson (method: string, params: any | any[]): string {
+  public encodeJson (method: string, params: unknown[]): string {
     return stringify(
       this.encodeObject(method, params)
     );

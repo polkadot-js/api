@@ -48,7 +48,7 @@ export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (acco
 
 export function stakerExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerExposure[]> =>
-    api.derive.staking.stakerExposures([accountId, withActive]).pipe(
+    api.derive.staking.stakerExposures([accountId], withActive).pipe(
       map(([first]) => first)
     )
   );

@@ -45,9 +45,7 @@ type RawResult = [
   AccountInfo
 ];
 
-type EQDeriveBalancesQuery = (
-  address: AccountIndex | AccountId | Address | string
-) => Observable<EQDeriveBalancesAll>;
+type EQDeriveBalancesQuery = (address: AccountIndex | AccountId | Address | string) => Observable<EQDeriveBalancesAll>;
 
 const typesBundle = {
   spec: {

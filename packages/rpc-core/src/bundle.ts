@@ -225,7 +225,7 @@ export class RpcCore {
             observer.next(value);
             observer.complete();
           })
-          .catch((error): void => {
+          .catch((error: Error): void => {
             logErrorMessage(method, def, error);
 
             observer.error(error);
@@ -255,7 +255,7 @@ export class RpcCore {
       this.provider
         .subscribe(subType, subName, paramsJson, update)
         .then(resolve)
-        .catch((error): void => {
+        .catch((error: Error): void => {
           errorHandler(error);
           reject(error);
         });
@@ -283,7 +283,7 @@ export class RpcCore {
 
         try {
           const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((param): AnyJson => param.toJSON());
+          const paramsJson = params.map((param) => param.toJSON());
 
           const update = (error?: Error | null, result?: T): void => {
             if (error) {

@@ -66,7 +66,7 @@ function decorateCall<Method extends DecorateFn<ObsInnerType<ReturnType<Method>>
 
     // encoding errors reject immediately, any result unsubscribes and resolves
     const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error) => tracker.reject(error))
+      catchError((error: Error) => tracker.reject(error))
     ).subscribe((result): void => {
       tracker.resolve(result);
       setTimeout(() => subscription.unsubscribe(), 0);
@@ -82,7 +82,7 @@ function decorateSubscribe<Method extends DecorateFn<ObsInnerType<ReturnType<Met
 
     // errors reject immediately, the first result resolves with an unsubscribe promise, all results via callback
     const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error) => tracker.reject(error)),
+      catchError((error: Error) => tracker.reject(error)),
       tap(() => tracker.resolve(() => subscription.unsubscribe()))
     ).subscribe((result): void => {
       // queue result (back of queue to clear current)
@@ -255,7 +255,7 @@ export class ApiPromise extends ApiBase<'promise'> {
       const tracker = promiseTracker(resolve, reject);
 
       super.once('ready', () => tracker.resolve(this));
-      super.once('error', (e) => tracker.reject(e));
+      super.once('error', (error: Error) => tracker.reject(error));
     });
   }
 

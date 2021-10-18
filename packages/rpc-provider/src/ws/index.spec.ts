@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Request } from '../../test/mockWs';
+
 import { mockWs } from '../../test/mockWs';
 import { Mock } from './../mock/types';
 import { WsProvider } from './';
@@ -10,7 +12,7 @@ const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 let provider: WsProvider | null;
 let mock: Mock;
 
-function createWs (requests: any[], autoConnect = 1000, headers?: Record<string, string>): WsProvider {
+function createWs (requests: Request[], autoConnect = 1000, headers?: Record<string, string>): WsProvider {
   mock = mockWs(requests, TEST_WS_URL);
   provider = new WsProvider(TEST_WS_URL, autoConnect, headers);
 

@@ -4,6 +4,7 @@
 import type { VoteThreshold } from '../interfaces/elections';
 import type { BlockNumber } from '../interfaces/runtime';
 import type { CodecTo } from '../types';
+import type { AnyTupleValue } from './Tuple';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
@@ -25,7 +26,7 @@ describe('Tuple', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: any): void =>
+    const testDecode = (type: string, input: AnyTupleValue): void =>
       it(`can decode from ${type}`, (): void => {
         const t = new Tuple(registry, [
           Text,

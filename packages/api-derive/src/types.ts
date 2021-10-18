@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
-import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, TreasuryProposal, Votes } from '@polkadot/types/interfaces';
-import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, Votes } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty, PalletTreasuryProposal } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export * from './accounts/types';
@@ -63,7 +63,7 @@ export type DeriveRecentlyOffline = Record<string, RecentlyOffline[]>;
 export interface DeriveTreasuryProposal {
   council: DeriveCollectiveProposal[];
   id: ProposalIndex;
-  proposal: TreasuryProposal;
+  proposal: PalletTreasuryProposal;
 }
 
 export interface DeriveTreasuryProposals {

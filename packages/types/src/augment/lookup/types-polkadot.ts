@@ -16,7 +16,6 @@ declare module '@polkadot/types/lookup' {
     readonly isNonTransfer: boolean;
     readonly isGovernance: boolean;
     readonly isStaking: boolean;
-    readonly isUnused4: boolean;
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
@@ -192,7 +191,6 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PolkadotPrimitivesV0ValidityAttestation (331) */
   export interface PolkadotPrimitivesV0ValidityAttestation extends Enum {
-    readonly isUnused0: boolean;
     readonly isImplicit: boolean;
     readonly asImplicit: PolkadotPrimitivesV0ValidatorAppSignature;
     readonly isExplicit: boolean;
@@ -246,57 +244,11 @@ declare module '@polkadot/types/lookup' {
   export interface PolkadotRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
-    readonly isUnused1: boolean;
-    readonly isUnused2: boolean;
-    readonly isUnused3: boolean;
     readonly isVoid: boolean;
-    readonly isUnused5: boolean;
-    readonly isUnused6: boolean;
-    readonly isUnused7: boolean;
-    readonly isUnused8: boolean;
-    readonly isUnused9: boolean;
-    readonly isUnused10: boolean;
-    readonly isUnused11: boolean;
-    readonly isUnused12: boolean;
-    readonly isUnused13: boolean;
-    readonly isUnused14: boolean;
     readonly isCouncil: boolean;
     readonly asCouncil: PalletCollectiveRawOrigin;
     readonly isTechnicalCommittee: boolean;
     readonly asTechnicalCommittee: PalletCollectiveRawOrigin;
-    readonly isUnused17: boolean;
-    readonly isUnused18: boolean;
-    readonly isUnused19: boolean;
-    readonly isUnused20: boolean;
-    readonly isUnused21: boolean;
-    readonly isUnused22: boolean;
-    readonly isUnused23: boolean;
-    readonly isUnused24: boolean;
-    readonly isUnused25: boolean;
-    readonly isUnused26: boolean;
-    readonly isUnused27: boolean;
-    readonly isUnused28: boolean;
-    readonly isUnused29: boolean;
-    readonly isUnused30: boolean;
-    readonly isUnused31: boolean;
-    readonly isUnused32: boolean;
-    readonly isUnused33: boolean;
-    readonly isUnused34: boolean;
-    readonly isUnused35: boolean;
-    readonly isUnused36: boolean;
-    readonly isUnused37: boolean;
-    readonly isUnused38: boolean;
-    readonly isUnused39: boolean;
-    readonly isUnused40: boolean;
-    readonly isUnused41: boolean;
-    readonly isUnused42: boolean;
-    readonly isUnused43: boolean;
-    readonly isUnused44: boolean;
-    readonly isUnused45: boolean;
-    readonly isUnused46: boolean;
-    readonly isUnused47: boolean;
-    readonly isUnused48: boolean;
-    readonly isUnused49: boolean;
     readonly isParachainsOrigin: boolean;
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
   }

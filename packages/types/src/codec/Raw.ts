@@ -85,7 +85,7 @@ export class Raw extends Uint8Array implements IU8a {
         !this.some((value, index) => value !== other[index]);
     }
 
-    return this.eq(u8aToU8a(other as any));
+    return this.eq(u8aToU8a(other as string));
   }
 
   /**

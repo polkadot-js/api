@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 import type { DefinitionRpc } from '@polkadot/types/types';
 
 import { TypeRegistry } from '@polkadot/types/create';
@@ -11,7 +12,7 @@ describe('methodSend', (): void => {
   const registry = new TypeRegistry();
   let rpc: RpcCore;
   let methods: Record<string, DefinitionRpc>;
-  let provider: any;
+  let provider: ProviderInterface;
 
   beforeEach((): void => {
     methods = {
@@ -30,10 +31,10 @@ describe('methodSend', (): void => {
     };
 
     provider = {
-      send: jest.fn((method, params: any[]): Promise<any> => {
-        return Promise.resolve(params[0]);
-      })
-    };
+      send: jest.fn((method: string, params: unknown[]): Promise<unknown> =>
+        Promise.resolve(params[0])
+      )
+    } as unknown as ProviderInterface;
 
     rpc = new RpcCore('987', registry, provider);
   });

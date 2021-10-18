@@ -848,11 +848,10 @@ export interface XcmOrderV1 extends Enum {
   } & Struct;
   readonly isBuyExecution: boolean;
   readonly asBuyExecution: {
-    readonly fees: MultiAsset;
+    readonly fees: MultiAssetV1;
     readonly weight: u64;
     readonly debt: u64;
     readonly haltOnError: bool;
-    readonly orders: Vec<XcmOrderV1>;
     readonly instructions: Vec<XcmV1>;
   } & Struct;
 }
@@ -947,17 +946,17 @@ export interface XcmV0 extends Enum {
 export interface XcmV1 extends Enum {
   readonly isWithdrawAsset: boolean;
   readonly asWithdrawAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isReserveAssetDeposit: boolean;
   readonly asReserveAssetDeposit: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isReceiveTeleportedAsset: boolean;
   readonly asReceiveTeleportedAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isQueryResponse: boolean;
@@ -967,12 +966,12 @@ export interface XcmV1 extends Enum {
   } & Struct;
   readonly isTransferAsset: boolean;
   readonly asTransferAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly dest: MultiLocationV1;
   } & Struct;
   readonly isTransferReserveAsset: boolean;
   readonly asTransferReserveAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly dest: MultiLocationV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
