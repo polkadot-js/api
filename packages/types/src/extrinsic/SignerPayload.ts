@@ -7,6 +7,7 @@ import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadR
 import { u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../codec/Compact';
+import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
@@ -120,7 +121,13 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return {
       // add any explicit overrides we may have
       ...(Object.keys(this._extraTypes).reduce<Record<string, string>>((map, key) => {
-        map[key] = (this.get(key) as Codec).toHex();
+        const value = this.get(key) as Codec;
+        const isOption = value instanceof Option;
+
+        // Don't include Option.isNone
+        if (!isOption || value.isSome) {
+          map[key] = value.toHex();
+        }
 
         return map;
       }, {})),
