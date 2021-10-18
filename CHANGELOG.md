@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Additional tests for metadata serialization/de-serialization
+
+
 ## 6.4.1 Oct 17, 2021
 
 Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9110+

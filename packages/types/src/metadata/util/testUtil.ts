@@ -126,10 +126,10 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
 }
 
 function serialize (registry: Registry, { data }: Check): void {
-  const newHex = new Metadata(registry, data).toHex();
+  const metadata = new Metadata(registry, data);
 
   it('serializes to hex in the same form as retrieved', (): void => {
-    expect(newHex).toEqual(data);
+    expect(metadata.toHex()).toEqual(data);
   });
 
   // NOTE Assuming the first passes this is actually something that doesn't test
@@ -137,7 +137,14 @@ function serialize (registry: Registry, { data }: Check): void {
   // are equivalent, this would be as well.
   it.skip('can construct from a re-serialized form', (): void => {
     expect(
-      () => new Metadata(registry, newHex)
+      () => new Metadata(registry, metadata.toHex())
+    ).not.toThrow();
+  });
+
+  // as used in the extension
+  it('can construct from asCallsOnly.toHex()', (): void => {
+    expect(
+      () => new Metadata(registry, metadata.asCallsOnly.toHex())
     ).not.toThrow();
   });
 }
