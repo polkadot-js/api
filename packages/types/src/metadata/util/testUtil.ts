@@ -128,11 +128,14 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
 function serialize (registry: Registry, { data }: Check): void {
   const newHex = new Metadata(registry, data).toHex();
 
-  it('serializes to and from hex', (): void => {
+  it('serializes to hex in the same form as retrieved', (): void => {
     expect(newHex).toEqual(data);
   });
 
-  it('can construct from a re-seralized form', (): void => {
+  // NOTE Assuming the first passes this is actually something that doesn't test
+  // anything new. If the first line in this function passed and the above values
+  // are equivalent, this would be as well.
+  it.skip('can construct from a re-serialized form', (): void => {
     expect(
       () => new Metadata(registry, newHex)
     ).not.toThrow();
