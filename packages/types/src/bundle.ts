@@ -10,6 +10,7 @@ export * from './index.types';
 export * from './metadata';
 
 export { TypeDefInfo } from './create/types';
+export { convertSiV0toV1 } from './generic/PortableRegistry';
 export { packageInfo } from './packageInfo';
 export { unwrapStorageType } from './primitive/StorageKey';
 
