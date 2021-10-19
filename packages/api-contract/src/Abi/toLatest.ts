@@ -4,7 +4,7 @@
 import type { ContractMetadataLatest, ContractMetadataV0 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
-import { convertSiV0toV1 } from '@polkadot/types/generic/PortableRegistry';
+import { convertSiV0toV1 } from '@polkadot/types';
 
 export function toLatest (registry: Registry, v0: ContractMetadataV0): ContractMetadataLatest {
   return registry.createType('ContractMetadataLatest', {
