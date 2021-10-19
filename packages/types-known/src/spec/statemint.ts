@@ -5,7 +5,7 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-import { mapXcm } from '@polkadot/types/interfaces/xcm/definitions';
+import { mapXcmTypes } from '../xcm';
 
 const sharedTypes = {
   TAssetBalance: 'u128',
@@ -28,14 +28,14 @@ const versioned: OverrideVersionedType[] = [
     minmax: [0, 3],
     types: {
       ...sharedTypes,
-      ...mapXcm('V0')
+      ...mapXcmTypes('V0')
     }
   },
   {
     minmax: [4, 5],
     types: {
       ...sharedTypes,
-      ...mapXcm('V1')
+      ...mapXcmTypes('V1')
     }
   },
   {
