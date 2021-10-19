@@ -1,0 +1,11 @@
+// Copyright 2017-2021 @polkadot/types-known authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+export const XCM_MAPPINGS = ['AssetInstance', 'Fungibility', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildFungibility', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
+
+export function mapXcmTypes (version: 'V0' | 'V1' | 'V2'): Record<string, string> {
+  return XCM_MAPPINGS.reduce<Record<string, string>>((all, key) => ({
+    ...all,
+    [key]: `${key}${version}`
+  }), {});
+}
