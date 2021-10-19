@@ -16,6 +16,7 @@ import upgrades from './upgrades';
 
 export { knownOrigins } from './knownOrigins';
 export { packageInfo } from './packageInfo';
+export { mapXcmTypes } from './xcm';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */

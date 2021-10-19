@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Fix browser bundle imports for xcm-mapping (move to `types-known`)
+
+
 ## 6.4.2 Oct 18, 2021
 
 Upgrade priority: Low. Recommended for Westmint runtime 500+

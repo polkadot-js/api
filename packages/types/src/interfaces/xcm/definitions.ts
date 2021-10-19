@@ -6,20 +6,13 @@
 
 import type { Definitions } from '../../types';
 
+import { mapXcmTypes } from '@polkadot/types-known';
+
 import { v0 } from './v0';
 import { v1 } from './v1';
 import { v2 } from './v2';
 
-export const XCM_MAPPINGS = ['AssetInstance', 'Fungibility', 'Junction', 'Junctions', 'MultiAsset', 'MultiAssetFilter', 'MultiLocation', 'Response', 'WildFungibility', 'WildMultiAsset', 'Xcm', 'XcmError', 'XcmOrder'];
-
 const XCM_LATEST = 'V2';
-
-export function mapXcm (version: 'V0' | 'V1' | 'V2'): Record<string, string> {
-  return XCM_MAPPINGS.reduce<Record<string, string>>((all, key) => ({
-    ...all,
-    [key]: `${key}${version}`
-  }), {});
-}
 
 const xcm = {
   XcmOrigin: {
@@ -94,7 +87,7 @@ export default {
     ...v0,
     ...v1,
     ...v2,
-    ...mapXcm(XCM_LATEST),
+    ...mapXcmTypes(XCM_LATEST),
     DoubleEncodedCall: {
       encoded: 'Vec<u8>'
     },
