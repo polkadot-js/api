@@ -439,11 +439,15 @@ export class GenericPortableRegistry extends Struct {
     } else if (['Range', 'RangeInclusive'].includes(specialVariant)) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Range,
-        sub: fields.map(({ name, type }, index) => ({
+        sub: fields.map(({ name, type, typeName }, index) => ({
           name: name.isSome
             ? name.unwrap().toString()
             : ['start', 'end'][index],
-          ...this.#createSiDef(type)
+          ...this.#createSiDef(type),
+          ...(typeName.isSome
+            ? { typeName: typeName.toString() }
+            : {}
+          )
         }))
       });
     } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
@@ -493,14 +497,17 @@ export class GenericPortableRegistry extends Struct {
 
       return {
         ...typeDef,
-        ...(
-          lookupIndex === -1
-            ? {}
-            : {
-              lookupIndex,
-              lookupName: this.#names[lookupIndex],
-              lookupNameRoot: typeDef.lookupName
-            }
+        ...(lookupIndex === -1
+          ? {}
+          : {
+            lookupIndex,
+            lookupName: this.#names[lookupIndex],
+            lookupNameRoot: typeDef.lookupName
+          }
+        ),
+        ...(fields[0].typeName.isSome
+          ? { typeName: fields[0].typeName.toString() }
+          : {}
         )
       };
     }
@@ -530,7 +537,7 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type }) => {
+    const sub = fields.map(({ docs, name, type, typeName }) => {
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
@@ -555,7 +562,11 @@ export class GenericPortableRegistry extends Struct {
       return {
         ...typeDef,
         docs: docs.map((d) => d.toString()),
-        name: nameField
+        name: nameField,
+        ...(typeName.isSome
+          ? { typeName: typeName.toString() }
+          : {}
+        )
       };
     });
 
