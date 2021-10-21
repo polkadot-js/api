@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Adjust Websocket `maxReceivedFrameSize` under Node
 - Fix browser bundle imports for xcm-mapping (move to `types-known`)
 - Expose all extracted type names in `PortableRegistry`
 

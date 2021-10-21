@@ -40,6 +40,8 @@ const ALIASES: { [index: string]: string } = {
 
 const RETRY_DELAY = 2500;
 
+const MEGABYTE = 1024 * 1024;
+
 const l = logger('api-ws');
 
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
@@ -179,9 +181,11 @@ export class WsProvider implements ProviderInterface {
           // default: true
           fragmentOutgoingMessages: true,
           // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
-          fragmentationThreshold: 256 * 1024,
-          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that)
-          maxReceivedMessageSize: 16 * 1024 * 1024
+          fragmentationThreshold: 1 * MEGABYTE,
+          // default: 1MiB (also align with maxReceivedMessageSize)
+          maxReceivedFrameSize: 24 * MEGABYTE,
+          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that, 16M is ok there)
+          maxReceivedMessageSize: 24 * MEGABYTE
         });
 
       this.#websocket.onclose = this.#onSocketClose;
