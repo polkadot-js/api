@@ -50,7 +50,7 @@ describe('decorateStorage', (): void => {
 
   it('should decorate the palletVersion entry', (): void => {
     expect(
-      u8aToHex(query.timestamp.palletVersion())
+      u8aToHex(query.system.palletVersion())
     ).toEqual(
       '0x' +
       '80' + // length
