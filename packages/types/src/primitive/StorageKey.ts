@@ -43,7 +43,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const [outputType] = getSiName(registry.lookup, unwrapStorageSi(type));
+  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as keyof InterfaceTypes

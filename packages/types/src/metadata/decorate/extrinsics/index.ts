@@ -24,15 +24,14 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
         .reduce((newModule: ModuleExtrinsics, variant): ModuleExtrinsics => {
           const callMetadata = registry.createType('FunctionMetadataLatest', {
             ...variant,
-            args: variant.fields.map(({ name, type }, index) => {
-              const [lookupType, typeName] = getSiName(lookup, type);
-
-              return {
-                name: stringCamelCase(name.unwrapOr(`param${index}`)),
-                type: lookupType,
-                typeName
-              };
-            })
+            args: variant.fields.map(({ name, type, typeName }, index) => ({
+              name: stringCamelCase(name.unwrapOr(`param${index}`)),
+              type: getSiName(lookup, type),
+              ...(typeName.isSome
+                ? { typeName: typeName.unwrap() }
+                : {}
+              )
+            }))
           });
 
           newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);
