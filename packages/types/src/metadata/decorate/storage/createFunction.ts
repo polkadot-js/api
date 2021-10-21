@@ -14,7 +14,7 @@ import { StorageKey } from '../../../primitive';
 import { getHasher } from './getHasher';
 
 export interface CreateItemOptions {
-  key?: string;
+  key?: Uint8Array | string;
   skipHashing?: boolean;
 }
 
