@@ -12,6 +12,7 @@ import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirs
 import { Struct } from '../../codec/Struct';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
+import { sanitize } from '../../create/sanitize';
 import { TypeDefInfo } from '../../types';
 
 // Just a placeholder for a type.unrwapOr()
@@ -445,7 +446,7 @@ export class GenericPortableRegistry extends Struct {
             : ['start', 'end'][index],
           ...this.#createSiDef(type),
           ...(typeName.isSome
-            ? { typeName: typeName.toString() }
+            ? { typeName: sanitize(typeName.unwrap()) }
             : {}
           )
         }))
@@ -506,7 +507,7 @@ export class GenericPortableRegistry extends Struct {
           }
         ),
         ...(fields[0].typeName.isSome
-          ? { typeName: fields[0].typeName.toString() }
+          ? { typeName: sanitize(fields[0].typeName.unwrap()) }
           : {}
         )
       };
@@ -564,7 +565,7 @@ export class GenericPortableRegistry extends Struct {
         docs: docs.map((d) => d.toString()),
         name: nameField,
         ...(typeName.isSome
-          ? { typeName: typeName.toString() }
+          ? { typeName: sanitize(typeName.unwrap()) }
           : {}
         )
       };
