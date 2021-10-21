@@ -18,10 +18,13 @@ export interface CreateItemOptions {
   skipHashing?: boolean;
 }
 
-export interface CreateItemFn {
-  meta: StorageEntryMetadataLatest;
+export interface CreateItemBase {
   method: string;
   prefix: string;
+}
+
+export interface CreateItemFn extends CreateItemBase {
+  meta: StorageEntryMetadataLatest;
   section: string;
 }
 
@@ -31,7 +34,7 @@ interface IterFn {
 }
 
 /** @internal */
-function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
+export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
   return u8aConcat(
     xxhashAsU8a(itemFn.prefix, 128),
     xxhashAsU8a(itemFn.method, 128),

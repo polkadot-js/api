@@ -5,10 +5,9 @@ import type { MetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { ModuleStorage, Storage } from '../types';
 
-import { stringCamelCase, stringLowerFirst, u8aConcat } from '@polkadot/util';
-import { xxhashAsU8a } from '@polkadot/util-crypto';
+import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-import { createFunction } from './createFunction';
+import { createFunction, createKeyRaw } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
 
@@ -41,7 +40,7 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
       palletVersion: createRuntimeFunction(
         name.toString(),
         'palletVersion',
-        u8aConcat(xxhashAsU8a(name.toString(), 128), xxhashAsU8a(':__STORAGE_VERSION__:', 128)),
+        createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
         {
           docs: 'Returns the current pallet version from storage',
           type: 'u16'
