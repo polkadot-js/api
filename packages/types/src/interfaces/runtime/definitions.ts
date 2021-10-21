@@ -53,6 +53,11 @@ export default {
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
     CodecHash: 'Hash',
+    CrateVersion: {
+      major: 'u16',
+      minor: 'u8',
+      patch: 'u8'
+    },
     Digest: {
       logs: 'Vec<DigestItem>'
     },
