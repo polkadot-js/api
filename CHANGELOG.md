@@ -2,9 +2,14 @@
 
 ## master
 
+Contributed:
+
+- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thnaks to https://github.com/wirednkod)
+
 Changes:
 
 - Fix browser bundle imports for xcm-mapping (move to `types-known`)
+- Expose all extracted type names in `PortableRegistry`
 
 
 ## 6.4.2 Oct 18, 2021

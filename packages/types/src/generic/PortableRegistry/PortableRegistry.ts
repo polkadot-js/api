@@ -252,6 +252,10 @@ export class GenericPortableRegistry extends Struct {
     this.#types = extractTypeMap(this.types);
   }
 
+  public get names (): string[] {
+    return Object.values(this.#names);
+  }
+
   /**
    * @description The types of the registry
    */
