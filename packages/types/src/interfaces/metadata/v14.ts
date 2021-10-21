@@ -25,7 +25,11 @@ export const v14: DefinitionsTypes = {
     ...Si1Variant,
     args: 'Vec<Type>'
   },
-  FunctionArgumentMetadataV14: 'FunctionArgumentMetadataV13',
+  FunctionArgumentMetadataV14: {
+    name: 'Text',
+    type: 'Type',
+    typeName: 'Option<Type>'
+  },
   FunctionMetadataV14: {
     ...Si1Variant,
     args: 'Vec<FunctionArgumentMetadataV14>'

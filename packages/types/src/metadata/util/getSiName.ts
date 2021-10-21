@@ -3,8 +3,8 @@
 
 import type { PortableRegistry, SiLookupTypeId } from '../../interfaces';
 
-export function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
+export function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): [string, string?] {
   const typeDef = lookup.getTypeDef(type);
 
-  return typeDef.lookupName || typeDef.type;
+  return [typeDef.lookupName || typeDef.type, typeDef.typeName];
 }
