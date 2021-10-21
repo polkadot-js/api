@@ -17,7 +17,8 @@ const sharedTypes = {
       Staking: 3,
       UnusedSudoBalances: 4,
       IdentityJudgement: 5,
-      CancelProxy: 6
+      CancelProxy: 6,
+      Auction: 7
     }
   }
 };
