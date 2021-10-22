@@ -103,7 +103,11 @@ export interface FunctionArgumentMetadataV12 extends FunctionArgumentMetadataV11
 export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12 {}
 
 /** @name FunctionArgumentMetadataV14 */
-export interface FunctionArgumentMetadataV14 extends FunctionArgumentMetadataV13 {}
+export interface FunctionArgumentMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly type: Type;
+  readonly typeName: Option<Type>;
+}
 
 /** @name FunctionArgumentMetadataV9 */
 export interface FunctionArgumentMetadataV9 extends Struct {

@@ -18,6 +18,7 @@
         "lookupIndex": 1,
         "lookupName": "RecursiveMyEnum",
         "type": "Lookup1",
+        "typeName": "MyEnum",
         "index": 1,
         "name": "B"
       }

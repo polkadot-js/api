@@ -12,6 +12,7 @@ import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirs
 import { Struct } from '../../codec/Struct';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
+import { sanitize } from '../../create/sanitize';
 import { TypeDefInfo } from '../../types';
 
 // Just a placeholder for a type.unrwapOr()
@@ -439,11 +440,15 @@ export class GenericPortableRegistry extends Struct {
     } else if (['Range', 'RangeInclusive'].includes(specialVariant)) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Range,
-        sub: fields.map(({ name, type }, index) => ({
+        sub: fields.map(({ name, type, typeName }, index) => ({
           name: name.isSome
             ? name.unwrap().toString()
             : ['start', 'end'][index],
-          ...this.#createSiDef(type)
+          ...this.#createSiDef(type),
+          ...(typeName.isSome
+            ? { typeName: sanitize(typeName.unwrap()) }
+            : {}
+          )
         }))
       });
     } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
@@ -493,14 +498,17 @@ export class GenericPortableRegistry extends Struct {
 
       return {
         ...typeDef,
-        ...(
-          lookupIndex === -1
-            ? {}
-            : {
-              lookupIndex,
-              lookupName: this.#names[lookupIndex],
-              lookupNameRoot: typeDef.lookupName
-            }
+        ...(lookupIndex === -1
+          ? {}
+          : {
+            lookupIndex,
+            lookupName: this.#names[lookupIndex],
+            lookupNameRoot: typeDef.lookupName
+          }
+        ),
+        ...(fields[0].typeName.isSome
+          ? { typeName: sanitize(fields[0].typeName.unwrap()) }
+          : {}
         )
       };
     }
@@ -530,7 +538,7 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type }) => {
+    const sub = fields.map(({ docs, name, type, typeName }) => {
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
@@ -555,7 +563,11 @@ export class GenericPortableRegistry extends Struct {
       return {
         ...typeDef,
         docs: docs.map((d) => d.toString()),
-        name: nameField
+        name: nameField,
+        ...(typeName.isSome
+          ? { typeName: sanitize(typeName.unwrap()) }
+          : {}
+        )
       };
     });
 

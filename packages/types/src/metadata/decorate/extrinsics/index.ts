@@ -24,9 +24,13 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
         .reduce((newModule: ModuleExtrinsics, variant): ModuleExtrinsics => {
           const callMetadata = registry.createType('FunctionMetadataLatest', {
             ...variant,
-            args: variant.fields.map(({ name, type }, index) => ({
+            args: variant.fields.map(({ name, type, typeName }, index) => ({
               name: stringCamelCase(name.unwrapOr(`param${index}`)),
-              type: getSiName(lookup, type)
+              type: getSiName(lookup, type),
+              ...(typeName.isSome
+                ? { typeName: typeName.unwrap() }
+                : {}
+              )
             }))
           });
 
