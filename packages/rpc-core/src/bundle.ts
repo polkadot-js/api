@@ -24,8 +24,6 @@ interface StorageChangeSetJSON {
   changes: [string, string | null][];
 }
 
-type OutputType = 'json' | 'raw' | 'scale';
-
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -183,16 +181,20 @@ export class RpcCore {
       }, {} as RpcInterface[Section]);
   }
 
-  private _memomize (creator: <T> (outputAs: OutputType) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
-    const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
-      getInstanceId: () => this.#instanceId
-    });
+  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
+    const memoOpts = { getInstanceId: () => this.#instanceId };
+    const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
 
-    memoized.json = creator('json');
-    memoized.raw = creator('raw');
+    memoized.raw = memoize(creator(false), memoOpts);
     memoized.meta = def;
 
     return memoized;
+  }
+
+  private _formatResult <T> (isScale: boolean, registry: Registry, blockHash: string | Uint8Array | null | undefined, method: string, def: DefinitionRpc, params: Codec[], result: unknown): T {
+    return isScale
+      ? this._formatOutput(registry, blockHash, method, def, params, result) as unknown as T
+      : result as T;
   }
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
@@ -201,26 +203,24 @@ export class RpcCore {
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
-    const callWithRegistry = async <T> (outputAs: OutputType, values: unknown[]): Promise<T> => {
+    const callWithRegistry = async <T> (isScale: boolean, values: unknown[]): Promise<T> => {
       const blockHash = hashIndex === -1
         ? null
         : values[hashIndex] as (Uint8Array | string | null | undefined);
-      const { registry } = outputAs === 'scale' && blockHash && this.#getBlockRegistry
+      const { registry } = isScale && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
-      const data = await this.provider.send<AnyJson>(rpcName, params.map((param) => param.toJSON()));
+      const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()));
 
-      return outputAs === 'scale'
-        ? this._formatOutput(registry, blockHash, method, def, params, data) as unknown as T
-        : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data) as unknown as T;
+      return this._formatResult(isScale, registry, blockHash, method, def, params, result);
     };
 
-    const creator = <T> (outputAs: OutputType) => (...values: unknown[]): Observable<T> => {
-      const isDelayed = outputAs === 'scale' && hashIndex !== -1 && !!values[hashIndex];
+    const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
+      const isDelayed = isScale && hashIndex !== -1 && !!values[hashIndex];
 
       return new Observable((observer: Observer<T>): VoidCallback => {
-        callWithRegistry<T>(outputAs, values)
+        callWithRegistry<T>(isScale, values)
           .then((value): void => {
             observer.next(value);
             observer.complete();
@@ -269,7 +269,7 @@ export class RpcCore {
     const subType = `${section}_${updateType}`;
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
-    const creator = <T> (outputAs: OutputType) => (...values: unknown[]): Observable<T> => {
+    const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       return new Observable((observer: Observer<T>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
@@ -283,9 +283,9 @@ export class RpcCore {
 
         try {
           const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((param) => param.toJSON());
+          const paramsJson = params.map((p) => p.toJSON());
 
-          const update = (error?: Error | null, result?: T): void => {
+          const update = (error?: Error | null, result?: unknown): void => {
             if (error) {
               logErrorMessage(method, def, error);
 
@@ -293,11 +293,7 @@ export class RpcCore {
             }
 
             try {
-              observer.next(
-                outputAs === 'scale'
-                  ? this._formatOutput(registry, null, method, def, params, result) as unknown as T
-                  : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', result) as unknown as T
-              );
+              observer.next(this._formatResult(isScale, registry, null, method, def, params, result));
             } catch (error) {
               observer.error(error);
             }

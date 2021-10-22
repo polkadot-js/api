@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
-import type { RpcInterfaceMethod } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
@@ -130,7 +129,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const header = this.registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await firstValueFrom((this._rpcCore.chain.getHeader as RpcInterfaceMethod).json(blockHash))
+        : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -140,11 +139,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await firstValueFrom((this._rpcCore.state.getRuntimeVersion as RpcInterfaceMethod).json(header.parentHash))
+        : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
     // check for pre-existing registries. We also check specName, e.g. it
-    // could be changed like in Westmint with upgrade from  shell -> westmint
+    // could be changed like in Westmint with upgrade from shell -> westmint
     const existingViaVersion = this.#registries.find(({ specName, specVersion }) =>
       specName.eq(version.specName) &&
       specVersion.eq(version.specVersion)
@@ -159,7 +158,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const registry = new TypeRegistry(blockHash);
     const metadata = new Metadata(registry,
-      await firstValueFrom((this._rpcCore.state.getMetadata as RpcInterfaceMethod).raw(header.parentHash))
+      await firstValueFrom(this._rpcCore.state.getMetadata.raw<string>(header.parentHash))
     );
 
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);

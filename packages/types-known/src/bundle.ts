@@ -121,7 +121,7 @@ export function getUpgradeVersion (genesisHash: Hash, blockNumber: BN): [ChainUp
 
   return known
     ? [
-      known.versions.reduce((last: ChainUpgradeVersion | undefined, version): ChainUpgradeVersion | undefined => {
+      known.versions.reduce<ChainUpgradeVersion | undefined>((last, version) => {
         return blockNumber.gt(version.blockNumber)
           ? version
           : last;

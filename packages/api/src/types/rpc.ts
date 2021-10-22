@@ -2,23 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Json, Raw } from '@polkadot/types/codec';
 import type { AnyFunction, Callback, DefinitionRpc } from '@polkadot/types/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
-  json (...args: Parameters<F>): Observable<Json>;
-  raw (...args: Parameters<F>): Observable<Raw>;
+  raw <T> (...args: Parameters<F>): Observable<T>;
   meta: DefinitionRpc;
 }
 
 export interface RpcPromiseResult<F extends AnyFunction> extends PromiseResult<F> {
-  json (...args: Parameters<F>): Promise<Json>;
-  json (...args: Push<Parameters<F>, Callback<Json>>): UnsubscribePromise;
-  raw (...args: Parameters<F>): Promise<Raw>;
-  raw (...args: Push<Parameters<F>, Callback<Raw>>): UnsubscribePromise;
+  raw <T> (...args: Parameters<F>): Promise<T>;
+  raw <T> (...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
   meta: DefinitionRpc;
 }
 

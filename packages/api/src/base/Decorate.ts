@@ -366,8 +366,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
             (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            (section as Record<string, { json: unknown }>)[methodName].json = decorateMethod(method.json, { methodName }) as unknown;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (section as Record<string, { meta: unknown }>)[methodName].meta = method.meta;
@@ -622,9 +620,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.state
       .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
       .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
-        result.map(([blockHash, [value]]): [Hash, Codec] => [
+        result.map(([blockHash, [value]]) => [
           blockHash,
-          this.createType(outputType, value.isSome ? value.unwrap().toHex() : undefined)
+          this.createType<Codec>(outputType, value.isSome ? value.unwrap().toHex() : undefined)
         ])
       ));
   }
