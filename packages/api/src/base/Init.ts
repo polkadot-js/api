@@ -129,7 +129,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const header = this.registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
-        : await firstValueFrom(this._rpcCore.chain.getHeader.json(blockHash))
+        : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
     );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
@@ -139,7 +139,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.json(header.parentHash))
+        : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
     // check for pre-existing registries. We also check specName, e.g. it
@@ -158,7 +158,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const registry = new TypeRegistry(blockHash);
     const metadata = new Metadata(registry,
-      await firstValueFrom(this._rpcCore.state.getMetadata.raw(header.parentHash))
+      await firstValueFrom(this._rpcCore.state.getMetadata.raw<string>(header.parentHash))
     );
 
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);

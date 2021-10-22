@@ -8,9 +8,13 @@ Contributed:
 
 Changes:
 
+- Ecah module now exposes the Substrate-added `palletVersion` storage item
 - Adjust Websocket `maxReceivedFrameSize` under Node
+- `TypeDef` structures now contain the `typeName` from metadata v14 on fields
 - Fix browser bundle imports for xcm-mapping (move to `types-known`)
 - Expose all extracted type names in `PortableRegistry`
+- Adjust `api.rpc.*.*.raw(..args)` return to the actual over-the-wire JSON result
+- Remove `api.rpc.*.*.json(..args)` since it now overlaps with new `.raw`
 
 
 ## 6.4.2 Oct 18, 2021

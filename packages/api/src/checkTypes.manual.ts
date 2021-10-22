@@ -177,12 +177,10 @@ async function rpc (api: ApiPromise): Promise<void> {
   });
 
   // using json & raw
-  await api.rpc.chain.getBlock.json('0x123456');
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
+  await api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
     console.log(result);
   });
 }
