@@ -51,7 +51,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Returns true if the type wraps an empty/default all-0 value
    */
   public get isEmpty (): boolean {
-    return !this.length || isUndefined(this.find((value) => !!value));
+    return !this.length || isUndefined(this.find((b) => !!b));
   }
 
   /**
@@ -82,7 +82,7 @@ export class Raw extends Uint8Array implements IU8a {
   public eq (other?: unknown): boolean {
     if (other instanceof Uint8Array) {
       return (this.length === other.length) &&
-        !this.some((value, index) => value !== other[index]);
+        !this.some((b, index) => b !== other[index]);
     }
 
     return this.eq(u8aToU8a(other as string));
@@ -119,9 +119,16 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): AnyJson {
-    return this.isAscii
-      ? this.toUtf8()
-      : this.toJSON();
+    if (this.isAscii) {
+      const text = this.toUtf8();
+
+      // ensure we didn't end up with multibyte codepoints
+      if (isAscii(text)) {
+        return text;
+      }
+    }
+
+    return this.toJSON();
   }
 
   /**
