@@ -1510,7 +1510,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1592,7 +1592,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1715,27 +1715,6 @@
               ]
             },
             {
-              "name": "Deposit",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 0,
-                  "typeName": "T::AccountId",
-                  "docs": []
-                },
-                {
-                  "name": null,
-                  "type": 6,
-                  "typeName": "T::Balance",
-                  "docs": []
-                }
-              ],
-              "index": 4,
-              "docs": [
-                "Some amount was deposited (e.g. for transaction fees). \\[who, deposit\\]"
-              ]
-            },
-            {
               "name": "Reserved",
               "fields": [
                 {
@@ -1751,7 +1730,7 @@
                   "docs": []
                 }
               ],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "Some balance was reserved (moved from free to reserved). \\[who, value\\]"
               ]
@@ -1772,7 +1751,7 @@
                   "docs": []
                 }
               ],
-              "index": 6,
+              "index": 5,
               "docs": [
                 "Some balance was unreserved (moved from reserved to free). \\[who, value\\]"
               ]
@@ -1805,18 +1784,83 @@
                   "docs": []
                 }
               ],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Some balance was moved from the reserve of the first account to the second account.",
                 "Final argument indicates the destination balance type.",
                 "\\[from, to, balance, destination_status\\]"
+              ]
+            },
+            {
+              "name": "Deposit",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 7,
+              "docs": [
+                "Some amount was deposited into the account (e.g. for transaction fees). \\[who,",
+                "deposit\\]"
+              ]
+            },
+            {
+              "name": "Withdraw",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 8,
+              "docs": [
+                "Some amount was withdrawn from the account (e.g. for transaction fees). \\[who, value\\]"
+              ]
+            },
+            {
+              "name": "Slashed",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 9,
+              "docs": [
+                "Some amount was removed from the account (e.g. for misbehavior). \\[who,",
+                "amount_slashed\\]"
               ]
             }
           ]
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1987,7 +2031,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2340,7 +2384,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2376,7 +2420,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2756,7 +2800,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3076,7 +3120,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3285,7 +3329,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3422,7 +3466,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3526,7 +3570,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3577,7 +3621,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3805,7 +3849,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3956,7 +4000,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4026,7 +4070,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4089,7 +4133,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4573,7 +4617,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4894,7 +4938,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5106,7 +5150,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5389,7 +5433,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5599,7 +5643,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5787,7 +5831,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5911,7 +5955,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6389,7 +6433,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6472,7 +6516,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6635,7 +6679,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7206,7 +7250,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7424,7 +7468,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7476,7 +7520,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -12158,9 +12202,13 @@
               "index": 1,
               "docs": [
                 "Removes any session key(s) of the function caller.",
+                "",
                 "This doesn't take effect until the next session.",
                 "",
-                "The dispatch origin of this function must be signed.",
+                "The dispatch origin of this function must be Signed and the account must be either be",
+                "convertible to a validator ID using the chain's typical addressing system (this usually",
+                "means being a controller account) or directly convertible into a validator ID (which",
+                "usually means being a stash account).",
                 "",
                 "# <weight>",
                 "- Complexity: `O(1)` in number of key types. Actual cost depends on the number of length",
@@ -22124,7 +22172,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -22350,7 +22398,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -22506,7 +22554,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -22586,7 +22634,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -22915,7 +22963,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -24244,7 +24292,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -25156,7 +25204,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -25355,7 +25403,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -25498,7 +25546,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -25760,7 +25808,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -25805,7 +25853,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -26044,7 +26092,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -27410,7 +27458,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -27690,7 +27738,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -28186,7 +28234,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -28593,7 +28641,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -28848,7 +28896,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -29453,7 +29501,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -29760,7 +29808,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -29980,7 +30028,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -30245,7 +30293,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -30394,7 +30442,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -30785,7 +30833,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -30949,7 +30997,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -31193,7 +31241,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -31574,7 +31622,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
@@ -31757,7 +31805,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
