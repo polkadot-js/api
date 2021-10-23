@@ -15,6 +15,7 @@ Changes:
 - Expose all extracted type names in `PortableRegistry`
 - Adjust `api.rpc.*.*.raw(..args)` return to the actual over-the-wire JSON result
 - Remove `api.rpc.*.*.json(..args)` since it now overlaps with new `.raw`
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.4.2 Oct 18, 2021
