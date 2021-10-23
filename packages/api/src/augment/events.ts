@@ -108,7 +108,8 @@ declare module '@polkadot/api/types/events' {
        **/
       BalanceSet: AugmentedEvent<ApiType, [AccountId32, u128, u128]>;
       /**
-       * Some amount was deposited (e.g. for transaction fees). \[who, deposit\]
+       * Some amount was deposited into the account (e.g. for transaction fees). \[who,
+       * deposit\]
        **/
       Deposit: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
@@ -131,6 +132,11 @@ declare module '@polkadot/api/types/events' {
        **/
       ReserveRepatriated: AugmentedEvent<ApiType, [AccountId32, AccountId32, u128, FrameSupportTokensMiscBalanceStatus]>;
       /**
+       * Some amount was removed from the account (e.g. for misbehavior). \[who,
+       * amount_slashed\]
+       **/
+      Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
        * Transfer succeeded. \[from, to, value\]
        **/
       Transfer: AugmentedEvent<ApiType, [AccountId32, AccountId32, u128]>;
@@ -138,6 +144,10 @@ declare module '@polkadot/api/types/events' {
        * Some balance was unreserved (moved from reserved to free). \[who, value\]
        **/
       Unreserved: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * Some amount was withdrawn from the account (e.g. for transaction fees). \[who, value\]
+       **/
+      Withdraw: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * Generic event
        **/
