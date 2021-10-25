@@ -163,7 +163,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
 
-  public abstract at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>>;
+  public abstract at (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion): Promise<ApiDecoration<ApiType>>;
 
   /**
    * @description Return the current used registry

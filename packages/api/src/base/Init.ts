@@ -3,7 +3,7 @@
 
 import type { Observable, Subscription } from 'rxjs';
 import type { Text } from '@polkadot/types';
-import type { ChainProperties, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -111,13 +111,32 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Returns a decorated API instance at a specific point in time
    */
-  public async at (blockHash: Uint8Array | string): Promise<ApiDecoration<ApiType>> {
+  public async at (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion): Promise<ApiDecoration<ApiType>> {
     const u8aHash = u8aToU8a(blockHash);
-    const registry = await this.getBlockRegistry(u8aHash);
+    const registry = await this.getBlockRegistry(u8aHash, knownVersion);
 
     // always create a new decoration - since we are pointing to a specific hash, this
     // means that all queries needs to use that hash (not a previous one already existing)
     return this._createDecorated(registry, true, u8aHash).decoratedApi;
+  }
+
+  private _getBlockRegistryViaVersion (blockHash: Uint8Array, version?: RuntimeVersionPartial): VersionedRegistry<ApiType> | null {
+    if (version) {
+      // check for pre-existing registries. We also check specName, e.g. it
+      // could be changed like in Westmint with upgrade from shell -> westmint
+      const existingViaVersion = this.#registries.find(({ specName, specVersion }) =>
+        specName.eq(version.specName) &&
+        specVersion.eq(version.specVersion)
+      );
+
+      if (existingViaVersion) {
+        existingViaVersion.lastBlockHash = blockHash;
+
+        return existingViaVersion;
+      }
+    }
+
+    return null;
   }
 
   private async _getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
@@ -142,16 +161,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
-    // check for pre-existing registries. We also check specName, e.g. it
-    // could be changed like in Westmint with upgrade from shell -> westmint
-    const existingViaVersion = this.#registries.find(({ specName, specVersion }) =>
-      specName.eq(version.specName) &&
-      specVersion.eq(version.specVersion)
-    );
+    const existingViaVersion = this._getBlockRegistryViaVersion(blockHash, version);
 
     if (existingViaVersion) {
-      existingViaVersion.lastBlockHash = blockHash;
-
       return existingViaVersion;
     }
 
@@ -174,13 +186,19 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   /**
    * @description Sets up a registry based on the block hash defined
    */
-  public async getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
+  public async getBlockRegistry (blockHash: Uint8Array, knownVersion?: RuntimeVersion): Promise<VersionedRegistry<ApiType>> {
     const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
       lastBlockHash && u8aEq(lastBlockHash, blockHash)
     );
 
     if (existingViaHash) {
       return existingViaHash;
+    }
+
+    const existingViaVersion = this._getBlockRegistryViaVersion(blockHash, knownVersion);
+
+    if (existingViaVersion) {
+      return existingViaVersion;
     }
 
     const blockHashHex = u8aToHex(blockHash);
