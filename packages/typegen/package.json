@@ -1,16 +1,10 @@
 {
   "name": "@polkadot/typegen",
   "version": "6.5.2-0",
+  "license": "Apache-2.0",
   "type": "module",
   "description": "Type generation scripts",
   "main": "index.js",
-  "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
-  ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
@@ -18,13 +12,23 @@
     "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
-  "repository": "github:polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
-  "license": "Apache-2.0",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
+  "homepage": "https://github.com/polkadot-js/api#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git",
+    "directory": "packages/typegen"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/register": "^7.15.3",

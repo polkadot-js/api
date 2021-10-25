@@ -1,9 +1,20 @@
 {
   "name": "@polkadot/api-derive",
   "version": "6.5.2-0",
+  "license": "Apache-2.0",
   "type": "module",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [],
+  "contributors": [],
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "homepage": "https://github.com/polkadot-js/api#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git",
+    "directory": "packages/api-derive"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
@@ -11,13 +22,6 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/api": "6.5.2-0",
