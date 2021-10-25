@@ -21,7 +21,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.5.2-0",
+  "version": "6.5.2-1",
   "main": "index.js",
   "bin": {},
   "scripts": {},
