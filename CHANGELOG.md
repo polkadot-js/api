@@ -1,10 +1,19 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Allow for optional known `RuntimeVersion` to short-circuit `api.at`
+
+
 ## 6.5.1 Oct 24, 2021
+
+Upgrade priority: Low. Internal maintenance upgrades.
 
 Contributed:
 
-- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thnaks to https://github.com/wirednkod)
+- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thanks to https://github.com/wirednkod)
 
 Changes:
 
@@ -13,7 +22,7 @@ Changes:
 - `TypeDef` structures now contain the `typeName` from metadata v14 on fields
 - Fix browser bundle imports for xcm-mapping (move to `types-known`)
 - Expose all extracted type names in `PortableRegistry`
-- Adjust `toJSON` (Asicc) output detection on `Raw`
+- Adjust `toJSON` (Ascii) output detection on `Raw`
 - Adjust `api.rpc.*.*.raw(..args)` return to the actual over-the-wire JSON result
 - Remove `api.rpc.*.*.json(..args)` since it now overlaps with new `.raw`
 - Bump static metadata for latest Substrate, Polkadot & Kusama
