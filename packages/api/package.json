@@ -1,34 +1,45 @@
 {
-  "name": "@polkadot/api",
-  "version": "6.5.2-0",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/api",
+  "private": false,
+  "repository": {
+    "directory": "packages/api",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
+  "type": "module",
+  "version": "6.5.2-1",
+  "main": "index.js",
+  "bin": {},
+  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api-derive": "6.5.2-0",
+    "@polkadot/api-derive": "6.5.2-1",
     "@polkadot/keyring": "^7.6.1",
-    "@polkadot/rpc-core": "6.5.2-0",
-    "@polkadot/rpc-provider": "6.5.2-0",
-    "@polkadot/types": "6.5.2-0",
-    "@polkadot/types-known": "6.5.2-0",
+    "@polkadot/rpc-core": "6.5.2-1",
+    "@polkadot/rpc-provider": "6.5.2-1",
+    "@polkadot/types": "6.5.2-1",
+    "@polkadot/types-known": "6.5.2-1",
     "@polkadot/util": "^7.6.1",
     "@polkadot/util-crypto": "^7.6.1",
     "eventemitter3": "^4.0.7",
     "rxjs": "^7.4.0"
-  }
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "resolutions": {}
 }

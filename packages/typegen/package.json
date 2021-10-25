@@ -1,16 +1,28 @@
 {
-  "name": "@polkadot/typegen",
-  "version": "6.5.2-0",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Type generation scripts",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/typegen",
+  "private": false,
+  "repository": {
+    "directory": "packages/typegen",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "type": "module",
+  "version": "6.5.2-1",
+  "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
@@ -18,21 +30,15 @@
     "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
-  "repository": "github:polkadot-js/api",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
+  "scripts": {},
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api": "6.5.2-0",
-    "@polkadot/rpc-provider": "6.5.2-0",
-    "@polkadot/types": "6.5.2-0",
-    "@polkadot/types-support": "6.5.2-0",
+    "@polkadot/api": "6.5.2-1",
+    "@polkadot/rpc-provider": "6.5.2-1",
+    "@polkadot/types": "6.5.2-1",
+    "@polkadot/types-support": "6.5.2-1",
     "@polkadot/util": "^7.6.1",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
@@ -41,5 +47,8 @@
   "devDependencies": {
     "@types/websocket": "^1.0.4",
     "@types/yargs": "^17.0.4"
-  }
+  },
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "resolutions": {}
 }
