@@ -13,7 +13,7 @@ Upgrade priority: Low. Internal maintenance upgrades.
 
 Contributed:
 
-- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thnaks to https://github.com/wirednkod)
+- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thanks to https://github.com/wirednkod)
 
 Changes:
 
