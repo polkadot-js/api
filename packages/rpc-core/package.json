@@ -21,21 +21,16 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.5.2-1",
+  "version": "6.5.2-2",
   "main": "index.js",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/rpc-provider": "6.5.2-1",
-    "@polkadot/types": "6.5.2-1",
+    "@polkadot/rpc-provider": "6.5.2-2",
+    "@polkadot/types": "6.5.2-2",
     "@polkadot/util": "^7.6.1",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "@polkadot/keyring": "^7.6.1"
-  },
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }

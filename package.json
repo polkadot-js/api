@@ -12,11 +12,10 @@
   },
   "sideEffects": false,
   "type": "commonjs",
-  "version": "6.5.2-1",
+  "version": "6.5.2-2",
   "workspaces": [
     "packages/*"
   ],
-  "bin": {},
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
@@ -32,7 +31,6 @@
     "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit",
     "test:watch": "polkadot-dev-run-test --watch"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/register": "^7.15.3",
@@ -43,8 +41,6 @@
     "@types/jest": "^27.0.2",
     "copyfiles": "^2.4.1"
   },
-  "optionalDependencies": {},
-  "peerDependencies": {},
   "resolutions": {
     "typescript": "^4.4.4"
   }

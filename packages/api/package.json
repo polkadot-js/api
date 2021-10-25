@@ -21,25 +21,19 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.5.2-1",
+  "version": "6.5.2-2",
   "main": "index.js",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api-derive": "6.5.2-1",
+    "@polkadot/api-derive": "6.5.2-2",
     "@polkadot/keyring": "^7.6.1",
-    "@polkadot/rpc-core": "6.5.2-1",
-    "@polkadot/rpc-provider": "6.5.2-1",
-    "@polkadot/types": "6.5.2-1",
-    "@polkadot/types-known": "6.5.2-1",
+    "@polkadot/rpc-core": "6.5.2-2",
+    "@polkadot/rpc-provider": "6.5.2-2",
+    "@polkadot/types": "6.5.2-2",
+    "@polkadot/types-known": "6.5.2-2",
     "@polkadot/util": "^7.6.1",
     "@polkadot/util-crypto": "^7.6.1",
     "eventemitter3": "^4.0.7",
     "rxjs": "^7.4.0"
-  },
-  "devDependencies": {},
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }
