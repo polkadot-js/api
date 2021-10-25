@@ -4,6 +4,7 @@
 
 Changes:
 
+- Adjust `toHuman` on `Call` to return names & (not only) values
 - Allow for optional known `RuntimeVersion` to short-circuit `api.at`
 
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, Codec, IMethod, InterfaceTypes, Registry } from '../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -145,7 +145,6 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description The arguments for the function call
    */
   public get args (): A {
-    // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()] as A;
   }
 
@@ -154,6 +153,13 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    */
   public get argsDef (): ArgsDef {
     return getArgsDef(this.registry, this.meta);
+  }
+
+  /**
+   * @description The argument entries
+   */
+  public get argsEntries (): [string, Codec][] {
+    return [...(this.get('args') as Struct).entries()];
   }
 
   /**
@@ -211,12 +217,10 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     }
 
     return {
-      args: this.args.map((arg) => arg.toHuman(isExpanded)),
-      // args: this.args.map((arg, index) => call
-      //   ? { [call.meta.args[index].name.toString()]: arg.toHuman(isExpanded) }
-      //   : arg.toHuman(isExpanded)
-      // ),
-      // callIndex: u8aToHex(this.callIndex),
+      args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) => ({
+        ...args,
+        [n]: a.toHuman(isExpanded)
+      }), {}),
       method: call?.method,
       section: call?.section,
       ...(isExpanded && call
