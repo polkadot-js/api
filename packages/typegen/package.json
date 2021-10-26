@@ -10,6 +10,7 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@polkadot/typegen",
+  "private": false,
   "repository": {
     "directory": "packages/typegen",
     "type": "git",
