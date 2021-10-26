@@ -113,12 +113,10 @@ function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unk
 
       return raw;
     }, {} as T);
-  } else if (!value) {
-    return {} as T;
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
-  return decodeStructFromObject(registry, Types, value, jsonMap);
+  return decodeStructFromObject(registry, Types, value || {}, jsonMap);
 }
 
 /**
@@ -147,7 +145,7 @@ export class Struct<
   readonly #Types: ConstructorDef;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  constructor (registry: Registry, Types: S, value: V | Map<unknown, unknown> | unknown[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | string | null, jsonMap: Map<keyof S, string> = new Map()) {
     super(Object.entries(decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)));
 
     this.registry = registry;

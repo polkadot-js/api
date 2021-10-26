@@ -52,15 +52,16 @@ describe('Struct', (): void => {
     testEncode('toString', '{"foo":"bazzing","bar":69}');
   });
 
-  it('decodes null', (): void => {
-    expect(
-      new (
-        Struct.with({
-          txt: Text,
-          u32: U32
-        })
-      )(registry, null).toString()
-    ).toEqual('{}');
+  it('decodes null/undefined/empty correctly (& equivalently)', (): void => {
+    const Clazz = Struct.with({
+      txt: Text,
+      u32: U32
+    });
+    const expected = { txt: '', u32: '0' };
+
+    expect(new Clazz(registry, {}).toHuman()).toEqual(expected);
+    expect(new Clazz(registry, null).toHuman()).toEqual(expected);
+    expect(new Clazz(registry, undefined).toHuman()).toEqual(expected);
   });
 
   it('decodes reusing instantiated inputs', (): void => {

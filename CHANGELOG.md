@@ -5,6 +5,7 @@
 Changes:
 
 - Allow for optional known `RuntimeVersion` to short-circuit `api.at`
+- Ensure `Struct` decodes fully on `null` input (equivalent to `undefined` & `{}`)
 
 
 ## 6.5.1 Oct 24, 2021
