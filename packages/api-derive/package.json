@@ -10,7 +10,6 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@polkadot/api-derive",
-  "private": false,
   "repository": {
     "directory": "packages/api-derive",
     "type": "git",

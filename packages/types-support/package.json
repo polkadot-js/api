@@ -10,7 +10,6 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@polkadot/types-support",
-  "private": false,
   "repository": {
     "directory": "packages/types-support",
     "type": "git",

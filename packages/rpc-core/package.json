@@ -10,7 +10,6 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@polkadot/rpc-core",
-  "private": false,
   "repository": {
     "directory": "packages/rpc-core",
     "type": "git",
