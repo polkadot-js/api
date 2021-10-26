@@ -7,9 +7,15 @@ import type { Registry } from '../../../types';
 
 import { createFunction } from './createFunction';
 
-interface ManualMetadata {
+export interface ManualMetadata {
   docs: string;
   type: string;
+}
+
+interface ManualDefinition {
+  method: string;
+  prefix: string;
+  section: string;
 }
 
 function findSiPrimitive (registry: Registry, _prim: string): PortableType | undefined {
@@ -56,7 +62,7 @@ function findSiType (registry: Registry, orig: string): PortableType | undefined
 
 // Small helper function to factorize code on this page.
 /** @internal */
-export function createRuntimeFunction (prefix: string, method: string, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: Registry) => StorageEntry {
+export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: Registry) => StorageEntry {
   return (registry: Registry): StorageEntry =>
     createFunction(registry, {
       meta: registry.createType('StorageEntryMetadataLatest', {
@@ -68,6 +74,6 @@ export function createRuntimeFunction (prefix: string, method: string, key: Uint
       }),
       method,
       prefix,
-      section: prefix.toLowerCase()
+      section
     }, { key, skipHashing: true });
 }

@@ -38,13 +38,9 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
       return newModule;
     }, {
       palletVersion: createRuntimeFunction(
-        name.toString(),
-        'palletVersion',
+        { method: 'palletVersion', prefix, section },
         createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
-        {
-          docs: 'Returns the current pallet version from storage',
-          type: 'u16'
-        }
+        { docs: 'Returns the current pallet version from storage', type: 'u16' }
       )(registry)
     } as ModuleStorage);
 
