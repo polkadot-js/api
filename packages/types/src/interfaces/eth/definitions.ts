@@ -89,6 +89,7 @@ const types: DefinitionsTypes = {
   ...V1,
   ...V2,
   EthereumAccountId: 'GenericEthereumAccountId',
+  EthereumAddress: 'GenericEthereumAccountId',
   EthereumLookupSource: 'GenericEthereumLookupSource',
   EthereumSignature: '[u8; 65]',
   EthAccessListItem: {

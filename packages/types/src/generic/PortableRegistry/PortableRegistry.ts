@@ -36,6 +36,8 @@ const PATHS_PRIMITIVE = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
+  // ethereum overrides
+  'polkadot_runtime_common::claims::EthereumAddress',
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
