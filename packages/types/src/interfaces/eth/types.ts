@@ -103,6 +103,9 @@ export interface EthCallRequest extends Struct {
 /** @name EthereumAccountId */
 export interface EthereumAccountId extends GenericEthereumAccountId {}
 
+/** @name EthereumAddress */
+export interface EthereumAddress extends GenericEthereumAccountId {}
+
 /** @name EthereumLookupSource */
 export interface EthereumLookupSource extends GenericEthereumLookupSource {}
 

@@ -7,10 +7,6 @@ import type { DefinitionsTypes } from '../../types';
 
 export default {
   /**
-   * Lookup66: polkadot_runtime_common::claims::EthereumAddress
-   **/
-  PolkadotRuntimeCommonClaimsEthereumAddress: '[u8;20]',
-  /**
    * Lookup72: polkadot_runtime::ProxyType
    **/
   PolkadotRuntimeProxyType: {

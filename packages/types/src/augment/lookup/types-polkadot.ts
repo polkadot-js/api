@@ -7,9 +7,6 @@ import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
-  /** @name PolkadotRuntimeCommonClaimsEthereumAddress (66) */
-  export interface PolkadotRuntimeCommonClaimsEthereumAddress extends U8aFixed {}
-
   /** @name PolkadotRuntimeProxyType (72) */
   export interface PolkadotRuntimeProxyType extends Enum {
     readonly isAny: boolean;
