@@ -2,6 +2,8 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.
+
 Changes:
 
 - Adjust `toHuman` on `Call` to return names & (not only) values
