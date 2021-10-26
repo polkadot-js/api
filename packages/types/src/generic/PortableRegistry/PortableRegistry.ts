@@ -33,6 +33,7 @@ const PATHS_PRIMITIVE = splitNamespace([
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
   // these are well-known types with additional encoding
+  'core_primitives::EthereumAddress',
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
