@@ -25,7 +25,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 };
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PRIMITIVE_PATHS = [
+const PATHS_PRIMITIVE = splitNamespace([
   // match {node, polkadot, ...}_runtime
   '*_runtime::Call',
   '*_runtime::Event',
@@ -41,18 +41,22 @@ const PRIMITIVE_PATHS = [
   'sp_arithmetic::per_things::*',
   // ink!
   'ink_env::types::*'
-].map((p) => p.split('::'));
+]);
 
 // Mappings for types that should be converted to set via BitVec
-const SETS = [
+const PATHS_SET = splitNamespace([
   'pallet_identity::types::BitFlags'
-].map((p) => p.split('::'));
+]);
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperOpaque'];
 
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
+
+function splitNamespace (values: string[]): string[][] {
+  return values.map((v) => v.split('::'));
+}
 
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
@@ -83,7 +87,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PRIMITIVE_PATHS.some((p) => matchParts(p, path))
+  return path.length && PATHS_PRIMITIVE.some((p) => matchParts(p, path))
     ? path[path.length - 1].toString()
     : null;
 }
@@ -458,7 +462,7 @@ export class GenericPortableRegistry extends Struct {
       });
     }
 
-    return SETS.some((p) => matchParts(p, path))
+    return PATHS_SET.some((p) => matchParts(p, path))
       ? this.#extractCompositeSet(lookupIndex, params, fields)
       : this.#extractFields(lookupIndex, fields);
   }
