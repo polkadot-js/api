@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 6.5.2 Oct 26, 2021
 
 Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.
 

@@ -10,7 +10,6 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@polkadot/types-support",
-  "private": false,
   "repository": {
     "directory": "packages/types-support",
     "type": "git",
@@ -21,7 +20,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.5.2-3",
+  "version": "6.5.2",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
