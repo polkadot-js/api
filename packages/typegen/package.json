@@ -21,7 +21,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.5.2-1",
+  "version": "6.5.2-3",
   "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
@@ -30,15 +30,14 @@
     "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
-  "scripts": {},
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api": "6.5.2-1",
-    "@polkadot/rpc-provider": "6.5.2-1",
-    "@polkadot/types": "6.5.2-1",
-    "@polkadot/types-support": "6.5.2-1",
+    "@polkadot/api": "6.5.2-3",
+    "@polkadot/rpc-provider": "6.5.2-3",
+    "@polkadot/types": "6.5.2-3",
+    "@polkadot/types-support": "6.5.2-3",
     "@polkadot/util": "^7.6.1",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
@@ -47,8 +46,5 @@
   "devDependencies": {
     "@types/websocket": "^1.0.4",
     "@types/yargs": "^17.0.4"
-  },
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }
