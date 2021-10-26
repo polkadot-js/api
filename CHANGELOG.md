@@ -1,11 +1,14 @@
 # CHANGELOG
 
-## master
+## 6.5.2 Oct 26, 2021
+
+Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.
 
 Changes:
 
 - Adjust `toHuman` on `Call` to return names & (not only) values
 - Allow for optional known `RuntimeVersion` to short-circuit `api.at`
+- Ensure `Struct` decodes fully on `null` input (equivalent to `undefined` & `{}`)
 
 
 ## 6.5.1 Oct 24, 2021
