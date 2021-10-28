@@ -5,7 +5,8 @@
 Changes:
 
 - Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
-- Update known upgrade blocks for Westend
+- Update known upgrade blocks for Westend & Kusama
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.5.2 Oct 26, 2021
