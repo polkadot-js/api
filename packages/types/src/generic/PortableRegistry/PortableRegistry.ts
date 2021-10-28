@@ -190,9 +190,9 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
     .map((p) => stringUpperFirst(stringCamelCase(p)))
     .filter((p, index) =>
       (
-        // Remove ::{pallet, traits, types}::
+        // Remove ::{misc, pallet, traits, types}::
         index !== 1 ||
-        !['Pallet', 'Traits', 'Types'].includes(p.toString())
+        !['Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
       ) &&
       (
         // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
@@ -457,11 +457,18 @@ export class GenericPortableRegistry extends Struct {
           )
         }))
       });
-    } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
-      return withTypeString(this.registry, {
-        info: TypeDefInfo.WrapperOpaque,
-        sub: this.#createSiDef(params[0].type.unwrap())
-      });
+    } else if (path.length) {
+      if (path[path.length - 1].toString() === 'WrapperOpaque') {
+        return withTypeString(this.registry, {
+          info: TypeDefInfo.WrapperOpaque,
+          sub: this.#createSiDef(params[0].type.unwrap())
+        });
+      } else if (path[path.length - 1].toString() === 'WrapperKeepOpaque') {
+        return {
+          info: TypeDefInfo.Plain,
+          type: 'Bytes'
+        };
+      }
     }
 
     return PATHS_SET.some((p) => matchParts(p, path))
