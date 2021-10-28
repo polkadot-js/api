@@ -5,7 +5,7 @@ import type { U8aBitLength, UIntBitLength } from '../codec/types';
 import type { Codec, Constructor, DetectConstructor, Registry } from '../types';
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
+import { assert, isNumber, stringify } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '../codec';
 import { Bytes, Null } from '../primitive';
@@ -147,7 +147,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): Constructor<Codec> => {
-    assert(!isUndefined(sub) && !Array.isArray(sub), 'Expected type information for vector');
+    assert(sub && !Array.isArray(sub), 'Expected type information for vector');
 
     return (
       sub.type === 'u8'
@@ -157,7 +157,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor<Codec> => {
-    assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
+    assert(sub && isNumber(length) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
 
     return (
       sub.type === 'u8'
