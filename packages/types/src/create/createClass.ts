@@ -32,13 +32,11 @@ function getSubType (value: TypeDef): string {
 
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
-  const result: Record<string, string> = {};
-
   return getSubDefArray(value).reduce<Record<string, string>>((result, { lookupName, name, type }) => {
     result[name as string] = lookupName || type;
 
     return result;
-  }, result);
+  }, {});
 }
 
 // create an array of type string constructors from the input
