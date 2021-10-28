@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
+
+
 ## 6.5.2 Oct 26, 2021
 
 Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.

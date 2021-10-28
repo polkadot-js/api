@@ -5,7 +5,7 @@ import type { U8aBitLength, UIntBitLength } from '../codec/types';
 import type { Codec, Constructor, DetectConstructor, Registry } from '../types';
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
+import { assert, isNumber, stringify } from '@polkadot/util';
 
 import { BTreeMap, BTreeSet, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '../codec';
 import { Bytes, Null } from '../primitive';
@@ -25,23 +25,23 @@ function getSubDef (value: TypeDef): TypeDef {
 }
 
 function getSubType (value: TypeDef): string {
-  return getSubDef(value).type;
+  const { lookupName, type } = getSubDef(value);
+
+  return lookupName || type;
 }
 
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
-  const result: Record<string, string> = {};
-
-  return getSubDefArray(value).reduce<Record<string, string>>((result, sub) => {
-    result[sub.name as string] = sub.type;
+  return getSubDefArray(value).reduce<Record<string, string>>((result, { lookupName, name, type }) => {
+    result[name as string] = lookupName || type;
 
     return result;
-  }, result);
+  }, {});
 }
 
 // create an array of type string constructors from the input
 function getTypeClassArray (value: TypeDef): string[] {
-  return getSubDefArray(value).map(({ type }) => type);
+  return getSubDefArray(value).map(({ lookupName, type }) => lookupName || type);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor<Codec> {
@@ -124,18 +124,15 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return Result.with({ Err, Ok });
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
-    const result: Record<string, number> = {};
-
-    return CodecSet.with(
+  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+    CodecSet.with(
       getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
         result[name as string] = index as number;
 
         return result;
-      }, result),
+      }, {}),
       value.length
-    );
-  },
+    ),
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
@@ -149,25 +146,23 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createInt(value, UInt),
 
-  [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
-    const subType = getSubType(value);
+  [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): Constructor<Codec> => {
+    assert(sub && !Array.isArray(sub), 'Expected type information for vector');
 
     return (
-      subType === 'u8'
+      sub.type === 'u8'
         ? Bytes
-        : Vec.with(subType)
+        : Vec.with(sub.lookupName || sub.type)
     );
   },
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor<Codec> => {
-    assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
-
-    const subType = (sub as TypeDef).type;
+    assert(sub && isNumber(length) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
 
     return (
-      subType === 'u8'
+      sub.type === 'u8'
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-        : VecFixed.with(subType, length)
+        : VecFixed.with(sub.lookupName || sub.type, length)
     );
   },
 
