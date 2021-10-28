@@ -124,18 +124,15 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return Result.with({ Err, Ok });
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
-    const result: Record<string, number> = {};
-
-    return CodecSet.with(
+  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
+    CodecSet.with(
       getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
         result[name as string] = index as number;
 
         return result;
-      }, result),
+      }, {}),
       value.length
-    );
-  },
+    ),
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
@@ -149,25 +146,23 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     createInt(value, UInt),
 
-  [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
-    const subType = getSubType(value);
+  [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): Constructor<Codec> => {
+    assert(!isUndefined(sub) && !Array.isArray(sub), 'Expected type information for vector');
 
     return (
-      subType === 'u8'
+      sub.type === 'u8'
         ? Bytes
-        : Vec.with(subType)
+        : Vec.with(sub.lookupName || sub.type)
     );
   },
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor<Codec> => {
-    assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
-
-    const subType = (sub as TypeDef).type;
+    assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
 
     return (
-      subType === 'u8'
+      sub.type === 'u8'
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-        : VecFixed.with(subType, length)
+        : VecFixed.with(sub.lookupName || sub.type, length)
     );
   },
 
