@@ -5,6 +5,7 @@
 Changes:
 
 - Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
+- Update known upgrade blocks for Westend
 
 
 ## 6.5.2 Oct 26, 2021
