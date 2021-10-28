@@ -25,17 +25,17 @@ function getSubDef (value: TypeDef): TypeDef {
 }
 
 function getSubType (value: TypeDef): string {
-  const sub = getSubDef(value);
+  const { lookupName, type } = getSubDef(value);
 
-  return sub.lookupName || sub.type;
+  return lookupName || type;
 }
 
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
   const result: Record<string, string> = {};
 
-  return getSubDefArray(value).reduce<Record<string, string>>((result, sub) => {
-    result[sub.name as string] = sub.lookupName || sub.type;
+  return getSubDefArray(value).reduce<Record<string, string>>((result, { lookupName, name, type }) => {
+    result[name as string] = lookupName || type;
 
     return result;
   }, result);
@@ -43,7 +43,7 @@ function getTypeClassMap (value: TypeDef): Record<string, string> {
 
 // create an array of type string constructors from the input
 function getTypeClassArray (value: TypeDef): string[] {
-  return getSubDefArray(value).map(({ type }) => type);
+  return getSubDefArray(value).map(({ lookupName, type }) => lookupName || type);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor<Codec> {
