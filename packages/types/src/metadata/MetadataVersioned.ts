@@ -34,7 +34,7 @@ export class MetadataVersioned extends Struct {
     super(registry, {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
-    }, value as Map<unknown, unknown>, undefined);
+    }, value as Map<unknown, unknown>);
   }
 
   #assertVersion = (version: number): boolean => {
