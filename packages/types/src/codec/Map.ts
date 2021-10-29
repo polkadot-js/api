@@ -14,7 +14,7 @@ import { compareMap, decodeU8a, sortMap, typeToConstructor } from './utils';
 const l = logger('Map');
 
 /** @internal */
-function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
+function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): [Map<K, V>, number] {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
   const count = length.toNumber();
@@ -24,17 +24,17 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
     types.push(KeyClass, ValClass);
   }
 
-  const [values] = decodeU8a(registry, u8a, offset, types);
+  const [values, decodedLength] = decodeU8a(registry, u8a, offset, types);
 
   for (let i = 0; i < values.length; i += 2) {
     output.set(values[i] as K, values[i + 1] as V);
   }
 
-  return output;
+  return [output, offset + decodedLength];
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): [Map<K, V>, number] {
   const output = new Map<K, V>();
 
   value.forEach((val: unknown, key: unknown) => {
@@ -58,7 +58,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
     }
   });
 
-  return output;
+  return [output, 0];
 }
 
 /**
@@ -76,12 +76,12 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): [Map<K, V>, number] {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
   if (!value) {
-    return new Map<K, V>();
+    return [new Map<K, V>(), 0];
   } else if (isU8a(value) || isHex(value)) {
     return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
@@ -102,16 +102,19 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #ValClass: Constructor<V>;
 
+  readonly #initialU8aLength?: number;
+
   readonly #type: string;
 
   constructor (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
-    const decoded = decodeMap(registry, keyType, valType, rawValue);
+    const [decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
     this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
+    this.#initialU8aLength = decodedLength;
     this.#type = type;
   }
 
@@ -126,6 +129,13 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     });
 
     return len;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
