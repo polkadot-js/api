@@ -8,7 +8,7 @@ Changes:
 - Add Polkadot `EthereumAddress` as a known `PortableRegistry` override
 - De-dupe `PortableRegistry` namespace splitting operations
 - Adjust internal `AbstractArray` & `Struct` decoders with inital u8a lengths
-- Adjust `Struct` construction from `Map` instance
+- Shortcut `Struct` construction from `Struct` instance
 - Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
 - Update known upgrade blocks for Westend & Kusama
 - Bump static metadata for latest Substrate, Polkadot & Kusama

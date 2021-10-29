@@ -118,8 +118,8 @@ function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown
       ),
       decodedLength
     ];
-  } else if (value instanceof Map) {
-    return [value, 0];
+  } else if (value instanceof Struct) {
+    return [value as Iterable<[string, Codec]>, 0];
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
