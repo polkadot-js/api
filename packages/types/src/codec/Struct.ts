@@ -149,11 +149,12 @@ export class Struct<
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | string | null, jsonMap: Map<keyof S, string> = new Map()) {
-    const decoded = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
+    const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
 
-    super(Object.entries(decoded) as unknown as [keyof S, Codec][]);
+    super(Object.entries(decoded) as [keyof S, Codec][]);
 
     this.registry = registry;
+    this.#encodedLengthU8a = decodedLength;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }

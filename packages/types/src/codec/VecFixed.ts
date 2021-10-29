@@ -11,7 +11,7 @@ import { Vec } from './Vec';
 
 /** @internal */
 function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): [T[], number] {
-  const [values, decodedLength] = Vec.decodeVec(
+  const [values,, decodedLengthNoOffset] = Vec.decodeVec(
     registry,
     Type,
     isU8a(value) || isHex(value)
@@ -25,7 +25,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 
   assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
 
-  return [values, decodedLength];
+  return [values, decodedLengthNoOffset];
 }
 
 /**

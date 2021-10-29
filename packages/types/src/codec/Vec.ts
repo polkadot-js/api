@@ -32,7 +32,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   }
 
   /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): [T[], number] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): [T[], number, number] {
     if (Array.isArray(value)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return [
@@ -47,7 +47,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
             throw error;
           }
         }),
-        0
+        0, 0
       ];
     }
 
@@ -56,7 +56,9 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
-    return decodeU8a(registry, u8a, offset, new Array(length.toNumber()).fill(Type));
+    const [decoded, decodedLength] = decodeU8a(registry, u8a, offset, new Array(length.toNumber()).fill(Type));
+
+    return [decoded as T[], decodedLength + offset, decodedLength];
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Vec<O>> {
