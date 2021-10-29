@@ -11,75 +11,77 @@ import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
-function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): Record<string, Codec> {
+function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): Iterable<[string, Codec]> {
   let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
 
   assert(!Array.isArray(value) || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
-  return inputKeys.reduce<Record<string, Codec>>((raw, key, index) => {
-    // The key in the JSON can be snake_case (or other cases), but in our
-    // Types, result or any other maps, it's camelCase
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const jsonKey = (jsonMap.get(key as any) && !value[key])
-      ? jsonMap.get(key as any)
-      : key;
-    const Type = Types[key];
-
-    try {
-      if (Array.isArray(value)) {
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Type
-          ? value[index]
-          : new Type(registry, value[index]);
-      } else if (value instanceof Map) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const mapped = value.get(jsonKey);
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = mapped instanceof Type
-          ? mapped
-          : new Type(registry, mapped);
-      } else if (isObject(value)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        let assign = value[jsonKey as string];
-
-        if (isUndefined(assign)) {
-          if (isUndefined(jsonObj)) {
-            jsonObj = Object.entries(value).reduce((all: Record<string, any>, [key, value]): Record<string, any> => {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              all[stringCamelCase(key)] = value;
-
-              return all;
-            }, {});
-          }
-
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          assign = jsonObj[jsonKey as string];
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = assign instanceof Type
-          ? assign
-          : new Type(registry, assign);
-      } else {
-        throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
-      }
-    } catch (error) {
-      let type = Type.name;
+  return Object.entries(
+    inputKeys.reduce<Record<string, Codec>>((raw, key, index) => {
+      // The key in the JSON can be snake_case (or other cases), but in our
+      // Types, result or any other maps, it's camelCase
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const jsonKey = (jsonMap.get(key as any) && !value[key])
+        ? jsonMap.get(key as any)
+        : key;
+      const Type = Types[key];
 
       try {
-        type = new Type(registry).toRawType();
+        if (Array.isArray(value)) {
+          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+          (raw as any)[key] = value[index] instanceof Type
+            ? value[index]
+            : new Type(registry, value[index]);
+        } else if (value instanceof Map) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const mapped = value.get(jsonKey);
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (raw as any)[key] = mapped instanceof Type
+            ? mapped
+            : new Type(registry, mapped);
+        } else if (isObject(value)) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          let assign = value[jsonKey as string];
+
+          if (isUndefined(assign)) {
+            if (isUndefined(jsonObj)) {
+              jsonObj = Object.entries(value).reduce((all: Record<string, any>, [key, value]): Record<string, any> => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                all[stringCamelCase(key)] = value;
+
+                return all;
+              }, {});
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            assign = jsonObj[jsonKey as string];
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+          (raw as any)[key] = assign instanceof Type
+            ? assign
+            : new Type(registry, assign);
+        } else {
+          throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
+        }
       } catch (error) {
-        // ignore
+        let type = Type.name;
+
+        try {
+          type = new Type(registry).toRawType();
+        } catch (error) {
+          // ignore
+        }
+
+        throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
       }
 
-      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
-    }
-
-    return raw;
-  }, {});
+      return raw;
+    }, {})
+  );
 }
 
 /**
@@ -98,7 +100,7 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
  * @param jsonMap
  * @internal
  */
-function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): [Record<string, Codec>, number] {
+function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): [Iterable<[string, Codec]>, number] {
   if (isHex(value)) {
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
@@ -107,13 +109,17 @@ function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown
 
     // Transform array of values to {key: value} mapping
     return [
-      keys.reduce<Record<string, Codec>>((raw, key, index) => {
-        raw[key] = values[index];
+      Object.entries(
+        keys.reduce<Record<string, Codec>>((raw, key, index) => {
+          raw[key] = values[index];
 
-        return raw;
-      }, {}),
+          return raw;
+        }, {})
+      ),
       decodedLength
     ];
+  } else if (value instanceof Map) {
+    return [value, 0];
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
@@ -151,7 +157,7 @@ export class Struct<
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | string | null, jsonMap: Map<keyof S, string> = new Map()) {
     const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
 
-    super(Object.entries(decoded) as [keyof S, Codec][]);
+    super(decoded);
 
     this.registry = registry;
     this.#initialU8aLength = decodedLength;
