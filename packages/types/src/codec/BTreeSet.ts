@@ -14,13 +14,7 @@ const l = logger('BTreeSet');
 function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
-  const types = [];
-
-  for (let i = 0; i < length.toNumber(); i++) {
-    types.push(ValClass);
-  }
-
-  const values = decodeU8a<V>(registry, u8a.subarray(offset), types);
+  const [values] = decodeU8a<V>(registry, u8a, offset, new Array(length.toNumber()).fill(ValClass));
 
   for (let i = 0; i < values.length; i++) {
     output.add(values[i]);

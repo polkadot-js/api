@@ -20,7 +20,9 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: Hash;
 
-  protected constructor (registry: Registry, values: T[]) {
+  readonly #encodedLengthU8a?: number;
+
+  protected constructor (registry: Registry, values: T[], encodedLengthU8a?: number) {
     super(values.length);
 
     for (let i = 0; i < values.length; i++) {
@@ -28,13 +30,23 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     this.registry = registry;
+    this.#encodedLengthU8a = encodedLengthU8a;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((total, entry) => total + entry.encodedLength, compactToU8a(this.length).length);
+    // We need to loop through all entries since they may have a variable length themselves,
+    // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
+    return this.reduce((total, e) => total + e.encodedLength, compactToU8a(this.length).length);
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get encodedLengthU8a (): number | undefined {
+    return this.#encodedLengthU8a;
   }
 
   /**

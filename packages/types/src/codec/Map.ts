@@ -17,13 +17,14 @@ const l = logger('Map');
 function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
+  const count = length.toNumber();
   const types = [];
 
-  for (let i = 0; i < length.toNumber(); i++) {
+  for (let i = 0; i < count; i++) {
     types.push(KeyClass, ValClass);
   }
 
-  const values = decodeU8a(registry, u8a.subarray(offset), types);
+  const [values] = decodeU8a(registry, u8a, offset, types);
 
   for (let i = 0; i < values.length; i += 2) {
     output.set(values[i] as K, values[i + 1] as V);

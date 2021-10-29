@@ -20,31 +20,35 @@ const l = logger('Vec');
  * specific encoding/decoding on top of the base type.
  */
 export class Vec<T extends Codec> extends AbstractArray<T> {
-  private _Type: Constructor<T>;
+  #Type: Constructor<T>;
 
   constructor (registry: Registry, Type: Constructor<T> | string, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
+    const [values, decodedLength] = Vec.decodeVec(registry, Clazz, value);
 
-    super(registry, Vec.decodeVec(registry, Clazz, value));
+    super(registry, values, decodedLength);
 
-    this._Type = Clazz;
+    this.#Type = Clazz;
   }
 
   /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): T[] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): [T[], number] {
     if (Array.isArray(value)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return (value as unknown[]).map((entry: unknown, index: number): T => {
-        try {
-          return entry instanceof Type
-            ? entry
-            : new Type(registry, entry);
-        } catch (error) {
-          l.error(`Unable to decode on index ${index}`, (error as Error).message);
+      return [
+        (value as unknown[]).map((entry: unknown, index: number): T => {
+          try {
+            return entry instanceof Type
+              ? entry
+              : new Type(registry, entry);
+          } catch (error) {
+            l.error(`Unable to decode on index ${index}`, (error as Error).message);
 
-          throw error;
-        }
-      });
+            throw error;
+          }
+        }),
+        0
+      ];
     }
 
     const u8a = u8aToU8a(value);
@@ -52,7 +56,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
-    return decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type));
+    return decodeU8a(registry, u8a, offset, new Array(length.toNumber()).fill(Type));
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Vec<O>> {
@@ -67,7 +71,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return this._Type.name;
+    return this.#Type.name;
   }
 
   /**
@@ -75,9 +79,9 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    */
   public override indexOf (_other?: unknown): number {
     // convert type first, this removes overhead from the eq
-    const other = _other instanceof this._Type
+    const other = _other instanceof this.#Type
       ? _other
-      : new this._Type(this.registry, _other);
+      : new this.#Type(this.registry, _other);
 
     for (let i = 0; i < this.length; i++) {
       if (other.eq(this[i])) {
@@ -92,6 +96,6 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<${this.registry.getClassName(this._Type) || new this._Type(this.registry).toRawType()}>`;
+    return `Vec<${this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType()}>`;
   }
 }

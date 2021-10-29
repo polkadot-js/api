@@ -10,8 +10,8 @@ import { typeToConstructor } from './utils';
 import { Vec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
-  const values = Vec.decodeVec(
+function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): [T[], number] {
+  const [values, decodedLength] = Vec.decodeVec(
     registry,
     Type,
     isU8a(value) || isHex(value)
@@ -25,7 +25,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 
   assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
 
-  return values;
+  return [values, decodedLength];
 }
 
 /**
@@ -34,14 +34,15 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
-  private _Type: Constructor<T>;
+  #Type: Constructor<T>;
 
   constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
+    const [values, decodedLength] = decodeVecFixed(registry, Clazz, length, value);
 
-    super(registry, decodeVecFixed(registry, Clazz, length, value));
+    super(registry, values, decodedLength);
 
-    this._Type = Clazz;
+    this.#Type = Clazz;
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string, length: number): Constructor<VecFixed<O>> {
@@ -56,20 +57,20 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this._Type(this.registry).toRawType();
+    return new this.#Type(this.registry).toRawType();
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, entry) => total + entry.encodedLength, 0);
+    return this.reduce((total, e) => total + e.encodedLength, 0);
   }
 
   public override toU8a (): Uint8Array {
     // we override, we don't add the length prefix for ourselves, and at the same time we
     // ignore isBare on entries, since they should be properly encoded at all times
-    const encoded = this.map((entry) => entry.toU8a());
+    const encoded = this.map((e) => e.toU8a());
 
     return encoded.length
       ? u8aConcat(...encoded)

@@ -44,6 +44,11 @@ export interface Codec {
   readonly encodedLength: number;
 
   /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  readonly encodedLengthU8a?: number;
+
+  /**
    * @description Returns a hash of the value
    */
   readonly hash: Hash;
