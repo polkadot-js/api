@@ -169,6 +169,8 @@ export class Enum implements IEnum {
 
   readonly #entryIndex: number;
 
+  readonly #initialU8aLength?: number;
+
   readonly #indexes: number[];
 
   readonly #isBasic: boolean;
@@ -188,6 +190,10 @@ export class Enum implements IEnum {
     this.#indexes = Object.values(defInfo.def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
+
+    if (this.#raw.initialU8aLength) {
+      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+    }
   }
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
@@ -225,6 +231,13 @@ export class Enum implements IEnum {
    */
   public get encodedLength (): number {
     return 1 + this.#raw.encodedLength;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

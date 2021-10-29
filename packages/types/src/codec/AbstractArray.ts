@@ -20,9 +20,9 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: Hash;
 
-  readonly #encodedLengthU8a?: number;
+  readonly #initialU8aLength?: number;
 
-  protected constructor (registry: Registry, values: T[], encodedLengthU8a?: number) {
+  protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
     super(values.length);
 
     for (let i = 0; i < values.length; i++) {
@@ -30,7 +30,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     this.registry = registry;
-    this.#encodedLengthU8a = encodedLengthU8a;
+    this.#initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -45,8 +45,8 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
    */
-  public get encodedLengthU8a (): number | undefined {
-    return this.#encodedLengthU8a;
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

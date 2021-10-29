@@ -67,6 +67,8 @@ export abstract class AbstractInt extends BN implements INumber {
 
   readonly #bitLength: UIntBitLength;
 
+  readonly #byteLength: number;
+
   readonly #isSigned: boolean;
 
   constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
@@ -74,6 +76,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
     this.registry = registry;
     this.#bitLength = bitLength;
+    this.#byteLength = this.#bitLength / 8;
     this.#isSigned = isSigned;
 
     const isPositive = this.gte(BN_ZERO);
@@ -87,7 +90,7 @@ export abstract class AbstractInt extends BN implements INumber {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.#bitLength / 8;
+    return this.#byteLength;
   }
 
   /**

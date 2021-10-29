@@ -27,7 +27,7 @@ export function decodeU8a <T extends Codec = Codec> (registry: Registry, u8a: Ui
       const value = new Type(registry, u8a.subarray(offset));
 
       result.push(value as T);
-      offset += value.encodedLengthU8a || value.encodedLength;
+      offset += value.initialU8aLength || value.encodedLength;
     } catch (error) {
       let rawType: string;
 
