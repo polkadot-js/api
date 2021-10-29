@@ -25,6 +25,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
     super(values.length);
 
+    // explicitly set the values here - this removes the need for any extra allocations
     for (let i = 0; i < values.length; i++) {
       this[i] = values[i];
     }

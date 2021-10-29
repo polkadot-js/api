@@ -103,7 +103,7 @@ function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
     const keys = Object.keys(Types);
-    const [values, decodedLength] = decodeU8a(registry, value, 0, Object.values(Types), keys);
+    const [values, decodedLength] = decodeU8a(registry, value, Object.values(Types), keys);
 
     // Transform array of values to {key: value} mapping
     return [

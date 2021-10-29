@@ -56,7 +56,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
-    const [decoded, decodedLength] = decodeU8a(registry, u8a, offset, new Array(length.toNumber()).fill(Type));
+    const [decoded, decodedLength] = decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type));
 
     return [decoded as T[], decodedLength + offset, decodedLength];
   }

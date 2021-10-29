@@ -23,7 +23,7 @@ type TupleTypes = TupleType[] | {
 /** @internal */
 function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTupleValue): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), 0, _Types);
+    return decodeU8a(registry, u8aToU8a(value), _Types);
   }
 
   const Types: Constructor[] = Array.isArray(_Types)
