@@ -20,10 +20,13 @@ export class Raw extends Uint8Array implements IU8a {
 
   public createdAtHash?: Hash;
 
-  constructor (registry: Registry, value?: AnyU8a) {
+  readonly #initialU8aLength?: number;
+
+  constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
     this.registry = registry;
+    this.#initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -31,6 +34,13 @@ export class Raw extends Uint8Array implements IU8a {
    */
   public get encodedLength (): number {
     return this.length;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

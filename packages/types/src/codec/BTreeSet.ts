@@ -11,26 +11,20 @@ import { compareSet, decodeU8a, sortSet, typeToConstructor } from './utils';
 const l = logger('BTreeSet');
 
 /** @internal */
-function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
+function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): [Set<V>, number] {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
-  const types = [];
-
-  for (let i = 0; i < length.toNumber(); i++) {
-    types.push(ValClass);
-  }
-
-  const values = decodeU8a<V>(registry, u8a.subarray(offset), types);
+  const [values, decodedLength] = decodeU8a<V>(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(ValClass));
 
   for (let i = 0; i < values.length; i++) {
     output.add(values[i]);
   }
 
-  return output;
+  return [output, decodedLength + offset];
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
+function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): [Set<V>, number] {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
@@ -43,7 +37,7 @@ function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constr
     }
   });
 
-  return output;
+  return [output, 0];
 }
 
 /**
@@ -60,9 +54,9 @@ function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constr
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
+function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): [Set<V>, number] {
   if (!value) {
-    return new Set<V>();
+    return [new Set<V>(), 0];
   }
 
   const ValClass = typeToConstructor(registry, valType);
@@ -81,12 +75,17 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public createdAtHash?: Hash;
 
+  readonly #initialU8aLength?: number;
+
   readonly #ValClass: Constructor<V>;
 
   constructor (registry: Registry, valType: Constructor<V> | string, rawValue?: Uint8Array | string | string[] | Set<any>) {
-    super(sortSet(decodeSet(registry, valType, rawValue)));
+    const [values, decodedLength] = decodeSet(registry, valType, rawValue);
+
+    super(sortSet(values));
 
     this.registry = registry;
+    this.#initialU8aLength = decodedLength;
     this.#ValClass = typeToConstructor(registry, valType);
   }
 
@@ -109,6 +108,13 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     });
 
     return len;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

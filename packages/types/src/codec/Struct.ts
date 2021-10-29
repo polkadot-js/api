@@ -11,13 +11,13 @@ import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
-function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
-  let jsonObj: Record<string, any> | undefined;
+function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): Record<string, Codec> {
+  let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
 
   assert(!Array.isArray(value) || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
-  return inputKeys.reduce((raw, key, index): T => {
+  return inputKeys.reduce<Record<string, Codec>>((raw, key, index) => {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -79,7 +79,7 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
     }
 
     return raw;
-  }, {} as T);
+  }, {});
 }
 
 /**
@@ -98,25 +98,26 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  * @param jsonMap
  * @internal
  */
-function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
+function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): [Record<string, Codec>, number] {
   if (isHex(value)) {
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
     const keys = Object.keys(Types);
-    const values = decodeU8a(registry, value, Object.values(Types), keys);
+    const [values, decodedLength] = decodeU8a(registry, value, Object.values(Types), keys);
 
     // Transform array of values to {key: value} mapping
-    return keys.reduce((raw, key, index): T => {
-      // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      (raw as any)[key] = values[index];
+    return [
+      keys.reduce<Record<string, Codec>>((raw, key, index) => {
+        raw[key] = values[index];
 
-      return raw;
-    }, {} as T);
+        return raw;
+      }, {}),
+      decodedLength
+    ];
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
-  return decodeStructFromObject(registry, Types, value || {}, jsonMap);
+  return [decodeStructFromObject(registry, Types, value || {}, jsonMap), 0];
 }
 
 /**
@@ -140,15 +141,20 @@ export class Struct<
 
   public createdAtHash?: Hash;
 
+  readonly #initialU8aLength?: number;
+
   readonly #jsonMap: Map<keyof S, string>;
 
   readonly #Types: ConstructorDef;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | string | null, jsonMap: Map<keyof S, string> = new Map()) {
-    super(Object.entries(decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)));
+    const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
+
+    super(Object.entries(decoded) as [keyof S, Codec][]);
 
     this.registry = registry;
+    this.#initialU8aLength = decodedLength;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }
@@ -217,11 +223,14 @@ export class Struct<
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.toArray().reduce((length, entry): number => {
-      length += entry.encodedLength;
+    return this.toArray().reduce((length, e) => length + e.encodedLength, 0);
+  }
 
-      return length;
-    }, 0);
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

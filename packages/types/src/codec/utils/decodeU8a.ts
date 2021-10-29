@@ -13,21 +13,23 @@ import { u8aToHex } from '@polkadot/util';
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): T[] {
+export function decodeU8a <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): [T[], number] {
   const result: T[] = [];
   const [types, keys]: [Constructor[], string[]] = Array.isArray(_types)
     ? [_types, _keys || []]
     : [Object.values(_types), Object.keys(_types)];
-  let offset = 0;
+  let decodedLength = 0;
 
   for (let i = 0; i < types.length; i++) {
     const Type = types[i];
 
     try {
-      const value = new Type(registry, u8a.subarray(offset));
+      const value = new Type(registry, u8a.subarray(decodedLength));
 
       result.push(value as T);
-      offset += value.encodedLength;
+
+      // use the initial length if available, this bypasses an extra serialization
+      decodedLength += value.initialU8aLength || value.encodedLength;
     } catch (error) {
       let rawType: string;
 
@@ -37,9 +39,9 @@ export function decodeU8a <T extends Codec = Codec> (registry: Registry, u8a: Ui
         rawType = '';
       }
 
-      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(offset).slice(0, 8))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
+      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(decodedLength).slice(0, 8))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
     }
   }
 
-  return result;
+  return [result, decodedLength];
 }

@@ -24,12 +24,18 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   readonly #Type: Constructor<T>;
 
+  readonly #initialU8aLength?: number;
+
   readonly #raw: T;
 
   constructor (registry: Registry, Type: Constructor<T> | string, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
-    this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
+
+    const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
+
+    this.#initialU8aLength = decodedLength;
+    this.#raw = raw;
   }
 
   public static with<T extends INumber> (Type: Constructor<T> | string): Constructor<Compact<T>> {
@@ -41,14 +47,16 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /** @internal */
-  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): INumber {
+  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): [T, number] {
     if (value instanceof Compact) {
-      return new Type(registry, value.#raw);
+      return [new Type(registry, value.#raw), 0];
     } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
-      return new Type(registry, value);
+      return [new Type(registry, value), 0];
     }
 
-    return new Type(registry, compactFromU8a(value)[1]);
+    const [decodedLength, bn] = compactFromU8a(value);
+
+    return [new Type(registry, bn), decodedLength];
   }
 
   /**
@@ -56,6 +64,13 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

@@ -21,7 +21,7 @@ type TupleTypes = TupleType[] | {
 };
 
 /** @internal */
-function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTupleValue): Codec[] {
+function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTupleValue): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), _Types);
   }
@@ -30,19 +30,22 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
     ? _Types
     : Object.values(_Types);
 
-  return Types.map((Type, index): Codec => {
-    try {
-      const entry = value?.[index];
+  return [
+    Types.map((Type, index): Codec => {
+      try {
+        const entry = value?.[index];
 
-      if (entry instanceof Type) {
-        return entry;
+        if (entry instanceof Type) {
+          return entry;
+        }
+
+        return new Type(registry, entry);
+      } catch (error) {
+        throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
       }
-
-      return new Type(registry, entry);
-    } catch (error) {
-      throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
-    }
-  });
+    }),
+    0
+  ];
 }
 
 /**
@@ -52,7 +55,7 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
  * own type. It extends the base JS `Array` object.
  */
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
-  private _Types: TupleConstructors;
+  #Types: TupleConstructors;
 
   constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue) {
     const Clazzes = Array.isArray(Types)
@@ -60,10 +63,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
       : isFunction(Types) || isString(Types)
         ? [typeToConstructor(registry, Types)]
         : mapToTypeMap(registry, Types);
+    const [values, decodedLength] = decodeTuple(registry, Clazzes, value);
 
-    super(registry, decodeTuple(registry, Clazzes, value));
+    super(registry, values, decodedLength);
 
-    this._Types = Clazzes;
+    this.#Types = Clazzes;
   }
 
   public static with (Types: TupleTypes | TupleType): Constructor<Tuple> {
@@ -78,16 +82,16 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, entry) => total + entry.encodedLength, 0);
+    return this.reduce((total, e) => total + e.encodedLength, 0);
   }
 
   /**
    * @description The types definition of the tuple
    */
   public get Types (): string[] {
-    return Array.isArray(this._Types)
-      ? this._Types.map((Type) => new Type(this.registry).toRawType())
-      : Object.keys(this._Types);
+    return Array.isArray(this.#Types)
+      ? this.#Types.map((T) => new T(this.registry).toRawType())
+      : Object.keys(this.#Types);
   }
 
   /**
@@ -95,11 +99,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public toRawType (): string {
     const types = (
-      Array.isArray(this._Types)
-        ? this._Types
-        : Object.values(this._Types)
-    ).map((Type) =>
-      this.registry.getClassName(Type) || new Type(this.registry).toRawType()
+      Array.isArray(this.#Types)
+        ? this.#Types
+        : Object.values(this.#Types)
+    ).map((T) =>
+      this.registry.getClassName(T) || new T(this.registry).toRawType()
     );
 
     return `(${types.join(',')})`;
@@ -119,8 +123,8 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public override toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...this.map((entry): Uint8Array =>
-        entry.toU8a(isBare)
+      ...this.map((e): Uint8Array =>
+        e.toU8a(isBare)
       )
     );
   }

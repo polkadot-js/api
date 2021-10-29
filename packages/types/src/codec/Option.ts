@@ -54,12 +54,18 @@ export class Option<T extends Codec> implements IOption<T> {
 
   readonly #Type: Constructor<T>;
 
+  readonly #initialU8aLength?: number;
+
   readonly #raw: T;
 
   constructor (registry: Registry, typeName: Constructor<T> | string, value?: unknown) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, typeName);
     this.#raw = decodeOption(registry, typeName, value) as T;
+
+    if (this.#raw.initialU8aLength) {
+      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+    }
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Option<O>> {
@@ -76,6 +82,13 @@ export class Option<T extends Codec> implements IOption<T> {
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.encodedLength;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

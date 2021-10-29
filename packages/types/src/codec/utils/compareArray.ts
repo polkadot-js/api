@@ -10,10 +10,10 @@ import { hasEq } from './util';
 export function compareArray (a: unknown[], b?: unknown): boolean {
   if (Array.isArray(b)) {
     return (a.length === b.length) && isUndefined(
-      a.find((value, index): boolean =>
-        hasEq(value)
-          ? !value.eq(b[index])
-          : value !== b[index]
+      a.find((v, index): boolean =>
+        hasEq(v)
+          ? !v.eq(b[index])
+          : v !== b[index]
       )
     );
   }

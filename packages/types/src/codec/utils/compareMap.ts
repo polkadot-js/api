@@ -19,9 +19,9 @@ function notEntry (value: unknown): boolean {
 
 function compareMapArray (a: Map<unknown, unknown>, b: [unknown, unknown][]): boolean {
   // equal number of entries and each entry in the array should match
-  return (a.size === b.length) && !b.some((entry) =>
-    notEntry(entry) ||
-    hasMismatch(a.get(entry[0]), entry[1])
+  return (a.size === b.length) && !b.some((e) =>
+    notEntry(e) ||
+    hasMismatch(a.get(e[0]), e[1])
   );
 }
 

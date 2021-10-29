@@ -49,6 +49,11 @@ export interface Codec {
   readonly hash: Hash;
 
   /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  readonly initialU8aLength?: number;
+
+  /**
    * @description Checks if the value is an empty value
    */
   readonly isEmpty: boolean;
