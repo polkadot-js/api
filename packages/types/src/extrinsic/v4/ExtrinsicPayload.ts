@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
 import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
@@ -23,7 +24,7 @@ import { sign } from '../util';
 export class GenericExtrinsicPayloadV4 extends Struct {
   #signOptions: SignOptions;
 
-  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, {
       method: 'Bytes',
       ...registry.getSignedExtensionTypes(),

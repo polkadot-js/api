@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
@@ -184,13 +185,13 @@ export interface ExtrinsicPayloadValue {
 }
 
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: Uint8Array | HexString): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
   signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
 }
 
 interface IExtrinsicSignable<T> {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
   signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
 }

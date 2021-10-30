@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { Codec, Constructor, Registry } from '../types';
 
 import { Option } from './Option';
@@ -22,7 +23,7 @@ export class Linkage<T extends Codec> extends Struct {
       previous: Option.with(Type),
       // eslint-disable-next-line sort-keys
       next: Option.with(Type)
-    }, value as string);
+    }, value as HexString);
   }
 
   public static withKey<O extends Codec> (Type: Constructor | string): Constructor<Linkage<O>> {

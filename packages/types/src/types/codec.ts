@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Hash } from '../interfaces/runtime';
 import type { InterfaceTypes, Registry } from './registry';
 
@@ -76,7 +77,7 @@ export interface Codec {
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  toHex (isLe?: boolean): string;
+  toHex (isLe?: boolean): HexString;
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information

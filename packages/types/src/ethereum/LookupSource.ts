@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Registry } from '../types';
 
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -92,7 +93,7 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
   /**
    * @description Returns a hex string representation of the value
    */
-  public override toHex (): string {
+  public override toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
