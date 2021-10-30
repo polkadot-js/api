@@ -7,7 +7,7 @@ Changes:
 - Fix construction for `palletVersion` keys with correct prefix
 - Add Polkadot `EthereumAddress` as a known `PortableRegistry` override
 - De-dupe `PortableRegistry` namespace splitting operations
-- Adjust internal `AbstractArray` & `Struct` decoders with inital u8a lengths
+- Optimize internal `AbstractArray` & `Struct` u8a decoding
 - Shortcut `Struct` construction from `Struct` instance
 - Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
 - Update known upgrade blocks for Westend & Kusama

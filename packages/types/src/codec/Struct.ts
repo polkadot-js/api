@@ -10,38 +10,33 @@ import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
-function newEntry (registry: Registry, Type: Constructor, key: string, value: unknown): [string, Codec] {
-  return [
-    key,
-    value instanceof Type
-      ? value
-      : new Type(registry, value)
-  ];
-}
-
 /** @internal */
 function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<string, string>): Iterable<[string, Codec]> {
   let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
+  const typeofArray = Array.isArray(value);
+  const typeofMap = value instanceof Map;
 
-  assert(!Array.isArray(value) || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
+  assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
+  assert(!typeofArray || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
   return inputKeys.reduce<[string, Codec][]>((raw, key, index) => {
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[key];
+    let assign;
 
     try {
-      if (Array.isArray(value)) {
-        raw.push(newEntry(registry, Type, key, value[index]));
-      } else if (value instanceof Map) {
-        raw.push(newEntry(registry, Type, key, jsonKey && (value as Map<string, unknown>).get(jsonKey)));
-      } else if (isObject(value)) {
-        let assign = jsonKey && value[jsonKey] as unknown;
+      if (typeofArray) {
+        assign = value[index];
+      } else if (typeofMap) {
+        assign = jsonKey && (value as Map<string, unknown>).get(jsonKey);
+      } else {
+        assign = jsonKey && value[jsonKey] as unknown;
 
         if (isUndefined(assign)) {
           if (isUndefined(jsonObj)) {
-            jsonObj = Object.entries(value).reduce((all: Record<string, unknown>, [key, value]): Record<string, unknown> => {
-              all[stringCamelCase(key)] = value;
+            jsonObj = Object.entries(value).reduce((all: Record<string, unknown>, [k, v]): Record<string, unknown> => {
+              all[stringCamelCase(k)] = v;
 
               return all;
             }, {});
@@ -49,11 +44,14 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
 
           assign = jsonKey && jsonObj[jsonKey];
         }
-
-        raw.push(newEntry(registry, Type, key, assign));
-      } else {
-        throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
+
+      raw.push([
+        key,
+        assign instanceof Type
+          ? assign
+          : new Type(registry, assign)
+      ]);
     } catch (error) {
       let type = Type.name;
 
@@ -90,18 +88,7 @@ function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown
   if (isHex(value)) {
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   } else if (isU8a(value)) {
-    const keys = Object.keys(Types);
-    const [values, decodedLength] = decodeU8a(registry, value, Object.values(Types), keys);
-
-    // Transform array of values to {key: value} mapping
-    return [
-      keys.reduce<[string, Codec][]>((raw, key, index) => {
-        raw.push([key, values[index]]);
-
-        return raw;
-      }, []),
-      decodedLength
-    ];
+    return decodeU8a<Codec, [string, Codec]>(registry, value, Types, 0, (k, v) => [k, v]);
   } else if (value instanceof Struct) {
     return [value as Iterable<[string, Codec]>, 0];
   }
@@ -184,15 +171,7 @@ export class Struct<
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    const items = this.toArray();
-
-    for (let i = 0; i < items.length; i++) {
-      if (!items[i].isEmpty) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.toArray().every((e) => e.isEmpty);
   }
 
   /**

@@ -116,6 +116,6 @@ export interface Constructor<T = Codec> {
   new(registry: Registry, ...args: any[]): T;
 }
 
-export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
 export type ArgsDef = Record<string, Constructor | keyof InterfaceTypes>;
