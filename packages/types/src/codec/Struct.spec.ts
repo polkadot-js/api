@@ -111,15 +111,11 @@ describe('Struct', (): void => {
   });
 
   it('decodes from a Map input', (): void => {
-    const input = new Struct(registry, {
-      a: U32,
-      txt: Text
-    }, { a: 42, txt: 'fubar' });
     const s = new Struct(registry, {
       txt: Text,
       foo: U32,
       bar: U32
-    }, input);
+    }, new Map<string, unknown>([['a', 42], ['txt', 'fubar']]));
 
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });

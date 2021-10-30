@@ -13,7 +13,7 @@ export function getStorage (registry: Registry): Storage {
     substrate: Object
       .entries(substrate)
       .reduce((storage: Record<string, StorageEntry>, [key, fn]): Record<string, StorageEntry> => {
-        (storage as Record<string, unknown>)[key] = fn(registry);
+        storage[key] = fn(registry);
 
         return storage;
       }, {})
