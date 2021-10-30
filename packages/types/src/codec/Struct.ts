@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Registry } from '../types';
 
@@ -23,13 +24,13 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
   return inputKeys.reduce<[string, Codec][]>((raw, key, index) => {
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[key];
-    let assign;
+    let assign: unknown;
 
     try {
       if (typeofArray) {
-        assign = value[index];
+        assign = value[index] as unknown;
       } else if (typeofMap) {
-        assign = jsonKey && (value as Map<string, unknown>).get(jsonKey);
+        assign = jsonKey && value.get(jsonKey);
       } else {
         assign = jsonKey && value[jsonKey] as unknown;
 
@@ -125,7 +126,7 @@ export class Struct<
   readonly #Types: ConstructorDef;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | string | null, jsonMap: Map<string, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
     const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
 
     super(decoded);
@@ -139,7 +140,7 @@ export class Struct<
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Types, value as string, jsonMap);
+        super(registry, Types, value as HexString, jsonMap);
 
         Object.keys(Types).forEach((key): void => {
           isUndefined(this[key as keyof this]) &&

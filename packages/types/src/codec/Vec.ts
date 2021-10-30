@@ -33,7 +33,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   }
 
   /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length: number = -1): [T[], number, number] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
     if (Array.isArray(value)) {
       return [
         value.map((entry: unknown, index: number): T => {
