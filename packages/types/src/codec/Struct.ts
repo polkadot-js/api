@@ -172,7 +172,16 @@ export class Struct<
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.toArray().every((e) => e.isEmpty);
+    const items = this.toArray();
+
+    // More code, but it _should_ be more performand that this.toArray().every((e) => e.isEmpty)
+    for (let i = 0; i < items.length; i++) {
+      if (!items[i].isEmpty) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -183,7 +192,7 @@ export class Struct<
       .entries(this.#Types))
       .reduce((result: E, [key, Type]): E => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (result as any)[key] = new Type(this.registry).toRawType();
+        (result as any)[key as keyof E] = new Type(this.registry).toRawType();
 
         return result;
       }, {} as E);

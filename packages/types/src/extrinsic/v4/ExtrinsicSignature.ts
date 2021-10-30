@@ -179,7 +179,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Generate a payload and applies a fake signature
    */
-  public signFake (method: Call, address: Address | Uint8Array | HexString, options: SignatureOptions): IExtrinsicSignature {
+  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
     assert(address, () => `Expected a valid address for signing, found ${stringify(address)}`);
 
     const signer = toAddress(this.registry, address);

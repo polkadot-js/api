@@ -10,6 +10,7 @@ Changes:
 - Optimize internal `AbstractArray` & `Struct` u8a decoding
 - Shortcut `Struct` construction from `Struct` instance
 - Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
+- Codec `toHex()` will now correctly return the TS `HexString` type
 - Update known upgrade blocks for Westend & Kusama
 - Bump static metadata for latest Substrate, Polkadot & Kusama
 

@@ -126,7 +126,7 @@ export interface SignerResult {
   /**
    * @description The resulting signature in hex
    */
-  signature: string;
+  signature: HexString;
 }
 
 export interface Signer {

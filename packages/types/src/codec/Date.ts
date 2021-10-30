@@ -97,7 +97,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe = false): string {
+  public toHex (isLe = false): HexString {
     return bnToHex(this.toBn(), {
       bitLength: BITLENGTH,
       isLe,
