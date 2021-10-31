@@ -23,14 +23,19 @@ export { mapXcmTypes } from './xcm';
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   const result: RegistryTypes = {};
 
-  for (const { minmax: [min, max], types } of versions) {
+  for (let i = 0; i < versions.length; i++) {
+    const { minmax: [min, max], types } = versions[i];
     const isIncluded = (
       (isUndefined(min) || isNull(min) || specVersion >= min) &&
       (isUndefined(max) || isNull(max) || specVersion <= max)
     );
 
     if (isIncluded) {
-      for (const [k, v] of Object.entries(types)) {
+      const typeEntries = Object.entries(types);
+
+      for (let j = 0; j < typeEntries.length; j++) {
+        const [k, v] = typeEntries[j];
+
         result[k] = v;
       }
     }

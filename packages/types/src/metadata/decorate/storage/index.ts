@@ -16,12 +16,13 @@ import { createRuntimeFunction } from './util';
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 
-  for (const m of pallets) {
-    if (m.storage.isSome) {
-      const { name } = m;
+  for (let p = 0; p < pallets.length; p++) {
+    const { name, storage } = pallets[p];
+
+    if (storage.isSome) {
       const section = stringCamelCase(name);
-      const unwrapped = m.storage.unwrap();
-      const prefix = unwrapped.prefix.toString();
+      const { items, prefix: _prefix } = storage.unwrap();
+      const prefix = _prefix.toString();
       const newModule: ModuleStorage = {
         palletVersion: createRuntimeFunction(
           { method: 'palletVersion', prefix, section },
@@ -30,7 +31,8 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
         )(registry)
       };
 
-      for (const meta of unwrapped.items) {
+      for (let i = 0; i < items.length; i++) {
+        const meta = items[i];
         const method = meta.name.toString();
 
         // For access, we change the index names, i.e. System.Account -> system.account

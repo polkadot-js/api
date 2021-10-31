@@ -12,11 +12,14 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
   const result: Constants = {};
 
-  for (const { constants, name } of pallets) {
+  for (let p = 0; p < pallets.length; p++) {
+    const { constants, name } = pallets[p];
+
     if (!constants.isEmpty) {
       const newModule: ModuleConstants = {};
 
-      for (const meta of constants) {
+      for (let c = 0; c < constants.length; c++) {
+        const meta = constants[c];
         const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
 
         (codec as Record<string, unknown>).meta = meta;

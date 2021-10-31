@@ -29,22 +29,25 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
   const result: Errors = {};
 
-  for (let i = 0; i < pallets.length; i++) {
-    const { errors, index, name } = pallets[i];
+  for (let p = 0; p < pallets.length; p++) {
+    const { errors, index, name } = pallets[p];
 
     if (errors.isSome) {
       const sectionIndex = metaVersion >= 12
         ? index.toNumber()
-        : i;
+        : p;
       const newModule: ModuleErrors = {};
+      const { variants } = lookup.getSiType(errors.unwrap().type).def.asVariant;
 
-      for (const v of lookup.getSiType(errors.unwrap().type).def.asVariant.variants) {
+      for (let v = 0; v < variants.length; v++) {
+        const variant = variants[v];
+
         // we don't camelCase the error name
-        newModule[v.name.toString()] = {
+        newModule[variant.name.toString()] = {
           is: ({ error, index }: DispatchErrorModule) =>
             index.eq(sectionIndex) &&
-            error.eq(v.index),
-          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, v))
+            error.eq(variant.index),
+          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
         };
       }
 

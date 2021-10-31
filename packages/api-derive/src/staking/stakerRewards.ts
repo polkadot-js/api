@@ -68,17 +68,20 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
   });
 }
 
-function allUniqValidators (allRewards: DeriveStakerReward[][]): [string[], string[][]] {
+function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[][]] {
   const all: string[] = [];
   const perStash: string[][] = [];
 
-  for (const rewards of allRewards) {
+  for (let i = 0; i < rewards.length; i++) {
     const uniq: string[] = [];
 
-    perStash.push(uniq);
+    for (let j = 0; j < rewards[i].length; j++) {
+      const validators = rewards[i][j];
+      const ids = Object.keys(validators);
 
-    for (const { validators } of rewards) {
-      for (const validatorId of Object.keys(validators)) {
+      for (let k = 0; k < ids.length; k++) {
+        const validatorId = ids[k];
+
         if (!uniq.includes(validatorId)) {
           uniq.push(validatorId);
 
@@ -88,6 +91,8 @@ function allUniqValidators (allRewards: DeriveStakerReward[][]): [string[], stri
         }
       }
     }
+
+    perStash.push(uniq);
   }
 
   return [all, perStash];
@@ -117,27 +122,16 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
   const filter = eras.filter((era) => !stakingLedger.claimedRewards.some((e) => e.eq(era)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
-  const filtered: DeriveStakerReward[] = [];
+  const result: DeriveStakerReward[] = [];
 
   for (const reward of rewards) {
     if (!reward.isEmpty && filter.some((f) => reward.era.eq(f))) {
       removeClaimed(validators, queryValidators, reward);
 
       if (Object.keys(reward.validators).length) {
-        filtered.push(reward);
+        result.push(reward);
       }
     }
-  }
-
-  const result = new Array<DeriveStakerReward>(filtered.length);
-
-  for (let i = 0; i < filtered.length; i++) {
-    const reward = filtered[i];
-
-    result[i] = {
-      ...reward,
-      nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-    };
   }
 
   return result;

@@ -18,20 +18,23 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
   const filtered = pallets.filter(filterEventsSome);
   const result: Events = {};
 
-  for (let i = 0; i < filtered.length; i++) {
-    const { events, index, name } = filtered[i];
+  for (let p = 0; p < filtered.length; p++) {
+    const { events, index, name } = filtered[p];
     const sectionIndex = metaVersion >= 12
       ? index.toNumber()
-      : i;
+      : p;
     const newModule: ModuleEvents = {};
+    const { variants } = lookup.getSiType(events.unwrap().type).def.asVariant;
 
-    for (const v of lookup.getSiType(events.unwrap().type).def.asVariant.variants) {
+    for (let v = 0; v < variants.length; v++) {
+      const variant = variants[v];
+
       // we don't camelCase the event name
-      newModule[v.name.toString()] = {
+      newModule[variant.name.toString()] = {
         is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
           eventRecord.index[0] === sectionIndex &&
-          v.index.eq(eventRecord.index[1]),
-        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, v))
+          variant.index.eq(eventRecord.index[1]),
+        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
       };
     }
 
