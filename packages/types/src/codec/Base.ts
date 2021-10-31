@@ -14,14 +14,14 @@ export abstract class Base<T extends Codec> implements Codec {
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   protected readonly _raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.registry = registry;
     this._raw = value;
-    this.#initialU8aLength = initialU8aLength;
+    this.initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -29,13 +29,6 @@ export abstract class Base<T extends Codec> implements Codec {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**

@@ -5,8 +5,8 @@ import type { Codec, Constructor, Registry } from '../../types';
 
 import { isFunction, u8aToHex } from '@polkadot/util';
 
-function identityZip <T, E> (key: string, value: T): E {
-  return value as unknown as E;
+function formatFailure (key: string, rawType: string, error: Error, u8a: Uint8Array): string {
+  return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${rawType ? `: ${rawType}` : ''}:: ${error.message}`;
 }
 
 /**
@@ -17,7 +17,7 @@ function identityZip <T, E> (key: string, value: T): E {
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor | Constructor[] | { [index: string]: Constructor }, count?: number, zip: (key: string, value: T) => E = identityZip): [E[], number] {
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor | Constructor[] | { [index: string]: Constructor }, count?: number, zip?: (key: string, value: T) => E): [E[], number] {
   const [Type, Types, keys]: [Constructor | null, Constructor[], string[]] = isFunction(types)
     ? [types, [], []]
     : Array.isArray(types)
@@ -33,8 +33,10 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
     try {
       const value = new (Type || Types[i])(registry, u8a.subarray(decodedLength));
 
-      result[i] = zip(keys[i], value as T);
       decodedLength += value.initialU8aLength || value.encodedLength;
+      result[i] = zip
+        ? zip(keys[i], value as T)
+        : value as unknown as E;
     } catch (error) {
       let rawType: string;
 
@@ -44,7 +46,7 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
         rawType = '';
       }
 
-      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(decodedLength, decodedLength + 8))}…${keys[i] ? ` on ${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
+      throw new Error(formatFailure(keys[i], rawType, error as Error, u8a.subarray(decodedLength, decodedLength + 8)));
     }
   }
 

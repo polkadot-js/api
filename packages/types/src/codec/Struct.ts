@@ -122,7 +122,7 @@ export class Struct<
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #jsonMap: Map<keyof S, string>;
 
@@ -135,7 +135,7 @@ export class Struct<
     super(decoded);
 
     this.registry = registry;
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }
@@ -214,13 +214,6 @@ export class Struct<
     }
 
     return length;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**

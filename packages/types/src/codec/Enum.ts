@@ -40,6 +40,10 @@ function isRustEnum (def: Record<string, string | Constructor> | Record<string, 
   return true;
 }
 
+function filterNotNull ({ Type }: EntryDef): boolean {
+  return Type !== Null;
+}
+
 function extractDef (registry: Registry, _def: Record<string, string | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
   let isBasic: boolean;
   let isIndexed: boolean;
@@ -50,7 +54,7 @@ function extractDef (registry: Registry, _def: Record<string, string | Construct
       def[_def[index]] = { Type: Null, index };
     }
 
-    isBasic = true,
+    isBasic = true;
     isIndexed = false;
   } else if (isRustEnum(_def)) {
     const entries = Object.entries(mapToTypeMap(registry, _def));
@@ -61,7 +65,7 @@ function extractDef (registry: Registry, _def: Record<string, string | Construct
       def[key] = { Type, index };
     }
 
-    isBasic = !Object.values(def).some(({ Type }) => Type !== Null);
+    isBasic = !Object.values(def).some(filterNotNull);
     isIndexed = false;
   } else {
     const entries = Object.entries(_def);
@@ -161,17 +165,17 @@ export class Enum implements IEnum {
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
+  readonly isBasic: boolean;
+
+  readonly isIndexed: boolean;
+
   readonly #def: TypesDef;
 
   readonly #entryIndex: number;
 
-  readonly #initialU8aLength?: number;
-
   readonly #indexes: number[];
-
-  readonly #isBasic: boolean;
-
-  readonly #isIndexed: boolean;
 
   readonly #raw: Codec;
 
@@ -180,15 +184,15 @@ export class Enum implements IEnum {
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
     this.registry = registry;
+    this.isBasic = defInfo.isBasic;
+    this.isIndexed = defInfo.isIndexed;
     this.#def = defInfo.def;
-    this.#isBasic = defInfo.isBasic;
-    this.#isIndexed = defInfo.isIndexed;
     this.#indexes = Object.values(defInfo.def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
-      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 
@@ -230,13 +234,6 @@ export class Enum implements IEnum {
   }
 
   /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
-  }
-
-  /**
    * @description returns a hash of the contents
    */
   public get hash (): CodecHash {
@@ -248,13 +245,6 @@ export class Enum implements IEnum {
    */
   public get index (): number {
     return this.#indexes[this.#entryIndex];
-  }
-
-  /**
-   * @description true if this is a basic enum (no values)
-   */
-  public get isBasic (): boolean {
-    return this.#isBasic;
   }
 
   /**
@@ -314,7 +304,7 @@ export class Enum implements IEnum {
     // cater for the case where we only pass the enum index
     if (isNumber(other)) {
       return this.toNumber() === other;
-    } else if (this.#isBasic && isString(other)) {
+    } else if (this.isBasic && isString(other)) {
       return this.type === other;
     } else if (isU8a(other)) {
       return !this.toU8a().some((entry, index) => entry !== other[index]);
@@ -341,7 +331,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#isBasic || this.isNone
+    return this.isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }
@@ -350,7 +340,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.#isBasic
+    return this.isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
@@ -366,8 +356,8 @@ export class Enum implements IEnum {
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
-    if (this.#isBasic) {
-      if (this.#isIndexed) {
+    if (this.isBasic) {
+      if (this.isIndexed) {
         const out: Record<string, number> = {};
 
         for (let i = 0; i < this.defKeys.length; i++) {

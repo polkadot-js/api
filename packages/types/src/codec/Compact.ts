@@ -23,9 +23,9 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: Hash;
 
-  readonly #Type: Constructor<T>;
+  readonly initialU8aLength?: number;
 
-  readonly #initialU8aLength?: number;
+  readonly #Type: Constructor<T>;
 
   readonly #raw: T;
 
@@ -35,7 +35,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
 
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#raw = raw;
   }
 
@@ -65,13 +65,6 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
