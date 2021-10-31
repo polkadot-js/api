@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { Codec, Constructor, Registry } from '../types';
 
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
@@ -22,7 +23,7 @@ const l = logger('Vec');
 export class Vec<T extends Codec> extends AbstractArray<T> {
   #Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | string, value: Vec<Codec> | Uint8Array | string | unknown[] = []) {
+  constructor (registry: Registry, Type: Constructor<T> | string, value: Uint8Array | HexString | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
     const [values, decodedLength] = Vec.decodeVec(registry, Clazz, value);
 
@@ -32,11 +33,10 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   }
 
   /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<Codec> | Uint8Array | string | unknown[]): [T[], number, number] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
     if (Array.isArray(value)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return [
-        (value as unknown[]).map((entry: unknown, index: number): T => {
+        value.map((entry: unknown, index: number): T => {
           try {
             return entry instanceof Type
               ? entry
@@ -52,11 +52,18 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
     }
 
     const u8a = u8aToU8a(value);
-    const [offset, length] = compactFromU8a(u8a);
+    let offset = 0;
 
-    assert(length.lten(MAX_LENGTH), () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
+    if (length === -1) {
+      const [_offset, _length] = compactFromU8a(u8a);
 
-    const [decoded, decodedLength] = decodeU8a(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(Type));
+      assert(_length.lten(MAX_LENGTH), () => `Vec length ${_length.toString()} exceeds ${MAX_LENGTH}`);
+
+      length = _length.toNumber();
+      offset = _offset;
+    }
+
+    const [decoded, decodedLength] = decodeU8a(registry, u8a.subarray(offset), Type, length);
 
     return [decoded as T[], decodedLength + offset, decodedLength];
   }

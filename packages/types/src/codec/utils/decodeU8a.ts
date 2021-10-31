@@ -3,7 +3,11 @@
 
 import type { Codec, Constructor, Registry } from '../../types';
 
-import { u8aToHex } from '@polkadot/util';
+import { isFunction, u8aToHex } from '@polkadot/util';
+
+function identityZip <T, E> (key: string, value: T): E {
+  return value as unknown as E;
+}
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
@@ -13,33 +17,34 @@ import { u8aToHex } from '@polkadot/util';
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }, _keys?: string[]): [T[], number] {
-  const result: T[] = [];
-  const [types, keys]: [Constructor[], string[]] = Array.isArray(_types)
-    ? [_types, _keys || []]
-    : [Object.values(_types), Object.keys(_types)];
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor | Constructor[] | { [index: string]: Constructor }, count?: number, zip: (key: string, value: T) => E = identityZip): [E[], number] {
+  const [Type, Types, keys]: [Constructor | null, Constructor[], string[]] = isFunction(types)
+    ? [types, [], []]
+    : Array.isArray(types)
+      ? [null, types, []]
+      : [null, Object.values(types), Object.keys(types)];
+
+  count = count || Types.length;
+
+  const result = new Array<E>(count);
   let decodedLength = 0;
 
-  for (let i = 0; i < types.length; i++) {
-    const Type = types[i];
-
+  for (let i = 0; i < count; i++) {
     try {
-      const value = new Type(registry, u8a.subarray(decodedLength));
+      const value = new (Type || Types[i])(registry, u8a.subarray(decodedLength));
 
-      result.push(value as T);
-
-      // use the initial length if available, this bypasses an extra serialization
+      result[i] = zip(keys[i], value as T);
       decodedLength += value.initialU8aLength || value.encodedLength;
     } catch (error) {
       let rawType: string;
 
       try {
-        rawType = new Type(registry).toRawType();
+        rawType = new (Type || Types[i])(registry).toRawType();
       } catch {
         rawType = '';
       }
 
-      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(decodedLength).slice(0, 8))}… on ${keys[i] ? `${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
+      throw new Error(`decodeU8a: failed at ${u8aToHex(u8a.subarray(decodedLength, decodedLength + 8))}…${keys[i] ? ` on ${keys[i]}` : ''}${rawType ? `: ${rawType}` : ''}:: ${(error as Error).message}`);
     }
   }
 

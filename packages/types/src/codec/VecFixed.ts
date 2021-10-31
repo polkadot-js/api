@@ -1,29 +1,24 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { Codec, Constructor, Registry } from '../types';
 
-import { assert, compactToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
+import { assert, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { typeToConstructor } from './utils';
 import { Vec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): [T[], number] {
-  const [values,, decodedLengthNoOffset] = Vec.decodeVec(
-    registry,
-    Type,
-    isU8a(value) || isHex(value)
-      ? u8aConcat(compactToU8a(allocLength), value)
-      : value
-  );
+function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, length: number, value: Uint8Array | HexString | unknown[]): [T[], number] {
+  const [values,, decodedLengthNoOffset] = Vec.decodeVec(registry, Type, value, length);
 
-  while (values.length < allocLength) {
+  while (values.length < length) {
     values.push(new Type(registry));
   }
 
-  assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
+  assert(values.length === length, () => `Expected a length of exactly ${length} entries`);
 
   return [values, decodedLengthNoOffset];
 }
@@ -36,7 +31,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   #Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
     const [values, decodedLength] = decodeVecFixed(registry, Clazz, length, value);
 

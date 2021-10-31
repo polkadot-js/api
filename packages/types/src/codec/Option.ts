@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IOption, Registry } from '../types';
 
@@ -140,7 +141,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     // This attempts to align with the JSON encoding - actually in this case
     // the isSome value is correct, however the `isNone` may be problematic
     return this.isNone

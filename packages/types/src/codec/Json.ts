@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
@@ -73,7 +74,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
-  public toHex (): string {
+  public toHex (): HexString {
     throw new Error('Unimplemented');
   }
 

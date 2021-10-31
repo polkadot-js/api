@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, INumber, Registry } from '../types';
 
@@ -122,7 +123,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (isLe?: boolean): string {
+  public toHex (isLe?: boolean): HexString {
     return this.#raw.toHex(isLe);
   }
 
