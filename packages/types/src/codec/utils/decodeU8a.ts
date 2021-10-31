@@ -5,8 +5,8 @@ import type { Codec, Constructor, Registry } from '../../types';
 
 import { isFunction, u8aToHex } from '@polkadot/util';
 
-function formatFailure (error: Error, key: string, rawType: string, u8a: Uint8Array): string {
-  return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${rawType ? `: ${rawType}` : ''}:: ${error.message}`;
+function formatFailure (error: Error, key: string, type: string, u8a: Uint8Array): string {
+  return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${type ? `: ${type}` : ''}:: ${error.message}`;
 }
 
 function getRawType (registry: Registry, Type: Constructor): string {
@@ -35,13 +35,13 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
   count = count || Types.length;
 
   const result = new Array<E>(count);
-  let decodedLength = 0;
+  let offset = 0;
 
   for (let i = 0; i < count; i++) {
     try {
-      const value = new (Type || Types[i])(registry, u8a.subarray(decodedLength));
+      const value = new (Type || Types[i])(registry, u8a.subarray(offset));
 
-      decodedLength += value.initialU8aLength || value.encodedLength;
+      offset += value.initialU8aLength || value.encodedLength;
       result[i] = zip
         ? zip(keys[i], value as T)
         : value as unknown as E;
@@ -50,10 +50,10 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
         error as Error,
         keys[i],
         getRawType(registry, Type || Types[i]),
-        u8a.subarray(decodedLength, decodedLength + 8)
+        u8a.subarray(offset, offset + 8)
       ));
     }
   }
 
-  return [result, decodedLength];
+  return [result, offset];
 }
