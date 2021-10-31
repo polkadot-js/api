@@ -423,7 +423,11 @@ export class TypeRegistry implements Registry {
   }
 
   private _registerObject (obj: RegistryTypes): void {
-    for (const [name, type] of Object.entries(obj)) {
+    const entries = Object.entries(obj);
+
+    for (let e = 0; e < entries.length; e++) {
+      const [name, type] = entries[e];
+
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
         this.#classes.set(name, type);

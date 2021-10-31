@@ -14,7 +14,9 @@ interface Changes {
 export function extractContributed (paraId: string | number | BN, events: Vec<EventRecord>): Changes {
   const result: Changes = { added: [], blockHash: events.createdAtHash?.toHex() || '-', removed: [] };
 
-  for (const { event: { data: [accountId, eventParaId], method, section } } of events) {
+  for (let e = 0; e < events.length; e++) {
+    const { event: { data: [accountId, eventParaId], method, section } } = events[e];
+
     if (section === 'crowdloan' && ['Contributed', 'Withdrew'].includes(method) && eventParaId.eq(paraId)) {
       if (method === 'Contributed') {
         result.added.push(accountId.toHex());

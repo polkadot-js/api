@@ -239,7 +239,9 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
   const names: Record<number, string> = {};
   const lookups: Record<string, string> = {};
 
-  for (const [lookupIndex, name] of dedup) {
+  for (let d = 0; d < dedup.length; d++) {
+    const [lookupIndex, name] = dedup[d];
+
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
   }
@@ -254,8 +256,10 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
 function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
   const map: Record<number, PortableType> = {};
 
-  for (const p of types) {
-    map[p.id.toNumber()] = p;
+  for (let p = 0; p < types.length; p++) {
+    const type = types[p];
+
+    map[type.id.toNumber()] = type;
   }
 
   return map;
@@ -512,7 +516,9 @@ export class GenericPortableRegistry extends Struct {
     let isStruct = true;
     let isTuple = true;
 
-    for (const { name } of fields) {
+    for (let f = 0; f < fields.length; f++) {
+      const { name } = fields[f];
+
       isStruct = isStruct && name.isSome;
       isTuple = isTuple && name.isNone;
     }

@@ -10,8 +10,11 @@ import { substrate } from './substrate';
 /** @internal */
 export function getStorage (registry: Registry): Storage {
   const storage: Record<string, StorageEntry> = {};
+  const entries = Object.entries(substrate);
 
-  for (const [k, fn] of Object.entries(substrate)) {
+  for (let e = 0; e < entries.length; e++) {
+    const [k, fn] = entries[e];
+
     storage[k] = fn(registry);
   }
 

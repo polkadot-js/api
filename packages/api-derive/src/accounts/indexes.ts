@@ -16,7 +16,9 @@ function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
     map((entries): AccountIndexes => {
       const indexes: AccountIndexes = {};
 
-      for (const [key, idOpt] of entries) {
+      for (let e = 0; e < entries.length; e++) {
+        const [key, idOpt] = entries[e];
+
         if (idOpt.isSome) {
           indexes[idOpt.unwrap()[0].toString()] = api.registry.createType('AccountIndex', key.args[0]);
         }

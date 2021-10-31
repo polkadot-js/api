@@ -247,8 +247,8 @@ export function removeWrap (check: string): Mapper {
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
   let result = value.toString();
 
-  for (const fn of mappings) {
-    result = fn(result, options);
+  for (let i = 0; i < mappings.length; i++) {
+    result = mappings[i](result, options);
   }
 
   return result.trim();
