@@ -18,11 +18,15 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
   const nominators: DeriveEraValSlash = {};
   const validators: DeriveEraValSlash = {};
 
-  for (const [key, optBalance] of noms) {
+  for (let i = 0; i < noms.length; i++) {
+    const [key, optBalance] = noms[i];
+
     nominators[key.args[1].toString()] = optBalance.unwrap();
   }
 
-  for (const [key, optRes] of vals) {
+  for (let i = 0; i < vals.length; i++) {
+    const [key, optRes] = vals[i];
+
     validators[key.args[1].toString()] = optRes.unwrapOrDefault()[1];
   }
 

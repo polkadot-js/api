@@ -81,15 +81,18 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
       const delegations: [AccountId, VotingDelegating][] = [];
 
       // extract delegations
-      for (const [accountId, voting] of mapped) {
+      for (let i = 0; i < mapped.length; i++) {
+        const [accountId, voting] = mapped[i];
+
         if (voting.isDelegating) {
           delegations.push([accountId, voting.asDelegating]);
         }
       }
 
       // add delegations
-      for (const [accountId, { balance, conviction, target }] of delegations) {
+      for (let i = 0; i < delegations.length; i++) {
         // Are we delegating to a delegator
+        const [accountId, { balance, conviction, target }] = delegations[i];
         const toDelegator = delegations.find(([a]) => a.eq(target));
         const to = votes.find(({ accountId }) => accountId.eq(toDelegator ? toDelegator[0] : target));
 

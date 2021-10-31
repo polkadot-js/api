@@ -24,11 +24,13 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
     const stakerId = stashId.toString();
+    const valExposures = Object.entries(eraValidators);
 
-    for (const [validatorId, exposure] of Object.entries(eraValidators)) {
+    for (let i = 0; i < valExposures.length; i++) {
+      const [validatorId, { others, own, total }] = valExposures[i];
       const valPoints = allValPoints[validatorId] || BN_ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
-      const expTotal = exposure.total?.unwrap() || BN_ZERO;
+      const expTotal = total?.unwrap() || BN_ZERO;
       let avail = BN_ZERO;
       let value: BN | undefined;
 
@@ -39,9 +41,9 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
         let staked: BN;
 
         if (validatorId === stakerId) {
-          staked = exposure.own.unwrap();
+          staked = own.unwrap();
         } else {
-          const stakerExp = exposure.others.find(({ who }) => who.eq(stakerId));
+          const stakerExp = others.find(({ who }) => who.eq(stakerId));
 
           staked = stakerExp
             ? stakerExp.value.unwrap()
@@ -100,8 +102,10 @@ function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[
 
 function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
   const removal: string[] = [];
+  const validatorIds = Object.keys(reward.validators);
 
-  for (const validatorId of Object.keys(reward.validators)) {
+  for (let i = 0; i < validatorIds.length; i++) {
+    const validatorId = validatorIds[i];
     const index = validators.indexOf(validatorId);
 
     if (index !== -1) {
@@ -113,8 +117,8 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     }
   }
 
-  for (const v of removal) {
-    delete reward.validators[v];
+  for (let i = 0; i < removal.length; i++) {
+    delete reward.validators[removal[i]];
   }
 }
 
@@ -124,7 +128,9 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
   const queryValidators = valInfo.map(([, q]) => q);
   const result: DeriveStakerReward[] = [];
 
-  for (const reward of rewards) {
+  for (let i = 0; i < rewards.length; i++) {
+    const reward = rewards[i];
+
     if (!reward.isEmpty && filter.some((f) => reward.era.eq(f))) {
       removeClaimed(validators, queryValidators, reward);
 

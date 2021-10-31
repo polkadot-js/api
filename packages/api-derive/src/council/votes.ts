@@ -44,11 +44,14 @@ function retrievePrev (api: ApiInterfaceRx, elections: QueryableModuleStorage<'r
     map(([allStakes, allVotes]): DeriveCouncilVotes => {
       const result: DeriveCouncilVotes = [];
 
-      for (const [voter, votes] of allVotes) {
+      for (let i = 0; i < allVotes.length; i++) {
+        const [voter, votes] = allVotes[i];
+
         result.push([voter, { stake: api.registry.createType('Balance'), votes }]);
       }
 
-      for (const [staker, stake] of allStakes) {
+      for (let i = 0; i < allStakes.length; i++) {
+        const [staker, stake] = allStakes[i];
         const entry = result.find(([v]) => v.eq(staker));
 
         if (entry) {
