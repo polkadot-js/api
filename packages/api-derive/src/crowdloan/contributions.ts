@@ -100,17 +100,17 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, chil
     map(([keys, { added, blockHash, removed }]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
-      keys.forEach((k): void => {
+      for (const k of keys) {
         contributorsMap[k] = true;
-      });
+      }
 
-      added.forEach((k): void => {
+      for (const k of added) {
         contributorsMap[k] = true;
-      });
+      }
 
-      removed.forEach((k): void => {
+      for (const k of removed) {
         delete contributorsMap[k];
-      });
+      }
 
       return {
         blockHash,

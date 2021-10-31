@@ -8,8 +8,11 @@ import type { SubmittableResultValue } from './types';
 const recordIdentity = (record: EventRecord) => record;
 
 function filterAndApply <T> (events: EventRecord[], section: string, methods: string[], onFound: (record: EventRecord) => T): T[] {
+  const filterRecords = ({ event }: EventRecord) =>
+    section === event.section && methods.includes(event.method);
+
   return events
-    .filter(({ event }) => section === event.section && methods.includes(event.method))
+    .filter(filterRecords)
     .map((record) => onFound(record));
 }
 
@@ -84,10 +87,16 @@ export class SubmittableResult implements ISubmittableResult {
    * @description Creates a human representation of the output
    */
   public toHuman (isExtended?: boolean): AnyJson {
+    const events = new Array<AnyJson>(this.events.length);
+
+    for (let i = 0; i < this.events.length; i++) {
+      events[i] = this.events[i].toHuman(isExtended);
+    }
+
     return {
       dispatchError: this.dispatchError?.toHuman(),
       dispatchInfo: this.dispatchInfo?.toHuman(),
-      events: this.events.map((event) => event.toHuman(isExtended)),
+      events,
       internalError: this.internalError?.message.toString(),
       status: this.status.toHuman(isExtended)
     };

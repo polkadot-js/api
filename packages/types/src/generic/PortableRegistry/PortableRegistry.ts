@@ -56,8 +56,20 @@ const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Re
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 
+function camelText(v: Text): string {
+  return stringUpperFirst(stringCamelCase(v));
+}
+
+function splitString (v: string): string[] {
+  return v.split('::');
+}
+
+function stringifyText (v: Text): string {
+  return v.toString();
+}
+
 function splitNamespace (values: string[]): string[][] {
-  return values.map((v) => v.split('::'));
+  return values.map(splitString);
 }
 
 function matchParts (first: string[], second: (string | Text)[]): boolean {
@@ -86,10 +98,16 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   });
 }
 
+function isPath (check: string[][], path: SiPath): boolean {
+  const matcher = (p: string[]) => matchParts(p, path);
+
+  return check.some(matcher);
+}
+
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_PRIMITIVE.some((p) => matchParts(p, path))
+  return path.length && isPath(PATHS_PRIMITIVE, path)
     ? path[path.length - 1].toString()
     : null;
 }
@@ -179,6 +197,20 @@ function removeDuplicateNames (lookup: GenericPortableRegistry, names: [number, 
     ]);
 }
 
+function filterPath (path: SiPath): (p: string, index: number) => boolean {
+  return (p: string, index: number) => (
+    // Remove ::{misc, pallet, traits, types}::
+    index !== 1 ||
+    !['Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
+  ) &&
+  (
+    // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+    // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+    index === path.length - 1 ||
+    p.toLowerCase() !== path[index + 1].toLowerCase()
+  );
+}
+
 function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string | null, SiTypeParameter[]] {
   const lookupIndex = id.toNumber();
 
@@ -186,21 +218,7 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
     return [lookupIndex, null, []];
   }
 
-  const parts = path
-    .map((p) => stringUpperFirst(stringCamelCase(p)))
-    .filter((p, index) =>
-      (
-        // Remove ::{misc, pallet, traits, types}::
-        index !== 1 ||
-        !['Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
-      ) &&
-      (
-        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-        index === path.length - 1 ||
-        p.toLowerCase() !== path[index + 1].toLowerCase()
-      )
-    );
+  const parts = path.map(camelText).filter(filterPath(path));
   let typeName = parts.join('');
 
   if (parts.length === 2 && parts[parts.length - 1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
@@ -216,21 +234,17 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
 }
 
 function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): Record<number, string> {
-  const dedup = removeDuplicateNames(lookup, types.map((t) =>
-    extractName(types, t)
-  ));
+  const extractor = (t: PortableType) => extractName(types, t);
+  const dedup = removeDuplicateNames(lookup, types.map(extractor));
+  const names: Record<number, string> = {};
+  const lookups: Record<string, string> = {}
 
-  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name]) => {
-    // We set the name for this specific type
+  for (const [lookupIndex, name] of dedup) {
     names[lookupIndex] = name;
+    lookups[name] = lookup.registry.createLookupType(lookupIndex);
+  }
 
-    // we map to the actual lookupIndex
-    types[name] = lookup.registry.createLookupType(lookupIndex);
-
-    return [names, types];
-  }, [{}, {}]);
-
-  lookup.registry.register(typesNew);
+  lookup.registry.register(lookups);
 
   return names;
 }
@@ -238,11 +252,13 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
 // types have an id, which means they are to be named by
 // the specified id - ensure we have a mapping lookup for these
 function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
-  return types.reduce<Record<number, PortableType>>((types, pt) => {
-    types[pt.id.toNumber()] = pt;
+  const map: Record<number, PortableType> = {};
 
-    return types;
-  }, {});
+  for (const p of types) {
+    map[p.id.toNumber()] = p;
+  }
+
+  return map;
 }
 
 export class GenericPortableRegistry extends Struct {
@@ -396,7 +412,7 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return {
-      docs: type.docs.map((d) => d.toString()),
+      docs: type.docs.map(stringifyText),
       namespace,
       ...typeDef
     };
@@ -471,7 +487,7 @@ export class GenericPortableRegistry extends Struct {
       }
     }
 
-    return PATHS_SET.some((p) => matchParts(p, path))
+    return isPath(PATHS_SET, path)
       ? this.#extractCompositeSet(lookupIndex, params, fields)
       : this.#extractFields(lookupIndex, fields);
   }
@@ -493,11 +509,13 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
-    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
-      isAllNamed && name.isSome,
-      isAllUnnamed && name.isNone
-    ]),
-    [true, true]);
+    let isStruct = true;
+    let isTuple = true;
+
+    for (const { name } of fields) {
+      isStruct = isStruct && name.isSome;
+      isTuple = isTuple && name.isNone;
+    }
 
     assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
@@ -575,7 +593,7 @@ export class GenericPortableRegistry extends Struct {
 
       return {
         ...typeDef,
-        docs: docs.map((d) => d.toString()),
+        docs: docs.map(stringifyText),
         name: nameField,
         ...(typeName.isSome
           ? { typeName: sanitize(typeName.unwrap()) }

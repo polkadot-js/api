@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { Text } from '../primitive/Text';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
@@ -16,77 +17,85 @@ import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from 
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
-import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
+import { decorateConstants, decorateExtrinsics, filterEventsSome } from '../metadata/decorate';
 import { Metadata } from '../metadata/Metadata';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
 
 const l = logger('registry');
 
+function getVariantArgs (lookup: PortableRegistry, { fields }: SiVariant): string[] {
+  const args = new Array<string>(fields.length);
+
+  for (let i = 0; i < fields.length; i++) {
+    args[i] = lookup.getTypeDef(fields[i].type).type;
+  }
+
+  return args;
+}
+
+function valueToString (v: Text): string {
+  return v.toString();
+}
+
 // create error mapping from metadata
 function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
   const { lookup, pallets } = metadata.asLatest;
 
-  // decorate the errors
-  pallets.forEach(({ errors, index, name }, _sectionIndex): void => {
-    if (errors.isNone) {
-      return;
+  for (let i = 0; i < pallets.length; i++) {
+    const { errors, index, name } = pallets[i];
+
+    if (errors.isSome) {
+      const sectionIndex = metadata.version >= 12
+        ? index.toNumber()
+        : i;
+      const sectionName = stringCamelCase(name);
+
+      for (const variant of lookup.getSiType(errors.unwrap().type).def.asVariant.variants) {
+        const { docs, fields, index, name } = variant;
+        const variantIndex = index.toNumber();
+
+        metadataErrors[u8aToHex(new Uint8Array([sectionIndex, variantIndex]))] = {
+          args: getVariantArgs(lookup, variant),
+          docs: docs.map(valueToString),
+          fields,
+          index: variantIndex,
+          method: name.toString(),
+          name: name.toString(),
+          section: sectionName
+        };
+      }
     }
-
-    const sectionIndex = metadata.version >= 12
-      ? index.toNumber()
-      : _sectionIndex;
-    const sectionName = stringCamelCase(name);
-
-    lookup.getSiType(errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }): void => {
-      const variantIndex = index.toNumber();
-      const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-
-      metadataErrors[u8aToHex(eventIndex)] = {
-        args: fields.map(({ type }) =>
-          lookup.getTypeDef(type).type
-        ),
-        docs: docs.map((d) => d.toString()),
-        fields,
-        index: variantIndex,
-        method: name.toString(),
-        name: name.toString(),
-        section: sectionName
-      };
-    });
-  });
+  }
 }
 
 // create event classes from metadata
 function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
   const { lookup, pallets } = metadata.asLatest;
+  const filtered = pallets.filter(filterEventsSome);
 
-  // decorate the events
-  pallets
-    .filter(({ events }) => events.isSome)
-    .forEach(({ events, index, name }, _sectionIndex): void => {
-      const sectionIndex = metadata.version >= 12
-        ? index.toNumber()
-        : _sectionIndex;
-      const sectionName = stringCamelCase(name);
+  for (let i = 0; i < filtered.length; i++) {
+    const { events, index, name } = filtered[i];
 
-      lookup.getSiType(events.unwrap().type).def.asVariant.variants.forEach((variant): void => {
-        const variantIndex = variant.index.toNumber();
-        const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-        const meta = registry.createType('EventMetadataLatest', {
-          ...variant,
-          args: variant.fields.map(({ type }) =>
-            lookup.getTypeDef(type).type
-          )
-        });
+    const sectionIndex = metadata.version >= 12
+      ? index.toNumber()
+      : i;
+    const sectionName = stringCamelCase(name);
 
-        metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
-          constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, meta, sectionName, variant.name.toString());
-          }
-        };
+    for (const variant of lookup.getSiType(events.unwrap().type).def.asVariant.variants) {
+      const { index, name } = variant;
+      const meta = registry.createType('EventMetadataLatest', {
+        ...variant,
+        args: getVariantArgs(lookup, variant)
       });
-    });
+
+      metadataEvents[u8aToHex(new Uint8Array([sectionIndex, index.toNumber()]))] = class extends GenericEventData {
+        constructor (registry: Registry, value: Uint8Array) {
+          super(registry, value, meta, sectionName, name.toString());
+        }
+      };
+    }
+  }
 }
 
 // create extrinsic mapping from metadata
@@ -94,11 +103,11 @@ function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls
   const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
   // decorate the extrinsics
-  Object.values(extrinsics).forEach((methods): void =>
-    Object.values(methods).forEach((method): void => {
+  for (const methods of Object.values(extrinsics)) {
+    for (const method of Object.values(methods)) {
       metadataCalls[u8aToHex(method.callIndex)] = method;
-    })
-  );
+    }
+  }
 }
 
 // extract additional properties from the metadata
@@ -169,9 +178,10 @@ export class TypeRegistry implements Registry {
 
     // register know, first classes then on-demand-created definitions
     this.register(this.#knownDefaults);
-    Object.values(this.#knownDefinitions).forEach(({ types }): void =>
-      this.register(types)
-    );
+
+    for (const { types } of Object.values(this.#knownDefinitions)) {
+      this.register(types);
+    }
 
     return this;
   }
@@ -199,7 +209,7 @@ export class TypeRegistry implements Registry {
       const allTokens = this.#chainProperties.tokenSymbol.unwrap();
 
       if (allTokens.length) {
-        return allTokens.map((s) => s.toString());
+        return allTokens.map(valueToString);
       }
     }
 
@@ -332,11 +342,16 @@ export class TypeRegistry implements Registry {
     // we cannot rely on export order (anymore, since babel/core 7.15.8), so in the case of
     // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
     // (previously this used to be a simple find & return)
-    const names = [...this.#classes.entries()]
-      .filter(([, Clazz]) => Type === Clazz)
-      .map(([name]) => name)
-      .sort()
-      .reverse();
+    const names: string[] = [];
+
+    for (const [name, Clazz] of this.#classes.entries()) {
+      if (Type === Clazz) {
+        names.push(name);
+      }
+    }
+
+    // both sort and reverse are done in-place
+    names.sort().reverse();
 
     return names.length
       ? names[0]
@@ -408,7 +423,7 @@ export class TypeRegistry implements Registry {
   }
 
   private _registerObject (obj: RegistryTypes): void {
-    Object.entries(obj).forEach(([name, type]): void => {
+    for (const [name, type] of Object.entries(obj)) {
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
         this.#classes.set(name, type);
@@ -426,7 +441,7 @@ export class TypeRegistry implements Registry {
 
         this.#definitions.set(name, def);
       }
-    });
+    }
   }
 
   // sets the chain properties

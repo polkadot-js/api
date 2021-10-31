@@ -22,13 +22,14 @@ const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
 
 /** @internal */
 function checkOrder (network: string, versions: ChainUpgradesRaw): [number, number][] {
-  const ooo = versions.filter((curr, index): boolean => {
+  const filterVersion = (curr: [number, number], index: number) => {
     const prev = versions[index - 1];
 
     return index === 0
       ? false
       : curr[0] <= prev[0] || curr[1] <= prev[1];
-  });
+  };
+  const ooo = versions.filter(filterVersion);
 
   assert(!ooo.length, () => `${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
 

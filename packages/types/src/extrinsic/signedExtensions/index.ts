@@ -39,10 +39,14 @@ export function findUnknownExtensions (extensions: string[], userExtensions: Ext
   return extensions.filter((key) => !names.includes(key));
 }
 
+function filterExt (info: unknown): info is ExtInfo {
+  return !!info;
+}
+
 export function expandExtensionTypes (extensions: string[], type: keyof ExtInfo, userExtensions: ExtDef = {}): ExtTypes {
   return extensions
     // Always allow user extensions first - these should provide overrides
     .map((key) => userExtensions[key] || allExtensions[key])
-    .filter((info): info is ExtInfo => !!info)
+    .filter(filterExt)
     .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
 }

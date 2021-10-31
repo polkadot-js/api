@@ -41,22 +41,22 @@ function retrievePrev (api: ApiInterfaceRx, elections: QueryableModuleStorage<'r
     retrieveStakeOf(elections),
     retrieveVoteOf(elections)
   ]).pipe(
-    map(([stakes, votes]): DeriveCouncilVotes => {
+    map(([allStakes, allVotes]): DeriveCouncilVotes => {
       const result: DeriveCouncilVotes = [];
 
-      votes.forEach(([voter, votes]): void => {
+      for (const [voter, votes] of allVotes) {
         result.push([voter, { stake: api.registry.createType('Balance'), votes }]);
-      });
+      }
 
-      stakes.forEach(([staker, stake]): void => {
-        const entry = result.find(([voter]) => voter.eq(staker));
+      for (const [staker, stake] of allStakes) {
+        const entry = result.find(([v]) => v.eq(staker));
 
         if (entry) {
           entry[1].stake = stake;
         } else {
           result.push([staker, { stake, votes: [] }]);
         }
-      });
+      }
 
       return result;
     })

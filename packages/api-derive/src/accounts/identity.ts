@@ -28,16 +28,18 @@ function dataAsString (data: Data): string | undefined {
 }
 
 function extractOther (additional: IdentityInfoAdditional[]): Record<string, string> {
-  return additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
+  const other: Record<string, string> = {};
+
+  for (const [_key, _value] of additional) {
     const key = dataAsString(_key);
     const value = dataAsString(_value);
 
     if (key && value) {
       other[key] = value;
     }
+  }
 
-    return other;
-  }, {});
+  return other;
 }
 
 function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {

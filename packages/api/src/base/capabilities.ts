@@ -119,9 +119,10 @@ function mapCapabilities ({ accountIdLength, refcount1Length, refcount2Length, r
 
 function filterEntries <T> (original: T[]): AvailableMap<T> {
   const included = original.map((c) => !!c);
+  const filterIncluded = (_: T, index: number) => included[index];
 
   return {
-    filtered: original.filter((_, index) => included[index]),
+    filtered: original.filter(filterIncluded),
     included,
     original
   };

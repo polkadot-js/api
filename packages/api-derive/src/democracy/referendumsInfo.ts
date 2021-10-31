@@ -80,9 +80,9 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
         .map(([accountId, voting]): [AccountId, VotingDelegating] => [accountId, voting.asDelegating]);
 
       // add delegations
-      delegations.forEach(([accountId, { balance, conviction, target }]): void => {
+      for (const [accountId, { balance, conviction, target }] of delegations) {
         // Are we delegating to a delegator
-        const toDelegator = delegations.find(([accountId]) => accountId.eq(target));
+        const toDelegator = delegations.find(([a]) => a.eq(target));
         const to = votes.find(({ accountId }) => accountId.eq(toDelegator ? toDelegator[0] : target));
 
         // this delegation has a target
@@ -94,7 +94,7 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
             vote: api.registry.createType('Vote', { aye: to.vote.isAye, conviction })
           });
         }
-      });
+      }
 
       return votes;
     })
@@ -145,6 +145,10 @@ export function _referendumInfo (instanceId: string, api: ApiInterfaceRx): (inde
   });
 }
 
+function filterReferendum (referendum: DeriveReferendum | null): referendum is DeriveReferendum {
+  return !!referendum;
+}
+
 export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
@@ -156,9 +160,7 @@ export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids:
             )
           )
         ),
-        map((infos) =>
-          infos.filter((referendum): referendum is DeriveReferendum => !!referendum)
-        )
+        map((infos) => infos.filter(filterReferendum))
       )
       : of([])
   );

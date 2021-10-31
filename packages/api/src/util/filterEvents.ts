@@ -8,7 +8,7 @@ import { l } from './logging';
 export function filterEvents (extHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): EventRecord[] | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
-  const allHashes = extrinsics.map((ext): string => ext.hash.toHex());
+  const allHashes = extrinsics.map((s) => s.hash.toHex());
 
   // find the index of our extrinsic in the block
   const index = allHashes.indexOf(myHash);
@@ -23,8 +23,9 @@ export function filterEvents (extHash: H256, { block: { extrinsics, header } }: 
     return;
   }
 
-  return allEvents.filter(({ phase }) =>
-    // only ApplyExtrinsic has the extrinsic index
-    phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(index)
-  );
+  // only ApplyExtrinsic has the extrinsic index
+  const filterApplied = ({ phase }: EventRecord) =>
+    phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(index);
+
+  return allEvents.filter(filterApplied);
 }

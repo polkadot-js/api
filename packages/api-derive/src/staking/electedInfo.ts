@@ -15,7 +15,9 @@ import { memo } from '../util';
 const DEFAULT_FLAGS = { withController: true, withExposure: true, withPrefs: true };
 
 function combineAccounts (nextElected: AccountId[], validators: AccountId[]): AccountId[] {
-  return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
+  const filterValidators = (v: AccountId) => !nextElected.find((n) => n.eq(v));
+
+  return arrayFlatten([nextElected, validators.filter(filterValidators)]);
 }
 
 export function electedInfo (instanceId: string, api: ApiInterfaceRx): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected> {

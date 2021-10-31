@@ -9,13 +9,10 @@ import { substrate } from './substrate';
 
 /** @internal */
 export function getStorage (registry: Registry): Storage {
-  return {
-    substrate: Object
-      .entries(substrate)
-      .reduce((storage: Record<string, StorageEntry>, [key, fn]): Record<string, StorageEntry> => {
-        storage[key] = fn(registry);
+  const storage: Record<string, StorageEntry> = {};
 
-        return storage;
-      }, {})
-  };
+  for (const [k, fn] of Object.entries(substrate)) {
+    storage[k] = fn(registry);
+  }
+  return { substrate: storage };
 }

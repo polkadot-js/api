@@ -13,15 +13,17 @@ let indicesCache: AccountIndexes | null = null;
 
 function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
   return api.query.indices.accounts.entries().pipe(
-    map((entries): AccountIndexes =>
-      entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
+    map((entries): AccountIndexes => {
+      const indexes: AccountIndexes = {};
+
+      for (const [key, idOpt] of entries) {
         if (idOpt.isSome) {
           indexes[idOpt.unwrap()[0].toString()] = api.registry.createType('AccountIndex', key.args[0]);
         }
+      }
 
-        return indexes;
-      }, {})
-    )
+      return indexes;
+    })
   );
 }
 

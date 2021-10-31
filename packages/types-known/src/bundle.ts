@@ -21,15 +21,22 @@ export { mapXcmTypes } from './xcm';
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
-  return versions
-    .filter(({ minmax: [min, max] }) =>
+  const result: RegistryTypes = {};
+
+  for (const { minmax: [min, max], types } of versions) {
+    const isIncluded = (
       (isUndefined(min) || isNull(min) || specVersion >= min) &&
       (isUndefined(max) || isNull(max) || specVersion <= max)
-    )
-    .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
-      ...result,
-      ...types
-    }), {});
+    );
+
+    if (isIncluded) {
+      for (const [k, v] of Object.entries(types)) {
+        result[k] = v;
+      }
+    }
+  }
+
+  return result;
 }
 
 /**

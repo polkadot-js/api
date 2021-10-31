@@ -48,6 +48,11 @@ const mappings: Mapper[] = [
   removeColons()
 ];
 
+/** @internal */
+function trimString (s: string): string {
+  return s.trim();
+}
+
 // given a starting index, find the closing >
 export function findClosing (value: string, start: number): number {
   let depth = 0;
@@ -68,9 +73,11 @@ export function findClosing (value: string, start: number): number {
 }
 
 export function alias (src: string, dest: string, withChecks = true): Mapper {
+  const mappedBox = BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|');
+
   return (value: string): string =>
     value.replace(
-      new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
+      new RegExp(`(^${src}|${mappedBox})`, 'g'),
       (src): string =>
         withChecks && BOX_PRECEDING.includes(src[0])
           ? `${src[0]}${dest}`
@@ -120,6 +127,10 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
   }
 }
 
+function filterIdentity (s: string): string {
+  return s;
+}
+
 // remove the Bounded* or Weak* wrappers
 export function removeExtensions (type: string, isSized: boolean): Mapper {
   return (value: string) =>
@@ -127,8 +138,8 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
       replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
         const parts = inner
           .split(',')
-          .map((s) => s.trim())
-          .filter((s) => s);
+          .map(trimString)
+          .filter(filterIdentity);
 
         if (isSized) {
           parts.pop();
@@ -194,12 +205,14 @@ export function removeGenerics (): Mapper {
   };
 }
 
+function replacerPair (inner: string): string {
+  return `(${inner},${inner})`;
+}
+
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
-  const replacer = (inner: string) => `(${inner},${inner})`;
-
   return (value: string) =>
-    replaceTagWith(value, 'PairOf<', replacer);
+    replaceTagWith(value, 'PairOf<', replacerPair);
 }
 
 // remove the type traits
@@ -220,17 +233,23 @@ export function removeTraits (): Mapper {
       .replace(/::Type/g, '');
 }
 
+function replacerIdentity (inner: string): string {
+  return inner;
+}
+
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (check: string): Mapper {
-  const replacer = (inner: string) => inner;
-
   return (value: string) =>
-    replaceTagWith(value, check, replacer);
+    replaceTagWith(value, check, replacerIdentity);
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
-  return mappings.reduce<string>((result, fn) =>
-    fn(result, options), value.toString()
-  ).trim();
+  let result = value.toString();
+
+  for (const fn of mappings) {
+    result = fn(result, options);
+  }
+
+  return result.trim();
 }

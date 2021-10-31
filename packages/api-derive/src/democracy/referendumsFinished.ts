@@ -11,6 +11,10 @@ import { memo } from '../util';
 
 type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
 
+function filterInfo (info: PalletDemocracyReferendumInfo | null): info is PalletDemocracyReferendumInfo {
+  return!!info && info.isFinished;
+}
+
 export function referendumsFinished (instanceId: string, api: ApiInterfaceRx): () => Observable<ReferendumInfoFinished[]> {
   return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>
     api.derive.democracy.referendumIds().pipe(
@@ -20,7 +24,7 @@ export function referendumsFinished (instanceId: string, api: ApiInterfaceRx): (
       map((infos): ReferendumInfoFinished[] =>
         infos
           .map((optInfo) => optInfo.unwrapOr(null))
-          .filter((info): info is PalletDemocracyReferendumInfo => !!info && info.isFinished)
+          .filter(filterInfo)
           .map((info) => info.asFinished)
       )
     )

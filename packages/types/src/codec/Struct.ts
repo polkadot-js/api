@@ -13,7 +13,6 @@ type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<string, string>): Iterable<[string, Codec]> {
-  let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
   const typeofArray = Array.isArray(value);
   const typeofMap = value instanceof Map;
@@ -21,7 +20,11 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
   assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
   assert(!typeofArray || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
-  return inputKeys.reduce<[string, Codec][]>((raw, key, index) => {
+  let jsonObj: Record<string, unknown> | undefined;
+  const raw = new Array<[string, Codec]>(inputKeys.length);
+
+  for (let index = 0; index < inputKeys.length; index++) {
+    const key = inputKeys[index];
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[key];
     let assign: unknown;
@@ -36,23 +39,23 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
 
         if (isUndefined(assign)) {
           if (isUndefined(jsonObj)) {
-            jsonObj = Object.entries(value).reduce((all: Record<string, unknown>, [k, v]): Record<string, unknown> => {
-              all[stringCamelCase(k)] = v;
+            jsonObj = {};
 
-              return all;
-            }, {});
+            for (const [k, v] of Object.entries(value)) {
+              jsonObj[stringCamelCase(k)] = v;
+            }
           }
 
           assign = jsonKey && jsonObj[jsonKey];
         }
       }
 
-      raw.push([
+      raw[index] = [
         key,
         assign instanceof Type
           ? assign
           : new Type(registry, assign)
-      ]);
+      ];
     } catch (error) {
       let type = Type.name;
 
@@ -64,9 +67,9 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
 
       throw new Error(`Struct: failed on ${jsonKey}: ${type}:: ${(error as Error).message}`);
     }
+  }
 
-    return raw;
-  }, []);
+  return raw;
 }
 
 /**
@@ -142,23 +145,25 @@ export class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
-        Object.keys(Types).forEach((key): void => {
+        for (const key of Object.keys(Types)) {
           isUndefined(this[key as keyof this]) &&
             Object.defineProperty(this, key, {
               enumerable: true,
               get: (): Codec | undefined => this.get(key as keyof S)
             });
-        });
+        }
       }
     };
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+    const result: Record<string, string> = {};
 
-      return result;
-    }, {});
+    for (const [k, T] of Object.entries(Types)) {
+      result[k] = registry.getClassName(T) || new T(registry).toRawType();
+    }
+
+    return result;
   }
 
   /**
@@ -188,21 +193,27 @@ export class Struct<
    * @description Returns the Type description to sthe structure
    */
   public get Type (): E {
-    return (Object
-      .entries(this.#Types))
-      .reduce((result: E, [key, Type]): E => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (result as any)[key as keyof E] = new Type(this.registry).toRawType();
+    const result = {} as unknown as E;
 
-        return result;
-      }, {} as E);
+    for (const [k, T] of Object.entries(this.#Types)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      (result as any)[k as keyof E] = new T(this.registry).toRawType();
+    }
+
+    return result;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.toArray().reduce((length, e) => length + e.encodedLength, 0);
+    let length = 0;
+
+    for (const e of this.toArray()) {
+      length += e.encodedLength;
+    }
+
+    return length;
   }
 
   /**
@@ -259,27 +270,31 @@ export class Struct<
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
-      const value = this.get(key);
+    const json: Record<string, AnyJson> = {};
 
-      json[key as string] = value && value.toHuman(isExtended);
+    for (const k of this.keys()) {
+      const value = this.get(k);
 
-      return json;
-    }, {});
+      json[k as string] = value && value.toHuman(isExtended);
+    }
+
+    return json;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
-      const jsonKey = this.#jsonMap.get(key) || key;
-      const value = this.get(key);
+    const json: Record<string, AnyJson> = {};
+
+    for (const k of this.keys()) {
+      const jsonKey = this.#jsonMap.get(k) || k;
+      const value = this.get(k);
 
       json[jsonKey as string] = value && value.toJSON();
+    }
 
-      return json;
-    }, {});
+    return json;
   }
 
   /**
@@ -301,20 +316,16 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    // we have keyof S here, cast to string to make it compatible with isBare
-    const entries = [...this.entries()] as [string, Codec][];
+    const encoded = new Array<Uint8Array>(this.size);
+    let i = 0;
 
-    return u8aConcat(
-      ...entries
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        .filter(([, value]) => isFunction(value?.toU8a))
-        .map(([key, value]): Uint8Array =>
-          value.toU8a(
-            !isBare || isBoolean(isBare)
-              ? isBare
-              : isBare[key]
-          )
-        )
-    );
+    for (const [k, v] of this.entries()) {
+      encoded[i] = isFunction(v?.toU8a)
+        ? v.toU8a((!isBare || isBoolean(isBare)) ? isBare : isBare[k])
+        : new Uint8Array([]);
+      i++;
+    }
+
+    return u8aConcat(...encoded);
   }
 }

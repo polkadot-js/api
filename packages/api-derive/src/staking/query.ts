@@ -28,9 +28,14 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
 }
 
 function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<PalletStakingStakingLedger>[]> {
-  const ids = optIds
-    .filter((opt): opt is Option<AccountId> => withLedger && !!opt && opt.isSome)
-    .map((opt) => opt.unwrap());
+  const ids: AccountId[] = [];
+
+  for (const o of optIds) {
+    if (withLedger && !!o && o.isSome) {
+      ids.push(o.unwrap());
+    }
+  }
+
   const emptyLed = api.registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>');
 
   return (
@@ -41,8 +46,8 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
     map((optLedgers): Option<PalletStakingStakingLedger>[] => {
       let offset = -1;
 
-      return optIds.map((opt): Option<PalletStakingStakingLedger> =>
-        opt && opt.isSome
+      return optIds.map((o): Option<PalletStakingStakingLedger> =>
+        o && o.isSome
           ? optLedgers[++offset] || emptyLed
           : emptyLed
       );

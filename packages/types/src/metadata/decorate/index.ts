@@ -9,8 +9,8 @@ import { assert } from '@polkadot/util';
 import { Metadata } from '../Metadata';
 import { decorateConstants } from './constants';
 import { decorateErrors } from './errors';
-import { decorateEvents } from './events';
-import { decorateExtrinsics } from './extrinsics';
+import { decorateEvents, filterEventsSome } from './events';
+import { decorateExtrinsics, filterCallsSome } from './extrinsics';
 import { decorateStorage } from './storage';
 
 /**
@@ -32,4 +32,4 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
   };
 }
 
-export { decorateConstants, decorateErrors, decorateEvents, decorateExtrinsics, decorateStorage };
+export { decorateConstants, decorateErrors, decorateEvents, decorateExtrinsics, decorateStorage, filterCallsSome, filterEventsSome };

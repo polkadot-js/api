@@ -23,6 +23,10 @@ const KEEPALIVE_INTERVAL = 10000;
 
 const l = logger('api/init');
 
+function textToString (t: Text): string {
+  return t.toString();
+}
+
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #healthTimer: NodeJS.Timeout | null = null;
 
@@ -246,11 +250,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // manually build a list of all available methods in this RPC, we are
     // going to filter on it to align the cloned RPC without making a call
-    Object.keys(source.rpc).forEach((section): void => {
-      Object.keys((source.rpc as Record<string, Record<string, unknown>>)[section]).forEach((method): void => {
-        methods.push(`${section}_${method}`);
-      });
-    });
+    for (const s of Object.keys(source.rpc)) {
+      for (const m of Object.keys((source.rpc as Record<string, Record<string, unknown>>)[s])) {
+        methods.push(`${s}_${m}`);
+      }
+    }
 
     this._filterRpc(methods, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
 
@@ -335,7 +339,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
-    this._filterRpc(rpcMethods.methods.map((t) => t.toString()), getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._filterRpc(rpcMethods.methods.map(textToString), getSpecRpc(this.registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
 
     // setup the initial registry, when we have none

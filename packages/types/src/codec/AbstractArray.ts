@@ -41,7 +41,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public get encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
-    return this.reduce((total, e) => total + e.encodedLength, compactToU8a(this.length).length);
+    let length = compactToU8a(this.length).length;
+
+    for (let i = 0; i < this.length; i++) {
+      length += this[i].encodedLength;
+    }
+
+    return length;
   }
 
   /**
@@ -98,18 +104,26 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toHuman(isExtended)
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toHuman(isExtended);
+    }
+
+    return result;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toJSON()
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toJSON();
+    }
+
+    return result;
   }
 
   /**
@@ -121,12 +135,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    // Overwrite the default toString representation of Array.
-    const data = this.map((entry): string =>
-      entry.toString()
-    );
+    const encoded = new Array<string>(this.length);
 
-    return `[${data.join(', ')}]`;
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toString();
+    }
+
+    return `[${encoded.join(', ')}]`;
   }
 
   /**
@@ -134,9 +149,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.map((entry): Uint8Array =>
-      entry.toU8a(isBare)
-    );
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a(isBare);
+    }
 
     return isBare
       ? u8aConcat(...encoded)
@@ -175,7 +192,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Checks if the array includes a specific value
    */
   public override includes (check: unknown): boolean {
-    return this.some((value: T) => value.eq(check));
+    return this.some((v: T) => v.eq(check));
   }
 
   /**

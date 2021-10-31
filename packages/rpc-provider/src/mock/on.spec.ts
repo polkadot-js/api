@@ -26,7 +26,7 @@ describe('on', (): void => {
       mock.on(type, (): void => {
         events[type] = true;
 
-        if (Object.values(events).filter((value): boolean => value).length === 2) {
+        if (Object.values(events).filter((v) => v).length === 2) {
           done();
         }
       });

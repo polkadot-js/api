@@ -4,5 +4,7 @@
 import type { EraIndex } from '@polkadot/types/interfaces';
 
 export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list: T[]): EraIndex[] {
-  return eras.filter((era) => !list.some((entry) => era.eq(entry.era)));
+  return eras.filter((e) =>
+    !list.some(({ era }) => e.eq(era))
+  );
 }

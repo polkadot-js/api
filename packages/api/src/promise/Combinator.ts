@@ -12,6 +12,11 @@ export interface CombinatorFunction {
   (cb: Callback<any>): UnsubscribePromise;
 }
 
+/** @internal */
+function filterUnfired (hasFired: boolean) {
+  return !hasFired;
+}
+
 export class Combinator<T extends unknown[] = unknown[]> {
   #allHasFired = false;
 
@@ -46,7 +51,7 @@ export class Combinator<T extends unknown[] = unknown[]> {
   }
 
   protected _allHasFired (): boolean {
-    this.#allHasFired ||= this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
+    this.#allHasFired ||= this.#fired.filter(filterUnfired).length === 0;
 
     return this.#allHasFired;
   }

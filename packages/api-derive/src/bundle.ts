@@ -74,33 +74,29 @@ const checks: Record<string, Avail> = {
 function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
+  const derives = {} as DeriveAllSections<AllSections>;
 
-  return Object
-    .keys(allSections)
-    .filter((sectionName) =>
-      !checks[sectionName] ||
-      checks[sectionName].instances.some((q) => queryKeys.includes(q)) ||
-      (
-        checks[sectionName].withDetect &&
-        checks[sectionName].instances.some((q) =>
-          (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
-        )
+  for (const s of Object.keys(allSections)) {
+    const isIncluded = !checks[s] || checks[s].instances.some((q) => queryKeys.includes(q)) || (
+      checks[s].withDetect && checks[s].instances.some((q) =>
+        (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
       )
-    )
-    .reduce((derives, sectionName): DeriveAllSections<AllSections> => {
-      const section = allSections[sectionName as keyof AllSections];
+    );
 
-      derives[sectionName as keyof AllSections] = Object
-        .entries(section)
-        .reduce((methods, [methodName, creator]): DeriveSection<typeof section> => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-          methods[methodName as keyof typeof section] = creator(instanceId, api);
+    if (isIncluded) {
+      const section = allSections[s as keyof AllSections];
+      const methods = {} as DeriveSection<typeof section>;
 
-          return methods;
-        }, {} as DeriveSection<typeof section>);
+      for (const [methodName, creator] of Object.entries(section)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+        methods[methodName as keyof typeof section] = creator(instanceId, api);
+      }
 
-      return derives;
-    }, {} as DeriveAllSections<AllSections>);
+      derives[s as keyof AllSections] = methods;
+    }
+  }
+
+  return derives;
 }
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}

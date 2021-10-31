@@ -28,11 +28,15 @@ interface DecodedMethod extends DecodeMethodInput {
  * @internal
  */
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
-  return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
-    result[name.unwrapOr(`param${index}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
+  const result: ArgsDef = {};
 
-    return result;
-  }, {} as ArgsDef);
+  for (let i = 0; i < meta.fields.length; i++) {
+    const { name, type } = meta.fields[i];
+
+    result[name.unwrapOr(`param${i}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
+  }
+
+  return result;
 }
 
 /** @internal */
@@ -216,11 +220,14 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       // swallow
     }
 
+    const args: Record<string, AnyJson> = {};
+
+    for (const [n, a] of (this.get('args') as Struct).entries()) {
+      args[n] = a.toHuman(isExpanded);
+    }
+
     return {
-      args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) => ({
-        ...args,
-        [n]: a.toHuman(isExpanded)
-      }), {}),
+      args,
       method: call?.method,
       section: call?.section,
       ...(isExpanded && call

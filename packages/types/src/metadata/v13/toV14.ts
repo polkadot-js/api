@@ -101,7 +101,7 @@ function registerOriginCaller (registry: Registry, modules: ModuleMetadataV13[],
  **/
 function setTypeOverride (sectionTypes: OverrideModuleType, types: Type[]): void {
   types.forEach((type): void => {
-    const override = Object.keys(sectionTypes).find((aliased) => type.eq(aliased));
+    const override = Object.keys(sectionTypes).find((a) => type.eq(a));
 
     if (override) {
       type.setOverride(sectionTypes[override]);

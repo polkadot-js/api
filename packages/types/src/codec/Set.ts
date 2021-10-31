@@ -12,20 +12,28 @@ import { compareArray } from './utils';
 type SetValues = Record<string, number | BN>;
 
 function encodeSet (setValues: SetValues, value: string[]): BN {
-  return value.reduce((result, value): BN => {
-    return result.or(bnToBn(setValues[value] || 0));
-  }, new BN(0));
+  const result = new BN(0);
+
+  for (const v of value) {
+    result.ior(bnToBn(setValues[v] || 0));
+  }
+
+  return result;
 }
 
 /** @internal */
 function decodeSetArray (setValues: SetValues, value: string[]): string[] {
-  return value.reduce<string[]>((result, key): string[] => {
+  const result = new Array<string>(value.length);
+
+  for (let i = 0; i < value.length; i++) {
+    const key = value[i];
+
     assert(!isUndefined(setValues[key]), () => `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
-    result.push(key);
+    result[i] = key;
+  }
 
-    return result;
-  }, []);
+  return result;
 }
 
 /** @internal */
@@ -97,7 +105,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        Object.keys(values).forEach((_key): void => {
+        for (const _key of Object.keys(values)) {
           const iskey = `is${stringUpperFirst(stringCamelCase(_key))}`;
 
           isUndefined(this[iskey as keyof this]) &&
@@ -105,7 +113,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
               enumerable: true,
               get: () => this.strings.includes(_key)
             });
-        });
+        }
       }
     };
   }

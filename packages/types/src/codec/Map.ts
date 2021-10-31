@@ -35,10 +35,10 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): [Map<K, V>, number] {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<unknown, unknown>): [Map<K, V>, number] {
   const output = new Map<K, V>();
 
-  value.forEach((val: unknown, key: unknown) => {
+  for (const [key, val] of value.entries()) {
     const isComplex = KeyClass.prototype instanceof AbstractArray ||
       KeyClass.prototype instanceof Struct ||
       KeyClass.prototype instanceof Enum;
@@ -57,7 +57,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
 
       throw error;
     }
-  });
+  }
 
   return [output, 0];
 }
@@ -123,13 +123,13 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    let len = compactToU8a(this.size).length;
+    let length = compactToU8a(this.size).length;
 
-    this.forEach((v: V, k: K) => {
-      len += v.encodedLength + k.encodedLength;
-    });
+    for (const [k, v] of this.entries()) {
+      length += v.encodedLength + k.encodedLength;
+    }
 
-    return len;
+    return length;
   }
 
   /**
@@ -173,9 +173,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toHuman(isExtended);
-    });
+    }
 
     return json;
   }
@@ -186,9 +186,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toJSON (): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toJSON();
-    });
+    }
 
     return json;
   }
@@ -218,9 +218,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       encoded.push(k.toU8a(isBare), v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

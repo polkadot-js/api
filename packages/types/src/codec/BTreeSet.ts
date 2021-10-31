@@ -25,10 +25,10 @@ function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constr
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): [Set<V>, number] {
+function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<unknown> | string[]): [Set<V>, number] {
   const output = new Set<V>();
 
-  value.forEach((val: any) => {
+  value.forEach((val) => {
     try {
       output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
@@ -102,13 +102,13 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    let len = compactToU8a(this.size).length;
+    let length = compactToU8a(this.size).length;
 
-    this.forEach((v: V) => {
-      len += v.encodedLength;
-    });
+    for (const v of this.values()) {
+      length += v.encodedLength;
+    }
 
-    return len;
+    return length;
   }
 
   /**
@@ -204,9 +204,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       encoded.push(v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

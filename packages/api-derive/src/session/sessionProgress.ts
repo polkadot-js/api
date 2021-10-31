@@ -12,6 +12,6 @@ import { memo } from '../util';
 export function sessionProgress (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return memo(instanceId, (): Observable<BlockNumber> =>
     api.derive.session.progress().pipe(
-      map((info) => info.sessionProgress)
+      map(({ sessionProgress }) => sessionProgress)
     ));
 }

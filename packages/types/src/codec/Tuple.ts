@@ -29,23 +29,21 @@ function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: Any
   const Types: Constructor[] = Array.isArray(_Types)
     ? _Types
     : Object.values(_Types);
+  const result = new Array<Codec>(Types.length);
 
-  return [
-    Types.map((Type, index): Codec => {
-      try {
-        const entry = value?.[index];
+  for (let i = 0; i < Types.length; i++) {
+    try {
+      const entry = value?.[i];
 
-        if (entry instanceof Type) {
-          return entry;
-        }
+      result[i] = entry instanceof Types[i]
+        ? entry
+        : new Types[i](registry, entry);
+    } catch (error) {
+      throw new Error(`Tuple: failed on ${i}:: ${(error as Error).message}`);
+    }
+  }
 
-        return new Type(registry, entry);
-      } catch (error) {
-        throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
-      }
-    }),
-    0
-  ];
+  return [result, 0];
 }
 
 /**
@@ -82,7 +80,13 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, e) => total + e.encodedLength, 0);
+    let length = 0;
+
+    for (let i = 0; i < this.length; i++) {
+      length += this[i].encodedLength;
+    }
+
+    return length;
   }
 
   /**

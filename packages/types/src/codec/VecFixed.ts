@@ -59,17 +59,27 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, e) => total + e.encodedLength, 0);
+    let length = 0;
+
+    for (let i = 0; i < this.length; i++) {
+      length += this[i].encodedLength;
+    }
+
+    return length;
   }
 
   public override toU8a (): Uint8Array {
-    // we override, we don't add the length prefix for ourselves, and at the same time we
-    // ignore isBare on entries, since they should be properly encoded at all times
-    const encoded = this.map((e) => e.toU8a());
+    if (!this.length) {
+      return new Uint8Array([]);
+    }
 
-    return encoded.length
-      ? u8aConcat(...encoded)
-      : new Uint8Array([]);
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a();
+    }
+
+    return u8aConcat(...encoded);
   }
 
   /**

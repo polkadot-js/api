@@ -25,7 +25,7 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
     const validators: Record<string, DeriveStakerRewardValidator> = {};
     const stakerId = stashId.toString();
 
-    Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
+    for (const [validatorId, exposure] of Object.entries(eraValidators)) {
       const valPoints = allValPoints[validatorId] || BN_ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
       const expTotal = exposure.total?.unwrap() || BN_ZERO;
@@ -55,7 +55,7 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
         total: api.registry.createType('Balance', avail),
         value: api.registry.createType('Balance', value)
       };
-    });
+    }
 
     return {
       era,
@@ -68,13 +68,17 @@ function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, era
   });
 }
 
-function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[][]] {
-  return rewards.reduce(([all, perStash]: [string[], string[][]], rewards) => {
+function allUniqValidators (allRewards: DeriveStakerReward[][]): [string[], string[][]] {
+  const all: string[] = [];
+  const perStash: string[][] = [];
+
+  for (const rewards of allRewards) {
     const uniq: string[] = [];
 
     perStash.push(uniq);
-    rewards.forEach(({ validators }) =>
-      Object.keys(validators).forEach((validatorId): void => {
+
+    for (const { validators } of rewards) {
+      for (const validatorId of Object.keys(validators)) {
         if (!uniq.includes(validatorId)) {
           uniq.push(validatorId);
 
@@ -82,31 +86,39 @@ function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[
             all.push(validatorId);
           }
         }
-      })
-    );
+      }
+    }
+  }
 
-    return [all, perStash];
-  }, [[], []]);
+  return [all, perStash];
 }
 
 function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
-  const rm: string[] = [];
+  const removal: string[] = [];
 
-  Object.keys(reward.validators).forEach((validatorId): void => {
+  for (const validatorId of Object.keys(reward.validators)) {
     const index = validators.indexOf(validatorId);
 
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (valLedger?.claimedRewards.some((era) => reward.era.eq(era))) {
-        rm.push(validatorId);
+      if (valLedger?.claimedRewards.some((e) => reward.era.eq(e))) {
+        removal.push(validatorId);
       }
     }
-  });
+  }
 
-  rm.forEach((validatorId): void => {
-    delete reward.validators[validatorId];
-  });
+  for (const v of removal) {
+    delete reward.validators[v];
+  }
+}
+
+function filterRewardNonEmpty ({ isEmpty }: DeriveStakerReward): boolean {
+  return !isEmpty;
+}
+
+function filterRewardValidators  ({ validators }: DeriveStakerReward): boolean {
+  return Object.keys(validators).length !== 0;
 }
 
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
@@ -115,7 +127,7 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
   const queryValidators = valInfo.map(([, q]) => q);
 
   return rewards
-    .filter(({ isEmpty }) => !isEmpty)
+    .filter(filterRewardNonEmpty)
     .filter((reward): boolean => {
       if (!filter.some((filter) => reward.era.eq(filter))) {
         return false;
@@ -125,7 +137,7 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
 
       return true;
     })
-    .filter(({ validators }) => Object.keys(validators).length !== 0)
+    .filter(filterRewardValidators)
     .map((reward) => ({
       ...reward,
       nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])

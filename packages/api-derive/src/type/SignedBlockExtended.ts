@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, DispatchError, DispatchInfo, EventRecord, Extrinsic, SignedBlock } from '@polkadot/types/interfaces';
+import type { AccountId, DispatchError, DispatchInfo, Event, EventRecord, Extrinsic, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { SignedBlockExtended, TxWithEvent } from './types';
 
@@ -11,10 +11,10 @@ function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWith
   return extrinsics.map((extrinsic, index): TxWithEvent => {
     let dispatchError: DispatchError | undefined;
     let dispatchInfo: DispatchInfo | undefined;
+    const events: Event[] = [];
 
-    const events = records
-      .filter(({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index))
-      .map(({ event }) => {
+    for (const { event, phase } of records) {
+      if (phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index)) {
         if (event.section === 'system') {
           if (event.method === 'ExtrinsicSuccess') {
             dispatchInfo = event.data[0] as DispatchInfo;
@@ -24,8 +24,9 @@ function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWith
           }
         }
 
-        return event;
-      });
+        events.push(event);
+      }
+    }
 
     return { dispatchError, dispatchInfo, events, extrinsic };
   });

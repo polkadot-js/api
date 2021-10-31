@@ -17,13 +17,15 @@ import { filterEras } from './util';
 const CACHE_KEY = 'eraPoints';
 
 function mapValidators ({ individual }: PalletStakingEraRewardPoints): DeriveEraValPoints {
-  return [...individual.entries()]
-    .filter(([, points]) => points.gt(BN_ZERO))
-    .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
-      result[validatorId.toString()] = points;
+  const result: DeriveEraValPoints = {};
 
-      return result;
-    }, {});
+  for (const [validatorId, points] of individual.entries()) {
+    if (points.gt(BN_ZERO)) {
+      result[validatorId.toString()] = points;
+    }
+  }
+
+  return result;
 }
 
 function mapPoints (eras: EraIndex[], points: PalletStakingEraRewardPoints[]): DeriveEraPoints[] {
@@ -32,6 +34,10 @@ function mapPoints (eras: EraIndex[], points: PalletStakingEraRewardPoints[]): D
     eraPoints: points[index].total,
     validators: mapValidators(points[index])
   }));
+}
+
+function filterPoints (points?: DeriveEraPoints): points is DeriveEraPoints {
+  return !!points;
 }
 
 export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
@@ -44,7 +50,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
       ? []
       : eras
         .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraPoints => !!value);
+        .filter(filterPoints);
     const remaining = filterEras(eras, cached);
 
     return !remaining.length

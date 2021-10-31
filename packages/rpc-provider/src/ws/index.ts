@@ -45,13 +45,13 @@ const MEGABYTE = 1024 * 1024;
 const l = logger('api-ws');
 
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
-  Object.keys(record).forEach((key): void => {
+  for (const k of Object.keys(record)) {
     if (cb) {
-      cb(record[key]);
+      cb(record[k]);
     }
 
-    delete record[key];
-  });
+    delete record[k];
+  }
 }
 
 /**
@@ -110,9 +110,9 @@ export class WsProvider implements ProviderInterface {
 
     assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
 
-    endpoints.forEach((endpoint) => {
-      assert(/^(wss|ws):\/\//.test(endpoint), () => `Endpoint should start with 'ws://', received '${endpoint}'`);
-    });
+    for (const e of endpoints) {
+      assert(/^(wss|ws):\/\//.test(e), () => `Endpoint should start with 'ws://', received '${e}'`);
+    }
 
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;

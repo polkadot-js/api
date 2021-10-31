@@ -15,9 +15,17 @@ export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (acc
     const stakerIds = accountIds.map((a) => api.registry.createType('AccountId', a).toString());
 
     return api.derive.staking._erasExposure(eras, withActive).pipe(
-      map((exposures): DeriveStakerExposure[][] =>
-        stakerIds.map((stakerId) =>
-          exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
+      map((exposures): DeriveStakerExposure[][] => {
+        const result = new Array<DeriveStakerExposure[]>(stakerIds.length);
+
+        for (let i = 0; i < stakerIds.length; i++) {
+          const stakerId = stakerIds[i];
+
+          result[i] = new Array<DeriveStakerExposure>(exposures.length);
+
+          for (let j = 0; j < exposures.length; j++) {
+            const { era, nominators: allNominators, validators: allValidators } = exposures[i];
+
             const isValidator = !!allValidators[stakerId];
             const validators: DeriveEraValidatorExposure = {};
             const nominating = allNominators[stakerId] || [];
@@ -25,15 +33,17 @@ export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (acc
             if (isValidator) {
               validators[stakerId] = allValidators[stakerId];
             } else if (nominating) {
-              nominating.forEach(({ validatorId }): void => {
+              for (const { validatorId } of nominating) {
                 validators[validatorId] = allValidators[validatorId];
-              });
+              }
             }
 
-            return { era, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
-          })
-        )
-      )
+            result[i][j] = { era, isEmpty: !Object.keys(validators).length, isValidator, nominating, validators };
+          }
+        }
+
+        return result;
+      })
     );
   });
 }

@@ -41,40 +41,35 @@ function isRustEnum (def: Record<string, string | Constructor> | Record<string, 
 }
 
 function extractDef (registry: Registry, _def: Record<string, string | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
-  if (Array.isArray(_def)) {
-    return {
-      def: _def.reduce((def: TypesDef, key, index): TypesDef => {
-        def[key] = { Type: Null, index };
-
-        return def;
-      }, {}),
-      isBasic: true,
-      isIndexed: false
-    };
-  }
-
   let isBasic: boolean;
   let isIndexed: boolean;
-  let def: TypesDef;
+  const def: TypesDef = {};
 
-  if (isRustEnum(_def)) {
-    def = Object
-      .entries(mapToTypeMap(registry, _def))
-      .reduce((def: TypesDef, [key, Type], index): TypesDef => {
-        def[key] = { Type, index };
+  if (Array.isArray(_def)) {
+    for (let index = 0; index < _def.length; index++) {
+      def[_def[index]] = { Type: Null, index };
+    }
 
-        return def;
-      }, {});
+    isBasic = true,
+    isIndexed = false;
+  } else if (isRustEnum(_def)) {
+    const entries = Object.entries(mapToTypeMap(registry, _def));
+
+    for (let index = 0; index < entries.length; index++) {
+      const [key, Type] = entries[index];
+
+      def[key] = { Type, index };
+    }
+
     isBasic = !Object.values(def).some(({ Type }) => Type !== Null);
     isIndexed = false;
   } else {
-    def = Object
-      .entries(_def)
-      .reduce((def: TypesDef, [key, index]): TypesDef => {
-        def[key] = { Type: Null, index };
+    const entries = Object.entries(_def);
 
-        return def;
-      }, {});
+    for (const [key, index] of entries) {
+      def[key] = { Type: Null, index };
+    }
+
     isBasic = true;
     isIndexed = true;
   }
@@ -202,7 +197,7 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        Object.keys(this.#def).forEach((_key): void => {
+        for (const _key of Object.keys(this.#def)) {
           const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
@@ -222,7 +217,7 @@ export class Enum implements IEnum {
                 return this.value;
               }
             });
-        });
+        }
       }
     };
   }
@@ -372,22 +367,24 @@ export class Enum implements IEnum {
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
     if (this.#isBasic) {
-      return this.#isIndexed
-        ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
-          out[key] = this.#indexes[index];
+      if (this.#isIndexed) {
+        const out: Record<string, number> = {};
 
-          return out;
-        }, {})
-        : this.defKeys;
-    }
-
-    const typeMap = Object
-      .entries(this.#def)
-      .reduce((out: Record<string, Constructor>, [key, { Type }]) => {
-        out[key] = Type;
+        for (let i = 0; i < this.defKeys.length; i++) {
+          out[this.defKeys[i]] = this.#indexes[i];
+        }
 
         return out;
-      }, {});
+      }
+
+      return this.defKeys;
+    }
+
+    const typeMap: Record<string, Constructor> = {};
+
+    for (const [key, { Type }] of Object.entries(this.#def)) {
+      typeMap[key] = Type;
+    }
 
     return Struct.typesToMap(this.registry, typeMap);
   }

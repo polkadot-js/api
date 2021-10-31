@@ -27,12 +27,12 @@
     "@polkadot/api": "6.5.3-9",
     "@polkadot/rpc-core": "6.5.3-9",
     "@polkadot/types": "6.5.3-9",
-    "@polkadot/util": "^7.6.1",
-    "@polkadot/util-crypto": "^7.6.1",
+    "@polkadot/util": "^7.6.2-8",
+    "@polkadot/util-crypto": "^7.6.2-8",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^7.6.1",
+    "@polkadot/keyring": "^7.6.2-8",
     "@polkadot/rpc-provider": "6.5.3-9"
   }
 }

@@ -39,15 +39,20 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
   throw new Error(`Unable to encode ${stringify(typeDef)} with params`);
 }
 
+function getTypeDefName ({ name }: TypeDef): string | undefined {
+  return name;
+}
+
 function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, extra?: Record<string, unknown>): string {
-  const names = sub.map(({ name }) => name);
+  const names = sub.map(getTypeDefName);
 
   assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
 
-  const inner = sub.reduce< Record<string, string>>((result, type) => ({
-    ...result,
-    [type.name as string]: encodeTypeDef(registry, type)
-  }), { ...(extra as Record<string, string>) });
+  const inner: Record<string, string> = { ...(extra as Record<string, string>) };
+
+  for (const def of sub) {
+    inner[def.name as string] = encodeTypeDef(registry, def);
+  }
 
   return stringify(
     asEnum
@@ -98,12 +103,15 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.Set]: (registry: Registry, { length = 8, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Set type');
 
-    return stringify({
-      _set: sub.reduce((all, { index, name }, count): Record<string, number> => ({
-        ...all,
-        [`${name || `Unknown${index || count}`}`]: index || count
-      }), { _bitLength: length || 8 } as Record<string, number>)
-    });
+    const _set: Record<string, number> = { _bitLength: length || 8 };
+
+    for (let i = 0; i < sub.length; i++) {
+      const { index, name } = sub[i];
+
+      _set[`${name || `Unknown${index || i}`}`] = index || i;
+    }
+
+    return stringify({ _set });
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Si]: (registry: Registry, { lookupName, type }: TypeDef) =>

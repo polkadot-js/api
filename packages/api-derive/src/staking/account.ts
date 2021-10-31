@@ -21,20 +21,21 @@ const QUERY_OPTS = {
 };
 
 function groupByEra (list: PalletStakingUnlockChunk[]): Record<string, BN> {
-  return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
+  const map: Record<string, BN> = {};
+
+  for (const { era, value } of list) {
     const key = era.toString();
 
     map[key] = (map[key] || BN_ZERO).add(value.unwrap());
+  }
 
-    return map;
-  }, {});
+  return map;
 }
 
 function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
+  const filterByEra = ({ era }: PalletStakingUnlockChunk) => era.unwrap().gt(sessionInfo.activeEra);
   const results = Object
-    .entries(groupByEra(
-      (stakingLedger?.unlocking || []).filter(({ era }) => era.unwrap().gt(sessionInfo.activeEra))
-    ))
+    .entries(groupByEra((stakingLedger?.unlocking || []).filter(filterByEra)))
     .map(([eraString, value]): DeriveUnlocking => ({
       remainingEras: new BN(eraString).isub(sessionInfo.activeEra),
       value: api.registry.createType('Balance', value)
@@ -46,11 +47,15 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingSt
 }
 
 function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
-  return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
-    return sessionInfo.activeEra.gte(era.unwrap())
-      ? total.iadd(value.unwrap())
-      : total;
-  }, new BN(0)));
+  const sum = new BN(0);
+
+  for (const { era, value } of (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[])) {
+    if (sessionInfo.activeEra.gte(era.unwrap())) {
+      sum.iadd(value.unwrap());
+    }
+  }
+
+  return api.registry.createType('Balance', sum);
 }
 
 function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {

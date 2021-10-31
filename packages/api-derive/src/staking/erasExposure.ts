@@ -20,18 +20,18 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
   const nominators: DeriveEraNominatorExposure = {};
   const validators: DeriveEraValidatorExposure = {};
 
-  stakers.forEach(([key, exposure]): void => {
+  for (const [key, exposure] of stakers) {
     const validatorId = key.args[1].toString();
 
     validators[validatorId] = exposure;
 
-    exposure.others.forEach(({ who }, validatorIndex): void => {
-      const nominatorId = who.toString();
+    for (let i = 0; i < exposure.others.length; i++) {
+      const nominatorId = exposure.others[i].who.toString();
 
       nominators[nominatorId] = nominators[nominatorId] || [];
-      nominators[nominatorId].push({ validatorId, validatorIndex });
-    });
-  });
+      nominators[nominatorId].push({ validatorId, validatorIndex: i });
+    }
+  }
 
   return { era, nominators, validators };
 }

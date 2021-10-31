@@ -5,7 +5,7 @@ import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcParam, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterface, RpcInterfaceMethod } from './types';
 
@@ -49,6 +49,14 @@ function isTreatAsHex (key: StorageKey): boolean {
   // :code is problematic - it does not have the length attached, which is
   // unlike all other storage entries where it is indeed properly encoded
   return ['0x3a636f6465'].includes(key.toHex());
+}
+
+function codecToJson (c: Codec): AnyJson {
+  return c.toJSON();
+}
+
+function filterNonOptionalParam ({ isOptional }: DefinitionRpcParam): boolean {
+  return !isOptional;
 }
 
 /**
@@ -143,30 +151,29 @@ export class RpcCore {
 
   public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
-    this.sections.push(...Object.keys(userRpc).filter((key) => !this.sections.includes(key)));
+    this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
 
     // decorate the sections with base and user methods
-    this.sections.forEach((sectionName): void => {
+    for (const sectionName of this.sections) {
       (this as Record<string, unknown>)[sectionName as Section] ||= {};
 
       const section = (this as Record<string, unknown>)[sectionName as Section] as Record<string, unknown>;
+      const entries = Object.entries({
+        ...this._createInterface(sectionName, rpcDefinitions[sectionName as 'babe'] || {}),
+        ...this._createInterface(sectionName, userRpc[sectionName] || {})
+      });
 
-      Object
-        .entries({
-          ...this._createInterface(sectionName, rpcDefinitions[sectionName as 'babe'] || {}),
-          ...this._createInterface(sectionName, userRpc[sectionName] || {})
-        })
-        .forEach(([key, value]): void => {
-          section[key] ||= value;
-        });
-    });
+      for (const [key, value] of entries) {
+        section[key] ||= value;
+      }
+    }
   }
 
   private _createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, DefinitionRpc | DefinitionRpcSub>): RpcInterface[Section] {
-    return Object
-      .entries(methods)
-      .filter(([method, { endpoint }]) => !this.mapping.has(endpoint || `${section}_${method}`))
-      .reduce((exposed, [method, { endpoint }]): RpcInterface[Section] => {
+    const exposed = {} as RpcInterface[Section];
+
+    for (const [method, { endpoint }] of Object.entries(methods)) {
+      if (!this.mapping.has(endpoint || `${section}_${method}`)) {
         const def = methods[method];
         const isSubscription = !!(def as DefinitionRpcSub).pubsub;
         const jsonrpc = endpoint || `${section}_${method}`;
@@ -176,9 +183,10 @@ export class RpcCore {
         (exposed as Record<string, unknown>)[method] = isSubscription
           ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
           : this._createMethodSend(section, method, def);
+      }
+    }
 
-        return exposed;
-      }, {} as RpcInterface[Section]);
+    return exposed;
   }
 
   private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
@@ -211,7 +219,7 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
-      const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()));
+      const result = await this.provider.send<AnyJson>(rpcName, params.map(codecToJson));
 
       return this._formatResult(isScale, registry, blockHash, method, def, params, result);
     };
@@ -283,7 +291,7 @@ export class RpcCore {
 
         try {
           const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((p) => p.toJSON());
+          const paramsJson = params.map(codecToJson);
 
           const update = (error?: Error | null, result?: unknown): void => {
             if (error) {
@@ -327,16 +335,20 @@ export class RpcCore {
   }
 
   private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
-    const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
+    const reqArgCount = def.params.filter(filterNonOptionalParam).length;
     const optText = reqArgCount === def.params.length
       ? ''
       : ` (${def.params.length - reqArgCount} optional)`;
 
     assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
 
-    return inputs.map((input, index): Codec =>
-      registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
-    );
+    const result = new Array<Codec>(inputs.length);
+
+    for (let i = 0; i < inputs.length; i++) {
+      result[i] = registry.createTypeUnsafe(def.params[i].type, [inputs[i]], { blockHash });
+    }
+
+    return result;
   }
 
   private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {
@@ -351,10 +363,17 @@ export class RpcCore {
         ? this._formatStorageSet(registry, (result as StorageChangeSetJSON).block, keys, (result as StorageChangeSetJSON).changes)
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = (result as StorageChangeSetJSON[]).map(({ block, changes }): [Hash, Codec[]] => [
-        registry.createType('Hash', block),
-        this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
-      ]);
+      const jsonSet = result as StorageChangeSetJSON[];
+      const mapped = new Array<[Hash, Codec[]]>(jsonSet.length);
+
+      for (let i = 0; i < jsonSet.length; i++) {
+        const { block, changes } = jsonSet[i];
+
+        mapped[i] = [
+          registry.createType('Hash', block),
+          this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
+        ];
+      }
 
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
@@ -382,21 +401,22 @@ export class RpcCore {
   private _formatStorageSet (registry: Registry, blockHash: string, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
     // For StorageChangeSet, the changes has the [key, value] mappings
     const withCache = keys.length !== 1;
+    const results = new Array<Codec>(keys.length);
 
     // multiple return values (via state.storage subscription), decode the values
     // one at a time, all based on the query types. Three values can be returned -
     //   - Codec - There is a valid value, non-empty
     //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, blockHash, key, changes, withCache, index));
+    for (let i = 0; i < keys.length; i++) {
+      results[i] = this._formatStorageSetEntry(registry, blockHash, keys[i], changes, withCache, i);
+    }
 
-      return results;
-    }, []);
+    return results;
   }
 
   private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
     const hexKey = key.toHex();
-    const found = changes.find(([key]) => key === hexKey);
+    const found = changes.find(([k]) => k === hexKey);
 
     // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache

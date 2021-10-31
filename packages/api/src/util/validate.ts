@@ -7,14 +7,20 @@ import type { Registry } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
 
+/** @internal */
 function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiLookupTypeId[]): string {
   return `${section}.${method}(${args.map((a) => lookup.getTypeDef(a).type).join(', ')})`;
+}
+
+/** @internal */
+function filterDefined (a: unknown): boolean {
+  return !isUndefined(a);
 }
 
 // sets up the arguments in the form of [creator, args] ready to be used in a storage
 // call. Additionally, it verifies that the correct number of arguments have been passed
 export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, unknown[]] {
-  const args = _args.filter((arg) => !isUndefined(arg));
+  const args = _args.filter(filterDefined);
 
   if (creator.meta.type.isPlain) {
     assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
@@ -22,7 +28,7 @@ export function extractStorageArgs (registry: Registry, creator: StorageEntry, _
     const { hashers, key } = creator.meta.type.asMap;
     const keys = hashers.length === 1
       ? [key]
-      : registry.lookup.getSiType(key).def.asTuple.map((t) => t);
+      : registry.lookup.getSiType(key).def.asTuple.toArray();
 
     assert(args.length === keys.length, () => `${sig(registry, creator, keys)} is a map, requiring ${keys.length} arguments, ${args.length} found`);
   }

@@ -34,13 +34,13 @@ export class Json extends Map<string, any> implements Codec {
 
     this.registry = registry;
 
-    decoded.forEach(([key]): void => {
+    for (const [key] of decoded) {
       isUndefined(this[key as keyof this]) &&
         Object.defineProperty(this, key, {
           enumerable: true,
           get: (): Codec | undefined => this.get(key) as Codec
         });
-    });
+    }
   }
 
   /**
@@ -82,24 +82,28 @@ export class Json extends Map<string, any> implements Codec {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): Record<string, AnyJson> {
-    return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
-      json[key] = isFunction((value as Codec).toHuman)
-        ? (value as Codec).toHuman()
-        : value as AnyJson;
+    const json: Record<string, AnyJson> = {};
 
-      return json;
-    }, {});
+    for (const [k, v] of this.entries()) {
+      json[k] = isFunction((v as Codec).toHuman)
+        ? (v as Codec).toHuman()
+        : v as AnyJson;
+    }
+
+    return json;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
-      json[key] = value as AnyJson;
+    const json: Record<string, AnyJson> = {};
 
-      return json;
-    }, {});
+    for (const [k, v] of this.entries()) {
+      json[k] = v as AnyJson;
+    }
+
+    return json;
   }
 
   /**

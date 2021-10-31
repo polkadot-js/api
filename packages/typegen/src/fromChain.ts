@@ -30,7 +30,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
       HEADER('chain'),
       ...[
         '@polkadot/api/augment/rpc',
-        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
+        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].map((k) => `./augment-api-${k}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );

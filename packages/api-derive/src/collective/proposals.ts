@@ -28,7 +28,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
         }
         : null
     )
-    .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
+    .filter((p): p is DeriveCollectiveProposal => !!p);
 }
 
 function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {

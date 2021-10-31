@@ -35,20 +35,23 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   /** @internal */
   public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
     if (Array.isArray(value)) {
-      return [
-        value.map((entry: unknown, index: number): T => {
-          try {
-            return entry instanceof Type
-              ? entry
-              : new Type(registry, entry);
-          } catch (error) {
-            l.error(`Unable to decode on index ${index}`, (error as Error).message);
+      const result = new Array<T>(value.length);
 
-            throw error;
-          }
-        }),
-        0, 0
-      ];
+      for (let i = 0; i < value.length; i++) {
+        const entry = value[i];
+
+        try {
+          result[i] = entry instanceof Type
+            ? entry
+            : new Type(registry, entry);
+        } catch (error) {
+          l.error(`Unable to decode on index ${i}`, (error as Error).message);
+
+          throw error;
+        }
+      }
+
+      return [result, 0, 0];
     }
 
     const u8a = u8aToU8a(value);

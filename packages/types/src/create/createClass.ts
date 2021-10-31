@@ -24,24 +24,28 @@ function getSubDef (value: TypeDef): TypeDef {
   return value.sub;
 }
 
-function getSubType (value: TypeDef): string {
-  const { lookupName, type } = getSubDef(value);
-
+function getTypeDefType ({ lookupName, type }: TypeDef): string {
   return lookupName || type;
+}
+
+function getSubType (value: TypeDef): string {
+  return getTypeDefType(getSubDef(value));
 }
 
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
-  return getSubDefArray(value).reduce<Record<string, string>>((result, { lookupName, name, type }) => {
-    result[name as string] = lookupName || type;
+  const result: Record<string, string> = {};
 
-    return result;
-  }, {});
+  for (const def of getSubDefArray(value)) {
+    result[def.name as string] = getTypeDefType(def);
+  }
+
+  return result;
 }
 
 // create an array of type string constructors from the input
 function getTypeClassArray (value: TypeDef): string[] {
-  return getSubDefArray(value).map(({ lookupName, type }) => lookupName || type);
+  return getSubDefArray(value).map(getTypeDefType);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor<Codec> {
@@ -71,16 +75,21 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const subs = getSubDefArray(value);
+    let types: Record<string, string> | Record<string, number>;
 
-    return Enum.with(
-      subs.every(({ type }) => type === 'Null')
-        ? subs.reduce<Record<string, number>>((out, { index, name }, count) => {
-          out[name as string] = index || count;
+    if (subs.every(({ type }) => type === 'Null')) {
+      types = {} as Record<string, number>;
 
-          return out;
-        }, {})
-        : getTypeClassMap(value)
-    );
+      for (let i = 0; i < subs.length; i++) {
+        const { index, name } = subs[i];
+
+        types[name as string] = index || i;
+      }
+    } else {
+      types = getTypeClassMap(value);
+    }
+
+    return Enum.with(types);
   },
 
   [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
@@ -124,15 +133,15 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return Result.with({ Err, Ok });
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    CodecSet.with(
-      getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
-        result[name as string] = index as number;
+  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
+    const values: Record<string, number> = {};
 
-        return result;
-      }, {}),
-      value.length
-    ),
+    for (const { index, name } of getSubDefArray(value)) {
+      values[name as string] = index as number;
+    }
+
+    return CodecSet.with(values, value.length);
+  },
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
@@ -152,7 +161,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return (
       sub.type === 'u8'
         ? Bytes
-        : Vec.with(sub.lookupName || sub.type)
+        : Vec.with(getTypeDefType(sub))
     );
   },
 
@@ -162,7 +171,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return (
       sub.type === 'u8'
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-        : VecFixed.with(sub.lookupName || sub.type, length)
+        : VecFixed.with(getTypeDefType(sub), length)
     );
   },
 

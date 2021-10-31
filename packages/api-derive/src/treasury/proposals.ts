@@ -23,18 +23,20 @@ interface Result {
 function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
-  const councilTreasury = councilProposals.filter(({ proposal }) =>
+  const filterProposal = ({ proposal }: DeriveCollectiveProposal) => (
     api.tx.treasury.approveProposal.is(proposal) ||
     api.tx.treasury.rejectProposal.is(proposal)
   );
+  const councilTreasury = councilProposals.filter(filterProposal);
 
-  allIds.forEach((id, index): void => {
-    if (allProposals[index].isSome) {
+  for (let i = 0; i < allIds.length; i++) {
+    if (allProposals[i].isSome) {
+      const id = allIds[i];
       const council = councilTreasury
         .filter(({ proposal }) => id.eq(proposal.args[0]))
         .sort((a, b) => a.proposal.method.localeCompare(b.proposal.method));
       const isApproval = approvalIds.some((approvalId) => approvalId.eq(id));
-      const derived = { council, id, proposal: allProposals[index].unwrap() };
+      const derived = { council, id, proposal: allProposals[i].unwrap() };
 
       if (isApproval) {
         approvals.push(derived);
@@ -42,7 +44,7 @@ function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, 
         proposals.push(derived);
       }
     }
-  });
+  }
 
   return { approvals, proposalCount, proposals };
 }

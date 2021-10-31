@@ -47,7 +47,9 @@ function clearCache (cache: DeriveCache): void {
   });
 
   // don't do delete inside loop, just in-case
-  all.forEach((key) => cache.del(key));
+  for (const k of all) {
+    cache.del(k);
+  }
 }
 
 export function setDeriveCache (prefix = '', cache?: DeriveCache): void {

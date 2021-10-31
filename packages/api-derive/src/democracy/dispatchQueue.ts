@@ -77,24 +77,24 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
     switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];
 
-      blockNumbers.forEach((at, index): void => {
-        (agendas[index] || [])
-          .filter((opt) => opt.isSome)
-          .forEach((optScheduled): void => {
-            const scheduled = optScheduled.unwrap();
+      for (let i = 0; i < blockNumbers.length; i++) {
+        const at = blockNumbers[i];
 
-            if (scheduled.maybeId.isSome) {
-              const id = scheduled.maybeId.unwrap().toHex();
+        for (const o of (agendas[i] || [])) {
+          const scheduled = o.unwrapOr(null);
 
-              if (id.startsWith(DEMOCRACY_ID)) {
-                const [, index] = api.registry.createType('(u64, ReferendumIndex)', id);
-                const imageHash = scheduled.call.args[0] as Hash;
+          if (scheduled && scheduled.maybeId.isSome) {
+            const id = scheduled.maybeId.unwrap().toHex();
 
-                result.push({ at, imageHash, index });
-              }
+            if (id.startsWith(DEMOCRACY_ID)) {
+              const [, index] = api.registry.createType('(u64, ReferendumIndex)', id);
+              const imageHash = scheduled.call.args[0] as Hash;
+
+              result.push({ at, imageHash, index });
             }
-          });
-      });
+          }
+        }
+      }
 
       return result.length
         ? combineLatest([
