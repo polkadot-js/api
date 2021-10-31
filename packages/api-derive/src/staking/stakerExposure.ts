@@ -33,7 +33,9 @@ export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (acc
             if (isValidator) {
               validators[stakerId] = allValidators[stakerId];
             } else if (nominating) {
-              for (const { validatorId } of nominating) {
+              for (let k = 0; k < nominating.length; k++) {
+                const { validatorId } = nominating[k];
+
                 validators[validatorId] = allValidators[validatorId];
               }
             }

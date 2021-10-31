@@ -13,7 +13,9 @@ function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWith
     let dispatchInfo: DispatchInfo | undefined;
     const events: Event[] = [];
 
-    for (const { event, phase } of records) {
+    for (let i = 0; i < records.length; i++) {
+      const { event, phase } = records[i];
+
       if (phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index)) {
         if (event.section === 'system') {
           if (event.method === 'ExtrinsicSuccess') {

@@ -9,11 +9,11 @@ export function approvalFlagsToBools (flags: Vec<ApprovalFlag> | ApprovalFlag[])
   const bools: boolean[] = [];
 
   flags.forEach((flag: ApprovalFlag): void => {
-    const str = flag.toString(2);
+    const bits = flag.toString(2).split('').reverse();
 
     // read from lowest bit to highest
-    for (const bit of str.split('').reverse()) {
-      bools.push(!!parseInt(bit, 10));
+    for (let i = 0; i < bits.length; i++) {
+      bools.push(!!parseInt(bits[i], 10));
     }
   });
 

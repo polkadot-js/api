@@ -17,7 +17,9 @@ const CACHE_KEY = 'eraPrefs';
 function mapPrefs (era: EraIndex, all: [StorageKey, PalletStakingValidatorPrefs][]): DeriveEraPrefs {
   const validators: DeriveEraValPrefs = {};
 
-  for (const [key, prefs] of all) {
+  for (let i = 0; i < all.length; i++) {
+    const [key, prefs] = all[i];
+
     validators[key.args[1].toString()] = prefs;
   }
 

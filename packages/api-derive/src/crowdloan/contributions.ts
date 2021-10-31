@@ -102,16 +102,16 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, chil
     map(([keys, { added, blockHash, removed }]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
-      for (const k of keys) {
-        contributorsMap[k] = true;
+      for (let i = 0; i < keys.length; i++) {
+        contributorsMap[keys[i]] = true;
       }
 
-      for (const k of added) {
-        contributorsMap[k] = true;
+      for (let i = 0; i < added.length; i++) {
+        contributorsMap[added[i]] = true;
       }
 
-      for (const k of removed) {
-        delete contributorsMap[k];
+      for (let i = 0; i < removed.length; i++) {
+        delete contributorsMap[removed[i]];
       }
 
       return {

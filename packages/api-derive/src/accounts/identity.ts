@@ -30,9 +30,9 @@ function dataAsString (data: Data): string | undefined {
 function extractOther (additional: IdentityInfoAdditional[]): Record<string, string> {
   const other: Record<string, string> = {};
 
-  for (const [_key, _value] of additional) {
-    const key = dataAsString(_key);
-    const value = dataAsString(_value);
+  for (let i = 0; i < additional.length; i++) {
+    const key = dataAsString(additional[i][0]);
+    const value = dataAsString(additional[i][1]);
 
     if (key && value) {
       other[key] = value;

@@ -23,7 +23,8 @@ const QUERY_OPTS = {
 function groupByEra (list: PalletStakingUnlockChunk[]): Record<string, BN> {
   const map: Record<string, BN> = {};
 
-  for (const { era, value } of list) {
+  for (let i = 0; i < list.length; i++) {
+    const { era, value } = list[i];
     const key = era.toString();
 
     map[key] = (map[key] || BN_ZERO).add(value.unwrap());
@@ -49,9 +50,13 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingSt
 function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
   const sum = new BN(0);
 
-  for (const { era, value } of (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[])) {
-    if (sessionInfo.activeEra.gte(era.unwrap())) {
-      sum.iadd(value.unwrap());
+  if (stakingLedger && stakingLedger.unlocking) {
+    for (let i = 0; i < stakingLedger.unlocking.length; i++) {
+      const { era, value } = stakingLedger.unlocking[i];
+
+      if (sessionInfo.activeEra.gte(era.unwrap())) {
+        sum.iadd(value.unwrap());
+      }
     }
   }
 
