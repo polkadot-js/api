@@ -12,7 +12,7 @@ import { memo } from '../util';
 type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
 
 function filterInfo (info: PalletDemocracyReferendumInfo | null): info is PalletDemocracyReferendumInfo {
-  return!!info && info.isFinished;
+  return !!info && info.isFinished;
 }
 
 export function referendumsFinished (instanceId: string, api: ApiInterfaceRx): () => Observable<ReferendumInfoFinished[]> {

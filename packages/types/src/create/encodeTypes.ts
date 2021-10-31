@@ -119,13 +119,18 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
 
+    const _alias: Record<string, unknown> = {};
+
+    if (alias) {
+      for (const [k, v] of alias) {
+        _alias[k] = v;
+      }
+    }
+
     return encodeSubTypes(registry, sub, false, {
       ...(
         alias
-          ? { _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
-            ...all,
-            [k]: v
-          }), {}) }
+          ? { _alias }
           : {}
       )
     });

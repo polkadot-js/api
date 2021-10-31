@@ -14,5 +14,6 @@ export function getStorage (registry: Registry): Storage {
   for (const [k, fn] of Object.entries(substrate)) {
     storage[k] = fn(registry);
   }
+
   return { substrate: storage };
 }

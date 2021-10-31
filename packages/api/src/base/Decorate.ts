@@ -473,7 +473,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const methods: QueryableModuleStorageAt<ApiType> = {};
 
       for (const [name, method] of Object.entries(section)) {
-        methods[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash)
+        methods[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash);
       }
 
       result[name] = methods;

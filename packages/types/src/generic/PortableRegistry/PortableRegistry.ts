@@ -56,7 +56,7 @@ const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Re
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 
-function camelText(v: Text): string {
+function camelText (v: Text): string {
   return stringUpperFirst(stringCamelCase(v));
 }
 
@@ -237,7 +237,7 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
   const extractor = (t: PortableType) => extractName(types, t);
   const dedup = removeDuplicateNames(lookup, types.map(extractor));
   const names: Record<number, string> = {};
-  const lookups: Record<string, string> = {}
+  const lookups: Record<string, string> = {};
 
   for (const [lookupIndex, name] of dedup) {
     names[lookupIndex] = name;

@@ -117,7 +117,7 @@ function filterRewardNonEmpty ({ isEmpty }: DeriveStakerReward): boolean {
   return !isEmpty;
 }
 
-function filterRewardValidators  ({ validators }: DeriveStakerReward): boolean {
+function filterRewardValidators ({ validators }: DeriveStakerReward): boolean {
   return Object.keys(validators).length !== 0;
 }
 

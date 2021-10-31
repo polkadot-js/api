@@ -29,6 +29,7 @@ function checkOrder (network: string, versions: ChainUpgradesRaw): [number, numb
       ? false
       : curr[0] <= prev[0] || curr[1] <= prev[1];
   };
+
   const ooo = versions.filter(filterVersion);
 
   assert(!ooo.length, () => `${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
