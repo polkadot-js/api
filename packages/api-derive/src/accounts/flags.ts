@@ -20,6 +20,10 @@ type FlagsIntermediate = [
   AccountId | undefined
 ];
 
+function mapAccountId ([id]: ITuple<[AccountId, Balance]>): AccountId {
+  return id;
+}
+
 function parseFlags (address: AccountId | Address | string | null | undefined, [electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]: FlagsIntermediate): DeriveAccountFlags {
   const isIncluded = (id: AccountId | Address | string) =>
     address
@@ -27,7 +31,7 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
       : false;
 
   return {
-    isCouncil: (electionsMembers?.map(([id]: ITuple<[AccountId, Balance]>) => id) || councilMembers || []).some(isIncluded),
+    isCouncil: (electionsMembers?.map(mapAccountId) || councilMembers || []).some(isIncluded),
     isSociety: (societyMembers || []).some(isIncluded),
     isSudo: sudoKey?.toString() === address?.toString(),
     isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded)

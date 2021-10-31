@@ -121,9 +121,12 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
         api.query.identity.identityOf.multi(accountIds),
         api.query.identity.superOf.multi(accountIds)
       ]).pipe(
-        map(([identities, supers]) =>
-          identities.map((identityOfOpt, index): DeriveHasIdentity => {
-            const superOfOpt = supers[index];
+        map(([identities, supers]) => {
+          const result = new Array<DeriveHasIdentity>(identities.length);
+
+          for (let i = 0; i < identities.length; i++) {
+            const identityOfOpt = identities[i];
+            const superOfOpt = supers[i];
             const parentId = superOfOpt && superOfOpt.isSome
               ? superOfOpt.unwrap()[0].toString()
               : undefined;
@@ -137,9 +140,11 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
               }
             }
 
-            return { display, hasIdentity: !!(display || parentId), parentId };
-          })
-        )
+            result[i] = { display, hasIdentity: !!(display || parentId), parentId };
+          }
+
+          return result;
+        })
       )
       : of(accountIds.map(() => ({ hasIdentity: false })))
   );

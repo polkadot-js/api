@@ -20,21 +20,24 @@ interface Result {
   proposalCount: ProposalIndex;
 }
 
+function sortProposals (a: DeriveCollectiveProposal, b: DeriveCollectiveProposal): number {
+  return a.proposal.method.localeCompare(b.proposal.method);
+}
+
 function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
-  const approvals: DeriveTreasuryProposal[] = [];
-  const proposals: DeriveTreasuryProposal[] = [];
   const filterProposal = ({ proposal }: DeriveCollectiveProposal) => (
     api.tx.treasury.approveProposal.is(proposal) ||
     api.tx.treasury.rejectProposal.is(proposal)
   );
   const councilTreasury = councilProposals.filter(filterProposal);
+  const approvals: DeriveTreasuryProposal[] = [];
+  const proposals: DeriveTreasuryProposal[] = [];
 
   for (let i = 0; i < allIds.length; i++) {
     if (allProposals[i].isSome) {
       const id = allIds[i];
-      const council = councilTreasury
-        .filter(({ proposal }) => id.eq(proposal.args[0]))
-        .sort((a, b) => a.proposal.method.localeCompare(b.proposal.method));
+      const filterIds = ({ proposal }: DeriveCollectiveProposal) => id.eq(proposal.args[0]);
+      const council = councilTreasury.filter(filterIds).sort(sortProposals);
       const isApproval = approvalIds.some((approvalId) => approvalId.eq(id));
       const derived = { council, id, proposal: allProposals[i].unwrap() };
 
@@ -54,7 +57,9 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
   const count = proposalCount.toNumber();
 
   for (let index = 0; index < count; index++) {
-    if (!approvalIds.some((id) => id.eqn(index))) {
+    const filterIds = (id: ProposalIndex) => id.eqn(index);
+
+    if (!approvalIds.some(filterIds)) {
       proposalIds.push(api.registry.createType('ProposalIndex', index));
     }
   }

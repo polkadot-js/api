@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { Option, StorageKey, Vec } from '@polkadot/types';
+import type { AccountId, AccountId32, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
@@ -17,8 +17,6 @@ import { memo } from '../util';
 import { calcVotes, getStatus, parseImage } from './util';
 
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
-type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
-type VotingDirectVote = VotingDirect['votes'][0];
 
 function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
@@ -47,37 +45,47 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
 }
 
 function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referendumId: BN): DeriveReferendumVote[] {
-  return mapped
-    .filter(([, voting]) => voting.isDirect)
-    .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
-      accountId,
-      voting.asDirect.votes.filter(([idx]) => idx.eq(referendumId))
-    ])
-    .filter(([, directVotes]) => !!directVotes.length)
-    .reduce((result: DeriveReferendumVote[], [accountId, votes]) =>
-      // FIXME We are ignoring split votes
-      votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
-        if (vote.isStandard) {
+  const result: DeriveReferendumVote[] = [];
+
+  for (let i = 0; i < mapped.length; i++) {
+    const [accountId, voting] = mapped[i];
+
+    if (voting.isDirect) {
+      const { votes } = voting.asDirect;
+
+      for (let j = 0; j < votes.length; j++) {
+        const [idx, vote] = votes[j];
+
+        if (vote.isStandard && idx.eq(referendumId)) {
           result.push({
             accountId,
             isDelegating: false,
             ...vote.asStandard
           });
         }
+      }
+    }
+  }
 
-        return result;
-      }, result), []
-    );
+  return result;
 }
 
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
+  const mapResult = ([{ args: [accountId] }, voting]: [StorageKey<[AccountId32]>, PalletDemocracyVoteVoting]): [AccountId, PalletDemocracyVoteVoting] =>
+    [accountId, voting];
+
   return api.query.democracy.votingOf.entries().pipe(
     map((allVoting): DeriveReferendumVote[] => {
-      const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, PalletDemocracyVoteVoting] => [accountId, voting]);
+      const mapped = allVoting.map(mapResult);
       const votes = extractVotes(mapped, referendumId);
-      const delegations = mapped
-        .filter(([, voting]) => voting.isDelegating)
-        .map(([accountId, voting]): [AccountId, VotingDelegating] => [accountId, voting.asDelegating]);
+      const delegations: [AccountId, VotingDelegating][] = [];
+
+      // extract delegations
+      for (const [accountId, voting] of mapped) {
+        if (voting.isDelegating) {
+          delegations.push([accountId, voting.asDelegating]);
+        }
+      }
 
       // add delegations
       for (const [accountId, { balance, conviction, target }] of delegations) {

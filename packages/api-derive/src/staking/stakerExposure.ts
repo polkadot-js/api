@@ -24,7 +24,7 @@ export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (acc
           result[i] = new Array<DeriveStakerExposure>(exposures.length);
 
           for (let j = 0; j < exposures.length; j++) {
-            const { era, nominators: allNominators, validators: allValidators } = exposures[i];
+            const { era, nominators: allNominators, validators: allValidators } = exposures[j];
 
             const isValidator = !!allValidators[stakerId];
             const validators: DeriveEraValidatorExposure = {};

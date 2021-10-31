@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
+import type { EventRecord } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { DeriveContributions } from '../types';
 
@@ -44,13 +45,14 @@ function _getUpdates (api: ApiInterfaceRx, paraId: string | number | BN): Observ
 }
 
 function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | BN): Observable<string> {
+  const filterCrowdloanEvents = ({ event: { data: [eventParaId], method, section } }: EventRecord) =>
+    section === 'crowdloan' &&
+    ['AllRefunded', 'Dissolved', 'PartiallyRefunded'].includes(method) &&
+    eventParaId.eq(paraId);
+
   return api.query.system.events().pipe(
     switchMap((events): Observable<string> => {
-      const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
-        section === 'crowdloan' &&
-        ['AllRefunded', 'Dissolved', 'PartiallyRefunded'].includes(method) &&
-        eventParaId.eq(paraId)
-      );
+      const items = events.filter(filterCrowdloanEvents);
 
       return items.length
         ? of(events.createdAtHash?.toHex() || '-')

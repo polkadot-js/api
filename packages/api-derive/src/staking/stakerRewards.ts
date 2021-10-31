@@ -113,35 +113,34 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
   }
 }
 
-function filterRewardNonEmpty ({ isEmpty }: DeriveStakerReward): boolean {
-  return !isEmpty;
-}
-
-function filterRewardValidators ({ validators }: DeriveStakerReward): boolean {
-  return Object.keys(validators).length !== 0;
-}
-
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
   const filter = eras.filter((era) => !stakingLedger.claimedRewards.some((e) => e.eq(era)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
+  const filtered: DeriveStakerReward[] = [];
 
-  return rewards
-    .filter(filterRewardNonEmpty)
-    .filter((reward): boolean => {
-      if (!filter.some((filter) => reward.era.eq(filter))) {
-        return false;
-      }
-
+  for (const reward of rewards) {
+    if (!reward.isEmpty && filter.some((f) => reward.era.eq(f))) {
       removeClaimed(validators, queryValidators, reward);
 
-      return true;
-    })
-    .filter(filterRewardValidators)
-    .map((reward) => ({
+      if (Object.keys(reward.validators).length) {
+        filtered.push(reward);
+      }
+    }
+  }
+
+  const result = new Array<DeriveStakerReward>(filtered.length);
+
+  for (let i = 0; i < filtered.length; i++) {
+    const reward = filtered[i];
+
+    result[i] = {
       ...reward,
       nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-    }));
+    };
+  }
+
+  return result;
 }
 
 export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<ErasResult> {
@@ -162,11 +161,15 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
       api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(
       switchMap(([queries, exposures, erasResult]): Observable<DeriveStakerReward[][]> => {
-        const allRewards = queries.map(({ stakingLedger, stashId }, index): DeriveStakerReward[] =>
-          (!stashId || !stakingLedger)
+        const allRewards = new Array<DeriveStakerReward[]>(queries.length);
+
+        for (let i = 0; i < queries.length; i++) {
+          const { stakingLedger, stashId } = queries[i];
+
+          allRewards[i] = (!stashId || !stakingLedger)
             ? []
-            : parseRewards(api, stashId, erasResult, exposures[index])
-        );
+            : parseRewards(api, stashId, erasResult, exposures[i]);
+        }
 
         if (withActive) {
           return of(allRewards);
@@ -175,21 +178,26 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
         const [allValidators, stashValidators] = allUniqValidators(allRewards);
 
         return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe(
-          map((queriedVals): DeriveStakerReward[][] =>
-            queries.map(({ stakingLedger }, index): DeriveStakerReward[] =>
-              filterRewards(
-                eras,
-                stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
-                  validatorId,
-                  queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
-                ]),
-                {
-                  rewards: allRewards[index],
-                  stakingLedger
-                }
-              )
-            )
-          )
+          map((queried): DeriveStakerReward[][] => {
+            const result = new Array<DeriveStakerReward[]>(queries.length);
+
+            for (let i = 0; i < queries.length; i++) {
+              const validators = new Array<[string, DeriveStakingQuery]>(stashValidators[i].length);
+
+              for (let j = 0; j < stashValidators[i].length; j++) {
+                const validatorId = stashValidators[i][j];
+
+                validators[j] = [validatorId, queried.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery];
+              }
+
+              result[i] = filterRewards(eras, validators, {
+                rewards: allRewards[i],
+                stakingLedger: queries[i].stakingLedger
+              });
+            }
+
+            return result;
+          })
         );
       })
     )
