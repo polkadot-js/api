@@ -98,18 +98,26 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toHuman(isExtended)
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toHuman(isExtended);
+    }
+
+    return result;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toJSON()
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toJSON();
+    }
+
+    return result;
   }
 
   /**
@@ -121,12 +129,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    // Overwrite the default toString representation of Array.
-    const data = this.map((entry): string =>
-      entry.toString()
-    );
+    const result = new Array<string>(this.length);
 
-    return `[${data.join(', ')}]`;
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toString();
+    }
+
+    return `[${result.join(', ')}]`;
   }
 
   /**
@@ -134,9 +143,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.map((entry): Uint8Array =>
-      entry.toU8a(isBare)
-    );
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a(isBare);
+    }
 
     return isBare
       ? u8aConcat(...encoded)
