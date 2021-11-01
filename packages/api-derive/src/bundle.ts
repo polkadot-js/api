@@ -39,6 +39,7 @@ type DeriveSection<Section> = {
     ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
     : never;
 };
+
 type DeriveAllSections<AllSections> = {
   [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
 };
@@ -66,33 +67,41 @@ const checks: Record<string, Avail> = {
   treasury: { instances: ['treasury'] }
 };
 
+type UnknownDerives = Record<string, Record<string, DeriveCreator>>;
+
 /**
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
+function injectFunctions<S extends UnknownDerives> (instanceId: string, api: ApiInterfaceRx, allSections: S): DeriveAllSections<S> {
   const queryKeys = Object.keys(api.query);
+  const filterKeys = (q: string) => queryKeys.includes(q);
   const specName = api.runtimeVersion.specName.toString();
-  const derives = {} as DeriveAllSections<AllSections>;
+  const derives = {} as DeriveAllSections<S>;
+  const sections = Object.keys(allSections);
 
-  for (const s of Object.keys(allSections)) {
-    const isIncluded = !checks[s] || checks[s].instances.some((q) => queryKeys.includes(q)) || (
+  for (let i = 0; i < sections.length; i++) {
+    const s = sections[i];
+
+    const isIncluded = !checks[s] || checks[s].instances.some(filterKeys) || (
       checks[s].withDetect && checks[s].instances.some((q) =>
-        (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
+        (api.registry.getModuleInstances(specName, q) || []).some(filterKeys)
       )
     );
 
     if (isIncluded) {
-      const section = allSections[s as keyof AllSections];
+      const section = allSections[s as keyof S];
       const methods = {} as DeriveSection<typeof section>;
+      const entries = Object.entries(section);
 
-      for (const [methodName, creator] of Object.entries(section)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-        methods[methodName as keyof typeof section] = creator(instanceId, api);
+      for (let e = 0; e < entries.length; e++) {
+        const [methodName, creator] = entries[e];
+
+        (methods as Record<string, unknown>)[methodName] = creator(instanceId, api);
       }
 
-      derives[s as keyof AllSections] = methods;
+      derives[s as keyof S] = methods;
     }
   }
 
@@ -104,7 +113,7 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
 /** @internal */
 export function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
-    ...injectFunctions(instanceId, api, derive),
+    ...injectFunctions(instanceId, api, derive as UnknownDerives),
     ...injectFunctions(instanceId, api, custom)
-  };
+  } as ExactDerive;
 }
