@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletEventMetadataV14, PalletMetadataV14, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletEventMetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
 import type { AnyTuple, IEvent, Registry } from '../../../types';
 import type { Events, IsEvent, ModuleEvents } from '../types';
 
@@ -9,7 +9,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { variantToMeta } from '../errors';
 
-export function filterEventsSome ({ events }: PalletMetadataV14): boolean {
+export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;
 }
 
@@ -38,7 +38,7 @@ function lazyMethod (registry: Registry, lookup: PortableRegistry, result: Modul
   });
 }
 
-function lazyMethods (registry: Registry, lookup: PortableRegistry, events: PalletEventMetadataV14, sectionIndex: number): ModuleEvents {
+function lazyMethods (registry: Registry, lookup: PortableRegistry, events: PalletEventMetadataLatest, sectionIndex: number): ModuleEvents {
   const result: ModuleEvents = {};
   const { variants } = lookup.getSiType(events.type).def.asVariant;
 
@@ -49,7 +49,7 @@ function lazyMethods (registry: Registry, lookup: PortableRegistry, events: Pall
   return result;
 }
 
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Events, { events, name }: PalletMetadataV14, sectionIndex: number): void {
+function lazySection (registry: Registry, lookup: PortableRegistry, result: Events, { events, name }: PalletMetadataLatest, sectionIndex: number): void {
   let cached: ModuleEvents | null = null;
 
   Object.defineProperty(result, stringCamelCase(name), {

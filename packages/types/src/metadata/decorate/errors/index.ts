@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest, PalletErrorMetadataV14, PalletMetadataV14, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, PalletErrorMetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
 import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, IsError, ModuleErrors } from '../types';
@@ -49,7 +49,7 @@ function lazyMethod (registry: Registry, lookup: PortableRegistry, result: Modul
   });
 }
 
-function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: PalletErrorMetadataV14, sectionIndex: number): ModuleErrors {
+function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: PalletErrorMetadataLatest, sectionIndex: number): ModuleErrors {
   const result: ModuleErrors = {};
   const { variants } = lookup.getSiType(errors.type).def.asVariant;
 
@@ -60,7 +60,7 @@ function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: Pall
   return result;
 }
 
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataV14, sectionIndex: number): void {
+function lazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataLatest, sectionIndex: number): void {
   if (errors.isNone) {
     return;
   }

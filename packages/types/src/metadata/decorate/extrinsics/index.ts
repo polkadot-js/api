@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletCallMetadataV14, PalletMetadataV14, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletCallMetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
 import type { CallFunction, Registry } from '../../../types';
 import type { Extrinsics, ModuleExtrinsics } from '../types';
 
@@ -10,7 +10,7 @@ import { stringCamelCase } from '@polkadot/util';
 import { getSiName } from '../../util';
 import { createUnchecked } from './createUnchecked';
 
-export function filterCallsSome ({ calls }: PalletMetadataV14): boolean {
+export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
@@ -54,7 +54,7 @@ function lazyMethod (registry: Registry, lookup: PortableRegistry, result: Modul
   });
 }
 
-function lazyMethods (registry: Registry, lookup: PortableRegistry, calls: PalletCallMetadataV14, sectionIndex: number, sectionName: string): ModuleExtrinsics {
+function lazyMethods (registry: Registry, lookup: PortableRegistry, calls: PalletCallMetadataLatest, sectionIndex: number, sectionName: string): ModuleExtrinsics {
   const result: ModuleExtrinsics = {};
   const { variants } = lookup.getSiType(calls.type).def.asVariant;
 
@@ -65,7 +65,7 @@ function lazyMethods (registry: Registry, lookup: PortableRegistry, calls: Palle
   return result;
 }
 
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Extrinsics, { calls, name }: PalletMetadataV14, sectionIndex: number): void {
+function lazySection (registry: Registry, lookup: PortableRegistry, result: Extrinsics, { calls, name }: PalletMetadataLatest, sectionIndex: number): void {
   const section = stringCamelCase(name);
   let cached: ModuleExtrinsics | null = null;
 

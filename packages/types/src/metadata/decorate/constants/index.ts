@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletConstantMetadataV14, PalletMetadataV14 } from '../../../interfaces';
+import type { MetadataLatest, PalletConstantMetadataLatest, PalletMetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { ConstantCodec, Constants, ModuleConstants } from '../types';
 
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
-function createConstantCodec (registry: Registry, meta: PalletConstantMetadataV14): ConstantCodec {
+function createConstantCodec (registry: Registry, meta: PalletConstantMetadataLatest): ConstantCodec {
   const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as ConstantCodec;
 
   (codec as unknown as Record<string, unknown>).meta = meta;
@@ -15,7 +15,7 @@ function createConstantCodec (registry: Registry, meta: PalletConstantMetadataV1
   return codec;
 }
 
-function lazyMethod (registry: Registry, result: ModuleConstants, meta: PalletConstantMetadataV14): void {
+function lazyMethod (registry: Registry, result: ModuleConstants, meta: PalletConstantMetadataLatest): void {
   let cached: ConstantCodec | null = null;
 
   Object.defineProperty(result, stringCamelCase(meta.name), {
@@ -30,7 +30,7 @@ function lazyMethod (registry: Registry, result: ModuleConstants, meta: PalletCo
   });
 }
 
-function lazyMethods (registry: Registry, constants: PalletConstantMetadataV14[]): ModuleConstants {
+function lazyMethods (registry: Registry, constants: PalletConstantMetadataLatest[]): ModuleConstants {
   const result: ModuleConstants = {};
 
   for (let c = 0; c < constants.length; c++) {
@@ -40,7 +40,7 @@ function lazyMethods (registry: Registry, constants: PalletConstantMetadataV14[]
   return result;
 }
 
-function lazySection (registry: Registry, result: Constants, { constants, name }: PalletMetadataV14): void {
+function lazySection (registry: Registry, result: Constants, { constants, name }: PalletMetadataLatest): void {
   if (constants.isEmpty) {
     return;
   }

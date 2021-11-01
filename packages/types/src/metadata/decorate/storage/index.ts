@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14 } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, PalletStorageMetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 import type { ModuleStorage, Storage } from '../types';
@@ -12,7 +12,7 @@ import { createFunction, createKeyRaw } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
 
-function lazyMethod (registry: Registry, result: ModuleStorage, meta: StorageEntryMetadataV14, prefix: string, section: string): void {
+function lazyMethod (registry: Registry, result: ModuleStorage, meta: StorageEntryMetadataLatest, prefix: string, section: string): void {
   const method = meta.name.toString();
   let cached: StorageEntry | null = null;
 
@@ -28,7 +28,7 @@ function lazyMethod (registry: Registry, result: ModuleStorage, meta: StorageEnt
   });
 }
 
-function lazyMethods (registry: Registry, { items, prefix: _prefix }: PalletStorageMetadataV14, moduleName: string, section: string): ModuleStorage {
+function lazyMethods (registry: Registry, { items, prefix: _prefix }: PalletStorageMetadataLatest, moduleName: string, section: string): ModuleStorage {
   const prefix = _prefix.toString();
   const result: ModuleStorage = {
     palletVersion: createRuntimeFunction(
@@ -45,7 +45,7 @@ function lazyMethods (registry: Registry, { items, prefix: _prefix }: PalletStor
   return result;
 }
 
-function lazySection (registry: Registry, result: Storage, { name, storage }: PalletMetadataV14): void {
+function lazySection (registry: Registry, result: Storage, { name, storage }: PalletMetadataLatest): void {
   if (storage.isNone) {
     return;
   }
