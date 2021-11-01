@@ -41,7 +41,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public get encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
-    return this.reduce((total, e) => total + e.encodedLength, compactToU8a(this.length).length);
+    let total = compactToU8a(this.length).length;
+
+    for (let i = 0; i < this.length; i++) {
+      total += this[i].encodedLength;
+    }
+
+    return total;
   }
 
   /**
