@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletCallMetadataLatest, PalletEventMetadataLatest, PalletMetadataLatest, PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiLookupTypeId, SiField, SiVariant } from '../interfaces/types';
 import type { Text } from '../primitive/Text';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
@@ -26,7 +26,7 @@ import { createTypeUnsafe } from './createType';
 
 const l = logger('registry');
 
-function getVariantArgs (lookup: PortableRegistry, { fields }: SiVariant): string[] {
+function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
   const args = new Array<string>(fields.length);
 
   for (let i = 0; i < fields.length; i++) {
@@ -82,19 +82,15 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadat
     const section = stringCamelCase(name);
 
     defineProperty(result, index.toString(), null, () =>
-      lazyMethods(lookup, errors.unwrap(), (variant: SiVariant): RegistryError => {
-        const { docs, fields, name } = variant;
-
-        return {
-          args: getVariantArgs(lookup, variant),
-          docs: docs.map(valueToString),
-          fields,
-          index: variant.index.toNumber(),
-          method: name.toString(),
-          name: name.toString(),
-          section
-        };
-      })
+      lazyMethods(lookup, errors.unwrap(), ({ docs, fields, index, name }: SiVariant): RegistryError => ({
+        args: getFieldArgs(lookup, fields),
+        docs: docs.map(valueToString),
+        fields,
+        index: index.toNumber(),
+        method: name.toString(),
+        name: name.toString(),
+        section
+      }))
     );
   };
 
@@ -118,7 +114,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
       lazyMethods(lookup, events.unwrap(), (variant: SiVariant): Constructor<GenericEventData> => {
         const meta = registry.createType('EventMetadataLatest', {
           ...variant,
-          args: getVariantArgs(lookup, variant)
+          args: getFieldArgs(lookup, variant.fields)
         });
 
         return class extends GenericEventData {
