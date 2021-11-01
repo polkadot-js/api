@@ -26,16 +26,13 @@ function warn (prefix: string, type: 'calls' | 'modules', [added, removed]: Stri
   }
 }
 
-function extractKeys (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
-  return [Object.keys(src), Object.keys(dst)];
-}
-
 function findSectionExcludes (a: string[], b: string[]): string[] {
   return a.filter((s) => !b.includes(s));
 }
 
 function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
-  const [srcSections, dstSections] = extractKeys(src, dst);
+  const srcSections = Object.keys(src);
+  const dstSections = Object.keys(dst);
 
   return [
     findSectionExcludes(srcSections, dstSections),
@@ -45,23 +42,22 @@ function extractSections (src: Record<string, Record<string, any>>, dst: Record<
 
 function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): string[] {
   const srcSections = Object.keys(src);
-  const rmMethods: string[] = [];
+  const dstSections = Object.keys(dst).filter((s) => srcSections.includes(s));
+  const excludes: string[] = [];
 
-  for (const s of Object.keys(dst)) {
-    if (srcSections.includes(s)) {
-      const srcMethods = Object.keys(src[s]);
-      const filterIncluded = (m: string) => !srcMethods.includes(m);
+  for (let d = 0; d < dstSections.length; d++) {
+    const section = dstSections[d];
+    const srcMethods = Object.keys(src[section]);
 
-      rmMethods.concat(
-        ...Object
-          .keys(dst[s])
-          .filter(filterIncluded)
-          .map((m) => `${s}.${m}`)
-      );
-    }
+    excludes.push(
+      ...Object
+        .keys(dst[section])
+        .filter((m) => !srcMethods.includes(m))
+        .map((m) => `${section}.${m}`)
+    );
   }
 
-  return rmMethods;
+  return excludes;
 }
 
 function extractMethods (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
@@ -78,8 +74,10 @@ function extractMethods (src: Record<string, Record<string, any>>, dst: Record<s
  */
 export function augmentObject (prefix: string | null, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
   if (fromEmpty) {
-    for (const k of Object.keys(dst)) {
-      delete dst[k];
+    const dstKeys = Object.keys(dst);
+
+    for (let k = 0; k < dstKeys.length; k++) {
+      delete dst[dstKeys[k]];
     }
   }
 
@@ -88,18 +86,24 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     warn(prefix, 'calls', extractMethods(src, dst));
   }
 
-  for (const s of Object.keys(src)) {
-    if (!dst[s]) {
-      dst[s] = {};
+  const srcKeys = Object.keys(src);
+
+  for (let s = 0; s < srcKeys.length; s++) {
+    const sectionName = srcKeys[s];
+
+    if (!dst[sectionName]) {
+      dst[sectionName] = {};
     }
 
-    const secSrc = src[s];
-    const secDst = dst[s];
+    const section = src[sectionName];
+    const methods = Object.keys(section);
 
-    for (const m of Object.keys(secSrc)) {
+    for (let m = 0; m < methods.length; m++) {
+      const methodName = methods[m];
+
       // TODO When it does match, check the actual details and warn when there are differences
-      if (!secDst[m]) {
-        secDst[m] = secSrc[m];
+      if (!dst[sectionName][methodName]) {
+        dst[sectionName][methodName] = section[methodName];
       }
     }
   }
