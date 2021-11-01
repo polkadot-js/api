@@ -59,7 +59,13 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, e) => total + e.encodedLength, 0);
+    let total = 0;
+
+    for (let i = 0; i < this.length; i++) {
+      total += this[i].encodedLength;
+    }
+
+    return total;
   }
 
   public override toU8a (): Uint8Array {

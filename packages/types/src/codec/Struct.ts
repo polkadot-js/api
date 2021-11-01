@@ -202,7 +202,14 @@ export class Struct<
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.toArray().reduce((length, e) => length + e.encodedLength, 0);
+    const arr = this.toArray();
+    let total = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+      total += arr[i].encodedLength;
+    }
+
+    return total;
   }
 
   /**

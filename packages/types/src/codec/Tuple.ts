@@ -82,7 +82,13 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, e) => total + e.encodedLength, 0);
+    let total = 0;
+
+    for (let i = 0; i < this.length; i++) {
+      total += this[i].encodedLength;
+    }
+
+    return total;
   }
 
   /**
