@@ -36,7 +36,7 @@ function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
   return args;
 }
 
-function valueToString (v: Text): string {
+function valueToString (v: { toString: () => string }): string {
   return v.toString();
 }
 
@@ -48,10 +48,10 @@ function clearRecord (record: Record<string, unknown>): void {
   }
 }
 
-function defineProperty <T, D> (result: Record<string, T>, name: string, data: D, creator: (d: D) => T): void {
+function defineProperty <T, D> (result: Record<string, T>, data: D, getPropertyName: (d: D) => string, creator: (d: D) => T): void {
   let cached: T | null = null;
 
-  Object.defineProperty(result, name, {
+  Object.defineProperty(result, getPropertyName(data), {
     enumerable: true,
     get: (): T => {
       if (!cached) {
@@ -63,17 +63,24 @@ function defineProperty <T, D> (result: Record<string, T>, name: string, data: D
   });
 }
 
-function lazyMethods <T> (lookup: PortableRegistry, { type }: { type: SiLookupTypeId }, creator: (v: SiVariant) => T): Record<string, T> {
+function lazyMethods <T, K> (items: K[], getName: (m: K) => string, creator: (v: K) => T): Record<string, T> {
   const result: Record<string, T> = {};
-  const { variants } = lookup.getSiType(type).def.asVariant;
 
-  for (let i = 0; i < variants.length; i++) {
-    const variant = variants[i];
+  for (let i = 0; i < items.length; i++) {
+    const data = items[i];
 
-    defineProperty(result, variant.index.toString(), variant, creator);
+    defineProperty(result, data, getName, creator);
   }
 
   return result;
+}
+
+function getVariants (lookup: PortableRegistry, { type }: { type: SiLookupTypeId }): SiVariant[] {
+  return lookup.getSiType(type).def.asVariant.variants;
+}
+
+function getVariantStringIdx ({ index }: SiVariant): string {
+  return index.toString();
 }
 
 // create error mapping from metadata
@@ -81,16 +88,20 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
   const lazySection = ({ errors, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
-    defineProperty(result, index.toString(), null, () =>
-      lazyMethods(lookup, errors.unwrap(), ({ docs, fields, index, name }: SiVariant): RegistryError => ({
-        args: getFieldArgs(lookup, fields),
-        docs: docs.map(valueToString),
-        fields,
-        index: index.toNumber(),
-        method: name.toString(),
-        name: name.toString(),
-        section
-      }))
+    defineProperty(result, index, valueToString, () =>
+      lazyMethods(
+        getVariants(lookup, errors.unwrap()),
+        getVariantStringIdx,
+        ({ docs, fields, index, name }: SiVariant): RegistryError => ({
+          args: getFieldArgs(lookup, fields),
+          docs: docs.map(valueToString),
+          fields,
+          index: index.toNumber(),
+          method: name.toString(),
+          name: name.toString(),
+          section
+        })
+      )
     );
   };
 
@@ -110,19 +121,23 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
   const lazySection = ({ events, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
-    defineProperty(result, index.toString(), null, () =>
-      lazyMethods(lookup, events.unwrap(), (variant: SiVariant): Constructor<GenericEventData> => {
-        const meta = registry.createType('EventMetadataLatest', {
-          ...variant,
-          args: getFieldArgs(lookup, variant.fields)
-        });
+    defineProperty(result, index, valueToString, () =>
+      lazyMethods(
+        getVariants(lookup, events.unwrap()),
+        getVariantStringIdx,
+        (variant: SiVariant): Constructor<GenericEventData> => {
+          const meta = registry.createType('EventMetadataLatest', {
+            ...variant,
+            args: getFieldArgs(lookup, variant.fields)
+          });
 
-        return class extends GenericEventData {
-          constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, meta, section, variant.name.toString());
-          }
-        };
-      })
+          return class extends GenericEventData {
+            constructor (registry: Registry, value: Uint8Array) {
+              super(registry, value, meta, section, variant.name.toString());
+            }
+          };
+        }
+      )
     );
   };
 
@@ -142,9 +157,12 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
   const lazySection = ({ calls, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
-    defineProperty(result, index.toString(), null, () =>
-      lazyMethods(lookup, calls.unwrap(), (variant: SiVariant) =>
-        createCallFunction(registry, lookup, variant, index, section)
+    defineProperty(result, index, valueToString, () =>
+      lazyMethods(
+        getVariants(lookup, calls.unwrap()),
+        getVariantStringIdx,
+        (variant: SiVariant) =>
+          createCallFunction(registry, lookup, variant, index, section)
       )
     );
   };
