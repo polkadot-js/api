@@ -5,7 +5,7 @@ type LazySection <T> = Record<string, T>;
 
 type LazyRecord <T> = Record<string, LazySection<T>>;
 
-function defineProperty <T> (result: Record<string, T>, name: string, creator: (k: string) => T): void {
+function defineProperty <T> (result: Record<string, T>, name: string, creator: (n: string) => T): void {
   let cached: T | null = null;
 
   Object.defineProperty(result, name, {
