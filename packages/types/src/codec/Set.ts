@@ -14,7 +14,7 @@ type SetValues = Record<string, number | BN>;
 function encodeSet (setValues: SetValues, values: string[]): BN {
   const encoded = new BN(0);
 
-  for (let i = 0; i < setValues.length; i++) {
+  for (let i = 0; i < values.length; i++) {
     encoded.ior(bnToBn(setValues[values[i]] || 0));
   }
 
