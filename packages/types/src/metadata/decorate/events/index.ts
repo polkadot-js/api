@@ -70,11 +70,12 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
   const result: Events = {};
 
   for (let p = 0; p < filtered.length; p++) {
+    const pallet = filtered[p];
     const sectionIndex = metaVersion >= 12
       ? filtered[p].index.toNumber()
       : p;
 
-    lazySection(registry, lookup, result, filtered[p], sectionIndex);
+    lazySection(registry, lookup, result, pallet, sectionIndex);
   }
 
   return result;

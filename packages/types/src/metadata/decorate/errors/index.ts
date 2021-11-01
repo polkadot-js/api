@@ -51,7 +51,6 @@ function lazyMethod (registry: Registry, lookup: PortableRegistry, result: Modul
 
 function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: PalletErrorMetadataV14, sectionIndex: number): ModuleErrors {
   const result: ModuleErrors = {};
-
   const { variants } = lookup.getSiType(errors.type).def.asVariant;
 
   for (let v = 0; v < variants.length; v++) {
@@ -85,11 +84,12 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
   const result: Errors = {};
 
   for (let p = 0; p < pallets.length; p++) {
+    const pallet = pallets[p];
     const sectionIndex = metaVersion >= 12
-      ? pallets[p].index.toNumber()
+      ? pallet.index.toNumber()
       : p;
 
-    lazySection(registry, lookup, result, pallets[p], sectionIndex);
+    lazySection(registry, lookup, result, pallet, sectionIndex);
   }
 
   return result;
