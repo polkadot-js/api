@@ -303,18 +303,22 @@ export class Struct<
   public toU8a (isBare?: BareOpts): Uint8Array {
     // we have keyof S here, cast to string to make it compatible with isBare
     const entries = [...this.entries()] as [string, Codec][];
+    const encoded: Uint8Array[] = [];
 
-    return u8aConcat(
-      ...entries
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        .filter(([, value]) => isFunction(value?.toU8a))
-        .map(([key, value]): Uint8Array =>
-          value.toU8a(
+    for (let i = 0; i < entries.length; i++) {
+      const [k, v] = entries[i];
+
+      if (v && isFunction(v.toU8a)) {
+        encoded.push(
+          v.toU8a(
             !isBare || isBoolean(isBare)
               ? isBare
-              : isBare[key]
+              : isBare[k]
           )
-        )
-    );
+        );
+      }
+    }
+
+    return u8aConcat(...encoded);
   }
 }

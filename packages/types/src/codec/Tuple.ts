@@ -122,10 +122,12 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(
-      ...this.map((e): Uint8Array =>
-        e.toU8a(isBare)
-      )
-    );
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a(isBare);
+    }
+
+    return u8aConcat(...encoded);
   }
 }
