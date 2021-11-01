@@ -60,6 +60,10 @@ function splitNamespace (values: string[]): string[][] {
   return values.map((v) => v.split('::'));
 }
 
+function sanitizeDocs (docs: Text[]): string[] {
+  return docs.map((d) => d.toString());
+}
+
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
@@ -241,9 +245,9 @@ function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
   const result: Record<number, PortableType> = {};
 
   for (let i = 0; i < types.length; i++) {
-    const pt = types[i];
+    const p = types[i];
 
-    types[pt.id.toNumber()] = pt;
+    result[p.id.toNumber()] = p;
   }
 
   return result;
@@ -400,7 +404,7 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return {
-      docs: type.docs.map((d) => d.toString()),
+      docs: sanitizeDocs(type.docs),
       namespace,
       ...typeDef
     };
@@ -559,38 +563,41 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type, typeName }) => {
+    const sub = new Array<TypeDef>(fields.length);
+
+    for (let i = 0; i < fields.length; i++) {
+      const { docs, name, type, typeName } = fields[i];
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
-        return typeDef;
+        sub[i] = typeDef;
+      } else {
+        let nameField = stringCamelCase(name.unwrap());
+        let nameOrig: string | null = null;
+
+        if (nameField.includes('#')) {
+          nameOrig = nameField;
+          nameField = nameOrig.replace(/#/g, '_');
+        } else if (RESERVED.includes(nameField)) {
+          nameOrig = nameField;
+          nameField = `${nameField}_`;
+        }
+
+        if (nameOrig) {
+          alias.set(nameField, nameOrig);
+        }
+
+        sub[i] = {
+          ...typeDef,
+          docs: sanitizeDocs(docs),
+          name: nameField,
+          ...(typeName.isSome
+            ? { typeName: sanitize(typeName.unwrap()) }
+            : {}
+          )
+        };
       }
-
-      let nameField = stringCamelCase(name.unwrap());
-      let nameOrig: string | null = null;
-
-      if (nameField.includes('#')) {
-        nameOrig = nameField;
-        nameField = nameOrig.replace(/#/g, '_');
-      } else if (RESERVED.includes(nameField)) {
-        nameOrig = nameField;
-        nameField = `${nameField}_`;
-      }
-
-      if (nameOrig) {
-        alias.set(nameField, nameOrig);
-      }
-
-      return {
-        ...typeDef,
-        docs: docs.map((d) => d.toString()),
-        name: nameField,
-        ...(typeName.isSome
-          ? { typeName: sanitize(typeName.unwrap()) }
-          : {}
-        )
-      };
-    });
+    }
 
     return [sub, alias];
   }
