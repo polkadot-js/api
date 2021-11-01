@@ -76,32 +76,26 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: Der
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
 
-  function filterQueryKeys (q: string) {
-    return queryKeys.includes(q);
-  }
+  const filterQueryKeys = (q: string) =>
+    queryKeys.includes(q);
 
-  function filterInstances (q: string) {
-    return (api.registry.getModuleInstances(specName, q) || []).some(filterQueryKeys);
-  }
+  const filterInstances = (q: string) =>
+    (api.registry.getModuleInstances(specName, q) || []).some(filterQueryKeys);
 
-  function isIncluded (s: string) {
-    return (
-      !checks[s] ||
-      checks[s].instances.some(filterQueryKeys) ||
-      (
-        checks[s].withDetect &&
-        checks[s].instances.some(filterInstances)
-      )
-    );
-  }
+  const isIncluded = (s: string) => (
+    !checks[s] ||
+    checks[s].instances.some(filterQueryKeys) ||
+    (
+      checks[s].withDetect &&
+      checks[s].instances.some(filterInstances)
+    )
+  );
 
-  function getMethodKeys (s: string): string[] {
-    return Object.keys(sections[s]);
-  }
+  const getMethodKeys = (s: string) =>
+    Object.keys(sections[s]);
 
-  function createMethod (s: string, m: string): AnyFunction {
-    return sections[s][m](instanceId, api);
-  }
+  const createMethod = (s: string, m: string) =>
+    sections[s][m](instanceId, api);
 
   const derives: Record<string, Record<string, AnyFunction>> = {};
   const sectionKeys = Object.keys(sections);

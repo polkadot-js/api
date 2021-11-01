@@ -25,13 +25,11 @@ export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyD
  * This is a section decorator which keeps all type information.
  */
 export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, allSections: AnyDerive): DeriveAllSections<ApiType, A> {
-  function getMethodKeys (s: string): string[] {
-    return Object.keys(allSections[s]);
-  }
+  const getMethodKeys = (s: string) =>
+    Object.keys(allSections[s]);
 
-  function createMethod (s: string, m: string): AnyFunction {
-    return decorateMethod(allSections[s][m]) as AnyFunction;
-  }
+  const createMethod = (s: string, m: string) =>
+    decorateMethod(allSections[s][m]) as AnyFunction;
 
   const result: AnyDerive = {};
   const names = Object.keys(allSections);
