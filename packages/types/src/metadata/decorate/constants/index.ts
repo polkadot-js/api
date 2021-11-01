@@ -15,40 +15,48 @@ function createConstantCodec (registry: Registry, meta: PalletConstantMetadataV1
   return codec;
 }
 
-function createLazyMethod (registry: Registry, result: ModuleConstants, meta: PalletConstantMetadataV14): void {
+function lazyMethod (registry: Registry, result: ModuleConstants, meta: PalletConstantMetadataV14): void {
   let cached: ConstantCodec | null = null;
 
-  function get (): ConstantCodec {
-    if (!cached) {
-      cached = createConstantCodec(registry, meta);
+  Object.defineProperty(result, stringCamelCase(meta.name), {
+    enumerable: true,
+    get: (): ConstantCodec => {
+      if (!cached) {
+        cached = createConstantCodec(registry, meta);
+      }
+
+      return cached;
     }
-
-    return cached;
-  }
-
-  Object.defineProperty(result, stringCamelCase(meta.name), { enumerable: true, get });
+  });
 }
 
-function createLazySection (registry: Registry, result: Constants, { constants, name }: PalletMetadataV14): void {
+function lazyMethods (registry: Registry, constants: PalletConstantMetadataV14[]): ModuleConstants {
+  const result: ModuleConstants = {};
+
+  for (let c = 0; c < constants.length; c++) {
+    lazyMethod(registry, result, constants[c]);
+  }
+
+  return result;
+}
+
+function lazySection (registry: Registry, result: Constants, { constants, name }: PalletMetadataV14): void {
   if (constants.isEmpty) {
     return;
   }
 
   let cached: ModuleConstants | null = null;
 
-  function get (): ModuleConstants {
-    if (!cached) {
-      cached = {};
-
-      for (let c = 0; c < constants.length; c++) {
-        createLazyMethod(registry, cached, constants[c]);
+  Object.defineProperty(result, stringCamelCase(name), {
+    enumerable: true,
+    get: (): ModuleConstants => {
+      if (!cached) {
+        cached = lazyMethods(registry, constants);
       }
+
+      return cached;
     }
-
-    return cached;
-  }
-
-  Object.defineProperty(result, stringCamelCase(name), { enumerable: true, get });
+  });
 }
 
 /** @internal */
@@ -57,7 +65,7 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
   const result: Constants = {};
 
   for (let p = 0; p < pallets.length; p++) {
-    createLazySection(registry, result, pallets[p]);
+    lazySection(registry, result, pallets[p]);
   }
 
   return result;

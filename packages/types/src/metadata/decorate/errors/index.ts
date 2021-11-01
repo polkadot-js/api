@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest, PalletMetadataV14, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, PalletErrorMetadataV14, PalletMetadataV14, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
 import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, IsError, ModuleErrors } from '../types';
@@ -34,42 +34,50 @@ function createIsError (registry: Registry, lookup: PortableRegistry, variant: S
   };
 }
 
-function createLazyMethod (registry: Registry, lookup: PortableRegistry, result: ModuleErrors, variant: SiVariant, sectionIndex: number): void {
+function lazyMethod (registry: Registry, lookup: PortableRegistry, result: ModuleErrors, variant: SiVariant, sectionIndex: number): void {
   let cached: IsError | null = null;
 
-  function get (): IsError {
-    if (!cached) {
-      cached = createIsError(registry, lookup, variant, sectionIndex);
+  Object.defineProperty(result, variant.name.toString(), {
+    enumerable: true,
+    get: (): IsError => {
+      if (!cached) {
+        cached = createIsError(registry, lookup, variant, sectionIndex);
+      }
+
+      return cached;
     }
-
-    return cached;
-  }
-
-  Object.defineProperty(result, variant.name.toString(), { enumerable: true, get });
+  });
 }
 
-function createLazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataV14, sectionIndex: number): void {
+function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: PalletErrorMetadataV14, sectionIndex: number): ModuleErrors {
+  const result: ModuleErrors = {};
+
+  const { variants } = lookup.getSiType(errors.type).def.asVariant;
+
+  for (let v = 0; v < variants.length; v++) {
+    lazyMethod(registry, lookup, result, variants[v], sectionIndex);
+  }
+
+  return result;
+}
+
+function lazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataV14, sectionIndex: number): void {
   if (!errors.isSome) {
     return;
   }
 
   let cached: ModuleErrors | null = null;
 
-  function get (): ModuleErrors {
-    if (!cached) {
-      cached = {};
-
-      const { variants } = lookup.getSiType(errors.unwrap().type).def.asVariant;
-
-      for (let v = 0; v < variants.length; v++) {
-        createLazyMethod(registry, lookup, cached, variants[v], sectionIndex);
+  Object.defineProperty(result, stringCamelCase(name), {
+    enumerable: true,
+    get: (): ModuleErrors => {
+      if (!cached) {
+        cached = lazyMethods(registry, lookup, errors.unwrap(), sectionIndex);
       }
+
+      return cached;
     }
-
-    return cached;
-  }
-
-  Object.defineProperty(result, stringCamelCase(name), { enumerable: true, get });
+  });
 }
 
 /** @internal */
@@ -81,7 +89,7 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
       ? pallets[p].index.toNumber()
       : p;
 
-    createLazySection(registry, lookup, result, pallets[p], sectionIndex);
+    lazySection(registry, lookup, result, pallets[p], sectionIndex);
   }
 
   return result;
