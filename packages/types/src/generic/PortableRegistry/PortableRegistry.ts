@@ -220,17 +220,17 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
     extractName(types, t)
   ));
 
-  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name]) => {
-    // We set the name for this specific type
+  const names: Record<number, string> = {};
+  const lookups: Record<string, string> = {};
+
+  for (let i = 0; i < dedup.length; i++) {
+    const [lookupIndex, name] = dedup[i];
+
     names[lookupIndex] = name;
+    lookups[name] = lookup.registry.createLookupType(lookupIndex);
+  }
 
-    // we map to the actual lookupIndex
-    types[name] = lookup.registry.createLookupType(lookupIndex);
-
-    return [names, types];
-  }, [{}, {}]);
-
-  lookup.registry.register(typesNew);
+  lookup.registry.register(lookups);
 
   return names;
 }
@@ -238,11 +238,15 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
 // types have an id, which means they are to be named by
 // the specified id - ensure we have a mapping lookup for these
 function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
-  return types.reduce<Record<number, PortableType>>((types, pt) => {
-    types[pt.id.toNumber()] = pt;
+  const result: Record<number, PortableType> = {};
 
-    return types;
-  }, {});
+  for (let i = 0; i < types.length; i++) {
+    const pt = types[i];
+
+    types[pt.id.toNumber()] = pt;
+  }
+
+  return result;
 }
 
 export class GenericPortableRegistry extends Struct {
@@ -493,11 +497,15 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
-    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
-      isAllNamed && name.isSome,
-      isAllUnnamed && name.isNone
-    ]),
-    [true, true]);
+    let isStruct = true;
+    let isTuple = true;
+
+    for (let f = 0; f < fields.length; f++) {
+      const { name } = fields[f];
+
+      isStruct = isStruct && name.isSome;
+      isTuple = isTuple && name.isNone;
+    }
 
     assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
