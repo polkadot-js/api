@@ -48,10 +48,10 @@ function clearRecord (record: Record<string, unknown>): void {
   }
 }
 
-function defineProperty <T, D> (result: Record<string, T>, data: D, getPropertyName: (d: D) => string, creator: (d: D) => T): void {
+function defineProperty <T, D> (result: Record<string, T>, data: D, getName: (d: D) => string, creator: (d: D) => T): void {
   let cached: T | null = null;
 
-  Object.defineProperty(result, getPropertyName(data), {
+  Object.defineProperty(result, getName(data), {
     enumerable: true,
     get: (): T => {
       if (!cached) {
