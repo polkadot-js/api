@@ -60,6 +60,10 @@ function splitNamespace (values: string[]): string[][] {
   return values.map((v) => v.split('::'));
 }
 
+function sanitizeDocs (docs: Text[]): string[] {
+  return docs.map((d) => d.toString());
+}
+
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
@@ -220,17 +224,17 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
     extractName(types, t)
   ));
 
-  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name]) => {
-    // We set the name for this specific type
+  const names: Record<number, string> = {};
+  const lookups: Record<string, string> = {};
+
+  for (let i = 0; i < dedup.length; i++) {
+    const [lookupIndex, name] = dedup[i];
+
     names[lookupIndex] = name;
+    lookups[name] = lookup.registry.createLookupType(lookupIndex);
+  }
 
-    // we map to the actual lookupIndex
-    types[name] = lookup.registry.createLookupType(lookupIndex);
-
-    return [names, types];
-  }, [{}, {}]);
-
-  lookup.registry.register(typesNew);
+  lookup.registry.register(lookups);
 
   return names;
 }
@@ -238,11 +242,15 @@ function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): 
 // types have an id, which means they are to be named by
 // the specified id - ensure we have a mapping lookup for these
 function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
-  return types.reduce<Record<number, PortableType>>((types, pt) => {
-    types[pt.id.toNumber()] = pt;
+  const result: Record<number, PortableType> = {};
 
-    return types;
-  }, {});
+  for (let i = 0; i < types.length; i++) {
+    const p = types[i];
+
+    result[p.id.toNumber()] = p;
+  }
+
+  return result;
 }
 
 export class GenericPortableRegistry extends Struct {
@@ -396,7 +404,7 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return {
-      docs: type.docs.map((d) => d.toString()),
+      docs: sanitizeDocs(type.docs),
       namespace,
       ...typeDef
     };
@@ -493,11 +501,15 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
-    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
-      isAllNamed && name.isSome,
-      isAllUnnamed && name.isNone
-    ]),
-    [true, true]);
+    let isStruct = true;
+    let isTuple = true;
+
+    for (let f = 0; f < fields.length; f++) {
+      const { name } = fields[f];
+
+      isStruct = isStruct && name.isSome;
+      isTuple = isTuple && name.isNone;
+    }
 
     assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
@@ -551,38 +563,41 @@ export class GenericPortableRegistry extends Struct {
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type, typeName }) => {
+    const sub = new Array<TypeDef>(fields.length);
+
+    for (let i = 0; i < fields.length; i++) {
+      const { docs, name, type, typeName } = fields[i];
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
-        return typeDef;
+        sub[i] = typeDef;
+      } else {
+        let nameField = stringCamelCase(name.unwrap());
+        let nameOrig: string | null = null;
+
+        if (nameField.includes('#')) {
+          nameOrig = nameField;
+          nameField = nameOrig.replace(/#/g, '_');
+        } else if (RESERVED.includes(nameField)) {
+          nameOrig = nameField;
+          nameField = `${nameField}_`;
+        }
+
+        if (nameOrig) {
+          alias.set(nameField, nameOrig);
+        }
+
+        sub[i] = {
+          ...typeDef,
+          docs: sanitizeDocs(docs),
+          name: nameField,
+          ...(typeName.isSome
+            ? { typeName: sanitize(typeName.unwrap()) }
+            : {}
+          )
+        };
       }
-
-      let nameField = stringCamelCase(name.unwrap());
-      let nameOrig: string | null = null;
-
-      if (nameField.includes('#')) {
-        nameOrig = nameField;
-        nameField = nameOrig.replace(/#/g, '_');
-      } else if (RESERVED.includes(nameField)) {
-        nameOrig = nameField;
-        nameField = `${nameField}_`;
-      }
-
-      if (nameOrig) {
-        alias.set(nameField, nameOrig);
-      }
-
-      return {
-        ...typeDef,
-        docs: docs.map((d) => d.toString()),
-        name: nameField,
-        ...(typeName.isSome
-          ? { typeName: sanitize(typeName.unwrap()) }
-          : {}
-        )
-      };
-    });
+    }
 
     return [sub, alias];
   }

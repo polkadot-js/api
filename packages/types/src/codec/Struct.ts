@@ -21,14 +21,17 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
   assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
   assert(!typeofArray || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
-  return inputKeys.reduce<[string, Codec][]>((raw, key, index) => {
+  const raw = new Array<[string, Codec]>(inputKeys.length);
+
+  for (let i = 0; i < inputKeys.length; i++) {
+    const key = inputKeys[i];
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[key];
     let assign: unknown;
 
     try {
       if (typeofArray) {
-        assign = value[index] as unknown;
+        assign = value[i] as unknown;
       } else if (typeofMap) {
         assign = jsonKey && value.get(jsonKey);
       } else {
@@ -36,23 +39,25 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
 
         if (isUndefined(assign)) {
           if (isUndefined(jsonObj)) {
-            jsonObj = Object.entries(value).reduce((all: Record<string, unknown>, [k, v]): Record<string, unknown> => {
-              all[stringCamelCase(k)] = v;
+            const entries = Object.entries(value);
 
-              return all;
-            }, {});
+            jsonObj = {};
+
+            for (let e = 0; e < entries.length; e++) {
+              jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
+            }
           }
 
           assign = jsonKey && jsonObj[jsonKey];
         }
       }
 
-      raw.push([
+      raw[i] = [
         key,
         assign instanceof Type
           ? assign
           : new Type(registry, assign)
-      ]);
+      ];
     } catch (error) {
       let type = Type.name;
 
@@ -64,9 +69,9 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
 
       throw new Error(`Struct: failed on ${jsonKey}: ${type}:: ${(error as Error).message}`);
     }
+  }
 
-    return raw;
-  }, []);
+  return raw;
 }
 
 /**
@@ -154,11 +159,16 @@ export class Struct<
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+    const entries = Object.entries(Types);
+    const result: Record<string, string> = {};
 
-      return result;
-    }, {});
+    for (let i = 0; i < entries.length; i++) {
+      const [key, Type] = entries[i];
+
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+    }
+
+    return result;
   }
 
   /**
@@ -266,27 +276,35 @@ export class Struct<
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
+    const json: Record<string, AnyJson> = {};
+    const keys = [...this.keys()];
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       const value = this.get(key);
 
       json[key as string] = value && value.toHuman(isExtended);
+    }
 
-      return json;
-    }, {});
+    return json;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
+    const json: Record<string, AnyJson> = {};
+    const keys = [...this.keys()];
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       const jsonKey = this.#jsonMap.get(key) || key;
       const value = this.get(key);
 
       json[jsonKey as string] = value && value.toJSON();
+    }
 
-      return json;
-    }, {});
+    return json;
   }
 
   /**
