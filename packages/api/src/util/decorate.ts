@@ -28,10 +28,11 @@ function keys<T extends Record<string, unknown>> (obj: T): (keyof T)[] {
  */
 function decorateMethods<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> (section: Section, decorateMethod: DecorateMethod<ApiType>): DeriveSection<ApiType, Section> {
   const result = {} as DeriveSection<ApiType, Section>;
+  const names = keys(section);
 
-  for (const m of keys(section)) {
+  for (let k = 0; k < names.length; k++) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    result[m] = decorateMethod(section[m]);
+    result[names[k]] = decorateMethod(section[names[k]]);
   }
 
   return result;
@@ -42,9 +43,10 @@ function decorateMethods<ApiType extends ApiTypes, Section extends Record<string
  */
 export function decorateSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (allSections: AllSections, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, AllSections> {
   const result = {} as DeriveAllSections<ApiType, AllSections>;
+  const names = keys(allSections);
 
-  for (const s of keys(allSections)) {
-    result[s] = decorateMethods(allSections[s], decorateMethod);
+  for (let k = 0; k < names.length; k++) {
+    result[names[k]] = decorateMethods(allSections[names[k]], decorateMethod);
   }
 
   return result;
