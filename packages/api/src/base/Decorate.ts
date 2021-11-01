@@ -322,7 +322,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _filterRpcMethods (exposed: string[]): void {
     const hasResults = exposed.length !== 0;
     const allKnown = [...this._rpcCore.mapping.entries()];
-    const allKeys = allKnown.reduce((allKeys: string[], [, { alias, endpoint, method, pubsub, section }]): string[] => {
+    const allKeys: string[] = [];
+
+    for (let i = 0; i < allKnown.length; i++) {
+      const [, { alias, endpoint, method, pubsub, section }] = allKnown[i];
+
       allKeys.push(`${section}_${method}`);
 
       if (pubsub) {
@@ -337,11 +341,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       if (endpoint) {
         allKeys.push(endpoint);
       }
+    }
 
-      return allKeys;
-    }, []);
-    const unknown = exposed.filter((k) => !allKeys.includes(k));
-    const deletion = allKnown.filter(([k]) => hasResults && !exposed.includes(k) && k !== 'rpc_methods');
+    const filterKey = (k: string) => !allKeys.includes(k);
+    const unknown = exposed.filter(filterKey);
 
     if (unknown.length) {
       l.warn(`RPC methods not decorated: ${unknown.join(', ')}`);
@@ -349,19 +352,26 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // loop through all entries we have (populated in decorate) and filter as required
     // only remove when we have results and method missing, or with no results if optional
-    deletion.forEach(([, { method, section }]): void => {
-      delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
-      delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
-    });
+    for (let i = 0; i < allKnown.length; i++) {
+      const [k, { method, section }] = allKnown[i];
+
+      if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
+        delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
+        delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
+      }
+    }
   }
 
   protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
-    return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
-      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
+    const out = input as DecoratedRpc<ApiType, RpcInterface>;
+
+    for (let s = 0; s < rpc.sections.length; s++) {
+      const sectionName = rpc.sections[s] as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       if (!(out as Record<string, unknown>)[sectionName]) {
-        // out and section here are horrors to get right from a typing perspective :(
-        (out as Record<string, unknown>)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+        const section = {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>;
+
+        for (const [methodName, method] of Object.entries(rpc[sectionName])) {
           //  skip subscriptions where we have a non-subscribe interface
           if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
             (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
@@ -370,13 +380,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (section as Record<string, { meta: unknown }>)[methodName].meta = method.meta;
           }
+        }
 
-          return section;
-        }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+        (out as Record<string, unknown>)[sectionName] = section;
       }
+    }
 
-      return out;
-    }, input as DecoratedRpc<ApiType, RpcInterface>);
+    return out;
   }
 
   // only be called if supportMulti is true
@@ -417,17 +427,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
-    const creator = createSubmittable(this._type, this._rx, decorateMethod);
+    const creator = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
 
-    return Object.entries(tx).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
-      out[name] = Object.entries(section).reduce((out, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
-        out[name] = this._decorateExtrinsicEntry(method, creator);
+    for (const [name, section] of Object.entries(tx)) {
+      const methods: SubmittableModuleExtrinsics<ApiType> = {};
 
-        return out;
-      }, {} as SubmittableModuleExtrinsics<ApiType>);
+      for (const [name, method] of Object.entries(section)) {
+        methods[name] = this._decorateExtrinsicEntry(method, creator);
+      }
 
-      return out;
-    }, creator as SubmittableExtrinsics<ApiType>);
+      creator[name] = methods;
+    }
+
+    return creator;
   }
 
   private _decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
@@ -443,27 +455,35 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
-    return Object.entries(query).reduce((out, [name, section]): QueryableStorage<ApiType> => {
-      out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorage<ApiType> => {
-        out[name] = this._decorateStorageEntry(method, decorateMethod);
+    const result = {} as QueryableStorage<ApiType>;
 
-        return out;
-      }, {} as QueryableModuleStorage<ApiType>);
+    for (const [name, section] of Object.entries(query)) {
+      const methods: QueryableModuleStorage<ApiType> = {};
 
-      return out;
-    }, {} as QueryableStorage<ApiType>);
+      for (const [name, method] of Object.entries(section)) {
+        methods[name] = this._decorateStorageEntry(method, decorateMethod);
+      }
+
+      result[name] = methods;
+    }
+
+    return result;
   }
 
   protected _decorateStorageAt<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
-    return Object.entries(query).reduce((out, [name, section]): QueryableStorageAt<ApiType> => {
-      out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorageAt<ApiType> => {
-        out[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash);
+    const result = {} as QueryableStorageAt<ApiType>;
 
-        return out;
-      }, {} as QueryableModuleStorageAt<ApiType>);
+    for (const [name, section] of Object.entries(query)) {
+      const methods: QueryableModuleStorageAt<ApiType> = {};
 
-      return out;
-    }, {} as QueryableStorageAt<ApiType>);
+      for (const [name, method] of Object.entries(section)) {
+        methods[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash);
+      }
+
+      result[name] = methods;
+    }
+
+    return result;
   }
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
@@ -652,10 +672,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const queryCall = at
       ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
       : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
+    const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
     return startSubject.pipe(
       switchMap(queryCall),
-      map((keys) => keys.map((key) => key.setMeta(meta, section, method))),
+      map((keys) => keys.map(setMeta)),
       tap((keys): void => {
         setTimeout((): void => {
           keys.length === PAGE_SIZE_K
@@ -672,9 +693,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
     const headKey = iterKey(...opts.args).toHex();
+    const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
     return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
-      map((keys) => keys.map((key) => key.setMeta(meta, section, method)))
+      map((keys) => keys.map(setMeta))
     );
   }
 
