@@ -18,20 +18,16 @@ type Result = [Option<PalletBountiesBounty>[], Option<Bytes>[], BountyIndex[], D
 function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
 
-  for (let i = 0; i < maybeBounties.length; i++) {
-    const bounty = maybeBounties[i];
-
+  maybeBounties.forEach((bounty, index) => {
     if (bounty.isSome) {
-      const proposalFilter = ({ proposal }: DeriveCollectiveProposal) => ids[i].eq(proposal.args[0]);
-
       bounties.push({
         bounty: bounty.unwrap(),
-        description: maybeDescriptions[i].unwrapOrDefault().toUtf8(),
-        index: ids[i],
-        proposals: bountyProposals.filter(proposalFilter)
+        description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
+        index: ids[index],
+        proposals: bountyProposals.filter((bountyProposal) => ids[index].eq(bountyProposal.proposal.args[0]))
       });
     }
-  }
+  });
 
   return bounties;
 }

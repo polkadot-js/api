@@ -20,26 +20,21 @@ interface Result {
   proposalCount: ProposalIndex;
 }
 
-function sortProposals (a: DeriveCollectiveProposal, b: DeriveCollectiveProposal): number {
-  return a.proposal.method.localeCompare(b.proposal.method);
-}
-
 function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
-  const filterProposal = ({ proposal }: DeriveCollectiveProposal) => (
+  const approvals: DeriveTreasuryProposal[] = [];
+  const proposals: DeriveTreasuryProposal[] = [];
+  const councilTreasury = councilProposals.filter(({ proposal }) =>
     api.tx.treasury.approveProposal.is(proposal) ||
     api.tx.treasury.rejectProposal.is(proposal)
   );
-  const councilTreasury = councilProposals.filter(filterProposal);
-  const approvals: DeriveTreasuryProposal[] = [];
-  const proposals: DeriveTreasuryProposal[] = [];
 
-  for (let i = 0; i < allIds.length; i++) {
-    if (allProposals[i].isSome) {
-      const id = allIds[i];
-      const filterIds = ({ proposal }: DeriveCollectiveProposal) => id.eq(proposal.args[0]);
-      const council = councilTreasury.filter(filterIds).sort(sortProposals);
+  allIds.forEach((id, index): void => {
+    if (allProposals[index].isSome) {
+      const council = councilTreasury
+        .filter(({ proposal }) => id.eq(proposal.args[0]))
+        .sort((a, b) => a.proposal.method.localeCompare(b.proposal.method));
       const isApproval = approvalIds.some((approvalId) => approvalId.eq(id));
-      const derived = { council, id, proposal: allProposals[i].unwrap() };
+      const derived = { council, id, proposal: allProposals[index].unwrap() };
 
       if (isApproval) {
         approvals.push(derived);
@@ -47,7 +42,7 @@ function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, 
         proposals.push(derived);
       }
     }
-  }
+  });
 
   return { approvals, proposalCount, proposals };
 }
@@ -57,9 +52,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
   const count = proposalCount.toNumber();
 
   for (let index = 0; index < count; index++) {
-    const filterIds = (id: ProposalIndex) => id.eqn(index);
-
-    if (!approvalIds.some(filterIds)) {
+    if (!approvalIds.some((id) => id.eqn(index))) {
       proposalIds.push(api.registry.createType('ProposalIndex', index));
     }
   }

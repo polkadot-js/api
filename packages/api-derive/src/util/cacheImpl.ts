@@ -12,7 +12,7 @@ export const deriveMapCache: DeriveCache = {
   forEach: (cb: (key: string, value: any) => void): void => {
     const entries = mapCache.entries();
 
-    for (const entry of entries) {
+    for (const entry in entries) {
       cb(entry[0], entry[1]);
     }
   },

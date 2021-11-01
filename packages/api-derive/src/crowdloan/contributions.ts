@@ -4,7 +4,6 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
-import type { EventRecord } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { DeriveContributions } from '../types';
 
@@ -45,14 +44,13 @@ function _getUpdates (api: ApiInterfaceRx, paraId: string | number | BN): Observ
 }
 
 function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | BN): Observable<string> {
-  const filterCrowdloanEvents = ({ event: { data: [eventParaId], method, section } }: EventRecord) =>
-    section === 'crowdloan' &&
-    ['AllRefunded', 'Dissolved', 'PartiallyRefunded'].includes(method) &&
-    eventParaId.eq(paraId);
-
   return api.query.system.events().pipe(
     switchMap((events): Observable<string> => {
-      const items = events.filter(filterCrowdloanEvents);
+      const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
+        section === 'crowdloan' &&
+        ['AllRefunded', 'Dissolved', 'PartiallyRefunded'].includes(method) &&
+        eventParaId.eq(paraId)
+      );
 
       return items.length
         ? of(events.createdAtHash?.toHex() || '-')
@@ -102,17 +100,17 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, chil
     map(([keys, { added, blockHash, removed }]): DeriveContributions => {
       const contributorsMap: Record<string, boolean> = {};
 
-      for (let i = 0; i < keys.length; i++) {
-        contributorsMap[keys[i]] = true;
-      }
+      keys.forEach((k): void => {
+        contributorsMap[k] = true;
+      });
 
-      for (let i = 0; i < added.length; i++) {
-        contributorsMap[added[i]] = true;
-      }
+      added.forEach((k): void => {
+        contributorsMap[k] = true;
+      });
 
-      for (let i = 0; i < removed.length; i++) {
-        delete contributorsMap[removed[i]];
-      }
+      removed.forEach((k): void => {
+        delete contributorsMap[k];
+      });
 
       return {
         blockHash,

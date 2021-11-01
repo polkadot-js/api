@@ -20,19 +20,18 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
   const nominators: DeriveEraNominatorExposure = {};
   const validators: DeriveEraValidatorExposure = {};
 
-  for (let i = 0; i < stakers.length; i++) {
-    const [key, exposure] = stakers[i];
+  stakers.forEach(([key, exposure]): void => {
     const validatorId = key.args[1].toString();
 
     validators[validatorId] = exposure;
 
-    for (let o = 0; o < exposure.others.length; o++) {
-      const nominatorId = exposure.others[o].who.toString();
+    exposure.others.forEach(({ who }, validatorIndex): void => {
+      const nominatorId = who.toString();
 
       nominators[nominatorId] = nominators[nominatorId] || [];
-      nominators[nominatorId].push({ validatorId, validatorIndex: o });
-    }
-  }
+      nominators[nominatorId].push({ validatorId, validatorIndex });
+    });
+  });
 
   return { era, nominators, validators };
 }
@@ -67,7 +66,7 @@ export function eraExposure (instanceId: string, api: ApiInterfaceRx): (era: Era
 export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraExposure[]> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> =>
     eras.length
-      ? combineLatest(eras.map((e) => api.derive.staking._eraExposure(e, withActive)))
+      ? combineLatest(eras.map((era) => api.derive.staking._eraExposure(era, withActive)))
       : of([])
   );
 }

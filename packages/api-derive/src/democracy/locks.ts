@@ -3,10 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { u32 } from '@polkadot/types';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
-import type { ITuple } from '@polkadot/types/types';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveDemocracyLock } from '../types';
 
@@ -59,10 +57,6 @@ function delegateLocks (api: ApiInterfaceRx, { balance, conviction, target }: Vo
   );
 }
 
-function filterDirect (e: [ITuple<[u32, PalletDemocracyVoteAccountVote]>, PalletDemocracyReferendumInfo | ReferendumInfoTo239 | null]): e is [VotingDirectVote, PalletDemocracyReferendumInfo] {
-  return !!e[1] && isUndefined((e[1] as ReferendumInfoTo239).end) && e[0][1].isStandard;
-}
-
 function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
   if (!votes.length) {
     return of([]);
@@ -74,7 +68,9 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
         .map((vote, index): [VotingDirectVote, PalletDemocracyReferendumInfo | ReferendumInfoTo239 | null] =>
           [vote, referendums[index].unwrapOr(null)]
         )
-        .filter(filterDirect)
+        .filter((item): item is [VotingDirectVote, PalletDemocracyReferendumInfo] =>
+          !!item[1] && isUndefined((item[1] as ReferendumInfoTo239).end) && item[0][1].isStandard
+        )
         .map(([directVote, referendum]) =>
           parseLock(api, directVote, referendum)
         )

@@ -34,8 +34,10 @@ function _watchOwnChanges (api: ApiInterfaceRx, paraId: string | number | BN, ch
   return api.query.system.events().pipe(
     switchMap((events): Observable<DeriveOwnContributions> => {
       const changes = extractContributed(paraId, events);
-      const filterChanges = (k: string) => changes.added.includes(k) || changes.removed.includes(k);
-      const filtered = keys.filter(filterChanges);
+      const filtered = keys.filter((k) =>
+        changes.added.includes(k) ||
+        changes.removed.includes(k)
+      );
 
       return filtered.length
         ? _getValues(api, childkey, filtered)

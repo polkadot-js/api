@@ -21,10 +21,6 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
   }));
 }
 
-function filterRewards (value?: DeriveEraRewards): value is DeriveEraRewards {
-  return !!value;
-}
-
 export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
     if (!eras.length) {
@@ -35,7 +31,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
       ? []
       : eras
         .map((era) => deriveCache.get<DeriveEraRewards>(`${CACHE_KEY}-${era.toString()}`))
-        .filter(filterRewards);
+        .filter((value): value is DeriveEraRewards => !!value);
     const remaining = filterEras(eras, cached);
 
     if (!remaining.length) {

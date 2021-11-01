@@ -17,10 +17,10 @@ import { memo } from '../util';
 type HeartbeatsOpt = Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>;
 
 function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], HeartbeatsOpt[], u32[]]): DeriveHeartbeats {
-  for (let i = 0; i < validators.length; i++) {
-    const validatorId = validators[i].toString();
-    const blockCount = numBlocks[i];
-    const hasMessage = !heartbeats[i].isEmpty;
+  validators.forEach((validator, index): void => {
+    const validatorId = validator.toString();
+    const blockCount = numBlocks[index];
+    const hasMessage = !heartbeats[index].isEmpty;
     const prev = result[validatorId];
 
     if (!prev || prev.hasMessage !== hasMessage || !prev.blockCount.eq(blockCount)) {
@@ -30,7 +30,7 @@ function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbea
         isOnline: hasMessage || blockCount.gt(BN_ZERO)
       };
     }
-  }
+  });
 
   return result;
 }

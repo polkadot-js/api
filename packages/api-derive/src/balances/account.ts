@@ -82,7 +82,7 @@ function queryNonceOnly (api: ApiInterfaceRx, accountId: AccountId): Observable<
 function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules
     .map((m): QueryableStorageEntry<'rxjs'> => (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m]?.account)
-    .filter(isFunction)
+    .filter((q) => isFunction(q))
     .map((q): [QueryableStorageEntry<'rxjs'>, AccountId] => [q, accountId]);
 
   const extract = (nonce: Index, data: AccountData[]): Result => [

@@ -21,22 +21,20 @@ const QUERY_OPTS = {
 };
 
 function groupByEra (list: PalletStakingUnlockChunk[]): Record<string, BN> {
-  const map: Record<string, BN> = {};
-
-  for (let i = 0; i < list.length; i++) {
-    const { era, value } = list[i];
+  return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
     const key = era.toString();
 
     map[key] = (map[key] || BN_ZERO).add(value.unwrap());
-  }
 
-  return map;
+    return map;
+  }, {});
 }
 
 function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
-  const filterByEra = ({ era }: PalletStakingUnlockChunk) => era.unwrap().gt(sessionInfo.activeEra);
   const results = Object
-    .entries(groupByEra((stakingLedger?.unlocking || []).filter(filterByEra)))
+    .entries(groupByEra(
+      (stakingLedger?.unlocking || []).filter(({ era }) => era.unwrap().gt(sessionInfo.activeEra))
+    ))
     .map(([eraString, value]): DeriveUnlocking => ({
       remainingEras: new BN(eraString).isub(sessionInfo.activeEra),
       value: api.registry.createType('Balance', value)
@@ -48,19 +46,11 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingSt
 }
 
 function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
-  const sum = new BN(0);
-
-  if (stakingLedger && stakingLedger.unlocking) {
-    for (let i = 0; i < stakingLedger.unlocking.length; i++) {
-      const { era, value } = stakingLedger.unlocking[i];
-
-      if (sessionInfo.activeEra.gte(era.unwrap())) {
-        sum.iadd(value.unwrap());
-      }
-    }
-  }
-
-  return api.registry.createType('Balance', sum);
+  return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
+    return sessionInfo.activeEra.gte(era.unwrap())
+      ? total.iadd(value.unwrap())
+      : total;
+  }, new BN(0)));
 }
 
 function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {

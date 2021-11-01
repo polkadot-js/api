@@ -42,7 +42,7 @@ function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (Palle
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
-    lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }) => !until || (bestNumber && until.gt(bestNumber)));
+    lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
     allLocked = lockedBreakdown.some(({ amount }) => amount && amount.isMax());
     vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq(VESTING_ID)).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
 

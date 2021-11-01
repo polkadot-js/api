@@ -3,30 +3,26 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 
 import { map, startWith, switchMap } from 'rxjs';
 
 import { drr, memo } from '../util';
-
-function filterBondedEvents ({ event, phase }: EventRecord): boolean {
-  try {
-    return (
-      phase.isApplyExtrinsic &&
-      event.section === 'staking' &&
-      event.method === 'Bonded'
-    );
-  } catch {
-    return false;
-  }
-}
 
 function onBondedEvent (api: ApiInterfaceRx): Observable<number> {
   let current = Date.now();
 
   return api.query.system.events().pipe(
     map((events): number => {
-      current = events.filter(filterBondedEvents).length
+      current = events.filter(({ event, phase }): boolean => {
+        try {
+          return phase.isApplyExtrinsic &&
+            event.section === 'staking' &&
+            event.method === 'Bonded';
+        } catch {
+          return false;
+        }
+      })
         ? Date.now()
         : current;
 

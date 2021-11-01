@@ -1,16 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Digest, DigestItem } from '@polkadot/types/interfaces';
-
-function filterType (check: string): (e: DigestItem) => boolean {
-  return ({ type }) => type === check;
-}
+import type { AccountId, Digest } from '@polkadot/types/interfaces';
 
 export function extractAuthor (digest: Digest, sessionValidators: AccountId[] = []): AccountId | undefined {
-  const [citem] = digest.logs.filter(filterType('Consensus'));
-  const [pitem] = digest.logs.filter(filterType('PreRuntime'));
-  const [sitem] = digest.logs.filter(filterType('Seal'));
+  const [citem] = digest.logs.filter(({ type }) => type === 'Consensus');
+  const [pitem] = digest.logs.filter(({ type }) => type === 'PreRuntime');
+  const [sitem] = digest.logs.filter(({ type }) => type === 'Seal');
 
   let accountId: AccountId | undefined;
 

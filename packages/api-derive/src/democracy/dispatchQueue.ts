@@ -74,29 +74,27 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Opt
 
 function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   return schedulerEntries(api).pipe(
-    switchMap(([blockNumbers, scheduled]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
+    switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];
 
-      for (let i = 0; i < blockNumbers.length; i++) {
-        const at = blockNumbers[i];
-        const agenda = scheduled[i];
+      blockNumbers.forEach((at, index): void => {
+        (agendas[index] || [])
+          .filter((opt) => opt.isSome)
+          .forEach((optScheduled): void => {
+            const scheduled = optScheduled.unwrap();
 
-        if (agenda) {
-          for (let a = 0; a < agenda.length; a++) {
-            const schedule = agenda[a].unwrapOr(null);
-
-            if (schedule && schedule.maybeId.isSome) {
-              const id = schedule.maybeId.unwrap().toHex();
+            if (scheduled.maybeId.isSome) {
+              const id = scheduled.maybeId.unwrap().toHex();
 
               if (id.startsWith(DEMOCRACY_ID)) {
                 const [, index] = api.registry.createType('(u64, ReferendumIndex)', id);
+                const imageHash = scheduled.call.args[0] as Hash;
 
-                result.push({ at, imageHash: schedule.call.args[0] as Hash, index });
+                result.push({ at, imageHash, index });
               }
             }
-          }
-        }
-      }
+          });
+      });
 
       return result.length
         ? combineLatest([

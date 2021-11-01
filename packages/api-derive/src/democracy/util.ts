@@ -103,15 +103,13 @@ function calcVotesCurrent (tally: Tally, votes: DeriveReferendumVote[]): DeriveR
   const allAye: DeriveReferendumVote[] = [];
   const allNay: DeriveReferendumVote[] = [];
 
-  for (let i = 0; i < votes.length; i++) {
-    const v = votes[i];
-
-    if (v.vote.isAye) {
-      allAye.push(v);
+  votes.forEach((derived): void => {
+    if (derived.vote.isAye) {
+      allAye.push(derived);
     } else {
-      allNay.push(v);
+      allNay.push(derived);
     }
-  }
+  });
 
   return {
     allAye,

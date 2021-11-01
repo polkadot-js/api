@@ -28,29 +28,25 @@ function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple
 }
 
 function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
-  const filterProposals = ([, , proposer]: ITuple<[PropIndex, Hash, AccountId]>, index: number) =>
-    !!(optDepositors[index]?.isSome) && !proposer.isEmpty;
-  const filtered = proposals.filter(filterProposals);
-  const result = new Array<DeriveProposal>(filtered.length);
+  return proposals
+    .filter(([, , proposer], index): boolean =>
+      !!(optDepositors[index]?.isSome) && !proposer.isEmpty
+    )
+    .map(([index, imageHash, proposer], proposalIndex): DeriveProposal => {
+      const depositors = optDepositors[proposalIndex].unwrap();
 
-  for (let i = 0; i < filtered.length; i++) {
-    const [index, imageHash, proposer] = filtered[i];
-    const depositors = optDepositors[i].unwrap();
-
-    result[i] = {
-      ...(
-        isNewDepositors(depositors)
-          ? { balance: depositors[1], seconds: depositors[0] }
-          : { balance: depositors[0], seconds: depositors[1] }
-      ),
-      image: images[i],
-      imageHash,
-      index,
-      proposer
-    };
-  }
-
-  return result;
+      return {
+        ...(
+          isNewDepositors(depositors)
+            ? { balance: depositors[1], seconds: depositors[0] }
+            : { balance: depositors[0], seconds: depositors[1] }
+        ),
+        image: images[proposalIndex],
+        imageHash,
+        index,
+        proposer
+      };
+    });
 }
 
 export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {

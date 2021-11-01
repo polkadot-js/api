@@ -14,15 +14,12 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerPrefs[]> =>
     api.query.staking.erasValidatorPrefs.multi(eras.map((era) => [era, accountId])).pipe(
-      map((all): DeriveStakerPrefs[] => {
-        const result = new Array<DeriveStakerPrefs>(all.length);
-
-        for (let i = 0; i < all.length; i++) {
-          result[i] = { era: eras[i], validatorPrefs: all[i] };
-        }
-
-        return result;
-      })
+      map((all): DeriveStakerPrefs[] =>
+        all.map((validatorPrefs, index): DeriveStakerPrefs => ({
+          era: eras[index],
+          validatorPrefs
+        }))
+      )
     )
   );
 }

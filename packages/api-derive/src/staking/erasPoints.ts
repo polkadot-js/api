@@ -17,33 +17,21 @@ import { filterEras } from './util';
 const CACHE_KEY = 'eraPoints';
 
 function mapValidators ({ individual }: PalletStakingEraRewardPoints): DeriveEraValPoints {
-  const result: DeriveEraValPoints = {};
-
-  for (const [validatorId, points] of individual.entries()) {
-    if (points.gt(BN_ZERO)) {
+  return [...individual.entries()]
+    .filter(([, points]) => points.gt(BN_ZERO))
+    .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
       result[validatorId.toString()] = points;
-    }
-  }
 
-  return result;
+      return result;
+    }, {});
 }
 
 function mapPoints (eras: EraIndex[], points: PalletStakingEraRewardPoints[]): DeriveEraPoints[] {
-  const result = new Array<DeriveEraPoints>(eras.length);
-
-  for (let i = 0; i < eras.length; i++) {
-    result[i] = {
-      era: eras[i],
-      eraPoints: points[i].total,
-      validators: mapValidators(points[i])
-    };
-  }
-
-  return result;
-}
-
-function filterPoints (points?: DeriveEraPoints): points is DeriveEraPoints {
-  return !!points;
+  return eras.map((era, index): DeriveEraPoints => ({
+    era,
+    eraPoints: points[index].total,
+    validators: mapValidators(points[index])
+  }));
 }
 
 export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
@@ -55,8 +43,8 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
     const cached: DeriveEraPoints[] = withActive
       ? []
       : eras
-        .map((e) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${e.toString()}`))
-        .filter(filterPoints);
+        .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
+        .filter((value): value is DeriveEraPoints => !!value);
     const remaining = filterEras(eras, cached);
 
     return !remaining.length
@@ -67,15 +55,10 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 
           !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
-          const result = new Array<DeriveEraPoints>(eras.length);
-
-          for (let i = 0; i < eras.length; i++) {
-            const era = eras[i];
-
-            result[i] = cached.find((c) => era.eq(c.era)) || query.find((q) => era.eq(q.era)) as DeriveEraPoints;
-          }
-
-          return result;
+          return eras.map((era): DeriveEraPoints =>
+            cached.find((cached) => era.eq(cached.era)) ||
+            query.find((query) => era.eq(query.era)) as DeriveEraPoints
+          );
         })
       );
   });

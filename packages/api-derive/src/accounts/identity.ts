@@ -28,18 +28,16 @@ function dataAsString (data: Data): string | undefined {
 }
 
 function extractOther (additional: IdentityInfoAdditional[]): Record<string, string> {
-  const other: Record<string, string> = {};
-
-  for (let i = 0; i < additional.length; i++) {
-    const key = dataAsString(additional[i][0]);
-    const value = dataAsString(additional[i][1]);
+  return additional.reduce((other: Record<string, string>, [_key, _value]): Record<string, string> => {
+    const key = dataAsString(_key);
+    const value = dataAsString(_value);
 
     if (key && value) {
       other[key] = value;
     }
-  }
 
-  return other;
+    return other;
+  }, {});
 }
 
 function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
@@ -121,12 +119,9 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
         api.query.identity.identityOf.multi(accountIds),
         api.query.identity.superOf.multi(accountIds)
       ]).pipe(
-        map(([identities, supers]) => {
-          const result = new Array<DeriveHasIdentity>(identities.length);
-
-          for (let i = 0; i < identities.length; i++) {
-            const identityOfOpt = identities[i];
-            const superOfOpt = supers[i];
+        map(([identities, supers]) =>
+          identities.map((identityOfOpt, index): DeriveHasIdentity => {
+            const superOfOpt = supers[index];
             const parentId = superOfOpt && superOfOpt.isSome
               ? superOfOpt.unwrap()[0].toString()
               : undefined;
@@ -140,11 +135,9 @@ export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (acc
               }
             }
 
-            result[i] = { display, hasIdentity: !!(display || parentId), parentId };
-          }
-
-          return result;
-        })
+            return { display, hasIdentity: !!(display || parentId), parentId };
+          })
+        )
       )
       : of(accountIds.map(() => ({ hasIdentity: false })))
   );

@@ -17,10 +17,6 @@ import { getInstance } from './getInstance';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
-function filterProposal (p: DeriveCollectiveProposal | null): p is DeriveCollectiveProposal {
-  return !!p;
-}
-
 function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
   return proposals
     .map((proposalOpt, index): DeriveCollectiveProposal | null =>
@@ -32,7 +28,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
         }
         : null
     )
-    .filter(filterProposal);
+    .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
 function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {

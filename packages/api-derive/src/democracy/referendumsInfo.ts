@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, StorageKey, Vec } from '@polkadot/types';
-import type { AccountId, AccountId32, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { Option, Vec } from '@polkadot/types';
+import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
@@ -17,6 +17,8 @@ import { memo } from '../util';
 import { calcVotes, getStatus, parseImage } from './util';
 
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
+type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
+type VotingDirectVote = VotingDirect['votes'][0];
 
 function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
@@ -45,55 +47,42 @@ function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
 }
 
 function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referendumId: BN): DeriveReferendumVote[] {
-  const result: DeriveReferendumVote[] = [];
-
-  for (let i = 0; i < mapped.length; i++) {
-    const [accountId, voting] = mapped[i];
-
-    if (voting.isDirect) {
-      const { votes } = voting.asDirect;
-
-      for (let j = 0; j < votes.length; j++) {
-        const [idx, vote] = votes[j];
-
-        if (vote.isStandard && idx.eq(referendumId)) {
+  return mapped
+    .filter(([, voting]) => voting.isDirect)
+    .map(([accountId, voting]): [AccountId, VotingDirectVote[]] => [
+      accountId,
+      voting.asDirect.votes.filter(([idx]) => idx.eq(referendumId))
+    ])
+    .filter(([, directVotes]) => !!directVotes.length)
+    .reduce((result: DeriveReferendumVote[], [accountId, votes]) =>
+      // FIXME We are ignoring split votes
+      votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
+        if (vote.isStandard) {
           result.push({
             accountId,
             isDelegating: false,
             ...vote.asStandard
           });
         }
-      }
-    }
-  }
 
-  return result;
+        return result;
+      }, result), []
+    );
 }
 
 function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
-  const mapResult = ([{ args: [accountId] }, voting]: [StorageKey<[AccountId32]>, PalletDemocracyVoteVoting]): [AccountId, PalletDemocracyVoteVoting] =>
-    [accountId, voting];
-
   return api.query.democracy.votingOf.entries().pipe(
     map((allVoting): DeriveReferendumVote[] => {
-      const mapped = allVoting.map(mapResult);
+      const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, PalletDemocracyVoteVoting] => [accountId, voting]);
       const votes = extractVotes(mapped, referendumId);
-      const delegations: [AccountId, VotingDelegating][] = [];
-
-      // extract delegations
-      for (let i = 0; i < mapped.length; i++) {
-        const [accountId, voting] = mapped[i];
-
-        if (voting.isDelegating) {
-          delegations.push([accountId, voting.asDelegating]);
-        }
-      }
+      const delegations = mapped
+        .filter(([, voting]) => voting.isDelegating)
+        .map(([accountId, voting]): [AccountId, VotingDelegating] => [accountId, voting.asDelegating]);
 
       // add delegations
-      for (let i = 0; i < delegations.length; i++) {
+      delegations.forEach(([accountId, { balance, conviction, target }]): void => {
         // Are we delegating to a delegator
-        const [accountId, { balance, conviction, target }] = delegations[i];
-        const toDelegator = delegations.find(([a]) => a.eq(target));
+        const toDelegator = delegations.find(([accountId]) => accountId.eq(target));
         const to = votes.find(({ accountId }) => accountId.eq(toDelegator ? toDelegator[0] : target));
 
         // this delegation has a target
@@ -105,7 +94,7 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
             vote: api.registry.createType('Vote', { aye: to.vote.isAye, conviction })
           });
         }
-      }
+      });
 
       return votes;
     })
@@ -156,10 +145,6 @@ export function _referendumInfo (instanceId: string, api: ApiInterfaceRx): (inde
   });
 }
 
-function filterReferendum (referendum: DeriveReferendum | null): referendum is DeriveReferendum {
-  return !!referendum;
-}
-
 export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
@@ -171,7 +156,9 @@ export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids:
             )
           )
         ),
-        map((infos) => infos.filter(filterReferendum))
+        map((infos) =>
+          infos.filter((referendum): referendum is DeriveReferendum => !!referendum)
+        )
       )
       : of([])
   );
