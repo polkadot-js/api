@@ -30,6 +30,6 @@ function lazyMethods <T> (methodKeys: string[], creator: (m: string) => T): Reco
   return result;
 }
 
-export function lazySection <T> (result: LazyRecord<T>, sectionName: string, getMethodKeys: (s: string) => string[], creator: (s: string, m: string) => T): void {
-  defineProperty(result, sectionName, (s) => lazyMethods(getMethodKeys(s), (m) => creator(s, m)));
+export function lazySection <T> (result: LazyRecord<T>, section: string, getKeys: (s: string) => string[], creator: (s: string, m: string) => T): void {
+  defineProperty(result, section, (s) => lazyMethods(getKeys(s), (m) => creator(s, m)));
 }

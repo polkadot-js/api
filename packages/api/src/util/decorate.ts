@@ -24,18 +24,18 @@ export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyD
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, allSections: AnyDerive): DeriveAllSections<ApiType, A> {
-  const getMethodKeys = (s: string) =>
-    Object.keys(allSections[s]);
+export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, derive: AnyDerive): DeriveAllSections<ApiType, A> {
+  const getKeys = (s: string) =>
+    Object.keys(derive[s]);
 
-  const createMethod = (s: string, m: string) =>
-    decorateMethod(allSections[s][m]) as AnyFunction;
+  const creator = (s: string, m: string) =>
+    decorateMethod(derive[s][m]) as AnyFunction;
 
   const result: AnyDerive = {};
-  const names = Object.keys(allSections);
+  const names = Object.keys(derive);
 
   for (let i = 0; i < names.length; i++) {
-    lazySection(result, names[i], getMethodKeys, createMethod);
+    lazySection(result, names[i], getKeys, creator);
   }
 
   return result as DeriveAllSections<ApiType, A>;
