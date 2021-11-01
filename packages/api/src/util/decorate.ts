@@ -4,6 +4,8 @@
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
+import { lazySection } from '@polkadot/api-derive/util/lazy';
+
 type AnyDeriveSection = Record<string, AnyFunction>;
 
 // Most generic typings for `api.derive.*.*`
@@ -23,52 +25,19 @@ export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyD
  * This is a section decorator which keeps all type information.
  */
 export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, allSections: AnyDerive): DeriveAllSections<ApiType, A> {
-  function lazyMethod (result: AnyDeriveSection, source: AnyDeriveSection, methodName: string): void {
-    let cached: AnyFunction | null = null;
-
-    Object.defineProperty(result, methodName, {
-      enumerable: true,
-      get: (): AnyFunction => {
-        if (!cached) {
-          cached = decorateMethod(source[methodName]) as AnyFunction;
-        }
-
-        return cached;
-      }
-    });
+  function getMethodKeys (s: string): string[] {
+    return Object.keys(allSections[s]);
   }
 
-  function lazyMethods (source: AnyDeriveSection): AnyDeriveSection {
-    const result: AnyDeriveSection = {};
-    const names = Object.keys(source);
-
-    for (let i = 0; i < names.length; i++) {
-      lazyMethod(result, source, names[i]);
-    }
-
-    return result;
-  }
-
-  function lazySection (result: AnyDerive, sectionName: string): void {
-    let cached: AnyDeriveSection | null = null;
-
-    Object.defineProperty(result, sectionName, {
-      enumerable: true,
-      get: (): AnyDeriveSection => {
-        if (!cached) {
-          cached = lazyMethods(allSections[sectionName]);
-        }
-
-        return cached;
-      }
-    });
+  function createMethod (s: string, m: string): AnyFunction {
+    return decorateMethod(allSections[s][m]) as AnyFunction;
   }
 
   const result: AnyDerive = {};
   const names = Object.keys(allSections);
 
   for (let i = 0; i < names.length; i++) {
-    lazySection(result, names[i]);
+    lazySection(result, names[i], getMethodKeys, createMethod);
   }
 
   return result as DeriveAllSections<ApiType, A>;

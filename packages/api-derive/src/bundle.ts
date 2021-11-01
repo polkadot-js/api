@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
 
+import { lazySection } from './util/lazy';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as bounties from './bounties';
@@ -72,47 +73,6 @@ const checks: Record<string, Avail> = {
  */
 /** @internal */
 function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: DeriveCustom): ExactDerive {
-  function lazyMethod (source: Record<string, DeriveCreator>, result: Record<string, AnyFunction>, methodName: string): void {
-    let cached: AnyFunction | null = null;
-
-    Object.defineProperty(result, methodName, {
-      enumerable: true,
-      get: (): AnyFunction => {
-        if (!cached) {
-          cached = source[methodName](instanceId, api);
-        }
-
-        return cached;
-      }
-    });
-  }
-
-  function lazyMethods (source: Record<string, DeriveCreator>): Record<string, AnyFunction> {
-    const result: Record<string, AnyFunction> = {};
-    const methodKeys = Object.keys(source);
-
-    for (let j = 0; j < methodKeys.length; j++) {
-      lazyMethod(source, result, methodKeys[j]);
-    }
-
-    return result;
-  }
-
-  function lazySection (source: Record<string, Record<string, DeriveCreator>>, result: Record<string, Record<string, AnyFunction>>, sectionName: string): void {
-    let cached: Record<string, AnyFunction> | null = null;
-
-    Object.defineProperty(result, sectionName, {
-      enumerable: true,
-      get: (): Record<string, AnyFunction> => {
-        if (!cached) {
-          cached = lazyMethods(source[sectionName]);
-        }
-
-        return cached;
-      }
-    });
-  }
-
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
 
@@ -135,6 +95,14 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: Der
     );
   }
 
+  function getMethodKeys (s: string): string[] {
+    return Object.keys(sections[s]);
+  }
+
+  function createMethod (s: string, m: string): AnyFunction {
+    return sections[s][m](instanceId, api);
+  }
+
   const derives: Record<string, Record<string, AnyFunction>> = {};
   const sectionKeys = Object.keys(sections);
 
@@ -142,7 +110,7 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: Der
     const sectionName = sectionKeys[i];
 
     if (isIncluded(sectionName)) {
-      lazySection(sections, derives, sectionName);
+      lazySection(derives, sectionName, getMethodKeys, createMethod);
     }
   }
 
