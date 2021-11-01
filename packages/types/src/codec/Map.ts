@@ -99,11 +99,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
   readonly #KeyClass: Constructor<K>;
 
   readonly #ValClass: Constructor<V>;
-
-  readonly #initialU8aLength?: number;
 
   readonly #type: string;
 
@@ -113,9 +113,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
-    this.#initialU8aLength = decodedLength;
     this.#type = type;
   }
 
@@ -130,13 +130,6 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     });
 
     return len;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
