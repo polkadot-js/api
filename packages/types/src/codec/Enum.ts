@@ -70,7 +70,9 @@ function extractDef (registry: Registry, _def: Record<string, string | Construct
   } else {
     const entries = Object.entries(_def);
 
-    for (const [key, index] of entries) {
+    for (let i = 0; i < entries.length; i++) {
+      const [key, index] = entries[i];
+
       def[key] = { Type: Null, index };
     }
 
@@ -201,15 +203,17 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        for (const _key of Object.keys(this.#def)) {
-          const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
+        const defKeys = Object.keys(this.#def);
+
+        for (let i = 0; i < defKeys.length; i++) {
+          const name = stringUpperFirst(stringCamelCase(defKeys[i].replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
           isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: () => this.type === _key
+              get: () => this.type === defKeys[i]
             });
 
           isUndefined(this[askey as keyof this]) &&
@@ -371,8 +375,11 @@ export class Enum implements IEnum {
     }
 
     const typeMap: Record<string, Constructor> = {};
+    const entries = Object.entries(this.#def);
 
-    for (const [key, { Type }] of Object.entries(this.#def)) {
+    for (let i = 0; i < entries.length; i++) {
+      const [key, { Type }] = entries[i];
+
       typeMap[key] = Type;
     }
 

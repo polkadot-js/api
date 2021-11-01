@@ -10,8 +10,11 @@ import { typeToConstructor } from './typeToConstructor';
  */
 export function mapToTypeMap (registry: Registry, input: Record<string, string | Constructor>): Record<string, Constructor> {
   const output: Record<string, Constructor> = {};
+  const entries = Object.entries(input);
 
-  for (const [k, v] of Object.entries(input)) {
+  for (let i = 0; i < entries.length; i++) {
+    const [k, v] = entries[i];
+
     output[k] = typeToConstructor(registry, v);
   }
 

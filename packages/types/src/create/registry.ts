@@ -50,13 +50,14 @@ function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<s
         ? index.toNumber()
         : i;
       const sectionName = stringCamelCase(name);
+      const { variants } = lookup.getSiType(errors.unwrap().type).def.asVariant;
 
-      for (const variant of lookup.getSiType(errors.unwrap().type).def.asVariant.variants) {
-        const { docs, fields, index, name } = variant;
+      for (let i = 0; i < variants.length; i++) {
+        const { docs, fields, index, name } = variants[i];
         const variantIndex = index.toNumber();
 
         metadataErrors[u8aToHex(new Uint8Array([sectionIndex, variantIndex]))] = {
-          args: getVariantArgs(lookup, variant),
+          args: getVariantArgs(lookup, variants[i]),
           docs: docs.map(valueToString),
           fields,
           index: variantIndex,
@@ -81,12 +82,13 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
       ? index.toNumber()
       : i;
     const sectionName = stringCamelCase(name);
+    const { variants } = lookup.getSiType(events.unwrap().type).def.asVariant;
 
-    for (const variant of lookup.getSiType(events.unwrap().type).def.asVariant.variants) {
-      const { index, name } = variant;
+    for (let i = 0; i < variants.length; i++) {
+      const { index, name } = variants[i];
       const meta = registry.createType('EventMetadataLatest', {
-        ...variant,
-        args: getVariantArgs(lookup, variant)
+        ...variants[i],
+        args: getVariantArgs(lookup, variants[i])
       });
 
       metadataEvents[u8aToHex(new Uint8Array([sectionIndex, index.toNumber()]))] = class extends GenericEventData {
@@ -101,10 +103,15 @@ function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: R
 // create extrinsic mapping from metadata
 function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls: Record<string, CallFunction>): void {
   const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
+  const sections = Object.values(extrinsics);
 
   // decorate the extrinsics
-  for (const methods of Object.values(extrinsics)) {
-    for (const method of Object.values(methods)) {
+  for (let i = 0; i < sections.length; i++) {
+    const methods = Object.values(sections[i]);
+
+    for (let j = 0; j < methods.length; j++) {
+      const method = methods[j];
+
       metadataCalls[u8aToHex(method.callIndex)] = method;
     }
   }
@@ -179,8 +186,10 @@ export class TypeRegistry implements Registry {
     // register know, first classes then on-demand-created definitions
     this.register(this.#knownDefaults);
 
-    for (const { types } of Object.values(this.#knownDefinitions)) {
-      this.register(types);
+    const allKnown = Object.values(this.#knownDefinitions);
+
+    for (let i = 0; i < allKnown.length; i++) {
+      this.register(allKnown[i].types);
     }
 
     return this;

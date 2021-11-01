@@ -35,8 +35,11 @@ function getSubType (value: TypeDef): string {
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
   const result: Record<string, string> = {};
+  const defs = getSubDefArray(value);
 
-  for (const def of getSubDefArray(value)) {
+  for (let i = 0; i < defs.length; i++) {
+    const def = defs[i];
+
     result[def.name as string] = getTypeDefType(def);
   }
 
@@ -135,8 +138,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
     const values: Record<string, number> = {};
+    const defs = getSubDefArray(value);
 
-    for (const { index, name } of getSubDefArray(value)) {
+    for (let i = 0; i < defs.length; i++) {
+      const { index, name } = defs[i];
+
       values[name as string] = index as number;
     }
 

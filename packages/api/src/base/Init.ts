@@ -246,17 +246,21 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._runtimeChain = source.runtimeChain;
     this._runtimeVersion = source.runtimeVersion;
 
-    const methods: string[] = [];
-
     // manually build a list of all available methods in this RPC, we are
     // going to filter on it to align the cloned RPC without making a call
-    for (const s of Object.keys(source.rpc)) {
-      for (const m of Object.keys((source.rpc as Record<string, Record<string, unknown>>)[s])) {
-        methods.push(`${s}_${m}`);
+    const sections = Object.keys(source.rpc);
+    const rpcs: string[] = [];
+
+    for (let s = 0; s < sections.length; s++) {
+      const section = sections[s];
+      const methods = Object.keys((source.rpc as Record<string, Record<string, unknown>>)[section]);
+
+      for (let m = 0; m < methods.length; m++) {
+        rpcs.push(`${section}_${methods[m]}`);
       }
     }
 
-    this._filterRpc(methods, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
+    this._filterRpc(rpcs, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
 
     return [source.genesisHash, source.runtimeMetadata];
   }

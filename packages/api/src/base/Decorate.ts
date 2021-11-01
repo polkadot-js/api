@@ -324,7 +324,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const allKnown = [...this._rpcCore.mapping.entries()];
     const allKeys: string[] = [];
 
-    for (const [, { alias, endpoint, method, pubsub, section }] of allKnown) {
+    for (let i = 0; i < allKnown.length; i++) {
+      const [, { alias, endpoint, method, pubsub, section }] = allKnown[i];
+
       allKeys.push(`${section}_${method}`);
 
       if (pubsub) {
@@ -350,7 +352,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // loop through all entries we have (populated in decorate) and filter as required
     // only remove when we have results and method missing, or with no results if optional
-    for (const [k, { method, section }] of allKnown) {
+    for (let i = 0; i < allKnown.length; i++) {
+      const [k, { method, section }] = allKnown[i];
+
       if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
         delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
         delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
@@ -361,8 +365,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
     const out = input as DecoratedRpc<ApiType, RpcInterface>;
 
-    for (const _sectionName of rpc.sections) {
-      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
+    for (let s = 0; s < rpc.sections.length; s++) {
+      const sectionName = rpc.sections[s] as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       if (!(out as Record<string, unknown>)[sectionName]) {
         const section = {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>;

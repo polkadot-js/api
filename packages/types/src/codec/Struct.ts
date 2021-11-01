@@ -41,7 +41,11 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
           if (isUndefined(jsonObj)) {
             jsonObj = {};
 
-            for (const [k, v] of Object.entries(value)) {
+            const entries = Object.entries(value as Record<string, unknown>);
+
+            for (let i = 0; i < entries.length; i++) {
+              const [k, v] = entries[i];
+
               jsonObj[stringCamelCase(k)] = v;
             }
           }
@@ -145,7 +149,11 @@ export class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
-        for (const key of Object.keys(Types)) {
+        const keys = Object.keys(Types);
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+
           isUndefined(this[key as keyof this]) &&
             Object.defineProperty(this, key, {
               enumerable: true,
@@ -158,8 +166,11 @@ export class Struct<
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
     const result: Record<string, string> = {};
+    const types = Object.entries(Types);
 
-    for (const [k, T] of Object.entries(Types)) {
+    for (let i = 0; i < types.length; i++) {
+      const [k, T] = types[i];
+
       result[k] = registry.getClassName(T) || new T(registry).toRawType();
     }
 
@@ -194,8 +205,11 @@ export class Struct<
    */
   public get Type (): E {
     const result = {} as unknown as E;
+    const types = Object.entries(this.#Types);
 
-    for (const [k, T] of Object.entries(this.#Types)) {
+    for (let i = 0; i < types.length; i++) {
+      const [k, T] = types[i];
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (result as any)[k as keyof E] = new T(this.registry).toRawType();
     }
@@ -208,9 +222,10 @@ export class Struct<
    */
   public get encodedLength (): number {
     let length = 0;
+    const arr = this.toArray();
 
-    for (const e of this.toArray()) {
-      length += e.encodedLength;
+    for (let i = 0; i < arr.length; i++) {
+      length += arr[i].encodedLength;
     }
 
     return length;
