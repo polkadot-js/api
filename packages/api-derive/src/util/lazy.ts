@@ -5,14 +5,14 @@ type LazySection <T> = Record<string, T>;
 
 type LazyRecord <T> = Record<string, LazySection<T>>;
 
-function lazyMethod <T> (result: LazySection<T>, methodName: string, creator: (m: string) => T) {
+function defineProperty <T> (result: Record<string, T>, name: string, creator: (k: string) => T): void {
   let cached: T | null = null;
 
-  Object.defineProperty(result, methodName, {
+  Object.defineProperty(result, name, {
     enumerable: true,
     get: (): T => {
       if (!cached) {
-        cached = creator(methodName);
+        cached = creator(name);
       }
 
       return cached;
@@ -23,24 +23,13 @@ function lazyMethod <T> (result: LazySection<T>, methodName: string, creator: (m
 function lazyMethods <T> (methodKeys: string[], creator: (m: string) => T): Record<string, T> {
   const result: Record<string, T> = {};
 
-  for (let j = 0; j < methodKeys.length; j++) {
-    lazyMethod(result, methodKeys[j], creator);
+  for (let i = 0; i < methodKeys.length; i++) {
+    defineProperty(result, methodKeys[i], creator);
   }
 
   return result;
 }
 
 export function lazySection <T> (result: LazyRecord<T>, sectionName: string, getMethodKeys: (s: string) => string[], creator: (s: string, m: string) => T): void {
-  let cached: Record<string, T> | null = null;
-
-  Object.defineProperty(result, sectionName, {
-    enumerable: true,
-    get: (): Record<string, T> => {
-      if (!cached) {
-        cached = lazyMethods(getMethodKeys(sectionName), (m) => creator(sectionName, m));
-      }
-
-      return cached;
-    }
-  });
+  defineProperty(result, sectionName, (s) => lazyMethods(getMethodKeys(s), (m) => creator(s, m)));
 }
