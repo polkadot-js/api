@@ -68,16 +68,16 @@ function lazyMethods <T> (lookup: PortableRegistry, { type }: { type: SiLookupTy
   const { variants } = lookup.getSiType(type).def.asVariant;
 
   for (let i = 0; i < variants.length; i++) {
-    const v = variants[i];
+    const variant = variants[i];
 
-    defineProperty(result, v.index.toString(), v, creator);
+    defineProperty(result, variant.index.toString(), variant, creator);
   }
 
   return result;
 }
 
 // create error mapping from metadata
-function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadataVersion: number, result: Record<string, Record<string, RegistryError>>): void {
+function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
   const lazySection = ({ errors, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
@@ -100,13 +100,13 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadat
     const pallet = pallets[i];
 
     if (pallet.errors.isSome) {
-      lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
+      lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
     }
   }
 }
 
 // create event classes from metadata
-function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, metadataVersion: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
+function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
   const lazySection = ({ events, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
@@ -133,12 +133,12 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
   for (let i = 0; i < filtered.length; i++) {
     const pallet = filtered[i];
 
-    lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
+    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
   }
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, metadataVersion: number, result: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
   const lazySection = ({ calls, name }: PalletMetadataLatest, index: number): void => {
     const section = stringCamelCase(name);
 
@@ -156,7 +156,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
   for (let i = 0; i < filtered.length; i++) {
     const pallet = filtered[i];
 
-    lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
+    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
   }
 }
 
