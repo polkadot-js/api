@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletErrorMetadataLatest, PalletEventMetadataLatest, PalletMetadataLatest, PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletCallMetadataLatest, PalletErrorMetadataLatest, PalletEventMetadataLatest, PalletMetadataLatest, PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { Text } from '../primitive/Text';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
@@ -17,8 +17,10 @@ import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from 
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
-import { decorateConstants, decorateExtrinsics, filterEventsSome } from '../metadata/decorate';
+import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
+import { createCallFunction } from '../metadata/extrinsics';
 import { Metadata } from '../metadata/Metadata';
+import { getSiName } from '../metadata/util';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
 
@@ -51,18 +53,17 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadat
   function lazyMethod (result: Record<string, RegistryError>, variant: SiVariant, sectionName: string): void {
     let cached: RegistryError | null = null;
 
-    Object.defineProperty(result, variant.index.toNumber().toString(), {
+    Object.defineProperty(result, variant.index.toString(), {
       enumerable: true,
       get: (): RegistryError => {
         if (!cached) {
-          const { docs, fields, index, name } = variant;
-          const variantIndex = index.toNumber();
+          const { docs, fields, name } = variant;
 
           cached = {
             args: getVariantArgs(lookup, variant),
             docs: docs.map(valueToString),
             fields,
-            index: variantIndex,
+            index: variant.index.toNumber(),
             method: name.toString(),
             name: name.toString(),
             section: sectionName
@@ -85,14 +86,14 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadat
     return result;
   }
 
-  function lazySection ({ errors, name }: PalletMetadataLatest, sectionIndex: string): void {
+  function lazySection ({ errors, name }: PalletMetadataLatest, sectionIndex: number): void {
     if (errors.isNone) {
       return;
     }
 
     let cached: Record<string, RegistryError> | null = null;
 
-    Object.defineProperty(metadataErrors, sectionIndex, {
+    Object.defineProperty(metadataErrors, sectionIndex.toString(), {
       enumerable: true,
       get: (): Record<string, RegistryError> => {
         if (!cached) {
@@ -108,9 +109,8 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, metadat
 
   for (let i = 0; i < pallets.length; i++) {
     const pallet = pallets[i];
-    const sectionIndex = (metadataVersion >= 12 ? pallet.index : i).toString();
 
-    lazySection(pallet, sectionIndex);
+    lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
   }
 }
 
@@ -119,7 +119,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
   function lazyMethod (result: Record<string, Constructor<GenericEventData>>, variant: SiVariant, sectionName: string): void {
     let cached: Constructor<GenericEventData> | null = null;
 
-    Object.defineProperty(result, variant.index.toNumber().toString(), {
+    Object.defineProperty(result, variant.index.toString(), {
       enumerable: true,
       get: (): Constructor<GenericEventData> => {
         if (!cached) {
@@ -151,10 +151,10 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
     return result;
   }
 
-  function lazySection ({ events, name }: PalletMetadataLatest, sectionIndex: string): void {
+  function lazySection ({ events, name }: PalletMetadataLatest, sectionIndex: number): void {
     let cached: Record<string, Constructor<GenericEventData>> | null = null;
 
-    Object.defineProperty(metadataEvents, sectionIndex, {
+    Object.defineProperty(metadataEvents, sectionIndex.toString(), {
       enumerable: true,
       get: (): Record<string, Constructor<GenericEventData>> => {
         if (!cached) {
@@ -173,19 +173,62 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
   for (let i = 0; i < filtered.length; i++) {
     const pallet = filtered[i];
 
-    lazySection(pallet, (metadataVersion >= 12 ? pallet.index : i).toString());
+    lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
   }
 }
 
 // create extrinsic mapping from metadata
-// TODO Unlike errors & events, this is not correctly lazily adjusted - the issues is how we get
-// to the actual extrinsics - we will need "some" duplication here from metadata/decorate to get
-// it to work in a lazy fashion...
-function injectExtrinsics (registry: Registry, metadata: MetadataLatest, metadataVersion: number, metadataCalls: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, metadataVersion: number, metadataCalls: Record<string, Record<string, CallFunction>>): void {
+  function lazyMethod (result: Record<string, CallFunction>, variant: SiVariant, sectionIndex: number, sectionName: string): void {
+    let cached: CallFunction | null = null;
+
+    Object.defineProperty(result, variant.index.toString(), {
+      enumerable: true,
+      get: (): CallFunction => {
+        if (!cached) {
+          cached = createCallFunction(registry, lookup, variant, sectionIndex, sectionName);
+        }
+
+        return cached;
+      }
+    });
+  }
+
+  function lazyMethods (calls: PalletCallMetadataLatest, sectionIndex: number, sectionName: string): Record<string, CallFunction> {
+    const result: Record<string, CallFunction> = {};
+    const { variants } = lookup.getSiType(calls.type).def.asVariant;
+
+    for (let i = 0; i < variants.length; i++) {
+      lazyMethod(result, variants[i], sectionIndex, sectionName);
+    }
+
+    return result;
+  }
+
+  function lazySection ({ calls, name }: PalletMetadataLatest, sectionIndex: number): void {
+    let cached: Record<string, CallFunction> | null = null;
+
+    Object.defineProperty(metadataCalls, sectionIndex.toString(), {
+      enumerable: true,
+      get: (): Record<string, CallFunction> => {
+        if (!cached) {
+          cached = lazyMethods(calls.unwrap(), sectionIndex, stringCamelCase(name));
+        }
+
+        return cached;
+      }
+    });
+  }
+
   clearRecord(metadataCalls);
 
-  const extrinsics = decorateExtrinsics(registry, metadata, metadataVersion);
-  const sections = Object.values(extrinsics);
+  const filtered = pallets.filter(filterCallsSome);
+
+  for (let i = 0; i < filtered.length; i++) {
+    const pallet = filtered[i];
+
+    lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
+  }
 
   // decorate the extrinsics
   for (let i = 0; i < sections.length; i++) {
