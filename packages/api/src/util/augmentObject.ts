@@ -48,10 +48,10 @@ function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Reco
   for (let d = 0; d < dstSections.length; d++) {
     const section = dstSections[d];
     const srcMethods = Object.keys(src[section]);
+    const dstMethods = Object.keys(dst[section]);
 
     excludes.push(
-      ...Object
-        .keys(dst[section])
+      ...dstMethods
         .filter((m) => !srcMethods.includes(m))
         .map((m) => `${section}.${m}`)
     );
