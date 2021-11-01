@@ -89,21 +89,20 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
   const srcKeys = Object.keys(src);
 
   for (let s = 0; s < srcKeys.length; s++) {
-    const sectionName = srcKeys[s];
+    const section = srcKeys[s];
 
-    if (!dst[sectionName]) {
-      dst[sectionName] = {};
+    if (!dst[section]) {
+      dst[section] = {};
     }
 
-    const section = src[sectionName];
-    const methods = Object.keys(section);
+    const methods = Object.keys(src[section]);
 
     for (let m = 0; m < methods.length; m++) {
-      const methodName = methods[m];
+      const method = methods[m];
 
       // TODO When it does match, check the actual details and warn when there are differences
-      if (!dst[sectionName][methodName]) {
-        dst[sectionName][methodName] = section[methodName];
+      if (!dst[section][method]) {
+        dst[section][method] = src[section][method];
       }
     }
   }
