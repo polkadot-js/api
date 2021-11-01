@@ -4,8 +4,10 @@
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
+type AnyDeriveSection = Record<string, AnyFunction>;
+
 // Most generic typings for `api.derive.*.*`
-type AnyDerive = Record<string, Record<string, AnyFunction>>;
+type AnyDerive = Record<string, AnyDeriveSection>;
 
 // Exact typings for a particular section `api.derive.section.*`
 type DeriveSection<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> = {
@@ -17,37 +19,57 @@ export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyD
   [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]>
 };
 
-// A technically unsafe version of Object.keys(obj) that assumes that
-// obj only has known properties of T
-function keys<T extends Record<string, unknown>> (obj: T): (keyof T)[] {
-  return Object.keys(obj);
-}
-
-/**
- * This is a methods decorator which keeps all type information.
- */
-function decorateMethods<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> (section: Section, decorateMethod: DecorateMethod<ApiType>): DeriveSection<ApiType, Section> {
-  const result = {} as DeriveSection<ApiType, Section>;
-  const names = keys(section);
-
-  for (let k = 0; k < names.length; k++) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    result[names[k]] = decorateMethod(section[names[k]]);
-  }
-
-  return result;
-}
-
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateDeriveSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (allSections: AllSections, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, AllSections> {
-  const result = {} as DeriveAllSections<ApiType, AllSections>;
-  const names = keys(allSections);
+export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (allSections: AnyDerive, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, A> {
+  function lazyMethod (result: Record<string, AnyFunction>, source: Record<string, AnyFunction>, methodName: string): void {
+    let cached: AnyFunction | null = null;
 
-  for (let k = 0; k < names.length; k++) {
-    result[names[k]] = decorateMethods(allSections[names[k]], decorateMethod);
+    Object.defineProperty(result, methodName, {
+      enumerable: true,
+      get: (): AnyFunction => {
+        if (!cached) {
+          cached = decorateMethod(source[methodName]);
+        }
+
+        return cached;
+      }
+    });
   }
 
-  return result;
+  function lazyMethods (source: AnyDeriveSection): AnyDeriveSection {
+    const result: AnyDeriveSection = {};
+    const methods = Object.keys(source);
+
+    for (let i = 0; i < methods.length; i++) {
+      lazyMethod(result, source, methods[i]);
+    }
+
+    return result;
+  }
+
+  function lazySection (sectionName: string): void {
+    let cached: AnyDeriveSection | null = null;
+
+    Object.defineProperty(result, sectionName, {
+      enumerable: true,
+      get: (): AnyDeriveSection => {
+        if (!cached) {
+          cached = lazyMethods(allSections[sectionName]);
+        }
+
+        return cached;
+      }
+    });
+  }
+
+  const result: AnyDerive = {};
+  const names = Object.keys(allSections);
+
+  for (let i = 0; i < names.length; i++) {
+    lazySection(names[i]);
+  }
+
+  return result as DeriveAllSections<ApiType, A>;
 }
