@@ -206,14 +206,15 @@ export class Enum implements IEnum {
         const defKeys = Object.keys(this.#def);
 
         for (let i = 0; i < defKeys.length; i++) {
-          const name = stringUpperFirst(stringCamelCase(defKeys[i].replace(' ', '_')));
+          const _key = defKeys[i];
+          const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
           isUndefined(this[iskey as keyof this]) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: () => this.type === defKeys[i]
+              get: () => this.type === _key
             });
 
           isUndefined(this[askey as keyof this]) &&

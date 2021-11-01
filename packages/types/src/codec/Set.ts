@@ -11,11 +11,11 @@ import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
 
-function encodeSet (setValues: SetValues, value: string[]): BN {
+function encodeSet (setValues: SetValues, values: string[]): BN {
   const result = new BN(0);
 
-  for (const v of value) {
-    result.ior(bnToBn(setValues[v] || 0));
+  for (let i = 0; i < values.length; i++) {
+    result.ior(bnToBn(setValues[values[i]] || 0));
   }
 
   return result;
@@ -105,7 +105,10 @@ export class CodecSet extends Set<string> implements ISet<string> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        for (const _key of Object.keys(values)) {
+        const keys = Object.keys(values);
+
+        for (let i = 0; i < keys.length; i++) {
+          const _key = keys[i];
           const iskey = `is${stringUpperFirst(stringCamelCase(_key))}`;
 
           isUndefined(this[iskey as keyof this]) &&
