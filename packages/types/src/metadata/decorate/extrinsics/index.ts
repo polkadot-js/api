@@ -65,14 +65,15 @@ function lazyMethods (registry: Registry, lookup: PortableRegistry, calls: Palle
   return result;
 }
 
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Extrinsics, { calls, name }: PalletMetadataV14, sectionIndex: number, sectionName: string): void {
+function lazySection (registry: Registry, lookup: PortableRegistry, result: Extrinsics, { calls, name }: PalletMetadataV14, sectionIndex: number): void {
+  const section = stringCamelCase(name);
   let cached: ModuleExtrinsics | null = null;
 
-  Object.defineProperty(result, stringCamelCase(name), {
+  Object.defineProperty(result, section, {
     enumerable: true,
     get: (): ModuleExtrinsics => {
       if (!cached) {
-        cached = lazyMethods(registry, lookup, calls.unwrap(), sectionIndex, sectionName);
+        cached = lazyMethods(registry, lookup, calls.unwrap(), sectionIndex, section);
       }
 
       return cached;
@@ -91,7 +92,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
       ? filtered[p].index.toNumber()
       : p;
 
-    lazySection(registry, lookup, result, pallet, sectionIndex, stringCamelCase(pallet.name));
+    lazySection(registry, lookup, result, pallet, sectionIndex);
   }
 
   return result;

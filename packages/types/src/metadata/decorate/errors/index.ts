@@ -61,7 +61,7 @@ function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: Pall
 }
 
 function lazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataV14, sectionIndex: number): void {
-  if (!errors.isSome) {
+  if (errors.isNone) {
     return;
   }
 
