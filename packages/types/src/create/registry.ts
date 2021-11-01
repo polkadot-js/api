@@ -229,22 +229,6 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 
     lazySection(pallet, metadataVersion >= 12 ? pallet.index.toNumber() : i);
   }
-
-  // decorate the extrinsics
-  for (let i = 0; i < sections.length; i++) {
-    const methods = Object.values(sections[i]);
-
-    for (let j = 0; j < methods.length; j++) {
-      const method = methods[j];
-      const sectionIndex = method.callIndex[0].toString();
-
-      if (!metadataCalls[sectionIndex]) {
-        metadataCalls[sectionIndex] = {};
-      }
-
-      metadataCalls[sectionIndex][method.callIndex[1].toString()] = method;
-    }
-  }
 }
 
 // extract additional properties from the metadata
