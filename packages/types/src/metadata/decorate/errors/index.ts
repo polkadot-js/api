@@ -27,27 +27,33 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 
 /** @internal */
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
-  return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
-    if (!errors.isSome) {
-      return result;
+  const result: Errors = {};
+
+  for (let p = 0; p < pallets.length; p++) {
+    const { errors, index, name } = pallets[p];
+
+    if (errors.isSome) {
+      const sectionIndex = metaVersion >= 12
+        ? index.toNumber()
+        : p;
+      const newModule: ModuleErrors = {};
+      const { variants } = lookup.getSiType(errors.unwrap().type).def.asVariant;
+
+      for (let v = 0; v < variants.length; v++) {
+        const variant = variants[v];
+
+        // we don't camelCase the error name
+        newModule[variant.name.toString()] = {
+          is: ({ error, index }: DispatchErrorModule) =>
+            index.eq(sectionIndex) &&
+            error.eq(variant.index),
+          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
+        };
+      }
+
+      result[stringCamelCase(name)] = newModule;
     }
+  }
 
-    const sectionIndex = metaVersion >= 12
-      ? index.toNumber()
-      : _sectionIndex;
-
-    result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, variant): ModuleErrors => {
-      // we don't camelCase the error name
-      newModule[variant.name.toString()] = {
-        is: ({ error, index }: DispatchErrorModule) =>
-          index.eq(sectionIndex) &&
-          error.eq(variant.index),
-        meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
-      };
-
-      return newModule;
-    }, {} as ModuleErrors);
-
-    return result;
-  }, {} as Errors);
+  return result;
 }

@@ -10,21 +10,26 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
-  return pallets.reduce((result: Constants, { constants, name }): Constants => {
-    if (constants.isEmpty) {
-      return result;
+  const result: Constants = {};
+
+  for (let p = 0; p < pallets.length; p++) {
+    const { constants, name } = pallets[p];
+
+    if (!constants.isEmpty) {
+      const newModule: ModuleConstants = {};
+
+      for (let c = 0; c < constants.length; c++) {
+        const meta = constants[c];
+        const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
+
+        (codec as Record<string, unknown>).meta = meta;
+        newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
+      }
+
+      // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
+      result[stringCamelCase(name)] = newModule;
     }
+  }
 
-    // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
-
-      (codec as Record<string, unknown>).meta = meta;
-      newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
-
-      return newModule;
-    }, {} as ModuleConstants);
-
-    return result;
-  }, {} as Constants);
+  return result;
 }

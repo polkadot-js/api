@@ -14,36 +14,39 @@ import { createRuntimeFunction } from './util';
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
-  return pallets.reduce((result: Storage, moduleMetadata): Storage => {
-    if (moduleMetadata.storage.isNone) {
-      return result;
+  const result: Storage = getStorage(registry);
+
+  for (let p = 0; p < pallets.length; p++) {
+    const { name, storage } = pallets[p];
+
+    if (storage.isSome) {
+      const section = stringCamelCase(name);
+      const { items, prefix: _prefix } = storage.unwrap();
+      const prefix = _prefix.toString();
+      const newModule: ModuleStorage = {
+        palletVersion: createRuntimeFunction(
+          { method: 'palletVersion', prefix, section },
+          createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
+          { docs: 'Returns the current pallet version from storage', type: 'u16' }
+        )(registry)
+      };
+
+      for (let i = 0; i < items.length; i++) {
+        const meta = items[i];
+        const method = meta.name.toString();
+
+        // For access, we change the index names, i.e. System.Account -> system.account
+        newModule[stringLowerFirst(method)] = createFunction(registry, {
+          meta,
+          method,
+          prefix,
+          section
+        }, {});
+      }
+
+      result[section] = newModule;
     }
+  }
 
-    const { name } = moduleMetadata;
-    const section = stringCamelCase(name);
-    const unwrapped = moduleMetadata.storage.unwrap();
-    const prefix = unwrapped.prefix.toString();
-
-    // For access, we change the index names, i.e. System.Account -> system.account
-    result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
-      const method = meta.name.toString();
-
-      newModule[stringLowerFirst(method)] = createFunction(registry, {
-        meta,
-        method,
-        prefix,
-        section
-      }, {});
-
-      return newModule;
-    }, {
-      palletVersion: createRuntimeFunction(
-        { method: 'palletVersion', prefix, section },
-        createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
-        { docs: 'Returns the current pallet version from storage', type: 'u16' }
-      )(registry)
-    } as ModuleStorage);
-
-    return result;
-  }, { ...getStorage(registry) });
+  return result;
 }
