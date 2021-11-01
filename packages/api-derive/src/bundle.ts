@@ -72,7 +72,7 @@ const checks: Record<string, Avail> = {
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: DeriveCustom): ExactDerive {
+function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: DeriveCustom): ExactDerive {
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
 
@@ -91,24 +91,24 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: Der
     )
   );
 
-  const getMethodKeys = (s: string) =>
-    Object.keys(sections[s]);
+  const getKeys = (s: string) =>
+    Object.keys(derives[s]);
 
-  const createMethod = (s: string, m: string) =>
-    sections[s][m](instanceId, api);
+  const creator = (s: string, m: string) =>
+    derives[s][m](instanceId, api);
 
-  const derives: Record<string, Record<string, AnyFunction>> = {};
-  const sectionKeys = Object.keys(sections);
+  const result: Record<string, Record<string, AnyFunction>> = {};
+  const names = Object.keys(derives);
 
-  for (let i = 0; i < sectionKeys.length; i++) {
-    const sectionName = sectionKeys[i];
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
 
-    if (isIncluded(sectionName)) {
-      lazySection(derives, sectionName, getMethodKeys, createMethod);
+    if (isIncluded(name)) {
+      lazySection(result, name, getKeys, creator);
     }
   }
 
-  return derives as ExactDerive;
+  return result as ExactDerive;
 }
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
