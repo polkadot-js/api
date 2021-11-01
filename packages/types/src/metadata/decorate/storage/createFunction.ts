@@ -47,11 +47,16 @@ export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, keys: 
 }
 
 /** @internal */
+function filterDefined (a: unknown): boolean {
+  return !isUndefined(a);
+}
+
+/** @internal */
 function createKey (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
   const { method, section } = itemFn;
 
   assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
-  assert(args.filter((a) => !isUndefined(a)).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
+  assert(args.filter(filterDefined).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
