@@ -22,7 +22,7 @@ import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logg
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
-import { decorateSections, DeriveAllSections } from '../util/decorate';
+import { decorateDeriveSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
 import { findCall, findError } from './find';
@@ -742,11 +742,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // Pull in derive from api-derive
     const derive = decorateDerive(this.#instanceId, this._rx, derives);
 
-    return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
+    return decorateDeriveSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }
 
   protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
+    return decorateDeriveSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
   }
 
   /**

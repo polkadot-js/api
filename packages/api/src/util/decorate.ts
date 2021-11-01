@@ -41,7 +41,7 @@ function decorateMethods<ApiType extends ApiTypes, Section extends Record<string
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (allSections: AllSections, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, AllSections> {
+export function decorateDeriveSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (allSections: AllSections, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, AllSections> {
   const result = {} as DeriveAllSections<ApiType, AllSections>;
   const names = keys(allSections);
 

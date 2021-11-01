@@ -74,10 +74,12 @@ const checks: Record<string, Avail> = {
 function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
+  const derives = {} as DeriveAllSections<AllSections>;
+  const sectionKeys = Object.keys(allSections);
 
-  return Object
-    .keys(allSections)
-    .filter((sectionName) =>
+  for (let i = 0; i < sectionKeys.length; i++) {
+    const sectionName = sectionKeys[i];
+    const isIncluded = (
       !checks[sectionName] ||
       checks[sectionName].instances.some((q) => queryKeys.includes(q)) ||
       (
@@ -86,21 +88,21 @@ function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, 
           (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
         )
       )
-    )
-    .reduce((derives, sectionName): DeriveAllSections<AllSections> => {
-      const section = allSections[sectionName as keyof AllSections];
+    );
 
-      derives[sectionName as keyof AllSections] = Object
-        .entries(section)
-        .reduce((methods, [methodName, creator]): DeriveSection<typeof section> => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-          methods[methodName as keyof typeof section] = creator(instanceId, api);
+    if (isIncluded) {
+      const entries = Object.entries(allSections[sectionName as keyof AllSections]) as [string, (...args: unknown[]) => any][];
+      const methods: Record<string, unknown> = {};
 
-          return methods;
-        }, {} as DeriveSection<typeof section>);
+      for (let j = 0; j < entries.length; j++) {
+        methods[entries[j][0]] = entries[j][1](instanceId, api);
+      }
 
-      return derives;
-    }, {} as DeriveAllSections<AllSections>);
+      (derives as Record<string, Record<string, unknown>>)[sectionName] = methods;
+    }
+  }
+
+  return derives;
 }
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
