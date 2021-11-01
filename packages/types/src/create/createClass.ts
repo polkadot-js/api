@@ -12,6 +12,10 @@ import { Bytes, Null } from '../primitive';
 import { getTypeDef } from './getTypeDef';
 import { TypeDefInfo } from './types';
 
+function getTypeDefType ({ lookupName, type }: TypeDef): string {
+  return lookupName || type;
+}
+
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
 
@@ -25,23 +29,24 @@ function getSubDef (value: TypeDef): TypeDef {
 }
 
 function getSubType (value: TypeDef): string {
-  const { lookupName, type } = getSubDef(value);
-
-  return lookupName || type;
+  return getTypeDefType(getSubDef(value));
 }
 
 // create a maps of type string constructors from the input
 function getTypeClassMap (value: TypeDef): Record<string, string> {
-  return getSubDefArray(value).reduce<Record<string, string>>((result, { lookupName, name, type }) => {
-    result[name as string] = lookupName || type;
+  const subs = getSubDefArray(value);
+  const map: Record<string, string> = {};
 
-    return result;
-  }, {});
+  for (let i = 0; i < subs.length; i++) {
+    map[subs[i].name as string] = getTypeDefType(subs[i]);
+  }
+
+  return map;
 }
 
 // create an array of type string constructors from the input
 function getTypeClassArray (value: TypeDef): string[] {
-  return getSubDefArray(value).map(({ lookupName, type }) => lookupName || type);
+  return getSubDefArray(value).map(getTypeDefType);
 }
 
 function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor<Codec> {
@@ -152,7 +157,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return (
       sub.type === 'u8'
         ? Bytes
-        : Vec.with(sub.lookupName || sub.type)
+        : Vec.with(getTypeDefType(sub))
     );
   },
 
@@ -162,7 +167,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return (
       sub.type === 'u8'
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
-        : VecFixed.with(sub.lookupName || sub.type, length)
+        : VecFixed.with(getTypeDefType(sub), length)
     );
   },
 

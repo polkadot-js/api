@@ -230,7 +230,11 @@ export function removeWrap (check: string): Mapper {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
-  return mappings.reduce<string>((result, fn) =>
-    fn(result, options), value.toString()
-  ).trim();
+  let result = value.toString();
+
+  for (let i = 0; i < mappings.length; i++) {
+    result = mappings[i](result, options);
+  }
+
+  return result.trim();
 }

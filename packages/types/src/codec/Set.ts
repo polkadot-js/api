@@ -11,33 +11,44 @@ import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
 
-function encodeSet (setValues: SetValues, value: string[]): BN {
-  return value.reduce((result, value): BN => {
-    return result.or(bnToBn(setValues[value] || 0));
-  }, new BN(0));
+function encodeSet (setValues: SetValues, values: string[]): BN {
+  const encoded = new BN(0);
+
+  for (let i = 0; i < values.length; i++) {
+    encoded.ior(bnToBn(setValues[values[i]] || 0));
+  }
+
+  return encoded;
 }
 
 /** @internal */
-function decodeSetArray (setValues: SetValues, value: string[]): string[] {
-  return value.reduce<string[]>((result, key): string[] => {
+function decodeSetArray (setValues: SetValues, values: string[]): string[] {
+  const result = new Array<string>(values.length);
+
+  for (let i = 0; i < values.length; i++) {
+    const key = values[i];
+
     assert(!isUndefined(setValues[key]), () => `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
-    result.push(key);
+    result[i] = key;
+  }
 
-    return result;
-  }, []);
+  return result;
 }
 
 /** @internal */
 function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
   const bn = bnToBn(_value);
-  const result = Object.keys(setValues).reduce<string[]>((result, key): string[] => {
+  const keys = Object.keys(setValues);
+  const result: string[] = [];
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+
     if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
       result.push(key);
     }
-
-    return result;
-  }, []);
+  }
 
   const computed = encodeSet(setValues, result);
 
