@@ -14,7 +14,7 @@ import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
 
-import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
+import { ExactDerive, getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
@@ -734,19 +734,18 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     const specName = this._runtimeVersion?.specName.toString();
-    const derives = {
-      ...this._options.derives,
-      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
-    };
 
     // Pull in derive from api-derive
-    const derive = decorateDerive(this.#instanceId, this._rx, derives);
+    const available = getAvailableDerives(this.#instanceId, this._rx, {
+      ...this._options.derives,
+      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
+    });
 
-    return decorateDeriveSections<'rxjs', ExactDerive>(derive, decorateMethod);
+    return decorateDeriveSections<'rxjs', ExactDerive>(decorateMethod, available);
   }
 
   protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateDeriveSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
+    return decorateDeriveSections<ApiType, ExactDerive>(decorateMethod, this._rx.derive);
   }
 
   /**

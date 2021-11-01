@@ -71,46 +71,90 @@ const checks: Record<string, Avail> = {
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
+function injectFunctions (instanceId: string, api: ApiInterfaceRx, sections: DeriveCustom): ExactDerive {
+  function lazyMethod (source: Record<string, DeriveCreator>, result: Record<string, AnyFunction>, methodName: string): void {
+    let cached: AnyFunction | null = null;
+
+    Object.defineProperty(result, methodName, {
+      enumerable: true,
+      get: (): AnyFunction => {
+        if (!cached) {
+          cached = source[methodName](instanceId, api);
+        }
+
+        return cached;
+      }
+    });
+  }
+
+  function lazyMethods (source: Record<string, DeriveCreator>): Record<string, AnyFunction> {
+    const result: Record<string, AnyFunction> = {};
+    const methodKeys = Object.keys(source);
+
+    for (let j = 0; j < methodKeys.length; j++) {
+      lazyMethod(source, result, methodKeys[j]);
+    }
+
+    return result;
+  }
+
+  function lazySection (source: Record<string, Record<string, DeriveCreator>>, result: Record<string, Record<string, AnyFunction>>, sectionName: string): void {
+    let cached: Record<string, AnyFunction> | null = null;
+
+    Object.defineProperty(result, sectionName, {
+      enumerable: true,
+      get: (): Record<string, AnyFunction> => {
+        if (!cached) {
+          cached = lazyMethods(source[sectionName]);
+        }
+
+        return cached;
+      }
+    });
+  }
+
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
-  const derives = {} as DeriveAllSections<AllSections>;
-  const sectionKeys = Object.keys(allSections);
+
+  function filterQueryKeys (q: string) {
+    return queryKeys.includes(q);
+  }
+
+  function filterInstances (q: string) {
+    return (api.registry.getModuleInstances(specName, q) || []).some(filterQueryKeys);
+  }
+
+  function isIncluded (s: string) {
+    return (
+      !checks[s] ||
+      checks[s].instances.some(filterQueryKeys) ||
+      (
+        checks[s].withDetect &&
+        checks[s].instances.some(filterInstances)
+      )
+    );
+  }
+
+  const derives: Record<string, Record<string, AnyFunction>> = {};
+  const sectionKeys = Object.keys(sections);
 
   for (let i = 0; i < sectionKeys.length; i++) {
     const sectionName = sectionKeys[i];
-    const isIncluded = (
-      !checks[sectionName] ||
-      checks[sectionName].instances.some((q) => queryKeys.includes(q)) ||
-      (
-        checks[sectionName].withDetect &&
-        checks[sectionName].instances.some((q) =>
-          (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
-        )
-      )
-    );
 
-    if (isIncluded) {
-      const entries = Object.entries(allSections[sectionName as keyof AllSections]) as [string, (...args: unknown[]) => any][];
-      const methods: Record<string, unknown> = {};
-
-      for (let j = 0; j < entries.length; j++) {
-        methods[entries[j][0]] = entries[j][1](instanceId, api);
-      }
-
-      (derives as Record<string, Record<string, unknown>>)[sectionName] = methods;
+    if (isIncluded(sectionName)) {
+      lazySection(sections, derives, sectionName);
     }
   }
 
-  return derives;
+  return derives as ExactDerive;
 }
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export function getAvailableDerives (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
-    ...injectFunctions(instanceId, api, derive),
+    ...injectFunctions(instanceId, api, derive as DeriveCustom),
     ...injectFunctions(instanceId, api, custom)
   };
 }

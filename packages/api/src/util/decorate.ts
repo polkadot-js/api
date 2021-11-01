@@ -10,7 +10,7 @@ type AnyDeriveSection = Record<string, AnyFunction>;
 type AnyDerive = Record<string, AnyDeriveSection>;
 
 // Exact typings for a particular section `api.derive.section.*`
-type DeriveSection<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> = {
+type DeriveSection<ApiType extends ApiTypes, Section extends AnyDeriveSection> = {
   [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]>
 };
 
@@ -22,15 +22,15 @@ export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyD
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (allSections: AnyDerive, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, A> {
-  function lazyMethod (result: Record<string, AnyFunction>, source: Record<string, AnyFunction>, methodName: string): void {
+export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, allSections: AnyDerive): DeriveAllSections<ApiType, A> {
+  function lazyMethod (result: AnyDeriveSection, source: AnyDeriveSection, methodName: string): void {
     let cached: AnyFunction | null = null;
 
     Object.defineProperty(result, methodName, {
       enumerable: true,
       get: (): AnyFunction => {
         if (!cached) {
-          cached = decorateMethod(source[methodName]);
+          cached = decorateMethod(source[methodName]) as AnyFunction;
         }
 
         return cached;
@@ -40,16 +40,16 @@ export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDe
 
   function lazyMethods (source: AnyDeriveSection): AnyDeriveSection {
     const result: AnyDeriveSection = {};
-    const methods = Object.keys(source);
+    const names = Object.keys(source);
 
-    for (let i = 0; i < methods.length; i++) {
-      lazyMethod(result, source, methods[i]);
+    for (let i = 0; i < names.length; i++) {
+      lazyMethod(result, source, names[i]);
     }
 
     return result;
   }
 
-  function lazySection (sectionName: string): void {
+  function lazySection (result: AnyDerive, sectionName: string): void {
     let cached: AnyDeriveSection | null = null;
 
     Object.defineProperty(result, sectionName, {
@@ -68,7 +68,7 @@ export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDe
   const names = Object.keys(allSections);
 
   for (let i = 0; i < names.length; i++) {
-    lazySection(names[i]);
+    lazySection(result, names[i]);
   }
 
   return result as DeriveAllSections<ApiType, A>;
