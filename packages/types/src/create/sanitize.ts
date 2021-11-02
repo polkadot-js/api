@@ -253,13 +253,29 @@ export function removeWrap (check: string): Mapper {
     replaceTagWith(value, check, replacer);
 }
 
+const sanitizeMap = new Map<string, string>();
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
   let result = value.toString();
+
+  if (!options) {
+    const memoized = sanitizeMap.get(result);
+
+    if (memoized) {
+      return memoized;
+    }
+  }
 
   for (let i = 0; i < mappings.length; i++) {
     result = mappings[i](result, options);
   }
 
-  return result.trim();
+  result = result.trim();
+
+  if (!options) {
+    sanitizeMap.set(value.toString(), result);
+  }
+
+  return result;
 }
