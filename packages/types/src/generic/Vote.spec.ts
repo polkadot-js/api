@@ -7,7 +7,7 @@ import { GenericVote } from '.';
 describe('GenericVote', (): void => {
   const registry = new TypeRegistry();
 
-  describe('construction', (): void => {
+  describe.only('construction', (): void => {
     it('constructs via boolean true', (): void => {
       expect(new GenericVote(registry, true).toU8a()).toEqual(new Uint8Array([128]));
       expect(new GenericVote(registry, true).isAye).toBe(true);
@@ -58,7 +58,7 @@ describe('GenericVote', (): void => {
       expect(new GenericVote(registry, new Uint8Array([1])).isNay).toBe(true);
     });
 
-    it('constructs via Uint8Array (aye)', (): void => {
+    it.only('constructs via Uint8Array (aye)', (): void => {
       const test = new GenericVote(registry, new Uint8Array([0b10000010]));
 
       expect(test.isNay).toBe(false);

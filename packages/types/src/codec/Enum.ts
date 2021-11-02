@@ -9,7 +9,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
-import { mapToTypeMap } from './utils';
+import { defineProperty, mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -202,27 +202,21 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        Object.keys(this.#def).forEach((_key): void => {
-          const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
+        const keys = Object.keys(this.#def);
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
-          isUndefined(this[iskey as keyof this]) &&
-            Object.defineProperty(this, iskey, {
-              enumerable: true,
-              get: () => this.type === _key
-            });
+          defineProperty(this, iskey, () => this.type === key);
+          defineProperty(this, askey, (): Codec => {
+            assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
 
-          isUndefined(this[askey as keyof this]) &&
-            Object.defineProperty(this, askey, {
-              enumerable: true,
-              get: (): Codec => {
-                assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
-
-                return this.value;
-              }
-            });
-        });
+            return this.value;
+          });
+        }
       }
     };
   }
@@ -281,7 +275,7 @@ export class Enum implements IEnum {
    * @deprecated use isNone
    */
   public get isNull (): boolean {
-    return this.isNone;
+    return this.#raw instanceof Null;
   }
 
   /**
