@@ -5,9 +5,10 @@ import type { MetadataLatest, PalletMetadataLatest, StorageEntryMetadataLatest }
 import type { Registry } from '../../../types';
 import type { Storage } from '../types';
 
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { objectNameFirstLower } from '../util';
 import { createFunction, createKeyRaw } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
@@ -30,7 +31,7 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
           items,
           (meta: StorageEntryMetadataLatest) =>
             createFunction(registry, { meta, method: meta.name.toString(), prefix, section }, {}),
-          ({ name }: StorageEntryMetadataLatest) => stringLowerFirst(name),
+          objectNameFirstLower,
           {
             palletVersion: createRuntimeFunction(
               { method: 'palletVersion', prefix, section },
