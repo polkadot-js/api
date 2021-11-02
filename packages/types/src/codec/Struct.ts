@@ -148,7 +148,7 @@ export class Struct<
         super(registry, Types, value as HexString, jsonMap);
 
         Object.keys(Types).forEach((key): void => {
-          isUndefined(this[key as keyof this]) &&
+          !Object.prototype.hasOwnProperty.call(this, key) &&
             Object.defineProperty(this, key, {
               enumerable: true,
               get: (): Codec | undefined => this.get(key as keyof S)

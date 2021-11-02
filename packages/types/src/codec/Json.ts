@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
-import { isFunction, isUndefined, stringify } from '@polkadot/util';
+import { isFunction, stringify } from '@polkadot/util';
 
 import { compareMap } from './utils';
 
@@ -35,7 +35,7 @@ export class Json extends Map<string, any> implements Codec {
     this.registry = registry;
 
     decoded.forEach(([key]): void => {
-      isUndefined(this[key as keyof this]) &&
+      !Object.prototype.hasOwnProperty.call(this, key) &&
         Object.defineProperty(this, key, {
           enumerable: true,
           get: (): Codec | undefined => this.get(key) as Codec

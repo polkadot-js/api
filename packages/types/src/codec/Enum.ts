@@ -207,13 +207,13 @@ export class Enum implements IEnum {
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
-          isUndefined(this[iskey as keyof this]) &&
+          !Object.prototype.hasOwnProperty.call(this, iskey) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
               get: () => this.type === _key
             });
 
-          isUndefined(this[askey as keyof this]) &&
+          !Object.prototype.hasOwnProperty.call(this, askey) &&
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {

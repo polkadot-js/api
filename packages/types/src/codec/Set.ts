@@ -111,7 +111,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
         Object.keys(values).forEach((_key): void => {
           const iskey = `is${stringUpperFirst(stringCamelCase(_key))}`;
 
-          isUndefined(this[iskey as keyof this]) &&
+          !Object.prototype.hasOwnProperty.call(this, iskey) &&
             Object.defineProperty(this, iskey, {
               enumerable: true,
               get: () => this.strings.includes(_key)
