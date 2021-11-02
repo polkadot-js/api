@@ -9,7 +9,7 @@ import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -17,7 +17,7 @@ import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray 
 import { ExactDerive, getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
+import { expandMetadata, lazyMethod, lazyMethods, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
@@ -428,18 +428,26 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
+    const sections = Object.keys(tx);
 
-    for (const [name, section] of Object.entries(tx)) {
-      const methods: SubmittableModuleExtrinsics<ApiType> = {};
-
-      for (const [name, method] of Object.entries(section)) {
-        methods[name] = this._decorateExtrinsicEntry(method, creator);
-      }
-
-      creator[name] = methods;
+    for (let i = 0; i < sections.length; i++) {
+      this._decorateExtrinsicsLazy(tx, sections[i], creator);
     }
 
     return creator;
+  }
+
+  protected _decorateExtrinsicsLazy<ApiType extends ApiTypes> (tx: DecoratedMeta['tx'], section: string, creator: SubmittableExtrinsics<ApiType>) {
+    lazyMethod(
+      creator,
+      Object.keys(tx[section]),
+      (methods: string[]) =>
+        lazyMethods(
+          methods,
+          (method: string) =>
+            this._decorateExtrinsicEntry(tx[section][method], creator)
+        )
+    );
   }
 
   private _decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
