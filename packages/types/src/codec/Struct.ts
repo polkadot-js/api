@@ -195,17 +195,19 @@ export class Struct<
   }
 
   /**
-   * @description Returns the Type description to sthe structure
+   * @description Returns the Type description of the structure
    */
   public get Type (): E {
-    return (Object
-      .entries(this.#Types))
-      .reduce((result: E, [key, Type]): E => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (result as any)[key as keyof E] = new Type(this.registry).toRawType();
+    const result: Record<string, string> = {};
+    const defs = Object.entries(this.#Types);
 
-        return result;
-      }, {} as E);
+    for (let i = 0; i < defs.length; i++) {
+      const [key, Type] = defs[i];
+
+      result[key] = new Type(this.registry).toRawType();
+    }
+
+    return result as E;
   }
 
   /**
