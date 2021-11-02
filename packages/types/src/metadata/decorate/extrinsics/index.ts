@@ -16,7 +16,7 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
-function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number, sectionName: string): CallFunction {
+export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number, sectionName: string): CallFunction {
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
