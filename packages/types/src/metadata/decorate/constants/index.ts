@@ -3,69 +3,47 @@
 
 import type { MetadataLatest, PalletConstantMetadataLatest, PalletMetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
-import type { ConstantCodec, Constants, ModuleConstants } from '../types';
+import type { ConstantCodec, Constants } from '../types';
 
 import { hexToU8a, stringCamelCase } from '@polkadot/util';
 
-function createConstantCodec (registry: Registry, meta: PalletConstantMetadataLatest): ConstantCodec {
-  const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as ConstantCodec;
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { objectNameToCamel } from '../util';
 
-  (codec as unknown as Record<string, unknown>).meta = meta;
+function createConstantCodec (registry: Registry, constant: PalletConstantMetadataLatest): ConstantCodec {
+  const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]) as ConstantCodec;
+
+  (codec as unknown as Record<string, unknown>).meta = constant;
 
   return codec;
 }
 
-function lazyMethod (registry: Registry, result: ModuleConstants, meta: PalletConstantMetadataLatest): void {
-  let cached: ConstantCodec | null = null;
-
-  Object.defineProperty(result, stringCamelCase(meta.name), {
-    enumerable: true,
-    get: (): ConstantCodec => {
-      if (!cached) {
-        cached = createConstantCodec(registry, meta);
-      }
-
-      return cached;
-    }
-  });
-}
-
-function lazyMethods (registry: Registry, constants: PalletConstantMetadataLatest[]): ModuleConstants {
-  const result: ModuleConstants = {};
-
-  for (let c = 0; c < constants.length; c++) {
-    lazyMethod(registry, result, constants[c]);
-  }
-
-  return result;
-}
-
-function lazySection (registry: Registry, result: Constants, { constants, name }: PalletMetadataLatest): void {
-  if (constants.isEmpty) {
-    return;
-  }
-
-  let cached: ModuleConstants | null = null;
-
-  Object.defineProperty(result, stringCamelCase(name), {
-    enumerable: true,
-    get: (): ModuleConstants => {
-      if (!cached) {
-        cached = lazyMethods(registry, constants);
-      }
-
-      return cached;
-    }
-  });
-}
-
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
+  const lazySection = ({ constants, name }: PalletMetadataLatest): void => {
+    lazyMethod(
+      result,
+      constants,
+      (constants: PalletConstantMetadataLatest[]) =>
+        lazyMethods(
+          constants,
+          (constant: PalletConstantMetadataLatest) =>
+            createConstantCodec(registry, constant),
+          objectNameToCamel
+        ),
+      () => stringCamelCase(name)
+    );
+  };
+
   for (let p = 0; p < pallets.length; p++) {
-    lazySection(registry, result, pallets[p]);
+    const pallet = pallets[p];
+
+    if (!pallet.constants.isEmpty) {
+      lazySection(pallet);
+    }
   }
 
   return result;

@@ -1,13 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletCallMetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
 import type { CallFunction, Registry } from '../../../types';
-import type { Extrinsics, ModuleExtrinsics } from '../types';
+import type { Extrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
 import { getSiName } from '../../util';
+import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
@@ -18,8 +20,8 @@ function createCallFunction (registry: Registry, lookup: PortableRegistry, varia
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
-  for (let a = 0; a < variant.fields.length; a++) {
-    const { name, type, typeName } = variant.fields[a];
+  for (let a = 0; a < fields.length; a++) {
+    const { name, type, typeName } = fields[a];
 
     args[a] = {
       name: stringCamelCase(name.unwrapOr(`param${a}`)),
@@ -39,60 +41,33 @@ function createCallFunction (registry: Registry, lookup: PortableRegistry, varia
   );
 }
 
-function lazyMethod (registry: Registry, lookup: PortableRegistry, result: ModuleExtrinsics, variant: SiVariant, sectionIndex: number, sectionName: string): void {
-  let cached: CallFunction | null = null;
-
-  Object.defineProperty(result, stringCamelCase(variant.name.toString()), {
-    enumerable: true,
-    get: (): CallFunction => {
-      if (!cached) {
-        cached = createCallFunction(registry, lookup, variant, sectionIndex, sectionName);
-      }
-
-      return cached;
-    }
-  });
-}
-
-function lazyMethods (registry: Registry, lookup: PortableRegistry, calls: PalletCallMetadataLatest, sectionIndex: number, sectionName: string): ModuleExtrinsics {
-  const result: ModuleExtrinsics = {};
-  const { variants } = lookup.getSiType(calls.type).def.asVariant;
-
-  for (let v = 0; v < variants.length; v++) {
-    lazyMethod(registry, lookup, result, variants[v], sectionIndex, sectionName);
-  }
-
-  return result;
-}
-
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Extrinsics, { calls, name }: PalletMetadataLatest, sectionIndex: number): void {
-  const section = stringCamelCase(name);
-  let cached: ModuleExtrinsics | null = null;
-
-  Object.defineProperty(result, section, {
-    enumerable: true,
-    get: (): ModuleExtrinsics => {
-      if (!cached) {
-        cached = lazyMethods(registry, lookup, calls.unwrap(), sectionIndex, section);
-      }
-
-      return cached;
-    }
-  });
-}
-
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Extrinsics {
-  const filtered = pallets.filter(filterCallsSome);
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
   const result: Extrinsics = {};
+
+  const lazySection = ({ calls, name }: PalletMetadataLatest, sectionIndex: number): void => {
+    const sectionName = stringCamelCase(name);
+
+    lazyMethod(
+      result,
+      lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
+      (variants: SiVariant[]) =>
+        lazyMethods(
+          variants,
+          (variant: SiVariant) =>
+            createCallFunction(registry, lookup, variant, sectionIndex, sectionName),
+          objectNameToCamel
+        ),
+      () => sectionName
+    );
+  };
+
+  const filtered = pallets.filter(filterCallsSome);
 
   for (let p = 0; p < filtered.length; p++) {
     const pallet = filtered[p];
-    const sectionIndex = metaVersion >= 12
-      ? filtered[p].index.toNumber()
-      : p;
 
-    lazySection(registry, lookup, result, pallet, sectionIndex);
+    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
   }
 
   return result;

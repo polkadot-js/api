@@ -1,13 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletEventMetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
 import type { AnyTuple, IEvent, Registry } from '../../../types';
-import type { Events, IsEvent, ModuleEvents } from '../types';
+import type { Events, IsEvent } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
+import { objectNameToString } from '../util';
 
 export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;
@@ -22,60 +24,31 @@ function createIsEvent (registry: Registry, lookup: PortableRegistry, variant: S
   };
 }
 
-function lazyMethod (registry: Registry, lookup: PortableRegistry, result: ModuleEvents, variant: SiVariant, sectionIndex: number): void {
-  let cached: IsEvent<AnyTuple> | null = null;
-
-  Object.defineProperty(result, variant.name.toString(), {
-    enumerable:
-    true,
-    get: (): IsEvent<AnyTuple> => {
-      if (!cached) {
-        cached = createIsEvent(registry, lookup, variant, sectionIndex);
-      }
-
-      return cached;
-    }
-  });
-}
-
-function lazyMethods (registry: Registry, lookup: PortableRegistry, events: PalletEventMetadataLatest, sectionIndex: number): ModuleEvents {
-  const result: ModuleEvents = {};
-  const { variants } = lookup.getSiType(events.type).def.asVariant;
-
-  for (let v = 0; v < variants.length; v++) {
-    lazyMethod(registry, lookup, result, variants[v], sectionIndex);
-  }
-
-  return result;
-}
-
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Events, { events, name }: PalletMetadataLatest, sectionIndex: number): void {
-  let cached: ModuleEvents | null = null;
-
-  Object.defineProperty(result, stringCamelCase(name), {
-    enumerable: true,
-    get: (): ModuleEvents => {
-      if (!cached) {
-        cached = lazyMethods(registry, lookup, events.unwrap(), sectionIndex);
-      }
-
-      return cached;
-    }
-  });
-}
-
 /** @internal */
-export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Events {
-  const filtered = pallets.filter(filterEventsSome);
+export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
+
+  const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
+    lazyMethod(
+      result,
+      lookup.getSiType(events.unwrap().type).def.asVariant.variants,
+      (variants: SiVariant[]) =>
+        lazyMethods(
+          variants,
+          (variant: SiVariant) =>
+            createIsEvent(registry, lookup, variant, sectionIndex),
+          objectNameToString
+        ),
+      () => stringCamelCase(name)
+    );
+  };
+
+  const filtered = pallets.filter(filterEventsSome);
 
   for (let p = 0; p < filtered.length; p++) {
     const pallet = filtered[p];
-    const sectionIndex = metaVersion >= 12
-      ? filtered[p].index.toNumber()
-      : p;
 
-    lazySection(registry, lookup, result, pallet, sectionIndex);
+    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
   }
 
   return result;

@@ -1,12 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest, PalletErrorMetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
 import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
-import type { Errors, IsError, ModuleErrors } from '../types';
+import type { Errors, IsError } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
+
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { objectNameToString } from '../util';
 
 interface ItemMeta {
   args: string[];
@@ -34,62 +37,31 @@ function createIsError (registry: Registry, lookup: PortableRegistry, variant: S
   };
 }
 
-function lazyMethod (registry: Registry, lookup: PortableRegistry, result: ModuleErrors, variant: SiVariant, sectionIndex: number): void {
-  let cached: IsError | null = null;
-
-  Object.defineProperty(result, variant.name.toString(), {
-    enumerable: true,
-    get: (): IsError => {
-      if (!cached) {
-        cached = createIsError(registry, lookup, variant, sectionIndex);
-      }
-
-      return cached;
-    }
-  });
-}
-
-function lazyMethods (registry: Registry, lookup: PortableRegistry, errors: PalletErrorMetadataLatest, sectionIndex: number): ModuleErrors {
-  const result: ModuleErrors = {};
-  const { variants } = lookup.getSiType(errors.type).def.asVariant;
-
-  for (let v = 0; v < variants.length; v++) {
-    lazyMethod(registry, lookup, result, variants[v], sectionIndex);
-  }
-
-  return result;
-}
-
-function lazySection (registry: Registry, lookup: PortableRegistry, result: Errors, { errors, name }: PalletMetadataLatest, sectionIndex: number): void {
-  if (errors.isNone) {
-    return;
-  }
-
-  let cached: ModuleErrors | null = null;
-
-  Object.defineProperty(result, stringCamelCase(name), {
-    enumerable: true,
-    get: (): ModuleErrors => {
-      if (!cached) {
-        cached = lazyMethods(registry, lookup, errors.unwrap(), sectionIndex);
-      }
-
-      return cached;
-    }
-  });
-}
-
 /** @internal */
-export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
+export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
+
+  const lazySection = ({ errors, name }: PalletMetadataLatest, sectionIndex: number): void => {
+    lazyMethod(
+      result,
+      lookup.getSiType(errors.unwrap().type).def.asVariant.variants,
+      (variants: SiVariant[]) =>
+        lazyMethods(
+          variants,
+          (variant: SiVariant) =>
+            createIsError(registry, lookup, variant, sectionIndex),
+          objectNameToString
+        ),
+      () => stringCamelCase(name)
+    );
+  };
 
   for (let p = 0; p < pallets.length; p++) {
     const pallet = pallets[p];
-    const sectionIndex = metaVersion >= 12
-      ? pallet.index.toNumber()
-      : p;
 
-    lazySection(registry, lookup, result, pallet, sectionIndex);
+    if (pallet.errors.isSome) {
+      lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
+    }
   }
 
   return result;
