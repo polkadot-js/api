@@ -14,7 +14,7 @@ import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
 
-import { decorateDerive, ExactDerive } from '@polkadot/api-derive';
+import { ExactDerive, getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
@@ -22,7 +22,7 @@ import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logg
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
-import { decorateSections, DeriveAllSections } from '../util/decorate';
+import { decorateDeriveSections, DeriveAllSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
 import { findCall, findError } from './find';
@@ -734,19 +734,18 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     const specName = this._runtimeVersion?.specName.toString();
-    const derives = {
-      ...this._options.derives,
-      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
-    };
 
     // Pull in derive from api-derive
-    const derive = decorateDerive(this.#instanceId, this._rx, derives);
+    const available = getAvailableDerives(this.#instanceId, this._rx, {
+      ...this._options.derives,
+      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
+    });
 
-    return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
+    return decorateDeriveSections<'rxjs', ExactDerive>(decorateMethod, available);
   }
 
   protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
+    return decorateDeriveSections<ApiType, ExactDerive>(decorateMethod, this._rx.derive);
   }
 
   /**
