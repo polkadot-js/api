@@ -18,7 +18,7 @@ export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
 function createIsEvent (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number): IsEvent<AnyTuple> {
   return {
     is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-      eventRecord.index[0] === sectionIndex &&
+      sectionIndex === eventRecord.index[0] &&
       variant.index.eq(eventRecord.index[1]),
     meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
   };
