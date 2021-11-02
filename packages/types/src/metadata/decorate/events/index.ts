@@ -1,44 +1,54 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletMetadataV14 } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
 import type { AnyTuple, IEvent, Registry } from '../../../types';
-import type { Events, ModuleEvents } from '../types';
+import type { Events, IsEvent } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
+import { objectNameToString } from '../util';
 
-export function filterEventsSome ({ events }: PalletMetadataV14): boolean {
+export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;
 }
 
+function createIsEvent (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number): IsEvent<AnyTuple> {
+  return {
+    is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
+      sectionIndex === eventRecord.index[0] &&
+      variant.index.eq(eventRecord.index[1]),
+    meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
+  };
+}
+
 /** @internal */
-export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Events {
-  const filtered = pallets.filter(filterEventsSome);
+export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
 
+  const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
+    lazyMethod(
+      result,
+      lookup.getSiType(events.unwrap().type).def.asVariant.variants,
+      (variants: SiVariant[]) =>
+        lazyMethods(
+          variants,
+          (variant: SiVariant) =>
+            createIsEvent(registry, lookup, variant, sectionIndex),
+          objectNameToString
+        ),
+      () => stringCamelCase(name)
+    );
+  };
+
+  const filtered = pallets.filter(filterEventsSome);
+
   for (let p = 0; p < filtered.length; p++) {
-    const { events, index, name } = filtered[p];
-    const sectionIndex = metaVersion >= 12
-      ? index.toNumber()
-      : p;
-    const newModule: ModuleEvents = {};
-    const { variants } = lookup.getSiType(events.unwrap().type).def.asVariant;
+    const pallet = filtered[p];
 
-    for (let v = 0; v < variants.length; v++) {
-      const variant = variants[v];
-
-      // we don't camelCase the event name
-      newModule[variant.name.toString()] = {
-        is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-          eventRecord.index[0] === sectionIndex &&
-          variant.index.eq(eventRecord.index[1]),
-        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
-      };
-    }
-
-    result[stringCamelCase(name)] = newModule;
+    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
   }
 
   return result;
