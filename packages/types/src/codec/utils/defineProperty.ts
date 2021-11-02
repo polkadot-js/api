@@ -3,10 +3,16 @@
 
 import { isUndefined } from '@polkadot/util';
 
+const SKIP_KEYS = ['hash'];
+
 export function defineProperty (that: object, key: string, get: () => unknown): void {
-  // The first checks for property names, the second actually does
-  // catch items such as own getters (well, it _is_ needed, Babel?)
-  if (!Object.prototype.hasOwnProperty.call(that, key) && isUndefined((that as Record<string, unknown>)[key])) {
+  if (SKIP_KEYS.includes(key)) {
+    return defineProperty(that, `_${key}`, get);
+  }
+
+  // We use an isUndefined check here, not hasOwwnProperty since there are set in derived
+  // classes (inside with) and _Own_ properties refers to the class only, not parents
+  if (isUndefined((that as Record<string, unknown>)[key])) {
     Object.defineProperty(that, key, { enumerable: true, get });
   }
 }
