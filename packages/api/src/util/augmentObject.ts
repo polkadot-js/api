@@ -98,8 +98,8 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     const creator = (method: string) => src[section][method];
     const methods = Object.keys(src[section]);
 
-    for (let m = 0; m < methods.length; m++) {
-      const method = methods[m];
+    for (let i = 0; i < methods.length; i++) {
+      const method = methods[i];
 
       // We use hasOwnproperty here to only check for the existence of the key,
       // instead of reading dst[section][method] which will evaluate when already
