@@ -9,7 +9,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
-import { mapToTypeMap } from './utils';
+import { defineProperty, mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -202,26 +202,17 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        Object.keys(this.#def).forEach((_key): void => {
-          const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
+        Object.keys(this.#def).forEach((k): void => {
+          const name = stringUpperFirst(stringCamelCase(k.replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
-          !Object.prototype.hasOwnProperty.call(this, iskey) &&
-            Object.defineProperty(this, iskey, {
-              enumerable: true,
-              get: () => this.type === _key
-            });
+          defineProperty(this, iskey, () => this.type === k);
+          defineProperty(this, askey, (): Codec => {
+            assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
 
-          !Object.prototype.hasOwnProperty.call(this, askey) &&
-            Object.defineProperty(this, askey, {
-              enumerable: true,
-              get: (): Codec => {
-                assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
-
-                return this.value;
-              }
-            });
+            return this.value;
+          });
         });
       }
     };

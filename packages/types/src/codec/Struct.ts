@@ -7,7 +7,7 @@ import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Re
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, mapToTypeMap } from './utils';
+import { compareMap, decodeU8a, defineProperty, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
@@ -147,12 +147,8 @@ export class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
-        Object.keys(Types).forEach((key): void => {
-          !Object.prototype.hasOwnProperty.call(this, key) &&
-            Object.defineProperty(this, key, {
-              enumerable: true,
-              get: (): Codec | undefined => this.get(key as keyof S)
-            });
+        Object.keys(Types).forEach((k): void => {
+          defineProperty(this, k, () => this.get(k as keyof S));
         });
       }
     };
