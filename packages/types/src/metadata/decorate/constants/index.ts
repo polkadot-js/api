@@ -24,17 +24,13 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
   const result: Constants = {};
 
   const lazySection = ({ constants, name }: PalletMetadataLatest): void => {
-    lazyMethod(
-      result,
-      constants,
-      (constants: PalletConstantMetadataLatest[]) =>
-        lazyMethods(
-          constants,
-          (constant: PalletConstantMetadataLatest) =>
-            createConstantCodec(registry, constant),
-          objectNameToCamel
-        ),
-      () => stringCamelCase(name)
+    lazyMethod(result, stringCamelCase(name), () =>
+      lazyMethods(
+        constants,
+        (constant: PalletConstantMetadataLatest) =>
+          createConstantCodec(registry, constant),
+        objectNameToCamel
+      )
     );
   };
 

@@ -48,17 +48,13 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
   const lazySection = ({ calls, name }: PalletMetadataLatest, sectionIndex: number): void => {
     const sectionName = stringCamelCase(name);
 
-    lazyMethod(
-      result,
-      lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
-      (variants: SiVariant[]) =>
-        lazyMethods(
-          variants,
-          (variant: SiVariant) =>
-            createCallFunction(registry, lookup, variant, sectionIndex, sectionName),
-          objectNameToCamel
-        ),
-      () => sectionName
+    lazyMethod(result, sectionName, () =>
+      lazyMethods(
+        lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
+        (v: SiVariant) =>
+          createCallFunction(registry, lookup, v, sectionIndex, sectionName),
+        objectNameToCamel
+      )
     );
   };
 

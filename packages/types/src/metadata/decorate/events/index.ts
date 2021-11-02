@@ -29,17 +29,13 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
   const result: Events = {};
 
   const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
-    lazyMethod(
-      result,
-      lookup.getSiType(events.unwrap().type).def.asVariant.variants,
-      (variants: SiVariant[]) =>
-        lazyMethods(
-          variants,
-          (variant: SiVariant) =>
-            createIsEvent(registry, lookup, variant, sectionIndex),
-          objectNameToString
-        ),
-      () => stringCamelCase(name)
+    lazyMethod(result, stringCamelCase(name), () =>
+      lazyMethods(
+        lookup.getSiType(events.unwrap().type).def.asVariant.variants,
+        (v: SiVariant) =>
+          createIsEvent(registry, lookup, v, sectionIndex),
+        objectNameToString
+      )
     );
   };
 
