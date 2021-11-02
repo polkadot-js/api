@@ -101,10 +101,10 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     for (let m = 0; m < methods.length; m++) {
       const method = methods[m];
 
-      // Although not recommended, use use the hasOwnPreoperty to not actually
-      // get the value from the object itself (when lazy, this calls)
-      // eslint-disable-next-line no-prototype-builtins
-      if (!dst[section].hasOwnProperty(method)) {
+      // We use hasOwnproperty here to only check for the existence of the key,
+      // instead of reading dst[section][method] which will evaluate when already
+      // set as a lazy value previously
+      if (!Object.prototype.hasOwnProperty.call(dst[section], method)) {
         lazyMethod(dst[section], method, creator);
       }
     }
