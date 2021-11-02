@@ -34,9 +34,11 @@ export class Json extends Map<string, any> implements Codec {
 
     this.registry = registry;
 
-    decoded.forEach(([k]): void => {
-      defineProperty(this, k, () => this.get(k) as Codec);
-    });
+    for (let i = 0; i < decoded.length; i++) {
+      const [key] = decoded[i];
+
+      defineProperty(this, key, () => this.get(key) as Codec);
+    }
   }
 
   /**

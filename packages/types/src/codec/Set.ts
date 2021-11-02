@@ -108,9 +108,13 @@ export class CodecSet extends Set<string> implements ISet<string> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        Object.keys(values).forEach((k): void => {
-          defineProperty(this, `is${stringUpperFirst(stringCamelCase(k))}`, () => this.strings.includes(k));
-        });
+        const keys = Object.keys(values);
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+
+          defineProperty(this, `is${stringUpperFirst(stringCamelCase(key))}`, () => this.strings.includes(key));
+        }
       }
     };
   }

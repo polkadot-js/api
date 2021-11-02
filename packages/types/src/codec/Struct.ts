@@ -147,9 +147,13 @@ export class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
-        Object.keys(Types).forEach((k): void => {
-          defineProperty(this, k, () => this.get(k as keyof S));
-        });
+        const keys = Object.keys(Types);
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+
+          defineProperty(this, key, () => this.get(key as keyof S));
+        }
       }
     };
   }
