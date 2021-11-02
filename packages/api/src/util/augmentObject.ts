@@ -80,36 +80,36 @@ function extractMethods (src: Record<string, Record<string, unknown>>, dst: Reco
   ];
 }
 
+function lazySection (section: string, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): void {
+  // NOTE: Unlike the other lazy decorations, here we actually do decorate the
+  // sections, just the internal form is not available (i.e. we skip lazyMethods)
+  // The initial issue is that we have a confict between "this already exists" and
+  // "this needs to start clean", so for a first round we skip...
+  if (!dst[section]) {
+    dst[section] = {};
+  }
+
+  const creator = (method: string) => src[section][method];
+  const methods = Object.keys(src[section]);
+
+  for (let i = 0; i < methods.length; i++) {
+    const method = methods[i];
+
+    // We use hasOwnproperty here to only check for the existence of the key,
+    // instead of reading dst[section][method] which will evaluate when already
+    // set as a lazy value previously
+    if (!Object.prototype.hasOwnProperty.call(dst[section], method)) {
+      lazyMethod(dst[section], method, creator);
+    }
+  }
+}
+
 /**
  * @description Takes a decorated api section (e.g. api.tx) and augment it with the details. It does not override what is
  * already available, but rather just adds new missing items into the result object.
  * @internal
  */
 export function augmentObject (prefix: string | null, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
-  const lazySection = (section: string): void => {
-    // NOTE: Unlike the other lazy decorations, here we actually do decorate the
-    // sections, just the internal form is not available (i.e. we skip lazyMethods)
-    // The initial issue is that we have a confict between "this already exists" and
-    // "this needs to start clean", so for a first round we skip...
-    if (!dst[section]) {
-      dst[section] = {};
-    }
-
-    const creator = (method: string) => src[section][method];
-    const methods = Object.keys(src[section]);
-
-    for (let i = 0; i < methods.length; i++) {
-      const method = methods[i];
-
-      // We use hasOwnproperty here to only check for the existence of the key,
-      // instead of reading dst[section][method] which will evaluate when already
-      // set as a lazy value previously
-      if (!Object.prototype.hasOwnProperty.call(dst[section], method)) {
-        lazyMethod(dst[section], method, creator);
-      }
-    }
-  };
-
   fromEmpty && clearObject(dst);
 
   // NOTE: This part is slightly problematic since it will get the
@@ -123,7 +123,7 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
   const srcKeys = Object.keys(src);
 
   for (let i = 0; i < srcKeys.length; i++) {
-    lazySection(srcKeys[i]);
+    lazySection(srcKeys[i], src, dst);
   }
 
   return dst;
