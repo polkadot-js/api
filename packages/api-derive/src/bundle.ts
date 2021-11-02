@@ -69,6 +69,10 @@ const checks: Record<string, Avail> = {
   treasury: { instances: ['treasury'] }
 };
 
+function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: string): string[] {
+  return api.registry.getModuleInstances(specName, moduleName) || [];
+}
+
 /**
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
@@ -82,7 +86,7 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: Deri
     queryKeys.includes(q);
 
   const filterInstances = (q: string) =>
-    (api.registry.getModuleInstances(specName, q) || []).some(filterQueryKeys);
+    getModuleInstances(api, specName, q).some(filterQueryKeys);
 
   const isIncluded = (s: string) => (
     !checks[s] ||
