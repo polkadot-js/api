@@ -9,7 +9,7 @@ import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableModuleStorage, QueryableModuleStorageAt, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageAt, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -427,20 +427,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
-    const creator = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
+    const result = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
 
     const lazySection = (s: string) =>
       lazyMethods(Object.keys(tx[s]), (m: string) =>
-        this._decorateExtrinsicEntry(tx[s][m], creator)
+        this._decorateExtrinsicEntry(tx[s][m], result)
       );
 
     const sections = Object.keys(tx);
 
     for (let i = 0; i < sections.length; i++) {
-      lazyMethod(creator, sections[i], lazySection);
+      lazyMethod(result, sections[i], lazySection);
     }
 
-    return creator;
+    return result;
   }
 
   private _decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
@@ -458,14 +458,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
     const result = {} as QueryableStorage<ApiType>;
 
-    for (const [name, section] of Object.entries(query)) {
-      const methods: QueryableModuleStorage<ApiType> = {};
+    const lazySection = (s: string) =>
+      lazyMethods(Object.keys(query[s]), (m: string) =>
+        this._decorateStorageEntry(query[s][m], decorateMethod)
+      );
 
-      for (const [name, method] of Object.entries(section)) {
-        methods[name] = this._decorateStorageEntry(method, decorateMethod);
-      }
+    const sections = Object.keys(query);
 
-      result[name] = methods;
+    for (let i = 0; i < sections.length; i++) {
+      lazyMethod(result, sections[i], lazySection);
     }
 
     return result;
@@ -474,14 +475,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateStorageAt<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
     const result = {} as QueryableStorageAt<ApiType>;
 
-    for (const [name, section] of Object.entries(query)) {
-      const methods: QueryableModuleStorageAt<ApiType> = {};
+    const lazySection = (s: string) =>
+      lazyMethods(Object.keys(query[s]), (m: string) =>
+        this._decorateStorageEntryAt(registry, query[s][m], decorateMethod, blockHash)
+      );
 
-      for (const [name, method] of Object.entries(section)) {
-        methods[name] = this._decorateStorageEntryAt(registry, method, decorateMethod, blockHash);
-      }
+    const sections = Object.keys(query);
 
-      result[name] = methods;
+    for (let i = 0; i < sections.length; i++) {
+      lazyMethod(result, sections[i], lazySection);
     }
 
     return result;
