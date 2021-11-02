@@ -68,14 +68,18 @@ export function findClosing (value: string, start: number): number {
 }
 
 export function alias (src: string, dest: string, withChecks = true): Mapper {
+  const from = new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g');
+
+  const to = (src: string): string => {
+    from.lastIndex = 0;
+
+    return withChecks && BOX_PRECEDING.includes(src[0])
+      ? `${src[0]}${dest}`
+      : dest;
+  };
+
   return (value: string): string =>
-    value.replace(
-      new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
-      (src): string =>
-        withChecks && BOX_PRECEDING.includes(src[0])
-          ? `${src[0]}${dest}`
-          : dest
-    );
+    value.replace(from, to);
 }
 
 export function cleanupCompact (): Mapper {
@@ -95,12 +99,18 @@ export function cleanupCompact (): Mapper {
 }
 
 export function flattenSingleTuple (): Mapper {
-  return (value: string) =>
-    value
+  const from1 = /,\)/g;
+  const from2 = /\(([^,]+)\)/;
+
+  return (value: string) => {
+    from1.lastIndex = 0;
+
+    return value
       // tuples may have trailing commas, e.g. (u32, BlockNumber, )
-      .replace(/,\)/g, ')')
+      .replace(from1, ')')
       // change (u32) -> u32
-      .replace(/\(([^,]+)\)/, '$1');
+      .replace(from2, '$1');
+  };
 }
 
 function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
@@ -204,20 +214,35 @@ export function removePairOf (): Mapper {
 
 // remove the type traits
 export function removeTraits (): Mapper {
-  return (value: string): string =>
-    value
+  const from1 = /\s/g;
+  const from2 = /(T|Self)::/g;
+  const from3 = /<(T|Self)asTrait>::/g;
+  const from4 = /<Tas[a-z]+::Trait>::/g;
+  const from5 = /<LookupasStaticLookup>/g;
+  const from6 = /::Type/g;
+
+  return (value: string): string => {
+    from1.lastIndex = 0;
+    from2.lastIndex = 0;
+    from3.lastIndex = 0;
+    from4.lastIndex = 0;
+    from5.lastIndex = 0;
+    from6.lastIndex = 0;
+
+    return value
       // remove all whitespaces
-      .replace(/\s/g, '')
+      .replace(from1, '')
       // anything `T::<type>` to end up as `<type>`
-      .replace(/(T|Self)::/g, '')
+      .replace(from2, '')
       // replace `<T as Trait>::` (whitespaces were removed above)
-      .replace(/<(T|Self)asTrait>::/g, '')
+      .replace(from3, '')
       // replace `<T as something::Trait>::` (whitespaces were removed above)
-      .replace(/<Tas[a-z]+::Trait>::/g, '')
+      .replace(from4, '')
       // replace <Lookup as StaticLookup>
-      .replace(/<LookupasStaticLookup>/g, 'Lookup')
+      .replace(from5, 'Lookup')
       // replace `<...>::Type`
-      .replace(/::Type/g, '');
+      .replace(from6, '');
+  };
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
