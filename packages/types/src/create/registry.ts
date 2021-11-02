@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiLookupTypeId, SiField, SiVariant } from '../interfaces/types';
-import type { Text } from '../primitive/Text';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
@@ -20,11 +19,15 @@ import * as definitions from '../interfaces/definitions';
 import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
 import { createCallFunction } from '../metadata/extrinsics';
 import { Metadata } from '../metadata/Metadata';
-import { getSiName } from '../metadata/util';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
+import { lazyMethod, lazyMethods } from './lazy';
 
 const l = logger('registry');
+
+function valueToString (v: { toString: () => string }): string {
+  return v.toString();
+}
 
 function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
   const args = new Array<string>(fields.length);
@@ -36,43 +39,12 @@ function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
   return args;
 }
 
-function valueToString (v: { toString: () => string }): string {
-  return v.toString();
-}
-
 function clearRecord (record: Record<string, unknown>): void {
   const keys = Object.keys(record);
 
   for (let i = 0; i < keys.length; i++) {
     delete record[keys[i]];
   }
-}
-
-function lazyMethod <T, D> (result: Record<string, T>, data: D, getName: (d: D) => string, creator: (d: D) => T): void {
-  let cached: T | null = null;
-
-  Object.defineProperty(result, getName(data), {
-    enumerable: true,
-    get: (): T => {
-      if (!cached) {
-        cached = creator(data);
-      }
-
-      return cached;
-    }
-  });
-}
-
-function lazyMethods <T, K> (items: K[], getName: (m: K) => string, creator: (v: K) => T): Record<string, T> {
-  const result: Record<string, T> = {};
-
-  for (let i = 0; i < items.length; i++) {
-    const data = items[i];
-
-    lazyMethod(result, data, getName, creator);
-  }
-
-  return result;
 }
 
 function getVariants (lookup: PortableRegistry, { type }: { type: SiLookupTypeId }): SiVariant[] {
@@ -89,7 +61,6 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
     const section = stringCamelCase(name);
     const creator = () => lazyMethods(
       getVariants(lookup, errors.unwrap()),
-      getVariantStringIdx,
       ({ docs, fields, index, name }: SiVariant): RegistryError => ({
         args: getFieldArgs(lookup, fields),
         docs: docs.map(valueToString),
@@ -98,10 +69,11 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
         method: name.toString(),
         name: name.toString(),
         section
-      })
+      }),
+      getVariantStringIdx
     );
 
-    lazyMethod(result, index, valueToString, creator);
+    lazyMethod(result, index, creator);
   };
 
   clearRecord(result);
@@ -121,7 +93,6 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
     const section = stringCamelCase(name);
     const creator = () => lazyMethods(
       getVariants(lookup, events.unwrap()),
-      getVariantStringIdx,
       (variant: SiVariant): Constructor<GenericEventData> => {
         const meta = registry.createType('EventMetadataLatest', {
           ...variant,
@@ -133,10 +104,11 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
             super(registry, value, meta, section, variant.name.toString());
           }
         };
-      }
+      },
+      getVariantStringIdx
     );
 
-    lazyMethod(result, index, valueToString, creator);
+    lazyMethod(result, index, creator);
   };
 
   clearRecord(result);
@@ -156,11 +128,12 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
     const section = stringCamelCase(name);
     const creator = () => lazyMethods(
       getVariants(lookup, calls.unwrap()),
-      getVariantStringIdx,
-      (variant: SiVariant) => createCallFunction(registry, lookup, variant, index, section)
+      (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, index, section),
+      getVariantStringIdx
     );
 
-    lazyMethod(result, index, valueToString, creator);
+    lazyMethod(result, index, creator);
   };
 
   clearRecord(result);
