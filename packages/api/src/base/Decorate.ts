@@ -428,26 +428,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
+
+    const lazySection = (s: string) =>
+      lazyMethods(Object.keys(tx[s]), (m: string) =>
+        this._decorateExtrinsicEntry(tx[s][m], creator)
+      );
+
     const sections = Object.keys(tx);
 
     for (let i = 0; i < sections.length; i++) {
-      this._decorateExtrinsicsLazy(tx, sections[i], creator);
+      lazyMethod(creator, sections[i], lazySection);
     }
 
     return creator;
-  }
-
-  protected _decorateExtrinsicsLazy<ApiType extends ApiTypes> (tx: DecoratedMeta['tx'], section: string, creator: SubmittableExtrinsics<ApiType>) {
-    lazyMethod(
-      creator,
-      Object.keys(tx[section]),
-      (methods: string[]) =>
-        lazyMethods(
-          methods,
-          (method: string) =>
-            this._decorateExtrinsicEntry(tx[section][method], creator)
-        )
-    );
   }
 
   private _decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
