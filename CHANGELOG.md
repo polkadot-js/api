@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.6.1 Nov 1, 2021
+
+Upgrade priority: Low. Internal maintennce updates.
 
 Changes:
 
