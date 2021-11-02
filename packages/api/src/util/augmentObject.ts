@@ -80,17 +80,9 @@ function extractMethods (src: Record<string, Record<string, unknown>>, dst: Reco
   ];
 }
 
-function lazySection (section: string, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): void {
-  // NOTE: Unlike the other lazy decorations, here we actually do decorate the
-  // sections, just the internal form is not available (i.e. we skip lazyMethods)
-  // The initial issue is that we have a confict between "this already exists" and
-  // "this needs to start clean", so for a first round we skip...
-  if (!dst[section]) {
-    dst[section] = {};
-  }
-
-  const creator = (method: string) => src[section][method];
-  const methods = Object.keys(src[section]);
+function lazySection (src: Record<string, unknown>, dst: Record<string, unknown>): void {
+  const creator = (method: string) => src[method];
+  const methods = Object.keys(src);
 
   for (let i = 0; i < methods.length; i++) {
     const method = methods[i];
@@ -98,8 +90,8 @@ function lazySection (section: string, src: Record<string, Record<string, unknow
     // We use hasOwnproperty here to only check for the existence of the key,
     // instead of reading dst[section][method] which will evaluate when already
     // set as a lazy value previously
-    if (!Object.prototype.hasOwnProperty.call(dst[section], method)) {
-      lazyMethod(dst[section], method, creator);
+    if (!Object.prototype.hasOwnProperty.call(dst, method)) {
+      lazyMethod(dst, method, creator);
     }
   }
 }
@@ -120,10 +112,27 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     warn(prefix, 'calls', extractMethods(src, dst));
   }
 
-  const srcKeys = Object.keys(src);
+  const filler = (section: string): Record<string, unknown> => {
+    lazySection(src[section], dst[section]);
 
-  for (let i = 0; i < srcKeys.length; i++) {
-    lazySection(srcKeys[i], src, dst);
+    return dst[section];
+  };
+
+  const sections = Object.keys(src);
+
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+
+    // We actually do read the section here, i.e. if it has been lazy in the past,
+    // it now has the methods. This is to reset the actual value from it, i.e. it
+    // won't conflict with declarations wher it may call an existing lazy
+    if (!dst[section]) {
+      // it didn't exist before, so set it lazily
+      lazyMethod(dst, section, filler);
+    } else {
+      // it existed before, so just add whatever we are missing
+      filler(section);
+    }
   }
 
   return dst;
