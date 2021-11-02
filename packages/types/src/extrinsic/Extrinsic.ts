@@ -13,6 +13,7 @@ import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aT
 
 import { Base } from '../codec/Base';
 import { Compact } from '../codec/Compact';
+import { CodecHash } from '../interfaces/runtime';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {
@@ -36,6 +37,8 @@ const VERSIONS = [
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
+  protected hashCache?: CodecHash;
+
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
@@ -76,6 +79,17 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    */
   public override get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public override get hash (): CodecHash {
+    if (!this.hashCache) {
+      this.hashCache = super.hash;
+    }
+
+    return this.hashCache;
   }
 
   /**
@@ -219,6 +233,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).addSignature(signer, signature, payload);
+    this.hashCache = undefined;
 
     return this;
   }
@@ -228,6 +243,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).sign(account, options);
+    this.hashCache = undefined;
 
     return this;
   }
@@ -237,6 +253,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).signFake(signer, options);
+    this.hashCache = undefined;
 
     return this;
   }
