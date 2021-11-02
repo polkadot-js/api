@@ -19,6 +19,7 @@ const events = decorateEvents(registry, metadata.asLatest, metadata.version);
 describe('decorateEvents', (): void => {
   it('should return known errors', (): void => {
     expect(events.balances.Transfer).toBeDefined();
+    expect(events.system.CodeUpdated).toBeDefined();
   });
 
   it('has the correct metadata for known errors', (): void => {

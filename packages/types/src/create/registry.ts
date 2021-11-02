@@ -17,7 +17,7 @@ import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
 import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
-import { createCallFunction } from '../metadata/extrinsics';
+import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
