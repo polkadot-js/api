@@ -4,7 +4,7 @@
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
-import { lazySection } from '@polkadot/api-derive/util/lazy';
+import { lazyDeriveSection } from '@polkadot/api-derive';
 
 type AnyDeriveSection = Record<string, AnyFunction>;
 
@@ -35,7 +35,7 @@ export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDe
   const names = Object.keys(derives);
 
   for (let i = 0; i < names.length; i++) {
-    lazySection(result, names[i], getKeys, creator);
+    lazyDeriveSection(result, names[i], getKeys, creator);
   }
 
   return result as DeriveAllSections<ApiType, A>;

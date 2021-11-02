@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
 
-import { lazySection } from './util/lazy';
+import { lazyDeriveSection } from './util/lazy';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as bounties from './bounties';
@@ -32,6 +32,8 @@ interface Avail {
   instances: string[];
   withDetect?: boolean;
 }
+
+export { lazyDeriveSection };
 
 export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
@@ -104,7 +106,7 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: Deri
     const name = names[i];
 
     if (isIncluded(name)) {
-      lazySection(result, name, getKeys, creator);
+      lazyDeriveSection(result, name, getKeys, creator);
     }
   }
 
