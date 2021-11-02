@@ -17,6 +17,7 @@ const errors = decorateErrors(registry, metadata.asLatest, metadata.version);
 describe('decorateErrors', (): void => {
   it('should return known errors', (): void => {
     expect(errors.balances.InsufficientBalance).toBeDefined();
+    expect(errors.system.FailedToExtractRuntimeVersion).toBeDefined();
   });
 
   it('has the correct metadata for known errors', (): void => {
