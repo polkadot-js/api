@@ -1,12 +1,14 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
-import type { ModuleStorage, Storage } from '../types';
+import type { Storage } from '../types';
 
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
+import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { objectNameFirstLower } from '../util';
 import { createFunction, createKeyRaw } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
@@ -16,35 +18,37 @@ import { createRuntimeFunction } from './util';
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 
+  const lazySection = ({ name, storage }: PalletMetadataLatest): void => {
+    const section = stringCamelCase(name);
+    const { items, prefix: _prefix } = storage.unwrap();
+    const prefix = _prefix.toString();
+
+    lazyMethod(
+      result,
+      items,
+      (items: StorageEntryMetadataLatest[]) =>
+        lazyMethods(
+          items,
+          (meta: StorageEntryMetadataLatest) =>
+            createFunction(registry, { meta, method: meta.name.toString(), prefix, section }, {}),
+          objectNameFirstLower,
+          {
+            palletVersion: createRuntimeFunction(
+              { method: 'palletVersion', prefix, section },
+              createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
+              { docs: 'Returns the current pallet version from storage', type: 'u16' }
+            )(registry)
+          }
+        ),
+      () => section
+    );
+  };
+
   for (let p = 0; p < pallets.length; p++) {
-    const { name, storage } = pallets[p];
+    const pallet = pallets[p];
 
-    if (storage.isSome) {
-      const section = stringCamelCase(name);
-      const { items, prefix: _prefix } = storage.unwrap();
-      const prefix = _prefix.toString();
-      const newModule: ModuleStorage = {
-        palletVersion: createRuntimeFunction(
-          { method: 'palletVersion', prefix, section },
-          createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
-          { docs: 'Returns the current pallet version from storage', type: 'u16' }
-        )(registry)
-      };
-
-      for (let i = 0; i < items.length; i++) {
-        const meta = items[i];
-        const method = meta.name.toString();
-
-        // For access, we change the index names, i.e. System.Account -> system.account
-        newModule[stringLowerFirst(method)] = createFunction(registry, {
-          meta,
-          method,
-          prefix,
-          section
-        }, {});
-      }
-
-      result[section] = newModule;
+    if (pallet.storage.isSome) {
+      lazySection(pallet);
     }
   }
 
