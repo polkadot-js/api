@@ -1,7 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces';
+
 import { isUndefined } from '@polkadot/util';
+
+type VariantHolder = {
+  unwrap (): {
+    type: SiLookupTypeId
+  }
+}
 
 type WithToString = { toString: () => string };
 
@@ -50,4 +58,8 @@ export function lazyMethods <T, K> (result: Record<string, T>, items: K[], creat
   }
 
   return result;
+}
+
+export function lazyVariant <T> (lookup: PortableRegistry, source: VariantHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
+  return lazyMethods({}, lookup.getSiType(source.unwrap().type).def.asVariant.variants, creator, getName);
 }

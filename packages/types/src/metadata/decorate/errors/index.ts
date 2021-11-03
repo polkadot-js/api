@@ -8,8 +8,8 @@ import type { Errors, IsError } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod } from '../../../create/lazy';
-import { lazyVariant, objectNameToString } from '../util';
+import { lazyMethod, lazyVariant } from '../../../create/lazy';
+import { objectNameToString } from '../util';
 
 interface ItemMeta {
   args: string[];

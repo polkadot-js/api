@@ -7,9 +7,9 @@ import type { Events, IsEvent } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod } from '../../../create/lazy';
+import { lazyMethod, lazyVariant } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
-import { lazyVariant, objectNameToString } from '../util';
+import { objectNameToString } from '../util';
 
 export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;

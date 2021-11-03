@@ -7,9 +7,9 @@ import type { Extrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod } from '../../../create/lazy';
+import { lazyMethod, lazyVariant } from '../../../create/lazy';
 import { getSiName } from '../../util';
-import { lazyVariant, objectNameToCamel } from '../util';
+import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
