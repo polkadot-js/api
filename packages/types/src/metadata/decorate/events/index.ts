@@ -25,7 +25,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyVariants(lookup, events, objectNameToString, (variant: SiVariant): IsEvent<AnyTuple> => ({
+      lazyVariants(lookup, events.unwrap(), objectNameToString, (variant: SiVariant): IsEvent<AnyTuple> => ({
         is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
           sectionIndex === eventRecord.index[0] &&
           variant.index.eq(eventRecord.index[1]),

@@ -52,7 +52,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, sectionName, () =>
-      lazyVariants(lookup, calls, objectNameToCamel, (variant: SiVariant) =>
+      lazyVariants(lookup, calls.unwrap(), objectNameToCamel, (variant: SiVariant) =>
         createCallFunction(registry, lookup, variant, sectionIndex, sectionName)
       )
     );

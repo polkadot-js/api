@@ -62,7 +62,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
       const sectionName = stringCamelCase(name);
 
       lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
-        lazyVariants(lookup, errors, getVariantStringIdx, ({ docs, fields, index, name }: SiVariant): RegistryError => ({
+        lazyVariants(lookup, errors.unwrap(), getVariantStringIdx, ({ docs, fields, index, name }: SiVariant): RegistryError => ({
           args: getFieldArgs(lookup, fields),
           docs: docs.map(valueToString),
           fields,
@@ -86,7 +86,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
     const { events, index, name } = filtered[i];
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
-      lazyVariants(lookup, events, getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
+      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
         const meta = registry.createType('EventMetadataLatest', {
           ...variant,
           args: getFieldArgs(lookup, variant.fields)
@@ -113,7 +113,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, sectionIndex, () =>
-      lazyVariants(lookup, calls, getVariantStringIdx, (variant: SiVariant) =>
+      lazyVariants(lookup, calls.unwrap(), getVariantStringIdx, (variant: SiVariant) =>
         createCallFunction(registry, lookup, variant, sectionIndex, stringCamelCase(name))
       )
     );

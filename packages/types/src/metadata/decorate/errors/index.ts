@@ -39,7 +39,7 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
       const sectionIndex = version >= 12 ? index.toNumber() : i;
 
       lazyMethod(result, stringCamelCase(name), () =>
-        lazyVariants(lookup, errors, objectNameToString, (variant: SiVariant): IsError => ({
+        lazyVariants(lookup, errors.unwrap(), objectNameToString, (variant: SiVariant): IsError => ({
           is: ({ error, index }: DispatchErrorModule) =>
             index.eq(sectionIndex) &&
             error.eq(variant.index),

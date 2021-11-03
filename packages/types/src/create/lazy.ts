@@ -5,10 +5,8 @@ import type { PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces'
 
 import { isUndefined } from '@polkadot/util';
 
-type VariantHolder = {
-  unwrap (): {
-    type: SiLookupTypeId
-  }
+interface TypeHolder {
+  type: SiLookupTypeId
 }
 
 type WithToString = { toString: () => string };
@@ -60,9 +58,9 @@ export function lazyMethods <T, K> (result: Record<string, T>, items: K[], creat
   return result;
 }
 
-export function lazyVariants <T> (lookup: PortableRegistry, source: VariantHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
+export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
   const result: Record<string, T> = {};
-  const variants = lookup.getSiType(source.unwrap().type).def.asVariant.variants;
+  const variants = lookup.getSiType(type).def.asVariant.variants;
 
   for (let i = 0; i < variants.length; i++) {
     lazyMethod(result, variants[i], creator, getName);
