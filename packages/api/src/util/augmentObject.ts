@@ -4,6 +4,10 @@
 import { lazyMethod } from '@polkadot/types';
 import { logger } from '@polkadot/util';
 
+type Sections <T> = Record<string, Methods<T>>;
+
+type Methods <T> = Record<string, T>;
+
 type StringsStrings = [string[], string[]];
 
 const l = logger('api/augment');
@@ -43,7 +47,7 @@ function findSectionIncludes (a: string[], b: string[]): string[] {
   return a.filter((s) => b.includes(s));
 }
 
-function extractSections <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): StringsStrings {
+function extractSections <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
 
@@ -53,7 +57,7 @@ function extractSections <T> (src: Record<string, Record<string, T>>, dst: Recor
   ];
 }
 
-function findMethodExcludes <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): string[] {
+function findMethodExcludes <T> (src: Sections<T>, dst: Sections<T>): string[] {
   const srcSections = Object.keys(src);
   const dstSections = findSectionIncludes(Object.keys(dst), srcSections);
   const excludes: string[] = [];
@@ -73,14 +77,14 @@ function findMethodExcludes <T> (src: Record<string, Record<string, T>>, dst: Re
   return excludes;
 }
 
-function extractMethods <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): StringsStrings {
+function extractMethods <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
   return [
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
   ];
 }
 
-function lazySection <T> (src: Record<string, T>, dst: Record<string, T>): void {
+function lazySection <T> (src: Methods<T>, dst: Methods<T>): void {
   const creator = (m: string) => src[m];
   const methods = Object.keys(src);
 
@@ -101,7 +105,7 @@ function lazySection <T> (src: Record<string, T>, dst: Record<string, T>): void 
  * already available, but rather just adds new missing items into the result object.
  * @internal
  */
-export function augmentObject <T> (prefix: string | null, src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>, fromEmpty = false): Record<string, Record<string, T>> {
+export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst: Sections<T>, fromEmpty = false): Sections<T> {
   fromEmpty && clearObject(dst);
 
   // NOTE: This part is slightly problematic since it will get the
