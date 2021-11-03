@@ -114,7 +114,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 
     lazyMethod(result, sectionIndex, () =>
       lazyVariants(lookup, calls.unwrap(), getVariantStringIdx, (variant: SiVariant) =>
-        createCallFunction(registry, lookup, variant, sectionIndex, stringCamelCase(name))
+        createCallFunction(registry, lookup, variant, stringCamelCase(name), sectionIndex)
       )
     );
   }

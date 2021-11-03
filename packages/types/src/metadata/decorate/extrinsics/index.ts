@@ -16,7 +16,7 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
-export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number, sectionName: string): CallFunction {
+export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
@@ -53,7 +53,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
 
     lazyMethod(result, sectionName, () =>
       lazyVariants(lookup, calls.unwrap(), objectNameToCamel, (variant: SiVariant) =>
-        createCallFunction(registry, lookup, variant, sectionIndex, sectionName)
+        createCallFunction(registry, lookup, variant, sectionName, sectionIndex)
       )
     );
   }
