@@ -24,6 +24,9 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
   Str: 'Text'
 };
 
+// These are ones that we use (e.g. substrate storage), but that may not be available
+const KNOWN_PRIMITIVES = ['u8', 'u16', 'u32', 'u64', 'u128', 'Bytes'];
+
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_PRIMITIVE = splitNamespace([
   // match {node, polkadot, ...}_runtime
@@ -257,6 +260,7 @@ export class GenericPortableRegistry extends Struct {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
+  #typesInternal: PortableType[] = [];
 
   constructor (registry: Registry, value?: Uint8Array) {
     super(registry, {
@@ -272,7 +276,7 @@ export class GenericPortableRegistry extends Struct {
   }
 
   /**
-   * @description The types of the registry
+   * @description The types of the registry, as retrieved from the metadata
    */
   public get types (): Vec<PortableType> {
     return this.get('types') as Vec<PortableType>;
@@ -340,6 +344,74 @@ export class GenericPortableRegistry extends Struct {
     }
 
     return this.#typeDefs[lookupIndex];
+  }
+
+  #findStringToSiPrimitive (source: PortableType[], type: string): PortableType | undefined {
+    return source.find((t) =>
+      (
+        t.type.def.isPrimitive &&
+        t.type.def.asPrimitive.toString().toLowerCase() === type
+      ) || (
+        t.type.def.isHistoricMetaCompat &&
+        t.type.def.asHistoricMetaCompat.toString().toLowerCase() === type
+      )
+    );
+  }
+
+  /**
+   * @description Finds a primitive type from the registry (or returns one created)
+   */
+  #stringToSiPrimitive (type: string): PortableType | undefined {
+    const prim = type.toLowerCase();
+    let portable = (
+      this.#findStringToSiPrimitive(this.#typesInternal, prim) ||
+      this.#findStringToSiPrimitive(this.types, prim)
+    );
+
+    if (!portable && KNOWN_PRIMITIVES.includes(prim)) {
+      const id = this.types.length + this.#typesInternal.length;
+
+      portable = this.registry.createType('PortableType', {
+        id,
+        type: {
+          def: { HistoricMetaCompat: prim }
+        }
+      });
+      this.#typesInternal.push(portable);
+      this.#types[id] = portable;
+      this.#names[id] = prim;
+    }
+
+    return portable;
+  }
+
+  /**
+   * @description Finds a type from the supplied name
+   */
+  public stringToSiType (type: string): PortableType | undefined {
+    let portable = this.#stringToSiPrimitive(type);
+
+    if (!portable && type === 'Bytes') {
+      const u8 = this.#stringToSiPrimitive('u8');
+
+      if (u8) {
+        portable = this.types.find((t) =>
+          (
+            t.type.def.isSequence &&
+            t.type.def.asSequence.type.eq(u8.id)
+          ) || (
+            t.type.def.isHistoricMetaCompat &&
+            t.type.def.asHistoricMetaCompat.eq(type)
+          )
+        );
+      }
+    }
+
+    if (!portable) {
+      console.warn(`Unable to map ${type} to a lookup index`);
+    }
+
+    return portable;
   }
 
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {

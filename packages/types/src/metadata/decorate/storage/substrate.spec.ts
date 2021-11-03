@@ -13,8 +13,6 @@ const metadata = new Metadata(registry, metadataStatic);
 
 registry.setMetadata(metadata);
 
-// console.log(JSON.stringify(registry.lookup.types));
-
 describe('substrate', (): void => {
   const code = substrate.code(registry);
 
