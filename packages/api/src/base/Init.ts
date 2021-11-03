@@ -121,7 +121,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // always create a new decoration - since we are pointing to a specific hash, this
     // means that all queries needs to use that hash (not a previous one already existing)
-    return this._createDecorated(registry, true, u8aHash).decoratedApi;
+    return this._createDecorated(registry, true, null, u8aHash).decoratedApi;
   }
 
   private _getBlockRegistryViaVersion (blockHash: Uint8Array, version?: RuntimeVersionPartial): VersionedRegistry<ApiType> | null {
