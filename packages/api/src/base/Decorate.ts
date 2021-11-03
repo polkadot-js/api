@@ -200,7 +200,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, decoratedApi?: ApiDecoration<ApiType>, blockHash?: Uint8Array): FullDecoration<ApiType> {
+  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
       decoratedApi = {
         consts: {},
@@ -243,7 +243,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     };
   }
 
-  protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean): void {
+  protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty = false): void {
     // clear the decoration, we are redoing it here
     if (fromEmpty || !registry.decoratedApi) {
       registry.decoratedApi = {
