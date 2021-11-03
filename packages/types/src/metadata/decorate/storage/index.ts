@@ -13,6 +13,10 @@ import { createFunction, createKeyRaw } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
 
+const VERSION_NAME = 'palletVersion';
+const VERSION_KEY = ':__STORAGE_VERSION__:';
+const VERSION_DOCS = { docs: 'Returns the current pallet version from storage', type: 'u16' };
+
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
@@ -30,9 +34,9 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
         lazyMethods(
           {
             palletVersion: createRuntimeFunction(
-              { method: 'palletVersion', prefix, section },
-              createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
-              { docs: 'Returns the current pallet version from storage', type: 'u16' }
+              { method: VERSION_NAME, prefix, section },
+              createKeyRaw(registry, { method: VERSION_KEY, prefix: name.toString() }, [], [], []),
+              VERSION_DOCS
             )(registry)
           },
           items,
