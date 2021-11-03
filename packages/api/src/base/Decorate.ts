@@ -218,14 +218,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
-    // adjust the versioned registry
-    augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
-    augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
-    augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
-
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
+    augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
+    augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
+    augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
 
