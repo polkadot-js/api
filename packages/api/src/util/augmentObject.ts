@@ -43,7 +43,7 @@ function findSectionIncludes (a: string[], b: string[]): string[] {
   return a.filter((s) => b.includes(s));
 }
 
-function extractSections (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): StringsStrings {
+function extractSections <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): StringsStrings {
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
 
@@ -53,7 +53,7 @@ function extractSections (src: Record<string, Record<string, unknown>>, dst: Rec
   ];
 }
 
-function findMethodExcludes (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): string[] {
+function findMethodExcludes <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): string[] {
   const srcSections = Object.keys(src);
   const dstSections = findSectionIncludes(Object.keys(dst), srcSections);
   const excludes: string[] = [];
@@ -73,15 +73,15 @@ function findMethodExcludes (src: Record<string, Record<string, unknown>>, dst: 
   return excludes;
 }
 
-function extractMethods (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): StringsStrings {
+function extractMethods <T> (src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>): StringsStrings {
   return [
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
   ];
 }
 
-function lazySection (src: Record<string, unknown>, dst: Record<string, unknown>): void {
-  const creator = (method: string) => src[method];
+function lazySection <T> (src: Record<string, T>, dst: Record<string, T>): void {
+  const creator = (m: string) => src[m];
   const methods = Object.keys(src);
 
   for (let i = 0; i < methods.length; i++) {
@@ -101,7 +101,7 @@ function lazySection (src: Record<string, unknown>, dst: Record<string, unknown>
  * already available, but rather just adds new missing items into the result object.
  * @internal
  */
-export function augmentObject (prefix: string | null, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
+export function augmentObject <T> (prefix: string | null, src: Record<string, Record<string, T>>, dst: Record<string, Record<string, T>>, fromEmpty = false): Record<string, Record<string, T>> {
   fromEmpty && clearObject(dst);
 
   // NOTE: This part is slightly problematic since it will get the
@@ -112,27 +112,18 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     warn(prefix, 'calls', extractMethods(src, dst));
   }
 
-  const filler = (section: string): Record<string, unknown> => {
-    lazySection(src[section], dst[section]);
-
-    return dst[section];
-  };
-
   const sections = Object.keys(src);
 
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
 
-    // We actually do read the section here, i.e. if it has been lazy in the past,
-    // it now has the methods. This is to reset the actual value from it, i.e. it
-    // won't conflict with declarations wher it may call an existing lazy
+    // We don't set here with a lazy interface, we decorate based
+    // on the top-level structure (this bypasses adding lazy onto lazy)
     if (!dst[section]) {
-      // it didn't exist before, so set it lazily
-      lazyMethod(dst, section, filler);
-    } else {
-      // it existed before, so just add whatever we are missing
-      filler(section);
+      dst[section] = {};
     }
+
+    lazySection(src[section], dst[section]);
   }
 
   return dst;
