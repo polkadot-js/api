@@ -264,12 +264,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._query = decoratedApi.query;
     this._rx.query = decoratedApi.rx.query;
 
+    const tx = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
+    const rxtx = this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod);
+
     if (fromEmpty || !this._extrinsics) {
-      this._extrinsics = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);
-      this._rx.tx = this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod);
+      this._extrinsics = tx;
+      this._rx.tx = rxtx;
     } else {
-      augmentObject('tx', this._decorateExtrinsics(decoratedMeta, this._decorateMethod), this._extrinsics, false);
-      augmentObject(null, this._decorateExtrinsics(decoratedMeta, this._rxDecorateMethod), this._rx.tx, false);
+      augmentObject('tx', tx, this._extrinsics, false);
+      augmentObject(null, rxtx, this._rx.tx, false);
     }
 
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
