@@ -7,7 +7,7 @@ import type { Events, IsEvent } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyVariant } from '../../../create/lazy';
+import { lazyMethod, lazyVariants } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
 import { objectNameToString } from '../util';
 
@@ -34,7 +34,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyVariant(lookup, events, objectNameToString, (variant: SiVariant) =>
+      lazyVariants(lookup, events, objectNameToString, (variant: SiVariant) =>
         createIsEvent(registry, lookup, variant, sectionIndex)
       )
     );

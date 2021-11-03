@@ -7,7 +7,7 @@ import type { Extrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyVariant } from '../../../create/lazy';
+import { lazyMethod, lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
 import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
@@ -52,7 +52,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, sectionName, () =>
-      lazyVariant(lookup, calls, objectNameToCamel, (variant: SiVariant) =>
+      lazyVariants(lookup, calls, objectNameToCamel, (variant: SiVariant) =>
         createCallFunction(registry, lookup, variant, sectionIndex, sectionName)
       )
     );

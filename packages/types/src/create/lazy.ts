@@ -60,6 +60,13 @@ export function lazyMethods <T, K> (result: Record<string, T>, items: K[], creat
   return result;
 }
 
-export function lazyVariant <T> (lookup: PortableRegistry, source: VariantHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
-  return lazyMethods({}, lookup.getSiType(source.unwrap().type).def.asVariant.variants, creator, getName);
+export function lazyVariants <T> (lookup: PortableRegistry, source: VariantHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
+  const result: Record<string, T> = {};
+  const variants = lookup.getSiType(source.unwrap().type).def.asVariant.variants;
+
+  for (let i = 0; i < variants.length; i++) {
+    lazyMethod(result, variants[i], creator, getName);
+  }
+
+  return result;
 }
