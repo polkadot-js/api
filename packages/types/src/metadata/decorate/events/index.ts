@@ -27,21 +27,17 @@ function createIsEvent (registry: Registry, lookup: PortableRegistry, variant: S
 /** @internal */
 export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
+  const filtered = pallets.filter(filterEventsSome);
 
-  const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
+  for (let i = 0; i < filtered.length; i++) {
+    const { events, index, name } = filtered[i];
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
+
     lazyMethod(result, stringCamelCase(name), () =>
       lazyVariant(lookup, events, objectNameToString, (variant: SiVariant) =>
         createIsEvent(registry, lookup, variant, sectionIndex)
       )
     );
-  };
-
-  const filtered = pallets.filter(filterEventsSome);
-
-  for (let p = 0; p < filtered.length; p++) {
-    const pallet = filtered[p];
-
-    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
   }
 
   return result;

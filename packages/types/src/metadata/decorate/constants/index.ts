@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletConstantMetadataLatest, PalletMetadataLatest } from '../../../interfaces';
+import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
 import type { ConstantCodec, Constants } from '../types';
 
@@ -23,23 +23,19 @@ function createConstantCodec (registry: Registry, constant: PalletConstantMetada
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
-  const lazySection = ({ constants, name }: PalletMetadataLatest): void => {
-    lazyMethod(result, stringCamelCase(name), () =>
-      lazyMethods(
-        {},
-        constants,
-        (constant: PalletConstantMetadataLatest) =>
-          createConstantCodec(registry, constant),
-        objectNameToCamel
-      )
-    );
-  };
+  for (let i = 0; i < pallets.length; i++) {
+    const { constants, name } = pallets[i];
 
-  for (let p = 0; p < pallets.length; p++) {
-    const pallet = pallets[p];
-
-    if (!pallet.constants.isEmpty) {
-      lazySection(pallet);
+    if (!constants.isEmpty) {
+      lazyMethod(result, stringCamelCase(name), () =>
+        lazyMethods(
+          {},
+          constants,
+          (constant: PalletConstantMetadataLatest) =>
+            createConstantCodec(registry, constant),
+          objectNameToCamel
+        )
+      );
     }
   }
 

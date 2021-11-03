@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
 import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, IsError } from '../types';
@@ -41,19 +41,17 @@ function createIsError (registry: Registry, lookup: PortableRegistry, variant: S
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
 
-  const lazySection = ({ errors, name }: PalletMetadataLatest, sectionIndex: number): void => {
-    lazyMethod(result, stringCamelCase(name), () =>
-      lazyVariant(lookup, errors, objectNameToString, (variant: SiVariant) =>
-        createIsError(registry, lookup, variant, sectionIndex)
-      )
-    );
-  };
+  for (let i = 0; i < pallets.length; i++) {
+    const { errors, index, name } = pallets[i];
 
-  for (let p = 0; p < pallets.length; p++) {
-    const pallet = pallets[p];
+    if (errors.isSome) {
+      const sectionIndex = version >= 12 ? index.toNumber() : i;
 
-    if (pallet.errors.isSome) {
-      lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
+      lazyMethod(result, stringCamelCase(name), () =>
+        lazyVariant(lookup, errors, objectNameToString, (variant: SiVariant) =>
+          createIsError(registry, lookup, variant, sectionIndex)
+        )
+      );
     }
   }
 

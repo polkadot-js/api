@@ -44,23 +44,18 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
 /** @internal */
 export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
   const result: Extrinsics = {};
+  const filtered = pallets.filter(filterCallsSome);
 
-  const lazySection = ({ calls, name }: PalletMetadataLatest, sectionIndex: number): void => {
+  for (let i = 0; i < filtered.length; i++) {
+    const { calls, index, name } = filtered[i];
     const sectionName = stringCamelCase(name);
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, sectionName, () =>
       lazyVariant(lookup, calls, objectNameToCamel, (variant: SiVariant) =>
         createCallFunction(registry, lookup, variant, sectionIndex, sectionName)
       )
     );
-  };
-
-  const filtered = pallets.filter(filterCallsSome);
-
-  for (let p = 0; p < filtered.length; p++) {
-    const pallet = filtered[p];
-
-    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
   }
 
   return result;
