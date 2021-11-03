@@ -4,6 +4,10 @@
 import { lazyMethod } from '@polkadot/types';
 import { logger } from '@polkadot/util';
 
+type Sections <T> = Record<string, Methods<T>>;
+
+type Methods <T> = Record<string, T>;
+
 type StringsStrings = [string[], string[]];
 
 const l = logger('api/augment');
@@ -43,7 +47,7 @@ function findSectionIncludes (a: string[], b: string[]): string[] {
   return a.filter((s) => b.includes(s));
 }
 
-function extractSections (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): StringsStrings {
+function extractSections <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
 
@@ -53,7 +57,7 @@ function extractSections (src: Record<string, Record<string, unknown>>, dst: Rec
   ];
 }
 
-function findMethodExcludes (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): string[] {
+function findMethodExcludes <T> (src: Sections<T>, dst: Sections<T>): string[] {
   const srcSections = Object.keys(src);
   const dstSections = findSectionIncludes(Object.keys(dst), srcSections);
   const excludes: string[] = [];
@@ -73,24 +77,16 @@ function findMethodExcludes (src: Record<string, Record<string, unknown>>, dst: 
   return excludes;
 }
 
-function extractMethods (src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): StringsStrings {
+function extractMethods <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
   return [
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
   ];
 }
 
-function lazySection (section: string, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>): void {
-  // NOTE: Unlike the other lazy decorations, here we actually do decorate the
-  // sections, just the internal form is not available (i.e. we skip lazyMethods)
-  // The initial issue is that we have a confict between "this already exists" and
-  // "this needs to start clean", so for a first round we skip...
-  if (!dst[section]) {
-    dst[section] = {};
-  }
-
-  const creator = (method: string) => src[section][method];
-  const methods = Object.keys(src[section]);
+function lazySection <T> (src: Methods<T>, dst: Methods<T>): void {
+  const creator = (m: string) => src[m];
+  const methods = Object.keys(src);
 
   for (let i = 0; i < methods.length; i++) {
     const method = methods[i];
@@ -98,8 +94,8 @@ function lazySection (section: string, src: Record<string, Record<string, unknow
     // We use hasOwnproperty here to only check for the existence of the key,
     // instead of reading dst[section][method] which will evaluate when already
     // set as a lazy value previously
-    if (!Object.prototype.hasOwnProperty.call(dst[section], method)) {
-      lazyMethod(dst[section], method, creator);
+    if (!Object.prototype.hasOwnProperty.call(dst, method)) {
+      lazyMethod(dst, method, creator);
     }
   }
 }
@@ -109,7 +105,7 @@ function lazySection (section: string, src: Record<string, Record<string, unknow
  * already available, but rather just adds new missing items into the result object.
  * @internal
  */
-export function augmentObject (prefix: string | null, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
+export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst: Sections<T>, fromEmpty = false): Sections<T> {
   fromEmpty && clearObject(dst);
 
   // NOTE: This part is slightly problematic since it will get the
@@ -120,10 +116,18 @@ export function augmentObject (prefix: string | null, src: Record<string, Record
     warn(prefix, 'calls', extractMethods(src, dst));
   }
 
-  const srcKeys = Object.keys(src);
+  const sections = Object.keys(src);
 
-  for (let i = 0; i < srcKeys.length; i++) {
-    lazySection(srcKeys[i], src, dst);
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+
+    // We don't set here with a lazy interface, we decorate based
+    // on the top-level structure (this bypasses adding lazy onto lazy)
+    if (!dst[section]) {
+      dst[section] = {};
+    }
+
+    lazySection(src[section], dst[section]);
   }
 
   return dst;
