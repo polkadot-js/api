@@ -200,7 +200,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
-  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, blockHash?: Uint8Array | null, decoratedApi?: ApiDecoration<ApiType>): FullDecoration<ApiType> {
+  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty?: boolean, decoratedApi?: ApiDecoration<ApiType>, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
       decoratedApi = {
         consts: {},
@@ -258,7 +258,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       } as ApiDecoration<ApiType>;
     }
 
-    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, null, registry.decoratedApi);
+    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
 
     this._consts = decoratedApi.consts;
     this._errors = decoratedApi.errors;
@@ -451,7 +451,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._decorateFunctionMeta(method as unknown as MetaDecoration, decorated as unknown as MetaDecoration) as unknown as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  protected _decorateStorage<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | null): QueryableStorage<ApiType> {
+  protected _decorateStorage<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array): QueryableStorage<ApiType> {
     const result = {} as QueryableStorage<ApiType>;
 
     const lazySection = (section: string) =>
