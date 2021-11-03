@@ -62,6 +62,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
 
     lazyMethod(result, index, () =>
       lazyMethods(
+        {},
         getVariants(lookup, errors.unwrap()),
         ({ docs, fields, index, name }: SiVariant): RegistryError => ({
           args: getFieldArgs(lookup, fields),
@@ -95,6 +96,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
 
     lazyMethod(result, index, () =>
       lazyMethods(
+        {},
         getVariants(lookup, events.unwrap()),
         (variant: SiVariant): Constructor<GenericEventData> => {
           const meta = registry.createType('EventMetadataLatest', {
@@ -131,6 +133,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 
     lazyMethod(result, index, () =>
       lazyMethods(
+        {},
         getVariants(lookup, calls.unwrap()),
         (variant: SiVariant) =>
           createCallFunction(registry, lookup, variant, index, section),

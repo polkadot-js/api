@@ -31,6 +31,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
   const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
     lazyMethod(result, stringCamelCase(name), () =>
       lazyMethods(
+        {},
         lookup.getSiType(events.unwrap().type).def.asVariant.variants,
         (v: SiVariant) =>
           createIsEvent(registry, lookup, v, sectionIndex),

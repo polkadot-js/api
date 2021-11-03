@@ -25,17 +25,17 @@ export function decorateStorage (registry: Registry, { pallets }: MetadataLatest
 
     lazyMethod(result, section, () =>
       lazyMethods(
-        items,
-        (meta: StorageEntryMetadataLatest) =>
-          createFunction(registry, { meta, method: meta.name.toString(), prefix, section }, {}),
-        objectNameFirstLower,
         {
           palletVersion: createRuntimeFunction(
             { method: 'palletVersion', prefix, section },
             createKeyRaw(registry, { method: ':__STORAGE_VERSION__:', prefix: name.toString() }, [], [], []),
             { docs: 'Returns the current pallet version from storage', type: 'u16' }
           )(registry)
-        }
+        },
+        items,
+        (meta: StorageEntryMetadataLatest) =>
+          createFunction(registry, { meta, method: meta.name.toString(), prefix, section }, {}),
+        objectNameFirstLower
       )
     );
   };

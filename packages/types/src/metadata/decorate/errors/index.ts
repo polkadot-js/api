@@ -44,6 +44,7 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
   const lazySection = ({ errors, name }: PalletMetadataLatest, sectionIndex: number): void => {
     lazyMethod(result, stringCamelCase(name), () =>
       lazyMethods(
+        {},
         lookup.getSiType(errors.unwrap().type).def.asVariant.variants,
         (v: SiVariant) =>
           createIsError(registry, lookup, v, sectionIndex),

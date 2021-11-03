@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Convert metadata & API to use lazy decoration
+
+
 ## 6.6.1 Nov 1, 2021
 
 Upgrade priority: Low. Internal maintennce updates.

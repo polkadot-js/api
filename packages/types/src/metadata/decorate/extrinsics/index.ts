@@ -50,6 +50,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
 
     lazyMethod(result, sectionName, () =>
       lazyMethods(
+        {},
         lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
         (v: SiVariant) =>
           createCallFunction(registry, lookup, v, sectionIndex, sectionName),

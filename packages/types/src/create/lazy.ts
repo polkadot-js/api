@@ -44,7 +44,7 @@ export function lazyMethod <T, K> (result: Record<string, T>, item: K, creator: 
   });
 }
 
-export function lazyMethods <T, K> (items: K[], creator: (v: K) => T, getName?: (m: K) => string, result: Record<string, T> = {}): Record<string, T> {
+export function lazyMethods <T, K> (result: Record<string, T>, items: K[], creator: (v: K) => T, getName?: (m: K) => string): Record<string, T> {
   for (let i = 0; i < items.length; i++) {
     lazyMethod(result, items[i], creator, getName);
   }

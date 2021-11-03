@@ -26,6 +26,7 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
   const lazySection = ({ constants, name }: PalletMetadataLatest): void => {
     lazyMethod(result, stringCamelCase(name), () =>
       lazyMethods(
+        {},
         constants,
         (constant: PalletConstantMetadataLatest) =>
           createConstantCodec(registry, constant),
