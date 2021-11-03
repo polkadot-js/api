@@ -7,7 +7,7 @@ import type { Extrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { lazyMethod, lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
 import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
@@ -16,7 +16,7 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
-export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number, sectionName: string): CallFunction {
+export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
@@ -44,26 +44,18 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
 /** @internal */
 export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
   const result: Extrinsics = {};
-
-  const lazySection = ({ calls, name }: PalletMetadataLatest, sectionIndex: number): void => {
-    const sectionName = stringCamelCase(name);
-
-    lazyMethod(result, sectionName, () =>
-      lazyMethods(
-        lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
-        (v: SiVariant) =>
-          createCallFunction(registry, lookup, v, sectionIndex, sectionName),
-        objectNameToCamel
-      )
-    );
-  };
-
   const filtered = pallets.filter(filterCallsSome);
 
-  for (let p = 0; p < filtered.length; p++) {
-    const pallet = filtered[p];
+  for (let i = 0; i < filtered.length; i++) {
+    const { calls, index, name } = filtered[i];
+    const sectionName = stringCamelCase(name);
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
 
-    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : p);
+    lazyMethod(result, sectionName, () =>
+      lazyVariants(lookup, calls.unwrap(), objectNameToCamel, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, sectionName, sectionIndex)
+      )
+    );
   }
 
   return result;

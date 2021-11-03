@@ -21,7 +21,7 @@ interface ManualDefinition {
 function findSiPrimitive (registry: Registry, _prim: string): PortableType | undefined {
   const prim = _prim.toLowerCase();
 
-  const portable = registry.lookup.types.find((t) =>
+  return registry.lookup.types.find((t) =>
     (
       t.type.def.isPrimitive &&
       t.type.def.asPrimitive.toString().toLowerCase() === prim
@@ -30,8 +30,6 @@ function findSiPrimitive (registry: Registry, _prim: string): PortableType | und
       t.type.def.asHistoricMetaCompat.toString().toLowerCase() === prim
     )
   );
-
-  return portable;
 }
 
 function findSiType (registry: Registry, orig: string): PortableType | undefined {
