@@ -8,5 +8,9 @@ type LazySection <T> = Record<string, T>;
 type LazyRecord <T> = Record<string, LazySection<T>>;
 
 export function lazyDeriveSection <T> (result: LazyRecord<T>, section: string, getKeys: (s: string) => string[], creator: (s: string, m: string) => T): void {
-  lazyMethod(result, section, (s) => lazyMethods(getKeys(s), (m) => creator(s, m)));
+  lazyMethod(result, section, () =>
+    lazyMethods({}, getKeys(section), (method: string) =>
+      creator(section, method)
+    )
+  );
 }

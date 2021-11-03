@@ -429,9 +429,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const result = createSubmittable(this._type, this._rx, decorateMethod) as SubmittableExtrinsics<ApiType>;
 
-    const lazySection = (s: string) =>
-      lazyMethods(Object.keys(tx[s]), (m: string) =>
-        this._decorateExtrinsicEntry(tx[s][m], result)
+    const lazySection = (section: string) =>
+      lazyMethods({}, Object.keys(tx[section]), (method: string) =>
+        this._decorateExtrinsicEntry(tx[section][method], result)
       );
 
     const sections = Object.keys(tx);
@@ -458,9 +458,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateStorage<ApiType extends ApiTypes> ({ query }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
     const result = {} as QueryableStorage<ApiType>;
 
-    const lazySection = (s: string) =>
-      lazyMethods(Object.keys(query[s]), (m: string) =>
-        this._decorateStorageEntry(query[s][m], decorateMethod)
+    const lazySection = (section: string) =>
+      lazyMethods({}, Object.keys(query[section]), (method: string) =>
+        this._decorateStorageEntry(query[section][method], decorateMethod)
       );
 
     const sections = Object.keys(query);
@@ -475,9 +475,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateStorageAt<ApiType extends ApiTypes> ({ query, registry }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array): QueryableStorageAt<ApiType> {
     const result = {} as QueryableStorageAt<ApiType>;
 
-    const lazySection = (s: string) =>
-      lazyMethods(Object.keys(query[s]), (m: string) =>
-        this._decorateStorageEntryAt(registry, query[s][m], decorateMethod, blockHash)
+    const lazySection = (section: string) =>
+      lazyMethods({}, Object.keys(query[section]), (method: string) =>
+        this._decorateStorageEntryAt(registry, query[section][method], decorateMethod, blockHash)
       );
 
     const sections = Object.keys(query);

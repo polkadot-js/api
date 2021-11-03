@@ -28,7 +28,7 @@ export function createRuntimeFunction ({ method, prefix, section }: ManualDefini
         name: registry.createType('Text', method),
         toJSON: (): any => key,
         type: registry.createType('StorageEntryTypeLatest', {
-          Plain: registry.lookup.stringToSiType(type)?.id || 0
+          Plain: registry.lookup.stringToSiType(type)?.id
         })
       }),
       method,

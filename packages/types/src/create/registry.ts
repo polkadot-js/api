@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PalletMetadataLatest, PortableRegistry, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
@@ -21,7 +21,7 @@ import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
-import { lazyMethod, lazyMethods } from './lazy';
+import { lazyMethod, lazyVariants } from './lazy';
 
 const l = logger('registry');
 
@@ -47,106 +47,76 @@ function clearRecord (record: Record<string, unknown>): void {
   }
 }
 
-function getVariants (lookup: PortableRegistry, { type }: { type: SiLookupTypeId }): SiVariant[] {
-  return lookup.getSiType(type).def.asVariant.variants;
-}
-
 function getVariantStringIdx ({ index }: SiVariant): string {
   return index.toString();
 }
 
 // create error mapping from metadata
 function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
-  const lazySection = ({ errors, name }: PalletMetadataLatest, index: number): void => {
-    const section = stringCamelCase(name);
+  clearRecord(result);
 
-    lazyMethod(result, index, () =>
-      lazyMethods(
-        getVariants(lookup, errors.unwrap()),
-        ({ docs, fields, index, name }: SiVariant): RegistryError => ({
+  for (let i = 0; i < pallets.length; i++) {
+    const { errors, index, name } = pallets[i];
+
+    if (errors.isSome) {
+      const sectionName = stringCamelCase(name);
+
+      lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
+        lazyVariants(lookup, errors.unwrap(), getVariantStringIdx, ({ docs, fields, index, name }: SiVariant): RegistryError => ({
           args: getFieldArgs(lookup, fields),
           docs: docs.map(valueToString),
           fields,
           index: index.toNumber(),
           method: name.toString(),
           name: name.toString(),
-          section
-        }),
-        getVariantStringIdx
-      )
-    );
-  };
-
-  clearRecord(result);
-
-  for (let i = 0; i < pallets.length; i++) {
-    const pallet = pallets[i];
-
-    if (pallet.errors.isSome) {
-      lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
+          section: sectionName
+        }))
+      );
     }
   }
 }
 
 // create event classes from metadata
 function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
-  const lazySection = ({ events, name }: PalletMetadataLatest, index: number): void => {
-    const section = stringCamelCase(name);
-
-    lazyMethod(result, index, () =>
-      lazyMethods(
-        getVariants(lookup, events.unwrap()),
-        (variant: SiVariant): Constructor<GenericEventData> => {
-          const meta = registry.createType('EventMetadataLatest', {
-            ...variant,
-            args: getFieldArgs(lookup, variant.fields)
-          });
-
-          return class extends GenericEventData {
-            constructor (registry: Registry, value: Uint8Array) {
-              super(registry, value, meta, section, variant.name.toString());
-            }
-          };
-        },
-        getVariantStringIdx
-      )
-    );
-  };
+  const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
 
-  const filtered = pallets.filter(filterEventsSome);
-
   for (let i = 0; i < filtered.length; i++) {
-    const pallet = filtered[i];
+    const { events, index, name } = filtered[i];
 
-    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
+    lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
+      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
+        const meta = registry.createType('EventMetadataLatest', {
+          ...variant,
+          args: getFieldArgs(lookup, variant.fields)
+        });
+
+        return class extends GenericEventData {
+          constructor (registry: Registry, value: Uint8Array) {
+            super(registry, value, meta, stringCamelCase(name), variant.name.toString());
+          }
+        };
+      })
+    );
   }
 }
 
 // create extrinsic mapping from metadata
 function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
-  const lazySection = ({ calls, name }: PalletMetadataLatest, index: number): void => {
-    const section = stringCamelCase(name);
-
-    lazyMethod(result, index, () =>
-      lazyMethods(
-        getVariants(lookup, calls.unwrap()),
-        (variant: SiVariant) =>
-          createCallFunction(registry, lookup, variant, index, section),
-        getVariantStringIdx
-      )
-    );
-  };
+  const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
 
-  const filtered = pallets.filter(filterCallsSome);
-
   for (let i = 0; i < filtered.length; i++) {
-    const pallet = filtered[i];
+    const { calls, index, name } = filtered[i];
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
 
-    lazySection(pallet, version >= 12 ? pallet.index.toNumber() : i);
+    lazyMethod(result, sectionIndex, () =>
+      lazyVariants(lookup, calls.unwrap(), getVariantStringIdx, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, stringCamelCase(name), sectionIndex)
+      )
+    );
   }
 }
 

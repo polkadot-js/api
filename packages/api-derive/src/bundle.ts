@@ -97,11 +97,11 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: Deri
     )
   );
 
-  const getKeys = (s: string) =>
-    Object.keys(derives[s]);
+  const getKeys = (section: string) =>
+    Object.keys(derives[section]);
 
-  const creator = (s: string, m: string) =>
-    derives[s][m](instanceId, api);
+  const creator = (section: string, method: string) =>
+    derives[section][method](instanceId, api);
 
   const result: Record<string, Record<string, AnyFunction>> = {};
   const names = Object.keys(derives);
