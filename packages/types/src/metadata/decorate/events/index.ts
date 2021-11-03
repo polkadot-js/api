@@ -7,9 +7,9 @@ import type { Events, IsEvent } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { lazyMethod } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
-import { objectNameToString } from '../util';
+import { lazyVariant, objectNameToString } from '../util';
 
 export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;
@@ -30,12 +30,8 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
 
   const lazySection = ({ events, name }: PalletMetadataLatest, sectionIndex: number): void => {
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyMethods(
-        {},
-        lookup.getSiType(events.unwrap().type).def.asVariant.variants,
-        (v: SiVariant) =>
-          createIsEvent(registry, lookup, v, sectionIndex),
-        objectNameToString
+      lazyVariant(lookup, events, objectNameToString, (variant: SiVariant) =>
+        createIsEvent(registry, lookup, variant, sectionIndex)
       )
     );
   };

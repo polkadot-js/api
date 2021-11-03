@@ -8,8 +8,8 @@ import type { Errors, IsError } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyMethods } from '../../../create/lazy';
-import { objectNameToString } from '../util';
+import { lazyMethod } from '../../../create/lazy';
+import { lazyVariant, objectNameToString } from '../util';
 
 interface ItemMeta {
   args: string[];
@@ -43,12 +43,8 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
 
   const lazySection = ({ errors, name }: PalletMetadataLatest, sectionIndex: number): void => {
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyMethods(
-        {},
-        lookup.getSiType(errors.unwrap().type).def.asVariant.variants,
-        (v: SiVariant) =>
-          createIsError(registry, lookup, v, sectionIndex),
-        objectNameToString
+      lazyVariant(lookup, errors, objectNameToString, (variant: SiVariant) =>
+        createIsError(registry, lookup, variant, sectionIndex)
       )
     );
   };

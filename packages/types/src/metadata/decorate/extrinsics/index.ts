@@ -7,9 +7,9 @@ import type { Extrinsics } from '../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyMethods } from '../../../create/lazy';
+import { lazyMethod } from '../../../create/lazy';
 import { getSiName } from '../../util';
-import { objectNameToCamel } from '../util';
+import { lazyVariant, objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
@@ -49,12 +49,8 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
     const sectionName = stringCamelCase(name);
 
     lazyMethod(result, sectionName, () =>
-      lazyMethods(
-        {},
-        lookup.getSiType(calls.unwrap().type).def.asVariant.variants,
-        (v: SiVariant) =>
-          createCallFunction(registry, lookup, v, sectionIndex, sectionName),
-        objectNameToCamel
+      lazyVariant(lookup, calls, objectNameToCamel, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, sectionIndex, sectionName)
       )
     );
   };
