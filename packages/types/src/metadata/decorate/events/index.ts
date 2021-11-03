@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
 import type { AnyTuple, IEvent, Registry } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
@@ -15,15 +15,6 @@ export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;
 }
 
-function createIsEvent (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number): IsEvent<AnyTuple> {
-  return {
-    is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
-      sectionIndex === eventRecord.index[0] &&
-      variant.index.eq(eventRecord.index[1]),
-    meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
-  };
-}
-
 /** @internal */
 export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
@@ -34,9 +25,12 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyVariants(lookup, events, objectNameToString, (variant: SiVariant) =>
-        createIsEvent(registry, lookup, variant, sectionIndex)
-      )
+      lazyVariants(lookup, events, objectNameToString, (variant: SiVariant): IsEvent<AnyTuple> => ({
+        is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
+          sectionIndex === eventRecord.index[0] &&
+          variant.index.eq(eventRecord.index[1]),
+        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
+      }))
     );
   }
 

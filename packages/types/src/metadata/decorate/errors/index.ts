@@ -28,15 +28,6 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
   };
 }
 
-function createIsError (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionIndex: number): IsError {
-  return {
-    is: ({ error, index }: DispatchErrorModule) =>
-      index.eq(sectionIndex) &&
-      error.eq(variant.index),
-    meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
-  };
-}
-
 /** @internal */
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
@@ -48,9 +39,12 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
       const sectionIndex = version >= 12 ? index.toNumber() : i;
 
       lazyMethod(result, stringCamelCase(name), () =>
-        lazyVariants(lookup, errors, objectNameToString, (variant: SiVariant) =>
-          createIsError(registry, lookup, variant, sectionIndex)
-        )
+        lazyVariants(lookup, errors, objectNameToString, (variant: SiVariant): IsError => ({
+          is: ({ error, index }: DispatchErrorModule) =>
+            index.eq(sectionIndex) &&
+            error.eq(variant.index),
+          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
+        }))
       );
     }
   }

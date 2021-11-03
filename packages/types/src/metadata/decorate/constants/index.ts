@@ -10,14 +10,6 @@ import { hexToU8a, stringCamelCase } from '@polkadot/util';
 import { lazyMethod, lazyMethods } from '../../../create/lazy';
 import { objectNameToCamel } from '../util';
 
-function createConstantCodec (registry: Registry, constant: PalletConstantMetadataLatest): ConstantCodec {
-  const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]) as ConstantCodec;
-
-  (codec as unknown as Record<string, unknown>).meta = constant;
-
-  return codec;
-}
-
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
@@ -31,8 +23,13 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
         lazyMethods(
           {},
           constants,
-          (constant: PalletConstantMetadataLatest) =>
-            createConstantCodec(registry, constant),
+          (constant: PalletConstantMetadataLatest): ConstantCodec => {
+            const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]) as ConstantCodec;
+
+            (codec as unknown as Record<string, unknown>).meta = constant;
+
+            return codec;
+          },
           objectNameToCamel
         )
       );
