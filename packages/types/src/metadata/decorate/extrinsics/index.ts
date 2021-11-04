@@ -5,9 +5,9 @@ import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant 
 import type { CallFunction, Registry } from '../../../types';
 import type { Extrinsics } from '../types';
 
-import { stringCamelCase } from '@polkadot/util';
+import { lazyMethod, stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyVariants } from '../../../create/lazy';
+import { lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
 import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';

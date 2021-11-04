@@ -5,9 +5,9 @@ import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../i
 import type { AnyTuple, IEvent, Registry } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
-import { stringCamelCase } from '@polkadot/util';
+import { lazyMethod, stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyVariants } from '../../../create/lazy';
+import { lazyVariants } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
 import { objectNameToString } from '../util';
 

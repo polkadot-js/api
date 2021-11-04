@@ -6,9 +6,9 @@ import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, IsError } from '../types';
 
-import { stringCamelCase } from '@polkadot/util';
+import { lazyMethod, stringCamelCase } from '@polkadot/util';
 
-import { lazyMethod, lazyVariants } from '../../../create/lazy';
+import { lazyVariants } from '../../../create/lazy';
 import { objectNameToString } from '../util';
 
 interface ItemMeta {

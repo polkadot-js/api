@@ -6,7 +6,7 @@ import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLat
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { DoNotConstruct } from '../codec/DoNotConstruct';
@@ -21,7 +21,7 @@ import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
-import { lazyMethod, lazyVariants } from './lazy';
+import { lazyVariants } from './lazy';
 
 const l = logger('registry');
 

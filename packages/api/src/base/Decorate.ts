@@ -18,8 +18,8 @@ import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray 
 import { ExactDerive, getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { expandMetadata, lazyMethod, lazyMethods, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, objectSpread, u8aToHex } from '@polkadot/util';
+import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
