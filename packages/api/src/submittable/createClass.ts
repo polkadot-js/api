@@ -25,6 +25,57 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 
 const identity = <T> (input: T): T => input;
 
+function makeEraOptions (api: ApiInterfaceRx, registry: Registry, options: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
+  if (!header) {
+    if (isNumber(options.era)) {
+      // since we have no header, it is immortal, remove any option overrides
+      // so we only supply the genesisHash and no era to the construction
+      delete options.era;
+      delete options.blockHash;
+    }
+
+    return makeSignOptions(api, options, { nonce });
+  }
+
+  return makeSignOptions(api, options, {
+    blockHash: header.hash,
+    era: registry.createType('ExtrinsicEra', {
+      current: header.number,
+      period: options.era || mortalLength
+    }),
+    nonce
+  });
+}
+
+function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] {
+  let options: Partial<SignerOptions> = {};
+
+  if (isFunction(partialOptions)) {
+    statusCb = partialOptions;
+  } else {
+    options = objectSpread({}, partialOptions);
+  }
+
+  return [options, statusCb];
+}
+
+function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
+  return objectSpread(
+    { blockHash: api.genesisHash, genesisHash: api.genesisHash },
+    partialOptions,
+    extras,
+    { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
+  );
+}
+
+// NOTE here we actually override nonce if it was specified (backwards compat for
+// the previous signature - don't let user space break, but allow then time to upgrade)
+function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<SignerOptions> {
+  return isBn(partialOptions) || isNumber(partialOptions)
+    ? { nonce: partialOptions }
+    : partialOptions;
+}
+
 export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
@@ -67,7 +118,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
         );
       }
 
-      const [allOptions] = this.#makeSignAndSendOptions(optionsOrHash);
+      const [allOptions] = makeSignAndSendOptions(optionsOrHash);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
@@ -77,8 +128,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             first(),
             switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
-              const eraOptions = this.#makeEraOptions(allOptions, signingInfo);
-              const signOptions = this.#makeSignOptions(eraOptions, {});
+              const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
+              const signOptions = makeSignOptions(api, eraOptions, {});
 
               this.signFake(address, signOptions);
 
@@ -110,8 +161,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
      * @description Sign a transaction, returning the this to allow chaining, i.e. .sign(...).send(). When options, e.g. nonce/blockHash are not specified, it will be inferred. To retrieve eg. nonce use `signAsync` (the preferred interface, this is provided for backwards compatibility)
      * @deprecated
      */
-    public override sign (account: IKeyringPair, optionsOrNonce?: Partial<SignerOptions>): this {
-      super.sign(account, this.#makeSignOptions(this.#optionsOrNonce(optionsOrNonce), {}));
+    public override sign (account: IKeyringPair, partialOptions?: Partial<SignerOptions>): this {
+      super.sign(account, makeSignOptions(api, optionsOrNonce(partialOptions), {}));
 
       return this;
     }
@@ -119,26 +170,26 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     /**
      * @description Signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
      */
-    public signAsync (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this) as OperatorFunction<number | undefined, this>)
+          this.#observeSign(account, partialOptions).pipe(mapTo<number | undefined, this>(this))
       )();
     }
 
     // signAndSend with an immediate Hash result
-    public signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
+    public signAndSend (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
     // signAndSend with a subscription, i.e. callback provided
     public signAndSend (account: AddressOrPair, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend with options and a callback
-    public signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
+    public signAndSend (account: AddressOrPair, partialOptions: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend implementation for all 3 cases above
-    public signAndSend (account: AddressOrPair, optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const [options, statusCb] = this.#makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
+    public signAndSend (account: AddressOrPair, partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+      const [options, statusCb] = makeSignAndSendOptions(partialOptions, optionalStatusCb);
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
@@ -161,58 +212,15 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return this;
     }
 
-    #makeEraOptions = (options: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions => {
-      if (!header) {
-        if (isNumber(options.era)) {
-          // since we have no header, it is immortal, remove any option overrides
-          // so we only supply the genesisHash and no era to the construction
-          delete options.era;
-          delete options.blockHash;
-        }
-
-        return this.#makeSignOptions(options, { nonce });
-      }
-
-      return this.#makeSignOptions(options, {
-        blockHash: header.hash,
-        era: this.registry.createType('ExtrinsicEra', {
-          current: header.number,
-          period: options.era || mortalLength
-        }),
-        nonce
-      });
-    };
-
-    #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
-      return objectSpread(
-        { blockHash: api.genesisHash, genesisHash: api.genesisHash },
-        options,
-        extras,
-        { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
-      );
-    };
-
-    #makeSignAndSendOptions = (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] => {
-      let options: Partial<SignerOptions> = {};
-
-      if (isFunction(optionsOrStatus)) {
-        statusCb = optionsOrStatus;
-      } else {
-        options = objectSpread({}, optionsOrStatus);
-      }
-
-      return [options, statusCb];
-    };
-
-    #observeSign = (account: AddressOrPair, optionsOrNonce?: Partial<SignerOptions>): Observable<number | undefined> => {
+    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<number | undefined> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
-      const options = this.#optionsOrNonce(optionsOrNonce);
+      const options = optionsOrNonce(partialOptions);
       let updateId: number | undefined;
 
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
         mergeMap(async (signingInfo): Promise<void> => {
-          const eraOptions = this.#makeEraOptions(options, signingInfo);
+          const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
 
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
@@ -265,14 +273,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           this.#updateSigner(updateId, status);
         })
       );
-    };
-
-    // NOTE here we actually override nonce if it was specified (backwards compat for
-    // the previous signature - don't let user space break, but allow then time to upgrade)
-    #optionsOrNonce = (optionsOrNonce: Partial<SignerOptions> = {}): Partial<SignerOptions> => {
-      return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
-        ? { nonce: optionsOrNonce }
-        : optionsOrNonce;
     };
 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
