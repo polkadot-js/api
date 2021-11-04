@@ -148,7 +148,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this.#registry = options.source?.registry || options.registry || new TypeRegistry();
     this._rx.queryAt = (blockHash: Uint8Array | string) =>
       from(this.at(blockHash)).pipe(map((a) => a.rx.query));
-    this._rx.registry = this.#registry;
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()

@@ -52,6 +52,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       this.#registries = options.source.#registries as VersionedRegistry<ApiType>[];
     }
 
+    this._initRxFields(options);
+
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
     this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
 
@@ -59,8 +61,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       this._queryMulti = this._decorateMulti(this._decorateMethod);
       this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
     }
-
-    this._rx.signer = options.signer;
 
     this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
 
@@ -78,6 +78,19 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (this._rpcCore.provider.isConnected) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#onProviderConnect();
+    }
+  }
+
+  private _initRxFields (options: ApiOptions): void {
+    const fields = ['extrinsicType', 'genesisHash', 'registry', 'runtimeVersion'];
+
+    this._rx.signer = options.signer;
+
+    for (let i = 0; i < fields.length; i++) {
+      const field = fields[i];
+      const get = () => (this as Record<string, unknown>)[field];
+
+      Object.defineProperty(this._rx, field, { enumerable: true, get });
     }
   }
 
@@ -294,7 +307,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
               this._runtimeMetadata = metadata;
               this._runtimeVersion = version;
-              this._rx.runtimeVersion = version;
 
               // update the default registry version
               const thisRegistry = this._getDefaultRegistry();
@@ -329,7 +341,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // set our chain version & genesisHash as returned
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
-    this._rx.runtimeVersion = runtimeVersion;
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
@@ -357,9 +368,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private _initFromMeta (metadata: Metadata): boolean {
     this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
-    this._rx.extrinsicType = this._extrinsicType;
-    this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
 
     // inject metadata and adjust the types as detected
     this._injectMetadata(this._getDefaultRegistry(), true);
