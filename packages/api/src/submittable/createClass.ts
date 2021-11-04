@@ -11,7 +11,7 @@ import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, Submittable
 
 import { catchError, first, map, mapTo, mergeMap, of, switchMap, tap } from 'rxjs';
 
-import { assert, isBn, isFunction, isNumber, isString, isU8a } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
 import { filterEvents, isKeyringPair } from '../util';
@@ -184,15 +184,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     };
 
     #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
-      return {
-        blockHash: api.genesisHash,
-        genesisHash: api.genesisHash,
-        ...options,
-        ...extras,
-        runtimeVersion: api.runtimeVersion,
-        signedExtensions: api.registry.signedExtensions,
-        version: api.extrinsicType
-      } as SignatureOptions;
+      return objectSpread(
+        { blockHash: api.genesisHash, genesisHash: api.genesisHash },
+        options,
+        extras,
+        { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
+      );
     };
 
     #makeSignAndSendOptions = (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] => {
@@ -201,7 +198,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       if (isFunction(optionsOrStatus)) {
         statusCb = optionsOrStatus;
       } else {
-        options = { ...optionsOrStatus };
+        options = objectSpread({}, optionsOrStatus);
       }
 
       return [options, statusCb];
@@ -283,12 +280,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
-      const payload = this.registry.createType('SignerPayload', {
-        ...options,
+      const payload = this.registry.createType('SignerPayload', objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
         method: this.method
-      });
+      }));
       let result: SignerResult;
 
       if (signer.signPayload) {
