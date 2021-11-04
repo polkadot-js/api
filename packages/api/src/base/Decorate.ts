@@ -368,37 +368,32 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const fn = decorateMethod(source, { methodName: method }) as Record<string, unknown>;
 
       fn.meta = source.meta;
-
-      lazyMethod(fn, 'raw', () =>
-        decorateMethod(source.raw, { methodName: method }) as unknown
-      );
+      fn.raw = decorateMethod(source.raw, { methodName: method }) as unknown;
 
       return fn;
-    };
-
-    const lazySection = (section: string): Record<string, unknown> => {
-      const methods = Object.keys(rpc[section as 'chain']);
-
-      const decorateInternal = (method: string) =>
-        decorateFn(section, method);
-
-      for (let i = 0; i < methods.length; i++) {
-        const method = methods[i];
-
-        //  skip subscriptions where we have a non-subscribe interface
-        if (this.hasSubscriptions || !(method.startsWith('subscribe') || method.startsWith('unsubscribe'))) {
-          lazyMethod(out[section], method, decorateInternal);
-        }
-      }
-
-      return out[section];
     };
 
     for (let s = 0; s < rpc.sections.length; s++) {
       const section = rpc.sections[s];
 
       if (!Object.prototype.hasOwnProperty.call(out, section)) {
-        lazyMethod(out, section, lazySection);
+        const methods = Object.keys(rpc[section as 'chain']);
+
+        const decorateInternal = (method: string) =>
+          decorateFn(section, method);
+
+        for (let m = 0; m < methods.length; m++) {
+          const method = methods[m];
+
+          //  skip subscriptions where we have a non-subscribe interface
+          if (this.hasSubscriptions || !(method.startsWith('subscribe') || method.startsWith('unsubscribe'))) {
+            if (!Object.prototype.hasOwnProperty.call(out, section)) {
+              out[section] = {};
+            }
+
+            lazyMethod(out[section], method, decorateInternal);
+          }
+        }
       }
     }
 
