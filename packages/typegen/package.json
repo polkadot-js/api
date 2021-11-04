@@ -37,7 +37,7 @@
     "@polkadot/rpc-provider": "6.6.2-10",
     "@polkadot/types": "6.6.2-10",
     "@polkadot/types-support": "6.6.2-10",
-    "@polkadot/util": "^7.7.1",
+    "@polkadot/util": "^7.7.2-4",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^17.2.1"
