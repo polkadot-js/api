@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { lazyMethod, lazyMethods } from '@polkadot/types';
+import { lazyMethod, lazyMethods } from '@polkadot/util';
 
 type LazySection <T> = Record<string, T>;
 
