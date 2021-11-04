@@ -363,28 +363,31 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
     const out: Record<string, Record<string, unknown>> = input;
 
-    const decorateSections = (section: string): Record<string, unknown> => {
+    const decorateFn = (section: string, method: string): unknown => {
+      const source = rpc[section as 'chain'][method as 'getHeader'];
+      const fn = decorateMethod(source, { methodName: method }) as Record<string, unknown>;
+
+      fn.meta = source.meta;
+
+      lazyMethod(fn, 'raw', () =>
+        decorateMethod(source.raw, { methodName: method }) as unknown
+      );
+
+      return fn;
+    };
+
+    const decorateSection = (section: string): Record<string, unknown> => {
       const methods = Object.keys(rpc[section as 'chain']);
 
-      const decorateMethods = (method: string): unknown => {
-        const source = rpc[section as 'chain'][method as 'getHeader'];
-        const fn = decorateMethod(source, { methodName: method }) as Record<string, unknown>;
-
-        fn.meta = source.meta;
-
-        lazyMethod(fn, 'raw', () =>
-          decorateMethod(source.raw, { methodName: method }) as unknown
-        );
-
-        return fn;
-      };
+      const decorateInternal = (method: string) =>
+        decorateFn(section, method);
 
       for (let i = 0; i < methods.length; i++) {
         const method = methods[i];
 
         //  skip subscriptions where we have a non-subscribe interface
         if (this.hasSubscriptions || !(method.startsWith('subscribe') || method.startsWith('unsubscribe'))) {
-          lazyMethod(out[section], method, decorateMethods);
+          lazyMethod(out[section], method, decorateInternal);
         }
       }
 
@@ -395,7 +398,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const section = rpc.sections[s];
 
       if (!Object.prototype.hasOwnProperty.call(out, section)) {
-        lazyMethod(out, section, decorateSections);
+        lazyMethod(out, section, decorateSection);
       }
     }
 
