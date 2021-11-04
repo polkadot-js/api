@@ -376,7 +376,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return fn;
     };
 
-    const decorateSection = (section: string): Record<string, unknown> => {
+    const lazySection = (section: string): Record<string, unknown> => {
       const methods = Object.keys(rpc[section as 'chain']);
 
       const decorateInternal = (method: string) =>
@@ -398,7 +398,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const section = rpc.sections[s];
 
       if (!Object.prototype.hasOwnProperty.call(out, section)) {
-        lazyMethod(out, section, decorateSection);
+        lazyMethod(out, section, lazySection);
       }
     }
 
