@@ -68,8 +68,6 @@ function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOpt
   );
 }
 
-// NOTE here we actually override nonce if it was specified (backwards compat for
-// the previous signature - don't let user space break, but allow then time to upgrade)
 function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<SignerOptions> {
   return isBn(partialOptions) || isNumber(partialOptions)
     ? { nonce: partialOptions }
