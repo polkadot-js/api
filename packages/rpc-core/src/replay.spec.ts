@@ -1,10 +1,7 @@
 // Copyright 2017-2021 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { RpcInterface } from '@polkadot/rpc-core/types.jsonrpc';
-
-import { of } from 'rxjs';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -23,21 +20,6 @@ describe('replay', (): void => {
 
   afterEach(async () => {
     await provider.disconnect();
-  });
-
-  it('subscribes via the rpc section', (done): void => {
-    // we don't honor types or number of params here
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    (rpc.chain as any).getBlockHash = jest.fn((): Observable<number> => of(1));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    (rpc.chain as any).getBlockHash(123, false).subscribe((): void => {
-      expect(
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        rpc.chain.getBlockHash
-      ).toHaveBeenCalledWith(123, false);
-
-      done();
-    });
   });
 
   it('returns the observable value', (done): void => {

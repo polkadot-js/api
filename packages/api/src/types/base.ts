@@ -64,5 +64,5 @@ export interface PaginationOptions<A = unknown> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type DecorateMethod<ApiType extends ApiTypes> =
-  <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => any;
+export type DecorateMethod<ApiType extends ApiTypes, T = any> =
+  <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
