@@ -10,7 +10,7 @@ import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcSection, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -361,30 +361,45 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
-    const out = input as DecoratedRpc<ApiType, RpcInterface>;
+    const out: Record<string, Record<string, unknown>> = input;
+
+    const decorateSections = (section: string): Record<string, unknown> => {
+      const methods = Object.keys(rpc[section as 'chain']);
+
+      const decorateMethods = (method: string): unknown => {
+        const source = rpc[section as 'chain'][method as 'getHeader'];
+        const fn = decorateMethod(source, { methodName: method }) as Record<string, unknown>;
+
+        fn.meta = source.meta;
+
+        lazyMethod(fn, 'raw', () =>
+          decorateMethod(source.raw, { methodName: method }) as unknown
+        );
+
+        return fn;
+      };
+
+      for (let i = 0; i < methods.length; i++) {
+        const method = methods[i];
+
+        //  skip subscriptions where we have a non-subscribe interface
+        if (this.hasSubscriptions || !(method.startsWith('subscribe') || method.startsWith('unsubscribe'))) {
+          lazyMethod(out[section], method, decorateMethods);
+        }
+      }
+
+      return out[section];
+    };
 
     for (let s = 0; s < rpc.sections.length; s++) {
-      const sectionName = rpc.sections[s] as keyof DecoratedRpc<ApiType, RpcInterface>;
+      const section = rpc.sections[s];
 
-      if (!(out as Record<string, unknown>)[sectionName]) {
-        const section = {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>;
-
-        for (const [methodName, method] of Object.entries(rpc[sectionName])) {
-          //  skip subscriptions where we have a non-subscribe interface
-          if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
-            (section as Record<string, unknown>)[methodName] = decorateMethod(method, { methodName }) as unknown;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            (section as Record<string, { raw: unknown }>)[methodName].raw = decorateMethod(method.raw, { methodName }) as unknown;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            (section as Record<string, { meta: unknown }>)[methodName].meta = method.meta;
-          }
-        }
-
-        (out as Record<string, unknown>)[sectionName] = section;
+      if (!Object.prototype.hasOwnProperty.call(out, section)) {
+        lazyMethod(out, section, decorateSections);
       }
     }
 
-    return out;
+    return out as DecoratedRpc<ApiType, RpcInterface>;
   }
 
   // only be called if supportMulti is true

@@ -5,13 +5,15 @@ import type { PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces'
 
 import { isUndefined } from '@polkadot/util';
 
+type AnyFn = (...args: unknown[]) => unknown;
+
 interface TypeHolder {
   type: SiLookupTypeId
 }
 
 type WithToString = { toString: () => string };
 
-export function lazyMethod <T, K> (result: Record<string, T>, item: K, creator: (d: K) => T, getName?: (d: K) => string): void {
+export function lazyMethod <T, K> (result: Record<string, T> | AnyFn, item: K, creator: (d: K) => T, getName?: (d: K) => string): void {
   const name = getName
     ? getName(item)
     : (item as WithToString).toString();
