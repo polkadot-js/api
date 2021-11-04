@@ -3,6 +3,7 @@
 
 import type { Observable, Subscription } from 'rxjs';
 import type { Text } from '@polkadot/types';
+import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { ChainProperties, Hash, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
@@ -13,7 +14,7 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, isUndefined, logger, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, isUndefined, logger, objectSpread, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { detectedCapabilities } from './capabilities';
@@ -94,10 +95,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
-    registry.setMetadata(metadata, undefined, {
-      ...getSpecExtensions(registry, chain, version.specName),
-      ...(this._options.signedExtensions || {})
-    });
+    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions));
   }
 
   /**

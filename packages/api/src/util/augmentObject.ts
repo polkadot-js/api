@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { lazyMethod } from '@polkadot/types';
-import { logger } from '@polkadot/util';
+import { logger, objectClear } from '@polkadot/util';
 
 type Sections <T> = Record<string, Methods<T>>;
 
@@ -11,14 +11,6 @@ type Methods <T> = Record<string, T>;
 type StringsStrings = [string[], string[]];
 
 const l = logger('api/augment');
-
-function clearObject (obj: Record<string, unknown>): void {
-  const keys = Object.keys(obj);
-
-  for (let i = 0; i < keys.length; i++) {
-    delete obj[keys[i]];
-  }
-}
 
 function logLength (type: 'added' | 'removed', values: string[], and: string[] = []): string {
   return values.length
@@ -106,7 +98,7 @@ function lazySection <T> (src: Methods<T>, dst: Methods<T>): void {
  * @internal
  */
 export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst: Sections<T>, fromEmpty = false): Sections<T> {
-  fromEmpty && clearObject(dst);
+  fromEmpty && objectClear(dst);
 
   // NOTE: This part is slightly problematic since it will get the
   // values for at least all the sections and the names of the methods

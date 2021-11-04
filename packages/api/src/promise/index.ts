@@ -7,7 +7,7 @@ import type { ApiOptions, DecorateFn, DecorateMethodOptions, ObsInnerType, Stora
 
 import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 
-import { assert, isFunction } from '@polkadot/util';
+import { assert, isFunction, objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
@@ -277,10 +277,9 @@ export class ApiPromise extends ApiBase<'promise'> {
    * @description Returns a clone of this ApiPromise instance (new underlying provider connection)
    */
   public clone (): ApiPromise {
-    return new ApiPromise({
-      ...this._options,
-      source: this
-    });
+    return new ApiPromise(
+      objectSpread({}, this._options, { source: this })
+    );
   }
 
   /**

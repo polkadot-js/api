@@ -4,7 +4,7 @@
 import type { SignerPayloadRawBase } from '@polkadot/types/types';
 import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
 
-import { assert, isString, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isString, objectSpread, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Getters } from './Getters';
 
@@ -72,11 +72,9 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
       assert(_signer?.signRaw, 'No signer exists with a signRaw interface. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       return (
-        await _signer.signRaw({
-          type: 'bytes',
-          ...data,
-          address
-        })
+        await _signer.signRaw(
+          objectSpread({ type: 'bytes' }, data, { address })
+        )
       ).signature;
     }
 

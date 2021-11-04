@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { DeriveCustom } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -18,7 +19,7 @@ import { ExactDerive, getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, lazyMethod, lazyMethods, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, logger, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -721,10 +722,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const specName = this._runtimeVersion?.specName.toString();
 
     // Pull in derive from api-derive
-    const available = getAvailableDerives(this.#instanceId, this._rx, {
-      ...this._options.derives,
-      ...(this._options.typesBundle?.spec?.[specName || '']?.derives || {})
-    });
+    const available = getAvailableDerives(this.#instanceId, this._rx, objectSpread<DeriveCustom>({}, this._options.derives, this._options.typesBundle?.spec?.[specName || '']?.derives));
 
     return decorateDeriveSections<'rxjs', ExactDerive>(decorateMethod, available);
   }

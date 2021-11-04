@@ -6,6 +6,8 @@ import type { ApiOptions, DecorateFn } from '../types';
 
 import { from, Observable } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { ApiBase } from '../base';
 
 export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
@@ -180,9 +182,8 @@ export class ApiRx extends ApiBase<'rxjs'> {
    * @description Returns a clone of this ApiRx instance (new underlying provider connection)
    */
   public clone (): ApiRx {
-    return new ApiRx({
-      ...this._options,
-      source: this
-    });
+    return new ApiRx(
+      objectSpread({}, this._options, { source: this })
+    );
   }
 }
