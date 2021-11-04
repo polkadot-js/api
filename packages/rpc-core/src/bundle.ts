@@ -11,8 +11,8 @@ import type { RpcInterfaceMethod } from './types';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
-import { lazyMethod, rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, objectSpread, u8aToU8a } from '@polkadot/util';
+import { rpcDefinitions } from '@polkadot/types';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
