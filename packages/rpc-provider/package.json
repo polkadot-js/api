@@ -25,15 +25,15 @@
   "dependencies": {
     "@babel/runtime": "^7.16.0",
     "@polkadot/types": "6.6.2-10",
-    "@polkadot/util": "^7.7.1",
-    "@polkadot/util-crypto": "^7.7.1",
-    "@polkadot/x-fetch": "^7.7.1",
-    "@polkadot/x-global": "^7.7.1",
-    "@polkadot/x-ws": "^7.7.1",
+    "@polkadot/util": "^7.7.2-4",
+    "@polkadot/util-crypto": "^7.7.2-4",
+    "@polkadot/x-fetch": "^7.7.2-4",
+    "@polkadot/x-global": "^7.7.2-4",
+    "@polkadot/x-ws": "^7.7.2-4",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^7.7.1",
+    "@polkadot/keyring": "^7.7.2-4",
     "@polkadot/types": "6.6.2-10",
     "mock-socket": "^9.0.7",
     "nock": "^13.1.4"
