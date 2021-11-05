@@ -63,12 +63,12 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 
   const byteLength = bitLength / 8;
 
-  if (isString(value)) {
-    return decodeSet(setValues, u8aToU8a(value), byteLength);
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     return value.length === 0
       ? []
       : decodeSetNumber(setValues, u8aToBn(value.subarray(0, byteLength), { isLe: true }));
+  } else if (isString(value)) {
+    return decodeSet(setValues, u8aToU8a(value), byteLength);
   } else if (value instanceof Set || Array.isArray(value)) {
     const input = Array.isArray(value)
       ? value

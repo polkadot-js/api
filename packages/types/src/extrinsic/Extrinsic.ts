@@ -9,7 +9,7 @@ import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValu
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
-import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Base } from '../codec/Base';
 import { Compact } from '../codec/Compact';
@@ -252,10 +252,12 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExpanded?: boolean): AnyJson {
-    return {
-      isSigned: this.isSigned,
-      method: this.method.toHuman(isExpanded),
-      ...(this.isSigned
+    return objectSpread<Record<string, string>>(
+      {
+        isSigned: this.isSigned,
+        method: this.method.toHuman(isExpanded)
+      },
+      this.isSigned
         ? {
           era: this.era.toHuman(isExpanded),
           nonce: this.nonce.toHuman(isExpanded),
@@ -263,9 +265,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
           signer: this.signer.toHuman(isExpanded),
           tip: this.tip.toHuman(isExpanded)
         }
-        : {}
-      )
-    };
+        : null
+    );
   }
 
   /**

@@ -7,6 +7,8 @@ import type { ExtrinsicEra } from '../../interfaces/extrinsics';
 import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
 import { Option } from '../../codec/Option';
@@ -25,11 +27,11 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   #signOptions: SignOptions;
 
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
-    super(registry, {
-      method: 'Bytes',
-      ...registry.getSignedExtensionTypes(),
-      ...registry.getSignedExtensionExtra()
-    }, value);
+    super(registry, objectSpread(
+      { method: 'Bytes' },
+      registry.getSignedExtensionTypes(),
+      registry.getSignedExtensionExtra()
+    ), value);
 
     // Do detection for the type of extrinsic, in the case of MultiSignature this is an
     // enum, in the case of AnySignature, this is a Hash only (may be 64 or 65 bytes)

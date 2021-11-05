@@ -3,6 +3,8 @@
 
 import type { ExtDef, ExtInfo, ExtTypes } from './types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { polkadot } from './polkadot';
 import { shell } from './shell';
 import { statemint } from './statemint';
@@ -12,12 +14,7 @@ import { substrate } from './substrate';
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemed fixed and non-changeable)
-export const allExtensions: ExtDef = {
-  ...substrate,
-  ...polkadot,
-  ...shell,
-  ...statemint
-};
+export const allExtensions: ExtDef = objectSpread({}, substrate, polkadot, shell, statemint);
 
 // the v4 signed extensions prior to the point of exposing these to the metadata.
 // This may not match 100% with the current defaults and are used when not specified
@@ -36,7 +33,7 @@ export const fallbackExtensions = [
 export function findUnknownExtensions (extensions: string[], userExtensions: ExtDef = {}): string[] {
   const names = [...Object.keys(allExtensions), ...Object.keys(userExtensions)];
 
-  return extensions.filter((key) => !names.includes(key));
+  return extensions.filter((k) => !names.includes(k));
 }
 
 export function expandExtensionTypes (extensions: string[], type: keyof ExtInfo, userExtensions: ExtDef = {}): ExtTypes {
@@ -44,5 +41,5 @@ export function expandExtensionTypes (extensions: string[], type: keyof ExtInfo,
     // Always allow user extensions first - these should provide overrides
     .map((key) => userExtensions[key] || allExtensions[key])
     .filter((info): info is ExtInfo => !!info)
-    .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
+    .reduce((result, info): ExtTypes => objectSpread(result, info[type]), {});
 }
