@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isString } from '@polkadot/util';
+import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
 import { TypeDefInfo } from './types';
@@ -51,10 +51,9 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => ({
-      ...getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count),
-      index
-    }));
+    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef =>
+      objectSpread({}, getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count), { index })
+    );
   } else {
     value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
       index,
