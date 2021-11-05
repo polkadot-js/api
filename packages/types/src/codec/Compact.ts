@@ -23,11 +23,9 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: Hash;
 
-  readonly #Type: Constructor<T>;
-
-  // FIXME This is implemented via a getter, otherwise we get some weird
-  // --> Method Map.prototype.entries called on incompatible receiver [object Map]
   readonly initialU8aLength?: number;
+
+  readonly #Type: Constructor<T>;
 
   readonly #raw: T;
 

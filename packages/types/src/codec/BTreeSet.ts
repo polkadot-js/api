@@ -104,9 +104,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       len += v.encodedLength;
-    });
+    }
 
     return len;
   }
@@ -152,9 +152,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toHuman (isExtended?: boolean): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toHuman(isExtended));
-    });
+    }
 
     return json;
   }
@@ -165,9 +165,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toJSON (): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toJSON());
-    });
+    }
 
     return json;
   }
@@ -197,9 +197,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       encoded.push(v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }
