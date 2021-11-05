@@ -170,7 +170,7 @@ export class Enum implements IEnum {
 
   readonly #entryIndex: number;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #indexes: number[];
 
@@ -193,7 +193,7 @@ export class Enum implements IEnum {
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
-      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 
@@ -226,13 +226,6 @@ export class Enum implements IEnum {
    */
   public get encodedLength (): number {
     return 1 + this.#raw.encodedLength;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**

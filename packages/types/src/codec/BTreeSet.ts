@@ -76,7 +76,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #ValClass: Constructor<V>;
 
@@ -86,7 +86,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     super(sortSet(values));
 
     this.registry = registry;
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#ValClass = typeToConstructor(registry, valType);
   }
 
@@ -109,13 +109,6 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     });
 
     return len;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**

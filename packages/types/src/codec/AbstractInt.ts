@@ -66,9 +66,9 @@ export abstract class AbstractInt extends BN implements INumber {
 
   public createdAtHash?: Hash;
 
-  readonly #bitLength: UIntBitLength;
+  readonly encodedLength: number;
 
-  readonly #byteLength: number;
+  readonly #bitLength: UIntBitLength;
 
   readonly #isSigned: boolean;
 
@@ -77,7 +77,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
     this.registry = registry;
     this.#bitLength = bitLength;
-    this.#byteLength = this.#bitLength / 8;
+    this.encodedLength = this.#bitLength / 8;
     this.#isSigned = isSigned;
 
     const isPositive = this.gte(BN_ZERO);
@@ -85,13 +85,6 @@ export abstract class AbstractInt extends BN implements INumber {
 
     assert(isSigned || isPositive, () => `${this.toRawType()}: Negative number passed to unsigned type`);
     assert(super.bitLength() <= maxBits, () => `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return this.#byteLength;
   }
 
   /**

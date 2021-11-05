@@ -53,7 +53,7 @@ export class Text extends String implements Codec {
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   #override: string | null = null;
 
@@ -63,7 +63,7 @@ export class Text extends String implements Codec {
     super(str);
 
     this.registry = registry;
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
   }
 
   /**
@@ -71,13 +71,6 @@ export class Text extends String implements Codec {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**

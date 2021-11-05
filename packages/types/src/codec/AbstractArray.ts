@@ -21,7 +21,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
     super(values.length);
@@ -32,7 +32,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     this.registry = registry;
-    this.#initialU8aLength = initialU8aLength;
+    this.initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -48,13 +48,6 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     return total;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
