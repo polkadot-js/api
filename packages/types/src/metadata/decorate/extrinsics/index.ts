@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant } from '../../../interfaces';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
+import type { PortableRegistry } from '../../../metadata';
 import type { CallFunction, Registry } from '../../../types';
 import type { Extrinsics } from '../types';
 

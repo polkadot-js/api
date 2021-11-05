@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry, PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
+import type { PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
+import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { TypeDef } from '@polkadot/types/types';
 
 import Handlebars from 'handlebars';

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types';
+import type { Bytes, PortableRegistry } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
@@ -45,7 +45,7 @@ function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson,
   const latest = metadata.isV0
     ? toLatest(registry, metadata.asV0)
     : metadata.asV1;
-  const lookup = registry.createType('PortableRegistry', { types: latest.types });
+  const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);

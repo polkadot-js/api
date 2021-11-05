@@ -44,7 +44,7 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
       // do nothing
     } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
-    } else if (type === 'Metadata') {
+    } else if (['Metadata', 'PortableRegistry'].includes(type)) {
       metadataTypes[type] = true;
     } else if ((codecClasses as Record<string, unknown>)[type]) {
       codecTypes[type] = true;

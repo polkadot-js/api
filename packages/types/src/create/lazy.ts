@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry, SiLookupTypeId, SiVariant } from '../interfaces';
+import type { SiLookupTypeId, SiVariant } from '../interfaces';
+import type { PortableRegistry } from '../metadata';
 
 import { lazyMethod } from '@polkadot/util';
 
