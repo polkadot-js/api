@@ -53,7 +53,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   public static decodeCompact<T extends INumber> (value: Compact<T> | AnyNumber): [BN, number] {
     if (value instanceof Compact) {
       return [value.#rawBn, 0];
-    } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
+    } else if (isBn(value) || isString(value) || isNumber(value) || isBigInt(value)) {
       return [bnToBn(value), 0];
     }
 

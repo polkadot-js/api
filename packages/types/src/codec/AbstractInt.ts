@@ -6,7 +6,7 @@ import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, INumber, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isHex, isString, isU8a, stringify, u8aToBn } from '@polkadot/util';
+import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isU8a, stringify, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -45,12 +45,12 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
   // This function returns a string, which will be passed in the BN
   // constructor. It would be ideal to actually return a BN, but there's a
   // bug: https://github.com/indutny/bn.js/issues/206.
-  if (isHex(value, -1, true)) {
-    return hexToBn(value, { isLe: false, isNegative }).toString();
+  if (isBn(value)) {
+    return value.toString();
   } else if (isU8a(value)) {
     return decodeAbstracIntU8a(value, bitLength, isNegative);
-  } else if (isString(value)) {
-    return new BN(value.toString(), 10).toString();
+  } else if (isHex(value, -1, true)) {
+    return hexToBn(value, { isLe: false, isNegative }).toString();
   }
 
   return bnToBn(value).toString();
