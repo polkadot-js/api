@@ -56,9 +56,9 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
 
 // Split from decodeU8a since this is specialized to 1 instance ... yes duplication, but
 // since we have to do less checks (and these are intensive anyway), much faster
-export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, Type: Constructor<T>, count: number): [T[], number] {
+export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, start: number, Type: Constructor<T>, count: number): [T[], number, number] {
   const result = new Array<T>(count);
-  let offset = 0;
+  let offset = start;
 
   for (let i = 0; i < count; i++) {
     try {
@@ -75,5 +75,5 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a:
     }
   }
 
-  return [result, offset];
+  return [result, offset, offset - start];
 }
