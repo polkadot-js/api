@@ -6,7 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, INumber, Registry } from '../types';
 
-import { bnToBn, compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';
 
@@ -23,24 +23,22 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: Hash;
 
-  // FIXME This is implemented via a getter, otherwise we get some weird
-  // --> Method Map.prototype.entries called on incompatible receiver [object Map]
-  readonly #initialU8aLength: number;
-
   readonly #Type: Constructor<T>;
 
-  readonly #rawBn: BN;
+  // FIXME This is implemented via a getter, otherwise we get some weird
+  // --> Method Map.prototype.entries called on incompatible receiver [object Map]
+  readonly initialU8aLength?: number;
 
-  #rawInstance: T | undefined;
+  readonly #raw: T;
 
   constructor (registry: Registry, Type: Constructor<T> | string, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
 
-    const [bn, decodedLength] = Compact.decodeCompact<T>(value);
+    const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
 
-    this.#initialU8aLength = decodedLength;
-    this.#rawBn = bn;
+    this.initialU8aLength = decodedLength;
+    this.#raw = raw;
   }
 
   public static with<T extends INumber> (Type: Constructor<T> | string): Constructor<Compact<T>> {
@@ -52,16 +50,18 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /** @internal */
-  public static decodeCompact<T extends INumber> (value: Compact<T> | AnyNumber): [BN, number] {
+  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): [T, number] {
     if (isU8a(value)) {
       const [decodedLength, bn] = compactFromU8a(value);
 
-      return [bn, decodedLength];
+      return [new Type(registry, bn), decodedLength];
     } else if (value instanceof Compact) {
-      return [value.#rawBn, 0];
+      return [value.#raw, 0];
+    } else if (value instanceof Type) {
+      return [value, 0];
     }
 
-    return [bnToBn(value), 0];
+    return [new Type(registry, value), 0];
   }
 
   /**
@@ -71,12 +71,12 @@ export class Compact<T extends INumber> implements ICompact<T> {
     return this.toU8a().length;
   }
 
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get initialU8aLength (): number {
-    return this.#initialU8aLength;
-  }
+  // /**
+  //  * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+  //  */
+  // public get initialU8aLength (): number | undefined {
+  //   return this.#initialU8aLength;
+  // }
 
   /**
    * @description returns a hash of the contents
@@ -93,21 +93,10 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /**
-   * @description The raw representation of the value, lazily created if it doesn't exist
-   */
-  get #raw (): T {
-    if (!this.#rawInstance) {
-      this.#rawInstance = new this.#Type(this.registry, this.#rawBn);
-    }
-
-    return this.#rawInstance;
-  }
-
-  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): number {
-    return this.#rawBn.bitLength();
+    return this.#raw.bitLength();
   }
 
   /**
@@ -132,7 +121,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the BN representation of the number
    */
   public toBn (): BN {
-    return this.#rawBn;
+    return this.#raw.toBn();
   }
 
   /**
@@ -160,7 +149,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the number representation for the value
    */
   public toNumber (): number {
-    return this.#rawBn.toNumber();
+    return this.#raw.toNumber();
   }
 
   /**
@@ -183,7 +172,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return compactToU8a(this.#rawBn);
+    return compactToU8a(this.#raw.toBn());
   }
 
   /**
