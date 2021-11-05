@@ -162,7 +162,7 @@ export class RpcCore {
             (this as Record<string, unknown>)[section] = {};
           }
 
-          this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
+          this.mapping.set(jsonrpc, objectSpread({}, def, { isSubscription, jsonrpc, method, section }));
 
           lazyMethod(this[section as 'connect'], method, () =>
             isSubscription
