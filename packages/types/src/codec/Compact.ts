@@ -6,7 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, INumber, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';
 
@@ -49,17 +49,17 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   /** @internal */
   public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): [T, number] {
-    if (isU8a(value)) {
-      const [decodedLength, bn] = compactFromU8a(value);
-
-      return [new Type(registry, bn), decodedLength];
-    } else if (value instanceof Compact) {
-      return [value.#raw, 0];
+    if (value instanceof Compact) {
+      return [new Type(registry, value.#raw), 0];
     } else if (value instanceof Type) {
       return [value, 0];
+    } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
+      return [new Type(registry, value), 0];
     }
 
-    return [new Type(registry, value), 0];
+    const [decodedLength, bn] = compactFromU8a(value);
+
+    return [new Type(registry, bn), decodedLength];
   }
 
   /**
