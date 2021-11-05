@@ -23,16 +23,17 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
-  if (isU8a(value)) {
+  if (value instanceof GenericAccountId) {
+    return { Id: value };
+  } else if (isU8a(value)) {
+    // NOTE This is after the AccountId check
     return decodeU8a(registry, value);
   } else if (value instanceof GenericMultiAddress) {
     return value;
-  } else if (value instanceof GenericAccountId) {
-    return { Id: value };
-  } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
-    return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
     return decodeU8a(registry, decodeAddress(value.toString()));
+  } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
+    return { Index: isNumber(value) ? value : value.toNumber() };
   }
 
   return value;
