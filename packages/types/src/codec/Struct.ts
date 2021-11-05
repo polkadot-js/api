@@ -182,11 +182,8 @@ export class Struct<
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    const items = this.toArray();
-
-    // More code, but it _should_ be more performand that this.toArray().every((e) => e.isEmpty)
-    for (let i = 0; i < items.length; i++) {
-      if (!items[i].isEmpty) {
+    for (const v of this.values()) {
+      if (!v.isEmpty) {
         return false;
       }
     }
@@ -214,11 +211,10 @@ export class Struct<
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    const arr = this.toArray();
     let total = 0;
 
-    for (let i = 0; i < arr.length; i++) {
-      total += arr[i].encodedLength;
+    for (const v of this.values()) {
+      total += v.encodedLength;
     }
 
     return total;
@@ -279,13 +275,9 @@ export class Struct<
    */
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
-    const keys = [...this.keys()];
 
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const value = this.get(key);
-
-      json[key as string] = value && value.toHuman(isExtended);
+    for (const [k, v] of this.entries()) {
+      json[k as string] = v && v.toHuman(isExtended);
     }
 
     return json;
@@ -296,14 +288,11 @@ export class Struct<
    */
   public toJSON (): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
-    const keys = [...this.keys()];
 
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const jsonKey = this.#jsonMap.get(key) || key;
-      const value = this.get(key);
+    for (const [k, v] of this.entries()) {
+      const jsonKey = this.#jsonMap.get(k) || k;
 
-      json[jsonKey as string] = value && value.toJSON();
+      json[jsonKey as string] = v && v.toJSON();
     }
 
     return json;
@@ -328,13 +317,9 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    // we have keyof S here, cast to string to make it compatible with isBare
-    const entries = [...this.entries()] as [string, Codec][];
     const encoded: Uint8Array[] = [];
 
-    for (let i = 0; i < entries.length; i++) {
-      const [k, v] = entries[i];
-
+    for (const [k, v] of this.entries()) {
       if (v && isFunction(v.toU8a)) {
         encoded.push(
           v.toU8a(
