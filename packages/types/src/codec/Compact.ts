@@ -69,13 +69,6 @@ export class Compact<T extends INumber> implements ICompact<T> {
     return this.toU8a().length;
   }
 
-  // /**
-  //  * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-  //  */
-  // public get initialU8aLength (): number | undefined {
-  //   return this.#initialU8aLength;
-  // }
-
   /**
    * @description returns a hash of the contents
    */
