@@ -23,7 +23,9 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: Hash;
 
-  readonly initialU8aLength?: number;
+  // FIXME This is implemented via a getter, otherwise we get some weird
+  // --> Method Map.prototype.entries called on incompatible receiver [object Map]
+  readonly #initialU8aLength: number;
 
   readonly #Type: Constructor<T>;
 
@@ -37,7 +39,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     const [bn, decodedLength] = Compact.decodeCompact<T>(value);
 
-    this.initialU8aLength = decodedLength;
+    this.#initialU8aLength = decodedLength;
     this.#rawBn = bn;
   }
 
@@ -67,6 +69,13 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get initialU8aLength (): number {
+    return this.#initialU8aLength;
   }
 
   /**
