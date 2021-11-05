@@ -38,7 +38,7 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
     registry,
     sectionName,
     new Uint8Array([sectionIndex, index.toNumber()]),
-    registry.createType('FunctionMetadataLatest', { ...variant, args })
+    registry.createType('FunctionMetadataLatest', objectSpread({ args }, variant))
   );
 }
 

@@ -6,7 +6,7 @@ import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
 import type { Errors, IsError } from '../types';
 
-import { lazyMethod, stringCamelCase } from '@polkadot/util';
+import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { objectNameToString } from '../util';
@@ -20,12 +20,10 @@ interface ItemMeta {
 }
 
 export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): ItemMeta {
-  return {
-    ...variant,
-    args: variant.fields.map(({ type }) =>
-      lookup.getTypeDef(type).type
-    )
-  };
+  return objectSpread(
+    { args: variant.fields.map(({ type }) => lookup.getTypeDef(type).type) },
+    variant
+  );
 }
 
 /** @internal */
