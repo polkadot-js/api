@@ -27,7 +27,7 @@ function toU8a (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
 }
 
 function decodeMetadata (registry: Registry, _value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>): MetadataVersioned {
-  if (!_value || isU8a(_value) || isHex(_value)) {
+  if (isU8a(_value) || !_value || isHex(_value)) {
     const value = toU8a(_value);
     const version = value[VERSION_IDX];
 

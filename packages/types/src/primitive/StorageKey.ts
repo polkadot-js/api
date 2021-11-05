@@ -52,16 +52,15 @@ export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLat
 
 /** @internal */
 function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof StorageKey) {
+  if (isU8a(value) || !value || isString(value)) {
+    // let Bytes handle these inputs
+    return { key: value };
+  } else if (value instanceof StorageKey) {
     return {
       key: value,
       method: value.method,
       section: value.section
     };
-  } else if (!value || isString(value) || isU8a(value)) {
-    // let Bytes handle these inputs
-    return { key: value };
   } else if (isFunction(value)) {
     return {
       key: value(),

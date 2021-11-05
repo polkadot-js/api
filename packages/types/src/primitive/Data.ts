@@ -30,10 +30,10 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uin
 
 /** @internal */
 function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
-  if (!value) {
-    return [undefined, undefined];
-  } else if (isU8a(value) || isString(value)) {
+  if (isU8a(value) || isString(value)) {
     return decodeDataU8a(registry, u8aToU8a(value));
+  } else if (!value) {
+    return [undefined, undefined];
   }
 
   // assume we have an Enum or an  object input, handle this via the normal Enum decoding

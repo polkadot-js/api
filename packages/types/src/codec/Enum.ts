@@ -306,12 +306,12 @@ export class Enum implements IEnum {
    */
   public eq (other?: unknown): boolean {
     // cater for the case where we only pass the enum index
-    if (isNumber(other)) {
+    if (isU8a(other)) {
+      return !this.toU8a().some((entry, index) => entry !== other[index]);
+    } else if (isNumber(other)) {
       return this.toNumber() === other;
     } else if (this.#isBasic && isString(other)) {
       return this.type === other;
-    } else if (isU8a(other)) {
-      return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isHex(other)) {
       return this.toHex() === other;
     } else if (other instanceof Enum) {

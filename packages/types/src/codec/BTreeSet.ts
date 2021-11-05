@@ -62,7 +62,7 @@ function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V>
 
   const ValClass = typeToConstructor(registry, valType);
 
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);

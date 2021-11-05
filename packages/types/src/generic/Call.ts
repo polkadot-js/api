@@ -87,7 +87,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * @internal
  */
 function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);

@@ -259,7 +259,7 @@ export class GenericPortableRegistry extends Struct {
   #types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array) {
-    // console.time('PortableRegistry')
+    console.time('PortableRegistry')
 
     super(registry, {
       types: 'Vec<PortableType>'
@@ -268,7 +268,7 @@ export class GenericPortableRegistry extends Struct {
     this.#names = extractNames(this, this.types);
     this.#types = extractTypeMap(this.types);
 
-    // console.timeEnd('PortableRegistry')
+    console.timeEnd('PortableRegistry')
   }
 
   public get names (): string[] {

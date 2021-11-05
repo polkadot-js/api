@@ -11,10 +11,10 @@ import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkado
 const BITLENGTH: UIntBitLength = 64;
 
 function decodeDate (value: CodecDate | Date | AnyNumber): Date {
-  if (value instanceof Date) {
-    return value;
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
+  } else if (value instanceof Date) {
+    return value;
   } else if (isString(value)) {
     value = new BN(value.toString(), 10, 'le');
   }

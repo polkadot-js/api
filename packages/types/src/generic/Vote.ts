@@ -48,12 +48,12 @@ function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
 
 /** @internal */
 function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
-  if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
+  if (isU8a(value)) {
+    return decodeVoteU8a(value);
+  } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
     return decodeVoteBool(new Bool(registry, value).isTrue);
   } else if (isNumber(value)) {
     return decodeVoteBool(value < 0);
-  } else if (isU8a(value)) {
-    return decodeVoteU8a(value);
   }
 
   return decodeVoteType(registry, value);

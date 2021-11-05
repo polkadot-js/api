@@ -23,7 +23,9 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
-  if (value instanceof GenericMultiAddress) {
+  if (isU8a(value)) {
+    return decodeU8a(registry, value);
+  } else if (value instanceof GenericMultiAddress) {
     return value;
   } else if (value instanceof GenericAccountId) {
     return { Id: value };
@@ -31,8 +33,6 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
     return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
     return decodeU8a(registry, decodeAddress(value.toString()));
-  } else if (isU8a(value)) {
-    return decodeU8a(registry, value);
   }
 
   return value;
