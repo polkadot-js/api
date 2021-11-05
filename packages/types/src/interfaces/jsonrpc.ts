@@ -3,6 +3,8 @@
 
 import type { DefinitionRpcExt, DefinitionRpcSub } from '../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import * as definitions from './definitions';
 
 const jsonrpc: Record<string, Record<string, DefinitionRpcExt>> = {};
@@ -24,7 +26,7 @@ Object
           jsonrpc[section] = {};
         }
 
-        jsonrpc[section][method] = ({ ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
+        jsonrpc[section][method] = objectSpread({}, def, { isSubscription, jsonrpc: `${section}_${method}`, method, section });
       });
   });
 

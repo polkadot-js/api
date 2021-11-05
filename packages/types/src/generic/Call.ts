@@ -225,7 +225,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       },
       isExpanded && call
         ? { docs: call.meta.docs.map((d) => d.toString()) }
-        : {}
+        : null
     );
   }
 

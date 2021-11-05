@@ -5,6 +5,8 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { mapXcmTypes } from '../xcm';
 
 const sharedTypes = {
@@ -26,24 +28,16 @@ const sharedTypes = {
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 3],
-    types: {
-      ...sharedTypes,
-      ...mapXcmTypes('V0')
-    }
+    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
   },
   {
     minmax: [4, 5],
-    types: {
-      ...sharedTypes,
-      ...mapXcmTypes('V1')
-    }
+    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
   },
   {
     // metadata V14
     minmax: [500, undefined],
-    types: {
-      ...sharedTypes
-    }
+    types: objectSpread({}, sharedTypes)
   }
 ];
 

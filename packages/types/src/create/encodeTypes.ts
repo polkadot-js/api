@@ -113,17 +113,15 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
 
-    return encodeSubTypes(registry, sub, false, {
-      ...(
-        alias
-          ? {
-            _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
-              objectSpread(all, { [k]: v }), {}
-            )
-          }
-          : {}
-      )
-    });
+    return encodeSubTypes(registry, sub, false,
+      alias
+        ? {
+          _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
+            objectSpread(all, { [k]: v }), {}
+          )
+        }
+        : {}
+    );
   },
   [TypeDefInfo.Tuple]: (registry: Registry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Tuple type');

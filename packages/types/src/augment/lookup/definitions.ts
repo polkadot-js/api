@@ -3,17 +3,15 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import kusama from './kusama';
 import polkadot from './polkadot';
 import substrate from './substrate';
 
 export default {
   rpc: {},
-  types: {
-    // Not 100% sure it is relevant, however the order here is the same
-    // as exposed in the typegen lookup order
-    ...substrate,
-    ...polkadot,
-    ...kusama
-  }
+  // Not 100% sure it is relevant, however the order here is the same
+  // as exposed in the typegen lookup order
+  types: objectSpread({}, substrate, polkadot, kusama)
 } as Definitions;

@@ -5,6 +5,8 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { objectSpread } from '@polkadot/util';
+
 const sharedTypes = {
   // Anchor
   AnchorData: {
@@ -79,20 +81,18 @@ const sharedTypes = {
   }
 };
 
-const standaloneTypes = {
-  ...sharedTypes,
+const standaloneTypes = objectSpread({}, sharedTypes, {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'LookupSource',
   LookupSource: 'IndicesLookupSource',
   Multiplier: 'Fixed64',
   RefCount: 'RefCountTo259'
-};
+});
 
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [240, 243],
-    types: {
-      ...standaloneTypes,
+    types: objectSpread({}, standaloneTypes, {
       ProxyType: {
         _enum: [
           'Any',
@@ -102,19 +102,15 @@ const versioned: OverrideVersionedType[] = [
           'Vesting'
         ]
       }
-    }
+    })
   },
   {
     minmax: [244, 999],
-    types: {
-      ...standaloneTypes
-    }
+    types: objectSpread({}, standaloneTypes)
   },
   {
     minmax: [1000, undefined],
-    types: {
-      ...sharedTypes
-    }
+    types: objectSpread({}, sharedTypes)
   }
 ];
 

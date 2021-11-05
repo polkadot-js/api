@@ -464,7 +464,7 @@ export class GenericPortableRegistry extends Struct {
             this.#createSiDef(type),
             typeName.isSome
               ? { typeName: sanitize(typeName.unwrap()) }
-              : {}
+              : null
           ))
       });
     } else if (path.length) {
@@ -535,7 +535,7 @@ export class GenericPortableRegistry extends Struct {
           },
         fields[0].typeName.isSome
           ? { typeName: sanitize(fields[0].typeName.unwrap()) }
-          : {}
+          : null
       );
     }
 
@@ -549,7 +549,7 @@ export class GenericPortableRegistry extends Struct {
       },
       alias.size
         ? { alias }
-        : {},
+        : null,
       lookupIndex === -1
         ? {}
         : {
@@ -595,7 +595,7 @@ export class GenericPortableRegistry extends Struct {
           },
           typeName.isSome
             ? { typeName: sanitize(typeName.unwrap()) }
-            : {}
+            : null
         );
       }
     }
