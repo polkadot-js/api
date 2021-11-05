@@ -74,6 +74,10 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
   return raw;
 }
 
+function decodeZip (k: string, v: Codec): [string, Codec] {
+  return [k, v];
+}
+
 /**
  * Decode input to pass into constructor.
  *
@@ -91,12 +95,12 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
  * @internal
  */
 function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
-  if (isHex(value)) {
-    return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
-  } else if (isU8a(value)) {
-    return decodeU8a<Codec, [string, Codec]>(registry, value, Types, 0, (k, v) => [k, v]);
+  if (isU8a(value)) {
+    return decodeU8a(registry, value, Types, 0, decodeZip);
   } else if (value instanceof Struct) {
     return [value as Iterable<[string, Codec]>, 0];
+  } else if (isHex(value)) {
+    return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
