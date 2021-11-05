@@ -35,7 +35,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
 
-    const [bn, decodedLength] = Compact.decodeCompact<T>(registry, value);
+    const [bn, decodedLength] = Compact.decodeCompact<T>(value);
 
     this.initialU8aLength = decodedLength;
     this.#rawBn = bn;
@@ -50,7 +50,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /** @internal */
-  public static decodeCompact<T extends INumber> (registry: Registry, value: Compact<T> | AnyNumber): [BN, number] {
+  public static decodeCompact<T extends INumber> (value: Compact<T> | AnyNumber): [BN, number] {
     if (value instanceof Compact) {
       return [value.#rawBn, 0];
     } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
