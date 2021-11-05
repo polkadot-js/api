@@ -153,29 +153,25 @@ export class RpcCore {
       for (let m = 0; m < methods.length; m++) {
         const method = methods[m];
         const def = defs[method];
+        const jsonrpc = def.endpoint || `${section}_${method}`;
 
-        if (!this.mapping.has(def.endpoint || `${section}_${method}`)) {
+        if (!this.mapping.has(jsonrpc)) {
+          const isSubscription = !!(def as DefinitionRpcSub).pubsub;
+
           if (!(this as Record<string, unknown>)[section]) {
             (this as Record<string, unknown>)[section] = {};
           }
 
+          this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
+
           lazyMethod(this[section as 'connect'], method, () =>
-            this._createInterface(section, method, def)
+            isSubscription
+              ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
+              : this._createMethodSend(section, method, def)
           );
         }
       }
     }
-  }
-
-  private _createInterface (section: string, method: string, def: DefinitionRpc | DefinitionRpcSub): RpcInterfaceMethod {
-    const isSubscription = !!(def as DefinitionRpcSub).pubsub;
-    const jsonrpc = def.endpoint || `${section}_${method}`;
-
-    this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
-
-    return isSubscription
-      ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
-      : this._createMethodSend(section, method, def);
   }
 
   private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
