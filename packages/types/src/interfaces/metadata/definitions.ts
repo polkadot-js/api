@@ -21,10 +21,6 @@ export { AllHashers };
 export default {
   rpc: {},
   types: objectSpread({}, v9, v10, v11, v12, v13, v14, {
-    // registry mapping to latest
-    PortableRegistry: 'PortableRegistryV14',
-    PortableType: 'PortableTypeV14',
-
     // latest mappings
     ErrorMetadataLatest: 'ErrorMetadataV14',
     EventMetadataLatest: 'EventMetadataV14',
@@ -38,6 +34,7 @@ export default {
     PalletEventMetadataLatest: 'PalletEventMetadataV14',
     PalletMetadataLatest: 'PalletMetadataV14',
     PalletStorageMetadataLatest: 'PalletStorageMetadataV14',
+    PortableType: 'PortableTypeV14',
     SignedExtensionMetadataLatest: 'SignedExtensionMetadataV14',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV14',
     StorageEntryModifierLatest: 'StorageEntryModifierV14',

@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
-import type { Metadata } from '@polkadot/types/metadata/Metadata';
+import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
+import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Registry } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 

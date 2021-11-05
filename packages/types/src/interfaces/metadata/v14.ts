@@ -12,7 +12,6 @@ import { Si1Variant } from '../scaleInfo/v1';
 
 export const v14: DefinitionsTypes = {
   // registry
-  PortableRegistryV14: 'GenericPortableRegistry',
   PortableTypeV14: {
     id: 'Si1LookupTypeId',
     type: 'Si1Type'

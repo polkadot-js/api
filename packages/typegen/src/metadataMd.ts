@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PortableRegistry, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';

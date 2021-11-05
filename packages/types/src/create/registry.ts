@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
@@ -19,6 +19,7 @@ import * as definitions from '../interfaces/definitions';
 import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
+import { PortableRegistry } from '../metadata/PortableRegistry';
 import { createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
 import { lazyVariants } from './lazy';
@@ -168,7 +169,7 @@ export class TypeRegistry implements Registry {
   public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
-    this.#knownDefaults = objectSpread({ Json, Metadata, Raw }, baseTypes);
+    this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();

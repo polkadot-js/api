@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, PortableRegistry, SiLookupTypeId } from '../../interfaces';
+import type { MetadataLatest, SiLookupTypeId } from '../../interfaces';
+import type { PortableRegistry } from '../../metadata';
 import type { Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';

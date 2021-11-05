@@ -5,6 +5,7 @@
 Changes:
 
 - Convert metadata & API to use lazy decoration
+- Move PortableRegistry location inside `@polkadot/types/metadata`
 
 
 ## 6.6.1 Nov 1, 2021
