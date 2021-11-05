@@ -12,7 +12,7 @@ import { Raw } from '../codec/Raw';
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [Uint8Array, number] {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [Uint8Array, number | undefined] {
   if (isU8a(value)) {
     if (!value.length) {
       return [new Uint8Array(), 0];
@@ -33,6 +33,8 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
     return [value.subarray(offset, total), total];
   } else if (isHex(value)) {
     return [hexToU8a(value), 0];
+  } else if (value instanceof Text) {
+    return [value.toU8a(true), value.initialU8aLength];
   }
 
   return [stringToU8a(value ? value.toString() : ''), 0];
