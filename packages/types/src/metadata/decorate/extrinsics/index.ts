@@ -5,7 +5,7 @@ import type { MetadataLatest, PalletMetadataLatest, PortableRegistry, SiVariant 
 import type { CallFunction, Registry } from '../../../types';
 import type { Extrinsics } from '../types';
 
-import { lazyMethod, stringCamelCase } from '@polkadot/util';
+import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
@@ -23,21 +23,22 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
   for (let a = 0; a < fields.length; a++) {
     const { name, type, typeName } = fields[a];
 
-    args[a] = {
-      name: stringCamelCase(name.unwrapOr(`param${a}`)),
-      type: getSiName(lookup, type),
-      ...(typeName.isSome
+    args[a] = objectSpread(
+      {
+        name: stringCamelCase(name.unwrapOr(`param${a}`)),
+        type: getSiName(lookup, type)
+      },
+      typeName.isSome
         ? { typeName: typeName.unwrap() }
-        : {}
-      )
-    };
+        : null
+    );
   }
 
   return createUnchecked(
     registry,
     sectionName,
     new Uint8Array([sectionIndex, index.toNumber()]),
-    registry.createType('FunctionMetadataLatest', { ...variant, args })
+    registry.createType('FunctionMetadataLatest', objectSpread({ args }, variant))
   );
 }
 

@@ -8,11 +8,11 @@ import { assert, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { typeToConstructor } from './utils';
-import { Vec } from './Vec';
+import { decodeVec } from './Vec';
 
 /** @internal */
 function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, length: number, value: Uint8Array | HexString | unknown[]): [T[], number] {
-  const [values,, decodedLengthNoOffset] = Vec.decodeVec(registry, Type, value, length);
+  const [values,, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
 
   while (values.length < length) {
     values.push(new Type(registry));

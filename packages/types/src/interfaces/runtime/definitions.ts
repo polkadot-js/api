@@ -6,6 +6,8 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',
   FixedI64: 'Int<64, FixedI64>',
@@ -24,8 +26,7 @@ const numberTypes = {
 
 export default {
   rpc: {},
-  types: {
-    ...numberTypes,
+  types: objectSpread({}, numberTypes, {
     AccountId: 'AccountId32',
     AccountId20: 'GenericEthereumAccountId',
     AccountId32: 'GenericAccountId',
@@ -184,5 +185,5 @@ export default {
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',
     Consensus: '(ConsensusEngineId, Bytes)'
-  }
+  })
 } as Definitions;

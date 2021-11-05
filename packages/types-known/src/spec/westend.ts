@@ -5,6 +5,8 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { mapXcmTypes } from '../xcm';
 
 const sharedTypes = {
@@ -31,9 +33,7 @@ const addrAccountIdTypes = {
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [1, 2],
-    types: {
-      ...sharedTypes,
-      ...addrAccountIdTypes,
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
@@ -41,75 +41,57 @@ const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       Weight: 'u32'
-    }
+    })
   },
   {
     minmax: [3, 22],
-    types: {
-      ...sharedTypes,
-      ...addrAccountIdTypes,
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259'
-    }
+    })
   },
   {
     minmax: [23, 42],
-    types: {
-      ...sharedTypes,
-      ...addrAccountIdTypes,
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
       RefCount: 'RefCountTo259'
-    }
+    })
   },
   {
     minmax: [43, 44],
-    types: {
-      ...sharedTypes,
-      ...addrAccountIdTypes,
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
       RefCount: 'RefCountTo259'
-    }
+    })
   },
   {
     minmax: [45, 47],
-    types: {
-      ...sharedTypes,
-      ...addrAccountIdTypes
-    }
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes)
   },
   {
     minmax: [48, 49],
-    types: {
-      ...sharedTypes,
+    types: objectSpread({}, sharedTypes, {
       AccountInfo: 'AccountInfoWithDualRefCount'
-    }
+    })
   },
   {
     minmax: [50, 9099],
-    types: {
-      ...sharedTypes,
-      ...mapXcmTypes('V0')
-    }
+    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
   },
   {
     minmax: [9100, 9105],
-    types: {
-      ...sharedTypes,
-      ...mapXcmTypes('V1')
-    }
+    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
   },
   {
     // metadata v14
     minmax: [9106, undefined],
-    types: {
-      ...sharedTypes
-    }
+    types: objectSpread({}, sharedTypes)
   }
 ];
 

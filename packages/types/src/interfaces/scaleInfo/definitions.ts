@@ -3,6 +3,8 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { v0 } from './v0';
 import { v1 } from './v1';
 
@@ -11,10 +13,7 @@ import { v1 } from './v1';
 
 export default {
   rpc: {},
-  types: {
-    ...v0,
-    ...v1,
-
+  types: objectSpread({}, v0, v1, {
     // latest mappings
     SiField: 'Si1Field',
     SiLookupTypeId: 'Si1LookupTypeId',
@@ -31,5 +30,5 @@ export default {
     SiTypeParameter: 'Si1TypeParameter',
     SiTypeDefVariant: 'Si1TypeDefVariant',
     SiVariant: 'Si1Variant'
-  }
+  })
 } as Definitions;

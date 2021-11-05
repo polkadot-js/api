@@ -423,7 +423,7 @@ describe('Enum', (): void => {
     });
 
     it('encodes a single entry correctly (with embedded encoding)', (): void => {
-      const Test = Enum.with({ A: 'Address' });
+      const Test = Enum.with({ A: 'MultiAddress' });
       const test = new Test(registry, registry.createType('AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
 
       expect(test.toHex()).toEqual(

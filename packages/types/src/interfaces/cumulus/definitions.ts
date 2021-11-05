@@ -22,7 +22,5 @@ const dmpQueue = {
 
 export default {
   rpc: {},
-  types: {
-    ...dmpQueue
-  }
+  types: dmpQueue
 } as Definitions;

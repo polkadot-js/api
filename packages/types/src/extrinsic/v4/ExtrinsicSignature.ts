@@ -7,7 +7,7 @@ import type { Address, AssetId, Balance, Call, Index } from '../../interfaces/ru
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
@@ -32,12 +32,15 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   #fakePrefix: Uint8Array;
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super(registry, {
-      signer: 'Address',
-      // eslint-disable-next-line sort-keys
-      signature: 'ExtrinsicSignature',
-      ...registry.getSignedExtensionTypes()
-    }, GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
+    super(
+      registry,
+      objectSpread(
+        // eslint-disable-next-line sort-keys
+        { signer: 'Address', signature: 'ExtrinsicSignature' },
+        registry.getSignedExtensionTypes()
+      ),
+      GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
+    );
 
     this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
       ? FAKE_SOME

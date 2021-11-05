@@ -3,6 +3,8 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
@@ -116,9 +118,7 @@ const ContractProjectInfo = {
 
 export default {
   rpc: {},
-  types: {
-    ...layout,
-    ...spec,
+  types: objectSpread({}, layout, spec, {
     ContractProjectInfo,
     ContractMetadataV0,
     ContractMetadataV1,
@@ -129,11 +129,7 @@ export default {
       }
     },
     ContractMetadataLatest: 'ContractMetadataV1',
-    ContractProjectV0: {
-      metadataVersion: 'Text',
-      ...ContractProjectInfo,
-      ...ContractMetadataV0
-    },
+    ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
     ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
       _alias: {
@@ -157,5 +153,5 @@ export default {
       compiler: 'Text',
       wasm: 'Raw'
     }
-  }
+  })
 } as Definitions;

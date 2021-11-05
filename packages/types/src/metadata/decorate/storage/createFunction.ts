@@ -6,7 +6,7 @@ import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 
-import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { Raw } from '../../../codec';
@@ -79,10 +79,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _stora
 
   // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
   // instances (e.g. collective) will not work since it is only matched on param meta
-  storageFn.toJSON = (): any => ({
-    ...(meta.toJSON() as Record<string, unknown>),
-    storage: { method, prefix, section }
-  });
+  storageFn.toJSON = (): any => objectSpread({ storage: { method, prefix, section } }, meta.toJSON());
 
   return storageFn;
 }

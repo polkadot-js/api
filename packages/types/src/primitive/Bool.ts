@@ -9,10 +9,10 @@ import { isU8a, u8aToHex } from '@polkadot/util';
 
 /** @internal */
 function decodeBool (value: any): boolean {
-  if (value instanceof Boolean) {
-    return value.valueOf();
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     return value[0] === 1;
+  } else if (value instanceof Boolean) {
+    return value.valueOf();
   }
 
   return !!value;

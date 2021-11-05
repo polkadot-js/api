@@ -4,7 +4,7 @@
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, Codec, IMethod, InterfaceTypes, Registry } from '../types';
 
-import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, objectSpread, u8aToU8a } from '@polkadot/util';
 
 import { Struct } from '../codec/Struct';
 import { U8aFixed } from '../codec/U8aFixed';
@@ -87,7 +87,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * @internal
  */
 function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);
@@ -216,18 +216,17 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       // swallow
     }
 
-    return {
-      args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) => ({
-        ...args,
-        [n]: a.toHuman(isExpanded)
-      }), {}),
-      method: call?.method,
-      section: call?.section,
-      ...(isExpanded && call
+    return objectSpread(
+      {
+        args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) =>
+          objectSpread(args, { [n]: a.toHuman(isExpanded) }), {}),
+        method: call?.method,
+        section: call?.section
+      },
+      isExpanded && call
         ? { docs: call.meta.docs.map((d) => d.toString()) }
-        : {}
-      )
-    };
+        : null
+    );
   }
 
   /**

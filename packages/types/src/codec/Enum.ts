@@ -170,7 +170,7 @@ export class Enum implements IEnum {
 
   readonly #entryIndex: number;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #indexes: number[];
 
@@ -193,7 +193,7 @@ export class Enum implements IEnum {
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
-      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 
@@ -226,13 +226,6 @@ export class Enum implements IEnum {
    */
   public get encodedLength (): number {
     return 1 + this.#raw.encodedLength;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -311,12 +304,12 @@ export class Enum implements IEnum {
    */
   public eq (other?: unknown): boolean {
     // cater for the case where we only pass the enum index
-    if (isNumber(other)) {
+    if (isU8a(other)) {
+      return !this.toU8a().some((entry, index) => entry !== other[index]);
+    } else if (isNumber(other)) {
       return this.toNumber() === other;
     } else if (this.#isBasic && isString(other)) {
       return this.type === other;
-    } else if (isU8a(other)) {
-      return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isHex(other)) {
       return this.toHex() === other;
     } else if (other instanceof Enum) {

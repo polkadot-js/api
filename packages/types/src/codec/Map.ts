@@ -38,7 +38,7 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
 function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): [Map<K, V>, number] {
   const output = new Map<K, V>();
 
-  value.forEach((val: unknown, key: unknown) => {
+  for (const [key, val] of value.entries()) {
     const isComplex = KeyClass.prototype instanceof AbstractArray ||
       KeyClass.prototype instanceof Struct ||
       KeyClass.prototype instanceof Enum;
@@ -57,7 +57,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
 
       throw error;
     }
-  });
+  }
 
   return [output, 0];
 }
@@ -103,7 +103,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #ValClass: Constructor<V>;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #type: string;
 
@@ -113,9 +113,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
-    this.#initialU8aLength = decodedLength;
     this.#type = type;
   }
 
@@ -125,18 +125,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       len += v.encodedLength + k.encodedLength;
-    });
+    }
 
     return len;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -173,9 +166,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toHuman(isExtended);
-    });
+    }
 
     return json;
   }
@@ -186,9 +179,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toJSON (): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toJSON();
-    });
+    }
 
     return json;
   }
@@ -218,9 +211,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       encoded.push(k.toU8a(isBare), v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

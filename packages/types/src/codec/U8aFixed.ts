@@ -4,26 +4,25 @@
 import type { AnyU8a, Constructor, Registry } from '../types';
 import type { U8aBitLength } from './types';
 
-import { assert, isString, u8aToU8a } from '@polkadot/util';
+import { assert, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from './Raw';
 
 /** @internal */
 function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): [AnyU8a, number] {
-  if (Array.isArray(value) || isString(value)) {
-    return decodeU8aFixed(u8aToU8a(value), bitLength);
+  if (isU8a(value)) {
+    const byteLength = bitLength / 8;
+
+    if (!value || !value.length) {
+      return [new Uint8Array(byteLength), 0];
+    }
+
+    assert(value.length >= byteLength, () => `Expected at least ${byteLength} bytes (${bitLength} bits), found ${value.length} bytes`);
+
+    return [value.subarray(0, byteLength), byteLength];
   }
 
-  const byteLength = bitLength / 8;
-  const u8a = new Uint8Array(byteLength);
-
-  if (!value || !value.length) {
-    return [u8a, 0];
-  }
-
-  assert(value.length >= byteLength, () => `Expected at least ${byteLength} bytes (${bitLength} bits), found ${value.length} bytes`);
-
-  return [value.subarray(0, byteLength), byteLength];
+  return decodeU8aFixed(u8aToU8a(value), bitLength);
 }
 
 /**

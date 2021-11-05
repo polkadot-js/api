@@ -7,6 +7,7 @@
 import type { Definitions } from '../../types';
 
 import { mapXcmTypes } from '@polkadot/types-known';
+import { objectSpread } from '@polkadot/util';
 
 import { v0 } from './v0';
 import { v1 } from './v1';
@@ -81,13 +82,7 @@ const location = {
 
 export default {
   rpc: {},
-  types: {
-    ...location,
-    ...xcm,
-    ...v0,
-    ...v1,
-    ...v2,
-    ...mapXcmTypes(XCM_LATEST),
+  types: objectSpread({}, location, xcm, v0, v1, v2, mapXcmTypes(XCM_LATEST), {
     DoubleEncodedCall: {
       encoded: 'Vec<u8>'
     },
@@ -164,5 +159,5 @@ export default {
       }
     },
     XcmVersion: 'u32'
-  }
+  })
 } as Definitions;

@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyU8a, Codec, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Raw } from '../codec/Raw';
 
@@ -13,9 +13,7 @@ const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
 function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [string, number] {
-  if (isHex(value)) {
-    return [u8aToString(hexToU8a(value)), 0];
-  } else if (value instanceof Uint8Array) {
+  if (isU8a(value)) {
     if (!value.length) {
       return ['', 0];
     }
@@ -33,6 +31,8 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
     assert(total <= value.length, () => `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
     return [u8aToString(value.subarray(offset, total)), total];
+  } else if (isHex(value)) {
+    return [u8aToString(hexToU8a(value)), 0];
   }
 
   return [value ? value.toString() : '', 0];

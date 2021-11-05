@@ -6,7 +6,7 @@ import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLat
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions } from './types';
 
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, stringCamelCase, stringify } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { DoNotConstruct } from '../codec/DoNotConstruct';
@@ -87,10 +87,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
-        const meta = registry.createType('EventMetadataLatest', {
-          ...variant,
-          args: getFieldArgs(lookup, variant.fields)
-        });
+        const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
@@ -171,7 +168,7 @@ export class TypeRegistry implements Registry {
   public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
-    this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
+    this.#knownDefaults = objectSpread({ Json, Metadata, Raw }, baseTypes);
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();

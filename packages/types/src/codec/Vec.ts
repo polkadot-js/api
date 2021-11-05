@@ -7,11 +7,47 @@ import type { Codec, Constructor, Registry } from '../types';
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, typeToConstructor } from './utils';
+import { decodeU8aVec, typeToConstructor } from './utils';
 
 const MAX_LENGTH = 64 * 1024;
 
 const l = logger('Vec');
+
+export function decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
+  if (Array.isArray(value)) {
+    const result = new Array<T>(value.length);
+
+    for (let i = 0; i < value.length; i++) {
+      const entry = value[i];
+
+      try {
+        result[i] = entry instanceof Type
+          ? entry
+          : new Type(registry, entry);
+      } catch (error) {
+        l.error(`Unable to decode on index ${i}`, (error as Error).message);
+
+        throw error;
+      }
+    }
+
+    return [result, 0, 0];
+  }
+
+  const u8a = u8aToU8a(value);
+  let offset = 0;
+
+  if (length === -1) {
+    const [_offset, _length] = compactFromU8a(u8a);
+
+    assert(_length.lten(MAX_LENGTH), () => `Vec length ${_length.toString()} exceeds ${MAX_LENGTH}`);
+
+    length = _length.toNumber();
+    offset = _offset;
+  }
+
+  return decodeU8aVec(registry, u8a, offset, Type, length);
+}
 
 /**
  * @name Vec
@@ -25,47 +61,11 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
   constructor (registry: Registry, Type: Constructor<T> | string, value: Uint8Array | HexString | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
-    const [values, decodedLength] = Vec.decodeVec(registry, Clazz, value);
+    const [values, decodedLength] = decodeVec(registry, Clazz, value);
 
     super(registry, values, decodedLength);
 
     this.#Type = Clazz;
-  }
-
-  /** @internal */
-  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
-    if (Array.isArray(value)) {
-      return [
-        value.map((entry: unknown, index: number): T => {
-          try {
-            return entry instanceof Type
-              ? entry
-              : new Type(registry, entry);
-          } catch (error) {
-            l.error(`Unable to decode on index ${index}`, (error as Error).message);
-
-            throw error;
-          }
-        }),
-        0, 0
-      ];
-    }
-
-    const u8a = u8aToU8a(value);
-    let offset = 0;
-
-    if (length === -1) {
-      const [_offset, _length] = compactFromU8a(u8a);
-
-      assert(_length.lten(MAX_LENGTH), () => `Vec length ${_length.toString()} exceeds ${MAX_LENGTH}`);
-
-      length = _length.toNumber();
-      offset = _offset;
-    }
-
-    const [decoded, decodedLength] = decodeU8a(registry, u8a.subarray(offset), Type, length);
-
-    return [decoded as T[], decodedLength + offset, decodedLength];
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Vec<O>> {

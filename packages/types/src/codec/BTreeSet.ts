@@ -62,7 +62,7 @@ function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V>
 
   const ValClass = typeToConstructor(registry, valType);
 
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
@@ -76,7 +76,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public createdAtHash?: Hash;
 
-  readonly #initialU8aLength?: number;
+  readonly initialU8aLength?: number;
 
   readonly #ValClass: Constructor<V>;
 
@@ -86,7 +86,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     super(sortSet(values));
 
     this.registry = registry;
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#ValClass = typeToConstructor(registry, valType);
   }
 
@@ -104,18 +104,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       len += v.encodedLength;
-    });
+    }
 
     return len;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -159,9 +152,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toHuman (isExtended?: boolean): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toHuman(isExtended));
-    });
+    }
 
     return json;
   }
@@ -172,9 +165,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toJSON (): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toJSON());
-    });
+    }
 
     return json;
   }
@@ -204,9 +197,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       encoded.push(v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

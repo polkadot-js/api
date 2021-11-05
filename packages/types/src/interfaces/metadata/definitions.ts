@@ -6,6 +6,8 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { AllHashers } from './hashers';
 import { v9 } from './v9';
 import { v10 } from './v10';
@@ -18,14 +20,7 @@ export { AllHashers };
 
 export default {
   rpc: {},
-  types: {
-    ...v9,
-    ...v10,
-    ...v11,
-    ...v12,
-    ...v13,
-    ...v14,
-
+  types: objectSpread({}, v9, v10, v11, v12, v13, v14, {
     // registry mapping to latest
     PortableRegistry: 'PortableRegistryV14',
     PortableType: 'PortableTypeV14',
@@ -70,5 +65,5 @@ export default {
         V14: 'MetadataV14'
       }
     }
-  }
+  })
 } as Definitions;

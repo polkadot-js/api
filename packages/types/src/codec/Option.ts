@@ -11,13 +11,6 @@ import { Null } from '../primitive/Null';
 import { typeToConstructor } from './utils';
 
 /** @internal */
-function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
-  return !value.length || value[0] === 0
-    ? new Null(registry)
-    : new Type(registry, value.subarray(1));
-}
-
-/** @internal */
 function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
     return new Null(registry);
@@ -34,7 +27,9 @@ function decodeOption (registry: Registry, typeName: Constructor | string, value
   } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first
-    return decodeOptionU8a(registry, Type, value);
+    return !value.length || value[0] === 0
+      ? new Null(registry)
+      : new Type(registry, value.subarray(1));
   }
 
   return new Type(registry, value);
