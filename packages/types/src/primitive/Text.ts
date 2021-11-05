@@ -5,25 +5,23 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyU8a, Codec, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Raw } from '../codec/Raw';
 
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [string, number] {
-  if (isHex(value)) {
-    return [u8aToString(hexToU8a(value)), 0];
-  } else if (value instanceof Uint8Array) {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [Uint8Array, number] {
+  if (isU8a(value)) {
     if (!value.length) {
-      return ['', 0];
+      return [new Uint8Array(), 0];
     }
 
     // for Raw, the internal buffer does not have an internal length
     // (the same applies in e.g. Bytes, where length is added at encoding-time)
     if (value instanceof Raw) {
-      return [u8aToString(value), 0];
+      return [value, value.length];
     }
 
     const [offset, length] = compactFromU8a(value);
@@ -32,10 +30,12 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
     assert(length.lten(MAX_LENGTH), () => `Text: length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, () => `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
-    return [u8aToString(value.subarray(offset, total)), total];
+    return [value.subarray(offset, total), total];
+  } else if (isHex(value)) {
+    return [hexToU8a(value), 0];
   }
 
-  return [value ? value.toString() : '', 0];
+  return [stringToU8a(value ? value.toString() : ''), 0];
 }
 
 /**
@@ -55,15 +55,21 @@ export class Text extends String implements Codec {
 
   readonly initialU8aLength?: number;
 
+  #internalStr?: string;
+
+  #internalU8a: Uint8Array;
+
   #override: string | null = null;
 
   constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
-    const [str, decodedLength] = decodeText(value);
-
-    super(str);
+    // We bypass the normal "hold this value" approcah, rather we just operate on the
+    // decoded internal U8a value. If we need a string, we convert right at that point
+    // (We don't override Bytes, since we like being "a JS String" object)
+    super();
 
     this.registry = registry;
-    this.initialU8aLength = decodedLength;
+
+    [this.#internalU8a, this.initialU8aLength] = decodeText(value);
   }
 
   /**
@@ -117,7 +123,7 @@ export class Text extends String implements Codec {
   public toHex (): HexString {
     // like with Vec<u8>, when we are encoding to hex, we don't actually add
     // the length prefix (it is already implied by the actual string length)
-    return u8aToHex(this.toU8a(true));
+    return u8aToHex(this.#internalU8a);
   }
 
   /**
@@ -145,7 +151,11 @@ export class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    return this.#override || super.toString();
+    if (!this.#internalStr) {
+      this.#internalStr = u8aToString(this.#internalU8a);
+    }
+
+    return this.#override || this.#internalStr;
   }
 
   /**
@@ -153,12 +163,8 @@ export class Text extends String implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    // NOTE Here we use the super toString (we are not taking overrides into account,
-    // rather encoding the original value the string was constructed with)
-    const encoded = stringToU8a(super.toString());
-
     return isBare
-      ? encoded
-      : compactAddLength(encoded);
+      ? this.#internalU8a
+      : compactAddLength(this.#internalU8a);
   }
 }
