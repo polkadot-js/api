@@ -3,9 +3,9 @@
 
 import type { Codec, Constructor, Registry } from '../../types';
 
-import { isFunction, u8aToHex } from '@polkadot/util';
+import { u8aToHex } from '@polkadot/util';
 
-function formatFailure (error: Error, key: string, type: string, u8a: Uint8Array): string {
+function formatFailure (error: Error, type: string, u8a: Uint8Array, key?: string): string {
   return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${type ? `: ${type}` : ''}:: ${error.message}`;
 }
 
@@ -25,21 +25,17 @@ function getRawType (registry: Registry, Type: Constructor): string {
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor | Constructor[] | { [index: string]: Constructor }, count?: number, zip?: (key: string, value: T) => E): [E[], number] {
-  const [Type, Types, keys]: [Constructor | null, Constructor[], string[]] = isFunction(types)
-    ? [types, [], []]
-    : Array.isArray(types)
-      ? [null, types, []]
-      : [null, Object.values(types), Object.keys(types)];
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor[] | { [index: string]: Constructor }, zip?: (key: string, value: T) => E): [E[], number] {
+  const [Types, keys]: [Constructor[], string[]] = Array.isArray(types)
+    ? [types, []]
+    : [Object.values(types), Object.keys(types)];
 
-  count = count || Types.length;
-
-  const result = new Array<E>(count);
+  const result = new Array<E>(Types.length);
   let offset = 0;
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < Types.length; i++) {
     try {
-      const value = new (Type || Types[i])(registry, u8a.subarray(offset));
+      const value = new Types[i](registry, u8a.subarray(offset));
 
       offset += value.initialU8aLength || value.encodedLength;
       result[i] = zip
@@ -48,8 +44,32 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
     } catch (error) {
       throw new Error(formatFailure(
         error as Error,
-        keys[i],
-        getRawType(registry, Type || Types[i]),
+        getRawType(registry, Types[i]),
+        u8a.subarray(offset, offset + 8),
+        keys[i]
+      ));
+    }
+  }
+
+  return [result, offset];
+}
+
+// Split from decodeU8a since this is specialized to 1 instance ... yes duplication, but
+// since we have to do less checks (and these are intensive anyway), much faster
+export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, Type: Constructor<T>, count: number): [T[], number] {
+  const result = new Array<T>(count);
+  let offset = 0;
+
+  for (let i = 0; i < count; i++) {
+    try {
+      const value = new Type(registry, u8a.subarray(offset));
+
+      offset += value.initialU8aLength || value.encodedLength;
+      result[i] = value;
+    } catch (error) {
+      throw new Error(formatFailure(
+        error as Error,
+        getRawType(registry, Type),
         u8a.subarray(offset, offset + 8)
       ));
     }

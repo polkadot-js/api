@@ -96,7 +96,7 @@ function decodeZip (k: string, v: Codec): [string, Codec] {
  */
 function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   if (isU8a(value)) {
-    return decodeU8a(registry, value, Types, 0, decodeZip);
+    return decodeU8a(registry, value, Types, decodeZip);
   } else if (value instanceof Struct) {
     return [value as Iterable<[string, Codec]>, 0];
   } else if (isHex(value)) {

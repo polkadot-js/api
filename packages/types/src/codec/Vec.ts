@@ -7,7 +7,7 @@ import type { Codec, Constructor, Registry } from '../types';
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { decodeU8a, typeToConstructor } from './utils';
+import { decodeU8aVec, typeToConstructor } from './utils';
 
 const MAX_LENGTH = 64 * 1024;
 
@@ -43,9 +43,9 @@ export function decodeVec<T extends Codec> (registry: Registry, Type: Constructo
     offset = _offset;
   }
 
-  const [decoded, decodedLength] = decodeU8a(registry, u8a.subarray(offset), Type, length);
+  const [decoded, decodedLength] = decodeU8aVec(registry, u8a.subarray(offset), Type, length);
 
-  return [decoded as T[], decodedLength + offset, decodedLength];
+  return [decoded, decodedLength + offset, decodedLength];
 }
 
 /**
