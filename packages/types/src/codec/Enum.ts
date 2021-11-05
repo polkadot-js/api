@@ -145,9 +145,7 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
 function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
   // NOTE We check the index path first, before looking at values - this allows treating
   // the optional indexes before anything else, more-specific > less-specific
-  if (isU8a(value)) {
-    return createFromValue(registry, def, value[0], value.subarray(1));
-  } else if (isNumber(index)) {
+  if (isNumber(index)) {
     return createFromValue(registry, def, index, value);
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   } else if (value instanceof Enum) {

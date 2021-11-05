@@ -26,14 +26,14 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
   if (value instanceof GenericAccountId) {
     return { Id: value };
   } else if (isU8a(value)) {
-    // NOTE This is after the AccountId check
+    // NOTE This is after the AccountId check (which is U8a)
     return decodeU8a(registry, value);
   } else if (value instanceof GenericMultiAddress) {
     return value;
-  } else if (isString(value)) {
-    return decodeU8a(registry, decodeAddress(value.toString()));
   } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
     return { Index: isNumber(value) ? value : value.toNumber() };
+  } else if (isString(value)) {
+    return decodeU8a(registry, decodeAddress(value.toString()));
   }
 
   return value;
