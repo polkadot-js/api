@@ -12,21 +12,24 @@ import { typeToConstructor } from './utils';
 
 /** @internal */
 function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
+  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
+    return new Null(registry);
+  }
+
   const Type = typeToConstructor(registry, typeName);
 
-  if (isU8a(value)) {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  if (value instanceof Option) {
+    return decodeOption(registry, Type, value.value);
+  } else if (value instanceof Type) {
+    // don't re-create, use as it (which also caters for derived types)
+    return value;
+  } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first
     return !value.length || value[0] === 0
       ? new Null(registry)
       : new Type(registry, value.subarray(1));
-  } else if (value instanceof Option) {
-    return decodeOption(registry, Type, value.value);
-  } else if (value instanceof Type) {
-    // don't re-create, use as it (which also caters for derived types)
-    return value;
-  } else if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
-    return new Null(registry);
   }
 
   return new Type(registry, value);
@@ -45,9 +48,9 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public createdAtHash?: Hash;
 
-  readonly initialU8aLength?: number;
-
   readonly #Type: Constructor<T>;
+
+  readonly #initialU8aLength?: number;
 
   readonly #raw: T;
 
@@ -57,7 +60,7 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#raw = decodeOption(registry, typeName, value) as T;
 
     if (this.#raw.initialU8aLength) {
-      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
+      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 
@@ -75,6 +78,13 @@ export class Option<T extends Codec> implements IOption<T> {
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.encodedLength;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
