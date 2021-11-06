@@ -37,18 +37,6 @@ const VERSIONS = [
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
-  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
-    super(registry, value, initialU8aLength);
-
-    const signKeys = Object.keys(registry.getSignedExtensionTypes());
-
-    for (let i = 0; i < signKeys.length; i++) {
-      const key = signKeys[i];
-
-      defineProperty(this, key, () => (this._raw as ExtrinsicVx).signature[key as 'signer']);
-    }
-  }
-
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
@@ -186,6 +174,14 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
+
+    const signKeys = Object.keys(registry.getSignedExtensionTypes());
+
+    for (let i = 0; i < signKeys.length; i++) {
+      const key = signKeys[i];
+
+      defineProperty(this, key, () => (this._raw as ExtrinsicVx).signature[key as 'signer']);
+    }
   }
 
   /** @internal */
