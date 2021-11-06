@@ -3,16 +3,16 @@
 
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, AssetId, Balance, Call, Index } from '../../interfaces/runtime';
+import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, isUndefined, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
-import { Option } from '../../codec/Option';
 import { Struct } from '../../codec/Struct';
+import { defineProperty } from '../../codec/utils';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
@@ -30,14 +30,17 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  */
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
   #fakePrefix: Uint8Array;
+  #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    const signTypes = registry.getSignedExtensionTypes();
+
     super(
       registry,
       objectSpread(
         // eslint-disable-next-line sort-keys
         { signer: 'Address', signature: 'ExtrinsicSignature' },
-        registry.getSignedExtensionTypes()
+        signTypes
       ),
       GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
     );
@@ -45,6 +48,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
       ? FAKE_SOME
       : FAKE_NONE;
+    this.#signKeys = Object.keys(signTypes);
+
+    for (let i = 0; i < this.#signKeys.length; i++) {
+      const key = this.#signKeys[i];
+
+      defineProperty(this, key, () => this.get(key));
+    }
   }
 
   /** @internal */
@@ -119,21 +129,20 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     return this.get('tip') as Compact<Balance>;
   }
 
-  /**
-   * @description
-   * The (optional) asset id for this signature for chains that support transaction fees in assets
-   */
-  public get assetId (): Option<AssetId> {
-    return this.get('assetId') as Option<AssetId>;
-  }
+  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
+    // use the fields exposed to guide the getters
+    for (let i = 0; i < this.#signKeys.length; i++) {
+      const k = this.#signKeys[i];
+      const v = payload.get(k);
 
-  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, { assetId, era, nonce, tip }: GenericExtrinsicPayloadV4): IExtrinsicSignature {
-    this.set('era', era);
-    this.set('nonce', nonce);
+      if (!isUndefined(v)) {
+        this.set(k, v);
+      }
+    }
+
+    // additional fields (exposed in struct itself)
     this.set('signer', signer);
     this.set('signature', signature);
-    this.set('tip', tip);
-    this.set('assetId', assetId);
 
     return this;
   }
@@ -152,18 +161,15 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { assetId, blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): GenericExtrinsicPayloadV4 {
-    return new GenericExtrinsicPayloadV4(this.registry, {
-      assetId,
-      blockHash,
+  public createPayload (method: Call, options: SignatureOptions): GenericExtrinsicPayloadV4 {
+    const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
+
+    return new GenericExtrinsicPayloadV4(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
       era: era || IMMORTAL_ERA,
-      genesisHash,
       method: method.toHex(),
-      nonce,
       specVersion,
-      tip: tip || 0,
-      transactionVersion: transactionVersion || 0
-    });
+      transactionVersion
+    }));
   }
 
   /**
