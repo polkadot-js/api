@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { CreateOptions } from '../create/types';
+import type { CreateOptions, TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
@@ -126,7 +126,7 @@ export interface Registry {
   createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
   createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
