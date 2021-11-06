@@ -11,6 +11,7 @@ Changelog:
 
 Changes:
 
+- Dynamically inject getters for Extrinsic payloads
 - Optimize caching for previously constructed type classes per registry
 - Convert metadata, rpc and api to use lazy decoration
 - Split u8a decoding paths for Vec (different from general path)
