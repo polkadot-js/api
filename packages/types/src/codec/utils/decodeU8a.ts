@@ -45,7 +45,7 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
       throw new Error(formatFailure(
         error as Error,
         getRawType(registry, Types[i]),
-        u8a.subarray(offset, offset + 24),
+        u8a.subarray(offset, offset + 16),
         keys[i]
       ));
     }
@@ -70,7 +70,7 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a:
       throw new Error(formatFailure(
         error as Error,
         getRawType(registry, Type),
-        u8a.subarray(offset, offset + 24)
+        u8a.subarray(offset, offset + 16)
       ));
     }
   }
