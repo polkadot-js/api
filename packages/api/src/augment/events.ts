@@ -582,7 +582,7 @@ declare module '@polkadot/api/types/events' {
        **/
       MultisigApproval: AugmentedEvent<ApiType, [AccountId32, PalletMultisigTimepoint, AccountId32, U8aFixed]>;
       /**
-       * A multisig operation has been cancelled. \[cancelling, timepoint, multisig, call_hash\]
+       * A multisig operation has been cancelled. \[canceling, timepoint, multisig, call_hash\]
        **/
       MultisigCancelled: AugmentedEvent<ApiType, [AccountId32, PalletMultisigTimepoint, AccountId32, U8aFixed]>;
       /**
@@ -1146,6 +1146,10 @@ declare module '@polkadot/api/types/events' {
        * well as the error. \[index, error\]
        **/
       BatchInterrupted: AugmentedEvent<ApiType, [u32, SpRuntimeDispatchError]>;
+      /**
+       * A call was dispatched. \[result\]
+       **/
+      DispatchedAs: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
       /**
        * A single item within a Batch of dispatches has completed with no error.
        **/

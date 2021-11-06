@@ -1238,6 +1238,10 @@ declare module '@polkadot/api/types/errors' {
     };
     system: {
       /**
+       * The origin filter prevent the call to be dispatched.
+       **/
+      CallFiltered: AugmentedError<ApiType>;
+      /**
        * Failed to extract the runtime version from the new runtime.
        * 
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
