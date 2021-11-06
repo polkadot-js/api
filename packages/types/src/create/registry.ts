@@ -4,7 +4,7 @@
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
-import type { CreateOptions } from './types';
+import type { CreateOptions, TypeDef } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -20,7 +20,7 @@ import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadat
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
-import { createClass } from './createClass';
+import { constructTypeClass, createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
 import { lazyVariants } from './lazy';
 
@@ -316,7 +316,7 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined {
+  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
@@ -327,8 +327,8 @@ export class TypeRegistry implements Registry {
       // we have a definition, so create the class now (lazily)
       if (definition) {
         BaseType = createClass(this, definition);
-
-        this.#classes.set(name, BaseType);
+      } else if (knownTypeDef) {
+        BaseType = constructTypeClass(this, knownTypeDef);
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 

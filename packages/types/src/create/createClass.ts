@@ -175,16 +175,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     WrapperOpaque.with(getSubType(value))
 };
 
-// Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
-  let Type = registry.get(typeDef.type);
-
-  if (Type) {
-    return Type as Constructor<T>;
-  }
-
+export function constructTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
   try {
-    Type = infoMapping[typeDef.info](registry, typeDef);
+    const Type = infoMapping[typeDef.info](registry, typeDef);
 
     assert(Type, 'No class created');
 
@@ -199,6 +192,11 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeD
   } catch (error) {
     throw new Error(`Unable to construct class from ${stringify(typeDef)}: ${(error as Error).message}`);
   }
+}
+
+// Returns the type Class for construction
+export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {
+  return registry.get(typeDef.type, false, typeDef) as Constructor<T>;
 }
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): DetectConstructor<T, K> {
