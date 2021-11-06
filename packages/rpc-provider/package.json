@@ -20,11 +20,11 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.6.2-19",
+  "version": "6.6.2-20",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.0",
-    "@polkadot/types": "6.6.2-19",
+    "@polkadot/types": "6.6.2-20",
     "@polkadot/util": "^7.7.2-6",
     "@polkadot/util-crypto": "^7.7.2-6",
     "@polkadot/x-fetch": "^7.7.2-6",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^7.7.2-6",
-    "@polkadot/types": "6.6.2-19",
+    "@polkadot/types": "6.6.2-20",
     "mock-socket": "^9.0.7",
     "nock": "^13.1.4"
   }
