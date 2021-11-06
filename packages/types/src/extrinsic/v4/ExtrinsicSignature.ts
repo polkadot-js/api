@@ -12,6 +12,7 @@ import { assert, isU8a, isUndefined, objectSpread, stringify, u8aConcat, u8aToHe
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
 import { Struct } from '../../codec/Struct';
+import { defineProperty } from '../../codec/utils';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
@@ -29,7 +30,7 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  */
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
   #fakePrefix: Uint8Array;
-  #signTypes: Record<string, string>;
+  #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
@@ -47,7 +48,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
       ? FAKE_SOME
       : FAKE_NONE;
-    this.#signTypes = signTypes;
+    this.#signKeys = Object.keys(signTypes);
+
+    for (let i = 0; i < this.#signKeys.length; i++) {
+      const key = this.#signKeys[i];
+
+      defineProperty(this, key, () => this.get(key));
+    }
   }
 
   /** @internal */
@@ -124,13 +131,14 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
     // use the fields exposed to guide the getters
-    Object.keys(this.#signTypes).forEach((k): void => {
+    for (let i = 0; i < this.#signKeys.length; i++) {
+      const k = this.#signKeys[i];
       const v = payload.get(k);
 
       if (!isUndefined(v)) {
         this.set(k, v);
       }
-    });
+    }
 
     // additional fields (exposed in struct itself)
     this.set('signer', signer);

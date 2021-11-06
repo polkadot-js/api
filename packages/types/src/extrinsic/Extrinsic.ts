@@ -13,6 +13,7 @@ import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Base } from '../codec/Base';
+import { defineProperty } from '../codec/utils';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {
@@ -36,6 +37,18 @@ const VERSIONS = [
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
+  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
+    super(registry, value, initialU8aLength);
+
+    const signKeys = Object.keys(registry.getSignedExtensionTypes());
+
+    for (let i = 0; i < signKeys.length; i++) {
+      const key = signKeys[i];
+
+      defineProperty(this, key, () => (this._raw as ExtrinsicVx).signature[key as 'signer']);
+    }
+  }
+
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
