@@ -9,22 +9,29 @@ const recordIdentity = (record: EventRecord) => record;
 
 function filterAndApply <T> (events: EventRecord[], section: string, methods: string[], onFound: (record: EventRecord) => T): T[] {
   return events
-    .filter(({ event }) => section === event.section && methods.includes(event.method))
+    .filter(({ event }) =>
+      section === event.section &&
+      methods.includes(event.method)
+    )
     .map((record) => onFound(record));
 }
 
+function getDispatchError ({ event: { data: [dispatchError] } }: EventRecord): DispatchError {
+  return dispatchError as DispatchError;
+}
+
+function getDispatchInfo ({ event: { data, method } }: EventRecord): DispatchInfo {
+  return method === 'ExtrinsicSuccess'
+    ? data[0] as DispatchInfo
+    : data[1] as DispatchInfo;
+}
+
 function extractError (events: EventRecord[] = []): DispatchError | undefined {
-  return filterAndApply(events, 'system', ['ExtrinsicFailed'], ({ event: { data } }) =>
-    data[0] as DispatchError
-  )[0];
+  return filterAndApply(events, 'system', ['ExtrinsicFailed'], getDispatchError)[0];
 }
 
 function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
-  return filterAndApply(events, 'system', ['ExtrinsicFailed', 'ExtrinsicSuccess'], ({ event: { data, method } }) =>
-    method === 'ExtrinsicSuccess'
-      ? data[0] as DispatchInfo
-      : data[1] as DispatchInfo
-  )[0];
+  return filterAndApply(events, 'system', ['ExtrinsicFailed', 'ExtrinsicSuccess'], getDispatchInfo)[0];
 }
 
 export class SubmittableResult implements ISubmittableResult {
@@ -87,7 +94,7 @@ export class SubmittableResult implements ISubmittableResult {
     return {
       dispatchError: this.dispatchError?.toHuman(),
       dispatchInfo: this.dispatchInfo?.toHuman(),
-      events: this.events.map((event) => event.toHuman(isExtended)),
+      events: this.events.map((e) => e.toHuman(isExtended)),
       internalError: this.internalError?.message.toString(),
       status: this.status.toHuman(isExtended)
     };

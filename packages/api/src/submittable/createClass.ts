@@ -172,7 +172,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, partialOptions).pipe(mapTo<number | undefined, this>(this))
+          this.#observeSign(account, partialOptions).pipe(
+            mapTo<number | undefined, this>(this)
+          )
       )();
     }
 
@@ -232,7 +234,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
-        return of(this.#transformResult(new SubmittableResult({ status })));
+        return of(this.#transformResult(new SubmittableResult({
+          status
+        })));
       }
 
       const blockHash = status.isInBlock
@@ -247,7 +251,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           }))
         ),
         catchError((internalError: Error) =>
-          of(this.#transformResult(new SubmittableResult({ internalError, status })))
+          of(this.#transformResult(new SubmittableResult({
+            internalError,
+            status
+          })))
         )
       );
     };
