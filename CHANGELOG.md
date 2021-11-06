@@ -2,15 +2,25 @@
 
 ## master
 
+Upgrade priority: Low. Internal maintenance updates, focussed on internal optimizations.
+
+Changelog:
+
+- Optimize Extrinsic & block handling (Thanks to https://github.com/nazar-pc)
+- Add `account::AccountId20` mapping (Thanks to https://github.com/joelamouche)
+
 Changes:
 
-- Convert metadata & API to use lazy decoration
+- Optimize caching for previously constructed type classes per registry
+- Convert metadata, rpc and api to use lazy decoration
+- Split u8a decoding paths for Vec (different from general path)
+- Keep track of initial u8a decoded length inside Codec
 - Move PortableRegistry location inside `@polkadot/types/metadata`
 
 
 ## 6.6.1 Nov 1, 2021
 
-Upgrade priority: Low. Internal maintennce updates.
+Upgrade priority: Low. Internal maintenance updates.
 
 Changes:
 
