@@ -10,6 +10,7 @@ import { objectSpread, u8aToHex } from '@polkadot/util';
 import { Compact } from '../codec/Compact';
 import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
+import { defineProperty } from '../codec/utils';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
 import { u8 } from '../primitive/U8';
@@ -62,6 +63,8 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       if (!knownTypes[key]) {
         this._extraTypes[key] = type;
       }
+
+      defineProperty(this, key, () => this.get(key));
     }
   }
 
