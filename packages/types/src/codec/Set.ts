@@ -7,7 +7,7 @@ import type { Constructor, ISet, Registry } from '../types';
 
 import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray, defineProperty } from './utils';
+import { compareArray, defineProperties } from './utils';
 
 type SetValues = Record<string, number | BN>;
 
@@ -104,17 +104,21 @@ export class CodecSet extends Set<string> implements ISet<string> {
   }
 
   public static with (values: SetValues, bitLength?: number): Constructor<CodecSet> {
+    const keys: string[] = [];
+    const orig: string[] = [];
+
+    for (const prop of Object.keys(values)) {
+      const key = `is${stringUpperFirst(stringCamelCase(prop))}`;
+
+      keys.push(key);
+      orig.push(prop);
+    }
+
     return class extends CodecSet {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        const keys = Object.keys(values);
-
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-
-          defineProperty(this, `is${stringUpperFirst(stringCamelCase(key))}`, () => this.strings.includes(key));
-        }
+        defineProperties(this, keys, (_, i) => this.strings.includes(orig[i]));
       }
     };
   }

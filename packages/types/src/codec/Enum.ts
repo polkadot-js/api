@@ -9,7 +9,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 
 import { Null } from '../primitive/Null';
 import { Struct } from './Struct';
-import { defineProperty, mapToTypeMap } from './utils';
+import { defineProperties, mapToTypeMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -198,25 +198,26 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
+    const asKeys: string[] = [];
+    const isKeys: string[] = [];
+
+    for (const key of Object.keys(Types)) {
+      const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
+
+      asKeys.push(`as${name}`);
+      isKeys.push(`is${name}`);
+    }
+
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        const keys = Object.keys(this.#def);
+        defineProperties(this, isKeys, (k) => this.type === k);
+        defineProperties(this, asKeys, (k, i): Codec => {
+          assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
 
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
-          const askey = `as${name}`;
-          const iskey = `is${name}`;
-
-          defineProperty(this, iskey, () => this.type === key);
-          defineProperty(this, askey, (): Codec => {
-            assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
-
-            return this.value;
-          });
-        }
+          return this.value;
+        });
       }
     };
   }
