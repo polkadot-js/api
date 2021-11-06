@@ -429,264 +429,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup371: kusama_runtime::NposCompactSolution24
-   **/
-  KusamaRuntimeNposCompactSolution24: {
-    votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
-    votes2: 'Vec<(Compact<u32>,(Compact<u16>,Compact<PerU16>),Compact<u16>)>',
-    votes3: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);2],Compact<u16>)>',
-    votes4: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);3],Compact<u16>)>',
-    votes5: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);4],Compact<u16>)>',
-    votes6: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);5],Compact<u16>)>',
-    votes7: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);6],Compact<u16>)>',
-    votes8: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);7],Compact<u16>)>',
-    votes9: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);8],Compact<u16>)>',
-    votes10: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);9],Compact<u16>)>',
-    votes11: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);10],Compact<u16>)>',
-    votes12: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);11],Compact<u16>)>',
-    votes13: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);12],Compact<u16>)>',
-    votes14: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);13],Compact<u16>)>',
-    votes15: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);14],Compact<u16>)>',
-    votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>',
-    votes17: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);16],Compact<u16>)>',
-    votes18: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);17],Compact<u16>)>',
-    votes19: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);18],Compact<u16>)>',
-    votes20: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);19],Compact<u16>)>',
-    votes21: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);20],Compact<u16>)>',
-    votes22: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);21],Compact<u16>)>',
-    votes23: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);22],Compact<u16>)>',
-    votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
-  },
-  /**
-   * Lookup504: xcm::VersionedXcm<Call>
-   **/
-  XcmVersionedXcm: {
-    _enum: {
-      V0: 'XcmV0Xcm',
-      V1: 'XcmV1Xcm',
-      V2: 'XcmV2Xcm'
-    }
-  },
-  /**
-   * Lookup505: xcm::v0::Xcm<Call>
-   **/
-  XcmV0Xcm: {
-    _enum: {
-      WithdrawAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        effects: 'Vec<XcmV0Order>',
-      },
-      ReserveAssetDeposit: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        effects: 'Vec<XcmV0Order>',
-      },
-      TeleportAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        effects: 'Vec<XcmV0Order>',
-      },
-      QueryResponse: {
-        queryId: 'Compact<u64>',
-        response: 'XcmV0Response',
-      },
-      TransferAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        dest: 'XcmV0MultiLocation',
-      },
-      TransferReserveAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        dest: 'XcmV0MultiLocation',
-        effects: 'Vec<XcmV0Order>',
-      },
-      Transact: {
-        originType: 'XcmV0OriginKind',
-        requireWeightAtMost: 'u64',
-        call: 'XcmDoubleEncoded',
-      },
-      HrmpNewChannelOpenRequest: {
-        sender: 'Compact<u32>',
-        maxMessageSize: 'Compact<u32>',
-        maxCapacity: 'Compact<u32>',
-      },
-      HrmpChannelAccepted: {
-        recipient: 'Compact<u32>',
-      },
-      HrmpChannelClosing: {
-        initiator: 'Compact<u32>',
-        sender: 'Compact<u32>',
-        recipient: 'Compact<u32>',
-      },
-      RelayedFrom: {
-        who: 'XcmV0MultiLocation',
-        message: 'XcmV0Xcm'
-      }
-    }
-  },
-  /**
-   * Lookup507: xcm::v0::order::Order<Call>
-   **/
-  XcmV0Order: {
-    _enum: {
-      Null: 'Null',
-      DepositAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        dest: 'XcmV0MultiLocation',
-      },
-      DepositReserveAsset: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        dest: 'XcmV0MultiLocation',
-        effects: 'Vec<XcmV0Order>',
-      },
-      ExchangeAsset: {
-        give: 'Vec<XcmV0MultiAsset>',
-        receive: 'Vec<XcmV0MultiAsset>',
-      },
-      InitiateReserveWithdraw: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        reserve: 'XcmV0MultiLocation',
-        effects: 'Vec<XcmV0Order>',
-      },
-      InitiateTeleport: {
-        assets: 'Vec<XcmV0MultiAsset>',
-        dest: 'XcmV0MultiLocation',
-        effects: 'Vec<XcmV0Order>',
-      },
-      QueryHolding: {
-        queryId: 'Compact<u64>',
-        dest: 'XcmV0MultiLocation',
-        assets: 'Vec<XcmV0MultiAsset>',
-      },
-      BuyExecution: {
-        fees: 'XcmV0MultiAsset',
-        weight: 'u64',
-        debt: 'u64',
-        haltOnError: 'bool',
-        xcm: 'Vec<XcmV0Xcm>'
-      }
-    }
-  },
-  /**
-   * Lookup509: xcm::v0::Response
-   **/
-  XcmV0Response: {
-    _enum: {
-      Assets: 'Vec<XcmV0MultiAsset>'
-    }
-  },
-  /**
-   * Lookup510: xcm::v1::Xcm<Call>
-   **/
-  XcmV1Xcm: {
-    _enum: {
-      WithdrawAsset: {
-        assets: 'XcmV1MultiassetMultiAssets',
-        effects: 'Vec<XcmV1Order>',
-      },
-      ReserveAssetDeposited: {
-        assets: 'XcmV1MultiassetMultiAssets',
-        effects: 'Vec<XcmV1Order>',
-      },
-      ReceiveTeleportedAsset: {
-        assets: 'XcmV1MultiassetMultiAssets',
-        effects: 'Vec<XcmV1Order>',
-      },
-      QueryResponse: {
-        queryId: 'Compact<u64>',
-        response: 'XcmV1Response',
-      },
-      TransferAsset: {
-        assets: 'XcmV1MultiassetMultiAssets',
-        beneficiary: 'XcmV1MultiLocation',
-      },
-      TransferReserveAsset: {
-        assets: 'XcmV1MultiassetMultiAssets',
-        dest: 'XcmV1MultiLocation',
-        effects: 'Vec<XcmV1Order>',
-      },
-      Transact: {
-        originType: 'XcmV0OriginKind',
-        requireWeightAtMost: 'u64',
-        call: 'XcmDoubleEncoded',
-      },
-      HrmpNewChannelOpenRequest: {
-        sender: 'Compact<u32>',
-        maxMessageSize: 'Compact<u32>',
-        maxCapacity: 'Compact<u32>',
-      },
-      HrmpChannelAccepted: {
-        recipient: 'Compact<u32>',
-      },
-      HrmpChannelClosing: {
-        initiator: 'Compact<u32>',
-        sender: 'Compact<u32>',
-        recipient: 'Compact<u32>',
-      },
-      RelayedFrom: {
-        who: 'XcmV1MultilocationJunctions',
-        message: 'XcmV1Xcm',
-      },
-      SubscribeVersion: {
-        queryId: 'Compact<u64>',
-        maxResponseWeight: 'Compact<u64>',
-      },
-      UnsubscribeVersion: 'Null'
-    }
-  },
-  /**
-   * Lookup512: xcm::v1::order::Order<Call>
-   **/
-  XcmV1Order: {
-    _enum: {
-      Noop: 'Null',
-      DepositAsset: {
-        assets: 'XcmV1MultiassetMultiAssetFilter',
-        maxAssets: 'u32',
-        beneficiary: 'XcmV1MultiLocation',
-      },
-      DepositReserveAsset: {
-        assets: 'XcmV1MultiassetMultiAssetFilter',
-        maxAssets: 'u32',
-        dest: 'XcmV1MultiLocation',
-        effects: 'Vec<XcmV1Order>',
-      },
-      ExchangeAsset: {
-        give: 'XcmV1MultiassetMultiAssetFilter',
-        receive: 'XcmV1MultiassetMultiAssets',
-      },
-      InitiateReserveWithdraw: {
-        assets: 'XcmV1MultiassetMultiAssetFilter',
-        reserve: 'XcmV1MultiLocation',
-        effects: 'Vec<XcmV1Order>',
-      },
-      InitiateTeleport: {
-        assets: 'XcmV1MultiassetMultiAssetFilter',
-        dest: 'XcmV1MultiLocation',
-        effects: 'Vec<XcmV1Order>',
-      },
-      QueryHolding: {
-        queryId: 'Compact<u64>',
-        dest: 'XcmV1MultiLocation',
-        assets: 'XcmV1MultiassetMultiAssetFilter',
-      },
-      BuyExecution: {
-        fees: 'XcmV1MultiAsset',
-        weight: 'u64',
-        debt: 'u64',
-        haltOnError: 'bool',
-        instructions: 'Vec<XcmV1Xcm>'
-      }
-    }
-  },
-  /**
-   * Lookup514: xcm::v1::Response
-   **/
-  XcmV1Response: {
-    _enum: {
-      Assets: 'XcmV1MultiassetMultiAssets',
-      Version: 'u32'
-    }
-  },
-  /**
-   * Lookup575: kusama_runtime::OriginCaller
+   * Lookup316: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -793,7 +536,7 @@ export default {
     }
   },
   /**
-   * Lookup580: pallet_xcm::pallet::Origin
+   * Lookup321: pallet_xcm::pallet::Origin
    **/
   PalletXcmOrigin: {
     _enum: {
@@ -802,7 +545,264 @@ export default {
     }
   },
   /**
-   * Lookup689: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup379: kusama_runtime::NposCompactSolution24
+   **/
+  KusamaRuntimeNposCompactSolution24: {
+    votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
+    votes2: 'Vec<(Compact<u32>,(Compact<u16>,Compact<PerU16>),Compact<u16>)>',
+    votes3: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);2],Compact<u16>)>',
+    votes4: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);3],Compact<u16>)>',
+    votes5: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);4],Compact<u16>)>',
+    votes6: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);5],Compact<u16>)>',
+    votes7: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);6],Compact<u16>)>',
+    votes8: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);7],Compact<u16>)>',
+    votes9: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);8],Compact<u16>)>',
+    votes10: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);9],Compact<u16>)>',
+    votes11: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);10],Compact<u16>)>',
+    votes12: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);11],Compact<u16>)>',
+    votes13: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);12],Compact<u16>)>',
+    votes14: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);13],Compact<u16>)>',
+    votes15: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);14],Compact<u16>)>',
+    votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>',
+    votes17: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);16],Compact<u16>)>',
+    votes18: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);17],Compact<u16>)>',
+    votes19: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);18],Compact<u16>)>',
+    votes20: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);19],Compact<u16>)>',
+    votes21: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);20],Compact<u16>)>',
+    votes22: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);21],Compact<u16>)>',
+    votes23: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);22],Compact<u16>)>',
+    votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
+  },
+  /**
+   * Lookup512: xcm::VersionedXcm<Call>
+   **/
+  XcmVersionedXcm: {
+    _enum: {
+      V0: 'XcmV0Xcm',
+      V1: 'XcmV1Xcm',
+      V2: 'XcmV2Xcm'
+    }
+  },
+  /**
+   * Lookup513: xcm::v0::Xcm<Call>
+   **/
+  XcmV0Xcm: {
+    _enum: {
+      WithdrawAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        effects: 'Vec<XcmV0Order>',
+      },
+      ReserveAssetDeposit: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        effects: 'Vec<XcmV0Order>',
+      },
+      TeleportAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        effects: 'Vec<XcmV0Order>',
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmV0Response',
+      },
+      TransferAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        dest: 'XcmV0MultiLocation',
+      },
+      TransferReserveAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        dest: 'XcmV0MultiLocation',
+        effects: 'Vec<XcmV0Order>',
+      },
+      Transact: {
+        originType: 'XcmV0OriginKind',
+        requireWeightAtMost: 'u64',
+        call: 'XcmDoubleEncoded',
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>',
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>',
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>',
+      },
+      RelayedFrom: {
+        who: 'XcmV0MultiLocation',
+        message: 'XcmV0Xcm'
+      }
+    }
+  },
+  /**
+   * Lookup515: xcm::v0::order::Order<Call>
+   **/
+  XcmV0Order: {
+    _enum: {
+      Null: 'Null',
+      DepositAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        dest: 'XcmV0MultiLocation',
+      },
+      DepositReserveAsset: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        dest: 'XcmV0MultiLocation',
+        effects: 'Vec<XcmV0Order>',
+      },
+      ExchangeAsset: {
+        give: 'Vec<XcmV0MultiAsset>',
+        receive: 'Vec<XcmV0MultiAsset>',
+      },
+      InitiateReserveWithdraw: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        reserve: 'XcmV0MultiLocation',
+        effects: 'Vec<XcmV0Order>',
+      },
+      InitiateTeleport: {
+        assets: 'Vec<XcmV0MultiAsset>',
+        dest: 'XcmV0MultiLocation',
+        effects: 'Vec<XcmV0Order>',
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'XcmV0MultiLocation',
+        assets: 'Vec<XcmV0MultiAsset>',
+      },
+      BuyExecution: {
+        fees: 'XcmV0MultiAsset',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        xcm: 'Vec<XcmV0Xcm>'
+      }
+    }
+  },
+  /**
+   * Lookup517: xcm::v0::Response
+   **/
+  XcmV0Response: {
+    _enum: {
+      Assets: 'Vec<XcmV0MultiAsset>'
+    }
+  },
+  /**
+   * Lookup518: xcm::v1::Xcm<Call>
+   **/
+  XcmV1Xcm: {
+    _enum: {
+      WithdrawAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ReserveAssetDeposited: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ReceiveTeleportedAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        effects: 'Vec<XcmV1Order>',
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'XcmV1Response',
+      },
+      TransferAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      TransferReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssets',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      Transact: {
+        originType: 'XcmV0OriginKind',
+        requireWeightAtMost: 'u64',
+        call: 'XcmDoubleEncoded',
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>',
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>',
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>',
+      },
+      RelayedFrom: {
+        who: 'XcmV1MultilocationJunctions',
+        message: 'XcmV1Xcm',
+      },
+      SubscribeVersion: {
+        queryId: 'Compact<u64>',
+        maxResponseWeight: 'Compact<u64>',
+      },
+      UnsubscribeVersion: 'Null'
+    }
+  },
+  /**
+   * Lookup520: xcm::v1::order::Order<Call>
+   **/
+  XcmV1Order: {
+    _enum: {
+      Noop: 'Null',
+      DepositAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'u32',
+        beneficiary: 'XcmV1MultiLocation',
+      },
+      DepositReserveAsset: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        maxAssets: 'u32',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      ExchangeAsset: {
+        give: 'XcmV1MultiassetMultiAssetFilter',
+        receive: 'XcmV1MultiassetMultiAssets',
+      },
+      InitiateReserveWithdraw: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        reserve: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      InitiateTeleport: {
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+        dest: 'XcmV1MultiLocation',
+        effects: 'Vec<XcmV1Order>',
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'XcmV1MultiLocation',
+        assets: 'XcmV1MultiassetMultiAssetFilter',
+      },
+      BuyExecution: {
+        fees: 'XcmV1MultiAsset',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        instructions: 'Vec<XcmV1Xcm>'
+      }
+    }
+  },
+  /**
+   * Lookup522: xcm::v1::Response
+   **/
+  XcmV1Response: {
+    _enum: {
+      Assets: 'XcmV1MultiassetMultiAssets',
+      Version: 'u32'
+    }
+  },
+  /**
+   * Lookup690: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -822,7 +822,7 @@ export default {
     }
   },
   /**
-   * Lookup692: xcm::VersionedResponse
+   * Lookup693: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -832,7 +832,7 @@ export default {
     }
   },
   /**
-   * Lookup698: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup699: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -843,7 +843,7 @@ export default {
     }
   },
   /**
-   * Lookup710: kusama_runtime::Runtime
+   * Lookup711: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 } as DefinitionsTypes;

@@ -5,7 +5,7 @@ import type { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Bytes, Compact, Data, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletSocietyJudgement, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpCoreChangesTrieChangesTrieConfiguration, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeGenericHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
+import type { NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletSocietyJudgement, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpCoreChangesTrieChangesTrieConfiguration, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeGenericHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/api/types/submittable' {
@@ -4392,6 +4392,19 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       batchAll: AugmentedSubmittable<(calls: Vec<Call> | (Call | { callIndex?: any; args?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Dispatches a function call with a provided origin.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       * 
+       * # <weight>
+       * - O(1).
+       * - Limited storage reads.
+       * - One DB write (event).
+       * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
+       * # </weight>
+       **/
+      dispatchAs: AugmentedSubmittable<(asOrigin: NodeRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [NodeRuntimeOriginCaller, Call]>;
       /**
        * Generic tx
        **/

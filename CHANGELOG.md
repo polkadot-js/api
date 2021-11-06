@@ -16,6 +16,7 @@ Changes:
 - Split u8a decoding paths for Vec (different from general path)
 - Keep track of initial u8a decoded length inside Codec
 - Move PortableRegistry location inside `@polkadot/types/metadata`
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.6.1 Nov 1, 2021
