@@ -1,5 +1,139 @@
 # CHANGELOG
 
+## master
+
+Upgrade priority: Low. Internal maintenance updates, focussed on internal optimizations.
+
+Changelog:
+
+- Optimize Extrinsic & block handling (Thanks to https://github.com/nazar-pc)
+- Add `account::AccountId20` mapping (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Optimize caching for previously constructed type classes per registry
+- Convert metadata, rpc and api to use lazy decoration
+- Split u8a decoding paths for Vec (different from general path)
+- Keep track of initial u8a decoded length inside Codec
+- Move PortableRegistry location inside `@polkadot/types/metadata`
+
+
+## 6.6.1 Nov 1, 2021
+
+Upgrade priority: Low. Internal maintenance updates.
+
+Changes:
+
+- Fix construction for `palletVersion` keys with correct prefix
+- Add Polkadot `EthereumAddress` as a known `PortableRegistry` override
+- De-dupe `PortableRegistry` namespace splitting operations
+- Optimize internal `AbstractArray` & `Struct` u8a decoding
+- Shortcut `Struct` construction from `Struct` instance
+- Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
+- Codec `toHex()` will now correctly return the TS `HexString` type
+- Update known upgrade blocks for Westend & Kusama
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.5.2 Oct 26, 2021
+
+Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.
+
+Changes:
+
+- Adjust `toHuman` on `Call` to return names & (not only) values
+- Allow for optional known `RuntimeVersion` to short-circuit `api.at`
+- Ensure `Struct` decodes fully on `null` input (equivalent to `undefined` & `{}`)
+
+
+## 6.5.1 Oct 24, 2021
+
+Upgrade priority: Low. Internal maintenance upgrades.
+
+Contributed:
+
+- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Ecah module now exposes the Substrate-added `palletVersion` storage item
+- Adjust Websocket `maxReceivedFrameSize` under Node
+- `TypeDef` structures now contain the `typeName` from metadata v14 on fields
+- Fix browser bundle imports for xcm-mapping (move to `types-known`)
+- Expose all extracted type names in `PortableRegistry`
+- Adjust `toJSON` (Ascii) output detection on `Raw`
+- Adjust `api.rpc.*.*.raw(..args)` return to the actual over-the-wire JSON result
+- Remove `api.rpc.*.*.json(..args)` since it now overlaps with new `.raw`
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.4.2 Oct 18, 2021
+
+Upgrade priority: Low. Recommended for Westmint runtime 500+
+
+Changes:
+
+- Ensure `SignerPayload` correctly serializes `Option` with `None`
+- Add Ethereum `BlockV{0, 1, 2}` types, aligning with latest Frontier
+- Additional tests for metadata serialization/de-serialization
+
+
+## 6.4.1 Oct 17, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9110+
+
+Changes:
+
+- Adjust Statemint known types for version 4+
+- Adjust balance derives to return multiple vesting schedules
+- Adjust crowdloan derives to use paged key retrieval
+- Ensure account indices (derived) are `Accountindex` types
+- Adjust metadata v14 to include top-level type field from metadata
+- Filter metadata v14 unused enum fields in TS generation
+- Adjust derives to use more metadata v14 types on returns
+- Add Kusama & Polkadot upgrade blocks for 9100/9110
+- Align contract usage with latrest `PortableRegistry` (remove old-generation)
+- Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
+- Adjust for eslint v8 checks
+- Don't run any online tests on CI by default (uncontrolled external dependencies)
+
+
+## 6.3.1 Oct 9, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9100+
+
+Changes:
+
+- Mark `api.query.*.*.at` as deprecated (use `api.at`)
+- Expose `queryMulti`, `findError` and `findCall` on `api.at`
+- Optimize parallel metadata retrieval/decoration
+- Rework derive `.at` to ensure no additional metadata calls
+- Adjust Xcm types for Kusama, Polkadot, Westend (V1 & V2 usage)
+- Fix Xcm Fungibility type
+- Add upgrade blocks for Westend
+- Prepare for v14 metadata swap in Kusama/Polkadot (9110 runtime)
+- Adjust metadata wilcard path matching (event extraction)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.2.1 Oct 4, 2021
+
+Upgrade priority: Low. Maintenance updates.
+
+Contributed:
+
+- Cater for new asset fee payment extension (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Extend error messages for malformed `queryMulti` inputs
+- Correctly handle non-map queries passed to `queryMulti` in map form
+- Use new metadata v14 lookup type in derive results
+- Adjust definitions to infer TS types in `.multi` queries
+- Fix TS lookup enum generation with nested Option & Tuple
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
 ## 6.1.2 Sep 29, 2021
 
 Upgrade priority: Low. Recommended for 6.x users using historic queries.

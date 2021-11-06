@@ -108,7 +108,8 @@ declare module '@polkadot/api/types/events' {
        **/
       BalanceSet: AugmentedEvent<ApiType, [AccountId32, u128, u128]>;
       /**
-       * Some amount was deposited (e.g. for transaction fees). \[who, deposit\]
+       * Some amount was deposited into the account (e.g. for transaction fees). \[who,
+       * deposit\]
        **/
       Deposit: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
@@ -131,6 +132,11 @@ declare module '@polkadot/api/types/events' {
        **/
       ReserveRepatriated: AugmentedEvent<ApiType, [AccountId32, AccountId32, u128, FrameSupportTokensMiscBalanceStatus]>;
       /**
+       * Some amount was removed from the account (e.g. for misbehavior). \[who,
+       * amount_slashed\]
+       **/
+      Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
        * Transfer succeeded. \[from, to, value\]
        **/
       Transfer: AugmentedEvent<ApiType, [AccountId32, AccountId32, u128]>;
@@ -138,6 +144,10 @@ declare module '@polkadot/api/types/events' {
        * Some balance was unreserved (moved from reserved to free). \[who, value\]
        **/
       Unreserved: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * Some amount was withdrawn from the account (e.g. for transaction fees). \[who, value\]
+       **/
+      Withdraw: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * Generic event
        **/
@@ -180,47 +190,28 @@ declare module '@polkadot/api/types/events' {
     contracts: {
       /**
        * A code with the specified hash was removed.
-       * \[code_hash\]
        * 
        * This happens when the last contract that uses this code hash was removed.
        **/
       CodeRemoved: AugmentedEvent<ApiType, [H256]>;
       /**
-       * Code with the specified hash has been stored. \[code_hash\]
+       * Code with the specified hash has been stored.
        **/
       CodeStored: AugmentedEvent<ApiType, [H256]>;
       /**
        * A custom event emitted by the contract.
-       * \[contract, data\]
-       * 
-       * # Params
-       * 
-       * - `contract`: The contract that emitted the event.
-       * - `data`: Data supplied by the contract. Metadata generated during contract compilation
-       * is needed to decode it.
        **/
       ContractEmitted: AugmentedEvent<ApiType, [AccountId32, Bytes]>;
       /**
-       * Contract deployed by address at the specified address. \[deployer, contract\]
+       * Contract deployed by address at the specified address.
        **/
       Instantiated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
       /**
        * Triggered when the current schedule is updated.
-       * \[version\]
-       * 
-       * # Params
-       * 
-       * - `version`: The version of the newly set schedule.
        **/
       ScheduleUpdated: AugmentedEvent<ApiType, [u32]>;
       /**
        * Contract has been removed.
-       * \[contract, beneficiary\]
-       * 
-       * # Params
-       * 
-       * - `contract`: The contract that was terminated.
-       * - `beneficiary`: The account that received the contracts remaining balance.
        * 
        * # Note
        * 

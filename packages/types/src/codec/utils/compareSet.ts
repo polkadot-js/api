@@ -5,7 +5,7 @@ import { isObject } from '@polkadot/util';
 
 function compareSetArray (a: Set<unknown>, b: any[]): boolean {
   // equal number of entries and each entry in the array should match
-  return (a.size === b.length) && !b.some((entry): boolean => !a.has(entry));
+  return (a.size === b.length) && !b.some((e) => !a.has(e));
 }
 
 // NOTE These are used internally and when comparing objects, expects that

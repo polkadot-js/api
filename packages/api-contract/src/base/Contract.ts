@@ -13,7 +13,6 @@ import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { createTypeUnsafe } from '@polkadot/types';
 import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
@@ -101,7 +100,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           : this.api.consts.system.maximumBlockWeight as Weight
         ).muln(64).div(BN_HUNDRED)
       : gasLimit;
-  }
+  };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
@@ -127,7 +126,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             .filter((decoded): decoded is DecodedEvent => !!decoded)
         ))
       );
-  }
+  };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
@@ -153,12 +152,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
                 ? gasRequired
                 : gasConsumed,
               output: result.isOk && message.returnType
-                ? createTypeUnsafe(this.registry, message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+                ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
                 : null,
               result
             }))
           )
       )
     };
-  }
+  };
 }

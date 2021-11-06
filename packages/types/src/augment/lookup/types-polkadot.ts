@@ -7,28 +7,24 @@ import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
-  /** @name PolkadotRuntimeCommonClaimsEthereumAddress (66) */
-  export interface PolkadotRuntimeCommonClaimsEthereumAddress extends U8aFixed {}
-
   /** @name PolkadotRuntimeProxyType (72) */
   export interface PolkadotRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
     readonly isGovernance: boolean;
     readonly isStaking: boolean;
-    readonly isUnused4: boolean;
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
   }
 
-  /** @name PolkadotPrimitivesV1CandidateReceipt (82) */
+  /** @name PolkadotPrimitivesV1CandidateReceipt (83) */
   export interface PolkadotPrimitivesV1CandidateReceipt extends Struct {
     readonly descriptor: PolkadotPrimitivesV1CandidateDescriptor;
     readonly commitmentsHash: H256;
   }
 
-  /** @name PolkadotPrimitivesV1CandidateDescriptor (83) */
+  /** @name PolkadotPrimitivesV1CandidateDescriptor (84) */
   export interface PolkadotPrimitivesV1CandidateDescriptor extends Struct {
     readonly paraId: u32;
     readonly relayParent: H256;
@@ -41,13 +37,13 @@ declare module '@polkadot/types/lookup' {
     readonly validationCodeHash: H256;
   }
 
-  /** @name PolkadotPrimitivesV0CollatorAppPublic (85) */
+  /** @name PolkadotPrimitivesV0CollatorAppPublic (86) */
   export interface PolkadotPrimitivesV0CollatorAppPublic extends SpCoreSr25519Public {}
 
-  /** @name PolkadotPrimitivesV0CollatorAppSignature (86) */
+  /** @name PolkadotPrimitivesV0CollatorAppSignature (87) */
   export interface PolkadotPrimitivesV0CollatorAppSignature extends SpCoreSr25519Signature {}
 
-  /** @name XcmV2TraitsOutcome (95) */
+  /** @name XcmV2TraitsOutcome (96) */
   export interface XcmV2TraitsOutcome extends Enum {
     readonly isComplete: boolean;
     readonly asComplete: u64;
@@ -57,53 +53,45 @@ declare module '@polkadot/types/lookup' {
     readonly asError: XcmV2TraitsError;
   }
 
-  /** @name XcmV2TraitsError (96) */
+  /** @name XcmV2TraitsError (97) */
   export interface XcmV2TraitsError extends Enum {
-    readonly isUndefined: boolean;
     readonly isOverflow: boolean;
     readonly isUnimplemented: boolean;
-    readonly isUnhandledXcmVersion: boolean;
-    readonly isUnhandledXcmMessage: boolean;
-    readonly isUnhandledEffect: boolean;
-    readonly isEscalationOfPrivilege: boolean;
     readonly isUntrustedReserveLocation: boolean;
     readonly isUntrustedTeleportLocation: boolean;
-    readonly isDestinationBufferOverflow: boolean;
     readonly isMultiLocationFull: boolean;
     readonly isMultiLocationNotInvertible: boolean;
-    readonly isFailedToDecode: boolean;
     readonly isBadOrigin: boolean;
-    readonly isExceedsMaxMessageSize: boolean;
+    readonly isInvalidLocation: boolean;
+    readonly isAssetNotFound: boolean;
     readonly isFailedToTransactAsset: boolean;
-    readonly isWeightLimitReached: boolean;
-    readonly asWeightLimitReached: u64;
-    readonly isWildcard: boolean;
-    readonly isTooMuchWeightRequired: boolean;
-    readonly isNotHoldingFees: boolean;
-    readonly isWeightNotComputable: boolean;
-    readonly isBarrier: boolean;
     readonly isNotWithdrawable: boolean;
     readonly isLocationCannotHold: boolean;
-    readonly isTooExpensive: boolean;
-    readonly isAssetNotFound: boolean;
+    readonly isExceedsMaxMessageSize: boolean;
     readonly isDestinationUnsupported: boolean;
-    readonly isRecursionLimitReached: boolean;
     readonly isTransport: boolean;
     readonly isUnroutable: boolean;
-    readonly isUnknownWeightRequired: boolean;
+    readonly isUnknownClaim: boolean;
+    readonly isFailedToDecode: boolean;
+    readonly isTooMuchWeightRequired: boolean;
+    readonly isNotHoldingFees: boolean;
+    readonly isTooExpensive: boolean;
     readonly isTrap: boolean;
     readonly asTrap: u64;
-    readonly isUnknownClaim: boolean;
-    readonly isInvalidLocation: boolean;
+    readonly isUnhandledXcmVersion: boolean;
+    readonly isWeightLimitReached: boolean;
+    readonly asWeightLimitReached: u64;
+    readonly isBarrier: boolean;
+    readonly isWeightNotComputable: boolean;
   }
 
-  /** @name PolkadotParachainPrimitivesHrmpChannelId (98) */
+  /** @name PolkadotParachainPrimitivesHrmpChannelId (99) */
   export interface PolkadotParachainPrimitivesHrmpChannelId extends Struct {
     readonly sender: u32;
     readonly recipient: u32;
   }
 
-  /** @name PolkadotRuntimeSessionKeys (161) */
+  /** @name PolkadotRuntimeSessionKeys (162) */
   export interface PolkadotRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -113,22 +101,22 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name PolkadotPrimitivesV0ValidatorAppPublic (162) */
+  /** @name PolkadotPrimitivesV0ValidatorAppPublic (163) */
   export interface PolkadotPrimitivesV0ValidatorAppPublic extends SpCoreSr25519Public {}
 
-  /** @name PolkadotPrimitivesV1AssignmentAppPublic (163) */
+  /** @name PolkadotPrimitivesV1AssignmentAppPublic (164) */
   export interface PolkadotPrimitivesV1AssignmentAppPublic extends SpCoreSr25519Public {}
 
-  /** @name PolkadotRuntimeCommonClaimsEcdsaSignature (195) */
+  /** @name PolkadotRuntimeCommonClaimsEcdsaSignature (196) */
   export interface PolkadotRuntimeCommonClaimsEcdsaSignature extends U8aFixed {}
 
-  /** @name PolkadotRuntimeCommonClaimsStatementKind (200) */
+  /** @name PolkadotRuntimeCommonClaimsStatementKind (201) */
   export interface PolkadotRuntimeCommonClaimsStatementKind extends Enum {
     readonly isRegular: boolean;
     readonly isSaft: boolean;
   }
 
-  /** @name PolkadotRuntimeNposCompactSolution16 (253) */
+  /** @name PolkadotRuntimeNposCompactSolution16 (254) */
   export interface PolkadotRuntimeNposCompactSolution16 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -148,7 +136,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes16: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PolkadotPrimitivesV1InherentData (314) */
+  /** @name PolkadotPrimitivesV1InherentData (316) */
   export interface PolkadotPrimitivesV1InherentData extends Struct {
     readonly bitfields: Vec<PolkadotPrimitivesV1SignedUncheckedSigned>;
     readonly backedCandidates: Vec<PolkadotPrimitivesV1BackedCandidate>;
@@ -156,33 +144,33 @@ declare module '@polkadot/types/lookup' {
     readonly parentHeader: SpRuntimeGenericHeader;
   }
 
-  /** @name PolkadotPrimitivesV1SignedUncheckedSigned (316) */
+  /** @name PolkadotPrimitivesV1SignedUncheckedSigned (318) */
   export interface PolkadotPrimitivesV1SignedUncheckedSigned extends Struct {
     readonly payload: BitVec;
     readonly validatorIndex: u32;
     readonly signature: PolkadotPrimitivesV0ValidatorAppSignature;
   }
 
-  /** @name BitvecOrderLsb0 (319) */
+  /** @name BitvecOrderLsb0 (321) */
   export type BitvecOrderLsb0 = Null;
 
-  /** @name PolkadotPrimitivesV0ValidatorAppSignature (321) */
+  /** @name PolkadotPrimitivesV0ValidatorAppSignature (323) */
   export interface PolkadotPrimitivesV0ValidatorAppSignature extends SpCoreSr25519Signature {}
 
-  /** @name PolkadotPrimitivesV1BackedCandidate (323) */
+  /** @name PolkadotPrimitivesV1BackedCandidate (325) */
   export interface PolkadotPrimitivesV1BackedCandidate extends Struct {
     readonly candidate: PolkadotPrimitivesV1CommittedCandidateReceipt;
     readonly validityVotes: Vec<PolkadotPrimitivesV0ValidityAttestation>;
     readonly validatorIndices: BitVec;
   }
 
-  /** @name PolkadotPrimitivesV1CommittedCandidateReceipt (324) */
+  /** @name PolkadotPrimitivesV1CommittedCandidateReceipt (326) */
   export interface PolkadotPrimitivesV1CommittedCandidateReceipt extends Struct {
     readonly descriptor: PolkadotPrimitivesV1CandidateDescriptor;
     readonly commitments: PolkadotPrimitivesV1CandidateCommitments;
   }
 
-  /** @name PolkadotPrimitivesV1CandidateCommitments (325) */
+  /** @name PolkadotPrimitivesV1CandidateCommitments (327) */
   export interface PolkadotPrimitivesV1CandidateCommitments extends Struct {
     readonly upwardMessages: Vec<Bytes>;
     readonly horizontalMessages: Vec<PolkadotCorePrimitivesOutboundHrmpMessage>;
@@ -192,29 +180,28 @@ declare module '@polkadot/types/lookup' {
     readonly hrmpWatermark: u32;
   }
 
-  /** @name PolkadotCorePrimitivesOutboundHrmpMessage (327) */
+  /** @name PolkadotCorePrimitivesOutboundHrmpMessage (329) */
   export interface PolkadotCorePrimitivesOutboundHrmpMessage extends Struct {
     readonly recipient: u32;
     readonly data: Bytes;
   }
 
-  /** @name PolkadotPrimitivesV0ValidityAttestation (331) */
+  /** @name PolkadotPrimitivesV0ValidityAttestation (333) */
   export interface PolkadotPrimitivesV0ValidityAttestation extends Enum {
-    readonly isUnused0: boolean;
     readonly isImplicit: boolean;
     readonly asImplicit: PolkadotPrimitivesV0ValidatorAppSignature;
     readonly isExplicit: boolean;
     readonly asExplicit: PolkadotPrimitivesV0ValidatorAppSignature;
   }
 
-  /** @name PolkadotPrimitivesV1DisputeStatementSet (333) */
+  /** @name PolkadotPrimitivesV1DisputeStatementSet (335) */
   export interface PolkadotPrimitivesV1DisputeStatementSet extends Struct {
     readonly candidateHash: H256;
     readonly session: u32;
     readonly statements: Vec<ITuple<[PolkadotPrimitivesV1DisputeStatement, u32, PolkadotPrimitivesV0ValidatorAppSignature]>>;
   }
 
-  /** @name PolkadotPrimitivesV1DisputeStatement (337) */
+  /** @name PolkadotPrimitivesV1DisputeStatement (339) */
   export interface PolkadotPrimitivesV1DisputeStatement extends Enum {
     readonly isValid: boolean;
     readonly asValid: PolkadotPrimitivesV1ValidDisputeStatementKind;
@@ -222,7 +209,7 @@ declare module '@polkadot/types/lookup' {
     readonly asInvalid: PolkadotPrimitivesV1InvalidDisputeStatementKind;
   }
 
-  /** @name PolkadotPrimitivesV1ValidDisputeStatementKind (338) */
+  /** @name PolkadotPrimitivesV1ValidDisputeStatementKind (340) */
   export interface PolkadotPrimitivesV1ValidDisputeStatementKind extends Enum {
     readonly isExplicit: boolean;
     readonly isBackingSeconded: boolean;
@@ -232,12 +219,12 @@ declare module '@polkadot/types/lookup' {
     readonly isApprovalChecking: boolean;
   }
 
-  /** @name PolkadotPrimitivesV1InvalidDisputeStatementKind (339) */
+  /** @name PolkadotPrimitivesV1InvalidDisputeStatementKind (341) */
   export interface PolkadotPrimitivesV1InvalidDisputeStatementKind extends Enum {
     readonly isExplicit: boolean;
   }
 
-  /** @name SpRuntimeMultiSigner (351) */
+  /** @name SpRuntimeMultiSigner (353) */
   export interface SpRuntimeMultiSigner extends Enum {
     readonly isEd25519: boolean;
     readonly asEd25519: SpCoreEd25519Public;
@@ -247,75 +234,29 @@ declare module '@polkadot/types/lookup' {
     readonly asEcdsa: SpCoreEcdsaPublic;
   }
 
-  /** @name SpCoreEcdsaPublic (352) */
+  /** @name SpCoreEcdsaPublic (354) */
   export interface SpCoreEcdsaPublic extends U8aFixed {}
 
-  /** @name PolkadotRuntimeOriginCaller (357) */
+  /** @name PolkadotRuntimeOriginCaller (359) */
   export interface PolkadotRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
-    readonly isUnused1: boolean;
-    readonly isUnused2: boolean;
-    readonly isUnused3: boolean;
     readonly isVoid: boolean;
-    readonly isUnused5: boolean;
-    readonly isUnused6: boolean;
-    readonly isUnused7: boolean;
-    readonly isUnused8: boolean;
-    readonly isUnused9: boolean;
-    readonly isUnused10: boolean;
-    readonly isUnused11: boolean;
-    readonly isUnused12: boolean;
-    readonly isUnused13: boolean;
-    readonly isUnused14: boolean;
     readonly isCouncil: boolean;
     readonly asCouncil: PalletCollectiveRawOrigin;
     readonly isTechnicalCommittee: boolean;
     readonly asTechnicalCommittee: PalletCollectiveRawOrigin;
-    readonly isUnused17: boolean;
-    readonly isUnused18: boolean;
-    readonly isUnused19: boolean;
-    readonly isUnused20: boolean;
-    readonly isUnused21: boolean;
-    readonly isUnused22: boolean;
-    readonly isUnused23: boolean;
-    readonly isUnused24: boolean;
-    readonly isUnused25: boolean;
-    readonly isUnused26: boolean;
-    readonly isUnused27: boolean;
-    readonly isUnused28: boolean;
-    readonly isUnused29: boolean;
-    readonly isUnused30: boolean;
-    readonly isUnused31: boolean;
-    readonly isUnused32: boolean;
-    readonly isUnused33: boolean;
-    readonly isUnused34: boolean;
-    readonly isUnused35: boolean;
-    readonly isUnused36: boolean;
-    readonly isUnused37: boolean;
-    readonly isUnused38: boolean;
-    readonly isUnused39: boolean;
-    readonly isUnused40: boolean;
-    readonly isUnused41: boolean;
-    readonly isUnused42: boolean;
-    readonly isUnused43: boolean;
-    readonly isUnused44: boolean;
-    readonly isUnused45: boolean;
-    readonly isUnused46: boolean;
-    readonly isUnused47: boolean;
-    readonly isUnused48: boolean;
-    readonly isUnused49: boolean;
     readonly isParachainsOrigin: boolean;
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
   }
 
-  /** @name PolkadotRuntimeParachainsOriginPalletOrigin (361) */
+  /** @name PolkadotRuntimeParachainsOriginPalletOrigin (363) */
   export interface PolkadotRuntimeParachainsOriginPalletOrigin extends Enum {
     readonly isParachain: boolean;
     readonly asParachain: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsConfigurationHostConfiguration (506) */
+  /** @name PolkadotRuntimeParachainsConfigurationHostConfiguration (513) */
   export interface PolkadotRuntimeParachainsConfigurationHostConfiguration extends Struct {
     readonly maxCodeSize: u32;
     readonly maxHeadDataSize: u32;
@@ -359,13 +300,13 @@ declare module '@polkadot/types/lookup' {
     readonly umpMaxIndividualWeight: u64;
   }
 
-  /** @name PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord (510) */
+  /** @name PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord (517) */
   export interface PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord extends Struct {
     readonly bitfield: BitVec;
     readonly submittedAt: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsInclusionCandidatePendingAvailability (511) */
+  /** @name PolkadotRuntimeParachainsInclusionCandidatePendingAvailability (518) */
   export interface PolkadotRuntimeParachainsInclusionCandidatePendingAvailability extends Struct {
     readonly core: u32;
     readonly hash_: H256;
@@ -377,35 +318,42 @@ declare module '@polkadot/types/lookup' {
     readonly backingGroup: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsSchedulerParathreadClaimQueue (515) */
+  /** @name PolkadotPrimitivesV1ScrapedOnChainVotes (520) */
+  export interface PolkadotPrimitivesV1ScrapedOnChainVotes extends Struct {
+    readonly session: u32;
+    readonly backingValidatorsPerCandidate: Vec<ITuple<[PolkadotPrimitivesV1CandidateReceipt, Vec<ITuple<[u32, PolkadotPrimitivesV0ValidityAttestation]>>]>>;
+    readonly disputes: Vec<PolkadotPrimitivesV1DisputeStatementSet>;
+  }
+
+  /** @name PolkadotRuntimeParachainsSchedulerParathreadClaimQueue (527) */
   export interface PolkadotRuntimeParachainsSchedulerParathreadClaimQueue extends Struct {
     readonly queue: Vec<PolkadotRuntimeParachainsSchedulerQueuedParathread>;
     readonly nextCoreOffset: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsSchedulerQueuedParathread (517) */
+  /** @name PolkadotRuntimeParachainsSchedulerQueuedParathread (529) */
   export interface PolkadotRuntimeParachainsSchedulerQueuedParathread extends Struct {
     readonly claim: PolkadotPrimitivesV1ParathreadEntry;
     readonly coreOffset: u32;
   }
 
-  /** @name PolkadotPrimitivesV1ParathreadEntry (518) */
+  /** @name PolkadotPrimitivesV1ParathreadEntry (530) */
   export interface PolkadotPrimitivesV1ParathreadEntry extends Struct {
     readonly claim: PolkadotPrimitivesV1ParathreadClaim;
     readonly retries: u32;
   }
 
-  /** @name PolkadotPrimitivesV1ParathreadClaim (519) */
+  /** @name PolkadotPrimitivesV1ParathreadClaim (531) */
   export interface PolkadotPrimitivesV1ParathreadClaim extends ITuple<[u32, PolkadotPrimitivesV0CollatorAppPublic]> {}
 
-  /** @name PolkadotPrimitivesV1CoreOccupied (522) */
+  /** @name PolkadotPrimitivesV1CoreOccupied (534) */
   export interface PolkadotPrimitivesV1CoreOccupied extends Enum {
     readonly isParathread: boolean;
     readonly asParathread: PolkadotPrimitivesV1ParathreadEntry;
     readonly isParachain: boolean;
   }
 
-  /** @name PolkadotRuntimeParachainsSchedulerCoreAssignment (525) */
+  /** @name PolkadotRuntimeParachainsSchedulerCoreAssignment (537) */
   export interface PolkadotRuntimeParachainsSchedulerCoreAssignment extends Struct {
     readonly core: u32;
     readonly paraId: u32;
@@ -413,14 +361,14 @@ declare module '@polkadot/types/lookup' {
     readonly groupIdx: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsSchedulerAssignmentKind (526) */
+  /** @name PolkadotRuntimeParachainsSchedulerAssignmentKind (538) */
   export interface PolkadotRuntimeParachainsSchedulerAssignmentKind extends Enum {
     readonly isParachain: boolean;
     readonly isParathread: boolean;
     readonly asParathread: ITuple<[PolkadotPrimitivesV0CollatorAppPublic, u32]>;
   }
 
-  /** @name PolkadotRuntimeParachainsParasParaLifecycle (527) */
+  /** @name PolkadotRuntimeParachainsParasParaLifecycle (539) */
   export interface PolkadotRuntimeParachainsParasParaLifecycle extends Enum {
     readonly isOnboarding: boolean;
     readonly isParathread: boolean;
@@ -431,50 +379,50 @@ declare module '@polkadot/types/lookup' {
     readonly isOffboardingParachain: boolean;
   }
 
-  /** @name PolkadotRuntimeParachainsParasParaPastCodeMeta (529) */
+  /** @name PolkadotRuntimeParachainsParasParaPastCodeMeta (541) */
   export interface PolkadotRuntimeParachainsParasParaPastCodeMeta extends Struct {
     readonly upgradeTimes: Vec<PolkadotRuntimeParachainsParasReplacementTimes>;
     readonly lastPruned: Option<u32>;
   }
 
-  /** @name PolkadotRuntimeParachainsParasReplacementTimes (531) */
+  /** @name PolkadotRuntimeParachainsParasReplacementTimes (543) */
   export interface PolkadotRuntimeParachainsParasReplacementTimes extends Struct {
     readonly expectedAt: u32;
     readonly activatedAt: u32;
   }
 
-  /** @name PolkadotPrimitivesV1UpgradeGoAhead (533) */
+  /** @name PolkadotPrimitivesV1UpgradeGoAhead (545) */
   export interface PolkadotPrimitivesV1UpgradeGoAhead extends Enum {
     readonly isAbort: boolean;
     readonly isGoAhead: boolean;
   }
 
-  /** @name PolkadotPrimitivesV1UpgradeRestriction (534) */
+  /** @name PolkadotPrimitivesV1UpgradeRestriction (546) */
   export interface PolkadotPrimitivesV1UpgradeRestriction extends Enum {
     readonly isPresent: boolean;
   }
 
-  /** @name PolkadotRuntimeParachainsParasParaGenesisArgs (535) */
+  /** @name PolkadotRuntimeParachainsParasParaGenesisArgs (547) */
   export interface PolkadotRuntimeParachainsParasParaGenesisArgs extends Struct {
     readonly genesisHead: Bytes;
     readonly validationCode: Bytes;
     readonly parachain: bool;
   }
 
-  /** @name PolkadotRuntimeParachainsInitializerBufferedSessionChange (538) */
+  /** @name PolkadotRuntimeParachainsInitializerBufferedSessionChange (550) */
   export interface PolkadotRuntimeParachainsInitializerBufferedSessionChange extends Struct {
     readonly validators: Vec<PolkadotPrimitivesV0ValidatorAppPublic>;
     readonly queued: Vec<PolkadotPrimitivesV0ValidatorAppPublic>;
     readonly sessionIndex: u32;
   }
 
-  /** @name PolkadotCorePrimitivesInboundDownwardMessage (540) */
+  /** @name PolkadotCorePrimitivesInboundDownwardMessage (552) */
   export interface PolkadotCorePrimitivesInboundDownwardMessage extends Struct {
     readonly sentAt: u32;
     readonly msg: Bytes;
   }
 
-  /** @name PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest (543) */
+  /** @name PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest (555) */
   export interface PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest extends Struct {
     readonly confirmed: bool;
     readonly age: u32;
@@ -484,7 +432,7 @@ declare module '@polkadot/types/lookup' {
     readonly maxTotalSize: u32;
   }
 
-  /** @name PolkadotRuntimeParachainsHrmpHrmpChannel (545) */
+  /** @name PolkadotRuntimeParachainsHrmpHrmpChannel (557) */
   export interface PolkadotRuntimeParachainsHrmpHrmpChannel extends Struct {
     readonly maxCapacity: u32;
     readonly maxTotalSize: u32;
@@ -496,13 +444,13 @@ declare module '@polkadot/types/lookup' {
     readonly recipientDeposit: u128;
   }
 
-  /** @name PolkadotCorePrimitivesInboundHrmpMessage (548) */
+  /** @name PolkadotCorePrimitivesInboundHrmpMessage (560) */
   export interface PolkadotCorePrimitivesInboundHrmpMessage extends Struct {
     readonly sentAt: u32;
     readonly data: Bytes;
   }
 
-  /** @name PolkadotPrimitivesV1SessionInfo (553) */
+  /** @name PolkadotPrimitivesV1SessionInfo (565) */
   export interface PolkadotPrimitivesV1SessionInfo extends Struct {
     readonly validators: Vec<PolkadotPrimitivesV0ValidatorAppPublic>;
     readonly discoveryKeys: Vec<SpAuthorityDiscoveryAppPublic>;
@@ -516,14 +464,14 @@ declare module '@polkadot/types/lookup' {
     readonly neededApprovals: u32;
   }
 
-  /** @name PolkadotRuntimeCommonParasRegistrarParaInfo (555) */
+  /** @name PolkadotRuntimeCommonParasRegistrarParaInfo (567) */
   export interface PolkadotRuntimeCommonParasRegistrarParaInfo extends Struct {
     readonly manager: AccountId32;
     readonly deposit: u128;
     readonly locked: bool;
   }
 
-  /** @name PolkadotRuntimeCommonCrowdloanFundInfo (565) */
+  /** @name PolkadotRuntimeCommonCrowdloanFundInfo (577) */
   export interface PolkadotRuntimeCommonCrowdloanFundInfo extends Struct {
     readonly depositor: AccountId32;
     readonly verifier: Option<SpRuntimeMultiSigner>;
@@ -537,7 +485,7 @@ declare module '@polkadot/types/lookup' {
     readonly trieIndex: u32;
   }
 
-  /** @name PolkadotRuntimeCommonCrowdloanLastContribution (566) */
+  /** @name PolkadotRuntimeCommonCrowdloanLastContribution (578) */
   export interface PolkadotRuntimeCommonCrowdloanLastContribution extends Enum {
     readonly isNever: boolean;
     readonly isPreEnding: boolean;
@@ -546,10 +494,10 @@ declare module '@polkadot/types/lookup' {
     readonly asEnding: u32;
   }
 
-  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (578) */
+  /** @name PolkadotRuntimeCommonClaimsPrevalidateAttests (590) */
   export type PolkadotRuntimeCommonClaimsPrevalidateAttests = Null;
 
-  /** @name PolkadotRuntimeRuntime (579) */
+  /** @name PolkadotRuntimeRuntime (591) */
   export type PolkadotRuntimeRuntime = Null;
 
 }

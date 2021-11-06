@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
 import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, isUndefined, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, isUndefined, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
@@ -33,12 +34,15 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
 
-    super(registry, {
-      signer: 'Address',
-      // eslint-disable-next-line sort-keys
-      signature: 'ExtrinsicSignature',
-      ...signTypes
-    }, GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
+    super(
+      registry,
+      objectSpread(
+        // eslint-disable-next-line sort-keys
+        { signer: 'Address', signature: 'ExtrinsicSignature' },
+        signTypes
+      ),
+      GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
+    );
 
     this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
       ? FAKE_SOME
@@ -138,7 +142,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Adds a raw signature
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
     return this._injectSignature(
       toAddress(this.registry, signer),
       this.registry.createType('ExtrinsicSignature', signature),
@@ -152,13 +156,12 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   public createPayload (method: Call, options: SignatureOptions): GenericExtrinsicPayloadV4 {
     const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
 
-    return new GenericExtrinsicPayloadV4(this.registry, {
-      ...options,
+    return new GenericExtrinsicPayloadV4(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
       era: era || IMMORTAL_ERA,
       method: method.toHex(),
       specVersion,
       transactionVersion
-    } as ExtrinsicPayloadValue);
+    }));
   }
 
   /**

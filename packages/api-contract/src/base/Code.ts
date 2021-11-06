@@ -39,8 +39,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.code = isWasm(this.abi.project.source.wasm)
-      ? this.abi.project.source.wasm
+    this.code = isWasm(this.abi.info.source.wasm)
+      ? this.abi.info.source.wasm
       : u8aToU8a(wasm);
 
     assert(isWasm(this.code), 'No WASM code provided');
@@ -76,5 +76,5 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
           [])
         ) || []))
       );
-  }
+  };
 }

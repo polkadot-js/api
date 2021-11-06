@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, Registry } from '../types';
 
@@ -56,7 +57,7 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
-  toHex (): string {
+  toHex (): HexString {
     throw this.#neverError;
   }
 

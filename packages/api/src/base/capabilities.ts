@@ -182,7 +182,7 @@ export function detectedCapabilities (api: ApiInterfaceRx, blockHash?: Uint8Arra
         },
         extractResults<ExtractedC>(cResults, consts),
         extractResults<ExtractedQ>(qResults, queries),
-        extractResults<ExtractedR>(rResults, raws)
+        extractResults<ExtractedR>(rResults.map((r) => api.registry.createType('Raw', r)), raws)
       )
     ),
     take(1),

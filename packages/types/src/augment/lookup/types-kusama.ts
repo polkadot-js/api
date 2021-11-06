@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
 import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 import type { ITuple } from '@polkadot/types/types';
 
@@ -226,6 +226,10 @@ declare module '@polkadot/types/lookup' {
       readonly weightLimit: XcmV2WeightLimit;
     } & Struct;
     readonly isRefundSurplus: boolean;
+    readonly isSetErrorHandler: boolean;
+    readonly asSetErrorHandler: XcmV2Xcm;
+    readonly isSetAppendix: boolean;
+    readonly asSetAppendix: XcmV2Xcm;
     readonly isClearError: boolean;
     readonly isClaimAsset: boolean;
     readonly asClaimAsset: {
@@ -290,7 +294,7 @@ declare module '@polkadot/types/lookup' {
     readonly isAssets: boolean;
     readonly asAssets: XcmV1MultiassetMultiAssets;
     readonly isExecutionResult: boolean;
-    readonly asExecutionResult: Result<Null, ITuple<[u32, XcmV2TraitsError]>>;
+    readonly asExecutionResult: Option<ITuple<[u32, XcmV2TraitsError]>>;
     readonly isVersion: boolean;
     readonly asVersion: u32;
   }
@@ -454,7 +458,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV1: XcmV1MultiLocation;
   }
 
-  /** @name KusamaRuntimeSessionKeys (239) */
+  /** @name KusamaRuntimeSessionKeys (241) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -464,7 +468,7 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (369) */
+  /** @name KusamaRuntimeNposCompactSolution24 (371) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -492,7 +496,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name XcmVersionedXcm (502) */
+  /** @name XcmVersionedXcm (504) */
   export interface XcmVersionedXcm extends Enum {
     readonly isV0: boolean;
     readonly asV0: XcmV0Xcm;
@@ -502,7 +506,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV2: XcmV2Xcm;
   }
 
-  /** @name XcmV0Xcm (503) */
+  /** @name XcmV0Xcm (505) */
   export interface XcmV0Xcm extends Enum {
     readonly isWithdrawAsset: boolean;
     readonly asWithdrawAsset: {
@@ -564,7 +568,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0Order (505) */
+  /** @name XcmV0Order (507) */
   export interface XcmV0Order extends Enum {
     readonly isNull: boolean;
     readonly isDepositAsset: boolean;
@@ -611,13 +615,13 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0Response (507) */
+  /** @name XcmV0Response (509) */
   export interface XcmV0Response extends Enum {
     readonly isAssets: boolean;
     readonly asAssets: Vec<XcmV0MultiAsset>;
   }
 
-  /** @name XcmV1Xcm (508) */
+  /** @name XcmV1Xcm (510) */
   export interface XcmV1Xcm extends Enum {
     readonly isWithdrawAsset: boolean;
     readonly asWithdrawAsset: {
@@ -685,7 +689,7 @@ declare module '@polkadot/types/lookup' {
     readonly isUnsubscribeVersion: boolean;
   }
 
-  /** @name XcmV1Order (510) */
+  /** @name XcmV1Order (512) */
   export interface XcmV1Order extends Enum {
     readonly isNoop: boolean;
     readonly isDepositAsset: boolean;
@@ -734,7 +738,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV1Response (512) */
+  /** @name XcmV1Response (514) */
   export interface XcmV1Response extends Enum {
     readonly isAssets: boolean;
     readonly asAssets: XcmV1MultiassetMultiAssets;
@@ -742,116 +746,22 @@ declare module '@polkadot/types/lookup' {
     readonly asVersion: u32;
   }
 
-  /** @name KusamaRuntimeOriginCaller (573) */
+  /** @name KusamaRuntimeOriginCaller (575) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
-    readonly isUnused1: boolean;
-    readonly isUnused2: boolean;
-    readonly isUnused3: boolean;
-    readonly isUnused4: boolean;
     readonly isVoid: boolean;
-    readonly isUnused6: boolean;
-    readonly isUnused7: boolean;
-    readonly isUnused8: boolean;
-    readonly isUnused9: boolean;
-    readonly isUnused10: boolean;
-    readonly isUnused11: boolean;
-    readonly isUnused12: boolean;
-    readonly isUnused13: boolean;
     readonly isCouncil: boolean;
     readonly asCouncil: PalletCollectiveRawOrigin;
     readonly isTechnicalCommittee: boolean;
     readonly asTechnicalCommittee: PalletCollectiveRawOrigin;
-    readonly isUnused16: boolean;
-    readonly isUnused17: boolean;
-    readonly isUnused18: boolean;
-    readonly isUnused19: boolean;
-    readonly isUnused20: boolean;
-    readonly isUnused21: boolean;
-    readonly isUnused22: boolean;
-    readonly isUnused23: boolean;
-    readonly isUnused24: boolean;
-    readonly isUnused25: boolean;
-    readonly isUnused26: boolean;
-    readonly isUnused27: boolean;
-    readonly isUnused28: boolean;
-    readonly isUnused29: boolean;
-    readonly isUnused30: boolean;
-    readonly isUnused31: boolean;
-    readonly isUnused32: boolean;
-    readonly isUnused33: boolean;
-    readonly isUnused34: boolean;
-    readonly isUnused35: boolean;
-    readonly isUnused36: boolean;
-    readonly isUnused37: boolean;
-    readonly isUnused38: boolean;
-    readonly isUnused39: boolean;
-    readonly isUnused40: boolean;
-    readonly isUnused41: boolean;
-    readonly isUnused42: boolean;
-    readonly isUnused43: boolean;
-    readonly isUnused44: boolean;
-    readonly isUnused45: boolean;
-    readonly isUnused46: boolean;
-    readonly isUnused47: boolean;
-    readonly isUnused48: boolean;
-    readonly isUnused49: boolean;
     readonly isParachainsOrigin: boolean;
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
-    readonly isUnused51: boolean;
-    readonly isUnused52: boolean;
-    readonly isUnused53: boolean;
-    readonly isUnused54: boolean;
-    readonly isUnused55: boolean;
-    readonly isUnused56: boolean;
-    readonly isUnused57: boolean;
-    readonly isUnused58: boolean;
-    readonly isUnused59: boolean;
-    readonly isUnused60: boolean;
-    readonly isUnused61: boolean;
-    readonly isUnused62: boolean;
-    readonly isUnused63: boolean;
-    readonly isUnused64: boolean;
-    readonly isUnused65: boolean;
-    readonly isUnused66: boolean;
-    readonly isUnused67: boolean;
-    readonly isUnused68: boolean;
-    readonly isUnused69: boolean;
-    readonly isUnused70: boolean;
-    readonly isUnused71: boolean;
-    readonly isUnused72: boolean;
-    readonly isUnused73: boolean;
-    readonly isUnused74: boolean;
-    readonly isUnused75: boolean;
-    readonly isUnused76: boolean;
-    readonly isUnused77: boolean;
-    readonly isUnused78: boolean;
-    readonly isUnused79: boolean;
-    readonly isUnused80: boolean;
-    readonly isUnused81: boolean;
-    readonly isUnused82: boolean;
-    readonly isUnused83: boolean;
-    readonly isUnused84: boolean;
-    readonly isUnused85: boolean;
-    readonly isUnused86: boolean;
-    readonly isUnused87: boolean;
-    readonly isUnused88: boolean;
-    readonly isUnused89: boolean;
-    readonly isUnused90: boolean;
-    readonly isUnused91: boolean;
-    readonly isUnused92: boolean;
-    readonly isUnused93: boolean;
-    readonly isUnused94: boolean;
-    readonly isUnused95: boolean;
-    readonly isUnused96: boolean;
-    readonly isUnused97: boolean;
-    readonly isUnused98: boolean;
     readonly isXcmPallet: boolean;
     readonly asXcmPallet: PalletXcmOrigin;
   }
 
-  /** @name PalletXcmOrigin (578) */
+  /** @name PalletXcmOrigin (580) */
   export interface PalletXcmOrigin extends Enum {
     readonly isXcm: boolean;
     readonly asXcm: XcmV1MultiLocation;
@@ -859,7 +769,7 @@ declare module '@polkadot/types/lookup' {
     readonly asResponse: XcmV1MultiLocation;
   }
 
-  /** @name PalletXcmQueryStatus (682) */
+  /** @name PalletXcmQueryStatus (689) */
   export interface PalletXcmQueryStatus extends Enum {
     readonly isPending: boolean;
     readonly asPending: {
@@ -879,7 +789,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmVersionedResponse (685) */
+  /** @name XcmVersionedResponse (692) */
   export interface XcmVersionedResponse extends Enum {
     readonly isV0: boolean;
     readonly asV0: XcmV0Response;
@@ -889,7 +799,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV2: XcmV2Response;
   }
 
-  /** @name PalletXcmVersionMigrationStage (691) */
+  /** @name PalletXcmVersionMigrationStage (698) */
   export interface PalletXcmVersionMigrationStage extends Enum {
     readonly isMigrateSupportedVersion: boolean;
     readonly isMigrateVersionNotifiers: boolean;
@@ -898,7 +808,7 @@ declare module '@polkadot/types/lookup' {
     readonly isMigrateAndNotifyOldTargets: boolean;
   }
 
-  /** @name KusamaRuntimeRuntime (703) */
+  /** @name KusamaRuntimeRuntime (710) */
   export type KusamaRuntimeRuntime = Null;
 
 }

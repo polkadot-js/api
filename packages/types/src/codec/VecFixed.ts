@@ -1,31 +1,26 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { Codec, Constructor, Registry } from '../types';
 
-import { assert, compactToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
+import { assert, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
 import { typeToConstructor } from './utils';
-import { Vec } from './Vec';
+import { decodeVec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
-  const values = Vec.decodeVec(
-    registry,
-    Type,
-    isU8a(value) || isHex(value)
-      ? u8aConcat(compactToU8a(allocLength), value)
-      : value
-  );
+function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, length: number, value: Uint8Array | HexString | unknown[]): [T[], number] {
+  const [values,, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
 
-  while (values.length < allocLength) {
+  while (values.length < length) {
     values.push(new Type(registry));
   }
 
-  assert(values.length === allocLength, () => `Expected a length of exactly ${allocLength} entries`);
+  assert(values.length === length, () => `Expected a length of exactly ${length} entries`);
 
-  return values;
+  return [values, decodedLengthNoOffset];
 }
 
 /**
@@ -34,14 +29,15 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
-  private _Type: Constructor<T>;
+  #Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
+    const [values, decodedLength] = decodeVecFixed(registry, Clazz, length, value);
 
-    super(registry, decodeVecFixed(registry, Clazz, length, value));
+    super(registry, values, decodedLength);
 
-    this._Type = Clazz;
+    this.#Type = Clazz;
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string, length: number): Constructor<VecFixed<O>> {
@@ -56,20 +52,30 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this._Type(this.registry).toRawType();
+    return new this.#Type(this.registry).toRawType();
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.reduce((total, entry) => total + entry.encodedLength, 0);
+    let total = 0;
+
+    for (let i = 0; i < this.length; i++) {
+      total += this[i].encodedLength;
+    }
+
+    return total;
   }
 
   public override toU8a (): Uint8Array {
     // we override, we don't add the length prefix for ourselves, and at the same time we
     // ignore isBare on entries, since they should be properly encoded at all times
-    const encoded = this.map((entry) => entry.toU8a());
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a();
+    }
 
     return encoded.length
       ? u8aConcat(...encoded)

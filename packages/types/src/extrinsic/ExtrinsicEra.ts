@@ -67,10 +67,10 @@ export class MortalEra extends Tuple {
 
   /** @internal */
   private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (!value) {
-      return [new U64(registry), new U64(registry)];
-    } else if (isU8a(value) || isHex(value) || Array.isArray(value)) {
+    if (isU8a(value) || isHex(value) || Array.isArray(value)) {
       return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
+    } else if (!value) {
+      return [new U64(registry), new U64(registry)];
     } else if (isObject(value)) {
       return MortalEra._decodeMortalObject(registry, value);
     }
@@ -208,16 +208,16 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static _decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (!value) {
+    if (isU8a(value)) {
+      return (!value.length || value[0] === 0)
+        ? new Uint8Array([0])
+        : new Uint8Array([1, value[0], value[1]]);
+    } else if (!value) {
       return new Uint8Array([0]);
     } else if (value instanceof GenericExtrinsicEra) {
       return GenericExtrinsicEra._decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
       return GenericExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
-    } else if (isU8a(value)) {
-      return (!value.length || value[0] === 0)
-        ? new Uint8Array([0])
-        : new Uint8Array([1, value[0], value[1]]);
     } else if (isObject(value)) {
       const entries = Object.entries(value as MortalEnumDef).map(([k, v]): [string, any] => [k.toLowerCase(), v]);
       const mortal = entries.find(([k]) => k.toLowerCase() === 'mortalera');

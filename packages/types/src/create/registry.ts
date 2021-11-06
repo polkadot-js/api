@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, PortableRegistry, SiLookupTypeId } from '../interfaces/types';
+import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
-import type { CreateOptions } from './types';
+import type { CreateOptions, TypeDef } from './types';
 
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, logger, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { DoNotConstruct } from '../codec/DoNotConstruct';
@@ -16,89 +16,106 @@ import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from 
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
-import { decorateConstants, decorateExtrinsics } from '../metadata/decorate';
+import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
+import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
-import { createClass } from './createClass';
+import { PortableRegistry } from '../metadata/PortableRegistry';
+import { constructTypeClass, createClass } from './createClass';
 import { createTypeUnsafe } from './createType';
+import { lazyVariants } from './lazy';
 
 const l = logger('registry');
 
+function valueToString (v: { toString: () => string }): string {
+  return v.toString();
+}
+
+function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
+  const args = new Array<string>(fields.length);
+
+  for (let i = 0; i < fields.length; i++) {
+    args[i] = lookup.getTypeDef(fields[i].type).type;
+  }
+
+  return args;
+}
+
+function clearRecord (record: Record<string, unknown>): void {
+  const keys = Object.keys(record);
+
+  for (let i = 0; i < keys.length; i++) {
+    delete record[keys[i]];
+  }
+}
+
+function getVariantStringIdx ({ index }: SiVariant): string {
+  return index.toString();
+}
+
 // create error mapping from metadata
-function injectErrors (_: Registry, metadata: Metadata, metadataErrors: Record<string, RegistryError>): void {
-  const { lookup, pallets } = metadata.asLatest;
+function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
+  clearRecord(result);
 
-  // decorate the errors
-  pallets.forEach(({ errors, index, name }, _sectionIndex): void => {
-    if (errors.isNone) {
-      return;
+  for (let i = 0; i < pallets.length; i++) {
+    const { errors, index, name } = pallets[i];
+
+    if (errors.isSome) {
+      const sectionName = stringCamelCase(name);
+
+      lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
+        lazyVariants(lookup, errors.unwrap(), getVariantStringIdx, ({ docs, fields, index, name }: SiVariant): RegistryError => ({
+          args: getFieldArgs(lookup, fields),
+          docs: docs.map(valueToString),
+          fields,
+          index: index.toNumber(),
+          method: name.toString(),
+          name: name.toString(),
+          section: sectionName
+        }))
+      );
     }
-
-    const sectionIndex = metadata.version >= 12
-      ? index.toNumber()
-      : _sectionIndex;
-    const sectionName = stringCamelCase(name);
-
-    lookup.getSiType(errors.unwrap().type).def.asVariant.variants.forEach(({ docs, fields, index, name }): void => {
-      const variantIndex = index.toNumber();
-      const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-
-      metadataErrors[u8aToHex(eventIndex)] = {
-        args: fields.map(({ type }) =>
-          lookup.getTypeDef(type).type
-        ),
-        docs: docs.map((d) => d.toString()),
-        fields,
-        index: variantIndex,
-        method: name.toString(),
-        name: name.toString(),
-        section: sectionName
-      };
-    });
-  });
+  }
 }
 
 // create event classes from metadata
-function injectEvents (registry: Registry, metadata: Metadata, metadataEvents: Record<string, Constructor<GenericEventData>>): void {
-  const { lookup, pallets } = metadata.asLatest;
+function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
+  const filtered = pallets.filter(filterEventsSome);
 
-  // decorate the events
-  pallets
-    .filter(({ events }) => events.isSome)
-    .forEach(({ events, index, name }, _sectionIndex): void => {
-      const sectionIndex = metadata.version >= 12
-        ? index.toNumber()
-        : _sectionIndex;
-      const sectionName = stringCamelCase(name);
+  clearRecord(result);
 
-      lookup.getSiType(events.unwrap().type).def.asVariant.variants.forEach((variant): void => {
-        const variantIndex = variant.index.toNumber();
-        const eventIndex = new Uint8Array([sectionIndex, variantIndex]);
-        const meta = registry.createType('EventMetadataLatest', {
-          ...variant,
-          args: variant.fields.map(({ type }) =>
-            lookup.getTypeDef(type).type
-          )
-        });
+  for (let i = 0; i < filtered.length; i++) {
+    const { events, index, name } = filtered[i];
 
-        metadataEvents[u8aToHex(eventIndex)] = class extends GenericEventData {
+    lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
+      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
+        const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+
+        return class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
-            super(registry, value, meta, sectionName, variant.name.toString());
+            super(registry, value, meta, stringCamelCase(name), variant.name.toString());
           }
         };
-      });
-    });
+      })
+    );
+  }
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: Registry, metadata: Metadata, metadataCalls: Record<string, CallFunction>): void {
-  const extrinsics = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
+function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
+  const filtered = pallets.filter(filterCallsSome);
 
-  // decorate the extrinsics
-  Object.values(extrinsics).forEach((methods): void =>
-    Object.values(methods).forEach((method): void => {
-      metadataCalls[u8aToHex(method.callIndex)] = method;
-    })
-  );
+  clearRecord(result);
+
+  for (let i = 0; i < filtered.length; i++) {
+    const { calls, index, name } = filtered[i];
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
+
+    lazyMethod(result, sectionIndex, () =>
+      lazyVariants(lookup, calls.unwrap(), getVariantStringIdx, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, stringCamelCase(name), sectionIndex)
+      )
+    );
+  }
 }
 
 // extract additional properties from the metadata
@@ -121,13 +138,17 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
+  #lookup?: PortableRegistry;
+
   #metadata?: MetadataLatest;
 
-  readonly #metadataCalls: Record<string, CallFunction> = {};
+  #metadataVersion = 0;
 
-  readonly #metadataErrors: Record<string, RegistryError> = {};
+  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
 
-  readonly #metadataEvents: Record<string, Constructor<GenericEventData>> = {};
+  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
+
+  readonly #metadataEvents: Record<string, Record<string, Constructor<GenericEventData>>> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -148,7 +169,7 @@ export class TypeRegistry implements Registry {
   public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
-    this.#knownDefaults = { Json, Metadata, Raw, ...baseTypes };
+    this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
     this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
 
     this.init();
@@ -167,9 +188,12 @@ export class TypeRegistry implements Registry {
 
     // register know, first classes then on-demand-created definitions
     this.register(this.#knownDefaults);
-    Object.values(this.#knownDefinitions).forEach(({ types }): void =>
-      this.register(types)
-    );
+
+    const allKnown = Object.values(this.#knownDefinitions);
+
+    for (let i = 0; i < allKnown.length; i++) {
+      this.register(allKnown[i].types);
+    }
 
     return this;
   }
@@ -197,7 +221,7 @@ export class TypeRegistry implements Registry {
       const allTokens = this.#chainProperties.tokenSymbol.unwrap();
 
       if (allTokens.length) {
-        return allTokens.map((s) => s.toString());
+        return allTokens.map(valueToString);
       }
     }
 
@@ -223,7 +247,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.metadata.lookup;
+    return this.#lookup || this.metadata.lookup;
   }
 
   public get metadata (): MetadataLatest {
@@ -263,32 +287,36 @@ export class TypeRegistry implements Registry {
 
   // find a specific call
   public findMetaCall (callIndex: Uint8Array): CallFunction {
-    const hexIndex = u8aToHex(callIndex);
+    const [section, method] = [callIndex[0], callIndex[1]];
 
-    return assertReturn(this.#metadataCalls[hexIndex], `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex.toString()}]`);
+    return assertReturn(
+      this.#metadataCalls[`${section}`] && this.#metadataCalls[`${section}`][`${method}`],
+      () => `findMetaCall: Unable to find Call with index [${section}, ${method}]/[${callIndex.toString()}]`
+    );
   }
 
   // finds an error
   public findMetaError (errorIndex: Uint8Array | DispatchErrorModule): RegistryError {
-    const hexIndex = u8aToHex(
-      isU8a(errorIndex)
-        ? errorIndex
-        : new Uint8Array([
-          errorIndex.index.toNumber(),
-          errorIndex.error.toNumber()
-        ])
-    );
+    const [section, method] = isU8a(errorIndex)
+      ? [errorIndex[0], errorIndex[1]]
+      : [errorIndex.index.toNumber(), errorIndex.error.toNumber()];
 
-    return assertReturn(this.#metadataErrors[hexIndex], `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex.toString()}]`);
+    return assertReturn(
+      this.#metadataErrors[`${section}`] && this.#metadataErrors[`${section}`][`${method}`],
+      () => `findMetaError: Unable to find Error with index [${section}, ${method}]/[${errorIndex.toString()}]`
+    );
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<GenericEventData> {
-    const hexIndex = u8aToHex(eventIndex);
+    const [section, method] = [eventIndex[0], eventIndex[1]];
 
-    return assertReturn(this.#metadataEvents[hexIndex], `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex.toString()}]`);
+    return assertReturn(
+      this.#metadataEvents[`${section}`] && this.#metadataEvents[`${section}`][`${method}`],
+      () => `findMetaEvent: Unable to find Event with index [${section}, ${method}]/[${eventIndex.toString()}]`
+    );
   }
 
-  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined {
+  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
@@ -299,8 +327,8 @@ export class TypeRegistry implements Registry {
       // we have a definition, so create the class now (lazily)
       if (definition) {
         BaseType = createClass(this, definition);
-
-        this.#classes.set(name, BaseType);
+      } else if (knownTypeDef) {
+        BaseType = constructTypeClass(this, knownTypeDef);
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
@@ -327,10 +355,22 @@ export class TypeRegistry implements Registry {
   }
 
   public getClassName (Type: Constructor): string | undefined {
-    const entry = [...this.#classes.entries()].find(([, Clazz]) => Type === Clazz);
+    // we cannot rely on export order (anymore, since babel/core 7.15.8), so in the case of
+    // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
+    // (previously this used to be a simple find & return)
+    const names: string[] = [];
 
-    return entry
-      ? entry[0]
+    for (const [name, Clazz] of this.#classes.entries()) {
+      if (Type === Clazz) {
+        names.push(name);
+      }
+    }
+
+    // both sort and reverse are done in-place
+    names.sort().reverse();
+
+    return names.length
+      ? names[0]
       : undefined;
   }
 
@@ -399,7 +439,11 @@ export class TypeRegistry implements Registry {
   }
 
   private _registerObject (obj: RegistryTypes): void {
-    Object.entries(obj).forEach(([name, type]): void => {
+    const entries = Object.entries(obj);
+
+    for (let e = 0; e < entries.length; e++) {
+      const [name, type] = entries[e];
+
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
         this.#classes.set(name, type);
@@ -417,7 +461,7 @@ export class TypeRegistry implements Registry {
 
         this.#definitions.set(name, def);
       }
-    });
+    }
   }
 
   // sets the chain properties
@@ -435,20 +479,25 @@ export class TypeRegistry implements Registry {
     this.#knownTypes = knownTypes;
   }
 
+  setLookup (lookup: PortableRegistry): void {
+    this.#lookup = lookup;
+  }
+
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
+    this.#metadataVersion = metadata.version;
 
-    injectExtrinsics(this, metadata, this.#metadataCalls);
-    injectErrors(this, metadata, this.#metadataErrors);
-    injectEvents(this, metadata, this.#metadataEvents);
+    injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
+    injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
+    injectEvents(this, this.#metadata, this.#metadataVersion, this.#metadataEvents);
 
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        metadata.asLatest.extrinsic.version.gt(BN_ZERO)
+        this.#metadata.extrinsic.version.gt(BN_ZERO)
           // FIXME Use the extension and their injected types
-          ? metadata.asLatest.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
       userExtensions

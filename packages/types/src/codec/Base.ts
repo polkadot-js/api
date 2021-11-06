@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Registry } from '../types';
 
@@ -13,11 +14,14 @@ export abstract class Base<T extends Codec> implements Codec {
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
   protected readonly _raw: T;
 
-  protected constructor (registry: Registry, value: T) {
+  protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.registry = registry;
     this._raw = value;
+    this.initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -51,7 +55,7 @@ export abstract class Base<T extends Codec> implements Codec {
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (isLe?: boolean): string {
+  public toHex (isLe?: boolean): HexString {
     return this._raw.toHex(isLe);
   }
 

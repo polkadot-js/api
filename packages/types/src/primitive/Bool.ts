@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { Codec, Registry } from '../types';
 
@@ -8,10 +9,10 @@ import { isU8a, u8aToHex } from '@polkadot/util';
 
 /** @internal */
 function decodeBool (value: any): boolean {
-  if (value instanceof Boolean) {
-    return value.valueOf();
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     return value[0] === 1;
+  } else if (value instanceof Boolean) {
+    return value.valueOf();
   }
 
   return !!value;
@@ -84,7 +85,7 @@ export class bool extends Boolean implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 

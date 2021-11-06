@@ -3,6 +3,8 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
@@ -19,7 +21,7 @@ const layout = {
   },
   ContractLayoutCell: {
     key: 'ContractLayoutKey',
-    ty: 'Si0LookupTypeId'
+    ty: 'SiLookupTypeId'
   },
   ContractLayoutEnum: {
     dispatchKey: 'ContractLayoutKey',
@@ -67,7 +69,7 @@ const spec = {
     events: 'Vec<ContractEventSpec>',
     docs: 'Vec<Text>'
   },
-  ContractDisplayName: 'Si0Path',
+  ContractDisplayName: 'SiPath',
   ContractEventParamSpec: {
     name: 'Text',
     indexed: 'bool',
@@ -94,28 +96,41 @@ const spec = {
   },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
-    type: 'Si0LookupTypeId',
+    type: 'SiLookupTypeId',
     displayName: 'ContractDisplayName'
   }
 };
 
+const ContractMetadataV0 = {
+  types: 'Vec<Si0Type>',
+  spec: 'ContractContractSpec'
+};
+
+const ContractMetadataV1 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpec'
+};
+
+const ContractProjectInfo = {
+  source: 'ContractProjectSource',
+  contract: 'ContractProjectContract'
+};
+
 export default {
   rpc: {},
-  types: {
-    ...layout,
-    ...spec,
-    ContractProject: {
-      // added by ABI serialization
-      metadataVersion: 'Text',
-      source: 'ContractProjectSource',
-      contract: 'ContractProjectContract',
-      // expanded scale registry: RegistryReadOnly
-      // NOTE Previous generation of the Si0Type definition
-      types: 'Vec<Si0Type>',
-      // renamed from layout (ignored for now, incomplete)
-      // storage: 'ContractStorageLayout',
-      spec: 'ContractContractSpec'
+  types: objectSpread({}, layout, spec, {
+    ContractProjectInfo,
+    ContractMetadataV0,
+    ContractMetadataV1,
+    ContractMetadata: {
+      _enum: {
+        V0: 'ContractMetadataV0',
+        V1: 'ContractMetadataV1'
+      }
     },
+    ContractMetadataLatest: 'ContractMetadataV1',
+    ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
+    ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
       _alias: {
         docs: 'documentation'
@@ -138,5 +153,5 @@ export default {
       compiler: 'Text',
       wasm: 'Raw'
     }
-  }
+  })
 } as Definitions;

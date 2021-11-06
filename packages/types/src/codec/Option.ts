@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IOption, Registry } from '../types';
 
@@ -10,15 +11,8 @@ import { Null } from '../primitive/Null';
 import { typeToConstructor } from './utils';
 
 /** @internal */
-function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
-  return !value.length || value[0] === 0
-    ? new Null(registry)
-    : new Type(registry, value.subarray(1));
-}
-
-/** @internal */
 function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
-  if (isNull(value) || isUndefined(value) || value instanceof Null) {
+  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
     return new Null(registry);
   }
 
@@ -33,7 +27,9 @@ function decodeOption (registry: Registry, typeName: Constructor | string, value
   } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first
-    return decodeOptionU8a(registry, Type, value);
+    return !value.length || value[0] === 0
+      ? new Null(registry)
+      : new Type(registry, value.subarray(1));
   }
 
   return new Type(registry, value);
@@ -54,12 +50,18 @@ export class Option<T extends Codec> implements IOption<T> {
 
   readonly #Type: Constructor<T>;
 
+  readonly #initialU8aLength?: number;
+
   readonly #raw: T;
 
   constructor (registry: Registry, typeName: Constructor<T> | string, value?: unknown) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, typeName);
     this.#raw = decodeOption(registry, typeName, value) as T;
+
+    if (this.#raw.initialU8aLength) {
+      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+    }
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | string): Constructor<Option<O>> {
@@ -76,6 +78,13 @@ export class Option<T extends Codec> implements IOption<T> {
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.encodedLength;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
@@ -127,7 +136,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     // This attempts to align with the JSON encoding - actually in this case
     // the isSome value is correct, however the `isNone` may be problematic
     return this.isNone

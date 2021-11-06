@@ -18,6 +18,12 @@ export const v1: DefinitionsTypes = {
       Blob: 'Bytes'
     }
   },
+  FungibilityV1: {
+    _enum: {
+      Fungible: 'Compact<u128>',
+      NonFungible: 'AssetInstanceV1'
+    }
+  },
   JunctionV1: {
     _enum: {
       Parachain: 'Compact<u32>',
@@ -59,7 +65,7 @@ export const v1: DefinitionsTypes = {
   MultiAssetsV1: 'Vec<MultiAssetV1>',
   MultiAssetV1: {
     id: 'XcmAssetId',
-    fungibility: 'Fungibility'
+    fungibility: 'FungibilityV1'
   },
   MultiAssetFilterV1: {
     _enum: {
@@ -77,27 +83,30 @@ export const v1: DefinitionsTypes = {
       Assets: 'MultiAssetsV1'
     }
   },
+  WildFungibilityV1: {
+    _enum: ['Fungible', 'NonFungible']
+  },
   WildMultiAssetV1: {
     _enum: {
       All: 'Null',
       AllOf: {
         id: 'XcmAssetId',
-        fungibility: 'WildFungibility'
+        fungibility: 'WildFungibilityV1'
       }
     }
   },
   XcmV1: {
     _enum: {
       WithdrawAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       ReserveAssetDeposit: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       ReceiveTeleportedAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         effects: 'Vec<XcmOrderV1>'
       },
       QueryResponse: {
@@ -105,11 +114,11 @@ export const v1: DefinitionsTypes = {
         response: 'ResponseV1'
       },
       TransferAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         dest: 'MultiLocationV1'
       },
       TransferReserveAsset: {
-        Vassets: 'MultiAssetsV1',
+        assets: 'MultiAssetsV1',
         dest: 'MultiLocationV1',
         effects: 'Vec<XcmOrderV1>'
       },
@@ -204,11 +213,10 @@ export const v1: DefinitionsTypes = {
         assets: 'MultiAssetFilterV1'
       },
       BuyExecution: {
-        fees: 'MultiAsset',
+        fees: 'MultiAssetV1',
         weight: 'u64',
         debt: 'u64',
         haltOnError: 'bool',
-        orders: 'Vec<XcmOrderV1>',
         instructions: 'Vec<XcmV1>'
       }
     }

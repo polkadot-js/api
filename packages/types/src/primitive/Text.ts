@@ -1,28 +1,27 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyU8a, Codec, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Raw } from '../codec/Raw';
 
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): string {
-  if (isHex(value)) {
-    return u8aToString(hexToU8a(value));
-  } else if (value instanceof Uint8Array) {
+function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [string, number] {
+  if (isU8a(value)) {
     if (!value.length) {
-      return '';
+      return ['', 0];
     }
 
     // for Raw, the internal buffer does not have an internal length
     // (the same applies in e.g. Bytes, where length is added at encoding-time)
     if (value instanceof Raw) {
-      return u8aToString(value);
+      return [u8aToString(value), 0];
     }
 
     const [offset, length] = compactFromU8a(value);
@@ -31,10 +30,12 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
     assert(length.lten(MAX_LENGTH), () => `Text: length ${length.toString()} exceeds ${MAX_LENGTH}`);
     assert(total <= value.length, () => `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
-    return u8aToString(value.subarray(offset, total));
+    return [u8aToString(value.subarray(offset, total)), total];
+  } else if (isHex(value)) {
+    return [u8aToString(hexToU8a(value)), 0];
   }
 
-  return value ? value.toString() : '';
+  return [value ? value.toString() : '', 0];
 }
 
 /**
@@ -52,12 +53,17 @@ export class Text extends String implements Codec {
 
   public createdAtHash?: Hash;
 
+  readonly #initialU8aLength?: number;
+
   #override: string | null = null;
 
   constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
-    super(decodeText(value));
+    const [str, decodedLength] = decodeText(value);
+
+    super(str);
 
     this.registry = registry;
+    this.#initialU8aLength = decodedLength;
   }
 
   /**
@@ -65,6 +71,13 @@ export class Text extends String implements Codec {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
@@ -108,7 +121,7 @@ export class Text extends String implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     // like with Vec<u8>, when we are encoding to hex, we don't actually add
     // the length prefix (it is already implied by the actual string length)
     return u8aToHex(this.toU8a(true));

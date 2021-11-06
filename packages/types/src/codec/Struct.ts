@@ -1,71 +1,63 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Registry } from '../types';
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, mapToTypeMap } from './utils';
+import { compareMap, decodeU8a, defineProperty, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
-function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
-  let jsonObj: Record<string, any> | undefined;
+function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<string, string>): Iterable<[string, Codec]> {
+  let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
+  const typeofArray = Array.isArray(value);
+  const typeofMap = value instanceof Map;
 
-  assert(!Array.isArray(value) || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
+  assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
+  assert(!typeofArray || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
 
-  return inputKeys.reduce((raw, key, index): T => {
-    // The key in the JSON can be snake_case (or other cases), but in our
-    // Types, result or any other maps, it's camelCase
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const jsonKey = (jsonMap.get(key as any) && !value[key])
-      ? jsonMap.get(key as any)
-      : key;
+  const raw = new Array<[string, Codec]>(inputKeys.length);
+
+  for (let i = 0; i < inputKeys.length; i++) {
+    const key = inputKeys[i];
+    const jsonKey = jsonMap.get(key) || key;
     const Type = Types[key];
+    let assign: unknown;
 
     try {
-      if (Array.isArray(value)) {
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = value[index] instanceof Type
-          ? value[index]
-          : new Type(registry, value[index]);
-      } else if (value instanceof Map) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const mapped = value.get(jsonKey);
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = mapped instanceof Type
-          ? mapped
-          : new Type(registry, mapped);
-      } else if (isObject(value)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        let assign = value[jsonKey as string];
+      if (typeofArray) {
+        assign = value[i] as unknown;
+      } else if (typeofMap) {
+        assign = jsonKey && value.get(jsonKey);
+      } else {
+        assign = jsonKey && value[jsonKey] as unknown;
 
         if (isUndefined(assign)) {
           if (isUndefined(jsonObj)) {
-            jsonObj = Object.entries(value).reduce((all: Record<string, any>, [key, value]): Record<string, any> => {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              all[stringCamelCase(key)] = value;
+            const entries = Object.entries(value);
 
-              return all;
-            }, {});
+            jsonObj = {};
+
+            for (let e = 0; e < entries.length; e++) {
+              jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
+            }
           }
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          assign = jsonObj[jsonKey as string];
+          assign = jsonKey && jsonObj[jsonKey];
         }
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        (raw as any)[key] = assign instanceof Type
-          ? assign
-          : new Type(registry, assign);
-      } else {
-        throw new Error(`Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object with known keys`);
       }
+
+      raw[i] = [
+        key,
+        assign instanceof Type
+          ? assign
+          : new Type(registry, assign)
+      ];
     } catch (error) {
       let type = Type.name;
 
@@ -75,11 +67,15 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
         // ignore
       }
 
-      throw new Error(`Struct: failed on ${jsonKey as string}: ${type}:: ${(error as Error).message}`);
+      throw new Error(`Struct: failed on ${jsonKey}: ${type}:: ${(error as Error).message}`);
     }
+  }
 
-    return raw;
-  }, {} as T);
+  return raw;
+}
+
+function decodeZip (k: string, v: Codec): [string, Codec] {
+  return [k, v];
 }
 
 /**
@@ -98,27 +94,17 @@ function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, 
  * @param jsonMap
  * @internal
  */
-function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<any, string>): T {
-  if (isHex(value)) {
+function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
+  if (isU8a(value)) {
+    return decodeU8a(registry, value, Types, decodeZip);
+  } else if (value instanceof Struct) {
+    return [value as Iterable<[string, Codec]>, 0];
+  } else if (isHex(value)) {
     return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
-  } else if (isU8a(value)) {
-    const keys = Object.keys(Types);
-    const values = decodeU8a(registry, value, Object.values(Types), keys);
-
-    // Transform array of values to {key: value} mapping
-    return keys.reduce((raw, key, index): T => {
-      // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      (raw as any)[key] = values[index];
-
-      return raw;
-    }, {} as T);
-  } else if (!value) {
-    return {} as T;
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
-  return decodeStructFromObject(registry, Types, value, jsonMap);
+  return [decodeStructFromObject(registry, Types, value || {}, jsonMap), 0];
 }
 
 /**
@@ -142,41 +128,51 @@ export class Struct<
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
   readonly #jsonMap: Map<keyof S, string>;
 
   readonly #Types: ConstructorDef;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  constructor (registry: Registry, Types: S, value: V | Map<unknown, unknown> | unknown[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
-    super(Object.entries(decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap)));
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
+    const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
+
+    super(decoded);
 
     this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#jsonMap = jsonMap;
     this.#Types = mapToTypeMap(registry, Types);
   }
 
-  public static with<S extends TypesDef> (Types: S, jsonMap?: Map<keyof S, string>): Constructor<Struct<S>> {
+  public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Types, value as string, jsonMap);
+        super(registry, Types, value as HexString, jsonMap);
 
-        Object.keys(Types).forEach((key): void => {
-          isUndefined(this[key as keyof this]) &&
-            Object.defineProperty(this, key, {
-              enumerable: true,
-              get: (): Codec | undefined => this.get(key as keyof S)
-            });
-        });
+        const keys = Object.keys(Types);
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+
+          defineProperty(this, key, () => this.get(key as keyof S));
+        }
       }
     };
   }
 
   public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    return Object.entries(Types).reduce((result: Record<string, string>, [key, Type]): Record<string, string> => {
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+    const entries = Object.entries(Types);
+    const result: Record<string, string> = {};
 
-      return result;
-    }, {});
+    for (let i = 0; i < entries.length; i++) {
+      const [key, Type] = entries[i];
+
+      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+    }
+
+    return result;
   }
 
   /**
@@ -190,10 +186,8 @@ export class Struct<
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    const items = this.toArray();
-
-    for (let i = 0; i < items.length; i++) {
-      if (!items[i].isEmpty) {
+    for (const v of this.values()) {
+      if (!v.isEmpty) {
         return false;
       }
     }
@@ -202,28 +196,32 @@ export class Struct<
   }
 
   /**
-   * @description Returns the Type description to sthe structure
+   * @description Returns the Type description of the structure
    */
   public get Type (): E {
-    return (Object
-      .entries(this.#Types))
-      .reduce((result: E, [key, Type]): E => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (result as any)[key] = new Type(this.registry).toRawType();
+    const result: Record<string, string> = {};
+    const defs = Object.entries(this.#Types);
 
-        return result;
-      }, {} as E);
+    for (let i = 0; i < defs.length; i++) {
+      const [key, Type] = defs[i];
+
+      result[key] = new Type(this.registry).toRawType();
+    }
+
+    return result as E;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.toArray().reduce((length, entry): number => {
-      length += entry.encodedLength;
+    let total = 0;
 
-      return length;
-    }, 0);
+    for (const v of this.values()) {
+      total += v.encodedLength;
+    }
+
+    return total;
   }
 
   /**
@@ -265,7 +263,7 @@ export class Struct<
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
@@ -273,27 +271,28 @@ export class Struct<
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
-      const value = this.get(key);
+    const json: Record<string, AnyJson> = {};
 
-      json[key as string] = value && value.toHuman(isExtended);
+    for (const [k, v] of this.entries()) {
+      json[k as string] = v && v.toHuman(isExtended);
+    }
 
-      return json;
-    }, {});
+    return json;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): Record<string, AnyJson> {
-    return [...this.keys()].reduce((json: Record<string, AnyJson>, key): Record<string, AnyJson> => {
-      const jsonKey = this.#jsonMap.get(key) || key;
-      const value = this.get(key);
+    const json: Record<string, AnyJson> = {};
 
-      json[jsonKey as string] = value && value.toJSON();
+    for (const [k, v] of this.entries()) {
+      const jsonKey = this.#jsonMap.get(k) || k;
 
-      return json;
-    }, {});
+      json[jsonKey as string] = v && v.toJSON();
+    }
+
+    return json;
   }
 
   /**
@@ -315,20 +314,20 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    // we have keyof S here, cast to string to make it compatible with isBare
-    const entries = [...this.entries()] as [string, Codec][];
+    const encoded: Uint8Array[] = [];
 
-    return u8aConcat(
-      ...entries
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        .filter(([, value]) => isFunction(value?.toU8a))
-        .map(([key, value]): Uint8Array =>
-          value.toU8a(
+    for (const [k, v] of this.entries()) {
+      if (v && isFunction(v.toU8a)) {
+        encoded.push(
+          v.toU8a(
             !isBare || isBoolean(isBare)
               ? isBare
-              : isBare[key]
+              : isBare[k]
           )
-        )
-    );
+        );
+      }
+    }
+
+    return u8aConcat(...encoded);
   }
 }

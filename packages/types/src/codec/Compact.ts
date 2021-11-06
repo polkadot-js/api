@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, AnyNumber, Constructor, ICompact, INumber, Registry } from '../types';
 
@@ -22,6 +23,8 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
   readonly #Type: Constructor<T>;
 
   readonly #raw: T;
@@ -29,7 +32,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
   constructor (registry: Registry, Type: Constructor<T> | string, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
-    this.#raw = Compact.decodeCompact<T>(registry, this.#Type, value) as T;
+
+    const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
+
+    this.initialU8aLength = decodedLength;
+    this.#raw = raw;
   }
 
   public static with<T extends INumber> (Type: Constructor<T> | string): Constructor<Compact<T>> {
@@ -41,14 +48,18 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /** @internal */
-  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): INumber {
+  public static decodeCompact<T extends INumber> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): [T, number] {
     if (value instanceof Compact) {
-      return new Type(registry, value.#raw);
+      return [new Type(registry, value.#raw), 0];
+    } else if (value instanceof Type) {
+      return [value, 0];
     } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
-      return new Type(registry, value);
+      return [new Type(registry, value), 0];
     }
 
-    return new Type(registry, compactFromU8a(value)[1]);
+    const [decodedLength, bn] = compactFromU8a(value);
+
+    return [new Type(registry, bn), decodedLength];
   }
 
   /**
@@ -107,7 +118,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (isLe?: boolean): string {
+  public toHex (isLe?: boolean): HexString {
     return this.#raw.toHex(isLe);
   }
 

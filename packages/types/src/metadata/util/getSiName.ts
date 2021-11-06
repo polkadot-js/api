@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry, SiLookupTypeId } from '../../interfaces';
+import type { SiLookupTypeId } from '../../interfaces';
+import type { PortableRegistry } from '../../metadata';
 
 export function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
   const typeDef = lookup.getTypeDef(type);

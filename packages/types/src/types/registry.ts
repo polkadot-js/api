@@ -3,13 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { CreateOptions } from '../create/types';
+import type { CreateOptions, TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { MetadataLatest, PortableRegistry } from '../interfaces/metadata';
+import type { MetadataLatest } from '../interfaces/metadata';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
-import type { Metadata } from '../metadata';
+import type { Metadata, PortableRegistry } from '../metadata';
 import type { CallFunction } from './calls';
 import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
@@ -126,7 +126,7 @@ export interface Registry {
   createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
   createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean): DetectConstructor<T, K> | undefined;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
@@ -146,6 +146,7 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: CodecHasher | null): void;
+  setLookup (lookup: PortableRegistry): void;
   setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
   setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

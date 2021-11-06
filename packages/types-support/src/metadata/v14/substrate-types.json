@@ -1510,7 +1510,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1592,7 +1592,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1715,27 +1715,6 @@
               ]
             },
             {
-              "name": "Deposit",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 0,
-                  "typeName": "T::AccountId",
-                  "docs": []
-                },
-                {
-                  "name": null,
-                  "type": 6,
-                  "typeName": "T::Balance",
-                  "docs": []
-                }
-              ],
-              "index": 4,
-              "docs": [
-                "Some amount was deposited (e.g. for transaction fees). \\[who, deposit\\]"
-              ]
-            },
-            {
               "name": "Reserved",
               "fields": [
                 {
@@ -1751,7 +1730,7 @@
                   "docs": []
                 }
               ],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "Some balance was reserved (moved from free to reserved). \\[who, value\\]"
               ]
@@ -1772,7 +1751,7 @@
                   "docs": []
                 }
               ],
-              "index": 6,
+              "index": 5,
               "docs": [
                 "Some balance was unreserved (moved from reserved to free). \\[who, value\\]"
               ]
@@ -1805,18 +1784,83 @@
                   "docs": []
                 }
               ],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Some balance was moved from the reserve of the first account to the second account.",
                 "Final argument indicates the destination balance type.",
                 "\\[from, to, balance, destination_status\\]"
+              ]
+            },
+            {
+              "name": "Deposit",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 7,
+              "docs": [
+                "Some amount was deposited into the account (e.g. for transaction fees). \\[who,",
+                "deposit\\]"
+              ]
+            },
+            {
+              "name": "Withdraw",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 8,
+              "docs": [
+                "Some amount was withdrawn from the account (e.g. for transaction fees). \\[who, value\\]"
+              ]
+            },
+            {
+              "name": "Slashed",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": "T::Balance",
+                  "docs": []
+                }
+              ],
+              "index": 9,
+              "docs": [
+                "Some amount was removed from the account (e.g. for misbehavior). \\[who,",
+                "amount_slashed\\]"
               ]
             }
           ]
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -1987,7 +2031,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2340,7 +2384,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2349,6 +2393,7 @@
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Event"
       ],
       "params": [],
@@ -2375,8 +2420,7 @@
         }
       },
       "docs": [
-        "Events for this module.",
-        ""
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -2756,7 +2800,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3076,7 +3120,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3285,7 +3329,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3422,7 +3466,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3526,7 +3570,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3577,7 +3621,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3805,7 +3849,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -3830,13 +3874,13 @@
               "name": "Instantiated",
               "fields": [
                 {
-                  "name": null,
+                  "name": "deployer",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "contract",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -3844,34 +3888,32 @@
               ],
               "index": 0,
               "docs": [
-                "Contract deployed by address at the specified address. \\[deployer, contract\\]"
+                "Contract deployed by address at the specified address."
               ]
             },
             {
               "name": "Terminated",
               "fields": [
                 {
-                  "name": null,
+                  "name": "contract",
                   "type": 0,
                   "typeName": "T::AccountId",
-                  "docs": []
+                  "docs": [
+                    "The contract that was terminated."
+                  ]
                 },
                 {
-                  "name": null,
+                  "name": "beneficiary",
                   "type": 0,
                   "typeName": "T::AccountId",
-                  "docs": []
+                  "docs": [
+                    "The account that received the contracts remaining balance"
+                  ]
                 }
               ],
               "index": 1,
               "docs": [
                 "Contract has been removed.",
-                "\\[contract, beneficiary\\]",
-                "",
-                "# Params",
-                "",
-                "- `contract`: The contract that was terminated.",
-                "- `beneficiary`: The account that received the contracts remaining balance.",
                 "",
                 "# Note",
                 "",
@@ -3883,7 +3925,7 @@
               "name": "CodeStored",
               "fields": [
                 {
-                  "name": null,
+                  "name": "code_hash",
                   "type": 9,
                   "typeName": "T::Hash",
                   "docs": []
@@ -3891,62 +3933,57 @@
               ],
               "index": 2,
               "docs": [
-                "Code with the specified hash has been stored. \\[code_hash\\]"
+                "Code with the specified hash has been stored."
               ]
             },
             {
               "name": "ScheduleUpdated",
               "fields": [
                 {
-                  "name": null,
+                  "name": "version",
                   "type": 4,
                   "typeName": "u32",
-                  "docs": []
+                  "docs": [
+                    "The version of the newly set schedule."
+                  ]
                 }
               ],
               "index": 3,
               "docs": [
-                "Triggered when the current schedule is updated.",
-                "\\[version\\]",
-                "",
-                "# Params",
-                "",
-                "- `version`: The version of the newly set schedule."
+                "Triggered when the current schedule is updated."
               ]
             },
             {
               "name": "ContractEmitted",
               "fields": [
                 {
-                  "name": null,
+                  "name": "contract",
                   "type": 0,
                   "typeName": "T::AccountId",
-                  "docs": []
+                  "docs": [
+                    "The contract that emitted the event."
+                  ]
                 },
                 {
-                  "name": null,
+                  "name": "data",
                   "type": 10,
                   "typeName": "Vec<u8>",
-                  "docs": []
+                  "docs": [
+                    "Data supplied by the contract. Metadata generated during contract compilation",
+                    "is needed to decode it."
+                  ]
                 }
               ],
               "index": 4,
               "docs": [
-                "A custom event emitted by the contract.",
-                "\\[contract, data\\]",
-                "",
-                "# Params",
-                "",
-                "- `contract`: The contract that emitted the event.",
-                "- `data`: Data supplied by the contract. Metadata generated during contract compilation",
-                "  is needed to decode it."
+                "A custom event emitted by the contract."
               ]
             },
             {
               "name": "CodeRemoved",
               "fields": [
                 {
-                  "name": null,
+                  "name": "code_hash",
                   "type": 9,
                   "typeName": "T::Hash",
                   "docs": []
@@ -3955,7 +3992,6 @@
               "index": 5,
               "docs": [
                 "A code with the specified hash was removed.",
-                "\\[code_hash\\]",
                 "",
                 "This happens when the last contract that uses this code hash was removed."
               ]
@@ -3964,7 +4000,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4034,7 +4070,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4097,7 +4133,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4581,7 +4617,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -4902,7 +4938,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5114,7 +5150,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5397,7 +5433,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5607,7 +5643,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5795,7 +5831,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -5919,7 +5955,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6397,7 +6433,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6480,7 +6516,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -6643,7 +6679,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7214,7 +7250,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7432,7 +7468,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -7484,7 +7520,7 @@
         }
       },
       "docs": [
-        "\n\t\t\tThe [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted\n\t\t\tby this pallet.\n\t\t\t"
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
       ]
     }
   },
@@ -8872,7 +8908,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 292,
+                  "type": 293,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Bounties, Runtime>",
                   "docs": []
                 }
@@ -8885,7 +8921,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 293,
+                  "type": 294,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Tips, Runtime>",
                   "docs": []
                 }
@@ -8898,7 +8934,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 294,
+                  "type": 295,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Assets, Runtime>",
                   "docs": []
                 }
@@ -8911,7 +8947,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 296,
+                  "type": 297,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Lottery, Runtime>",
                   "docs": []
                 }
@@ -8924,7 +8960,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 297,
+                  "type": 298,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Gilt, Runtime>",
                   "docs": []
                 }
@@ -8937,7 +8973,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 300,
+                  "type": 301,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Uniques, Runtime>",
                   "docs": []
                 }
@@ -8950,7 +8986,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 303,
+                  "type": 304,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<TransactionStorage, Runtime>",
                   "docs": []
                 }
@@ -8963,7 +8999,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 305,
+                  "type": 306,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<BagsList, Runtime>",
                   "docs": []
                 }
@@ -12114,6 +12150,7 @@
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Call"
       ],
       "params": [
@@ -12150,8 +12187,8 @@
                 "The dispatch origin of this function must be signed.",
                 "",
                 "# <weight>",
-                "- Complexity: `O(1)`",
-                "  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                "- Complexity: `O(1)`. Actual cost depends on the number of length of",
+                "  `T::Keys::key_ids()` which is fixed.",
                 "- DbReads: `origin account`, `T::ValidatorIdOf`, `NextKeys`",
                 "- DbWrites: `origin account`, `NextKeys`",
                 "- DbReads per key id: `KeyOwner`",
@@ -12165,13 +12202,17 @@
               "index": 1,
               "docs": [
                 "Removes any session key(s) of the function caller.",
+                "",
                 "This doesn't take effect until the next session.",
                 "",
-                "The dispatch origin of this function must be signed.",
+                "The dispatch origin of this function must be Signed and the account must be either be",
+                "convertible to a validator ID using the chain's typical addressing system (this usually",
+                "means being a controller account) or directly convertible into a validator ID (which",
+                "usually means being a stash account).",
                 "",
                 "# <weight>",
-                "- Complexity: `O(1)` in number of key types.",
-                "  Actual cost depends on the number of length of `T::Keys::key_ids()` which is fixed.",
+                "- Complexity: `O(1)` in number of key types. Actual cost depends on the number of length",
+                "  of `T::Keys::key_ids()` which is fixed.",
                 "- DbReads: `T::ValidatorIdOf`, `NextKeys`, `origin account`",
                 "- DbWrites: `NextKeys`, `origin account`",
                 "- DbWrites per key id: `KeyOwner`",
@@ -12182,9 +12223,7 @@
         }
       },
       "docs": [
-        "Dispatchable calls.",
-        "",
-        "Each variant of this enum maps to a dispatchable function from the associated module."
+        "Contains one variant per dispatchable that can be called by an extrinsic."
       ]
     }
   },
@@ -18951,8 +18990,8 @@
                 },
                 {
                   "name": "call",
-                  "type": 10,
-                  "typeName": "OpaqueCall",
+                  "type": 292,
+                  "typeName": "OpaqueCall<T>",
                   "docs": []
                 },
                 {
@@ -19198,6 +19237,42 @@
   },
   {
     "id": 292,
+    "type": {
+      "path": [
+        "frame_support",
+        "traits",
+        "misc",
+        "WrapperKeepOpaque"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 120
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 98,
+              "typeName": null,
+              "docs": []
+            },
+            {
+              "name": null,
+              "type": 120,
+              "typeName": "T",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 293,
     "type": {
       "path": [
         "pallet_bounties",
@@ -19471,7 +19546,7 @@
     }
   },
   {
-    "id": 293,
+    "id": 294,
     "type": {
       "path": [
         "pallet_tips",
@@ -19716,7 +19791,7 @@
     }
   },
   {
-    "id": 294,
+    "id": 295,
     "type": {
       "path": [
         "pallet_assets",
@@ -19843,7 +19918,7 @@
                 },
                 {
                   "name": "witness",
-                  "type": 295,
+                  "type": 296,
                   "typeName": "DestroyWitness",
                   "docs": []
                 }
@@ -20673,7 +20748,7 @@
     }
   },
   {
-    "id": 295,
+    "id": 296,
     "type": {
       "path": [
         "pallet_assets",
@@ -20709,7 +20784,7 @@
     }
   },
   {
-    "id": 296,
+    "id": 297,
     "type": {
       "path": [
         "pallet_lottery",
@@ -20832,7 +20907,7 @@
     }
   },
   {
-    "id": 297,
+    "id": 298,
     "type": {
       "path": [
         "pallet_gilt",
@@ -20913,7 +20988,7 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 298,
+                  "type": 299,
                   "typeName": "Perquintill",
                   "docs": []
                 }
@@ -20958,20 +21033,20 @@
     }
   },
   {
-    "id": 298,
+    "id": 299,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "compact": {
-          "type": 299
+          "type": 300
         }
       },
       "docs": []
     }
   },
   {
-    "id": 299,
+    "id": 300,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -20995,7 +21070,7 @@
     }
   },
   {
-    "id": 300,
+    "id": 301,
     "type": {
       "path": [
         "pallet_uniques",
@@ -21104,7 +21179,7 @@
                 },
                 {
                   "name": "witness",
-                  "type": 301,
+                  "type": 302,
                   "typeName": "DestroyWitness",
                   "docs": []
                 }
@@ -21182,7 +21257,7 @@
                 },
                 {
                   "name": "check_owner",
-                  "type": 302,
+                  "type": 303,
                   "typeName": "Option<<T::Lookup as StaticLookup>::Source>",
                   "docs": []
                 }
@@ -21516,7 +21591,7 @@
                 },
                 {
                   "name": "maybe_check_delegate",
-                  "type": 302,
+                  "type": 303,
                   "typeName": "Option<<T::Lookup as StaticLookup>::Source>",
                   "docs": []
                 }
@@ -21859,7 +21934,7 @@
     }
   },
   {
-    "id": 301,
+    "id": 302,
     "type": {
       "path": [
         "pallet_uniques",
@@ -21895,7 +21970,7 @@
     }
   },
   {
-    "id": 302,
+    "id": 303,
     "type": {
       "path": [
         "Option"
@@ -21935,7 +22010,7 @@
     }
   },
   {
-    "id": 303,
+    "id": 304,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -22003,7 +22078,7 @@
               "fields": [
                 {
                   "name": "proof",
-                  "type": 304,
+                  "type": 305,
                   "typeName": "TransactionStorageProof",
                   "docs": []
                 }
@@ -22029,7 +22104,7 @@
     }
   },
   {
-    "id": 304,
+    "id": 305,
     "type": {
       "path": [
         "sp_transaction_storage_proof",
@@ -22058,7 +22133,7 @@
     }
   },
   {
-    "id": 305,
+    "id": 306,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -22105,7 +22180,7 @@
     }
   },
   {
-    "id": 306,
+    "id": 307,
     "type": {
       "path": [
         "pallet_utility",
@@ -22133,12 +22208,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 307,
+    "id": 308,
     "type": {
       "path": [
         "frame_support",
@@ -22149,7 +22224,7 @@
       "params": [
         {
           "name": "T",
-          "type": 308
+          "type": 309
         },
         {
           "name": "S",
@@ -22161,7 +22236,7 @@
           "fields": [
             {
               "name": null,
-              "type": 309,
+              "type": 310,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22172,7 +22247,7 @@
     }
   },
   {
-    "id": 308,
+    "id": 309,
     "type": {
       "path": [],
       "params": [],
@@ -22186,20 +22261,20 @@
     }
   },
   {
-    "id": 309,
+    "id": 310,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 308
+          "type": 309
         }
       },
       "docs": []
     }
   },
   {
-    "id": 310,
+    "id": 311,
     "type": {
       "path": [
         "frame_support",
@@ -22222,7 +22297,7 @@
           "fields": [
             {
               "name": null,
-              "type": 311,
+              "type": 312,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22233,7 +22308,7 @@
     }
   },
   {
-    "id": 311,
+    "id": 312,
     "type": {
       "path": [],
       "params": [],
@@ -22246,7 +22321,7 @@
     }
   },
   {
-    "id": 312,
+    "id": 313,
     "type": {
       "path": [
         "Option"
@@ -22286,7 +22361,7 @@
     }
   },
   {
-    "id": 313,
+    "id": 314,
     "type": {
       "path": [
         "sp_consensus_babe",
@@ -22315,7 +22390,7 @@
     }
   },
   {
-    "id": 314,
+    "id": 315,
     "type": {
       "path": [
         "pallet_babe",
@@ -22359,25 +22434,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 315,
+    "id": 316,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 316
+          "type": 317
         }
       },
       "docs": []
     }
   },
   {
-    "id": 316,
+    "id": 317,
     "type": {
       "path": [
         "pallet_authorship",
@@ -22439,7 +22514,7 @@
     }
   },
   {
-    "id": 317,
+    "id": 318,
     "type": {
       "path": [
         "pallet_authorship",
@@ -22515,12 +22590,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 318,
+    "id": 319,
     "type": {
       "path": [],
       "params": [],
@@ -22535,7 +22610,7 @@
     }
   },
   {
-    "id": 319,
+    "id": 320,
     "type": {
       "path": [
         "pallet_indices",
@@ -22595,12 +22670,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 320,
+    "id": 321,
     "type": {
       "path": [
         "frame_support",
@@ -22611,7 +22686,7 @@
       "params": [
         {
           "name": "T",
-          "type": 321
+          "type": 322
         },
         {
           "name": "S",
@@ -22623,7 +22698,7 @@
           "fields": [
             {
               "name": null,
-              "type": 323,
+              "type": 324,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22634,7 +22709,7 @@
     }
   },
   {
-    "id": 321,
+    "id": 322,
     "type": {
       "path": [
         "pallet_balances",
@@ -22663,7 +22738,7 @@
             },
             {
               "name": "reasons",
-              "type": 322,
+              "type": 323,
               "typeName": "Reasons",
               "docs": []
             }
@@ -22674,7 +22749,7 @@
     }
   },
   {
-    "id": 322,
+    "id": 323,
     "type": {
       "path": [
         "pallet_balances",
@@ -22709,20 +22784,20 @@
     }
   },
   {
-    "id": 323,
+    "id": 324,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 321
+          "type": 322
         }
       },
       "docs": []
     }
   },
   {
-    "id": 324,
+    "id": 325,
     "type": {
       "path": [
         "frame_support",
@@ -22733,7 +22808,7 @@
       "params": [
         {
           "name": "T",
-          "type": 325
+          "type": 326
         },
         {
           "name": "S",
@@ -22745,7 +22820,7 @@
           "fields": [
             {
               "name": null,
-              "type": 326,
+              "type": 327,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -22756,7 +22831,7 @@
     }
   },
   {
-    "id": 325,
+    "id": 326,
     "type": {
       "path": [
         "pallet_balances",
@@ -22794,20 +22869,20 @@
     }
   },
   {
-    "id": 326,
+    "id": 327,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 325
+          "type": 326
         }
       },
       "docs": []
     }
   },
   {
-    "id": 327,
+    "id": 328,
     "type": {
       "path": [
         "pallet_balances",
@@ -22836,7 +22911,7 @@
     }
   },
   {
-    "id": 328,
+    "id": 329,
     "type": {
       "path": [
         "pallet_balances",
@@ -22924,12 +22999,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 329,
+    "id": 330,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -22953,7 +23028,7 @@
     }
   },
   {
-    "id": 330,
+    "id": 331,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -22982,20 +23057,20 @@
     }
   },
   {
-    "id": 331,
+    "id": 332,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 332
+          "type": 333
         }
       },
       "docs": []
     }
   },
   {
-    "id": 332,
+    "id": 333,
     "type": {
       "path": [
         "frame_support",
@@ -23042,7 +23117,7 @@
     }
   },
   {
-    "id": 333,
+    "id": 334,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23074,7 +23149,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 334,
+                  "type": 335,
                   "typeName": "(bool, Bn)",
                   "docs": []
                 }
@@ -23095,7 +23170,7 @@
     }
   },
   {
-    "id": 334,
+    "id": 335,
     "type": {
       "path": [],
       "params": [],
@@ -23109,7 +23184,7 @@
     }
   },
   {
-    "id": 335,
+    "id": 336,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23149,7 +23224,7 @@
     }
   },
   {
-    "id": 336,
+    "id": 337,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23166,7 +23241,7 @@
           "fields": [
             {
               "name": "voters",
-              "type": 337,
+              "type": 338,
               "typeName": "Vec<(A, VoteWeight, Vec<A>)>",
               "docs": []
             },
@@ -23183,20 +23258,20 @@
     }
   },
   {
-    "id": 337,
+    "id": 338,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 338
+          "type": 339
         }
       },
       "docs": []
     }
   },
   {
-    "id": 338,
+    "id": 339,
     "type": {
       "path": [],
       "params": [],
@@ -23211,7 +23286,7 @@
     }
   },
   {
-    "id": 339,
+    "id": 340,
     "type": {
       "path": [
         "frame_support",
@@ -23238,7 +23313,7 @@
           "fields": [
             {
               "name": null,
-              "type": 340,
+              "type": 341,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -23249,7 +23324,7 @@
     }
   },
   {
-    "id": 340,
+    "id": 341,
     "type": {
       "path": [
         "BTreeMap"
@@ -23269,7 +23344,7 @@
           "fields": [
             {
               "name": null,
-              "type": 341,
+              "type": 342,
               "typeName": null,
               "docs": []
             }
@@ -23280,20 +23355,20 @@
     }
   },
   {
-    "id": 341,
+    "id": 342,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 342
+          "type": 343
         }
       },
       "docs": []
     }
   },
   {
-    "id": 342,
+    "id": 343,
     "type": {
       "path": [],
       "params": [],
@@ -23307,7 +23382,7 @@
     }
   },
   {
-    "id": 343,
+    "id": 344,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23362,7 +23437,7 @@
     }
   },
   {
-    "id": 344,
+    "id": 345,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -23475,7 +23550,7 @@
     }
   },
   {
-    "id": 345,
+    "id": 346,
     "type": {
       "path": [
         "pallet_staking",
@@ -23514,7 +23589,7 @@
             },
             {
               "name": "unlocking",
-              "type": 346,
+              "type": 347,
               "typeName": "Vec<UnlockChunk<Balance>>",
               "docs": []
             },
@@ -23531,20 +23606,20 @@
     }
   },
   {
-    "id": 346,
+    "id": 347,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 347
+          "type": 348
         }
       },
       "docs": []
     }
   },
   {
-    "id": 347,
+    "id": 348,
     "type": {
       "path": [
         "pallet_staking",
@@ -23578,7 +23653,7 @@
     }
   },
   {
-    "id": 348,
+    "id": 349,
     "type": {
       "path": [
         "pallet_staking",
@@ -23618,7 +23693,7 @@
     }
   },
   {
-    "id": 349,
+    "id": 350,
     "type": {
       "path": [
         "pallet_staking",
@@ -23647,7 +23722,7 @@
     }
   },
   {
-    "id": 350,
+    "id": 351,
     "type": {
       "path": [],
       "params": [],
@@ -23661,7 +23736,7 @@
     }
   },
   {
-    "id": 351,
+    "id": 352,
     "type": {
       "path": [
         "pallet_staking",
@@ -23684,7 +23759,7 @@
             },
             {
               "name": "individual",
-              "type": 352,
+              "type": 353,
               "typeName": "BTreeMap<AccountId, RewardPoint>",
               "docs": []
             }
@@ -23695,7 +23770,7 @@
     }
   },
   {
-    "id": 352,
+    "id": 353,
     "type": {
       "path": [
         "BTreeMap"
@@ -23715,7 +23790,7 @@
           "fields": [
             {
               "name": null,
-              "type": 353,
+              "type": 354,
               "typeName": null,
               "docs": []
             }
@@ -23726,20 +23801,20 @@
     }
   },
   {
-    "id": 353,
+    "id": 354,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 354
+          "type": 355
         }
       },
       "docs": []
     }
   },
   {
-    "id": 354,
+    "id": 355,
     "type": {
       "path": [],
       "params": [],
@@ -23753,7 +23828,7 @@
     }
   },
   {
-    "id": 355,
+    "id": 356,
     "type": {
       "path": [
         "pallet_staking",
@@ -23794,20 +23869,20 @@
     }
   },
   {
-    "id": 356,
+    "id": 357,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 357
+          "type": 358
         }
       },
       "docs": []
     }
   },
   {
-    "id": 357,
+    "id": 358,
     "type": {
       "path": [
         "pallet_staking",
@@ -23863,7 +23938,7 @@
     }
   },
   {
-    "id": 358,
+    "id": 359,
     "type": {
       "path": [],
       "params": [],
@@ -23877,7 +23952,7 @@
     }
   },
   {
-    "id": 359,
+    "id": 360,
     "type": {
       "path": [
         "pallet_staking",
@@ -23919,7 +23994,7 @@
     }
   },
   {
-    "id": 360,
+    "id": 361,
     "type": {
       "path": [
         "pallet_staking",
@@ -23954,7 +24029,34 @@
     }
   },
   {
-    "id": 361,
+    "id": 362,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 363
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 363,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          4,
+          34
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 364,
     "type": {
       "path": [
         "pallet_staking",
@@ -24019,7 +24121,7 @@
     }
   },
   {
-    "id": 362,
+    "id": 365,
     "type": {
       "path": [
         "pallet_staking",
@@ -24226,25 +24328,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 363,
+    "id": 366,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 364
+          "type": 367
         }
       },
       "docs": []
     }
   },
   {
-    "id": 364,
+    "id": 367,
     "type": {
       "path": [],
       "params": [],
@@ -24258,13 +24360,13 @@
     }
   },
   {
-    "id": 365,
+    "id": 368,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          366,
+          369,
           10
         ]
       },
@@ -24272,7 +24374,7 @@
     }
   },
   {
-    "id": 366,
+    "id": 369,
     "type": {
       "path": [
         "sp_core",
@@ -24296,10 +24398,11 @@
     }
   },
   {
-    "id": 367,
+    "id": 370,
     "type": {
       "path": [
         "pallet_session",
+        "pallet",
         "Error"
       ],
       "params": [
@@ -24355,25 +24458,25 @@
         }
       },
       "docs": [
-        "Error for the session module."
+        "Error for the session pallet."
       ]
     }
   },
   {
-    "id": 368,
+    "id": 371,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 369
+          "type": 372
         }
       },
       "docs": []
     }
   },
   {
-    "id": 369,
+    "id": 372,
     "type": {
       "path": [],
       "params": [],
@@ -24388,7 +24491,7 @@
     }
   },
   {
-    "id": 370,
+    "id": 373,
     "type": {
       "path": [],
       "params": [],
@@ -24402,7 +24505,7 @@
     }
   },
   {
-    "id": 371,
+    "id": 374,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24482,7 +24585,7 @@
     }
   },
   {
-    "id": 372,
+    "id": 375,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24511,7 +24614,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 373,
+                  "type": 376,
                   "typeName": "ReferendumStatus<BlockNumber, Hash, Balance>",
                   "docs": []
                 }
@@ -24545,7 +24648,7 @@
     }
   },
   {
-    "id": 373,
+    "id": 376,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24595,7 +24698,7 @@
             },
             {
               "name": "tally",
-              "type": 374,
+              "type": 377,
               "typeName": "Tally<Balance>",
               "docs": []
             }
@@ -24606,7 +24709,7 @@
     }
   },
   {
-    "id": 374,
+    "id": 377,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24647,7 +24750,7 @@
     }
   },
   {
-    "id": 375,
+    "id": 378,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24676,19 +24779,19 @@
               "fields": [
                 {
                   "name": "votes",
-                  "type": 376,
+                  "type": 379,
                   "typeName": "Vec<(ReferendumIndex, AccountVote<Balance>)>",
                   "docs": []
                 },
                 {
                   "name": "delegations",
-                  "type": 378,
+                  "type": 381,
                   "typeName": "Delegations<Balance>",
                   "docs": []
                 },
                 {
                   "name": "prior",
-                  "type": 379,
+                  "type": 382,
                   "typeName": "PriorLock<BlockNumber, Balance>",
                   "docs": []
                 }
@@ -24719,13 +24822,13 @@
                 },
                 {
                   "name": "delegations",
-                  "type": 378,
+                  "type": 381,
                   "typeName": "Delegations<Balance>",
                   "docs": []
                 },
                 {
                   "name": "prior",
-                  "type": 379,
+                  "type": 382,
                   "typeName": "PriorLock<BlockNumber, Balance>",
                   "docs": []
                 }
@@ -24740,20 +24843,20 @@
     }
   },
   {
-    "id": 376,
+    "id": 379,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 377
+          "type": 380
         }
       },
       "docs": []
     }
   },
   {
-    "id": 377,
+    "id": 380,
     "type": {
       "path": [],
       "params": [],
@@ -24767,7 +24870,7 @@
     }
   },
   {
-    "id": 378,
+    "id": 381,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24802,7 +24905,7 @@
     }
   },
   {
-    "id": 379,
+    "id": 382,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24841,7 +24944,7 @@
     }
   },
   {
-    "id": 380,
+    "id": 383,
     "type": {
       "path": [],
       "params": [],
@@ -24855,7 +24958,7 @@
     }
   },
   {
-    "id": 381,
+    "id": 384,
     "type": {
       "path": [],
       "params": [],
@@ -24869,7 +24972,7 @@
     }
   },
   {
-    "id": 382,
+    "id": 385,
     "type": {
       "path": [
         "pallet_democracy",
@@ -24892,7 +24995,7 @@
     }
   },
   {
-    "id": 383,
+    "id": 386,
     "type": {
       "path": [
         "pallet_democracy",
@@ -25137,12 +25240,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 384,
+    "id": 387,
     "type": {
       "path": [
         "frame_support",
@@ -25176,7 +25279,7 @@
     }
   },
   {
-    "id": 385,
+    "id": 388,
     "type": {
       "path": [
         "pallet_collective",
@@ -25232,7 +25335,7 @@
     }
   },
   {
-    "id": 386,
+    "id": 389,
     "type": {
       "path": [
         "pallet_collective",
@@ -25336,12 +25439,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 387,
+    "id": 390,
     "type": {
       "path": [
         "frame_support",
@@ -25375,7 +25478,7 @@
     }
   },
   {
-    "id": 388,
+    "id": 391,
     "type": {
       "path": [
         "pallet_collective",
@@ -25479,25 +25582,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 389,
+    "id": 392,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 390
+          "type": 393
         }
       },
       "docs": []
     }
   },
   {
-    "id": 390,
+    "id": 393,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25541,7 +25644,7 @@
     }
   },
   {
-    "id": 391,
+    "id": 394,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25585,7 +25688,7 @@
     }
   },
   {
-    "id": 392,
+    "id": 395,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -25741,12 +25844,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 393,
+    "id": 396,
     "type": {
       "path": [
         "pallet_membership",
@@ -25786,12 +25889,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 394,
+    "id": 397,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -25863,7 +25966,7 @@
     }
   },
   {
-    "id": 395,
+    "id": 398,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -25896,7 +25999,7 @@
             },
             {
               "name": "next_authorities",
-              "type": 396,
+              "type": 399,
               "typeName": "BoundedAuthorityList<Limit>",
               "docs": []
             },
@@ -25913,7 +26016,7 @@
     }
   },
   {
-    "id": 396,
+    "id": 399,
     "type": {
       "path": [
         "frame_support",
@@ -25947,7 +26050,7 @@
     }
   },
   {
-    "id": 397,
+    "id": 400,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -26025,12 +26128,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 398,
+    "id": 401,
     "type": {
       "path": [
         "pallet_treasury",
@@ -26080,7 +26183,7 @@
     }
   },
   {
-    "id": 399,
+    "id": 402,
     "type": {
       "path": [
         "frame_support",
@@ -26114,7 +26217,7 @@
     }
   },
   {
-    "id": 400,
+    "id": 403,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -26138,7 +26241,7 @@
     }
   },
   {
-    "id": 401,
+    "id": 404,
     "type": {
       "path": [
         "frame_support",
@@ -26161,7 +26264,7 @@
     }
   },
   {
-    "id": 402,
+    "id": 405,
     "type": {
       "path": [
         "pallet_treasury",
@@ -26214,7 +26317,7 @@
     }
   },
   {
-    "id": 403,
+    "id": 406,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26256,7 +26359,7 @@
             },
             {
               "name": "_reserved",
-              "type": 404,
+              "type": 407,
               "typeName": "Option<()>",
               "docs": []
             },
@@ -26279,7 +26382,7 @@
     }
   },
   {
-    "id": 404,
+    "id": 407,
     "type": {
       "path": [
         "Option"
@@ -26319,7 +26422,7 @@
     }
   },
   {
-    "id": 405,
+    "id": 408,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26349,7 +26452,7 @@
             },
             {
               "name": "_reserved",
-              "type": 404,
+              "type": 407,
               "typeName": "Option<()>",
               "docs": []
             }
@@ -26360,20 +26463,20 @@
     }
   },
   {
-    "id": 406,
+    "id": 409,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 407
+          "type": 410
         }
       },
       "docs": []
     }
   },
   {
-    "id": 407,
+    "id": 410,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26397,7 +26500,7 @@
     }
   },
   {
-    "id": 408,
+    "id": 411,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26415,19 +26518,19 @@
           "fields": [
             {
               "name": "limits",
-              "type": 409,
+              "type": 412,
               "typeName": "Limits",
               "docs": []
             },
             {
               "name": "instruction_weights",
-              "type": 410,
+              "type": 413,
               "typeName": "InstructionWeights<T>",
               "docs": []
             },
             {
               "name": "host_fn_weights",
-              "type": 411,
+              "type": 414,
               "typeName": "HostFnWeights<T>",
               "docs": []
             }
@@ -26438,7 +26541,7 @@
     }
   },
   {
-    "id": 409,
+    "id": 412,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26522,7 +26625,7 @@
     }
   },
   {
-    "id": 410,
+    "id": 413,
     "type": {
       "path": [
         "pallet_contracts",
@@ -26857,7 +26960,7 @@
     }
   },
   {
-    "id": 411,
+    "id": 414,
     "type": {
       "path": [
         "pallet_contracts",
@@ -27144,7 +27247,7 @@
     }
   },
   {
-    "id": 412,
+    "id": 415,
     "type": {
       "path": [
         "pallet_contracts",
@@ -27391,12 +27494,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 413,
+    "id": 416,
     "type": {
       "path": [
         "pallet_sudo",
@@ -27429,7 +27532,7 @@
     }
   },
   {
-    "id": 414,
+    "id": 417,
     "type": {
       "path": [
         "frame_support",
@@ -27452,7 +27555,7 @@
           "fields": [
             {
               "name": null,
-              "type": 415,
+              "type": 418,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27463,7 +27566,7 @@
     }
   },
   {
-    "id": 415,
+    "id": 418,
     "type": {
       "path": [],
       "params": [],
@@ -27476,7 +27579,7 @@
     }
   },
   {
-    "id": 416,
+    "id": 419,
     "type": {
       "path": [
         "frame_support",
@@ -27487,7 +27590,7 @@
       "params": [
         {
           "name": "T",
-          "type": 417
+          "type": 420
         }
       ],
       "def": {
@@ -27495,7 +27598,13 @@
           "fields": [
             {
               "name": null,
-              "type": 417,
+              "type": 98,
+              "typeName": null,
+              "docs": []
+            },
+            {
+              "name": null,
+              "type": 420,
               "typeName": "T",
               "docs": []
             }
@@ -27506,7 +27615,7 @@
     }
   },
   {
-    "id": 417,
+    "id": 420,
     "type": {
       "path": [
         "pallet_im_online",
@@ -27531,13 +27640,13 @@
           "fields": [
             {
               "name": "peer_id",
-              "type": 418,
+              "type": 421,
               "typeName": "WeakBoundedVec<u8, PeerIdEncodingLimit>",
               "docs": []
             },
             {
               "name": "external_addresses",
-              "type": 419,
+              "type": 422,
               "typeName": "WeakBoundedVec<WeakBoundedVec<u8, MultiAddrEncodingLimit>, AddressesLimit\n>",
               "docs": []
             }
@@ -27548,7 +27657,7 @@
     }
   },
   {
-    "id": 418,
+    "id": 421,
     "type": {
       "path": [
         "frame_support",
@@ -27582,7 +27691,7 @@
     }
   },
   {
-    "id": 419,
+    "id": 422,
     "type": {
       "path": [
         "frame_support",
@@ -27593,7 +27702,7 @@
       "params": [
         {
           "name": "T",
-          "type": 418
+          "type": 421
         },
         {
           "name": "S",
@@ -27605,7 +27714,7 @@
           "fields": [
             {
               "name": null,
-              "type": 420,
+              "type": 423,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27616,20 +27725,20 @@
     }
   },
   {
-    "id": 420,
+    "id": 423,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 418
+          "type": 421
         }
       },
       "docs": []
     }
   },
   {
-    "id": 421,
+    "id": 424,
     "type": {
       "path": [
         "pallet_im_online",
@@ -27665,12 +27774,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 422,
+    "id": 425,
     "type": {
       "path": [
         "sp_staking",
@@ -27709,7 +27818,7 @@
     }
   },
   {
-    "id": 423,
+    "id": 426,
     "type": {
       "path": [],
       "params": [],
@@ -27723,7 +27832,7 @@
     }
   },
   {
-    "id": 424,
+    "id": 427,
     "type": {
       "path": [
         "pallet_identity",
@@ -27749,7 +27858,7 @@
           "fields": [
             {
               "name": "judgements",
-              "type": 425,
+              "type": 428,
               "typeName": "BoundedVec<(RegistrarIndex, Judgement<Balance>), MaxJudgements>",
               "docs": []
             },
@@ -27772,7 +27881,7 @@
     }
   },
   {
-    "id": 425,
+    "id": 428,
     "type": {
       "path": [
         "frame_support",
@@ -27783,7 +27892,7 @@
       "params": [
         {
           "name": "T",
-          "type": 426
+          "type": 429
         },
         {
           "name": "S",
@@ -27795,7 +27904,7 @@
           "fields": [
             {
               "name": null,
-              "type": 427,
+              "type": 430,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27806,7 +27915,7 @@
     }
   },
   {
-    "id": 426,
+    "id": 429,
     "type": {
       "path": [],
       "params": [],
@@ -27820,34 +27929,34 @@
     }
   },
   {
-    "id": 427,
+    "id": 430,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 426
+          "type": 429
         }
       },
       "docs": []
     }
   },
   {
-    "id": 428,
+    "id": 431,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          429
+          432
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 429,
+    "id": 432,
     "type": {
       "path": [
         "frame_support",
@@ -27881,7 +27990,7 @@
     }
   },
   {
-    "id": 430,
+    "id": 433,
     "type": {
       "path": [
         "frame_support",
@@ -27892,7 +28001,7 @@
       "params": [
         {
           "name": "T",
-          "type": 431
+          "type": 434
         },
         {
           "name": "S",
@@ -27904,7 +28013,7 @@
           "fields": [
             {
               "name": null,
-              "type": 433,
+              "type": 436,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -27915,7 +28024,7 @@
     }
   },
   {
-    "id": 431,
+    "id": 434,
     "type": {
       "path": [
         "Option"
@@ -27923,7 +28032,7 @@
       "params": [
         {
           "name": "T",
-          "type": 432
+          "type": 435
         }
       ],
       "def": {
@@ -27940,7 +28049,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 432,
+                  "type": 435,
                   "typeName": null,
                   "docs": []
                 }
@@ -27955,7 +28064,7 @@
     }
   },
   {
-    "id": 432,
+    "id": 435,
     "type": {
       "path": [
         "pallet_identity",
@@ -28000,20 +28109,20 @@
     }
   },
   {
-    "id": 433,
+    "id": 436,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 431
+          "type": 434
         }
       },
       "docs": []
     }
   },
   {
-    "id": 434,
+    "id": 437,
     "type": {
       "path": [
         "pallet_identity",
@@ -28161,25 +28270,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 435,
+    "id": 438,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 436
+          "type": 439
         }
       },
       "docs": []
     }
   },
   {
-    "id": 436,
+    "id": 439,
     "type": {
       "path": [
         "pallet_society",
@@ -28206,7 +28315,7 @@
             },
             {
               "name": "kind",
-              "type": 437,
+              "type": 440,
               "typeName": "BidKind<AccountId, Balance>",
               "docs": []
             },
@@ -28223,7 +28332,7 @@
     }
   },
   {
-    "id": 437,
+    "id": 440,
     "type": {
       "path": [
         "pallet_society",
@@ -28281,21 +28390,21 @@
     }
   },
   {
-    "id": 438,
+    "id": 441,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          437
+          440
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 439,
+    "id": 442,
     "type": {
       "path": [
         "pallet_society",
@@ -28324,20 +28433,20 @@
     }
   },
   {
-    "id": 440,
+    "id": 443,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 441
+          "type": 444
         }
       },
       "docs": []
     }
   },
   {
-    "id": 441,
+    "id": 444,
     "type": {
       "path": [],
       "params": [],
@@ -28351,7 +28460,7 @@
     }
   },
   {
-    "id": 442,
+    "id": 445,
     "type": {
       "path": [],
       "params": [],
@@ -28365,7 +28474,7 @@
     }
   },
   {
-    "id": 443,
+    "id": 446,
     "type": {
       "path": [
         "pallet_society",
@@ -28400,7 +28509,7 @@
     }
   },
   {
-    "id": 444,
+    "id": 447,
     "type": {
       "path": [
         "pallet_society",
@@ -28568,12 +28677,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 445,
+    "id": 448,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28627,7 +28736,7 @@
     }
   },
   {
-    "id": 446,
+    "id": 449,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28675,7 +28784,7 @@
     }
   },
   {
-    "id": 447,
+    "id": 450,
     "type": {
       "path": [
         "pallet_recovery",
@@ -28823,12 +28932,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 448,
+    "id": 451,
     "type": {
       "path": [
         "frame_support",
@@ -28851,7 +28960,7 @@
           "fields": [
             {
               "name": null,
-              "type": 449,
+              "type": 452,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -28862,7 +28971,7 @@
     }
   },
   {
-    "id": 449,
+    "id": 452,
     "type": {
       "path": [],
       "params": [],
@@ -28875,7 +28984,7 @@
     }
   },
   {
-    "id": 450,
+    "id": 453,
     "type": {
       "path": [
         "pallet_vesting",
@@ -28904,7 +29013,7 @@
     }
   },
   {
-    "id": 451,
+    "id": 454,
     "type": {
       "path": [
         "pallet_vesting",
@@ -28970,20 +29079,20 @@
     }
   },
   {
-    "id": 452,
+    "id": 455,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 453
+          "type": 456
         }
       },
       "docs": []
     }
   },
   {
-    "id": 453,
+    "id": 456,
     "type": {
       "path": [
         "Option"
@@ -28991,7 +29100,7 @@
       "params": [
         {
           "name": "T",
-          "type": 454
+          "type": 457
         }
       ],
       "def": {
@@ -29008,7 +29117,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 454,
+                  "type": 457,
                   "typeName": null,
                   "docs": []
                 }
@@ -29023,7 +29132,7 @@
     }
   },
   {
-    "id": 454,
+    "id": 457,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -29040,7 +29149,7 @@
         },
         {
           "name": "PalletsOrigin",
-          "type": 455
+          "type": 458
         },
         {
           "name": "AccountId",
@@ -29076,7 +29185,7 @@
             },
             {
               "name": "origin",
-              "type": 455,
+              "type": 458,
               "typeName": "PalletsOrigin",
               "docs": []
             }
@@ -29087,7 +29196,7 @@
     }
   },
   {
-    "id": 455,
+    "id": 458,
     "type": {
       "path": [
         "node_runtime",
@@ -29102,7 +29211,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 456,
+                  "type": 459,
                   "typeName": "frame_system::Origin<Runtime>",
                   "docs": []
                 }
@@ -29115,7 +29224,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 457,
+                  "type": 460,
                   "typeName": "pallet_collective::Origin<Runtime, pallet_collective::Instance1>",
                   "docs": []
                 }
@@ -29128,7 +29237,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 458,
+                  "type": 461,
                   "typeName": "pallet_collective::Origin<Runtime, pallet_collective::Instance2>",
                   "docs": []
                 }
@@ -29141,7 +29250,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 459,
+                  "type": 462,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::Void",
                   "docs": []
                 }
@@ -29156,7 +29265,7 @@
     }
   },
   {
-    "id": 456,
+    "id": 459,
     "type": {
       "path": [
         "frame_system",
@@ -29203,7 +29312,7 @@
     }
   },
   {
-    "id": 457,
+    "id": 460,
     "type": {
       "path": [
         "pallet_collective",
@@ -29267,7 +29376,7 @@
     }
   },
   {
-    "id": 458,
+    "id": 461,
     "type": {
       "path": [
         "pallet_collective",
@@ -29331,7 +29440,7 @@
     }
   },
   {
-    "id": 459,
+    "id": 462,
     "type": {
       "path": [
         "sp_core",
@@ -29347,7 +29456,7 @@
     }
   },
   {
-    "id": 460,
+    "id": 463,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -29376,7 +29485,7 @@
     }
   },
   {
-    "id": 461,
+    "id": 464,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -29428,18 +29537,18 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 462,
+    "id": 465,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          463,
+          466,
           6
         ]
       },
@@ -29447,7 +29556,7 @@
     }
   },
   {
-    "id": 463,
+    "id": 466,
     "type": {
       "path": [
         "frame_support",
@@ -29458,7 +29567,7 @@
       "params": [
         {
           "name": "T",
-          "type": 464
+          "type": 467
         },
         {
           "name": "S",
@@ -29470,7 +29579,7 @@
           "fields": [
             {
               "name": null,
-              "type": 465,
+              "type": 468,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -29481,7 +29590,7 @@
     }
   },
   {
-    "id": 464,
+    "id": 467,
     "type": {
       "path": [
         "pallet_proxy",
@@ -29529,26 +29638,26 @@
     }
   },
   {
-    "id": 465,
+    "id": 468,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 464
+          "type": 467
         }
       },
       "docs": []
     }
   },
   {
-    "id": 466,
+    "id": 469,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          467,
+          470,
           6
         ]
       },
@@ -29556,7 +29665,7 @@
     }
   },
   {
-    "id": 467,
+    "id": 470,
     "type": {
       "path": [
         "frame_support",
@@ -29567,7 +29676,7 @@
       "params": [
         {
           "name": "T",
-          "type": 468
+          "type": 471
         },
         {
           "name": "S",
@@ -29579,7 +29688,7 @@
           "fields": [
             {
               "name": null,
-              "type": 469,
+              "type": 472,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -29590,7 +29699,7 @@
     }
   },
   {
-    "id": 468,
+    "id": 471,
     "type": {
       "path": [
         "pallet_proxy",
@@ -29638,20 +29747,20 @@
     }
   },
   {
-    "id": 469,
+    "id": 472,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 468
+          "type": 471
         }
       },
       "docs": []
     }
   },
   {
-    "id": 470,
+    "id": 473,
     "type": {
       "path": [
         "pallet_proxy",
@@ -29735,12 +29844,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 471,
+    "id": 474,
     "type": {
       "path": [],
       "params": [],
@@ -29754,7 +29863,7 @@
     }
   },
   {
-    "id": 472,
+    "id": 475,
     "type": {
       "path": [
         "pallet_multisig",
@@ -29808,13 +29917,13 @@
     }
   },
   {
-    "id": 473,
+    "id": 476,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          10,
+          292,
           0,
           6
         ]
@@ -29823,7 +29932,7 @@
     }
   },
   {
-    "id": 474,
+    "id": 477,
     "type": {
       "path": [
         "pallet_multisig",
@@ -29955,12 +30064,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 475,
+    "id": 478,
     "type": {
       "path": [
         "pallet_bounties",
@@ -30015,7 +30124,7 @@
             },
             {
               "name": "status",
-              "type": 476,
+              "type": 479,
               "typeName": "BountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -30026,7 +30135,7 @@
     }
   },
   {
-    "id": 476,
+    "id": 479,
     "type": {
       "path": [
         "pallet_bounties",
@@ -30127,7 +30236,7 @@
     }
   },
   {
-    "id": 477,
+    "id": 480,
     "type": {
       "path": [
         "pallet_bounties",
@@ -30220,12 +30329,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 478,
+    "id": 481,
     "type": {
       "path": [
         "pallet_tips",
@@ -30301,7 +30410,7 @@
     }
   },
   {
-    "id": 479,
+    "id": 482,
     "type": {
       "path": [
         "pallet_tips",
@@ -30369,12 +30478,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 480,
+    "id": 483,
     "type": {
       "path": [
         "pallet_assets",
@@ -30477,7 +30586,7 @@
     }
   },
   {
-    "id": 481,
+    "id": 484,
     "type": {
       "path": [
         "pallet_assets",
@@ -30528,7 +30637,7 @@
     }
   },
   {
-    "id": 482,
+    "id": 485,
     "type": {
       "path": [],
       "params": [],
@@ -30543,7 +30652,7 @@
     }
   },
   {
-    "id": 483,
+    "id": 486,
     "type": {
       "path": [
         "pallet_assets",
@@ -30582,7 +30691,7 @@
     }
   },
   {
-    "id": 484,
+    "id": 487,
     "type": {
       "path": [
         "pallet_assets",
@@ -30639,7 +30748,7 @@
     }
   },
   {
-    "id": 485,
+    "id": 488,
     "type": {
       "path": [
         "pallet_assets",
@@ -30760,12 +30869,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 486,
+    "id": 489,
     "type": {
       "path": [
         "pallet_lottery",
@@ -30821,21 +30930,21 @@
     }
   },
   {
-    "id": 487,
+    "id": 490,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          488
+          491
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 488,
+    "id": 491,
     "type": {
       "path": [],
       "params": [],
@@ -30848,7 +30957,7 @@
     }
   },
   {
-    "id": 489,
+    "id": 492,
     "type": {
       "path": [
         "pallet_lottery",
@@ -30924,25 +31033,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 490,
+    "id": 493,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 491
+          "type": 494
         }
       },
       "docs": []
     }
   },
   {
-    "id": 491,
+    "id": 494,
     "type": {
       "path": [
         "pallet_gilt",
@@ -30981,7 +31090,7 @@
     }
   },
   {
-    "id": 492,
+    "id": 495,
     "type": {
       "path": [
         "pallet_gilt",
@@ -31005,7 +31114,7 @@
             },
             {
               "name": "proportion",
-              "type": 299,
+              "type": 300,
               "typeName": "Perquintill",
               "docs": []
             },
@@ -31017,7 +31126,7 @@
             },
             {
               "name": "target",
-              "type": 299,
+              "type": 300,
               "typeName": "Perquintill",
               "docs": []
             }
@@ -31028,7 +31137,7 @@
     }
   },
   {
-    "id": 493,
+    "id": 496,
     "type": {
       "path": [
         "pallet_gilt",
@@ -31054,7 +31163,7 @@
           "fields": [
             {
               "name": "proportion",
-              "type": 299,
+              "type": 300,
               "typeName": "Perquintill",
               "docs": []
             },
@@ -31083,7 +31192,7 @@
     }
   },
   {
-    "id": 494,
+    "id": 497,
     "type": {
       "path": [
         "pallet_gilt",
@@ -31168,12 +31277,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 495,
+    "id": 498,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31260,7 +31369,7 @@
     }
   },
   {
-    "id": 496,
+    "id": 499,
     "type": {
       "path": [],
       "params": [],
@@ -31275,7 +31384,7 @@
     }
   },
   {
-    "id": 497,
+    "id": 500,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31326,7 +31435,7 @@
     }
   },
   {
-    "id": 498,
+    "id": 501,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31371,7 +31480,7 @@
     }
   },
   {
-    "id": 499,
+    "id": 502,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31416,7 +31525,7 @@
     }
   },
   {
-    "id": 500,
+    "id": 503,
     "type": {
       "path": [],
       "params": [],
@@ -31431,7 +31540,7 @@
     }
   },
   {
-    "id": 501,
+    "id": 504,
     "type": {
       "path": [],
       "params": [],
@@ -31445,7 +31554,7 @@
     }
   },
   {
-    "id": 502,
+    "id": 505,
     "type": {
       "path": [
         "pallet_uniques",
@@ -31549,25 +31658,25 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 503,
+    "id": 506,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 504
+          "type": 507
         }
       },
       "docs": []
     }
   },
   {
-    "id": 504,
+    "id": 507,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -31608,7 +31717,7 @@
     }
   },
   {
-    "id": 505,
+    "id": 508,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -31732,12 +31841,12 @@
         }
       },
       "docs": [
-        "\n\t\t\tCustom [dispatch errors](https://substrate.dev/docs/en/knowledgebase/runtime/errors)\n\t\t\tof this pallet.\n\t\t\t"
+        "\n\t\t\tCustom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)\n\t\t\tof this pallet.\n\t\t\t"
       ]
     }
   },
   {
-    "id": 506,
+    "id": 509,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -31784,7 +31893,7 @@
     }
   },
   {
-    "id": 507,
+    "id": 510,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -31819,7 +31928,7 @@
     }
   },
   {
-    "id": 508,
+    "id": 511,
     "type": {
       "path": [],
       "params": [],
@@ -31832,7 +31941,7 @@
     }
   },
   {
-    "id": 509,
+    "id": 512,
     "type": {
       "path": [
         "sp_runtime",
@@ -31851,11 +31960,11 @@
         },
         {
           "name": "Signature",
-          "type": 510
+          "type": 513
         },
         {
           "name": "Extra",
-          "type": 513
+          "type": 516
         }
       ],
       "def": {
@@ -31874,7 +31983,7 @@
     }
   },
   {
-    "id": 510,
+    "id": 513,
     "type": {
       "path": [
         "sp_runtime",
@@ -31915,7 +32024,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 511,
+                  "type": 514,
                   "typeName": "ecdsa::Signature",
                   "docs": []
                 }
@@ -31930,7 +32039,7 @@
     }
   },
   {
-    "id": 511,
+    "id": 514,
     "type": {
       "path": [
         "sp_core",
@@ -31943,7 +32052,7 @@
           "fields": [
             {
               "name": null,
-              "type": 512,
+              "type": 515,
               "typeName": "[u8; 65]",
               "docs": []
             }
@@ -31954,7 +32063,7 @@
     }
   },
   {
-    "id": 512,
+    "id": 515,
     "type": {
       "path": [],
       "params": [],
@@ -31968,26 +32077,26 @@
     }
   },
   {
-    "id": 513,
+    "id": 516,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          514,
-          515,
-          516,
           517,
+          518,
           519,
           520,
-          521
+          522,
+          523,
+          524
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 514,
+    "id": 517,
     "type": {
       "path": [
         "frame_system",
@@ -32010,7 +32119,7 @@
     }
   },
   {
-    "id": 515,
+    "id": 518,
     "type": {
       "path": [
         "frame_system",
@@ -32033,7 +32142,7 @@
     }
   },
   {
-    "id": 516,
+    "id": 519,
     "type": {
       "path": [
         "frame_system",
@@ -32056,7 +32165,7 @@
     }
   },
   {
-    "id": 517,
+    "id": 520,
     "type": {
       "path": [
         "frame_system",
@@ -32075,7 +32184,7 @@
           "fields": [
             {
               "name": null,
-              "type": 518,
+              "type": 521,
               "typeName": "Era",
               "docs": []
             }
@@ -32086,7 +32195,7 @@
     }
   },
   {
-    "id": 518,
+    "id": 521,
     "type": {
       "path": [
         "sp_runtime",
@@ -35426,7 +35535,7 @@
     }
   },
   {
-    "id": 519,
+    "id": 522,
     "type": {
       "path": [
         "frame_system",
@@ -35456,7 +35565,7 @@
     }
   },
   {
-    "id": 520,
+    "id": 523,
     "type": {
       "path": [
         "frame_system",
@@ -35479,7 +35588,7 @@
     }
   },
   {
-    "id": 521,
+    "id": 524,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -35507,7 +35616,7 @@
     }
   },
   {
-    "id": 522,
+    "id": 525,
     "type": {
       "path": [
         "node_runtime",

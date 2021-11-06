@@ -76,7 +76,7 @@ export type __ToTuple<O extends Codec[]> =
       : O[0]
     : Null;
 
-export type __CodecFirst<K extends unknown> =
+export type __CodecFirst<K> =
   K extends keyof InterfaceTypes
     ? InterfaceTypes[K]
     : K extends unknown[]
@@ -85,7 +85,7 @@ export type __CodecFirst<K extends unknown> =
         ? __ToStruct<K>
         : Codec;
 
-export type __CodecsNext<K extends unknown, C extends Codec[]> =
+export type __CodecsNext<K, C extends Codec[]> =
   K extends __WrapOne
     ? C extends [Codec, ...infer X]
       ? [__MapWrapOne<C[0]>[K], ...X]

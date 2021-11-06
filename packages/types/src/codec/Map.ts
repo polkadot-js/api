@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, IMap, Registry } from '../types';
 
@@ -14,29 +15,30 @@ import { compareMap, decodeU8a, sortMap, typeToConstructor } from './utils';
 const l = logger('Map');
 
 /** @internal */
-function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
+function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): [Map<K, V>, number] {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
+  const count = length.toNumber();
   const types = [];
 
-  for (let i = 0; i < length.toNumber(); i++) {
+  for (let i = 0; i < count; i++) {
     types.push(KeyClass, ValClass);
   }
 
-  const values = decodeU8a(registry, u8a.subarray(offset), types);
+  const [values, decodedLength] = decodeU8a(registry, u8a.subarray(offset), types);
 
   for (let i = 0; i < values.length; i += 2) {
     output.set(values[i] as K, values[i + 1] as V);
   }
 
-  return output;
+  return [output, offset + decodedLength];
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): [Map<K, V>, number] {
   const output = new Map<K, V>();
 
-  value.forEach((val: any, key: any) => {
+  for (const [key, val] of value.entries()) {
     const isComplex = KeyClass.prototype instanceof AbstractArray ||
       KeyClass.prototype instanceof Struct ||
       KeyClass.prototype instanceof Enum;
@@ -45,7 +47,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
       output.set(
         key instanceof KeyClass
           ? key
-          : new KeyClass(registry, isComplex ? JSON.parse(key) : key),
+          : new KeyClass(registry, isComplex ? JSON.parse(key as string) : key),
         val instanceof ValClass
           ? val
           : new ValClass(registry, val)
@@ -55,9 +57,9 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
 
       throw error;
     }
-  });
+  }
 
-  return output;
+  return [output, 0];
 }
 
 /**
@@ -75,12 +77,12 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, value?: Uint8Array | string | Map<any, any>): [Map<K, V>, number] {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
   if (!value) {
-    return new Map<K, V>();
+    return [new Map<K, V>(), 0];
   } else if (isU8a(value) || isHex(value)) {
     return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
@@ -101,14 +103,17 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #ValClass: Constructor<V>;
 
+  readonly initialU8aLength?: number;
+
   readonly #type: string;
 
   constructor (registry: Registry, keyType: Constructor<K> | string, valType: Constructor<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
-    const decoded = decodeMap(registry, keyType, valType, rawValue);
+    const [decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#KeyClass = typeToConstructor(registry, keyType);
     this.#ValClass = typeToConstructor(registry, valType);
     this.#type = type;
@@ -120,9 +125,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       len += v.encodedLength + k.encodedLength;
-    });
+    }
 
     return len;
   }
@@ -151,7 +156,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
@@ -161,9 +166,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toHuman (isExtended?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toHuman(isExtended);
-    });
+    }
 
     return json;
   }
@@ -174,9 +179,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public toJSON (): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       json[k.toString()] = v.toJSON();
-    });
+    }
 
     return json;
   }
@@ -206,9 +211,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V, k: K) => {
+    for (const [k, v] of this.entries()) {
       encoded.push(k.toU8a(isBare), v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

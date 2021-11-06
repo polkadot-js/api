@@ -1,12 +1,16 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchErrorModule, MetadataLatest, PortableRegistry, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
+import type { PortableRegistry } from '../../../metadata';
 import type { Text, u8 } from '../../../primitive';
 import type { Registry } from '../../../types';
-import type { Errors, ModuleErrors } from '../types';
+import type { Errors, IsError } from '../types';
 
-import { stringCamelCase } from '@polkadot/util';
+import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
+
+import { lazyVariants } from '../../../create/lazy';
+import { objectNameToString } from '../util';
 
 interface ItemMeta {
   args: string[];
@@ -17,37 +21,32 @@ interface ItemMeta {
 }
 
 export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): ItemMeta {
-  return {
-    ...variant,
-    args: variant.fields.map(({ type }) =>
-      lookup.getTypeDef(type).type
-    )
-  };
+  return objectSpread(
+    { args: variant.fields.map(({ type }) => lookup.getTypeDef(type).type) },
+    variant
+  );
 }
 
 /** @internal */
-export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Errors {
-  return pallets.reduce((result: Errors, { errors, index, name }, _sectionIndex): Errors => {
-    if (!errors.isSome) {
-      return result;
+export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
+  const result: Errors = {};
+
+  for (let i = 0; i < pallets.length; i++) {
+    const { errors, index, name } = pallets[i];
+
+    if (errors.isSome) {
+      const sectionIndex = version >= 12 ? index.toNumber() : i;
+
+      lazyMethod(result, stringCamelCase(name), () =>
+        lazyVariants(lookup, errors.unwrap(), objectNameToString, (variant: SiVariant): IsError => ({
+          is: ({ error, index }: DispatchErrorModule) =>
+            index.eq(sectionIndex) &&
+            error.eq(variant.index),
+          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
+        }))
+      );
     }
+  }
 
-    const sectionIndex = metaVersion >= 12
-      ? index.toNumber()
-      : _sectionIndex;
-
-    result[stringCamelCase(name)] = lookup.getSiType(errors.unwrap().type).def.asVariant.variants.reduce((newModule: ModuleErrors, variant): ModuleErrors => {
-      // we don't camelCase the error name
-      newModule[variant.name.toString()] = {
-        is: ({ error, index }: DispatchErrorModule) =>
-          index.eq(sectionIndex) &&
-          error.eq(variant.index),
-        meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
-      };
-
-      return newModule;
-    }, {} as ModuleErrors);
-
-    return result;
-  }, {} as Errors);
+  return result;
 }

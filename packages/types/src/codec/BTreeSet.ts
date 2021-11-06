@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Constructor, ISet, Registry } from '../types';
 
@@ -11,26 +12,20 @@ import { compareSet, decodeU8a, sortSet, typeToConstructor } from './utils';
 const l = logger('BTreeSet');
 
 /** @internal */
-function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
+function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): [Set<V>, number] {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
-  const types = [];
-
-  for (let i = 0; i < length.toNumber(); i++) {
-    types.push(ValClass);
-  }
-
-  const values = decodeU8a<V>(registry, u8a.subarray(offset), types);
+  const [values, decodedLength] = decodeU8a<V>(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(ValClass));
 
   for (let i = 0; i < values.length; i++) {
     output.add(values[i]);
   }
 
-  return output;
+  return [output, decodedLength + offset];
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): Set<V> {
+function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any> | string[]): [Set<V>, number] {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
@@ -43,7 +38,7 @@ function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constr
     }
   });
 
-  return output;
+  return [output, 0];
 }
 
 /**
@@ -60,14 +55,14 @@ function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: Constr
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): Set<V> {
+function decodeSet<V extends Codec> (registry: Registry, valType: Constructor<V> | string, value?: Uint8Array | string | string[] | Set<any>): [Set<V>, number] {
   if (!value) {
-    return new Set<V>();
+    return [new Set<V>(), 0];
   }
 
   const ValClass = typeToConstructor(registry, valType);
 
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
@@ -81,12 +76,17 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public createdAtHash?: Hash;
 
+  readonly initialU8aLength?: number;
+
   readonly #ValClass: Constructor<V>;
 
   constructor (registry: Registry, valType: Constructor<V> | string, rawValue?: Uint8Array | string | string[] | Set<any>) {
-    super(sortSet(decodeSet(registry, valType, rawValue)));
+    const [values, decodedLength] = decodeSet(registry, valType, rawValue);
+
+    super(sortSet(values));
 
     this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#ValClass = typeToConstructor(registry, valType);
   }
 
@@ -104,9 +104,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       len += v.encodedLength;
-    });
+    }
 
     return len;
   }
@@ -142,7 +142,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
@@ -152,9 +152,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toHuman (isExtended?: boolean): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toHuman(isExtended));
-    });
+    }
 
     return json;
   }
@@ -165,9 +165,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public toJSON (): AnyJson {
     const json: AnyJson = [];
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       json.push(v.toJSON());
-    });
+    }
 
     return json;
   }
@@ -197,9 +197,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
       encoded.push(compactToU8a(this.size));
     }
 
-    this.forEach((v: V) => {
+    for (const v of this.values()) {
       encoded.push(v.toU8a(isBare));
-    });
+    }
 
     return u8aConcat(...encoded);
   }

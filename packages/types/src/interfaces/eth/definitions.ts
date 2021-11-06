@@ -8,14 +8,96 @@
 
 import type { DefinitionsTypes } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { rpc } from './rpc';
 
-const types: DefinitionsTypes = {
+const V0: DefinitionsTypes = {
+  BlockV0: {
+    header: 'EthHeader',
+    transactions: 'Vec<TransactionV0>',
+    ommers: 'Vec<EthHeader>'
+  },
+  LegacyTransaction: {
+    nonce: 'U256',
+    gasPrice: 'U256',
+    gasLimit: 'U256',
+    action: 'EthTransactionAction',
+    value: 'U256',
+    input: 'Bytes',
+    signature: 'EthTransactionSignature'
+  },
+  TransactionV0: 'LegacyTransaction'
+};
+
+const V1: DefinitionsTypes = {
+  BlockV1: {
+    header: 'EthHeader',
+    transactions: 'Vec<TransactionV1>',
+    ommers: 'Vec<EthHeader>'
+  },
+  EIP2930Transaction: {
+    chainId: 'u64',
+    nonce: 'U256',
+    gasPrice: 'U256',
+    gasLimit: 'U256',
+    action: 'EthTransactionAction',
+    value: 'U256',
+    input: 'Bytes',
+    accessList: 'EthAccessList',
+    oddYParity: 'bool',
+    r: 'H256',
+    s: 'H256'
+  },
+  TransactionV1: {
+    _enum: {
+      Legacy: 'LegacyTransaction',
+      EIP2930: 'EIP2930Transaction'
+    }
+  }
+};
+
+const V2: DefinitionsTypes = {
+  BlockV2: {
+    header: 'EthHeader',
+    transactions: 'Vec<TransactionV2>',
+    ommers: 'Vec<EthHeader>'
+  },
+  EIP1559Transaction: {
+    chainId: 'u64',
+    nonce: 'U256',
+    maxPriorityFeePerGas: 'U256',
+    maxFeePerGas: 'U256',
+    gasLimit: 'U256',
+    action: 'EthTransactionAction',
+    value: 'U256',
+    input: 'Bytes',
+    accessList: 'EthAccessList',
+    oddYParity: 'bool',
+    r: 'H256',
+    s: 'H256'
+  },
+  TransactionV2: {
+    _enum: {
+      Legacy: 'LegacyTransaction',
+      EIP2930: 'EIP2930Transaction',
+      EIP1559: 'EIP1559Transaction'
+    }
+  }
+};
+
+const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
   EthereumAccountId: 'GenericEthereumAccountId',
+  EthereumAddress: 'GenericEthereumAccountId',
   EthereumLookupSource: 'GenericEthereumLookupSource',
   EthereumSignature: '[u8; 65]',
+  EthAccessListItem: {
+    address: 'EthAddress',
+    slots: 'Vec<H256>'
+  },
+  EthAccessList: 'Vec<EthAccessListItem>',
   EthAccount: {
-    address: 'H160',
+    address: 'EthAddress',
     balance: 'U256',
     nonce: 'U256',
     codeHash: 'H256',
@@ -23,6 +105,7 @@ const types: DefinitionsTypes = {
     accountProof: 'Vec<Bytes>',
     storageProof: 'Vec<EthStorageProof>'
   },
+  EthAddress: 'H160',
   EthBlock: {
     header: 'EthHeader',
     transactions: 'Vec<EthTransaction>',
@@ -31,7 +114,7 @@ const types: DefinitionsTypes = {
   EthHeader: {
     parentHash: 'H256',
     ommersHash: 'H256',
-    beneficiary: 'H160',
+    beneficiary: 'EthAddress',
     stateRoot: 'H256',
     transactionsRoot: 'H256',
     receiptsRoot: 'H256',
@@ -53,8 +136,8 @@ const types: DefinitionsTypes = {
     blockHash: 'Option<H256>',
     parentHash: 'H256',
     sha3Uncles: 'H256',
-    author: 'H160',
-    miner: 'H160',
+    author: 'EthAddress',
+    miner: 'EthAddress',
     stateRoot: 'H256',
     transactionsRoot: 'H256',
     receiptsRoot: 'H256',
@@ -73,8 +156,8 @@ const types: DefinitionsTypes = {
   },
   EthBloom: 'H2048',
   EthCallRequest: {
-    from: 'Option<H160>',
-    to: 'Option<H160>',
+    from: 'Option<EthAddress>',
+    to: 'Option<EthAddress>',
     gasPrice: 'Option<U256>',
     gas: 'Option<U256>',
     value: 'Option<U256>',
@@ -90,8 +173,8 @@ const types: DefinitionsTypes = {
   },
   EthFilterAddress: {
     _enum: {
-      Single: 'H160',
-      Multiple: 'Vec<H160>',
+      Single: 'EthAddress',
+      Multiple: 'Vec<EthAddress>',
       Null: 'Null'
     }
   },
@@ -125,8 +208,8 @@ const types: DefinitionsTypes = {
     blockHash: 'Option<H256>',
     parentHash: 'H256',
     sha3Uncles: 'H256',
-    author: 'H160',
-    miner: 'H160',
+    author: 'EthAddress',
+    miner: 'EthAddress',
     stateRoot: 'H256',
     transactionsRoot: 'H256',
     receiptsRoot: 'H256',
@@ -141,7 +224,7 @@ const types: DefinitionsTypes = {
     blockSize: 'Option<U256>'
   },
   EthLog: {
-    address: 'H160',
+    address: 'EthAddress',
     topics: 'Vec<H256>',
     data: 'Bytes',
     blockHash: 'Option<H256>',
@@ -156,12 +239,12 @@ const types: DefinitionsTypes = {
     transactionHash: 'Option<H256>',
     transactionIndex: 'Option<U256>',
     blockHash: 'Option<H256>',
-    from: 'Option<H160>',
-    to: 'Option<H160>',
+    from: 'Option<EthAddress>',
+    to: 'Option<EthAddress>',
     blockNumber: 'Option<U256>',
     cumulativeGasUsed: 'U256',
     gasUsed: 'Option<U256>',
-    contractAddress: 'Option<H160>',
+    contractAddress: 'Option<EthAddress>',
     logs: 'Vec<EthLog>',
     root: 'Option<H256>',
     logsBloom: 'EthBloom',
@@ -202,15 +285,7 @@ const types: DefinitionsTypes = {
       None: 'Null'
     }
   },
-  EthTransaction: {
-    nonce: 'U256',
-    gasPrice: 'U256',
-    gasLimit: 'U256',
-    action: 'EthTransactionAction',
-    value: 'U256',
-    input: 'Bytes',
-    signature: 'EthTransactionSignature'
-  },
+  EthTransaction: 'LegacyTransaction',
   EthTransactionSignature: {
     v: 'u64',
     r: 'H256',
@@ -229,8 +304,8 @@ const types: DefinitionsTypes = {
     }
   },
   EthTransactionRequest: {
-    from: 'Option<H160>',
-    to: 'Option<H160>',
+    from: 'Option<EthAddress>',
+    to: 'Option<EthAddress>',
     gasPrice: 'Option<U256>',
     gas: 'Option<U256>',
     value: 'Option<U256>',
@@ -240,9 +315,9 @@ const types: DefinitionsTypes = {
   EthTransactionStatus: {
     transactionHash: 'H256',
     transactionIndex: 'u32',
-    from: 'H160',
-    to: 'Option<H160>',
-    contractAddress: 'Option<H160>',
+    from: 'EthAddress',
+    to: 'Option<EthAddress>',
+    contractAddress: 'Option<EthAddress>',
     logs: 'Vec<EthLog>',
     logsBloom: 'EthBloom'
   },
@@ -252,6 +327,6 @@ const types: DefinitionsTypes = {
     target: 'H256',
     number: 'Option<u64>'
   }
-};
+});
 
 export default { rpc, types };

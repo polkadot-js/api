@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, INumber, Registry } from '../types';
 import type { UIntBitLength } from './types';
@@ -10,10 +11,10 @@ import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkado
 const BITLENGTH: UIntBitLength = 64;
 
 function decodeDate (value: CodecDate | Date | AnyNumber): Date {
-  if (value instanceof Date) {
-    return value;
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
+  } else if (value instanceof Date) {
+    return value;
   } else if (isString(value)) {
     value = new BN(value.toString(), 10, 'le');
   }
@@ -96,7 +97,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe = false): string {
+  public toHex (isLe = false): HexString {
     return bnToHex(this.toBn(), {
       bitLength: BITLENGTH,
       isLe,

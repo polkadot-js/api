@@ -10,10 +10,10 @@ import { U8aFixed } from '../codec/U8aFixed';
 
 /** @internal */
 function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
-  if (!value) {
-    return new Uint8Array();
-  } else if (isU8a(value) || Array.isArray(value)) {
+  if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
+  } else if (!value) {
+    return new Uint8Array();
   } else if (isHex(value)) {
     return hexToU8a(value);
   } else if (isString(value)) {

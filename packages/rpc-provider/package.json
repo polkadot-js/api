@@ -1,37 +1,41 @@
 {
-  "name": "@polkadot/rpc-provider",
-  "version": "6.1.3-3",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Transport providers for the API",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/rpc-provider",
+  "repository": {
+    "directory": "packages/rpc-provider",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
+  "type": "module",
+  "version": "6.6.2-23",
+  "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
-    "@polkadot/types": "6.1.3-3",
-    "@polkadot/util": "^7.4.1",
-    "@polkadot/util-crypto": "^7.4.1",
-    "@polkadot/x-fetch": "^7.4.1",
-    "@polkadot/x-global": "^7.4.1",
-    "@polkadot/x-ws": "^7.4.1",
+    "@babel/runtime": "^7.16.0",
+    "@polkadot/types": "6.6.2-23",
+    "@polkadot/util": "^7.8.1",
+    "@polkadot/util-crypto": "^7.8.1",
+    "@polkadot/x-fetch": "^7.8.1",
+    "@polkadot/x-global": "^7.8.1",
+    "@polkadot/x-ws": "^7.8.1",
     "eventemitter3": "^4.0.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^7.4.1",
-    "@polkadot/types": "6.1.3-3",
-    "mock-socket": "^9.0.3",
-    "nock": "^13.1.3"
+    "@polkadot/keyring": "^7.8.1",
+    "@polkadot/types": "6.6.2-23",
+    "mock-socket": "^9.0.7",
+    "nock": "^13.1.4"
   }
 }

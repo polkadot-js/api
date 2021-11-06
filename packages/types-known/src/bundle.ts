@@ -7,7 +7,7 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
-import { bnToBn, isNull, isUndefined } from '@polkadot/util';
+import { bnToBn, isNull, isUndefined, objectSpread } from '@polkadot/util';
 
 import typesChain from './chain';
 import typesModules from './modules';
@@ -16,6 +16,7 @@ import upgrades from './upgrades';
 
 export { knownOrigins } from './knownOrigins';
 export { packageInfo } from './packageInfo';
+export { mapXcmTypes } from './xcm';
 
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
@@ -25,20 +26,16 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
       (isUndefined(min) || isNull(min) || specVersion >= min) &&
       (isUndefined(max) || isNull(max) || specVersion <= max)
     )
-    .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
-      ...result,
-      ...types
-    }), {});
+    .reduce((result: RegistryTypes, { types }): RegistryTypes =>
+      objectSpread(result, types), {}
+    );
 }
 
 /**
  * @description Get types for specific modules (metadata override)
  */
 export function getModuleTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
-  return {
-    ...(typesModules[section] || {}),
-    ...(knownTypes.typesAlias?.[section] || {})
-  };
+  return objectSpread({}, typesModules[section], knownTypes.typesAlias?.[section]);
 }
 
 /**
@@ -48,10 +45,10 @@ export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | s
   const _chainName = chainName.toString();
   const _specName = specName.toString();
 
-  return {
-    ...(knownTypes.typesBundle?.spec?.[_specName]?.signedExtensions || {}),
-    ...(knownTypes.typesBundle?.chain?.[_chainName]?.signedExtensions || {})
-  };
+  return objectSpread({},
+    knownTypes.typesBundle?.spec?.[_specName]?.signedExtensions,
+    knownTypes.typesBundle?.chain?.[_chainName]?.signedExtensions
+  );
 }
 
 /**
@@ -66,15 +63,15 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   //   - spec then chain
   //   - typesBundle takes higher precedence
   //   - types is the final catch-all override
-  return {
-    ...filterVersions(typesSpec[_specName], _specVersion),
-    ...filterVersions(typesChain[_chainName], _specVersion),
-    ...filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
-    ...filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
-    ...(knownTypes.typesSpec?.[_specName] || {}),
-    ...(knownTypes.typesChain?.[_chainName] || {}),
-    ...(knownTypes.types || {})
-  };
+  return objectSpread({},
+    filterVersions(typesSpec[_specName], _specVersion),
+    filterVersions(typesChain[_chainName], _specVersion),
+    filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
+    filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
+    knownTypes.typesSpec?.[_specName],
+    knownTypes.typesChain?.[_chainName],
+    knownTypes.types
+  );
 }
 
 export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): CodecHasher | null {
@@ -91,10 +88,10 @@ export function getSpecRpc ({ knownTypes }: Registry, chainName: Text | string, 
   const _chainName = chainName.toString();
   const _specName = specName.toString();
 
-  return {
-    ...(knownTypes.typesBundle?.spec?.[_specName]?.rpc || {}),
-    ...(knownTypes.typesBundle?.chain?.[_chainName]?.rpc || {})
-  };
+  return objectSpread({},
+    knownTypes.typesBundle?.spec?.[_specName]?.rpc,
+    knownTypes.typesBundle?.chain?.[_chainName]?.rpc
+  );
 }
 
 /**
@@ -105,11 +102,11 @@ export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string
   const _specName = specName.toString();
 
   // as per versions, first spec, then chain then finally non-versioned
-  return {
-    ...(knownTypes.typesBundle?.spec?.[_specName]?.alias || {}),
-    ...(knownTypes.typesBundle?.chain?.[_chainName]?.alias || {}),
-    ...(knownTypes.typesAlias || {})
-  };
+  return objectSpread({},
+    knownTypes.typesBundle?.spec?.[_specName]?.alias,
+    knownTypes.typesBundle?.chain?.[_chainName]?.alias,
+    knownTypes.typesAlias
+  );
 }
 
 /**
@@ -120,7 +117,7 @@ export function getUpgradeVersion (genesisHash: Hash, blockNumber: BN): [ChainUp
 
   return known
     ? [
-      known.versions.reduce((last: ChainUpgradeVersion | undefined, version): ChainUpgradeVersion | undefined => {
+      known.versions.reduce<ChainUpgradeVersion | undefined>((last, version) => {
         return blockNumber.gt(version.blockNumber)
           ? version
           : last;

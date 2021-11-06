@@ -4,7 +4,7 @@
 import type { Registry } from '../types/registry';
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isUndefined, stringify } from '@polkadot/util';
+import { assert, isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from './types';
 
@@ -44,10 +44,13 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
 
   assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
 
-  const inner = sub.reduce< Record<string, string>>((result, type) => ({
-    ...result,
-    [type.name as string]: encodeTypeDef(registry, type)
-  }), { ...(extra as Record<string, string>) });
+  const inner: Record<string, string> = objectSpread({}, extra);
+
+  for (let i = 0; i < sub.length; i++) {
+    const def = sub[i];
+
+    inner[def.name as string] = encodeTypeDef(registry, def);
+  }
 
   return stringify(
     asEnum
@@ -99,10 +102,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     assert(sub && Array.isArray(sub), 'Unable to encode Set type');
 
     return stringify({
-      _set: sub.reduce((all, { index, name }, count): Record<string, number> => ({
-        ...all,
-        [`${name || `Unknown${index || count}`}`]: index || count
-      }), { _bitLength: length || 8 } as Record<string, number>)
+      _set: sub.reduce((all, { index, name }, count) =>
+        objectSpread(all, { [`${name || `Unknown${index || count}`}`]: index || count }),
+      { _bitLength: length || 8 })
     });
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -111,16 +113,15 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
 
-    return encodeSubTypes(registry, sub, false, {
-      ...(
-        alias
-          ? { _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) => ({
-            ...all,
-            [k]: v
-          }), {}) }
-          : {}
-      )
-    });
+    return encodeSubTypes(registry, sub, false,
+      alias
+        ? {
+          _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
+            objectSpread(all, { [k]: v }), {}
+          )
+        }
+        : {}
+    );
   },
   [TypeDefInfo.Tuple]: (registry: Registry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Tuple type');
@@ -156,8 +157,5 @@ export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
 }
 
 export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
-  return {
-    ...typeDef,
-    type: encodeType(registry, typeDef as TypeDef, false)
-  };
+  return objectSpread({}, typeDef, { type: encodeType(registry, typeDef as TypeDef, false) });
 }

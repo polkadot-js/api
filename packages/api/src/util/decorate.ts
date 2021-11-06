@@ -4,55 +4,39 @@
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
+import { lazyDeriveSection } from '@polkadot/api-derive';
+
+type AnyDeriveSection = Record<string, AnyFunction>;
+
 // Most generic typings for `api.derive.*.*`
-type AnyDerive = Record<string, Record<string, AnyFunction>>;
+type AnyDerive = Record<string, AnyDeriveSection>;
+
 // Exact typings for a particular section `api.derive.section.*`
-type DeriveSection<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> = { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> };
+type DeriveSection<ApiType extends ApiTypes, Section extends AnyDeriveSection> = {
+  [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]>
+};
+
 // Exact typings for all sections `api.derive.*.*`
-export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyDerive> = { [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]> };
-
-// A technically unsafe version of Object.keys(obj) that assumes that
-// obj only has known properties of T
-function keys<T extends Record<string, unknown>> (obj: T): (keyof T)[] {
-  return Object.keys(obj);
-}
-
-/**
- * This is a methods decorator which keeps all type information.
- */
-function decorateMethods<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> (section: Section, decorateMethod: DecorateMethod<ApiType>): DeriveSection<ApiType, Section> {
-  return keys(section).reduce(
-    <MethodName extends keyof Section>(
-      acc: DeriveSection<ApiType, Section>,
-      methodName: MethodName
-    ): DeriveSection<ApiType, Section> => {
-      const method = section[methodName];
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      acc[methodName] = decorateMethod(method) as MethodResult<ApiType, Section[MethodName]>;
-
-      return acc;
-    },
-    {} as DeriveSection<ApiType, Section>
-  );
-}
+export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyDerive> = {
+  [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]>
+};
 
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (
-  allSections: AllSections,
-  decorateMethod: DecorateMethod<ApiType>
-): DeriveAllSections<ApiType, AllSections> {
-  return keys(allSections).reduce(
-    <MethodName extends keyof AllSections>(
-      acc: DeriveAllSections<ApiType, AllSections>,
-      sectionName: MethodName
-    ): DeriveAllSections<ApiType, AllSections> => {
-      acc[sectionName] = decorateMethods(allSections[sectionName], decorateMethod);
+export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, derives: AnyDerive): DeriveAllSections<ApiType, A> {
+  const getKeys = (s: string) =>
+    Object.keys(derives[s]);
 
-      return acc;
-    },
-    {} as DeriveAllSections<ApiType, AllSections>
-  );
+  const creator = (s: string, m: string) =>
+    decorateMethod(derives[s][m]) as AnyFunction;
+
+  const result: AnyDerive = {};
+  const names = Object.keys(derives);
+
+  for (let i = 0; i < names.length; i++) {
+    lazyDeriveSection(result, names[i], getKeys, creator);
+  }
+
+  return result as DeriveAllSections<ApiType, A>;
 }

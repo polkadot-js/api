@@ -1,40 +1,64 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../../../interfaces';
-import type { Registry } from '../../../types';
-import type { Extrinsics, ModuleExtrinsics } from '../types';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
+import type { PortableRegistry } from '../../../metadata';
+import type { CallFunction, Registry } from '../../../types';
+import type { Extrinsics } from '../types';
 
-import { stringCamelCase } from '@polkadot/util';
+import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
+import { lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
+import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
 
+export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
+  return calls.isSome;
+}
+
+export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
+  const { fields, index } = variant;
+  const args = new Array<Record<string, unknown>>(fields.length);
+
+  for (let a = 0; a < fields.length; a++) {
+    const { name, type, typeName } = fields[a];
+
+    args[a] = objectSpread(
+      {
+        name: stringCamelCase(name.unwrapOr(`param${a}`)),
+        type: getSiName(lookup, type)
+      },
+      typeName.isSome
+        ? { typeName: typeName.unwrap() }
+        : null
+    );
+  }
+
+  return createUnchecked(
+    registry,
+    sectionName,
+    new Uint8Array([sectionIndex, index.toNumber()]),
+    registry.createType('FunctionMetadataLatest', objectSpread({ args }, variant))
+  );
+}
+
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, metaVersion: number): Extrinsics {
-  return pallets
-    .filter(({ calls }) => calls.isSome)
-    .reduce((result: Extrinsics, { calls, index, name }, _sectionIndex): Extrinsics => {
-      const sectionName = stringCamelCase(name);
-      const sectionIndex = metaVersion >= 12
-        ? index.toNumber()
-        : _sectionIndex;
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
+  const result: Extrinsics = {};
+  const filtered = pallets.filter(filterCallsSome);
 
-      result[sectionName] = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
-        .reduce((newModule: ModuleExtrinsics, variant): ModuleExtrinsics => {
-          const callMetadata = registry.createType('FunctionMetadataLatest', {
-            ...variant,
-            args: variant.fields.map(({ name, type }, index) => ({
-              name: stringCamelCase(name.unwrapOr(`param${index}`)),
-              type: getSiName(lookup, type)
-            }))
-          });
+  for (let i = 0; i < filtered.length; i++) {
+    const { calls, index, name } = filtered[i];
+    const sectionName = stringCamelCase(name);
+    const sectionIndex = version >= 12 ? index.toNumber() : i;
 
-          newModule[stringCamelCase(callMetadata.name)] = createUnchecked(registry, sectionName, new Uint8Array([sectionIndex, callMetadata.index.toNumber()]), callMetadata);
+    lazyMethod(result, sectionName, () =>
+      lazyVariants(lookup, calls.unwrap(), objectNameToCamel, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, sectionName, sectionIndex)
+      )
+    );
+  }
 
-          return newModule;
-        }, {});
-
-      return result;
-    }, {});
+  return result;
 }

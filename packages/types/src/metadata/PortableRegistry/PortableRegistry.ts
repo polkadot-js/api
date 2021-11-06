@@ -7,11 +7,12 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 import type { Text, Type } from '../../primitive';
 import type { Registry, TypeDef } from '../../types';
 
-import { assert, isNumber, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
+import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
 
 import { Struct } from '../../codec/Struct';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
+import { sanitize } from '../../create/sanitize';
 import { TypeDefInfo } from '../../types';
 
 // Just a placeholder for a type.unrwapOr()
@@ -24,7 +25,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 };
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PRIMITIVE_PATHS = [
+const PATHS_PRIMITIVE = splitNamespace([
   // match {node, polkadot, ...}_runtime
   '*_runtime::Call',
   '*_runtime::Event',
@@ -35,17 +36,20 @@ const PRIMITIVE_PATHS = [
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
+  // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
+  'account::AccountId20',
+  'polkadot_runtime_common::claims::EthereumAddress',
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
   // ink!
   'ink_env::types::*'
-].map((p) => p.split('::'));
+]);
 
 // Mappings for types that should be converted to set via BitVec
-const SETS = [
+const PATHS_SET = splitNamespace([
   'pallet_identity::types::BitFlags'
-].map((p) => p.split('::'));
+]);
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperOpaque'];
@@ -53,28 +57,49 @@ const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Re
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 
+function splitNamespace (values: string[]): string[][] {
+  return values.map((v) => v.split('::'));
+}
+
+function sanitizeDocs (docs: Text[]): string[] {
+  return docs.map((d) => d.toString());
+}
+
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
 
-    return (a === '*') || (a === b) || (
-      a.includes('*') &&
-      a.includes('_') &&
-      b.includes('_') &&
-      matchParts(a.split('_'), b.split('_'))
-    );
+    if ((a === '*') || (a === b)) {
+      return true;
+    }
+
+    if (a.includes('*') && a.includes('_') && b.includes('_')) {
+      const suba = a.split('_');
+      const subb = b.split('_');
+
+      if (suba[0] === '*') {
+        // the first parts where the length is greater is always a match
+        while (suba.length < subb.length) {
+          subb.shift();
+        }
+      }
+
+      return matchParts(suba, subb);
+    }
+
+    return false;
   });
 }
 
 // check if the path matches the PRIMITIVE_SP (with wildcards)
 function getPrimitivePath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PRIMITIVE_PATHS.some((p) => matchParts(p, path))
+  return path.length && PATHS_PRIMITIVE.some((p) => matchParts(p, path))
     ? path[path.length - 1].toString()
     : null;
 }
 
-function removeDuplicateNames (lookup: GenericPortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
+function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
   const rewrite: Record<number, string> = {};
 
   return names
@@ -170,9 +195,9 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
     .map((p) => stringUpperFirst(stringCamelCase(p)))
     .filter((p, index) =>
       (
-        // Remove ::{pallet, traits, types}::
+        // Remove ::{misc, pallet, traits, types}::
         index !== 1 ||
-        !['Pallet', 'Traits', 'Types'].includes(p.toString())
+        !['Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
       ) &&
       (
         // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
@@ -195,36 +220,60 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   return [lookupIndex, typeName, params];
 }
 
-function extractNames (lookup: GenericPortableRegistry, types: PortableType[]): Record<number, string> {
+function extractNames (lookup: PortableRegistry, types: PortableType[]): Record<number, string> {
   const dedup = removeDuplicateNames(lookup, types.map((t) =>
     extractName(types, t)
   ));
 
-  const [names, typesNew] = dedup.reduce<[Record<number, string>, Record<string, string>]>(([names, types], [lookupIndex, name]) => {
-    // We set the name for this specific type
+  const names: Record<number, string> = {};
+  const lookups: Record<string, string> = {};
+
+  for (let i = 0; i < dedup.length; i++) {
+    const [lookupIndex, name] = dedup[i];
+
     names[lookupIndex] = name;
+    lookups[name] = lookup.registry.createLookupType(lookupIndex);
+  }
 
-    // we map to the actual lookupIndex
-    types[name] = lookup.registry.createLookupType(lookupIndex);
-
-    return [names, types];
-  }, [{}, {}]);
-
-  lookup.registry.register(typesNew);
+  lookup.registry.register(lookups);
 
   return names;
 }
 
-export class GenericPortableRegistry extends Struct {
+// types have an id, which means they are to be named by
+// the specified id - ensure we have a mapping lookup for these
+function extractTypeMap (types: PortableType[]): Record<number, PortableType> {
+  const result: Record<number, PortableType> = {};
+
+  for (let i = 0; i < types.length; i++) {
+    const p = types[i];
+
+    result[p.id.toNumber()] = p;
+  }
+
+  return result;
+}
+
+export class PortableRegistry extends Struct {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
+  #types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array) {
+    // console.time('PortableRegistry')
+
     super(registry, {
       types: 'Vec<PortableType>'
     }, value);
 
     this.#names = extractNames(this, this.types);
+    this.#types = extractTypeMap(this.types);
+
+    // console.timeEnd('PortableRegistry')
+  }
+
+  public get names (): string[] {
+    return Object.values(this.#names);
   }
 
   /**
@@ -245,7 +294,9 @@ export class GenericPortableRegistry extends Struct {
    * @description Finds a specific type in the registry
    */
   public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
-    const found = this.types[this.#getLookupId(lookupId)];
+    // NOTE catch-22 - this may already be used as part of the constructor, so
+    // ensure that we have actually initialized it correctly
+    const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
 
     assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
 
@@ -301,7 +352,7 @@ export class GenericPortableRegistry extends Struct {
     const lookupIndex = lookupId.toNumber();
 
     // Setup for a lookup on complex types
-    return [TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
+    return [TypeDefInfo.DoNotConstruct, TypeDefInfo.Enum, TypeDefInfo.Struct].includes(typeDef.info) && typeDef.lookupName
       ? {
         docs: typeDef.docs,
         info: TypeDefInfo.Si,
@@ -357,11 +408,7 @@ export class GenericPortableRegistry extends Struct {
       throw new Error(`PortableRegistry: ${lookupIndex}${namespace ? ` (${namespace})` : ''}: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
-    return {
-      docs: type.docs.map((d) => d.toString()),
-      namespace,
-      ...typeDef
-    };
+    return objectSpread({ docs: sanitizeDocs(type.docs), namespace }, typeDef);
   }
 
   #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
@@ -408,21 +455,34 @@ export class GenericPortableRegistry extends Struct {
     } else if (['Range', 'RangeInclusive'].includes(specialVariant)) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Range,
-        sub: fields.map(({ name, type }, index) => ({
-          name: name.isSome
-            ? name.unwrap().toString()
-            : ['start', 'end'][index],
-          ...this.#createSiDef(type)
-        }))
+        sub: fields.map(({ name, type, typeName }, index) =>
+          objectSpread(
+            {
+              name: name.isSome
+                ? name.unwrap().toString()
+                : ['start', 'end'][index]
+            },
+            this.#createSiDef(type),
+            typeName.isSome
+              ? { typeName: sanitize(typeName.unwrap()) }
+              : null
+          ))
       });
-    } else if (path.length && path[path.length - 1].toString() === 'WrapperOpaque') {
-      return withTypeString(this.registry, {
-        info: TypeDefInfo.WrapperOpaque,
-        sub: this.#createSiDef(params[0].type.unwrap())
-      });
+    } else if (path.length) {
+      if (path[path.length - 1].toString() === 'WrapperOpaque') {
+        return withTypeString(this.registry, {
+          info: TypeDefInfo.WrapperOpaque,
+          sub: this.#createSiDef(params[0].type.unwrap())
+        });
+      } else if (path[path.length - 1].toString() === 'WrapperKeepOpaque') {
+        return {
+          info: TypeDefInfo.Plain,
+          type: 'Bytes'
+        };
+      }
     }
 
-    return SETS.some((p) => matchParts(p, path))
+    return PATHS_SET.some((p) => matchParts(p, path))
       ? this.#extractCompositeSet(lookupIndex, params, fields)
       : this.#extractFields(lookupIndex, fields);
   }
@@ -444,11 +504,15 @@ export class GenericPortableRegistry extends Struct {
   }
 
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
-    const [isStruct, isTuple] = fields.reduce(([isAllNamed, isAllUnnamed], { name }) => ([
-      isAllNamed && name.isSome,
-      isAllUnnamed && name.isNone
-    ]),
-    [true, true]);
+    let isStruct = true;
+    let isTuple = true;
+
+    for (let f = 0; f < fields.length; f++) {
+      const { name } = fields[f];
+
+      isStruct = isStruct && name.isSome;
+      isTuple = isTuple && name.isNone;
+    }
 
     assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
 
@@ -460,83 +524,95 @@ export class GenericPortableRegistry extends Struct {
     } else if (isTuple && fields.length === 1) {
       const typeDef = this.#createSiDef(fields[0].type);
 
-      return {
-        ...typeDef,
-        ...(
-          lookupIndex === -1
-            ? {}
-            : {
-              lookupIndex,
-              lookupName: this.#names[lookupIndex],
-              lookupNameRoot: typeDef.lookupName
-            }
-        )
-      };
-    }
-
-    const [sub, alias] = this.#extractFieldsAlias(fields);
-
-    return withTypeString(this.registry, {
-      info: isTuple // Tuple check first
-        ? TypeDefInfo.Tuple
-        : TypeDefInfo.Struct,
-      ...(
-        alias.size
-          ? { alias }
-          : {}
-      ),
-      ...(
+      return objectSpread(
+        {},
+        typeDef,
         lookupIndex === -1
           ? {}
           : {
             lookupIndex,
-            lookupName: this.#names[lookupIndex]
-          }
-      ),
-      sub
-    });
+            lookupName: this.#names[lookupIndex],
+            lookupNameRoot: typeDef.lookupName
+          },
+        fields[0].typeName.isSome
+          ? { typeName: sanitize(fields[0].typeName.unwrap()) }
+          : null
+      );
+    }
+
+    const [sub, alias] = this.#extractFieldsAlias(fields);
+
+    return withTypeString(this.registry, objectSpread(
+      {
+        info: isTuple // Tuple check first
+          ? TypeDefInfo.Tuple
+          : TypeDefInfo.Struct
+      },
+      alias.size
+        ? { alias }
+        : null,
+      lookupIndex === -1
+        ? {}
+        : {
+          lookupIndex,
+          lookupName: this.#names[lookupIndex]
+        },
+      { sub }
+    ));
   }
 
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = fields.map(({ docs, name, type }) => {
+    const sub = new Array<TypeDef>(fields.length);
+
+    for (let i = 0; i < fields.length; i++) {
+      const { docs, name, type, typeName } = fields[i];
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {
-        return typeDef;
+        sub[i] = typeDef;
+      } else {
+        let nameField = stringCamelCase(name.unwrap());
+        let nameOrig: string | null = null;
+
+        if (nameField.includes('#')) {
+          nameOrig = nameField;
+          nameField = nameOrig.replace(/#/g, '_');
+        } else if (RESERVED.includes(nameField)) {
+          nameOrig = nameField;
+          nameField = `${nameField}_`;
+        }
+
+        if (nameOrig) {
+          alias.set(nameField, nameOrig);
+        }
+
+        sub[i] = objectSpread(
+          {},
+          typeDef,
+          {
+            docs: sanitizeDocs(docs),
+            name: nameField
+          },
+          typeName.isSome
+            ? { typeName: sanitize(typeName.unwrap()) }
+            : null
+        );
       }
-
-      let nameField = stringCamelCase(name.unwrap());
-      let nameOrig: string | null = null;
-
-      if (nameField.includes('#')) {
-        nameOrig = nameField;
-        nameField = nameOrig.replace(/#/g, '_');
-      } else if (RESERVED.includes(nameField)) {
-        nameOrig = nameField;
-        nameField = `${nameField}_`;
-      }
-
-      if (nameOrig) {
-        alias.set(nameField, nameOrig);
-      }
-
-      return {
-        ...typeDef,
-        docs: docs.map((d) => d.toString()),
-        name: nameField
-      };
-    });
+    }
 
     return [sub, alias];
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {
-    return {
-      ...getTypeDef(type),
-      displayName: type.toString(),
-      isFromSi: true
-    };
+    return objectSpread(
+      {},
+      getTypeDef(type),
+      {
+        displayName: type.toString(),
+        isFromSi: true
+      }
+    );
   }
 
   #extractPrimitive (_: number, type: SiType): TypeDef {
@@ -604,10 +680,9 @@ export class GenericPortableRegistry extends Struct {
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Result,
-        sub: params.map(({ type }, index) => ({
-          name: ['Ok', 'Error'][index],
-          ...this.#createSiDef(type.unwrap())
-        }))
+        sub: params.map(({ type }, index) =>
+          objectSpread({ name: ['Ok', 'Error'][index] }, this.#createSiDef(type.unwrap()))
+        )
       });
     } else if (variants.length === 0) {
       return {
@@ -633,16 +708,20 @@ export class GenericPortableRegistry extends Struct {
           sub.push({
             index: sub.length,
             info: TypeDefInfo.Null,
-            name: `Unused${sub.length}`,
+            name: `__Unused${sub.length}`,
             type: 'Null'
           });
         }
 
-        sub.push({
-          ...this.#extractFields(-1, fields),
-          index: index.toNumber(),
-          name: name.toString()
-        });
+        sub.push(
+          objectSpread(
+            this.#extractFields(-1, fields),
+            {
+              index: index.toNumber(),
+              name: name.toString()
+            }
+          )
+        );
       });
 
     return withTypeString(this.registry, {

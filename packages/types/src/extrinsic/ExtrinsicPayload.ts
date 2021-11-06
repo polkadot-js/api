@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Balance, Hash, Index } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, Registry } from '../types';
@@ -119,7 +120,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Sign the payload with the keypair
    */
-  public sign (signerPair: IKeyringPair): { signature: string } {
+  public sign (signerPair: IKeyringPair): { signature: HexString } {
     const signature = this._raw.sign(signerPair);
 
     // This is extensible, so we could quite readily extend to send back extra

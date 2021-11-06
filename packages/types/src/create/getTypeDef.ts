@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { assert, isNumber, isString } from '@polkadot/util';
+import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
 
 import { sanitize } from './sanitize';
 import { TypeDefInfo } from './types';
@@ -51,10 +51,9 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       type: 'Null'
     }));
   } else if (isRustEnum(details)) {
-    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef => ({
-      ...getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count),
-      index
-    }));
+    value.sub = Object.entries(details).map(([name, typeOrObj], index): TypeDef =>
+      objectSpread({}, getTypeDef(getTypeString(typeOrObj || 'Null'), { name }, count), { index })
+    );
   } else {
     value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
       index,
@@ -88,14 +87,13 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const parsed: Record<string, any> = JSON.parse(type);
+  const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string };
   const keys = Object.keys(parsed);
 
   if (keys.length === 1 && keys[0] === '_enum') {
-    return _decodeEnum(value, parsed[keys[0]], count);
+    return _decodeEnum(value, parsed[keys[0]] as string[], count);
   } else if (keys.length === 1 && keys[0] === '_set') {
-    return _decodeSet(value, parsed[keys[0]]);
+    return _decodeSet(value, parsed[keys[0]] as Record<string, number>);
   }
 
   value.alias = parsed._alias

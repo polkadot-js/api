@@ -3,6 +3,8 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import type { AnyJson } from '@polkadot/types/types';
+
 import { ApiPromise } from '@polkadot/api';
 import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';
 
@@ -10,7 +12,7 @@ import abiIncrementer from '../test/contracts/ink/incrementer.json';
 import { BlueprintPromise, ContractPromise } from '.';
 
 async function checkBlueprint (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  const blueprint = new BlueprintPromise(api, abiIncrementer, '0x1234');
+  const blueprint = new BlueprintPromise(api, abiIncrementer as AnyJson, '0x1234');
 
   // new style
   await blueprint.tx.new({ gasLimit: 456, salt: '0x1234', value: 123 }, 42).signAndSend(pairs.bob);
@@ -21,7 +23,7 @@ async function checkBlueprint (api: ApiPromise, pairs: TestKeyringMap): Promise<
 }
 
 async function checkContract (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  const contract = new ContractPromise(api, abiIncrementer, '0x1234');
+  const contract = new ContractPromise(api, abiIncrementer as AnyJson, '0x1234');
 
   // queries
   await contract.query.get(pairs.alice.address, {});

@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
 
+import { lazyDeriveSection } from './util/lazy';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as bounties from './bounties';
@@ -31,6 +32,8 @@ interface Avail {
   instances: string[];
   withDetect?: boolean;
 }
+
+export { lazyDeriveSection };
 
 export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
@@ -66,49 +69,60 @@ const checks: Record<string, Avail> = {
   treasury: { instances: ['treasury'] }
 };
 
+function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: string): string[] {
+  return api.registry.getModuleInstances(specName, moduleName) || [];
+}
+
 /**
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions<AllSections> (instanceId: string, api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
+function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: DeriveCustom): ExactDerive {
   const queryKeys = Object.keys(api.query);
   const specName = api.runtimeVersion.specName.toString();
 
-  return Object
-    .keys(allSections)
-    .filter((sectionName) =>
-      !checks[sectionName] ||
-      checks[sectionName].instances.some((q) => queryKeys.includes(q)) ||
-      (
-        checks[sectionName].withDetect &&
-        checks[sectionName].instances.some((q) =>
-          (api.registry.getModuleInstances(specName, q) || []).some((q) => queryKeys.includes(q))
-        )
-      )
+  const filterQueryKeys = (q: string) =>
+    queryKeys.includes(q);
+
+  const filterInstances = (q: string) =>
+    getModuleInstances(api, specName, q).some(filterQueryKeys);
+
+  const isIncluded = (s: string) => (
+    !checks[s] ||
+    checks[s].instances.some(filterQueryKeys) ||
+    (
+      checks[s].withDetect &&
+      checks[s].instances.some(filterInstances)
     )
-    .reduce((derives, sectionName): DeriveAllSections<AllSections> => {
-      const section = allSections[sectionName as keyof AllSections];
+  );
 
-      derives[sectionName as keyof AllSections] = Object
-        .entries(section)
-        .reduce((methods, [methodName, creator]): DeriveSection<typeof section> => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-          methods[methodName as keyof typeof section] = creator(instanceId, api);
+  const getKeys = (section: string) =>
+    Object.keys(derives[section]);
 
-          return methods;
-        }, {} as DeriveSection<typeof section>);
+  const creator = (section: string, method: string) =>
+    derives[section][method](instanceId, api);
 
-      return derives;
-    }, {} as DeriveAllSections<AllSections>);
+  const result: Record<string, Record<string, AnyFunction>> = {};
+  const names = Object.keys(derives);
+
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
+
+    if (isIncluded(name)) {
+      lazyDeriveSection(result, name, getKeys, creator);
+    }
+  }
+
+  return result as ExactDerive;
 }
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export function decorateDerive (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export function getAvailableDerives (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
-    ...injectFunctions(instanceId, api, derive),
+    ...injectFunctions(instanceId, api, derive as DeriveCustom),
     ...injectFunctions(instanceId, api, custom)
   };
 }

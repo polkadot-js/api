@@ -4,7 +4,8 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u32, Vec } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, SeatHolder } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveElectionsInfo } from './types';
 
@@ -13,11 +14,11 @@ import { combineLatest, map, of } from 'rxjs';
 import { memo } from '../util';
 
 // SeatHolder is current tuple is 2.x-era Substrate
-type Member = SeatHolder | ITuple<[AccountId, Balance]>;
+type Member = PalletElectionsPhragmenSeatHolder | ITuple<[AccountId, Balance]>;
 
 type Candidate = AccountId | ITuple<[AccountId, Balance]>;
 
-function isSeatHolder (value: Member): value is SeatHolder {
+function isSeatHolder (value: Member): value is PalletElectionsPhragmenSeatHolder {
   return !Array.isArray(value);
 }
 

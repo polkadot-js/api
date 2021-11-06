@@ -13,22 +13,23 @@ function hasMismatch (a?: unknown, b?: unknown): boolean {
   );
 }
 
-function notEntry (value: any): boolean {
+function notEntry (value: unknown): boolean {
   return !Array.isArray(value) || value.length !== 2;
 }
 
-function compareMapArray (a: Map<any, any>, b: [any, any][]): boolean {
+function compareMapArray (a: Map<unknown, unknown>, b: [unknown, unknown][]): boolean {
   // equal number of entries and each entry in the array should match
-  return (a.size === b.length) && !b.some((entry): boolean =>
-    notEntry(entry) || hasMismatch(a.get(entry[0]), entry[1])
+  return (a.size === b.length) && !b.some((e) =>
+    notEntry(e) ||
+    hasMismatch(a.get(e[0]), e[1])
   );
 }
 
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Map<string, Codec> that the first has to be as well
-export function compareMap (a: Map<any, any>, b?: unknown): boolean {
+export function compareMap (a: Map<unknown, unknown>, b?: unknown): boolean {
   if (Array.isArray(b)) {
-    return compareMapArray(a, b);
+    return compareMapArray(a, b as [unknown, unknown][]);
   } else if (b instanceof Map) {
     return compareMapArray(a, [...b.entries()]);
   } else if (isObject(b)) {

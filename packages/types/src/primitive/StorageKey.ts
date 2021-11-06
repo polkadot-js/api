@@ -52,16 +52,15 @@ export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLat
 
 /** @internal */
 function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof StorageKey) {
+  if (isU8a(value) || !value || isString(value)) {
+    // let Bytes handle these inputs
+    return { key: value };
+  } else if (value instanceof StorageKey) {
     return {
       key: value,
       method: value.method,
       section: value.section
     };
-  } else if (!value || isString(value) || isU8a(value)) {
-    // let Bytes handle these inputs
-    return { key: value };
   } else if (isFunction(value)) {
     return {
       key: value(),
@@ -93,18 +92,20 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
+  const result = new Array<Codec>(hashers.length);
 
-  return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
+  for (let i = 0; i < hashers.length; i++) {
+    const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
       ? registry.createType(registry.createLookupType(type) as 'Raw', value.subarray(offset + hashLen))
       : registry.createType('Raw', value.subarray(offset, offset + hashLen));
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
-    result.push(decoded);
+    result[i] = decoded;
+  }
 
-    return result;
-  }, []) as A;
+  return result as A;
 }
 
 /** @internal */

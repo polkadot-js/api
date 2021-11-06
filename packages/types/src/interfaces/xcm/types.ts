@@ -6,7 +6,7 @@ import type { AccountId, BlockNumber, Weight } from '@polkadot/types/interfaces/
 import type { ITuple } from '@polkadot/types/types';
 
 /** @name AssetInstance */
-export interface AssetInstance extends AssetInstanceV1 {}
+export interface AssetInstance extends AssetInstanceV2 {}
 
 /** @name AssetInstanceV0 */
 export interface AssetInstanceV0 extends Enum {
@@ -50,6 +50,9 @@ export interface AssetInstanceV1 extends Enum {
   readonly asBlob: Bytes;
 }
 
+/** @name AssetInstanceV2 */
+export interface AssetInstanceV2 extends AssetInstanceV1 {}
+
 /** @name BodyId */
 export interface BodyId extends Enum {
   readonly isUnit: boolean;
@@ -91,12 +94,21 @@ export interface DoubleEncodedCall extends Struct {
 }
 
 /** @name Fungibility */
-export interface Fungibility extends Enum {
+export interface Fungibility extends FungibilityV2 {}
+
+/** @name FungibilityV0 */
+export interface FungibilityV0 extends FungibilityV1 {}
+
+/** @name FungibilityV1 */
+export interface FungibilityV1 extends Enum {
   readonly isFungible: boolean;
-  readonly asFungible: u128;
+  readonly asFungible: Compact<u128>;
   readonly isNonFungible: boolean;
-  readonly asNonFungible: AssetInstance;
+  readonly asNonFungible: AssetInstanceV1;
 }
+
+/** @name FungibilityV2 */
+export interface FungibilityV2 extends FungibilityV1 {}
 
 /** @name InboundStatus */
 export interface InboundStatus extends Enum {
@@ -221,10 +233,10 @@ export interface InstructionV2 extends Enum {
 export interface InteriorMultiLocation extends Junctions {}
 
 /** @name Junction */
-export interface Junction extends JunctionV1 {}
+export interface Junction extends JunctionV2 {}
 
 /** @name Junctions */
-export interface Junctions extends JunctionsV1 {}
+export interface Junctions extends JunctionsV2 {}
 
 /** @name JunctionsV1 */
 export interface JunctionsV1 extends Enum {
@@ -321,10 +333,10 @@ export interface JunctionV1 extends Enum {
 export interface JunctionV2 extends JunctionV1 {}
 
 /** @name MultiAsset */
-export interface MultiAsset extends MultiAssetV1 {}
+export interface MultiAsset extends MultiAssetV2 {}
 
 /** @name MultiAssetFilter */
-export interface MultiAssetFilter extends MultiAssetFilterV1 {}
+export interface MultiAssetFilter extends MultiAssetFilterV2 {}
 
 /** @name MultiAssetFilterV1 */
 export interface MultiAssetFilterV1 extends Enum {
@@ -385,14 +397,14 @@ export interface MultiAssetV0 extends Enum {
 /** @name MultiAssetV1 */
 export interface MultiAssetV1 extends Struct {
   readonly id: XcmAssetId;
-  readonly fungibility: Fungibility;
+  readonly fungibility: FungibilityV1;
 }
 
 /** @name MultiAssetV2 */
 export interface MultiAssetV2 extends MultiAssetV1 {}
 
 /** @name MultiLocation */
-export interface MultiLocation extends MultiLocationV1 {}
+export interface MultiLocation extends MultiLocationV2 {}
 
 /** @name MultiLocationV0 */
 export interface MultiLocationV0 extends Enum {
@@ -491,7 +503,7 @@ export interface QueueConfigData extends Struct {
 }
 
 /** @name Response */
-export interface Response extends ResponseV1 {}
+export interface Response extends ResponseV2 {}
 
 /** @name ResponseV0 */
 export interface ResponseV0 extends Enum {
@@ -592,13 +604,22 @@ export interface WeightLimitV2 extends Enum {
 }
 
 /** @name WildFungibility */
-export interface WildFungibility extends Enum {
+export interface WildFungibility extends WildFungibilityV2 {}
+
+/** @name WildFungibilityV0 */
+export interface WildFungibilityV0 extends WildFungibilityV1 {}
+
+/** @name WildFungibilityV1 */
+export interface WildFungibilityV1 extends Enum {
   readonly isFungible: boolean;
   readonly isNonFungible: boolean;
 }
 
+/** @name WildFungibilityV2 */
+export interface WildFungibilityV2 extends WildFungibilityV1 {}
+
 /** @name WildMultiAsset */
-export interface WildMultiAsset extends WildMultiAssetV1 {}
+export interface WildMultiAsset extends WildMultiAssetV2 {}
 
 /** @name WildMultiAssetV1 */
 export interface WildMultiAssetV1 extends Enum {
@@ -606,12 +627,15 @@ export interface WildMultiAssetV1 extends Enum {
   readonly isAllOf: boolean;
   readonly asAllOf: {
     readonly id: XcmAssetId;
-    readonly fungibility: WildFungibility;
+    readonly fungibility: WildFungibilityV1;
   } & Struct;
 }
 
+/** @name WildMultiAssetV2 */
+export interface WildMultiAssetV2 extends WildMultiAssetV1 {}
+
 /** @name Xcm */
-export interface Xcm extends XcmV1 {}
+export interface Xcm extends XcmV2 {}
 
 /** @name XcmAssetId */
 export interface XcmAssetId extends Enum {
@@ -622,7 +646,7 @@ export interface XcmAssetId extends Enum {
 }
 
 /** @name XcmError */
-export interface XcmError extends XcmErrorV1 {}
+export interface XcmError extends XcmErrorV2 {}
 
 /** @name XcmErrorV0 */
 export interface XcmErrorV0 extends Enum {
@@ -734,7 +758,7 @@ export interface XcmErrorV2 extends Enum {
 }
 
 /** @name XcmOrder */
-export interface XcmOrder extends XcmOrderV1 {}
+export interface XcmOrder extends XcmOrderV2 {}
 
 /** @name XcmOrderV0 */
 export interface XcmOrderV0 extends Enum {
@@ -824,14 +848,16 @@ export interface XcmOrderV1 extends Enum {
   } & Struct;
   readonly isBuyExecution: boolean;
   readonly asBuyExecution: {
-    readonly fees: MultiAsset;
+    readonly fees: MultiAssetV1;
     readonly weight: u64;
     readonly debt: u64;
     readonly haltOnError: bool;
-    readonly orders: Vec<XcmOrderV1>;
     readonly instructions: Vec<XcmV1>;
   } & Struct;
 }
+
+/** @name XcmOrderV2 */
+export interface XcmOrderV2 extends XcmOrderV1 {}
 
 /** @name XcmOrigin */
 export interface XcmOrigin extends Enum {
@@ -920,17 +946,17 @@ export interface XcmV0 extends Enum {
 export interface XcmV1 extends Enum {
   readonly isWithdrawAsset: boolean;
   readonly asWithdrawAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isReserveAssetDeposit: boolean;
   readonly asReserveAssetDeposit: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isReceiveTeleportedAsset: boolean;
   readonly asReceiveTeleportedAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;
   readonly isQueryResponse: boolean;
@@ -940,12 +966,12 @@ export interface XcmV1 extends Enum {
   } & Struct;
   readonly isTransferAsset: boolean;
   readonly asTransferAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly dest: MultiLocationV1;
   } & Struct;
   readonly isTransferReserveAsset: boolean;
   readonly asTransferReserveAsset: {
-    readonly Vassets: MultiAssetsV1;
+    readonly assets: MultiAssetsV1;
     readonly dest: MultiLocationV1;
     readonly effects: Vec<XcmOrderV1>;
   } & Struct;

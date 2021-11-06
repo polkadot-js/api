@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, IVec, Registry } from '../types';
 
@@ -20,21 +21,33 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: Hash;
 
-  protected constructor (registry: Registry, values: T[]) {
+  readonly initialU8aLength?: number;
+
+  protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
     super(values.length);
 
+    // explicitly set the values here - this removes the need for any extra allocations
     for (let i = 0; i < values.length; i++) {
       this[i] = values[i];
     }
 
     this.registry = registry;
+    this.initialU8aLength = initialU8aLength;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((total, entry) => total + entry.encodedLength, compactToU8a(this.length).length);
+    // We need to loop through all entries since they may have a variable length themselves,
+    // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
+    let total = compactToU8a(this.length).length;
+
+    for (let i = 0; i < this.length; i++) {
+      total += this[i].encodedLength;
+    }
+
+    return total;
   }
 
   /**
@@ -76,7 +89,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
@@ -84,18 +97,26 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toHuman(isExtended)
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toHuman(isExtended);
+    }
+
+    return result;
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.map((entry): AnyJson =>
-      entry.toJSON()
-    );
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toJSON();
+    }
+
+    return result;
   }
 
   /**
@@ -107,12 +128,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    // Overwrite the default toString representation of Array.
-    const data = this.map((entry): string =>
-      entry.toString()
-    );
+    const result = new Array<string>(this.length);
 
-    return `[${data.join(', ')}]`;
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i].toString();
+    }
+
+    return `[${result.join(', ')}]`;
   }
 
   /**
@@ -120,9 +142,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.map((entry): Uint8Array =>
-      entry.toU8a(isBare)
-    );
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a(isBare);
+    }
 
     return isBare
       ? u8aConcat(...encoded)

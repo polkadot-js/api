@@ -31,10 +31,14 @@ export class MetadataVersioned extends Struct {
   readonly #converted = new Map<MetaVersions, MetaMapped>();
 
   constructor (registry: Registry, value?: unknown) {
+    // console.time('MetadataVersioned')
+
     super(registry, {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
     }, value as Map<unknown, unknown>);
+
+    // console.timeEnd('MetadataVersioned')
   }
 
   #assertVersion = (version: number): boolean => {
@@ -65,7 +69,7 @@ export class MetadataVersioned extends Struct {
    */
   #metadata = (): MetadataAll => {
     return this.get('metadata') as MetadataAll;
-  }
+  };
 
   /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version

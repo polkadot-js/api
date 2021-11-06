@@ -4,13 +4,14 @@
 // Augment the modules
 import '@polkadot/api/augment';
 
+import type { Observable } from 'rxjs';
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
-import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
+import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
@@ -94,6 +95,7 @@ export interface ApiInterfaceRx {
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
+  queryAt: (blockHash: Uint8Array | string) => Observable<QueryableStorage<'rxjs'>>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;
@@ -116,4 +118,8 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   rx: {
     query: QueryableStorage<'rxjs'>;
   }
+
+  findCall (callIndex: Uint8Array | string): CallFunction;
+  findError (errorIndex: Uint8Array | string): RegistryError;
+  queryMulti: QueryableStorageMulti<ApiType>;
 }

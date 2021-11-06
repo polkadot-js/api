@@ -1,17 +1,18 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+import type { Compact } from '../codec/Compact';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { Address, Balance, Call, Index } from '../interfaces/runtime';
+import type { Address, Balance, Call, CodecHash, Index } from '../interfaces/runtime';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, IMethod, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
-import { assert, compactAddLength, compactFromU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Base } from '../codec/Base';
-import { Compact } from '../codec/Compact';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {
@@ -168,6 +169,8 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
  * - left as is, to create an inherent
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
+  #hashCache?: CodecHash;
+
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
   }
@@ -214,10 +217,22 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /**
+   * @description returns a hash of the contents
+   */
+  public override get hash (): CodecHash {
+    if (!this.#hashCache) {
+      this.#hashCache = super.hash;
+    }
+
+    return this.#hashCache;
+  }
+
+  /**
    * @description Injects an already-generated signature into the extrinsic
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsic<A> {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).addSignature(signer, signature, payload);
+    this.#hashCache = undefined;
 
     return this;
   }
@@ -227,6 +242,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).sign(account, options);
+    this.#hashCache = undefined;
 
     return this;
   }
@@ -236,6 +252,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic<A> {
     (this._raw as ExtrinsicVx).signFake(signer, options);
+    this.#hashCache = undefined;
 
     return this;
   }
@@ -243,7 +260,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Returns a hex string representation of the value
    */
-  public override toHex (isBare?: boolean): string {
+  public override toHex (isBare?: boolean): HexString {
     return u8aToHex(this.toU8a(isBare));
   }
 
@@ -251,10 +268,13 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExpanded?: boolean): AnyJson {
-    return {
-      isSigned: this.isSigned,
-      method: this.method.toHuman(isExpanded),
-      ...(this.isSigned
+    return objectSpread<Record<string, AnyJson>>(
+      {},
+      {
+        isSigned: this.isSigned,
+        method: this.method.toHuman(isExpanded)
+      },
+      this.isSigned
         ? {
           era: this.era.toHuman(isExpanded),
           nonce: this.nonce.toHuman(isExpanded),
@@ -262,9 +282,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
           signer: this.signer.toHuman(isExpanded),
           tip: this.tip.toHuman(isExpanded)
         }
-        : {}
-      )
-    };
+        : null
+    );
   }
 
   /**

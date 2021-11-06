@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
 import type { Address, Call } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
@@ -82,7 +83,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description Add an [[ExtrinsicSignatureV4]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsicV4 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV4 {
     this.signature.addSignature(signer, signature, payload);
 
     return this;

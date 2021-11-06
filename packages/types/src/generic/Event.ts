@@ -6,6 +6,8 @@ import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
 import type { AnyJson, Codec, Constructor, IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import { Struct } from '../codec/Struct';
 import { Tuple } from '../codec/Tuple';
 import { Null } from '../primitive/Null';
@@ -154,14 +156,15 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
-    return {
-      method: this.method,
-      section: this.section,
-      ...(isExpanded
+    return objectSpread(
+      {
+        method: this.method,
+        section: this.section
+      },
+      isExpanded
         ? { docs: this.meta.docs.map((d) => d.toString()) }
-        : {}
-      ),
-      ...super.toHuman(isExpanded)
-    };
+        : null,
+      super.toHuman(isExpanded)
+    );
   }
 }

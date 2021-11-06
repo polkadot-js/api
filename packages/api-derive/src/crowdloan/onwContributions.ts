@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { DeriveOwnContributions } from '../types';
 
 import { combineLatest, EMPTY, map, of, startWith, switchMap } from 'rxjs';
@@ -30,7 +30,7 @@ function _getValues (api: ApiInterfaceRx, childKey: string, keys: string[]): Obs
   );
 }
 
-function _watchOwnChanges (api: ApiInterfaceRx, paraId: string | number | ParaId, childkey: string, keys: string[]): Observable<DeriveOwnContributions> {
+function _watchOwnChanges (api: ApiInterfaceRx, paraId: string | number | BN, childkey: string, keys: string[]): Observable<DeriveOwnContributions> {
   return api.query.system.events().pipe(
     switchMap((events): Observable<DeriveOwnContributions> => {
       const changes = extractContributed(paraId, events);
@@ -47,7 +47,7 @@ function _watchOwnChanges (api: ApiInterfaceRx, paraId: string | number | ParaId
   );
 }
 
-function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, childKey: string, keys: string[]): Observable<DeriveOwnContributions> {
+function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, childKey: string, keys: string[]): Observable<DeriveOwnContributions> {
   return combineLatest([
     _getValues(api, childKey, keys),
     _watchOwnChanges(api, paraId, childKey, keys)
@@ -59,8 +59,8 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | ParaId, 
   );
 }
 
-export function ownContributions (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | ParaId, keys: string[]) => Observable<DeriveOwnContributions> {
-  return memo(instanceId, (paraId: string | number | ParaId, keys: string[]): Observable<DeriveOwnContributions> =>
+export function ownContributions (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | BN, keys: string[]) => Observable<DeriveOwnContributions> {
+  return memo(instanceId, (paraId: string | number | BN, keys: string[]): Observable<DeriveOwnContributions> =>
     api.derive.crowdloan.childKey(paraId).pipe(
       switchMap((childKey) =>
         childKey && keys.length

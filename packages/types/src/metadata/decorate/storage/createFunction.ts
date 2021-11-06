@@ -6,7 +6,7 @@ import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 
-import { assert, compactAddLength, compactStripLength, isUndefined, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { Raw } from '../../../codec';
@@ -14,14 +14,17 @@ import { StorageKey } from '../../../primitive';
 import { getHasher } from './getHasher';
 
 export interface CreateItemOptions {
-  key?: string;
+  key?: Uint8Array | string;
   skipHashing?: boolean;
 }
 
-export interface CreateItemFn {
-  meta: StorageEntryMetadataLatest;
+export interface CreateItemBase {
   method: string;
   prefix: string;
+}
+
+export interface CreateItemFn extends CreateItemBase {
+  meta: StorageEntryMetadataLatest;
   section: string;
 }
 
@@ -31,16 +34,25 @@ interface IterFn {
 }
 
 /** @internal */
-function createKeyRaw (registry: Registry, itemFn: CreateItemFn, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
+export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, keys: SiLookupTypeId[], hashers: StorageHasher[], args: unknown[]): Uint8Array {
+  const extra = new Array<Uint8Array>(keys.length);
+
+  for (let i = 0; i < keys.length; i++) {
+    extra[i] = getHasher(hashers[i])(
+      registry.createType(registry.createLookupType(keys[i]), args[i]).toU8a()
+    );
+  }
+
   return u8aConcat(
     xxhashAsU8a(itemFn.prefix, 128),
     xxhashAsU8a(itemFn.method, 128),
-    ...keys.map((type, index) =>
-      getHasher(hashers[index])(
-        registry.createType(registry.createLookupType(type), args[index]).toU8a()
-      )
-    )
+    ...extra
   );
+}
+
+/** @internal */
+function filterDefined (a: unknown): boolean {
+  return !isUndefined(a);
 }
 
 /** @internal */
@@ -48,7 +60,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, keys: SiLookupType
   const { method, section } = itemFn;
 
   assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
-  assert(args.filter((a) => !isUndefined(a)).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
+  assert(args.filter(filterDefined).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return compactAddLength(
@@ -67,10 +79,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, _stora
 
   // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
   // instances (e.g. collective) will not work since it is only matched on param meta
-  storageFn.toJSON = (): any => ({
-    ...(meta.toJSON() as Record<string, unknown>),
-    storage: { method, prefix, section }
-  });
+  storageFn.toJSON = (): any => objectSpread({ storage: { method, prefix, section } }, meta.toJSON());
 
   return storageFn;
 }
@@ -112,10 +121,9 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
         const { hashers, key } = type.asMap;
         const keysVec = hashers.length === 1
           ? [key]
-          : [...registry.lookup.getSiType(key).def.asTuple.map((t) => t)];
-        const hashersVec = [...hashers];
+          : registry.lookup.getSiType(key).def.asTuple;
 
-        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec.slice(0, args.length), hashersVec.slice(0, args.length), args));
+        return new Raw(registry, createKeyRaw(registry, itemFn, keysVec.slice(0, args.length), hashers.slice(0, args.length), args));
       }
     }
 
@@ -128,6 +136,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 /** @internal */
 export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
+  let cacheKey: Uint8Array | null = null;
 
   // Can only have zero or one argument:
   //   - storage.system.account(address)
@@ -135,16 +144,20 @@ export function createFunction (registry: Registry, itemFn: CreateItemFn, option
   // For higher-map queries the params are passed in as an tuple, [key1, key2]
   const storageFn = expandWithMeta(itemFn, (...args: unknown[]): Uint8Array => {
     if (type.isPlain) {
-      return options.skipHashing
-        ? compactAddLength(u8aToU8a(options.key))
-        : createKey(registry, itemFn, [], [], []);
+      if (!cacheKey) {
+        cacheKey = options.skipHashing
+          ? compactAddLength(u8aToU8a(options.key))
+          : createKey(registry, itemFn, [], [], []);
+      }
+
+      return cacheKey;
     }
 
     const { hashers, key } = type.asMap;
 
     return hashers.length === 1
       ? createKey(registry, itemFn, [key], hashers, args)
-      : createKey(registry, itemFn, registry.lookup.getSiType(key).def.asTuple.map((t) => t), hashers, args);
+      : createKey(registry, itemFn, registry.lookup.getSiType(key).def.asTuple, hashers, args);
   });
 
   if (type.isMap) {

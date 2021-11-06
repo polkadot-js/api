@@ -1,12 +1,14 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
 import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
-import { u8aToHex } from '@polkadot/util';
+import { objectSpread, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../codec/Compact';
+import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
@@ -48,25 +50,19 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   private readonly _extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: string | { [x: string]: any; } | Map<unknown, unknown> | unknown[]) {
-    const extensionTypes = {
-      ...registry.getSignedExtensionTypes(),
-      ...registry.getSignedExtensionExtra()
-    };
+  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+    const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
-    super(registry, {
-      ...extensionTypes,
-      ...knownTypes
-    }, value);
+    super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
+
+    this._extraTypes = {};
 
     // add all extras that are not in the base types
-    this._extraTypes = Object.entries(extensionTypes).reduce<Record<string, string>>((map, [key, type]) => {
+    for (const [key, type] of Object.entries(extensionTypes)) {
       if (!knownTypes[key]) {
-        map[key] = type;
+        this._extraTypes[key] = type;
       }
-
-      return map;
-    }, {});
+    }
   }
 
   get address (): Address {
@@ -117,13 +113,22 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    return {
-      // add any explicit overrides we may have
-      ...(Object.keys(this._extraTypes).reduce<Record<string, string>>((map, key) => {
-        map[key] = (this.get(key) as Codec).toHex();
+    const result: Record<string, string> = {};
+    const keys = Object.keys(this._extraTypes);
 
-        return map;
-      }, {})),
+    // add any explicit overrides we may have
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = this.get(key) as Codec;
+      const isOption = value instanceof Option;
+
+      // Don't include Option.isNone
+      if (!isOption || value.isSome) {
+        result[key] = value.toHex();
+      }
+    }
+
+    return objectSpread(result, {
       // the known defaults as managed explicitly and has different
       // formatting in cases, e.g. we mostly expose a hex format here
       address: this.address.toString(),
@@ -138,7 +143,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),
       version: this.version.toNumber()
-    };
+    });
   }
 
   /**

@@ -263,7 +263,7 @@ export default {
     _enum: {
       Null: 'Null',
       Assets: 'XcmV1MultiassetMultiAssets',
-      ExecutionResult: 'Result<Null, (u32,XcmV2TraitsError)>',
+      ExecutionResult: 'Option<(u32,XcmV2TraitsError)>',
       Version: 'u32'
     }
   },
@@ -418,7 +418,7 @@ export default {
     }
   },
   /**
-   * Lookup239: kusama_runtime::SessionKeys
+   * Lookup241: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -429,7 +429,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup369: kusama_runtime::NposCompactSolution24
+   * Lookup371: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -458,7 +458,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup502: xcm::VersionedXcm<Call>
+   * Lookup504: xcm::VersionedXcm<Call>
    **/
   XcmVersionedXcm: {
     _enum: {
@@ -468,7 +468,7 @@ export default {
     }
   },
   /**
-   * Lookup503: xcm::v0::Xcm<Call>
+   * Lookup505: xcm::v0::Xcm<Call>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -522,7 +522,7 @@ export default {
     }
   },
   /**
-   * Lookup505: xcm::v0::order::Order<Call>
+   * Lookup507: xcm::v0::order::Order<Call>
    **/
   XcmV0Order: {
     _enum: {
@@ -565,7 +565,7 @@ export default {
     }
   },
   /**
-   * Lookup507: xcm::v0::Response
+   * Lookup509: xcm::v0::Response
    **/
   XcmV0Response: {
     _enum: {
@@ -573,7 +573,7 @@ export default {
     }
   },
   /**
-   * Lookup508: xcm::v1::Xcm<Call>
+   * Lookup510: xcm::v1::Xcm<Call>
    **/
   XcmV1Xcm: {
     _enum: {
@@ -632,7 +632,7 @@ export default {
     }
   },
   /**
-   * Lookup510: xcm::v1::order::Order<Call>
+   * Lookup512: xcm::v1::order::Order<Call>
    **/
   XcmV1Order: {
     _enum: {
@@ -677,7 +677,7 @@ export default {
     }
   },
   /**
-   * Lookup512: xcm::v1::Response
+   * Lookup514: xcm::v1::Response
    **/
   XcmV1Response: {
     _enum: {
@@ -686,114 +686,114 @@ export default {
     }
   },
   /**
-   * Lookup573: kusama_runtime::OriginCaller
+   * Lookup575: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
       system: 'FrameSystemRawOrigin',
-      Unused1: 'Null',
-      Unused2: 'Null',
-      Unused3: 'Null',
-      Unused4: 'Null',
+      __Unused1: 'Null',
+      __Unused2: 'Null',
+      __Unused3: 'Null',
+      __Unused4: 'Null',
       Void: 'SpCoreVoid',
-      Unused6: 'Null',
-      Unused7: 'Null',
-      Unused8: 'Null',
-      Unused9: 'Null',
-      Unused10: 'Null',
-      Unused11: 'Null',
-      Unused12: 'Null',
-      Unused13: 'Null',
+      __Unused6: 'Null',
+      __Unused7: 'Null',
+      __Unused8: 'Null',
+      __Unused9: 'Null',
+      __Unused10: 'Null',
+      __Unused11: 'Null',
+      __Unused12: 'Null',
+      __Unused13: 'Null',
       Council: 'PalletCollectiveRawOrigin',
       TechnicalCommittee: 'PalletCollectiveRawOrigin',
-      Unused16: 'Null',
-      Unused17: 'Null',
-      Unused18: 'Null',
-      Unused19: 'Null',
-      Unused20: 'Null',
-      Unused21: 'Null',
-      Unused22: 'Null',
-      Unused23: 'Null',
-      Unused24: 'Null',
-      Unused25: 'Null',
-      Unused26: 'Null',
-      Unused27: 'Null',
-      Unused28: 'Null',
-      Unused29: 'Null',
-      Unused30: 'Null',
-      Unused31: 'Null',
-      Unused32: 'Null',
-      Unused33: 'Null',
-      Unused34: 'Null',
-      Unused35: 'Null',
-      Unused36: 'Null',
-      Unused37: 'Null',
-      Unused38: 'Null',
-      Unused39: 'Null',
-      Unused40: 'Null',
-      Unused41: 'Null',
-      Unused42: 'Null',
-      Unused43: 'Null',
-      Unused44: 'Null',
-      Unused45: 'Null',
-      Unused46: 'Null',
-      Unused47: 'Null',
-      Unused48: 'Null',
-      Unused49: 'Null',
+      __Unused16: 'Null',
+      __Unused17: 'Null',
+      __Unused18: 'Null',
+      __Unused19: 'Null',
+      __Unused20: 'Null',
+      __Unused21: 'Null',
+      __Unused22: 'Null',
+      __Unused23: 'Null',
+      __Unused24: 'Null',
+      __Unused25: 'Null',
+      __Unused26: 'Null',
+      __Unused27: 'Null',
+      __Unused28: 'Null',
+      __Unused29: 'Null',
+      __Unused30: 'Null',
+      __Unused31: 'Null',
+      __Unused32: 'Null',
+      __Unused33: 'Null',
+      __Unused34: 'Null',
+      __Unused35: 'Null',
+      __Unused36: 'Null',
+      __Unused37: 'Null',
+      __Unused38: 'Null',
+      __Unused39: 'Null',
+      __Unused40: 'Null',
+      __Unused41: 'Null',
+      __Unused42: 'Null',
+      __Unused43: 'Null',
+      __Unused44: 'Null',
+      __Unused45: 'Null',
+      __Unused46: 'Null',
+      __Unused47: 'Null',
+      __Unused48: 'Null',
+      __Unused49: 'Null',
       ParachainsOrigin: 'PolkadotRuntimeParachainsOriginPalletOrigin',
-      Unused51: 'Null',
-      Unused52: 'Null',
-      Unused53: 'Null',
-      Unused54: 'Null',
-      Unused55: 'Null',
-      Unused56: 'Null',
-      Unused57: 'Null',
-      Unused58: 'Null',
-      Unused59: 'Null',
-      Unused60: 'Null',
-      Unused61: 'Null',
-      Unused62: 'Null',
-      Unused63: 'Null',
-      Unused64: 'Null',
-      Unused65: 'Null',
-      Unused66: 'Null',
-      Unused67: 'Null',
-      Unused68: 'Null',
-      Unused69: 'Null',
-      Unused70: 'Null',
-      Unused71: 'Null',
-      Unused72: 'Null',
-      Unused73: 'Null',
-      Unused74: 'Null',
-      Unused75: 'Null',
-      Unused76: 'Null',
-      Unused77: 'Null',
-      Unused78: 'Null',
-      Unused79: 'Null',
-      Unused80: 'Null',
-      Unused81: 'Null',
-      Unused82: 'Null',
-      Unused83: 'Null',
-      Unused84: 'Null',
-      Unused85: 'Null',
-      Unused86: 'Null',
-      Unused87: 'Null',
-      Unused88: 'Null',
-      Unused89: 'Null',
-      Unused90: 'Null',
-      Unused91: 'Null',
-      Unused92: 'Null',
-      Unused93: 'Null',
-      Unused94: 'Null',
-      Unused95: 'Null',
-      Unused96: 'Null',
-      Unused97: 'Null',
-      Unused98: 'Null',
+      __Unused51: 'Null',
+      __Unused52: 'Null',
+      __Unused53: 'Null',
+      __Unused54: 'Null',
+      __Unused55: 'Null',
+      __Unused56: 'Null',
+      __Unused57: 'Null',
+      __Unused58: 'Null',
+      __Unused59: 'Null',
+      __Unused60: 'Null',
+      __Unused61: 'Null',
+      __Unused62: 'Null',
+      __Unused63: 'Null',
+      __Unused64: 'Null',
+      __Unused65: 'Null',
+      __Unused66: 'Null',
+      __Unused67: 'Null',
+      __Unused68: 'Null',
+      __Unused69: 'Null',
+      __Unused70: 'Null',
+      __Unused71: 'Null',
+      __Unused72: 'Null',
+      __Unused73: 'Null',
+      __Unused74: 'Null',
+      __Unused75: 'Null',
+      __Unused76: 'Null',
+      __Unused77: 'Null',
+      __Unused78: 'Null',
+      __Unused79: 'Null',
+      __Unused80: 'Null',
+      __Unused81: 'Null',
+      __Unused82: 'Null',
+      __Unused83: 'Null',
+      __Unused84: 'Null',
+      __Unused85: 'Null',
+      __Unused86: 'Null',
+      __Unused87: 'Null',
+      __Unused88: 'Null',
+      __Unused89: 'Null',
+      __Unused90: 'Null',
+      __Unused91: 'Null',
+      __Unused92: 'Null',
+      __Unused93: 'Null',
+      __Unused94: 'Null',
+      __Unused95: 'Null',
+      __Unused96: 'Null',
+      __Unused97: 'Null',
+      __Unused98: 'Null',
       XcmPallet: 'PalletXcmOrigin'
     }
   },
   /**
-   * Lookup578: pallet_xcm::pallet::Origin
+   * Lookup580: pallet_xcm::pallet::Origin
    **/
   PalletXcmOrigin: {
     _enum: {
@@ -802,7 +802,7 @@ export default {
     }
   },
   /**
-   * Lookup682: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup689: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -822,7 +822,7 @@ export default {
     }
   },
   /**
-   * Lookup685: xcm::VersionedResponse
+   * Lookup692: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -832,7 +832,7 @@ export default {
     }
   },
   /**
-   * Lookup691: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup698: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -843,7 +843,7 @@ export default {
     }
   },
   /**
-   * Lookup703: kusama_runtime::Runtime
+   * Lookup710: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 } as DefinitionsTypes;

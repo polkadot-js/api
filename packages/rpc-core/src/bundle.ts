@@ -7,12 +7,12 @@ import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
-import type { RpcInterface, RpcInterfaceMethod } from './types';
+import type { RpcInterfaceMethod } from './types';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, logger, memoize, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
@@ -23,8 +23,6 @@ interface StorageChangeSetJSON {
   block: string;
   changes: [string, string | null][];
 }
-
-type OutputType = 'json' | 'raw' | 'scale';
 
 const l = logger('rpc-core');
 
@@ -143,56 +141,53 @@ export class RpcCore {
     });
   }
 
-  public addUserInterfaces<Section extends keyof RpcInterface> (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
+  public addUserInterfaces (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
-    this.sections.push(...Object.keys(userRpc).filter((key) => !this.sections.includes(key)));
+    this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
 
-    // decorate the sections with base and user methods
-    this.sections.forEach((sectionName): void => {
-      (this as Record<string, unknown>)[sectionName as Section] ||= {};
+    for (let s = 0; s < this.sections.length; s++) {
+      const section = this.sections[s];
+      const defs = objectSpread<Record<string, DefinitionRpc | DefinitionRpcSub>>({}, rpcDefinitions[section as 'babe'], userRpc[section]);
+      const methods = Object.keys(defs);
 
-      const section = (this as Record<string, unknown>)[sectionName as Section] as Record<string, unknown>;
+      for (let m = 0; m < methods.length; m++) {
+        const method = methods[m];
+        const def = defs[method];
+        const jsonrpc = def.endpoint || `${section}_${method}`;
 
-      Object
-        .entries({
-          ...this._createInterface(sectionName, rpcDefinitions[sectionName as 'babe'] || {}),
-          ...this._createInterface(sectionName, userRpc[sectionName] || {})
-        })
-        .forEach(([key, value]): void => {
-          section[key] ||= value;
-        });
-    });
+        if (!this.mapping.has(jsonrpc)) {
+          const isSubscription = !!(def as DefinitionRpcSub).pubsub;
+
+          if (!(this as Record<string, unknown>)[section]) {
+            (this as Record<string, unknown>)[section] = {};
+          }
+
+          this.mapping.set(jsonrpc, objectSpread({}, def, { isSubscription, jsonrpc, method, section }));
+
+          lazyMethod(this[section as 'connect'], method, () =>
+            isSubscription
+              ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
+              : this._createMethodSend(section, method, def)
+          );
+        }
+      }
+    }
   }
 
-  private _createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, DefinitionRpc | DefinitionRpcSub>): RpcInterface[Section] {
-    return Object
-      .entries(methods)
-      .filter(([method, { endpoint }]) => !this.mapping.has(endpoint || `${section}_${method}`))
-      .reduce((exposed, [method, { endpoint }]): RpcInterface[Section] => {
-        const def = methods[method];
-        const isSubscription = !!(def as DefinitionRpcSub).pubsub;
-        const jsonrpc = endpoint || `${section}_${method}`;
+  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
+    const memoOpts = { getInstanceId: () => this.#instanceId };
+    const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
 
-        this.mapping.set(jsonrpc, { ...def, isSubscription, jsonrpc, method, section });
-
-        (exposed as Record<string, unknown>)[method] = isSubscription
-          ? this._createMethodSubscribe(section, method, def as DefinitionRpcSub)
-          : this._createMethodSend(section, method, def);
-
-        return exposed;
-      }, {} as RpcInterface[Section]);
-  }
-
-  private _memomize (creator: <T> (outputAs: OutputType) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
-    const memoized = memoize(creator('scale') as RpcInterfaceMethod, {
-      getInstanceId: () => this.#instanceId
-    });
-
-    memoized.json = creator('json');
-    memoized.raw = creator('raw');
+    memoized.raw = memoize(creator(false), memoOpts);
     memoized.meta = def;
 
     return memoized;
+  }
+
+  private _formatResult <T> (isScale: boolean, registry: Registry, blockHash: string | Uint8Array | null | undefined, method: string, def: DefinitionRpc, params: Codec[], result: unknown): T {
+    return isScale
+      ? this._formatOutput(registry, blockHash, method, def, params, result) as unknown as T
+      : result as T;
   }
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
@@ -201,31 +196,29 @@ export class RpcCore {
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
-    const callWithRegistry = async <T> (outputAs: OutputType, values: unknown[]): Promise<T> => {
+    const callWithRegistry = async <T> (isScale: boolean, values: unknown[]): Promise<T> => {
       const blockHash = hashIndex === -1
         ? null
         : values[hashIndex] as (Uint8Array | string | null | undefined);
-      const { registry } = outputAs === 'scale' && blockHash && this.#getBlockRegistry
+      const { registry } = isScale && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
-      const data = await this.provider.send<AnyJson>(rpcName, params.map((param) => param.toJSON()));
+      const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()));
 
-      return outputAs === 'scale'
-        ? this._formatOutput(registry, blockHash, method, def, params, data) as unknown as T
-        : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', data) as unknown as T;
+      return this._formatResult(isScale, registry, blockHash, method, def, params, result);
     };
 
-    const creator = <T> (outputAs: OutputType) => (...values: unknown[]): Observable<T> => {
-      const isDelayed = outputAs === 'scale' && hashIndex !== -1 && !!values[hashIndex];
+    const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
+      const isDelayed = isScale && hashIndex !== -1 && !!values[hashIndex];
 
       return new Observable((observer: Observer<T>): VoidCallback => {
-        callWithRegistry<T>(outputAs, values)
+        callWithRegistry<T>(isScale, values)
           .then((value): void => {
             observer.next(value);
             observer.complete();
           })
-          .catch((error): void => {
+          .catch((error: Error): void => {
             logErrorMessage(method, def, error);
 
             observer.error(error);
@@ -255,7 +248,7 @@ export class RpcCore {
       this.provider
         .subscribe(subType, subName, paramsJson, update)
         .then(resolve)
-        .catch((error): void => {
+        .catch((error: Error): void => {
           errorHandler(error);
           reject(error);
         });
@@ -269,7 +262,7 @@ export class RpcCore {
     const subType = `${section}_${updateType}`;
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
-    const creator = <T> (outputAs: OutputType) => (...values: unknown[]): Observable<T> => {
+    const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       return new Observable((observer: Observer<T>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
@@ -283,9 +276,9 @@ export class RpcCore {
 
         try {
           const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((param): AnyJson => param.toJSON());
+          const paramsJson = params.map((p) => p.toJSON());
 
-          const update = (error?: Error | null, result?: T): void => {
+          const update = (error?: Error | null, result?: unknown): void => {
             if (error) {
               logErrorMessage(method, def, error);
 
@@ -293,11 +286,7 @@ export class RpcCore {
             }
 
             try {
-              observer.next(
-                outputAs === 'scale'
-                  ? this._formatOutput(registry, null, method, def, params, result) as unknown as T
-                  : registry.createType(outputAs === 'raw' ? 'Raw' : 'Json', result) as unknown as T
-              );
+              observer.next(this._formatResult(isScale, registry, null, method, def, params, result));
             } catch (error) {
               observer.error(error);
             }

@@ -4,32 +4,28 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes } from '../../types';
+import type { DefinitionsTypes, DefinitionTypeStruct } from '../../types';
+
+import { objectSpread } from '@polkadot/util';
 
 import { Si1Variant } from '../scaleInfo/v1';
 
 export const v14: DefinitionsTypes = {
   // registry
-  PortableRegistryV14: 'GenericPortableRegistry',
   PortableTypeV14: {
     id: 'Si1LookupTypeId',
     type: 'Si1Type'
   },
 
   // compatibility with earlier layouts, i.e. don't break previous users
-  ErrorMetadataV14: {
-    ...Si1Variant,
-    args: 'Vec<Type>'
+  ErrorMetadataV14: objectSpread<DefinitionTypeStruct>({}, Si1Variant, { args: 'Vec<Type>' }),
+  EventMetadataV14: objectSpread<DefinitionTypeStruct>({}, Si1Variant, { args: 'Vec<Type>' }),
+  FunctionArgumentMetadataV14: {
+    name: 'Text',
+    type: 'Type',
+    typeName: 'Option<Type>'
   },
-  EventMetadataV14: {
-    ...Si1Variant,
-    args: 'Vec<Type>'
-  },
-  FunctionArgumentMetadataV14: 'FunctionArgumentMetadataV13',
-  FunctionMetadataV14: {
-    ...Si1Variant,
-    args: 'Vec<FunctionArgumentMetadataV14>'
-  },
+  FunctionMetadataV14: objectSpread<DefinitionTypeStruct>({}, Si1Variant, { args: 'Vec<FunctionArgumentMetadataV14>' }),
 
   // V14
   ExtrinsicMetadataV14: {
@@ -40,7 +36,8 @@ export const v14: DefinitionsTypes = {
   MetadataV14: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV14>',
-    extrinsic: 'ExtrinsicMetadataV14'
+    extrinsic: 'ExtrinsicMetadataV14',
+    type: 'SiLookupTypeId'
   },
   PalletCallMetadataV14: {
     type: 'SiLookupTypeId'

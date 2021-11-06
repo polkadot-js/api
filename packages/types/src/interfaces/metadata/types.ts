@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, GenericPortableRegistry, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
+import type { Bytes, Enum, Option, PortableRegistry, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
@@ -103,7 +103,11 @@ export interface FunctionArgumentMetadataV12 extends FunctionArgumentMetadataV11
 export interface FunctionArgumentMetadataV13 extends FunctionArgumentMetadataV12 {}
 
 /** @name FunctionArgumentMetadataV14 */
-export interface FunctionArgumentMetadataV14 extends FunctionArgumentMetadataV13 {}
+export interface FunctionArgumentMetadataV14 extends Struct {
+  readonly name: Text;
+  readonly type: Type;
+  readonly typeName: Option<Type>;
+}
 
 /** @name FunctionArgumentMetadataV9 */
 export interface FunctionArgumentMetadataV9 extends Struct {
@@ -189,6 +193,7 @@ export interface MetadataV14 extends Struct {
   readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV14>;
   readonly extrinsic: ExtrinsicMetadataV14;
+  readonly type: SiLookupTypeId;
 }
 
 /** @name MetadataV9 */
@@ -325,12 +330,6 @@ export interface PalletStorageMetadataV14 extends Struct {
   readonly prefix: Text;
   readonly items: Vec<StorageEntryMetadataV14>;
 }
-
-/** @name PortableRegistry */
-export interface PortableRegistry extends PortableRegistryV14 {}
-
-/** @name PortableRegistryV14 */
-export interface PortableRegistryV14 extends GenericPortableRegistry {}
 
 /** @name PortableType */
 export interface PortableType extends PortableTypeV14 {}

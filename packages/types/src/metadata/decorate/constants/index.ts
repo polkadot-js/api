@@ -1,30 +1,39 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '../../../interfaces';
+import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
 import type { Registry } from '../../../types';
-import type { ConstantCodec, Constants, ModuleConstants } from '../types';
+import type { ConstantCodec, Constants } from '../types';
 
-import { hexToU8a, stringCamelCase } from '@polkadot/util';
+import { hexToU8a, lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
+
+import { objectNameToCamel } from '../util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Constants {
-  return pallets.reduce((result: Constants, { constants, name }): Constants => {
-    if (constants.isEmpty) {
-      return result;
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
+  const result: Constants = {};
+
+  for (let i = 0; i < pallets.length; i++) {
+    const { constants, name } = pallets[i];
+
+    if (!constants.isEmpty) {
+      lazyMethod(result, stringCamelCase(name), () =>
+        lazyMethods(
+          {},
+          constants,
+          (constant: PalletConstantMetadataLatest): ConstantCodec => {
+            const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]) as ConstantCodec;
+
+            (codec as unknown as Record<string, unknown>).meta = constant;
+
+            return codec;
+          },
+          objectNameToCamel
+        )
+      );
     }
+  }
 
-    // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name)] = constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      const codec = registry.createTypeUnsafe(registry.createLookupType(meta.type), [hexToU8a(meta.value.toHex())]) as unknown;
-
-      (codec as Record<string, unknown>).meta = meta;
-      newModule[stringCamelCase(meta.name)] = codec as ConstantCodec;
-
-      return newModule;
-    }, {} as ModuleConstants);
-
-    return result;
-  }, {} as Constants);
+  return result;
 }

@@ -1,42 +1,54 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { Constructor, ISet, Registry } from '../types';
 
 import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray } from './utils';
+import { compareArray, defineProperty } from './utils';
 
 type SetValues = Record<string, number | BN>;
 
-function encodeSet (setValues: SetValues, value: string[]): BN {
-  return value.reduce((result, value): BN => {
-    return result.or(bnToBn(setValues[value] || 0));
-  }, new BN(0));
+function encodeSet (setValues: SetValues, values: string[]): BN {
+  const encoded = new BN(0);
+
+  for (let i = 0; i < values.length; i++) {
+    encoded.ior(bnToBn(setValues[values[i]] || 0));
+  }
+
+  return encoded;
 }
 
 /** @internal */
-function decodeSetArray (setValues: SetValues, value: string[]): string[] {
-  return value.reduce<string[]>((result, key): string[] => {
+function decodeSetArray (setValues: SetValues, values: string[]): string[] {
+  const result = new Array<string>(values.length);
+
+  for (let i = 0; i < values.length; i++) {
+    const key = values[i];
+
     assert(!isUndefined(setValues[key]), () => `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
-    result.push(key);
+    result[i] = key;
+  }
 
-    return result;
-  }, []);
+  return result;
 }
 
 /** @internal */
 function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
   const bn = bnToBn(_value);
-  const result = Object.keys(setValues).reduce<string[]>((result, key): string[] => {
+  const keys = Object.keys(setValues);
+  const result: string[] = [];
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+
     if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
       result.push(key);
     }
-
-    return result;
-  }, []);
+  }
 
   const computed = encodeSet(setValues, result);
 
@@ -51,12 +63,12 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 
   const byteLength = bitLength / 8;
 
-  if (isString(value)) {
-    return decodeSet(setValues, u8aToU8a(value), byteLength);
-  } else if (isU8a(value)) {
+  if (isU8a(value)) {
     return value.length === 0
       ? []
       : decodeSetNumber(setValues, u8aToBn(value.subarray(0, byteLength), { isLe: true }));
+  } else if (isString(value)) {
+    return decodeSet(setValues, u8aToU8a(value), byteLength);
   } else if (value instanceof Set || Array.isArray(value)) {
     const input = Array.isArray(value)
       ? value
@@ -96,15 +108,13 @@ export class CodecSet extends Set<string> implements ISet<string> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        Object.keys(values).forEach((_key): void => {
-          const iskey = `is${stringUpperFirst(stringCamelCase(_key))}`;
+        const keys = Object.keys(values);
 
-          isUndefined(this[iskey as keyof this]) &&
-            Object.defineProperty(this, iskey, {
-              enumerable: true,
-              get: () => this.strings.includes(_key)
-            });
-        });
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+
+          defineProperty(this, `is${stringUpperFirst(stringCamelCase(key))}`, () => this.strings.includes(key));
+        }
       }
     };
   }
@@ -156,7 +166,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
     super.add(key);
 
     return this;
-  }
+  };
 
   /**
    * @description Compares the value of the input to see if there is a match
@@ -177,7 +187,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
+  public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 

@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { default as delegator } from './delegator.json';
-export { default as dns } from './dns.json';
-export { default as erc20 } from './erc20.json';
-export { default as erc721 } from './erc721.json';
-export { default as flipper } from './flipper.json';
-export { default as flipperBundle } from './flipper.contract.json';
-export { default as incrementer } from './incrementer.json';
-export { default as multisigPlain } from './multisig_plain.json';
+import { createVersionedExport } from '../util';
+import * as v0 from './v0';
+import * as v1 from './v1';
+
+const exp = createVersionedExport('v0', v0, {});
+
+export default createVersionedExport('v1', v1, exp);

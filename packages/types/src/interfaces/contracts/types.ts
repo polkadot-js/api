@@ -117,6 +117,13 @@ export interface ContractInstantiateResult extends Enum {
   readonly isErr: boolean;
 }
 
+/** @name ContractInstantiateResultTo267 */
+export interface ContractInstantiateResultTo267 extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueTo267;
+  readonly isErr: boolean;
+}
+
 /** @name ContractStorageKey */
 export interface ContractStorageKey extends U8aFixed {}
 
@@ -252,6 +259,12 @@ export interface InstantiateRequest extends Struct {
 
 /** @name InstantiateReturnValue */
 export interface InstantiateReturnValue extends Struct {
+  readonly result: ExecReturnValue;
+  readonly accountId: AccountId;
+}
+
+/** @name InstantiateReturnValueTo267 */
+export interface InstantiateReturnValueTo267 extends Struct {
   readonly result: ExecReturnValue;
   readonly accountId: AccountId;
   readonly rentProjection: Option<RentProjection>;

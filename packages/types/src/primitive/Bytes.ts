@@ -11,9 +11,9 @@ import { Raw } from '../codec/Raw';
 const MAX_LENGTH = 10 * 1024 * 1024;
 
 /** @internal */
-function decodeBytesU8a (value: Uint8Array): Uint8Array {
+function decodeBytesU8a (value: Uint8Array): [Uint8Array, number] {
   if (!value.length) {
-    return new Uint8Array();
+    return [new Uint8Array(), 0];
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix
@@ -23,20 +23,20 @@ function decodeBytesU8a (value: Uint8Array): Uint8Array {
   assert(length.lten(MAX_LENGTH), () => `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
   assert(total <= value.length, () => `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
-  return value.subarray(offset, total);
+  return [value.subarray(offset, total), total];
 }
 
 /** @internal */
-function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
+function decodeBytes (value?: AnyU8a): [Uint8Array | undefined, number] {
   if (Array.isArray(value) || isString(value)) {
-    return u8aToU8a(value);
+    return [u8aToU8a(value), 0];
   } else if (!(value instanceof Raw) && isU8a(value)) {
     // We are ensuring we are not a Raw instance. In the case of a Raw we already have gotten
     // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
     return decodeBytesU8a(value);
   }
 
-  return value;
+  return [value, 0];
 }
 
 /**
@@ -48,7 +48,9 @@ function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
  */
 export class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
-    super(registry, decodeBytes(value));
+    const [u8a, decodedLength] = decodeBytes(value);
+
+    super(registry, u8a, decodedLength);
   }
 
   /**

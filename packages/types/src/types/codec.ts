@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Hash } from '../interfaces/runtime';
 import type { InterfaceTypes, Registry } from './registry';
 
@@ -49,6 +50,11 @@ export interface Codec {
   readonly hash: Hash;
 
   /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  readonly initialU8aLength?: number;
+
+  /**
    * @description Checks if the value is an empty value
    */
   readonly isEmpty: boolean;
@@ -71,7 +77,7 @@ export interface Codec {
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  toHex (isLe?: boolean): string;
+  toHex (isLe?: boolean): HexString;
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
@@ -111,6 +117,6 @@ export interface Constructor<T = Codec> {
   new(registry: Registry, ...args: any[]): T;
 }
 
-export type ConstructorDef<T = Codec> = Record<string, Constructor<T> | Constructor<T>>;
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
 export type ArgsDef = Record<string, Constructor | keyof InterfaceTypes>;
