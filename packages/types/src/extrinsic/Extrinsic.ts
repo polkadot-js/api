@@ -42,7 +42,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
 
-    // This is on the abostract class, ensuring that hasOwnProperty operates
+    // This is on the abstract class, ensuring that hasOwnProperty operates
     // correctly, i.e. it needs to be on the base class exposing it
     for (let i = 0; i < signKeys.length; i++) {
       const key = signKeys[i];
