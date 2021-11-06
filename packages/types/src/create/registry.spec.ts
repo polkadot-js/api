@@ -15,13 +15,6 @@ import { TypeRegistry } from '.';
 describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();
 
-  it.only('creates a type only once', (): void => {
-    registry.createClass('Vec<(Text, u32)>');
-    registry.createClass('Vec<(Text, u32)>');
-    registry.createClass('Vec<(Text, u32)>');
-    registry.createClass('Vec<(Text, u32)>');
-  });
-
   it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
   });
