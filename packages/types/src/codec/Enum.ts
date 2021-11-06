@@ -155,42 +155,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: num
   return decodeFromValue(registry, def, value);
 }
 
-const camelCaseMap = new Map<string, string>();
-
-function memoizedStringCamelCase (value: string): string {
-  {
-    const camelCaseValue = camelCaseMap.get(value);
-
-    if (camelCaseValue) {
-      return camelCaseValue;
-    }
-  }
-
-  const camelCaseValue = stringCamelCase(value);
-
-  camelCaseMap.set(value, camelCaseValue);
-
-  return camelCaseValue;
-}
-
-const propertySuffixMap = new Map<string, string>();
-
-function memoizedPropertySuffix (value: string): string {
-  {
-    const suffix = propertySuffixMap.get(value);
-
-    if (suffix) {
-      return suffix;
-    }
-  }
-
-  const suffix = stringUpperFirst(stringCamelCase(value.replace(' ', '_')));
-
-  propertySuffixMap.set(value, suffix);
-
-  return suffix;
-}
-
 /**
  * @name Enum
  * @description
@@ -242,7 +206,7 @@ export class Enum implements IEnum {
 
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
-          const name = memoizedPropertySuffix(key);
+          const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
           const askey = `as${name}`;
           const iskey = `is${name}`;
 
@@ -380,7 +344,7 @@ export class Enum implements IEnum {
   public toJSON (): AnyJson {
     return this.#isBasic
       ? this.type
-      : { [memoizedStringCamelCase(this.type)]: this.#raw.toJSON() };
+      : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
 
   /**

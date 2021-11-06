@@ -80,24 +80,6 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
   return decodeSetNumber(setValues, value);
 }
 
-const iskeyMap = new Map<string, string>();
-
-function memoizedIskey (value: string): string {
-  {
-    const iskey = iskeyMap.get(value);
-
-    if (iskey) {
-      return iskey;
-    }
-  }
-
-  const iskey = `is${stringUpperFirst(stringCamelCase(value))}`;
-
-  iskeyMap.set(value, iskey);
-
-  return iskey;
-}
-
 /**
  * @name Set
  * @description
@@ -131,7 +113,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
 
-          defineProperty(this, memoizedIskey(key), () => this.strings.includes(key));
+          defineProperty(this, `is${stringUpperFirst(stringCamelCase(key))}`, () => this.strings.includes(key));
         }
       }
     };
