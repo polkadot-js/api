@@ -10,6 +10,7 @@ import type { ExtrinsicOptions } from '../types';
 import { isU8a } from '@polkadot/util';
 
 import { Struct } from '../../codec/Struct';
+import { CodecHash } from '../../interfaces/runtime';
 
 export const EXTRINSIC_VERSION = 4;
 
@@ -24,6 +25,8 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
+  #hashCache?: CodecHash;
+
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
@@ -60,6 +63,17 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   }
 
   /**
+   * @description returns a hash of the contents
+   */
+  public override get hash (): CodecHash {
+    if (!this.#hashCache) {
+      this.#hashCache = super.hash;
+    }
+
+    return this.#hashCache;
+  }
+
+  /**
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
@@ -85,6 +99,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV4 {
     this.signature.addSignature(signer, signature, payload);
+    this.#hashCache = undefined;
 
     return this;
   }
@@ -94,6 +109,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV4 {
     this.signature.sign(this.method, account, options);
+    this.#hashCache = undefined;
 
     return this;
   }
@@ -103,6 +119,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV4 {
     this.signature.signFake(this.method, signer, options);
+    this.#hashCache = undefined;
 
     return this;
   }
