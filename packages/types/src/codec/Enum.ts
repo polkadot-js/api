@@ -85,7 +85,7 @@ function extractDef (registry: Registry, _def: Record<string, string | Construct
   };
 }
 
-function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: any): Decoded {
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
   const entry = Object.values(def).find((e) => e.index === index);
 
   assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
@@ -98,7 +98,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
   };
 }
 
-function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: any): Decoded {
+function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: unknown): Decoded {
   // JSON comes in the form of { "<type (camelCase)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
   const keys = Object.keys(def).map((k) => k.toLowerCase());
@@ -121,7 +121,7 @@ function decodeFromString (registry: Registry, def: TypesDef, value: string): De
     : decodeFromJSON(registry, def, value);
 }
 
-function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decoded {
+function decodeFromValue (registry: Registry, def: TypesDef, value?: unknown): Decoded {
   if (isU8a(value)) {
     // nested, we don't want to match isObject below
     if (value.length) {
@@ -141,7 +141,7 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
   return createFromValue(registry, def, Object.values(def)[0].index);
 }
 
-function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
+function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?: number): Decoded {
   // NOTE We check the index path first, before looking at values - this allows treating
   // the optional indexes before anything else, more-specific > less-specific
   if (isNumber(index)) {
