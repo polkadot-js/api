@@ -197,7 +197,9 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
-    const keys = Object.keys(Types);
+    const keys = Array.isArray(Types)
+      ? Types
+      : Object.keys(Types);
     const asKeys = new Array<string>(keys.length);
     const isKeys = new Array<string>(keys.length);
 

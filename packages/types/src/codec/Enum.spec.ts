@@ -114,9 +114,14 @@ describe('Enum', (): void => {
     });
 
     it('has correct isXyz/asXyz (Enum.with)', (): void => {
-      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))(registry, { Second: 42 }) as any as { isSecond: boolean; asSecond: U32; asThird: never };
+      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))(registry, { Second: 42 }) as any as { isFirst: boolean; isSecond: boolean; asSecond: U32; isThird: boolean; asThird: never };
+      const asKeys = Object.keys(test).filter((k) => k.startsWith('as'));
+      const isKeys = Object.keys(test).filter((k) => k.startsWith('is'));
 
-      expect(test.isSecond).toEqual(true);
+      expect(asKeys).toEqual(['asFirst', 'asSecond', 'asThird']);
+      expect(isKeys).toEqual(['isFirst', 'isSecond', 'isThird']);
+      expect([test.isFirst, test.isSecond, test.isThird]).toEqual([false, true, false]);
+
       expect(test.asSecond.toNumber()).toEqual(42);
       expect((): never => test.asThird).toThrow(/Cannot convert 'Second' via asThird/);
     });
@@ -250,9 +255,9 @@ describe('Enum', (): void => {
     });
 
     it('has correct isXyz getters (Enum.with)', (): void => {
-      const test = new (Enum.with(['First', 'Second', 'Third']))(registry, 'Second') as any as { isSecond: boolean; asSecond: never };
+      const test = new (Enum.with(['First', 'Second', 'Third']))(registry, 'Second') as any as { isFirst: boolean; isSecond: boolean; isThird: boolean };
 
-      expect(test.isSecond).toEqual(true);
+      expect([test.isFirst, test.isSecond, test.isThird]).toEqual([false, true, false]);
     });
 
     describe('utils', (): void => {

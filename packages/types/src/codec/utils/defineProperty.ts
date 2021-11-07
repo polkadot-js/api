@@ -20,7 +20,8 @@ export function defineProperty (that: object, key: string, get: () => unknown): 
 export function defineProperties (that: object, keys: string[], get: (k: string, i: number) => unknown): void {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
+    const index = i;
 
-    defineProperty(that, key, () => get(key, i));
+    defineProperty(that, key, () => get(key, index));
   }
 }
