@@ -104,18 +104,18 @@ export class CodecSet extends Set<string> implements ISet<string> {
   }
 
   public static with (values: SetValues, bitLength?: number): Constructor<CodecSet> {
-    const keys: string[] = [];
-    const orig = Object.keys(values);
+    const keys = Object.keys(values);
+    const isKeys: string[] = [];
 
-    for (const k of orig) {
-      keys.push(`is${stringUpperFirst(stringCamelCase(k))}`);
+    for (const k of keys) {
+      isKeys.push(`is${stringUpperFirst(stringCamelCase(k))}`);
     }
 
     return class extends CodecSet {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        defineProperties(this, keys, (_, i) => this.strings.includes(orig[i]));
+        defineProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));
       }
     };
   }
