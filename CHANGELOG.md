@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 6.7.1 Nov 7, 2021
 
 Upgrade priority: Low. Internal maintenance updates, focussed on internal optimizations.
 
@@ -11,11 +11,11 @@ Changelog:
 
 Changes:
 
-- Dynamically inject getters for Extrinsic payloads
-- Optimize caching for previously constructed type classes per registry
+- Dynamically inject getters for `Extrinsic` payloads
+- Optimize caching for complex constructed type classes per registry
 - Convert metadata, rpc and api to use lazy decoration
-- Split u8a decoding paths for Vec (different from general path)
-- Keep track of initial u8a decoded length inside Codec
+- Split u8a decoding paths for `Vec` (different from general path)
+- Keep track of initial u8a decoded length inside base Codecs
 - Extract multi property assignments for `Struct`, `Set`, `Json` & `Enum`
 - Move `PortableRegistry` location inside `@polkadot/types/metadata`
 - Bump static metadata for latest Substrate, Polkadot & Kusama
