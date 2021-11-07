@@ -25,7 +25,11 @@ function parseEnd (api: ApiInterfaceRx, vote: Vote, { approved, end }: Referendu
   return [
     end,
     (approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)
-      ? end.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[vote.conviction.index]))
+      ? end.add(
+        (
+          api.consts.democracy.voteLockingPeriod ||
+          api.consts.democracy.enactmentPeriod
+        ).muln(LOCKUPS[vote.conviction.index]))
       : BN_ZERO
   ];
 }
@@ -50,7 +54,11 @@ function delegateLocks (api: ApiInterfaceRx, { balance, conviction, target }: Vo
         referendumId,
         unlockAt: unlockAt.isZero()
           ? unlockAt
-          : referendumEnd.add(api.consts.democracy.enactmentPeriod.muln(LOCKUPS[conviction.index])),
+          : referendumEnd.add(
+            (
+              api.consts.democracy.voteLockingPeriod ||
+              api.consts.democracy.enactmentPeriod
+            ).muln(LOCKUPS[conviction.index])),
         vote: api.registry.createType('Vote', { aye: vote.isAye, conviction })
       }))
     )

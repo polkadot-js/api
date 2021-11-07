@@ -11,6 +11,7 @@ Changelog:
 
 Changes:
 
+- Use new-gen `voteLockingPeriod` in democracy derives (as available)
 - Dynamically inject getters for `Extrinsic` payloads
 - Optimize caching for complex constructed type classes per registry
 - Convert metadata, rpc and api to use lazy decoration
