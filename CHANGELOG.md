@@ -11,11 +11,13 @@ Changelog:
 
 Changes:
 
+- `ExtrinsicPayload` value retrieval from signed extension definitions
 - Optimize caching for previously constructed type classes per registry
 - Convert metadata, rpc and api to use lazy decoration
 - Split u8a decoding paths for Vec (different from general path)
 - Keep track of initial u8a decoded length inside Codec
-- Move PortableRegistry location inside `@polkadot/types/metadata`
+- Extract multi property assignments for `Struct`, `Set`, `Json` & `Enum`
+- Move `PortableRegistry` location inside `@polkadot/types/metadata`
 - Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
