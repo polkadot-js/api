@@ -198,14 +198,14 @@ export class Enum implements IEnum {
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
     const keys = Object.keys(Types);
-    const asKeys: string[] = [];
-    const isKeys: string[] = [];
+    const asKeys = new Array<string>(keys.length);
+    const isKeys = new Array<string>(keys.length);
 
-    for (const key of keys) {
-      const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
+    for (let i = 0; i < keys.length; i++) {
+      const name = stringUpperFirst(stringCamelCase(keys[i].replace(' ', '_')));
 
-      asKeys.push(`as${name}`);
-      isKeys.push(`is${name}`);
+      asKeys[i] = `as${name}`;
+      isKeys[i] = `is${name}`;
     }
 
     return class extends Enum {
