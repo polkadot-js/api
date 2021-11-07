@@ -5,12 +5,11 @@ import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
 import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
-import { objectSpread, u8aToHex } from '@polkadot/util';
+import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../codec/Compact';
 import { Option } from '../codec/Option';
 import { Struct } from '../codec/Struct';
-import { defineProperty } from '../codec/utils';
 import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
 import { u8 } from '../primitive/U8';
@@ -57,6 +56,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
 
     this._extraTypes = {};
+    const getter = (key: string) => this.get(key);
 
     // add all extras that are not in the base types
     for (const [key, type] of Object.entries(extensionTypes)) {
@@ -64,7 +64,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
         this._extraTypes[key] = type;
       }
 
-      defineProperty(this, key, () => this.get(key));
+      objectProperty(this, key, getter);
     }
   }
 

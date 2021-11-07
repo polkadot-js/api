@@ -5,9 +5,9 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Registry } from '../types';
 
-import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, defineProperties, mapToTypeMap, typesToMap } from './utils';
+import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
@@ -153,7 +153,7 @@ export class Struct<
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
-        defineProperties(this, keys, (k) => this.get(k));
+        objectProperties(this, keys, (k) => this.get(k));
       }
     };
   }

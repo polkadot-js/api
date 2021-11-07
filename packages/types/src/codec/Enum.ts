@@ -5,10 +5,10 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { defineProperties, mapToTypeMap, typesToMap } from './utils';
+import { mapToTypeMap, typesToMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -214,8 +214,8 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        defineProperties(this, isKeys, (_, i) => this.type === keys[i]);
-        defineProperties(this, asKeys, (k, i): Codec => {
+        objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
+        objectProperties(this, asKeys, (k, i): Codec => {
           assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
 
           return this.value;
