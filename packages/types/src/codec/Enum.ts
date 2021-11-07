@@ -8,8 +8,7 @@ import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { Struct } from './Struct';
-import { defineProperty, mapToTypeMap } from './utils';
+import { defineProperties, mapToTypeMap, typesToMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -86,7 +85,7 @@ function extractDef (registry: Registry, _def: Record<string, string | Construct
   };
 }
 
-function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: any): Decoded {
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
   const entry = Object.values(def).find((e) => e.index === index);
 
   assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
@@ -99,7 +98,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
   };
 }
 
-function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: any): Decoded {
+function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: unknown): Decoded {
   // JSON comes in the form of { "<type (camelCase)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
   const keys = Object.keys(def).map((k) => k.toLowerCase());
@@ -122,7 +121,7 @@ function decodeFromString (registry: Registry, def: TypesDef, value: string): De
     : decodeFromJSON(registry, def, value);
 }
 
-function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decoded {
+function decodeFromValue (registry: Registry, def: TypesDef, value?: unknown): Decoded {
   if (isU8a(value)) {
     // nested, we don't want to match isObject below
     if (value.length) {
@@ -142,7 +141,7 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
   return createFromValue(registry, def, Object.values(def)[0].index);
 }
 
-function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
+function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?: number): Decoded {
   // NOTE We check the index path first, before looking at values - this allows treating
   // the optional indexes before anything else, more-specific > less-specific
   if (isNumber(index)) {
@@ -198,25 +197,29 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
+    const keys = Array.isArray(Types)
+      ? Types
+      : Object.keys(Types);
+    const asKeys = new Array<string>(keys.length);
+    const isKeys = new Array<string>(keys.length);
+
+    for (let i = 0; i < keys.length; i++) {
+      const name = stringUpperFirst(stringCamelCase(keys[i].replace(' ', '_')));
+
+      asKeys[i] = `as${name}`;
+      isKeys[i] = `is${name}`;
+    }
+
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        const keys = Object.keys(this.#def);
+        defineProperties(this, isKeys, (_, i) => this.type === keys[i]);
+        defineProperties(this, asKeys, (k, i): Codec => {
+          assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
 
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
-          const askey = `as${name}`;
-          const iskey = `is${name}`;
-
-          defineProperty(this, iskey, () => this.type === key);
-          defineProperty(this, askey, (): Codec => {
-            assert(this[iskey as keyof this], () => `Cannot convert '${this.type}' via ${askey}`);
-
-            return this.value;
-          });
-        }
+          return this.value;
+        });
       }
     };
   }
@@ -376,7 +379,7 @@ export class Enum implements IEnum {
         return out;
       }, {});
 
-    return Struct.typesToMap(this.registry, typeMap);
+    return typesToMap(this.registry, typeMap);
   }
 
   /**

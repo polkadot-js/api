@@ -7,7 +7,7 @@ import type { AnyJson, Codec, Registry } from '../types';
 
 import { isFunction, stringify } from '@polkadot/util';
 
-import { compareMap, defineProperty } from './utils';
+import { compareMap, defineProperties } from './utils';
 
 /** @internal */
 function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
@@ -34,11 +34,7 @@ export class Json extends Map<string, any> implements Codec {
 
     this.registry = registry;
 
-    for (let i = 0; i < decoded.length; i++) {
-      const [key] = decoded[i];
-
-      defineProperty(this, key, () => this.get(key) as Codec);
-    }
+    defineProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
 
   /**
