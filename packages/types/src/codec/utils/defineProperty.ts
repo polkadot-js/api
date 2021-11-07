@@ -3,11 +3,9 @@
 
 import { isUndefined } from '@polkadot/util';
 
-type Getter = () => unknown;
+const SKIP_KEYS = ['entries', 'hash', 'keys', 'values'];
 
-const SKIP_KEYS = ['hash'];
-
-export function defineProperty (that: object, key: string, get: Getter): void {
+export function defineProperty (that: object, key: string, get: () => unknown): void {
   if (SKIP_KEYS.includes(key)) {
     return defineProperty(that, `_${key}`, get);
   }
