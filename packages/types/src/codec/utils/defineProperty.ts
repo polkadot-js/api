@@ -19,11 +19,10 @@ export function defineProperty (that: object, key: string, get: Getter): void {
   }
 }
 
-export function defineProperties (that: object, keys: string[], get: (ket: string, index: number) => unknown): void {
+export function defineProperties (that: object, keys: string[], get: (k: string, i: number) => unknown): void {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    const index = i;
 
-    defineProperty(that, key, () => get(key, index));
+    defineProperty(that, key, () => get(key, i));
   }
 }

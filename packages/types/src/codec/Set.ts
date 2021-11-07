@@ -105,13 +105,10 @@ export class CodecSet extends Set<string> implements ISet<string> {
 
   public static with (values: SetValues, bitLength?: number): Constructor<CodecSet> {
     const keys: string[] = [];
-    const orig: string[] = [];
+    const orig = Object.keys(values);
 
-    for (const prop of Object.keys(values)) {
-      const key = `is${stringUpperFirst(stringCamelCase(prop))}`;
-
-      keys.push(key);
-      orig.push(prop);
+    for (const k of orig) {
+      keys.push(`is${stringUpperFirst(stringCamelCase(k))}`);
     }
 
     return class extends CodecSet {

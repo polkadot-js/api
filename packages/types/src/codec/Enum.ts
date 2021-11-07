@@ -198,10 +198,11 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | Constructor> | Record<string, number> | string[]): EnumConstructor<Enum> {
+    const keys = Object.keys(Types);
     const asKeys: string[] = [];
     const isKeys: string[] = [];
 
-    for (const key of Object.keys(Types)) {
+    for (const key of keys) {
       const name = stringUpperFirst(stringCamelCase(key.replace(' ', '_')));
 
       asKeys.push(`as${name}`);
@@ -212,7 +213,7 @@ export class Enum implements IEnum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
-        defineProperties(this, isKeys, (k) => this.type === k);
+        defineProperties(this, isKeys, (_, i) => this.type === keys[i]);
         defineProperties(this, asKeys, (k, i): Codec => {
           assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
 
