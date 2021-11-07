@@ -9,3 +9,4 @@ export { defineProperties, defineProperty } from './defineProperty';
 export { mapToTypeMap } from './mapToTypeMap';
 export { typeToConstructor } from './typeToConstructor';
 export { sortAsc, sortSet, sortMap } from './sortValues';
+export { typesToMap } from './typesToMap';

@@ -7,7 +7,7 @@ import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Re
 
 import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { compareMap, decodeU8a, defineProperties, mapToTypeMap } from './utils';
+import { compareMap, decodeU8a, defineProperties, mapToTypeMap, typesToMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
@@ -158,19 +158,6 @@ export class Struct<
     };
   }
 
-  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
-    const entries = Object.entries(Types);
-    const result: Record<string, string> = {};
-
-    for (let i = 0; i < entries.length; i++) {
-      const [key, Type] = entries[i];
-
-      result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
-    }
-
-    return result;
-  }
-
   /**
    * @description The available keys for this struct
    */
@@ -295,7 +282,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(Struct.typesToMap(this.registry, this.#Types));
+    return stringify(typesToMap(this.registry, this.#Types));
   }
 
   /**

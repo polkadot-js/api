@@ -8,8 +8,7 @@ import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
-import { Struct } from './Struct';
-import { defineProperties, mapToTypeMap } from './utils';
+import { defineProperties, mapToTypeMap, typesToMap } from './utils';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
@@ -378,7 +377,7 @@ export class Enum implements IEnum {
         return out;
       }, {});
 
-    return Struct.typesToMap(this.registry, typeMap);
+    return typesToMap(this.registry, typeMap);
   }
 
   /**
