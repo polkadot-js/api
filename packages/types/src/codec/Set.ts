@@ -5,9 +5,9 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { Constructor, ISet, Registry } from '../types';
 
-import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray, defineProperties } from './utils';
+import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
 
@@ -115,7 +115,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
-        defineProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));
+        objectProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));
       }
     };
   }

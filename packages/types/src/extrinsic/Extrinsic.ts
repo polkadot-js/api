@@ -10,10 +10,9 @@ import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValu
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
-import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Base } from '../codec/Base';
-import { defineProperty } from '../codec/utils';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {
@@ -41,13 +40,12 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
+    const getter = (key: string) => (this._raw as ExtrinsicVx).signature[key as 'signer'];
 
     // This is on the abstract class, ensuring that hasOwnProperty operates
     // correctly, i.e. it needs to be on the base class exposing it
     for (let i = 0; i < signKeys.length; i++) {
-      const key = signKeys[i];
-
-      defineProperty(this, key, () => (this._raw as ExtrinsicVx).signature[key as 'signer']);
+      objectProperty(this, signKeys[i], getter);
     }
   }
 

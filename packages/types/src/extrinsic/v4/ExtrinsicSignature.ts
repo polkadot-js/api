@@ -7,12 +7,11 @@ import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, isUndefined, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
 import { Enum } from '../../codec/Enum';
 import { Struct } from '../../codec/Struct';
-import { defineProperty } from '../../codec/utils';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
@@ -50,11 +49,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
       : FAKE_NONE;
     this.#signKeys = Object.keys(signTypes);
 
-    for (let i = 0; i < this.#signKeys.length; i++) {
-      const key = this.#signKeys[i];
-
-      defineProperty(this, key, () => this.get(key));
-    }
+    objectProperties(this, this.#signKeys, (k) => this.get(k));
   }
 
   /** @internal */

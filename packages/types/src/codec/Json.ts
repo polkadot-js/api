@@ -5,9 +5,9 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, Codec, Registry } from '../types';
 
-import { isFunction, stringify } from '@polkadot/util';
+import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
-import { compareMap, defineProperties } from './utils';
+import { compareMap } from './utils';
 
 /** @internal */
 function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
@@ -34,7 +34,7 @@ export class Json extends Map<string, any> implements Codec {
 
     this.registry = registry;
 
-    defineProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
+    objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
 
   /**
