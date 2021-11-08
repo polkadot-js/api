@@ -25,17 +25,20 @@ import { memo } from '../util';
  */
 export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
-    api.queryAt(blockHash).pipe(
-      switchMap((queryAt) =>
-        combineLatest([
-          api.rpc.chain.getBlock(blockHash),
-          queryAt.system.events(),
-          queryAt.session
-            ? queryAt.session.validators()
-            : of([])
-        ])
-      ),
-      map(([signedBlock, events, validators]) =>
+    combineLatest([
+      api.rpc.chain.getBlock(blockHash),
+      api.queryAt(blockHash).pipe(
+        switchMap((queryAt) =>
+          combineLatest([
+            queryAt.system.events(),
+            queryAt.session
+              ? queryAt.session.validators()
+              : of([])
+          ])
+        )
+      )
+    ]).pipe(
+      map(([signedBlock, [events, validators]]) =>
         createSignedBlockExtended(api.registry, signedBlock, events, validators)
       ),
       catchError((): Observable<undefined> =>

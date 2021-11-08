@@ -21,15 +21,15 @@ export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): ()
         const blockHash = header.createdAtHash || header.hash;
 
         // we get the block first, setting up the registry
-        return api.queryAt(blockHash).pipe(
-          switchMap((queryAt) =>
-            combineLatest([
-              of(header),
-              api.rpc.chain.getBlock(blockHash),
+        return combineLatest([
+          of(header),
+          api.rpc.chain.getBlock(blockHash),
+          api.queryAt(blockHash).pipe(
+            switchMap((queryAt) =>
               queryAt.system.events()
-            ])
+            )
           )
-        );
+        ]);
       }),
       map(([header, block, events]) =>
         createSignedBlockExtended(block.registry, block, events, header.validators)
