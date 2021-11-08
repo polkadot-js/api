@@ -16,13 +16,14 @@ interface Result {
 
 export function events (instanceId: string, api: ApiInterfaceRx): (at: Hash) => Observable<Result> {
   return memo(instanceId, (blockHash: Hash) =>
-    api.queryAt(blockHash).pipe(
-      switchMap((queryAt) =>
-        combineLatest([
-          api.rpc.chain.getBlock(blockHash),
+    combineLatest([
+      api.rpc.chain.getBlock(blockHash),
+      api.queryAt(blockHash).pipe(
+        switchMap((queryAt) =>
           queryAt.system.events()
-        ])
-      ),
+        )
+      )
+    ]).pipe(
       map(([block, events]): Result => ({ block, events }))
     )
   );

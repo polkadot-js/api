@@ -25,17 +25,18 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return memo(instanceId, (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    api.queryAt(hash).pipe(
-      switchMap((queryAt) =>
-        combineLatest([
-          api.rpc.chain.getHeader(hash),
+export function getHeader (instanceId: string, api: ApiInterfaceRx): (blockHash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+    combineLatest([
+      api.rpc.chain.getHeader(blockHash),
+      api.queryAt(blockHash).pipe(
+        switchMap((queryAt) =>
           queryAt.session
             ? queryAt.session.validators()
             : of([] as AccountId[])
-        ])
-      ),
+        )
+      )
+    ]).pipe(
       map(([header, validators]) =>
         createHeaderExtended(header.registry, header, validators)
       ),
