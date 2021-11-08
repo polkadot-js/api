@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Header, Index } from '@polkadot/types/interfaces';
+import type { Hash, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, ignoreElements, map, merge, Observable, of, shareReplay, switchMap, take } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
 
@@ -31,21 +30,15 @@ function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
 }
 
 function signingHeader (api: ApiInterfaceRx): Observable<Header> {
-  return combineLatest([
-    api.rpc.chain.getHeader(),
-    api.rpc.chain.getFinalizedHead()
+  const finalized$ = api.rpc.chain.getFinalizedHead().pipe(
+    switchMap((finHash) => api.rpc.chain.getHeader(finHash)),
+    shareReplay(1)
+  );
+
+  const getBestHeader = (parentHash: Hash) => combineLatest([
+    api.rpc.chain.getHeader(parentHash),
+    finalized$
   ]).pipe(
-    switchMap(([bestHeader, finHash]) =>
-      // retrieve the headers - in the case of the current block, we use the parent
-      // to minimize (not completely remove) the impact that forks do have on the system
-      // (when at genesis, just return the current header as the last known)
-      bestHeader.parentHash.isEmpty
-        ? of([bestHeader, bestHeader])
-        : combineLatest([
-          api.rpc.chain.getHeader(bestHeader.parentHash),
-          api.rpc.chain.getHeader(finHash)
-        ])
-    ),
     map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
       current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
@@ -53,6 +46,18 @@ function signingHeader (api: ApiInterfaceRx): Observable<Header> {
         : finalized
     )
   );
+
+  const signingHeader$ = api.rpc.chain.getHeader().pipe(
+    switchMap((header) => header.parentHash.isEmpty
+      // retrieve the headers - in the case of the current block, we use the parent
+      // to minimize (not completely remove) the impact that forks do have on the system
+      // (when at genesis, just return the current header as the last known)
+      ? [header]
+      : getBestHeader(header.parentHash)
+    )
+  );
+
+  return merge(signingHeader$, finalized$.pipe(ignoreElements())).pipe(take(1));
 }
 
 export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
