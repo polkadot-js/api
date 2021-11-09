@@ -279,23 +279,23 @@ export class PortableRegistry extends Struct {
     this.#names = names;
     this.#types = extractTypeMap(this.types);
 
-    // Try and extract the AccountId type from UncheckedExtrinsic
-    const paramDef = params.SpRuntimeGenericUncheckedExtrinsic;
-
-    if (paramDef) {
+    // Try and extract the AccountId/Address/Signature type from UncheckedExtrinsic
+    if (params.SpRuntimeGenericUncheckedExtrinsic) {
       // Address, Call, Signature, Extra
-      const [addrParam,, sigParam] = paramDef;
+      const [addrParam,, sigParam] = params.SpRuntimeGenericUncheckedExtrinsic;
       const siAddress = this.getSiType(addrParam.type.unwrap());
+      const siSignature = this.getSiType(sigParam.type.unwrap());
+      const nsSignature = createNamespace(siSignature);
       let nsAccountId = createNamespace(siAddress);
       const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
 
       // With multiaddress, we check the first type param again
       if (isMultiAddress) {
-        nsAccountId = createNamespace(this.getSiType(siAddress.params[0].type.unwrap()));
-      }
+        // AccountId, AccountIndex
+        const [idParam] = siAddress.params;
 
-      const siSignature = this.getSiType(sigParam.type.unwrap());
-      const nsSignature = createNamespace(siSignature);
+        nsAccountId = createNamespace(this.getSiType(idParam.type.unwrap()));
+      }
 
       this.registry.register({
         AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
@@ -308,9 +308,7 @@ export class PortableRegistry extends Struct {
           : 'AccountId',
         ExtrinsicSignature: ['sp_runtime::MultiSignature'].includes(nsSignature)
           ? 'MultiSignature'
-          : ['account::EthereumSignature'].includes(nsSignature)
-            ? 'EthereumSignature'
-            : 'MultiSignature'
+          : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
       });
     }
 
