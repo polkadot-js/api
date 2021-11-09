@@ -91,7 +91,7 @@ const versioned: OverrideVersionedType[] = [
   {
     // metadata v14
     minmax: [9106, undefined],
-    types: objectSpread({}, sharedTypes)
+    types: {}
   }
 ];
 
