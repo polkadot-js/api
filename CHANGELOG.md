@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.7.2 Nov 9, 2021
+
+Upgrade priority: Low. Recommended for chains on metadata v14 with non-default `Address` implementations.
 
 Changes:
 
