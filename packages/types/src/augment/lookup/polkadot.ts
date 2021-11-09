@@ -214,7 +214,7 @@ export default {
     bitfields: 'Vec<PolkadotPrimitivesV1SignedUncheckedSigned>',
     backedCandidates: 'Vec<PolkadotPrimitivesV1BackedCandidate>',
     disputes: 'Vec<PolkadotPrimitivesV1DisputeStatementSet>',
-    parentHeader: 'SpRuntimeGenericHeader'
+    parentHeader: 'SpRuntimeHeader'
   },
   /**
    * Lookup325: polkadot_primitives::v1::signed::UncheckedSigned<polkadot_primitives::v1::AvailabilityBitfield, polkadot_primitives::v1::AvailabilityBitfield>

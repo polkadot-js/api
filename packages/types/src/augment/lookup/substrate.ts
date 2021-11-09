@@ -36,13 +36,13 @@ export default {
   /**
    * Lookup11: sp_runtime::generic::digest::Digest<primitive_types::H256>
    **/
-  SpRuntimeGenericDigest: {
-    logs: 'Vec<SpRuntimeGenericDigestDigestItem>'
+  SpRuntimeDigest: {
+    logs: 'Vec<SpRuntimeDigestDigestItem>'
   },
   /**
    * Lookup13: sp_runtime::generic::digest::DigestItem<primitive_types::H256>
    **/
-  SpRuntimeGenericDigestDigestItem: {
+  SpRuntimeDigestDigestItem: {
     _enum: {
       Other: 'Bytes',
       __Unused1: 'Null',
@@ -51,14 +51,14 @@ export default {
       Consensus: '([u8;4],Bytes)',
       Seal: '([u8;4],Bytes)',
       PreRuntime: '([u8;4],Bytes)',
-      ChangesTrieSignal: 'SpRuntimeGenericDigestChangesTrieSignal',
+      ChangesTrieSignal: 'SpRuntimeDigestChangesTrieSignal',
       RuntimeEnvironmentUpdated: 'Null'
     }
   },
   /**
    * Lookup15: sp_runtime::generic::digest::ChangesTrieSignal
    **/
-  SpRuntimeGenericDigestChangesTrieSignal: {
+  SpRuntimeDigestChangesTrieSignal: {
     _enum: {
       NewConfiguration: 'Option<SpCoreChangesTrieChangesTrieConfiguration>'
     }
@@ -271,18 +271,18 @@ export default {
   SpConsensusSlotsEquivocationProof: {
     offender: 'SpConsensusBabeAppPublic',
     slot: 'u64',
-    firstHeader: 'SpRuntimeGenericHeader',
-    secondHeader: 'SpRuntimeGenericHeader'
+    firstHeader: 'SpRuntimeHeader',
+    secondHeader: 'SpRuntimeHeader'
   },
   /**
    * Lookup123: sp_runtime::generic::header::Header<Number, sp_runtime::traits::BlakeTwo256>
    **/
-  SpRuntimeGenericHeader: {
+  SpRuntimeHeader: {
     parentHash: 'H256',
     number: 'Compact<u32>',
     stateRoot: 'H256',
     extrinsicsRoot: 'H256',
-    digest: 'SpRuntimeGenericDigest'
+    digest: 'SpRuntimeDigest'
   },
   /**
    * Lookup124: sp_runtime::traits::BlakeTwo256

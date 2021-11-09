@@ -201,9 +201,9 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
     .map((p) => stringUpperFirst(stringCamelCase(p)))
     .filter((p, index) =>
       (
-        // Remove ::{misc, pallet, traits, types}::
+        // Remove ::{generic, misc, pallet, traits, types}::
         index !== 1 ||
-        !['Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
+        !['Generic', 'Misc', 'Pallet', 'Traits', 'Types'].includes(p.toString())
       ) &&
       (
         // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
@@ -226,7 +226,45 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   return [lookupIndex, typeName, params];
 }
 
-function extractNames (lookup: PortableRegistry, types: PortableType[]): [Record<number, string>, Record<string, SiTypeParameter[]>] {
+function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
+  // Register the types we extracted
+  lookup.registry.register(lookups);
+
+  // Try and extract the AccountId/Address/Signature type from UncheckedExtrinsic
+  if (params.SpRuntimeUncheckedExtrinsic) {
+    // Address, Call, Signature, Extra
+    const [addrParam,, sigParam] = params.SpRuntimeUncheckedExtrinsic;
+    const siAddress = lookup.getSiType(addrParam.type.unwrap());
+    const siSignature = lookup.getSiType(sigParam.type.unwrap());
+    const nsSignature = createNamespace(siSignature);
+    let nsAccountId = createNamespace(siAddress);
+    const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
+
+    // With multiaddress, we check the first type param again
+    if (isMultiAddress) {
+      // AccountId, AccountIndex
+      const [idParam] = siAddress.params;
+
+      nsAccountId = createNamespace(lookup.getSiType(idParam.type.unwrap()));
+    }
+
+    lookup.registry.register({
+      AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
+        ? 'AccountId32'
+        : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
+          ? 'AccountId20'
+          : 'AccountId32', // other, default to AccountId32
+      Address: isMultiAddress
+        ? 'MultiAddress'
+        : 'AccountId',
+      ExtrinsicSignature: ['sp_runtime::MultiSignature'].includes(nsSignature)
+        ? 'MultiSignature'
+        : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
+    });
+  }
+}
+
+function extractNames (lookup: PortableRegistry, types: PortableType[]): Record<number, string> {
   const dedup = removeDuplicateNames(lookup, types.map((t) =>
     extractName(types, t)
   ));
@@ -243,9 +281,9 @@ function extractNames (lookup: PortableRegistry, types: PortableType[]): [Record
     params[name] = p;
   }
 
-  lookup.registry.register(lookups);
+  registerTypes(lookup, lookups, names, params);
 
-  return [names, params];
+  return names;
 }
 
 // types have an id, which means they are to be named by
@@ -274,43 +312,8 @@ export class PortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    const [names, params] = extractNames(this, this.types);
-
-    this.#names = names;
+    this.#names = extractNames(this, this.types);
     this.#types = extractTypeMap(this.types);
-
-    // Try and extract the AccountId/Address/Signature type from UncheckedExtrinsic
-    if (params.SpRuntimeGenericUncheckedExtrinsic) {
-      // Address, Call, Signature, Extra
-      const [addrParam,, sigParam] = params.SpRuntimeGenericUncheckedExtrinsic;
-      const siAddress = this.getSiType(addrParam.type.unwrap());
-      const siSignature = this.getSiType(sigParam.type.unwrap());
-      const nsSignature = createNamespace(siSignature);
-      let nsAccountId = createNamespace(siAddress);
-      const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
-
-      // With multiaddress, we check the first type param again
-      if (isMultiAddress) {
-        // AccountId, AccountIndex
-        const [idParam] = siAddress.params;
-
-        nsAccountId = createNamespace(this.getSiType(idParam.type.unwrap()));
-      }
-
-      this.registry.register({
-        AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
-          ? 'AccountId32'
-          : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
-            ? 'AccountId20'
-            : 'AccountId32', // other, default to AccountId32
-        Address: isMultiAddress
-          ? 'MultiAddress'
-          : 'AccountId',
-        ExtrinsicSignature: ['sp_runtime::MultiSignature'].includes(nsSignature)
-          ? 'MultiSignature'
-          : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
-      });
-    }
 
     // console.timeEnd('PortableRegistry')
   }
