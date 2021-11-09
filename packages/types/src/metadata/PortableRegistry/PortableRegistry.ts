@@ -25,7 +25,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 };
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PATHS_PRIMITIVE = splitNamespace([
+const PATHS_ALIAS = splitNamespace([
   // match {node, polkadot, ...}_runtime
   '*_runtime::Call',
   '*_runtime::Event',
@@ -61,6 +61,10 @@ function splitNamespace (values: string[]): string[][] {
   return values.map((v) => v.split('::'));
 }
 
+function createNamespace ({ path }: SiType): string {
+  return sanitizeDocs(path).join('::');
+}
+
 function sanitizeDocs (docs: Text[]): string[] {
   return docs.map((d) => d.toString());
 }
@@ -91,21 +95,21 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   });
 }
 
-// check if the path matches the PRIMITIVE_SP (with wildcards)
-function getPrimitivePath (path: SiPath): string | null {
+// check if the path matches the PATHS_ALIAS (with wildcards)
+function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_PRIMITIVE.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
     ? path[path.length - 1].toString()
     : null;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
+function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
   const rewrite: Record<number, string> = {};
 
   return names
-    .map(([lookupIndex, name, params]): [number, string | null] => {
+    .map(([lookupIndex, name, params]): [number, string | null, SiTypeParameter[]] => {
       if (!name) {
-        return [lookupIndex, null];
+        return [lookupIndex, null, params];
       }
 
       // those where the name is matching
@@ -124,7 +128,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // everything matches, we can combine these
       if (!anyDiff || !allSame[0][2].length) {
-        return [lookupIndex, name];
+        return [lookupIndex, name, params];
       }
 
       // find the first parameter that yields differences
@@ -138,22 +142,23 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // No param found that is different
       if (paramIdx === -1) {
-        return [lookupIndex, name];
+        return [lookupIndex, name, params];
       }
 
       // see if using the param type helps
-      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null] => {
+      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null, SiTypeParameter[]] => {
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
         if (!def.isPrimitive && !path.length) {
-          return [oIndex, null];
+          return [oIndex, null, params];
         }
 
         return [
           oIndex,
           def.isPrimitive
             ? `${oName as string}${def.asPrimitive.toString()}`
-            : `${oName as string}${path[path.length - 1].toString()}`
+            : `${oName as string}${path[path.length - 1].toString()}`,
+          params
         ];
       });
 
@@ -174,13 +179,14 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       return noDupes
-        ? [lookupIndex, name]
-        : [lookupIndex, null];
+        ? [lookupIndex, name, params]
+        : [lookupIndex, null, params];
     })
-    .filter((n): n is [number, string] => !!n[1])
-    .map(([lookupIndex, name]) => [
+    .filter((n): n is [number, string, SiTypeParameter[]] => !!n[1])
+    .map(([lookupIndex, name, params]) => [
       lookupIndex,
-      rewrite[lookupIndex] || name
+      rewrite[lookupIndex] || name,
+      params
     ]);
 }
 
@@ -220,24 +226,26 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   return [lookupIndex, typeName, params];
 }
 
-function extractNames (lookup: PortableRegistry, types: PortableType[]): Record<number, string> {
+function extractNames (lookup: PortableRegistry, types: PortableType[]): [Record<number, string>, Record<string, SiTypeParameter[]>] {
   const dedup = removeDuplicateNames(lookup, types.map((t) =>
     extractName(types, t)
   ));
 
-  const names: Record<number, string> = {};
   const lookups: Record<string, string> = {};
+  const names: Record<number, string> = {};
+  const params: Record<string, SiTypeParameter[]> = {};
 
   for (let i = 0; i < dedup.length; i++) {
-    const [lookupIndex, name] = dedup[i];
+    const [lookupIndex, name, p] = dedup[i];
 
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
+    params[name] = p;
   }
 
   lookup.registry.register(lookups);
 
-  return names;
+  return [names, params];
 }
 
 // types have an id, which means they are to be named by
@@ -266,8 +274,43 @@ export class PortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    this.#names = extractNames(this, this.types);
+    const [names, params] = extractNames(this, this.types);
+
+    this.#names = names;
     this.#types = extractTypeMap(this.types);
+
+    // Try and extract the AccountId/Address/Signature type from UncheckedExtrinsic
+    if (params.SpRuntimeGenericUncheckedExtrinsic) {
+      // Address, Call, Signature, Extra
+      const [addrParam,, sigParam] = params.SpRuntimeGenericUncheckedExtrinsic;
+      const siAddress = this.getSiType(addrParam.type.unwrap());
+      const siSignature = this.getSiType(sigParam.type.unwrap());
+      const nsSignature = createNamespace(siSignature);
+      let nsAccountId = createNamespace(siAddress);
+      const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
+
+      // With multiaddress, we check the first type param again
+      if (isMultiAddress) {
+        // AccountId, AccountIndex
+        const [idParam] = siAddress.params;
+
+        nsAccountId = createNamespace(this.getSiType(idParam.type.unwrap()));
+      }
+
+      this.registry.register({
+        AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
+          ? 'AccountId32'
+          : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
+            ? 'AccountId20'
+            : 'AccountId32', // other, default to AccountId32
+        Address: isMultiAddress
+          ? 'MultiAddress'
+          : 'AccountId',
+        ExtrinsicSignature: ['sp_runtime::MultiSignature'].includes(nsSignature)
+          ? 'MultiSignature'
+          : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
+      });
+    }
 
     // console.timeEnd('PortableRegistry')
   }
@@ -378,11 +421,11 @@ export class PortableRegistry extends Struct {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = [...type.path].join('::');
     let typeDef: TypeDef;
-    const primType = getPrimitivePath(type.path);
+    const aliasType = getAliasPath(type.path);
 
     try {
-      if (primType) {
-        typeDef = this.#extractPrimitivePath(lookupIndex, primType);
+      if (aliasType) {
+        typeDef = this.#extractAliasPath(lookupIndex, aliasType);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
       } else if (type.def.isBitSequence) {
@@ -624,7 +667,7 @@ export class PortableRegistry extends Struct {
     };
   }
 
-  #extractPrimitivePath (_: number, type: string): TypeDef {
+  #extractAliasPath (_: number, type: string): TypeDef {
     return {
       info: TypeDefInfo.Plain,
       type
