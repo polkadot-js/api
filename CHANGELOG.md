@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Remove `::generic::` from names & namespaces under metadata v14
+
+
 ## 6.7.2 Nov 9, 2021
 
 Upgrade priority: Low. Recommended for chains on metadata v14 with non-default `Address` implementations.

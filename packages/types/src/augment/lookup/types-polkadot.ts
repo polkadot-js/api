@@ -160,7 +160,7 @@ declare module '@polkadot/types/lookup' {
     readonly bitfields: Vec<PolkadotPrimitivesV1SignedUncheckedSigned>;
     readonly backedCandidates: Vec<PolkadotPrimitivesV1BackedCandidate>;
     readonly disputes: Vec<PolkadotPrimitivesV1DisputeStatementSet>;
-    readonly parentHeader: SpRuntimeGenericHeader;
+    readonly parentHeader: SpRuntimeHeader;
   }
 
   /** @name PolkadotPrimitivesV1SignedUncheckedSigned (325) */

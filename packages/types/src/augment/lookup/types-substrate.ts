@@ -33,13 +33,13 @@ declare module '@polkadot/types/lookup' {
     readonly mandatory: u64;
   }
 
-  /** @name SpRuntimeGenericDigest (11) */
-  export interface SpRuntimeGenericDigest extends Struct {
-    readonly logs: Vec<SpRuntimeGenericDigestDigestItem>;
+  /** @name SpRuntimeDigest (11) */
+  export interface SpRuntimeDigest extends Struct {
+    readonly logs: Vec<SpRuntimeDigestDigestItem>;
   }
 
-  /** @name SpRuntimeGenericDigestDigestItem (13) */
-  export interface SpRuntimeGenericDigestDigestItem extends Enum {
+  /** @name SpRuntimeDigestDigestItem (13) */
+  export interface SpRuntimeDigestDigestItem extends Enum {
     readonly isOther: boolean;
     readonly asOther: Bytes;
     readonly isChangesTrieRoot: boolean;
@@ -51,12 +51,12 @@ declare module '@polkadot/types/lookup' {
     readonly isPreRuntime: boolean;
     readonly asPreRuntime: ITuple<[U8aFixed, Bytes]>;
     readonly isChangesTrieSignal: boolean;
-    readonly asChangesTrieSignal: SpRuntimeGenericDigestChangesTrieSignal;
+    readonly asChangesTrieSignal: SpRuntimeDigestChangesTrieSignal;
     readonly isRuntimeEnvironmentUpdated: boolean;
   }
 
-  /** @name SpRuntimeGenericDigestChangesTrieSignal (15) */
-  export interface SpRuntimeGenericDigestChangesTrieSignal extends Enum {
+  /** @name SpRuntimeDigestChangesTrieSignal (15) */
+  export interface SpRuntimeDigestChangesTrieSignal extends Enum {
     readonly isNewConfiguration: boolean;
     readonly asNewConfiguration: Option<SpCoreChangesTrieChangesTrieConfiguration>;
   }
@@ -260,17 +260,17 @@ declare module '@polkadot/types/lookup' {
   export interface SpConsensusSlotsEquivocationProof extends Struct {
     readonly offender: SpConsensusBabeAppPublic;
     readonly slot: u64;
-    readonly firstHeader: SpRuntimeGenericHeader;
-    readonly secondHeader: SpRuntimeGenericHeader;
+    readonly firstHeader: SpRuntimeHeader;
+    readonly secondHeader: SpRuntimeHeader;
   }
 
-  /** @name SpRuntimeGenericHeader (123) */
-  export interface SpRuntimeGenericHeader extends Struct {
+  /** @name SpRuntimeHeader (123) */
+  export interface SpRuntimeHeader extends Struct {
     readonly parentHash: H256;
     readonly number: Compact<u32>;
     readonly stateRoot: H256;
     readonly extrinsicsRoot: H256;
-    readonly digest: SpRuntimeGenericDigest;
+    readonly digest: SpRuntimeDigest;
   }
 
   /** @name SpRuntimeBlakeTwo256 (124) */
