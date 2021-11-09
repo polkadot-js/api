@@ -281,10 +281,9 @@ export class PortableRegistry extends Struct {
 
     // Try and extract the AccountId type from UncheckedExtrinsic
     const paramDef = params.SpRuntimeGenericUncheckedExtrinsic;
-    const accountIdParam = paramDef && paramDef[0];
 
-    if (accountIdParam && accountIdParam.type.isSome) {
-      const siAddress = this.getSiType(accountIdParam.type.unwrap());
+    if (paramDef && paramDef[0] && paramDef[0].type.isSome) {
+      const siAddress = this.getSiType(paramDef[0].type.unwrap());
       let namespace = createNamespace(siAddress);
       const isMultiAddress = namespace === 'sp_runtime::multiaddress::MultiAddress';
 
