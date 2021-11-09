@@ -61,6 +61,10 @@ function splitNamespace (values: string[]): string[][] {
   return values.map((v) => v.split('::'));
 }
 
+function createNamespace ({ path }: SiType): string {
+  return sanitizeDocs(path).join('::');
+}
+
 function sanitizeDocs (docs: Text[]): string[] {
   return docs.map((d) => d.toString());
 }
@@ -275,32 +279,30 @@ export class PortableRegistry extends Struct {
     this.#names = names;
     this.#types = extractTypeMap(this.types);
 
-    // Try and extract the AccountId type from MultiAddress or UncheckedExtrinsic
-    // (first when using Address = MultiAddress, second when using Address = AccountId)
-    const paramDef = params.SpRuntimeMultiAddress || params.SpRuntimeUncheckedExtrinsic || params.SpRuntimeGenericUncheckedExtrinsic;
+    // Try and extract the AccountId type from UncheckedExtrinsic
+    const paramDef = params.SpRuntimeGenericUncheckedExtrinsic;
     const accountIdParam = paramDef && paramDef[0];
 
     if (accountIdParam && accountIdParam.type.isSome) {
-      const { path } = this.getSiType(accountIdParam.type.unwrap());
-      const namespace = path.map((p) => p.toString()).join('::');
-      let AccountId = 'AccountId32';
+      const siAddress = this.getSiType(accountIdParam.type.unwrap());
+      let namespace = createNamespace(siAddress);
+      const isMultiAddress = namespace === 'sp_runtime::multiaddress::MultiAddress';
 
-      if (namespace === 'sp_core::crypto::AccountId32') {
-        // all ok
-      } else if (['account::AccountId20', 'primitive_types::H160'].includes(namespace)) {
-        AccountId = 'AccountId20';
-      } else {
-        console.warn(`PortableRegistry: Unable to find an AccountId mapping for ${namespace}`);
+      // With multiaddress, we check the first type param again
+      if (isMultiAddress) {
+        namespace = createNamespace(this.getSiType(siAddress.params[0].type.unwrap()));
       }
 
       this.registry.register({
-        AccountId,
-        Address: params.SpRuntimeMultiAddress
+        AccountId: ['sp_core::crypto::AccountId32'].includes(namespace)
+          ? 'AccountId32'
+          : ['account::AccountId20', 'primitive_types::H160'].includes(namespace)
+            ? 'AccountId20'
+            : 'AccountId32', // other, default to AccountId32
+        Address: isMultiAddress
           ? 'MultiAddress'
           : 'AccountId'
       });
-    } else {
-      console.warn('PortableRegistry: Unable to do an automatic AccountId mapping');
     }
 
     // console.timeEnd('PortableRegistry')
