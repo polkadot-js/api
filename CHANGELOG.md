@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Detect `AccountId` & `Address` types via `SpRuntime*` definitions
+- Adjust api-derive call ordering when using `.queryAt`
+
+
 ## 6.7.1 Nov 7, 2021
 
 Upgrade priority: Low. Internal maintenance updates, focussed on internal optimizations.

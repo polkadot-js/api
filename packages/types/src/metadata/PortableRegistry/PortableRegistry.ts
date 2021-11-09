@@ -25,7 +25,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 };
 
 // These are types where we have a specific decoding/encoding override + helpers
-const PATHS_PRIMITIVE = splitNamespace([
+const PATHS_ALIAS = splitNamespace([
   // match {node, polkadot, ...}_runtime
   '*_runtime::Call',
   '*_runtime::Event',
@@ -91,21 +91,21 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
   });
 }
 
-// check if the path matches the PRIMITIVE_SP (with wildcards)
-function getPrimitivePath (path: SiPath): string | null {
+// check if the path matches the PATHS_ALIAS (with wildcards)
+function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_PRIMITIVE.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
     ? path[path.length - 1].toString()
     : null;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string][] {
+function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
   const rewrite: Record<number, string> = {};
 
   return names
-    .map(([lookupIndex, name, params]): [number, string | null] => {
+    .map(([lookupIndex, name, params]): [number, string | null, SiTypeParameter[]] => {
       if (!name) {
-        return [lookupIndex, null];
+        return [lookupIndex, null, params];
       }
 
       // those where the name is matching
@@ -124,7 +124,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // everything matches, we can combine these
       if (!anyDiff || !allSame[0][2].length) {
-        return [lookupIndex, name];
+        return [lookupIndex, name, params];
       }
 
       // find the first parameter that yields differences
@@ -138,22 +138,23 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // No param found that is different
       if (paramIdx === -1) {
-        return [lookupIndex, name];
+        return [lookupIndex, name, params];
       }
 
       // see if using the param type helps
-      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null] => {
+      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null, SiTypeParameter[]] => {
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
         if (!def.isPrimitive && !path.length) {
-          return [oIndex, null];
+          return [oIndex, null, params];
         }
 
         return [
           oIndex,
           def.isPrimitive
             ? `${oName as string}${def.asPrimitive.toString()}`
-            : `${oName as string}${path[path.length - 1].toString()}`
+            : `${oName as string}${path[path.length - 1].toString()}`,
+          params
         ];
       });
 
@@ -174,13 +175,14 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       return noDupes
-        ? [lookupIndex, name]
-        : [lookupIndex, null];
+        ? [lookupIndex, name, params]
+        : [lookupIndex, null, params];
     })
-    .filter((n): n is [number, string] => !!n[1])
-    .map(([lookupIndex, name]) => [
+    .filter((n): n is [number, string, SiTypeParameter[]] => !!n[1])
+    .map(([lookupIndex, name, params]) => [
       lookupIndex,
-      rewrite[lookupIndex] || name
+      rewrite[lookupIndex] || name,
+      params
     ]);
 }
 
@@ -220,24 +222,26 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   return [lookupIndex, typeName, params];
 }
 
-function extractNames (lookup: PortableRegistry, types: PortableType[]): Record<number, string> {
+function extractNames (lookup: PortableRegistry, types: PortableType[]): [Record<number, string>, Record<string, SiTypeParameter[]>] {
   const dedup = removeDuplicateNames(lookup, types.map((t) =>
     extractName(types, t)
   ));
 
-  const names: Record<number, string> = {};
   const lookups: Record<string, string> = {};
+  const names: Record<number, string> = {};
+  const params: Record<string, SiTypeParameter[]> = {};
 
   for (let i = 0; i < dedup.length; i++) {
-    const [lookupIndex, name] = dedup[i];
+    const [lookupIndex, name, p] = dedup[i];
 
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
+    params[name] = p;
   }
 
   lookup.registry.register(lookups);
 
-  return names;
+  return [names, params];
 }
 
 // types have an id, which means they are to be named by
@@ -266,8 +270,38 @@ export class PortableRegistry extends Struct {
       types: 'Vec<PortableType>'
     }, value);
 
-    this.#names = extractNames(this, this.types);
+    const [names, params] = extractNames(this, this.types);
+
+    this.#names = names;
     this.#types = extractTypeMap(this.types);
+
+    // Try and extract the AccountId type from MultiAddress or UncheckedExtrinsic
+    // (first when using Address = MultiAddress, second when using Address = AccountId)
+    const paramDef = params.SpRuntimeMultiAddress || params.SpRuntimeUncheckedExtrinsic || params.SpRuntimeGenericUncheckedExtrinsic;
+    const accountIdParam = paramDef && paramDef[0];
+
+    if (accountIdParam && accountIdParam.type.isSome) {
+      const { path } = this.getSiType(accountIdParam.type.unwrap());
+      const namespace = path.map((p) => p.toString()).join('::');
+      let AccountId = 'AccountId32';
+
+      if (namespace === 'sp_core::crypto::AccountId32') {
+        // all ok
+      } else if (['account::AccountId20', 'primitive_types::H160'].includes(namespace)) {
+        AccountId = 'AccountId20';
+      } else {
+        console.warn(`PortableRegistry: Unable to find an AccountId mapping for ${namespace}`);
+      }
+
+      this.registry.register({
+        AccountId,
+        Address: params.SpRuntimeMultiAddress
+          ? 'MultiAddress'
+          : 'AccountId'
+      });
+    } else {
+      console.warn('PortableRegistry: Unable to do an automatic AccountId mapping');
+    }
 
     // console.timeEnd('PortableRegistry')
   }
@@ -378,11 +412,11 @@ export class PortableRegistry extends Struct {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = [...type.path].join('::');
     let typeDef: TypeDef;
-    const primType = getPrimitivePath(type.path);
+    const aliasType = getAliasPath(type.path);
 
     try {
-      if (primType) {
-        typeDef = this.#extractPrimitivePath(lookupIndex, primType);
+      if (aliasType) {
+        typeDef = this.#extractAliasPath(lookupIndex, aliasType);
       } else if (type.def.isArray) {
         typeDef = this.#extractArray(lookupIndex, type.def.asArray);
       } else if (type.def.isBitSequence) {
@@ -624,7 +658,7 @@ export class PortableRegistry extends Struct {
     };
   }
 
-  #extractPrimitivePath (_: number, type: string): TypeDef {
+  #extractAliasPath (_: number, type: string): TypeDef {
     return {
       info: TypeDefInfo.Plain,
       type
