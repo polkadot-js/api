@@ -62,7 +62,7 @@ describe('methodSend', (): void => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe((): void => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);
+      expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234'], false);
       done();
     });
   });
