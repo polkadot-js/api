@@ -5,8 +5,6 @@ export { Keyring } from '@polkadot/keyring';
 export { WsProvider, HttpProvider } from '@polkadot/rpc-provider';
 
 export { packageInfo } from './packageInfo';
-export { ApiPromise } from './promise';
-export { toPromiseMethod } from './promise/decorateMethod';
+export * from './promise';
 export { SubmittableResult } from './submittable';
-export { ApiRx } from './rx';
-export { toRxMethod } from './rx/decorateMethod';
+export * from './rx';
