@@ -1,0 +1,49 @@
+// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import { LRUCache } from './lru';
+
+describe('LRUCache', (): void => {
+  it('allows getting of items below capacity', (): void => {
+    const keys = ['1', '2', '3', '4'];
+    const lru = new LRUCache(4);
+
+    keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
+
+    expect(lru.keys().join(', ')).toEqual(keys.reverse().join(', '));
+
+    keys.forEach((k) => expect(lru.get(k)).toEqual(`${k}${k}${k}`));
+  });
+
+  it('drops items when at capacity', (): void => {
+    const keys = ['1', '2', '3', '4', '5', '6'];
+    const lru = new LRUCache(4);
+
+    keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
+
+    expect(lru.keys().join(', ')).toEqual(keys.slice(2).reverse().join(', '));
+
+    keys.slice(2).forEach((k) => expect(lru.get(k)).toEqual(`${k}${k}${k}`));
+  });
+
+  it('adjusts the order as they are used', (): void => {
+    const keys = ['1', '2', '3', '4', '5'];
+    const lru = new LRUCache(4);
+
+    keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
+
+    expect(lru.entries()).toEqual([['5', '555'], ['4', '444'], ['3', '333'], ['2', '222']]);
+
+    lru.get('3');
+
+    expect(lru.entries()).toEqual([['3', '333'], ['5', '555'], ['4', '444'], ['2', '222']]);
+
+    lru.set('4', '4433');
+
+    expect(lru.entries()).toEqual([['4', '4433'], ['3', '333'], ['5', '555'], ['2', '222']]);
+
+    lru.set('6', '666');
+
+    expect(lru.entries()).toEqual([['6', '666'], ['4', '4433'], ['3', '333'], ['5', '555']]);
+  });
+});

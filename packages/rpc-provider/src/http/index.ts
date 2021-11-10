@@ -8,6 +8,7 @@ import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';
+import { LRUCache } from '../lru';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
@@ -34,6 +35,8 @@ const l = logger('api-http');
  * @see [[WsProvider]]
  */
 export class HttpProvider implements ProviderInterface {
+  readonly #callCache = new LRUCache();
+
   readonly #coder: RpcCoder;
 
   readonly #endpoint: string;
@@ -103,8 +106,24 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
-  public async send <T> (method: string, params: unknown[]): Promise<T> {
+  public async send <T> (method: string, params: unknown[], isCacheable?: boolean): Promise<T> {
     const body = this.#coder.encodeJson(method, params);
+    let resultPromise: Promise<T> | null = isCacheable
+      ? this.#callCache.get(body) as Promise<T>
+      : null;
+
+    if (!resultPromise) {
+      resultPromise = this.#send(body);
+
+      if (isCacheable) {
+        this.#callCache.set(body, resultPromise);
+      }
+    }
+
+    return resultPromise;
+  }
+
+  async #send <T> (body: string): Promise<T> {
     const response = await fetch(this.#endpoint, {
       body,
       headers: {

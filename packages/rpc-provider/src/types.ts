@@ -49,7 +49,7 @@ export interface ProviderInterface {
   connect (): Promise<void>;
   disconnect (): Promise<void>;
   on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void;
-  send <T = any> (method: string, params: unknown[]): Promise<T>;
+  send <T = any> (method: string, params: unknown[], isCacheable?: boolean): Promise<T>;
   subscribe (type: string, method: string, params: unknown[], cb: ProviderInterfaceCallback): Promise<number | string>;
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
 }
