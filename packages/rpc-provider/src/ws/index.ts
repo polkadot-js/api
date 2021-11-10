@@ -7,7 +7,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 
 import EventEmitter from 'eventemitter3';
 
-import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
+import { assert, isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
@@ -75,6 +75,8 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
  * @see [[HttpProvider]]
  */
 export class WsProvider implements ProviderInterface {
+  readonly #callCache: Record<string, Promise<unknown>> = {};
+
   readonly #coder: RpcCoder;
 
   readonly #endpoints: string[];
@@ -260,12 +262,32 @@ export class WsProvider implements ProviderInterface {
    * @param params Encoded parameters as applicable for the method
    * @param subscription Subscription details (internally used)
    */
-  public send <T = any> (method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
+  public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
+    const body = this.#coder.encodeJson(method, params);
+    let resultPromise: Promise<T> | null = isCacheable
+      ? this.#callCache[body] as Promise<T>
+      : null;
+
+    if (!resultPromise) {
+      resultPromise = this.#send(body, method, params, subscription);
+
+      if (isCacheable) {
+        this.#callCache[body] = resultPromise;
+
+        setTimeout((): void => {
+          delete this.#callCache[body];
+        }, 2500);
+      }
+    }
+
+    return resultPromise;
+  }
+
+  async #send <T> (json: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
         assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
 
-        const json = this.#coder.encodeJson(method, params);
         const id = this.#coder.getId();
 
         const callback = (error?: Error | null, result?: T): void => {
@@ -309,7 +331,7 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
-    return this.send<number | string>(method, params, { callback, type });
+    return this.send<number | string>(method, params, false, { callback, type });
   }
 
   /**
@@ -410,11 +432,10 @@ export class WsProvider implements ProviderInterface {
       if (subscription) {
         const subId = `${subscription.type}::${result}`;
 
-        this.#subscriptions[subId] = {
-          ...subscription,
+        this.#subscriptions[subId] = objectSpread({}, subscription, {
           method,
           params
-        };
+        });
 
         // if we have a result waiting for this subscription already
         if (this.#waitingForId[subId]) {
