@@ -15,6 +15,7 @@ class LRUNode {
   }
 }
 
+// https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
 export class LRUCache {
   readonly capacity: number;
   readonly #data: Map<string, unknown> = new Map();
