@@ -72,17 +72,17 @@ export class LRUCache {
     if (this.data.has(key)) {
       this.#toFront(key);
     } else {
-      const head = new LRUNode(key);
+      const node = new LRUNode(key);
+
+      this.refs.set(node.key, node);
 
       if (this.length === 0) {
-        this.head = this.tail = head;
+        this.head = this.tail = node;
       } else {
-        this.head.prev = head;
-        head.next = this.head;
-        this.head = head;
+        this.head.prev = node;
+        node.next = this.head;
+        this.head = node;
       }
-
-      this.refs.set(head.key, head);
 
       if (this.length === this.capacity) {
         const tail = this.tail;
