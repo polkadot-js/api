@@ -22,15 +22,24 @@ export class LRUCache {
   readonly #refs: Map<string, LRUNode> = new Map();
 
   #length = 0;
-  #head: LRUNode = new LRUNode('head');
-  #tail: LRUNode = new LRUNode('tail');
+  #head: LRUNode;
+  #tail: LRUNode;
 
   constructor (capacity = DEFAULT_CAPACITY) {
     this.capacity = capacity;
+    this.#head = this.#tail = new LRUNode('<empty>');
   }
 
   get length (): number {
     return this.#length;
+  }
+
+  get lengthData (): number {
+    return this.#data.size;
+  }
+
+  get lengthRefs (): number {
+    return this.#refs.size;
   }
 
   entries (): [string, unknown][] {
@@ -49,7 +58,7 @@ export class LRUCache {
   keys (): string[] {
     const keys: string[] = [];
 
-    if (this.length) {
+    if (this.#length) {
       let curr = this.#head;
 
       while (curr !== this.#tail) {
@@ -67,7 +76,7 @@ export class LRUCache {
     const data = this.#data.get(key);
 
     if (data) {
-      this.#toFront(key);
+      this.#toHead(key);
 
       return data as T;
     }
@@ -77,7 +86,7 @@ export class LRUCache {
 
   set <T> (key: string, value: T): void {
     if (this.#data.has(key)) {
-      this.#toFront(key);
+      this.#toHead(key);
     } else {
       const node = new LRUNode(key);
 
@@ -96,7 +105,6 @@ export class LRUCache {
         this.#refs.delete(this.#tail.key);
 
         this.#tail = this.#tail.prev;
-        this.#tail.next = this.#head;
       } else {
         this.#length += 1;
       }
@@ -105,7 +113,7 @@ export class LRUCache {
     this.#data.set(key, value);
   }
 
-  #toFront (key: string): void {
+  #toHead (key: string): void {
     const ref = this.#refs.get(key);
 
     if (ref && ref !== this.#head) {

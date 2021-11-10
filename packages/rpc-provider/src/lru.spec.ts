@@ -11,6 +11,7 @@ describe('LRUCache', (): void => {
     keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
 
     expect(lru.keys().join(', ')).toEqual(keys.reverse().join(', '));
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
 
     keys.forEach((k) => expect(lru.get(k)).toEqual(`${k}${k}${k}`));
   });
@@ -22,6 +23,7 @@ describe('LRUCache', (): void => {
     keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
 
     expect(lru.keys().join(', ')).toEqual(keys.slice(2).reverse().join(', '));
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
 
     keys.slice(2).forEach((k) => expect(lru.get(k)).toEqual(`${k}${k}${k}`));
   });
@@ -33,17 +35,21 @@ describe('LRUCache', (): void => {
     keys.forEach((k) => lru.set(k, `${k}${k}${k}`));
 
     expect(lru.entries()).toEqual([['5', '555'], ['4', '444'], ['3', '333'], ['2', '222']]);
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
 
     lru.get('3');
 
     expect(lru.entries()).toEqual([['3', '333'], ['5', '555'], ['4', '444'], ['2', '222']]);
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
 
     lru.set('4', '4433');
 
     expect(lru.entries()).toEqual([['4', '4433'], ['3', '333'], ['5', '555'], ['2', '222']]);
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
 
     lru.set('6', '666');
 
     expect(lru.entries()).toEqual([['6', '666'], ['4', '4433'], ['3', '333'], ['5', '555']]);
+    expect(lru.length === lru.lengthData && lru.length === lru.lengthRefs).toBe(true);
   });
 });
