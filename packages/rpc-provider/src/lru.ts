@@ -16,48 +16,58 @@ class LRUNode {
 }
 
 export class LRUCache {
-  capacity: number;
-  data: Map<string, unknown> = new Map();
-  length = 0;
-  head: LRUNode = new LRUNode('head');
-  tail: LRUNode = new LRUNode('tail');
-  refs: Map<string, LRUNode> = new Map();
+  readonly capacity: number;
+  readonly #data: Map<string, unknown> = new Map();
+  readonly #refs: Map<string, LRUNode> = new Map();
+
+  #length = 0;
+  #head: LRUNode = new LRUNode('head');
+  #tail: LRUNode = new LRUNode('tail');
 
   constructor (capacity = DEFAULT_CAPACITY) {
     this.capacity = capacity;
   }
 
-  entries (): [string, unknown][] {
-    return [...this.data.entries()];
+  get length (): number {
+    return this.#length;
   }
 
-  entriesOrdered (): [string, unknown][] {
+  entries (): [string, unknown][] {
     const entries: [string, unknown][] = [];
 
-    if (this.length) {
-      let curr = this.head;
+    if (this.#length) {
+      let curr = this.#head;
 
-      while (curr !== this.tail) {
-        entries.push([curr.key, this.data.get(curr.key)]);
+      while (curr !== this.#tail) {
+        entries.push([curr.key, this.#data.get(curr.key)]);
         curr = curr.next;
       }
 
-      entries.push([curr.key, this.data.get(curr.key)]);
+      entries.push([curr.key, this.#data.get(curr.key)]);
     }
 
     return entries;
   }
 
   keys (): string[] {
-    return [...this.data.keys()];
-  }
+    const keys: string[] = [];
 
-  values (): unknown[] {
-    return [...this.data.values()];
+    if (this.length) {
+      let curr = this.#head;
+
+      while (curr !== this.#tail) {
+        keys.push(curr.key);
+        curr = curr.next;
+      }
+
+      keys.push(curr.key);
+    }
+
+    return keys;
   }
 
   get <T> (key: string): T | null {
-    const data = this.data.get(key);
+    const data = this.#data.get(key);
 
     if (data) {
       this.#toFront(key);
@@ -69,45 +79,45 @@ export class LRUCache {
   }
 
   set <T> (key: string, value: T): void {
-    if (this.data.has(key)) {
+    if (this.#data.has(key)) {
       this.#toFront(key);
     } else {
       const node = new LRUNode(key);
 
-      this.refs.set(node.key, node);
+      this.#refs.set(node.key, node);
 
       if (this.length === 0) {
-        this.head = this.tail = node;
+        this.#head = this.#tail = node;
       } else {
-        this.head.prev = node;
-        node.next = this.head;
-        this.head = node;
+        this.#head.prev = node;
+        node.next = this.#head;
+        this.#head = node;
       }
 
-      if (this.length === this.capacity) {
-        this.data.delete(this.tail.key);
-        this.refs.delete(this.tail.key);
+      if (this.#length === this.capacity) {
+        this.#data.delete(this.#tail.key);
+        this.#refs.delete(this.#tail.key);
 
-        this.tail = this.tail.prev;
-        this.tail.next = this.head;
+        this.#tail = this.#tail.prev;
+        this.#tail.next = this.#head;
       } else {
-        this.length += 1;
+        this.#length += 1;
       }
     }
 
-    this.data.set(key, value);
+    this.#data.set(key, value);
   }
 
   #toFront (key: string): void {
-    const ref = this.refs.get(key);
+    const ref = this.#refs.get(key);
 
-    if (ref && ref !== this.head) {
+    if (ref && ref !== this.#head) {
       ref.prev.next = ref.next;
       ref.next.prev = ref.prev;
-      ref.next = this.head;
+      ref.next = this.#head;
 
-      this.head.prev = ref;
-      this.head = ref;
+      this.#head.prev = ref;
+      this.#head = ref;
     }
   }
 }
