@@ -106,21 +106,15 @@ function getAliasPath (path: SiPath): string | null {
     : null;
 }
 
-function hasNoDupes (input: ([number, string | null, SiTypeParameter[]] | null)[]): input is [number, string, SiTypeParameter[]][] {
+function hasNoDupes (input: [number, string, SiTypeParameter[]][]): boolean {
   for (let i = 0; i < input.length; i++) {
-    const a = input[i];
-
-    if (!a) {
-      return false;
-    }
-
-    const [ai, an] = a;
+    const [ai, an] = input[i];
 
     for (let j = 0; j < input.length; j++) {
-      const b = input[j];
+      const [bi, bn] = input[j];
 
       // if the indexes are not the same and the names match, we have a dupe
-      if (b && (ai !== b[0] && an === b[1])) {
+      if (ai !== bi && an === bn) {
         return false;
       }
     }
@@ -138,8 +132,8 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
         return null;
       }
 
-      // those where the name is matching
-      const allSame = names.filter(([, oName]) => name === oName);
+      // those where the name is matching (since name is filtered, these all do have names)
+      const allSame = names.filter(([, oName]) => name === oName) as [number, string, SiTypeParameter[]][];
 
       // are there among matching names
       const anyDiff = allSame.some(([oIndex,, oParams]) =>
@@ -172,21 +166,23 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       // see if using the param type helps
-      const adjusted = new Array<[number, string | null, SiTypeParameter[]] | null>(allSame.length);
+      const adjusted = new Array<[number, string, SiTypeParameter[]]>(allSame.length);
 
       for (let i = 0; i < allSame.length; i++) {
         const [oIndex, oName, oParams] = allSame[i];
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
-        adjusted[i] = (!def.isPrimitive && !path.length) || !oName
-          ? null
-          : [
-            oIndex,
-            def.isPrimitive
-              ? `${oName}${def.asPrimitive.toString()}`
-              : `${oName}${path[path.length - 1].toString()}`,
-            params
-          ];
+        if (!def.isPrimitive && !path.length) {
+          return null;
+        }
+
+        adjusted[i] = [
+          oIndex,
+          def.isPrimitive
+            ? `${oName}${def.asPrimitive.toString()}`
+            : `${oName}${path[path.length - 1].toString()}`,
+          params
+        ];
       }
 
       if (hasNoDupes(adjusted)) {
