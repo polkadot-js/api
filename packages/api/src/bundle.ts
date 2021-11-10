@@ -6,7 +6,7 @@ export { WsProvider, HttpProvider } from '@polkadot/rpc-provider';
 
 export { packageInfo } from './packageInfo';
 export { ApiPromise } from './promise';
-export { decorateMethodPromise } from './promise/decorateMethod';
+export { toPromiseMethod } from './promise/decorateMethod';
 export { SubmittableResult } from './submittable';
 export { ApiRx } from './rx';
-export { decorateMethodRx } from './rx/decorateMethod';
+export { toRxMethod } from './rx/decorateMethod';

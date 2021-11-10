@@ -4,13 +4,13 @@
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson } from '@polkadot/types/types';
 
-import { ApiPromise, decorateMethodPromise } from '@polkadot/api';
+import { ApiPromise, toPromiseMethod } from '@polkadot/api';
 
 import { Abi } from '../Abi';
 import { Blueprint as BaseBlueprint } from '../base';
 
 export class Blueprint extends BaseBlueprint<'promise'> {
   constructor (api: ApiPromise, abi: AnyJson | Abi, codeHash: string | Hash) {
-    super(api, abi, codeHash, decorateMethodPromise);
+    super(api, abi, codeHash, toPromiseMethod);
   }
 }

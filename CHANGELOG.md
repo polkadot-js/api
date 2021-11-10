@@ -7,6 +7,7 @@ Changes:
 - Remove `::generic::` from names & namespaces under metadata v14
 - Add Polkadot 9122 upgrade block
 - Cleanup Polkadot/Kusama/Wetsend/Rococo known types (>= v14 metadata)
+- Internal `decorateMethod{Promise, Rx}` renamed to `to{Promise, Rx}Method`
 
 
 ## 6.7.2 Nov 9, 2021
