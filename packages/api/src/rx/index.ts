@@ -8,9 +8,7 @@ import { from, Observable } from 'rxjs';
 import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
-import { decorateMethod } from './decorateMethod';
-
-export { decorateMethod as decorateMethodRx };
+import { decorateMethodRx } from './decorateMethod';
 
 /**
  * # @polkadot/api/rx
@@ -135,7 +133,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
    * ```
    */
   constructor (options?: ApiOptions) {
-    super(options, 'rxjs', decorateMethod);
+    super(options, 'rxjs', decorateMethodRx);
 
     this.#isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better

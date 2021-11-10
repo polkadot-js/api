@@ -7,9 +7,7 @@ import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
 import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
-import { decorateMethod, promiseTracker } from './decorateMethod';
-
-export { decorateMethod as decorateMethodPromise };
+import { decorateMethodPromise, promiseTracker } from './decorateMethod';
 
 /**
  * # @polkadot/api/promise
@@ -117,7 +115,7 @@ export class ApiPromise extends ApiBase<'promise'> {
    * ```
    */
   constructor (options?: ApiOptions) {
-    super(options, 'promise', decorateMethod);
+    super(options, 'promise', decorateMethodPromise);
 
     this.#isReadyPromise = new Promise((resolve): void => {
       super.once('ready', () => resolve(this));

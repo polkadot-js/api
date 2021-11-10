@@ -4,6 +4,6 @@
 import type { Codec } from '@polkadot/types/types';
 import type { DecorateFn } from '../types';
 
-export function decorateMethod <M extends DecorateFn<Codec>> (method: M): M {
+export function decorateMethodRx <M extends DecorateFn<Codec>> (method: M): M {
   return method;
 }
