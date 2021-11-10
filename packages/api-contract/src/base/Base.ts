@@ -23,7 +23,8 @@ export abstract class Base<ApiType extends ApiTypes> {
     this.api = api;
     this._decorateMethod = decorateMethod;
 
-    assert(!!(api && api.isConnected && api.tx && api.tx.contracts && Object.keys(api.tx.contracts).length), 'Your API has not been initialized correctly and it not decorated with the runtime interfaces for contracts as retrieved from the on-chain runtime');
+    assert(!!(api && api.isConnected && api.tx), 'Your API has not been initialized correctly and is not connected to a chain');
+    assert(!!(api.tx.contracts && Object.keys(api.tx.contracts).length), 'You need to connect to a chain with a runtime that supports contracts');
     assert(isFunction(api.tx.contracts.instantiateWithCode), 'You need to connect to a chain with a runtime with a V3 contracts module. The runtime does not expose api.tx.contracts.instantiateWithCode');
   }
 
