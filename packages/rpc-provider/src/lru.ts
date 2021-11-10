@@ -85,11 +85,13 @@ export class LRUCache {
       }
 
       if (this.length === this.capacity) {
-        const tail = this.tail;
+        const out = this.tail;
 
-        this.tail = tail.prev;
-        this.data.delete(tail.key);
-        this.refs.delete(tail.key);
+        this.tail = out.prev;
+        this.tail.next = this.head;
+
+        this.data.delete(out.key);
+        this.refs.delete(out.key);
       } else {
         this.length += 1;
       }
