@@ -85,13 +85,11 @@ export class LRUCache {
       }
 
       if (this.length === this.capacity) {
-        const out = this.tail;
+        this.data.delete(this.tail.key);
+        this.refs.delete(this.tail.key);
 
-        this.tail = out.prev;
+        this.tail = this.tail.prev;
         this.tail.next = this.head;
-
-        this.data.delete(out.key);
-        this.refs.delete(out.key);
       } else {
         this.length += 1;
       }
@@ -104,14 +102,11 @@ export class LRUCache {
     const ref = this.refs.get(key);
 
     if (ref && ref !== this.head) {
-      const prefRef = ref.prev;
-      const nextRef = ref.next;
-
-      prefRef.next = nextRef;
-      nextRef.prev = prefRef;
+      ref.prev.next = ref.next;
+      ref.next.prev = ref.prev;
+      ref.next = this.head;
 
       this.head.prev = ref;
-      ref.next = this.head;
       this.head = ref;
     }
   }
