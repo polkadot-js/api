@@ -27,8 +27,8 @@ export class LRUCache {
     this.capacity = capacity;
   }
 
-  entries (): IterableIterator<[string, unknown]> {
-    return this.data.entries();
+  entries (): [string, unknown][] {
+    return [...this.data.entries()];
   }
 
   entriesOrdered (): [string, unknown][] {
@@ -48,12 +48,12 @@ export class LRUCache {
     return entries;
   }
 
-  keys (): IterableIterator<string> {
-    return this.data.keys();
+  keys (): string[] {
+    return [...this.data.keys()];
   }
 
-  values (): IterableIterator<unknown> {
-    return this.data.values();
+  values (): unknown[] {
+    return [...this.data.values()];
   }
 
   get <T> (key: string): T | null {
