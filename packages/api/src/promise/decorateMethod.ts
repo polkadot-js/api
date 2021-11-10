@@ -56,13 +56,13 @@ function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Call
 }
 
 // Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
-function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, actualArgs: unknown[]): Promise<ObsInnerType<ReturnType<M>>> {
+function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, args: unknown[]): Promise<ObsInnerType<ReturnType<M>>> {
   return new Promise((resolve, reject): void => {
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
 
     // encoding errors reject immediately, any result unsubscribes and resolves
-    const subscription: Subscription = method(...actualArgs)
+    const subscription: Subscription = method(...args)
       .pipe(
         catchError((error: Error) => tracker.reject(error))
       )
@@ -74,13 +74,13 @@ function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, actualArgs: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
+function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, args: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
 
     // errors reject immediately, the first result resolves with an unsubscribe promise, all results via callback
-    const subscription: Subscription = method(...actualArgs)
+    const subscription: Subscription = method(...args)
       .pipe(
         catchError((error: Error) => tracker.reject(error)),
         tap(() => tracker.resolve(() => subscription.unsubscribe()))
@@ -96,10 +96,10 @@ function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (m
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
 export function decorateMethodPromise<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
-  const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
+  const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
 
   return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<M>>> | UnsubscribePromise {
-    const [actualArgs, resultCb] = extractArgs(args, !!needsCallback);
+    const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb
       ? decorateSubscribe(method, actualArgs, resultCb)
