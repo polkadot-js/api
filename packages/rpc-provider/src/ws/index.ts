@@ -13,6 +13,7 @@ import { WebSocket } from '@polkadot/x-ws';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';
+import { LRUCache } from '../lru';
 import { getWSErrorString } from './errors';
 
 interface SubscriptionHandler {
@@ -75,7 +76,7 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
  * @see [[HttpProvider]]
  */
 export class WsProvider implements ProviderInterface {
-  readonly #callCache: Record<string, Promise<unknown>> = {};
+  readonly #callCache = new LRUCache();
 
   readonly #coder: RpcCoder;
 
@@ -265,18 +266,14 @@ export class WsProvider implements ProviderInterface {
   public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
     const body = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache[body] as Promise<T>
+      ? this.#callCache.get(body) as Promise<T>
       : null;
 
     if (!resultPromise) {
       resultPromise = this.#send(body, method, params, subscription);
 
       if (isCacheable) {
-        this.#callCache[body] = resultPromise;
-
-        setTimeout((): void => {
-          delete this.#callCache[body];
-        }, 2500);
+        this.#callCache.set(body, resultPromise);
       }
     }
 

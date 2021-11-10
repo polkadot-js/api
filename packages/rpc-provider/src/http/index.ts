@@ -8,6 +8,7 @@ import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';
+import { LRUCache } from '../lru';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
@@ -34,7 +35,7 @@ const l = logger('api-http');
  * @see [[WsProvider]]
  */
 export class HttpProvider implements ProviderInterface {
-  readonly #callCache: Record<string, Promise<unknown>> = {};
+  readonly #callCache = new LRUCache();
 
   readonly #coder: RpcCoder;
 
@@ -108,18 +109,14 @@ export class HttpProvider implements ProviderInterface {
   public async send <T> (method: string, params: unknown[], isCacheable?: boolean): Promise<T> {
     const body = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache[body] as Promise<T>
+      ? this.#callCache.get(body) as Promise<T>
       : null;
 
     if (!resultPromise) {
       resultPromise = this.#send(body);
 
       if (isCacheable) {
-        this.#callCache[body] = resultPromise;
-
-        setTimeout((): void => {
-          delete this.#callCache[body];
-        }, 2500);
+        this.#callCache.set(body, resultPromise);
       }
     }
 
