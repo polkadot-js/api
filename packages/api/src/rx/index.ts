@@ -1,18 +1,14 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '@polkadot/types/types';
-import type { ApiOptions, DecorateFn } from '../types';
+import type { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
-
-export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
-  return method;
-}
+import { decorateMethodRx } from './decorateMethod';
 
 /**
  * # @polkadot/api/rx
@@ -117,6 +113,37 @@ export class ApiRx extends ApiBase<'rxjs'> {
   #isReadyRx: Observable<ApiRx>;
 
   /**
+   * @description Create an instance of the ApiRx class
+   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import { switchMap } from 'rxjs';
+   * import Api from '@polkadot/api/rx';
+   *
+   * new Api().isReady
+   *   .pipe(
+   *     switchMap((api) =>
+   *       api.rpc.chain.subscribeNewHeads()
+   *   ))
+   *   .subscribe((header) => {
+   *     console.log(`new block #${header.number.toNumber()}`);
+   *   });
+   * ```
+   */
+  constructor (options?: ApiOptions) {
+    super(options, 'rxjs', decorateMethodRx);
+
+    this.#isReadyRx = from<Promise<ApiRx>>(
+      // You can create an observable from an event, however my mind groks this form better
+      new Promise((resolve): void => {
+        super.on('ready', () => resolve(this));
+      })
+    );
+  }
+
+  /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    * @param options options that is passed to the class constructor. Can be either [[ApiOptions]] or [[WsProvider]]
    * @example
@@ -138,37 +165,6 @@ export class ApiRx extends ApiBase<'rxjs'> {
    */
   public static create (options?: ApiOptions): Observable<ApiRx> {
     return new ApiRx(options).isReady;
-  }
-
-  /**
-   * @description Create an instance of the ApiRx class
-   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import { switchMap } from 'rxjs';
-   * import Api from '@polkadot/api/rx';
-   *
-   * new Api().isReady
-   *   .pipe(
-   *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHeads()
-   *   ))
-   *   .subscribe((header) => {
-   *     console.log(`new block #${header.number.toNumber()}`);
-   *   });
-   * ```
-   */
-  constructor (options?: ApiOptions) {
-    super(options, 'rxjs', decorateMethod);
-
-    this.#isReadyRx = from<Promise<ApiRx>>(
-      // You can create an observable from an event, however my mind groks this form better
-      new Promise((resolve): void => {
-        super.on('ready', () => resolve(this));
-      })
-    );
   }
 
   /**
