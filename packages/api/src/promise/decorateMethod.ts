@@ -62,12 +62,14 @@ function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method
     const tracker = promiseTracker(resolve, reject);
 
     // encoding errors reject immediately, any result unsubscribes and resolves
-    const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error: Error) => tracker.reject(error))
-    ).subscribe((result): void => {
-      tracker.resolve(result);
-      setTimeout(() => subscription.unsubscribe(), 0);
-    });
+    const subscription: Subscription = method(...actualArgs)
+      .pipe(
+        catchError((error: Error) => tracker.reject(error))
+      )
+      .subscribe((result): void => {
+        tracker.resolve(result);
+        setTimeout(() => subscription.unsubscribe(), 0);
+      });
   });
 }
 
@@ -78,13 +80,15 @@ function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (m
     const tracker = promiseTracker(resolve, reject);
 
     // errors reject immediately, the first result resolves with an unsubscribe promise, all results via callback
-    const subscription: Subscription = method(...actualArgs).pipe(
-      catchError((error: Error) => tracker.reject(error)),
-      tap(() => tracker.resolve(() => subscription.unsubscribe()))
-    ).subscribe((result): void => {
-      // queue result (back of queue to clear current)
-      setTimeout(() => resultCb(result) as void, 0);
-    });
+    const subscription: Subscription = method(...actualArgs)
+      .pipe(
+        catchError((error: Error) => tracker.reject(error)),
+        tap(() => tracker.resolve(() => subscription.unsubscribe()))
+      )
+      .subscribe((result): void => {
+        // queue result (back of queue to clear current)
+        setTimeout(() => resultCb(result) as void, 0);
+      });
   });
 }
 
