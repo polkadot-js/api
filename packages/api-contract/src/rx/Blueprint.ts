@@ -4,13 +4,13 @@
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson } from '@polkadot/types/types';
 
-import { ApiRx, decorateMethodRx } from '@polkadot/api';
+import { ApiRx, toRxMethod } from '@polkadot/api';
 
 import { Abi } from '../Abi';
 import { Blueprint as BaseBlueprint } from '../base';
 
 export class Blueprint extends BaseBlueprint<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, codeHash: string | Hash) {
-    super(api, abi, codeHash, decorateMethodRx);
+    super(api, abi, codeHash, toRxMethod);
   }
 }

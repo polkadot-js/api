@@ -4,13 +4,13 @@
 import type { ApiRx } from '@polkadot/api';
 import type { AnyJson } from '@polkadot/types/types';
 
-import { decorateMethodRx } from '@polkadot/api';
+import { toRxMethod } from '@polkadot/api';
 
 import { Abi } from '../Abi';
 import { Code as BaseCode } from '../base';
 
 export class Code extends BaseCode<'rxjs'> {
   constructor (api: ApiRx, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
-    super(api, abi, wasm, decorateMethodRx);
+    super(api, abi, wasm, toRxMethod);
   }
 }

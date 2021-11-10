@@ -6,7 +6,7 @@ import type { AnyJson } from '@polkadot/types/types';
 import fs from 'fs';
 import path from 'path';
 
-import { decorateMethodPromise } from '@polkadot/api';
+import { toPromiseMethod } from '@polkadot/api';
 
 import v0contractFlipper from '../../test/contracts/ink/v0/flipper.contract.json';
 import v0abiFlipper from '../../test/contracts/ink/v0/flipper.json';
@@ -19,19 +19,19 @@ const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../../test/contracts
 describe('Code', (): void => {
   it('can construct with an individual ABI/WASM combo', (): void => {
     expect(
-      () => new Code(mockApi, v0abiFlipper as AnyJson, v0wasmFlipper, decorateMethodPromise)
+      () => new Code(mockApi, v0abiFlipper as AnyJson, v0wasmFlipper, toPromiseMethod)
     ).not.toThrow();
   });
 
   it('can construct with an .contract ABI (v0)', (): void => {
     expect(
-      () => new Code(mockApi, v0contractFlipper as AnyJson, null, decorateMethodPromise)
+      () => new Code(mockApi, v0contractFlipper as AnyJson, null, toPromiseMethod)
     ).not.toThrow();
   });
 
   it.only('can construct with an .contract ABI (v1)', (): void => {
     expect(
-      () => new Code(mockApi, v1contractFlipper as AnyJson, null, decorateMethodPromise)
+      () => new Code(mockApi, v1contractFlipper as AnyJson, null, toPromiseMethod)
     ).not.toThrow();
   });
 });
