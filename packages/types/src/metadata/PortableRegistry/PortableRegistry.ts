@@ -106,14 +106,27 @@ function getAliasPath (path: SiPath): string | null {
     : null;
 }
 
-function hasNoDupes (input: [number, string | null, SiTypeParameter[]][]): input is [number, string, SiTypeParameter[]][] {
-  return input.every(([i, n]) =>
-    !!n &&
-    !input.some(([ai, an]) =>
-      i !== ai &&
-      n === an
-    )
-  );
+function hasNoDupes (input: ([number, string | null, SiTypeParameter[]] | null)[]): input is [number, string, SiTypeParameter[]][] {
+  for (let i = 0; i < input.length; i++) {
+    const a = input[i];
+
+    if (!a) {
+      return false;
+    }
+
+    const [ai, an] = a;
+
+    for (let j = 0; j < input.length; j++) {
+      const b = input[j];
+
+      // if the indexes are not the same and the names match, we have a dupe
+      if (b && (ai !== b[0] && an === b[1])) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
@@ -159,26 +172,29 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       // see if using the param type helps
-      const adjusted = allSame.map(([oIndex, oName, oParams]): [number, string | null, SiTypeParameter[]] => {
+      const adjusted = new Array<[number, string | null, SiTypeParameter[]] | null>(allSame.length);
+
+      for (let i = 0; i < allSame.length; i++) {
+        const [oIndex, oName, oParams] = allSame[i];
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
-        if (!def.isPrimitive && !path.length) {
-          return [oIndex, null, params];
-        }
-
-        return [
-          oIndex,
-          def.isPrimitive
-            ? `${oName as string}${def.asPrimitive.toString()}`
-            : `${oName as string}${path[path.length - 1].toString()}`,
-          params
-        ];
-      });
+        adjusted[i] = (!def.isPrimitive && !path.length) || !oName
+          ? null
+          : [
+            oIndex,
+            def.isPrimitive
+              ? `${oName}${def.asPrimitive.toString()}`
+              : `${oName}${path[path.length - 1].toString()}`,
+            params
+          ];
+      }
 
       if (hasNoDupes(adjusted)) {
-        adjusted.forEach(([index, name]): void => {
+        for (let i = 0; i < adjusted.length; i++) {
+          const [index, name] = adjusted[i];
+
           rewrite[index] = name;
-        });
+        }
 
         return [lookupIndex, name, params];
       }
