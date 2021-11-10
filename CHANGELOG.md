@@ -5,6 +5,8 @@
 Changes:
 
 - Remove `::generic::` from names & namespaces under metadata v14
+- Add Polkadot 9122 upgrade block
+- Cleanup Polkadot/Kusama/Wetsend/Rococo known types (>= v14 metadata)
 
 
 ## 6.7.2 Nov 9, 2021
