@@ -34,17 +34,13 @@ export class LRUCache {
   }
 
   entries (): [string, unknown][] {
-    const entries: [string, unknown][] = [];
+    const keys = this.keys();
+    const entries = new Array<[string, unknown]>(keys.length);
 
-    if (this.#length) {
-      let curr = this.#head;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
 
-      while (curr !== this.#tail) {
-        entries.push([curr.key, this.#data.get(curr.key)]);
-        curr = curr.next;
-      }
-
-      entries.push([curr.key, this.#data.get(curr.key)]);
+      entries[i] = [key, this.#data.get(key)];
     }
 
     return entries;
