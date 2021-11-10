@@ -10,7 +10,7 @@ import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
 
-export function decorateMethod <Method extends DecorateFn<Codec>> (method: Method): Method {
+export function decorateMethod <M extends DecorateFn<Codec>> (method: M): M {
   return method;
 }
 
