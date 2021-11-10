@@ -1,18 +1,16 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '@polkadot/types/types';
-import type { ApiOptions, DecorateFn } from '../types';
+import type { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base';
+import { decorateMethod } from './decorateMethod';
 
-export function decorateMethod <M extends DecorateFn<Codec>> (method: M): M {
-  return method;
-}
+export { decorateMethod as decorateMethodRx };
 
 /**
  * # @polkadot/api/rx
@@ -117,30 +115,6 @@ export class ApiRx extends ApiBase<'rxjs'> {
   #isReadyRx: Observable<ApiRx>;
 
   /**
-   * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param options options that is passed to the class constructor. Can be either [[ApiOptions]] or [[WsProvider]]
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import { switchMap } from 'rxjs';
-   * import Api from '@polkadot/api/rx';
-   *
-   * Api.create()
-   *   .pipe(
-   *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHeads()
-   *   ))
-   *   .subscribe((header) => {
-   *     console.log(`new block #${header.number.toNumber()}`);
-   *   });
-   * ```
-   */
-  public static create (options?: ApiOptions): Observable<ApiRx> {
-    return new ApiRx(options).isReady;
-  }
-
-  /**
    * @description Create an instance of the ApiRx class
    * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
    * @example
@@ -169,6 +143,30 @@ export class ApiRx extends ApiBase<'rxjs'> {
         super.on('ready', () => resolve(this));
       })
     );
+  }
+
+  /**
+   * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
+   * @param options options that is passed to the class constructor. Can be either [[ApiOptions]] or [[WsProvider]]
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import { switchMap } from 'rxjs';
+   * import Api from '@polkadot/api/rx';
+   *
+   * Api.create()
+   *   .pipe(
+   *     switchMap((api) =>
+   *       api.rpc.chain.subscribeNewHeads()
+   *   ))
+   *   .subscribe((header) => {
+   *     console.log(`new block #${header.number.toNumber()}`);
+   *   });
+   * ```
+   */
+  public static create (options?: ApiOptions): Observable<ApiRx> {
+    return new ApiRx(options).isReady;
   }
 
   /**
