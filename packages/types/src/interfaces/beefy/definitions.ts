@@ -28,7 +28,7 @@ export default {
     BeefyId: '[u8; 33]',
     BeefySignedCommitment: {
       commitment: 'BeefyCommitment',
-      signatures: 'Vec<Option<Signature>>'
+      signatures: 'Vec<Option<EcdsaSignature>>'
     },
     BeefyNextAuthoritySet: {
       id: 'u64',
