@@ -15,7 +15,7 @@ Changes:
 
 - Remove `::generic::` from names & namespaces under metadata v14
 - Add Polkadot 9122 upgrade block
-- Cleanup Polkadot/Kusama/Wetsend/Rococo known types (>= v14 metadata)
+- Cleanup Polkadot/Kusama/Westend/Rococo known types (>= v14 metadata)
 - Internal `decorateMethod{Promise, Rx}` renamed to `to{Promise, Rx}Method`
 - Add short term provider-level caching for historic requests
 
