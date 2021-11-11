@@ -95,7 +95,7 @@ export interface ApiInterfaceRx {
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
-  queryAt: (blockHash: Uint8Array | string) => Observable<QueryableStorage<'rxjs'>>;
+  queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;

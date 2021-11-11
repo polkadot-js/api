@@ -146,8 +146,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#instanceId = `${++instanceCounter}`;
     this.#registry = options.source?.registry || options.registry || new TypeRegistry();
-    this._rx.queryAt = (blockHash: Uint8Array | string) =>
-      from(this.at(blockHash)).pipe(map((a) => a.rx.query));
+    this._rx.queryAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
+      from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.query));
     this._rx.registry = this.#registry;
 
     const thisProvider = options.source
