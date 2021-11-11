@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 6.7.3 Nov 11, 2021
+
+Upgrade priority: Low. Recommended for chains with non-MultiSignature variants where `paymentInfo` is required.
+
+Changes:
+
+- Adjust `paymentInfo` signatures to cater for non-MultiSignature variants
+
+
 ## master
 
 Changes:
