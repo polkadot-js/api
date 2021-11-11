@@ -1,14 +1,18 @@
 # CHANGELOG
 
-## master
+## 6.8.1 Nov 11, 2021
+
+Upgrade priority: Low. Recommended for chains with non-MultiSignature variants where `paymentInfo` is required.
 
 Changes:
 
+- Adjust `paymentInfo` signatures to cater for non-MultiSignature variants
 - Remove `::generic::` from names & namespaces under metadata v14
 - Add Polkadot 9122 upgrade block
-- Cleanup Polkadot/Kusama/Wetsend/Rococo known types (>= v14 metadata)
+- Cleanup Polkadot/Kusama/Westend/Rococo known types (>= v14 metadata)
 - Internal `decorateMethod{Promise, Rx}` renamed to `to{Promise, Rx}Method`
-- Add short term provider-level caching for historic requests
+- Add RPC provider-level LRU for historic requests
+- Add optional known runtime version param to internal `rx.queryAt`
 
 
 ## 6.7.2 Nov 9, 2021
