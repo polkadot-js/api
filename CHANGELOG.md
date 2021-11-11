@@ -12,6 +12,7 @@ Changes:
 - Cleanup Polkadot/Kusama/Westend/Rococo known types (>= v14 metadata)
 - Internal `decorateMethod{Promise, Rx}` renamed to `to{Promise, Rx}Method`
 - Add RPC provider-level LRU for historic requests
+- Add optional known runtime version param to internal `rx.queryAt`
 
 
 ## 6.7.2 Nov 9, 2021
