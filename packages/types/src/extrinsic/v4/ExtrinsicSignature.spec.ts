@@ -68,8 +68,8 @@ describe('ExtrinsicSignatureV4', (): void => {
       '00' + // MultiAddress
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       '01' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
       '00a50100'
     );
   });
@@ -92,13 +92,39 @@ describe('ExtrinsicSignatureV4', (): void => {
       ).toHex()
     ).toEqual(
       '0x' +
-      // Address = AccountId
-      // '00' +
+      // Address = AccountId, no prefix
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       // This is a prefix-less signature, anySignture as opposed to Multi above
-      // '01' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00a50100'
+    );
+  });
+
+  it('fake signs with non-enum signature', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+    registry.register({
+      Address: 'AccountId',
+      ExtrinsicSignature: '[u8;65]'
+    });
+
+    expect(
+      new ExtrinsicSignature(registry).signFake(
+        registry.createType('Call'),
+        pairs.alice.address,
+        signOptions
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      // Address = AccountId, no prefix
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      // 65 bytes here
+      '01' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
       '00a50100'
     );
   });

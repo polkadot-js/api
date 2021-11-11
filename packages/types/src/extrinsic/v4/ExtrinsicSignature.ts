@@ -7,16 +7,15 @@ import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
 import { Compact } from '../../codec/Compact';
-import { Enum } from '../../codec/Enum';
 import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
-const FAKE_NONE = new Uint8Array();
-const FAKE_SOME = new Uint8Array([1]);
+// Ensure we have enough data for all types of signatures
+const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
 function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createType('Address', isU8a(address) ? u8aToHex(address) : address);
@@ -28,7 +27,6 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  #fakePrefix: Uint8Array;
   #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
@@ -44,9 +42,6 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
       GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
     );
 
-    this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
-      ? FAKE_SOME
-      : FAKE_NONE;
     this.#signKeys = Object.keys(signTypes);
 
     objectProperties(this, this.#signKeys, (k) => this.get(k));
@@ -188,7 +183,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
 
     const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType('ExtrinsicSignature', u8aConcat(this.#fakePrefix, new Uint8Array(64).fill(0x42)));
+    const signature = this.registry.createType('ExtrinsicSignature', FAKE_SIGNATURE);
 
     return this._injectSignature(signer, signature, payload);
   }
