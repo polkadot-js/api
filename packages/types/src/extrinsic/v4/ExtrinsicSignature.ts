@@ -15,7 +15,7 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
 // Ensure we have enough data for all types of signatures
-const FAKE_SIGN = new Uint8Array(256).fill(1);
+const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
 function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createType('Address', isU8a(address) ? u8aToHex(address) : address);
@@ -183,7 +183,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
 
     const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType('ExtrinsicSignature', FAKE_SIGN);
+    const signature = this.registry.createType('ExtrinsicSignature', FAKE_SIGNATURE);
 
     return this._injectSignature(signer, signature, payload);
   }
