@@ -101,6 +101,34 @@ describe('ExtrinsicSignatureV4', (): void => {
     );
   });
 
+  it('fake signs with non-enum signature', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+    registry.register({
+      Address: 'AccountId',
+      ExtrinsicSignature: '[u8;65]'
+    });
+
+    expect(
+      new ExtrinsicSignature(registry).signFake(
+        registry.createType('Call'),
+        pairs.alice.address,
+        signOptions
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      // Address = AccountId, no prefix
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      // 65 bytes here
+      '01' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00a50100'
+    );
+  });
+
   it('injects a signature', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, metadataStatic);
