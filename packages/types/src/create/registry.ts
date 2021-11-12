@@ -16,6 +16,7 @@ import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from 
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
 import * as definitions from '../interfaces/definitions';
+import * as essentials from '../interfaces/essentials';
 import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
@@ -170,7 +171,7 @@ export class TypeRegistry implements Registry {
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
-    this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
+    this.#knownDefinitions = objectSpread({}, essentials, definitions);
 
     this.init();
 

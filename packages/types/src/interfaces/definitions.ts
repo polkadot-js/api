@@ -1,9 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// technically runtime can go below, but since it is the base, do it first
-export { default as runtime } from './runtime/definitions';
-
 // substrate types
 export { default as assets } from './assets/definitions';
 export { default as authorship } from './authorship/definitions';
@@ -53,15 +50,11 @@ export { default as poll } from './poll/definitions';
 export { default as purchase } from './purchase/definitions';
 export { default as xcm } from './xcm/definitions';
 
-// scale-info & contracts
-export { default as contractsAbi } from './contractsAbi/definitions';
-export { default as scaleInfo } from './scaleInfo/definitions';
-
 // other useful types
+export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as eth } from './eth/definitions';
 
-// pull in metadata & rpc last, assuming that is uses info from above
-export { default as metadata } from './metadata/definitions';
+// pull in rpc last, assuming that is uses info from above
 export { default as rpc } from './rpc/definitions';
 
 // rpc-only definitions
