@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export * from './essentials';
+
 // substrate types
 export { default as assets } from './assets/definitions';
 export { default as authorship } from './authorship/definitions';
