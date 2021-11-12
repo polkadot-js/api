@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types';
-import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name BeefyCommitment */
@@ -28,7 +28,7 @@ export interface BeefyPayload extends MmrRootHash {}
 /** @name BeefySignedCommitment */
 export interface BeefySignedCommitment extends Struct {
   readonly commitment: BeefyCommitment;
-  readonly signatures: Vec<Option<Signature>>;
+  readonly signatures: Vec<Option<EcdsaSignature>>;
 }
 
 /** @name MmrRootHash */
