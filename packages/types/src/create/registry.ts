@@ -3,7 +3,7 @@
 
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, Codec, CodecHasher, Constructor, Definitions, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
@@ -158,7 +158,7 @@ export class TypeRegistry implements Registry {
 
   readonly #knownDefaults: RegistryTypes;
 
-  readonly #knownDefinitions: Record<string, { types: RegistryTypes }>;
+  readonly #knownDefinitions: Record<string, Definitions>;
 
   #knownTypes: RegisteredTypes = {};
 
@@ -170,7 +170,7 @@ export class TypeRegistry implements Registry {
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
-    this.#knownDefinitions = definitions as unknown as Record<string, { types: RegistryTypes }>;
+    this.#knownDefinitions = definitions;
 
     this.init();
 
@@ -192,7 +192,7 @@ export class TypeRegistry implements Registry {
     const allKnown = Object.values(this.#knownDefinitions);
 
     for (let i = 0; i < allKnown.length; i++) {
-      this.register(allKnown[i].types);
+      this.register(allKnown[i].types as unknown as RegistryTypes);
     }
 
     return this;
