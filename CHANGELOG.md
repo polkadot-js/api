@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Update `BeefySignedCommitment` signature (Thanks to https://github.com/czl1378)
+
+Changes:
+
+- Prepare pre-v13 types for optional injection
+
+
 ## 6.8.1 Nov 11, 2021
 
 Upgrade priority: Low. Recommended for chains with non-MultiSignature variants where `paymentInfo` is required.
