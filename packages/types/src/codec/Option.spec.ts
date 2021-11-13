@@ -102,6 +102,24 @@ describe('Option', (): void => {
     ).toEqual(new Uint8Array([0]));
   });
 
+  it('converts toJSON() as null without', (): void => {
+    expect(
+      new Option(registry, Text).toJSON()
+    ).toEqual(null);
+  });
+
+  it('converts toJSON() as non-null with Bytes', (): void => {
+    expect(
+      new Option(registry, Bytes, 'abcde').toJSON()
+    ).toEqual('0x6162636465');
+  });
+
+  it('converts toJSON() as non-null with Text', (): void => {
+    expect(
+      new Option(registry, Text, 'abcde').toJSON()
+    ).toEqual('abcde');
+  });
+
   describe('utils', (): void => {
     const test = new Option(registry, Text, '1234');
 
