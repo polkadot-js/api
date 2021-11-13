@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Align Option `.toJSON` output with Substrate input
 - Prepare pre-v13 types for optional injection
 
 

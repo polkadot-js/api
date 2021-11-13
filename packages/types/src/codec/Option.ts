@@ -155,7 +155,9 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.#raw.toJSON();
+    return this.isNone
+      ? null
+      : this.#raw.toJSON();
   }
 
   /**
