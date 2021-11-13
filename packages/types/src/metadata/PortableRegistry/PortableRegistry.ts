@@ -7,7 +7,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 import type { Text, Type } from '../../primitive';
 import type { Registry, TypeDef } from '../../types';
 
-import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
+import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
 import { Struct } from '../../codec/Struct';
 import { withTypeString } from '../../create/encodeTypes';
@@ -212,7 +212,7 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
   }
 
   const parts = path
-    .map((p) => stringUpperFirst(stringCamelCase(p)))
+    .map((p) => stringPascalCase(p))
     .filter((p, index) => {
       const lower = p.toLowerCase();
 

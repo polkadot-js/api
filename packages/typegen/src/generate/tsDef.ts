@@ -11,7 +11,7 @@ import path from 'path';
 import { getTypeDef, TypeRegistry } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import { assert, isString, stringCamelCase, stringify, stringUpperFirst } from '@polkadot/util';
+import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
 import { createImports, exportInterface, exportType, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
 
@@ -56,7 +56,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     .filter(({ name }) => !!name && !name.startsWith('__Unused'))
     .map((def, index): string => {
       const { info, lookupName, name = `unknown${index}`, type } = def;
-      const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
+      const getter = stringPascalCase(name.replace(' ', '_'));
       const isComplex = [TypeDefInfo.Option, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
       const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
         ? ''

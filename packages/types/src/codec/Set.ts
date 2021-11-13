@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { Constructor, ISet, Registry } from '../types';
 
-import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringUpperFirst, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareArray } from './utils';
 
@@ -108,7 +108,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
     const isKeys = new Array<string>(keys.length);
 
     for (let i = 0; i < keys.length; i++) {
-      isKeys[i] = `is${stringUpperFirst(stringCamelCase(keys[i]))}`;
+      isKeys[i] = `is${stringPascalCase(keys[i])}`;
     }
 
     return class extends CodecSet {
