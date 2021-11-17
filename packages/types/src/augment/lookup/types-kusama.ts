@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
-import type { PerU16 } from '@polkadot/types/interfaces/runtime';
+import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
@@ -16,6 +16,42 @@ declare module '@polkadot/types/lookup' {
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
+  }
+
+  /** @name PalletXcmEvent (107) */
+  export interface PalletXcmEvent extends Enum {
+    readonly isAttempted: boolean;
+    readonly asAttempted: XcmV2TraitsOutcome;
+    readonly isSent: boolean;
+    readonly asSent: ITuple<[XcmV1MultiLocation, XcmV1MultiLocation, XcmV2Xcm]>;
+    readonly isUnexpectedResponse: boolean;
+    readonly asUnexpectedResponse: ITuple<[XcmV1MultiLocation, u64]>;
+    readonly isResponseReady: boolean;
+    readonly asResponseReady: ITuple<[u64, XcmV2Response]>;
+    readonly isNotified: boolean;
+    readonly asNotified: ITuple<[u64, u8, u8]>;
+    readonly isNotifyOverweight: boolean;
+    readonly asNotifyOverweight: ITuple<[u64, u8, u8, u64, u64]>;
+    readonly isNotifyDispatchError: boolean;
+    readonly asNotifyDispatchError: ITuple<[u64, u8, u8]>;
+    readonly isNotifyDecodeFailed: boolean;
+    readonly asNotifyDecodeFailed: ITuple<[u64, u8, u8]>;
+    readonly isInvalidResponder: boolean;
+    readonly asInvalidResponder: ITuple<[XcmV1MultiLocation, u64, Option<XcmV1MultiLocation>]>;
+    readonly isInvalidResponderVersion: boolean;
+    readonly asInvalidResponderVersion: ITuple<[XcmV1MultiLocation, u64]>;
+    readonly isResponseTaken: boolean;
+    readonly asResponseTaken: u64;
+    readonly isAssetsTrapped: boolean;
+    readonly asAssetsTrapped: ITuple<[H256, XcmV1MultiLocation, XcmVersionedMultiAssets]>;
+    readonly isVersionChangeNotified: boolean;
+    readonly asVersionChangeNotified: ITuple<[XcmV1MultiLocation, u32]>;
+    readonly isSupportedVersionChanged: boolean;
+    readonly asSupportedVersionChanged: ITuple<[XcmV1MultiLocation, u32]>;
+    readonly isNotifyTargetSendFail: boolean;
+    readonly asNotifyTargetSendFail: ITuple<[XcmV1MultiLocation, u64, XcmV2TraitsError]>;
+    readonly isNotifyTargetMigrationFail: boolean;
+    readonly asNotifyTargetMigrationFail: ITuple<[XcmVersionedMultiLocation, u64]>;
   }
 
   /** @name XcmV1MultiLocation (108) */
@@ -519,6 +555,67 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
+  /** @name PalletXcmCall (511) */
+  export interface PalletXcmCall extends Enum {
+    readonly isSend: boolean;
+    readonly asSend: {
+      readonly dest: XcmVersionedMultiLocation;
+      readonly message: XcmVersionedXcm;
+    } & Struct;
+    readonly isTeleportAssets: boolean;
+    readonly asTeleportAssets: {
+      readonly dest: XcmVersionedMultiLocation;
+      readonly beneficiary: XcmVersionedMultiLocation;
+      readonly assets: XcmVersionedMultiAssets;
+      readonly feeAssetItem: u32;
+    } & Struct;
+    readonly isReserveTransferAssets: boolean;
+    readonly asReserveTransferAssets: {
+      readonly dest: XcmVersionedMultiLocation;
+      readonly beneficiary: XcmVersionedMultiLocation;
+      readonly assets: XcmVersionedMultiAssets;
+      readonly feeAssetItem: u32;
+    } & Struct;
+    readonly isExecute: boolean;
+    readonly asExecute: {
+      readonly message: XcmVersionedXcm;
+      readonly maxWeight: u64;
+    } & Struct;
+    readonly isForceXcmVersion: boolean;
+    readonly asForceXcmVersion: {
+      readonly location: XcmV1MultiLocation;
+      readonly xcmVersion: u32;
+    } & Struct;
+    readonly isForceDefaultXcmVersion: boolean;
+    readonly asForceDefaultXcmVersion: {
+      readonly maybeXcmVersion: Option<u32>;
+    } & Struct;
+    readonly isForceSubscribeVersionNotify: boolean;
+    readonly asForceSubscribeVersionNotify: {
+      readonly location: XcmVersionedMultiLocation;
+    } & Struct;
+    readonly isForceUnsubscribeVersionNotify: boolean;
+    readonly asForceUnsubscribeVersionNotify: {
+      readonly location: XcmVersionedMultiLocation;
+    } & Struct;
+    readonly isLimitedReserveTransferAssets: boolean;
+    readonly asLimitedReserveTransferAssets: {
+      readonly dest: XcmVersionedMultiLocation;
+      readonly beneficiary: XcmVersionedMultiLocation;
+      readonly assets: XcmVersionedMultiAssets;
+      readonly feeAssetItem: u32;
+      readonly weightLimit: XcmV2WeightLimit;
+    } & Struct;
+    readonly isLimitedTeleportAssets: boolean;
+    readonly asLimitedTeleportAssets: {
+      readonly dest: XcmVersionedMultiLocation;
+      readonly beneficiary: XcmVersionedMultiLocation;
+      readonly assets: XcmVersionedMultiAssets;
+      readonly feeAssetItem: u32;
+      readonly weightLimit: XcmV2WeightLimit;
+    } & Struct;
+  }
+
   /** @name XcmVersionedXcm (512) */
   export interface XcmVersionedXcm extends Enum {
     readonly isV0: boolean;
@@ -806,6 +903,23 @@ declare module '@polkadot/types/lookup' {
     readonly isNotifyCurrentTargets: boolean;
     readonly asNotifyCurrentTargets: Option<Bytes>;
     readonly isMigrateAndNotifyOldTargets: boolean;
+  }
+
+  /** @name PalletXcmError (700) */
+  export interface PalletXcmError extends Enum {
+    readonly isUnreachable: boolean;
+    readonly isSendFailure: boolean;
+    readonly isFiltered: boolean;
+    readonly isUnweighableMessage: boolean;
+    readonly isDestinationNotInvertible: boolean;
+    readonly isEmpty: boolean;
+    readonly isCannotReanchor: boolean;
+    readonly isTooManyAssets: boolean;
+    readonly isInvalidOrigin: boolean;
+    readonly isBadVersion: boolean;
+    readonly isBadLocation: boolean;
+    readonly isNoSubscription: boolean;
+    readonly isAlreadySubscribed: boolean;
   }
 
   /** @name KusamaRuntimeRuntime (711) */
