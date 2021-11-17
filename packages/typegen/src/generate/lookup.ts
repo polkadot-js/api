@@ -142,7 +142,7 @@ function getFilteredTypes (lookup: PortableRegistry, exclude: string[] = []): [P
         (
           (
             // Ensure that we match {node, kusama, *}_runtime
-            path[0].toString().split('_')[1] === 'runtime' &&
+            path[0].toString().includes('_runtime') &&
             !['Call', 'Event'].includes(path[1].toString())
           ) ||
           path[0].toString().startsWith('pallet_')
