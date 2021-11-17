@@ -44,7 +44,7 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
     }
   } else if (isBn(value)) {
     return value.toString();
-  } else if (isHex(value)) {
+  } else if (isHex(value, -1, true)) {
     return hexToBn(value, { isLe: false, isNegative }).toString();
   }
 
