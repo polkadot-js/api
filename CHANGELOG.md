@@ -2,9 +2,11 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for some metadata v14 chains where API failed to decode events/calls.
+
 Contributed:
 
-- Update `BeefySignedCommitment` signature (Thanks to https://github.com/czl1378)
+- Update `BeefySignedCommitment` type (Thanks to https://github.com/czl1378)
 
 Changes:
 

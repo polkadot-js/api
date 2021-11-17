@@ -26,6 +26,12 @@ describe('UInt', (): void => {
     expect(test instanceof BN).toBe(true);
   });
 
+  // e.g. headers
+  it('decodes hex that are not multiples of 2', (): void => {
+    expect(new UInt(registry, '0x123').toNumber()).toEqual(0x123);
+    expect(new UInt(registry, '0x0123').toNumber()).toEqual(0x123);
+  });
+
   it('fails on a number that is too large for the bits specified', (): void => {
     expect(
       (): UInt => new UInt(registry, '12345678901234567890123456789012345678901234567890', 32)
