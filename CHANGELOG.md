@@ -8,6 +8,8 @@ Contributed:
 
 Changes:
 
+- Adjust runtime `*::{Call, Event}` matching for metadata v14
+- Adjust derive decoration with (optional) known methods
 - Align Option `.toJSON` output with Substrate input
 - Prepare pre-v13 types for optional injection
 
