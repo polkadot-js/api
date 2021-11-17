@@ -26,9 +26,13 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // match {node, polkadot, ...}_runtime
-  '*_runtime::Call',
-  '*_runtime::Event',
+  // These come in different forms
+  //   - node_runtime::Call
+  //   - polkadot_runtime::Call
+  //   - node_template_runtime::Call
+  //   - interbtc_runtime_parachain::Call
+  '*_runtime_*::Call',
+  '*_runtime_*::Event',
   // these have a specific encoding or logic (for pallets)
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
@@ -89,6 +93,11 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
         while (suba.length < subb.length) {
           subb.shift();
         }
+      }
+
+      // check for * matches at the end, adjust accordingly
+      while ((suba.length > subb.length) && (suba[suba.length - 1] === '*')) {
+        suba.pop();
       }
 
       return matchParts(suba, subb);
