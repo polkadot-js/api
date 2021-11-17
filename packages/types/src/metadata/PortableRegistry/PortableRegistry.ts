@@ -26,9 +26,13 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // match {node, polkadot, ...}_runtime
-  '*_runtime::Call',
-  '*_runtime::Event',
+  // These come in different forms
+  //   - node_runtime::Call
+  //   - polkadot_runtime::Call
+  //   - node_template_runtime::Call
+  //   - interbtc_runtime_parachain::Call
+  '*_runtime_*::Call',
+  '*_runtime_*::Event',
   // these have a specific encoding or logic (for pallets)
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
@@ -81,14 +85,22 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
     }
 
     if (a.includes('*') && a.includes('_') && b.includes('_')) {
-      const suba = a.split('_');
-      const subb = b.split('_');
+      let suba = a.split('_');
+      let subb = b.split('_');
 
+      // match initial *'s to multiples if we have a match for the other
       if (suba[0] === '*') {
-        // the first parts where the length is greater is always a match
-        while (suba.length < subb.length) {
-          subb.shift();
+        const indexOf = subb.indexOf(suba[1]);
+
+        if (indexOf !== -1) {
+          suba = suba.slice(1);
+          subb = subb.slice(indexOf);
         }
+      }
+
+      // check for * matches at the end, adjust accordingly
+      if ((suba.length === 2) && (suba[1] === '*') && (suba[0] === subb[0])) {
+        return true;
       }
 
       return matchParts(suba, subb);
