@@ -18,7 +18,6 @@ import { isString, stringify } from '@polkadot/util';
 import { createImports, exportType, initMeta, readTemplate, writeFile } from '../util';
 import { typeEncoders } from './tsDef';
 
-const MAP_ENUMS = ['Call', 'Event', 'Error', 'RawEvent'];
 const WITH_TYPEDEF = false;
 
 const generateLookupDefsTmpl = Handlebars.compile(readTemplate('lookup/defs'));
@@ -131,33 +130,7 @@ function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): 
 }
 
 function getFilteredTypes (lookup: PortableRegistry, exclude: string[] = []): [PortableType, TypeDef][] {
-  const named = lookup.types.filter(({ id, type: { path } }) => {
-    const typeDef = lookup.getTypeDef(id);
-
-    return (
-      // We actually only want those with lookupName set
-      !!typeDef.lookupName &&
-      !(
-        path.length === 2 &&
-        (
-          (
-            // Ensure that we match {node, kusama, *}_runtime
-            path[0].toString().split('_')[1] === 'runtime' &&
-            !['Call', 'Event'].includes(path[1].toString())
-          ) ||
-          path[0].toString().startsWith('pallet_')
-        ) &&
-        // Ensure we strip generics, e.g. Event<T>
-        MAP_ENUMS.includes(path[1].toString().split('<')[0])
-      ) &&
-      !(
-        path.length >= 3 &&
-        path[path.length - 2].toString() === 'pallet' &&
-        // As above, cater for generics
-        MAP_ENUMS.includes(path[path.length - 1].toString().split('<')[0])
-      )
-    );
-  });
+  const named = lookup.types.filter(({ id }) => !!lookup.getTypeDef(id).lookupName);
   const names = named.map(({ id }) => lookup.getName(id));
 
   return named
