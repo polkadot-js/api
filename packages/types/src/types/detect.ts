@@ -62,28 +62,12 @@ export type __WrapTwo = keyof __MapWrapTwo<Codec, Codec>;
 
 export type __Wrap = __WrapOne | __WrapTwo;
 
-export type __ToStruct<K extends Record<string, unknown>> =
-  K['_enum'] extends true
-    ? Enum
-    : K['_set'] extends true
-      ? CodecSet
-      : Struct;
-
 export type __ToTuple<O extends Codec[]> =
   O[0] extends Codec
     ? O[1] extends Codec
       ? ITuple<O>
       : O[0]
     : Null;
-
-export type __CodecFirst<K> =
-  K extends keyof InterfaceTypes
-    ? InterfaceTypes[K]
-    : K extends unknown[]
-      ? __ToTuple<__Codecs<K>>
-      : K extends Record<string, unknown>
-        ? __ToStruct<K>
-        : Codec;
 
 export type __CodecsNext<K, C extends Codec[]> =
   K extends __WrapOne
@@ -94,7 +78,22 @@ export type __CodecsNext<K, C extends Codec[]> =
       ? C extends [Codec, Codec, ...infer X]
         ? [__MapWrapTwo<C[0], C[1]>[K], ...X]
         : Codec
-      : [__CodecFirst<K>, ...C];
+      : [
+        // __CodecFirst<K>
+        K extends keyof InterfaceTypes
+          ? InterfaceTypes[K]
+          : K extends unknown[]
+            ? __ToTuple<__Codecs<K>>
+            : K extends Record<string, unknown>
+              // __ToStruct<K extends Record<string, unknown>>
+              ? K['_enum'] extends true
+                ? Enum
+                : K['_set'] extends true
+                  ? CodecSet
+                  : Struct
+              : Codec,
+        ...C
+      ];
 
 export type __Codecs<T extends unknown[]> =
   T extends [infer K, ...infer N]
@@ -123,25 +122,18 @@ export type __TokenizeStruct<T extends [__Value[], string], V extends __Value[],
 export type __TokenizeTuple<T extends [__Value[], string], V extends __Value[], I extends string> =
   __Tokenize<T[1], __CombineInner<V, I, T[0]>>;
 
-export type __TokenizeWrapped<K extends string, V extends __Value[], I extends string, R extends string> =
-  K extends `${infer X}${R}`
-    ? X extends '['
-      ? __Tokenize<R, [...__Combine<V, I>, '[']>
-      : __Tokenize<R, __Combine<V, `${I}${X}`>>
-    : never;
-
-export type __TokenizeKnown<K extends string, V extends __Value[], I extends string, R extends string> =
-  K extends `${infer X}${',' | '>'}${R}`
-    ? __Tokenize<R, __Combine<V, `${I}${X}`>>
-    : never;
-
 // NOTE For recursion limits, it is more optimal to use __Sanitize with conjunction with __Tokenize
 // below, even while we do more matching (Number of characters iterated through is the most problematic)
 export type __Tokenize<K extends string, V extends __Value[] = [], I extends string = ''> =
   K extends '' | '>' | ')' | '}'
     ? [__Combine<V, I>, '']
     : K extends `${__Wrap}${infer R}`
-      ? __TokenizeWrapped<K, V, I, R>
+      // __TokenizeWrapped<K extends string, V extends __Value[], I extends string, R extends string>
+      ? K extends `${infer X}${R}`
+        ? X extends '['
+          ? __Tokenize<R, [...__Combine<V, I>, '[']>
+          : __Tokenize<R, __Combine<V, `${I}${X}`>>
+        : never
       : K extends `${',' | '>'}${infer R}`
         ? __Tokenize<R, __Combine<V, I>>
         : K extends `${')' | '}'}${infer R}`
@@ -151,7 +143,10 @@ export type __Tokenize<K extends string, V extends __Value[] = [], I extends str
             : K extends `{${infer R}`
               ? __TokenizeStruct<__Tokenize<R>, V, I, R>
               : K extends `${keyof InterfaceTypes}${',' | '>'}${infer R}`
-                ? __TokenizeKnown<K, V, I, R>
+                // __TokenizeKnown<K extends string, V extends __Value[], I extends string, R extends string>
+                ? K extends `${infer X}${',' | '>'}${R}`
+                  ? __Tokenize<R, __Combine<V, `${I}${X}`>>
+                  : never
                 : K extends `${infer C}${infer R}`
                   ? __Tokenize<R, V, `${I}${C}`>
                   : [__Combine<V, I>, ''];

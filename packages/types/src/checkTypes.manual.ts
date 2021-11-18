@@ -81,8 +81,9 @@ assert(hh[0].bitLength() && ms[0].strings && ms[1].values && ms[2].keys, 'All ok
 const tt1 = registry.createType('(u32, Compact<u64>,    u128  , Something)');
 // unwraps into a u32
 const tt2 = registry.createType('(((u32)))');
+// TEST: Adding a single param makes this go over the recursion limit in 4.4.4
 // lots and lots of params (indicates recursion limit)
-const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256)');
+const tt4 = registry.createType('(u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256,u8,u16,u32,u64,u128,u256,u8)');
 // empty
 const tt5 = registry.createType('()');
 // nested tuples
