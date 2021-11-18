@@ -62,13 +62,6 @@ export type __WrapTwo = keyof __MapWrapTwo<Codec, Codec>;
 
 export type __Wrap = __WrapOne | __WrapTwo;
 
-export type __ToStruct<K extends Record<string, unknown>> =
-  K['_enum'] extends true
-    ? Enum
-    : K['_set'] extends true
-      ? CodecSet
-      : Struct;
-
 export type __ToTuple<O extends Codec[]> =
   O[0] extends Codec
     ? O[1] extends Codec
@@ -92,7 +85,12 @@ export type __CodecsNext<K, C extends Codec[]> =
           : K extends unknown[]
             ? __ToTuple<__Codecs<K>>
             : K extends Record<string, unknown>
-              ? __ToStruct<K>
+              // __ToStruct<K extends Record<string, unknown>>
+              ? K['_enum'] extends true
+                ? Enum
+                : K['_set'] extends true
+                  ? CodecSet
+                  : Struct
               : Codec,
         ...C
       ];
