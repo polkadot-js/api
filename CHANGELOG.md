@@ -2,7 +2,7 @@
 
 ## master
 
-Upgrade priority: Low. Recommended for some metadata v14 chains where API failed to decode events/calls.
+Upgrade priority: Medium. Recommended for some metadata v14 parachains where the API failed to decode events/calls. Additionally contains adjustments to support current-generation TypeScript 4.5.2.
 
 Contributed:
 
@@ -14,8 +14,10 @@ Changes:
 - Adjust derive decoration with (optional) known methods
 - Expose `*{Call, Event, Error}` TS types for metadata v14
 - Align Option `.toJSON` output with Substrate input
-- Ajust PascalCase conversions
+- Optimize Enum, Struct, Option & Number decoding paths
+- Ajust PascalCase conversions with function from util
 - Prepare pre-v13 types for optional injection
+- Adjustments for TS 4.5.2 support (flatten type infers)
 
 
 ## 6.8.1 Nov 11, 2021
