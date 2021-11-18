@@ -74,10 +74,6 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
   return raw;
 }
 
-function decodeZip (k: string, v: Codec): [string, Codec] {
-  return [k, v];
-}
-
 /**
  * Decode input to pass into constructor.
  *
@@ -96,7 +92,7 @@ function decodeZip (k: string, v: Codec): [string, Codec] {
  */
 function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), Types, decodeZip);
+    return decodeU8a(registry, u8aToU8a(value), Types, true);
   } else if (value instanceof Struct) {
     return [value as Iterable<[string, Codec]>, 0];
   }

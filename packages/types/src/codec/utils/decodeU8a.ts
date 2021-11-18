@@ -25,7 +25,7 @@ function getRawType (registry: Registry, Type: Constructor): string {
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of Constructor to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor[] | { [index: string]: Constructor }, zip?: (key: string, value: T) => E): [E[], number] {
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: Constructor[] | { [index: string]: Constructor }, withZip?: boolean): [E[], number] {
   const [Types, keys]: [Constructor[], string[]] = Array.isArray(types)
     ? [types, []]
     : [Object.values(types), Object.keys(types)];
@@ -38,8 +38,8 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
       const value = new Types[i](registry, u8a.subarray(offset));
 
       offset += value.initialU8aLength || value.encodedLength;
-      result[i] = zip
-        ? zip(keys[i], value as T)
+      result[i] = withZip
+        ? [keys[i], value] as unknown as E
         : value as unknown as E;
     } catch (error) {
       throw new Error(formatFailure(
