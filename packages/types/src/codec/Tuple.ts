@@ -21,14 +21,14 @@ type TupleTypes = TupleType[] | {
 };
 
 /** @internal */
-function decodeTuple (registry: Registry, _Types: TupleConstructors, value?: AnyTupleValue): [Codec[], number] {
+function decodeTuple (registry: Registry, Classes: TupleConstructors, value?: AnyTupleValue): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), _Types);
+    return decodeU8a(registry, u8aToU8a(value), Classes);
   }
 
-  const Types: Constructor[] = Array.isArray(_Types)
-    ? _Types
-    : Object.values(_Types);
+  const Types: Constructor[] = Array.isArray(Classes)
+    ? Classes
+    : Object.values(Classes);
 
   return [
     Types.map((Type, index): Codec => {
@@ -58,16 +58,18 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   #Types: TupleConstructors;
 
   constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue) {
-    const Clazzes = Array.isArray(Types)
+    const Classes = Array.isArray(Types)
       ? Types.map((t) => typeToConstructor(registry, t))
       : isFunction(Types) || isString(Types)
         ? [typeToConstructor(registry, Types)]
         : mapToTypeMap(registry, Types);
-    const [values, decodedLength] = decodeTuple(registry, Clazzes, value);
+    const [values, decodedLength] = isU8a(value)
+      ? decodeU8a(registry, value, Classes)
+      : decodeTuple(registry, Classes, value);
 
     super(registry, values, decodedLength);
 
-    this.#Types = Clazzes;
+    this.#Types = Classes;
   }
 
   public static with (Types: TupleTypes | TupleType): Constructor<Tuple> {
