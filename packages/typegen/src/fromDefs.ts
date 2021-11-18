@@ -13,7 +13,11 @@ import { generateDefaultLookup } from './generate';
 type ArgV = { input: string; package: string; endpoint?: string; };
 
 export function main (): void {
-  const { input, package: pkg, endpoint } = yargs.strict().options({
+  const { endpoint, input, package: pkg } = yargs.strict().options({
+    endpoint: {
+      description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
+      type: 'string'
+    },
     input: {
       description: 'The directory to use for the user definitions',
       required: true,
@@ -23,15 +27,13 @@ export function main (): void {
       description: 'The package name & path to use for the user types',
       required: true,
       type: 'string'
-    },
-    endpoint: {
-      description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
-      type: 'string'
-    },
+    }
   }).argv as ArgV;
 
   if (endpoint) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, string>).result;
+
     generateDefaultLookup(path.join(process.cwd(), input), metaHex);
   }
 

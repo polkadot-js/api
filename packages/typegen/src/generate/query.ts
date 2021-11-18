@@ -9,7 +9,6 @@ import type { ExtraTypes } from './types';
 import Handlebars from 'handlebars';
 
 import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
-
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageSi } from '@polkadot/types/primitive/StorageKey';
 import { stringCamelCase } from '@polkadot/util';

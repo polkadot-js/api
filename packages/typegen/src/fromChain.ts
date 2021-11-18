@@ -4,9 +4,9 @@
 import path from 'path';
 import yargs from 'yargs';
 
+import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 import { WebSocket } from '@polkadot/x-ws';
-import { Definitions } from '@polkadot/types/types';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
@@ -19,15 +19,18 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
-  let customLookupDefinitions = undefined;
+  let customLookupDefinitions;
+
   try {
     customLookupDefinitions = {
       rpc: {},
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
       types: require(path.join(process.cwd(), output, 'lookup.ts')).default
-    }  as Definitions;
+    } as Definitions;
   } catch (error) {
-    console.log("No custom definitions found.");
+    console.log('No custom definitions found.');
   }
+
   generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
   generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
