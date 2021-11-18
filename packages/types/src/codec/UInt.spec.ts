@@ -11,6 +11,12 @@ import { UInt } from '.';
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
+  it('decodes an empty Uint8array correctly', (): void => {
+    expect(
+      new UInt(registry, new Uint8Array()).toNumber()
+    ).toEqual(0);
+  });
+
   it('still has the BN interfaces', (): void => {
     expect([
       new UInt(registry, 32).mul(BN_TWO).toNumber(),

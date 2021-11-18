@@ -6,7 +6,7 @@ import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyNumber, INumber, Registry } from '../types';
 import type { UIntBitLength } from './types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isU8a, stringify, u8aToBn } from '@polkadot/util';
+import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -28,20 +28,8 @@ function toPercentage (value: BN, divisor: BN): string {
 
 /** @internal */
 function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
-  // This function returns a string, which will be passed in the BN
-  // constructor. It would be ideal to actually return a BN, but there's a
-  // bug: https://github.com/indutny/bn.js/issues/206.
   if (isU8a(value)) {
-    if (!value.length) {
-      return '0';
-    }
-
-    try {
-      // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
-      return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
-    } catch (error) {
-      throw new Error(`AbstractInt: failed on ${stringify(value)}:: ${(error as Error).message}`);
-    }
+    return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
   } else if (isBn(value)) {
     return value.toString();
   } else if (isHex(value, -1, true)) {
@@ -68,7 +56,15 @@ export abstract class AbstractInt extends BN implements INumber {
   readonly #isSigned: boolean;
 
   constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
-    super(decodeAbstractInt(value, bitLength, isSigned));
+    // Construct via a string, which will be passed in the BN constructor.
+    // It would be ideal to actually return a BN, but there is an issue:
+    // https://github.com/indutny/bn.js/issues/206
+    super(
+      // shortcut isU8a as used in SCALE decoding
+      isU8a(value)
+        ? u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
+        : decodeAbstractInt(value, bitLength, isSigned)
+    );
 
     this.registry = registry;
     this.#bitLength = bitLength;

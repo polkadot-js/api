@@ -5,22 +5,20 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IOption, Registry } from '../types';
 
-import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { typeToConstructor } from './utils';
 
 /** @internal */
-function decodeOption (registry: Registry, typeName: Constructor | string, value?: unknown): Codec {
-  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
-    return new Null(registry);
+function decodeOption (registry: Registry, Type: Constructor, value?: unknown): Codec {
+  // In the case of an option, unwrap the inner
+  if (value instanceof Option) {
+    value = value.value;
   }
 
-  const Type = typeToConstructor(registry, typeName);
-
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof Option) {
-    return decodeOption(registry, Type, value.value);
+  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
+    return new Null(registry);
   } else if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
     return value;
@@ -55,12 +53,19 @@ export class Option<T extends Codec> implements IOption<T> {
   readonly #raw: T;
 
   constructor (registry: Registry, typeName: Constructor<T> | string, value?: unknown) {
-    this.registry = registry;
-    this.#Type = typeToConstructor(registry, typeName);
-    this.#raw = decodeOption(registry, typeName, value) as T;
+    const Type = typeToConstructor(registry, typeName);
+    const decoded = isU8a(value) && value.length && !isCodec(value)
+      ? value[0] === 0
+        ? new Null(registry)
+        : new Type(registry, value.subarray(1))
+      : decodeOption(registry, Type, value);
 
-    if (this.#raw.initialU8aLength) {
-      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
+    this.registry = registry;
+    this.#Type = Type;
+    this.#raw = decoded as T;
+
+    if (decoded.initialU8aLength) {
+      this.#initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
 
