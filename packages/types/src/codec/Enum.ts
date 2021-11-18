@@ -179,15 +179,19 @@ export class Enum implements IEnum {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, def: Record<string, string | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
-    const defInfo = extractDef(registry, def);
-    const decoded = decodeEnum(registry, defInfo.def, value, index);
+  constructor (registry: Registry, Types: Record<string, string | Constructor> | Record<string, number> | string[], value?: unknown, index?: number) {
+    const { def, isBasic, isIndexed } = extractDef(registry, Types);
+
+    // shortcut isU8a as used in SCALE decoding
+    const decoded = isU8a(value) && value.length
+      ? createFromValue(registry, def, value[0], value.subarray(1))
+      : decodeEnum(registry, def, value, index);
 
     this.registry = registry;
-    this.#def = defInfo.def;
-    this.#isBasic = defInfo.isBasic;
-    this.#isIndexed = defInfo.isIndexed;
-    this.#indexes = Object.values(defInfo.def).map(({ index }) => index);
+    this.#def = def;
+    this.#isBasic = isBasic;
+    this.#isIndexed = isIndexed;
+    this.#indexes = Object.values(def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
     this.#raw = decoded.value;
 
