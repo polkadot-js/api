@@ -168,7 +168,7 @@ export class Enum implements IEnum {
     const { def, isBasic, isIndexed } = extractDef(registry, Types);
 
     // shortcut isU8a as used in SCALE decoding
-    const decoded = isU8a(value) && value.length
+    const decoded = isU8a(value) && value.length && !isNumber(index)
       ? createFromValue(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 

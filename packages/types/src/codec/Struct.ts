@@ -12,7 +12,7 @@ import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from './utils';
 type TypesDef<T = Codec> = Record<string, string | Constructor<T>>;
 
 /** @internal */
-function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<string, string>): Iterable<[string, Codec]> {
+function decodeStructFromObject (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
   const typeofArray = Array.isArray(value);
@@ -71,34 +71,7 @@ function decodeStructFromObject (registry: Registry, Types: ConstructorDef, valu
     }
   }
 
-  return raw;
-}
-
-/**
- * Decode input to pass into constructor.
- *
- * @param Types - Types definition.
- * @param value - Value to decode, one of:
- * - null
- * - undefined
- * - hex
- * - Uint8Array
- * - object with `{ key1: value1, key2: value2 }`, assuming `key1` and `key2`
- * are also keys in `Types`
- * - array with `[value1, value2]` assuming the array has the same length as
- * `Object.keys(Types)`
- * @param jsonMap
- * @internal
- */
-function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
-  if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), Types, true);
-  } else if (value instanceof Struct) {
-    return [value as Iterable<[string, Codec]>, 0];
-  }
-
-  // We assume from here that value is a JS object (Array, Map, Object)
-  return [decodeStructFromObject(registry, Types, value || {}, jsonMap), 0];
+  return [raw, 0];
 }
 
 /**
@@ -128,10 +101,15 @@ export class Struct<
 
   readonly #Types: ConstructorDef;
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
     const typeMap = mapToTypeMap(registry, Types);
-    const [decoded, decodedLength] = decodeStruct(registry, typeMap, value, jsonMap);
+    const [decoded, decodedLength] = isU8a(value)
+      ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
+      : isHex(value)
+        ? decodeU8a<Codec, [string, Codec]>(registry, u8aToU8a(value), typeMap, true)
+        : value instanceof Struct
+          ? [value as Iterable<[string, Codec]>, 0]
+          : decodeStructFromObject(registry, typeMap, value || {}, jsonMap);
 
     super(decoded);
 

@@ -17,6 +17,9 @@ export class Null implements Codec {
 
   public createdAtHash?: Hash;
 
+  // Added for compatibility reasons, e.g. see Option
+  public readonly initialU8aLength = 0;
+
   constructor (registry: Registry) {
     this.registry = registry;
   }
