@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { mapToTypeMap, typesToMap } from './utils';
@@ -40,40 +40,37 @@ function isRustEnum (def: Record<string, string | Constructor> | Record<string, 
 }
 
 function extractDef (registry: Registry, _def: Record<string, string | Constructor> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
-  if (Array.isArray(_def)) {
-    return {
-      def: _def.reduce((def: TypesDef, key, index): TypesDef => {
-        def[key] = { Type: Null, index };
-
-        return def;
-      }, {}),
-      isBasic: true,
-      isIndexed: false
-    };
-  }
-
+  const def: TypesDef = {};
   let isBasic: boolean;
   let isIndexed: boolean;
-  let def: TypesDef;
 
-  if (isRustEnum(_def)) {
-    def = Object
-      .entries(mapToTypeMap(registry, _def))
-      .reduce((def: TypesDef, [key, Type], index): TypesDef => {
-        def[key] = { Type, index };
+  if (Array.isArray(_def)) {
+    for (let i = 0; i < _def.length; i++) {
+      def[_def[i]] = { Type: Null, index: i };
+    }
 
-        return def;
-      }, {});
+    isBasic = true;
+    isIndexed = false;
+  } else if (isRustEnum(_def)) {
+    const entries = Object.entries(mapToTypeMap(registry, _def));
+
+    for (let i = 0; i < entries.length; i++) {
+      const [key, Type] = entries[i];
+
+      def[key] = { Type, index: i };
+    }
+
     isBasic = !Object.values(def).some(({ Type }) => Type !== Null);
     isIndexed = false;
   } else {
-    def = Object
-      .entries(_def)
-      .reduce((def: TypesDef, [key, index]): TypesDef => {
-        def[key] = { Type: Null, index };
+    const entries = Object.entries(_def);
 
-        return def;
-      }, {});
+    for (let i = 0; i < entries.length; i++) {
+      const [key, index] = entries[i];
+
+      def[key] = { Type: Null, index };
+    }
+
     isBasic = true;
     isIndexed = true;
   }
@@ -114,23 +111,24 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   }
 }
 
-function decodeFromString (registry: Registry, def: TypesDef, value: string): Decoded {
-  return isHex(value)
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    ? decodeFromValue(registry, def, hexToU8a(value))
-    : decodeFromJSON(registry, def, value);
-}
+function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?: number): Decoded {
+  // NOTE We check the index path first, before looking at values - this allows treating
+  // the optional indexes before anything else, more-specific > less-specific
+  if (isNumber(index)) {
+    return createFromValue(registry, def, index, value);
+  } else if (isU8a(value) || isHex(value)) {
+    const u8a = u8aToU8a(value);
 
-function decodeFromValue (registry: Registry, def: TypesDef, value?: unknown): Decoded {
-  if (isU8a(value)) {
     // nested, we don't want to match isObject below
-    if (value.length) {
-      return createFromValue(registry, def, value[0], value.subarray(1));
+    if (u8a.length) {
+      return createFromValue(registry, def, u8a[0], u8a.subarray(1));
     }
+  } else if (value instanceof Enum) {
+    return createFromValue(registry, def, value.index, value.value);
   } else if (isNumber(value)) {
     return createFromValue(registry, def, value);
   } else if (isString(value)) {
-    return decodeFromString(registry, def, value.toString());
+    return decodeFromJSON(registry, def, value.toString());
   } else if (isObject(value)) {
     const key = Object.keys(value)[0];
 
@@ -139,19 +137,6 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: unknown): D
 
   // Worst-case scenario, return the first with default
   return createFromValue(registry, def, Object.values(def)[0].index);
-}
-
-function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?: number): Decoded {
-  // NOTE We check the index path first, before looking at values - this allows treating
-  // the optional indexes before anything else, more-specific > less-specific
-  if (isNumber(index)) {
-    return createFromValue(registry, def, index, value);
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  } else if (value instanceof Enum) {
-    return createFromValue(registry, def, value.index, value.value);
-  }
-
-  return decodeFromValue(registry, def, value);
 }
 
 /**

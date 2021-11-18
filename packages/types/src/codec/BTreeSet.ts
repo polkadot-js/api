@@ -7,7 +7,7 @@ import type { AnyJson, Codec, Constructor, ISet, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8a, sortSet, typeToConstructor } from './utils';
+import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from './utils';
 
 const l = logger('BTreeSet');
 
@@ -15,7 +15,7 @@ const l = logger('BTreeSet');
 function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): [Set<V>, number] {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
-  const [values, decodedLength] = decodeU8a<V>(registry, u8a.subarray(offset), new Array(length.toNumber()).fill(ValClass));
+  const [values, decodedLength] = decodeU8aVec(registry, u8a, offset, ValClass, length.toNumber());
 
   for (let i = 0; i < values.length; i++) {
     output.add(values[i]);
