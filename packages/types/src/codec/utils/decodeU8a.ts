@@ -5,15 +5,15 @@ import type { Codec, Constructor, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-function formatFailure (error: Error, type: string, u8a: Uint8Array, key?: string): string {
+function formatFailure (error: Error, type: string | null, u8a: Uint8Array, key?: string): string {
   return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${type ? `: ${type}` : ''}:: ${error.message}`;
 }
 
-function getRawType (registry: Registry, Type: Constructor): string {
+function getRawType (registry: Registry, Type: Constructor): string | null {
   try {
     return new Type(registry).toRawType();
   } catch {
-    return '';
+    return null;
   }
 }
 

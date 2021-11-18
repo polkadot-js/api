@@ -13,7 +13,7 @@ function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): [AnyU8a, numbe
   const u8a = u8aToU8a(value);
   const byteLength = bitLength / 8;
 
-  if (!u8a || !u8a.length) {
+  if (!u8a.length) {
     return [new Uint8Array(byteLength), 0];
   }
 
