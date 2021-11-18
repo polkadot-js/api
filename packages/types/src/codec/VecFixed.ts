@@ -4,15 +4,15 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, Constructor, Registry } from '../types';
 
-import { assert, u8aConcat } from '@polkadot/util';
+import { assert, isU8a, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from './AbstractArray';
-import { typeToConstructor } from './utils';
+import { decodeU8aVec, typeToConstructor } from './utils';
 import { decodeVec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, length: number, value: Uint8Array | HexString | unknown[]): [T[], number] {
-  const [values,, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
+function decodeVecFixed<T extends Codec> (registry: Registry, value: Uint8Array | HexString | unknown[], Type: Constructor<T>, length: number): [T[], number, number] {
+  const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
 
   while (values.length < length) {
     values.push(new Type(registry));
@@ -20,7 +20,7 @@ function decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<
 
   assert(values.length === length, () => `Expected a length of exactly ${length} entries`);
 
-  return [values, decodedLengthNoOffset];
+  return [values, decodedLength, decodedLengthNoOffset];
 }
 
 /**
@@ -33,9 +33,11 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
   constructor (registry: Registry, Type: Constructor<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
-    const [values, decodedLength] = decodeVecFixed(registry, Clazz, length, value);
+    const [values,, decodedLengthNoOffset] = isU8a(value)
+      ? decodeU8aVec(registry, value, 0, Clazz, length)
+      : decodeVecFixed(registry, value, Clazz, length);
 
-    super(registry, values, decodedLength);
+    super(registry, values, decodedLengthNoOffset);
 
     this.#Type = Clazz;
   }
