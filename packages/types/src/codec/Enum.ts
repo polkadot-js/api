@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces';
 import type { AnyJson, Codec, Constructor, IEnum, Registry } from '../types';
 
-import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringUpperFirst, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { Null } from '../primitive/Null';
 import { mapToTypeMap, typesToMap } from './utils';
@@ -190,7 +190,7 @@ export class Enum implements IEnum {
     const isKeys = new Array<string>(keys.length);
 
     for (let i = 0; i < keys.length; i++) {
-      const name = stringUpperFirst(stringCamelCase(keys[i].replace(' ', '_')));
+      const name = stringPascalCase(keys[i].replace(' ', '_'));
 
       asKeys[i] = `as${name}`;
       isKeys[i] = `is${name}`;
