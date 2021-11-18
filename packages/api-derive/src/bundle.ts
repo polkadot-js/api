@@ -30,6 +30,7 @@ export * from './type';
 
 interface Avail {
   instances: string[];
+  methods: string[];
   withDetect?: boolean;
 }
 
@@ -54,19 +55,61 @@ export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // Enable derive only if some of these modules are available
 const checks: Record<string, Avail> = {
-  contracts: { instances: ['contracts'] },
-  council: { instances: ['council'], withDetect: true },
-  crowdloan: { instances: ['crowdloan'] },
-  democracy: { instances: ['democracy'] },
-  elections: { instances: ['phragmenElection', 'electionsPhragmen', 'elections', 'council'], withDetect: true },
-  imOnline: { instances: ['imOnline'] },
-  membership: { instances: ['membership'] },
-  parachains: { instances: ['parachains', 'registrar'] },
-  session: { instances: ['session'] },
-  society: { instances: ['society'] },
-  staking: { instances: ['staking'] },
-  technicalCommittee: { instances: ['technicalCommittee'], withDetect: true },
-  treasury: { instances: ['treasury'] }
+  contracts: {
+    instances: ['contracts'],
+    methods: []
+  },
+  council: {
+    instances: ['council'],
+    methods: [],
+    withDetect: true
+  },
+  crowdloan: {
+    instances: ['crowdloan'],
+    methods: []
+  },
+  democracy: {
+    instances: ['democracy'],
+    methods: []
+  },
+  elections: {
+    instances: ['phragmenElection', 'electionsPhragmen', 'elections', 'council'],
+    methods: [],
+    withDetect: true
+  },
+  imOnline: {
+    instances: ['imOnline'],
+    methods: []
+  },
+  membership: {
+    instances: ['membership'],
+    methods: []
+  },
+  parachains: {
+    instances: ['parachains', 'registrar'],
+    methods: []
+  },
+  session: {
+    instances: ['session'],
+    methods: []
+  },
+  society: {
+    instances: ['society'],
+    methods: []
+  },
+  staking: {
+    instances: ['staking'],
+    methods: ['erasRewardPoints']
+  },
+  technicalCommittee: {
+    instances: ['technicalCommittee'],
+    methods: [],
+    withDetect: true
+  },
+  treasury: {
+    instances: ['treasury'],
+    methods: []
+  }
 };
 
 function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: string): string[] {
@@ -88,12 +131,27 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: Deri
   const filterInstances = (q: string) =>
     getModuleInstances(api, specName, q).some(filterQueryKeys);
 
+  const filterMethods = (instances: string[]) =>
+    (m: string) =>
+      instances.some((q) =>
+        queryKeys.includes(q) &&
+        !!api.query[q][m]
+      );
+
   const isIncluded = (s: string) => (
     !checks[s] ||
-    checks[s].instances.some(filterQueryKeys) ||
     (
-      checks[s].withDetect &&
-      checks[s].instances.some(filterInstances)
+      (
+        checks[s].instances.some(filterQueryKeys) &&
+        (
+          !checks[s].methods.length ||
+          checks[s].methods.every(filterMethods(checks[s].instances))
+        )
+      ) ||
+      (
+        checks[s].withDetect &&
+        checks[s].instances.some(filterInstances)
+      )
     )
   );
 

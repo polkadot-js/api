@@ -13,6 +13,29 @@ export default {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   },
   /**
+   * Lookup107: pallet_xcm::pallet::Event<T>
+   **/
+  PalletXcmEvent: {
+    _enum: {
+      Attempted: 'XcmV2TraitsOutcome',
+      Sent: '(XcmV1MultiLocation,XcmV1MultiLocation,XcmV2Xcm)',
+      UnexpectedResponse: '(XcmV1MultiLocation,u64)',
+      ResponseReady: '(u64,XcmV2Response)',
+      Notified: '(u64,u8,u8)',
+      NotifyOverweight: '(u64,u8,u8,u64,u64)',
+      NotifyDispatchError: '(u64,u8,u8)',
+      NotifyDecodeFailed: '(u64,u8,u8)',
+      InvalidResponder: '(XcmV1MultiLocation,u64,Option<XcmV1MultiLocation>)',
+      InvalidResponderVersion: '(XcmV1MultiLocation,u64)',
+      ResponseTaken: 'u64',
+      AssetsTrapped: '(H256,XcmV1MultiLocation,XcmVersionedMultiAssets)',
+      VersionChangeNotified: '(XcmV1MultiLocation,u32)',
+      SupportedVersionChanged: '(XcmV1MultiLocation,u32)',
+      NotifyTargetSendFail: '(XcmV1MultiLocation,u64,XcmV2TraitsError)',
+      NotifyTargetMigrationFail: '(XcmVersionedMultiLocation,u64)'
+    }
+  },
+  /**
    * Lookup108: xcm::v1::multilocation::MultiLocation
    **/
   XcmV1MultiLocation: {
@@ -574,6 +597,60 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
+   * Lookup511: pallet_xcm::pallet::Call<T>
+   **/
+  PalletXcmCall: {
+    _enum: {
+      send: {
+        dest: 'XcmVersionedMultiLocation',
+        message: 'XcmVersionedXcm',
+      },
+      teleport_assets: {
+        dest: 'XcmVersionedMultiLocation',
+        beneficiary: 'XcmVersionedMultiLocation',
+        assets: 'XcmVersionedMultiAssets',
+        feeAssetItem: 'u32',
+      },
+      reserve_transfer_assets: {
+        dest: 'XcmVersionedMultiLocation',
+        beneficiary: 'XcmVersionedMultiLocation',
+        assets: 'XcmVersionedMultiAssets',
+        feeAssetItem: 'u32',
+      },
+      execute: {
+        message: 'XcmVersionedXcm',
+        maxWeight: 'u64',
+      },
+      force_xcm_version: {
+        location: 'XcmV1MultiLocation',
+        xcmVersion: 'u32',
+      },
+      force_default_xcm_version: {
+        maybeXcmVersion: 'Option<u32>',
+      },
+      force_subscribe_version_notify: {
+        location: 'XcmVersionedMultiLocation',
+      },
+      force_unsubscribe_version_notify: {
+        location: 'XcmVersionedMultiLocation',
+      },
+      limited_reserve_transfer_assets: {
+        dest: 'XcmVersionedMultiLocation',
+        beneficiary: 'XcmVersionedMultiLocation',
+        assets: 'XcmVersionedMultiAssets',
+        feeAssetItem: 'u32',
+        weightLimit: 'XcmV2WeightLimit',
+      },
+      limited_teleport_assets: {
+        dest: 'XcmVersionedMultiLocation',
+        beneficiary: 'XcmVersionedMultiLocation',
+        assets: 'XcmVersionedMultiAssets',
+        feeAssetItem: 'u32',
+        weightLimit: 'XcmV2WeightLimit'
+      }
+    }
+  },
+  /**
    * Lookup512: xcm::VersionedXcm<Call>
    **/
   XcmVersionedXcm: {
@@ -841,6 +918,12 @@ export default {
       NotifyCurrentTargets: 'Option<Bytes>',
       MigrateAndNotifyOldTargets: 'Null'
     }
+  },
+  /**
+   * Lookup700: pallet_xcm::pallet::Error<T>
+   **/
+  PalletXcmError: {
+    _enum: ['Unreachable', 'SendFailure', 'Filtered', 'UnweighableMessage', 'DestinationNotInvertible', 'Empty', 'CannotReanchor', 'TooManyAssets', 'InvalidOrigin', 'BadVersion', 'BadLocation', 'NoSubscription', 'AlreadySubscribed']
   },
   /**
    * Lookup711: kusama_runtime::Runtime

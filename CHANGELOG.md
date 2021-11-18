@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## master
+
+Upgrade priority: Low. Recommended for some metadata v14 chains where API failed to decode events/calls.
+
+Contributed:
+
+- Update `BeefySignedCommitment` type (Thanks to https://github.com/czl1378)
+
+Changes:
+
+- Adjust runtime `*::{Call, Event}` matching for metadata v14
+- Adjust derive decoration with (optional) known methods
+- Align Option `.toJSON` output with Substrate input
+- Prepare pre-v13 types for optional injection
+
+
 ## 6.8.1 Nov 11, 2021
 
 Upgrade priority: Low. Recommended for chains with non-MultiSignature variants where `paymentInfo` is required.
