@@ -37,13 +37,13 @@
     "@polkadot/rpc-provider": "6.8.2-9",
     "@polkadot/types": "6.8.2-9",
     "@polkadot/types-support": "6.8.2-9",
-    "@polkadot/util": "^7.8.3-24",
+    "@polkadot/util": "^7.8.3-27",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.4",
-    "@types/yargs": "^17.0.5"
+    "@types/yargs": "^17.0.7"
   }
 }
