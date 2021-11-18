@@ -3,8 +3,6 @@
 
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes } from '../../types';
-
 export default {
   /**
    * Lookup3: frame_system::AccountInfo<Index, pallet_balances::AccountData<Balance>>
@@ -3345,4 +3343,4 @@ export default {
    * Lookup527: node_runtime::Runtime
    **/
   NodeRuntimeRuntime: 'Null'
-} as DefinitionsTypes;
+};

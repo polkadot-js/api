@@ -3,8 +3,6 @@
 
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes } from '../../types';
-
 export default {
   /**
    * Lookup74: kusama_runtime::ProxyType
@@ -929,4 +927,4 @@ export default {
    * Lookup711: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
-} as DefinitionsTypes;
+};

@@ -9,6 +9,7 @@ import Handlebars from 'handlebars';
 import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { stringCamelCase } from '@polkadot/util';
+import { Definitions } from '@polkadot/types/types';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -16,10 +17,15 @@ const template = readTemplate('events');
 const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes = {
-      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/augment': {
+        lookup: {
+          ...lookupDefinitions,
+          ...customLookupDefinitions
+        }
+      },
       '@polkadot/types/interfaces': defaultDefs,
       ...extraTypes
     };
@@ -71,8 +77,8 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
-  return generateForMeta(metadata, dest, extraTypes, isStrict);
+  return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);
 }
