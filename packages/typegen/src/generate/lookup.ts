@@ -234,7 +234,7 @@ export function generateDefaultLookup (destDir = 'packages/types/src/augment/loo
   generateLookup(
     destDir,
     staticData
-      ? [[undefined, staticData]]
+      ? [['lookup', staticData]]
       : [
         ['substrate', staticSubstrate],
         ['polkadot', staticPolkadot],
