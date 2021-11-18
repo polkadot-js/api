@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, IStruct, Registry } from '../types';
 
-import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from './utils';
 
@@ -95,12 +95,10 @@ function decodeZip (k: string, v: Codec): [string, Codec] {
  * @internal
  */
 function decodeStruct (registry: Registry, Types: ConstructorDef, value: unknown, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
-  if (isU8a(value)) {
-    return decodeU8a(registry, value, Types, decodeZip);
+  if (isU8a(value) || isHex(value)) {
+    return decodeU8a(registry, u8aToU8a(value), Types, decodeZip);
   } else if (value instanceof Struct) {
     return [value as Iterable<[string, Codec]>, 0];
-  } else if (isHex(value)) {
-    return decodeStruct(registry, Types, hexToU8a(value), jsonMap);
   }
 
   // We assume from here that value is a JS object (Array, Map, Object)
@@ -136,14 +134,15 @@ export class Struct<
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
-    const [decoded, decodedLength] = decodeStruct(registry, mapToTypeMap(registry, Types), value, jsonMap);
+    const typeMap = mapToTypeMap(registry, Types);
+    const [decoded, decodedLength] = decodeStruct(registry, typeMap, value, jsonMap);
 
     super(decoded);
 
     this.registry = registry;
     this.initialU8aLength = decodedLength;
     this.#jsonMap = jsonMap;
-    this.#Types = mapToTypeMap(registry, Types);
+    this.#Types = typeMap;
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): Constructor<Struct<S>> {
