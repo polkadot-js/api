@@ -12,7 +12,9 @@ Changes:
 
 - Adjust runtime `*::{Call, Event}` matching for metadata v14
 - Adjust derive decoration with (optional) known methods
+- Expose `*{Call, Event, Error}` TS types for metadata v14
 - Align Option `.toJSON` output with Substrate input
+- Ajust PascalCase conversions
 - Prepare pre-v13 types for optional injection
 
 
