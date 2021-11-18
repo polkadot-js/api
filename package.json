@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "commonjs",
-  "version": "6.8.2-9",
+  "version": "6.8.2-10",
   "workspaces": [
     "packages/*"
   ],
@@ -34,13 +34,13 @@
     "@babel/core": "^7.16.0",
     "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.16.3",
-    "@polkadot/dev": "^0.63.28",
-    "@polkadot/ts": "^0.4.13",
+    "@polkadot/dev": "^0.63.29",
+    "@polkadot/ts": "^0.4.14",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^27.0.2",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   }
 }
