@@ -116,9 +116,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
   // the optional indexes before anything else, more-specific > less-specific
   if (isNumber(index)) {
     return createFromValue(registry, def, index, value);
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  } else if (value instanceof Enum) {
-    return createFromValue(registry, def, value.index, value.value);
   } else if (isU8a(value) || isHex(value)) {
     const u8a = u8aToU8a(value);
 
@@ -126,6 +123,8 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
     if (u8a.length) {
       return createFromValue(registry, def, u8a[0], u8a.subarray(1));
     }
+  } else if (value instanceof Enum) {
+    return createFromValue(registry, def, value.index, value.value);
   } else if (isNumber(value)) {
     return createFromValue(registry, def, value);
   } else if (isString(value)) {
