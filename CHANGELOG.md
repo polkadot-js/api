@@ -6,6 +6,7 @@ Upgrade priority: Medium. Recommended for some metadata v14 parachains where the
 
 Contributed:
 
+- Lookup TS generation for all metadata v14 chains (Thanks to https://github.com/savudani8)
 - Update `BeefySignedCommitment` type (Thanks to https://github.com/czl1378)
 
 Changes:
