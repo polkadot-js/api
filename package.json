@@ -37,7 +37,7 @@
     "@polkadot/dev": "^0.63.29",
     "@polkadot/ts": "^0.4.14",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^27.0.3",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
