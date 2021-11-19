@@ -3,8 +3,6 @@
 
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes } from '../../types';
-
 export default {
   /**
    * Lookup65: polkadot_runtime_common::claims::pallet::Event<T>
@@ -1260,4 +1258,4 @@ export default {
    * Lookup592: polkadot_runtime::Runtime
    **/
   PolkadotRuntimeRuntime: 'Null'
-} as DefinitionsTypes;
+};

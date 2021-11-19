@@ -4,6 +4,7 @@
 import path from 'path';
 import yargs from 'yargs';
 
+import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 import { WebSocket } from '@polkadot/x-ws';
 
@@ -18,12 +19,24 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
     : {};
 
-  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
+  let customLookupDefinitions;
+
+  try {
+    customLookupDefinitions = {
+      rpc: {},
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+      types: require(path.join(process.cwd(), output, 'lookup.ts')).default
+    } as Definitions;
+  } catch (error) {
+    console.log('No custom definitions found.');
+  }
+
+  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
-  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
   writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
     [

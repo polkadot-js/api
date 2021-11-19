@@ -3,7 +3,7 @@
 
 import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
-import type { Registry } from '@polkadot/types/types';
+import type { Definitions, Registry } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
@@ -66,10 +66,15 @@ const template = readTemplate('query');
 const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
-function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
+function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
-      '@polkadot/types/augment': { lookup: lookupDefinitions },
+      '@polkadot/types/augment': {
+        lookup: {
+          ...lookupDefinitions,
+          ...customLookupDefinitions
+        }
+      },
       '@polkadot/types/interfaces': defaultDefs,
       ...extraTypes
     };
@@ -129,8 +134,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata, registry } = initMeta(data, extraTypes);
 
-  return generateForMeta(registry, metadata, dest, extraTypes, isStrict);
+  return generateForMeta(registry, metadata, dest, extraTypes, isStrict, customLookupDefinitions);
 }
