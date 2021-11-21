@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.9.1 Nov 21, 2021
 
-Upgrade priority: Medium. Recommended for some metadata v14 parachains where the API failed to decode events/calls. Additionally contains adjustments to support current-generation TypeScript 4.5.2.
+Upgrade priority: Medium. Recommended for metadata v14 parachains. For TS users, the package now support TypeScript 4.5.2 and allows extraction of user types from metadata v14.
 
 Contributed:
 
