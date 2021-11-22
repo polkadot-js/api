@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 6.9.2 Nov 22, 2021
+
+Upgrade priority: Medium. Pulls in `@polkadot/util-crypto` fix for TS projects.
+
+Changes:
+
+- Update `@polkadot/util-crypto` with TS compilation work-around
+
+
 ## 6.9.1 Nov 21, 2021
 
 Upgrade priority: Medium. Recommended for metadata v14 parachains. For TS users, the package now support TypeScript 4.5.2 and allows extraction of user types from metadata v14.
