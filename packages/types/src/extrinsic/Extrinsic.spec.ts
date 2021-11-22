@@ -5,6 +5,7 @@ import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
+import { fallbackExtensions } from './signedExtensions';
 import { GenericExtrinsic as Extrinsic } from '.';
 
 const registry = new TypeRegistry();
@@ -15,6 +16,8 @@ registry.setMetadata(metadata);
 describe('Extrinsic', (): void => {
   describe('V4', (): void => {
     it('decodes an actual transaction', (): void => {
+      registry.setSignedExtensions(fallbackExtensions);
+
       const extrinsic = new Extrinsic(
         registry,
         '0x' +

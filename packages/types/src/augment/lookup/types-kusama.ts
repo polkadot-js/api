@@ -7,7 +7,7 @@ import type { ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/types/lookup' {
 
-  /** @name KusamaRuntimeProxyType (74) */
+  /** @name KusamaRuntimeProxyType (71) */
   export interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -18,7 +18,7 @@ declare module '@polkadot/types/lookup' {
     readonly isAuction: boolean;
   }
 
-  /** @name PalletXcmEvent (107) */
+  /** @name PalletXcmEvent (104) */
   export interface PalletXcmEvent extends Enum {
     readonly isAttempted: boolean;
     readonly asAttempted: XcmV2TraitsOutcome;
@@ -54,13 +54,13 @@ declare module '@polkadot/types/lookup' {
     readonly asNotifyTargetMigrationFail: ITuple<[XcmVersionedMultiLocation, u64]>;
   }
 
-  /** @name XcmV1MultiLocation (108) */
+  /** @name XcmV1MultiLocation (105) */
   export interface XcmV1MultiLocation extends Struct {
     readonly parents: u8;
     readonly interior: XcmV1MultilocationJunctions;
   }
 
-  /** @name XcmV1MultilocationJunctions (109) */
+  /** @name XcmV1MultilocationJunctions (106) */
   export interface XcmV1MultilocationJunctions extends Enum {
     readonly isHere: boolean;
     readonly isX1: boolean;
@@ -81,7 +81,7 @@ declare module '@polkadot/types/lookup' {
     readonly asX8: ITuple<[XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction]>;
   }
 
-  /** @name XcmV1Junction (110) */
+  /** @name XcmV1Junction (107) */
   export interface XcmV1Junction extends Enum {
     readonly isParachain: boolean;
     readonly asParachain: Compact<u32>;
@@ -114,7 +114,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0JunctionNetworkId (112) */
+  /** @name XcmV0JunctionNetworkId (109) */
   export interface XcmV0JunctionNetworkId extends Enum {
     readonly isAny: boolean;
     readonly isNamed: boolean;
@@ -123,7 +123,7 @@ declare module '@polkadot/types/lookup' {
     readonly isKusama: boolean;
   }
 
-  /** @name XcmV0JunctionBodyId (114) */
+  /** @name XcmV0JunctionBodyId (111) */
   export interface XcmV0JunctionBodyId extends Enum {
     readonly isUnit: boolean;
     readonly isNamed: boolean;
@@ -136,7 +136,7 @@ declare module '@polkadot/types/lookup' {
     readonly isJudicial: boolean;
   }
 
-  /** @name XcmV0JunctionBodyPart (115) */
+  /** @name XcmV0JunctionBodyPart (112) */
   export interface XcmV0JunctionBodyPart extends Enum {
     readonly isVoice: boolean;
     readonly isMembers: boolean;
@@ -160,10 +160,10 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV2Xcm (116) */
+  /** @name XcmV2Xcm (113) */
   export interface XcmV2Xcm extends Vec<XcmV2Instruction> {}
 
-  /** @name XcmV2Instruction (118) */
+  /** @name XcmV2Instruction (115) */
   export interface XcmV2Instruction extends Enum {
     readonly isWithdrawAsset: boolean;
     readonly asWithdrawAsset: XcmV1MultiassetMultiAssets;
@@ -282,16 +282,16 @@ declare module '@polkadot/types/lookup' {
     readonly isUnsubscribeVersion: boolean;
   }
 
-  /** @name XcmV1MultiassetMultiAssets (119) */
+  /** @name XcmV1MultiassetMultiAssets (116) */
   export interface XcmV1MultiassetMultiAssets extends Vec<XcmV1MultiAsset> {}
 
-  /** @name XcmV1MultiAsset (121) */
+  /** @name XcmV1MultiAsset (118) */
   export interface XcmV1MultiAsset extends Struct {
     readonly id: XcmV1MultiassetAssetId;
     readonly fun: XcmV1MultiassetFungibility;
   }
 
-  /** @name XcmV1MultiassetAssetId (122) */
+  /** @name XcmV1MultiassetAssetId (119) */
   export interface XcmV1MultiassetAssetId extends Enum {
     readonly isConcrete: boolean;
     readonly asConcrete: XcmV1MultiLocation;
@@ -299,7 +299,7 @@ declare module '@polkadot/types/lookup' {
     readonly asAbstract: Bytes;
   }
 
-  /** @name XcmV1MultiassetFungibility (123) */
+  /** @name XcmV1MultiassetFungibility (120) */
   export interface XcmV1MultiassetFungibility extends Enum {
     readonly isFungible: boolean;
     readonly asFungible: Compact<u128>;
@@ -307,7 +307,7 @@ declare module '@polkadot/types/lookup' {
     readonly asNonFungible: XcmV1MultiassetAssetInstance;
   }
 
-  /** @name XcmV1MultiassetAssetInstance (124) */
+  /** @name XcmV1MultiassetAssetInstance (121) */
   export interface XcmV1MultiassetAssetInstance extends Enum {
     readonly isUndefined: boolean;
     readonly isIndex: boolean;
@@ -324,7 +324,7 @@ declare module '@polkadot/types/lookup' {
     readonly asBlob: Bytes;
   }
 
-  /** @name XcmV2Response (126) */
+  /** @name XcmV2Response (123) */
   export interface XcmV2Response extends Enum {
     readonly isNull: boolean;
     readonly isAssets: boolean;
@@ -335,7 +335,7 @@ declare module '@polkadot/types/lookup' {
     readonly asVersion: u32;
   }
 
-  /** @name XcmV0OriginKind (129) */
+  /** @name XcmV0OriginKind (126) */
   export interface XcmV0OriginKind extends Enum {
     readonly isNative: boolean;
     readonly isSovereignAccount: boolean;
@@ -343,12 +343,12 @@ declare module '@polkadot/types/lookup' {
     readonly isXcm: boolean;
   }
 
-  /** @name XcmDoubleEncoded (130) */
+  /** @name XcmDoubleEncoded (127) */
   export interface XcmDoubleEncoded extends Struct {
     readonly encoded: Bytes;
   }
 
-  /** @name XcmV1MultiassetMultiAssetFilter (131) */
+  /** @name XcmV1MultiassetMultiAssetFilter (128) */
   export interface XcmV1MultiassetMultiAssetFilter extends Enum {
     readonly isDefinite: boolean;
     readonly asDefinite: XcmV1MultiassetMultiAssets;
@@ -356,7 +356,7 @@ declare module '@polkadot/types/lookup' {
     readonly asWild: XcmV1MultiassetWildMultiAsset;
   }
 
-  /** @name XcmV1MultiassetWildMultiAsset (132) */
+  /** @name XcmV1MultiassetWildMultiAsset (129) */
   export interface XcmV1MultiassetWildMultiAsset extends Enum {
     readonly isAll: boolean;
     readonly isAllOf: boolean;
@@ -366,20 +366,20 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV1MultiassetWildFungibility (133) */
+  /** @name XcmV1MultiassetWildFungibility (130) */
   export interface XcmV1MultiassetWildFungibility extends Enum {
     readonly isFungible: boolean;
     readonly isNonFungible: boolean;
   }
 
-  /** @name XcmV2WeightLimit (134) */
+  /** @name XcmV2WeightLimit (131) */
   export interface XcmV2WeightLimit extends Enum {
     readonly isUnlimited: boolean;
     readonly isLimited: boolean;
     readonly asLimited: Compact<u64>;
   }
 
-  /** @name XcmVersionedMultiAssets (136) */
+  /** @name XcmVersionedMultiAssets (133) */
   export interface XcmVersionedMultiAssets extends Enum {
     readonly isV0: boolean;
     readonly asV0: Vec<XcmV0MultiAsset>;
@@ -387,7 +387,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV1: XcmV1MultiassetMultiAssets;
   }
 
-  /** @name XcmV0MultiAsset (138) */
+  /** @name XcmV0MultiAsset (135) */
   export interface XcmV0MultiAsset extends Enum {
     readonly isNone: boolean;
     readonly isAll: boolean;
@@ -431,7 +431,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0MultiLocation (139) */
+  /** @name XcmV0MultiLocation (136) */
   export interface XcmV0MultiLocation extends Enum {
     readonly isNull: boolean;
     readonly isX1: boolean;
@@ -452,7 +452,7 @@ declare module '@polkadot/types/lookup' {
     readonly asX8: ITuple<[XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction]>;
   }
 
-  /** @name XcmV0Junction (140) */
+  /** @name XcmV0Junction (137) */
   export interface XcmV0Junction extends Enum {
     readonly isParent: boolean;
     readonly isParachain: boolean;
@@ -486,7 +486,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmVersionedMultiLocation (141) */
+  /** @name XcmVersionedMultiLocation (138) */
   export interface XcmVersionedMultiLocation extends Enum {
     readonly isV0: boolean;
     readonly asV0: XcmV0MultiLocation;
@@ -494,7 +494,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV1: XcmV1MultiLocation;
   }
 
-  /** @name KusamaRuntimeSessionKeys (241) */
+  /** @name KusamaRuntimeSessionKeys (238) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -504,7 +504,7 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (316) */
+  /** @name KusamaRuntimeOriginCaller (313) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
@@ -519,7 +519,7 @@ declare module '@polkadot/types/lookup' {
     readonly asXcmPallet: PalletXcmOrigin;
   }
 
-  /** @name PalletXcmOrigin (321) */
+  /** @name PalletXcmOrigin (318) */
   export interface PalletXcmOrigin extends Enum {
     readonly isXcm: boolean;
     readonly asXcm: XcmV1MultiLocation;
@@ -527,7 +527,7 @@ declare module '@polkadot/types/lookup' {
     readonly asResponse: XcmV1MultiLocation;
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (379) */
+  /** @name KusamaRuntimeNposCompactSolution24 (376) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -555,7 +555,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PalletXcmCall (511) */
+  /** @name PalletXcmCall (508) */
   export interface PalletXcmCall extends Enum {
     readonly isSend: boolean;
     readonly asSend: {
@@ -616,7 +616,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmVersionedXcm (512) */
+  /** @name XcmVersionedXcm (509) */
   export interface XcmVersionedXcm extends Enum {
     readonly isV0: boolean;
     readonly asV0: XcmV0Xcm;
@@ -626,7 +626,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV2: XcmV2Xcm;
   }
 
-  /** @name XcmV0Xcm (513) */
+  /** @name XcmV0Xcm (510) */
   export interface XcmV0Xcm extends Enum {
     readonly isWithdrawAsset: boolean;
     readonly asWithdrawAsset: {
@@ -688,7 +688,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0Order (515) */
+  /** @name XcmV0Order (512) */
   export interface XcmV0Order extends Enum {
     readonly isNull: boolean;
     readonly isDepositAsset: boolean;
@@ -735,13 +735,13 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV0Response (517) */
+  /** @name XcmV0Response (514) */
   export interface XcmV0Response extends Enum {
     readonly isAssets: boolean;
     readonly asAssets: Vec<XcmV0MultiAsset>;
   }
 
-  /** @name XcmV1Xcm (518) */
+  /** @name XcmV1Xcm (515) */
   export interface XcmV1Xcm extends Enum {
     readonly isWithdrawAsset: boolean;
     readonly asWithdrawAsset: {
@@ -809,7 +809,7 @@ declare module '@polkadot/types/lookup' {
     readonly isUnsubscribeVersion: boolean;
   }
 
-  /** @name XcmV1Order (520) */
+  /** @name XcmV1Order (517) */
   export interface XcmV1Order extends Enum {
     readonly isNoop: boolean;
     readonly isDepositAsset: boolean;
@@ -858,7 +858,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmV1Response (522) */
+  /** @name XcmV1Response (519) */
   export interface XcmV1Response extends Enum {
     readonly isAssets: boolean;
     readonly asAssets: XcmV1MultiassetMultiAssets;
@@ -866,7 +866,7 @@ declare module '@polkadot/types/lookup' {
     readonly asVersion: u32;
   }
 
-  /** @name PalletXcmQueryStatus (690) */
+  /** @name PalletXcmQueryStatus (687) */
   export interface PalletXcmQueryStatus extends Enum {
     readonly isPending: boolean;
     readonly asPending: {
@@ -886,7 +886,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
   }
 
-  /** @name XcmVersionedResponse (693) */
+  /** @name XcmVersionedResponse (690) */
   export interface XcmVersionedResponse extends Enum {
     readonly isV0: boolean;
     readonly asV0: XcmV0Response;
@@ -896,7 +896,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV2: XcmV2Response;
   }
 
-  /** @name PalletXcmVersionMigrationStage (699) */
+  /** @name PalletXcmVersionMigrationStage (696) */
   export interface PalletXcmVersionMigrationStage extends Enum {
     readonly isMigrateSupportedVersion: boolean;
     readonly isMigrateVersionNotifiers: boolean;
@@ -905,7 +905,7 @@ declare module '@polkadot/types/lookup' {
     readonly isMigrateAndNotifyOldTargets: boolean;
   }
 
-  /** @name PalletXcmError (700) */
+  /** @name PalletXcmError (697) */
   export interface PalletXcmError extends Enum {
     readonly isUnreachable: boolean;
     readonly isSendFailure: boolean;
@@ -922,7 +922,7 @@ declare module '@polkadot/types/lookup' {
     readonly isAlreadySubscribed: boolean;
   }
 
-  /** @name KusamaRuntimeRuntime (711) */
+  /** @name KusamaRuntimeRuntime (708) */
   export type KusamaRuntimeRuntime = Null;
 
 }

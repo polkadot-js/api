@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
 ## 6.9.2 Nov 22, 2021
 
 Upgrade priority: Medium. Pulls in `@polkadot/util-crypto` fix for TS projects.
