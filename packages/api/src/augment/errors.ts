@@ -1172,7 +1172,9 @@ declare module '@polkadot/api/types/errors' {
        **/
       IncorrectSlashingSpans: AugmentedError<ApiType>;
       /**
-       * Can not bond with value less than minimum required.
+       * Cannot have a validator or nominator role, with value less than the minimum defined by
+       * governance (see `MinValidatorBond` and `MinNominatorBond`). If unbonding is the
+       * intention, `chill` first to remove one's role as validator/nominator.
        **/
       InsufficientBond: AugmentedError<ApiType>;
       /**

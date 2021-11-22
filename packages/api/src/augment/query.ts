@@ -169,7 +169,7 @@ declare module '@polkadot/api/types/storage' {
     };
     bagsList: {
       /**
-       * How many ids are registered.
+       * Counter for the related counted storage map
        **/
       counterForListNodes: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**

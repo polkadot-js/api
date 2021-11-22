@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup74: kusama_runtime::ProxyType
+   * Lookup71: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   },
   /**
-   * Lookup107: pallet_xcm::pallet::Event<T>
+   * Lookup104: pallet_xcm::pallet::Event<T>
    **/
   PalletXcmEvent: {
     _enum: {
@@ -34,14 +34,14 @@ export default {
     }
   },
   /**
-   * Lookup108: xcm::v1::multilocation::MultiLocation
+   * Lookup105: xcm::v1::multilocation::MultiLocation
    **/
   XcmV1MultiLocation: {
     parents: 'u8',
     interior: 'XcmV1MultilocationJunctions'
   },
   /**
-   * Lookup109: xcm::v1::multilocation::Junctions
+   * Lookup106: xcm::v1::multilocation::Junctions
    **/
   XcmV1MultilocationJunctions: {
     _enum: {
@@ -57,7 +57,7 @@ export default {
     }
   },
   /**
-   * Lookup110: xcm::v1::junction::Junction
+   * Lookup107: xcm::v1::junction::Junction
    **/
   XcmV1Junction: {
     _enum: {
@@ -85,7 +85,7 @@ export default {
     }
   },
   /**
-   * Lookup112: xcm::v0::junction::NetworkId
+   * Lookup109: xcm::v0::junction::NetworkId
    **/
   XcmV0JunctionNetworkId: {
     _enum: {
@@ -96,7 +96,7 @@ export default {
     }
   },
   /**
-   * Lookup114: xcm::v0::junction::BodyId
+   * Lookup111: xcm::v0::junction::BodyId
    **/
   XcmV0JunctionBodyId: {
     _enum: {
@@ -110,7 +110,7 @@ export default {
     }
   },
   /**
-   * Lookup115: xcm::v0::junction::BodyPart
+   * Lookup112: xcm::v0::junction::BodyPart
    **/
   XcmV0JunctionBodyPart: {
     _enum: {
@@ -133,11 +133,11 @@ export default {
     }
   },
   /**
-   * Lookup116: xcm::v2::Xcm<Call>
+   * Lookup113: xcm::v2::Xcm<Call>
    **/
   XcmV2Xcm: 'Vec<XcmV2Instruction>',
   /**
-   * Lookup118: xcm::v2::Instruction<Call>
+   * Lookup115: xcm::v2::Instruction<Call>
    **/
   XcmV2Instruction: {
     _enum: {
@@ -235,18 +235,18 @@ export default {
     }
   },
   /**
-   * Lookup119: xcm::v1::multiasset::MultiAssets
+   * Lookup116: xcm::v1::multiasset::MultiAssets
    **/
   XcmV1MultiassetMultiAssets: 'Vec<XcmV1MultiAsset>',
   /**
-   * Lookup121: xcm::v1::multiasset::MultiAsset
+   * Lookup118: xcm::v1::multiasset::MultiAsset
    **/
   XcmV1MultiAsset: {
     id: 'XcmV1MultiassetAssetId',
     fun: 'XcmV1MultiassetFungibility'
   },
   /**
-   * Lookup122: xcm::v1::multiasset::AssetId
+   * Lookup119: xcm::v1::multiasset::AssetId
    **/
   XcmV1MultiassetAssetId: {
     _enum: {
@@ -255,7 +255,7 @@ export default {
     }
   },
   /**
-   * Lookup123: xcm::v1::multiasset::Fungibility
+   * Lookup120: xcm::v1::multiasset::Fungibility
    **/
   XcmV1MultiassetFungibility: {
     _enum: {
@@ -264,7 +264,7 @@ export default {
     }
   },
   /**
-   * Lookup124: xcm::v1::multiasset::AssetInstance
+   * Lookup121: xcm::v1::multiasset::AssetInstance
    **/
   XcmV1MultiassetAssetInstance: {
     _enum: {
@@ -278,7 +278,7 @@ export default {
     }
   },
   /**
-   * Lookup126: xcm::v2::Response
+   * Lookup123: xcm::v2::Response
    **/
   XcmV2Response: {
     _enum: {
@@ -289,19 +289,19 @@ export default {
     }
   },
   /**
-   * Lookup129: xcm::v0::OriginKind
+   * Lookup126: xcm::v0::OriginKind
    **/
   XcmV0OriginKind: {
     _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
   },
   /**
-   * Lookup130: xcm::double_encoded::DoubleEncoded<T>
+   * Lookup127: xcm::double_encoded::DoubleEncoded<T>
    **/
   XcmDoubleEncoded: {
     encoded: 'Bytes'
   },
   /**
-   * Lookup131: xcm::v1::multiasset::MultiAssetFilter
+   * Lookup128: xcm::v1::multiasset::MultiAssetFilter
    **/
   XcmV1MultiassetMultiAssetFilter: {
     _enum: {
@@ -310,7 +310,7 @@ export default {
     }
   },
   /**
-   * Lookup132: xcm::v1::multiasset::WildMultiAsset
+   * Lookup129: xcm::v1::multiasset::WildMultiAsset
    **/
   XcmV1MultiassetWildMultiAsset: {
     _enum: {
@@ -322,13 +322,13 @@ export default {
     }
   },
   /**
-   * Lookup133: xcm::v1::multiasset::WildFungibility
+   * Lookup130: xcm::v1::multiasset::WildFungibility
    **/
   XcmV1MultiassetWildFungibility: {
     _enum: ['Fungible', 'NonFungible']
   },
   /**
-   * Lookup134: xcm::v2::WeightLimit
+   * Lookup131: xcm::v2::WeightLimit
    **/
   XcmV2WeightLimit: {
     _enum: {
@@ -337,7 +337,7 @@ export default {
     }
   },
   /**
-   * Lookup136: xcm::VersionedMultiAssets
+   * Lookup133: xcm::VersionedMultiAssets
    **/
   XcmVersionedMultiAssets: {
     _enum: {
@@ -346,7 +346,7 @@ export default {
     }
   },
   /**
-   * Lookup138: xcm::v0::multi_asset::MultiAsset
+   * Lookup135: xcm::v0::multi_asset::MultiAsset
    **/
   XcmV0MultiAsset: {
     _enum: {
@@ -385,7 +385,7 @@ export default {
     }
   },
   /**
-   * Lookup139: xcm::v0::multi_location::MultiLocation
+   * Lookup136: xcm::v0::multi_location::MultiLocation
    **/
   XcmV0MultiLocation: {
     _enum: {
@@ -401,7 +401,7 @@ export default {
     }
   },
   /**
-   * Lookup140: xcm::v0::junction::Junction
+   * Lookup137: xcm::v0::junction::Junction
    **/
   XcmV0Junction: {
     _enum: {
@@ -430,7 +430,7 @@ export default {
     }
   },
   /**
-   * Lookup141: xcm::VersionedMultiLocation
+   * Lookup138: xcm::VersionedMultiLocation
    **/
   XcmVersionedMultiLocation: {
     _enum: {
@@ -439,7 +439,7 @@ export default {
     }
   },
   /**
-   * Lookup241: kusama_runtime::SessionKeys
+   * Lookup238: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -450,7 +450,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup316: kusama_runtime::OriginCaller
+   * Lookup313: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -557,7 +557,7 @@ export default {
     }
   },
   /**
-   * Lookup321: pallet_xcm::pallet::Origin
+   * Lookup318: pallet_xcm::pallet::Origin
    **/
   PalletXcmOrigin: {
     _enum: {
@@ -566,7 +566,7 @@ export default {
     }
   },
   /**
-   * Lookup379: kusama_runtime::NposCompactSolution24
+   * Lookup376: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -595,7 +595,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup511: pallet_xcm::pallet::Call<T>
+   * Lookup508: pallet_xcm::pallet::Call<T>
    **/
   PalletXcmCall: {
     _enum: {
@@ -649,7 +649,7 @@ export default {
     }
   },
   /**
-   * Lookup512: xcm::VersionedXcm<Call>
+   * Lookup509: xcm::VersionedXcm<Call>
    **/
   XcmVersionedXcm: {
     _enum: {
@@ -659,7 +659,7 @@ export default {
     }
   },
   /**
-   * Lookup513: xcm::v0::Xcm<Call>
+   * Lookup510: xcm::v0::Xcm<Call>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -713,7 +713,7 @@ export default {
     }
   },
   /**
-   * Lookup515: xcm::v0::order::Order<Call>
+   * Lookup512: xcm::v0::order::Order<Call>
    **/
   XcmV0Order: {
     _enum: {
@@ -756,7 +756,7 @@ export default {
     }
   },
   /**
-   * Lookup517: xcm::v0::Response
+   * Lookup514: xcm::v0::Response
    **/
   XcmV0Response: {
     _enum: {
@@ -764,7 +764,7 @@ export default {
     }
   },
   /**
-   * Lookup518: xcm::v1::Xcm<Call>
+   * Lookup515: xcm::v1::Xcm<Call>
    **/
   XcmV1Xcm: {
     _enum: {
@@ -823,7 +823,7 @@ export default {
     }
   },
   /**
-   * Lookup520: xcm::v1::order::Order<Call>
+   * Lookup517: xcm::v1::order::Order<Call>
    **/
   XcmV1Order: {
     _enum: {
@@ -868,7 +868,7 @@ export default {
     }
   },
   /**
-   * Lookup522: xcm::v1::Response
+   * Lookup519: xcm::v1::Response
    **/
   XcmV1Response: {
     _enum: {
@@ -877,7 +877,7 @@ export default {
     }
   },
   /**
-   * Lookup690: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup687: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -897,7 +897,7 @@ export default {
     }
   },
   /**
-   * Lookup693: xcm::VersionedResponse
+   * Lookup690: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -907,7 +907,7 @@ export default {
     }
   },
   /**
-   * Lookup699: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup696: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -918,13 +918,13 @@ export default {
     }
   },
   /**
-   * Lookup700: pallet_xcm::pallet::Error<T>
+   * Lookup697: pallet_xcm::pallet::Error<T>
    **/
   PalletXcmError: {
     _enum: ['Unreachable', 'SendFailure', 'Filtered', 'UnweighableMessage', 'DestinationNotInvertible', 'Empty', 'CannotReanchor', 'TooManyAssets', 'InvalidOrigin', 'BadVersion', 'BadLocation', 'NoSubscription', 'AlreadySubscribed']
   },
   /**
-   * Lookup711: kusama_runtime::Runtime
+   * Lookup708: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
