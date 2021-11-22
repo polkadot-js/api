@@ -1886,9 +1886,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.63.29":
-  version: 0.63.29
-  resolution: "@polkadot/dev@npm:0.63.29"
+"@polkadot/dev@npm:^0.63.30":
+  version: 0.63.30
+  resolution: "@polkadot/dev@npm:0.63.30"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
@@ -1973,7 +1973,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: ffcc2487eb1bc9744c049427ddf42a78919bf0334857c6f12f27a3cdd22295a51f669df1d3c0f77c4572444ead7cfa491bd06fc67a297b7a49b90818be63480c
+  checksum: 730b0433357bf99f0ea82979995ee95ebc33d550436754c2459e2844cb6beb39643f15fceca42089c3e7715af12a2c034cb1e3bfaa9c869fbd8cbfd6f828c339
   languageName: node
   linkType: hard
 
@@ -8947,7 +8947,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.0
     "@babel/register": ^7.16.0
     "@babel/runtime": ^7.16.3
-    "@polkadot/dev": ^0.63.29
+    "@polkadot/dev": ^0.63.30
     "@polkadot/ts": ^0.4.14
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
