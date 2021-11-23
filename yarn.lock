@@ -2092,6 +2092,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.16.3
     "@polkadot/keyring": ^7.9.2
+    "@polkadot/types-known": 6.9.3-1
     "@polkadot/types-support": 6.9.3-1
     "@polkadot/util": ^7.9.2
     "@polkadot/util-crypto": ^7.9.2
