@@ -34,6 +34,10 @@ describe('decorateConstants', (): void => {
     const [consts] = init(rpcMetadataV10);
 
     // 0x34 removes as the length prefix removed
-    expect(consts.session.dedupKeyPrefix.toHex()).toEqual('0x3a73657373696f6e3a6b657973');
+    expect(
+      // stringToCamel behavior has changed
+      // consts.session.dedupKeyPrefix.toHex()
+      consts.session.dEDUPKEYPREFIX.toHex()
+    ).toEqual('0x3a73657373696f6e3a6b657973');
   });
 });
