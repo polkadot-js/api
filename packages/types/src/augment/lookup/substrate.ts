@@ -3169,7 +3169,7 @@ export default {
     initial: 'Compact<u32>',
     maximum: 'Compact<u32>',
     refcount: 'Compact<u64>',
-    reserved: 'Option<Null>',
+    Reserved: 'Option<Null>',
     code: 'Bytes',
     originalCodeLen: 'u32'
   },
@@ -3179,7 +3179,7 @@ export default {
   PalletContractsStorageRawContractInfo: {
     trieId: 'Bytes',
     codeHash: 'H256',
-    reserved: 'Option<Null>'
+    Reserved: 'Option<Null>'
   },
   /**
    * Lookup412: pallet_contracts::storage::DeletedContract
@@ -3216,14 +3216,14 @@ export default {
    **/
   PalletContractsScheduleInstructionWeights: {
     _alias: {
-      r_if: 'r#if'
+      r_If: 'r#If'
     },
     version: 'u32',
-    i64Const: 'u32',
-    i64Load: 'u32',
-    i64Store: 'u32',
+    i64const: 'u32',
+    i64load: 'u32',
+    i64store: 'u32',
     select: 'u32',
-    r_if: 'u32',
+    r_If: 'u32',
     br: 'u32',
     brIf: 'u32',
     brTable: 'u32',
@@ -3238,45 +3238,45 @@ export default {
     globalSet: 'u32',
     memoryCurrent: 'u32',
     memoryGrow: 'u32',
-    i64Clz: 'u32',
-    i64Ctz: 'u32',
-    i64Popcnt: 'u32',
-    i64Eqz: 'u32',
-    i64Extendsi32: 'u32',
-    i64Extendui32: 'u32',
-    i32Wrapi64: 'u32',
-    i64Eq: 'u32',
-    i64Ne: 'u32',
-    i64Lts: 'u32',
-    i64Ltu: 'u32',
-    i64Gts: 'u32',
-    i64Gtu: 'u32',
-    i64Les: 'u32',
-    i64Leu: 'u32',
-    i64Ges: 'u32',
-    i64Geu: 'u32',
-    i64Add: 'u32',
-    i64Sub: 'u32',
-    i64Mul: 'u32',
-    i64Divs: 'u32',
-    i64Divu: 'u32',
-    i64Rems: 'u32',
-    i64Remu: 'u32',
-    i64And: 'u32',
-    i64Or: 'u32',
-    i64Xor: 'u32',
-    i64Shl: 'u32',
-    i64Shrs: 'u32',
-    i64Shru: 'u32',
-    i64Rotl: 'u32',
-    i64Rotr: 'u32'
+    i64clz: 'u32',
+    i64ctz: 'u32',
+    i64popcnt: 'u32',
+    i64eqz: 'u32',
+    i64extendsi32: 'u32',
+    i64extendui32: 'u32',
+    i32wrapi64: 'u32',
+    i64eq: 'u32',
+    i64ne: 'u32',
+    i64lts: 'u32',
+    i64ltu: 'u32',
+    i64gts: 'u32',
+    i64gtu: 'u32',
+    i64les: 'u32',
+    i64leu: 'u32',
+    i64ges: 'u32',
+    i64geu: 'u32',
+    i64add: 'u32',
+    i64sub: 'u32',
+    i64mul: 'u32',
+    i64divs: 'u32',
+    i64divu: 'u32',
+    i64rems: 'u32',
+    i64remu: 'u32',
+    i64and: 'u32',
+    i64or: 'u32',
+    i64xor: 'u32',
+    i64shl: 'u32',
+    i64shrs: 'u32',
+    i64shru: 'u32',
+    i64rotl: 'u32',
+    i64rotr: 'u32'
   },
   /**
    * Lookup416: pallet_contracts::schedule::HostFnWeights<T>
    **/
   PalletContractsScheduleHostFnWeights: {
     _alias: {
-      r_return: 'r#return'
+      r_Return: 'r#Return'
     },
     caller: 'u64',
     address: 'u64',
@@ -3291,7 +3291,7 @@ export default {
     gas: 'u64',
     input: 'u64',
     inputPerByte: 'u64',
-    r_return: 'u64',
+    r_Return: 'u64',
     returnPerByte: 'u64',
     terminate: 'u64',
     random: 'u64',

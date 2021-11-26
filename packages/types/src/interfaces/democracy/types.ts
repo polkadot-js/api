@@ -29,12 +29,12 @@ export interface AccountVoteStandard extends Struct {
 /** @name Conviction */
 export interface Conviction extends Enum {
   readonly isNone: boolean;
-  readonly isLocked1X: boolean;
-  readonly isLocked2X: boolean;
-  readonly isLocked3X: boolean;
-  readonly isLocked4X: boolean;
-  readonly isLocked5X: boolean;
-  readonly isLocked6X: boolean;
+  readonly isLocked1x: boolean;
+  readonly isLocked2x: boolean;
+  readonly isLocked3x: boolean;
+  readonly isLocked4x: boolean;
+  readonly isLocked5x: boolean;
+  readonly isLocked6x: boolean;
 }
 
 /** @name Delegations */

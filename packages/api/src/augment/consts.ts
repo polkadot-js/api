@@ -741,7 +741,7 @@ declare module '@polkadot/api/types/consts' {
        * that the runtime should know about the prefix in order to make use of it as
        * an identifier of the chain.
        **/
-      ss58Prefix: u16 & AugmentedConst<ApiType>;
+      sS58Prefix: u16 & AugmentedConst<ApiType>;
       /**
        * Get the chain's current version.
        **/

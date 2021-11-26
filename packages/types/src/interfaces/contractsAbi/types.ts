@@ -24,8 +24,8 @@ export interface ContractContractSpec extends Struct {
 
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
-  readonly isBlake2X256: boolean;
-  readonly isSha2X256: boolean;
+  readonly isBlake2x256: boolean;
+  readonly isSha2x256: boolean;
   readonly isKeccak256: boolean;
 }
 

@@ -1374,7 +1374,7 @@ declare module '@polkadot/types/lookup' {
   export interface SpConsensusBabeAllowedSlots extends Enum {
     readonly isPrimarySlots: boolean;
     readonly isPrimaryAndSecondaryPlainSlots: boolean;
-    readonly isPrimaryAndSecondaryVrfSlots: boolean;
+    readonly isPrimaryAndSecondaryVRFSlots: boolean;
   }
 
   /** @name PalletTimestampCall (128) */
@@ -1783,12 +1783,12 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletDemocracyConviction (208) */
   export interface PalletDemocracyConviction extends Enum {
     readonly isNone: boolean;
-    readonly isLocked1X: boolean;
-    readonly isLocked2X: boolean;
-    readonly isLocked3X: boolean;
-    readonly isLocked4X: boolean;
-    readonly isLocked5X: boolean;
-    readonly isLocked6X: boolean;
+    readonly isLocked1x: boolean;
+    readonly isLocked2x: boolean;
+    readonly isLocked3x: boolean;
+    readonly isLocked4x: boolean;
+    readonly isLocked5x: boolean;
+    readonly isLocked6x: boolean;
   }
 
   /** @name PalletCollectiveCall (209) */
@@ -3395,7 +3395,7 @@ declare module '@polkadot/types/lookup' {
     readonly initial: Compact<u32>;
     readonly maximum: Compact<u32>;
     readonly refcount: Compact<u64>;
-    readonly reserved: Option<Null>;
+    readonly Reserved: Option<Null>;
     readonly code: Bytes;
     readonly originalCodeLen: u32;
   }
@@ -3404,7 +3404,7 @@ declare module '@polkadot/types/lookup' {
   export interface PalletContractsStorageRawContractInfo extends Struct {
     readonly trieId: Bytes;
     readonly codeHash: H256;
-    readonly reserved: Option<Null>;
+    readonly Reserved: Option<Null>;
   }
 
   /** @name PalletContractsStorageDeletedContract (412) */
@@ -3437,11 +3437,11 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletContractsScheduleInstructionWeights (415) */
   export interface PalletContractsScheduleInstructionWeights extends Struct {
     readonly version: u32;
-    readonly i64Const: u32;
-    readonly i64Load: u32;
-    readonly i64Store: u32;
+    readonly i64const: u32;
+    readonly i64load: u32;
+    readonly i64store: u32;
     readonly select: u32;
-    readonly r_if: u32;
+    readonly r_If: u32;
     readonly br: u32;
     readonly brIf: u32;
     readonly brTable: u32;
@@ -3456,38 +3456,38 @@ declare module '@polkadot/types/lookup' {
     readonly globalSet: u32;
     readonly memoryCurrent: u32;
     readonly memoryGrow: u32;
-    readonly i64Clz: u32;
-    readonly i64Ctz: u32;
-    readonly i64Popcnt: u32;
-    readonly i64Eqz: u32;
-    readonly i64Extendsi32: u32;
-    readonly i64Extendui32: u32;
-    readonly i32Wrapi64: u32;
-    readonly i64Eq: u32;
-    readonly i64Ne: u32;
-    readonly i64Lts: u32;
-    readonly i64Ltu: u32;
-    readonly i64Gts: u32;
-    readonly i64Gtu: u32;
-    readonly i64Les: u32;
-    readonly i64Leu: u32;
-    readonly i64Ges: u32;
-    readonly i64Geu: u32;
-    readonly i64Add: u32;
-    readonly i64Sub: u32;
-    readonly i64Mul: u32;
-    readonly i64Divs: u32;
-    readonly i64Divu: u32;
-    readonly i64Rems: u32;
-    readonly i64Remu: u32;
-    readonly i64And: u32;
-    readonly i64Or: u32;
-    readonly i64Xor: u32;
-    readonly i64Shl: u32;
-    readonly i64Shrs: u32;
-    readonly i64Shru: u32;
-    readonly i64Rotl: u32;
-    readonly i64Rotr: u32;
+    readonly i64clz: u32;
+    readonly i64ctz: u32;
+    readonly i64popcnt: u32;
+    readonly i64eqz: u32;
+    readonly i64extendsi32: u32;
+    readonly i64extendui32: u32;
+    readonly i32wrapi64: u32;
+    readonly i64eq: u32;
+    readonly i64ne: u32;
+    readonly i64lts: u32;
+    readonly i64ltu: u32;
+    readonly i64gts: u32;
+    readonly i64gtu: u32;
+    readonly i64les: u32;
+    readonly i64leu: u32;
+    readonly i64ges: u32;
+    readonly i64geu: u32;
+    readonly i64add: u32;
+    readonly i64sub: u32;
+    readonly i64mul: u32;
+    readonly i64divs: u32;
+    readonly i64divu: u32;
+    readonly i64rems: u32;
+    readonly i64remu: u32;
+    readonly i64and: u32;
+    readonly i64or: u32;
+    readonly i64xor: u32;
+    readonly i64shl: u32;
+    readonly i64shrs: u32;
+    readonly i64shru: u32;
+    readonly i64rotl: u32;
+    readonly i64rotr: u32;
   }
 
   /** @name PalletContractsScheduleHostFnWeights (416) */
@@ -3505,7 +3505,7 @@ declare module '@polkadot/types/lookup' {
     readonly gas: u64;
     readonly input: u64;
     readonly inputPerByte: u64;
-    readonly r_return: u64;
+    readonly r_Return: u64;
     readonly returnPerByte: u64;
     readonly terminate: u64;
     readonly random: u64;
@@ -3564,7 +3564,7 @@ declare module '@polkadot/types/lookup' {
     readonly isStorageExhausted: boolean;
     readonly isDuplicateContract: boolean;
     readonly isTerminatedInConstructor: boolean;
-    readonly isDebugMessageInvalidUtf8: boolean;
+    readonly isDebugMessageInvalidUTF8: boolean;
     readonly isReentranceDenied: boolean;
   }
 

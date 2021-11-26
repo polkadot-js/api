@@ -1023,7 +1023,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest (553) */
   export interface PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest extends Struct {
     readonly confirmed: bool;
-    readonly age: u32;
+    readonly Age: u32;
     readonly senderDeposit: u128;
     readonly maxMessageSize: u32;
     readonly maxCapacity: u32;

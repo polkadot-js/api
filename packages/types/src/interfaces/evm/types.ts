@@ -36,7 +36,7 @@ export interface ExitError extends Enum {
   readonly isOutOfOffset: boolean;
   readonly isOutOfGas: boolean;
   readonly isOutOfFund: boolean;
-  readonly isPcUnderflow: boolean;
+  readonly isPCUnderflow: boolean;
   readonly isCreateEmpty: boolean;
   readonly isOther: boolean;
   readonly asOther: Text;

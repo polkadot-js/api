@@ -10,7 +10,7 @@ import type { ITuple } from '@polkadot/types/types';
 export interface AllowedSlots extends Enum {
   readonly isPrimarySlots: boolean;
   readonly isPrimaryAndSecondaryPlainSlots: boolean;
-  readonly isPrimaryAndSecondaryVrfSlots: boolean;
+  readonly isPrimaryAndSecondaryVRFSlots: boolean;
 }
 
 /** @name BabeAuthorityWeight */
@@ -72,8 +72,8 @@ export interface RawBabePreDigest extends Enum {
   readonly asPrimary: RawBabePreDigestPrimary;
   readonly isSecondaryPlain: boolean;
   readonly asSecondaryPlain: RawBabePreDigestSecondaryPlain;
-  readonly isSecondaryVrf: boolean;
-  readonly asSecondaryVrf: RawBabePreDigestSecondaryVRF;
+  readonly isSecondaryVRF: boolean;
+  readonly asSecondaryVRF: RawBabePreDigestSecondaryVRF;
 }
 
 /** @name RawBabePreDigestCompat */
