@@ -4,6 +4,7 @@
 
 Changes:
 
+- Fix for HttpProvider init (RPC sections with only subscriptions)
 - Bump static metadata for latest Substrate, Polkadot & Kusama
 
 

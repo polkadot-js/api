@@ -354,8 +354,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const [k, { method, section }] = allKnown[i];
 
       if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
-        delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
-        delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
+        if ((this._rpc as Record<string, Record<string, unknown>>)[section]) {
+          delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
+          delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
+        }
       }
     }
   }
