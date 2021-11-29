@@ -32,7 +32,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // assets
+    };
     authorityDiscovery: {
       /**
        * Keys of the current authority set.
@@ -46,7 +46,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // authorityDiscovery
+    };
     authorship: {
       /**
        * Author of current block.
@@ -64,7 +64,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // authorship
+    };
     babe: {
       /**
        * Current epoch authorities.
@@ -166,7 +166,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // babe
+    };
     bagsList: {
       /**
        * Counter for the related counted storage map
@@ -188,7 +188,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // bagsList
+    };
     balances: {
       /**
        * The balance of an account.
@@ -219,7 +219,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // balances
+    };
     bounties: {
       /**
        * Bounties that have been made.
@@ -241,7 +241,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // bounties
+    };
     contracts: {
       /**
        * The subtrie counter.
@@ -272,7 +272,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // contracts
+    };
     council: {
       /**
        * The current members of the collective. This is stored sorted (just by value).
@@ -302,7 +302,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // council
+    };
     democracy: {
       /**
        * A record of who vetoed what. Maps proposal hash to a possible existent block number
@@ -383,7 +383,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // democracy
+    };
     electionProviderMultiPhase: {
       /**
        * Current phase.
@@ -462,7 +462,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // electionProviderMultiPhase
+    };
     elections: {
       /**
        * The present candidate list. A current member or runner-up can never enter this vector
@@ -500,7 +500,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // elections
+    };
     gilt: {
       /**
        * The currently active gilts, indexed according to the order of creation.
@@ -526,7 +526,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // gilt
+    };
     grandpa: {
       /**
        * The number of changes (both in terms of keys and underlying economic responsibilities)
@@ -560,7 +560,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // grandpa
+    };
     identity: {
       /**
        * Information that is pertinent to identify the entity behind an account.
@@ -592,7 +592,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // identity
+    };
     imOnline: {
       /**
        * For each session index, we keep a mapping of `ValidatorId<T>` to the
@@ -626,7 +626,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // imOnline
+    };
     indices: {
       /**
        * The lookup from index to account.
@@ -636,7 +636,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // indices
+    };
     lottery: {
       /**
        * The calls stored in this pallet to be used in an active lottery if configured
@@ -667,7 +667,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // lottery
+    };
     mmr: {
       /**
        * Hashes of the nodes in the MMR.
@@ -688,7 +688,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // mmr
+    };
     multisig: {
       calls: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Option<ITuple<[Bytes, AccountId32, u128]>>>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
       /**
@@ -699,7 +699,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // multisig
+    };
     offences: {
       /**
        * A vector of reports of the same kind that happened at the same time slot.
@@ -722,7 +722,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // offences
+    };
     proxy: {
       /**
        * The announcements made by the proxy (key).
@@ -737,7 +737,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // proxy
+    };
     randomnessCollectiveFlip: {
       /**
        * Series of block headers from the last 81 blocks that acts as random seed material. This
@@ -749,7 +749,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // randomnessCollectiveFlip
+    };
     recovery: {
       /**
        * Active recovery attempts.
@@ -772,7 +772,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // recovery
+    };
     scheduler: {
       /**
        * Items to be executed, indexed by the block number that they should be executed on.
@@ -792,7 +792,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // scheduler
+    };
     session: {
       /**
        * Current index of the session.
@@ -832,7 +832,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // session
+    };
     society: {
       /**
        * The current bids, stored ordered by the value of the bid.
@@ -903,7 +903,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // society
+    };
     staking: {
       /**
        * The active era information, it holds index and start.
@@ -1132,7 +1132,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // staking
+    };
     sudo: {
       /**
        * The `AccountId` of the sudo key.
@@ -1142,7 +1142,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // sudo
+    };
     system: {
       /**
        * The full account information for a particular account ID.
@@ -1225,7 +1225,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // system
+    };
     technicalCommittee: {
       /**
        * The current members of the collective. This is stored sorted (just by value).
@@ -1255,7 +1255,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // technicalCommittee
+    };
     technicalMembership: {
       /**
        * The current membership, stored as an ordered Vec.
@@ -1269,7 +1269,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // technicalMembership
+    };
     timestamp: {
       /**
        * Did the timestamp get updated in this block?
@@ -1283,7 +1283,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // timestamp
+    };
     tips: {
       /**
        * Simple preimage lookup from the reason's hash to the original data. Again, has an
@@ -1300,7 +1300,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // tips
+    };
     transactionPayment: {
       nextFeeMultiplier: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletTransactionPaymentReleases>, []> & QueryableStorageEntry<ApiType, []>;
@@ -1308,7 +1308,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // transactionPayment
+    };
     transactionStorage: {
       blockTransactions: AugmentedQuery<ApiType, () => Observable<Vec<PalletTransactionStorageTransactionInfo>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -1348,7 +1348,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // transactionStorage
+    };
     treasury: {
       /**
        * Proposal indices that have been approved but not yet awarded.
@@ -1366,7 +1366,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // treasury
+    };
     uniques: {
       /**
        * The assets held by any given account; set out this way so that assets owned by a single
@@ -1397,7 +1397,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // uniques
+    };
     vesting: {
       /**
        * Storage version of the pallet.
@@ -1413,7 +1413,7 @@ declare module '@polkadot/api/types/storage' {
         * Generic query
         **/
       [key: string]: QueryableStorageEntry<ApiType>;
-    }; // vesting
+    };
   } // AugmentedQueries
 
   export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {

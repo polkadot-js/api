@@ -87,7 +87,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // assets
+    };
     bagsList: {
       /**
        * Moved an account from one bag to another.
@@ -97,7 +97,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // bagsList
+    };
     balances: {
       /**
        * A balance was set by root.
@@ -145,7 +145,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // balances
+    };
     bounties: {
       /**
        * A bounty is awarded to a beneficiary.
@@ -179,7 +179,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // bounties
+    };
     contracts: {
       /**
        * A code with the specified hash was removed.
@@ -216,7 +216,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // contracts
+    };
     council: {
       /**
        * A motion was approved by the required threshold.
@@ -252,7 +252,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // council
+    };
     democracy: {
       /**
        * A proposal_hash has been blacklisted permanently.
@@ -326,7 +326,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // democracy
+    };
     electionProviderMultiPhase: {
       /**
        * The election has been finalized, with `Some` of the given computation, or else if the
@@ -362,7 +362,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // electionProviderMultiPhase
+    };
     elections: {
       /**
        * A candidate was slashed by amount due to failing to obtain a seat as member or
@@ -405,7 +405,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // elections
+    };
     gilt: {
       /**
        * A bid was successfully placed.
@@ -427,7 +427,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // gilt
+    };
     grandpa: {
       /**
        * New authority set has been applied.
@@ -445,7 +445,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // grandpa
+    };
     identity: {
       /**
        * A name was cleared, and the given balance returned.
@@ -492,7 +492,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // identity
+    };
     imOnline: {
       /**
        * At the end of the session, no offence was committed.
@@ -510,7 +510,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // imOnline
+    };
     indices: {
       /**
        * A account index was assigned.
@@ -528,7 +528,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // indices
+    };
     lottery: {
       /**
        * A new set of calls have been set!
@@ -550,7 +550,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // lottery
+    };
     multisig: {
       /**
        * A multisig operation has been approved by someone.
@@ -572,7 +572,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // multisig
+    };
     offences: {
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
@@ -584,7 +584,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // offences
+    };
     proxy: {
       /**
        * An announcement was placed to make a call in the future.
@@ -607,7 +607,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // proxy
+    };
     recovery: {
       /**
        * Lost account has been successfully recovered by rescuer account.
@@ -637,7 +637,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // recovery
+    };
     scheduler: {
       /**
        * Canceled some task. \[when, index\]
@@ -655,7 +655,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // scheduler
+    };
     session: {
       /**
        * New session has happened. Note that the argument is the session index, not the
@@ -666,7 +666,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // session
+    };
     society: {
       /**
        * A \[candidate\] was dropped (due to an excess of bids in the system).
@@ -740,7 +740,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // society
+    };
     staking: {
       /**
        * An account has bonded this amount. \[stash, amount\]
@@ -803,7 +803,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // staking
+    };
     sudo: {
       /**
        * The \[sudoer\] just switched identity; the old key is supplied.
@@ -821,7 +821,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // sudo
+    };
     system: {
       /**
        * `:code` was updated.
@@ -851,7 +851,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // system
+    };
     technicalCommittee: {
       /**
        * A motion was approved by the required threshold.
@@ -887,7 +887,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // technicalCommittee
+    };
     technicalMembership: {
       /**
        * Phantom member, never used.
@@ -917,7 +917,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // technicalMembership
+    };
     tips: {
       /**
        * A new tip suggestion has been opened.
@@ -943,7 +943,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // tips
+    };
     transactionStorage: {
       /**
        * Storage proof was successfully checked.
@@ -961,7 +961,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // transactionStorage
+    };
     treasury: {
       /**
        * Some funds have been allocated. \[proposal_index, award, beneficiary\]
@@ -996,7 +996,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // treasury
+    };
     uniques: {
       /**
        * An approval for a `delegate` account to transfer the `instance` of an asset `class` was
@@ -1092,7 +1092,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // uniques
+    };
     utility: {
       /**
        * Batch of dispatches completed fully with no error.
@@ -1115,7 +1115,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // utility
+    };
     vesting: {
       /**
        * An \[account\] has become fully vested.
@@ -1130,7 +1130,7 @@ declare module '@polkadot/api/types/events' {
         * Generic event
         **/
       [key: string]: AugmentedEvent<ApiType>;
-    }; // vesting
+    };
   } // AugmentedEvents
 
   export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {

@@ -420,7 +420,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // assets
+    };
     authorship: {
       /**
        * Provide a set of uncles.
@@ -430,7 +430,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // authorship
+    };
     babe: {
       /**
        * Plan an epoch config change. The epoch config change is recorded and will be enacted on
@@ -461,7 +461,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // babe
+    };
     bagsList: {
       /**
        * Declare that some `dislocated` account has, through rewards or penalties, sufficiently
@@ -478,7 +478,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // bagsList
+    };
     balances: {
       /**
        * Exactly as `transfer`, except the origin must be root and the source account may be
@@ -585,7 +585,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // balances
+    };
     bounties: {
       /**
        * Accept the curator role for a bounty.
@@ -711,7 +711,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // bounties
+    };
     contracts: {
       /**
        * Makes a call to an account, optionally transferring some balance.
@@ -760,7 +760,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // contracts
+    };
     council: {
       /**
        * Close a vote that is either approved, disapproved or whose voting period has ended.
@@ -915,7 +915,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // council
+    };
     democracy: {
       /**
        * Permanently place a proposal into the blacklist. This prevents it from ever being
@@ -1251,7 +1251,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // democracy
+    };
     electionProviderMultiPhase: {
       /**
        * Set a solution in the queue, to be handed out to the client of this pallet in the next
@@ -1309,7 +1309,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // electionProviderMultiPhase
+    };
     elections: {
       /**
        * Clean all voters who are defunct (i.e. they do not serve any purpose at all). The
@@ -1418,7 +1418,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // elections
+    };
     gilt: {
       /**
        * Place a bid for a gilt to be issued.
@@ -1469,7 +1469,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // gilt
+    };
     grandpa: {
       /**
        * Note that the current authority set of the GRANDPA finality gadget has
@@ -1504,7 +1504,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // grandpa
+    };
     identity: {
       /**
        * Add a registrar to the system.
@@ -1771,7 +1771,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // identity
+    };
     imOnline: {
       /**
        * # <weight>
@@ -1789,7 +1789,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // imOnline
+    };
     indices: {
       /**
        * Assign an previously unassigned index.
@@ -1905,7 +1905,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // indices
+    };
     lottery: {
       /**
        * Buy a ticket to enter the lottery.
@@ -1954,7 +1954,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // lottery
+    };
     multisig: {
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
@@ -2094,7 +2094,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // multisig
+    };
     proxy: {
       /**
        * Register a proxy account for the sender that is able to make calls on its behalf.
@@ -2292,7 +2292,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // proxy
+    };
     recovery: {
       /**
        * Send a call through a recovered account.
@@ -2496,7 +2496,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // recovery
+    };
     scheduler: {
       /**
        * Cancel an anonymously scheduled task.
@@ -2570,7 +2570,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // scheduler
+    };
     session: {
       /**
        * Removes any session key(s) of the function caller.
@@ -2612,7 +2612,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // session
+    };
     society: {
       /**
        * A user outside of the society can make a bid for entry.
@@ -2939,7 +2939,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // society
+    };
     staking: {
       /**
        * Take the origin account as a stash and lock up `value` of its balance. `controller` will
@@ -3352,7 +3352,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // staking
+    };
     sudo: {
       /**
        * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo
@@ -3411,7 +3411,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // sudo
+    };
     system: {
       /**
        * A dispatch that will fill the block weight up to the given ratio.
@@ -3513,7 +3513,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // system
+    };
     technicalCommittee: {
       /**
        * Close a vote that is either approved, disapproved or whose voting period has ended.
@@ -3668,7 +3668,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // technicalCommittee
+    };
     technicalMembership: {
       /**
        * Add a member `who` to the set.
@@ -3721,7 +3721,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // technicalMembership
+    };
     timestamp: {
       /**
        * Set the current time.
@@ -3746,7 +3746,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // timestamp
+    };
     tips: {
       /**
        * Close and payout a tip.
@@ -3882,7 +3882,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // tips
+    };
     transactionStorage: {
       /**
        * Check storage proof for block number `block_number() - StoragePeriod`.
@@ -3918,7 +3918,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // transactionStorage
+    };
     treasury: {
       /**
        * Approve a proposal. At a later time, the proposal will be allocated to the beneficiary
@@ -3961,7 +3961,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // treasury
+    };
     uniques: {
       /**
        * Approve an instance to be transferred by a delegated third-party account.
@@ -4332,7 +4332,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // uniques
+    };
     utility: {
       /**
        * Send a call through an indexed pseudonym of the sender.
@@ -4406,7 +4406,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // utility
+    };
     vesting: {
       /**
        * Force a vested transfer.
@@ -4511,7 +4511,7 @@ declare module '@polkadot/api/types/submittable' {
         * Generic tx
         **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    }; // vesting
+    };
   } // AugmentedSubmittables
 
   export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
