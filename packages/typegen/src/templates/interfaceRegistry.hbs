@@ -1,8 +1,8 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/types/types/registry' {
+  {{{ imports }}}
+
   export interface InterfaceTypes {
     {{#each items}}
     {{{this}}}: {{{this}}};

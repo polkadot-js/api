@@ -15,9 +15,6 @@ import type { Codec, Constructor } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
 import type { DetectCodec, DetectConstructor } from './detect';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface InterfaceTypes { }
-
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
 export interface ChainUpgradeVersion {

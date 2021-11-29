@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { InterfaceTypes } from '@polkadot/types/types';
 import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Result, Struct, U8aFixed, Vec, VecFixed } from '../codec';
 import type { Bytes, Null, u8 } from '../primitive';
 import type { Codec, Constructor } from './codec';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
-import type { InterfaceTypes } from './registry';
 
 export type DetectCodec<T extends Codec, K extends string> =
   // This is weird - it looks the wrong way around (i.e. T check should be done first), however
