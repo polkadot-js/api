@@ -4,7 +4,7 @@
 
 Changes:
 
-- Adjust augmetation interface consistency with top-level declarations
+- Adjust augmentation interface consistency with top-level declarations
 
 
 ## 6.10.1 Nov 29, 2021
