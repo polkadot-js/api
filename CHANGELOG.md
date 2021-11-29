@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.10.1 Nov 29, 2021
+
+Upgrade priority: Low. Recommended for users of `HttpProvider` and for chains generating types using TS augmentation.
 
 Changes:
 
