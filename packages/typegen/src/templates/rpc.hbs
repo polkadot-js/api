@@ -10,7 +10,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       {{> docs}}
       {{{name}}}: AugmentedRpc<{{#if generic}}<{{{generic}}}>{{/if}}({{{args}}}) => Observable<{{{type}}}>>;
       {{/each}}
-    }; // {{{name}}}
+    };
     {{/each}}
   } // RpcInterface
 
