@@ -1,9 +1,9 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/api/types/consts' {
-  export interface AugmentedConsts<ApiType> {
+  {{{ imports }}}
+
+  export interface AugmentedConsts<ApiType  extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -18,12 +18,12 @@ declare module '@polkadot/api/types/consts' {
       {{/unless}}
     };
     {{/each}}
-  }
+  } // AugmentedConsts
 
   export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
     {{#unless isStrict}}
     [key: string]: QueryableModuleConsts;
     {{/unless}}
-  }
-}
-{{> footer }}
+  } // QueryableConsts
+
+} // declare module

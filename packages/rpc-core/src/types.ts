@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Codec, DefinitionRpc } from '@polkadot/types/types';
 
-export * from './types.jsonrpc';
+export * from '@polkadot/rpc-core/types.jsonrpc';
 
 export interface RpcInterfaceMethod {
   <T extends Codec> (...params: unknown[]): Observable<T>;

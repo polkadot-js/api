@@ -4,7 +4,6 @@
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Callback, DefinitionRpc } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
 export interface RpcRxResult<F extends AnyFunction> extends RxResult<F> {
@@ -31,3 +30,8 @@ export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
+
+export type AugmentedRpc<F extends AnyFunction> = F & {
+  raw: <T> (...params: Parameters<F>) => Observable<T>;
+  meta: DefinitionRpc;
+};

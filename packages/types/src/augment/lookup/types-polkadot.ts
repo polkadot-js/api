@@ -2,11 +2,10 @@
 /* eslint-disable */
 
 declare module '@polkadot/types/lookup' {
-
-import type { BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
-import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
+  import type { BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
+  import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
+  import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
+  import type { ITuple } from '@polkadot/types/types';
 
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (62) */
   export interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
@@ -1183,4 +1182,4 @@ import type { ITuple } from '@polkadot/types/types';
   /** @name PolkadotRuntimeRuntime (589) */
   export type PolkadotRuntimeRuntime = Null;
 
-}
+} // declare module

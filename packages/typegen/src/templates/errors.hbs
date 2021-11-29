@@ -1,9 +1,9 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/api/types/errors' {
-  export interface AugmentedErrors<ApiType> {
+  {{{ imports }}}
+
+  export interface AugmentedErrors<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -18,12 +18,12 @@ declare module '@polkadot/api/types/errors' {
       {{/unless}}
     };
     {{/each}}
-  }
+  } // AugmentedErrors
 
   export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
     {{#unless isStrict}}
     [key: string]: ModuleErrors<ApiType>;
     {{/unless}}
-  }
-}
-{{> footer }}
+  } // DecoratedErrors
+
+} // declare module

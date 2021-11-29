@@ -2,12 +2,11 @@
 /* eslint-disable */
 
 declare module '@polkadot/types/lookup' {
-
-import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Result, Set, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
-import type { Vote } from '@polkadot/types/interfaces/elections';
-import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { Event } from '@polkadot/types/interfaces/system';
-import type { ITuple } from '@polkadot/types/types';
+  import type { BTreeMap, Bytes, Compact, Data, Enum, Null, Option, Result, Set, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
+  import type { Vote } from '@polkadot/types/interfaces/elections';
+  import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+  import type { Event } from '@polkadot/types/interfaces/system';
+  import type { ITuple } from '@polkadot/types/types';
 
   /** @name FrameSystemAccountInfo (3) */
   export interface FrameSystemAccountInfo extends Struct {
@@ -4101,4 +4100,4 @@ import type { ITuple } from '@polkadot/types/types';
   /** @name NodeRuntimeRuntime (524) */
   export type NodeRuntimeRuntime = Null;
 
-}
+} // declare module

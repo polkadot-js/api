@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Struct, bool, u32, u64, u8 } from '@polkadot/types';
-import type { AccountId, BalanceOf } from '@polkadot/types/interfaces/runtime';
+  import type { AccountId, BalanceOf } from '@polkadot/types/interfaces/runtime';
 
 /** @name AssetApproval */
 export interface AssetApproval extends Struct {

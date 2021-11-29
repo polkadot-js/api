@@ -4,6 +4,10 @@
 // augment the registry
 import '@polkadot/types/augment';
 
+// used inside augmented definitions
+export type { Observable } from 'rxjs';
+export * from '@polkadot/types/types/registry';
+
 export * from '../create/types';
 export * from './calls';
 export * from './codec';
@@ -13,6 +17,3 @@ export * from './events';
 export * from './extrinsic';
 export * from './interfaces';
 export * from './registry';
-
-// used inside augmented definitions
-export type { Observable } from 'rxjs';

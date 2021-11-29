@@ -30,7 +30,6 @@ const NO_CODEC = ['Tuple', 'VecFixed'];
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
 Handlebars.registerPartial({
-  footer: Handlebars.compile(readTemplate('footer')),
   header: Handlebars.compile(readTemplate('header'))
 });
 
@@ -57,7 +56,7 @@ Handlebars.registerHelper({
 
     return [...defs].sort((a, b) => a.file.localeCompare(b.file)).reduce((result, { file, types }): string => {
       return types.length
-        ? `${result}import type { ${types.sort().join(', ')} } from '${file}';\n`
+        ? `${result}${result.length ? '  ' : ''}import type { ${types.sort().join(', ')} } from '${file}';\n`
         : result;
     }, '');
   },

@@ -1,10 +1,14 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Augment the modules
 import '@polkadot/api/augment';
 
 import type { Observable } from 'rxjs';
+import type { QueryableConsts } from '@polkadot/api/types/consts';
+import type { DecoratedErrors } from '@polkadot/api/types/errors';
+import type { DecoratedEvents } from '@polkadot/api/types/events';
+import type { QueryableStorage } from '@polkadot/api/types/storage';
+import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
 import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
@@ -16,14 +20,17 @@ import type { BN } from '@polkadot/util';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
 import type { ApiTypes } from './base';
-import type { QueryableConsts } from './consts';
-import type { DecoratedErrors } from './errors';
-import type { DecoratedEvents } from './events';
 import type { DecoratedRpc } from './rpc';
-import type { QueryableStorage, QueryableStorageMulti } from './storage';
-import type { SubmittableExtrinsics } from './submittable';
+import type { QueryableStorageMulti } from './storage';
 
+export * from '@polkadot/api/types/consts';
+export * from '@polkadot/api/types/errors';
+export * from '@polkadot/api/types/events';
+export * from '@polkadot/api/types/storage';
+export * from '@polkadot/api/types/submittable';
+export * from '@polkadot/api/types/rpc';
 export { Signer, SignerResult } from '@polkadot/types/types';
+
 export { ApiBase } from '../base';
 export * from '../submittable/types';
 export * from './base';

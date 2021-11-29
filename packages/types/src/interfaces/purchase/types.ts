@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, Struct } from '@polkadot/types';
-import type { Balance, Permill } from '@polkadot/types/interfaces/runtime';
+  import type { Balance, Permill } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountStatus */
 export interface AccountStatus extends Struct {

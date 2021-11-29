@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust augmentation interface consistency with top-level declarations
+
+
 ## 6.10.1 Nov 29, 2021
 
 Upgrade priority: Low. Recommended for users of `HttpProvider` and for chains generating types using TS augmentation.

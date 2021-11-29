@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Struct, bool, u8 } from '@polkadot/types';
-import type { Balance, Perbill } from '@polkadot/types/interfaces/runtime';
+  import type { Balance, Perbill } from '@polkadot/types/interfaces/runtime';
 
 /** @name WeightToFeeCoefficient */
 export interface WeightToFeeCoefficient extends Struct {

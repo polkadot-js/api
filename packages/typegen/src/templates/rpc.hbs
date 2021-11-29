@@ -1,8 +1,8 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/rpc-core/types.jsonrpc' {
+  {{{ imports }}}
+
   export interface RpcInterface {
     {{#each modules}}
     {{{name}}}: {
@@ -12,6 +12,6 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       {{/each}}
     };
     {{/each}}
-  }
-}
-{{> footer }}
+  } // RpcInterface
+
+} // declare module

@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { ApiTypes } from '@polkadot/api/types';
-
 declare module '@polkadot/api/types/errors' {
-  export interface AugmentedErrors<ApiType> {
+  import type { ApiTypes, AugmentedError, ModuleErrors } from '@polkadot/api/types';
+
+  export interface AugmentedErrors<ApiType extends ApiTypes> {
     assets: {
       /**
        * Invalid metadata given.
@@ -1521,9 +1521,10 @@ declare module '@polkadot/api/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-  }
+  } // AugmentedErrors
 
   export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
     [key: string]: ModuleErrors<ApiType>;
-  }
-}
+  } // DecoratedErrors
+
+} // declare module

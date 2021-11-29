@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Struct } from '@polkadot/types';
-import type { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+  import type { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name VestingInfo */
 export interface VestingInfo extends Struct {

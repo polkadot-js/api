@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Enum, Option, Struct, u32 } from '@polkadot/types';
-import type { LeasePeriod } from '@polkadot/types/interfaces/parachains';
-import type { AccountId, Balance, BlockNumber, MultiSigner } from '@polkadot/types/interfaces/runtime';
+  import type { LeasePeriod } from '@polkadot/types/interfaces/parachains';
+  import type { AccountId, Balance, BlockNumber, MultiSigner } from '@polkadot/types/interfaces/runtime';
 
 /** @name FundIndex */
 export interface FundIndex extends u32 {}

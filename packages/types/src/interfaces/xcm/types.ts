@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
-import type { AccountId, BlockNumber, Weight } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
+  import type { AccountId, BlockNumber, Weight } from '@polkadot/types/interfaces/runtime';
+  import type { ITuple } from '@polkadot/types/types';
 
 /** @name AssetInstance */
 export interface AssetInstance extends AssetInstanceV2 {}
