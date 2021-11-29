@@ -56,8 +56,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WouldDie: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     authorship: {
@@ -90,8 +90,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnclesAlreadySet: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     babe: {
@@ -108,8 +108,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       InvalidKeyOwnershipProof: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     balances: {
@@ -146,8 +146,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       VestingBalance: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     bounties: {
@@ -189,8 +189,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     contracts: {
@@ -318,8 +318,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       ValueTooLarge: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     council: {
@@ -364,8 +364,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     democracy: {
@@ -483,8 +483,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongUpperBound: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     electionProviderMultiPhase: {
@@ -533,8 +533,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       SignedTooMuchWeight: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     elections: {
@@ -607,8 +607,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnableToVote: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     gilt: {
@@ -646,8 +646,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       Unknown: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     grandpa: {
@@ -682,8 +682,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooSoon: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     identity: {
@@ -752,8 +752,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManySubAccounts: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     imOnline: {
@@ -766,8 +766,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       InvalidKey: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     indices: {
@@ -792,8 +792,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       Permanent: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     lottery: {
@@ -826,8 +826,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyCalls: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     multisig: {
@@ -888,8 +888,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongTimepoint: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     proxy: {
@@ -926,8 +926,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       Unproxyable: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     recovery: {
@@ -996,8 +996,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       ZeroThreshold: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     scheduler: {
@@ -1018,8 +1018,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TargetBlockNumberInPast: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     session: {
@@ -1044,8 +1044,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       NoKeys: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     society: {
@@ -1122,8 +1122,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       Suspended: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     staking: {
@@ -1224,8 +1224,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyValidators: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     sudo: {
@@ -1234,8 +1234,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       RequireSudo: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     system: {
@@ -1268,8 +1268,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       SpecVersionNeedsToIncrease: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     technicalCommittee: {
@@ -1314,8 +1314,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     technicalMembership: {
@@ -1328,8 +1328,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     tips: {
@@ -1358,8 +1358,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnknownTip: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     transactionStorage: {
@@ -1416,8 +1416,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       UnexpectedProof: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     treasury: {
@@ -1434,8 +1434,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyApprovals: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     uniques: {
@@ -1480,8 +1480,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       WrongOwner: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     utility: {
@@ -1490,8 +1490,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyCalls: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
     vesting: {
@@ -1517,8 +1517,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
     };
   } // AugmentedErrors

@@ -12,8 +12,8 @@ declare module '@polkadot/api/types/errors' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-      * Generic error
-      **/
+       * Generic error
+       **/
       [key: string]: AugmentedError<ApiType>;
       {{/unless}}
     };
