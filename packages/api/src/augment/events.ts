@@ -84,8 +84,8 @@ declare module '@polkadot/api/types/events' {
        **/
       TransferredApproved: AugmentedEvent<ApiType, [u32, AccountId32, AccountId32, AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     bagsList: {
@@ -94,8 +94,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Rebagged: AugmentedEvent<ApiType, [AccountId32, u64, u64]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     balances: {
@@ -142,8 +142,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Withdraw: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     bounties: {
@@ -176,8 +176,8 @@ declare module '@polkadot/api/types/events' {
        **/
       BountyRejected: AugmentedEvent<ApiType, [u32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     contracts: {
@@ -213,8 +213,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Terminated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     council: {
@@ -249,8 +249,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Voted: AugmentedEvent<ApiType, [AccountId32, H256, bool, u32, u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     democracy: {
@@ -323,8 +323,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Vetoed: AugmentedEvent<ApiType, [AccountId32, H256, u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     electionProviderMultiPhase: {
@@ -359,8 +359,8 @@ declare module '@polkadot/api/types/events' {
        **/
       UnsignedPhaseStarted: AugmentedEvent<ApiType, [u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     elections: {
@@ -402,8 +402,8 @@ declare module '@polkadot/api/types/events' {
        **/
       SeatHolderSlashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     gilt: {
@@ -424,8 +424,8 @@ declare module '@polkadot/api/types/events' {
        **/
       GiltThawed: AugmentedEvent<ApiType, [u32, AccountId32, u128, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     grandpa: {
@@ -442,8 +442,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Resumed: AugmentedEvent<ApiType, []>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     identity: {
@@ -489,8 +489,8 @@ declare module '@polkadot/api/types/events' {
        **/
       SubIdentityRevoked: AugmentedEvent<ApiType, [AccountId32, AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     imOnline: {
@@ -507,8 +507,8 @@ declare module '@polkadot/api/types/events' {
        **/
       SomeOffline: AugmentedEvent<ApiType, [Vec<ITuple<[AccountId32, PalletStakingExposure]>>]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     indices: {
@@ -525,8 +525,8 @@ declare module '@polkadot/api/types/events' {
        **/
       IndexFrozen: AugmentedEvent<ApiType, [u32, AccountId32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     lottery: {
@@ -547,8 +547,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Winner: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     multisig: {
@@ -569,8 +569,8 @@ declare module '@polkadot/api/types/events' {
        **/
       NewMultisig: AugmentedEvent<ApiType, [AccountId32, AccountId32, U8aFixed]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     offences: {
@@ -581,8 +581,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Offence: AugmentedEvent<ApiType, [U8aFixed, Bytes]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     proxy: {
@@ -604,8 +604,8 @@ declare module '@polkadot/api/types/events' {
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     recovery: {
@@ -634,8 +634,8 @@ declare module '@polkadot/api/types/events' {
        **/
       RecoveryVouched: AugmentedEvent<ApiType, [AccountId32, AccountId32, AccountId32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     scheduler: {
@@ -652,8 +652,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Scheduled: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     session: {
@@ -663,8 +663,8 @@ declare module '@polkadot/api/types/events' {
        **/
       NewSession: AugmentedEvent<ApiType, [u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     society: {
@@ -737,8 +737,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Vouch: AugmentedEvent<ApiType, [AccountId32, u128, AccountId32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     staking: {
@@ -800,8 +800,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Withdrawn: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     sudo: {
@@ -818,8 +818,8 @@ declare module '@polkadot/api/types/events' {
        **/
       SudoAsDone: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     system: {
@@ -848,8 +848,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Remarked: AugmentedEvent<ApiType, [AccountId32, H256]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     technicalCommittee: {
@@ -884,8 +884,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Voted: AugmentedEvent<ApiType, [AccountId32, H256, bool, u32, u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     technicalMembership: {
@@ -914,8 +914,8 @@ declare module '@polkadot/api/types/events' {
        **/
       MembersSwapped: AugmentedEvent<ApiType, []>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     tips: {
@@ -940,8 +940,8 @@ declare module '@polkadot/api/types/events' {
        **/
       TipSlashed: AugmentedEvent<ApiType, [H256, AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     transactionStorage: {
@@ -958,8 +958,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Stored: AugmentedEvent<ApiType, [u32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     treasury: {
@@ -993,8 +993,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Spending: AugmentedEvent<ApiType, [u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     uniques: {
@@ -1089,8 +1089,8 @@ declare module '@polkadot/api/types/events' {
        **/
       Transferred: AugmentedEvent<ApiType, [u32, u32, AccountId32, AccountId32]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     utility: {
@@ -1112,8 +1112,8 @@ declare module '@polkadot/api/types/events' {
        **/
       ItemCompleted: AugmentedEvent<ApiType, []>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
     vesting: {
@@ -1127,8 +1127,8 @@ declare module '@polkadot/api/types/events' {
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
     };
   } // AugmentedEvents

@@ -32,8 +32,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       stringLimit: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     authorship: {
@@ -44,8 +44,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       uncleGenerations: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     babe: {
@@ -68,8 +68,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maxAuthorities: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     bagsList: {
@@ -120,8 +120,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       bagThresholds: Vec<u64> & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     balances: {
@@ -139,8 +139,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maxReserves: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     bounties: {
@@ -174,8 +174,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     contracts: {
@@ -199,8 +199,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     democracy: {
@@ -261,8 +261,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       votingPeriod: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     electionProviderMultiPhase: {
@@ -346,8 +346,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       voterSnapshotPerBlock: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     elections: {
@@ -385,8 +385,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       votingBondFactor: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     gilt: {
@@ -434,8 +434,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       queueCount: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     grandpa: {
@@ -444,8 +444,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maxAuthorities: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     identity: {
@@ -478,8 +478,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       subAccountDeposit: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     imOnline: {
@@ -491,8 +491,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       unsignedPriority: u64 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     indices: {
@@ -501,8 +501,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       deposit: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     lottery: {
@@ -521,8 +521,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     multisig: {
@@ -546,8 +546,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     proxy: {
@@ -589,8 +589,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       proxyDepositFactor: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     recovery: {
@@ -624,8 +624,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       recoveryDeposit: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     scheduler: {
@@ -640,8 +640,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     society: {
@@ -684,8 +684,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       wrongSideDeduction: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     staking: {
@@ -713,8 +713,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       slashDeferDuration: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     system: {
@@ -747,8 +747,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       version: SpVersionRuntimeVersion & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     timestamp: {
@@ -760,8 +760,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       minimumPeriod: u64 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     tips: {
@@ -786,8 +786,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       tipReportDepositBase: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     transactionPayment: {
@@ -824,8 +824,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       weightToFee: Vec<FrameSupportWeightsWeightToFeeCoefficient> & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     treasury: {
@@ -855,8 +855,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       spendPeriod: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     uniques: {
@@ -894,8 +894,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       valueLimit: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     utility: {
@@ -904,8 +904,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       batchedCallsLimit: u32 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
     vesting: {
@@ -915,8 +915,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       minVestedTransfer: u128 & AugmentedConst<ApiType>;
       /**
-        * Generic const
-        **/
+       * Generic const
+       **/
       [key: string]: Codec;
     };
   } // AugmentedConsts

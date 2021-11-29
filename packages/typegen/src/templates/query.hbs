@@ -12,8 +12,8 @@ declare module '@polkadot/api/types/storage' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
       {{/unless}}
     };

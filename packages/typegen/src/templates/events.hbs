@@ -12,8 +12,8 @@ declare module '@polkadot/api/types/events' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-        * Generic event
-        **/
+       * Generic event
+       **/
       [key: string]: AugmentedEvent<ApiType>;
       {{/unless}}
     };

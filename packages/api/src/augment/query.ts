@@ -29,8 +29,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       metadata: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PalletAssetsAssetMetadata>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     authorityDiscovery: {
@@ -43,8 +43,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       nextKeys: AugmentedQuery<ApiType, () => Observable<Vec<SpAuthorityDiscoveryAppPublic>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     authorship: {
@@ -61,8 +61,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       uncles: AugmentedQuery<ApiType, () => Observable<Vec<PalletAuthorshipUncleEntryItem>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     babe: {
@@ -163,8 +163,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       underConstruction: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<U8aFixed>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     bagsList: {
@@ -185,8 +185,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     balances: {
@@ -216,8 +216,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       totalIssuance: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     bounties: {
@@ -238,8 +238,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       bountyDescriptions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     contracts: {
@@ -269,8 +269,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     council: {
@@ -299,8 +299,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     democracy: {
@@ -380,8 +380,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       votingOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletDemocracyVoteVoting>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     electionProviderMultiPhase: {
@@ -459,8 +459,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       snapshotMetadata: AugmentedQuery<ApiType, () => Observable<Option<PalletElectionProviderMultiPhaseSolutionOrSnapshotSize>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     elections: {
@@ -497,8 +497,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       voting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletElectionsPhragmenVoter>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     gilt: {
@@ -523,8 +523,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       queueTotals: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, u128]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     grandpa: {
@@ -557,8 +557,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       state: AugmentedQuery<ApiType, () => Observable<PalletGrandpaStoredState>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     identity: {
@@ -589,8 +589,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       superOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[AccountId32, Data]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     imOnline: {
@@ -623,8 +623,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       receivedHeartbeats: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     indices: {
@@ -633,8 +633,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       accounts: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId32, u128, bool]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     lottery: {
@@ -664,8 +664,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       ticketsCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     mmr: {
@@ -685,8 +685,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       rootHash: AugmentedQuery<ApiType, () => Observable<H256>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     multisig: {
@@ -696,8 +696,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       multisigs: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: U8aFixed | string | Uint8Array) => Observable<Option<PalletMultisigMultisig>>, [AccountId32, U8aFixed]> & QueryableStorageEntry<ApiType, [AccountId32, U8aFixed]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     offences: {
@@ -719,8 +719,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       reportsByKindIndex: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Bytes>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     proxy: {
@@ -734,8 +734,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       proxies: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyProxyDefinition>, u128]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     randomnessCollectiveFlip: {
@@ -746,8 +746,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       randomMaterial: AugmentedQuery<ApiType, () => Observable<Vec<H256>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     recovery: {
@@ -769,8 +769,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       recoverable: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletRecoveryRecoveryConfig>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     scheduler: {
@@ -789,8 +789,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletSchedulerReleases>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     session: {
@@ -829,8 +829,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       validators: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     society: {
@@ -900,8 +900,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       vouching: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletSocietyVouchingStatus>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     staking: {
@@ -1129,8 +1129,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[Perbill, u128]>>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     sudo: {
@@ -1139,8 +1139,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       key: AugmentedQuery<ApiType, () => Observable<AccountId32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     system: {
@@ -1222,8 +1222,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       upgradedToU32RefCount: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     technicalCommittee: {
@@ -1252,8 +1252,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     technicalMembership: {
@@ -1266,8 +1266,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     timestamp: {
@@ -1280,8 +1280,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       now: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     tips: {
@@ -1297,16 +1297,16 @@ declare module '@polkadot/api/types/storage' {
        **/
       tips: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletTipsOpenTip>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     transactionPayment: {
       nextFeeMultiplier: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletTransactionPaymentReleases>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     transactionStorage: {
@@ -1345,8 +1345,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       transactions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Vec<PalletTransactionStorageTransactionInfo>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     treasury: {
@@ -1363,8 +1363,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       proposals: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletTreasuryProposal>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     uniques: {
@@ -1394,8 +1394,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletUniquesInstanceMetadata>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
     vesting: {
@@ -1410,8 +1410,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Vec<PalletVestingVestingInfo>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
-        * Generic query
-        **/
+       * Generic query
+       **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
   } // AugmentedQueries
