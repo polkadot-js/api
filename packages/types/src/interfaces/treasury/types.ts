@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Enum, Option, Struct, Vec, bool, u32 } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
+  import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+  import type { ITuple } from '@polkadot/types/types';
 
 /** @name Bounty */
 export interface Bounty extends Struct {

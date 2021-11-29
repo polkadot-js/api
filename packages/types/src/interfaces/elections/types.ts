@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Compact, Enum, GenericVote, Struct, u32 } from '@polkadot/types';
-import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+  import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */
 export interface ApprovalFlag extends u32 {}

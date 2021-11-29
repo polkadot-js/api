@@ -1,9 +1,9 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/api/types/submittable' {
-  export interface AugmentedSubmittables<ApiType> {
+  {{{ imports }}}
+
+  export interface AugmentedSubmittables<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -12,19 +12,19 @@ declare module '@polkadot/api/types/submittable' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-       * Generic tx
-       **/
+        * Generic tx
+        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
       {{/unless}}
-    };
+    }; // {{{name}}}
     {{/each}}
-  }
+  } // AugmentedSubmittables
 
   export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
     (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
     {{#unless isStrict}}
     [key: string]: SubmittableModuleExtrinsics<ApiType>;
     {{/unless}}
-  }
-}
-{{> footer }}
+  } // SubmittableExtrinsics
+
+} // declare module

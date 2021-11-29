@@ -5,10 +5,6 @@ import type { IsEvent } from '@polkadot/types/metadata/decorate/types';
 import type { AnyTuple } from '@polkadot/types/types';
 import type { ApiTypes } from './base';
 
-// In events we don't need the ApiType, however add it for consistency
-// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
-export interface AugmentedEvents<ApiType extends ApiTypes> { }
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple> = IsEvent<T>;
 

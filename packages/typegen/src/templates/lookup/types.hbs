@@ -1,12 +1,10 @@
 {{> header }}
 
 declare module '@polkadot/types/lookup' {
+  {{{ imports }}}
 
-{{{ imports }}}
+  {{#each items}}
+  {{{this}}}
 
-{{#each items}}
-{{{this}}}
-
-{{/each}}
-}
-{{> footer }}
+  {{/each}}
+} // declare module

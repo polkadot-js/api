@@ -4,10 +4,6 @@
 import type { IsError } from '@polkadot/types/metadata/decorate/types';
 import type { ApiTypes } from './base';
 
-// In errors we don't need the ApiType, however add it for consistency
-// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
-export interface AugmentedErrors<ApiType extends ApiTypes> { }
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AugmentedError<ApiType extends ApiTypes> = IsError;
 

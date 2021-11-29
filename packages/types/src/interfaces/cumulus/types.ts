@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Struct, U8aFixed, u32, u64 } from '@polkadot/types';
-import type { Weight } from '@polkadot/types/interfaces/runtime';
+  import type { Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name ConfigData */
 export interface ConfigData extends Struct {

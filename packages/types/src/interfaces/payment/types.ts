@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Option, Struct } from '@polkadot/types';
-import type { Balance, Weight } from '@polkadot/types/interfaces/runtime';
-import type { DispatchClass } from '@polkadot/types/interfaces/system';
+  import type { Balance, Weight } from '@polkadot/types/interfaces/runtime';
+  import type { DispatchClass } from '@polkadot/types/interfaces/system';
 
 /** @name FeeDetails */
 export interface FeeDetails extends Struct {

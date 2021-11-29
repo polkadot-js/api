@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Enum, Struct } from '@polkadot/types';
-import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+  import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ProxyAnnouncement */
 export interface ProxyAnnouncement extends Struct {

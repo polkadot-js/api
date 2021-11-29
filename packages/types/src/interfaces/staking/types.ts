@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { BTreeMap, Compact, Enum, Option, Struct, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, Moment, PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
+  import type { AccountId, Balance, BlockNumber, Moment, PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
+  import type { ITuple } from '@polkadot/types/types';
 
 /** @name ActiveEraInfo */
 export interface ActiveEraInfo extends Struct {

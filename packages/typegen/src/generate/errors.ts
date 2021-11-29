@@ -39,7 +39,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
       types: [
         {
           file: '@polkadot/api/types',
-          types: ['ApiTypes']
+          types: ['ApiTypes', 'AugmentedError', 'ModuleErrors']
         }
       ]
     });

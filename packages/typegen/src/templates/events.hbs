@@ -1,9 +1,9 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/api/types/events' {
-  export interface AugmentedEvents<ApiType> {
+  {{{ imports }}}
+
+  export interface AugmentedEvents<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -12,18 +12,18 @@ declare module '@polkadot/api/types/events' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-       * Generic event
-       **/
+        * Generic event
+        **/
       [key: string]: AugmentedEvent<ApiType>;
       {{/unless}}
-    };
+    }; // {{{name}}}
     {{/each}}
-  }
+  } // AugmentedEvents
 
   export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
     {{#unless isStrict}}
     [key: string]: ModuleEvents<ApiType>;
     {{/unless}}
-  }
-}
-{{> footer }}
+  } // DecoratedEvents
+
+} // declare module

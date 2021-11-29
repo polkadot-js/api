@@ -134,7 +134,11 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
           file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
-        }))
+        })),
+        {
+          file: '@polkadot/api/types',
+          types: ['AugmentedRpc']
+        }
       ]
     });
   });

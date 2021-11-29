@@ -31,3 +31,8 @@ export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
+
+export type AugmentedRpc<F extends AnyFunction> = F & {
+  raw: <T> (...params: Parameters<F>) => Observable<T>;
+  meta: DefinitionRpc;
+};

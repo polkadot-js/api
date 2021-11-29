@@ -1,9 +1,9 @@
 {{> header }}
 
-{{{ imports }}}
-
 declare module '@polkadot/api/types/storage' {
-  export interface AugmentedQueries<ApiType> {
+  {{{ imports }}}
+
+  export interface AugmentedQueries<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -12,18 +12,18 @@ declare module '@polkadot/api/types/storage' {
       {{/each}}
       {{#unless @root.isStrict}}
       /**
-       * Generic query
-       **/
+        * Generic query
+        **/
       [key: string]: QueryableStorageEntry<ApiType>;
       {{/unless}}
-    };
+    }; // {{{name}}}
     {{/each}}
-  }
+  } // AugmentedQueries
 
   export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
     {{#unless isStrict}}
     [key: string]: QueryableModuleStorage<ApiType>;
     {{/unless}}
-  }
-}
-{{> footer }}
+  } // QueryableStorage
+
+} // declare module
