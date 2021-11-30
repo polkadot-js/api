@@ -122,7 +122,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
-  const ss58Format = constants.system?.ss58Prefix;
+  const ss58Format = constants.system?.sS58Prefix;
 
   if (!ss58Format) {
     return original;
