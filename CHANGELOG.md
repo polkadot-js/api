@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 6.10.3 Nov 30, 2021
+
+Upgrade priority: Medium. Recommended for 6.10.x users
+
+Changes:
+
+- Fix ss58Prefix extraction
+
+
 ## 6.10.2 Nov 30, 2021
 
 Upgrade priority: Low. Aligns TS augmentation and decoration with older behavior for ALL_CAPS identifiers.
