@@ -35,9 +35,7 @@ describe('decorateConstants', (): void => {
 
     // 0x34 removes as the length prefix removed
     expect(
-      // stringToCamel behavior has changed
-      // consts.session.dedupKeyPrefix.toHex()
-      consts.session.dEDUPKEYPREFIX.toHex()
+      consts.session.dedupKeyPrefix.toHex()
     ).toEqual('0x3a73657373696f6e3a6b657973');
   });
 });
