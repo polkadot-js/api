@@ -3169,7 +3169,7 @@ export default {
     initial: 'Compact<u32>',
     maximum: 'Compact<u32>',
     refcount: 'Compact<u64>',
-    Reserved: 'Option<Null>',
+    reserved: 'Option<Null>',
     code: 'Bytes',
     originalCodeLen: 'u32'
   },
@@ -3179,7 +3179,7 @@ export default {
   PalletContractsStorageRawContractInfo: {
     trieId: 'Bytes',
     codeHash: 'H256',
-    Reserved: 'Option<Null>'
+    reserved: 'Option<Null>'
   },
   /**
    * Lookup412: pallet_contracts::storage::DeletedContract
@@ -3216,14 +3216,14 @@ export default {
    **/
   PalletContractsScheduleInstructionWeights: {
     _alias: {
-      r_If: 'r#If'
+      r_if: 'r#if'
     },
     version: 'u32',
     i64const: 'u32',
     i64load: 'u32',
     i64store: 'u32',
     select: 'u32',
-    r_If: 'u32',
+    r_if: 'u32',
     br: 'u32',
     brIf: 'u32',
     brTable: 'u32',
@@ -3276,7 +3276,7 @@ export default {
    **/
   PalletContractsScheduleHostFnWeights: {
     _alias: {
-      r_Return: 'r#Return'
+      r_return: 'r#return'
     },
     caller: 'u64',
     address: 'u64',
@@ -3291,7 +3291,7 @@ export default {
     gas: 'u64',
     input: 'u64',
     inputPerByte: 'u64',
-    r_Return: 'u64',
+    r_return: 'u64',
     returnPerByte: 'u64',
     terminate: 'u64',
     random: 'u64',

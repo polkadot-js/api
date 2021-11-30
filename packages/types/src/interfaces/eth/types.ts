@@ -378,18 +378,18 @@ export interface TransactionV0 extends LegacyTransaction {}
 export interface TransactionV1 extends Enum {
   readonly isLegacy: boolean;
   readonly asLegacy: LegacyTransaction;
-  readonly isEIP2930: boolean;
-  readonly asEIP2930: EIP2930Transaction;
+  readonly isEip2930: boolean;
+  readonly asEip2930: EIP2930Transaction;
 }
 
 /** @name TransactionV2 */
 export interface TransactionV2 extends Enum {
   readonly isLegacy: boolean;
   readonly asLegacy: LegacyTransaction;
-  readonly isEIP2930: boolean;
-  readonly asEIP2930: EIP2930Transaction;
-  readonly isEIP1559: boolean;
-  readonly asEIP1559: EIP1559Transaction;
+  readonly isEip2930: boolean;
+  readonly asEip2930: EIP2930Transaction;
+  readonly isEip1559: boolean;
+  readonly asEip1559: EIP1559Transaction;
 }
 
 export type PHANTOM_ETH = 'eth';

@@ -5,8 +5,8 @@ import type { Enum } from '@polkadot/types';
 
 /** @name StorageKind */
 export interface StorageKind extends Enum {
-  readonly isPERSISTENT: boolean;
-  readonly isLOCAL: boolean;
+  readonly isPersistent: boolean;
+  readonly isLocal: boolean;
 }
 
 export type PHANTOM_OFFCHAIN = 'offchain';
