@@ -1,10 +1,13 @@
 # CHANGELOG
 
-## master
+## 6.10.2 Nov 30, 2021
+
+Upgrade priority: Low.
 
 Changes:
 
 - Adjust augmentation interface consistency with top-level declarations
+- Bump to `@polkadot/util` 8.0.3 (`stringCamelCase` adjustments)
 
 
 ## 6.10.1 Nov 29, 2021
