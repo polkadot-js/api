@@ -1146,7 +1146,7 @@ export default {
    **/
   PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest: {
     confirmed: 'bool',
-    Age: 'u32',
+    age: 'u32',
     senderDeposit: 'u128',
     maxMessageSize: 'u32',
     maxCapacity: 'u32',

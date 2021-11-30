@@ -1,10 +1,13 @@
 # CHANGELOG
 
-## master
+## 6.10.2 Nov 30, 2021
+
+Upgrade priority: Low. Aligns TS augmentation and decoration with older behavior for ALL_CAPS identifiers.
 
 Changes:
 
 - Adjust augmentation interface consistency with top-level declarations
+- Update `@polkadot/util` to 8.0.4 with adjusted `stringCamelCase`
 
 
 ## 6.10.1 Nov 29, 2021

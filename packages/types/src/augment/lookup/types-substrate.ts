@@ -3394,7 +3394,7 @@ declare module '@polkadot/types/lookup' {
     readonly initial: Compact<u32>;
     readonly maximum: Compact<u32>;
     readonly refcount: Compact<u64>;
-    readonly Reserved: Option<Null>;
+    readonly reserved: Option<Null>;
     readonly code: Bytes;
     readonly originalCodeLen: u32;
   }
@@ -3403,7 +3403,7 @@ declare module '@polkadot/types/lookup' {
   export interface PalletContractsStorageRawContractInfo extends Struct {
     readonly trieId: Bytes;
     readonly codeHash: H256;
-    readonly Reserved: Option<Null>;
+    readonly reserved: Option<Null>;
   }
 
   /** @name PalletContractsStorageDeletedContract (412) */
@@ -3440,7 +3440,7 @@ declare module '@polkadot/types/lookup' {
     readonly i64load: u32;
     readonly i64store: u32;
     readonly select: u32;
-    readonly r_If: u32;
+    readonly r_if: u32;
     readonly br: u32;
     readonly brIf: u32;
     readonly brTable: u32;
@@ -3504,7 +3504,7 @@ declare module '@polkadot/types/lookup' {
     readonly gas: u64;
     readonly input: u64;
     readonly inputPerByte: u64;
-    readonly r_Return: u64;
+    readonly r_return: u64;
     readonly returnPerByte: u64;
     readonly terminate: u64;
     readonly random: u64;
