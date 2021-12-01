@@ -25,12 +25,12 @@
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/types-known": "6.10.3",
-    "@polkadot/util": "^8.0.4",
-    "@polkadot/util-crypto": "^8.0.4",
+    "@polkadot/util": "^8.0.5",
+    "@polkadot/util-crypto": "^8.0.5",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^8.0.4",
+    "@polkadot/keyring": "^8.0.5",
     "@polkadot/types-support": "6.10.3",
     "@types/bn.js": "^4.11.6",
     "bn.js": "^4.12.0"
