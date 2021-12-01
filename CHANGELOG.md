@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align `state_traceBlock` RPC with Substrate
+
+
 ## 6.10.3 Nov 30, 2021
 
 Upgrade priority: Medium. Recommended for 6.10.x users
