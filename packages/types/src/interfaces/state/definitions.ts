@@ -387,6 +387,10 @@ export default {
         {
           name: 'storageKeys',
           type: 'Option<Text>'
+        },
+        {
+          name: 'methods',
+          type: 'Option<Text>'
         }
       ],
       type: 'TraceBlockResponse'
