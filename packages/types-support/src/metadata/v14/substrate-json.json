@@ -159,7 +159,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 9,
-                    "value": 93
+                    "value": 95
                   }
                 },
                 "fallback": "0x00",
@@ -180,7 +180,7 @@
                 "name": "LastRuntimeUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 94
+                  "plain": 96
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -214,7 +214,7 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 91
+                  "plain": 93
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -224,7 +224,7 @@
             ]
           },
           "calls": {
-            "type": 97
+            "type": 99
           },
           "events": {
             "type": 18
@@ -232,7 +232,7 @@
           "constants": [
             {
               "name": "BlockWeights",
-              "type": 102,
+              "type": 104,
               "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
@@ -240,7 +240,7 @@
             },
             {
               "name": "BlockLength",
-              "type": 106,
+              "type": 108,
               "value": "0x00003c000000500000005000",
               "docs": [
                 " The maximum length of a block (in bytes)."
@@ -256,7 +256,7 @@
             },
             {
               "name": "DbWeight",
-              "type": 108,
+              "type": 110,
               "value": "0x40787d010000000000e1f50500000000",
               "docs": [
                 " The weight of runtime database operations the runtime can invoke."
@@ -264,7 +264,7 @@
             },
             {
               "name": "Version",
-              "type": 109,
+              "type": 111,
               "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000c0100000000000034df6acb689907609b0300000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b0100000002000000",
               "docs": [
                 " Get the chain's current version."
@@ -272,7 +272,7 @@
             },
             {
               "name": "SS58Prefix",
-              "type": 74,
+              "type": 76,
               "value": "0x2a00",
               "docs": [
                 " The designated SS85 prefix of this chain.",
@@ -284,7 +284,7 @@
             }
           ],
           "errors": {
-            "type": 114
+            "type": 116
           },
           "index": 0
         },
@@ -292,7 +292,7 @@
           "name": "Utility",
           "storage": null,
           "calls": {
-            "type": 115
+            "type": 117
           },
           "events": {
             "type": 25
@@ -343,7 +343,7 @@
                 "name": "GenesisSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 123
+                  "plain": 125
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -355,7 +355,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 123
+                  "plain": 125
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -386,7 +386,7 @@
                 "name": "PendingEpochConfigChange",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 125
+                  "plain": 127
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -481,7 +481,7 @@
                 "name": "EpochStart",
                 "modifier": "Default",
                 "type": {
-                  "plain": 70
+                  "plain": 72
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -534,7 +534,7 @@
             ]
           },
           "calls": {
-            "type": 118
+            "type": 120
           },
           "events": null,
           "constants": [
@@ -604,7 +604,7 @@
             ]
           },
           "calls": {
-            "type": 128
+            "type": 130
           },
           "events": null,
           "constants": [
@@ -664,7 +664,7 @@
             ]
           },
           "calls": {
-            "type": 130
+            "type": 132
           },
           "events": null,
           "constants": [
@@ -709,7 +709,7 @@
             ]
           },
           "calls": {
-            "type": 132
+            "type": 134
           },
           "events": {
             "type": 28
@@ -815,7 +815,7 @@
             ]
           },
           "calls": {
-            "type": 133
+            "type": 135
           },
           "events": {
             "type": 29
@@ -1010,7 +1010,7 @@
                 "name": "SnapshotMetadata",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 190
+                  "plain": 192
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1081,7 +1081,7 @@
                 "name": "MinimumUntrustedScore",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 189
+                  "plain": 191
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1094,7 +1094,7 @@
             ]
           },
           "calls": {
-            "type": 136
+            "type": 138
           },
           "events": {
             "type": 31
@@ -1118,7 +1118,7 @@
             },
             {
               "name": "SolutionImprovementThreshold",
-              "type": 98,
+              "type": 100,
               "value": "0xa0860100",
               "docs": [
                 " The minimum amount of improvement to the solution score that defines a solution as",
@@ -1338,6 +1338,19 @@
                 ]
               },
               {
+                "name": "MinCommission",
+                "modifier": "Default",
+                "type": {
+                  "plain": 100
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The minimum amount of commission that validators can set.",
+                  "",
+                  " If set to `0`, no limit exists."
+                ]
+              },
+              {
                 "name": "Ledger",
                 "modifier": "Optional",
                 "type": {
@@ -1363,7 +1376,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 196
+                    "value": 198
                   }
                 },
                 "fallback": "0x00",
@@ -1380,7 +1393,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 197
+                    "value": 199
                   }
                 },
                 "fallback": "0x0000",
@@ -1515,7 +1528,7 @@
                       "Twox64Concat"
                     ],
                     "key": 353,
-                    "value": 59
+                    "value": 61
                   }
                 },
                 "fallback": "0x000000",
@@ -1538,7 +1551,7 @@
                       "Twox64Concat"
                     ],
                     "key": 353,
-                    "value": 59
+                    "value": 61
                   }
                 },
                 "fallback": "0x000000",
@@ -1566,7 +1579,7 @@
                       "Twox64Concat"
                     ],
                     "key": 353,
-                    "value": 197
+                    "value": 199
                   }
                 },
                 "fallback": "0x0000",
@@ -1648,7 +1661,7 @@
                 "name": "SlashRewardFraction",
                 "modifier": "Default",
                 "type": {
-                  "plain": 98
+                  "plain": 100
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -1690,7 +1703,7 @@
                 "name": "BondedEras",
                 "modifier": "Default",
                 "type": {
-                  "plain": 93
+                  "plain": 95
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1833,7 +1846,7 @@
                 "name": "ChillThreshold",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 200
+                  "plain": 202
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1845,7 +1858,7 @@
             ]
           },
           "calls": {
-            "type": 195
+            "type": 197
           },
           "events": {
             "type": 35
@@ -1956,7 +1969,7 @@
                 "name": "DisabledValidators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 85
+                  "plain": 87
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1976,7 +1989,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 203
+                    "value": 205
                   }
                 },
                 "fallback": "0x00",
@@ -2004,7 +2017,7 @@
             ]
           },
           "calls": {
-            "type": 202
+            "type": 204
           },
           "events": {
             "type": 36
@@ -2238,7 +2251,7 @@
             ]
           },
           "calls": {
-            "type": 205
+            "type": 207
           },
           "events": {
             "type": 37
@@ -2375,7 +2388,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 117
+                    "value": 119
                   }
                 },
                 "fallback": "0x00",
@@ -2439,7 +2452,7 @@
             "type": 209
           },
           "events": {
-            "type": 40
+            "type": 42
           },
           "constants": [],
           "errors": {
@@ -2472,7 +2485,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 117
+                    "value": 119
                   }
                 },
                 "fallback": "0x00",
@@ -2536,7 +2549,7 @@
             "type": 211
           },
           "events": {
-            "type": 41
+            "type": 43
           },
           "constants": [],
           "errors": {
@@ -2580,7 +2593,7 @@
                 "name": "Candidates",
                 "modifier": "Default",
                 "type": {
-                  "plain": 43
+                  "plain": 45
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2628,12 +2641,12 @@
             "type": 212
           },
           "events": {
-            "type": 42
+            "type": 44
           },
           "constants": [
             {
               "name": "PalletId",
-              "type": 113,
+              "type": 115,
               "value": "0x706872656c656374",
               "docs": [
                 " Identifier for the elections-phragmen pallet's lock"
@@ -2731,7 +2744,7 @@
             "type": 214
           },
           "events": {
-            "type": 45
+            "type": 47
           },
           "constants": [],
           "errors": {
@@ -2781,7 +2794,7 @@
                 "name": "Stalled",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 70
+                  "plain": 72
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2826,7 +2839,7 @@
             "type": 215
           },
           "events": {
-            "type": 46
+            "type": 48
           },
           "constants": [
             {
@@ -2893,7 +2906,7 @@
             "type": 227
           },
           "events": {
-            "type": 51
+            "type": 53
           },
           "constants": [
             {
@@ -3040,7 +3053,7 @@
             "type": 228
           },
           "events": {
-            "type": 52
+            "type": 54
           },
           "constants": [
             {
@@ -3057,7 +3070,7 @@
               "value": "0x00f0436de36a01000000000000000000",
               "docs": [
                 " The deposit that must be placed into the contract's account to instantiate it.",
-                " This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].",
+                " This is in **addition** to the [`Currency::minimum_balance`].",
                 " The minimum balance for a contract's account can be queried using",
                 " [`Pallet::subsistence_threshold`]."
               ]
@@ -3106,7 +3119,7 @@
             "type": 229
           },
           "events": {
-            "type": 53
+            "type": 55
           },
           "constants": [],
           "errors": {
@@ -3160,7 +3173,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 70,
+                    "key": 72,
                     "value": 421
                   }
                 },
@@ -3195,7 +3208,7 @@
             "type": 230
           },
           "events": {
-            "type": 54
+            "type": 56
           },
           "constants": [
             {
@@ -3282,7 +3295,7 @@
                       "Twox64Concat"
                     ],
                     "key": 430,
-                    "value": 92
+                    "value": 94
                   }
                 },
                 "fallback": "0x00",
@@ -3298,7 +3311,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 64,
+                    "key": 66,
                     "value": 10
                   }
                 },
@@ -3316,7 +3329,7 @@
           },
           "calls": null,
           "events": {
-            "type": 63
+            "type": 65
           },
           "constants": [],
           "errors": null,
@@ -3340,7 +3353,7 @@
                 "name": "RandomMaterial",
                 "modifier": "Default",
                 "type": {
-                  "plain": 92
+                  "plain": 94
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3440,7 +3453,7 @@
             "type": 238
           },
           "events": {
-            "type": 65
+            "type": 67
           },
           "constants": [
             {
@@ -3732,7 +3745,7 @@
             "type": 278
           },
           "events": {
-            "type": 66
+            "type": 68
           },
           "constants": [
             {
@@ -3883,7 +3896,7 @@
             "type": 280
           },
           "events": {
-            "type": 67
+            "type": 69
           },
           "constants": [
             {
@@ -3911,7 +3924,7 @@
             },
             {
               "name": "MaxFriends",
-              "type": 74,
+              "type": 76,
               "value": "0x0900",
               "docs": [
                 " The maximum amount of friends allowed in a recovery configuration."
@@ -3978,7 +3991,7 @@
             "type": 281
           },
           "events": {
-            "type": 68
+            "type": 70
           },
           "constants": [
             {
@@ -4032,7 +4045,7 @@
                       "Twox64Concat"
                     ],
                     "key": 10,
-                    "value": 70
+                    "value": 72
                   }
                 },
                 "fallback": "0x00",
@@ -4059,7 +4072,7 @@
             "type": 283
           },
           "events": {
-            "type": 69
+            "type": 71
           },
           "constants": [
             {
@@ -4132,7 +4145,7 @@
             "type": 285
           },
           "events": {
-            "type": 72
+            "type": 74
           },
           "constants": [
             {
@@ -4246,7 +4259,7 @@
             "type": 287
           },
           "events": {
-            "type": 75
+            "type": 77
           },
           "constants": [
             {
@@ -4274,7 +4287,7 @@
             },
             {
               "name": "MaxSignatories",
-              "type": 74,
+              "type": 76,
               "value": "0x6400",
               "docs": [
                 " The maximum amount of signatories allowed in the multisig."
@@ -4340,7 +4353,7 @@
                 "name": "BountyApprovals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 85
+                  "plain": 87
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4353,7 +4366,7 @@
             "type": 290
           },
           "events": {
-            "type": 77
+            "type": 79
           },
           "constants": [
             {
@@ -4410,7 +4423,9 @@
               "type": 4,
               "value": "0x00400000",
               "docs": [
-                " Maximum acceptable reason length."
+                " Maximum acceptable reason length.",
+                "",
+                " Benchmarks depend on this value, be sure to update weights file when changing this value"
               ]
             }
           ],
@@ -4467,7 +4482,7 @@
             "type": 291
           },
           "events": {
-            "type": 78
+            "type": 80
           },
           "constants": [
             {
@@ -4475,7 +4490,9 @@
               "type": 4,
               "value": "0x00400000",
               "docs": [
-                " Maximum acceptable reason length."
+                " Maximum acceptable reason length.",
+                "",
+                " Benchmarks depend on this value, be sure to update weights file when changing this value"
               ]
             },
             {
@@ -4496,7 +4513,7 @@
             },
             {
               "name": "TipFindersFee",
-              "type": 200,
+              "type": 202,
               "value": "0x14",
               "docs": [
                 " The percent of the final tip which goes to the original reporter of the tip."
@@ -4600,7 +4617,7 @@
             "type": 292
           },
           "events": {
-            "type": 79
+            "type": 81
           },
           "constants": [
             {
@@ -4796,7 +4813,7 @@
             "type": 294
           },
           "events": {
-            "type": 80
+            "type": 82
           },
           "constants": [
             {
@@ -4902,7 +4919,7 @@
             "type": 295
           },
           "events": {
-            "type": 82
+            "type": 84
           },
           "constants": [
             {
@@ -5033,7 +5050,7 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 70,
+                    "key": 72,
                     "value": 499
                   }
                 },
@@ -5068,7 +5085,7 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 70,
+                    "key": 72,
                     "value": 501
                   }
                 },
@@ -5102,7 +5119,7 @@
             "type": 298
           },
           "events": {
-            "type": 83
+            "type": 85
           },
           "constants": [
             {
@@ -5297,7 +5314,7 @@
             "type": 301
           },
           "events": {
-            "type": 89
+            "type": 91
           },
           "constants": [],
           "errors": {
@@ -5365,7 +5382,7 @@
             "type": 303
           },
           "events": {
-            "type": 90
+            "type": 92
           },
           "constants": [
             {
