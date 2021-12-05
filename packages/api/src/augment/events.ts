@@ -5,7 +5,7 @@ declare module '@polkadot/api/types/events' {
   import type { ApiTypes, AugmentedEvent, ModuleEvents } from '@polkadot/api/types';
   import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
   import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-  import type { FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/lookup';
+  import type { FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/lookup';
   import type { ITuple } from '@polkadot/types/types';
 
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -307,6 +307,10 @@ declare module '@polkadot/api/types/events' {
        **/
       Proposed: AugmentedEvent<ApiType, [u32, u128]>;
       /**
+       * An account has secconded a proposal
+       **/
+      Seconded: AugmentedEvent<ApiType, [AccountId32, u32]>;
+      /**
        * A referendum has begun.
        **/
       Started: AugmentedEvent<ApiType, [u32, PalletDemocracyVoteThreshold]>;
@@ -322,6 +326,10 @@ declare module '@polkadot/api/types/events' {
        * An external proposal has been vetoed.
        **/
       Vetoed: AugmentedEvent<ApiType, [AccountId32, H256, u32]>;
+      /**
+       * An account has voted in a referendum
+       **/
+      Voted: AugmentedEvent<ApiType, [AccountId32, u32, PalletDemocracyVoteAccountVote]>;
       /**
        * Generic event
        **/
@@ -640,15 +648,15 @@ declare module '@polkadot/api/types/events' {
     };
     scheduler: {
       /**
-       * Canceled some task. \[when, index\]
+       * Canceled some task.
        **/
       Canceled: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * Dispatched some task. \[task, id, result\]
+       * Dispatched some task.
        **/
       Dispatched: AugmentedEvent<ApiType, [ITuple<[u32, u32]>, Option<Bytes>, Result<Null, SpRuntimeDispatchError>]>;
       /**
-       * Scheduled some task. \[when, index\]
+       * Scheduled some task.
        **/
       Scheduled: AugmentedEvent<ApiType, [u32, u32]>;
       /**
@@ -669,41 +677,41 @@ declare module '@polkadot/api/types/events' {
     };
     society: {
       /**
-       * A \[candidate\] was dropped (due to an excess of bids in the system).
+       * A candidate was dropped (due to an excess of bids in the system).
        **/
       AutoUnbid: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * A membership bid just happened. The given account is the candidate's ID and their offer
-       * is the second. \[candidate_id, offer\]
+       * is the second.
        **/
       Bid: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-       * A \[candidate\] has been suspended
+       * A candidate has been suspended
        **/
       CandidateSuspended: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * A \[member\] has been challenged
+       * A member has been challenged
        **/
       Challenged: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * A vote has been placed for a defending member \[voter, vote\]
+       * A vote has been placed for a defending member
        **/
       DefenderVote: AugmentedEvent<ApiType, [AccountId32, bool]>;
       /**
-       * Some funds were deposited into the society account. \[value\]
+       * Some funds were deposited into the society account.
        **/
       Deposit: AugmentedEvent<ApiType, [u128]>;
       /**
-       * The society is founded by the given identity. \[founder\]
+       * The society is founded by the given identity.
        **/
       Founded: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * A group of candidates have been inducted. The batch's primary is the first value, the
-       * batch in full is the second. \[primary, candidates\]
+       * batch in full is the second.
        **/
       Inducted: AugmentedEvent<ApiType, [AccountId32, Vec<AccountId32>]>;
       /**
-       * A \[member\] has been suspended
+       * A member has been suspended
        **/
       MemberSuspended: AugmentedEvent<ApiType, [AccountId32]>;
       /**
@@ -711,29 +719,28 @@ declare module '@polkadot/api/types/events' {
        **/
       NewMaxMembers: AugmentedEvent<ApiType, [u32]>;
       /**
-       * A suspended member has been judged. \[who, judged\]
+       * A suspended member has been judged.
        **/
       SuspendedMemberJudgement: AugmentedEvent<ApiType, [AccountId32, bool]>;
       /**
-       * A \[candidate\] was dropped (by their request).
+       * A candidate was dropped (by their request).
        **/
       Unbid: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * Society is unfounded. \[founder\]
+       * Society is unfounded.
        **/
       Unfounded: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * A \[candidate\] was dropped (by request of who vouched for them).
+       * A candidate was dropped (by request of who vouched for them).
        **/
       Unvouch: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * A vote has been placed \[candidate, voter, vote\]
+       * A vote has been placed
        **/
       Vote: AugmentedEvent<ApiType, [AccountId32, AccountId32, bool]>;
       /**
        * A membership bid just happened by vouching. The given account is the candidate's ID and
-       * their offer is the second. The vouching party is the third. \[candidate_id, offer,
-       * vouching\]
+       * their offer is the second. The vouching party is the third.
        **/
       Vouch: AugmentedEvent<ApiType, [AccountId32, u128, AccountId32]>;
       /**
@@ -828,23 +835,23 @@ declare module '@polkadot/api/types/events' {
        **/
       CodeUpdated: AugmentedEvent<ApiType, []>;
       /**
-       * An extrinsic failed. \[error, info\]
+       * An extrinsic failed.
        **/
       ExtrinsicFailed: AugmentedEvent<ApiType, [SpRuntimeDispatchError, FrameSupportWeightsDispatchInfo]>;
       /**
-       * An extrinsic completed successfully. \[info\]
+       * An extrinsic completed successfully.
        **/
       ExtrinsicSuccess: AugmentedEvent<ApiType, [FrameSupportWeightsDispatchInfo]>;
       /**
-       * An \[account\] was reaped.
+       * An account was reaped.
        **/
       KilledAccount: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * A new \[account\] was created.
+       * A new account was created.
        **/
       NewAccount: AugmentedEvent<ApiType, [AccountId32]>;
       /**
-       * On on-chain remark happened. \[origin, remark_hash\]
+       * On on-chain remark happened.
        **/
       Remarked: AugmentedEvent<ApiType, [AccountId32, H256]>;
       /**
@@ -964,32 +971,31 @@ declare module '@polkadot/api/types/events' {
     };
     treasury: {
       /**
-       * Some funds have been allocated. \[proposal_index, award, beneficiary\]
+       * Some funds have been allocated.
        **/
       Awarded: AugmentedEvent<ApiType, [u32, u128, AccountId32]>;
       /**
-       * Some of our funds have been burnt. \[burn\]
+       * Some of our funds have been burnt.
        **/
       Burnt: AugmentedEvent<ApiType, [u128]>;
       /**
-       * Some funds have been deposited. \[deposit\]
+       * Some funds have been deposited.
        **/
       Deposit: AugmentedEvent<ApiType, [u128]>;
       /**
-       * New proposal. \[proposal_index\]
+       * New proposal.
        **/
       Proposed: AugmentedEvent<ApiType, [u32]>;
       /**
-       * A proposal was rejected; funds were slashed. \[proposal_index, slashed\]
+       * A proposal was rejected; funds were slashed.
        **/
       Rejected: AugmentedEvent<ApiType, [u32, u128]>;
       /**
        * Spending has finished; this is the amount that rolls over until next spend.
-       * \[budget_remaining\]
        **/
       Rollover: AugmentedEvent<ApiType, [u128]>;
       /**
-       * We have ended a spend period and will now allocate funds. \[budget_remaining\]
+       * We have ended a spend period and will now allocate funds.
        **/
       Spending: AugmentedEvent<ApiType, [u128]>;
       /**
@@ -1104,7 +1110,7 @@ declare module '@polkadot/api/types/events' {
        **/
       BatchInterrupted: AugmentedEvent<ApiType, [u32, SpRuntimeDispatchError]>;
       /**
-       * A call was dispatched. \[result\]
+       * A call was dispatched.
        **/
       DispatchedAs: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
       /**

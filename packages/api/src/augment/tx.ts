@@ -504,16 +504,6 @@ declare module '@polkadot/api/types/submittable' {
        * it will reset the account nonce (`frame_system::AccountNonce`).
        * 
        * The dispatch origin for this call is `root`.
-       * 
-       * # <weight>
-       * - Independent of the arguments.
-       * - Contains a limited number of reads and writes.
-       * ---------------------
-       * - Base Weight:
-       * - Creating: 27.56 µs
-       * - Killing: 35.11 µs
-       * - DB Weight: 1 Read, 1 Write to `who`
-       * # </weight>
        **/
       setBalance: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, newFree: Compact<u128> | AnyNumber | Uint8Array, newReserved: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, Compact<u128>]>;
       /**
@@ -541,8 +531,6 @@ declare module '@polkadot/api/types/submittable' {
        * - `transfer_keep_alive` works the same way as `transfer`, but has an additional check
        * that the transfer will not kill the origin account.
        * ---------------------------------
-       * - Base Weight: 73.64 µs, worst case scenario (account created, account removed)
-       * - DB Weight: 1 Read and 1 Write to destination account
        * - Origin account is already in memory, so no DB operations for them.
        * # </weight>
        **/
@@ -574,11 +562,6 @@ declare module '@polkadot/api/types/submittable' {
        * 99% of the time you want [`transfer`] instead.
        * 
        * [`transfer`]: struct.Pallet.html#method.transfer
-       * # <weight>
-       * - Cheaper than transfer because account cannot be killed.
-       * - Base Weight: 51.4 µs
-       * - DB Weight: 1 Read and 1 Write to dest (sender is in overlay already)
-       * #</weight>
        **/
       transferKeepAlive: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
@@ -2500,41 +2483,14 @@ declare module '@polkadot/api/types/submittable' {
     scheduler: {
       /**
        * Cancel an anonymously scheduled task.
-       * 
-       * # <weight>
-       * - S = Number of already scheduled calls
-       * - Base Weight: 22.15 + 2.869 * S µs
-       * - DB Weight:
-       * - Read: Agenda
-       * - Write: Agenda, Lookup
-       * - Will use base weight of 100 which should be good for up to 30 scheduled calls
-       * # </weight>
        **/
       cancel: AugmentedSubmittable<(when: u32 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Cancel a named scheduled task.
-       * 
-       * # <weight>
-       * - S = Number of already scheduled calls
-       * - Base Weight: 24.91 + 2.907 * S µs
-       * - DB Weight:
-       * - Read: Agenda, Lookup
-       * - Write: Agenda, Lookup
-       * - Will use base weight of 100 which should be good for up to 30 scheduled calls
-       * # </weight>
        **/
       cancelNamed: AugmentedSubmittable<(id: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Anonymously schedule a task.
-       * 
-       * # <weight>
-       * - S = Number of already scheduled calls
-       * - Base Weight: 22.29 + .126 * S µs
-       * - DB Weight:
-       * - Read: Agenda
-       * - Write: Agenda
-       * - Will use base weight of 25 which should be good for up to 30 scheduled calls
-       * # </weight>
        **/
       schedule: AugmentedSubmittable<(when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | object | string | Uint8Array, priority: u8 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
@@ -2547,15 +2503,6 @@ declare module '@polkadot/api/types/submittable' {
       scheduleAfter: AugmentedSubmittable<(after: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | object | string | Uint8Array, priority: u8 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
        * Schedule a named task.
-       * 
-       * # <weight>
-       * - S = Number of already scheduled calls
-       * - Base Weight: 29.6 + .159 * S µs
-       * - DB Weight:
-       * - Read: Agenda, Lookup
-       * - Write: Agenda, Lookup
-       * - Will use base weight of 35 which should be good for more than 30 scheduled calls
-       * # </weight>
        **/
       scheduleNamed: AugmentedSubmittable<(id: Bytes | string | Uint8Array, when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | object | string | Uint8Array, priority: u8 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
@@ -3274,7 +3221,7 @@ declare module '@polkadot/api/types/submittable' {
        **/
       setPayee: AugmentedSubmittable<(payee: PalletStakingRewardDestination | { Staked: any } | { Stash: any } | { Controller: any } | { Account: any } | { None: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletStakingRewardDestination]>;
       /**
-       * Update the various staking limits this pallet.
+       * Update the various staking configurations .
        * 
        * * `min_nominator_bond`: The minimum active bond needed to be a nominator.
        * * `min_validator_bond`: The minimum active bond needed to be a validator.
@@ -3282,13 +3229,17 @@ declare module '@polkadot/api/types/submittable' {
        * set to `None`, no limit is enforced.
        * * `max_validator_count`: The max number of users who can be a validator at once. When
        * set to `None`, no limit is enforced.
+       * * `chill_threshold`: The ratio of `max_nominator_count` or `max_validator_count` which
+       * should be filled in order for the `chill_other` transaction to work.
+       * * `min_commission`: The minimum amount of commission that each validators must maintain.
+       * This is checked only upon calling `validate`. Existing validators are not affected.
        * 
        * Origin must be Root to call this function.
        * 
        * NOTE: Existing nominators and validators will not be affected by this update.
        * to kick people under the new limits, `chill_other` should be called.
        **/
-      setStakingLimits: AugmentedSubmittable<(minNominatorBond: u128 | AnyNumber | Uint8Array, minValidatorBond: u128 | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array, threshold: Option<Percent> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128, Option<u32>, Option<u32>, Option<Percent>]>;
+      setStakingConfigs: AugmentedSubmittable<(minNominatorBond: u128 | AnyNumber | Uint8Array, minValidatorBond: u128 | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array, chillThreshold: Option<Percent> | null | object | string | Uint8Array, minCommission: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128, Option<u32>, Option<u32>, Option<Percent>, Perbill]>;
       /**
        * Sets the ideal number of validators.
        * 
@@ -3422,24 +3373,10 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * **NOTE:** We rely on the Root origin to provide us the number of subkeys under
        * the prefix we are removing to accurately calculate the weight of this function.
-       * 
-       * # <weight>
-       * - `O(P)` where `P` amount of keys with prefix `prefix`
-       * - `P` storage deletions.
-       * - Base Weight: 0.834 * P µs
-       * - Writes: Number of subkeys + 1
-       * # </weight>
        **/
       killPrefix: AugmentedSubmittable<(prefix: Bytes | string | Uint8Array, subkeys: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, u32]>;
       /**
        * Kill some items from storage.
-       * 
-       * # <weight>
-       * - `O(IK)` where `I` length of `keys` and `K` length of one key
-       * - `I` storage deletions.
-       * - Base Weight: .378 * i µs
-       * - Writes: Number of items
-       * # </weight>
        **/
       killStorage: AugmentedSubmittable<(keys: Vec<Bytes> | (Bytes | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Bytes>]>;
       /**
@@ -3488,25 +3425,10 @@ declare module '@polkadot/api/types/submittable' {
       setCodeWithoutChecks: AugmentedSubmittable<(code: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Set the number of pages in the WebAssembly environment's heap.
-       * 
-       * # <weight>
-       * - `O(1)`
-       * - 1 storage write.
-       * - Base Weight: 1.405 µs
-       * - 1 write to HEAP_PAGES
-       * - 1 digest item
-       * # </weight>
        **/
       setHeapPages: AugmentedSubmittable<(pages: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64]>;
       /**
        * Set some items of storage.
-       * 
-       * # <weight>
-       * - `O(I)` where `I` length of `items`
-       * - `I` storage writes (`O(1)`).
-       * - Base Weight: 0.568 * i µs
-       * - Writes: Number of items
-       * # </weight>
        **/
       setStorage: AugmentedSubmittable<(items: Vec<ITuple<[Bytes, Bytes]>> | ([Bytes | string | Uint8Array, Bytes | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>, [Vec<ITuple<[Bytes, Bytes]>>]>;
       /**

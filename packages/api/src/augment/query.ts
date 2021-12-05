@@ -1050,6 +1050,12 @@ declare module '@polkadot/api/types/storage' {
        **/
       maxValidatorsCount: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * The minimum amount of commission that validators can set.
+       * 
+       * If set to `0`, no limit exists.
+       **/
+      minCommission: AugmentedQuery<ApiType, () => Observable<Perbill>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Minimum number of staking participants before emergency conditions are imposed.
        **/
       minimumValidatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
