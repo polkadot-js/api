@@ -1152,6 +1152,10 @@ declare module '@polkadot/api/types/errors' {
        **/
       CannotChillOther: AugmentedError<ApiType>;
       /**
+       * Commission is too low. Must be at least `MinCommission`.
+       **/
+      CommissionTooLow: AugmentedError<ApiType>;
+      /**
        * Duplicate index.
        **/
       DuplicateIndex: AugmentedError<ApiType>;

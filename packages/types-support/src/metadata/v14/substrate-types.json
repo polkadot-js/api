@@ -442,7 +442,7 @@
           "fields": [
             {
               "name": "phase",
-              "type": 91,
+              "type": 93,
               "typeName": "Phase",
               "docs": []
             },
@@ -454,7 +454,7 @@
             },
             {
               "name": "topics",
-              "type": 92,
+              "type": 94,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -584,7 +584,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 40,
+                  "type": 42,
                   "typeName": "pallet_collective::Event<Runtime, pallet_collective::Instance1>",
                   "docs": []
                 }
@@ -597,7 +597,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 41,
+                  "type": 43,
                   "typeName": "pallet_collective::Event<Runtime, pallet_collective::Instance2>",
                   "docs": []
                 }
@@ -610,7 +610,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 42,
+                  "type": 44,
                   "typeName": "pallet_elections_phragmen::Event<Runtime>",
                   "docs": []
                 }
@@ -623,7 +623,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 45,
+                  "type": 47,
                   "typeName": "pallet_membership::Event<Runtime, pallet_membership::Instance1>",
                   "docs": []
                 }
@@ -636,7 +636,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 46,
+                  "type": 48,
                   "typeName": "pallet_grandpa::Event",
                   "docs": []
                 }
@@ -649,7 +649,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 51,
+                  "type": 53,
                   "typeName": "pallet_treasury::Event<Runtime>",
                   "docs": []
                 }
@@ -662,7 +662,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 52,
+                  "type": 54,
                   "typeName": "pallet_contracts::Event<Runtime>",
                   "docs": []
                 }
@@ -675,7 +675,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 53,
+                  "type": 55,
                   "typeName": "pallet_sudo::Event<Runtime>",
                   "docs": []
                 }
@@ -688,7 +688,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 54,
+                  "type": 56,
                   "typeName": "pallet_im_online::Event<Runtime>",
                   "docs": []
                 }
@@ -701,7 +701,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 63,
+                  "type": 65,
                   "typeName": "pallet_offences::Event",
                   "docs": []
                 }
@@ -714,7 +714,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 65,
+                  "type": 67,
                   "typeName": "pallet_identity::Event<Runtime>",
                   "docs": []
                 }
@@ -727,7 +727,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 66,
+                  "type": 68,
                   "typeName": "pallet_society::Event<Runtime>",
                   "docs": []
                 }
@@ -740,7 +740,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 67,
+                  "type": 69,
                   "typeName": "pallet_recovery::Event<Runtime>",
                   "docs": []
                 }
@@ -753,7 +753,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 68,
+                  "type": 70,
                   "typeName": "pallet_vesting::Event<Runtime>",
                   "docs": []
                 }
@@ -766,7 +766,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 69,
+                  "type": 71,
                   "typeName": "pallet_scheduler::Event<Runtime>",
                   "docs": []
                 }
@@ -779,7 +779,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 72,
+                  "type": 74,
                   "typeName": "pallet_proxy::Event<Runtime>",
                   "docs": []
                 }
@@ -792,7 +792,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 75,
+                  "type": 77,
                   "typeName": "pallet_multisig::Event<Runtime>",
                   "docs": []
                 }
@@ -805,7 +805,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 77,
+                  "type": 79,
                   "typeName": "pallet_bounties::Event<Runtime>",
                   "docs": []
                 }
@@ -818,7 +818,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 78,
+                  "type": 80,
                   "typeName": "pallet_tips::Event<Runtime>",
                   "docs": []
                 }
@@ -831,7 +831,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 79,
+                  "type": 81,
                   "typeName": "pallet_assets::Event<Runtime>",
                   "docs": []
                 }
@@ -844,7 +844,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 80,
+                  "type": 82,
                   "typeName": "pallet_lottery::Event<Runtime>",
                   "docs": []
                 }
@@ -857,7 +857,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 82,
+                  "type": 84,
                   "typeName": "pallet_gilt::Event<Runtime>",
                   "docs": []
                 }
@@ -870,7 +870,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 83,
+                  "type": 85,
                   "typeName": "pallet_uniques::Event<Runtime>",
                   "docs": []
                 }
@@ -883,7 +883,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 89,
+                  "type": 91,
                   "typeName": "pallet_transaction_storage::Event<Runtime>",
                   "docs": []
                 }
@@ -896,7 +896,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 90,
+                  "type": 92,
                   "typeName": "pallet_bags_list::Event<Runtime>",
                   "docs": []
                 }
@@ -931,7 +931,7 @@
               "name": "ExtrinsicSuccess",
               "fields": [
                 {
-                  "name": null,
+                  "name": "dispatch_info",
                   "type": 19,
                   "typeName": "DispatchInfo",
                   "docs": []
@@ -939,20 +939,20 @@
               ],
               "index": 0,
               "docs": [
-                "An extrinsic completed successfully. \\[info\\]"
+                "An extrinsic completed successfully."
               ]
             },
             {
               "name": "ExtrinsicFailed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "dispatch_error",
                   "type": 22,
                   "typeName": "DispatchError",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "dispatch_info",
                   "type": 19,
                   "typeName": "DispatchInfo",
                   "docs": []
@@ -960,7 +960,7 @@
               ],
               "index": 1,
               "docs": [
-                "An extrinsic failed. \\[error, info\\]"
+                "An extrinsic failed."
               ]
             },
             {
@@ -975,7 +975,7 @@
               "name": "NewAccount",
               "fields": [
                 {
-                  "name": null,
+                  "name": "account",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -983,14 +983,14 @@
               ],
               "index": 3,
               "docs": [
-                "A new \\[account\\] was created."
+                "A new account was created."
               ]
             },
             {
               "name": "KilledAccount",
               "fields": [
                 {
-                  "name": null,
+                  "name": "account",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -998,20 +998,20 @@
               ],
               "index": 4,
               "docs": [
-                "An \\[account\\] was reaped."
+                "An account was reaped."
               ]
             },
             {
               "name": "Remarked",
               "fields": [
                 {
-                  "name": null,
+                  "name": "sender",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "hash",
                   "type": 9,
                   "typeName": "T::Hash",
                   "docs": []
@@ -1019,7 +1019,7 @@
               ],
               "index": 5,
               "docs": [
-                "On on-chain remark happened. \\[origin, remark_hash\\]"
+                "On on-chain remark happened."
               ]
             }
           ]
@@ -1372,7 +1372,7 @@
               "name": "DispatchedAs",
               "fields": [
                 {
-                  "name": null,
+                  "name": "result",
                   "type": 26,
                   "typeName": "DispatchResult",
                   "docs": []
@@ -1380,7 +1380,7 @@
               ],
               "index": 3,
               "docs": [
-                "A call was dispatched. \\[result\\]"
+                "A call was dispatched."
               ]
             }
           ]
@@ -2726,6 +2726,54 @@
               "docs": [
                 "A proposal_hash has been blacklisted permanently."
               ]
+            },
+            {
+              "name": "Voted",
+              "fields": [
+                {
+                  "name": "voter",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "ref_index",
+                  "type": 4,
+                  "typeName": "ReferendumIndex",
+                  "docs": []
+                },
+                {
+                  "name": "vote",
+                  "type": 40,
+                  "typeName": "AccountVote<BalanceOf<T>>",
+                  "docs": []
+                }
+              ],
+              "index": 17,
+              "docs": [
+                "An account has voted in a referendum"
+              ]
+            },
+            {
+              "name": "Seconded",
+              "fields": [
+                {
+                  "name": "seconder",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "prop_index",
+                  "type": 4,
+                  "typeName": "PropIndex",
+                  "docs": []
+                }
+              ],
+              "index": 18,
+              "docs": [
+                "An account has secconded a proposal"
+              ]
             }
           ]
         }
@@ -2788,206 +2836,89 @@
     "id": 40,
     "type": {
       "path": [
-        "pallet_collective",
-        "pallet",
-        "Event"
+        "pallet_democracy",
+        "vote",
+        "AccountVote"
       ],
       "params": [
         {
-          "name": "T",
-          "type": null
-        },
-        {
-          "name": "I",
-          "type": null
+          "name": "Balance",
+          "type": 6
         }
       ],
       "def": {
         "variant": {
           "variants": [
             {
-              "name": "Proposed",
+              "name": "Standard",
               "fields": [
                 {
-                  "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "name": "vote",
+                  "type": 41,
+                  "typeName": "Vote",
                   "docs": []
                 },
                 {
-                  "name": "proposal_index",
-                  "type": 4,
-                  "typeName": "ProposalIndex",
-                  "docs": []
-                },
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                },
-                {
-                  "name": "threshold",
-                  "type": 4,
-                  "typeName": "MemberCount",
+                  "name": "balance",
+                  "type": 6,
+                  "typeName": "Balance",
                   "docs": []
                 }
               ],
               "index": 0,
-              "docs": [
-                "A motion (given hash) has been proposed (by given account) with a threshold (given",
-                "`MemberCount`)."
-              ]
+              "docs": []
             },
             {
-              "name": "Voted",
+              "name": "Split",
               "fields": [
                 {
-                  "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "name": "aye",
+                  "type": 6,
+                  "typeName": "Balance",
                   "docs": []
                 },
                 {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                },
-                {
-                  "name": "voted",
-                  "type": 33,
-                  "typeName": "bool",
-                  "docs": []
-                },
-                {
-                  "name": "yes",
-                  "type": 4,
-                  "typeName": "MemberCount",
-                  "docs": []
-                },
-                {
-                  "name": "no",
-                  "type": 4,
-                  "typeName": "MemberCount",
+                  "name": "nay",
+                  "type": 6,
+                  "typeName": "Balance",
                   "docs": []
                 }
               ],
               "index": 1,
-              "docs": [
-                "A motion (given hash) has been voted on by given account, leaving",
-                "a tally (yes votes and no votes given respectively as `MemberCount`)."
-              ]
-            },
-            {
-              "name": "Approved",
-              "fields": [
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                }
-              ],
-              "index": 2,
-              "docs": [
-                "A motion was approved by the required threshold."
-              ]
-            },
-            {
-              "name": "Disapproved",
-              "fields": [
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                }
-              ],
-              "index": 3,
-              "docs": [
-                "A motion was not approved by the required threshold."
-              ]
-            },
-            {
-              "name": "Executed",
-              "fields": [
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                },
-                {
-                  "name": "result",
-                  "type": 26,
-                  "typeName": "DispatchResult",
-                  "docs": []
-                }
-              ],
-              "index": 4,
-              "docs": [
-                "A motion was executed; result will be `Ok` if it returned without error."
-              ]
-            },
-            {
-              "name": "MemberExecuted",
-              "fields": [
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                },
-                {
-                  "name": "result",
-                  "type": 26,
-                  "typeName": "DispatchResult",
-                  "docs": []
-                }
-              ],
-              "index": 5,
-              "docs": [
-                "A single member did some action; result will be `Ok` if it returned without error."
-              ]
-            },
-            {
-              "name": "Closed",
-              "fields": [
-                {
-                  "name": "proposal_hash",
-                  "type": 9,
-                  "typeName": "T::Hash",
-                  "docs": []
-                },
-                {
-                  "name": "yes",
-                  "type": 4,
-                  "typeName": "MemberCount",
-                  "docs": []
-                },
-                {
-                  "name": "no",
-                  "type": 4,
-                  "typeName": "MemberCount",
-                  "docs": []
-                }
-              ],
-              "index": 6,
-              "docs": [
-                "A proposal was closed because its threshold was reached or after its duration was up."
-              ]
+              "docs": []
             }
           ]
         }
       },
-      "docs": [
-        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
-      ]
+      "docs": []
     }
   },
   {
     "id": 41,
+    "type": {
+      "path": [
+        "pallet_democracy",
+        "vote",
+        "Vote"
+      ],
+      "params": [],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 2,
+              "typeName": null,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 42,
     "type": {
       "path": [
         "pallet_collective",
@@ -3189,7 +3120,209 @@
     }
   },
   {
-    "id": 42,
+    "id": 43,
+    "type": {
+      "path": [
+        "pallet_collective",
+        "pallet",
+        "Event"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": null
+        },
+        {
+          "name": "I",
+          "type": null
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "Proposed",
+              "fields": [
+                {
+                  "name": "account",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "proposal_index",
+                  "type": 4,
+                  "typeName": "ProposalIndex",
+                  "docs": []
+                },
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                },
+                {
+                  "name": "threshold",
+                  "type": 4,
+                  "typeName": "MemberCount",
+                  "docs": []
+                }
+              ],
+              "index": 0,
+              "docs": [
+                "A motion (given hash) has been proposed (by given account) with a threshold (given",
+                "`MemberCount`)."
+              ]
+            },
+            {
+              "name": "Voted",
+              "fields": [
+                {
+                  "name": "account",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                },
+                {
+                  "name": "voted",
+                  "type": 33,
+                  "typeName": "bool",
+                  "docs": []
+                },
+                {
+                  "name": "yes",
+                  "type": 4,
+                  "typeName": "MemberCount",
+                  "docs": []
+                },
+                {
+                  "name": "no",
+                  "type": 4,
+                  "typeName": "MemberCount",
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": [
+                "A motion (given hash) has been voted on by given account, leaving",
+                "a tally (yes votes and no votes given respectively as `MemberCount`)."
+              ]
+            },
+            {
+              "name": "Approved",
+              "fields": [
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                }
+              ],
+              "index": 2,
+              "docs": [
+                "A motion was approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Disapproved",
+              "fields": [
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": [
+                "A motion was not approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Executed",
+              "fields": [
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                },
+                {
+                  "name": "result",
+                  "type": 26,
+                  "typeName": "DispatchResult",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "A motion was executed; result will be `Ok` if it returned without error."
+              ]
+            },
+            {
+              "name": "MemberExecuted",
+              "fields": [
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                },
+                {
+                  "name": "result",
+                  "type": 26,
+                  "typeName": "DispatchResult",
+                  "docs": []
+                }
+              ],
+              "index": 5,
+              "docs": [
+                "A single member did some action; result will be `Ok` if it returned without error."
+              ]
+            },
+            {
+              "name": "Closed",
+              "fields": [
+                {
+                  "name": "proposal_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": []
+                },
+                {
+                  "name": "yes",
+                  "type": 4,
+                  "typeName": "MemberCount",
+                  "docs": []
+                },
+                {
+                  "name": "no",
+                  "type": 4,
+                  "typeName": "MemberCount",
+                  "docs": []
+                }
+              ],
+              "index": 6,
+              "docs": [
+                "A proposal was closed because its threshold was reached or after its duration was up."
+              ]
+            }
+          ]
+        }
+      },
+      "docs": [
+        "\n\t\t\tThe [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted\n\t\t\tby this pallet.\n\t\t\t"
+      ]
+    }
+  },
+  {
+    "id": 44,
     "type": {
       "path": [
         "pallet_elections_phragmen",
@@ -3210,7 +3343,7 @@
               "fields": [
                 {
                   "name": "new_members",
-                  "type": 43,
+                  "type": 45,
                   "typeName": "Vec<(<T as frame_system::Config>::AccountId, BalanceOf<T>)>",
                   "docs": []
                 }
@@ -3326,20 +3459,20 @@
     }
   },
   {
-    "id": 43,
+    "id": 45,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 44
+          "type": 46
         }
       },
       "docs": []
     }
   },
   {
-    "id": 44,
+    "id": 46,
     "type": {
       "path": [],
       "params": [],
@@ -3353,7 +3486,7 @@
     }
   },
   {
-    "id": 45,
+    "id": 47,
     "type": {
       "path": [
         "pallet_membership",
@@ -3430,7 +3563,7 @@
     }
   },
   {
-    "id": 46,
+    "id": 48,
     "type": {
       "path": [
         "pallet_grandpa",
@@ -3446,7 +3579,7 @@
               "fields": [
                 {
                   "name": "authority_set",
-                  "type": 47,
+                  "type": 49,
                   "typeName": "AuthorityList",
                   "docs": []
                 }
@@ -3481,26 +3614,26 @@
     }
   },
   {
-    "id": 47,
+    "id": 49,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 48
+          "type": 50
         }
       },
       "docs": []
     }
   },
   {
-    "id": 48,
+    "id": 50,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          49,
+          51,
           8
         ]
       },
@@ -3508,7 +3641,7 @@
     }
   },
   {
-    "id": 49,
+    "id": 51,
     "type": {
       "path": [
         "sp_finality_grandpa",
@@ -3521,7 +3654,7 @@
           "fields": [
             {
               "name": null,
-              "type": 50,
+              "type": 52,
               "typeName": "ed25519::Public",
               "docs": []
             }
@@ -3532,7 +3665,7 @@
     }
   },
   {
-    "id": 50,
+    "id": 52,
     "type": {
       "path": [
         "sp_core",
@@ -3556,7 +3689,7 @@
     }
   },
   {
-    "id": 51,
+    "id": 53,
     "type": {
       "path": [
         "pallet_treasury",
@@ -3580,7 +3713,7 @@
               "name": "Proposed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "proposal_index",
                   "type": 4,
                   "typeName": "ProposalIndex",
                   "docs": []
@@ -3588,14 +3721,14 @@
               ],
               "index": 0,
               "docs": [
-                "New proposal. \\[proposal_index\\]"
+                "New proposal."
               ]
             },
             {
               "name": "Spending",
               "fields": [
                 {
-                  "name": null,
+                  "name": "budget_remaining",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -3603,26 +3736,26 @@
               ],
               "index": 1,
               "docs": [
-                "We have ended a spend period and will now allocate funds. \\[budget_remaining\\]"
+                "We have ended a spend period and will now allocate funds."
               ]
             },
             {
               "name": "Awarded",
               "fields": [
                 {
-                  "name": null,
+                  "name": "proposal_index",
                   "type": 4,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "award",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "account",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -3630,20 +3763,20 @@
               ],
               "index": 2,
               "docs": [
-                "Some funds have been allocated. \\[proposal_index, award, beneficiary\\]"
+                "Some funds have been allocated."
               ]
             },
             {
               "name": "Rejected",
               "fields": [
                 {
-                  "name": null,
+                  "name": "proposal_index",
                   "type": 4,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "slashed",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -3651,14 +3784,14 @@
               ],
               "index": 3,
               "docs": [
-                "A proposal was rejected; funds were slashed. \\[proposal_index, slashed\\]"
+                "A proposal was rejected; funds were slashed."
               ]
             },
             {
               "name": "Burnt",
               "fields": [
                 {
-                  "name": null,
+                  "name": "burnt_funds",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -3666,14 +3799,14 @@
               ],
               "index": 4,
               "docs": [
-                "Some of our funds have been burnt. \\[burn\\]"
+                "Some of our funds have been burnt."
               ]
             },
             {
               "name": "Rollover",
               "fields": [
                 {
-                  "name": null,
+                  "name": "rollover_balance",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -3681,15 +3814,14 @@
               ],
               "index": 5,
               "docs": [
-                "Spending has finished; this is the amount that rolls over until next spend.",
-                "\\[budget_remaining\\]"
+                "Spending has finished; this is the amount that rolls over until next spend."
               ]
             },
             {
               "name": "Deposit",
               "fields": [
                 {
-                  "name": null,
+                  "name": "value",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -3697,7 +3829,7 @@
               ],
               "index": 6,
               "docs": [
-                "Some funds have been deposited. \\[deposit\\]"
+                "Some funds have been deposited."
               ]
             }
           ]
@@ -3709,7 +3841,7 @@
     }
   },
   {
-    "id": 52,
+    "id": 54,
     "type": {
       "path": [
         "pallet_contracts",
@@ -3860,7 +3992,7 @@
     }
   },
   {
-    "id": 53,
+    "id": 55,
     "type": {
       "path": [
         "pallet_sudo",
@@ -3930,7 +4062,7 @@
     }
   },
   {
-    "id": 54,
+    "id": 56,
     "type": {
       "path": [
         "pallet_im_online",
@@ -3951,7 +4083,7 @@
               "fields": [
                 {
                   "name": "authority_id",
-                  "type": 55,
+                  "type": 57,
                   "typeName": "T::AuthorityId",
                   "docs": []
                 }
@@ -3974,7 +4106,7 @@
               "fields": [
                 {
                   "name": "offline",
-                  "type": 57,
+                  "type": 59,
                   "typeName": "Vec<IdentificationTuple<T>>",
                   "docs": []
                 }
@@ -3993,7 +4125,7 @@
     }
   },
   {
-    "id": 55,
+    "id": 57,
     "type": {
       "path": [
         "pallet_im_online",
@@ -4007,7 +4139,7 @@
           "fields": [
             {
               "name": null,
-              "type": 56,
+              "type": 58,
               "typeName": "sr25519::Public",
               "docs": []
             }
@@ -4018,7 +4150,7 @@
     }
   },
   {
-    "id": 56,
+    "id": 58,
     "type": {
       "path": [
         "sp_core",
@@ -4042,34 +4174,34 @@
     }
   },
   {
-    "id": 57,
+    "id": 59,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 58
+          "type": 60
         }
       },
       "docs": []
     }
   },
   {
-    "id": 58,
+    "id": 60,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           0,
-          59
+          61
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 59,
+    "id": 61,
     "type": {
       "path": [
         "pallet_staking",
@@ -4090,19 +4222,19 @@
           "fields": [
             {
               "name": "total",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             },
             {
               "name": "own",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             },
             {
               "name": "others",
-              "type": 61,
+              "type": 63,
               "typeName": "Vec<IndividualExposure<AccountId, Balance>>",
               "docs": []
             }
@@ -4113,7 +4245,7 @@
     }
   },
   {
-    "id": 60,
+    "id": 62,
     "type": {
       "path": [],
       "params": [],
@@ -4126,20 +4258,20 @@
     }
   },
   {
-    "id": 61,
+    "id": 63,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 62
+          "type": 64
         }
       },
       "docs": []
     }
   },
   {
-    "id": 62,
+    "id": 64,
     "type": {
       "path": [
         "pallet_staking",
@@ -4166,7 +4298,7 @@
             },
             {
               "name": "value",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             }
@@ -4177,7 +4309,7 @@
     }
   },
   {
-    "id": 63,
+    "id": 65,
     "type": {
       "path": [
         "pallet_offences",
@@ -4193,7 +4325,7 @@
               "fields": [
                 {
                   "name": "kind",
-                  "type": 64,
+                  "type": 66,
                   "typeName": "Kind",
                   "docs": []
                 },
@@ -4220,7 +4352,7 @@
     }
   },
   {
-    "id": 64,
+    "id": 66,
     "type": {
       "path": [],
       "params": [],
@@ -4234,7 +4366,7 @@
     }
   },
   {
-    "id": 65,
+    "id": 67,
     "type": {
       "path": [
         "pallet_identity",
@@ -4476,7 +4608,7 @@
     }
   },
   {
-    "id": 66,
+    "id": 68,
     "type": {
       "path": [
         "pallet_society",
@@ -4500,7 +4632,7 @@
               "name": "Founded",
               "fields": [
                 {
-                  "name": null,
+                  "name": "founder",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4508,20 +4640,20 @@
               ],
               "index": 0,
               "docs": [
-                "The society is founded by the given identity. \\[founder\\]"
+                "The society is founded by the given identity."
               ]
             },
             {
               "name": "Bid",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate_id",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "offer",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -4530,26 +4662,26 @@
               "index": 1,
               "docs": [
                 "A membership bid just happened. The given account is the candidate's ID and their offer",
-                "is the second. \\[candidate_id, offer\\]"
+                "is the second."
               ]
             },
             {
               "name": "Vouch",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate_id",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "offer",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "vouching",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4558,15 +4690,14 @@
               "index": 2,
               "docs": [
                 "A membership bid just happened by vouching. The given account is the candidate's ID and",
-                "their offer is the second. The vouching party is the third. \\[candidate_id, offer,",
-                "vouching\\]"
+                "their offer is the second. The vouching party is the third."
               ]
             },
             {
               "name": "AutoUnbid",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4574,14 +4705,14 @@
               ],
               "index": 3,
               "docs": [
-                "A \\[candidate\\] was dropped (due to an excess of bids in the system)."
+                "A candidate was dropped (due to an excess of bids in the system)."
               ]
             },
             {
               "name": "Unbid",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4589,14 +4720,14 @@
               ],
               "index": 4,
               "docs": [
-                "A \\[candidate\\] was dropped (by their request)."
+                "A candidate was dropped (by their request)."
               ]
             },
             {
               "name": "Unvouch",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4604,20 +4735,20 @@
               ],
               "index": 5,
               "docs": [
-                "A \\[candidate\\] was dropped (by request of who vouched for them)."
+                "A candidate was dropped (by request of who vouched for them)."
               ]
             },
             {
               "name": "Inducted",
               "fields": [
                 {
-                  "name": null,
+                  "name": "primary",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "candidates",
                   "type": 38,
                   "typeName": "Vec<T::AccountId>",
                   "docs": []
@@ -4626,20 +4757,20 @@
               "index": 6,
               "docs": [
                 "A group of candidates have been inducted. The batch's primary is the first value, the",
-                "batch in full is the second. \\[primary, candidates\\]"
+                "batch in full is the second."
               ]
             },
             {
               "name": "SuspendedMemberJudgement",
               "fields": [
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "judged",
                   "type": 33,
                   "typeName": "bool",
                   "docs": []
@@ -4647,14 +4778,14 @@
               ],
               "index": 7,
               "docs": [
-                "A suspended member has been judged. \\[who, judged\\]"
+                "A suspended member has been judged."
               ]
             },
             {
               "name": "CandidateSuspended",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4662,14 +4793,14 @@
               ],
               "index": 8,
               "docs": [
-                "A \\[candidate\\] has been suspended"
+                "A candidate has been suspended"
               ]
             },
             {
               "name": "MemberSuspended",
               "fields": [
                 {
-                  "name": null,
+                  "name": "member",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4677,14 +4808,14 @@
               ],
               "index": 9,
               "docs": [
-                "A \\[member\\] has been suspended"
+                "A member has been suspended"
               ]
             },
             {
               "name": "Challenged",
               "fields": [
                 {
-                  "name": null,
+                  "name": "member",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4692,26 +4823,26 @@
               ],
               "index": 10,
               "docs": [
-                "A \\[member\\] has been challenged"
+                "A member has been challenged"
               ]
             },
             {
               "name": "Vote",
               "fields": [
                 {
-                  "name": null,
+                  "name": "candidate",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "voter",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "vote",
                   "type": 33,
                   "typeName": "bool",
                   "docs": []
@@ -4719,20 +4850,20 @@
               ],
               "index": 11,
               "docs": [
-                "A vote has been placed \\[candidate, voter, vote\\]"
+                "A vote has been placed"
               ]
             },
             {
               "name": "DefenderVote",
               "fields": [
                 {
-                  "name": null,
+                  "name": "voter",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "vote",
                   "type": 33,
                   "typeName": "bool",
                   "docs": []
@@ -4740,14 +4871,14 @@
               ],
               "index": 12,
               "docs": [
-                "A vote has been placed for a defending member \\[voter, vote\\]"
+                "A vote has been placed for a defending member"
               ]
             },
             {
               "name": "NewMaxMembers",
               "fields": [
                 {
-                  "name": null,
+                  "name": "max",
                   "type": 4,
                   "typeName": "u32",
                   "docs": []
@@ -4762,7 +4893,7 @@
               "name": "Unfounded",
               "fields": [
                 {
-                  "name": null,
+                  "name": "founder",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -4770,14 +4901,14 @@
               ],
               "index": 14,
               "docs": [
-                "Society is unfounded. \\[founder\\]"
+                "Society is unfounded."
               ]
             },
             {
               "name": "Deposit",
               "fields": [
                 {
-                  "name": null,
+                  "name": "value",
                   "type": 6,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
@@ -4785,7 +4916,7 @@
               ],
               "index": 15,
               "docs": [
-                "Some funds were deposited into the society account. \\[value\\]"
+                "Some funds were deposited into the society account."
               ]
             }
           ]
@@ -4797,7 +4928,7 @@
     }
   },
   {
-    "id": 67,
+    "id": 69,
     "type": {
       "path": [
         "pallet_recovery",
@@ -4942,7 +5073,7 @@
     }
   },
   {
-    "id": 68,
+    "id": 70,
     "type": {
       "path": [
         "pallet_vesting",
@@ -5004,7 +5135,7 @@
     }
   },
   {
-    "id": 69,
+    "id": 71,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -5024,13 +5155,13 @@
               "name": "Scheduled",
               "fields": [
                 {
-                  "name": null,
+                  "name": "when",
                   "type": 4,
                   "typeName": "T::BlockNumber",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "index",
                   "type": 4,
                   "typeName": "u32",
                   "docs": []
@@ -5038,20 +5169,20 @@
               ],
               "index": 0,
               "docs": [
-                "Scheduled some task. \\[when, index\\]"
+                "Scheduled some task."
               ]
             },
             {
               "name": "Canceled",
               "fields": [
                 {
-                  "name": null,
+                  "name": "when",
                   "type": 4,
                   "typeName": "T::BlockNumber",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "index",
                   "type": 4,
                   "typeName": "u32",
                   "docs": []
@@ -5059,26 +5190,26 @@
               ],
               "index": 1,
               "docs": [
-                "Canceled some task. \\[when, index\\]"
+                "Canceled some task."
               ]
             },
             {
               "name": "Dispatched",
               "fields": [
                 {
-                  "name": null,
-                  "type": 70,
+                  "name": "task",
+                  "type": 72,
                   "typeName": "TaskAddress<T::BlockNumber>",
                   "docs": []
                 },
                 {
-                  "name": null,
-                  "type": 71,
+                  "name": "id",
+                  "type": 73,
                   "typeName": "Option<Vec<u8>>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "result",
                   "type": 26,
                   "typeName": "DispatchResult",
                   "docs": []
@@ -5086,7 +5217,7 @@
               ],
               "index": 2,
               "docs": [
-                "Dispatched some task. \\[task, id, result\\]"
+                "Dispatched some task."
               ]
             }
           ]
@@ -5098,7 +5229,7 @@
     }
   },
   {
-    "id": 70,
+    "id": 72,
     "type": {
       "path": [],
       "params": [],
@@ -5112,7 +5243,7 @@
     }
   },
   {
-    "id": 71,
+    "id": 73,
     "type": {
       "path": [
         "Option"
@@ -5152,7 +5283,7 @@
     }
   },
   {
-    "id": 72,
+    "id": 74,
     "type": {
       "path": [
         "pallet_proxy",
@@ -5200,13 +5331,13 @@
                 },
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
                 {
                   "name": "disambiguation_index",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 }
@@ -5261,7 +5392,7 @@
                 },
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
@@ -5286,7 +5417,7 @@
     }
   },
   {
-    "id": 73,
+    "id": 75,
     "type": {
       "path": [
         "node_runtime",
@@ -5327,7 +5458,7 @@
     }
   },
   {
-    "id": 74,
+    "id": 76,
     "type": {
       "path": [],
       "params": [],
@@ -5338,7 +5469,7 @@
     }
   },
   {
-    "id": 75,
+    "id": 77,
     "type": {
       "path": [
         "pallet_multisig",
@@ -5392,7 +5523,7 @@
                 },
                 {
                   "name": "timepoint",
-                  "type": 76,
+                  "type": 78,
                   "typeName": "Timepoint<T::BlockNumber>",
                   "docs": []
                 },
@@ -5425,7 +5556,7 @@
                 },
                 {
                   "name": "timepoint",
-                  "type": 76,
+                  "type": 78,
                   "typeName": "Timepoint<T::BlockNumber>",
                   "docs": []
                 },
@@ -5464,7 +5595,7 @@
                 },
                 {
                   "name": "timepoint",
-                  "type": 76,
+                  "type": 78,
                   "typeName": "Timepoint<T::BlockNumber>",
                   "docs": []
                 },
@@ -5495,7 +5626,7 @@
     }
   },
   {
-    "id": 76,
+    "id": 78,
     "type": {
       "path": [
         "pallet_multisig",
@@ -5529,7 +5660,7 @@
     }
   },
   {
-    "id": 77,
+    "id": 79,
     "type": {
       "path": [
         "pallet_bounties",
@@ -5683,7 +5814,7 @@
     }
   },
   {
-    "id": 78,
+    "id": 80,
     "type": {
       "path": [
         "pallet_tips",
@@ -5807,7 +5938,7 @@
     }
   },
   {
-    "id": 79,
+    "id": 81,
     "type": {
       "path": [
         "pallet_assets",
@@ -6281,7 +6412,7 @@
     }
   },
   {
-    "id": 80,
+    "id": 82,
     "type": {
       "path": [
         "pallet_lottery",
@@ -6345,7 +6476,7 @@
                 },
                 {
                   "name": "call_index",
-                  "type": 81,
+                  "type": 83,
                   "typeName": "CallIndex",
                   "docs": []
                 }
@@ -6364,7 +6495,7 @@
     }
   },
   {
-    "id": 81,
+    "id": 83,
     "type": {
       "path": [],
       "params": [],
@@ -6378,7 +6509,7 @@
     }
   },
   {
-    "id": 82,
+    "id": 84,
     "type": {
       "path": [
         "pallet_gilt",
@@ -6523,7 +6654,7 @@
     }
   },
   {
-    "id": 83,
+    "id": 85,
     "type": {
       "path": [
         "pallet_uniques",
@@ -6913,7 +7044,7 @@
                 },
                 {
                   "name": "data",
-                  "type": 84,
+                  "type": 86,
                   "typeName": "BoundedVec<u8, T::StringLimit>",
                   "docs": []
                 },
@@ -6961,7 +7092,7 @@
                 },
                 {
                   "name": "data",
-                  "type": 84,
+                  "type": 86,
                   "typeName": "BoundedVec<u8, T::StringLimit>",
                   "docs": []
                 },
@@ -7009,7 +7140,7 @@
                 },
                 {
                   "name": "successful_instances",
-                  "type": 85,
+                  "type": 87,
                   "typeName": "Vec<T::InstanceId>",
                   "docs": []
                 }
@@ -7030,19 +7161,19 @@
                 },
                 {
                   "name": "maybe_instance",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<T::InstanceId>",
                   "docs": []
                 },
                 {
                   "name": "key",
-                  "type": 87,
+                  "type": 89,
                   "typeName": "BoundedVec<u8, T::KeyLimit>",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 88,
+                  "type": 90,
                   "typeName": "BoundedVec<u8, T::ValueLimit>",
                   "docs": []
                 }
@@ -7063,13 +7194,13 @@
                 },
                 {
                   "name": "maybe_instance",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<T::InstanceId>",
                   "docs": []
                 },
                 {
                   "name": "key",
-                  "type": 87,
+                  "type": 89,
                   "typeName": "BoundedVec<u8, T::KeyLimit>",
                   "docs": []
                 }
@@ -7088,7 +7219,7 @@
     }
   },
   {
-    "id": 84,
+    "id": 86,
     "type": {
       "path": [
         "frame_support",
@@ -7122,7 +7253,7 @@
     }
   },
   {
-    "id": 85,
+    "id": 87,
     "type": {
       "path": [],
       "params": [],
@@ -7135,7 +7266,7 @@
     }
   },
   {
-    "id": 86,
+    "id": 88,
     "type": {
       "path": [
         "Option"
@@ -7175,75 +7306,75 @@
     }
   },
   {
-    "id": 87,
-    "type": {
-      "path": [
-        "frame_support",
-        "storage",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 2
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 10,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 88,
-    "type": {
-      "path": [
-        "frame_support",
-        "storage",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 2
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 10,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 89,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 2
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 10,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 90,
+    "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 2
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 10,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 91,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -7263,7 +7394,7 @@
               "name": "Stored",
               "fields": [
                 {
-                  "name": null,
+                  "name": "index",
                   "type": 4,
                   "typeName": "u32",
                   "docs": []
@@ -7278,7 +7409,7 @@
               "name": "Renewed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "index",
                   "type": 4,
                   "typeName": "u32",
                   "docs": []
@@ -7306,7 +7437,7 @@
     }
   },
   {
-    "id": 90,
+    "id": 92,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -7358,7 +7489,7 @@
     }
   },
   {
-    "id": 91,
+    "id": 93,
     "type": {
       "path": [
         "frame_system",
@@ -7400,7 +7531,7 @@
     }
   },
   {
-    "id": 92,
+    "id": 94,
     "type": {
       "path": [],
       "params": [],
@@ -7413,20 +7544,20 @@
     }
   },
   {
-    "id": 93,
+    "id": 95,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 70
+          "type": 72
         }
       },
       "docs": []
     }
   },
   {
-    "id": 94,
+    "id": 96,
     "type": {
       "path": [
         "frame_system",
@@ -7438,13 +7569,13 @@
           "fields": [
             {
               "name": "spec_version",
-              "type": 95,
+              "type": 97,
               "typeName": "codec::Compact<u32>",
               "docs": []
             },
             {
               "name": "spec_name",
-              "type": 96,
+              "type": 98,
               "typeName": "sp_runtime::RuntimeString",
               "docs": []
             }
@@ -7455,7 +7586,7 @@
     }
   },
   {
-    "id": 95,
+    "id": 97,
     "type": {
       "path": [],
       "params": [],
@@ -7468,7 +7599,7 @@
     }
   },
   {
-    "id": 96,
+    "id": 98,
     "type": {
       "path": [],
       "params": [],
@@ -7479,7 +7610,7 @@
     }
   },
   {
-    "id": 97,
+    "id": 99,
     "type": {
       "path": [
         "frame_system",
@@ -7500,7 +7631,7 @@
               "fields": [
                 {
                   "name": "ratio",
-                  "type": 98,
+                  "type": 100,
                   "typeName": "Perbill",
                   "docs": []
                 }
@@ -7541,15 +7672,7 @@
               ],
               "index": 2,
               "docs": [
-                "Set the number of pages in the WebAssembly environment's heap.",
-                "",
-                "# <weight>",
-                "- `O(1)`",
-                "- 1 storage write.",
-                "- Base Weight: 1.405 µs",
-                "- 1 write to HEAP_PAGES",
-                "- 1 digest item",
-                "# </weight>"
+                "Set the number of pages in the WebAssembly environment's heap."
               ]
             },
             {
@@ -7606,21 +7729,14 @@
               "fields": [
                 {
                   "name": "items",
-                  "type": 99,
+                  "type": 101,
                   "typeName": "Vec<KeyValue>",
                   "docs": []
                 }
               ],
               "index": 5,
               "docs": [
-                "Set some items of storage.",
-                "",
-                "# <weight>",
-                "- `O(I)` where `I` length of `items`",
-                "- `I` storage writes (`O(1)`).",
-                "- Base Weight: 0.568 * i µs",
-                "- Writes: Number of items",
-                "# </weight>"
+                "Set some items of storage."
               ]
             },
             {
@@ -7628,21 +7744,14 @@
               "fields": [
                 {
                   "name": "keys",
-                  "type": 101,
+                  "type": 103,
                   "typeName": "Vec<Key>",
                   "docs": []
                 }
               ],
               "index": 6,
               "docs": [
-                "Kill some items from storage.",
-                "",
-                "# <weight>",
-                "- `O(IK)` where `I` length of `keys` and `K` length of one key",
-                "- `I` storage deletions.",
-                "- Base Weight: .378 * i µs",
-                "- Writes: Number of items",
-                "# </weight>"
+                "Kill some items from storage."
               ]
             },
             {
@@ -7666,14 +7775,7 @@
                 "Kill all storage items with a key that starts with the given prefix.",
                 "",
                 "**NOTE:** We rely on the Root origin to provide us the number of subkeys under",
-                "the prefix we are removing to accurately calculate the weight of this function.",
-                "",
-                "# <weight>",
-                "- `O(P)` where `P` amount of keys with prefix `prefix`",
-                "- `P` storage deletions.",
-                "- Base Weight: 0.834 * P µs",
-                "- Writes: Number of subkeys + 1",
-                "# </weight>"
+                "the prefix we are removing to accurately calculate the weight of this function."
               ]
             },
             {
@@ -7705,7 +7807,7 @@
     }
   },
   {
-    "id": 98,
+    "id": 100,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -7729,20 +7831,20 @@
     }
   },
   {
-    "id": 99,
+    "id": 101,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 100
+          "type": 102
         }
       },
       "docs": []
     }
   },
   {
-    "id": 100,
+    "id": 102,
     "type": {
       "path": [],
       "params": [],
@@ -7756,7 +7858,7 @@
     }
   },
   {
-    "id": 101,
+    "id": 103,
     "type": {
       "path": [],
       "params": [],
@@ -7769,7 +7871,7 @@
     }
   },
   {
-    "id": 102,
+    "id": 104,
     "type": {
       "path": [
         "frame_system",
@@ -7794,7 +7896,7 @@
             },
             {
               "name": "per_class",
-              "type": 103,
+              "type": 105,
               "typeName": "PerDispatchClass<WeightsPerClass>",
               "docs": []
             }
@@ -7805,7 +7907,7 @@
     }
   },
   {
-    "id": 103,
+    "id": 105,
     "type": {
       "path": [
         "frame_support",
@@ -7815,7 +7917,7 @@
       "params": [
         {
           "name": "T",
-          "type": 104
+          "type": 106
         }
       ],
       "def": {
@@ -7823,19 +7925,19 @@
           "fields": [
             {
               "name": "normal",
-              "type": 104,
+              "type": 106,
               "typeName": "T",
               "docs": []
             },
             {
               "name": "operational",
-              "type": 104,
+              "type": 106,
               "typeName": "T",
               "docs": []
             },
             {
               "name": "mandatory",
-              "type": 104,
+              "type": 106,
               "typeName": "T",
               "docs": []
             }
@@ -7846,7 +7948,7 @@
     }
   },
   {
-    "id": 104,
+    "id": 106,
     "type": {
       "path": [
         "frame_system",
@@ -7865,19 +7967,19 @@
             },
             {
               "name": "max_extrinsic",
-              "type": 105,
+              "type": 107,
               "typeName": "Option<Weight>",
               "docs": []
             },
             {
               "name": "max_total",
-              "type": 105,
+              "type": 107,
               "typeName": "Option<Weight>",
               "docs": []
             },
             {
               "name": "reserved",
-              "type": 105,
+              "type": 107,
               "typeName": "Option<Weight>",
               "docs": []
             }
@@ -7888,7 +7990,7 @@
     }
   },
   {
-    "id": 105,
+    "id": 107,
     "type": {
       "path": [
         "Option"
@@ -7928,7 +8030,7 @@
     }
   },
   {
-    "id": 106,
+    "id": 108,
     "type": {
       "path": [
         "frame_system",
@@ -7941,7 +8043,7 @@
           "fields": [
             {
               "name": "max",
-              "type": 107,
+              "type": 109,
               "typeName": "PerDispatchClass<u32>",
               "docs": []
             }
@@ -7952,7 +8054,7 @@
     }
   },
   {
-    "id": 107,
+    "id": 109,
     "type": {
       "path": [
         "frame_support",
@@ -7993,7 +8095,7 @@
     }
   },
   {
-    "id": 108,
+    "id": 110,
     "type": {
       "path": [
         "frame_support",
@@ -8023,7 +8125,7 @@
     }
   },
   {
-    "id": 109,
+    "id": 111,
     "type": {
       "path": [
         "sp_version",
@@ -8035,13 +8137,13 @@
           "fields": [
             {
               "name": "spec_name",
-              "type": 96,
+              "type": 98,
               "typeName": "RuntimeString",
               "docs": []
             },
             {
               "name": "impl_name",
-              "type": 96,
+              "type": 98,
               "typeName": "RuntimeString",
               "docs": []
             },
@@ -8065,7 +8167,7 @@
             },
             {
               "name": "apis",
-              "type": 110,
+              "type": 112,
               "typeName": "ApisVec",
               "docs": []
             },
@@ -8082,7 +8184,7 @@
     }
   },
   {
-    "id": 110,
+    "id": 112,
     "type": {
       "path": [
         "Cow"
@@ -8090,7 +8192,7 @@
       "params": [
         {
           "name": "T",
-          "type": 111
+          "type": 113
         }
       ],
       "def": {
@@ -8098,7 +8200,7 @@
           "fields": [
             {
               "name": null,
-              "type": 111,
+              "type": 113,
               "typeName": null,
               "docs": []
             }
@@ -8109,26 +8211,26 @@
     }
   },
   {
-    "id": 111,
+    "id": 113,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 112
+          "type": 114
         }
       },
       "docs": []
     }
   },
   {
-    "id": 112,
+    "id": 114,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          113,
+          115,
           4
         ]
       },
@@ -8136,7 +8238,7 @@
     }
   },
   {
-    "id": 113,
+    "id": 115,
     "type": {
       "path": [],
       "params": [],
@@ -8150,7 +8252,7 @@
     }
   },
   {
-    "id": 114,
+    "id": 116,
     "type": {
       "path": [
         "frame_system",
@@ -8227,7 +8329,7 @@
     }
   },
   {
-    "id": 115,
+    "id": 117,
     "type": {
       "path": [
         "pallet_utility",
@@ -8248,7 +8350,7 @@
               "fields": [
                 {
                   "name": "calls",
-                  "type": 116,
+                  "type": 118,
                   "typeName": "Vec<<T as Config>::Call>",
                   "docs": []
                 }
@@ -8281,13 +8383,13 @@
               "fields": [
                 {
                   "name": "index",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -8314,7 +8416,7 @@
               "fields": [
                 {
                   "name": "calls",
-                  "type": 116,
+                  "type": 118,
                   "typeName": "Vec<<T as Config>::Call>",
                   "docs": []
                 }
@@ -8348,7 +8450,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -8376,20 +8478,20 @@
     }
   },
   {
-    "id": 116,
+    "id": 118,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 117
+          "type": 119
         }
       },
       "docs": []
     }
   },
   {
-    "id": 117,
+    "id": 119,
     "type": {
       "path": [
         "node_runtime",
@@ -8404,7 +8506,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 97,
+                  "type": 99,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<System, Runtime>",
                   "docs": []
                 }
@@ -8417,7 +8519,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 115,
+                  "type": 117,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Utility, Runtime>",
                   "docs": []
                 }
@@ -8430,7 +8532,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 118,
+                  "type": 120,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Babe, Runtime>",
                   "docs": []
                 }
@@ -8443,7 +8545,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 128,
+                  "type": 130,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Timestamp, Runtime>",
                   "docs": []
                 }
@@ -8456,7 +8558,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 130,
+                  "type": 132,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Authorship, Runtime>",
                   "docs": []
                 }
@@ -8469,7 +8571,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 132,
+                  "type": 134,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Indices, Runtime>",
                   "docs": []
                 }
@@ -8482,7 +8584,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 133,
+                  "type": 135,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Balances, Runtime>",
                   "docs": []
                 }
@@ -8495,7 +8597,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 136,
+                  "type": 138,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<ElectionProviderMultiPhase, Runtime>",
                   "docs": []
                 }
@@ -8508,7 +8610,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 195,
+                  "type": 197,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Staking, Runtime>",
                   "docs": []
                 }
@@ -8521,7 +8623,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 202,
+                  "type": 204,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Session, Runtime>",
                   "docs": []
                 }
@@ -8534,7 +8636,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 205,
+                  "type": 207,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Democracy, Runtime>",
                   "docs": []
                 }
@@ -8861,7 +8963,7 @@
     }
   },
   {
-    "id": 118,
+    "id": 120,
     "type": {
       "path": [
         "pallet_babe",
@@ -8882,13 +8984,13 @@
               "fields": [
                 {
                   "name": "equivocation_proof",
-                  "type": 119,
+                  "type": 121,
                   "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
                   "name": "key_owner_proof",
-                  "type": 124,
+                  "type": 126,
                   "typeName": "T::KeyOwnerProof",
                   "docs": []
                 }
@@ -8906,13 +9008,13 @@
               "fields": [
                 {
                   "name": "equivocation_proof",
-                  "type": 119,
+                  "type": 121,
                   "typeName": "Box<EquivocationProof<T::Header>>",
                   "docs": []
                 },
                 {
                   "name": "key_owner_proof",
-                  "type": 124,
+                  "type": 126,
                   "typeName": "T::KeyOwnerProof",
                   "docs": []
                 }
@@ -8934,7 +9036,7 @@
               "fields": [
                 {
                   "name": "config",
-                  "type": 125,
+                  "type": 127,
                   "typeName": "NextConfigDescriptor",
                   "docs": []
                 }
@@ -8956,7 +9058,7 @@
     }
   },
   {
-    "id": 119,
+    "id": 121,
     "type": {
       "path": [
         "sp_consensus_slots",
@@ -8965,11 +9067,11 @@
       "params": [
         {
           "name": "Header",
-          "type": 120
+          "type": 122
         },
         {
           "name": "Id",
-          "type": 122
+          "type": 124
         }
       ],
       "def": {
@@ -8977,25 +9079,25 @@
           "fields": [
             {
               "name": "offender",
-              "type": 122,
+              "type": 124,
               "typeName": "Id",
               "docs": []
             },
             {
               "name": "slot",
-              "type": 123,
+              "type": 125,
               "typeName": "Slot",
               "docs": []
             },
             {
               "name": "first_header",
-              "type": 120,
+              "type": 122,
               "typeName": "Header",
               "docs": []
             },
             {
               "name": "second_header",
-              "type": 120,
+              "type": 122,
               "typeName": "Header",
               "docs": []
             }
@@ -9006,7 +9108,7 @@
     }
   },
   {
-    "id": 120,
+    "id": 122,
     "type": {
       "path": [
         "sp_runtime",
@@ -9021,7 +9123,7 @@
         },
         {
           "name": "Hash",
-          "type": 121
+          "type": 123
         }
       ],
       "def": {
@@ -9035,7 +9137,7 @@
             },
             {
               "name": "number",
-              "type": 95,
+              "type": 97,
               "typeName": "Number",
               "docs": []
             },
@@ -9064,7 +9166,7 @@
     }
   },
   {
-    "id": 121,
+    "id": 123,
     "type": {
       "path": [
         "sp_runtime",
@@ -9081,7 +9183,7 @@
     }
   },
   {
-    "id": 122,
+    "id": 124,
     "type": {
       "path": [
         "sp_consensus_babe",
@@ -9094,7 +9196,7 @@
           "fields": [
             {
               "name": null,
-              "type": 56,
+              "type": 58,
               "typeName": "sr25519::Public",
               "docs": []
             }
@@ -9105,7 +9207,7 @@
     }
   },
   {
-    "id": 123,
+    "id": 125,
     "type": {
       "path": [
         "sp_consensus_slots",
@@ -9128,7 +9230,7 @@
     }
   },
   {
-    "id": 124,
+    "id": 126,
     "type": {
       "path": [
         "sp_session",
@@ -9146,7 +9248,7 @@
             },
             {
               "name": "trie_nodes",
-              "type": 101,
+              "type": 103,
               "typeName": "Vec<Vec<u8>>",
               "docs": []
             },
@@ -9163,7 +9265,7 @@
     }
   },
   {
-    "id": 125,
+    "id": 127,
     "type": {
       "path": [
         "sp_consensus_babe",
@@ -9179,13 +9281,13 @@
               "fields": [
                 {
                   "name": "c",
-                  "type": 126,
+                  "type": 128,
                   "typeName": "(u64, u64)",
                   "docs": []
                 },
                 {
                   "name": "allowed_slots",
-                  "type": 127,
+                  "type": 129,
                   "typeName": "AllowedSlots",
                   "docs": []
                 }
@@ -9200,7 +9302,7 @@
     }
   },
   {
-    "id": 126,
+    "id": 128,
     "type": {
       "path": [],
       "params": [],
@@ -9214,7 +9316,7 @@
     }
   },
   {
-    "id": 127,
+    "id": 129,
     "type": {
       "path": [
         "sp_consensus_babe",
@@ -9249,7 +9351,7 @@
     }
   },
   {
-    "id": 128,
+    "id": 130,
     "type": {
       "path": [
         "pallet_timestamp",
@@ -9270,7 +9372,7 @@
               "fields": [
                 {
                   "name": "now",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "T::Moment",
                   "docs": []
                 }
@@ -9304,7 +9406,7 @@
     }
   },
   {
-    "id": 129,
+    "id": 131,
     "type": {
       "path": [],
       "params": [],
@@ -9317,7 +9419,7 @@
     }
   },
   {
-    "id": 130,
+    "id": 132,
     "type": {
       "path": [
         "pallet_authorship",
@@ -9338,7 +9440,7 @@
               "fields": [
                 {
                   "name": "new_uncles",
-                  "type": 131,
+                  "type": 133,
                   "typeName": "Vec<T::Header>",
                   "docs": []
                 }
@@ -9357,20 +9459,20 @@
     }
   },
   {
-    "id": 131,
+    "id": 133,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 120
+          "type": 122
         }
       },
       "docs": []
     }
   },
   {
-    "id": 132,
+    "id": 134,
     "type": {
       "path": [
         "pallet_indices",
@@ -9578,7 +9680,7 @@
     }
   },
   {
-    "id": 133,
+    "id": 135,
     "type": {
       "path": [
         "pallet_balances",
@@ -9603,13 +9705,13 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -9640,8 +9742,6 @@
                 "  - `transfer_keep_alive` works the same way as `transfer`, but has an additional check",
                 "    that the transfer will not kill the origin account.",
                 "---------------------------------",
-                "- Base Weight: 73.64 µs, worst case scenario (account created, account removed)",
-                "- DB Weight: 1 Read and 1 Write to destination account",
                 "- Origin account is already in memory, so no DB operations for them.",
                 "# </weight>"
               ]
@@ -9651,19 +9751,19 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "new_free",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 },
                 {
                   "name": "new_reserved",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -9677,17 +9777,7 @@
                 "If the new free or reserved balance is below the existential deposit,",
                 "it will reset the account nonce (`frame_system::AccountNonce`).",
                 "",
-                "The dispatch origin for this call is `root`.",
-                "",
-                "# <weight>",
-                "- Independent of the arguments.",
-                "- Contains a limited number of reads and writes.",
-                "---------------------",
-                "- Base Weight:",
-                "    - Creating: 27.56 µs",
-                "    - Killing: 35.11 µs",
-                "- DB Weight: 1 Read, 1 Write to `who`",
-                "# </weight>"
+                "The dispatch origin for this call is `root`."
               ]
             },
             {
@@ -9695,19 +9785,19 @@
               "fields": [
                 {
                   "name": "source",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -9727,13 +9817,13 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -9745,12 +9835,7 @@
                 "",
                 "99% of the time you want [`transfer`] instead.",
                 "",
-                "[`transfer`]: struct.Pallet.html#method.transfer",
-                "# <weight>",
-                "- Cheaper than transfer because account cannot be killed.",
-                "- Base Weight: 51.4 µs",
-                "- DB Weight: 1 Read and 1 Write to dest (sender is in overlay already)",
-                "#</weight>"
+                "[`transfer`]: struct.Pallet.html#method.transfer"
               ]
             },
             {
@@ -9758,7 +9843,7 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -9795,7 +9880,7 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -9822,7 +9907,7 @@
     }
   },
   {
-    "id": 134,
+    "id": 136,
     "type": {
       "path": [
         "sp_runtime",
@@ -9860,7 +9945,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 95,
+                  "type": 97,
                   "typeName": "AccountIndex",
                   "docs": []
                 }
@@ -9899,7 +9984,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 135,
+                  "type": 137,
                   "typeName": "[u8; 20]",
                   "docs": []
                 }
@@ -9914,7 +9999,7 @@
     }
   },
   {
-    "id": 135,
+    "id": 137,
     "type": {
       "path": [],
       "params": [],
@@ -9928,7 +10013,7 @@
     }
   },
   {
-    "id": 136,
+    "id": 138,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -9949,13 +10034,13 @@
               "fields": [
                 {
                   "name": "raw_solution",
-                  "type": 137,
+                  "type": 139,
                   "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
                 {
                   "name": "witness",
-                  "type": 190,
+                  "type": 192,
                   "typeName": "SolutionOrSnapshotSize",
                   "docs": []
                 }
@@ -9983,7 +10068,7 @@
               "fields": [
                 {
                   "name": "maybe_next_score",
-                  "type": 191,
+                  "type": 193,
                   "typeName": "Option<ElectionScore>",
                   "docs": []
                 }
@@ -10002,7 +10087,7 @@
               "fields": [
                 {
                   "name": "supports",
-                  "type": 192,
+                  "type": 194,
                   "typeName": "Supports<T::AccountId>",
                   "docs": []
                 }
@@ -10024,7 +10109,7 @@
               "fields": [
                 {
                   "name": "raw_solution",
-                  "type": 137,
+                  "type": 139,
                   "typeName": "Box<RawSolution<SolutionOf<T>>>",
                   "docs": []
                 },
@@ -10061,7 +10146,7 @@
     }
   },
   {
-    "id": 137,
+    "id": 139,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -10070,7 +10155,7 @@
       "params": [
         {
           "name": "S",
-          "type": 138
+          "type": 140
         }
       ],
       "def": {
@@ -10078,13 +10163,13 @@
           "fields": [
             {
               "name": "solution",
-              "type": 138,
+              "type": 140,
               "typeName": "S",
               "docs": []
             },
             {
               "name": "score",
-              "type": 189,
+              "type": 191,
               "typeName": "ElectionScore",
               "docs": []
             },
@@ -10101,7 +10186,7 @@
     }
   },
   {
-    "id": 138,
+    "id": 140,
     "type": {
       "path": [
         "node_runtime",
@@ -10113,97 +10198,97 @@
           "fields": [
             {
               "name": "votes1",
-              "type": 139,
+              "type": 141,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes2",
-              "type": 142,
+              "type": 144,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes3",
-              "type": 147,
+              "type": 149,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes4",
-              "type": 150,
+              "type": 152,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes5",
-              "type": 153,
+              "type": 155,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes6",
-              "type": 156,
+              "type": 158,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes7",
-              "type": 159,
+              "type": 161,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes8",
-              "type": 162,
+              "type": 164,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes9",
-              "type": 165,
+              "type": 167,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes10",
-              "type": 168,
+              "type": 170,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes11",
-              "type": 171,
+              "type": 173,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes12",
-              "type": 174,
+              "type": 176,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes13",
-              "type": 177,
+              "type": 179,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes14",
-              "type": 180,
+              "type": 182,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes15",
-              "type": 183,
+              "type": 185,
               "typeName": null,
               "docs": []
             },
             {
               "name": "votes16",
-              "type": 186,
+              "type": 188,
               "typeName": null,
               "docs": []
             }
@@ -10214,40 +10299,13 @@
     }
   },
   {
-    "id": 139,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 140
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 140,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
-          95,
-          141
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 141,
     "type": {
       "path": [],
       "params": [],
       "def": {
-        "compact": {
-          "type": 74
+        "sequence": {
+          "type": 142
         }
       },
       "docs": []
@@ -10259,9 +10317,10 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 143
-        }
+        "tuple": [
+          97,
+          143
+        ]
       },
       "docs": []
     }
@@ -10272,11 +10331,9 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          144,
-          141
-        ]
+        "compact": {
+          "type": 76
+        }
       },
       "docs": []
     }
@@ -10287,10 +10344,9 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          141,
-          145
-        ]
+        "sequence": {
+          "type": 145
+        }
       },
       "docs": []
     }
@@ -10301,15 +10357,44 @@
       "path": [],
       "params": [],
       "def": {
-        "compact": {
-          "type": 146
-        }
+        "tuple": [
+          97,
+          146,
+          143
+        ]
       },
       "docs": []
     }
   },
   {
     "id": 146,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          143,
+          147
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 147,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "compact": {
+          "type": 148
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 148,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -10322,7 +10407,7 @@
           "fields": [
             {
               "name": null,
-              "type": 74,
+              "type": 76,
               "typeName": "u16",
               "docs": []
             }
@@ -10333,42 +10418,13 @@
     }
   },
   {
-    "id": 147,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 148
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 148,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
-          95,
-          149,
-          141
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 149,
     "type": {
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 2,
-          "type": 144
+        "sequence": {
+          "type": 150
         }
       },
       "docs": []
@@ -10380,9 +10436,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 151
-        }
+        "tuple": [
+          97,
+          151,
+          143
+        ]
       },
       "docs": []
     }
@@ -10393,11 +10451,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          152,
-          141
-        ]
+        "array": {
+          "len": 2,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10408,9 +10465,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 3,
-          "type": 144
+        "sequence": {
+          "type": 153
         }
       },
       "docs": []
@@ -10422,9 +10478,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 154
-        }
+        "tuple": [
+          97,
+          154,
+          143
+        ]
       },
       "docs": []
     }
@@ -10435,11 +10493,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          155,
-          141
-        ]
+        "array": {
+          "len": 3,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10450,9 +10507,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 4,
-          "type": 144
+        "sequence": {
+          "type": 156
         }
       },
       "docs": []
@@ -10464,9 +10520,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 157
-        }
+        "tuple": [
+          97,
+          157,
+          143
+        ]
       },
       "docs": []
     }
@@ -10477,11 +10535,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          158,
-          141
-        ]
+        "array": {
+          "len": 4,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10492,9 +10549,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 5,
-          "type": 144
+        "sequence": {
+          "type": 159
         }
       },
       "docs": []
@@ -10506,9 +10562,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 160
-        }
+        "tuple": [
+          97,
+          160,
+          143
+        ]
       },
       "docs": []
     }
@@ -10519,11 +10577,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          161,
-          141
-        ]
+        "array": {
+          "len": 5,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10534,9 +10591,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 6,
-          "type": 144
+        "sequence": {
+          "type": 162
         }
       },
       "docs": []
@@ -10548,9 +10604,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 163
-        }
+        "tuple": [
+          97,
+          163,
+          143
+        ]
       },
       "docs": []
     }
@@ -10561,11 +10619,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          164,
-          141
-        ]
+        "array": {
+          "len": 6,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10576,9 +10633,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 7,
-          "type": 144
+        "sequence": {
+          "type": 165
         }
       },
       "docs": []
@@ -10590,9 +10646,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 166
-        }
+        "tuple": [
+          97,
+          166,
+          143
+        ]
       },
       "docs": []
     }
@@ -10603,11 +10661,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          167,
-          141
-        ]
+        "array": {
+          "len": 7,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10618,9 +10675,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 8,
-          "type": 144
+        "sequence": {
+          "type": 168
         }
       },
       "docs": []
@@ -10632,9 +10688,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 169
-        }
+        "tuple": [
+          97,
+          169,
+          143
+        ]
       },
       "docs": []
     }
@@ -10645,11 +10703,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          170,
-          141
-        ]
+        "array": {
+          "len": 8,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10660,9 +10717,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 9,
-          "type": 144
+        "sequence": {
+          "type": 171
         }
       },
       "docs": []
@@ -10674,9 +10730,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 172
-        }
+        "tuple": [
+          97,
+          172,
+          143
+        ]
       },
       "docs": []
     }
@@ -10687,11 +10745,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          173,
-          141
-        ]
+        "array": {
+          "len": 9,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10702,9 +10759,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 10,
-          "type": 144
+        "sequence": {
+          "type": 174
         }
       },
       "docs": []
@@ -10716,9 +10772,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 175
-        }
+        "tuple": [
+          97,
+          175,
+          143
+        ]
       },
       "docs": []
     }
@@ -10729,11 +10787,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          176,
-          141
-        ]
+        "array": {
+          "len": 10,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10744,9 +10801,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 11,
-          "type": 144
+        "sequence": {
+          "type": 177
         }
       },
       "docs": []
@@ -10758,9 +10814,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 178
-        }
+        "tuple": [
+          97,
+          178,
+          143
+        ]
       },
       "docs": []
     }
@@ -10771,11 +10829,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          179,
-          141
-        ]
+        "array": {
+          "len": 11,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10786,9 +10843,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 12,
-          "type": 144
+        "sequence": {
+          "type": 180
         }
       },
       "docs": []
@@ -10800,9 +10856,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 181
-        }
+        "tuple": [
+          97,
+          181,
+          143
+        ]
       },
       "docs": []
     }
@@ -10813,11 +10871,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          182,
-          141
-        ]
+        "array": {
+          "len": 12,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10828,9 +10885,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 13,
-          "type": 144
+        "sequence": {
+          "type": 183
         }
       },
       "docs": []
@@ -10842,9 +10898,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 184
-        }
+        "tuple": [
+          97,
+          184,
+          143
+        ]
       },
       "docs": []
     }
@@ -10855,11 +10913,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          185,
-          141
-        ]
+        "array": {
+          "len": 13,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10870,9 +10927,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 14,
-          "type": 144
+        "sequence": {
+          "type": 186
         }
       },
       "docs": []
@@ -10884,9 +10940,11 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 187
-        }
+        "tuple": [
+          97,
+          187,
+          143
+        ]
       },
       "docs": []
     }
@@ -10897,11 +10955,10 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          95,
-          188,
-          141
-        ]
+        "array": {
+          "len": 14,
+          "type": 146
+        }
       },
       "docs": []
     }
@@ -10912,9 +10969,8 @@
       "path": [],
       "params": [],
       "def": {
-        "array": {
-          "len": 15,
-          "type": 144
+        "sequence": {
+          "type": 189
         }
       },
       "docs": []
@@ -10922,6 +10978,35 @@
   },
   {
     "id": 189,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          97,
+          190,
+          143
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 190,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "array": {
+          "len": 15,
+          "type": 146
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 191,
     "type": {
       "path": [],
       "params": [],
@@ -10935,7 +11020,7 @@
     }
   },
   {
-    "id": 190,
+    "id": 192,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -10947,13 +11032,13 @@
           "fields": [
             {
               "name": "voters",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "targets",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             }
@@ -10964,7 +11049,7 @@
     }
   },
   {
-    "id": 191,
+    "id": 193,
     "type": {
       "path": [
         "Option"
@@ -10972,7 +11057,7 @@
       "params": [
         {
           "name": "T",
-          "type": 189
+          "type": 191
         }
       ],
       "def": {
@@ -10989,7 +11074,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 189,
+                  "type": 191,
                   "typeName": null,
                   "docs": []
                 }
@@ -11004,34 +11089,34 @@
     }
   },
   {
-    "id": 192,
+    "id": 194,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 193
+          "type": 195
         }
       },
       "docs": []
     }
   },
   {
-    "id": 193,
+    "id": 195,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           0,
-          194
+          196
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 194,
+    "id": 196,
     "type": {
       "path": [
         "sp_npos_elections",
@@ -11054,7 +11139,7 @@
             },
             {
               "name": "voters",
-              "type": 43,
+              "type": 45,
               "typeName": "Vec<(AccountId, ExtendedBalance)>",
               "docs": []
             }
@@ -11065,7 +11150,7 @@
     }
   },
   {
-    "id": 195,
+    "id": 197,
     "type": {
       "path": [
         "pallet_staking",
@@ -11087,19 +11172,19 @@
               "fields": [
                 {
                   "name": "controller",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
                   "name": "payee",
-                  "type": 196,
+                  "type": 198,
                   "typeName": "RewardDestination<T::AccountId>",
                   "docs": []
                 }
@@ -11130,7 +11215,7 @@
               "fields": [
                 {
                   "name": "max_additional",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -11159,7 +11244,7 @@
               "fields": [
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -11221,7 +11306,7 @@
               "fields": [
                 {
                   "name": "prefs",
-                  "type": 197,
+                  "type": 199,
                   "typeName": "ValidatorPrefs",
                   "docs": []
                 }
@@ -11240,7 +11325,7 @@
               "fields": [
                 {
                   "name": "targets",
-                  "type": 199,
+                  "type": 201,
                   "typeName": "Vec<<T::Lookup as StaticLookup>::Source>",
                   "docs": []
                 }
@@ -11283,7 +11368,7 @@
               "fields": [
                 {
                   "name": "payee",
-                  "type": 196,
+                  "type": 198,
                   "typeName": "RewardDestination<T::AccountId>",
                   "docs": []
                 }
@@ -11313,7 +11398,7 @@
               "fields": [
                 {
                   "name": "controller",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -11343,7 +11428,7 @@
               "fields": [
                 {
                   "name": "new",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -11365,7 +11450,7 @@
               "fields": [
                 {
                   "name": "additional",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -11386,7 +11471,7 @@
               "fields": [
                 {
                   "name": "factor",
-                  "type": 200,
+                  "type": 202,
                   "typeName": "Percent",
                   "docs": []
                 }
@@ -11531,7 +11616,7 @@
                 },
                 {
                   "name": "slash_indices",
-                  "type": 85,
+                  "type": 87,
                   "typeName": "Vec<u32>",
                   "docs": []
                 }
@@ -11599,7 +11684,7 @@
               "fields": [
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -11622,13 +11707,13 @@
               "fields": [
                 {
                   "name": "new_history_depth",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "EraIndex",
                   "docs": []
                 },
                 {
                   "name": "era_items_deleted",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -11696,7 +11781,7 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 199,
+                  "type": 201,
                   "typeName": "Vec<<T::Lookup as StaticLookup>::Source>",
                   "docs": []
                 }
@@ -11717,7 +11802,7 @@
               ]
             },
             {
-              "name": "set_staking_limits",
+              "name": "set_staking_configs",
               "fields": [
                 {
                   "name": "min_nominator_bond",
@@ -11733,26 +11818,32 @@
                 },
                 {
                   "name": "max_nominator_count",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<u32>",
                   "docs": []
                 },
                 {
                   "name": "max_validator_count",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<u32>",
                   "docs": []
                 },
                 {
-                  "name": "threshold",
-                  "type": 201,
+                  "name": "chill_threshold",
+                  "type": 203,
                   "typeName": "Option<Percent>",
+                  "docs": []
+                },
+                {
+                  "name": "min_commission",
+                  "type": 100,
+                  "typeName": "Perbill",
                   "docs": []
                 }
               ],
               "index": 23,
               "docs": [
-                "Update the various staking limits this pallet.",
+                "Update the various staking configurations .",
                 "",
                 "* `min_nominator_bond`: The minimum active bond needed to be a nominator.",
                 "* `min_validator_bond`: The minimum active bond needed to be a validator.",
@@ -11760,6 +11851,10 @@
                 "  set to `None`, no limit is enforced.",
                 "* `max_validator_count`: The max number of users who can be a validator at once. When",
                 "  set to `None`, no limit is enforced.",
+                "* `chill_threshold`: The ratio of `max_nominator_count` or `max_validator_count` which",
+                "  should be filled in order for the `chill_other` transaction to work.",
+                "* `min_commission`: The minimum amount of commission that each validators must maintain.",
+                "  This is checked only upon calling `validate`. Existing validators are not affected.",
                 "",
                 "Origin must be Root to call this function.",
                 "",
@@ -11811,7 +11906,7 @@
     }
   },
   {
-    "id": 196,
+    "id": 198,
     "type": {
       "path": [
         "pallet_staking",
@@ -11870,7 +11965,7 @@
     }
   },
   {
-    "id": 197,
+    "id": 199,
     "type": {
       "path": [
         "pallet_staking",
@@ -11882,7 +11977,7 @@
           "fields": [
             {
               "name": "commission",
-              "type": 198,
+              "type": 200,
               "typeName": "Perbill",
               "docs": []
             },
@@ -11899,33 +11994,33 @@
     }
   },
   {
-    "id": 198,
+    "id": 200,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "compact": {
-          "type": 98
+          "type": 100
         }
       },
       "docs": []
     }
   },
   {
-    "id": 199,
+    "id": 201,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 134
+          "type": 136
         }
       },
       "docs": []
     }
   },
   {
-    "id": 200,
+    "id": 202,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -11949,7 +12044,7 @@
     }
   },
   {
-    "id": 201,
+    "id": 203,
     "type": {
       "path": [
         "Option"
@@ -11957,7 +12052,7 @@
       "params": [
         {
           "name": "T",
-          "type": 200
+          "type": 202
         }
       ],
       "def": {
@@ -11974,7 +12069,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 200,
+                  "type": 202,
                   "typeName": null,
                   "docs": []
                 }
@@ -11989,7 +12084,7 @@
     }
   },
   {
-    "id": 202,
+    "id": 204,
     "type": {
       "path": [
         "pallet_session",
@@ -12010,7 +12105,7 @@
               "fields": [
                 {
                   "name": "keys",
-                  "type": 203,
+                  "type": 205,
                   "typeName": "T::Keys",
                   "docs": []
                 },
@@ -12071,7 +12166,7 @@
     }
   },
   {
-    "id": 203,
+    "id": 205,
     "type": {
       "path": [
         "node_runtime",
@@ -12083,25 +12178,25 @@
           "fields": [
             {
               "name": "grandpa",
-              "type": 49,
+              "type": 51,
               "typeName": "<Grandpa as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "babe",
-              "type": 122,
+              "type": 124,
               "typeName": "<Babe as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "im_online",
-              "type": 55,
+              "type": 57,
               "typeName": "<ImOnline as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "authority_discovery",
-              "type": 204,
+              "type": 206,
               "typeName": "<AuthorityDiscovery as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             }
@@ -12112,7 +12207,7 @@
     }
   },
   {
-    "id": 204,
+    "id": 206,
     "type": {
       "path": [
         "sp_authority_discovery",
@@ -12125,7 +12220,7 @@
           "fields": [
             {
               "name": null,
-              "type": 56,
+              "type": 58,
               "typeName": "sr25519::Public",
               "docs": []
             }
@@ -12136,7 +12231,7 @@
     }
   },
   {
-    "id": 205,
+    "id": 207,
     "type": {
       "path": [
         "pallet_democracy",
@@ -12163,7 +12258,7 @@
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -12188,13 +12283,13 @@
               "fields": [
                 {
                   "name": "proposal",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "PropIndex",
                   "docs": []
                 },
                 {
                   "name": "seconds_upper_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -12218,13 +12313,13 @@
               "fields": [
                 {
                   "name": "ref_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ReferendumIndex",
                   "docs": []
                 },
                 {
                   "name": "vote",
-                  "type": 206,
+                  "type": 40,
                   "typeName": "AccountVote<BalanceOf<T>>",
                   "docs": []
                 }
@@ -12406,7 +12501,7 @@
               "fields": [
                 {
                   "name": "ref_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ReferendumIndex",
                   "docs": []
                 }
@@ -12611,7 +12706,7 @@
                 },
                 {
                   "name": "proposal_len_upper_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -12764,7 +12859,7 @@
                 },
                 {
                   "name": "maybe_ref_index",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<ReferendumIndex>",
                   "docs": []
                 }
@@ -12793,7 +12888,7 @@
               "fields": [
                 {
                   "name": "prop_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "PropIndex",
                   "docs": []
                 }
@@ -12815,91 +12910,6 @@
       "docs": [
         "Contains one variant per dispatchable that can be called by an extrinsic."
       ]
-    }
-  },
-  {
-    "id": 206,
-    "type": {
-      "path": [
-        "pallet_democracy",
-        "vote",
-        "AccountVote"
-      ],
-      "params": [
-        {
-          "name": "Balance",
-          "type": 6
-        }
-      ],
-      "def": {
-        "variant": {
-          "variants": [
-            {
-              "name": "Standard",
-              "fields": [
-                {
-                  "name": "vote",
-                  "type": 207,
-                  "typeName": "Vote",
-                  "docs": []
-                },
-                {
-                  "name": "balance",
-                  "type": 6,
-                  "typeName": "Balance",
-                  "docs": []
-                }
-              ],
-              "index": 0,
-              "docs": []
-            },
-            {
-              "name": "Split",
-              "fields": [
-                {
-                  "name": "aye",
-                  "type": 6,
-                  "typeName": "Balance",
-                  "docs": []
-                },
-                {
-                  "name": "nay",
-                  "type": 6,
-                  "typeName": "Balance",
-                  "docs": []
-                }
-              ],
-              "index": 1,
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 207,
-    "type": {
-      "path": [
-        "pallet_democracy",
-        "vote",
-        "Vote"
-      ],
-      "params": [],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 2,
-              "typeName": null,
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
     }
   },
   {
@@ -13046,13 +13056,13 @@
               "fields": [
                 {
                   "name": "proposal",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config<I>>::Proposal>",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13077,19 +13087,19 @@
               "fields": [
                 {
                   "name": "threshold",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "MemberCount",
                   "docs": []
                 },
                 {
                   "name": "proposal",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config<I>>::Proposal>",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13136,7 +13146,7 @@
                 },
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
@@ -13177,19 +13187,19 @@
                 },
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
                 {
                   "name": "proposal_weight_bound",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "Weight",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13390,13 +13400,13 @@
               "fields": [
                 {
                   "name": "proposal",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config<I>>::Proposal>",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13421,19 +13431,19 @@
               "fields": [
                 {
                   "name": "threshold",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "MemberCount",
                   "docs": []
                 },
                 {
                   "name": "proposal",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config<I>>::Proposal>",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13480,7 +13490,7 @@
                 },
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
@@ -13521,19 +13531,19 @@
                 },
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 },
                 {
                   "name": "proposal_weight_bound",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "Weight",
                   "docs": []
                 },
                 {
                   "name": "length_bound",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13638,7 +13648,7 @@
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -13687,7 +13697,7 @@
               "fields": [
                 {
                   "name": "candidate_count",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -13748,7 +13758,7 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -13843,7 +13853,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -14037,7 +14047,7 @@
                 },
                 {
                   "name": "key_owner_proof",
-                  "type": 124,
+                  "type": 126,
                   "typeName": "T::KeyOwnerProof",
                   "docs": []
                 }
@@ -14061,7 +14071,7 @@
                 },
                 {
                   "name": "key_owner_proof",
-                  "type": 124,
+                  "type": 126,
                   "typeName": "T::KeyOwnerProof",
                   "docs": []
                 }
@@ -14214,7 +14224,7 @@
       "params": [
         {
           "name": "Id",
-          "type": 49
+          "type": 51
         },
         {
           "name": "V",
@@ -14236,7 +14246,7 @@
             },
             {
               "name": "identity",
-              "type": 49,
+              "type": 51,
               "typeName": "Id",
               "docs": []
             },
@@ -14382,7 +14392,7 @@
       "params": [
         {
           "name": "Id",
-          "type": 49
+          "type": 51
         },
         {
           "name": "V",
@@ -14404,7 +14414,7 @@
             },
             {
               "name": "identity",
-              "type": 49,
+              "type": 51,
               "typeName": "Id",
               "docs": []
             },
@@ -14504,13 +14514,13 @@
               "fields": [
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T, I>",
                   "docs": []
                 },
                 {
                   "name": "beneficiary",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -14533,7 +14543,7 @@
               "fields": [
                 {
                   "name": "proposal_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 }
@@ -14556,7 +14566,7 @@
               "fields": [
                 {
                   "name": "proposal_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ProposalIndex",
                   "docs": []
                 }
@@ -14605,19 +14615,19 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
                   "name": "gas_limit",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "Weight",
                   "docs": []
                 },
@@ -14644,13 +14654,13 @@
               "fields": [
                 {
                   "name": "endowment",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
                   "name": "gas_limit",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "Weight",
                   "docs": []
                 },
@@ -14704,13 +14714,13 @@
               "fields": [
                 {
                   "name": "endowment",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
                   "name": "gas_limit",
-                  "type": 129,
+                  "type": 131,
                   "typeName": "Weight",
                   "docs": []
                 },
@@ -14772,7 +14782,7 @@
               "fields": [
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -14796,7 +14806,7 @@
               "fields": [
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 },
@@ -14826,7 +14836,7 @@
               "fields": [
                 {
                   "name": "new",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -14850,13 +14860,13 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -15271,13 +15281,13 @@
               "fields": [
                 {
                   "name": "reg_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "RegistrarIndex",
                   "docs": []
                 },
                 {
                   "name": "max_fee",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -15345,13 +15355,13 @@
               "fields": [
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "RegistrarIndex",
                   "docs": []
                 },
                 {
                   "name": "fee",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -15378,7 +15388,7 @@
               "fields": [
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "RegistrarIndex",
                   "docs": []
                 },
@@ -15411,7 +15421,7 @@
               "fields": [
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "RegistrarIndex",
                   "docs": []
                 },
@@ -15444,13 +15454,13 @@
               "fields": [
                 {
                   "name": "reg_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "RegistrarIndex",
                   "docs": []
                 },
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -15489,7 +15499,7 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -15522,7 +15532,7 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -15549,7 +15559,7 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -15573,7 +15583,7 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -15866,7 +15876,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 113,
+                  "type": 115,
                   "typeName": null,
                   "docs": []
                 }
@@ -15970,7 +15980,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 64,
+                  "type": 66,
                   "typeName": null,
                   "docs": []
                 }
@@ -16022,7 +16032,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 135,
+                  "type": 137,
                   "typeName": null,
                   "docs": []
                 }
@@ -16658,7 +16668,7 @@
       "params": [
         {
           "name": "T",
-          "type": 135
+          "type": 137
         }
       ],
       "def": {
@@ -16675,7 +16685,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 135,
+                  "type": 137,
                   "typeName": null,
                   "docs": []
                 }
@@ -17092,7 +17102,7 @@
               "fields": [
                 {
                   "name": "candidate",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -17456,7 +17466,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -17522,7 +17532,7 @@
                 },
                 {
                   "name": "threshold",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
@@ -17815,7 +17825,7 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -17844,7 +17854,7 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -17881,13 +17891,13 @@
               "fields": [
                 {
                   "name": "source",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -18054,23 +18064,14 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
               ],
               "index": 0,
               "docs": [
-                "Anonymously schedule a task.",
-                "",
-                "# <weight>",
-                "- S = Number of already scheduled calls",
-                "- Base Weight: 22.29 + .126 * S µs",
-                "- DB Weight:",
-                "    - Read: Agenda",
-                "    - Write: Agenda",
-                "- Will use base weight of 25 which should be good for up to 30 scheduled calls",
-                "# </weight>"
+                "Anonymously schedule a task."
               ]
             },
             {
@@ -18091,16 +18092,7 @@
               ],
               "index": 1,
               "docs": [
-                "Cancel an anonymously scheduled task.",
-                "",
-                "# <weight>",
-                "- S = Number of already scheduled calls",
-                "- Base Weight: 22.15 + 2.869 * S µs",
-                "- DB Weight:",
-                "    - Read: Agenda",
-                "    - Write: Agenda, Lookup",
-                "- Will use base weight of 100 which should be good for up to 30 scheduled calls",
-                "# </weight>"
+                "Cancel an anonymously scheduled task."
               ]
             },
             {
@@ -18132,23 +18124,14 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
               ],
               "index": 2,
               "docs": [
-                "Schedule a named task.",
-                "",
-                "# <weight>",
-                "- S = Number of already scheduled calls",
-                "- Base Weight: 29.6 + .159 * S µs",
-                "- DB Weight:",
-                "    - Read: Agenda, Lookup",
-                "    - Write: Agenda, Lookup",
-                "- Will use base weight of 35 which should be good for more than 30 scheduled calls",
-                "# </weight>"
+                "Schedule a named task."
               ]
             },
             {
@@ -18163,16 +18146,7 @@
               ],
               "index": 3,
               "docs": [
-                "Cancel a named scheduled task.",
-                "",
-                "# <weight>",
-                "- S = Number of already scheduled calls",
-                "- Base Weight: 24.91 + 2.907 * S µs",
-                "- DB Weight:",
-                "    - Read: Agenda, Lookup",
-                "    - Write: Agenda, Lookup",
-                "- Will use base weight of 100 which should be good for up to 30 scheduled calls",
-                "# </weight>"
+                "Cancel a named scheduled task."
               ]
             },
             {
@@ -18198,7 +18172,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -18241,7 +18215,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -18272,7 +18246,7 @@
       "params": [
         {
           "name": "T",
-          "type": 70
+          "type": 72
         }
       ],
       "def": {
@@ -18289,7 +18263,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 70,
+                  "type": 72,
                   "typeName": null,
                   "docs": []
                 }
@@ -18337,7 +18311,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -18372,7 +18346,7 @@
                 },
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
@@ -18411,7 +18385,7 @@
                 },
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
@@ -18459,7 +18433,7 @@
               "fields": [
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
@@ -18471,7 +18445,7 @@
                 },
                 {
                   "name": "index",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 }
@@ -18514,25 +18488,25 @@
                 },
                 {
                   "name": "proxy_type",
-                  "type": 73,
+                  "type": 75,
                   "typeName": "T::ProxyType",
                   "docs": []
                 },
                 {
                   "name": "index",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
                 {
                   "name": "height",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::BlockNumber",
                   "docs": []
                 },
                 {
                   "name": "ext_index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "u32",
                   "docs": []
                 }
@@ -18697,7 +18671,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -18740,7 +18714,7 @@
       "params": [
         {
           "name": "T",
-          "type": 73
+          "type": 75
         }
       ],
       "def": {
@@ -18757,7 +18731,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 73,
+                  "type": 75,
                   "typeName": null,
                   "docs": []
                 }
@@ -18799,7 +18773,7 @@
                 },
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -18829,7 +18803,7 @@
               "fields": [
                 {
                   "name": "threshold",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
@@ -18918,7 +18892,7 @@
               "fields": [
                 {
                   "name": "threshold",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
@@ -18991,7 +18965,7 @@
               "fields": [
                 {
                   "name": "threshold",
-                  "type": 74,
+                  "type": 76,
                   "typeName": "u16",
                   "docs": []
                 },
@@ -19003,7 +18977,7 @@
                 },
                 {
                   "name": "timepoint",
-                  "type": 76,
+                  "type": 78,
                   "typeName": "Timepoint<T::BlockNumber>",
                   "docs": []
                 },
@@ -19061,7 +19035,7 @@
       "params": [
         {
           "name": "T",
-          "type": 76
+          "type": 78
         }
       ],
       "def": {
@@ -19078,7 +19052,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 76,
+                  "type": 78,
                   "typeName": null,
                   "docs": []
                 }
@@ -19104,7 +19078,7 @@
       "params": [
         {
           "name": "T",
-          "type": 117
+          "type": 119
         }
       ],
       "def": {
@@ -19112,13 +19086,13 @@
           "fields": [
             {
               "name": null,
-              "type": 95,
+              "type": 97,
               "typeName": null,
               "docs": []
             },
             {
               "name": null,
-              "type": 117,
+              "type": 119,
               "typeName": "T",
               "docs": []
             }
@@ -19150,7 +19124,7 @@
               "fields": [
                 {
                   "name": "value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
@@ -19182,7 +19156,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 }
@@ -19204,19 +19178,19 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 },
                 {
                   "name": "curator",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "fee",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -19237,7 +19211,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 }
@@ -19269,7 +19243,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 }
@@ -19291,13 +19265,13 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 },
                 {
                   "name": "beneficiary",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -19322,7 +19296,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 }
@@ -19345,7 +19319,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 }
@@ -19369,7 +19343,7 @@
               "fields": [
                 {
                   "name": "bounty_id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "BountyIndex",
                   "docs": []
                 },
@@ -19508,7 +19482,7 @@
                 },
                 {
                   "name": "tip_value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -19550,7 +19524,7 @@
                 },
                 {
                   "name": "tip_value",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 }
@@ -19673,13 +19647,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -19718,13 +19692,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -19736,7 +19710,7 @@
                 },
                 {
                   "name": "min_balance",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -19769,7 +19743,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
@@ -19807,19 +19781,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "beneficiary",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -19845,19 +19819,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -19886,19 +19860,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -19930,19 +19904,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "target",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -19974,25 +19948,25 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "source",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -20025,13 +19999,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20055,13 +20029,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "who",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20085,7 +20059,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 }
@@ -20108,7 +20082,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 }
@@ -20131,13 +20105,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20161,25 +20135,25 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "issuer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "freezer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20205,7 +20179,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
@@ -20253,7 +20227,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 }
@@ -20278,7 +20252,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
@@ -20330,7 +20304,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 }
@@ -20355,37 +20329,37 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "issuer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "freezer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "min_balance",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 },
@@ -20433,19 +20407,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "delegate",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -20479,13 +20453,13 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "delegate",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20512,19 +20486,19 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "delegate",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20551,25 +20525,25 @@
               "fields": [
                 {
                   "name": "id",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::AssetId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "destination",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "T::Balance",
                   "docs": []
                 }
@@ -20618,19 +20592,19 @@
           "fields": [
             {
               "name": "accounts",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "sufficients",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "approvals",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             }
@@ -20662,7 +20636,7 @@
               "fields": [
                 {
                   "name": "call",
-                  "type": 117,
+                  "type": 119,
                   "typeName": "Box<<T as Config>::Call>",
                   "docs": []
                 }
@@ -20687,7 +20661,7 @@
               "fields": [
                 {
                   "name": "calls",
-                  "type": 116,
+                  "type": 118,
                   "typeName": "Vec<<T as Config>::Call>",
                   "docs": []
                 }
@@ -20785,7 +20759,7 @@
               "fields": [
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
@@ -20818,7 +20792,7 @@
               "fields": [
                 {
                   "name": "amount",
-                  "type": 60,
+                  "type": 62,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
@@ -20865,7 +20839,7 @@
               "fields": [
                 {
                   "name": "index",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "ActiveIndex",
                   "docs": []
                 }
@@ -20952,13 +20926,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -20988,13 +20962,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -21030,7 +21004,7 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
@@ -21065,19 +21039,19 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -21102,13 +21076,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
@@ -21141,19 +21115,19 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
                 {
                   "name": "dest",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -21182,13 +21156,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instances",
-                  "type": 85,
+                  "type": 87,
                   "typeName": "Vec<T::InstanceId>",
                   "docs": []
                 }
@@ -21219,13 +21193,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 }
@@ -21249,13 +21223,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 }
@@ -21279,7 +21253,7 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 }
@@ -21302,7 +21276,7 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 }
@@ -21325,13 +21299,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -21355,25 +21329,25 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "issuer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "freezer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -21399,19 +21373,19 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
                 {
                   "name": "delegate",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 }
@@ -21436,13 +21410,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
@@ -21478,31 +21452,31 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "owner",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "issuer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "admin",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
                 {
                   "name": "freezer",
-                  "type": 134,
+                  "type": 136,
                   "typeName": "<T::Lookup as StaticLookup>::Source",
                   "docs": []
                 },
@@ -21545,25 +21519,25 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "maybe_instance",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<T::InstanceId>",
                   "docs": []
                 },
                 {
                   "name": "key",
-                  "type": 87,
+                  "type": 89,
                   "typeName": "BoundedVec<u8, T::KeyLimit>",
                   "docs": []
                 },
                 {
                   "name": "value",
-                  "type": 88,
+                  "type": 90,
                   "typeName": "BoundedVec<u8, T::ValueLimit>",
                   "docs": []
                 }
@@ -21594,19 +21568,19 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "maybe_instance",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<T::InstanceId>",
                   "docs": []
                 },
                 {
                   "name": "key",
-                  "type": 87,
+                  "type": 89,
                   "typeName": "BoundedVec<u8, T::KeyLimit>",
                   "docs": []
                 }
@@ -21637,19 +21611,19 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 },
                 {
                   "name": "data",
-                  "type": 84,
+                  "type": 86,
                   "typeName": "BoundedVec<u8, T::StringLimit>",
                   "docs": []
                 },
@@ -21686,13 +21660,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "instance",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::InstanceId",
                   "docs": []
                 }
@@ -21719,13 +21693,13 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 },
                 {
                   "name": "data",
-                  "type": 84,
+                  "type": 86,
                   "typeName": "BoundedVec<u8, T::StringLimit>",
                   "docs": []
                 },
@@ -21761,7 +21735,7 @@
               "fields": [
                 {
                   "name": "class",
-                  "type": 95,
+                  "type": 97,
                   "typeName": "T::ClassId",
                   "docs": []
                 }
@@ -21804,19 +21778,19 @@
           "fields": [
             {
               "name": "instances",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "instance_metadatas",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "attributes",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             }
@@ -21835,7 +21809,7 @@
       "params": [
         {
           "name": "T",
-          "type": 134
+          "type": 136
         }
       ],
       "def": {
@@ -21852,7 +21826,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 134,
+                  "type": 136,
                   "typeName": null,
                   "docs": []
                 }
@@ -21979,7 +21953,7 @@
             },
             {
               "name": "proof",
-              "type": 101,
+              "type": 103,
               "typeName": "Vec<Vec<u8>>",
               "docs": []
             }
@@ -22370,7 +22344,7 @@
       "params": [],
       "def": {
         "tuple": [
-          122,
+          124,
           8
         ]
       },
@@ -22490,13 +22464,13 @@
           "fields": [
             {
               "name": "c",
-              "type": 126,
+              "type": 128,
               "typeName": "(u64, u64)",
               "docs": []
             },
             {
               "name": "allowed_slots",
-              "type": 127,
+              "type": 129,
               "typeName": "AllowedSlots",
               "docs": []
             }
@@ -22843,7 +22817,7 @@
           "fields": [
             {
               "name": "id",
-              "type": 113,
+              "type": 115,
               "typeName": "LockIdentifier",
               "docs": []
             },
@@ -22957,7 +22931,7 @@
       "params": [
         {
           "name": "ReserveIdentifier",
-          "type": 113
+          "type": 115
         },
         {
           "name": "Balance",
@@ -22969,7 +22943,7 @@
           "fields": [
             {
               "name": "id",
-              "type": 113,
+              "type": 115,
               "typeName": "ReserveIdentifier",
               "docs": []
             },
@@ -23211,7 +23185,7 @@
             },
             {
               "name": "coeff_frac",
-              "type": 98,
+              "type": 100,
               "typeName": "Perbill",
               "docs": []
             },
@@ -23318,13 +23292,13 @@
           "fields": [
             {
               "name": "supports",
-              "type": 192,
+              "type": 194,
               "typeName": "Supports<A>",
               "docs": []
             },
             {
               "name": "score",
-              "type": 189,
+              "type": 191,
               "typeName": "ElectionScore",
               "docs": []
             },
@@ -23414,7 +23388,7 @@
       "params": [
         {
           "name": "K",
-          "type": 189
+          "type": 191
         },
         {
           "name": "V",
@@ -23449,7 +23423,7 @@
       "params": [
         {
           "name": "K",
-          "type": 189
+          "type": 191
         },
         {
           "name": "V",
@@ -23491,7 +23465,7 @@
       "params": [],
       "def": {
         "tuple": [
-          189,
+          191,
           4
         ]
       },
@@ -23517,7 +23491,7 @@
         },
         {
           "name": "Solution",
-          "type": 138
+          "type": 140
         }
       ],
       "def": {
@@ -23537,7 +23511,7 @@
             },
             {
               "name": "raw_solution",
-              "type": 137,
+              "type": 139,
               "typeName": "RawSolution<Solution>",
               "docs": []
             },
@@ -23694,13 +23668,13 @@
             },
             {
               "name": "total",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             },
             {
               "name": "active",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             },
@@ -23712,7 +23686,7 @@
             },
             {
               "name": "claimed_rewards",
-              "type": 85,
+              "type": 87,
               "typeName": "Vec<EraIndex>",
               "docs": []
             }
@@ -23753,13 +23727,13 @@
           "fields": [
             {
               "name": "value",
-              "type": 60,
+              "type": 62,
               "typeName": "Balance",
               "docs": []
             },
             {
               "name": "era",
-              "type": 95,
+              "type": 97,
               "typeName": "EraIndex",
               "docs": []
             }
@@ -23828,7 +23802,7 @@
             },
             {
               "name": "start",
-              "type": 105,
+              "type": 107,
               "typeName": "Option<u64>",
               "docs": []
             }
@@ -24032,7 +24006,7 @@
             },
             {
               "name": "others",
-              "type": 43,
+              "type": 45,
               "typeName": "Vec<(AccountId, Balance)>",
               "docs": []
             },
@@ -24061,7 +24035,7 @@
       "params": [],
       "def": {
         "tuple": [
-          98,
+          100,
           6
         ]
       },
@@ -24100,7 +24074,7 @@
             },
             {
               "name": "prior",
-              "type": 85,
+              "type": 87,
               "typeName": "Vec<EraIndex>",
               "docs": []
             }
@@ -24442,6 +24416,14 @@
                 "There are too many validators in the system. Governance needs to adjust the staking",
                 "settings to keep things safe for the runtime."
               ]
+            },
+            {
+              "name": "CommissionTooLow",
+              "fields": [],
+              "index": 23,
+              "docs": [
+                "Commission is too low. Must be at least `MinCommission`."
+              ]
             }
           ]
         }
@@ -24472,7 +24454,7 @@
       "def": {
         "tuple": [
           0,
-          203
+          205
         ]
       },
       "docs": []
@@ -24689,7 +24671,7 @@
                 },
                 {
                   "name": "expiry",
-                  "type": 86,
+                  "type": 88,
                   "typeName": "Option<BlockNumber>",
                   "docs": []
                 }
@@ -24982,7 +24964,7 @@
       "def": {
         "tuple": [
           4,
-          206
+          40
         ]
       },
       "docs": []
@@ -25387,7 +25369,7 @@
           "fields": [
             {
               "name": null,
-              "type": 92,
+              "type": 94,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -25586,7 +25568,7 @@
           "fields": [
             {
               "name": null,
-              "type": 92,
+              "type": 94,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -26124,7 +26106,7 @@
             },
             {
               "name": "forced",
-              "type": 86,
+              "type": 88,
               "typeName": "Option<N>",
               "docs": []
             }
@@ -26146,7 +26128,7 @@
       "params": [
         {
           "name": "T",
-          "type": 48
+          "type": 50
         },
         {
           "name": "S",
@@ -26158,7 +26140,7 @@
           "fields": [
             {
               "name": null,
-              "type": 47,
+              "type": 49,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -26325,7 +26307,7 @@
           "fields": [
             {
               "name": null,
-              "type": 85,
+              "type": 87,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -26372,7 +26354,7 @@
           "fields": [
             {
               "name": null,
-              "type": 113,
+              "type": 115,
               "typeName": "[u8; 8]",
               "docs": []
             }
@@ -26454,25 +26436,25 @@
           "fields": [
             {
               "name": "instruction_weights_version",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "initial",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "maximum",
-              "type": 95,
+              "type": 97,
               "typeName": "u32",
               "docs": []
             },
             {
               "name": "refcount",
-              "type": 129,
+              "type": 131,
               "typeName": "u64",
               "docs": []
             },
@@ -27662,7 +27644,7 @@
       "params": [
         {
           "name": "T",
-          "type": 55
+          "type": 57
         },
         {
           "name": "S",
@@ -27691,7 +27673,7 @@
       "params": [],
       "def": {
         "sequence": {
-          "type": 55
+          "type": 57
         }
       },
       "docs": []
@@ -27717,7 +27699,7 @@
           "fields": [
             {
               "name": null,
-              "type": 95,
+              "type": 97,
               "typeName": null,
               "docs": []
             },
@@ -27909,7 +27891,7 @@
       "params": [
         {
           "name": "T",
-          "type": 204
+          "type": 206
         },
         {
           "name": "S",
@@ -27938,7 +27920,7 @@
       "params": [],
       "def": {
         "sequence": {
-          "type": 204
+          "type": 206
         }
       },
       "docs": []
@@ -27959,7 +27941,7 @@
         },
         {
           "name": "Offender",
-          "type": 58
+          "type": 60
         }
       ],
       "def": {
@@ -27967,7 +27949,7 @@
           "fields": [
             {
               "name": "offender",
-              "type": 58,
+              "type": 60,
               "typeName": "Offender",
               "docs": []
             },
@@ -27990,7 +27972,7 @@
       "params": [],
       "def": {
         "tuple": [
-          64,
+          66,
           10
         ]
       },
@@ -28891,7 +28873,7 @@
             },
             {
               "name": "threshold",
-              "type": 74,
+              "type": 76,
               "typeName": "u16",
               "docs": []
             }
@@ -29307,7 +29289,7 @@
       "params": [
         {
           "name": "Call",
-          "type": 117
+          "type": 119
         },
         {
           "name": "BlockNumber",
@@ -29327,7 +29309,7 @@
           "fields": [
             {
               "name": "maybe_id",
-              "type": 71,
+              "type": 73,
               "typeName": "Option<Vec<u8>>",
               "docs": []
             },
@@ -29339,7 +29321,7 @@
             },
             {
               "name": "call",
-              "type": 117,
+              "type": 119,
               "typeName": "Call",
               "docs": []
             },
@@ -29509,7 +29491,7 @@
         },
         {
           "name": "ProxyType",
-          "type": 73
+          "type": 75
         },
         {
           "name": "BlockNumber",
@@ -29527,7 +29509,7 @@
             },
             {
               "name": "proxy_type",
-              "type": 73,
+              "type": 75,
               "typeName": "ProxyType",
               "docs": []
             },
@@ -29794,7 +29776,7 @@
           "fields": [
             {
               "name": "when",
-              "type": 76,
+              "type": 78,
               "typeName": "Timepoint<BlockNumber>",
               "docs": []
             },
@@ -30293,13 +30275,13 @@
             },
             {
               "name": "closes",
-              "type": 86,
+              "type": 88,
               "typeName": "Option<BlockNumber>",
               "docs": []
             },
             {
               "name": "tips",
-              "type": 43,
+              "type": 45,
               "typeName": "Vec<(AccountId, Balance)>",
               "docs": []
             },
@@ -30611,7 +30593,7 @@
         },
         {
           "name": "BoundedString",
-          "type": 84
+          "type": 86
         }
       ],
       "def": {
@@ -30625,13 +30607,13 @@
             },
             {
               "name": "name",
-              "type": 84,
+              "type": 86,
               "typeName": "BoundedString",
               "docs": []
             },
             {
               "name": "symbol",
-              "type": 84,
+              "type": 86,
               "typeName": "BoundedString",
               "docs": []
             },
@@ -30856,7 +30838,7 @@
       "params": [],
       "def": {
         "sequence": {
-          "type": 81
+          "type": 83
         }
       },
       "docs": []
@@ -31369,7 +31351,7 @@
             },
             {
               "name": "data",
-              "type": 84,
+              "type": 86,
               "typeName": "BoundedVec<u8, StringLimit>",
               "docs": []
             },
@@ -31414,7 +31396,7 @@
             },
             {
               "name": "data",
-              "type": 84,
+              "type": 86,
               "typeName": "BoundedVec<u8, StringLimit>",
               "docs": []
             },
@@ -31438,8 +31420,8 @@
       "def": {
         "tuple": [
           4,
-          86,
-          87
+          88,
+          89
         ]
       },
       "docs": []
@@ -31452,7 +31434,7 @@
       "params": [],
       "def": {
         "tuple": [
-          88,
+          90,
           6
         ]
       },
@@ -31858,11 +31840,11 @@
       "params": [
         {
           "name": "Address",
-          "type": 134
+          "type": 136
         },
         {
           "name": "Call",
-          "type": 117
+          "type": 119
         },
         {
           "name": "Signature",
@@ -35460,7 +35442,7 @@
           "fields": [
             {
               "name": null,
-              "type": 95,
+              "type": 97,
               "typeName": "T::Index",
               "docs": []
             }
@@ -35511,13 +35493,13 @@
           "fields": [
             {
               "name": "tip",
-              "type": 60,
+              "type": 62,
               "typeName": "BalanceOf<T>",
               "docs": []
             },
             {
               "name": "asset_id",
-              "type": 86,
+              "type": 88,
               "typeName": "Option<ChargeAssetIdOf<T>>",
               "docs": []
             }

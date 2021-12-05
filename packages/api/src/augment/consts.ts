@@ -171,6 +171,8 @@ declare module '@polkadot/api/types/consts' {
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum acceptable reason length.
+       * 
+       * Benchmarks depend on this value, be sure to update weights file when changing this value
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
       /**
@@ -181,7 +183,7 @@ declare module '@polkadot/api/types/consts' {
     contracts: {
       /**
        * The deposit that must be placed into the contract's account to instantiate it.
-       * This is in **addition** to the [`pallet_balances::Pallet::ExistenialDeposit`].
+       * This is in **addition** to the [`Currency::minimum_balance`].
        * The minimum balance for a contract's account can be queried using
        * [`Pallet::subsistence_threshold`].
        **/
@@ -771,6 +773,8 @@ declare module '@polkadot/api/types/consts' {
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum acceptable reason length.
+       * 
+       * Benchmarks depend on this value, be sure to update weights file when changing this value
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
       /**
