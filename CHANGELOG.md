@@ -5,6 +5,7 @@
 Changes:
 
 - Align `state_traceBlock` RPC with Substrate
+- Bump static metadata for latest Substrate, Polkadot & Kusama
 
 
 ## 6.10.3 Nov 30, 2021
