@@ -4,4 +4,4 @@
 import { createVersionedExport } from '../util';
 import * as v0 from './v0';
 
-export default createVersionedExport('v0', v0, {});
+export default createVersionedExport({ v0 });
