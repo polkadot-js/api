@@ -8,8 +8,8 @@ import user from './user';
 const all: Record<string, Record<string, unknown>> = {};
 
 Object.entries({ ink, solang, user }).forEach(([type, abis]) =>
-  Object.keys(abis).forEach((key): void => {
-    all[`${type}_${key}`] = abis[key];
+  Object.entries(abis).forEach(([name, abi]): void => {
+    all[`${type}_${name}`] = abi;
   })
 );
 
