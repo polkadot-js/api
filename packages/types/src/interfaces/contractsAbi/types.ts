@@ -6,19 +6,38 @@ import type { BTreeMap, Bytes, Enum, Option, Raw, Struct, Text, U8aFixed, Vec, b
   import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
   import type { ITuple } from '@polkadot/types/types';
 
-/** @name ContractConstructorSpec */
-export interface ContractConstructorSpec extends Struct {
+/** @name ContractConstructorSpecLatest */
+export interface ContractConstructorSpecLatest extends ContractConstructorSpecV2 {}
+
+/** @name ContractConstructorSpecV0 */
+export interface ContractConstructorSpecV0 extends Struct {
   readonly name: Text;
   readonly selector: ContractSelector;
-  readonly args: Vec<ContractMessageParamSpec>;
+  readonly args: Vec<ContractMessageParamSpecV0>;
   readonly docs: Vec<Text>;
 }
 
-/** @name ContractContractSpec */
-export interface ContractContractSpec extends Struct {
-  readonly constructors: Vec<ContractConstructorSpec>;
-  readonly messages: Vec<ContractMessageSpec>;
-  readonly events: Vec<ContractEventSpec>;
+/** @name ContractConstructorSpecV2 */
+export interface ContractConstructorSpecV2 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly args: Vec<ContractMessageParamSpecV2>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractContractSpecV0 */
+export interface ContractContractSpecV0 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV0>;
+  readonly messages: Vec<ContractMessageSpecV0>;
+  readonly events: Vec<ContractEventSpecV0>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractContractSpecV2 */
+export interface ContractContractSpecV2 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV2>;
+  readonly messages: Vec<ContractMessageSpecV2>;
+  readonly events: Vec<ContractEventSpecV2>;
   readonly docs: Vec<Text>;
 }
 
@@ -35,18 +54,36 @@ export interface ContractDiscriminant extends u32 {}
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
 
-/** @name ContractEventParamSpec */
-export interface ContractEventParamSpec extends Struct {
+/** @name ContractEventParamSpecV0 */
+export interface ContractEventParamSpecV0 extends Struct {
   readonly name: Text;
   readonly indexed: bool;
   readonly type: ContractTypeSpec;
   readonly docs: Vec<Text>;
 }
 
-/** @name ContractEventSpec */
-export interface ContractEventSpec extends Struct {
+/** @name ContractEventParamSpecV2 */
+export interface ContractEventParamSpecV2 extends Struct {
+  readonly label: Text;
+  readonly indexed: bool;
+  readonly type: ContractTypeSpec;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractEventSpecLatest */
+export interface ContractEventSpecLatest extends ContractEventSpecV2 {}
+
+/** @name ContractEventSpecV0 */
+export interface ContractEventSpecV0 extends Struct {
   readonly name: Text;
-  readonly args: Vec<ContractEventParamSpec>;
+  readonly args: Vec<ContractEventParamSpecV0>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractEventSpecV2 */
+export interface ContractEventSpecV2 extends Struct {
+  readonly label: Text;
+  readonly args: Vec<ContractEventParamSpecV0>;
   readonly docs: Vec<Text>;
 }
 
@@ -98,19 +135,42 @@ export interface ContractLayoutStructField extends Struct {
   readonly name: Text;
 }
 
-/** @name ContractMessageParamSpec */
-export interface ContractMessageParamSpec extends Struct {
+/** @name ContractMessageParamSpecLatest */
+export interface ContractMessageParamSpecLatest extends ContractMessageParamSpecV2 {}
+
+/** @name ContractMessageParamSpecV0 */
+export interface ContractMessageParamSpecV0 extends Struct {
   readonly name: Text;
   readonly type: ContractTypeSpec;
 }
 
-/** @name ContractMessageSpec */
-export interface ContractMessageSpec extends Struct {
+/** @name ContractMessageParamSpecV2 */
+export interface ContractMessageParamSpecV2 extends Struct {
+  readonly label: Text;
+  readonly type: ContractTypeSpec;
+}
+
+/** @name ContractMessageSpecLatest */
+export interface ContractMessageSpecLatest extends ContractMessageSpecV2 {}
+
+/** @name ContractMessageSpecV0 */
+export interface ContractMessageSpecV0 extends Struct {
   readonly name: Text;
   readonly selector: ContractSelector;
   readonly mutates: bool;
   readonly payable: bool;
-  readonly args: Vec<ContractMessageParamSpec>;
+  readonly args: Vec<ContractMessageParamSpecV0>;
+  readonly returnType: Option<ContractTypeSpec>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractMessageSpecV2 */
+export interface ContractMessageSpecV2 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly mutates: bool;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV2>;
   readonly returnType: Option<ContractTypeSpec>;
   readonly docs: Vec<Text>;
 }
@@ -121,21 +181,29 @@ export interface ContractMetadata extends Enum {
   readonly asV0: ContractMetadataV0;
   readonly isV1: boolean;
   readonly asV1: ContractMetadataV1;
+  readonly isV2: boolean;
+  readonly asV2: ContractMetadataV2;
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV1 {}
+export interface ContractMetadataLatest extends ContractMetadataV2 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
   readonly types: Vec<Si0Type>;
-  readonly spec: ContractContractSpec;
+  readonly spec: ContractContractSpecV0;
 }
 
 /** @name ContractMetadataV1 */
 export interface ContractMetadataV1 extends Struct {
   readonly types: Vec<PortableType>;
-  readonly spec: ContractContractSpec;
+  readonly spec: ContractContractSpecV0;
+}
+
+/** @name ContractMetadataV2 */
+export interface ContractMetadataV2 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpecV2;
 }
 
 /** @name ContractProject */
@@ -173,7 +241,7 @@ export interface ContractProjectV0 extends Struct {
   readonly source: ContractProjectSource;
   readonly contract: ContractProjectContract;
   readonly types: Vec<Si0Type>;
-  readonly spec: ContractContractSpec;
+  readonly spec: ContractContractSpecV0;
 }
 
 /** @name ContractSelector */
