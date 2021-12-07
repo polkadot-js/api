@@ -11,16 +11,6 @@ import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, i
 
 import { v0ToLatest, v1ToLatest } from './toLatest';
 
-interface V0AbiJson {
-  metadataVersion: string;
-  spec: {
-    constructors: unknown[];
-    events: unknown[];
-    messages: unknown[];
-  };
-  types: unknown[];
-}
-
 const l = logger('Abi');
 
 const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
@@ -38,12 +28,13 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
 // FIXME: This is still workable with V0, V1 & V2, but certainly is not a scalable
 // approach (right at this point don't quite have better ideas that is not as complex
 // as the conversion tactics in the runtime Metadata)
-function getLatestMeta (registry: Registry, json: AnyJson): ContractMetadataLatest {
-  const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
-    ? { V0: json }
-    : (json as Record<string, AnyJson>).V2
-      ? { V2: (json as Record<string, AnyJson>).V2 }
-      : { V1: (json as Record<string, AnyJson>).V1 }
+function getLatestMeta (registry: Registry, json: Record<string, AnyJson>): ContractMetadataLatest {
+  const metadata = registry.createType('ContractMetadata',
+    isObject(json.V2)
+      ? { V2: json.V2 }
+      : isObject(json.V1)
+        ? { V1: json.V1 }
+        : { V0: json }
   );
 
   return metadata.isV2
@@ -56,7 +47,7 @@ function getLatestMeta (registry: Registry, json: AnyJson): ContractMetadataLate
 function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json);
-  const latest = getLatestMeta(registry, json);
+  const latest = getLatestMeta(registry, json as Record<string, AnyJson>);
   const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
