@@ -157,9 +157,17 @@ const ContractProjectInfo = {
   contract: 'ContractProjectContract'
 };
 
+const latest = {
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV2',
+  ContractEventSpecLatest: 'ContractEventSpecV2',
+  ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
+  ContractMessageSpecLatest: 'ContractMessageSpecV2',
+  ContractMetadataLatest: 'ContractMetadataV2'
+};
+
 export default {
   rpc: {},
-  types: objectSpread({}, layout, spec, {
+  types: objectSpread({}, layout, spec, latest, {
     ContractProjectInfo,
     ContractMetadataV0,
     ContractMetadataV1,
@@ -171,7 +179,6 @@ export default {
         V2: 'ContractMetadataV2'
       }
     },
-    ContractMetadataLatest: 'ContractMetadataV2',
     ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
     ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {

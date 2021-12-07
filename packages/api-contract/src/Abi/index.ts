@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes, PortableRegistry } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpec, ContractEventSpec, ContractMessageParamSpec, ContractMessageSpec, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
@@ -89,15 +89,15 @@ export class Abi {
         : abiJson,
       chainProperties
     );
-    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpec, index) =>
+    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true
       })
     );
-    this.events = this.metadata.spec.events.map((spec: ContractEventSpec, index) =>
+    this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
       this.#createEvent(spec, index)
     );
-    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpec, index): AbiMessage => {
+    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
@@ -144,7 +144,7 @@ export class Abi {
     return findMessage(this.messages, messageOrId);
   }
 
-  #createArgs = (args: ContractMessageParamSpec[], spec: unknown): AbiParam[] => {
+  #createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
     return args.map(({ name, type }, index): AbiParam => {
       try {
         assert(isObject(type), 'Invalid type definition found');
@@ -180,7 +180,7 @@ export class Abi {
     });
   };
 
-  #createEvent = (spec: ContractEventSpec, index: number): AbiEvent => {
+  #createEvent = (spec: ContractEventSpecLatest, index: number): AbiEvent => {
     const args = this.#createArgs(spec.args, spec);
     const event = {
       args,
@@ -196,7 +196,7 @@ export class Abi {
     return event;
   };
 
-  #createMessage = (spec: ContractMessageSpec | ContractConstructorSpec, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
+  #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
     const identifier = spec.name.toString();
     const message = {
@@ -242,7 +242,7 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   };
 
-  #encodeArgs = ({ name, selector }: ContractMessageSpec | ContractConstructorSpec, args: AbiParam[], data: unknown[]): Uint8Array => {
+  #encodeArgs = ({ name, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
     assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
 
     return compactAddLength(
