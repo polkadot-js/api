@@ -54,6 +54,9 @@ export interface ContractDiscriminant extends u32 {}
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
 
+/** @name ContractEventParamSpecLatest */
+export interface ContractEventParamSpecLatest extends ContractEventParamSpecV2 {}
+
 /** @name ContractEventParamSpecV0 */
 export interface ContractEventParamSpecV0 extends Struct {
   readonly name: Text;
@@ -83,7 +86,7 @@ export interface ContractEventSpecV0 extends Struct {
 /** @name ContractEventSpecV2 */
 export interface ContractEventSpecV2 extends Struct {
   readonly label: Text;
-  readonly args: Vec<ContractEventParamSpecV0>;
+  readonly args: Vec<ContractEventParamSpecV2>;
   readonly docs: Vec<Text>;
 }
 

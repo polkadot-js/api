@@ -145,14 +145,14 @@ export class Abi {
   }
 
   #createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
-    return args.map(({ name, type }, index): AbiParam => {
+    return args.map(({ label, type }, index): AbiParam => {
       try {
         assert(isObject(type), 'Invalid type definition found');
 
         const displayName = type.displayName.length
           ? type.displayName[type.displayName.length - 1].toString()
           : undefined;
-        const camelName = stringCamelCase(name);
+        const camelName = stringCamelCase(label);
 
         if (displayName && PRIMITIVE_ALWAYS.includes(displayName)) {
           return {
@@ -189,7 +189,7 @@ export class Abi {
         args: this.#decodeArgs(args, data),
         event
       }),
-      identifier: spec.name.toString(),
+      identifier: spec.label.toString(),
       index
     };
 
@@ -198,7 +198,7 @@ export class Abi {
 
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
-    const identifier = spec.name.toString();
+    const identifier = spec.label.toString();
     const message = {
       ...add,
       args,
@@ -242,8 +242,8 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   };
 
-  #encodeArgs = ({ name, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
-    assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${name.toString()}', found ${data.length}`);
+  #encodeArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
+    assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${label.toString()}', found ${data.length}`);
 
     return compactAddLength(
       u8aConcat(

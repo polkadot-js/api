@@ -101,7 +101,7 @@ const spec = {
   },
   ContractEventSpecV2: {
     label: 'Text',
-    args: 'Vec<ContractEventParamSpecV0>',
+    args: 'Vec<ContractEventParamSpecV2>',
     docs: 'Vec<Text>'
   },
   ContractMessageParamSpecV0: {
@@ -160,6 +160,7 @@ const ContractProjectInfo = {
 const latest = {
   ContractConstructorSpecLatest: 'ContractConstructorSpecV2',
   ContractEventSpecLatest: 'ContractEventSpecV2',
+  ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV2',
   ContractMetadataLatest: 'ContractMetadataV2'
