@@ -49,11 +49,9 @@ function getLatestMeta (registry: Registry, json: AnyJson): ContractMetadataLate
 
   return metadata.isV2
     ? metadata.asV2
-    : toLatest(
-      registry,
-      metadata.isV1
-        ? metadata.asV1
-        : toV1(registry, metadata.asV0)
+    : toLatest(registry, metadata.isV1
+      ? metadata.asV1
+      : toV1(registry, metadata.asV0)
     );
 }
 
