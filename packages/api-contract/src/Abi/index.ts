@@ -36,20 +36,31 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
-  const registry = new TypeRegistry();
-  const info = registry.createType('ContractProjectInfo', json);
+// FIXME: This is still workable with V0, V1 & V2, but certainly is not a scalable
+// approach (right at this point don't quite have better ideas that is not as complex
+// as the conversion tactics in the runtime Metadata)
+function getLatestMeta (registry: Registry, json: AnyJson): ContractMetadataLatest {
   const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
     ? { V0: json }
     : (json as Record<string, AnyJson>).V2
       ? { V2: (json as Record<string, AnyJson>).V2 }
       : { V1: (json as Record<string, AnyJson>).V1 }
   );
-  const latest = metadata.isV0
-    ? toLatest(registry, toV1(registry, metadata.asV0))
-    : metadata.isV1
-      ? toLatest(registry, metadata.asV1)
-      : metadata.asV2;
+
+  return metadata.isV2
+    ? metadata.asV2
+    : toLatest(
+      registry,
+      metadata.isV1
+        ? metadata.asV1
+        : toV1(registry, metadata.asV0)
+    );
+}
+
+function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
+  const registry = new TypeRegistry();
+  const info = registry.createType('ContractProjectInfo', json);
+  const latest = getLatestMeta(registry, json);
   const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
