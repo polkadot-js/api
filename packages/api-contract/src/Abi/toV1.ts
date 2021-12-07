@@ -7,7 +7,7 @@ import type { Registry } from '@polkadot/types/types';
 import { convertSiV0toV1 } from '@polkadot/types';
 import { objectSpread } from '@polkadot/util';
 
-export function toV1 (registry: Registry, v0: ContractMetadataV0): ContractMetadataV1 {
+export function v0ToV1 (registry: Registry, v0: ContractMetadataV0): ContractMetadataV1 {
   return registry.createType('ContractMetadataV1', objectSpread({}, v0, {
     types: convertSiV0toV1(registry, v0.types)
   }));

@@ -9,8 +9,7 @@ import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, Deco
 import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { toLatest } from './toLatest';
-import { toV1 } from './toV1';
+import { v0ToLatest, v1ToLatest } from './toLatest';
 
 interface V0AbiJson {
   metadataVersion: string;
@@ -49,10 +48,9 @@ function getLatestMeta (registry: Registry, json: AnyJson): ContractMetadataLate
 
   return metadata.isV2
     ? metadata.asV2
-    : toLatest(registry, metadata.isV1
-      ? metadata.asV1
-      : toV1(registry, metadata.asV0)
-    );
+    : metadata.isV1
+      ? v1ToLatest(registry, metadata.asV1)
+      : v0ToLatest(registry, metadata.asV0);
 }
 
 function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {

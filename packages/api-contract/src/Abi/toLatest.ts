@@ -1,10 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractMessageParamSpecLatest, ContractMessageParamSpecV0, ContractMetadataLatest, ContractMetadataV1 } from '@polkadot/types/interfaces';
+import type { ContractMessageParamSpecLatest, ContractMessageParamSpecV0, ContractMetadataLatest, ContractMetadataV0, ContractMetadataV1 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
+
+import { v0ToV1 } from './toV1';
 
 function convertArgs (registry: Registry, args: ContractMessageParamSpecV0[]): ContractMessageParamSpecLatest[] {
   return args.map((a) =>
@@ -14,7 +16,7 @@ function convertArgs (registry: Registry, args: ContractMessageParamSpecV0[]): C
   );
 }
 
-export function toLatest (registry: Registry, v1: ContractMetadataV1): ContractMetadataLatest {
+export function v1ToLatest (registry: Registry, v1: ContractMetadataV1): ContractMetadataLatest {
   return registry.createType('ContractMetadataLatest', objectSpread({}, v1, {
     spec: objectSpread({}, v1.spec, {
       constructors: v1.spec.constructors.map((c) =>
@@ -41,4 +43,8 @@ export function toLatest (registry: Registry, v1: ContractMetadataV1): ContractM
       )
     })
   }));
+}
+
+export function v0ToLatest (registry: Registry, v0: ContractMetadataV0): ContractMetadataLatest {
+  return v1ToLatest(registry, v0ToV1(registry, v0));
 }
