@@ -17,7 +17,7 @@ function v1Label (orig: { name: Text | Text[] }): { label: Text } {
   });
 }
 
-function v1LabelArgs (registry: Registry, orig: { args: ContractMessageParamSpecV0[], name: Text }): { args: ContractMessageParamSpecLatest[], label: Text } {
+function v1LabelArgs (registry: Registry, orig: { args: ContractMessageParamSpecV0[], name: Text | Text[] }): { args: ContractMessageParamSpecLatest[], label: Text } {
   return objectSpread(v1Label(orig), {
     args: orig.args.map((a) =>
       registry.createType('ContractMessageParamSpecLatest', v1Label(a))
