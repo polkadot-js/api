@@ -3,7 +3,7 @@
 
 import type { Bytes, PortableRegistry } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec, Registry } from '@polkadot/types/types';
+import type { Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
 import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
@@ -28,7 +28,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
 // FIXME: This is still workable with V0, V1 & V2, but certainly is not a scalable
 // approach (right at this point don't quite have better ideas that is not as complex
 // as the conversion tactics in the runtime Metadata)
-function getLatestMeta (registry: Registry, json: Record<string, AnyJson>): ContractMetadataLatest {
+function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
   const metadata = registry.createType('ContractMetadata',
     isObject(json.V2)
       ? { V2: json.V2 }
@@ -44,10 +44,10 @@ function getLatestMeta (registry: Registry, json: Record<string, AnyJson>): Cont
       : v0ToLatest(registry, metadata.asV0);
 }
 
-function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson, Registry, ContractMetadataLatest, ContractProjectInfo] {
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json);
-  const latest = getLatestMeta(registry, json as Record<string, AnyJson>);
+  const latest = getLatestMeta(registry, json);
   const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
@@ -72,7 +72,7 @@ export class Abi {
 
   public readonly info: ContractProjectInfo;
 
-  public readonly json: AnyJson;
+  public readonly json: Record<string, unknown>;
 
   public readonly messages: AbiMessage[];
 
@@ -80,10 +80,10 @@ export class Abi {
 
   public readonly registry: Registry;
 
-  constructor (abiJson: AnyJson, chainProperties?: ChainProperties) {
+  constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
-        ? JSON.parse(abiJson) as AnyJson
+        ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
       chainProperties
     );
