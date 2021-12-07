@@ -10,6 +10,7 @@ import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { toLatest } from './toLatest';
+import { toV1 } from './toV1';
 
 interface V0AbiJson {
   metadataVersion: string;
@@ -40,11 +41,15 @@ function parseJson (json: AnyJson, chainProperties?: ChainProperties): [AnyJson,
   const info = registry.createType('ContractProjectInfo', json);
   const metadata = registry.createType('ContractMetadata', isString((json as unknown as V0AbiJson).metadataVersion)
     ? { V0: json }
-    : { V1: (json as Record<string, AnyJson>).V1 }
+    : (json as Record<string, AnyJson>).V2
+      ? { V2: (json as Record<string, AnyJson>).V2 }
+      : { V1: (json as Record<string, AnyJson>).V1 }
   );
   const latest = metadata.isV0
-    ? toLatest(registry, metadata.asV0)
-    : metadata.asV1;
+    ? toLatest(registry, toV1(registry, metadata.asV0))
+    : metadata.isV1
+      ? toLatest(registry, metadata.asV1)
+      : metadata.asV2;
   const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known

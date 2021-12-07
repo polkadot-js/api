@@ -1,14 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractMetadataLatest, ContractMetadataV0 } from '@polkadot/types/interfaces';
+import type { ContractMetadataLatest, ContractMetadataV1 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
-import { convertSiV0toV1 } from '@polkadot/types';
+// TODO convert all name to label (messages, constructors, events)....
 
-export function toLatest (registry: Registry, v0: ContractMetadataV0): ContractMetadataLatest {
+export function toLatest (registry: Registry, v1: ContractMetadataV1): ContractMetadataLatest {
   return registry.createType('ContractMetadataLatest', {
-    ...v0,
-    types: convertSiV0toV1(registry, v0.types)
+    ...v1,
+    types: v1.types
   });
 }
