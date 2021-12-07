@@ -18,26 +18,26 @@ function v1Label (orig: { name: Text | Text[] }): { label: Text } {
 function v1LabelArgs (registry: Registry, orig: { args: ContractMessageParamSpecV0[], name: Text | Text[] }): { args: ContractMessageParamSpecLatest[], label: Text } {
   return objectSpread(v1Label(orig), {
     args: orig.args.map((a) =>
-      registry.createType('ContractMessageParamSpecLatest', v1Label(a))
+      registry.createType('ContractMessageParamSpecV2', v1Label(a))
     )
   });
 }
 
 export function v1ToV2 (registry: Registry, v1: ContractMetadataV1): ContractMetadataV2 {
-  return registry.createType('ContractMetadataLatest', objectSpread({}, v1, {
+  return registry.createType('ContractMetadataV2', objectSpread({}, v1, {
     spec: objectSpread({}, v1.spec, {
       constructors: v1.spec.constructors.map((c) =>
-        registry.createType('ContractConstructorSpecLatest', v1LabelArgs(registry, c))
+        registry.createType('ContractConstructorSpecV2', v1LabelArgs(registry, c))
       ),
       events: v1.spec.events.map((e) =>
-        registry.createType('ContractEventSpecLatest', objectSpread(v1Label(e), {
+        registry.createType('ContractEventSpecV2', objectSpread(v1Label(e), {
           args: e.args.map((a) =>
-            registry.createType('ContractEventParamSpecLatest', v1Label(a))
+            registry.createType('ContractEventParamSpecV2', v1Label(a))
           )
         }))
       ),
       messages: v1.spec.messages.map((c) =>
-        registry.createType('ContractMessageSpecLatest', v1LabelArgs(registry, c))
+        registry.createType('ContractMessageSpecV2', v1LabelArgs(registry, c))
       )
     })
   }));
