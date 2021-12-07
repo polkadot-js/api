@@ -14,6 +14,7 @@ import { Abi } from '.';
 
 interface SpecDef {
   messages: {
+    label: string;
     name: string[] | string
   }[]
 }
@@ -27,6 +28,9 @@ interface JSONAbi {
   },
   spec: SpecDef;
   V1: {
+    spec: SpecDef;
+  },
+  V2: {
     spec: SpecDef;
   }
 }
@@ -50,7 +54,13 @@ describe('Abi', (): void => {
     Object.entries(abis).forEach(([abiName, abi]: [string, JSONAbi]) => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         try {
-          const messageIds = (abi.V1 ? abi.V1 : abi).spec.messages.map(({ name }) => Array.isArray(name) ? name[0] : name);
+          const messageIds = (abi.V2 || abi.V1 || abi).spec.messages.map(({ label, name }) =>
+            label || (
+              Array.isArray(name)
+                ? name[0]
+                : name
+            )
+          );
           const inkAbi = new Abi(abis[abiName] as AnyJson);
 
           expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
