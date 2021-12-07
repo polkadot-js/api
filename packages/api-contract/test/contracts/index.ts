@@ -9,7 +9,6 @@ const all: Record<string, Record<string, unknown>> = {};
 
 function addExport (type: string, abis: Record<string, Record<string, unknown>>): void {
   Object.keys(abis).forEach((key): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     all[`${type}_${key}`] = abis[key];
   });
 }
