@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
+import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { MapConstructorExec } from './types';
 
@@ -18,6 +18,10 @@ import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
 import { createBluePrintTx, encodeSalt } from './util';
+
+export interface CodeConstructor<ApiType extends ApiTypes> {
+  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;
+}
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
@@ -36,7 +40,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 
-  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.code = isWasm(this.abi.info.source.wasm)
@@ -76,5 +80,15 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
           [])
         ) || []))
       );
+  };
+}
+
+export function extendCode <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): CodeConstructor<ApiType> {
+  return class extends Code<ApiType> {
+    static __CodeType = type;
+
+    constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
+      super(api, abi, wasm, decorateMethod);
+    }
   };
 }

@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
-import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
+import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { MapConstructorExec } from './types';
 
@@ -17,6 +17,10 @@ import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
 import { createBluePrintTx, encodeSalt } from './util';
+
+export interface BlueprintConstructor<ApiType extends ApiTypes> {
+  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array): Blueprint<ApiType>;
+}
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
@@ -36,7 +40,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 
-  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     this.codeHash = this.registry.createType('Hash', codeHash);
@@ -66,5 +70,15 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
           new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
         ))
       );
+  };
+}
+
+export function extendBlueprint <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): BlueprintConstructor<ApiType> {
+  return class extends Blueprint<ApiType> {
+    static __BlueprintType = type;
+
+    constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array) {
+      super(api, abi, codeHash, decorateMethod);
+    }
   };
 }
