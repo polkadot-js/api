@@ -10,22 +10,22 @@ import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions
 
 export interface BlueprintDeploy<ApiType extends ApiTypes> {
   (options: BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
-  (value: bigint | string | number | BN, gasLimit: bigint | string | number | BN, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
+  (value: bigint | string | number | BN, gasLimit: bigint | string | number | BN, storageDepositLimit: bigint | BN | string | number, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface ContractQuery<ApiType extends ApiTypes> {
   (origin: AccountId | string | Uint8Array, options: ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome>;
-  (origin: AccountId | string | Uint8Array, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome>;
+  (origin: AccountId | string | Uint8Array, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, storageDepositLimit: bigint | BN | string | number, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome>;
 }
 
 export interface ContractTx<ApiType extends ApiTypes> {
   (options: ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
-  (value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
+  (value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, storageDepositLimit: bigint | BN | string | number, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface ContractGeneric<O, T> {
   (messageOrId: AbiMessage | string | number, options: O, ...params: unknown[]): T;
-  (messageOrId: AbiMessage | string | number, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): T;
+  (messageOrId: AbiMessage | string | number, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, storageDepositLimit: bigint | BN | string | number, ...params: unknown[]): T;
 }
 
 export type ContractCallResult<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'

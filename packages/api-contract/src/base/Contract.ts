@@ -102,12 +102,17 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       : gasLimit;
   };
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+  #getStorageDepositLimitBN = (storageDepositLimit: bigint | BN | string | number): BN => {
+    return bnToBn(storageDepositLimit);
+  };
+
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
       .call(
         this.address,
         value,
         this.#getGas(gasLimit),
+        this.#getStorageDepositLimitBN(storageDepositLimit),
         this.abi.findMessage(messageOrId).toU8a(params)
       )
       .withResultTransform((result: ISubmittableResult) =>
@@ -128,7 +133,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       );
   };
 
-  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
+  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     const message = this.abi.findMessage(messageOrId);
@@ -142,10 +147,11 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
             gasLimit: this.#getGas(gasLimit, true),
             inputData: message.toU8a(params),
             origin,
+            storageDepositLimit: this.#getStorageDepositLimitBN(storageDepositLimit),
             value
           })
           .pipe(
-            map(({ debugMessage, gasConsumed, gasRequired, result }): ContractCallOutcome => ({
+            map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
               debugMessage,
               gasConsumed,
               gasRequired: gasRequired && !gasRequired.isZero()
@@ -154,7 +160,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               output: result.isOk && message.returnType
                 ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
                 : null,
-              result
+              result,
+              storageDeposit
             }))
           )
       )

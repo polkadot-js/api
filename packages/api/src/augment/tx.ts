@@ -705,7 +705,7 @@ declare module '@polkadot/api/types/submittable' {
        * * If no account exists and the call value is not less than `existential_deposit`,
        * a regular account will be created and any value will be transferred.
        **/
-      call: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, Compact<u64>, Bytes]>;
+      call: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, storageDepositLimit: Option<Compact<u64>> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, Compact<u64>, Bytes]>;
       /**
        * Instantiates a contract from a previously deployed wasm binary.
        * 
@@ -713,7 +713,7 @@ declare module '@polkadot/api/types/submittable' {
        * code deployment step. Instead, the `code_hash` of an on-chain deployed wasm binary
        * must be supplied.
        **/
-      instantiate: AugmentedSubmittable<(endowment: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, codeHash: H256 | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, Compact<u64>, H256, Bytes, Bytes]>;
+      instantiate: AugmentedSubmittable<(endowment: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, storageDepositLimit: Option<Compact<u64>> | AnyNumber | Uint8Array, codeHash: H256 | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, Compact<u64>, H256, Bytes, Bytes]>;
       /**
        * Instantiates a new contract from the supplied `code` optionally transferring
        * some balance.
@@ -738,7 +738,7 @@ declare module '@polkadot/api/types/submittable' {
        * - The `endowment` is transferred to the new account.
        * - The `deploy` function is executed in the context of the newly-created account.
        **/
-      instantiateWithCode: AugmentedSubmittable<(endowment: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, Compact<u64>, Bytes, Bytes, Bytes]>;
+      instantiateWithCode: AugmentedSubmittable<(endowment: Compact<u128> | AnyNumber | Uint8Array, gasLimit: Compact<u64> | AnyNumber | Uint8Array, storageDepositLimit: Option<Compact<u64>> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, Compact<u64>, Bytes, Bytes, Bytes]>;
       /**
        * Generic tx
        **/
