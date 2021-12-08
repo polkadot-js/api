@@ -26,27 +26,21 @@ function toU8a (value: Uint8Array | string = EMPTY_U8A): Uint8Array {
   throw new Error('Invalid type passed to Metadata constructor');
 }
 
-function decodeMetadata (registry: Registry, _value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>): MetadataVersioned {
-  if (isU8a(_value) || isHex(_value)) {
-    const value = toU8a(_value);
+function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned {
+  try {
+    return new MetadataVersioned(registry, value);
+  } catch (error) {
+    // This is an f-ing hack as a follow-up to another ugly hack
+    // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
+    // when we fail on V9, try to re-parse it as v10... yes... HACK
+    if (value[VERSION_IDX] === 9) {
+      value[VERSION_IDX] = 10;
 
-    try {
-      return new MetadataVersioned(registry, value);
-    } catch (error) {
-      // This is an f-ing hack as a follow-up to another ugly hack
-      // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
-      // when we fail on V9, try to re-parse it as v10... yes... HACK
-      if (value[VERSION_IDX] === 9) {
-        value[VERSION_IDX] = 10;
-
-        return decodeMetadata(registry, value);
-      }
-
-      throw error;
+      return decodeU8a(registry, value);
     }
-  }
 
-  return new MetadataVersioned(registry, _value);
+    throw error;
+  }
 }
 
 /**
@@ -56,6 +50,11 @@ function decodeMetadata (registry: Registry, _value?: Uint8Array | string | Map<
  */
 export class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | string | Map<string, unknown> | Record<string, unknown>) {
-    super(registry, decodeMetadata(registry, value));
+    super(
+      registry,
+      isU8a(value) || isHex(value)
+        ? decodeU8a(registry, toU8a(value))
+        : new MetadataVersioned(registry, value)
+    );
   }
 }
