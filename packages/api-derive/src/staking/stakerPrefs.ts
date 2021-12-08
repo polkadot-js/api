@@ -6,9 +6,10 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { DeriveStakerPrefs } from '../types';
 
-import { map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
+import { erasHistoricApplyAccount } from './util';
 
 export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -24,10 +25,4 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
   );
 }
 
-export function stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPrefs[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerPrefs[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerPrefs(accountId, eras, withActive))
-    )
-  );
-}
+export const stakerPrefs = erasHistoricApplyAccount('_stakerPrefs');

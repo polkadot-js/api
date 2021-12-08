@@ -7,12 +7,13 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
 import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
-import { map, of, switchMap } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';
-import { filterEras } from './util';
+import { getEraMultiCache } from './cache';
+import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
 
@@ -40,11 +41,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
       return of([]);
     }
 
-    const cached: DeriveEraPoints[] = withActive
-      ? []
-      : eras
-        .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraPoints => !!value);
+    const cached = getEraMultiCache<DeriveEraPoints>(CACHE_KEY, eras, withActive);
     const remaining = filterEras(eras, cached);
 
     return !remaining.length
@@ -64,10 +61,4 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
   });
 }
 
-export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasPoints(eras, withActive))
-    )
-  );
-}
+export const erasPoints = erasHistoricApply('_erasPoints');
