@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add Kusama 9130 upgrade block
+
+
 ## 6.11.1 Dec 5, 2021
 
 Upgrade priority: Low. Maintenance upgrade, tacking the latest `@polkadot` libraries.
