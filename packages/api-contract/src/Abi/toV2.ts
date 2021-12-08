@@ -7,7 +7,7 @@ import type { InterfaceTypes, Registry } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
-type WithArgs = 'ContractConstructorSpec' | 'ContractEventSpec' | 'ContractMessageSpec';
+type WithArgs = keyof typeof ARG_TYPES;
 
 interface NamedEntry {
   name: Text | Text[];
@@ -23,7 +23,7 @@ const ARG_TYPES = {
   ContractMessageSpec: 'ContractMessageParamSpecV2'
 };
 
-function v2Label (entry: NamedEntry): { label: Text } {
+function v1ToV2Label (entry: NamedEntry): { label: Text } {
   return objectSpread({}, entry, {
     label: Array.isArray(entry.name)
       ? entry.name[0]
@@ -31,24 +31,22 @@ function v2Label (entry: NamedEntry): { label: Text } {
   });
 }
 
-function v2Labels <T extends WithArgs> (registry: Registry, outType: T, all: ArgsEntry<T>[]): unknown[] {
+function v1ToV2Labels <T extends WithArgs> (registry: Registry, outType: T, all: ArgsEntry<T>[]): unknown[] {
   return all.map((e) =>
-    registry.createType(`${outType}V2`, objectSpread(v2Label(e), {
+    registry.createType(`${outType}V2`, objectSpread(v1ToV2Label(e), {
       args: e.args.map((a) =>
-        registry.createType(ARG_TYPES[outType], v2Label(a))
+        registry.createType(ARG_TYPES[outType], v1ToV2Label(a))
       )
     }))
   );
 }
 
 export function v1ToV2 (registry: Registry, v1: ContractMetadataV1): ContractMetadataV2 {
-  const { spec: { constructors, events, messages } } = v1;
-
   return registry.createType('ContractMetadataV2', objectSpread({}, v1, {
     spec: objectSpread({}, v1.spec, {
-      constructors: v2Labels(registry, 'ContractConstructorSpec', constructors),
-      events: v2Labels(registry, 'ContractEventSpec', events),
-      messages: v2Labels(registry, 'ContractMessageSpec', messages)
+      constructors: v1ToV2Labels(registry, 'ContractConstructorSpec', v1.spec.constructors),
+      events: v1ToV2Labels(registry, 'ContractEventSpec', v1.spec.events),
+      messages: v1ToV2Labels(registry, 'ContractMessageSpec', v1.spec.messages)
     })
   }));
 }
