@@ -39,7 +39,7 @@ interface RawArgs {
   keys: SiLookupTypeId[];
 }
 
-const NO_RAW_ARGS: RawArgs = {
+export const NO_RAW_ARGS: RawArgs = {
   args: [],
   hashers: [],
   keys: []
