@@ -7,8 +7,7 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
-    "paths":
-    {
+    "paths": {
       "@polkadot/api": ["packages/api/src"],
       "@polkadot/api/*": ["packages/api/src/*"],
       "@polkadot/api-contract": ["packages/api-contract/src"],

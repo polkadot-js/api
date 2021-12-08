@@ -1,6 +1,27 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './members';
-export * from './prime';
-export * from './proposals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+// we need these type imports to be available
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import type { u32 } from '@polkadot/types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
+
+import { hasProposals as collectiveHasProposals, members as collectiveMembers, prime as collectivePrime, proposal as collectiveProposal, proposalCount as collectiveProposalCount, proposalHashes as collectiveProposalHashes, proposals as collectiveProposals } from '../collective';
+
+export const members = collectiveMembers('technicalCommittee');
+
+export const hasProposals = collectiveHasProposals('technicalCommittee');
+export const proposal = collectiveProposal('technicalCommittee');
+export const proposalCount = collectiveProposalCount('technicalCommittee');
+export const proposalHashes = collectiveProposalHashes('technicalCommittee');
+export const proposals = collectiveProposals('technicalCommittee');
+
+export const prime = collectivePrime('technicalCommittee');
