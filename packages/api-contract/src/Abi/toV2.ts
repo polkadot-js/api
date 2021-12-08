@@ -2,12 +2,28 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ContractConstructorSpecV2, ContractEventParamSpecV0, ContractEventSpecV2, ContractMessageParamSpecV0, ContractMessageSpecV2, ContractMetadataV1, ContractMetadataV2 } from '@polkadot/types/interfaces';
-import type { Registry } from '@polkadot/types/types';
+import type { ContractMetadataV1, ContractMetadataV2 } from '@polkadot/types/interfaces';
+import type { InterfaceTypes, Registry } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
-function v1Label (entry: { name: Text | Text[] }): { label: Text } {
+type WithArgs = 'ContractConstructorSpec' | 'ContractEventSpec' | 'ContractMessageSpec';
+
+interface NamedEntry {
+  name: Text | Text[];
+}
+
+interface ArgsEntry <T extends WithArgs> extends NamedEntry {
+  args: InterfaceTypes[`${T}V0`]['args'][0][];
+}
+
+const ARG_TYPES = {
+  ContractConstructorSpec: 'ContractMessageParamSpecV2',
+  ContractEventSpec: 'ContractEventParamSpecV2',
+  ContractMessageSpec: 'ContractMessageParamSpecV2'
+};
+
+function v2Label (entry: NamedEntry): { label: Text } {
   return objectSpread({}, entry, {
     label: Array.isArray(entry.name)
       ? entry.name[0]
@@ -15,22 +31,24 @@ function v1Label (entry: { name: Text | Text[] }): { label: Text } {
   });
 }
 
-function v1Labels (registry: Registry, outType: 'ContractConstructorSpecV2' | 'ContractEventSpecV2' | 'ContractMessageSpecV2', argType: 'ContractEventParamSpecV2' | 'ContractMessageParamSpecV2', all: { args: (ContractEventParamSpecV0 | ContractMessageParamSpecV0)[], name: Text | Text[] }[]): (ContractConstructorSpecV2 | ContractEventSpecV2 | ContractMessageSpecV2)[] {
+function v2Labels <T extends WithArgs> (registry: Registry, outType: T, all: ArgsEntry<T>[]): unknown[] {
   return all.map((e) =>
-    registry.createType(outType, objectSpread(v1Label(e), {
+    registry.createType(`${outType}V2`, objectSpread(v2Label(e), {
       args: e.args.map((a) =>
-        registry.createType(argType, v1Label(a))
+        registry.createType(ARG_TYPES[outType], v2Label(a))
       )
     }))
   );
 }
 
 export function v1ToV2 (registry: Registry, v1: ContractMetadataV1): ContractMetadataV2 {
+  const { spec: { constructors, events, messages } } = v1;
+
   return registry.createType('ContractMetadataV2', objectSpread({}, v1, {
     spec: objectSpread({}, v1.spec, {
-      constructors: v1Labels(registry, 'ContractConstructorSpecV2', 'ContractMessageParamSpecV2', v1.spec.constructors),
-      events: v1Labels(registry, 'ContractEventSpecV2', 'ContractEventParamSpecV2', v1.spec.events),
-      messages: v1Labels(registry, 'ContractMessageSpecV2', 'ContractMessageParamSpecV2', v1.spec.messages)
+      constructors: v2Labels(registry, 'ContractConstructorSpec', constructors),
+      events: v2Labels(registry, 'ContractEventSpec', events),
+      messages: v2Labels(registry, 'ContractMessageSpec', messages)
     })
   }));
 }
