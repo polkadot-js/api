@@ -7,7 +7,7 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import type { Constructor, ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import { map } from 'rxjs';
 
@@ -18,6 +18,10 @@ import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefine
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
+
+export interface ContractConstructor<ApiType extends ApiTypes> {
+  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
+}
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
@@ -162,7 +166,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 }
 
-export function extendContract <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): Constructor<Contract<ApiType>> {
+export function extendContract <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): ContractConstructor<ApiType> {
   return class extends Contract<ApiType> {
     static __ContractType = type;
 
