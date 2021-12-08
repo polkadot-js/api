@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 import path from 'path';
 import yargs from 'yargs';
 
@@ -11,7 +13,7 @@ import { WebSocket } from '@polkadot/x-ws';
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
 
-function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
+function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const extraTypes = pkg
@@ -95,13 +97,13 @@ export function main (): void {
       };
 
       websocket.onmessage = (message: unknown): void => {
-        generate((JSON.parse((message as Record<string, string>).data) as Record<string, string>).result, pkg, output, isStrict);
+        generate((JSON.parse((message as Record<string, string>).data) as Record<string, HexString>).result, pkg, output, isStrict);
       };
     } catch (error) {
       process.exit(1);
     }
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    generate((require(path.join(process.cwd(), endpoint)) as Record<string, string>).result, pkg, output, isStrict);
+    generate((require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result, pkg, output, isStrict);
   }
 }
