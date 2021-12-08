@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from '../generate/types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
@@ -13,7 +14,7 @@ interface Result {
   registry: TypeRegistry;
 }
 
-export function initMeta (staticMeta = staticSubstrate, extraTypes: ExtraTypes = {}): Result {
+export function initMeta (staticMeta: HexString = staticSubstrate, extraTypes: ExtraTypes = {}): Result {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

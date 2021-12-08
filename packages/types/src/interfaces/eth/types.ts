@@ -128,6 +128,7 @@ export interface EthFilterAddress extends Enum {
   readonly isMultiple: boolean;
   readonly asMultiple: Vec<EthAddress>;
   readonly isNull: boolean;
+  readonly type: 'Single' | 'Multiple' | 'Null';
 }
 
 /** @name EthFilterChanges */
@@ -137,6 +138,7 @@ export interface EthFilterChanges extends Enum {
   readonly isHashes: boolean;
   readonly asHashes: Vec<H256>;
   readonly isEmpty: boolean;
+  readonly type: 'Logs' | 'Hashes' | 'Empty';
 }
 
 /** @name EthFilterTopic */
@@ -146,6 +148,7 @@ export interface EthFilterTopic extends Enum {
   readonly isMultiple: boolean;
   readonly asMultiple: Vec<EthFilterTopicInner>;
   readonly isNull: boolean;
+  readonly type: 'Single' | 'Multiple' | 'Null';
 }
 
 /** @name EthFilterTopicEntry */
@@ -158,6 +161,7 @@ export interface EthFilterTopicInner extends Enum {
   readonly isMultiple: boolean;
   readonly asMultiple: Vec<EthFilterTopicEntry>;
   readonly isNull: boolean;
+  readonly type: 'Single' | 'Multiple' | 'Null';
 }
 
 /** @name EthHeader */
@@ -268,6 +272,7 @@ export interface EthSubKind extends Enum {
   readonly isLogs: boolean;
   readonly isNewPendingTransactions: boolean;
   readonly isSyncing: boolean;
+  readonly type: 'NewHeads' | 'Logs' | 'NewPendingTransactions' | 'Syncing';
 }
 
 /** @name EthSubParams */
@@ -275,6 +280,7 @@ export interface EthSubParams extends Enum {
   readonly isNone: boolean;
   readonly isLogs: boolean;
   readonly asLogs: EthFilter;
+  readonly type: 'None' | 'Logs';
 }
 
 /** @name EthSubResult */
@@ -287,6 +293,7 @@ export interface EthSubResult extends Enum {
   readonly asTransactionHash: H256;
   readonly isSyncState: boolean;
   readonly asSyncState: EthSyncStatus;
+  readonly type: 'Header' | 'Log' | 'TransactionHash' | 'SyncState';
 }
 
 /** @name EthSyncInfo */
@@ -303,6 +310,7 @@ export interface EthSyncStatus extends Enum {
   readonly isInfo: boolean;
   readonly asInfo: EthSyncInfo;
   readonly isNone: boolean;
+  readonly type: 'Info' | 'None';
 }
 
 /** @name EthTransaction */
@@ -313,6 +321,7 @@ export interface EthTransactionAction extends Enum {
   readonly isCall: boolean;
   readonly asCall: H160;
   readonly isCreate: boolean;
+  readonly type: 'Call' | 'Create';
 }
 
 /** @name EthTransactionCondition */
@@ -321,6 +330,7 @@ export interface EthTransactionCondition extends Enum {
   readonly asBlock: u64;
   readonly isTime: boolean;
   readonly asTime: u64;
+  readonly type: 'Block' | 'Time';
 }
 
 /** @name EthTransactionRequest */
@@ -380,6 +390,7 @@ export interface TransactionV1 extends Enum {
   readonly asLegacy: LegacyTransaction;
   readonly isEip2930: boolean;
   readonly asEip2930: EIP2930Transaction;
+  readonly type: 'Legacy' | 'Eip2930';
 }
 
 /** @name TransactionV2 */
@@ -390,6 +401,7 @@ export interface TransactionV2 extends Enum {
   readonly asEip2930: EIP2930Transaction;
   readonly isEip1559: boolean;
   readonly asEip1559: EIP1559Transaction;
+  readonly type: 'Legacy' | 'Eip2930' | 'Eip1559';
 }
 
 export type PHANTOM_ETH = 'eth';

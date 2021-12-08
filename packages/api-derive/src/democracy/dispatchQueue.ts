@@ -61,10 +61,8 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Opt
           // however we have had cases on Darwinia where the indices have moved around after an
           // upgrade, which results in invalid on-chain data
           combineLatest(blockNumbers.map((blockNumber) =>
-            api.query.scheduler.agenda(blockNumber).pipe(
-              // this does create an issue since it discards all at that block
-              catchError(() => of(null))
-            )
+            // this does create an issue since it discards all at that block
+            api.query.scheduler.agenda(blockNumber).pipe(catchError(() => of(null)))
           ))
         ])
         : of<[BlockNumber[], null[]]>([[], []]);
@@ -78,30 +76,23 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
       const result: SchedulerInfo[] = [];
 
       blockNumbers.forEach((at, index): void => {
-        (agendas[index] || [])
-          .filter((opt) => opt.isSome)
-          .forEach((optScheduled): void => {
-            const scheduled = optScheduled.unwrap();
+        (agendas[index] || []).filter((o) => o.isSome).forEach((o): void => {
+          const scheduled = o.unwrap();
 
-            if (scheduled.maybeId.isSome) {
-              const id = scheduled.maybeId.unwrap().toHex();
+          if (scheduled.maybeId.isSome) {
+            const id = scheduled.maybeId.unwrap().toHex();
 
-              if (id.startsWith(DEMOCRACY_ID)) {
-                const [, index] = api.registry.createType('(u64, ReferendumIndex)', id);
-                const imageHash = scheduled.call.args[0] as Hash;
-
-                result.push({ at, imageHash, index });
-              }
-            }
-          });
+            id.startsWith(DEMOCRACY_ID) && result.push({ at, imageHash: scheduled.call.args[0] as Hash, index: api.registry.createType('(u64, ReferendumIndex)', id)[1] });
+          }
+        });
       });
 
-      return result.length
-        ? combineLatest([
-          of(result),
-          api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
-        ])
-        : of([[], []]);
+      return combineLatest([
+        of(result),
+        result.length
+          ? api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
+          : of([])
+      ]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
       infos.map((info, index) => ({ ...info, image: images[index] }))

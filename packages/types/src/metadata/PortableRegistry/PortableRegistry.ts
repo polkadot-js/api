@@ -14,6 +14,7 @@ import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
 import { sanitize } from '../../create/sanitize';
 import { TypeDefInfo } from '../../types';
+import { assertUnreachable } from './util';
 
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
@@ -456,26 +457,19 @@ export class PortableRegistry extends Struct {
     try {
       if (aliasType) {
         typeDef = this.#extractAliasPath(lookupIndex, aliasType);
-      } else if (type.def.isArray) {
-        typeDef = this.#extractArray(lookupIndex, type.def.asArray);
-      } else if (type.def.isBitSequence) {
-        typeDef = this.#extractBitSequence(lookupIndex, type.def.asBitSequence);
-      } else if (type.def.isCompact) {
-        typeDef = this.#extractCompact(lookupIndex, type.def.asCompact);
-      } else if (type.def.isComposite) {
-        typeDef = this.#extractComposite(lookupIndex, type, type.def.asComposite);
-      } else if (type.def.isHistoricMetaCompat) {
-        typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat);
-      } else if (type.def.isPrimitive) {
-        typeDef = this.#extractPrimitive(lookupIndex, type);
-      } else if (type.def.isSequence) {
-        typeDef = this.#extractSequence(lookupIndex, type.def.asSequence);
-      } else if (type.def.isTuple) {
-        typeDef = this.#extractTuple(lookupIndex, type.def.asTuple);
-      } else if (type.def.isVariant) {
-        typeDef = this.#extractVariant(lookupIndex, type, type.def.asVariant);
       } else {
-        throw new Error(`No SiTypeDef handler for ${type.def.toString()}`);
+        switch (type.def.type) {
+          case 'Array': typeDef = this.#extractArray(lookupIndex, type.def.asArray); break;
+          case 'BitSequence': typeDef = this.#extractBitSequence(lookupIndex, type.def.asBitSequence); break;
+          case 'Compact': typeDef = this.#extractCompact(lookupIndex, type.def.asCompact); break;
+          case 'Composite': typeDef = this.#extractComposite(lookupIndex, type, type.def.asComposite); break;
+          case 'HistoricMetaCompat': typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat); break;
+          case 'Primitive': typeDef = this.#extractPrimitive(lookupIndex, type); break;
+          case 'Sequence': typeDef = this.#extractSequence(lookupIndex, type.def.asSequence); break;
+          case 'Tuple': typeDef = this.#extractTuple(lookupIndex, type.def.asTuple); break;
+          case 'Variant': typeDef = this.#extractVariant(lookupIndex, type, type.def.asVariant); break;
+          default: assertUnreachable(type.def.type);
+        }
       }
     } catch (error) {
       throw new Error(`PortableRegistry: ${lookupIndex}${namespace ? ` (${namespace})` : ''}: Error extracting ${stringify(type)}: ${(error as Error).message}`);

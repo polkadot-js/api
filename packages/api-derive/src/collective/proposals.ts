@@ -53,55 +53,64 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
   );
 }
 
-export function hasProposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<boolean> {
-  const section = getInstance(api, _section);
+export function hasProposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<boolean> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<boolean> =>
-    of(isFunction(api.query[section]?.proposals))
-  );
+    return memo(instanceId, (): Observable<boolean> =>
+      of(isFunction(api.query[section]?.proposals))
+    );
+  };
 }
 
-export function proposalCount (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<u32 | null> {
-  const section = getInstance(api, _section);
+export function proposalCount (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<u32 | null> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<u32 | null> =>
-    isFunction(api.query[section].proposalCount)
-      ? api.query[section as 'council'].proposalCount()
-      : of(null)
-  );
+    return memo(instanceId, (): Observable<u32 | null> =>
+      isFunction(api.query[section].proposalCount)
+        ? api.query[section as 'council'].proposalCount()
+        : of(null)
+    );
+  };
 }
 
-export function proposalHashes (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<Hash[]> {
-  const section = getInstance(api, _section);
+export function proposalHashes (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<Hash[]> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<Hash[]> =>
-    isFunction(api.query[section]?.proposals)
-      ? api.query[section as 'council'].proposals()
-      : of([])
-  );
+    return memo(instanceId, (): Observable<Hash[]> =>
+      isFunction(api.query[section]?.proposals)
+        ? api.query[section as 'council'].proposals()
+        : of([])
+    );
+  };
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
-  const section = getInstance(api, _section);
-  const proposalsFrom = _proposalsFrom(instanceId, api, section);
-  const getHashes = proposalHashes(instanceId, api, _section);
+export function proposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<DeriveCollectiveProposal[]> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
+    const proposalsFrom = _proposalsFrom(instanceId, api, section);
 
-  return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
-    getHashes().pipe(
-      switchMap(proposalsFrom)
-    )
-  );
-}
-
-export function proposal (instanceId: string, api: ApiInterfaceRx, _section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
-  const section = getInstance(api, _section);
-  const proposalsFrom = _proposalsFrom(instanceId, api, section);
-
-  return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
-    isFunction(api.query[section]?.proposals)
-      ? proposalsFrom([hash]).pipe(
-        map(([proposal]) => proposal)
+    return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
+      api.derive[section as 'council'].proposalHashes().pipe(
+        switchMap(proposalsFrom)
       )
-      : of(null)
-  );
+    );
+  };
+}
+
+export function proposal (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
+    const proposalsFrom = _proposalsFrom(instanceId, api, section);
+
+    return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
+      isFunction(api.query[section]?.proposals)
+        ? proposalsFrom([hash]).pipe(
+          map(([proposal]) => proposal)
+        )
+        : of(null)
+    );
+  };
 }

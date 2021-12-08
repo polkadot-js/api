@@ -42,14 +42,12 @@ export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observ
         ? api.query.council.proposalCount<ProposalIndex>()
         : of(0)
     ]).pipe(
-      switchMap(() =>
-        combineLatest([
-          bountyBase.bounties.keys<[BountyIndex]>(),
-          api.derive.council
-            ? api.derive.council.proposals()
-            : of([])
-        ])
-      ),
+      switchMap(() => combineLatest([
+        bountyBase.bounties.keys<[BountyIndex]>(),
+        api.derive.council
+          ? api.derive.council.proposals()
+          : of([])
+      ])),
       switchMap(([keys, proposals]): Observable<Result> => {
         const ids = keys.map(({ args: [id] }) => id);
 

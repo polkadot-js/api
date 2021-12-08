@@ -52,42 +52,41 @@ const tsWrapperOpaque = tsExport;
 function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
-  const keys = (sub as TypeDef[])
-    .filter(({ name }) => !!name && !name.startsWith('__Unused'))
-    .map((def, index): string => {
-      const { info, lookupName, name = `unknown${index}`, type } = def;
-      const getter = stringPascalCase(name.replace(' ', '_'));
-      const isComplex = [TypeDefInfo.Option, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
-      const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
-        ? ''
-        : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);
-      const isGetter = info === TypeDefInfo.DoNotConstruct
-        ? ''
-        : createGetter(definitions, `is${getter}`, 'boolean', imports);
+  const named = (sub as TypeDef[]).filter(({ name }) => !!name && !name.startsWith('__Unused'));
+  const keys = named.map((def): string => {
+    const { info, lookupName, name = '', type } = def;
+    const getter = stringPascalCase(name.replace(' ', '_'));
+    const isComplex = [TypeDefInfo.Option, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
+    const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
+      ? ''
+      : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);
+    const isGetter = info === TypeDefInfo.DoNotConstruct
+      ? ''
+      : createGetter(definitions, `is${getter}`, 'boolean', imports);
 
-      switch (info) {
-        case TypeDefInfo.Compact:
-        case TypeDefInfo.Plain:
-        case TypeDefInfo.Result:
-        case TypeDefInfo.Si:
-        case TypeDefInfo.Struct:
-        case TypeDefInfo.Tuple:
-        case TypeDefInfo.Vec:
-        case TypeDefInfo.Option:
-        case TypeDefInfo.VecFixed:
-        case TypeDefInfo.WrapperOpaque:
-          return `${isGetter}${asGetter}`;
+    switch (info) {
+      case TypeDefInfo.Compact:
+      case TypeDefInfo.Plain:
+      case TypeDefInfo.Result:
+      case TypeDefInfo.Si:
+      case TypeDefInfo.Struct:
+      case TypeDefInfo.Tuple:
+      case TypeDefInfo.Vec:
+      case TypeDefInfo.Option:
+      case TypeDefInfo.VecFixed:
+      case TypeDefInfo.WrapperOpaque:
+        return `${isGetter}${asGetter}`;
 
-        case TypeDefInfo.DoNotConstruct:
-        case TypeDefInfo.Null:
-          return `${isGetter}`;
+      case TypeDefInfo.DoNotConstruct:
+      case TypeDefInfo.Null:
+        return `${isGetter}`;
 
-        default:
-          throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}, ${stringify(def)}`);
-      }
-    });
+      default:
+        throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}, ${stringify(def)}`);
+    }
+  });
 
-  return exportInterface(lookupIndex, enumName, 'Enum', keys.join(''));
+  return exportInterface(lookupIndex, enumName, 'Enum', `${keys.join('')}  readonly type: ${named.map(({ name = '' }) => `'${stringPascalCase(name.replace(' ', '_'))}'`).join(' | ')};\n`);
 }
 
 function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {

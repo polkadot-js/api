@@ -10,6 +10,7 @@ export interface ExtrinsicOrHash extends Enum {
   readonly asHash: Hash;
   readonly isExtrinsic: boolean;
   readonly asExtrinsic: Bytes;
+  readonly type: 'Hash' | 'Extrinsic';
 }
 
 /** @name ExtrinsicStatus */
@@ -30,6 +31,7 @@ export interface ExtrinsicStatus extends Enum {
   readonly asUsurped: Hash;
   readonly isDropped: boolean;
   readonly isInvalid: boolean;
+  readonly type: 'Future' | 'Ready' | 'Broadcast' | 'InBlock' | 'Retracted' | 'FinalityTimeout' | 'Finalized' | 'Usurped' | 'Dropped' | 'Invalid';
 }
 
 export type PHANTOM_AUTHOR = 'author';

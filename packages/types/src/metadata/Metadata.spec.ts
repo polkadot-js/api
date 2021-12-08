@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 import kusama from '@polkadot/types-support/metadata/static-kusama';
 import polkadot from '@polkadot/types-support/metadata/static-polkadot';
 import substrate from '@polkadot/types-support/metadata/static-substrate';
@@ -8,7 +10,7 @@ import substrate from '@polkadot/types-support/metadata/static-substrate';
 import { TypeRegistry } from '../create';
 import { Metadata } from './Metadata';
 
-const allData: Record<string, string> = {
+const allData: Record<string, HexString> = {
   kusama,
   polkadot,
   substrate

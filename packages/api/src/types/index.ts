@@ -17,6 +17,7 @@ import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
 import type { DeriveAllSections } from '../util/decorate';
 import type { ApiTypes } from './base';
@@ -54,7 +55,7 @@ export interface ApiOptions extends RegisteredTypes {
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */
-  metadata?: Record<string, string>;
+  metadata?: Record<string, HexString>;
   /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`

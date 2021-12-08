@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
@@ -77,7 +78,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultEvents (dest = 'packages/api/src/augment/events.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);

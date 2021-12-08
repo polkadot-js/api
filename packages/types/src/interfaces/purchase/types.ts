@@ -21,6 +21,7 @@ export interface AccountValidity extends Enum {
   readonly isValidLow: boolean;
   readonly isValidHigh: boolean;
   readonly isCompleted: boolean;
+  readonly type: 'Invalid' | 'Initiated' | 'Pending' | 'ValidLow' | 'ValidHigh' | 'Completed';
 }
 
 export type PHANTOM_PURCHASE = 'purchase';
