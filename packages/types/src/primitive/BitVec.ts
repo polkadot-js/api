@@ -40,21 +40,21 @@ function decodeBitVec (value?: AnyU8a): [number, Uint8Array] {
  * and a normal Bytes would be that the length prefix indicates the number of bits encoded, not the bytes
  */
 export class BitVec extends Raw {
-  private readonly _decodedLength: number;
+  readonly #decodedLength: number;
 
   constructor (registry: Registry, value?: AnyU8a) {
     const [decodedLength, u8a] = decodeBitVec(value);
 
     super(registry, u8a);
 
-    this._decodedLength = decodedLength;
+    this.#decodedLength = decodedLength;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.length + compactToU8a(this._decodedLength).length;
+    return this.length + compactToU8a(this.#decodedLength).length;
   }
 
   public override toHuman (): string {
@@ -77,6 +77,6 @@ export class BitVec extends Raw {
 
     return isBare
       ? bitVec
-      : u8aConcat(compactToU8a(this._decodedLength), bitVec);
+      : u8aConcat(compactToU8a(this.#decodedLength), bitVec);
   }
 }
