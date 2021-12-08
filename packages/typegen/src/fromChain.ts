@@ -16,9 +16,10 @@ import { HEADER, writeFile } from './util';
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
+  const base = path.join(process.cwd(), output);
   const extraTypes = pkg
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
+    ? { [pkg]: require(path.join(base, 'definitions')) as Record<string, any> }
     : {};
 
   let customLookupDefinitions;
@@ -27,20 +28,20 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
     customLookupDefinitions = {
       rpc: {},
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-      types: require(path.join(process.cwd(), output, 'lookup.ts')).default
+      types: require(path.join(base, 'lookup.ts')).default
     } as Definitions;
   } catch (error) {
     console.log('No custom definitions found.');
   }
 
-  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
-  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultConsts(path.join(base, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultErrors(path.join(base, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultEvents(path.join(base, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultQuery(path.join(base, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultRpc(path.join(base, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultTx(path.join(base, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
-  writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
+  writeFile(path.join(base, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
