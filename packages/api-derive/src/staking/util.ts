@@ -21,7 +21,7 @@ export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (withActive = false) =>
       api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((eras) => api.derive.staking[fn](eras, withActive))
+        switchMap((e) => api.derive.staking[fn](e, withActive))
       )
     ) as any;
 }
@@ -32,7 +32,7 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (accountId: string | Uint8Array, withActive = false) =>
       api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((eras) => api.derive.staking[fn](accountId, eras, withActive))
+        switchMap((e) => api.derive.staking[fn](accountId, e, withActive))
       )
     ) as any;
 }
