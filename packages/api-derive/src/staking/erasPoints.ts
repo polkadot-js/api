@@ -61,6 +61,4 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
   });
 }
 
-export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
-  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasPoints));
-}
+export const erasPoints = erasHistoricApply<DeriveEraPoints>('_erasPoints');

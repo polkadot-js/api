@@ -70,6 +70,4 @@ export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: 
   );
 }
 
-export function erasExposure (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
-  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasExposure));
-}
+export const erasExposure = erasHistoricApply<DeriveEraExposure[]>('_erasExposure');

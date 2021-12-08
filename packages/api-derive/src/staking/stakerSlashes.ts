@@ -9,7 +9,7 @@ import type { DeriveStakerSlashes } from '../types';
 import { map } from 'rxjs';
 
 import { memo } from '../util';
-import { eraHistoricApplyAccount } from './util';
+import { erasHistoricApplyAccount } from './util';
 
 export function _stakerSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> => {
@@ -26,6 +26,4 @@ export function _stakerSlashes (instanceId: string, api: ApiInterfaceRx): (accou
   });
 }
 
-export function stakerSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo(instanceId, eraHistoricApplyAccount(api, api.derive.staking._stakerSlashes));
-}
+export const stakerSlashes = erasHistoricApplyAccount<DeriveStakerSlashes[]>('_stakerSlashes');

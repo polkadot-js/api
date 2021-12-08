@@ -58,6 +58,4 @@ export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: Era
   );
 }
 
-export function erasPrefs (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
-  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasPrefs));
-}
+export const erasPrefs = erasHistoricApply<DeriveEraPrefs[]>('_erasPrefs');

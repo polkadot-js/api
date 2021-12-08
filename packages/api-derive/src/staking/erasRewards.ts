@@ -50,6 +50,4 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
   });
 }
 
-export function erasRewards (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
-  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasRewards));
-}
+export const erasRewards = erasHistoricApply<DeriveEraRewards[]>('_erasRewards');
