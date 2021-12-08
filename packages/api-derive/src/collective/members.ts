@@ -13,12 +13,14 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 import { getInstance } from './getInstance';
 
-export function members (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<AccountId[]> {
-  const section = getInstance(api, _section);
+export function members (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId[]> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<AccountId[]> =>
-    isFunction(api.query[section]?.members)
-      ? api.query[section as 'council'].members()
-      : of([])
-  );
+    return memo(instanceId, (): Observable<AccountId[]> =>
+      isFunction(api.query[section]?.members)
+        ? api.query[section as 'council'].members()
+        : of([])
+    );
+  };
 }

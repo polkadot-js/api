@@ -38,6 +38,7 @@ export interface DelayKind extends Enum {
   readonly isFinalized: boolean;
   readonly isBest: boolean;
   readonly asBest: DelayKindBest;
+  readonly type: 'Finalized' | 'Best';
 }
 
 /** @name DelayKindBest */
@@ -75,6 +76,7 @@ export interface GrandpaEquivocation extends Enum {
   readonly asPrevote: GrandpaEquivocationValue;
   readonly isPrecommit: boolean;
   readonly asPrecommit: GrandpaEquivocationValue;
+  readonly type: 'Prevote' | 'Precommit';
 }
 
 /** @name GrandpaEquivocationProof */
@@ -193,6 +195,7 @@ export interface StoredState extends Enum {
   readonly isPaused: boolean;
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
+  readonly type: 'Live' | 'PendingPause' | 'Paused' | 'PendingResume';
 }
 
 export type PHANTOM_GRANDPA = 'grandpa';

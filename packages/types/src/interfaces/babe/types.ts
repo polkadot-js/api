@@ -11,6 +11,7 @@ export interface AllowedSlots extends Enum {
   readonly isPrimarySlots: boolean;
   readonly isPrimaryAndSecondaryPlainSlots: boolean;
   readonly isPrimaryAndSecondaryVRFSlots: boolean;
+  readonly type: 'PrimarySlots' | 'PrimaryAndSecondaryPlainSlots' | 'PrimaryAndSecondaryVRFSlots';
 }
 
 /** @name BabeAuthorityWeight */
@@ -54,6 +55,7 @@ export interface NextConfigDescriptor extends Enum {
   readonly isV0: boolean;
   readonly isV1: boolean;
   readonly asV1: NextConfigDescriptorV1;
+  readonly type: 'V0' | 'V1';
 }
 
 /** @name NextConfigDescriptorV1 */
@@ -74,6 +76,7 @@ export interface RawBabePreDigest extends Enum {
   readonly asSecondaryPlain: RawBabePreDigestSecondaryPlain;
   readonly isSecondaryVRF: boolean;
   readonly asSecondaryVRF: RawBabePreDigestSecondaryVRF;
+  readonly type: 'Phantom' | 'Primary' | 'SecondaryPlain' | 'SecondaryVRF';
 }
 
 /** @name RawBabePreDigestCompat */
@@ -86,6 +89,7 @@ export interface RawBabePreDigestCompat extends Enum {
   readonly asTwo: u32;
   readonly isThree: boolean;
   readonly asThree: u32;
+  readonly type: 'Zero' | 'One' | 'Two' | 'Three';
 }
 
 /** @name RawBabePreDigestPrimary */
@@ -132,6 +136,7 @@ export interface RawBabePreDigestTo159 extends Enum {
   readonly asPrimary: RawBabePreDigestPrimaryTo159;
   readonly isSecondary: boolean;
   readonly asSecondary: RawBabePreDigestSecondaryTo159;
+  readonly type: 'Primary' | 'Secondary';
 }
 
 /** @name SlotNumber */

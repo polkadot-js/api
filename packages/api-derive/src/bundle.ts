@@ -39,12 +39,12 @@ export { lazyDeriveSection };
 export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
-  [Method in keyof Section]: Section[Method] extends AnyFunction
-    ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
+  [M in keyof Section]: Section[M] extends AnyFunction
+    ? ReturnType<Section[M]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
     : never;
 };
 type DeriveAllSections<AllSections> = {
-  [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
+  [S in keyof AllSections]: DeriveSection<AllSections[S]>
 };
 
 type DeriveCreator = (instanceId: string, api: ApiInterfaceRx) => (...args: unknown[]) => Observable<any>;

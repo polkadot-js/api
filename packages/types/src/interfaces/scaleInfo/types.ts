@@ -44,6 +44,7 @@ export interface Si0TypeDef extends Enum {
   readonly asPhantom: Si0TypeDefPhantom;
   readonly isBitSequence: boolean;
   readonly asBitSequence: Si0TypeDefBitSequence;
+  readonly type: 'Composite' | 'Variant' | 'Sequence' | 'Array' | 'Tuple' | 'Primitive' | 'Compact' | 'Phantom' | 'BitSequence';
 }
 
 /** @name Si0TypeDefArray */
@@ -88,6 +89,7 @@ export interface Si0TypeDefPrimitive extends Enum {
   readonly isI64: boolean;
   readonly isI128: boolean;
   readonly isI256: boolean;
+  readonly type: 'Bool' | 'Char' | 'Str' | 'U8' | 'U16' | 'U32' | 'U64' | 'U128' | 'U256' | 'I8' | 'I16' | 'I32' | 'I64' | 'I128' | 'I256';
 }
 
 /** @name Si0TypeDefSequence */
@@ -160,6 +162,7 @@ export interface Si1TypeDef extends Enum {
   readonly asBitSequence: Si1TypeDefBitSequence;
   readonly isHistoricMetaCompat: boolean;
   readonly asHistoricMetaCompat: Type;
+  readonly type: 'Composite' | 'Variant' | 'Sequence' | 'Array' | 'Tuple' | 'Primitive' | 'Compact' | 'BitSequence' | 'HistoricMetaCompat';
 }
 
 /** @name Si1TypeDefArray */

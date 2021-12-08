@@ -49,6 +49,7 @@ export interface AssignmentKind extends Enum {
   readonly isParachain: boolean;
   readonly isParathread: boolean;
   readonly asParathread: ITuple<[CollatorId, u32]>;
+  readonly type: 'Parachain' | 'Parathread';
 }
 
 /** @name AttestedCandidate */
@@ -86,6 +87,7 @@ export interface Bidder extends Enum {
   readonly asNew: NewBidder;
   readonly isExisting: boolean;
   readonly asExisting: ParaId;
+  readonly type: 'New' | 'Existing';
 }
 
 /** @name BufferedSessionChange */
@@ -174,18 +176,21 @@ export interface CoreOccupied extends Enum {
   readonly isParathread: boolean;
   readonly asParathread: ParathreadEntry;
   readonly isParachain: boolean;
+  readonly type: 'Parathread' | 'Parachain';
 }
 
 /** @name DisputeLocation */
 export interface DisputeLocation extends Enum {
   readonly isLocal: boolean;
   readonly isRemote: boolean;
+  readonly type: 'Local' | 'Remote';
 }
 
 /** @name DisputeResult */
 export interface DisputeResult extends Enum {
   readonly isValid: boolean;
   readonly isInvalid: boolean;
+  readonly type: 'Valid' | 'Invalid';
 }
 
 /** @name DisputeState */
@@ -202,6 +207,7 @@ export interface DisputeStatement extends Enum {
   readonly asValid: ValidDisputeStatementKind;
   readonly isInvalid: boolean;
   readonly asInvalid: InvalidDisputeStatementKind;
+  readonly type: 'Valid' | 'Invalid';
 }
 
 /** @name DisputeStatementSet */
@@ -345,6 +351,7 @@ export interface IncomingParachain extends Enum {
   readonly asFixed: IncomingParachainFixed;
   readonly isDeploy: boolean;
   readonly asDeploy: IncomingParachainDeploy;
+  readonly type: 'Unset' | 'Fixed' | 'Deploy';
 }
 
 /** @name IncomingParachainDeploy */
@@ -363,6 +370,7 @@ export interface IncomingParachainFixed extends Struct {
 /** @name InvalidDisputeStatementKind */
 export interface InvalidDisputeStatementKind extends Enum {
   readonly isExplicit: boolean;
+  readonly type: 'Explicit';
 }
 
 /** @name LeasePeriod */
@@ -416,6 +424,7 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isSigned: boolean;
   readonly isParachain: boolean;
   readonly isRoot: boolean;
+  readonly type: 'Signed' | 'Parachain' | 'Root';
 }
 
 /** @name ParachainInherentData */
@@ -469,6 +478,7 @@ export interface ParaLifecycle extends Enum {
   readonly isDowngradingToParathread: boolean;
   readonly isOutgoingParathread: boolean;
   readonly isOutgoingParachain: boolean;
+  readonly type: 'Onboarding' | 'Parathread' | 'Parachain' | 'UpgradingToParachain' | 'DowngradingToParathread' | 'OutgoingParathread' | 'OutgoingParachain';
 }
 
 /** @name ParaPastCodeMeta */
@@ -481,6 +491,7 @@ export interface ParaPastCodeMeta extends Struct {
 export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
+  readonly type: 'Always' | 'Dynamic';
 }
 
 /** @name ParathreadClaim */
@@ -547,18 +558,21 @@ export interface Retriable extends Enum {
   readonly isNever: boolean;
   readonly isWithRetries: boolean;
   readonly asWithRetries: u32;
+  readonly type: 'Never' | 'WithRetries';
 }
 
 /** @name Scheduling */
 export interface Scheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
+  readonly type: 'Always' | 'Dynamic';
 }
 
 /** @name ServiceQuality */
 export interface ServiceQuality extends Enum {
   readonly isOrdered: boolean;
   readonly isFast: boolean;
+  readonly type: 'Ordered' | 'Fast';
 }
 
 /** @name SessionInfo */
@@ -606,6 +620,7 @@ export interface SlotRange extends Enum {
   readonly isTwoTwo: boolean;
   readonly isTwoThree: boolean;
   readonly isThreeThree: boolean;
+  readonly type: 'ZeroZero' | 'ZeroOne' | 'ZeroTwo' | 'ZeroThree' | 'OneOne' | 'OneTwo' | 'OneThree' | 'TwoTwo' | 'TwoThree' | 'ThreeThree';
 }
 
 /** @name Statement */
@@ -617,6 +632,7 @@ export interface Statement extends Enum {
   readonly asValid: Hash;
   readonly isInvalid: boolean;
   readonly asInvalid: Hash;
+  readonly type: 'Never' | 'Candidate' | 'Valid' | 'Invalid';
 }
 
 /** @name SubId */
@@ -638,11 +654,13 @@ export interface TransientValidationData extends Struct {
 export interface UpgradeGoAhead extends Enum {
   readonly isAbort: boolean;
   readonly isGoAhead: boolean;
+  readonly type: 'Abort' | 'GoAhead';
 }
 
 /** @name UpgradeRestriction */
 export interface UpgradeRestriction extends Enum {
   readonly isPresent: boolean;
+  readonly type: 'Present';
 }
 
 /** @name UpwardMessage */
@@ -684,6 +702,7 @@ export interface ValidDisputeStatementKind extends Enum {
   readonly isBackingValid: boolean;
   readonly asBackingValid: Hash;
   readonly isApprovalChecking: boolean;
+  readonly type: 'Explicit' | 'BackingSeconded' | 'BackingValid' | 'ApprovalChecking';
 }
 
 /** @name ValidityAttestation */
@@ -693,6 +712,7 @@ export interface ValidityAttestation extends Enum {
   readonly asImplicit: ValidatorSignature;
   readonly isExplicit: boolean;
   readonly asExplicit: ValidatorSignature;
+  readonly type: 'Never' | 'Implicit' | 'Explicit';
 }
 
 /** @name VecInboundHrmpMessage */

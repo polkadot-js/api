@@ -4,6 +4,7 @@
 import type { PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { TypeDef } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 import Handlebars from 'handlebars';
 import path from 'path';
@@ -213,7 +214,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (destDir: string, entries: [string | undefined, string][]): void {
+function generateLookup (destDir: string, entries: [string | undefined, HexString][]): void {
   entries.reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
     const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
     const filtered = getFilteredTypes(lookup, exclude);
@@ -230,7 +231,7 @@ function generateLookup (destDir: string, entries: [string | undefined, string][
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
-export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', staticData?: string): void {
+export function generateDefaultLookup (destDir = 'packages/types/src/augment/lookup', staticData?: HexString): void {
   generateLookup(
     destDir,
     staticData

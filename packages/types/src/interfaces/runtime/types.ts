@@ -65,6 +65,7 @@ export interface ChangesTrieConfiguration extends Struct {
 export interface ChangesTrieSignal extends Enum {
   readonly isNewConfiguration: boolean;
   readonly asNewConfiguration: Option<ChangesTrieConfiguration>;
+  readonly type: 'NewConfiguration';
 }
 
 /** @name CodecHash */
@@ -107,6 +108,7 @@ export interface DigestItem extends Enum {
   readonly isChangesTrieSignal: boolean;
   readonly asChangesTrieSignal: ChangesTrieSignal;
   readonly isRuntimeEnvironmentUpdated: boolean;
+  readonly type: 'Other' | 'AuthoritiesChange' | 'ChangesTrieRoot' | 'SealV0' | 'Consensus' | 'Seal' | 'PreRuntime' | 'ChangesTrieSignal' | 'RuntimeEnvironmentUpdated';
 }
 
 /** @name EncodedJustification */
@@ -225,6 +227,7 @@ export interface MultiSigner extends Enum {
   readonly asSr25519: U8aFixed;
   readonly isEcdsa: boolean;
   readonly asEcdsa: U8aFixed;
+  readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
 }
 
 /** @name OpaqueCall */
@@ -237,6 +240,7 @@ export interface Origin extends DoNotConstruct {}
 export interface OriginCaller extends Enum {
   readonly isSystem: boolean;
   readonly asSystem: SystemOrigin;
+  readonly type: 'System';
 }
 
 /** @name PalletId */
@@ -256,6 +260,7 @@ export interface PalletVersion extends Struct {
 export interface Pays extends Enum {
   readonly isYes: boolean;
   readonly isNo: boolean;
+  readonly type: 'Yes' | 'No';
 }
 
 /** @name Perbill */
@@ -294,6 +299,7 @@ export interface Releases extends Enum {
   readonly isV8: boolean;
   readonly isV9: boolean;
   readonly isV10: boolean;
+  readonly type: 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10';
 }
 
 /** @name RuntimeDbWeight */

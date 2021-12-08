@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
@@ -48,7 +49,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, isStrict);

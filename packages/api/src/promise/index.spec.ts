@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../types';
 
 import { jest } from '@jest/globals';
@@ -56,7 +57,7 @@ describe('ApiPromise', (): void => {
 
   describe('initialization', (): void => {
     it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
-      const rpcData = await provider.send<string>('state_getMetadata', []);
+      const rpcData = await provider.send<HexString>('state_getMetadata', []);
       const genesisHash = registry.createType('Hash', await provider.send('chain_getBlockHash', [])).toHex();
       const specVersion = 0;
       const api = await ApiPromise.create({ metadata: { [`${genesisHash}-${specVersion}`]: rpcData }, provider, registry, throwOnConnect: true });

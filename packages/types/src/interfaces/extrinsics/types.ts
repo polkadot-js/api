@@ -57,6 +57,7 @@ export interface MultiSignature extends Enum {
   readonly asSr25519: Sr25519Signature;
   readonly isEcdsa: boolean;
   readonly asEcdsa: EcdsaSignature;
+  readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
 }
 
 /** @name Signature */

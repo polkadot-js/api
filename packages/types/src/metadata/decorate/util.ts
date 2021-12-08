@@ -5,14 +5,16 @@ import type { Text } from '../../primitive';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-export function objectNameFirstLower ({ name }: { name: string | Text }): string {
-  return stringLowerFirst(name);
+type Name = string | Text;
+
+interface Named {
+  name: Name;
 }
 
-export function objectNameToCamel ({ name }: { name: string | Text }): string {
-  return stringCamelCase(name);
+function convert (fn: (n: Name) => string): (n: Named) => string {
+  return ({ name }: Named) => fn(name);
 }
 
-export function objectNameToString ({ name }: { name: string | Text }): string {
-  return name.toString();
-}
+export const objectNameFirstLower = convert(stringLowerFirst);
+export const objectNameToCamel = convert(stringCamelCase);
+export const objectNameToString = convert((n) => n.toString());

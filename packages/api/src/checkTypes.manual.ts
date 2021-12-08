@@ -85,35 +85,6 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const multib = await api.query.system.account.multi([pairs.alice.address, pairs.bob.address]);
 
   console.log('query types:', bar, bal, bal2, override, oldBal, multia, multib);
-
-  // check multi for unsub
-  const multiUnsub = await api.queryMulti([
-    [api.query.staking.validators],
-    [api.query.system.events]
-  ], (values): void => {
-    console.log('values', values);
-
-    multiUnsub();
-  });
-
-  // check multi , Promise result
-  const multiRes = await api.queryMulti([
-    [api.query.system.account, pairs.eve.address],
-    // older chains only
-    [api.query.system.accountNonce, pairs.eve.address]
-  ]);
-
-  console.log(multiRes);
-
-  // check multi, via at
-  const apiAt = await api.at('0x12345678');
-  const multiResAt = await apiAt.queryMulti([
-    api.query.timestamp.now,
-    [apiAt.query.staking.validators],
-    [apiAt.query.system.account, pairs.eve.address]
-  ]);
-
-  console.log(multiResAt);
 }
 
 async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
@@ -163,6 +134,37 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
     // should be AccountId type
     console.log(accountId.toHuman());
   }
+}
+
+async function queryMulti (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+  // check multi for unsub
+  const multiUnsub = await api.queryMulti([
+    [api.query.staking.validators],
+    [api.query.system.events]
+  ], (values): void => {
+    console.log('values', values);
+
+    multiUnsub();
+  });
+
+  // check multi , Promise result
+  const multiRes = await api.queryMulti([
+    [api.query.system.account, pairs.eve.address],
+    // older chains only
+    [api.query.system.accountNonce, pairs.eve.address]
+  ]);
+
+  console.log(multiRes);
+
+  // check multi, via at
+  const apiAt = await api.at('0x12345678');
+  const multiResAt = await apiAt.queryMulti([
+    api.query.timestamp.now,
+    [apiAt.query.staking.validators],
+    [apiAt.query.system.account, pairs.eve.address]
+  ]);
+
+  console.log(multiResAt);
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -270,6 +272,7 @@ async function main (): Promise<void> {
     events(api),
     query(api, pairs),
     queryExtra(api, pairs),
+    queryMulti(api, pairs),
     rpc(api),
     types(api),
     tx(api, pairs),

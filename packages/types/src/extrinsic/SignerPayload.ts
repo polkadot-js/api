@@ -48,20 +48,20 @@ const knownTypes: Record<string, string> = {
  * A generic signer payload that can be used for serialization between API and signer
  */
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
-  private readonly _extraTypes: Record<string, string>;
+  readonly #extraTypes: Record<string, string>;
 
   constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
 
-    this._extraTypes = {};
+    this.#extraTypes = {};
     const getter = (key: string) => this.get(key);
 
     // add all extras that are not in the base types
     for (const [key, type] of Object.entries(extensionTypes)) {
       if (!knownTypes[key]) {
-        this._extraTypes[key] = type;
+        this.#extraTypes[key] = type;
       }
 
       objectProperty(this, key, getter);
@@ -117,7 +117,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
    */
   public toPayload (): SignerPayloadJSON {
     const result: Record<string, string> = {};
-    const keys = Object.keys(this._extraTypes);
+    const keys = Object.keys(this.#extraTypes);
 
     // add any explicit overrides we may have
     for (let i = 0; i < keys.length; i++) {

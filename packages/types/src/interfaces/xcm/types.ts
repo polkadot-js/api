@@ -31,6 +31,7 @@ export interface AssetInstanceV0 extends Enum {
   readonly asArray32: U8aFixed;
   readonly isBlob: boolean;
   readonly asBlob: Bytes;
+  readonly type: 'Undefined' | 'Index8' | 'Index16' | 'Index32' | 'Index64' | 'Index128' | 'Array4' | 'Array8' | 'Array16' | 'Array32' | 'Blob';
 }
 
 /** @name AssetInstanceV1 */
@@ -48,6 +49,7 @@ export interface AssetInstanceV1 extends Enum {
   readonly asArray32: U8aFixed;
   readonly isBlob: boolean;
   readonly asBlob: Bytes;
+  readonly type: 'Undefined' | 'Index' | 'Array4' | 'Array8' | 'Array16' | 'Array32' | 'Blob';
 }
 
 /** @name AssetInstanceV2 */
@@ -64,6 +66,7 @@ export interface BodyId extends Enum {
   readonly isTechnical: boolean;
   readonly isLegislative: boolean;
   readonly isJudicial: boolean;
+  readonly type: 'Unit' | 'Named' | 'Index' | 'Executive' | 'Technical' | 'Legislative' | 'Judicial';
 }
 
 /** @name BodyPart */
@@ -86,6 +89,7 @@ export interface BodyPart extends Enum {
     readonly nom: Compact<u32>;
     readonly denom: Compact<u32>;
   } & Struct;
+  readonly type: 'Voice' | 'Members' | 'Fraction' | 'AtLeastProportion' | 'MoreThanProportion';
 }
 
 /** @name DoubleEncodedCall */
@@ -105,6 +109,7 @@ export interface FungibilityV1 extends Enum {
   readonly asFungible: Compact<u128>;
   readonly isNonFungible: boolean;
   readonly asNonFungible: AssetInstanceV1;
+  readonly type: 'Fungible' | 'NonFungible';
 }
 
 /** @name FungibilityV2 */
@@ -114,6 +119,7 @@ export interface FungibilityV2 extends FungibilityV1 {}
 export interface InboundStatus extends Enum {
   readonly isOk: boolean;
   readonly isSuspended: boolean;
+  readonly type: 'Ok' | 'Suspended';
 }
 
 /** @name InstructionV2 */
@@ -227,6 +233,7 @@ export interface InstructionV2 extends Enum {
   } & Struct;
   readonly isTrap: boolean;
   readonly asTrap: u64;
+  readonly type: 'WithdrawAsset' | 'ReserveAssetDeposited' | 'ReceiveTeleportedAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'ClearOrigin' | 'DescendOrigin' | 'ReportError' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution' | 'RefundSurplus' | 'SetErrorHandler' | 'SetAppendix' | 'ClearError' | 'ClaimAsset' | 'Trap';
 }
 
 /** @name InteriorMultiLocation */
@@ -257,6 +264,7 @@ export interface JunctionsV1 extends Enum {
   readonly asX7: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
   readonly isX8: boolean;
   readonly asX8: ITuple<[JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1, JunctionV1]>;
+  readonly type: 'Here' | 'X1' | 'X2' | 'X3' | 'X4' | 'X5' | 'X6' | 'X7' | 'X8';
 }
 
 /** @name JunctionsV2 */
@@ -294,6 +302,7 @@ export interface JunctionV0 extends Enum {
     readonly id: BodyId;
     readonly part: BodyPart;
   } & Struct;
+  readonly type: 'Parent' | 'Parachain' | 'AccountId32' | 'AccountIndex64' | 'AccountKey20' | 'PalletInstance' | 'GeneralIndex' | 'GeneralKey' | 'OnlyChild' | 'Plurality';
 }
 
 /** @name JunctionV1 */
@@ -327,6 +336,7 @@ export interface JunctionV1 extends Enum {
     readonly id: BodyId;
     readonly part: BodyPart;
   } & Struct;
+  readonly type: 'Parachain' | 'AccountId32' | 'AccountIndex64' | 'AccountKey20' | 'PalletInstance' | 'GeneralIndex' | 'GeneralKey' | 'OnlyChild' | 'Plurality';
 }
 
 /** @name JunctionV2 */
@@ -344,6 +354,7 @@ export interface MultiAssetFilterV1 extends Enum {
   readonly asDefinite: MultiAssetsV1;
   readonly isWild: boolean;
   readonly asWild: WildMultiAssetV1;
+  readonly type: 'Definite' | 'Wild';
 }
 
 /** @name MultiAssetFilterV2 */
@@ -392,6 +403,7 @@ export interface MultiAssetV0 extends Enum {
     readonly class: MultiLocationV0;
     readonly instance: AssetInstanceV0;
   } & Struct;
+  readonly type: 'None' | 'All' | 'AllFungible' | 'AllNonFungible' | 'AllAbstractFungible' | 'AllAbstractNonFungible' | 'AllConcreteFungible' | 'AllConcreteNonFungible' | 'AbstractFungible' | 'AbstractNonFungible' | 'ConcreteFungible' | 'ConcreteNonFungible';
 }
 
 /** @name MultiAssetV1 */
@@ -425,6 +437,7 @@ export interface MultiLocationV0 extends Enum {
   readonly asX7: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
   readonly isX8: boolean;
   readonly asX8: ITuple<[JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0, JunctionV0]>;
+  readonly type: 'Here' | 'X1' | 'X2' | 'X3' | 'X4' | 'X5' | 'X6' | 'X7' | 'X8';
 }
 
 /** @name MultiLocationV1 */
@@ -443,6 +456,7 @@ export interface NetworkId extends Enum {
   readonly asNamed: Bytes;
   readonly isPolkadot: boolean;
   readonly isKusama: boolean;
+  readonly type: 'Any' | 'Named' | 'Polkadot' | 'Kusama';
 }
 
 /** @name OriginKindV0 */
@@ -451,6 +465,7 @@ export interface OriginKindV0 extends Enum {
   readonly isSovereignAccount: boolean;
   readonly isSuperuser: boolean;
   readonly isXcm: boolean;
+  readonly type: 'Native' | 'SovereignAccount' | 'Superuser' | 'Xcm';
 }
 
 /** @name OriginKindV1 */
@@ -463,6 +478,7 @@ export interface OriginKindV2 extends OriginKindV1 {}
 export interface OutboundStatus extends Enum {
   readonly isOk: boolean;
   readonly isSuspended: boolean;
+  readonly type: 'Ok' | 'Suspended';
 }
 
 /** @name Outcome */
@@ -473,6 +489,7 @@ export interface Outcome extends Enum {
   readonly asIncomplete: ITuple<[Weight, XcmErrorV0]>;
   readonly isError: boolean;
   readonly asError: XcmErrorV0;
+  readonly type: 'Complete' | 'Incomplete' | 'Error';
 }
 
 /** @name QueryId */
@@ -491,6 +508,7 @@ export interface QueryStatus extends Enum {
     readonly response: VersionedResponse;
     readonly at: BlockNumber;
   } & Struct;
+  readonly type: 'Pending' | 'Ready';
 }
 
 /** @name QueueConfigData */
@@ -509,12 +527,14 @@ export interface Response extends ResponseV2 {}
 export interface ResponseV0 extends Enum {
   readonly isAssets: boolean;
   readonly asAssets: Vec<MultiAssetV0>;
+  readonly type: 'Assets';
 }
 
 /** @name ResponseV1 */
 export interface ResponseV1 extends Enum {
   readonly isAssets: boolean;
   readonly asAssets: MultiAssetsV1;
+  readonly type: 'Assets';
 }
 
 /** @name ResponseV2 */
@@ -524,6 +544,7 @@ export interface ResponseV2 extends Enum {
   readonly asAssets: MultiAssetsV2;
   readonly isExecutionResult: boolean;
   readonly asExecutionResult: ResponseV2Result;
+  readonly type: 'Null' | 'Assets' | 'ExecutionResult';
 }
 
 /** @name ResponseV2Error */
@@ -548,6 +569,7 @@ export interface VersionedMultiAsset extends Enum {
   readonly asV1: MultiAssetV1;
   readonly isV2: boolean;
   readonly asV2: MultiAssetV2;
+  readonly type: 'V0' | 'V1' | 'V2';
 }
 
 /** @name VersionedMultiAssets */
@@ -558,6 +580,7 @@ export interface VersionedMultiAssets extends Enum {
   readonly asV1: MultiAssetsV1;
   readonly isV2: boolean;
   readonly asV2: MultiAssetsV2;
+  readonly type: 'V0' | 'V1' | 'V2';
 }
 
 /** @name VersionedMultiLocation */
@@ -568,6 +591,7 @@ export interface VersionedMultiLocation extends Enum {
   readonly asV1: MultiLocationV1;
   readonly isV2: boolean;
   readonly asV2: MultiLocationV2;
+  readonly type: 'V0' | 'V1' | 'V2';
 }
 
 /** @name VersionedResponse */
@@ -585,6 +609,7 @@ export interface VersionedXcm extends Enum {
   readonly asV1: XcmV1;
   readonly isV2: boolean;
   readonly asV2: XcmV2;
+  readonly type: 'V0' | 'V1' | 'V2';
 }
 
 /** @name VersionMigrationStage */
@@ -594,6 +619,7 @@ export interface VersionMigrationStage extends Enum {
   readonly isNotifyCurrentTargets: boolean;
   readonly asNotifyCurrentTargets: Option<Bytes>;
   readonly isMigrateAndNotifyOldTargets: boolean;
+  readonly type: 'MigrateSupportedVersion' | 'MigrateVersionNotifiers' | 'NotifyCurrentTargets' | 'MigrateAndNotifyOldTargets';
 }
 
 /** @name WeightLimitV2 */
@@ -601,6 +627,7 @@ export interface WeightLimitV2 extends Enum {
   readonly isUnlimited: boolean;
   readonly isLimited: boolean;
   readonly asLimited: Compact<u64>;
+  readonly type: 'Unlimited' | 'Limited';
 }
 
 /** @name WildFungibility */
@@ -613,6 +640,7 @@ export interface WildFungibilityV0 extends WildFungibilityV1 {}
 export interface WildFungibilityV1 extends Enum {
   readonly isFungible: boolean;
   readonly isNonFungible: boolean;
+  readonly type: 'Fungible' | 'NonFungible';
 }
 
 /** @name WildFungibilityV2 */
@@ -629,6 +657,7 @@ export interface WildMultiAssetV1 extends Enum {
     readonly id: XcmAssetId;
     readonly fungibility: WildFungibilityV1;
   } & Struct;
+  readonly type: 'All' | 'AllOf';
 }
 
 /** @name WildMultiAssetV2 */
@@ -643,6 +672,7 @@ export interface XcmAssetId extends Enum {
   readonly asConcrete: MultiLocation;
   readonly isAbstract: boolean;
   readonly asAbstract: Bytes;
+  readonly type: 'Concrete' | 'Abstract';
 }
 
 /** @name XcmError */
@@ -680,6 +710,7 @@ export interface XcmErrorV0 extends Enum {
   readonly isTooExpensive: boolean;
   readonly isAssetNotFound: boolean;
   readonly isRecursionLimitReached: boolean;
+  readonly type: 'Undefined' | 'Overflow' | 'Unimplemented' | 'UnhandledXcmVersion' | 'UnhandledXcmMessage' | 'UnhandledEffect' | 'EscalationOfPrivilege' | 'UntrustedReserveLocation' | 'UntrustedTeleportLocation' | 'DestinationBufferOverflow' | 'SendFailed' | 'CannotReachDestination' | 'MultiLocationFull' | 'FailedToDecode' | 'BadOrigin' | 'ExceedsMaxMessageSize' | 'FailedToTransactAsset' | 'WeightLimitReached' | 'Wildcard' | 'TooMuchWeightRequired' | 'NotHoldingFees' | 'WeightNotComputable' | 'Barrier' | 'NotWithdrawable' | 'LocationCannotHold' | 'TooExpensive' | 'AssetNotFound' | 'RecursionLimitReached';
 }
 
 /** @name XcmErrorV1 */
@@ -715,6 +746,7 @@ export interface XcmErrorV1 extends Enum {
   readonly isAssetNotFound: boolean;
   readonly isDestinationUnsupported: boolean;
   readonly isRecursionLimitReached: boolean;
+  readonly type: 'Undefined' | 'Overflow' | 'Unimplemented' | 'UnhandledXcmVersion' | 'UnhandledXcmMessage' | 'UnhandledEffect' | 'EscalationOfPrivilege' | 'UntrustedReserveLocation' | 'UntrustedTeleportLocation' | 'DestinationBufferOverflow' | 'SendFailed' | 'CannotReachDestination' | 'MultiLocationFull' | 'FailedToDecode' | 'BadOrigin' | 'ExceedsMaxMessageSize' | 'FailedToTransactAsset' | 'WeightLimitReached' | 'Wildcard' | 'TooMuchWeightRequired' | 'NotHoldingFees' | 'WeightNotComputable' | 'Barrier' | 'NotWithdrawable' | 'LocationCannotHold' | 'TooExpensive' | 'AssetNotFound' | 'DestinationUnsupported' | 'RecursionLimitReached';
 }
 
 /** @name XcmErrorV2 */
@@ -755,6 +787,7 @@ export interface XcmErrorV2 extends Enum {
   readonly asTrap: u64;
   readonly isUnknownClaim: boolean;
   readonly isInvalidLocation: boolean;
+  readonly type: 'Undefined' | 'Overflow' | 'Unimplemented' | 'UnhandledXcmVersion' | 'UnhandledXcmMessage' | 'UnhandledEffect' | 'EscalationOfPrivilege' | 'UntrustedReserveLocation' | 'UntrustedTeleportLocation' | 'DestinationBufferOverflow' | 'MultiLocationFull' | 'MultiLocationNotInvertible' | 'FailedToDecode' | 'BadOrigin' | 'ExceedsMaxMessageSize' | 'FailedToTransactAsset' | 'WeightLimitReached' | 'Wildcard' | 'TooMuchWeightRequired' | 'NotHoldingFees' | 'WeightNotComputable' | 'Barrier' | 'NotWithdrawable' | 'LocationCannotHold' | 'TooExpensive' | 'AssetNotFound' | 'DestinationUnsupported' | 'RecursionLimitReached' | 'Transport' | 'Unroutable' | 'UnknownWeightRequired' | 'Trap' | 'UnknownClaim' | 'InvalidLocation';
 }
 
 /** @name XcmOrder */
@@ -805,6 +838,7 @@ export interface XcmOrderV0 extends Enum {
     readonly haltOnError: bool;
     readonly xcm: Vec<XcmV0>;
   } & Struct;
+  readonly type: 'Null' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution';
 }
 
 /** @name XcmOrderV1 */
@@ -854,6 +888,7 @@ export interface XcmOrderV1 extends Enum {
     readonly haltOnError: bool;
     readonly instructions: Vec<XcmV1>;
   } & Struct;
+  readonly type: 'Noop' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution';
 }
 
 /** @name XcmOrderV2 */
@@ -863,6 +898,7 @@ export interface XcmOrderV2 extends XcmOrderV1 {}
 export interface XcmOrigin extends Enum {
   readonly isXcm: boolean;
   readonly asXcm: MultiLocation;
+  readonly type: 'Xcm';
 }
 
 /** @name XcmOriginKind */
@@ -871,6 +907,7 @@ export interface XcmOriginKind extends Enum {
   readonly isSovereignAccount: boolean;
   readonly isSuperuser: boolean;
   readonly isXcm: boolean;
+  readonly type: 'Native' | 'SovereignAccount' | 'Superuser' | 'Xcm';
 }
 
 /** @name XcmpMessageFormat */
@@ -878,6 +915,7 @@ export interface XcmpMessageFormat extends Enum {
   readonly isConcatenatedVersionedXcm: boolean;
   readonly isConcatenatedEncodedBlob: boolean;
   readonly isSignals: boolean;
+  readonly type: 'ConcatenatedVersionedXcm' | 'ConcatenatedEncodedBlob' | 'Signals';
 }
 
 /** @name XcmV0 */
@@ -940,6 +978,7 @@ export interface XcmV0 extends Enum {
     readonly who: MultiLocationV0;
     readonly message: XcmV0;
   } & Struct;
+  readonly type: 'WithdrawAsset' | 'ReserveAssetDeposit' | 'ReceiveTeleportedAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'RelayedFrom';
 }
 
 /** @name XcmV1 */
@@ -1002,6 +1041,7 @@ export interface XcmV1 extends Enum {
     readonly who: MultiLocationV1;
     readonly message: XcmV1;
   } & Struct;
+  readonly type: 'WithdrawAsset' | 'ReserveAssetDeposit' | 'ReceiveTeleportedAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'RelayedFrom';
 }
 
 /** @name XcmV2 */
