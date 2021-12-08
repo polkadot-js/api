@@ -61,4 +61,4 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
   });
 }
 
-export const erasPoints = erasHistoricApply<DeriveEraPoints>('_erasPoints');
+export const erasPoints = erasHistoricApply('_erasPoints');
