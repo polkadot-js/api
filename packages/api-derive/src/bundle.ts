@@ -122,54 +122,32 @@ function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: 
  */
 /** @internal */
 function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: DeriveCustom): ExactDerive {
-  const queryKeys = Object.keys(api.query);
-  const specName = api.runtimeVersion.specName.toString();
-
-  const filterQueryKeys = (q: string) =>
-    queryKeys.includes(q);
-
-  const filterInstances = (q: string) =>
-    getModuleInstances(api, specName, q).some(filterQueryKeys);
-
-  const filterMethods = (instances: string[]) =>
-    (m: string) =>
-      instances.some((q) =>
-        queryKeys.includes(q) &&
-        !!api.query[q][m]
-      );
-
-  const isIncluded = (s: string) => (
-    !checks[s] ||
-    (
-      (
-        checks[s].instances.some(filterQueryKeys) &&
-        (
-          !checks[s].methods.length ||
-          checks[s].methods.every(filterMethods(checks[s].instances))
-        )
-      ) ||
-      (
-        checks[s].withDetect &&
-        checks[s].instances.some(filterInstances)
-      )
-    )
-  );
-
-  const getKeys = (section: string) =>
-    Object.keys(derives[section]);
-
-  const creator = (section: string, method: string) =>
-    derives[section][method](instanceId, api);
-
   const result: Record<string, Record<string, AnyFunction>> = {};
   const names = Object.keys(derives);
+  const keys = Object.keys(api.query);
+  const specName = api.runtimeVersion.specName.toString();
+
+  const filterKeys = (q: string) => keys.includes(q);
+  const filterInstances = (q: string) => getModuleInstances(api, specName, q).some(filterKeys);
+  const filterMethods = (all: string[]) => (m: string) => all.some((q) => keys.includes(q) && api.query[q][m]);
+  const getKeys = (s: string) => Object.keys(derives[s]);
+  const creator = (s: string, m: string) => derives[s][m](instanceId, api);
+  const isIncluded = (c: string) => (!checks[c] || (
+    (checks[c].instances.some(filterKeys) && (
+      !checks[c].methods.length ||
+      checks[c].methods.every(filterMethods(checks[c].instances))
+    )) ||
+    (
+      checks[c].withDetect &&
+      checks[c].instances.some(filterInstances)
+    )
+  ));
 
   for (let i = 0; i < names.length; i++) {
     const name = names[i];
 
-    if (isIncluded(name)) {
+    isIncluded(name) &&
       lazyDeriveSection(result, name, getKeys, creator);
-    }
   }
 
   return result as ExactDerive;

@@ -6,6 +6,10 @@ import type { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal, Refere
 import type { PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
+export interface AtBlock {
+  at: BlockNumber;
+}
+
 export interface DeriveDemocracyLock {
   balance: Balance;
   isDelegated: boolean;
@@ -16,15 +20,13 @@ export interface DeriveDemocracyLock {
   vote: Vote;
 }
 
-export interface DeriveProposalImage {
-  at: BlockNumber;
+export interface DeriveProposalImage extends AtBlock {
   balance: Balance;
   proposal?: Proposal;
   proposer: AccountId;
 }
 
-export interface DeriveDispatch {
-  at: BlockNumber;
+export interface DeriveDispatch extends AtBlock {
   index: ReferendumIndex;
   imageHash: Hash;
   image?: DeriveProposalImage;

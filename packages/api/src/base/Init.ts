@@ -15,10 +15,9 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, isUndefined, logger, objectSpread, stringify, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { detectedCapabilities } from './capabilities';
 import { Decorate } from './Decorate';
 
 const KEEPALIVE_INTERVAL = 10000;
@@ -264,20 +263,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return [source.genesisHash, source.runtimeMetadata];
   }
 
-  private _detectCapabilities (registry: Registry, blockHash?: string | Uint8Array): boolean {
-    firstValueFrom(detectedCapabilities(this._rx, blockHash))
-      .then((types): void => {
-        if (Object.keys(types).length) {
-          registry.register(types as Record<string, string>);
-
-          l.debug(() => `Capabilities detected${blockHash ? ` (${u8aToHex(u8aToU8a(blockHash))})` : ''}: ${stringify(types)}`);
-        }
-      })
-      .catch(undefined);
-
-    return true;
-  }
-
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
     if (this.#updateSub || !this.hasSubscriptions) {
@@ -308,7 +293,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
               this._injectMetadata(thisRegistry, false);
 
-              return this._detectCapabilities(thisRegistry.registry);
+              return true;
             })
           )
       )
@@ -368,9 +353,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // derive is last, since it uses the decorated rx
     this._rx.derive = this._decorateDeriveRx(this._rxDecorateMethod);
     this._derive = this._decorateDerive(this._decorateMethod);
-
-    // detect the on-chain capabilities
-    this._detectCapabilities(this.registry);
 
     return true;
   }
