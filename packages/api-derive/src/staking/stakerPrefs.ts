@@ -9,6 +9,7 @@ import type { DeriveStakerPrefs } from '../types';
 import { map } from 'rxjs';
 
 import { memo } from '../util';
+import { eraHistoricApplyAccount } from './util';
 
 export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,7 +26,5 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
 }
 
 export function stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPrefs[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
-    api.derive.staking._eraHistoricApplyAccount<DeriveStakerPrefs[]>(accountId, withActive, api.derive.staking._stakerPrefs)
-  );
+  return memo(instanceId, eraHistoricApplyAccount(api, api.derive.staking._stakerPrefs));
 }

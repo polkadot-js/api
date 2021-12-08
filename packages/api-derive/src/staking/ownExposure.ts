@@ -10,6 +10,7 @@ import type { DeriveOwnExposure } from '../types';
 import { map, of } from 'rxjs';
 
 import { memo } from '../util';
+import { eraHistoricApplyAccount } from './util';
 
 export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,7 +37,5 @@ export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountI
 }
 
 export function ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveOwnExposure[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
-    api.derive.staking._eraHistoricApplyAccount<DeriveOwnExposure[]>(accountId, withActive, api.derive.staking._ownExposures)
-  );
+  return memo(instanceId, eraHistoricApplyAccount(api, api.derive.staking._ownExposures));
 }

@@ -12,6 +12,7 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
+import { erasHistoricApply } from './util';
 
 const CACHE_KEY = 'eraSlashes';
 
@@ -68,7 +69,5 @@ export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: E
 }
 
 export function erasSlashes (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo(instanceId, (withActive = false) =>
-    api.derive.staking._eraHistoricApply<DeriveEraSlashes[]>(withActive, api.derive.staking._erasSlashes)
-  );
+  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasSlashes));
 }

@@ -12,6 +12,7 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
+import { erasHistoricApply } from './util';
 
 type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
 
@@ -70,7 +71,5 @@ export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: 
 }
 
 export function erasExposure (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraExposure[]> {
-  return memo(instanceId, (withActive = false) =>
-    api.derive.staking._eraHistoricApply<DeriveEraExposure[]>(withActive, api.derive.staking._erasExposure)
-  );
+  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasExposure));
 }

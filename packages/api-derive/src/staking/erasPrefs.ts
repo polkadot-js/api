@@ -12,6 +12,7 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
+import { erasHistoricApply } from './util';
 
 const CACHE_KEY = 'eraPrefs';
 
@@ -58,7 +59,5 @@ export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: Era
 }
 
 export function erasPrefs (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
-  return memo(instanceId, (withActive = false) =>
-    api.derive.staking._eraHistoricApply<DeriveEraPrefs[]>(withActive, api.derive.staking._erasPrefs)
-  );
+  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasPrefs));
 }

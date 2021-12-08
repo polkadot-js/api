@@ -9,6 +9,7 @@ import type { DeriveStakerPoints } from '../types';
 import { map } from 'rxjs';
 
 import { memo } from '../util';
+import { eraHistoricApplyAccount } from './util';
 
 export function _stakerPoints (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPoints[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerPoints[]> => {
@@ -27,7 +28,5 @@ export function _stakerPoints (instanceId: string, api: ApiInterfaceRx): (accoun
 }
 
 export function stakerPoints (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPoints[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
-    api.derive.staking._eraHistoricApplyAccount<DeriveStakerPoints[]>(accountId, withActive, api.derive.staking._stakerPoints)
-  );
+  return memo(instanceId, eraHistoricApplyAccount(api, api.derive.staking._stakerPoints));
 }

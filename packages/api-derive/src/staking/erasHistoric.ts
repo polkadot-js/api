@@ -7,7 +7,7 @@ import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import { map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -36,22 +36,6 @@ export function erasHistoric (instanceId: string, api: ApiInterfaceRx): (withAct
         // go from oldest to newest
         return result.reverse();
       })
-    )
-  );
-}
-
-export function _eraHistoricApply <T, F extends (eras: EraIndex[], withActive: boolean) => Observable<T>> (instanceId: string, api: ApiInterfaceRx): (withActive: boolean, fn: F) => Observable<T> {
-  return memo(instanceId, (withActive: boolean, fn: F): Observable<T> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => fn(eras, withActive))
-    )
-  );
-}
-
-export function _eraHistoricApplyAccount <T, F extends (accountId: string | Uint8Array, eras: EraIndex[], withActive: boolean) => Observable<T>> (instanceId: string, api: ApiInterfaceRx): (accountId: string | Uint8Array, withActive: boolean, fn: F) => Observable<T> {
-  return memo(instanceId, (accountId: string | Uint8Array, withActive: boolean, fn: F): Observable<T> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => fn(accountId, eras, withActive))
     )
   );
 }

@@ -13,7 +13,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';
 import { getEraMultiCache } from './cache';
-import { filterEras } from './util';
+import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
 
@@ -62,7 +62,5 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 }
 
 export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
-    api.derive.staking._eraHistoricApply<DeriveEraPoints[]>(withActive, api.derive.staking._erasPoints)
-  );
+  return memo(instanceId, erasHistoricApply(api, api.derive.staking._erasPoints));
 }

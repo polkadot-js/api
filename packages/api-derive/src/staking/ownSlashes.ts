@@ -11,6 +11,7 @@ import type { DeriveStakerSlashes } from '../types';
 import { map, of } from 'rxjs';
 
 import { memo } from '../util';
+import { eraHistoricApplyAccount } from './util';
 
 export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,7 +43,5 @@ export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: 
 }
 
 export function ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
-    api.derive.staking._eraHistoricApplyAccount<DeriveStakerSlashes[]>(accountId, withActive, api.derive.staking._ownSlashes)
-  );
+  return memo(instanceId, eraHistoricApplyAccount(api, api.derive.staking._ownSlashes));
 }
