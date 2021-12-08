@@ -18,6 +18,10 @@ export { knownOrigins } from './knownOrigins';
 export { packageInfo } from './packageInfo';
 export { mapXcmTypes } from './xcm';
 
+function withNames <T> (chainName: Text | string, specName: Text | string, fn: (c: string, s: string) => T): T {
+  return fn(chainName.toString(), specName.toString());
+}
+
 // flatten a VersionedType[] into a Record<string, string>
 /** @internal */
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
@@ -42,12 +46,11 @@ export function getModuleTypes ({ knownTypes }: Registry, section: string): Over
  * @description Based on the chain and runtimeVersion, get the applicable signed extensions (ready for registration)
  */
 export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): ExtDef {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
-
-  return objectSpread({},
-    knownTypes.typesBundle?.spec?.[_specName]?.signedExtensions,
-    knownTypes.typesBundle?.chain?.[_chainName]?.signedExtensions
+  return withNames(chainName, specName, (chainName, specName) =>
+    objectSpread({},
+      knownTypes.typesBundle?.spec?.[specName]?.signedExtensions,
+      knownTypes.typesBundle?.chain?.[chainName]?.signedExtensions
+    )
   );
 }
 
@@ -55,42 +58,40 @@ export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | s
  * @description Based on the chain and runtimeVersion, get the applicable types (ready for registration)
  */
 export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: bigint | BN | number): RegistryTypes {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
   const _specVersion = bnToBn(specVersion).toNumber();
 
-  // The order here is always, based on -
-  //   - spec then chain
-  //   - typesBundle takes higher precedence
-  //   - types is the final catch-all override
-  return objectSpread({},
-    filterVersions(typesSpec[_specName], _specVersion),
-    filterVersions(typesChain[_chainName], _specVersion),
-    filterVersions(knownTypes.typesBundle?.spec?.[_specName]?.types, _specVersion),
-    filterVersions(knownTypes.typesBundle?.chain?.[_chainName]?.types, _specVersion),
-    knownTypes.typesSpec?.[_specName],
-    knownTypes.typesChain?.[_chainName],
-    knownTypes.types
+  return withNames(chainName, specName, (chainName, specName) =>
+    // The order here is always, based on -
+    //   - spec then chain
+    //   - typesBundle takes higher precedence
+    //   - types is the final catch-all override
+    objectSpread({},
+      filterVersions(typesSpec[specName], _specVersion),
+      filterVersions(typesChain[chainName], _specVersion),
+      filterVersions(knownTypes.typesBundle?.spec?.[specName]?.types, _specVersion),
+      filterVersions(knownTypes.typesBundle?.chain?.[chainName]?.types, _specVersion),
+      knownTypes.typesSpec?.[specName],
+      knownTypes.typesChain?.[chainName],
+      knownTypes.types
+    )
   );
 }
 
 export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): CodecHasher | null {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
-
-  return knownTypes.hasher || knownTypes.typesBundle?.chain?.[_chainName]?.hasher || knownTypes.typesBundle?.spec?.[_specName]?.hasher || null;
+  return withNames(chainName, specName, (chainName, specName) =>
+    knownTypes.hasher || knownTypes.typesBundle?.chain?.[chainName]?.hasher || knownTypes.typesBundle?.spec?.[specName]?.hasher || null
+  );
 }
 
 /**
  * @description Based on the chain and runtimeVersion, get the applicable rpc definitions (ready for registration)
  */
 export function getSpecRpc ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
-
-  return objectSpread({},
-    knownTypes.typesBundle?.spec?.[_specName]?.rpc,
-    knownTypes.typesBundle?.chain?.[_chainName]?.rpc
+  return withNames(chainName, specName, (chainName, specName) =>
+    objectSpread({},
+      knownTypes.typesBundle?.spec?.[specName]?.rpc,
+      knownTypes.typesBundle?.chain?.[chainName]?.rpc
+    )
   );
 }
 
@@ -98,14 +99,13 @@ export function getSpecRpc ({ knownTypes }: Registry, chainName: Text | string, 
  * @description Based on the chain and runtimeVersion, get the applicable alias definitions (ready for registration)
  */
 export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): Record<string, OverrideModuleType> {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
-
-  // as per versions, first spec, then chain then finally non-versioned
-  return objectSpread({},
-    knownTypes.typesBundle?.spec?.[_specName]?.alias,
-    knownTypes.typesBundle?.chain?.[_chainName]?.alias,
-    knownTypes.typesAlias
+  return withNames(chainName, specName, (chainName, specName) =>
+    // as per versions, first spec, then chain then finally non-versioned
+    objectSpread({},
+      knownTypes.typesBundle?.spec?.[specName]?.alias,
+      knownTypes.typesBundle?.chain?.[chainName]?.alias,
+      knownTypes.typesAlias
+    )
   );
 }
 
