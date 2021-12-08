@@ -8,7 +8,7 @@ import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveEraSlashes, DeriveEraValSlash } from '../types';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
@@ -68,9 +68,7 @@ export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: E
 }
 
 export function erasSlashes (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraSlashes[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasSlashes(eras, withActive))
-    )
+  return memo(instanceId, (withActive = false) =>
+    api.derive.staking._eraHistoricApply<DeriveEraSlashes[]>(withActive, api.derive.staking._erasSlashes)
   );
 }

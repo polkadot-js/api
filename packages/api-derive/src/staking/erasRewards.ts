@@ -7,7 +7,7 @@ import type { Option } from '@polkadot/types';
 import type { Balance, EraIndex } from '@polkadot/types/interfaces';
 import type { DeriveEraRewards } from '../types';
 
-import { map, of, switchMap } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraMultiCache } from './cache';
@@ -51,9 +51,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
 }
 
 export function erasRewards (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraRewards[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasRewards(eras, withActive))
-    )
+  return memo(instanceId, (withActive = false) =>
+    api.derive.staking._eraHistoricApply<DeriveEraRewards[]>(withActive, api.derive.staking._erasRewards)
   );
 }

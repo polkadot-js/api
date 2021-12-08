@@ -8,7 +8,7 @@ import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveStakerSlashes } from '../types';
 
-import { map, of, switchMap } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -42,11 +42,7 @@ export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: 
 }
 
 export function ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerSlashes[]> => {
-    return api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) =>
-        api.derive.staking._ownSlashes(accountId, eras, withActive)
-      )
-    );
-  });
+  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
+    api.derive.staking._eraHistoricApplyAccount<DeriveStakerSlashes[]>(accountId, withActive, api.derive.staking._ownSlashes)
+  );
 }

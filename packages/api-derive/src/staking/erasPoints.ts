@@ -7,7 +7,7 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
 import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
 
-import { map, of, switchMap } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
 
@@ -63,8 +63,6 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 
 export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
   return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasPoints(eras, withActive))
-    )
+    api.derive.staking._eraHistoricApply<DeriveEraPoints[]>(withActive, api.derive.staking._erasPoints)
   );
 }

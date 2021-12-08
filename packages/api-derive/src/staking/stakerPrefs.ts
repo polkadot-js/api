@@ -6,7 +6,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { DeriveStakerPrefs } from '../types';
 
-import { map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -25,9 +25,7 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
 }
 
 export function stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPrefs[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerPrefs[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerPrefs(accountId, eras, withActive))
-    )
+  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
+    api.derive.staking._eraHistoricApplyAccount<DeriveStakerPrefs[]>(accountId, withActive, api.derive.staking._stakerPrefs)
   );
 }

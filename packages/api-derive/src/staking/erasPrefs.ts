@@ -8,7 +8,7 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
@@ -58,9 +58,7 @@ export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: Era
 }
 
 export function erasPrefs (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPrefs[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraPrefs[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasPrefs(eras, withActive))
-    )
+  return memo(instanceId, (withActive = false) =>
+    api.derive.staking._eraHistoricApply<DeriveEraPrefs[]>(withActive, api.derive.staking._erasPrefs)
   );
 }

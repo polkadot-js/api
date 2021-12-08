@@ -7,7 +7,7 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveOwnExposure } from '../types';
 
-import { map, of, switchMap } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -36,11 +36,7 @@ export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountI
 }
 
 export function ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveOwnExposure[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveOwnExposure[]> => {
-    return api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) =>
-        api.derive.staking._ownExposures(accountId, eras, withActive)
-      )
-    );
-  });
+  return memo(instanceId, (accountId: Uint8Array | string, withActive = false) =>
+    api.derive.staking._eraHistoricApplyAccount<DeriveOwnExposure[]>(accountId, withActive, api.derive.staking._ownExposures)
+  );
 }
