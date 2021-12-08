@@ -11,6 +11,7 @@ export interface CollectiveOrigin extends Enum {
   readonly asMembers: ITuple<[MemberCount, MemberCount]>;
   readonly isMember: boolean;
   readonly asMember: AccountId;
+  readonly type: 'Members' | 'Member';
 }
 
 /** @name MemberCount */

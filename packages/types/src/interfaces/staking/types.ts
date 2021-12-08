@@ -96,6 +96,7 @@ export interface ElectionCompute extends Enum {
   readonly isOnChain: boolean;
   readonly isSigned: boolean;
   readonly isUnsigned: boolean;
+  readonly type: 'OnChain' | 'Signed' | 'Unsigned';
 }
 
 /** @name ElectionPhase */
@@ -105,6 +106,7 @@ export interface ElectionPhase extends Enum {
   readonly isUnsigned: boolean;
   readonly asUnsigned: ITuple<[bool, BlockNumber]>;
   readonly isEmergency: boolean;
+  readonly type: 'Off' | 'Signed' | 'Unsigned' | 'Emergency';
 }
 
 /** @name ElectionResult */
@@ -129,6 +131,7 @@ export interface ElectionStatus extends Enum {
   readonly isClose: boolean;
   readonly isOpen: boolean;
   readonly asOpen: BlockNumber;
+  readonly type: 'Close' | 'Open';
 }
 
 /** @name EraIndex */
@@ -168,6 +171,7 @@ export interface Forcing extends Enum {
   readonly isForceNew: boolean;
   readonly isForceNone: boolean;
   readonly isForceAlways: boolean;
+  readonly type: 'NotForcing' | 'ForceNew' | 'ForceNone' | 'ForceAlways';
 }
 
 /** @name IndividualExposure */
@@ -242,6 +246,7 @@ export interface RewardDestination extends Enum {
   readonly isAccount: boolean;
   readonly asAccount: AccountId;
   readonly isNone: boolean;
+  readonly type: 'Staked' | 'Stash' | 'Controller' | 'Account' | 'None';
 }
 
 /** @name RewardPoint */

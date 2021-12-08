@@ -15,6 +15,7 @@ declare module '@polkadot/types/lookup' {
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
+    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction';
   }
 
   /** @name PolkadotRuntimeParachainsDisputesPalletEvent (102) */
@@ -27,18 +28,21 @@ declare module '@polkadot/types/lookup' {
     readonly asDisputeTimedOut: H256;
     readonly isRevert: boolean;
     readonly asRevert: u32;
+    readonly type: 'DisputeInitiated' | 'DisputeConcluded' | 'DisputeTimedOut' | 'Revert';
   }
 
   /** @name PolkadotRuntimeParachainsDisputesDisputeLocation (104) */
   export interface PolkadotRuntimeParachainsDisputesDisputeLocation extends Enum {
     readonly isLocal: boolean;
     readonly isRemote: boolean;
+    readonly type: 'Local' | 'Remote';
   }
 
   /** @name PolkadotRuntimeParachainsDisputesDisputeResult (105) */
   export interface PolkadotRuntimeParachainsDisputesDisputeResult extends Enum {
     readonly isValid: boolean;
     readonly isInvalid: boolean;
+    readonly type: 'Valid' | 'Invalid';
   }
 
   /** @name KusamaRuntimeSessionKeys (244) */
@@ -64,6 +68,7 @@ declare module '@polkadot/types/lookup' {
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
     readonly isXcmPallet: boolean;
     readonly asXcmPallet: PalletXcmOrigin;
+    readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
   /** @name KusamaRuntimeNposCompactSolution24 (380) */
@@ -97,6 +102,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeParachainsDisputesPalletCall (499) */
   export interface PolkadotRuntimeParachainsDisputesPalletCall extends Enum {
     readonly isForceUnfreeze: boolean;
+    readonly type: 'ForceUnfreeze';
   }
 
   /** @name PolkadotPrimitivesV1DisputeState (679) */
@@ -116,6 +122,7 @@ declare module '@polkadot/types/lookup' {
     readonly isDuplicateStatement: boolean;
     readonly isPotentialSpam: boolean;
     readonly isSingleSidedDispute: boolean;
+    readonly type: 'DuplicateDisputeStatementSets' | 'AncientDisputeStatement' | 'ValidatorIndexOutOfBounds' | 'InvalidSignature' | 'DuplicateStatement' | 'PotentialSpam' | 'SingleSidedDispute';
   }
 
   /** @name KusamaRuntimeRuntime (715) */

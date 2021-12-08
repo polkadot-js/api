@@ -29,6 +29,7 @@ export interface LastContribution extends Enum {
   readonly asPreEnding: u32;
   readonly isEnding: boolean;
   readonly asEnding: BlockNumber;
+  readonly type: 'Never' | 'PreEnding' | 'Ending';
 }
 
 /** @name TrieIndex */

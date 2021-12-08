@@ -40,6 +40,7 @@ export interface ExitError extends Enum {
   readonly isCreateEmpty: boolean;
   readonly isOther: boolean;
   readonly asOther: Text;
+  readonly type: 'StackUnderflow' | 'StackOverflow' | 'InvalidJump' | 'InvalidRange' | 'DesignatedInvalid' | 'CallTooDeep' | 'CreateCollision' | 'CreateContractLimit' | 'OutOfOffset' | 'OutOfGas' | 'OutOfFund' | 'PCUnderflow' | 'CreateEmpty' | 'Other';
 }
 
 /** @name ExitFatal */
@@ -50,6 +51,7 @@ export interface ExitFatal extends Enum {
   readonly asCallErrorAsFatal: ExitError;
   readonly isOther: boolean;
   readonly asOther: Text;
+  readonly type: 'NotSupported' | 'UnhandledInterrupt' | 'CallErrorAsFatal' | 'Other';
 }
 
 /** @name ExitReason */
@@ -62,11 +64,13 @@ export interface ExitReason extends Enum {
   readonly asRevert: ExitRevert;
   readonly isFatal: boolean;
   readonly asFatal: ExitFatal;
+  readonly type: 'Succeed' | 'Error' | 'Revert' | 'Fatal';
 }
 
 /** @name ExitRevert */
 export interface ExitRevert extends Enum {
   readonly isReverted: boolean;
+  readonly type: 'Reverted';
 }
 
 /** @name ExitSucceed */
@@ -74,6 +78,7 @@ export interface ExitSucceed extends Enum {
   readonly isStopped: boolean;
   readonly isReturned: boolean;
   readonly isSuicided: boolean;
+  readonly type: 'Stopped' | 'Returned' | 'Suicided';
 }
 
 export type PHANTOM_EVM = 'evm';

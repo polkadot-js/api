@@ -11,6 +11,7 @@ declare module '@polkadot/types/lookup' {
   export interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
     readonly isClaimed: boolean;
     readonly asClaimed: ITuple<[AccountId32, EthereumAddress, u128]>;
+    readonly type: 'Claimed';
   }
 
   /** @name PolkadotRuntimeProxyType (71) */
@@ -22,6 +23,7 @@ declare module '@polkadot/types/lookup' {
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
+    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction';
   }
 
   /** @name PolkadotRuntimeParachainsInclusionPalletEvent (81) */
@@ -32,6 +34,7 @@ declare module '@polkadot/types/lookup' {
     readonly asCandidateIncluded: ITuple<[PolkadotPrimitivesV1CandidateReceipt, Bytes, u32, u32]>;
     readonly isCandidateTimedOut: boolean;
     readonly asCandidateTimedOut: ITuple<[PolkadotPrimitivesV1CandidateReceipt, Bytes, u32]>;
+    readonly type: 'CandidateBacked' | 'CandidateIncluded' | 'CandidateTimedOut';
   }
 
   /** @name PolkadotPrimitivesV1CandidateReceipt (82) */
@@ -71,6 +74,7 @@ declare module '@polkadot/types/lookup' {
     readonly asNewHeadNoted: u32;
     readonly isActionQueued: boolean;
     readonly asActionQueued: ITuple<[u32, u32]>;
+    readonly type: 'CurrentCodeUpdated' | 'CurrentHeadUpdated' | 'CodeUpgradeScheduled' | 'NewHeadNoted' | 'ActionQueued';
   }
 
   /** @name PolkadotRuntimeParachainsUmpPalletEvent (94) */
@@ -89,6 +93,7 @@ declare module '@polkadot/types/lookup' {
     readonly asOverweightEnqueued: ITuple<[u32, U8aFixed, u64, u64]>;
     readonly isOverweightServiced: boolean;
     readonly asOverweightServiced: ITuple<[u64, u64]>;
+    readonly type: 'InvalidFormat' | 'UnsupportedVersion' | 'ExecutedUpward' | 'WeightExhausted' | 'UpwardMessagesReceived' | 'OverweightEnqueued' | 'OverweightServiced';
   }
 
   /** @name XcmV2TraitsOutcome (95) */
@@ -99,6 +104,7 @@ declare module '@polkadot/types/lookup' {
     readonly asIncomplete: ITuple<[u64, XcmV2TraitsError]>;
     readonly isError: boolean;
     readonly asError: XcmV2TraitsError;
+    readonly type: 'Complete' | 'Incomplete' | 'Error';
   }
 
   /** @name XcmV2TraitsError (96) */
@@ -131,6 +137,7 @@ declare module '@polkadot/types/lookup' {
     readonly asWeightLimitReached: u64;
     readonly isBarrier: boolean;
     readonly isWeightNotComputable: boolean;
+    readonly type: 'Overflow' | 'Unimplemented' | 'UntrustedReserveLocation' | 'UntrustedTeleportLocation' | 'MultiLocationFull' | 'MultiLocationNotInvertible' | 'BadOrigin' | 'InvalidLocation' | 'AssetNotFound' | 'FailedToTransactAsset' | 'NotWithdrawable' | 'LocationCannotHold' | 'ExceedsMaxMessageSize' | 'DestinationUnsupported' | 'Transport' | 'Unroutable' | 'UnknownClaim' | 'FailedToDecode' | 'MaxWeightInvalid' | 'NotHoldingFees' | 'TooExpensive' | 'Trap' | 'UnhandledXcmVersion' | 'WeightLimitReached' | 'Barrier' | 'WeightNotComputable';
   }
 
   /** @name PolkadotRuntimeParachainsHrmpPalletEvent (97) */
@@ -143,6 +150,7 @@ declare module '@polkadot/types/lookup' {
     readonly asOpenChannelAccepted: ITuple<[u32, u32]>;
     readonly isChannelClosed: boolean;
     readonly asChannelClosed: ITuple<[u32, PolkadotParachainPrimitivesHrmpChannelId]>;
+    readonly type: 'OpenChannelRequested' | 'OpenChannelCanceled' | 'OpenChannelAccepted' | 'ChannelClosed';
   }
 
   /** @name PolkadotParachainPrimitivesHrmpChannelId (98) */
@@ -159,6 +167,7 @@ declare module '@polkadot/types/lookup' {
     readonly asDeregistered: u32;
     readonly isReserved: boolean;
     readonly asReserved: ITuple<[u32, AccountId32]>;
+    readonly type: 'Registered' | 'Deregistered' | 'Reserved';
   }
 
   /** @name PolkadotRuntimeCommonSlotsPalletEvent (100) */
@@ -167,6 +176,7 @@ declare module '@polkadot/types/lookup' {
     readonly asNewLeasePeriod: u32;
     readonly isLeased: boolean;
     readonly asLeased: ITuple<[u32, AccountId32, u32, u32, u128, u128]>;
+    readonly type: 'NewLeasePeriod' | 'Leased';
   }
 
   /** @name PolkadotRuntimeCommonAuctionsPalletEvent (101) */
@@ -185,6 +195,7 @@ declare module '@polkadot/types/lookup' {
     readonly asBidAccepted: ITuple<[AccountId32, u32, u128, u32, u32]>;
     readonly isWinningOffset: boolean;
     readonly asWinningOffset: ITuple<[u32, u32]>;
+    readonly type: 'AuctionStarted' | 'AuctionClosed' | 'Reserved' | 'Unreserved' | 'ReserveConfiscated' | 'BidAccepted' | 'WinningOffset';
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanPalletEvent (102) */
@@ -209,6 +220,7 @@ declare module '@polkadot/types/lookup' {
     readonly asMemoUpdated: ITuple<[AccountId32, u32, Bytes]>;
     readonly isAddedToNewRaise: boolean;
     readonly asAddedToNewRaise: u32;
+    readonly type: 'Created' | 'Contributed' | 'Withdrew' | 'PartiallyRefunded' | 'AllRefunded' | 'Dissolved' | 'HandleBidResult' | 'Edited' | 'MemoUpdated' | 'AddedToNewRaise';
   }
 
   /** @name PalletXcmEvent (103) */
@@ -245,6 +257,7 @@ declare module '@polkadot/types/lookup' {
     readonly asNotifyTargetSendFail: ITuple<[XcmV1MultiLocation, u64, XcmV2TraitsError]>;
     readonly isNotifyTargetMigrationFail: boolean;
     readonly asNotifyTargetMigrationFail: ITuple<[XcmVersionedMultiLocation, u64]>;
+    readonly type: 'Attempted' | 'Sent' | 'UnexpectedResponse' | 'ResponseReady' | 'Notified' | 'NotifyOverweight' | 'NotifyDispatchError' | 'NotifyDecodeFailed' | 'InvalidResponder' | 'InvalidResponderVersion' | 'ResponseTaken' | 'AssetsTrapped' | 'VersionChangeNotified' | 'SupportedVersionChanged' | 'NotifyTargetSendFail' | 'NotifyTargetMigrationFail';
   }
 
   /** @name XcmV1MultiLocation (104) */
@@ -272,6 +285,7 @@ declare module '@polkadot/types/lookup' {
     readonly asX7: ITuple<[XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction]>;
     readonly isX8: boolean;
     readonly asX8: ITuple<[XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction, XcmV1Junction]>;
+    readonly type: 'Here' | 'X1' | 'X2' | 'X3' | 'X4' | 'X5' | 'X6' | 'X7' | 'X8';
   }
 
   /** @name XcmV1Junction (106) */
@@ -305,6 +319,7 @@ declare module '@polkadot/types/lookup' {
       readonly id: XcmV0JunctionBodyId;
       readonly part: XcmV0JunctionBodyPart;
     } & Struct;
+    readonly type: 'Parachain' | 'AccountId32' | 'AccountIndex64' | 'AccountKey20' | 'PalletInstance' | 'GeneralIndex' | 'GeneralKey' | 'OnlyChild' | 'Plurality';
   }
 
   /** @name XcmV0JunctionNetworkId (108) */
@@ -314,6 +329,7 @@ declare module '@polkadot/types/lookup' {
     readonly asNamed: Bytes;
     readonly isPolkadot: boolean;
     readonly isKusama: boolean;
+    readonly type: 'Any' | 'Named' | 'Polkadot' | 'Kusama';
   }
 
   /** @name XcmV0JunctionBodyId (110) */
@@ -327,6 +343,7 @@ declare module '@polkadot/types/lookup' {
     readonly isTechnical: boolean;
     readonly isLegislative: boolean;
     readonly isJudicial: boolean;
+    readonly type: 'Unit' | 'Named' | 'Index' | 'Executive' | 'Technical' | 'Legislative' | 'Judicial';
   }
 
   /** @name XcmV0JunctionBodyPart (111) */
@@ -351,6 +368,7 @@ declare module '@polkadot/types/lookup' {
       readonly nom: Compact<u32>;
       readonly denom: Compact<u32>;
     } & Struct;
+    readonly type: 'Voice' | 'Members' | 'Fraction' | 'AtLeastProportion' | 'MoreThanProportion';
   }
 
   /** @name XcmV2Xcm (112) */
@@ -473,6 +491,7 @@ declare module '@polkadot/types/lookup' {
       readonly maxResponseWeight: Compact<u64>;
     } & Struct;
     readonly isUnsubscribeVersion: boolean;
+    readonly type: 'WithdrawAsset' | 'ReserveAssetDeposited' | 'ReceiveTeleportedAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'ClearOrigin' | 'DescendOrigin' | 'ReportError' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution' | 'RefundSurplus' | 'SetErrorHandler' | 'SetAppendix' | 'ClearError' | 'ClaimAsset' | 'Trap' | 'SubscribeVersion' | 'UnsubscribeVersion';
   }
 
   /** @name XcmV1MultiassetMultiAssets (115) */
@@ -490,6 +509,7 @@ declare module '@polkadot/types/lookup' {
     readonly asConcrete: XcmV1MultiLocation;
     readonly isAbstract: boolean;
     readonly asAbstract: Bytes;
+    readonly type: 'Concrete' | 'Abstract';
   }
 
   /** @name XcmV1MultiassetFungibility (119) */
@@ -498,6 +518,7 @@ declare module '@polkadot/types/lookup' {
     readonly asFungible: Compact<u128>;
     readonly isNonFungible: boolean;
     readonly asNonFungible: XcmV1MultiassetAssetInstance;
+    readonly type: 'Fungible' | 'NonFungible';
   }
 
   /** @name XcmV1MultiassetAssetInstance (120) */
@@ -515,6 +536,7 @@ declare module '@polkadot/types/lookup' {
     readonly asArray32: U8aFixed;
     readonly isBlob: boolean;
     readonly asBlob: Bytes;
+    readonly type: 'Undefined' | 'Index' | 'Array4' | 'Array8' | 'Array16' | 'Array32' | 'Blob';
   }
 
   /** @name XcmV2Response (122) */
@@ -526,6 +548,7 @@ declare module '@polkadot/types/lookup' {
     readonly asExecutionResult: Option<ITuple<[u32, XcmV2TraitsError]>>;
     readonly isVersion: boolean;
     readonly asVersion: u32;
+    readonly type: 'Null' | 'Assets' | 'ExecutionResult' | 'Version';
   }
 
   /** @name XcmV0OriginKind (125) */
@@ -534,6 +557,7 @@ declare module '@polkadot/types/lookup' {
     readonly isSovereignAccount: boolean;
     readonly isSuperuser: boolean;
     readonly isXcm: boolean;
+    readonly type: 'Native' | 'SovereignAccount' | 'Superuser' | 'Xcm';
   }
 
   /** @name XcmDoubleEncoded (126) */
@@ -547,6 +571,7 @@ declare module '@polkadot/types/lookup' {
     readonly asDefinite: XcmV1MultiassetMultiAssets;
     readonly isWild: boolean;
     readonly asWild: XcmV1MultiassetWildMultiAsset;
+    readonly type: 'Definite' | 'Wild';
   }
 
   /** @name XcmV1MultiassetWildMultiAsset (128) */
@@ -557,12 +582,14 @@ declare module '@polkadot/types/lookup' {
       readonly id: XcmV1MultiassetAssetId;
       readonly fun: XcmV1MultiassetWildFungibility;
     } & Struct;
+    readonly type: 'All' | 'AllOf';
   }
 
   /** @name XcmV1MultiassetWildFungibility (129) */
   export interface XcmV1MultiassetWildFungibility extends Enum {
     readonly isFungible: boolean;
     readonly isNonFungible: boolean;
+    readonly type: 'Fungible' | 'NonFungible';
   }
 
   /** @name XcmV2WeightLimit (130) */
@@ -570,6 +597,7 @@ declare module '@polkadot/types/lookup' {
     readonly isUnlimited: boolean;
     readonly isLimited: boolean;
     readonly asLimited: Compact<u64>;
+    readonly type: 'Unlimited' | 'Limited';
   }
 
   /** @name XcmVersionedMultiAssets (132) */
@@ -578,6 +606,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV0: Vec<XcmV0MultiAsset>;
     readonly isV1: boolean;
     readonly asV1: XcmV1MultiassetMultiAssets;
+    readonly type: 'V0' | 'V1';
   }
 
   /** @name XcmV0MultiAsset (134) */
@@ -622,6 +651,7 @@ declare module '@polkadot/types/lookup' {
       readonly class: XcmV0MultiLocation;
       readonly instance: XcmV1MultiassetAssetInstance;
     } & Struct;
+    readonly type: 'None' | 'All' | 'AllFungible' | 'AllNonFungible' | 'AllAbstractFungible' | 'AllAbstractNonFungible' | 'AllConcreteFungible' | 'AllConcreteNonFungible' | 'AbstractFungible' | 'AbstractNonFungible' | 'ConcreteFungible' | 'ConcreteNonFungible';
   }
 
   /** @name XcmV0MultiLocation (135) */
@@ -643,6 +673,7 @@ declare module '@polkadot/types/lookup' {
     readonly asX7: ITuple<[XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction]>;
     readonly isX8: boolean;
     readonly asX8: ITuple<[XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction, XcmV0Junction]>;
+    readonly type: 'Null' | 'X1' | 'X2' | 'X3' | 'X4' | 'X5' | 'X6' | 'X7' | 'X8';
   }
 
   /** @name XcmV0Junction (136) */
@@ -677,6 +708,7 @@ declare module '@polkadot/types/lookup' {
       readonly id: XcmV0JunctionBodyId;
       readonly part: XcmV0JunctionBodyPart;
     } & Struct;
+    readonly type: 'Parent' | 'Parachain' | 'AccountId32' | 'AccountIndex64' | 'AccountKey20' | 'PalletInstance' | 'GeneralIndex' | 'GeneralKey' | 'OnlyChild' | 'Plurality';
   }
 
   /** @name XcmVersionedMultiLocation (137) */
@@ -685,6 +717,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV0: XcmV0MultiLocation;
     readonly isV1: boolean;
     readonly asV1: XcmV1MultiLocation;
+    readonly type: 'V0' | 'V1';
   }
 
   /** @name PolkadotRuntimeSessionKeys (193) */
@@ -733,6 +766,7 @@ declare module '@polkadot/types/lookup' {
       readonly new_: EthereumAddress;
       readonly maybePreclaim: Option<AccountId32>;
     } & Struct;
+    readonly type: 'Claim' | 'MintClaim' | 'ClaimAttest' | 'Attest' | 'MoveClaim';
   }
 
   /** @name PolkadotRuntimeCommonClaimsEcdsaSignature (225) */
@@ -742,6 +776,7 @@ declare module '@polkadot/types/lookup' {
   export interface PolkadotRuntimeCommonClaimsStatementKind extends Enum {
     readonly isRegular: boolean;
     readonly isSaft: boolean;
+    readonly type: 'Regular' | 'Saft';
   }
 
   /** @name PolkadotRuntimeOriginCaller (235) */
@@ -757,12 +792,14 @@ declare module '@polkadot/types/lookup' {
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
     readonly isXcmPallet: boolean;
     readonly asXcmPallet: PalletXcmOrigin;
+    readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
   /** @name PolkadotRuntimeParachainsOriginPalletOrigin (239) */
   export interface PolkadotRuntimeParachainsOriginPalletOrigin extends Enum {
     readonly isParachain: boolean;
     readonly asParachain: u32;
+    readonly type: 'Parachain';
   }
 
   /** @name PalletXcmOrigin (240) */
@@ -771,6 +808,7 @@ declare module '@polkadot/types/lookup' {
     readonly asXcm: XcmV1MultiLocation;
     readonly isResponse: boolean;
     readonly asResponse: XcmV1MultiLocation;
+    readonly type: 'Xcm' | 'Response';
   }
 
   /** @name PolkadotRuntimeNposCompactSolution16 (291) */
@@ -959,6 +997,7 @@ declare module '@polkadot/types/lookup' {
     readonly asSetUmpMaxIndividualWeight: {
       readonly new_: u64;
     } & Struct;
+    readonly type: 'SetValidationUpgradeFrequency' | 'SetValidationUpgradeDelay' | 'SetCodeRetentionPeriod' | 'SetMaxCodeSize' | 'SetMaxPovSize' | 'SetMaxHeadDataSize' | 'SetParathreadCores' | 'SetParathreadRetries' | 'SetGroupRotationFrequency' | 'SetChainAvailabilityPeriod' | 'SetThreadAvailabilityPeriod' | 'SetSchedulingLookahead' | 'SetMaxValidatorsPerCore' | 'SetMaxValidators' | 'SetDisputePeriod' | 'SetDisputePostConclusionAcceptancePeriod' | 'SetDisputeMaxSpamSlots' | 'SetDisputeConclusionByTimeOutPeriod' | 'SetNoShowSlots' | 'SetNDelayTranches' | 'SetZerothDelayTrancheWidth' | 'SetNeededApprovals' | 'SetRelayVrfModuloSamples' | 'SetMaxUpwardQueueCount' | 'SetMaxUpwardQueueSize' | 'SetMaxDownwardMessageSize' | 'SetUmpServiceTotalWeight' | 'SetMaxUpwardMessageSize' | 'SetMaxUpwardMessageNumPerCandidate' | 'SetHrmpOpenRequestTtl' | 'SetHrmpSenderDeposit' | 'SetHrmpRecipientDeposit' | 'SetHrmpChannelMaxCapacity' | 'SetHrmpChannelMaxTotalSize' | 'SetHrmpMaxParachainInboundChannels' | 'SetHrmpMaxParathreadInboundChannels' | 'SetHrmpChannelMaxMessageSize' | 'SetHrmpMaxParachainOutboundChannels' | 'SetHrmpMaxParathreadOutboundChannels' | 'SetHrmpMaxMessageNumPerCandidate' | 'SetUmpMaxIndividualWeight';
   }
 
   /** @name PolkadotRuntimeParachainsSharedPalletCall (350) */
@@ -973,6 +1012,7 @@ declare module '@polkadot/types/lookup' {
     readonly asEnter: {
       readonly data: PolkadotPrimitivesV1InherentData;
     } & Struct;
+    readonly type: 'Enter';
   }
 
   /** @name PolkadotPrimitivesV1InherentData (353) */
@@ -1031,6 +1071,7 @@ declare module '@polkadot/types/lookup' {
     readonly asImplicit: PolkadotPrimitivesV0ValidatorAppSignature;
     readonly isExplicit: boolean;
     readonly asExplicit: PolkadotPrimitivesV0ValidatorAppSignature;
+    readonly type: 'Implicit' | 'Explicit';
   }
 
   /** @name PolkadotPrimitivesV1DisputeStatementSet (372) */
@@ -1046,6 +1087,7 @@ declare module '@polkadot/types/lookup' {
     readonly asValid: PolkadotPrimitivesV1ValidDisputeStatementKind;
     readonly isInvalid: boolean;
     readonly asInvalid: PolkadotPrimitivesV1InvalidDisputeStatementKind;
+    readonly type: 'Valid' | 'Invalid';
   }
 
   /** @name PolkadotPrimitivesV1ValidDisputeStatementKind (377) */
@@ -1056,11 +1098,13 @@ declare module '@polkadot/types/lookup' {
     readonly isBackingValid: boolean;
     readonly asBackingValid: H256;
     readonly isApprovalChecking: boolean;
+    readonly type: 'Explicit' | 'BackingSeconded' | 'BackingValid' | 'ApprovalChecking';
   }
 
   /** @name PolkadotPrimitivesV1InvalidDisputeStatementKind (378) */
   export interface PolkadotPrimitivesV1InvalidDisputeStatementKind extends Enum {
     readonly isExplicit: boolean;
+    readonly type: 'Explicit';
   }
 
   /** @name PolkadotRuntimeParachainsParasPalletCall (379) */
@@ -1090,6 +1134,7 @@ declare module '@polkadot/types/lookup' {
     readonly asForceQueueAction: {
       readonly para: u32;
     } & Struct;
+    readonly type: 'ForceSetCurrentCode' | 'ForceSetCurrentHead' | 'ForceScheduleCodeUpgrade' | 'ForceNoteNewHead' | 'ForceQueueAction';
   }
 
   /** @name PolkadotRuntimeParachainsInitializerPalletCall (380) */
@@ -1098,6 +1143,7 @@ declare module '@polkadot/types/lookup' {
     readonly asForceApprove: {
       readonly upTo: u32;
     } & Struct;
+    readonly type: 'ForceApprove';
   }
 
   /** @name PolkadotRuntimeParachainsDmpPalletCall (381) */
@@ -1110,6 +1156,7 @@ declare module '@polkadot/types/lookup' {
       readonly index: u64;
       readonly weightLimit: u64;
     } & Struct;
+    readonly type: 'ServiceOverweight';
   }
 
   /** @name PolkadotRuntimeParachainsHrmpPalletCall (383) */
@@ -1138,6 +1185,7 @@ declare module '@polkadot/types/lookup' {
     readonly asHrmpCancelOpenRequest: {
       readonly channelId: PolkadotParachainPrimitivesHrmpChannelId;
     } & Struct;
+    readonly type: 'HrmpInitOpenChannel' | 'HrmpAcceptOpenChannel' | 'HrmpCloseChannel' | 'ForceCleanHrmp' | 'ForceProcessHrmpOpen' | 'ForceProcessHrmpClose' | 'HrmpCancelOpenRequest';
   }
 
   /** @name PolkadotRuntimeCommonParasRegistrarPalletCall (384) */
@@ -1170,6 +1218,7 @@ declare module '@polkadot/types/lookup' {
       readonly para: u32;
     } & Struct;
     readonly isReserve: boolean;
+    readonly type: 'Register' | 'ForceRegister' | 'Deregister' | 'Swap' | 'ForceRemoveLock' | 'Reserve';
   }
 
   /** @name PolkadotRuntimeCommonSlotsPalletCall (385) */
@@ -1190,6 +1239,7 @@ declare module '@polkadot/types/lookup' {
     readonly asTriggerOnboard: {
       readonly para: u32;
     } & Struct;
+    readonly type: 'ForceLease' | 'ClearAllLeases' | 'TriggerOnboard';
   }
 
   /** @name PolkadotRuntimeCommonAuctionsPalletCall (386) */
@@ -1208,6 +1258,7 @@ declare module '@polkadot/types/lookup' {
       readonly amount: Compact<u128>;
     } & Struct;
     readonly isCancelAuction: boolean;
+    readonly type: 'NewAuction' | 'Bid' | 'CancelAuction';
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanPalletCall (388) */
@@ -1258,6 +1309,7 @@ declare module '@polkadot/types/lookup' {
     readonly asPoke: {
       readonly index: u32;
     } & Struct;
+    readonly type: 'Create' | 'Contribute' | 'Withdraw' | 'Refund' | 'Dissolve' | 'Edit' | 'AddMemo' | 'Poke';
   }
 
   /** @name SpRuntimeMultiSigner (390) */
@@ -1268,6 +1320,7 @@ declare module '@polkadot/types/lookup' {
     readonly asSr25519: SpCoreSr25519Public;
     readonly isEcdsa: boolean;
     readonly asEcdsa: SpCoreEcdsaPublic;
+    readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
   }
 
   /** @name SpCoreEcdsaPublic (391) */
@@ -1332,6 +1385,7 @@ declare module '@polkadot/types/lookup' {
       readonly feeAssetItem: u32;
       readonly weightLimit: XcmV2WeightLimit;
     } & Struct;
+    readonly type: 'Send' | 'TeleportAssets' | 'ReserveTransferAssets' | 'Execute' | 'ForceXcmVersion' | 'ForceDefaultXcmVersion' | 'ForceSubscribeVersionNotify' | 'ForceUnsubscribeVersionNotify' | 'LimitedReserveTransferAssets' | 'LimitedTeleportAssets';
   }
 
   /** @name XcmVersionedXcm (397) */
@@ -1342,6 +1396,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV1: XcmV1Xcm;
     readonly isV2: boolean;
     readonly asV2: XcmV2Xcm;
+    readonly type: 'V0' | 'V1' | 'V2';
   }
 
   /** @name XcmV0Xcm (398) */
@@ -1404,6 +1459,7 @@ declare module '@polkadot/types/lookup' {
       readonly who: XcmV0MultiLocation;
       readonly message: XcmV0Xcm;
     } & Struct;
+    readonly type: 'WithdrawAsset' | 'ReserveAssetDeposit' | 'TeleportAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'RelayedFrom';
   }
 
   /** @name XcmV0Order (400) */
@@ -1451,12 +1507,14 @@ declare module '@polkadot/types/lookup' {
       readonly haltOnError: bool;
       readonly xcm: Vec<XcmV0Xcm>;
     } & Struct;
+    readonly type: 'Null' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution';
   }
 
   /** @name XcmV0Response (402) */
   export interface XcmV0Response extends Enum {
     readonly isAssets: boolean;
     readonly asAssets: Vec<XcmV0MultiAsset>;
+    readonly type: 'Assets';
   }
 
   /** @name XcmV1Xcm (403) */
@@ -1525,6 +1583,7 @@ declare module '@polkadot/types/lookup' {
       readonly maxResponseWeight: Compact<u64>;
     } & Struct;
     readonly isUnsubscribeVersion: boolean;
+    readonly type: 'WithdrawAsset' | 'ReserveAssetDeposited' | 'ReceiveTeleportedAsset' | 'QueryResponse' | 'TransferAsset' | 'TransferReserveAsset' | 'Transact' | 'HrmpNewChannelOpenRequest' | 'HrmpChannelAccepted' | 'HrmpChannelClosing' | 'RelayedFrom' | 'SubscribeVersion' | 'UnsubscribeVersion';
   }
 
   /** @name XcmV1Order (405) */
@@ -1574,6 +1633,7 @@ declare module '@polkadot/types/lookup' {
       readonly haltOnError: bool;
       readonly instructions: Vec<XcmV1Xcm>;
     } & Struct;
+    readonly type: 'Noop' | 'DepositAsset' | 'DepositReserveAsset' | 'ExchangeAsset' | 'InitiateReserveWithdraw' | 'InitiateTeleport' | 'QueryHolding' | 'BuyExecution';
   }
 
   /** @name XcmV1Response (407) */
@@ -1582,6 +1642,7 @@ declare module '@polkadot/types/lookup' {
     readonly asAssets: XcmV1MultiassetMultiAssets;
     readonly isVersion: boolean;
     readonly asVersion: u32;
+    readonly type: 'Assets' | 'Version';
   }
 
   /** @name PolkadotRuntimeCommonClaimsPalletError (519) */
@@ -1592,6 +1653,7 @@ declare module '@polkadot/types/lookup' {
     readonly isPotUnderflow: boolean;
     readonly isInvalidStatement: boolean;
     readonly isVestedBalanceExists: boolean;
+    readonly type: 'InvalidEthereumSignature' | 'SignerHasNoClaim' | 'SenderHasNoClaim' | 'PotUnderflow' | 'InvalidStatement' | 'VestedBalanceExists';
   }
 
   /** @name PolkadotRuntimeParachainsConfigurationHostConfiguration (569) */
@@ -1641,6 +1703,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeParachainsConfigurationPalletError (570) */
   export interface PolkadotRuntimeParachainsConfigurationPalletError extends Enum {
     readonly isInvalidNewValue: boolean;
+    readonly type: 'InvalidNewValue';
   }
 
   /** @name PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord (573) */
@@ -1687,6 +1750,7 @@ declare module '@polkadot/types/lookup' {
     readonly isInvalidValidationCodeHash: boolean;
     readonly isParaHeadMismatch: boolean;
     readonly isBitfieldReferencesFreedCore: boolean;
+    readonly type: 'WrongBitfieldSize' | 'BitfieldDuplicateOrUnordered' | 'ValidatorIndexOutOfBounds' | 'InvalidBitfieldSignature' | 'UnscheduledCandidate' | 'CandidateScheduledBeforeParaFree' | 'WrongCollator' | 'ScheduledOutOfOrder' | 'HeadDataTooLarge' | 'PrematureCodeUpgrade' | 'NewCodeTooLarge' | 'CandidateNotInParentContext' | 'InvalidGroupIndex' | 'InsufficientBacking' | 'InvalidBacking' | 'NotCollatorSigned' | 'ValidationDataHashMismatch' | 'IncorrectDownwardMessageHandling' | 'InvalidUpwardMessages' | 'HrmpWatermarkMishandling' | 'InvalidOutboundHrmp' | 'InvalidValidationCodeHash' | 'ParaHeadMismatch' | 'BitfieldReferencesFreedCore';
   }
 
   /** @name PolkadotPrimitivesV1ScrapedOnChainVotes (576) */
@@ -1702,6 +1766,7 @@ declare module '@polkadot/types/lookup' {
     readonly isInvalidParentHeader: boolean;
     readonly isCandidateConcludedInvalid: boolean;
     readonly isInherentOverweight: boolean;
+    readonly type: 'TooManyInclusionInherents' | 'InvalidParentHeader' | 'CandidateConcludedInvalid' | 'InherentOverweight';
   }
 
   /** @name PolkadotRuntimeParachainsSchedulerParathreadClaimQueue (583) */
@@ -1730,6 +1795,7 @@ declare module '@polkadot/types/lookup' {
     readonly isParathread: boolean;
     readonly asParathread: PolkadotPrimitivesV1ParathreadEntry;
     readonly isParachain: boolean;
+    readonly type: 'Parathread' | 'Parachain';
   }
 
   /** @name PolkadotRuntimeParachainsSchedulerCoreAssignment (593) */
@@ -1745,6 +1811,7 @@ declare module '@polkadot/types/lookup' {
     readonly isParachain: boolean;
     readonly isParathread: boolean;
     readonly asParathread: ITuple<[PolkadotPrimitivesV0CollatorAppPublic, u32]>;
+    readonly type: 'Parachain' | 'Parathread';
   }
 
   /** @name PolkadotRuntimeParachainsParasParaLifecycle (595) */
@@ -1756,6 +1823,7 @@ declare module '@polkadot/types/lookup' {
     readonly isDowngradingParachain: boolean;
     readonly isOffboardingParathread: boolean;
     readonly isOffboardingParachain: boolean;
+    readonly type: 'Onboarding' | 'Parathread' | 'Parachain' | 'UpgradingParathread' | 'DowngradingParachain' | 'OffboardingParathread' | 'OffboardingParachain';
   }
 
   /** @name PolkadotRuntimeParachainsParasParaPastCodeMeta (597) */
@@ -1774,11 +1842,13 @@ declare module '@polkadot/types/lookup' {
   export interface PolkadotPrimitivesV1UpgradeGoAhead extends Enum {
     readonly isAbort: boolean;
     readonly isGoAhead: boolean;
+    readonly type: 'Abort' | 'GoAhead';
   }
 
   /** @name PolkadotPrimitivesV1UpgradeRestriction (602) */
   export interface PolkadotPrimitivesV1UpgradeRestriction extends Enum {
     readonly isPresent: boolean;
+    readonly type: 'Present';
   }
 
   /** @name PolkadotRuntimeParachainsParasParaGenesisArgs (603) */
@@ -1795,6 +1865,7 @@ declare module '@polkadot/types/lookup' {
     readonly isCannotOffboard: boolean;
     readonly isCannotUpgrade: boolean;
     readonly isCannotDowngrade: boolean;
+    readonly type: 'NotRegistered' | 'CannotOnboard' | 'CannotOffboard' | 'CannotUpgrade' | 'CannotDowngrade';
   }
 
   /** @name PolkadotRuntimeParachainsInitializerBufferedSessionChange (606) */
@@ -1814,6 +1885,7 @@ declare module '@polkadot/types/lookup' {
   export interface PolkadotRuntimeParachainsUmpPalletError extends Enum {
     readonly isUnknownMessageIndex: boolean;
     readonly isWeightOverLimit: boolean;
+    readonly type: 'UnknownMessageIndex' | 'WeightOverLimit';
   }
 
   /** @name PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest (611) */
@@ -1864,6 +1936,7 @@ declare module '@polkadot/types/lookup' {
     readonly isCancelHrmpOpenChannelUnauthorized: boolean;
     readonly isOpenHrmpChannelDoesntExist: boolean;
     readonly isOpenHrmpChannelAlreadyConfirmed: boolean;
+    readonly type: 'OpenHrmpChannelToSelf' | 'OpenHrmpChannelInvalidRecipient' | 'OpenHrmpChannelZeroCapacity' | 'OpenHrmpChannelCapacityExceedsLimit' | 'OpenHrmpChannelZeroMessageSize' | 'OpenHrmpChannelMessageSizeExceedsLimit' | 'OpenHrmpChannelAlreadyExists' | 'OpenHrmpChannelAlreadyRequested' | 'OpenHrmpChannelLimitExceeded' | 'AcceptHrmpChannelDoesntExist' | 'AcceptHrmpChannelAlreadyConfirmed' | 'AcceptHrmpChannelLimitExceeded' | 'CloseHrmpChannelUnauthorized' | 'CloseHrmpChannelDoesntExist' | 'CloseHrmpChannelAlreadyUnderway' | 'CancelHrmpOpenChannelUnauthorized' | 'OpenHrmpChannelDoesntExist' | 'OpenHrmpChannelAlreadyConfirmed';
   }
 
   /** @name PolkadotPrimitivesV1SessionInfo (621) */
@@ -1902,12 +1975,14 @@ declare module '@polkadot/types/lookup' {
     readonly isParaLocked: boolean;
     readonly isNotReserved: boolean;
     readonly isEmptyCode: boolean;
+    readonly type: 'NotRegistered' | 'AlreadyRegistered' | 'NotOwner' | 'CodeTooLarge' | 'HeadDataTooLarge' | 'NotParachain' | 'NotParathread' | 'CannotDeregister' | 'CannotDowngrade' | 'CannotUpgrade' | 'ParaLocked' | 'NotReserved' | 'EmptyCode';
   }
 
   /** @name PolkadotRuntimeCommonSlotsPalletError (627) */
   export interface PolkadotRuntimeCommonSlotsPalletError extends Enum {
     readonly isParaNotOnboarding: boolean;
     readonly isLeaseError: boolean;
+    readonly type: 'ParaNotOnboarding' | 'LeaseError';
   }
 
   /** @name PolkadotRuntimeCommonAuctionsPalletError (632) */
@@ -1919,6 +1994,7 @@ declare module '@polkadot/types/lookup' {
     readonly isNotAuction: boolean;
     readonly isAuctionEnded: boolean;
     readonly isAlreadyLeasedOut: boolean;
+    readonly type: 'AuctionInProgress' | 'LeasePeriodInPast' | 'ParaNotRegistered' | 'NotCurrentAuction' | 'NotAuction' | 'AuctionEnded' | 'AlreadyLeasedOut';
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanFundInfo (633) */
@@ -1942,6 +2018,7 @@ declare module '@polkadot/types/lookup' {
     readonly asPreEnding: u32;
     readonly isEnding: boolean;
     readonly asEnding: u32;
+    readonly type: 'Never' | 'PreEnding' | 'Ending';
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanPalletError (635) */
@@ -1969,6 +2046,7 @@ declare module '@polkadot/types/lookup' {
     readonly isAlreadyInNewRaise: boolean;
     readonly isVrfDelayInProgress: boolean;
     readonly isNoLeasePeriod: boolean;
+    readonly type: 'FirstPeriodInPast' | 'FirstPeriodTooFarInFuture' | 'LastPeriodBeforeFirstPeriod' | 'LastPeriodTooFarInFuture' | 'CannotEndInPast' | 'EndTooFarInFuture' | 'Overflow' | 'ContributionTooSmall' | 'InvalidParaId' | 'CapExceeded' | 'ContributionPeriodOver' | 'InvalidOrigin' | 'NotParachain' | 'LeaseActive' | 'BidOrLeaseActive' | 'FundNotEnded' | 'NoContributions' | 'NotReadyToDissolve' | 'InvalidSignature' | 'MemoTooLarge' | 'AlreadyInNewRaise' | 'VrfDelayInProgress' | 'NoLeasePeriod';
   }
 
   /** @name PalletXcmQueryStatus (636) */
@@ -1989,6 +2067,7 @@ declare module '@polkadot/types/lookup' {
       readonly response: XcmVersionedResponse;
       readonly at: u32;
     } & Struct;
+    readonly type: 'Pending' | 'VersionNotifier' | 'Ready';
   }
 
   /** @name XcmVersionedResponse (639) */
@@ -1999,6 +2078,7 @@ declare module '@polkadot/types/lookup' {
     readonly asV1: XcmV1Response;
     readonly isV2: boolean;
     readonly asV2: XcmV2Response;
+    readonly type: 'V0' | 'V1' | 'V2';
   }
 
   /** @name PalletXcmVersionMigrationStage (645) */
@@ -2008,6 +2088,7 @@ declare module '@polkadot/types/lookup' {
     readonly isNotifyCurrentTargets: boolean;
     readonly asNotifyCurrentTargets: Option<Bytes>;
     readonly isMigrateAndNotifyOldTargets: boolean;
+    readonly type: 'MigrateSupportedVersion' | 'MigrateVersionNotifiers' | 'NotifyCurrentTargets' | 'MigrateAndNotifyOldTargets';
   }
 
   /** @name PalletXcmError (646) */
@@ -2025,6 +2106,7 @@ declare module '@polkadot/types/lookup' {
     readonly isBadLocation: boolean;
     readonly isNoSubscription: boolean;
     readonly isAlreadySubscribed: boolean;
+    readonly type: 'Unreachable' | 'SendFailure' | 'Filtered' | 'UnweighableMessage' | 'DestinationNotInvertible' | 'Empty' | 'CannotReanchor' | 'TooManyAssets' | 'InvalidOrigin' | 'BadVersion' | 'BadLocation' | 'NoSubscription' | 'AlreadySubscribed';
   }
 
   /** @name PalletTransactionPaymentChargeTransactionPayment (656) */

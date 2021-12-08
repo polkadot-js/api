@@ -83,6 +83,7 @@ export interface TraceBlockResponse extends Enum {
   readonly asTraceError: TraceError;
   readonly isBlockTrace: boolean;
   readonly asBlockTrace: BlockTrace;
+  readonly type: 'TraceError' | 'BlockTrace';
 }
 
 /** @name TraceError */

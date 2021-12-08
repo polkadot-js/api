@@ -4,6 +4,7 @@
 
 Changes:
 
+- Generated TS Enum interfaces now expose the `type` (with allowed values)
 - Add Kusama 9130 upgrade block
 
 
