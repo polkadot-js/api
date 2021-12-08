@@ -13,16 +13,18 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 import { getInstance } from './getInstance';
 
-export function prime (instanceId: string, api: ApiInterfaceRx, _section: string): () => Observable<AccountId | null> {
-  const section = getInstance(api, _section);
+export function prime (_section: string): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId | null> {
+  return (instanceId: string, api: ApiInterfaceRx) => {
+    const section = getInstance(api, _section);
 
-  return memo(instanceId, (): Observable<AccountId | null> =>
-    isFunction(api.query[section as 'council']?.prime)
-      ? api.query[section as 'council'].prime<Option<AccountId>>().pipe(
-        map((optPrime): AccountId | null =>
-          optPrime.unwrapOr(null)
+    return memo(instanceId, (): Observable<AccountId | null> =>
+      isFunction(api.query[section as 'council']?.prime)
+        ? api.query[section as 'council'].prime<Option<AccountId>>().pipe(
+          map((optPrime): AccountId | null =>
+            optPrime.unwrapOr(null)
+          )
         )
-      )
-      : of(null)
-  );
+        : of(null)
+    );
+  };
 }
