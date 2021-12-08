@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 import path from 'path';
 import yargs from 'yargs';
 
@@ -11,12 +13,13 @@ import { WebSocket } from '@polkadot/x-ws';
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { HEADER, writeFile } from './util';
 
-function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
+function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
+  const base = path.join(process.cwd(), output);
   const extraTypes = pkg
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
+    ? { [pkg]: require(path.join(base, 'definitions')) as Record<string, any> }
     : {};
 
   let customLookupDefinitions;
@@ -25,20 +28,20 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     customLookupDefinitions = {
       rpc: {},
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-      types: require(path.join(process.cwd(), output, 'lookup.ts')).default
+      types: require(path.join(base, 'lookup.ts')).default
     } as Definitions;
   } catch (error) {
     console.log('No custom definitions found.');
   }
 
-  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
-  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultConsts(path.join(base, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultErrors(path.join(base, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultEvents(path.join(base, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultQuery(path.join(base, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultRpc(path.join(base, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultTx(path.join(base, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
-  writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
+  writeFile(path.join(base, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
@@ -95,13 +98,13 @@ export function main (): void {
       };
 
       websocket.onmessage = (message: unknown): void => {
-        generate((JSON.parse((message as Record<string, string>).data) as Record<string, string>).result, pkg, output, isStrict);
+        generate((JSON.parse((message as Record<string, string>).data) as Record<string, HexString>).result, pkg, output, isStrict);
       };
     } catch (error) {
       process.exit(1);
     }
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    generate((require(path.join(process.cwd(), endpoint)) as Record<string, string>).result, pkg, output, isStrict);
+    generate((require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result, pkg, output, isStrict);
   }
 }

@@ -7,6 +7,7 @@ import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { ChainProperties, Hash, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';
 
@@ -172,7 +173,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // nothing has been found, construct new
     const registry = new TypeRegistry(blockHash);
     const metadata = new Metadata(registry,
-      await firstValueFrom(this._rpcCore.state.getMetadata.raw<string>(header.parentHash))
+      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
     );
 
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
@@ -314,7 +315,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     ).subscribe();
   }
 
-  private async _metaFromChain (optMetadata?: Record<string, string>): Promise<[Hash, Metadata]> {
+  private async _metaFromChain (optMetadata?: Record<string, HexString>): Promise<[Hash, Metadata]> {
     const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
       firstValueFrom(this._rpcCore.chain.getBlockHash(0)),
       firstValueFrom(this._rpcCore.state.getRuntimeVersion()),

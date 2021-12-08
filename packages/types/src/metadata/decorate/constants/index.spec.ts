@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { BlockNumber } from '../../../interfaces';
 import type { Constants } from '../types';
 
@@ -11,7 +12,7 @@ import { TypeRegistry } from '../../../create';
 import { Metadata } from '../../Metadata';
 import { decorateConstants } from '..';
 
-function init (meta: string): [Constants, TypeRegistry] {
+function init (meta: HexString): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, meta);
 

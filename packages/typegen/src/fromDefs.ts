@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 import path from 'path';
 import yargs from 'yargs';
 
@@ -32,7 +34,7 @@ export function main (): void {
 
   if (endpoint) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, string>).result;
+    const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result;
 
     generateDefaultLookup(path.join(process.cwd(), input), metaHex);
   }

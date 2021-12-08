@@ -165,9 +165,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
 
       return [
         vesting
-          ? Array.isArray(vesting)
-            ? vesting
-            : [vesting]
+          ? Array.isArray(vesting) ? vesting : [vesting]
           : null,
         lockEmpty.map((e) => e ? api.registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offset])
       ];
