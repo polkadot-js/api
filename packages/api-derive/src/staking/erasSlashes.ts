@@ -11,6 +11,7 @@ import type { DeriveEraSlashes, DeriveEraValSlash } from '../types';
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
+import { getEraCache } from './cache';
 
 const CACHE_KEY = 'eraSlashes';
 
@@ -31,10 +32,7 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
 
 export function _eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
   return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
-    const cached = withActive
-      ? undefined
-      : deriveCache.get<DeriveEraSlashes>(cacheKey);
+    const [cacheKey, cached] = getEraCache<DeriveEraSlashes>(CACHE_KEY, era, withActive);
 
     return cached
       ? of(cached)

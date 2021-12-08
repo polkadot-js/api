@@ -11,6 +11,7 @@ import type { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorE
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
+import { getEraCache } from './cache';
 
 type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
 
@@ -38,10 +39,7 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
 
 export function _eraExposure (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraExposure> {
   return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraExposure> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
-    const cached = withActive
-      ? undefined
-      : deriveCache.get<DeriveEraExposure>(cacheKey);
+    const [cacheKey, cached] = getEraCache<DeriveEraExposure>(CACHE_KEY, era, withActive);
 
     return cached
       ? of(cached)

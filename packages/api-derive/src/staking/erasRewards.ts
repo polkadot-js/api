@@ -10,6 +10,7 @@ import type { DeriveEraRewards } from '../types';
 import { map, of, switchMap } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
+import { getEraMultiCache } from './cache';
 import { filterEras } from './util';
 
 const CACHE_KEY = 'eraRewards';
@@ -27,11 +28,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
       return of([]);
     }
 
-    const cached: DeriveEraRewards[] = withActive
-      ? []
-      : eras
-        .map((era) => deriveCache.get<DeriveEraRewards>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraRewards => !!value);
+    const cached = getEraMultiCache<DeriveEraRewards>(CACHE_KEY, eras, withActive);
     const remaining = filterEras(eras, cached);
 
     if (!remaining.length) {

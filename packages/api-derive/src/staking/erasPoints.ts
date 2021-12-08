@@ -12,6 +12,7 @@ import { map, of, switchMap } from 'rxjs';
 import { BN_ZERO } from '@polkadot/util';
 
 import { deriveCache, memo } from '../util';
+import { getEraMultiCache } from './cache';
 import { filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
@@ -40,11 +41,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
       return of([]);
     }
 
-    const cached: DeriveEraPoints[] = withActive
-      ? []
-      : eras
-        .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraPoints => !!value);
+    const cached = getEraMultiCache<DeriveEraPoints>(CACHE_KEY, eras, withActive);
     const remaining = filterEras(eras, cached);
 
     return !remaining.length

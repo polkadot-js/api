@@ -11,6 +11,7 @@ import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
+import { getEraCache } from './cache';
 
 const CACHE_KEY = 'eraPrefs';
 
@@ -26,10 +27,7 @@ function mapPrefs (era: EraIndex, all: [StorageKey, PalletStakingValidatorPrefs]
 
 export function _eraPrefs (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
   return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraPrefs> => {
-    const cacheKey = `${CACHE_KEY}-${era.toString()}`;
-    const cached = withActive
-      ? undefined
-      : deriveCache.get<DeriveEraPrefs>(cacheKey);
+    const [cacheKey, cached] = getEraCache<DeriveEraPrefs>(CACHE_KEY, era, withActive);
 
     return cached
       ? of(cached)
