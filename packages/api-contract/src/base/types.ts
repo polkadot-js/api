@@ -8,6 +8,12 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions } from '../types';
 
+export interface Constructor<T> {
+  // NOTE: We need the any[] here, unknown[] does not work as expected
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new(...args: any[]): T;
+}
+
 export interface BlueprintDeploy<ApiType extends ApiTypes> {
   (options: BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
   (value: bigint | string | number | BN, gasLimit: bigint | string | number | BN, ...params: unknown[]): SubmittableExtrinsic<ApiType>;

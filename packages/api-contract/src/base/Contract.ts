@@ -7,7 +7,7 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { Constructor, ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import { map } from 'rxjs';
 
@@ -159,5 +159,15 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           )
       )
     };
+  };
+}
+
+export function extendContract <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): Constructor<Contract<ApiType>> {
+  return class extends Contract<ApiType> {
+    static __ContractType = type;
+
+    constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) {
+      super(api, abi, address, decorateMethod);
+    }
   };
 }

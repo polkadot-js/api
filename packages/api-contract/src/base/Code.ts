@@ -6,7 +6,7 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
-import type { MapConstructorExec } from './types';
+import type { Constructor, MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
@@ -76,5 +76,15 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
           [])
         ) || []))
       );
+  };
+}
+
+export function extendCode <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): Constructor<Code<ApiType>> {
+  return class extends Code<ApiType> {
+    static __CodeType = type;
+
+    constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
+      super(api, abi, wasm, decorateMethod);
+    }
   };
 }
