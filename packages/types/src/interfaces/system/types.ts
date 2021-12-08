@@ -60,6 +60,7 @@ export interface ArithmeticError extends Enum {
   readonly isUnderflow: boolean;
   readonly isOverflow: boolean;
   readonly isDivisionByZero: boolean;
+  readonly type: 'Underflow' | 'Overflow' | 'DivisionByZero';
 }
 
 /** @name BlockLength */
@@ -84,6 +85,7 @@ export interface ChainType extends Enum {
   readonly isLive: boolean;
   readonly isCustom: boolean;
   readonly asCustom: Text;
+  readonly type: 'Development' | 'Local' | 'Live' | 'Custom';
 }
 
 /** @name ConsumedWeight */
@@ -97,6 +99,7 @@ export interface DispatchClass extends Enum {
   readonly isNormal: boolean;
   readonly isOperational: boolean;
   readonly isMandatory: boolean;
+  readonly type: 'Normal' | 'Operational' | 'Mandatory';
 }
 
 /** @name DispatchError */
@@ -112,6 +115,7 @@ export interface DispatchError extends Enum {
   readonly asToken: TokenError;
   readonly isArithmetic: boolean;
   readonly asArithmetic: ArithmeticError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'Token' | 'Arithmetic';
 }
 
 /** @name DispatchErrorModule */
@@ -221,6 +225,7 @@ export interface InvalidTransaction extends Enum {
   readonly asCustom: u8;
   readonly isBadMandatory: boolean;
   readonly isMandatoryDispatch: boolean;
+  readonly type: 'Call' | 'Payment' | 'Future' | 'Stale' | 'BadProof' | 'AncientBirthBlock' | 'ExhaustsResources' | 'Custom' | 'BadMandatory' | 'MandatoryDispatch';
 }
 
 /** @name Key */
@@ -263,6 +268,7 @@ export interface NodeRole extends Enum {
   readonly isAuthority: boolean;
   readonly isUnknownRole: boolean;
   readonly asUnknownRole: u8;
+  readonly type: 'Full' | 'LightClient' | 'Authority' | 'UnknownRole';
 }
 
 /** @name NotConnectedPeer */
@@ -335,6 +341,7 @@ export interface Phase extends Enum {
   readonly asApplyExtrinsic: u32;
   readonly isFinalization: boolean;
   readonly isInitialization: boolean;
+  readonly type: 'ApplyExtrinsic' | 'Finalization' | 'Initialization';
 }
 
 /** @name RawOrigin */
@@ -343,6 +350,7 @@ export interface RawOrigin extends Enum {
   readonly isSigned: boolean;
   readonly asSigned: AccountId;
   readonly isNone: boolean;
+  readonly type: 'Root' | 'Signed' | 'None';
 }
 
 /** @name RefCount */
@@ -371,6 +379,7 @@ export interface TokenError extends Enum {
   readonly isFrozen: boolean;
   readonly isUnderflow: boolean;
   readonly isOverflow: boolean;
+  readonly type: 'NoFunds' | 'WouldDie' | 'BelowMinimum' | 'CannotCreate' | 'UnknownAsset' | 'Frozen' | 'Underflow' | 'Overflow';
 }
 
 /** @name TransactionValidityError */
@@ -379,6 +388,7 @@ export interface TransactionValidityError extends Enum {
   readonly asInvalid: InvalidTransaction;
   readonly isUnknown: boolean;
   readonly asUnknown: UnknownTransaction;
+  readonly type: 'Invalid' | 'Unknown';
 }
 
 /** @name UnknownTransaction */
@@ -387,6 +397,7 @@ export interface UnknownTransaction extends Enum {
   readonly isNoUnsignedValidator: boolean;
   readonly isCustom: boolean;
   readonly asCustom: u8;
+  readonly type: 'CannotLookup' | 'NoUnsignedValidator' | 'Custom';
 }
 
 /** @name WeightPerClass */

@@ -12,6 +12,7 @@ export interface AccountVote extends Enum {
   readonly asStandard: AccountVoteStandard;
   readonly isSplit: boolean;
   readonly asSplit: AccountVoteSplit;
+  readonly type: 'Standard' | 'Split';
 }
 
 /** @name AccountVoteSplit */
@@ -35,6 +36,7 @@ export interface Conviction extends Enum {
   readonly isLocked4x: boolean;
   readonly isLocked5x: boolean;
   readonly isLocked6x: boolean;
+  readonly type: 'None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x';
 }
 
 /** @name Delegations */
@@ -49,6 +51,7 @@ export interface PreimageStatus extends Enum {
   readonly asMissing: BlockNumber;
   readonly isAvailable: boolean;
   readonly asAvailable: PreimageStatusAvailable;
+  readonly type: 'Missing' | 'Available';
 }
 
 /** @name PreimageStatusAvailable */
@@ -75,6 +78,7 @@ export interface ProxyState extends Enum {
   readonly asOpen: AccountId;
   readonly isActive: boolean;
   readonly asActive: AccountId;
+  readonly type: 'Open' | 'Active';
 }
 
 /** @name ReferendumIndex */
@@ -86,6 +90,7 @@ export interface ReferendumInfo extends Enum {
   readonly asOngoing: ReferendumStatus;
   readonly isFinished: boolean;
   readonly asFinished: ReferendumInfoFinished;
+  readonly type: 'Ongoing' | 'Finished';
 }
 
 /** @name ReferendumInfoFinished */
@@ -124,6 +129,7 @@ export interface Voting extends Enum {
   readonly asDirect: VotingDirect;
   readonly isDelegating: boolean;
   readonly asDelegating: VotingDelegating;
+  readonly type: 'Direct' | 'Delegating';
 }
 
 /** @name VotingDelegating */

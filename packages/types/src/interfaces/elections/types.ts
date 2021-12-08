@@ -20,6 +20,7 @@ export interface Renouncing extends Enum {
   readonly isRunnerUp: boolean;
   readonly isCandidate: boolean;
   readonly asCandidate: Compact<u32>;
+  readonly type: 'Member' | 'RunnerUp' | 'Candidate';
 }
 
 /** @name SetIndex */
@@ -44,6 +45,7 @@ export interface VoteThreshold extends Enum {
   readonly isSuperMajorityApprove: boolean;
   readonly isSuperMajorityAgainst: boolean;
   readonly isSimpleMajority: boolean;
+  readonly type: 'SuperMajorityApprove' | 'SuperMajorityAgainst' | 'SimpleMajority';
 }
 
 export type PHANTOM_ELECTIONS = 'elections';

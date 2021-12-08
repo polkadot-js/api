@@ -29,6 +29,7 @@ export interface BountyStatus extends Enum {
   readonly asActive: BountyStatusActive;
   readonly isPendingPayout: boolean;
   readonly asPendingPayout: BountyStatusPendingPayout;
+  readonly type: 'Proposed' | 'Approved' | 'Funded' | 'CuratorProposed' | 'Active' | 'PendingPayout';
 }
 
 /** @name BountyStatusActive */

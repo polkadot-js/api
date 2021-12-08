@@ -55,6 +55,7 @@ export interface IdentityJudgement extends Enum {
   readonly isOutOfDate: boolean;
   readonly isLowQuality: boolean;
   readonly isErroneous: boolean;
+  readonly type: 'Unknown' | 'FeePaid' | 'Reasonable' | 'KnownGood' | 'OutOfDate' | 'LowQuality' | 'Erroneous';
 }
 
 /** @name RegistrarIndex */

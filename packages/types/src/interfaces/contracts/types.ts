@@ -45,6 +45,7 @@ export interface ContractExecResultErr extends Enum {
   readonly isBadOrigin: boolean;
   readonly isModule: boolean;
   readonly asModule: ContractExecResultErrModule;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module';
 }
 
 /** @name ContractExecResultErrModule */
@@ -66,6 +67,7 @@ export interface ContractExecResultResult extends Enum {
   readonly asOk: ContractExecResultOk;
   readonly isErr: boolean;
   readonly asErr: ContractExecResultErr;
+  readonly type: 'Ok' | 'Err';
 }
 
 /** @name ContractExecResultSuccessTo255 */
@@ -86,6 +88,7 @@ export interface ContractExecResultTo255 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo255;
   readonly isError: boolean;
+  readonly type: 'Success' | 'Error';
 }
 
 /** @name ContractExecResultTo260 */
@@ -93,6 +96,7 @@ export interface ContractExecResultTo260 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo260;
   readonly isError: boolean;
+  readonly type: 'Success' | 'Error';
 }
 
 /** @name ContractExecResultTo267 */
@@ -108,6 +112,7 @@ export interface ContractInfo extends Enum {
   readonly asAlive: AliveContractInfo;
   readonly isTombstone: boolean;
   readonly asTombstone: TombstoneContractInfo;
+  readonly type: 'Alive' | 'Tombstone';
 }
 
 /** @name ContractInstantiateResult */
@@ -115,6 +120,7 @@ export interface ContractInstantiateResult extends Enum {
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValue;
   readonly isErr: boolean;
+  readonly type: 'Ok' | 'Err';
 }
 
 /** @name ContractInstantiateResultTo267 */
@@ -122,6 +128,7 @@ export interface ContractInstantiateResultTo267 extends Enum {
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueTo267;
   readonly isErr: boolean;
+  readonly type: 'Ok' | 'Err';
 }
 
 /** @name ContractStorageKey */
@@ -366,6 +373,7 @@ export interface RentProjection extends Enum {
   readonly isEvictionAt: boolean;
   readonly asEvictionAt: BlockNumber;
   readonly isNoEviction: boolean;
+  readonly type: 'EvictionAt' | 'NoEviction';
 }
 
 /** @name Schedule */

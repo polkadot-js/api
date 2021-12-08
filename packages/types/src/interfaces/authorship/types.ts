@@ -11,6 +11,7 @@ export interface UncleEntryItem extends Enum {
   readonly asInclusionHeight: BlockNumber;
   readonly isUncle: boolean;
   readonly asUncle: ITuple<[Hash, Option<AccountId>]>;
+  readonly type: 'InclusionHeight' | 'Uncle';
 }
 
 export type PHANTOM_AUTHORSHIP = 'authorship';

@@ -27,6 +27,7 @@ export interface ContractCryptoHasher extends Enum {
   readonly isBlake2x256: boolean;
   readonly isSha2x256: boolean;
   readonly isKeccak256: boolean;
+  readonly type: 'Blake2x256' | 'Sha2x256' | 'Keccak256';
 }
 
 /** @name ContractDiscriminant */
@@ -121,6 +122,7 @@ export interface ContractMetadata extends Enum {
   readonly asV0: ContractMetadataV0;
   readonly isV1: boolean;
   readonly asV1: ContractMetadataV1;
+  readonly type: 'V0' | 'V1';
 }
 
 /** @name ContractMetadataLatest */
@@ -191,6 +193,7 @@ export interface ContractStorageLayout extends Enum {
   readonly asStruct: ContractLayoutStruct;
   readonly isEnum: boolean;
   readonly asEnum: ContractLayoutEnum;
+  readonly type: 'Cell' | 'Hash' | 'Array' | 'Struct' | 'Enum';
 }
 
 /** @name ContractTypeSpec */

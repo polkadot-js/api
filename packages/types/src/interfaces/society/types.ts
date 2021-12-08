@@ -18,6 +18,7 @@ export interface BidKind extends Enum {
   readonly asDeposit: Balance;
   readonly isVouch: boolean;
   readonly asVouch: ITuple<[AccountId, Balance]>;
+  readonly type: 'Deposit' | 'Vouch';
 }
 
 /** @name SocietyJudgement */
@@ -25,6 +26,7 @@ export interface SocietyJudgement extends Enum {
   readonly isRebid: boolean;
   readonly isReject: boolean;
   readonly isApprove: boolean;
+  readonly type: 'Rebid' | 'Reject' | 'Approve';
 }
 
 /** @name SocietyVote */
@@ -32,6 +34,7 @@ export interface SocietyVote extends Enum {
   readonly isSkeptic: boolean;
   readonly isReject: boolean;
   readonly isApprove: boolean;
+  readonly type: 'Skeptic' | 'Reject' | 'Approve';
 }
 
 /** @name StrikeCount */
@@ -41,6 +44,7 @@ export interface StrikeCount extends u32 {}
 export interface VouchingStatus extends Enum {
   readonly isVouching: boolean;
   readonly isBanned: boolean;
+  readonly type: 'Vouching' | 'Banned';
 }
 
 export type PHANTOM_SOCIETY = 'society';

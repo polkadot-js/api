@@ -27,6 +27,7 @@ export interface CallOrigin extends Enum {
   readonly asTargetAccount: ITuple<[AccountId, MultiSigner, MultiSignature]>;
   readonly isSourceAccount: boolean;
   readonly asSourceAccount: AccountId;
+  readonly type: 'SourceRoot' | 'TargetAccount' | 'SourceAccount';
 }
 
 /** @name ChainId */
@@ -43,6 +44,7 @@ export interface DeliveredMessages extends Struct {
 export interface DispatchFeePayment extends Enum {
   readonly isAtSourceChain: boolean;
   readonly isAtTargetChain: boolean;
+  readonly type: 'AtSourceChain' | 'AtTargetChain';
 }
 
 /** @name InboundLaneData */
@@ -101,6 +103,7 @@ export interface OperatingMode extends Enum {
   readonly isNormal: boolean;
   readonly isRejectingOutboundMessages: boolean;
   readonly isHalted: boolean;
+  readonly type: 'Normal' | 'RejectingOutboundMessages' | 'Halted';
 }
 
 /** @name OutboundLaneData */

@@ -160,6 +160,7 @@ export interface MetadataAll extends Enum {
   readonly asV13: MetadataV13;
   readonly isV14: boolean;
   readonly asV14: MetadataV14;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10' | 'V11' | 'V12' | 'V13' | 'V14';
 }
 
 /** @name MetadataLatest */
@@ -424,6 +425,7 @@ export interface StorageEntryModifierV9 extends Enum {
   readonly isOptional: boolean;
   readonly isDefault: boolean;
   readonly isRequired: boolean;
+  readonly type: 'Optional' | 'Default' | 'Required';
 }
 
 /** @name StorageEntryTypeLatest */
@@ -448,6 +450,7 @@ export interface StorageEntryTypeV10 extends Enum {
     readonly value: Type;
     readonly key2Hasher: StorageHasherV10;
   } & Struct;
+  readonly type: 'Plain' | 'Map' | 'DoubleMap';
 }
 
 /** @name StorageEntryTypeV11 */
@@ -469,6 +472,7 @@ export interface StorageEntryTypeV11 extends Enum {
     readonly value: Type;
     readonly key2Hasher: StorageHasherV11;
   } & Struct;
+  readonly type: 'Plain' | 'Map' | 'DoubleMap';
 }
 
 /** @name StorageEntryTypeV12 */
@@ -499,6 +503,7 @@ export interface StorageEntryTypeV13 extends Enum {
     readonly hashers: Vec<StorageHasherV13>;
     readonly value: Type;
   } & Struct;
+  readonly type: 'Plain' | 'Map' | 'DoubleMap' | 'NMap';
 }
 
 /** @name StorageEntryTypeV14 */
@@ -511,6 +516,7 @@ export interface StorageEntryTypeV14 extends Enum {
     readonly key: SiLookupTypeId;
     readonly value: SiLookupTypeId;
   } & Struct;
+  readonly type: 'Plain' | 'Map';
 }
 
 /** @name StorageEntryTypeV9 */
@@ -532,6 +538,7 @@ export interface StorageEntryTypeV9 extends Enum {
     readonly value: Type;
     readonly key2Hasher: StorageHasherV9;
   } & Struct;
+  readonly type: 'Plain' | 'Map' | 'DoubleMap';
 }
 
 /** @name StorageHasher */
@@ -545,6 +552,7 @@ export interface StorageHasherV10 extends Enum {
   readonly isTwox128: boolean;
   readonly isTwox256: boolean;
   readonly isTwox64Concat: boolean;
+  readonly type: 'Blake2128' | 'Blake2256' | 'Blake2128Concat' | 'Twox128' | 'Twox256' | 'Twox64Concat';
 }
 
 /** @name StorageHasherV11 */
@@ -556,6 +564,7 @@ export interface StorageHasherV11 extends Enum {
   readonly isTwox256: boolean;
   readonly isTwox64Concat: boolean;
   readonly isIdentity: boolean;
+  readonly type: 'Blake2128' | 'Blake2256' | 'Blake2128Concat' | 'Twox128' | 'Twox256' | 'Twox64Concat' | 'Identity';
 }
 
 /** @name StorageHasherV12 */
@@ -574,6 +583,7 @@ export interface StorageHasherV9 extends Enum {
   readonly isTwox128: boolean;
   readonly isTwox256: boolean;
   readonly isTwox64Concat: boolean;
+  readonly type: 'Blake2128' | 'Blake2256' | 'Twox128' | 'Twox256' | 'Twox64Concat';
 }
 
 /** @name StorageMetadataV10 */
