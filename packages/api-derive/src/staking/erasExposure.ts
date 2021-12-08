@@ -70,4 +70,4 @@ export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: 
   );
 }
 
-export const erasExposure = erasHistoricApply<DeriveEraExposure[]>('_erasExposure');
+export const erasExposure = erasHistoricApply('_erasExposure');

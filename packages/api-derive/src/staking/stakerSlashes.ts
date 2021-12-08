@@ -26,4 +26,4 @@ export function _stakerSlashes (instanceId: string, api: ApiInterfaceRx): (accou
   });
 }
 
-export const stakerSlashes = erasHistoricApplyAccount<DeriveStakerSlashes[]>('_stakerSlashes');
+export const stakerSlashes = erasHistoricApplyAccount('_stakerSlashes');

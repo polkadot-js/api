@@ -42,4 +42,4 @@ export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: 
   );
 }
 
-export const ownSlashes = erasHistoricApplyAccount<DeriveStakerSlashes[]>('_ownSlashes');
+export const ownSlashes = erasHistoricApplyAccount('_ownSlashes');

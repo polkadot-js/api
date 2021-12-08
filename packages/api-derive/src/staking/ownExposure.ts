@@ -36,4 +36,4 @@ export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountI
   );
 }
 
-export const ownExposures = erasHistoricApplyAccount<DeriveOwnExposure[]>('_ownExposures');
+export const ownExposures = erasHistoricApplyAccount('_ownExposures');

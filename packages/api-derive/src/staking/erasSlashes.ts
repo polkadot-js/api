@@ -68,4 +68,4 @@ export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: E
   );
 }
 
-export const erasSlashes = erasHistoricApply<DeriveEraSlashes[]>('_erasSlashes');
+export const erasSlashes = erasHistoricApply('_erasSlashes');

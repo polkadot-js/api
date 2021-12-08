@@ -50,4 +50,4 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
   });
 }
 
-export const erasRewards = erasHistoricApply<DeriveEraRewards[]>('_erasRewards');
+export const erasRewards = erasHistoricApply('_erasRewards');

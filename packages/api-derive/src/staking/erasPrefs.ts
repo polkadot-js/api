@@ -58,4 +58,4 @@ export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: Era
   );
 }
 
-export const erasPrefs = erasHistoricApply<DeriveEraPrefs[]>('_erasPrefs');
+export const erasPrefs = erasHistoricApply('_erasPrefs');
