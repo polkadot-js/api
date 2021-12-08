@@ -20,12 +20,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.11.2-1",
+  "version": "6.11.2-2",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/networks": "^8.1.2",
-    "@polkadot/types": "6.11.2-1",
+    "@polkadot/types": "6.11.2-2",
     "@polkadot/util": "^8.1.2"
   }
 }
