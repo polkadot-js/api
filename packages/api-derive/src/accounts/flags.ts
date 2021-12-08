@@ -40,15 +40,11 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
  */
 export function flags (instanceId: string, api: ApiInterfaceRx): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
-    const councilSection = api.query.phragmenElection
-      ? 'phragmenElection'
-      : api.query.electionsPhragmen
-        ? 'electionsPhragmen'
-        : 'elections';
+    const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
 
     return combineLatest([
-      address && api.query[councilSection]?.members
-        ? api.query[councilSection].members<Vec<ITuple<[AccountId, Balance]>>>()
+      address && elections?.members
+        ? elections.members<Vec<ITuple<[AccountId, Balance]>>>()
         : of(undefined),
       address && api.query.council?.members
         ? api.query.council.members()
@@ -63,7 +59,7 @@ export function flags (instanceId: string, api: ApiInterfaceRx): (address?: Acco
         ? api.query.sudo.key()
         : of(undefined)
     ]).pipe(
-      map((result) => parseFlags(address, result))
+      map((r) => parseFlags(address, r))
     );
   });
 }
