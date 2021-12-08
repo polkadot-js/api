@@ -15,6 +15,27 @@ export const CID_BABE = stringToU8a('BABE');
 export const CID_GRPA = stringToU8a('FRNK');
 export const CID_POW = stringToU8a('pow_');
 
+function getAuraAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  return sessionValidators[
+    registry.createType('RawAuraPreDigest', bytes.toU8a(true))
+      .slotNumber
+      .mod(new BN(sessionValidators.length))
+      .toNumber()
+  ];
+}
+
+function getBabeAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  const digest = registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
+
+  return sessionValidators[
+    (digest.value as u32).toNumber()
+  ];
+}
+
+function getBytesAsAuthor (registry: Registry, bytes: Bytes): AccountId {
+  return registry.createType('AccountId', bytes);
+}
+
 /**
  * @name GenericConsensusEngineId
  * @description
@@ -59,42 +80,21 @@ export class GenericConsensusEngineId extends U8aFixed {
     return this.eq(CID_POW);
   }
 
-  private _getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    return sessionValidators[
-      this.registry.createType('RawAuraPreDigest', bytes.toU8a(true))
-        .slotNumber
-        .mod(new BN(sessionValidators.length))
-        .toNumber()
-    ];
-  }
-
-  private _getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    const digest = this.registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
-
-    return sessionValidators[
-      (digest.value as u32).toNumber()
-    ];
-  }
-
-  private _getBytesAsAuthor (bytes: Bytes): AccountId {
-    return this.registry.createType('AccountId', bytes);
-  }
-
   /**
    * @description From the input bytes, decode into an author
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId | undefined {
     if (sessionValidators?.length) {
       if (this.isAura) {
-        return this._getAuraAuthor(bytes, sessionValidators);
+        return getAuraAuthor(this.registry, bytes, sessionValidators);
       } else if (this.isBabe) {
-        return this._getBabeAuthor(bytes, sessionValidators);
+        return getBabeAuthor(this.registry, bytes, sessionValidators);
       }
     }
 
     // For pow & Moonbeam, the bytes are the actual author
     if (this.isPow || bytes.length === 20) {
-      return this._getBytesAsAuthor(bytes);
+      return getBytesAsAuthor(this.registry, bytes);
     }
 
     return undefined;
