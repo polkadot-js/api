@@ -42,6 +42,18 @@ function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [Accoun
   return balanceB.cmp(balanceA);
 }
 
+function getConstants (api: ApiInterfaceRx, elections: string | null): Partial<DeriveElectionsInfo> {
+  return elections
+    ? {
+      candidacyBond: api.consts[elections].candidacyBond as Balance,
+      desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
+      desiredSeats: api.consts[elections].desiredMembers as u32,
+      termDuration: api.consts[elections].termDuration as BlockNumber,
+      votingBond: api.consts[elections].votingBond as Balance
+    }
+    : {};
+}
+
 function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
   const elections = api.query.phragmenElection
     ? 'phragmenElection'
@@ -68,17 +80,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
       ])
   ).pipe(
     map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-      ...(
-        elections
-          ? {
-            candidacyBond: api.consts[elections].candidacyBond as Balance,
-            desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
-            desiredSeats: api.consts[elections].desiredMembers as u32,
-            termDuration: api.consts[elections].termDuration as BlockNumber,
-            votingBond: api.consts[elections].votingBond as Balance
-          }
-          : {}
-      ),
+      ...getConstants(api, elections),
       candidateCount: api.registry.createType('u32', candidates.length),
       candidates: candidates.map(getCandidate),
       members: members.length
