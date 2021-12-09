@@ -11,8 +11,8 @@ import { map, of } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { deriveCache, memo } from '../util';
-import { getEraMultiCache } from './cache';
+import { memo } from '../util';
+import { getEraMultiCache, setEraMultiCache } from './cache';
 import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
@@ -48,9 +48,7 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
       ? of(cached)
       : api.query.staking.erasRewardPoints.multi(remaining).pipe(
         map((points): DeriveEraPoints[] => {
-          const query = mapPoints(remaining, points);
-
-          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
+          const query = setEraMultiCache(CACHE_KEY, mapPoints(remaining, points), withActive);
 
           return eras.map((e): DeriveEraPoints =>
             cached.find(({ era }) => e.eq(era)) ||
