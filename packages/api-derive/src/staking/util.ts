@@ -38,6 +38,15 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
     ) as any;
 }
 
+export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (era: EraIndex) => ApplyReturn<F> {
+  return (instanceId: string, api: ApiInterfaceRx) =>
+    // Cannot quite get the typing right, but it is right in the code
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    memo(instanceId, (era: EraIndex) =>
+      api.derive.staking[fn](era, true)
+    ) as any;
+}
+
 export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (eras: EraIndex[], withActive: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
   return (instanceId: string, api: ApiInterfaceRx) =>
     // Cannot quite get the typing right, but it is right in the code
