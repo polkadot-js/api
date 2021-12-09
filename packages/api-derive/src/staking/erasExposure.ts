@@ -8,11 +8,11 @@ import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
-import { combineLatest, map, of } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
-import { erasHistoricApply } from './util';
+import { combineEras, erasHistoricApply } from './util';
 
 type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
 
@@ -62,12 +62,5 @@ export function eraExposure (instanceId: string, api: ApiInterfaceRx): (era: Era
   );
 }
 
-export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraExposure[]> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> =>
-    eras.length
-      ? combineLatest(eras.map((era) => api.derive.staking._eraExposure(era, withActive)))
-      : of([])
-  );
-}
-
+export const _erasExposure = combineEras('_eraExposure');
 export const erasExposure = erasHistoricApply('_erasExposure');

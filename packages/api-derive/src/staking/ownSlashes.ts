@@ -10,7 +10,7 @@ import type { DeriveStakerSlashes } from '../types';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { firstObservable, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
 
 export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
@@ -18,8 +18,8 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
       ? api.queryMulti<(Option<ITuple<[Perbill, BalanceOf]>> | Option<BalanceOf>)[]>([
-        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.validatorSlashInEra, [era, accountId]]),
-        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.nominatorSlashInEra, [era, accountId]])
+        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.validatorSlashInEra, [e, accountId]]),
+        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.nominatorSlashInEra, [e, accountId]])
       ]).pipe(
         map((values): DeriveStakerSlashes[] =>
           eras.map((era, index) => ({
@@ -36,9 +36,7 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
 
 export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveStakerSlashes> {
   return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveStakerSlashes> =>
-    api.derive.staking._ownSlashes(accountId, [era], true).pipe(
-      map(([first]) => first)
-    )
+    firstObservable(api.derive.staking._ownSlashes(accountId, [era], true))
   );
 }
 

@@ -11,16 +11,14 @@ import { of } from 'rxjs';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { getInstance } from './getInstance';
+import { withSection } from './helpers';
 
 export function members (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId[]> {
-  return (instanceId: string, api: ApiInterfaceRx) => {
-    const section = getInstance(api, _section);
-
-    return memo(instanceId, (): Observable<AccountId[]> =>
+  return withSection(_section, (section, instanceId, api) =>
+    memo(instanceId, (): Observable<AccountId[]> =>
       isFunction(api.query[section]?.members)
         ? api.query[section as 'council'].members()
         : of([])
-    );
-  };
+    )
+  );
 }

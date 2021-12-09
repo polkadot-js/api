@@ -5,19 +5,18 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { Collective } from './types';
 
 import { map, of } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { getInstance } from './getInstance';
+import { withSection } from './helpers';
 
-export function prime (_section: string): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId | null> {
-  return (instanceId: string, api: ApiInterfaceRx) => {
-    const section = getInstance(api, _section);
-
-    return memo(instanceId, (): Observable<AccountId | null> =>
+export function prime (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId | null> {
+  return withSection(_section, (section, instanceId, api) =>
+    memo(instanceId, (): Observable<AccountId | null> =>
       isFunction(api.query[section as 'council']?.prime)
         ? api.query[section as 'council'].prime<Option<AccountId>>().pipe(
           map((optPrime): AccountId | null =>
@@ -25,6 +24,6 @@ export function prime (_section: string): (instanceId: string, api: ApiInterface
           )
         )
         : of(null)
-    );
-  };
+    )
+  );
 }
