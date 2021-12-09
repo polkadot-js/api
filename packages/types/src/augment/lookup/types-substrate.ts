@@ -2149,14 +2149,12 @@ declare module '@polkadot/types/lookup' {
       readonly dest: MultiAddress;
       readonly value: Compact<u128>;
       readonly gasLimit: Compact<u64>;
-      readonly storageDepositLimit: Option<Compact<u64>>;
       readonly data: Bytes;
     } & Struct;
     readonly isInstantiateWithCode: boolean;
     readonly asInstantiateWithCode: {
       readonly endowment: Compact<u128>;
       readonly gasLimit: Compact<u64>;
-      readonly storageDepositLimit: Option<Compact<u64>>;
       readonly code: Bytes;
       readonly data: Bytes;
       readonly salt: Bytes;
@@ -2165,7 +2163,6 @@ declare module '@polkadot/types/lookup' {
     readonly asInstantiate: {
       readonly endowment: Compact<u128>;
       readonly gasLimit: Compact<u64>;
-      readonly storageDepositLimit: Option<Compact<u64>>;
       readonly codeHash: H256;
       readonly data: Bytes;
       readonly salt: Bytes;

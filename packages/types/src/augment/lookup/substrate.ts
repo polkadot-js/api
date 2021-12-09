@@ -1975,13 +1975,11 @@ export default {
         dest: 'MultiAddress',
         value: 'Compact<u128>',
         gasLimit: 'Compact<u64>',
-        storageDepositLimit: 'Option<Compact<u64>>',
         data: 'Bytes',
       },
       instantiate_with_code: {
         endowment: 'Compact<u128>',
         gasLimit: 'Compact<u64>',
-        storageDepositLimit: 'Option<Compact<u64>>',
         code: 'Bytes',
         data: 'Bytes',
         salt: 'Bytes',
@@ -1989,7 +1987,6 @@ export default {
       instantiate: {
         endowment: 'Compact<u128>',
         gasLimit: 'Compact<u64>',
-        storageDepositLimit: 'Option<Compact<u64>>',
         codeHash: 'H256',
         data: 'Bytes',
         salt: 'Bytes'

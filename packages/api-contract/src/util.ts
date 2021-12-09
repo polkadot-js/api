@@ -30,7 +30,6 @@ export function isOptions <T> (options: bigint | string | number | BN | T): opti
 
 export function extractOptions <T extends TOptions> (value: bigint | string | number | BN, params: unknown[]): [T, unknown[]] {
   const gasLimit = params.shift() as BN;
-  const storageDepositLimit = params.shift() as BN;
 
-  return [{ gasLimit, storageDepositLimit, value } as T, params];
+  return [{ gasLimit, value } as T, params];
 }

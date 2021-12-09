@@ -95,7 +95,6 @@ export default {
       dest: 'AccountId',
       value: 'Balance',
       gasLimit: 'u64',
-      storageDepositLimit: 'Option<Compact<u64>>',
       inputData: 'Bytes'
     },
     ContractExecResultSuccessTo255: {
@@ -274,7 +273,7 @@ export default {
       origin: 'AccountId',
       endowment: 'Balance',
       gasLimit: 'Gas',
-      storageDepositLimit: 'Option<Compact<u64>>',
+      code: 'Bytes',
       data: 'Bytes',
       salt: 'Bytes'
     },
