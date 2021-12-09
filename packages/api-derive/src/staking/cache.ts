@@ -26,8 +26,15 @@ export function getEraMultiCache <T> (CACHE_KEY: string, eras: EraIndex[], withA
   return cached;
 }
 
-export function setEraMultiCache <T extends { era: EraIndex }> (CACHE_KEY: string, values: T[], withActive?: boolean): T[] {
+export function setEraMultiCache <T extends { era: EraIndex }> (CACHE_KEY: string, withActive: boolean, values: T[]): T[] {
   !withActive && values.forEach((v) => deriveCache.set(`${CACHE_KEY}-${v.era.toString()}`, v));
 
   return values;
+}
+
+export function filterCachedEras <T extends { era: EraIndex }> (eras: EraIndex[], cached: T[], query: T[]): T[] {
+  return eras.map((e) =>
+    cached.find(({ era }) => e.eq(era)) ||
+    query.find(({ era }) => e.eq(era)) as T
+  );
 }

@@ -10,7 +10,7 @@ import type { DeriveEraRewards } from '../types';
 import { map, of } from 'rxjs';
 
 import { memo } from '../util';
-import { getEraMultiCache, setEraMultiCache } from './cache';
+import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache';
 import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraRewards';
@@ -36,14 +36,7 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
     }
 
     return api.query.staking.erasValidatorReward.multi(remaining).pipe(
-      map((optRewards) => {
-        const query = setEraMultiCache(CACHE_KEY, mapRewards(remaining, optRewards), withActive);
-
-        return eras.map((e): DeriveEraRewards =>
-          cached.find(({ era }) => e.eq(era)) ||
-          query.find(({ era }) => e.eq(era)) as DeriveEraRewards
-        );
-      })
+      map((r) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapRewards(remaining, r))))
     );
   });
 }
