@@ -143,7 +143,6 @@ export interface Registry {
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: CodecHasher | null): void;
-  setLookup (lookup: PortableRegistry): void;
   setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
   setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

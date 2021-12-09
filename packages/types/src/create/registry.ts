@@ -479,10 +479,6 @@ export class TypeRegistry implements Registry {
     this.#knownTypes = knownTypes;
   }
 
-  setLookup (lookup: PortableRegistry): void {
-    this.#lookup = lookup;
-  }
-
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
