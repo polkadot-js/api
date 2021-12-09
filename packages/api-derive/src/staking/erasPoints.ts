@@ -52,9 +52,9 @@ export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: Er
 
           !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
-          return eras.map((era): DeriveEraPoints =>
-            cached.find((cached) => era.eq(cached.era)) ||
-            query.find((query) => era.eq(query.era)) as DeriveEraPoints
+          return eras.map((e): DeriveEraPoints =>
+            cached.find(({ era }) => e.eq(era)) ||
+            query.find(({ era }) => e.eq(era)) as DeriveEraPoints
           );
         })
       );

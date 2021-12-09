@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_BILLION, BN_ZERO } from '@polkadot/util';
 
-import { memo } from '../util';
+import { first, memo } from '../util';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
@@ -98,7 +98,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (valLedger?.claimedRewards.some((era) => reward.era.eq(era))) {
+      if (valLedger?.claimedRewards.some((e) => reward.era.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -110,14 +110,14 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
 }
 
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
-  const filter = eras.filter((era) => !stakingLedger.claimedRewards.some((e) => e.eq(era)));
+  const filter = eras.filter((e) => !stakingLedger.claimedRewards.some((s) => s.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 
   return rewards
     .filter(({ isEmpty }) => !isEmpty)
     .filter((reward): boolean => {
-      if (!filter.some((filter) => reward.era.eq(filter))) {
+      if (!filter.some((e) => reward.era.eq(e))) {
         return false;
       }
 
@@ -188,7 +188,7 @@ export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accoun
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive)),
-      map(([first]) => first)
+      map(first)
     )
   );
 }

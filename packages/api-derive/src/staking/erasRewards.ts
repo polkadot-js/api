@@ -41,9 +41,9 @@ export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: E
 
         !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
 
-        return eras.map((era): DeriveEraRewards =>
-          cached.find((cached) => era.eq(cached.era)) ||
-          query.find((query) => era.eq(query.era)) as DeriveEraRewards
+        return eras.map((e): DeriveEraRewards =>
+          cached.find(({ era }) => e.eq(era)) ||
+          query.find(({ era }) => e.eq(era)) as DeriveEraRewards
         );
       })
     );

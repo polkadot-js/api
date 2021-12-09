@@ -12,7 +12,7 @@ import { memo } from '../util';
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
 
 export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list: T[]): EraIndex[] {
-  return eras.filter((era) => !list.some((entry) => era.eq(entry.era)));
+  return eras.filter((e) => !list.some(({ era }) => e.eq(era)));
 }
 
 export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '_erasPrefs' | '_erasRewards' | '_erasSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (withActive?: boolean) => ApplyReturn<F> {
@@ -35,4 +35,10 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
         switchMap((e) => api.derive.staking[fn](accountId, e, withActive))
       )
     ) as any;
+}
+
+export function mapEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (api: ApiInterfaceRx, eras: EraIndex[], withActive: boolean, fn: F): ApplyReturn<F>[] {
+  // Cannot quite get the typing right, but it is right in the code
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return eras.map((e) => api.derive.staking[fn](e, withActive)) as any;
 }
