@@ -5,7 +5,6 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
-import { memo } from '../util';
 import { unwrapNumber } from './util';
 
 /**
@@ -22,5 +21,5 @@ import { unwrapNumber } from './util';
  * ```
  */
 export function bestNumberFinalized (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return memo(instanceId, unwrapNumber(api.rpc.chain.subscribeFinalizedHeads));
+  return unwrapNumber(instanceId, api.rpc.chain.subscribeFinalizedHeads);
 }
