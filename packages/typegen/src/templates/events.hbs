@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/api/types/events' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface AugmentedEvents<ApiType extends ApiTypes> {
     {{#each modules}}

@@ -17,6 +17,8 @@ import { stringCamelCase } from '@polkadot/util';
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, TypeImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
+const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
+
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [boolean, string, string, string] {
@@ -62,9 +64,6 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
   throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name.toString()}`);
 }
-
-const template = readTemplate('query');
-const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {

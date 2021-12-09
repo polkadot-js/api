@@ -29,36 +29,45 @@ const NO_CODEC = ['Tuple', 'VecFixed'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
+function extractImports ({ imports, types }: This): string[] {
+  const defs = [
+    {
+      file: '@polkadot/types',
+      types: [
+        ...Object.keys(imports.codecTypes).filter((name) => !NO_CODEC.includes(name)),
+        ...Object.keys(imports.extrinsicTypes),
+        ...Object.keys(imports.genericTypes),
+        ...Object.keys(imports.metadataTypes),
+        ...Object.keys(imports.primitiveTypes)
+      ]
+    },
+    {
+      file: '@polkadot/types/types',
+      types: Object.keys(imports.typesTypes)
+    },
+    ...types
+  ];
+
+  return [...defs]
+    .filter(({ types }) => types.length)
+    .sort(({ file }, b) => file.localeCompare(b.file))
+    .map(({ file, types }) => `import type { ${types.sort().join(', ')} } from '${file}';`);
+}
+
 Handlebars.registerPartial({
   header: Handlebars.compile(readTemplate('header'))
 });
 
 Handlebars.registerHelper({
-  imports () {
-    const { imports, types } = this as unknown as This;
-    const defs = [
-      {
-        file: '@polkadot/types',
-        types: [
-          ...Object.keys(imports.codecTypes).filter((name) => !NO_CODEC.includes(name)),
-          ...Object.keys(imports.extrinsicTypes),
-          ...Object.keys(imports.genericTypes),
-          ...Object.keys(imports.metadataTypes),
-          ...Object.keys(imports.primitiveTypes)
-        ]
-      },
-      {
-        file: '@polkadot/types/types',
-        types: Object.keys(imports.typesTypes)
-      },
-      ...types
-    ];
-
-    return [...defs].sort((a, b) => a.file.localeCompare(b.file)).reduce((result, { file, types }): string => {
-      return types.length
-        ? `${result}${result.length ? '  ' : ''}import type { ${types.sort().join(', ')} } from '${file}';\n`
-        : result;
-    }, '');
+  importsPackage () {
+    return extractImports(this as unknown as This)
+      .filter((l) => !l.includes("from '."))
+      .join('\n  ');
+  },
+  importsRelative () {
+    return extractImports(this as unknown as This)
+      .filter((l) => l.includes("from '."))
+      .join('\n');
   },
   trim (options: { fn: (self: unknown) => string }) {
     return options.fn(this).trim();

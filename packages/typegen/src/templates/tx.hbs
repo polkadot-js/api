@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/api/types/submittable' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
     {{#each modules}}

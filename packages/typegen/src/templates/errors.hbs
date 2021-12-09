@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/api/types/errors' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     {{#each modules}}
