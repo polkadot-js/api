@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Struct, Vec, u32 } from '@polkadot/types';
-  import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name Multisig */
 export interface Multisig extends Struct {

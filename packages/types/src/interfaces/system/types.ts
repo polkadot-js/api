@@ -2,9 +2,9 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, GenericChainProperties, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
-  import type { AccountData } from '@polkadot/types/interfaces/balances';
-  import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { AccountData } from '@polkadot/types/interfaces/balances';
+import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name AccountInfo */
 export interface AccountInfo extends AccountInfoWithTripleRefCount {}

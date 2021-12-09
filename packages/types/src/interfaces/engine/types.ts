@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Struct, bool } from '@polkadot/types';
-  import type { BlockHash } from '@polkadot/types/interfaces/chain';
+import type { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name CreatedBlock */
 export interface CreatedBlock extends Struct {

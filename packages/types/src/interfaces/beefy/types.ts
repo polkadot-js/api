@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types';
-  import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
-  import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
+import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
+import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name BeefyCommitment */
 export interface BeefyCommitment extends Struct {

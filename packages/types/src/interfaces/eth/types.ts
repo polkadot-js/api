@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, GenericEthereumAccountId, GenericEthereumLookupSource, Option, Struct, U256, U64, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-  import type { BlockNumber, H160, H2048, H256, H64 } from '@polkadot/types/interfaces/runtime';
+import type { BlockNumber, H160, H2048, H256, H64 } from '@polkadot/types/interfaces/runtime';
 
 /** @name BlockV0 */
 export interface BlockV0 extends Struct {

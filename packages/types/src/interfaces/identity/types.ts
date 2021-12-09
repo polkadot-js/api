@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Data, Enum, Option, Set, Struct, Vec, u32 } from '@polkadot/types';
-  import type { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, Balance, H160 } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name IdentityFields */
 export interface IdentityFields extends Set {

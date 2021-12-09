@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/api/types/storage' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface AugmentedQueries<ApiType extends ApiTypes> {
     {{#each modules}}

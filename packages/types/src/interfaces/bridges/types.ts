@@ -2,11 +2,11 @@
 /* eslint-disable */
 
 import type { BitVec, Bytes, Enum, Null, Struct, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-  import type { BlockHash } from '@polkadot/types/interfaces/chain';
-  import type { MultiSignature } from '@polkadot/types/interfaces/extrinsics';
-  import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
-  import type { AccountId, Balance, BlockNumber, H256, Header, MultiSigner, Weight } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { BlockHash } from '@polkadot/types/interfaces/chain';
+import type { MultiSignature } from '@polkadot/types/interfaces/extrinsics';
+import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
+import type { AccountId, Balance, BlockNumber, H256, Header, MultiSigner, Weight } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name BridgedBlockHash */
 export interface BridgedBlockHash extends H256 {}

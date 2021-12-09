@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Option, Struct, bool, u32 } from '@polkadot/types';
-  import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ClassDetails */
 export interface ClassDetails extends Struct {

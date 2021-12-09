@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Enum, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload, U8aFixed } from '@polkadot/types';
-  import type { H512 } from '@polkadot/types/interfaces/runtime';
+import type { H512 } from '@polkadot/types/interfaces/runtime';
 
 /** @name AnySignature */
 export interface AnySignature extends H512 {}

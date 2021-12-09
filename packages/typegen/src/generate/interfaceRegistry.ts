@@ -17,8 +17,7 @@ const primitiveClasses = {
   Raw
 };
 
-const template = readTemplate('interfaceRegistry');
-const generateInterfaceTypesTemplate = Handlebars.compile(template);
+const generateInterfaceTypesTemplate = Handlebars.compile(readTemplate('interfaceRegistry'));
 
 /** @internal */
 export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {

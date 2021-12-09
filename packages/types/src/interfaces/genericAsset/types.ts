@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Compact, Enum, Struct } from '@polkadot/types';
-  import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name AssetOptions */
 export interface AssetOptions extends Struct {
