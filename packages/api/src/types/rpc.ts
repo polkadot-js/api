@@ -22,13 +22,13 @@ export type RpcMethodResult<ApiType extends ApiTypes, F extends AnyFunction> = A
   : PromiseRpcResult<F>;
 
 export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
-  [Method in keyof Section]: Section[Method] extends AnyFunction
-    ? RpcMethodResult<ApiType, Section[Method]>
+  [M in keyof Section]: Section[M] extends AnyFunction
+    ? RpcMethodResult<ApiType, Section[M]>
     : never
 }
 
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
-  [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
+  [S in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[S]>
 }
 
 export type AugmentedRpc<F extends AnyFunction> = F & {

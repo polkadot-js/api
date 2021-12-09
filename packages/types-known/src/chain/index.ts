@@ -4,7 +4,6 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 // Type overrides based on specific nodes
-const typesChain: Record<string, OverrideVersionedType[]> = {
-};
+const typesChain: Record<string, OverrideVersionedType[]> = {};
 
 export default typesChain;
