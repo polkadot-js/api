@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isHex, u8aToString } from '@polkadot/util';
 
-import { first, memo } from '../util';
+import { firstObservable, memo } from '../util';
 
 type IdentityInfoAdditional = PalletIdentityIdentityInfo['additional'][0];
 
@@ -106,7 +106,7 @@ export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?:
 
 export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountId: AccountId | Uint8Array | string) => Observable<DeriveHasIdentity> {
   return memo(instanceId, (accountId: AccountId | Uint8Array | string): Observable<DeriveHasIdentity> =>
-    api.derive.accounts.hasIdentityMulti([accountId]).pipe(map(first))
+    firstObservable(api.derive.accounts.hasIdentityMulti([accountId]))
   );
 }
 

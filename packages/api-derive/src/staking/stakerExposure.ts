@@ -8,7 +8,7 @@ import type { DeriveEraValidatorExposure, DeriveStakerExposure } from '../types'
 
 import { map, switchMap } from 'rxjs';
 
-import { first, memo } from '../util';
+import { firstObservable, memo } from '../util';
 
 export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean): Observable<DeriveStakerExposure[][]> => {
@@ -48,6 +48,6 @@ export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (acco
 
 export function stakerExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerExposure[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerExposure[]> =>
-    api.derive.staking.stakerExposures([accountId], withActive).pipe(map(first))
+    firstObservable(api.derive.staking.stakerExposures([accountId], withActive))
   );
 }

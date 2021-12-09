@@ -11,7 +11,7 @@ import { combineLatest, map, switchMap } from 'rxjs';
 
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { first, memo } from '../util';
+import { firstObservable, memo } from '../util';
 
 const QUERY_OPTS = {
   withDestination: true,
@@ -85,6 +85,6 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
  */
 export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
   return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    api.derive.staking.accounts([accountId]).pipe(map(first))
+    firstObservable(api.derive.staking.accounts([accountId]))
   );
 }

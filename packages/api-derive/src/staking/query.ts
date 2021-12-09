@@ -10,7 +10,7 @@ import type { DeriveStakingQuery, StakingQueryFlags } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { first, memo } from '../util';
+import { firstObservable, memo } from '../util';
 
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestination: PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
@@ -95,7 +95,7 @@ function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId
  */
 export function query (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, flags: StakingQueryFlags) => Observable<DeriveStakingQuery> {
   return memo(instanceId, (accountId: Uint8Array | string, flags: StakingQueryFlags): Observable<DeriveStakingQuery> =>
-    api.derive.staking.queryMulti([accountId], flags).pipe(map(first))
+    firstObservable(api.derive.staking.queryMulti([accountId], flags))
   );
 }
 

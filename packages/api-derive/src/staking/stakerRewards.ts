@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_BILLION, BN_ZERO } from '@polkadot/util';
 
-import { first, memo } from '../util';
+import { firstObservable, memo } from '../util';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
@@ -186,10 +186,9 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
 
 export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
   return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive)),
-      map(first)
-    )
+    firstObservable(api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))
+    ))
   );
 }
 

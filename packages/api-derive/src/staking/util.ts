@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx, ObsInnerType } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { ExactDerive } from '../bundle';
 
-import { switchMap } from 'rxjs';
+import { combineLatest, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -37,8 +38,14 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
     ) as any;
 }
 
-export function mapEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (api: ApiInterfaceRx, eras: EraIndex[], withActive: boolean, fn: F): ApplyReturn<F>[] {
-  // Cannot quite get the typing right, but it is right in the code
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return eras.map((e) => api.derive.staking[fn](e, withActive)) as any;
+export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (eras: EraIndex[], withActive: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
+  return (instanceId: string, api: ApiInterfaceRx) =>
+    // Cannot quite get the typing right, but it is right in the code
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    memo(instanceId, (eras: EraIndex[], withActive: boolean) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      eras.length
+        ? combineLatest(eras.map((e) => api.derive.staking[fn](e, withActive)))
+        : of([])
+    ) as any;
 }

@@ -12,7 +12,7 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { deriveCache, memo } from '../util';
 import { getEraCache } from './cache';
-import { erasHistoricApply, mapEras } from './util';
+import { combineEras, erasHistoricApply } from './util';
 
 const CACHE_KEY = 'eraSlashes';
 
@@ -58,12 +58,5 @@ export function eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraI
   );
 }
 
-export function _erasSlashes (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraSlashes[]> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraSlashes[]> =>
-    eras.length
-      ? combineLatest(mapEras(api, eras, withActive, '_eraSlashes'))
-      : of([])
-  );
-}
-
+export const _erasSlashes = combineEras('_eraSlashes');
 export const erasSlashes = erasHistoricApply('_erasSlashes');
