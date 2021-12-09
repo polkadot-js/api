@@ -10,9 +10,9 @@ import type { DeriveEraSlashes, DeriveEraValSlash } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { deriveCache, memo } from '../util';
-import { getEraCache } from './cache';
-import { combineEras, erasHistoricApply } from './util';
+import { memo } from '../util';
+import { getEraCache, setEraCache } from './cache';
+import { combineEras, erasHistoricApply, singleEra } from './util';
 
 const CACHE_KEY = 'eraSlashes';
 
@@ -41,22 +41,11 @@ export function _eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: Era
         api.query.staking.nominatorSlashInEra.entries(era),
         api.query.staking.validatorSlashInEra.entries(era)
       ]).pipe(
-        map(([noms, vals]): DeriveEraSlashes => {
-          const value = mapSlashes(era, noms, vals);
-
-          !withActive && deriveCache.set(cacheKey, value);
-
-          return value;
-        })
+        map(([n, v]) => setEraCache(cacheKey, withActive, mapSlashes(era, n, v)))
       );
   });
 }
 
-export function eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraSlashes> {
-  return memo(instanceId, (era: EraIndex): Observable<DeriveEraSlashes> =>
-    api.derive.staking._eraSlashes(era, true)
-  );
-}
-
+export const eraSlashes = singleEra('_eraSlashes');
 export const _erasSlashes = combineEras('_eraSlashes');
 export const erasSlashes = erasHistoricApply('_erasSlashes');
