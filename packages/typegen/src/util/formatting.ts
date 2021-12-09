@@ -30,7 +30,7 @@ const NO_CODEC = ['Tuple', 'VecFixed'];
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
 function extractImports ({ imports, types }: This): string[] {
-  const defs = [
+  return [
     {
       file: '@polkadot/types',
       types: [
@@ -46,9 +46,7 @@ function extractImports ({ imports, types }: This): string[] {
       types: Object.keys(imports.typesTypes)
     },
     ...types
-  ];
-
-  return [...defs]
+  ]
     .filter(({ types }) => types.length)
     .sort(({ file }, b) => file.localeCompare(b.file))
     .map(({ file, types }) => `import type { ${types.sort().join(', ')} } from '${file}';`);
