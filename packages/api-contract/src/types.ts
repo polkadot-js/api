@@ -73,10 +73,12 @@ export interface DecodedMessage {
 export interface BlueprintOptions {
   gasLimit?: bigint | string | number | BN;
   salt?: Uint8Array | string | null;
+  storageDepositLimit?: string | object | Uint8Array | Codec | null;
   value?: bigint | string | number | BN;
 }
 
 export interface ContractOptions {
   gasLimit?: bigint | BN | string | number;
+  storageDepositLimit?: bigint | BN | string | number;
   value?: bigint | BN | string | number;
 }

@@ -33,14 +33,14 @@ function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId
   return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
     isOptions(options)
       ? fn(origin, options, params)
-      : fn(origin, ...extractOptions(options, params));
+      : fn(origin, ...extractOptions<ContractOptions>(options, params));
 }
 
 function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
   return (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
       ? fn(options, params)
-      : fn(...extractOptions(options, params));
+      : fn(...extractOptions<ContractOptions>(options, params));
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -106,11 +106,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       : gasLimit;
   };
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts
       .call(
         this.address,
         value,
+        storageDepositLimit,
         this.#getGas(gasLimit),
         this.abi.findMessage(messageOrId).toU8a(params)
       )
