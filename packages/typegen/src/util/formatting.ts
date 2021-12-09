@@ -57,6 +57,10 @@ Handlebars.registerPartial({
 });
 
 Handlebars.registerHelper({
+  importsAll () {
+    return extractImports(this as unknown as This)
+      .join('\n');
+  },
   importsPackage () {
     return extractImports(this as unknown as This)
       .filter((l) => !l.includes("from '."))
