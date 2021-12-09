@@ -180,11 +180,31 @@ declare module '@polkadot/api/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    childBounties: {
+      /**
+       * A child-bounty is added.
+       **/
+      Added: AugmentedEvent<ApiType, [u32, u32]>;
+      /**
+       * A child-bounty is awarded to a beneficiary.
+       **/
+      Awarded: AugmentedEvent<ApiType, [u32, u32, AccountId32]>;
+      /**
+       * A child-bounty is cancelled.
+       **/
+      Canceled: AugmentedEvent<ApiType, [u32, u32]>;
+      /**
+       * A child-bounty is claimed by beneficiary.
+       **/
+      Claimed: AugmentedEvent<ApiType, [u32, u32, u128, AccountId32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     contracts: {
       /**
        * A code with the specified hash was removed.
-       * 
-       * This happens when the last contract that uses this code hash was removed.
        **/
       CodeRemoved: AugmentedEvent<ApiType, [H256]>;
       /**
@@ -199,10 +219,6 @@ declare module '@polkadot/api/types/events' {
        * Contract deployed by address at the specified address.
        **/
       Instantiated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
-      /**
-       * Triggered when the current schedule is updated.
-       **/
-      ScheduleUpdated: AugmentedEvent<ApiType, [u32]>;
       /**
        * Contract has been removed.
        * 

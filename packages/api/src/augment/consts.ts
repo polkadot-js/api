@@ -180,14 +180,26 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    contracts: {
+    childBounties: {
       /**
-       * The deposit that must be placed into the contract's account to instantiate it.
-       * This is in **addition** to the [`Currency::minimum_balance`].
-       * The minimum balance for a contract's account can be queried using
-       * [`Pallet::subsistence_threshold`].
+       * Percentage of child-bounty value to be reserved as curator deposit
+       * when curator fee is zero.
        **/
-      contractDeposit: u128 & AugmentedConst<ApiType>;
+      childBountyCuratorDepositBase: Permill & AugmentedConst<ApiType>;
+      /**
+       * Minimum value for a child-bounty.
+       **/
+      childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of child-bounties that can be added to a parent bounty.
+       **/
+      maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    contracts: {
       /**
        * The maximum number of tries that can be queued for deletion.
        **/
@@ -196,6 +208,21 @@ declare module '@polkadot/api/types/consts' {
        * The maximum amount of weight that can be consumed per block for lazy trie removal.
        **/
       deletionWeightLimit: u64 & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each byte of storage.
+       * 
+       * # Note
+       * 
+       * Changing this value for an existing chain might need a storage migration.
+       **/
+      depositPerByte: u128 & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each storage item.
+       * # Note
+       * 
+       * Changing this value for an existing chain might need a storage migration.
+       **/
+      depositPerItem: u128 & AugmentedConst<ApiType>;
       /**
        * Cost schedule and limits.
        **/

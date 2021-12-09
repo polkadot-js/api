@@ -112,6 +112,24 @@ declare module '@polkadot/api/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    bagsList: {
+      /**
+       * Id not found in list.
+       **/
+      IdNotFound: AugmentedError<ApiType>;
+      /**
+       * An Id does not have a greater vote weight than another Id.
+       **/
+      NotHeavier: AugmentedError<ApiType>;
+      /**
+       * Attempted to place node in front of a node in another bag.
+       **/
+      NotInSameBag: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     balances: {
       /**
        * Beneficiary account must pre-exist
@@ -151,6 +169,10 @@ declare module '@polkadot/api/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     bounties: {
+      /**
+       * The bounty cannot be closed because it has active child-bounties.
+       **/
+      HasActiveChildBounty: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
@@ -193,13 +215,29 @@ declare module '@polkadot/api/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    childBounties: {
+      /**
+       * The bounty balance is not enough to add new child-bounty.
+       **/
+      InsufficientBountyBalance: AugmentedError<ApiType>;
+      /**
+       * The parent bounty is not in active state.
+       **/
+      ParentBountyNotActive: AugmentedError<ApiType>;
+      /**
+       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     contracts: {
       /**
-       * Performing the requested transfer would have brought the contract below
-       * the subsistence threshold. No transfer is allowed to do this. Use `seal_terminate`
-       * to recover a deposit.
+       * Code removal was denied because the code is still in use by at least one contract.
        **/
-      BelowSubsistenceThreshold: AugmentedError<ApiType>;
+      CodeInUse: AugmentedError<ApiType>;
       /**
        * No code could be found at the supplied code hash.
        **/
@@ -255,11 +293,6 @@ declare module '@polkadot/api/types/errors' {
        **/
       MaxCallDepthReached: AugmentedError<ApiType>;
       /**
-       * The newly created contract is below the subsistence threshold after executing
-       * its contructor. No contracts are allowed to exist below that threshold.
-       **/
-      NewContractNotFunded: AugmentedError<ApiType>;
-      /**
        * The chain does not provide a chain extension. Calling the chain extension results
        * in this error. Note that this usually  shouldn't happen as deploying such contracts
        * is rejected.
@@ -286,12 +319,13 @@ declare module '@polkadot/api/types/errors' {
        **/
       ReentranceDenied: AugmentedError<ApiType>;
       /**
-       * A storage modification exhausted the 32bit type that holds the storage size.
-       * 
-       * This can either happen when the accumulated storage in bytes is too large or
-       * when number of storage items is too large.
+       * More storage was created than allowed by the storage deposit limit.
        **/
-      StorageExhausted: AugmentedError<ApiType>;
+      StorageDepositLimitExhausted: AugmentedError<ApiType>;
+      /**
+       * Origin doesn't have enough balance to pay the required storage deposits.
+       **/
+      StorageDepositNotEnoughFunds: AugmentedError<ApiType>;
       /**
        * A contract self destructed in its constructor.
        * 
@@ -308,9 +342,8 @@ declare module '@polkadot/api/types/errors' {
        **/
       TooManyTopics: AugmentedError<ApiType>;
       /**
-       * Performing the requested transfer failed for a reason originating in the
-       * chosen currency implementation of the runtime. Most probably the balance is
-       * too low or locks are placed on it.
+       * Performing the requested transfer failed. Probably because there isn't enough
+       * free balance in the sender's account.
        **/
       TransferFailed: AugmentedError<ApiType>;
       /**
