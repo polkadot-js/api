@@ -6,8 +6,8 @@
 import type { Observable, OperatorFunction } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
-import type { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
+import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
 import { catchError, first, map, mapTo, mergeMap, of, switchMap, tap } from 'rxjs';
 
@@ -168,7 +168,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     /**
      * @description Signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
      */
-    public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): PromiseOrObs<ApiType, this> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
