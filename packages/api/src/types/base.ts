@@ -17,10 +17,15 @@ export type VoidFn = () => void;
 
 export type UnsubscribePromise = Promise<VoidFn>;
 
-// FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type PromiseOrObs<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'
-  ? Observable<T>
-  : Promise<T>;
+export type PromiseOrObs<ApiType extends ApiTypes, T> =
+  ApiType extends 'rxjs'
+    ? Observable<T>
+    : Promise<T>;
+
+export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> =
+  ApiType extends 'rxjs'
+    ? RxResult<F>
+    : PromiseResult<F>;
 
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
@@ -39,14 +44,8 @@ export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
   <T extends Codec | Codec[]>(...args: Parameters<F>): Promise<T>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
 }
-
-// FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiType extends 'rxjs'
-  ? RxResult<F>
-  : PromiseResult<F>;
 
 // In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
 // information. This describes it.

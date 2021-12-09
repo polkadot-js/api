@@ -4,7 +4,6 @@
 // We want predictive ordering (manually managed)
 /* eslint-disable sort-keys */
 
-// FIXME: Need some sort of solution for specifying these
 // Since we don't have insight into the origin specification, we can only define what we know about
 // in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
 export const knownOrigins: Record<string, string> = {

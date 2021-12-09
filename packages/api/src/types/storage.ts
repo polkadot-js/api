@@ -43,16 +43,12 @@ export type GenericStorageEntryFunction = (...args: unknown[]) => Observable<Cod
 
 export type QueryableStorageEntry<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
   ApiType extends 'rxjs'
-    // eslint-disable-next-line no-use-before-define
     ? AugmentedQuery<'rxjs', GenericStorageEntryFunction, A>
-    // eslint-disable-next-line no-use-before-define
     : AugmentedQuery<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloads;
 
 export type QueryableStorageEntryAt<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> =
   ApiType extends 'rxjs'
-    // eslint-disable-next-line no-use-before-define
     ? AugmentedQueryAt<'rxjs', GenericStorageEntryFunction, A>
-    // eslint-disable-next-line no-use-before-define
     : AugmentedQueryAt<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloadsAt;
 
 export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {

@@ -14,7 +14,7 @@ function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiL
 // sets up the arguments in the form of [creator, args] ready to be used in a storage
 // call. Additionally, it verifies that the correct number of arguments have been passed
 export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, unknown[]] {
-  const args = _args.filter((arg) => !isUndefined(arg));
+  const args = _args.filter((a) => !isUndefined(a));
 
   if (creator.meta.type.isPlain) {
     assert(args.length === 0, () => `${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
