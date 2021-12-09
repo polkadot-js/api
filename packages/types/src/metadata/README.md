@@ -1,11 +1,10 @@
 # metadata update
 
-1. New branch :)
-2. `curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "state_getMetadata", "params":[]}' http://localhost:9933`
-3. Copy the latest version folder (vx) in `types-support/metadata`
-3. Copy the result (hex-only) into `static.ts`, as of now linked to `v6/static.ts`
-4. Rust Metadata tests, `yarn run test packages/types/src/metadata`
-5. Add new class types as required (find missing in Rust code, add)
-6. Repeat 4-6 until passing
-7. All tests
-8. Make PR
+0. New branch :)
+0. Start the node, typically via `cargo run --release -- purge-chain -y --dev && cargo run --release -- --dev` (types-support/src/metadata/README.md has more information for specific chains)
+0. Retrieve the metadata `curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "state_getMetadata", "params":[]}' http://localhost:9933`
+0. Copy the latest version folder (vx) in `types-support/src/metadata` eg `types-support/src/metadata/v14/substrate-hex.json`
+0. Re-build the interfaces `yarn build:interfaces`
+0. Run Metadata tests, `yarn test:one packages/types/src/metadata`
+0. All tests
+0. Make PR
