@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/rpc-core/types.jsonrpc' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface RpcInterface {
     {{#each modules}}

@@ -2,9 +2,9 @@
 /* eslint-disable */
 
 import type { Bytes, Struct, U8aFixed, Vec, u32 } from '@polkadot/types';
-  import type { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
-  import type { Exposure } from '@polkadot/types/interfaces/staking';
-  import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { Exposure } from '@polkadot/types/interfaces/staking';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name BeefyKey */
 export interface BeefyKey extends U8aFixed {}

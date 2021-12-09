@@ -1,10 +1,14 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export function createVersionedExport (version: string, orig: Record<string, unknown>, exp: Record<string, unknown>): Record<string, unknown> {
-  Object.entries(orig).forEach(([name, json]): void => {
-    exp[`${version}_${name}`] = json;
-  });
+export function createVersionedExport (versioned: Record<string, Record<string, unknown>>): Record<string, Record<string, unknown>> {
+  const result: Record<string, Record<string, unknown>> = {};
 
-  return exp;
+  Object.entries(versioned).forEach(([version, contracts]) =>
+    Object.entries(contracts).forEach(([name, contract]): void => {
+      result[`${version}_${name}`] = contract as Record<string, unknown>;
+    })
+  );
+
+  return result;
 }

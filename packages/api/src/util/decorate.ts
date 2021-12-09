@@ -13,12 +13,12 @@ type AnyDerive = Record<string, AnyDeriveSection>;
 
 // Exact typings for a particular section `api.derive.section.*`
 type DeriveSection<ApiType extends ApiTypes, Section extends AnyDeriveSection> = {
-  [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]>
+  [M in keyof Section]: MethodResult<ApiType, Section[M]>
 };
 
 // Exact typings for all sections `api.derive.*.*`
 export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyDerive> = {
-  [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]>
+  [S in keyof AllSections]: DeriveSection<ApiType, AllSections[S]>
 };
 
 /**

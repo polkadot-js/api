@@ -19,6 +19,10 @@ interface Imports extends TypeImports {
   interfaces: [string, string][];
 }
 
+const generateTsDefIndexTemplate = Handlebars.compile(readTemplate('tsDef/index'));
+const generateTsDefModuleTypesTemplate = Handlebars.compile(readTemplate('tsDef/moduleTypes'));
+const generateTsDefTypesTemplate = Handlebars.compile(readTemplate('tsDef/types'));
+
 // helper to generate a `readonly <Name>: <Type>;` getter
 /** @internal */
 export function createGetter (definitions: Record<string, ModuleTypes>, name = '', type: string, imports: TypeImports): string {
@@ -247,15 +251,6 @@ function generateInterfaces (registry: Registry, definitions: Record<string, Mod
     return [name, typeEncoders[def.info](registry, definitions, def, imports)];
   });
 }
-
-const templateIndex = readTemplate('tsDef/index');
-const generateTsDefIndexTemplate = Handlebars.compile(templateIndex);
-
-const templateModuleTypes = readTemplate('tsDef/moduleTypes');
-const generateTsDefModuleTypesTemplate = Handlebars.compile(templateModuleTypes);
-
-const templateTypes = readTemplate('tsDef/types');
-const generateTsDefTypesTemplate = Handlebars.compile(templateTypes);
 
 /** @internal */
 export function generateTsDefFor (registry: Registry, importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {

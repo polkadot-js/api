@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, Text, Vec } from '@polkadot/types';
-  import type { Hash } from '@polkadot/types/interfaces/runtime';
+import type { Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ExtrinsicOrHash */
 export interface ExtrinsicOrHash extends Enum {

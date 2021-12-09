@@ -24,10 +24,9 @@ interface ModuleDef {
   name: string;
 }
 
-const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
+const StorageKeyType = 'StorageKey | string | Uint8Array | any';
 
-const template = readTemplate('rpc');
-const generateRpcTypesTemplate = Handlebars.compile(template);
+const generateRpcTypesTemplate = Handlebars.compile(readTemplate('rpc'));
 
 /** @internal */
 export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes = {}): void {
@@ -62,19 +61,19 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
           if (methodName === 'getStorage') {
             generic = 'T = Codec';
-            args = [`key: ${StorageKeyTye}, block?: Hash | Uint8Array | string`];
+            args = [`key: ${StorageKeyType}, block?: Hash | Uint8Array | string`];
             type = 'T';
           } else if (methodName === 'queryStorage') {
             generic = 'T = Codec[]';
-            args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string`];
+            args = [`keys: Vec<StorageKey> | (${StorageKeyType})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string`];
             type = '[Hash, T][]';
           } else if (methodName === 'queryStorageAt') {
             generic = 'T = Codec[]';
-            args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], at?: Hash | Uint8Array | string`];
+            args = [`keys: Vec<StorageKey> | (${StorageKeyType})[], at?: Hash | Uint8Array | string`];
             type = 'T';
           } else if (methodName === 'subscribeStorage') {
             generic = 'T = Codec[]';
-            args = [`keys?: Vec<StorageKey> | (${StorageKeyTye})[]`];
+            args = [`keys?: Vec<StorageKey> | (${StorageKeyType})[]`];
             type = 'T';
           }
         }

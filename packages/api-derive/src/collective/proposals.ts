@@ -13,17 +13,17 @@ import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { getInstance } from './getInstance';
+import { withSection } from './helpers';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
 function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
   return proposals
-    .map((proposalOpt, index): DeriveCollectiveProposal | null =>
-      proposalOpt && proposalOpt.isSome
+    .map((o, index): DeriveCollectiveProposal | null =>
+      o && o.isSome
         ? {
           hash: api.registry.createType('Hash', hashes[index]),
-          proposal: proposalOpt.unwrap(),
+          proposal: o.unwrap(),
           votes: votes[index].unwrapOr(null)
         }
         : null
@@ -31,7 +31,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: string): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (section: string, instanceId: string, api: ApiInterfaceRx): (hashes: (Hash | Uint8Array | string)[]) => Observable<DeriveCollectiveProposal[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> =>
     (isFunction(api.query[section]?.proposals) && hashes.length
       ? combineLatest([
@@ -39,8 +39,8 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
         // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
         // however we have had cases on Edgeware where the indices have moved around after an
         // upgrade, which results in invalid on-chain data
-        combineLatest(hashes.map((hash) =>
-          api.query[section].proposalOf<Option<Proposal>>(hash).pipe(
+        combineLatest(hashes.map((h) =>
+          api.query[section].proposalOf<Option<Proposal>>(h).pipe(
             catchError(() => of(null))
           )
         )),
@@ -48,60 +48,63 @@ function _proposalsFrom (instanceId: string, api: ApiInterfaceRx, section: strin
       ])
       : of<Result>([[], [], []])
     ).pipe(
-      map((result) => parse(api, result))
+      map((r) => parse(api, r))
     )
   );
 }
 
-export function hasProposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<boolean> {
-  const section = getInstance(api, _section);
-
-  return memo(instanceId, (): Observable<boolean> =>
-    of(isFunction(api.query[section]?.proposals))
+function withProposals <T> (_section: Collective, fn: (section: string, instanceId: string, api: ApiInterfaceRx, proposalsFrom: (hashes: (string | Hash | Uint8Array)[]) => Observable<DeriveCollectiveProposal[]>) => T): (instanceId: string, api: ApiInterfaceRx) => T {
+  return withSection(_section, (section, instanceId, api) =>
+    fn(section, instanceId, api, _proposalsFrom(section, instanceId, api))
   );
 }
 
-export function proposalCount (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<u32 | null> {
-  const section = getInstance(api, _section);
-
-  return memo(instanceId, (): Observable<u32 | null> =>
-    isFunction(api.query[section].proposalCount)
-      ? api.query[section as 'council'].proposalCount()
-      : of(null)
-  );
-}
-
-export function proposalHashes (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<Hash[]> {
-  const section = getInstance(api, _section);
-
-  return memo(instanceId, (): Observable<Hash[]> =>
-    isFunction(api.query[section]?.proposals)
-      ? api.query[section as 'council'].proposals()
-      : of([])
-  );
-}
-
-export function proposals (instanceId: string, api: ApiInterfaceRx, _section: Collective): () => Observable<DeriveCollectiveProposal[]> {
-  const section = getInstance(api, _section);
-  const proposalsFrom = _proposalsFrom(instanceId, api, section);
-  const getHashes = proposalHashes(instanceId, api, _section);
-
-  return memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
-    getHashes().pipe(
-      switchMap(proposalsFrom)
+export function hasProposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<boolean> {
+  return withSection(_section, (section, instanceId, api) =>
+    memo(instanceId, (): Observable<boolean> =>
+      of(isFunction(api.query[section]?.proposals))
     )
   );
 }
 
-export function proposal (instanceId: string, api: ApiInterfaceRx, _section: Collective): (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
-  const section = getInstance(api, _section);
-  const proposalsFrom = _proposalsFrom(instanceId, api, section);
+export function proposalCount (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<u32 | null> {
+  return withSection(_section, (section, instanceId, api) =>
+    memo(instanceId, (): Observable<u32 | null> =>
+      isFunction(api.query[section].proposalCount)
+        ? api.query[section as 'council'].proposalCount()
+        : of(null)
+    )
+  );
+}
 
-  return memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
-    isFunction(api.query[section]?.proposals)
-      ? proposalsFrom([hash]).pipe(
-        map(([proposal]) => proposal)
+export function proposalHashes (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<Hash[]> {
+  return withSection(_section, (section, instanceId, api) =>
+    memo(instanceId, (): Observable<Hash[]> =>
+      isFunction(api.query[section]?.proposals)
+        ? api.query[section as 'council'].proposals()
+        : of([])
+    )
+  );
+}
+
+export function proposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<DeriveCollectiveProposal[]> {
+  return withProposals(_section, (section, instanceId, api, proposalsFrom) =>
+    memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
+      api.derive[section as 'council'].proposalHashes().pipe(
+        switchMap(proposalsFrom)
       )
-      : of(null)
+    )
+  );
+}
+
+export function proposal (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+  return withProposals(_section, (section, instanceId, api, proposalsFrom) =>
+    memo(instanceId, (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
+      isFunction(api.query[section]?.proposals)
+        ? proposalsFrom([hash]).pipe(
+          map(([proposal]) => proposal)
+        )
+        : of(null)
+    )
   );
 }

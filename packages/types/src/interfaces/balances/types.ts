@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Enum, Set, Struct, U8aFixed } from '@polkadot/types';
-  import type { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
+import type { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountData */
 export interface AccountData extends Struct {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { AnyJson, Registry } from '@polkadot/types/types';
+import type { Registry } from '@polkadot/types/types';
 
 import { ApiBase } from '@polkadot/api/base';
 import { assert, isFunction } from '@polkadot/util';
@@ -16,7 +16,7 @@ export abstract class Base<ApiType extends ApiTypes> {
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
-  constructor (api: ApiBase<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
       : new Abi(abi, api.registry.getChainProperties());

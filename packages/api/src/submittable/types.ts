@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, Address, ApplyExtrinsicResult, DispatchError, DispatchInfo, EventRecord, Extrinsic, ExtrinsicStatus, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { AnyNumber, Callback, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, Signer } from '@polkadot/types/types';
-import type { ApiTypes } from '../types';
+import type { ApiTypes, PromiseOrObs } from '../types';
 
 export interface SubmittableResultValue {
   dispatchError?: DispatchError;
@@ -34,11 +34,6 @@ export type SubmittableResultSubscription<ApiType extends ApiTypes, R extends IS
     ? Observable<R>
     : Promise<() => void>;
 
-export type SubmittableThis<ApiType extends ApiTypes, THIS> =
-  ApiType extends 'rxjs'
-    ? Observable<THIS>
-    : Promise<THIS>;
-
 export interface SignerOptions {
   blockHash: Uint8Array | string;
   era?: IExtrinsicEra | number;
@@ -64,7 +59,7 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
    */
   sign (account: IKeyringPair, _options?: Partial<SignerOptions>): this;
 
-  signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): SubmittableThis<ApiType, this>;
+  signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): PromiseOrObs<ApiType, this>;
 
   signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType, R>;
 

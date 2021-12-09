@@ -49,27 +49,31 @@ function getTypeClassArray (value: TypeDef): string[] {
   return getSubDefArray(value).map(getTypeDefType);
 }
 
-function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor<Codec> {
+function createInt (Clazz: typeof Int | typeof UInt, { displayName, length }: TypeDef): Constructor<Codec> {
   assert(isNumber(length), () => `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
 
   return Clazz.with(length as UIntBitLength, displayName);
 }
 
-function createHashMap (value: TypeDef, Clazz: typeof BTreeMap | typeof HashMap): Constructor<Codec> {
+function createHashMap (Clazz: typeof BTreeMap | typeof HashMap, value: TypeDef): Constructor<Codec> {
   const [keyType, valueType] = getTypeClassArray(value);
 
   return Clazz.with(keyType, valueType);
 }
 
+function createWithSub (Clazz: { with: (t: string) => Constructor<Codec> }, value: TypeDef): Constructor<Codec> {
+  return Clazz.with(getSubType(value));
+}
+
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor<Codec>> = {
   [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    createHashMap(value, BTreeMap),
+    createHashMap(BTreeMap, value),
 
   [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    BTreeSet.with(getSubType(value)),
+    createWithSub(BTreeSet, value),
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    Compact.with(getSubType(value)),
+    createWithSub(Compact, value),
 
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     DoNotConstruct.with(value.displayName || value.type),
@@ -89,10 +93,10 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    createHashMap(value, HashMap),
+    createHashMap(HashMap, value),
 
   [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    createInt(value, Int),
+    createInt(Int, value),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor<Codec> => {
@@ -114,7 +118,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     Null,
 
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    Option.with(getSubType(value)),
+    createWithSub(Option, value),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
     registry.getOrUnknown(value.type),
@@ -149,7 +153,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     Tuple.with(getTypeClassArray(value)),
 
   [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    createInt(value, UInt),
+    createInt(UInt, value),
 
   [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): Constructor<Codec> => {
     assert(sub && !Array.isArray(sub), 'Expected type information for vector');
@@ -172,7 +176,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.WrapperOpaque]: (registry: Registry, value: TypeDef): Constructor<Codec> =>
-    WrapperOpaque.with(getSubType(value))
+    createWithSub(WrapperOpaque, value)
 };
 
 export function constructTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): Constructor<T> {

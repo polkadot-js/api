@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Enum, Option } from '@polkadot/types';
-  import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name UncleEntryItem */
 export interface UncleEntryItem extends Enum {

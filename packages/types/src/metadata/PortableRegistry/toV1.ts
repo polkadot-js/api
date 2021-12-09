@@ -1,10 +1,19 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableType, Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefComposite, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefVariant, Si1Field, Si1TypeDef } from '../../interfaces';
+import type { PortableType, Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefComposite, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefVariant, Si1Field, Si1TypeDef, SiTypeDef } from '../../interfaces';
 import type { Registry } from '../../types';
 
 import { assertUnreachable } from './util';
+
+function convertType (key: 'Compact' | 'Sequence'): (registry: Registry, si: Si0TypeDefSequence) => SiTypeDef {
+  return (registry: Registry, { type }: Si0TypeDefSequence) =>
+    registry.createType('Si1TypeDef', {
+      [key]: {
+        type: type.toNumber()
+      }
+    });
+}
 
 function convertArray (registry: Registry, { len, type }: Si0TypeDefArray): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
@@ -24,13 +33,7 @@ function convertBitSequence (registry: Registry, { bitOrderType, bitStoreType }:
   });
 }
 
-function convertCompact (registry: Registry, { type }: Si0TypeDefSequence): Si1TypeDef {
-  return registry.createType('Si1TypeDef', {
-    Compact: {
-      type: type.toNumber()
-    }
-  });
-}
+const convertCompact = convertType('Compact');
 
 function convertComposite (registry: Registry, { fields }: Si0TypeDefComposite): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
@@ -65,13 +68,7 @@ function convertPrimitive (registry: Registry, prim: Si0TypeDefPrimitive): Si1Ty
   });
 }
 
-function convertSequence (registry: Registry, { type }: Si0TypeDefSequence): Si1TypeDef {
-  return registry.createType('Si1TypeDef', {
-    Sequence: {
-      type: type.toNumber()
-    }
-  });
-}
+const convertSequence = convertType('Sequence');
 
 function convertTuple (registry: Registry, types: Si0LookupTypeId[]): Si1TypeDef {
   return registry.createType('Si1TypeDef', {

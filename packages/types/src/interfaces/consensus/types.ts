@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { U8aFixed } from '@polkadot/types';
-  import type { AccountId } from '@polkadot/types/interfaces/runtime';
+import type { AccountId } from '@polkadot/types/interfaces/runtime';
 
 /** @name AuthorityId */
 export interface AuthorityId extends AccountId {}

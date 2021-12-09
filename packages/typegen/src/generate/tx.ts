@@ -20,14 +20,13 @@ const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
 };
 
+const generateForMetaTemplate = Handlebars.compile(readTemplate('tx'));
+
 function mapName (_name: Text): string {
   const name = stringCamelCase(_name);
 
   return MAPPED_NAMES[name] || name;
 }
-
-const template = readTemplate('tx');
-const generateForMetaTemplate = Handlebars.compile(template);
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {

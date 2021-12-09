@@ -9,7 +9,7 @@ import type { DeriveOwnExposure } from '../types';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { firstObservable, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
 
 export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
@@ -17,8 +17,8 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
     eras.length
       ? api.queryMulti<PalletStakingExposure[]>([
-        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [era, accountId]]),
-        ...eras.map((era): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [era, accountId]])
+        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [e, accountId]]),
+        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [e, accountId]])
       ]).pipe(
         map((all): DeriveOwnExposure[] =>
           eras.map((era, index) => ({ clipped: all[index], era, exposure: all[eras.length + index] }))
@@ -30,9 +30,7 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
 
 export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveOwnExposure> {
   return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveOwnExposure> =>
-    api.derive.staking._ownExposures(accountId, [era], true).pipe(
-      map(([first]) => first)
-    )
+    firstObservable(api.derive.staking._ownExposures(accountId, [era], true))
   );
 }
 

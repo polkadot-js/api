@@ -4,7 +4,6 @@
 import { createVersionedExport } from '../util';
 import * as v0 from './v0';
 import * as v1 from './v1';
+import * as v2 from './v2';
 
-const exp = createVersionedExport('v0', v0, {});
-
-export default createVersionedExport('v1', v1, exp);
+export default createVersionedExport({ v0, v1, v2 });

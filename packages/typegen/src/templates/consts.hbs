@@ -1,7 +1,9 @@
 {{> header }}
 
+{{{ importsRelative }}}
+
 declare module '@polkadot/api/types/consts' {
-  {{{ imports }}}
+  {{{ importsPackage }}}
 
   export interface AugmentedConsts<ApiType  extends ApiTypes> {
     {{#each modules}}

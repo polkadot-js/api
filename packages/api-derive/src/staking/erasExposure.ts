@@ -8,11 +8,11 @@ import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
-import { combineLatest, map, of } from 'rxjs';
+import { map, of } from 'rxjs';
 
-import { deriveCache, memo } from '../util';
-import { getEraCache } from './cache';
-import { erasHistoricApply } from './util';
+import { memo } from '../util';
+import { getEraCache, setEraCache } from './cache';
+import { combineEras, erasHistoricApply, singleEra } from './util';
 
 type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
 
@@ -45,29 +45,11 @@ export function _eraExposure (instanceId: string, api: ApiInterfaceRx): (era: Er
     return cached
       ? of(cached)
       : api.query.staking.erasStakersClipped.entries(era).pipe(
-        map((stakers): DeriveEraExposure => {
-          const value = mapStakers(era, stakers);
-
-          !withActive && deriveCache.set(cacheKey, value);
-
-          return value;
-        })
+        map((r) => setEraCache(cacheKey, withActive, mapStakers(era, r)))
       );
   });
 }
 
-export function eraExposure (instanceId: string, api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraExposure> {
-  return memo(instanceId, (era: EraIndex): Observable<DeriveEraExposure> =>
-    api.derive.staking._eraExposure(era, true)
-  );
-}
-
-export function _erasExposure (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraExposure[]> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraExposure[]> =>
-    eras.length
-      ? combineLatest(eras.map((era) => api.derive.staking._eraExposure(era, withActive)))
-      : of([])
-  );
-}
-
+export const eraExposure = singleEra('_eraExposure');
+export const _erasExposure = combineEras('_eraExposure');
 export const erasExposure = erasHistoricApply('_erasExposure');

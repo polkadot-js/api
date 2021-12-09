@@ -19,7 +19,7 @@ export function filterEvents (extHash: H256, { block: { extrinsics, header } }: 
   // if we do get the block after finalized, it _should_ be there
   // only warn on filtering with isInBlock (finalization finalizes after)
   if (status.isInBlock) {
-    const allHashes = extrinsics.map((ext): string => ext.hash.toHex());
+    const allHashes = extrinsics.map((x) => x.hash.toHex());
 
     l.warn(`block ${header.hash.toHex()}: Unable to find extrinsic ${extHash.toHex()} inside ${allHashes.join(', ')}`);
   }

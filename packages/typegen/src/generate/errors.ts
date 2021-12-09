@@ -11,8 +11,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, initMeta, readTemplate, writeFile } from '../util';
 
-const template = readTemplate('errors');
-const generateForMetaTemplate = Handlebars.compile(template);
+const generateForMetaTemplate = Handlebars.compile(readTemplate('errors'));
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void {

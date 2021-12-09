@@ -5,17 +5,12 @@ import ink from './ink';
 import solang from './solang';
 import user from './user';
 
-const all: Record<string, any> = {};
+const all: Record<string, Record<string, unknown>> = {};
 
-function addExport (type: string, abis: Record<string, any>): void {
-  Object.keys(abis).forEach((key): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    all[`${type}_${key}`] = abis[key];
-  });
-}
-
-addExport('ink', ink);
-addExport('solang', solang);
-addExport('user', user);
+Object.entries({ ink, solang, user }).forEach(([type, abis]) =>
+  Object.entries(abis).forEach(([name, abi]): void => {
+    all[`${type}_${name}`] = abi;
+  })
+);
 
 export default all;

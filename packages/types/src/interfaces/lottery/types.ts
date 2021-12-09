@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Struct, bool, u8 } from '@polkadot/types';
-  import type { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name CallIndex */
 export interface CallIndex extends ITuple<[u8, u8]> {}

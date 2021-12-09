@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Enum, Struct, Vec, u32 } from '@polkadot/types';
-  import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
+import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import type { ITuple } from '@polkadot/types/types';
 
 /** @name CollectiveOrigin */
 export interface CollectiveOrigin extends Enum {

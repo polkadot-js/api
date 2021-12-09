@@ -8,11 +8,11 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 
-import { combineLatest, map, of } from 'rxjs';
+import { map, of } from 'rxjs';
 
-import { deriveCache, memo } from '../util';
-import { getEraCache } from './cache';
-import { erasHistoricApply } from './util';
+import { memo } from '../util';
+import { getEraCache, setEraCache } from './cache';
+import { combineEras, erasHistoricApply, singleEra } from './util';
 
 const CACHE_KEY = 'eraPrefs';
 
@@ -33,29 +33,11 @@ export function _eraPrefs (instanceId: string, api: ApiInterfaceRx): (era: EraIn
     return cached
       ? of(cached)
       : api.query.staking.erasValidatorPrefs.entries(era).pipe(
-        map((prefs): DeriveEraPrefs => {
-          const value = mapPrefs(era, prefs);
-
-          !withActive && deriveCache.set(cacheKey, value);
-
-          return value;
-        })
+        map((r) => setEraCache(cacheKey, withActive, mapPrefs(era, r)))
       );
   });
 }
 
-export function eraPrefs (instanceId: string, api: ApiInterfaceRx): (era: EraIndex) => Observable<DeriveEraPrefs> {
-  return memo(instanceId, (era: EraIndex): Observable<DeriveEraPrefs> =>
-    api.derive.staking._eraPrefs(era, true)
-  );
-}
-
-export function _erasPrefs (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPrefs[]> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraPrefs[]> =>
-    eras.length
-      ? combineLatest(eras.map((era) => api.derive.staking._eraPrefs(era, withActive)))
-      : of([])
-  );
-}
-
+export const eraPrefs = singleEra('_eraPrefs');
+export const _erasPrefs = combineEras('_eraPrefs');
 export const erasPrefs = erasHistoricApply('_erasPrefs');
