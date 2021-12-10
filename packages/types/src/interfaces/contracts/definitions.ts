@@ -206,7 +206,7 @@ export default {
     },
     InstantiateRequest: {
       origin: 'AccountId',
-      endowment: 'Balance',
+      value: 'Balance',
       gasLimit: 'Gas',
       storageDepositLimit: 'Option<Balance>',
       code: 'Bytes',
