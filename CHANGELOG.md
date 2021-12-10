@@ -5,6 +5,7 @@
 Changes:
 
 - Add support for contracts V2 ABI metadata
+- `CheckNonZeroSender` signed extension support
 - Generated TS Enum interfaces now expose the `type` (with allowed values)
 - Remove old-style capabilities detection (unneeded with metadata v14+)
 - Add Kusama 9130 upgrade block
