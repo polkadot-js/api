@@ -30,6 +30,7 @@ export const substrate: ExtDef = {
     }
   },
   CheckMortality,
+  CheckNonZeroSender: emptyCheck,
   CheckNonce: {
     extrinsic: {
       nonce: 'Compact<Index>'
