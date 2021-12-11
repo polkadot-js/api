@@ -35,9 +35,8 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
 }
 
 export const ownSlash = firstMemo(
-  (api: ApiInterfaceRx) =>
-    (accountId: Uint8Array | string, era: EraIndex) =>
-      api.derive.staking._ownSlashes(accountId, [era], true)
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) =>
+    api.derive.staking._ownSlashes(accountId, [era], true)
 );
 
 export const ownSlashes = erasHistoricApplyAccount('_ownSlashes');

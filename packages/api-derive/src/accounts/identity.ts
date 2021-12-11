@@ -105,9 +105,8 @@ export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?:
 }
 
 export const hasIdentity = firstMemo(
-  (api: ApiInterfaceRx) =>
-    (accountId: AccountId | Uint8Array | string) =>
-      api.derive.accounts.hasIdentityMulti([accountId])
+  (api: ApiInterfaceRx, accountId: AccountId | Uint8Array | string) =>
+    api.derive.accounts.hasIdentityMulti([accountId])
 );
 
 export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {

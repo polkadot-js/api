@@ -47,7 +47,6 @@ export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (acco
 }
 
 export const stakerExposure = firstMemo(
-  (api: ApiInterfaceRx) =>
-    (accountId: Uint8Array | string, withActive?: boolean) =>
-      api.derive.staking.stakerExposures([accountId], withActive)
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, withActive?: boolean) =>
+    api.derive.staking.stakerExposures([accountId], withActive)
 );

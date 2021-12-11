@@ -15,9 +15,9 @@ export function firstObservable <T> (obs: Observable<T[]>): Observable<T> {
   return obs.pipe(map(([a]) => a));
 }
 
-export function firstMemo <T, A extends any[]> (fn: (api: ApiInterfaceRx) => (...args: A) => Observable<T[]>): (instanceId: string, api: ApiInterfaceRx) => (...args: A) => Observable<T> {
+export function firstMemo <T, A extends any[]> (fn: (api: ApiInterfaceRx, ...args: A) => Observable<T[]>): (instanceId: string, api: ApiInterfaceRx) => (...args: A) => Observable<T> {
   return (instanceId: string, api: ApiInterfaceRx) =>
     memo(instanceId, (...args: A) =>
-      firstObservable<T>(fn(api)(...args))
+      firstObservable<T>(fn(api, ...args))
     );
 }
