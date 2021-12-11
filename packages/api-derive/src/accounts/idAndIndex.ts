@@ -13,31 +13,6 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
 
-function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | Uint8Array | string | null | undefined): Observable<AccountIdAndIndex> {
-  try {
-    // yes, this can fail, don't care too much, catch will catch it
-    const decoded = isU8a(address)
-      ? address
-      : decodeAddress((address || '').toString());
-
-    if (decoded.length > 8) {
-      const accountId = api.registry.createType('AccountId', decoded);
-
-      return api.derive.accounts.idToIndex(accountId).pipe(
-        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
-      );
-    }
-
-    const accountIndex = api.registry.createType('AccountIndex', decoded);
-
-    return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-      map((accountId): AccountIdAndIndex => [accountId, accountIndex])
-    );
-  } catch (error) {
-    return of([undefined, undefined]);
-  }
-}
-
 /**
  * @name idAndIndex
  * @param {(Address | AccountId | AccountIndex | Uint8Array | string | null)} address - An accounts address in various formats.
@@ -52,6 +27,28 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * ```
  */
 export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
-  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> =>
-    retrieve(api, address));
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> => {
+    try {
+      // yes, this can fail, don't care too much, catch will catch it
+      const decoded = isU8a(address)
+        ? address
+        : decodeAddress((address || '').toString());
+
+      if (decoded.length > 8) {
+        const accountId = api.registry.createType('AccountId', decoded);
+
+        return api.derive.accounts.idToIndex(accountId).pipe(
+          map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
+        );
+      }
+
+      const accountIndex = api.registry.createType('AccountIndex', decoded);
+
+      return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
+        map((accountId): AccountIdAndIndex => [accountId, accountIndex])
+      );
+    } catch (error) {
+      return of([undefined, undefined]);
+    }
+  });
 }
