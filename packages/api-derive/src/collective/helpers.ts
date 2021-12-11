@@ -4,6 +4,9 @@
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Collective } from './types';
 
+// We are re-exporting these from here to ensure that *.d.ts generation is correct
+export type { ApiInterfaceRx } from '@polkadot/api/types';
+
 export function getInstance (api: ApiInterfaceRx, section: string): string {
   const instances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), section);
 

@@ -15,6 +15,11 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 import { withSection } from './helpers';
 
+// We are re-exporting these from here to ensure that *.d.ts generation is correct
+export type { ApiInterfaceRx } from '@polkadot/api/types';
+export type { Option, u32 } from '@polkadot/types';
+export type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
+
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
 function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {

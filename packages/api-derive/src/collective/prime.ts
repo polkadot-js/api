@@ -14,6 +14,10 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 import { withSection } from './helpers';
 
+// We are re-exporting these from here to ensure that *.d.ts generation is correct
+export type { ApiInterfaceRx } from '@polkadot/api/types';
+export type { AccountId } from '@polkadot/types/interfaces';
+
 export function prime (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId | null> {
   return withSection(_section, (section, instanceId, api) =>
     memo(instanceId, (): Observable<AccountId | null> =>

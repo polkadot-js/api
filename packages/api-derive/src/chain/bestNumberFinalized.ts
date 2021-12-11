@@ -1,11 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
-
-import { unwrapNumber } from './util';
+import { unwrapBlockNumber } from './util';
 
 /**
  * @name bestNumberFinalized
@@ -20,6 +16,4 @@ import { unwrapNumber } from './util';
  * });
  * ```
  */
-export function bestNumberFinalized (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return unwrapNumber(instanceId, api.rpc.chain.subscribeFinalizedHeads);
-}
+export const bestNumberFinalized = unwrapBlockNumber((api) => api.rpc.chain.subscribeFinalizedHeads());
