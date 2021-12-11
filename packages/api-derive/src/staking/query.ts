@@ -93,9 +93,7 @@ function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId
 /**
  * @description From a stash, retrieve the controllerId and all relevant details
  */
-export const query = firstMemo(
-  (api: ApiInterfaceRx, accountId: Uint8Array | string, flags: StakingQueryFlags) =>
-    api.derive.staking.queryMulti([accountId], flags)
+export const query = firstMemo((api: ApiInterfaceRx, accountId: Uint8Array | string, flags: StakingQueryFlags) => api.derive.staking.queryMulti([accountId], flags)
 );
 
 export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]> {
