@@ -22,18 +22,17 @@ export function getInstance (api: ApiInterfaceRx, section: string): string {
     : section;
 }
 
-export function withSection <T> (_section: Collective, fn: (section: string, instanceId: string, api: ApiInterfaceRx) => T): (instanceId: string, api: ApiInterfaceRx) => T {
+export function withSection <T, F extends (...args: any[]) => Observable<T>> (_section: Collective, fn: (section: string, api: ApiInterfaceRx, instanceId: string) => F): (instanceId: string, api: ApiInterfaceRx) => F {
   return (instanceId: string, api: ApiInterfaceRx) =>
-    fn(getInstance(api, _section), instanceId, api);
+    memo(instanceId, fn(getInstance(api, _section), api, instanceId)) as unknown as F;
 }
 
 export function callMethod <T> (method: 'members' | 'proposals' | 'proposalCount', empty: T): (_section: Collective) => (instanceId: string, api: ApiInterfaceRx) => () => Observable<T> {
   return (_section: Collective) =>
-    withSection(_section, (section, instanceId, api) =>
-      memo(instanceId, (): Observable<T> =>
+    withSection(_section, (section, api) =>
+      (): Observable<T> =>
         isFunction(api.query[section]?.[method])
           ? api.query[section as 'council'][method]() as unknown as Observable<T>
           : of(empty)
-      )
     );
 }

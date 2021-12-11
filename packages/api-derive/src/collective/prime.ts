@@ -11,7 +11,6 @@ import { map, of } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
-import { memo } from '../util';
 import { withSection } from './helpers';
 
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
@@ -19,8 +18,8 @@ export type { ApiInterfaceRx } from '@polkadot/api/types';
 export type { AccountId } from '@polkadot/types/interfaces';
 
 export function prime (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<AccountId | null> {
-  return withSection(_section, (section, instanceId, api) =>
-    memo(instanceId, (): Observable<AccountId | null> =>
+  return withSection(_section, (section, api) =>
+    (): Observable<AccountId | null> =>
       isFunction(api.query[section as 'council']?.prime)
         ? api.query[section as 'council'].prime<Option<AccountId>>().pipe(
           map((optPrime): AccountId | null =>
@@ -28,6 +27,5 @@ export function prime (_section: Collective): (instanceId: string, api: ApiInter
           )
         )
         : of(null)
-    )
   );
 }
