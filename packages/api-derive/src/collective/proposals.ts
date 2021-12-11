@@ -13,7 +13,7 @@ import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { withSection } from './helpers';
+import { callMethod, withSection } from './helpers';
 
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
 export type { ApiInterfaceRx } from '@polkadot/api/types';
@@ -72,26 +72,6 @@ export function hasProposals (_section: Collective): (instanceId: string, api: A
   );
 }
 
-export function proposalCount (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<u32 | null> {
-  return withSection(_section, (section, instanceId, api) =>
-    memo(instanceId, (): Observable<u32 | null> =>
-      isFunction(api.query[section].proposalCount)
-        ? api.query[section as 'council'].proposalCount()
-        : of(null)
-    )
-  );
-}
-
-export function proposalHashes (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<Hash[]> {
-  return withSection(_section, (section, instanceId, api) =>
-    memo(instanceId, (): Observable<Hash[]> =>
-      isFunction(api.query[section]?.proposals)
-        ? api.query[section as 'council'].proposals()
-        : of([])
-    )
-  );
-}
-
 export function proposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<DeriveCollectiveProposal[]> {
   return withProposals(_section, (section, instanceId, api, proposalsFrom) =>
     memo(instanceId, (): Observable<DeriveCollectiveProposal[]> =>
@@ -113,3 +93,6 @@ export function proposal (_section: Collective): (instanceId: string, api: ApiIn
     )
   );
 }
+
+export const proposalCount = callMethod<u32 | null>('proposalCount', null);
+export const proposalHashes = callMethod<Hash[]>('proposals', []);
