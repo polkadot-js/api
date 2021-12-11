@@ -20,7 +20,6 @@ type Depositors = DepositorsNew | DepositorsOld;
 type Proposals = ITuple<[PropIndex, Hash, AccountId]>[];
 type Result = [Proposals, (DeriveProposalImage | undefined)[], Depositors[]];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple<[Balance, Vec<AccountId>]>): depositors is ITuple<[Vec<AccountId>, Balance]> {
   // Detect balance...
   // eslint-disable-next-line @typescript-eslint/unbound-method
