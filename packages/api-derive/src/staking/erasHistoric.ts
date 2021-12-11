@@ -13,8 +13,8 @@ import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function erasHistoric (instanceId: string, api: ApiInterfaceRx): (withActive: boolean) => Observable<EraIndex[]> {
-  return memo(instanceId, (withActive: boolean): Observable<EraIndex[]> =>
+export function erasHistoric (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<EraIndex[]> {
+  return memo(instanceId, (withActive?: boolean): Observable<EraIndex[]> =>
     api.queryMulti<[Option<ActiveEraInfo>, u32]>([
       api.query.staking.activeEra,
       api.query.staking.historyDepth

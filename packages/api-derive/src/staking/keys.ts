@@ -11,7 +11,7 @@ import type { DeriveStakingKeys } from './types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 
 function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, NodeRuntimeSessionKeys | AccountId[]][], nextKeys: Option<NodeRuntimeSessionKeys>): DeriveStakingKeys {
   const sessionIds = (queuedKeys.find(([currentId]) => currentId.eq(stashId)) || [undefined, [] as AccountId[]])[1];
@@ -27,11 +27,11 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Node
   };
 }
 
-export function keys (instanceId: string, api: ApiInterfaceRx): (stashId: Uint8Array | string) => Observable<DeriveStakingKeys> {
-  return memo(instanceId, (stashId: Uint8Array | string): Observable<DeriveStakingKeys> =>
-    firstObservable(api.derive.staking.keysMulti([stashId]))
-  );
-}
+export const keys = firstMemo(
+  (api: ApiInterfaceRx) =>
+    (stashId: Uint8Array | string) =>
+      api.derive.staking.keysMulti([stashId])
+);
 
 export function keysMulti (instanceId: string, api: ApiInterfaceRx): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>

@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+
 import { unwrapBlockNumber } from './util';
 
 /**
@@ -15,4 +17,7 @@ import { unwrapBlockNumber } from './util';
  * });
  * ```
  */
-export const bestNumber = unwrapBlockNumber((api) => api.derive.chain.subscribeNewHeads());
+export const bestNumber = unwrapBlockNumber(
+  (api: ApiInterfaceRx) =>
+    api.derive.chain.subscribeNewHeads()
+);

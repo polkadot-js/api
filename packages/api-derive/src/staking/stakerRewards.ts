@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_BILLION, BN_ZERO } from '@polkadot/util';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
@@ -132,8 +132,8 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
     }));
 }
 
-export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<ErasResult> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<ErasResult> =>
+export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {
+  return memo(instanceId, (eras: EraIndex[], withActive = false): Observable<ErasResult> =>
     combineLatest([
       api.derive.staking._erasPoints(eras, withActive),
       api.derive.staking._erasPrefs(eras, withActive),
@@ -142,8 +142,8 @@ export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (e
   );
 }
 
-export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[][]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[][]> =>
+export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> =>
     combineLatest([
       api.derive.staking.queryMulti(accountIds, { withLedger: true }),
       api.derive.staking._stakerExposures(accountIds, eras, withActive),
@@ -184,13 +184,13 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
   );
 }
 
-export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
-    firstObservable(api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))
-    ))
-  );
-}
+export const stakerRewards = firstMemo(
+  (api: ApiInterfaceRx) =>
+    (accountId: Uint8Array | string, withActive?: boolean) =>
+      api.derive.staking.erasHistoric(withActive).pipe(
+        switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))
+      )
+);
 
 export function stakerRewardsMultiEras (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[]): Observable<DeriveStakerReward[][]> =>
