@@ -57,7 +57,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    const tx = this.hasStorageDepositSupport
+    const hasStorageDeposit = this.api.tx.contracts.instantiate.meta.args.length === 6;
+    const tx = hasStorageDeposit
       ? this.api.tx.contracts.instantiate(value, gasLimit, storageDepositLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit

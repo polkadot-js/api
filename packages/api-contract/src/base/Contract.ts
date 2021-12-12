@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
-import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
+import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
@@ -107,7 +107,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    const tx = this.hasStorageDepositSupport
+    const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+    const tx = hasStorageDeposit
       ? this.api.tx.contracts.call(this.address, value, storageDepositLimit, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
@@ -139,24 +140,40 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
-        const rpc = this.hasStorageDepositSupport
+        const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+        const rpc = hasStorageDeposit
           ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
           : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
 
-        return rpc
-          .pipe(
-            map(({ debugMessage, gasConsumed, gasRequired, result }): ContractCallOutcome => ({
-              debugMessage,
-              gasConsumed,
-              gasRequired: gasRequired && !gasRequired.isZero()
-                ? gasRequired
-                : gasConsumed,
-              output: result.isOk && message.returnType
-                ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
-                : null,
-              result
-            }))
-          );
+        const mapFn = hasStorageDeposit
+          ? ({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }: ContractExecResult): ContractCallOutcome => ({
+            debugMessage,
+            gasConsumed,
+            gasRequired: gasRequired && !gasRequired.isZero()
+              ? gasRequired
+              : gasConsumed,
+            output: result.isOk && message.returnType
+              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+              : null,
+            result,
+            storageDeposit
+          })
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore old style without storage deposit
+          : ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
+            debugMessage,
+            gasConsumed,
+            gasRequired: gasRequired && !gasRequired.isZero()
+              ? gasRequired
+              : gasConsumed,
+            output: result.isOk && message.returnType
+              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+              : null,
+            result
+
+          });
+
+        return rpc.pipe(map(mapFn));
       }
       )
     };
