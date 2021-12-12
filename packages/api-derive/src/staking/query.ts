@@ -10,7 +10,7 @@ import type { DeriveStakingQuery, StakingQueryFlags } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestination: PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
@@ -93,11 +93,10 @@ function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId
 /**
  * @description From a stash, retrieve the controllerId and all relevant details
  */
-export function query (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, flags: StakingQueryFlags) => Observable<DeriveStakingQuery> {
-  return memo(instanceId, (accountId: Uint8Array | string, flags: StakingQueryFlags): Observable<DeriveStakingQuery> =>
-    firstObservable(api.derive.staking.queryMulti([accountId], flags))
-  );
-}
+export const query = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, flags: StakingQueryFlags) =>
+    api.derive.staking.queryMulti([accountId], flags)
+);
 
 export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> =>

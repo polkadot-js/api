@@ -10,7 +10,7 @@ import type { DeriveStakerSlashes } from '../types';
 
 import { map, of } from 'rxjs';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
 
 export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
@@ -34,10 +34,9 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
   );
 }
 
-export function ownSlash (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveStakerSlashes> {
-  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveStakerSlashes> =>
-    firstObservable(api.derive.staking._ownSlashes(accountId, [era], true))
-  );
-}
+export const ownSlash = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) =>
+    api.derive.staking._ownSlashes(accountId, [era], true)
+);
 
 export const ownSlashes = erasHistoricApplyAccount('_ownSlashes');

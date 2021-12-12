@@ -11,7 +11,7 @@ import { combineLatest, map, switchMap } from 'rxjs';
 
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 
 const QUERY_OPTS = {
   withDestination: true,
@@ -73,7 +73,9 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
           api.derive.staking.keysMulti(accountIds),
           api.derive.staking.queryMulti(accountIds, QUERY_OPTS)
         ]).pipe(
-          map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
+          map(([keys, queries]) =>
+            queries.map((q, index) => parseResult(api, sessionInfo, keys[index], q))
+          )
         )
       )
     )
@@ -83,8 +85,7 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function account (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DeriveStakingAccount> {
-  return memo(instanceId, (accountId: Uint8Array | string): Observable<DeriveStakingAccount> =>
-    firstObservable(api.derive.staking.accounts([accountId]))
-  );
-}
+export const account = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string) =>
+    api.derive.staking.accounts([accountId])
+);

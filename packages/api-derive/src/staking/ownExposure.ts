@@ -9,7 +9,7 @@ import type { DeriveOwnExposure } from '../types';
 
 import { map, of } from 'rxjs';
 
-import { firstObservable, memo } from '../util';
+import { firstMemo, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
 
 export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
@@ -28,10 +28,9 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
   );
 }
 
-export function ownExposure (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, era: EraIndex) => Observable<DeriveOwnExposure> {
-  return memo(instanceId, (accountId: Uint8Array | string, era: EraIndex): Observable<DeriveOwnExposure> =>
-    firstObservable(api.derive.staking._ownExposures(accountId, [era], true))
-  );
-}
+export const ownExposure = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) =>
+    api.derive.staking._ownExposures(accountId, [era], true)
+);
 
 export const ownExposures = erasHistoricApplyAccount('_ownExposures');
