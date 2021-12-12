@@ -202,7 +202,7 @@ function types (api: ApiPromise): void {
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // transfer, also allows for bigint inputs here
-  const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
+  const transfer = api.tx.balances.transfer(pairs.bob.address, BigInt(123456789));
 
   console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
