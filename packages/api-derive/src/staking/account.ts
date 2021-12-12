@@ -73,7 +73,9 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
           api.derive.staking.keysMulti(accountIds),
           api.derive.staking.queryMulti(accountIds, QUERY_OPTS)
         ]).pipe(
-          map(([keys, queries]) => queries.map((query, index) => parseResult(api, sessionInfo, keys[index], query)))
+          map(([keys, queries]) =>
+            queries.map((q, index) => parseResult(api, sessionInfo, keys[index], q))
+          )
         )
       )
     )
