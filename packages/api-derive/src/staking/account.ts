@@ -83,4 +83,7 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export const account = firstMemo((api: ApiInterfaceRx, accountId: Uint8Array | string) => api.derive.staking.accounts([accountId]));
+export const account = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string) =>
+    api.derive.staking.accounts([accountId])
+);

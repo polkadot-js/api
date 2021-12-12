@@ -184,8 +184,11 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
   );
 }
 
-export const stakerRewards = firstMemo((api: ApiInterfaceRx, accountId: Uint8Array | string, withActive?: boolean) => api.derive.staking.erasHistoric(withActive).pipe(
-  switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive)))
+export const stakerRewards = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, withActive?: boolean) =>
+    api.derive.staking.erasHistoric(withActive).pipe(
+      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))
+    )
 );
 
 export function stakerRewardsMultiEras (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {

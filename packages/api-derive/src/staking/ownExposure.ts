@@ -28,6 +28,9 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
   );
 }
 
-export const ownExposure = firstMemo((api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) => api.derive.staking._ownExposures(accountId, [era], true));
+export const ownExposure = firstMemo(
+  (api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) =>
+    api.derive.staking._ownExposures(accountId, [era], true)
+);
 
 export const ownExposures = erasHistoricApplyAccount('_ownExposures');

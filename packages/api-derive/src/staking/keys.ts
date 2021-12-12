@@ -27,7 +27,10 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Node
   };
 }
 
-export const keys = firstMemo((api: ApiInterfaceRx, stashId: Uint8Array | string) => api.derive.staking.keysMulti([stashId]));
+export const keys = firstMemo(
+  (api: ApiInterfaceRx, stashId: Uint8Array | string) =>
+    api.derive.staking.keysMulti([stashId])
+);
 
 export function keysMulti (instanceId: string, api: ApiInterfaceRx): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
