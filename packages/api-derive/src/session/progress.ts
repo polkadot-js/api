@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u64 } from '@polkadot/types';
-import type { SessionIndex } from '@polkadot/types/interfaces';
+import type { BlockNumber, SessionIndex } from '@polkadot/types/interfaces';
 import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -14,6 +14,15 @@ import { memo } from '../util';
 type ResultSlotsNoSession = [u64, u64, u64];
 type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
 type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
+
+function withProgressField (field: 'eraLength' | 'eraProgress' | 'sessionProgress'): (instanceId: string, api: ApiInterfaceRx) => () => Observable<BlockNumber> {
+  return (instanceId: string, api: ApiInterfaceRx) =>
+    memo(instanceId, (): Observable<BlockNumber> =>
+      api.derive.session.progress().pipe(
+        map((info) => info[field])
+      )
+    );
+}
 
 function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]: ResultSlotsFlat): DeriveSessionProgress {
   const epochStartSlot = epochIndex.mul(info.sessionLength).iadd(epochOrGenesisStartSlot);
@@ -77,3 +86,7 @@ export function progress (instanceId: string, api: ApiInterfaceRx): () => Observ
       : queryAura(api)
   );
 }
+
+export const eraLength = withProgressField('eraLength');
+export const eraProgress = withProgressField('eraProgress');
+export const sessionProgress = withProgressField('sessionProgress');
