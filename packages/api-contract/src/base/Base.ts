@@ -13,6 +13,7 @@ export abstract class Base<ApiType extends ApiTypes> {
   public readonly abi: Abi;
 
   public readonly api: ApiBase<ApiType>;
+  public readonly hasStorageDepositSupport: boolean;
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
@@ -21,6 +22,8 @@ export abstract class Base<ApiType extends ApiTypes> {
       ? abi
       : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
+    this.hasStorageDepositSupport = this.api.tx.contracts.instantiate.meta.args.length === 6;
+
     this._decorateMethod = decorateMethod;
 
     assert(!!(api && api.isConnected && api.tx), 'Your API has not been initialized correctly and is not connected to a chain');

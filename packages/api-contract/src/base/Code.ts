@@ -61,26 +61,23 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts
-      .instantiateWithCode(
-        value,
-        gasLimit,
-        storageDepositLimit,
-        compactAddLength(this.code),
-        this.abi.findConstructor(constructorOrId).toU8a(params),
-        encodeSalt(salt)
-      )
-      .withResultTransform((result: ISubmittableResult) =>
-        new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
-          records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
-            this.api.events.contracts.Instantiated.is(event)
-              ? [blueprint, new Contract<ApiType>(this.api, this.abi, event.data[1], this._decorateMethod)]
-              : this.api.events.contracts.CodeStored.is(event)
-                ? [new Blueprint<ApiType>(this.api, this.abi, event.data[0], this._decorateMethod), contract]
-                : [blueprint, contract],
-          [])
-        ) || []))
-      );
+    const tx = this.hasStorageDepositSupport
+      ? this.api.tx.contracts.instantiateWithCode(value, gasLimit, storageDepositLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore old style without storage deposit
+      : this.api.tx.contracts.instantiateWithCode(value, gasLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt));
+
+    return tx.withResultTransform((result: ISubmittableResult) =>
+      new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
+        records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
+          this.api.events.contracts.Instantiated.is(event)
+            ? [blueprint, new Contract<ApiType>(this.api, this.abi, event.data[1], this._decorateMethod)]
+            : this.api.events.contracts.CodeStored.is(event)
+              ? [new Blueprint<ApiType>(this.api, this.abi, event.data[0], this._decorateMethod), contract]
+              : [blueprint, contract],
+        [])
+      ) || []))
+    );
   };
 }
 
