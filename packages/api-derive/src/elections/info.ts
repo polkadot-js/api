@@ -54,7 +54,8 @@ function getConstants (api: ApiInterfaceRx, elections: string | null): Partial<D
     : {};
 }
 
-function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
+function getModules (api: ApiInterfaceRx): [string, string | null] {
+  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
   const elections = api.query.phragmenElection
     ? 'phragmenElection'
     : api.query.electionsPhragmen
@@ -62,33 +63,8 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
       : api.query.elections
         ? 'elections'
         : null;
-  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
 
-  return (
-    elections
-      ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
-        api.query[council].members,
-        api.query[elections].candidates,
-        api.query[elections].members,
-        api.query[elections].runnersUp
-      ])
-      : combineLatest([
-        api.query[council].members<Vec<AccountId>>(),
-        of<Candidate[]>([]),
-        of<Member[]>([]),
-        of<Member[]>([])
-      ])
-  ).pipe(
-    map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-      ...getConstants(api, elections),
-      candidateCount: api.registry.createType('u32', candidates.length),
-      candidates: candidates.map(getCandidate),
-      members: members.length
-        ? members.map(getAccountTuple).sort(sortAccounts)
-        : councilMembers.map((accountId): [AccountId, Balance] => [accountId, api.registry.createType('Balance')]),
-      runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
-    }))
-  );
+  return [council, elections];
 }
 
 /**
@@ -105,5 +81,33 @@ function queryElections (api: ApiInterfaceRx): Observable<DeriveElectionsInfo> {
  * ```
  */
 export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
-  return memo(instanceId, (): Observable<DeriveElectionsInfo> => queryElections(api));
+  return memo(instanceId, (): Observable<DeriveElectionsInfo> => {
+    const [council, elections] = getModules(api);
+
+    return (
+      elections
+        ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
+          api.query[council].members,
+          api.query[elections].candidates,
+          api.query[elections].members,
+          api.query[elections].runnersUp
+        ])
+        : combineLatest([
+          api.query[council].members<Vec<AccountId>>(),
+          of<Candidate[]>([]),
+          of<Member[]>([]),
+          of<Member[]>([])
+        ])
+    ).pipe(
+      map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
+        ...getConstants(api, elections),
+        candidateCount: api.registry.createType('u32', candidates.length),
+        candidates: candidates.map(getCandidate),
+        members: members.length
+          ? members.map(getAccountTuple).sort(sortAccounts)
+          : councilMembers.map((a): [AccountId, Balance] => [a, api.registry.createType('Balance')]),
+        runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
+      }))
+    );
+  });
 }
