@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 6.12.1 Dec 13, 2021
+
+Upgrade priority: Low. Recommended for users of contracts on the current Substrate master version and TS users who generate metadata v14 interfaces.
 
 Changes:
 
@@ -15,7 +17,7 @@ Changes:
 
 ## 6.11.1 Dec 5, 2021
 
-Upgrade priority: Low. Maintenance upgrade, tacking the latest `@polkadot` libraries.
+Upgrade priority: Low. Maintenance upgrade, tracking the latest `@polkadot` libraries.
 
 Changes:
 
