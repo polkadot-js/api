@@ -92,7 +92,7 @@ describe('Cached Observables', (): void => {
   it('creates different observables for different methods but same arguments', (): void => {
     // params do not match here
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    const observable1 = (rpc.chain as any).subscribeNewHeads([123]);
+    const observable1 = (rpc.chain).subscribeNewHeads([123]);
     const observable2 = rpc.state.subscribeStorage([123]);
 
     expect(observable2).not.toBe(observable1);

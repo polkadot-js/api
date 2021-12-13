@@ -3,94 +3,76 @@
 
 /* eslint-disable sort-keys */
 
-import type { OverrideVersionedType } from '@polkadot/types/types';
+import type { OverrideVersionedType } from '../../types';
 
 import { objectSpread } from '@polkadot/util';
 
-import { mapXcmTypes } from '../xcm';
-
 const sharedTypes = {
-  // 16 validators
   CompactAssignments: 'CompactAssignmentsWith16',
   RawSolution: 'RawSolutionWith16',
-  // general
   Keys: 'SessionKeys6',
   ProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy']
+    _enum: {
+      Any: 0,
+      NonTransfer: 1,
+      Governance: 2,
+      Staking: 3,
+      UnusedSudoBalances: 4,
+      IdentityJudgement: 5,
+      CancelProxy: 6,
+      Auction: 7
+    }
   }
 };
 
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
-  CompactAssignments: 'CompactAssignmentsWith16',
-  LookupSource: 'AccountId',
   Keys: 'SessionKeys5',
-  RawSolution: 'RawSolutionWith16',
+  LookupSource: 'AccountId',
   ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
+// these are override types for Polkadot
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [1, 2],
+    minmax: [0, 12],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
-      DispatchInfo: 'DispatchInfoTo244',
-      Heartbeat: 'HeartbeatTo244',
-      Multiplier: 'Fixed64',
-      OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259',
-      Weight: 'u32'
-    })
-  },
-  {
-    minmax: [3, 22],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
-      CompactAssignments: 'CompactAssignmentsTo257',
-      DispatchInfo: 'DispatchInfoTo244',
-      Heartbeat: 'HeartbeatTo244',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259'
     })
   },
   {
-    minmax: [23, 42],
+    minmax: [13, 22],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
-      DispatchInfo: 'DispatchInfoTo244',
-      Heartbeat: 'HeartbeatTo244',
       RefCount: 'RefCountTo259'
     })
   },
   {
-    minmax: [43, 44],
+    minmax: [23, 24],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
-      DispatchInfo: 'DispatchInfoTo244',
-      Heartbeat: 'HeartbeatTo244',
       RefCount: 'RefCountTo259'
     })
   },
   {
-    minmax: [45, 47],
+    minmax: [25, 27],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes)
   },
   {
-    minmax: [48, 49],
+    minmax: [28, 29],
     types: objectSpread({}, sharedTypes, {
       AccountInfo: 'AccountInfoWithDualRefCount'
     })
   },
   {
-    minmax: [50, 9099],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
-  },
-  {
-    minmax: [9100, 9105],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
+    minmax: [30, 9109],
+    types: objectSpread({}, sharedTypes)
   },
   {
     // metadata v14
-    minmax: [9106, undefined],
+    minmax: [9110, undefined],
     types: {}
   }
 ];

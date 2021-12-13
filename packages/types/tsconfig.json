@@ -3,10 +3,10 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "resolveJsonModule": true
   },
   "references": [
-    { "path": "../types-known" },
     { "path": "../types-support" }
   ]
 }

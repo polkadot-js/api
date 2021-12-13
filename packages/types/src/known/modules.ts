@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OverrideModuleType } from '@polkadot/types/types';
+import type { OverrideModuleType } from '../types';
 
 // type overrides for modules (where duplication between modules exist)
 const typesModules: Record<string, OverrideModuleType> = {
