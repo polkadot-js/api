@@ -1,34 +1,10 @@
 {
-  "extends": "@polkadot/dev/config/tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "exclude": [
     "build/**/*",
-    "**/build/**/*",
-    "docs/examples/promise/90_typegen/*"
+    "**/build/**/*"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@polkadot/api": ["packages/api/src"],
-      "@polkadot/api/*": ["packages/api/src/*"],
-      "@polkadot/api-contract": ["packages/api-contract/src"],
-      "@polkadot/api-contract/*": ["packages/api-contract/src/*"],
-      "@polkadot/api-derive": ["packages/api-derive/src"],
-      "@polkadot/api-derive/*": ["packages/api-derive/src/*"],
-      "@polkadot/rpc-core": ["packages/rpc-core/src"],
-      "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
-      "@polkadot/rpc-provider": ["packages/rpc-provider/src"],
-      "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
-      "@polkadot/types": ["packages/types/src"],
-      "@polkadot/types/*": ["packages/types/src/*"],
-      "@polkadot/types-known": ["packages/types-known/src"],
-      "@polkadot/types-known/*": ["packages/types-known/src/*"],
-      "@polkadot/types-support": ["packages/types-support/src"],
-      "@polkadot/types-support/*": ["packages/types-support/src/*"]
-    },
-    "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@polkadot/ts",
-      "./node_modules/@types"
-    ]
+    "baseUrl": "./packages"
   }
 }
