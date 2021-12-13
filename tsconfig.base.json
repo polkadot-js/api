@@ -1,0 +1,29 @@
+{
+  "extends": "@polkadot/dev/config/tsconfig.json",
+	"compilerOptions": {
+		"composite": true,
+		"paths": {
+      "@polkadot/api": ["api/src"],
+      "@polkadot/api/*": ["api/src/*"],
+      "@polkadot/api-contract": ["api-contract/src"],
+      "@polkadot/api-contract/*": ["api-contract/src/*"],
+      "@polkadot/api-derive": ["api-derive/src"],
+      "@polkadot/api-derive/*": ["api-derive/src/*"],
+      "@polkadot/rpc-core": ["rpc-core/src"],
+      "@polkadot/rpc-core/*": ["rpc-core/src/*"],
+      "@polkadot/rpc-provider": ["rpc-provider/src"],
+      "@polkadot/rpc-provider/*": ["rpc-provider/src/*"],
+      "@polkadot/types": ["types/src"],
+      "@polkadot/types/*": ["types/src/*"],
+      "@polkadot/types-known": ["types-known/src"],
+      "@polkadot/types-known/*": ["types-known/src/*"],
+      "@polkadot/types-support": ["types-support/src"],
+      "@polkadot/types-support/*": ["types-support/src/*"]
+    },
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@polkadot/ts",
+      "./node_modules/@types"
+    ]
+	}
+ }
