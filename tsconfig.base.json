@@ -1,8 +1,10 @@
 {
   "extends": "@polkadot/dev/config/tsconfig.json",
-	"compilerOptions": {
-		"composite": true,
-		"paths": {
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "paths": {
       "@polkadot/api": ["api/src"],
       "@polkadot/api/*": ["api/src/*"],
       "@polkadot/api-contract": ["api-contract/src"],
@@ -25,5 +27,5 @@
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ]
-	}
+  }
  }

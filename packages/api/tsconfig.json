@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../api-derive" },
+    { "path": "../rpc-core" },
+    { "path": "../rpc-provider" },
+    { "path": "../types" },
+    { "path": "../types-known" }
+  ]
+}
