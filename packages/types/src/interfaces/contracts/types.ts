@@ -26,7 +26,6 @@ export interface ContractCallRequest extends Struct {
   readonly dest: AccountId;
   readonly value: Balance;
   readonly gasLimit: u64;
-  readonly storageDepositLimit: Option<Balance>;
   readonly inputData: Bytes;
 }
 
@@ -260,7 +259,6 @@ export interface InstantiateRequest extends Struct {
   readonly origin: AccountId;
   readonly value: Balance;
   readonly gasLimit: Gas;
-  readonly storageDepositLimit: Option<Balance>;
   readonly code: Bytes;
   readonly data: Bytes;
   readonly salt: Bytes;

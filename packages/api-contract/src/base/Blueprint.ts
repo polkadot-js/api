@@ -56,8 +56,9 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
+  #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     const hasStorageDeposit = this.api.tx.contracts.instantiate.meta.args.length === 6;
+    const storageDepositLimit = null;
     const tx = hasStorageDeposit
       ? this.api.tx.contracts.instantiate(value, gasLimit, storageDepositLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -106,8 +106,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       : gasLimit;
   };
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+    const storageDepositLimit = null;
     const tx = hasStorageDeposit
       ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -132,7 +133,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     );
   };
 
-  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
+  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
     assert(this.hasRpcContractsCall, ERROR_NO_CALL);
 
     const message = this.abi.findMessage(messageOrId);
@@ -142,7 +143,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
         const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
         const rpc = hasStorageDeposit
-          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
+          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value })
           : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
 
         const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
