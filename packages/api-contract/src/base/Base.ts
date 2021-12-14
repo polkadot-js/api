@@ -21,6 +21,7 @@ export abstract class Base<ApiType extends ApiTypes> {
       ? abi
       : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
+
     this._decorateMethod = decorateMethod;
 
     assert(!!(api && api.isConnected && api.tx), 'Your API has not been initialized correctly and is not connected to a chain');

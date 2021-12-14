@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
-import type { AccountId, EventRecord, Weight } from '@polkadot/types/interfaces';
+import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
@@ -33,14 +33,14 @@ function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId
   return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
     isOptions(options)
       ? fn(origin, options, params)
-      : fn(origin, ...extractOptions(options, params));
+      : fn(origin, ...extractOptions<ContractOptions>(options, params));
 }
 
 function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
   return (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
       ? fn(options, params)
-      : fn(...extractOptions(options, params));
+      : fn(...extractOptions<ContractOptions>(options, params));
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -107,29 +107,30 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts
-      .call(
-        this.address,
-        value,
-        this.#getGas(gasLimit),
-        this.abi.findMessage(messageOrId).toU8a(params)
-      )
-      .withResultTransform((result: ISubmittableResult) =>
-        // ContractEmitted is the current generation, ContractExecution is the previous generation
-        new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
-          records
-            .map(({ event: { data: [, data] } }): DecodedEvent | null => {
-              try {
-                return this.abi.decodeEvent(data as Bytes);
-              } catch (error) {
-                l.error(`Unable to decode contract event: ${(error as Error).message}`);
+    const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+    const storageDepositLimit = null;
+    const tx = hasStorageDeposit
+      ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore old style without storage deposit
+      : this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
 
-                return null;
-              }
-            })
-            .filter((decoded): decoded is DecodedEvent => !!decoded)
-        ))
-      );
+    return tx.withResultTransform((result: ISubmittableResult) =>
+    // ContractEmitted is the current generation, ContractExecution is the previous generation
+      new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
+        records
+          .map(({ event: { data: [, data] } }): DecodedEvent | null => {
+            try {
+              return this.abi.decodeEvent(data as Bytes);
+            } catch (error) {
+              l.error(`Unable to decode contract event: ${(error as Error).message}`);
+
+              return null;
+            }
+          })
+          .filter((decoded): decoded is DecodedEvent => !!decoded)
+      ))
+    );
   };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
@@ -139,28 +140,26 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
-        this.api.rx.rpc.contracts
-          .call({
-            dest: this.address,
-            gasLimit: this.#getGas(gasLimit, true),
-            inputData: message.toU8a(params),
-            origin,
-            value
-          })
-          .pipe(
-            map(({ debugMessage, gasConsumed, gasRequired, result }): ContractCallOutcome => ({
-              debugMessage,
-              gasConsumed,
-              gasRequired: gasRequired && !gasRequired.isZero()
-                ? gasRequired
-                : gasConsumed,
-              output: result.isOk && message.returnType
-                ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
-                : null,
-              result
-            }))
-          )
+      send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
+        const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+        const rpc = hasStorageDeposit
+          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value })
+          : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
+
+        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
+          debugMessage,
+          gasConsumed,
+          gasRequired: gasRequired && !gasRequired.isZero()
+            ? gasRequired
+            : gasConsumed,
+          output: result.isOk && message.returnType
+            ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+            : null,
+          result
+        });
+
+        return rpc.pipe(map(mapFn));
+      }
       )
     };
   };
