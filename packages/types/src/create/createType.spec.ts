@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodecSet, Int } from '../codec';
+import { CodecSet, Int } from '@polkadot/types-codec';
+
 import { createClass, TypeRegistry } from '.';
 
 describe('createType', (): void => {

@@ -4,9 +4,9 @@
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
 import type { AnyJson, Registry } from '../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { assert } from '@polkadot/util';
 
-import { Struct } from '../codec';
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';

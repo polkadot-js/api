@@ -5,10 +5,10 @@
 
 import type { Codec, Constructor } from '../types';
 
+import { DoNotConstruct, Struct } from '@polkadot/types-codec';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { DoNotConstruct, Struct } from '../codec';
 import { Text, U32 } from '../primitive';
 import { TypeRegistry } from '.';
 

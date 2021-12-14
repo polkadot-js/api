@@ -4,7 +4,8 @@
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
 import type { AnyJson, Registry } from '../../types';
 
-import { Option } from '../../codec';
+import { Option } from '@polkadot/types-codec';
+
 import { Text, u8 } from '../../primitive';
 
 interface ModuleMetadataTrimmed {

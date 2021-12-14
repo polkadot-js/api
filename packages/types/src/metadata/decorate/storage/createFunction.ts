@@ -6,10 +6,10 @@ import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 
+import { Raw } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { Raw } from '../../../codec';
 import { StorageKey } from '../../../primitive';
 import { getHasher } from './getHasher';
 
