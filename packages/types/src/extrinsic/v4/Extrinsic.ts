@@ -7,9 +7,8 @@ import type { Address, Call } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicOptions } from '../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
-
-import { Struct } from '../../codec/Struct';
 
 export const EXTRINSIC_VERSION = 4;
 

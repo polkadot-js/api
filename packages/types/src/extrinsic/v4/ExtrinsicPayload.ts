@@ -7,12 +7,9 @@ import type { ExtrinsicEra } from '../../interfaces/extrinsics';
 import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
+import { Compact, Enum, Option, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { Compact } from '../../codec/Compact';
-import { Enum } from '../../codec/Enum';
-import { Option } from '../../codec/Option';
-import { Struct } from '../../codec/Struct';
 import { Bytes } from '../../primitive/Bytes';
 import { u32 } from '../../primitive/U32';
 import { sign } from '../util';

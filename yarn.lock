@@ -2094,6 +2094,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/types-codec@6.12.2-0, @polkadot/types-codec@workspace:packages/types-codec":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-codec@workspace:packages/types-codec"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@polkadot/types": ^6.12.2-0
+    "@polkadot/util": ^8.1.2
+    rxjs: ^7.4.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/types-known@6.12.2-0, @polkadot/types-known@workspace:packages/types-known":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
@@ -2114,12 +2125,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@6.12.2-0, @polkadot/types@workspace:packages/types":
+"@polkadot/types@6.12.2-0, @polkadot/types@^6.12.2-0, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.1.2
+    "@polkadot/types-codec": 6.12.2-0
     "@polkadot/types-known": 6.12.2-0
     "@polkadot/types-support": 6.12.2-0
     "@polkadot/util": ^8.1.2

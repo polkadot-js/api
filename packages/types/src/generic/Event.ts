@@ -1,19 +1,17 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Codec, Constructor, IEvent, IEventData, InterfaceTypes, Registry } from '../types';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
+import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { Struct } from '../codec/Struct';
-import { Tuple } from '../codec/Tuple';
-import { Null } from '../primitive/Null';
-
 interface Decoded {
-  DataType: Constructor<Null> | Constructor<GenericEventData>;
+  DataType: CodecClass<Null> | CodecClass<GenericEventData>;
   value?: {
     index: Uint8Array;
     data: Uint8Array;

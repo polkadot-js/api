@@ -7,10 +7,9 @@ import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
+import { Compact, Struct } from '@polkadot/types-codec';
 import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
-import { Compact } from '../../codec/Compact';
-import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 

@@ -3,10 +3,9 @@
 
 import type { AnyString, AnyU8a, Registry } from '../types';
 
+import { U8aFixed } from '@polkadot/types-codec';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { ethereumEncode, isEthereumAddress } from '@polkadot/util-crypto';
-
-import { U8aFixed } from '../codec/U8aFixed';
 
 /** @internal */
 function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {

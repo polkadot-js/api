@@ -55,7 +55,7 @@ function initType<T extends Codec> (registry: Registry, Type: Constructor, param
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return created as any;
+  return created;
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`

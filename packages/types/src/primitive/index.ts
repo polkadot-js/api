@@ -4,6 +4,8 @@
 /**
  * @summary Type definitions that are used in the system
  */
+export { Null } from '@polkadot/types-codec';
+
 export { BitVec } from './BitVec';
 export { bool, bool as Bool } from './Bool';
 export { Bytes } from './Bytes';
@@ -14,7 +16,6 @@ export { i32, i32 as I32 } from './I32';
 export { i64, i64 as I64 } from './I64';
 export { i128, i128 as I128 } from './I128';
 export { i256, i256 as I256 } from './I256';
-export { Null } from './Null';
 export { StorageKey } from './StorageKey';
 export { Text } from './Text';
 export { Type } from './Type';

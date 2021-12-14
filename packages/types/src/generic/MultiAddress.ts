@@ -3,10 +3,10 @@
 
 import type { Registry } from '../types';
 
+import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 

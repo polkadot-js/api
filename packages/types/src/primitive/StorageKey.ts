@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { AnyJson, AnyTuple, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
+import type { AnyJson, AnyTuple, InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';

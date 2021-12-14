@@ -3,7 +3,7 @@
 
 import type { CodecTo } from '../types';
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 import { TypeRegistry } from '../create';
 import { Bytes, Text } from '.';
 

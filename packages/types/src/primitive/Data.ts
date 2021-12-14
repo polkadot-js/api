@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { H256 } from '../interfaces/runtime';
-import type { Registry } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Enum } from '../codec/Enum';
+import { Enum } from '../codec';
 import { Bytes } from './Bytes';
 
 /** @internal */
-function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
+function decodeDataU8a (registry: CodecRegistry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
   const indicator = value[0];
 
   if (!indicator) {
@@ -20,7 +20,7 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uin
     const data = value.subarray(1, length + 1);
 
     // in this case, we are passing a Raw back (since we have no length)
-    return [registry.createType('Raw', data), 1];
+    return [registry.createType<IU8a>('Raw', data), 1];
   } else if (indicator >= 34 && indicator <= 37) {
     return [value.subarray(1, 32 + 1), indicator - 32]; // 34 becomes 2
   }
@@ -29,7 +29,7 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uin
 }
 
 /** @internal */
-function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
+function decodeData (registry: CodecRegistry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
   if (isU8a(value) || isString(value)) {
     return decodeDataU8a(registry, u8aToU8a(value));
   } else if (!value) {
@@ -46,7 +46,7 @@ function decodeData (registry: Registry, value?: Record<string, any> | Uint8Arra
  * A [[Data]] container with node, raw or hashed data
  */
 export class Data extends Enum {
-  constructor (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string) {
+  constructor (registry: CodecRegistry, value?: Record<string, any> | Uint8Array | Enum | string) {
     super(registry, {
       None: 'Null', // 0
       Raw: 'Bytes', // 1

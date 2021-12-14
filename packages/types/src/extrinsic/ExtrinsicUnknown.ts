@@ -4,7 +4,8 @@
 import type { Registry } from '../types';
 import type { ExtrinsicOptions } from './types';
 
-import { Struct } from '../codec/Struct';
+import { Struct } from '@polkadot/types-codec';
+
 import { UNMASK_VERSION } from './constants';
 
 /**

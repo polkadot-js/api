@@ -1,17 +1,16 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, Definitions, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ChainProperties, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { CallFunction, CodecHasher, Constructor, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
+import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { DoNotConstruct } from '../codec/DoNotConstruct';
-import { Json } from '../codec/Json';
-import { Raw } from '../codec/Raw';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
@@ -414,17 +413,17 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
-  public hash (data: Uint8Array): CodecHash {
+  public hash (data: Uint8Array): IU8a {
     return this.createType('CodecHash', this.#hasher(data));
   }
 
-  public register (type: Constructor | RegistryTypes): void;
+  public register (type: CodecClass | RegistryTypes): void;
 
   // eslint-disable-next-line no-dupe-class-members
   public register (name: string, type: Constructor): void;
 
   // eslint-disable-next-line no-dupe-class-members
-  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
+  public register (arg1: string | CodecClass | RegistryTypes, arg2?: Constructor): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);

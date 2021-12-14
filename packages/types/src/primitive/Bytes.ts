@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyU8a } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 
 // Bytes are used for things like on-chain code, so it has a healthy limit
 const MAX_LENGTH = 10 * 1024 * 1024;
@@ -47,7 +48,7 @@ function decodeBytes (value?: AnyU8a): [Uint8Array | undefined, number] {
  * as what is found in [[Text]] and [[Vec]])
  */
 export class Bytes extends Raw {
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: CodecRegistry, value?: AnyU8a) {
     const [u8a, decodedLength] = decodeBytes(value);
 
     super(registry, u8a, decodedLength);

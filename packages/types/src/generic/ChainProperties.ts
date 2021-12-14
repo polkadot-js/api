@@ -3,11 +3,9 @@
 
 import type { Codec, Registry } from '../types';
 
+import { Json, Option, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
-import { Json } from '../codec/Json';
-import { Option } from '../codec/Option';
-import { Vec } from '../codec/Vec';
 import { Text } from '../primitive/Text';
 import { u32 } from '../primitive/U32';
 

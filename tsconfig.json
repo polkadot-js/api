@@ -12,6 +12,7 @@
     { "path": "./packages/rpc-provider" },
     { "path": "./packages/typegen" },
     { "path": "./packages/types" },
+    { "path": "./packages/types-codec" },
     { "path": "./packages/types-known" },
     { "path": "./packages/types-support" }
   ]

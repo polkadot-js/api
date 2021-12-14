@@ -1,9 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { Codec, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
@@ -25,12 +24,12 @@ function decodeBool (value: any): boolean {
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
-  public readonly registry: Registry;
+  public readonly registry: CodecRegistry;
 
-  public createdAtHash?: Hash;
+  public createdAtHash?: IU8a;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
+  constructor (registry: CodecRegistry, value: bool | Boolean | Uint8Array | boolean | number = false) {
     super(decodeBool(value));
 
     this.registry = registry;
@@ -46,7 +45,7 @@ export class bool extends Boolean implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): CodecHash {
+  public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
   }
 

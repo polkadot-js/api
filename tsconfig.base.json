@@ -16,6 +16,8 @@
       "@polkadot/rpc-provider/*": ["rpc-provider/src/*"],
       "@polkadot/types": ["types/src"],
       "@polkadot/types/*": ["types/src/*"],
+      "@polkadot/types-codec": ["types-codec/src"],
+      "@polkadot/types-codec/*": ["types-codec/src/*"],
       "@polkadot/types-known": ["types-known/src"],
       "@polkadot/types-known/*": ["types-known/src/*"],
       "@polkadot/types-support": ["types-support/src"],

@@ -2,18 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { CodecRegistry, RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { CreateOptions, TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
-import type { CodecHash, Hash } from '../interfaces/runtime';
 import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { CallFunction } from './calls';
-import type { Codec, Constructor } from './codec';
+import type { Codec, CodecClass } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
-import type { DetectCodec, DetectConstructor } from './detect';
+import type { DetectCodec } from './detect';
+
+export type { RegistryTypes } from '@polkadot/types-codec/types';
 
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
@@ -27,11 +29,6 @@ export interface ChainUpgrades {
   network: string;
   versions: ChainUpgradeVersion[];
 }
-
-export type RegistryTypes =
-  Record<string, Constructor | string | Record<string, string> |
-  { _enum: string[] | Record<string, number> | Record<string, string | null> } |
-  { _set: Record<string, number> }>;
 
 export interface RegistryError {
   args: string[];
@@ -99,48 +96,49 @@ export interface RegisteredTypes {
   typesSpec?: Record<string, RegistryTypes>;
 }
 
-export interface Registry {
-  readonly chainDecimals: number[];
-  readonly chainSS58: number | undefined;
-  readonly chainTokens: string[];
+// Note the commented interfaces here are directly from CodecRegistry
+export interface Registry extends CodecRegistry {
+  // readonly chainDecimals: number[];
+  // readonly chainSS58: number | undefined;
+  // readonly chainTokens: string[];
   readonly knownTypes: RegisteredTypes;
   readonly lookup: PortableRegistry;
   readonly metadata: MetadataLatest;
   readonly unknownTypes: string[];
   readonly signedExtensions: string[];
 
-  createdAtHash?: Hash;
+  // createdAtHash?: Hash;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
-  findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
+  findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
   isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K>;
-  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R>;
+  createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined;
+  get <T extends Codec = Codec, K extends string = string, R extends Codec = DetectCodec<T, K>> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined;
   getChainProperties (): ChainProperties | undefined;
-  getClassName (clazz: Constructor): string | undefined;
+  // getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
   getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K>;
-  getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K>;
+  getOrThrow <T extends Codec = Codec, K extends string = string, R extends Codec = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R>;
+  getOrUnknown <T extends Codec = Codec, K extends string = string, R extends Codec = DetectCodec<T, K>> (name: K): CodecClass<R>;
   setKnownTypes (types: RegisteredTypes): void;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
-  hash (data: Uint8Array): CodecHash;
+  // hash (data: Uint8Array): IU8a;
   init (): Registry;
-  register (type: Constructor | RegistryTypes): void;
-  register (name: string, type: Constructor): void;
-  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+  // register (type: CodecClass | RegistryTypes): void;
+  // register (name: string, type: CodecClass): void;
+  // register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;
   setChainProperties (properties?: ChainProperties): void;
   setHasher (hasher?: CodecHasher | null): void;
   setLookup (lookup: PortableRegistry): void;

@@ -26,7 +26,7 @@ export function _ownSlashes (instanceId: string, api: ApiInterfaceRx): (accountI
             era,
             total: values[index].isSome
               ? (values[index].unwrap() as ITuple<[Perbill, BalanceOf]>)[1]
-              : (values[index + eras.length].unwrapOrDefault() as BalanceOf)
+              : (values[index + eras.length].unwrapOrDefault())
           }))
         )
       )

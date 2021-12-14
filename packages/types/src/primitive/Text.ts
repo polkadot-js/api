@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { AnyU8a, Codec, Registry } from '../types';
+import type { AnyU8a } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '../codec';
 
 const MAX_LENGTH = 128 * 1024;
 
@@ -49,15 +49,15 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export class Text extends String implements Codec {
-  public readonly registry: Registry;
+  public readonly registry: CodecRegistry;
 
-  public createdAtHash?: Hash;
+  public createdAtHash?: IU8a;
 
   readonly #initialU8aLength?: number;
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
+  constructor (registry: CodecRegistry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
     const [str, decodedLength] = decodeText(value);
 
     super(str);
@@ -83,7 +83,7 @@ export class Text extends String implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): CodecHash {
+  public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
   }
 

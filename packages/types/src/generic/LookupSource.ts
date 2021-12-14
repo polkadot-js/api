@@ -5,10 +5,10 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { Registry } from '../types';
 
+import { Base } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Base } from '../codec/Base';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 

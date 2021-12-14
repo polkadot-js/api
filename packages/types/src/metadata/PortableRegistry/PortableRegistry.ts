@@ -9,7 +9,7 @@ import type { Registry, TypeDef } from '../../types';
 
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
-import { Struct } from '../../codec/Struct';
+import { Struct } from '../../codec';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
 import { sanitize } from '../../create/sanitize';
