@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Constructor, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -77,7 +77,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
 }
 
 // create event classes from metadata
-function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
+function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -86,7 +86,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
     const { events, index, name } = filtered[i];
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
-      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
+      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
         const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
@@ -133,7 +133,7 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, Constructor>();
+  #classes = new Map<string, CodecClass>();
 
   #definitions = new Map<string, string>();
 
@@ -147,7 +147,7 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
 
-  readonly #metadataEvents: Record<string, Record<string, Constructor<GenericEventData>>> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -180,7 +180,7 @@ export class TypeRegistry implements Registry {
 
   public init (): this {
     // start clean
-    this.#classes = new Map<string, Constructor>();
+    this.#classes = new Map<string, CodecClass>();
     this.#definitions = new Map<string, string>();
     this.#unknownTypes = new Map<string, boolean>();
     this.#knownTypes = {};
@@ -266,15 +266,15 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K> {
-    return createClass(this, type);
+  public createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R> {
+    return createClass(this, type) as unknown as CodecClass<R>;
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
-    return this.createTypeUnsafe(type, params);
+  public createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R {
+    return this.createTypeUnsafe(type, params) as unknown as R;
   }
 
   /**
@@ -306,7 +306,7 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public findMetaEvent (eventIndex: Uint8Array): Constructor<GenericEventData> {
+  public findMetaEvent (eventIndex: Uint8Array): CodecClass<GenericEventData> {
     const [section, method] = [eventIndex[0], eventIndex[1]];
 
     return assertReturn(
@@ -315,13 +315,13 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined {
+  public get <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
       const definition = this.#definitions.get(name);
-      let BaseType: Constructor | undefined;
+      let BaseType: CodecClass | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
@@ -346,14 +346,14 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    return Type as DetectConstructor<T, K>;
+    return Type as unknown as CodecClass<R>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
     return this.#chainProperties;
   }
 
-  public getClassName (Type: Constructor): string | undefined {
+  public getClassName (Type: CodecClass): string | undefined {
     // we cannot rely on export order (anymore, since babel/core 7.15.8), so in the case of
     // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
     // (previously this used to be a simple find & return)
@@ -381,16 +381,16 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
-  public getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K> {
+  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
     assert(Clazz, msg || `type ${name} not found`);
 
-    return Clazz;
+    return Clazz as unknown as CodecClass<R>;
   }
 
-  public getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K> {
-    return this.get<T, K>(name, true) as DetectConstructor<T, K>;
+  public getOrUnknown <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R> {
+    return this.get<T, K>(name, true) as unknown as CodecClass<R>;
   }
 
   public getSignedExtensionExtra (): Record<string, string> {
@@ -420,10 +420,10 @@ export class TypeRegistry implements Registry {
   public register (type: CodecClass | RegistryTypes): void;
 
   // eslint-disable-next-line no-dupe-class-members
-  public register (name: string, type: Constructor): void;
+  public register (name: string, type: CodecClass): void;
 
   // eslint-disable-next-line no-dupe-class-members
-  public register (arg1: string | CodecClass | RegistryTypes, arg2?: Constructor): void {
+  public register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);

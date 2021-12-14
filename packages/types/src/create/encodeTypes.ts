@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types/registry';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { TypeDef } from './types';
 
 import { assert, isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
@@ -20,7 +20,7 @@ export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (
   }`;
 }
 
-function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string): string {
+function encodeWithParams (CodecRegistry: CodecRegistry, typeDef: TypeDef, outer: string): string {
   const { info, sub } = typeDef;
 
   switch (info) {
@@ -33,13 +33,13 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
     case TypeDefInfo.WrapperOpaque:
-      return paramsNotation(outer, sub, (p) => encodeTypeDef(registry, p));
+      return paramsNotation(outer, sub, (p) => encodeTypeDef(CodecRegistry, p));
   }
 
   throw new Error(`Unable to encode ${stringify(typeDef)} with params`);
 }
 
-function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, extra?: Record<string, unknown>): string {
+function encodeSubTypes (CodecRegistry: CodecRegistry, sub: TypeDef[], asEnum?: boolean, extra?: Record<string, unknown>): string {
   const names = sub.map(({ name }) => name);
 
   assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
@@ -49,7 +49,7 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
   for (let i = 0; i < sub.length; i++) {
     const def = sub[i];
 
-    inner[def.name as string] = encodeTypeDef(registry, def);
+    inner[def.name as string] = encodeTypeDef(CodecRegistry, def);
   }
 
   return stringify(
@@ -61,44 +61,44 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
 
 // We setup a record here to ensure we have comprehensive coverage (any item not covered will result
 // in a compile-time error with the missing index)
-const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => string> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'BTreeMap'),
-  [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'BTreeSet'),
-  [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'Compact'),
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, { displayName, lookupIndex, lookupName }: TypeDef) =>
-    `DoNotConstruct<${lookupName || displayName || (isUndefined(lookupIndex) ? 'Unknown' : registry.createLookupType(lookupIndex))}>`,
-  [TypeDefInfo.Enum]: (registry: Registry, { sub }: TypeDef): string => {
+const encoders: Record<TypeDefInfo, (CodecRegistry: CodecRegistry, typeDef: TypeDef) => string> = {
+  [TypeDefInfo.BTreeMap]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'BTreeMap'),
+  [TypeDefInfo.BTreeSet]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'BTreeSet'),
+  [TypeDefInfo.Compact]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'Compact'),
+  [TypeDefInfo.DoNotConstruct]: (CodecRegistry: CodecRegistry, { displayName, lookupIndex, lookupName }: TypeDef) =>
+    `DoNotConstruct<${lookupName || displayName || (isUndefined(lookupIndex) ? 'Unknown' : CodecRegistry.createLookupType(lookupIndex))}>`,
+  [TypeDefInfo.Enum]: (CodecRegistry: CodecRegistry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Enum type');
 
     // c-like enums have all Null entries
     // TODO We need to take the disciminant into account and auto-add empty entries
     return sub.every(({ type }) => type === 'Null')
       ? stringify({ _enum: sub.map(({ name }, index) => `${name || `Empty${index}`}`) })
-      : encodeSubTypes(registry, sub, true);
+      : encodeSubTypes(CodecRegistry, sub, true);
   },
-  [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'HashMap'),
-  [TypeDefInfo.Int]: (registry: Registry, { length = 32 }: TypeDef) =>
+  [TypeDefInfo.HashMap]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'HashMap'),
+  [TypeDefInfo.Int]: (CodecRegistry: CodecRegistry, { length = 32 }: TypeDef) =>
     `Int<${length}>`,
-  [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'Linkage'),
+  [TypeDefInfo.Linkage]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef) =>
+  [TypeDefInfo.Null]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
     'Null',
-  [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'Option'),
+  [TypeDefInfo.Option]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'Option'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Plain]: (registry: Registry, { displayName, type }: TypeDef) =>
+  [TypeDefInfo.Plain]: (CodecRegistry: CodecRegistry, { displayName, type }: TypeDef) =>
     displayName || type,
-  [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, typeDef.type.includes('RangeInclusive') ? 'RangeInclusive' : 'Range'),
-  [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'Result'),
+  [TypeDefInfo.Range]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, typeDef.type.includes('RangeInclusive') ? 'RangeInclusive' : 'Range'),
+  [TypeDefInfo.Result]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'Result'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Set]: (registry: Registry, { length = 8, sub }: TypeDef): string => {
+  [TypeDefInfo.Set]: (CodecRegistry: CodecRegistry, { length = 8, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Set type');
 
     return stringify({
@@ -108,12 +108,12 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     });
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Si]: (registry: Registry, { lookupName, type }: TypeDef) =>
+  [TypeDefInfo.Si]: (CodecRegistry: CodecRegistry, { lookupName, type }: TypeDef) =>
     lookupName || type,
-  [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
+  [TypeDefInfo.Struct]: (CodecRegistry: CodecRegistry, { alias, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
 
-    return encodeSubTypes(registry, sub, false,
+    return encodeSubTypes(CodecRegistry, sub, false,
       alias
         ? {
           _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
@@ -123,39 +123,39 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
         : {}
     );
   },
-  [TypeDefInfo.Tuple]: (registry: Registry, { sub }: TypeDef): string => {
+  [TypeDefInfo.Tuple]: (CodecRegistry: CodecRegistry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Tuple type');
 
-    return `(${sub.map((type) => encodeTypeDef(registry, type)).join(',')})`;
+    return `(${sub.map((type) => encodeTypeDef(CodecRegistry, type)).join(',')})`;
   },
-  [TypeDefInfo.UInt]: (registry: Registry, { length = 32 }: TypeDef) =>
+  [TypeDefInfo.UInt]: (CodecRegistry: CodecRegistry, { length = 32 }: TypeDef) =>
     `UInt<${length}>`,
-  [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'Vec'),
-  [TypeDefInfo.VecFixed]: (registry: Registry, { length, sub }: TypeDef): string => {
+  [TypeDefInfo.Vec]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'Vec'),
+  [TypeDefInfo.VecFixed]: (CodecRegistry: CodecRegistry, { length, sub }: TypeDef): string => {
     assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Unable to encode VecFixed type');
 
     return `[${sub.type};${length}]`;
   },
-  [TypeDefInfo.WrapperOpaque]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, 'WrapperOpaque')
+  [TypeDefInfo.WrapperOpaque]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'WrapperOpaque')
 };
 
-function encodeType (registry: Registry, typeDef: TypeDef, withLookup = true): string {
+function encodeType (CodecRegistry: CodecRegistry, typeDef: TypeDef, withLookup = true): string {
   return withLookup && typeDef.lookupName
     ? typeDef.lookupName
-    : encoders[typeDef.info](registry, typeDef);
+    : encoders[typeDef.info](CodecRegistry, typeDef);
 }
 
-export function encodeTypeDef (registry: Registry, typeDef: TypeDef): string {
+export function encodeTypeDef (CodecRegistry: CodecRegistry, typeDef: TypeDef): string {
   // In the case of contracts we do have the unfortunate situation where the displayName would
   // refer to "Option" when it is an option. For these, string it out, only using when actually
   // not a top-level element to be used
   return (typeDef.displayName && !INFO_WRAP.some((i) => typeDef.displayName === i))
     ? typeDef.displayName
-    : encodeType(registry, typeDef);
+    : encodeType(CodecRegistry, typeDef);
 }
 
-export function withTypeString (registry: Registry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
-  return objectSpread({}, typeDef, { type: encodeType(registry, typeDef as TypeDef, false) });
+export function withTypeString (CodecRegistry: CodecRegistry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
+  return objectSpread({}, typeDef, { type: encodeType(CodecRegistry, typeDef as TypeDef, false) });
 }

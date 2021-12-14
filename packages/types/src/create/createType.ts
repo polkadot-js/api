@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '../primitive/Bytes';
-import type { Codec, Constructor, DetectCodec, Registry } from '../types';
+import type { Codec, CodecClass, DetectCodec, Registry } from '../types';
 import type { CreateOptions } from './types';
 
+import { Option } from '@polkadot/types-codec';
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { Option } from '../codec/Option';
 import { createClass } from './createClass';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
@@ -45,7 +45,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec> (registry: Registry, Type: Constructor, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
+function initType<T extends Codec> (registry: Registry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -54,15 +54,14 @@ function initType<T extends Codec> (registry: Registry, Type: Constructor, param
     created.createdAtHash = createType(registry, 'Hash', blockHash);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return created;
+  return created as T;
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
-  let Clazz: Constructor | null = null;
+  let Clazz: CodecClass | null = null;
   let firstError: Error | null = null;
 
   try {

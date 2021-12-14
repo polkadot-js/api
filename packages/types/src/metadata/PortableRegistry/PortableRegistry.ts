@@ -7,12 +7,13 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 import type { Text, Type } from '../../primitive';
 import type { Registry, TypeDef } from '../../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
-import { Struct } from '../../codec';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
 import { sanitize } from '../../create/sanitize';
+import { u32 } from '../../primitive';
 import { TypeDefInfo } from '../../types';
 import { assertUnreachable } from './util';
 
@@ -559,7 +560,7 @@ export class PortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
-      length: this.registry.createType(this.registry.createLookupType(fields[0].type) as 'u32').bitLength(),
+      length: this.registry.createType<u32>(this.registry.createLookupType(fields[0].type)).bitLength(),
       sub: this.getSiType(params[0].type.unwrap()).def.asVariant.variants.map(({ index, name }): TypeDef => ({
         // This will be an issue > 2^53 - 1 ... don't have those (yet)
         index: index.toNumber(),

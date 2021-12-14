@@ -357,7 +357,7 @@ describe('Enum', (): void => {
 
     it('re-creates via rawType (types)', (): void => {
       const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType() as 'Raw';
-      const value = registry.createType(type, { B: 123 }) as unknown as { isB: true, asB: U32 };
+      const value = registry.createType(type, { B: 123 });
 
       expect(value.isB).toEqual(true);
       expect(value.asB.toNumber()).toEqual(123);

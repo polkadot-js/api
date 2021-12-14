@@ -2,12 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass } from './codec';
-import type { IU8a } from './interfaces';
+import type { AnyTuple } from './helpers';
+import type { ICompact, IMethod, INumber, IU8a } from './interfaces';
 
 export type RegistryTypes =
   Record<string, CodecClass | string | Record<string, string> |
   { _enum: string[] | Record<string, number> | Record<string, string | null> } |
   { _set: Record<string, number> }>;
+
+export interface CallBase<A extends AnyTuple> extends IMethod<A> {
+  readonly method: string;
+  readonly section: string;
+
+  toJSON: () => any;
+}
+
+export interface CallFunction<A extends AnyTuple = AnyTuple> extends CallBase<A> {
+  (...args: any[]): IMethod<A>;
+}
 
 export interface CodecRegistry {
   readonly chainDecimals: number[];
@@ -21,14 +33,14 @@ export interface CodecRegistry {
 
   createdAtHash?: IU8a;
 
-  // findMetaCall (callIndex: Uint8Array): CallFunction;
+  findMetaCall (callIndex: Uint8Array): CallFunction;
   // findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): CodecRegistryError;
   // // due to same circular imports where types don't really want to import from EventData,
   // // keep this as a generic Codec, however the actual impl. returns the correct
-  // findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
+  findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
-  // isLookupType (value: string): boolean;
-  // createLookupType (lookupId: SiLookupTypeId | number): string;
+  isLookupType (value: string): boolean;
+  createLookupType (lookupId: ICompact<INumber> | number): string;
 
   createClass <T extends Codec = Codec, K extends string = string, R = T> (type: K): CodecClass<R>;
   createType <T extends Codec = Codec, K extends string = string, R = T> (type: K, ...params: unknown[]): R;
@@ -41,8 +53,8 @@ export interface CodecRegistry {
   // getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectCodecClass<T, K>;
   // getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectCodecClass<T, K>;
   // setKnownTypes (types: RegisteredTypes): void;
-  // getSignedExtensionExtra (): Record<string, string>;
-  // getSignedExtensionTypes (): Record<string, string>;
+  getSignedExtensionExtra (): Record<string, string>;
+  getSignedExtensionTypes (): Record<string, string>;
   // hasClass (name: string): boolean;
   // hasDef (name: string): boolean;
   // hasType (name: string): boolean;

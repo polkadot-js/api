@@ -115,7 +115,7 @@ export interface Registry extends CodecRegistry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
-  isLookupType (value: string): boolean;
+  // isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
   createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R>;
@@ -129,8 +129,8 @@ export interface Registry extends CodecRegistry {
   getOrThrow <T extends Codec = Codec, K extends string = string, R extends Codec = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R>;
   getOrUnknown <T extends Codec = Codec, K extends string = string, R extends Codec = DetectCodec<T, K>> (name: K): CodecClass<R>;
   setKnownTypes (types: RegisteredTypes): void;
-  getSignedExtensionExtra (): Record<string, string>;
-  getSignedExtensionTypes (): Record<string, string>;
+  // getSignedExtensionExtra (): Record<string, string>;
+  // getSignedExtensionTypes (): Record<string, string>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

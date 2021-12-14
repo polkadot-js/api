@@ -65,6 +65,7 @@ export type ITuple<T extends AnyTuple = Codec[]> = T & Codec;
 
 export interface IU8a extends Uint8Array, Codec {
   readonly isAscii: boolean;
+  readonly isUtf8: boolean
 
   bitLength (): number;
   toHuman (isExtended?: boolean): any;

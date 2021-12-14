@@ -2,11 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
-import type { AnyTuple } from '@polkadot/types-codec/types';
+import type { AnyTuple, IMethod as IMethodBase } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { StorageEntryMetadataLatest } from '../interfaces/metadata';
+import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
 
-export { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
+export { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
+
+export interface IMethod<A extends AnyTuple = AnyTuple> extends IMethodBase<A> {
+  readonly meta: FunctionMetadataLatest;
+}
 
 export interface IKeyringPair {
   readonly address: string;

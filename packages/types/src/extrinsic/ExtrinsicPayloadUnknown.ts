@@ -4,7 +4,7 @@
 import type { Registry } from '../types';
 import type { ExtrinsicPayloadOptions } from './types';
 
-import { Struct } from '../codec/Struct';
+import { Struct } from '@polkadot/types-codec';
 
 /**
  * @name GenericExtrinsicPayloadUnknown

@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyTupleValue } from '@polkadot/types-codec/Tuple';
 import type { VoteThreshold } from '../interfaces/elections';
 import type { BlockNumber } from '../interfaces/runtime';
 import type { CodecTo } from '../types';
-import type { AnyTupleValue } from './Tuple';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
