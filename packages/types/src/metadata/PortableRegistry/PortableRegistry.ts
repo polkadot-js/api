@@ -8,11 +8,11 @@ import type { Text, Type } from '../../primitive';
 import type { Registry, TypeDef } from '../../types';
 
 import { Struct } from '@polkadot/types-codec';
+import { sanitize } from '@polkadot/types-codec/utils';
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
-import { sanitize } from '../../create/sanitize';
 import { u32 } from '../../primitive';
 import { TypeDefInfo } from '../../types';
 import { assertUnreachable } from './util';

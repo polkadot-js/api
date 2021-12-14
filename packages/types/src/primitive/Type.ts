@@ -4,8 +4,7 @@
 import type { CodecRegistry } from '@polkadot/types-codec/types';
 
 import { Text } from '@polkadot/types-codec';
-
-import { sanitize } from '../create/sanitize';
+import { sanitize } from '@polkadot/types-codec/utils';
 
 /**
  * @name Type
