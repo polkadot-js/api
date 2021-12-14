@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '../types';
+import type { Codec } from './types';
 
 import { AbstractArray } from './AbstractArray';
 

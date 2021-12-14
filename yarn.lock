@@ -2078,6 +2078,7 @@ __metadata:
     "@polkadot/api": 6.12.2-1
     "@polkadot/rpc-provider": 6.12.2-1
     "@polkadot/types": 6.12.2-1
+    "@polkadot/types-codec": 6.12.2-1
     "@polkadot/types-support": 6.12.2-1
     "@polkadot/util": ^8.1.2
     "@types/websocket": ^1.0.4

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, IOption } from './types';
+import type { AnyJson, Codec, CodecClass, CodecRegistry, IOption, IU8a } from './types';
 
 import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 

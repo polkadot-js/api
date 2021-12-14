@@ -4,13 +4,11 @@
 import type { TypeDef } from '@polkadot/types/create/types';
 import type { Constructor, Registry } from '@polkadot/types/types';
 
-import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
-import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
 import { getTypeDef } from '@polkadot/types/create';
 import { TypeDefInfo } from '@polkadot/types/create/types';
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { bool, Null } from '@polkadot/types/primitive';
+import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types-codec';
 import { isChildClass, stringify } from '@polkadot/util';
 
 import { formatType } from './formatting';

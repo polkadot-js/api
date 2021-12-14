@@ -7,6 +7,8 @@
 // others, so there _should_ not be need for direct use)
 
 // These are the base codec types, generally used for construction
+export { AbstractArray } from './AbstractArray';
+export { AbstractInt } from './AbstractInt';
 export { Base } from './Base';
 export { BitVec } from './BitVec';
 export { bool, bool as Bool } from './Bool';

@@ -8,6 +8,7 @@
   "references": [
     { "path": "../api" },
     { "path": "../rpc-provider" },
+    { "path": "../types-codec" },
     { "path": "../types-support" }
   ]
 }
