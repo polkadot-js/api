@@ -60,7 +60,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, salt, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     const hasStorageDeposit = this.api.tx.contracts.instantiateWithCode.meta.args.length === 6;
     const tx = hasStorageDeposit
       ? this.api.tx.contracts.instantiateWithCode(value, gasLimit, storageDepositLimit, compactAddLength(this.code), this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
