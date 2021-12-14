@@ -4,7 +4,7 @@
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
-import { lazyDeriveSection } from '@polkadot/api-derive';
+import { lazyDeriveSection } from '../derive';
 
 type AnyDeriveSection = Record<string, AnyFunction>;
 
