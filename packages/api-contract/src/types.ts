@@ -56,7 +56,6 @@ export interface ContractCallOutcome {
   debugMessage: Text;
   gasConsumed: u64;
   gasRequired: u64;
-  storageDeposit: BN;
   output: Codec | null;
   result: ContractExecResultResult;
 }
@@ -80,6 +79,6 @@ export interface BlueprintOptions {
 
 export interface ContractOptions {
   gasLimit?: bigint | BN | string | number;
-  storageDepositLimit?: bigint | BN | string | number;
+  storageDepositLimit?: string | object | Uint8Array | Codec | null;
   value?: bigint | BN | string | number;
 }

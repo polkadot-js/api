@@ -83,7 +83,6 @@ export default {
     ContractExecResult: {
       gasConsumed: 'u64',
       gasRequired: 'u64',
-      storageDeposit: 'Balance',
       debugMessage: 'Text',
       result: 'ContractExecResultResult'
     },

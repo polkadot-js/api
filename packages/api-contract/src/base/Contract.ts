@@ -106,10 +106,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       : gasLimit;
   };
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = BN_ZERO, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
     const tx = hasStorageDeposit
-      ? this.api.tx.contracts.call(this.address, value, storageDepositLimit, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params))
+      ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
       : this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
@@ -145,33 +145,17 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
           : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
 
-        const mapFn = hasStorageDeposit
-          ? ({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }: ContractExecResult): ContractCallOutcome => ({
-            debugMessage,
-            gasConsumed,
-            gasRequired: gasRequired && !gasRequired.isZero()
-              ? gasRequired
-              : gasConsumed,
-            output: result.isOk && message.returnType
-              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
-              : null,
-            result,
-            storageDeposit
-          })
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore old style without storage deposit
-          : ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
-            debugMessage,
-            gasConsumed,
-            gasRequired: gasRequired && !gasRequired.isZero()
-              ? gasRequired
-              : gasConsumed,
-            output: result.isOk && message.returnType
-              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
-              : null,
-            result
-
-          });
+        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
+          debugMessage,
+          gasConsumed,
+          gasRequired: gasRequired && !gasRequired.isZero()
+            ? gasRequired
+            : gasConsumed,
+          output: result.isOk && message.returnType
+            ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+            : null,
+          result
+        });
 
         return rpc.pipe(map(mapFn));
       }
