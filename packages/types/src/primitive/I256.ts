@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Int } from '../codec';
+import { Int } from '@polkadot/types-codec';
 
 /**
  * @name i256

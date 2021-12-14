@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { UInt } from '../codec';
+import { UInt } from '@polkadot/types-codec';
 
 /**
  * @name u64
