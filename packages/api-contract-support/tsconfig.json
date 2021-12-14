@@ -6,9 +6,6 @@
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "references": [
-    { "path": "../api" },
-    { "path": "../api-contract-support" },
-    { "path": "../types" }
-  ]
+  "include": ["src/**/*.json", "src/**/*.ts"],
+  "references": []
 }

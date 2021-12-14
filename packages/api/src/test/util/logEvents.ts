@@ -3,7 +3,7 @@
 
 import type { EventRecord } from '@polkadot/types/interfaces';
 
-import { SubmittableResult } from '../../src';
+import { SubmittableResult } from '../..';
 
 // log all events for the transfers, calling done() when finalized
 export const logEvents = (done: () => Record<string, unknown>): (r: SubmittableResult) => void =>

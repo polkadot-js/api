@@ -2,16 +2,16 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
   "contributors": [],
-  "description": "Interfaces for interacting with contracts and contract ABIs",
+  "description": "Sample contracts as development support",
   "engines": {
     "node": ">=14.0.0"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract-support#readme",
   "license": "Apache-2.0",
   "maintainers": [],
-  "name": "@polkadot/api-contract",
+  "name": "@polkadot/api-contract-support",
   "repository": {
-    "directory": "packages/api-contract",
+    "directory": "packages/api-contract-support",
     "type": "git",
     "url": "https://github.com/polkadot-js/api.git"
   },
@@ -23,13 +23,6 @@
   "version": "6.12.1",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "6.12.1",
-    "@polkadot/types": "6.12.1",
-    "@polkadot/util": "^8.1.2",
-    "rxjs": "^7.4.0"
-  },
-  "devDependencies": {
-    "@polkadot/api-contract-support": "6.12.1"
+    "@babel/runtime": "^7.16.5"
   }
 }

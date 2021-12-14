@@ -6,7 +6,6 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../rpc-core" },
-    { "path": "../types" }
+    { "path": "../api" }
   ]
 }

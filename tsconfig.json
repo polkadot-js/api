@@ -6,6 +6,7 @@
   "references": [
     { "path": "./packages/api" },
     { "path": "./packages/api-contract" },
+    { "path": "./packages/api-contract-support" },
     { "path": "./packages/api-derive" },
     { "path": "./packages/rpc-core" },
     { "path": "./packages/rpc-provider" },

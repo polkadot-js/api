@@ -1867,12 +1867,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/api-contract-support@6.12.1, @polkadot/api-contract-support@workspace:packages/api-contract-support":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/api-contract-support@workspace:packages/api-contract-support"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/api-contract@workspace:packages/api-contract":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/api": 6.12.1
+    "@polkadot/api-contract-support": 6.12.1
     "@polkadot/types": 6.12.1
     "@polkadot/util": ^8.1.2
     rxjs: ^7.4.0
@@ -1898,7 +1907,6 @@ __metadata:
     "@polkadot/rpc-core": 6.12.1
     "@polkadot/rpc-provider": 6.12.1
     "@polkadot/types": 6.12.1
-    "@polkadot/types-known": 6.12.1
     "@polkadot/util": ^8.1.2
     "@polkadot/util-crypto": ^8.1.2
     eventemitter3: ^4.0.7
