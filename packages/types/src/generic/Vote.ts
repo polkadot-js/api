@@ -5,10 +5,8 @@ import type { Conviction } from '../interfaces/democracy';
 import type { AllConvictions } from '../interfaces/democracy/definitions';
 import type { AnyJson, ArrayElementType, Registry } from '../types';
 
-import { U8aFixed } from '@polkadot/types-codec';
+import { Bool, U8aFixed } from '@polkadot/types-codec';
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
-
-import { bool as Bool } from '../primitive/Bool';
 
 interface VoteType {
   aye: boolean;

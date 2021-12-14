@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
-import type { AnyU8a } from '../types';
+import type { AnyU8a, CodecRegistry } from './types';
 
-import { Raw } from '@polkadot/types-codec';
 import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
+
+import { Raw } from './Raw';
 
 /** @internal */
 function decodeBitVecU8a (value?: Uint8Array): [number, Uint8Array] {

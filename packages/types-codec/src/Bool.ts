@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
+import type { Codec, CodecRegistry, IU8a } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 

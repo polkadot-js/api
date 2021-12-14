@@ -8,6 +8,8 @@
 
 // These are the base codec types, generally used for construction
 export { Base } from './Base';
+export { BitVec } from './BitVec';
+export { bool, bool as Bool } from './Bool';
 export { BTreeMap } from './BTreeMap';
 export { BTreeSet } from './BTreeSet';
 export { Bytes } from './Bytes';
@@ -27,6 +29,7 @@ export { Raw } from './Raw';
 export { Result } from './Result';
 export { CodecSet, CodecSet as Set } from './Set';
 export { Struct } from './Struct';
+export { Text } from './Text';
 export { Tuple } from './Tuple';
 export { UInt } from './UInt';
 export { U8aFixed } from './U8aFixed';

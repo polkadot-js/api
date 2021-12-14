@@ -1,11 +1,12 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Codec, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
+import type { AnyU8a, Codec, CodecRegistry, IU8a } from './types';
 
-import { Raw } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+
+import { Raw } from './Raw';
 
 const MAX_LENGTH = 128 * 1024;
 
