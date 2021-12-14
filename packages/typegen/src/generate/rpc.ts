@@ -135,7 +135,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/api/types',
+          file: '@polkadot/rpc-core/types',
           types: ['AugmentedRpc']
         }
       ]
