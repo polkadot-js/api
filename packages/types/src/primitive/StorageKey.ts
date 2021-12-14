@@ -207,6 +207,10 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
     return this.#method;
   }
 
+  override get registry (): Registry {
+    return super.registry as Registry;
+  }
+
   /**
    * @description The output type
    */
