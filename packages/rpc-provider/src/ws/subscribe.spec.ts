@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Request } from '@polkadot/rpc-provider-mock/mockWs';
 import type { Constructor } from '@polkadot/types/types';
+import type { Request } from '../mock/mockWs';
 import type { Global, Mock } from './../mock/types';
 
-import { mockWs } from '@polkadot/rpc-provider-mock/mockWs';
-
+import { mockWs } from '../mock/mockWs';
 import { WsProvider } from '.';
 
 declare const global: Global;

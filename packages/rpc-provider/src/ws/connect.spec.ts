@@ -5,8 +5,7 @@ import type { Mock } from '../mock/types';
 
 import { jest } from '@jest/globals';
 
-import { mockWs } from '@polkadot/rpc-provider-mock/mockWs';
-
+import { mockWs } from '../mock/mockWs';
 import { WsProvider } from './';
 
 const TEST_WS_URL = 'ws://localhost-connect.spec.ts:9988';
