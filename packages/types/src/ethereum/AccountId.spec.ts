@@ -3,7 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '@polkadot/types-codec';
+
 import { TypeRegistry } from '../create';
 import { GenericEthereumAccountId as AccountId } from './AccountId';
 

@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { CodecDate } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
 import { U32 } from '../primitive';
-import { CodecDate } from './Date';
 import { Compact } from '.';
 
 describe('Compact', (): void => {

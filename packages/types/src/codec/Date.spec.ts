@@ -3,11 +3,11 @@
 
 import type { CodecTo } from '../types';
 
+import { CodecDate } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
 import { U64 } from '../primitive';
-import { CodecDate } from './Date';
 
 describe('Date', (): void => {
   const registry = new TypeRegistry();
