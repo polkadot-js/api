@@ -6,6 +6,8 @@ import type { AnyFunction, Callback, DefinitionRpc } from '@polkadot/types/types
 
 import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
+export type { AugmentedRpc } from '@polkadot/rpc-core/types';
+
 export interface RxRpcResult<F extends AnyFunction> extends RxResult<F> {
   raw <T> (...args: Parameters<F>): Observable<T>;
   meta: DefinitionRpc;
@@ -30,8 +32,3 @@ export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [S in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[S]>
 }
-
-export type AugmentedRpc<F extends AnyFunction> = F & {
-  raw: <T> (...params: Parameters<F>) => Observable<T>;
-  meta: DefinitionRpc;
-};

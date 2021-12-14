@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Mock } from './../mock/types';
+import type { Mock } from '../mock/types';
 
 import { jest } from '@jest/globals';
 
-import { mockWs } from '../../test/mockWs';
+import { mockWs } from '../mock/mockWs';
 import { WsProvider } from './';
 
 const TEST_WS_URL = 'ws://localhost-connect.spec.ts:9988';

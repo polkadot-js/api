@@ -12,7 +12,7 @@ import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
-import { SingleAccountSigner } from '../../test/util';
+import { SingleAccountSigner } from '../test/util';
 import { ApiPromise } from '.';
 
 const TRANSFER_SIG = '0xcc277eb341d3801c08f149508221583fa3185cc3944e6cb376cd061640305edd7dc24dfd754adb24768f1d8547389b7720e6f626bc81f5593fba1141e7f7ba07';

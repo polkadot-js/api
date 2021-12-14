@@ -6,10 +6,10 @@ import type { Registry } from '@polkadot/types/types';
 import fs from 'fs';
 import path from 'path';
 
+import abis from '@polkadot/api-contract-support/contracts';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import abis from '../../test/contracts';
 import { Abi } from '.';
 
 interface SpecDef {
@@ -80,7 +80,7 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         const abi = new Abi(abis[abiName]);
         const json = stringifyJson(abi.registry);
-        const cmpPath = path.join(__dirname, `../../test/compare/${abiName}.test.json`);
+        const cmpPath = path.join(__dirname, `../../../api-contract-support/src/compare/${abiName}.test.json`);
 
         try {
           // eslint-disable-next-line @typescript-eslint/no-var-requires

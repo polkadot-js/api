@@ -23,10 +23,13 @@
   "version": "6.12.1",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
+    "@babel/runtime": "^7.16.5",
     "@polkadot/api": "6.12.1",
     "@polkadot/types": "6.12.1",
     "@polkadot/util": "^8.1.2",
     "rxjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "@polkadot/api-contract-support": "6.12.1"
   }
 }

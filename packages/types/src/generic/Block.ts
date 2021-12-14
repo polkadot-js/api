@@ -9,7 +9,7 @@ import type { AnyNumber, AnyU8a, Registry } from '../types';
 import { Struct } from '../codec/Struct';
 
 export interface HeaderValue {
-  digest?: Digest | { logs: DigestItem[] };
+  digest?: Digest | { logs: DigestItem[] | string[] };
   extrinsicsRoot?: AnyU8a;
   number?: AnyNumber;
   parentHash?: AnyU8a;

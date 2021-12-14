@@ -9,7 +9,6 @@ import type { DecoratedErrors } from '@polkadot/api/types/errors';
 import type { DecoratedEvents } from '@polkadot/api/types/events';
 import type { QueryableStorage } from '@polkadot/api/types/storage';
 import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
-import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
@@ -19,6 +18,7 @@ import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Re
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
+import type { DeriveCustom, ExactDerive } from '../derive';
 import type { DeriveAllSections } from '../util/decorate';
 import type { ApiTypes } from './base';
 import type { DecoratedRpc } from './rpc';

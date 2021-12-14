@@ -7,5 +7,5 @@ export interface Check {
   compare: Record<string, unknown>;
   data: HexString;
   fails?: string[];
-  types?: Record<string, unknown>;
+  types?: unknown[];
 }

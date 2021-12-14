@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Constructor } from '@polkadot/types/types';
-import type { Request } from '../../test/mockWs';
+import type { Request } from '../mock/mockWs';
+import type { Global, Mock } from './../mock/types';
 
-import { mockWs } from '../../test/mockWs';
-import { Global, Mock } from './../mock/types';
-import { WsProvider } from './';
+import { mockWs } from '../mock/mockWs';
+import { WsProvider } from '.';
 
 declare const global: Global;
 

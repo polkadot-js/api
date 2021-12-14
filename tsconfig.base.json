@@ -1,12 +1,13 @@
 {
   "extends": "@polkadot/dev/config/tsconfig.json",
-	"compilerOptions": {
-		"composite": true,
-		"paths": {
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
       "@polkadot/api": ["api/src"],
       "@polkadot/api/*": ["api/src/*"],
       "@polkadot/api-contract": ["api-contract/src"],
       "@polkadot/api-contract/*": ["api-contract/src/*"],
+      "@polkadot/api-contract-support/*": ["api-contract-support/src/*"],
       "@polkadot/api-derive": ["api-derive/src"],
       "@polkadot/api-derive/*": ["api-derive/src/*"],
       "@polkadot/rpc-core": ["rpc-core/src"],
@@ -25,5 +26,5 @@
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ]
-	}
+  }
  }
