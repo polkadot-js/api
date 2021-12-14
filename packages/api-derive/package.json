@@ -20,10 +20,10 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.12.1",
+  "version": "6.12.2-0",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "6.12.1"
+    "@polkadot/api": "6.12.2-0"
   }
 }

@@ -20,7 +20,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "6.12.1",
+  "version": "6.12.2-0",
   "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
@@ -33,10 +33,10 @@
     "@babel/core": "^7.16.5",
     "@babel/register": "^7.16.5",
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "6.12.1",
-    "@polkadot/rpc-provider": "6.12.1",
-    "@polkadot/types": "6.12.1",
-    "@polkadot/types-support": "6.12.1",
+    "@polkadot/api": "6.12.2-0",
+    "@polkadot/rpc-provider": "6.12.2-0",
+    "@polkadot/types": "6.12.2-0",
+    "@polkadot/types-support": "6.12.2-0",
     "@polkadot/util": "^8.1.2",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
