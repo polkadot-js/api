@@ -3,10 +3,9 @@
 
 import type { Codec, Registry } from '../types';
 
-import { Json, Option, Vec } from '@polkadot/types-codec';
+import { Json, Option, Text, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
-import { Text } from '../primitive/Text';
 import { u32 } from '../primitive/U32';
 
 function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {

@@ -90,7 +90,7 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  public readonly registry: CodecRegistry;
+  #registry: CodecRegistry;
 
   public createdAtHash?: IU8a;
 
@@ -112,7 +112,7 @@ export class Struct<
 
     super(decoded);
 
-    this.registry = registry;
+    this.#registry = registry;
     this.initialU8aLength = decodedLength;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
@@ -184,6 +184,10 @@ export class Struct<
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  public get registry (): CodecRegistry {
+    return this.#registry;
   }
 
   /**

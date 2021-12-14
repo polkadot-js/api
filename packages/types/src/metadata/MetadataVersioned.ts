@@ -139,6 +139,10 @@ export class MetadataVersioned extends Struct {
     return this.get('magicNumber') as MagicNumber;
   }
 
+  override get registry (): Registry {
+    return super.registry as Registry;
+  }
+
   /**
    * @description the metadata version this structure represents
    */
