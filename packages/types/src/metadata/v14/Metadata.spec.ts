@@ -17,16 +17,16 @@ testMeta(14, {
   kusama: {
     compare: kusamaJson as Record<string, unknown>,
     data: kusamaData,
-    types: kusamaTypes as Record<string, unknown>
+    types: kusamaTypes as unknown[]
   },
   polkadot: {
     compare: polkadotJson as Record<string, unknown>,
     data: polkadotData,
-    types: polkadotTypes as Record<string, unknown>
+    types: polkadotTypes as unknown[]
   },
   substrate: {
     compare: substrateJson as Record<string, unknown>,
     data: substrateData,
-    types: substrateTypes as Record<string, unknown>
+    types: substrateTypes as unknown[]
   }
 });
