@@ -12,7 +12,7 @@ import v1contractFlipper from '@polkadot/api-contract-support/contracts/ink/v1/f
 import { Code } from './Code';
 import { mockApi } from './mock';
 
-const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../../../api-contract-support/contracts/ink/v0/flipper.wasm'));
+const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../../../api-contract-support/src/contracts/ink/v0/flipper.wasm'));
 
 describe('Code', (): void => {
   it('can construct with an individual ABI/WASM combo', (): void => {
