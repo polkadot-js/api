@@ -20,14 +20,14 @@ export function createBluePrintTx <ApiType extends ApiTypes, R extends Submittab
   return (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
     isOptions(options)
       ? fn(options, params)
-      : fn(...extractOptions(options, params));
+      : fn(...extractOptions<BlueprintOptions>(options, params));
 }
 
 export function createBluePrintWithId <T> (fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => T): ContractGeneric<BlueprintOptions, T> {
   return (constructorOrId: AbiConstructor | string | number, options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): T =>
     isOptions(options)
       ? fn(constructorOrId, options, params)
-      : fn(constructorOrId, ...extractOptions(options, params));
+      : fn(constructorOrId, ...extractOptions<BlueprintOptions>(options, params));
 }
 
 export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): Uint8Array {

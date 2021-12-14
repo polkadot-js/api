@@ -257,7 +257,7 @@ export interface HostFnWeightsTo264 extends Struct {
 /** @name InstantiateRequest */
 export interface InstantiateRequest extends Struct {
   readonly origin: AccountId;
-  readonly endowment: Balance;
+  readonly value: Balance;
   readonly gasLimit: Gas;
   readonly code: Bytes;
   readonly data: Bytes;
