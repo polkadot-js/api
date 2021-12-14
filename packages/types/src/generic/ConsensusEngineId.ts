@@ -5,10 +5,9 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../interfaces';
 import type { AnyU8a } from '../types';
 
-import { U8aFixed } from '@polkadot/types-codec';
+import { Bytes, U8aFixed } from '@polkadot/types-codec';
 import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { Bytes } from '../primitive/Bytes';
 import { u32 } from '../primitive/U32';
 
 export const CID_AURA = stringToU8a('aura');

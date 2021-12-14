@@ -8,10 +8,10 @@ import type { SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
+import { Bytes } from '@polkadot/types-codec';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import { getSiName } from '../metadata/util';
-import { Bytes } from './Bytes';
 
 interface Decoded {
   key?: Uint8Array | string;

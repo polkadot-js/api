@@ -4,11 +4,10 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { Null } from '@polkadot/types-codec';
+export { Bytes, Null } from '@polkadot/types-codec';
 
 export { BitVec } from './BitVec';
 export { bool, bool as Bool } from './Bool';
-export { Bytes } from './Bytes';
 export { Data } from './Data';
 export { i8, i8 as I8 } from './I8';
 export { i16, i16 as I16 } from './I16';

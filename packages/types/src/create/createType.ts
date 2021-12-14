@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '../primitive/Bytes';
-import type { Codec, CodecClass, DetectCodec, Registry } from '../types';
+import type { Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { DetectCodec, Registry } from '../types';
 import type { CreateOptions } from './types';
 
-import { Option } from '@polkadot/types-codec';
+import { Bytes, Option } from '@polkadot/types-codec';
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClass } from './createClass';

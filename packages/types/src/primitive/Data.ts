@@ -4,10 +4,8 @@
 import type { CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { H256 } from '../interfaces/runtime';
 
-import { Enum } from '@polkadot/types-codec';
+import { Bytes, Enum } from '@polkadot/types-codec';
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
-
-import { Bytes } from './Bytes';
 
 /** @internal */
 function decodeDataU8a (registry: CodecRegistry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {

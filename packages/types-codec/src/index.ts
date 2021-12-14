@@ -10,6 +10,7 @@
 export { Base } from './Base';
 export { BTreeMap } from './BTreeMap';
 export { BTreeSet } from './BTreeSet';
+export { Bytes } from './Bytes';
 export { Compact } from './Compact';
 export { CodecDate, CodecDate as Date } from './Date';
 export { DoNotConstruct } from './DoNotConstruct';
