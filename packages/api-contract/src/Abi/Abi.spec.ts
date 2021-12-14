@@ -52,7 +52,7 @@ function stringifyJson (registry: Registry): string {
 describe('Abi', (): void => {
   describe('ABI', (): void => {
     Object.entries(abis).forEach(([abiName, _abi]) => {
-      const abi = _abi as JSONAbi;
+      const abi = _abi as unknown as JSONAbi;
 
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         try {
