@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types-codec';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
 import type { u8 } from '../../../primitive';
-import type { Registry } from '../../../types';
 import type { Errors, IsError } from '../types';
 
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';

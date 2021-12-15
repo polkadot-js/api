@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types-codec';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionMetadataV13, MetadataV13, MetadataV14, ModuleConstantMetadataV13, ModuleMetadataV13, PalletCallMetadataV14, PalletConstantMetadataV14, PalletErrorMetadataV14, PalletEventMetadataV14, PalletMetadataV14, PalletStorageMetadataV14, StorageEntryMetadataV14, StorageEntryTypeV14, StorageHasherV13, StorageMetadataV13 } from '../../interfaces/metadata';
 import type { SiVariant } from '../../interfaces/scaleInfo';
 import type { Type } from '../../primitive/Type';
@@ -289,7 +290,7 @@ function convertExtrinsic (registry: CodecRegistry, { signedExtensions, version 
 
 /** @internal */
 function createPallet (compatTypes: TypeSpec[], registry: CodecRegistry, mod: ModuleMetadataV13, { calls, constants, errors, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], errors: ErrorMetadataV13[] | null, events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
-  const sectionTypes = getModuleTypes(registry, stringCamelCase(mod.name));
+  const sectionTypes = getModuleTypes(registry as Registry, stringCamelCase(mod.name));
 
   return registry.createType('PalletMetadataV14', {
     calls: calls && convertCalls(compatTypes, registry, mod.name, calls, sectionTypes),

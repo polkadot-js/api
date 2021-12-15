@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
-import type { AnyJson, Registry } from '../types';
+import type { AnyJson } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
 import { assert } from '@polkadot/util';

@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
 import type { AnyJson, Registry } from '../../types';
 
@@ -28,7 +29,7 @@ export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, palle
   return registry.createType('MetadataLatest', {
     extrinsic,
     lookup: {
-      types: lookup.types.map(({ id, type }) =>
+      types: (lookup as Registry).types.map(({ id, type }) =>
         registry.createType('PortableType', {
           id,
           type: {

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, Codec, CodecRegistry } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
@@ -44,7 +44,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: CodecRegistry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
+  const outputType = getSiName((registry as Registry).lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
@@ -118,7 +118,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: CodecRegistry, value
   const { hashers, key } = meta.type.asMap;
   const keys = hashers.length === 1
     ? [key]
-    : registry.lookup.getSiType(key).def.asTuple;
+    : (registry as Registry).lookup.getSiType(key).def.asTuple;
 
   return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }
