@@ -27,7 +27,7 @@ export function decorateConstants (registry: CodecRegistry, { pallets }: Metadat
 
             (codec as unknown as Record<string, unknown>).meta = constant;
 
-            return codec;
+            return codec as ConstantCodec;
           },
           objectNameToCamel
         )

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { Registry } from '@polkadot/types/types';
 import type { ApiInterfaceRx } from '../../types';
 import type { SignedBlockExtended } from '../type/types';
 
@@ -32,7 +33,7 @@ export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): ()
         ]);
       }),
       map(([header, block, events]) =>
-        createSignedBlockExtended(block.registry, block, events, header.validators)
+        createSignedBlockExtended(block.registry as Registry, block, events, header.validators)
       )
     )
   );

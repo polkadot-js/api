@@ -39,10 +39,14 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 
 /** @internal */
 function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
-  const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
-
-  return new Uint8Array([vote | conviction.index]);
+  return new Uint8Array([
+    (
+      new Bool(registry, value.aye).isTrue
+        ? AYE_BITS
+        : NAY_BITS
+    ) |
+    registry.createType<Conviction>('Conviction', value.conviction || DEF_CONV).index
+  ]);
 }
 
 /** @internal */

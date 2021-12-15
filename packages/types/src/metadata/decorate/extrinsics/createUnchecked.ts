@@ -32,5 +32,5 @@ export function createUnchecked (registry: CodecRegistry, section: string, callI
   extrinsicFn.toJSON = (): AnyJson =>
     callMetadata.toJSON();
 
-  return extrinsicFn as CallFunction;
+  return extrinsicFn as unknown as CallFunction;
 }

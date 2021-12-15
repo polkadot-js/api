@@ -121,6 +121,7 @@ export interface Registry extends CodecRegistry {
   createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R>;
   createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, params: unknown[], options?: CodecCreateOptions): R;
+
   get <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined;
   getChainProperties (): ChainProperties | undefined;
   // getClassName (clazz: Constructor): string | undefined;
@@ -131,6 +132,7 @@ export interface Registry extends CodecRegistry {
   setKnownTypes (types: RegisteredTypes): void;
   // getSignedExtensionExtra (): Record<string, string>;
   // getSignedExtensionTypes (): Record<string, string>;
+
   // hasClass (name: string): boolean;
   // hasDef (name: string): boolean;
   // hasType (name: string): boolean;

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { Registry } from '@polkadot/types/types';
 import type { ApiInterfaceRx } from '../../types';
 import type { HeaderExtended } from '../type/types';
 
@@ -34,7 +35,7 @@ export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () 
       map(([header, validators]): HeaderExtended => {
         header.createdAtHash = header.hash;
 
-        return createHeaderExtended(header.registry, header, validators);
+        return createHeaderExtended(header.registry as Registry, header, validators);
       })
     )
   );

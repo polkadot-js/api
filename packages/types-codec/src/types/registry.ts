@@ -35,9 +35,10 @@ export interface CodecRegistry {
   isLookupType (value: string): boolean;
   createLookupType (lookupId: ICompact<INumber> | number): string;
 
-  createClass <T extends Codec = Codec, K extends string = string, R = T> (type: K): CodecClass<R>;
-  createType <T extends Codec = Codec, K extends string = string, R = T> (type: K, ...params: unknown[]): R;
-  createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = T> (type: K, params: unknown[], options?: CodecCreateOptions): R;
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<T>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): T;
+  createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CodecCreateOptions): T;
+
   // get <T extends Codec = Codec, K extends string = string, R = T> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined;
   // getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: CodecClass): string | undefined;
@@ -48,6 +49,7 @@ export interface CodecRegistry {
   // setKnownTypes (types: RegisteredTypes): void;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
+
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
