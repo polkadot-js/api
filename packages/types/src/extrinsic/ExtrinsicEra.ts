@@ -36,6 +36,80 @@ function getTrailingZeros (period: number): number {
   return index;
 }
 
+/** @internal */
+function decodeMortalEra (registry: CodecRegistry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
+  if (isU8a(value) || isHex(value) || Array.isArray(value)) {
+    return decodeMortalU8a(registry, u8aToU8a(value));
+  } else if (!value) {
+    return [new U64(registry), new U64(registry)];
+  } else if (isObject(value)) {
+    return decodeMortalObject(registry, value);
+  }
+
+  throw new Error('Invalid data passed to Mortal era');
+}
+
+/** @internal */
+function decodeMortalObject (registry: CodecRegistry, value: MortalMethod): MortalEraValue {
+  const { current, period } = value;
+  let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
+
+  calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
+
+  const phase = current % calPeriod;
+  const quantizeFactor = Math.max(calPeriod >> 12, 1);
+  const quantizedPhase = phase / quantizeFactor * quantizeFactor;
+
+  return [new U64(registry, calPeriod), new U64(registry, quantizedPhase)];
+}
+
+/** @internal */
+function decodeMortalU8a (registry: CodecRegistry, value: Uint8Array): MortalEraValue {
+  if (value.length === 0) {
+    return [new U64(registry), new U64(registry)];
+  }
+
+  const first = u8aToBn(value.subarray(0, 1)).toNumber();
+  const second = u8aToBn(value.subarray(1, 2)).toNumber();
+  const encoded: number = first + (second << 8);
+  const period = 2 << (encoded % (1 << 4));
+  const quantizeFactor = Math.max(period >> 12, 1);
+  const phase = (encoded >> 4) * quantizeFactor;
+
+  assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
+
+  return [new U64(registry, period), new U64(registry, phase)];
+}
+
+/** @internal */
+// eslint-disable-next-line @typescript-eslint/ban-types
+function decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
+  if (isU8a(value)) {
+    return (!value.length || value[0] === 0)
+      ? new Uint8Array([0])
+      : new Uint8Array([1, value[0], value[1]]);
+  } else if (!value) {
+    return new Uint8Array([0]);
+  } else if (value instanceof GenericExtrinsicEra) {
+    return decodeExtrinsicEra(value.toU8a());
+  } else if (isHex(value)) {
+    return decodeExtrinsicEra(hexToU8a(value));
+  } else if (isObject(value)) {
+    const entries = Object.entries(value as MortalEnumDef).map(([k, v]): [string, any] => [k.toLowerCase(), v]);
+    const mortal = entries.find(([k]) => k.toLowerCase() === 'mortalera');
+    const immortal = entries.find(([k]) => k.toLowerCase() === 'immortalera');
+
+    // this is to de-serialize from JSON
+    return mortal
+      ? { MortalEra: mortal[1] as string }
+      : immortal
+        ? { ImmortalEra: immortal[1] as string }
+        : { MortalEra: value };
+  }
+
+  throw new Error('Invalid data passed to Era');
+}
+
 /**
  * @name ImmortalEra
  * @description
@@ -60,52 +134,7 @@ export class MortalEra extends Tuple {
     super(registry, {
       period: U64,
       phase: U64
-    }, MortalEra._decodeMortalEra(registry, value));
-  }
-
-  /** @internal */
-  private static _decodeMortalEra (registry: CodecRegistry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
-    if (isU8a(value) || isHex(value) || Array.isArray(value)) {
-      return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
-    } else if (!value) {
-      return [new U64(registry), new U64(registry)];
-    } else if (isObject(value)) {
-      return MortalEra._decodeMortalObject(registry, value);
-    }
-
-    throw new Error('Invalid data passed to Mortal era');
-  }
-
-  /** @internal */
-  private static _decodeMortalObject (registry: CodecRegistry, value: MortalMethod): MortalEraValue {
-    const { current, period } = value;
-    let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
-
-    calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
-
-    const phase = current % calPeriod;
-    const quantizeFactor = Math.max(calPeriod >> 12, 1);
-    const quantizedPhase = phase / quantizeFactor * quantizeFactor;
-
-    return [new U64(registry, calPeriod), new U64(registry, quantizedPhase)];
-  }
-
-  /** @internal */
-  private static _decodeMortalU8a (registry: CodecRegistry, value: Uint8Array): MortalEraValue {
-    if (value.length === 0) {
-      return [new U64(registry), new U64(registry)];
-    }
-
-    const first = u8aToBn(value.subarray(0, 1)).toNumber();
-    const second = u8aToBn(value.subarray(1, 2)).toNumber();
-    const encoded: number = first + (second << 8);
-    const period = 2 << (encoded % (1 << 4));
-    const quantizeFactor = Math.max(period >> 12, 1);
-    const phase = (encoded >> 4) * quantizeFactor;
-
-    assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
-
-    return [new U64(registry, period), new U64(registry, phase)];
+    }, decodeMortalEra(registry, value));
   }
 
   /**
@@ -200,36 +229,7 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
     super(registry, {
       ImmortalEra,
       MortalEra
-    }, GenericExtrinsicEra._decodeExtrinsicEra(value as string));
-  }
-
-  /** @internal */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  private static _decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (isU8a(value)) {
-      return (!value.length || value[0] === 0)
-        ? new Uint8Array([0])
-        : new Uint8Array([1, value[0], value[1]]);
-    } else if (!value) {
-      return new Uint8Array([0]);
-    } else if (value instanceof GenericExtrinsicEra) {
-      return GenericExtrinsicEra._decodeExtrinsicEra(value.toU8a());
-    } else if (isHex(value)) {
-      return GenericExtrinsicEra._decodeExtrinsicEra(hexToU8a(value));
-    } else if (isObject(value)) {
-      const entries = Object.entries(value as MortalEnumDef).map(([k, v]): [string, any] => [k.toLowerCase(), v]);
-      const mortal = entries.find(([k]) => k.toLowerCase() === 'mortalera');
-      const immortal = entries.find(([k]) => k.toLowerCase() === 'immortalera');
-
-      // this is to de-serialize from JSON
-      return mortal
-        ? { MortalEra: mortal[1] as string }
-        : immortal
-          ? { ImmortalEra: immortal[1] as string }
-          : { MortalEra: value };
-    }
-
-    throw new Error('Invalid data passed to Era');
+    }, decodeExtrinsicEra(value as string));
   }
 
   /**
@@ -247,7 +247,7 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   public get asImmortalEra (): ImmortalEra {
     assert(this.isImmortalEra, () => `Cannot convert '${this.type}' via asImmortalEra`);
 
-    return this.value as ImmortalEra;
+    return this.inner as ImmortalEra;
   }
 
   /**
@@ -256,7 +256,7 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   public get asMortalEra (): MortalEra {
     assert(this.isMortalEra, () => `Cannot convert '${this.type}' via asMortalEra`);
 
-    return this.value as MortalEra;
+    return this.inner as MortalEra;
   }
 
   /**
