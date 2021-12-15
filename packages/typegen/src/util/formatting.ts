@@ -9,6 +9,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';
 
+import * as typesCodec from '@polkadot/types-codec';
 import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create';
 import { isString, stringify } from '@polkadot/util';
 
@@ -26,24 +27,44 @@ interface This {
 }
 
 const NO_CODEC = ['Tuple', 'VecFixed'];
+const ON_CODEC = Object.keys(typesCodec);
+const ON_CODEC_TYPES = ['Codec', 'AnyJson', 'AnyFunction', 'AnyNumber', 'AnyString', 'AnyTuple', 'AnyU8a', 'ICompact', 'IEnum', 'IMap', 'INumber', 'IOption', 'IResult', 'ISet', 'IStruct', 'ITuple', 'IU8a', 'IVec', 'IMethod'];
 
 export const HEADER = (type: 'chain' | 'defs'): string => `// Auto-generated via \`yarn polkadot-types-from-${type}\`, do not edit\n/* eslint-disable */\n\n`;
 
 function extractImports ({ imports, types }: This): string[] {
+  const toplevel = [
+    ...Object.keys(imports.codecTypes),
+    ...Object.keys(imports.extrinsicTypes),
+    ...Object.keys(imports.genericTypes),
+    ...Object.keys(imports.metadataTypes),
+    ...Object.keys(imports.primitiveTypes)
+  ];
+
   return [
     {
       file: '@polkadot/types',
-      types: [
-        ...Object.keys(imports.codecTypes).filter((name) => !NO_CODEC.includes(name)),
-        ...Object.keys(imports.extrinsicTypes),
-        ...Object.keys(imports.genericTypes),
-        ...Object.keys(imports.metadataTypes),
-        ...Object.keys(imports.primitiveTypes)
-      ]
+      types: toplevel.filter((n) =>
+        !NO_CODEC.includes(n) && !ON_CODEC.includes(n)
+      )
     },
     {
       file: '@polkadot/types/types',
-      types: Object.keys(imports.typesTypes)
+      types: Object.keys(imports.typesTypes).filter((n) =>
+        !ON_CODEC_TYPES.includes(n)
+      )
+    },
+    {
+      file: '@polkadot/types-codec',
+      types: toplevel.filter((n) =>
+        !NO_CODEC.includes(n) && ON_CODEC.includes(n)
+      )
+    },
+    {
+      file: '@polkadot/types-codec/types',
+      types: Object.keys(imports.typesTypes).filter((n) =>
+        ON_CODEC_TYPES.includes(n)
+      )
     },
     ...types
   ]
