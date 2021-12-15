@@ -16,7 +16,7 @@ function decodeU8a (registry: CodecRegistry, u8a: Uint8Array): unknown {
   } else if (u8a.length === 20) {
     return { Address20: u8a };
   } else if (u8a.length <= 8) {
-    return { Index: registry.createType<GenericAccountIndex>('AccountIndex', u8a).toNumber() };
+    return { Index: registry.createTypeUnsafe<GenericAccountIndex>('AccountIndex', [u8a]).toNumber() };
   }
 
   return u8a;

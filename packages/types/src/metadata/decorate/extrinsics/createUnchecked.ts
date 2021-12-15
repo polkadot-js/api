@@ -19,7 +19,7 @@ export function createUnchecked (registry: CodecRegistry, section: string, callI
   const extrinsicFn = (...args: any[]): Call => {
     assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length} arguments, got ${args.length}.`);
 
-    return registry.createType('Call', { args, callIndex }, callMetadata);
+    return registry.createTypeUnsafe('Call', [{ args, callIndex }, callMetadata]);
   };
 
   extrinsicFn.is = <A extends AnyTuple> (tx: IMethod<AnyTuple>): tx is IMethod<A> =>

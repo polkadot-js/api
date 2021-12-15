@@ -13,15 +13,17 @@ function createValue (registry: CodecRegistry, type: string, value: unknown, asA
     return value as Option<Codec>;
   }
 
-  return registry.createType(
-    type as 'Option<u32>',
-    asArray
-      ? isNull(value) || isUndefined(value)
-        ? null
-        : Array.isArray(value)
-          ? value
-          : [value]
-      : value
+  return registry.createTypeUnsafe<Option<u32>>(
+    type,
+    [
+      asArray
+        ? isNull(value) || isUndefined(value)
+          ? null
+          : Array.isArray(value)
+            ? value
+            : [value]
+        : value
+    ]
   );
 }
 
@@ -46,9 +48,9 @@ function decode (registry: CodecRegistry, value?: Map<string, unknown> | Record<
 
     return all;
   }, {
-    ss58Format: registry.createType('Option<u32>'),
-    tokenDecimals: registry.createType('Option<Vec<u32>>' as 'Vec<u32>'),
-    tokenSymbol: registry.createType('Option<Vec<Text>>' as 'Vec<Text>')
+    ss58Format: registry.createTypeUnsafe('Option<u32>', []),
+    tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
+    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
   });
 }
 

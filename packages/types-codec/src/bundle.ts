@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export * from './utils';
+
 export { AbstractArray } from './abstract/AbstractArray';
 export { AbstractInt } from './abstract/AbstractInt';
 

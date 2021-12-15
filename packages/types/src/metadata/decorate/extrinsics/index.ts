@@ -40,7 +40,7 @@ export function createCallFunction (registry: CodecRegistry, lookup: PortableReg
     registry,
     sectionName,
     new Uint8Array([sectionIndex, index.toNumber()]),
-    registry.createType('FunctionMetadataLatest', objectSpread({ args }, variant))
+    registry.createTypeUnsafe('FunctionMetadataLatest', [objectSpread({ args }, variant)])
   );
 }
 

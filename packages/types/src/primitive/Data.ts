@@ -18,7 +18,7 @@ function decodeDataU8a (registry: CodecRegistry, value: Uint8Array): [undefined 
     const data = value.subarray(1, length + 1);
 
     // in this case, we are passing a Raw back (since we have no length)
-    return [registry.createType<IU8a>('Raw', data), 1];
+    return [registry.createTypeUnsafe<IU8a>('Raw', [data]), 1];
   } else if (indicator >= 34 && indicator <= 37) {
     return [value.subarray(1, 32 + 1), indicator - 32]; // 34 becomes 2
   }

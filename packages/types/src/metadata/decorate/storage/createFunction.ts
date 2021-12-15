@@ -52,7 +52,7 @@ export function createKeyRaw (registry: CodecRegistry, itemFn: CreateItemBase, {
 
   for (let i = 0; i < keys.length; i++) {
     extra[i] = getHasher(hashers[i])(
-      registry.createType(registry.createLookupType(keys[i]), args[i]).toU8a()
+      registry.createTypeUnsafe(registry.createLookupType(keys[i]), [args[i]]).toU8a()
     );
   }
 
@@ -132,17 +132,17 @@ function extendHeadMeta (registry: CodecRegistry, { meta: { docs, name, type }, 
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
+  (iterFn as IterFn).meta = registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
     docs,
-    fallback: registry.createType('Bytes'),
-    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    fallback: registry.createTypeUnsafe('Bytes', []),
+    modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', [1]), // required
     name,
     // FIXME???
-    type: registry.createType('StorageEntryTypeLatest', outputType, 0)
-  });
+    type: registry.createTypeUnsafe('StorageEntryTypeLatest', [outputType, 0])
+  }]);
 
   return (...args: unknown[]) =>
-    registry.createType('StorageKey', iterFn(...args), { method, section });
+    registry.createTypeUnsafe('StorageKey', [iterFn(...args), { method, section }]);
 }
 
 /** @internal */

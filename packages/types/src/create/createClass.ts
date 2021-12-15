@@ -203,6 +203,10 @@ export function getTypeClass<T extends Codec = Codec> (registry: CodecRegistry, 
 }
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<DetectCodec<T, K>> {
+  return createClassUnsafe(registry, type);
+}
+
+export function createClassUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<T> {
   return getTypeClass(
     registry,
     registry.isLookupType(type)

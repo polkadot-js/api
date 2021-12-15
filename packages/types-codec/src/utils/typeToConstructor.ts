@@ -8,7 +8,7 @@ import { isString } from '@polkadot/util';
 export function typeToConstructor <T extends Codec = Codec> (registry: CodecRegistry, type: string | CodecClass<T>): CodecClass<T> {
   return (
     isString(type)
-      ? registry.createClass(type)
+      ? registry.createClassUnsafe(type)
       : type
   );
 }

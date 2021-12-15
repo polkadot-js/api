@@ -200,14 +200,14 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a
     // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return registry.createType(type, value, { isSigned, version });
+    return registry.createTypeUnsafe(type, [value, { isSigned, version }]);
   }
 
   /** @internal */
   private static _decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (isU8a(value) || Array.isArray(value) || isHex(value)) {
       return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value), version);
-    } else if (value instanceof registry.createClass('Call')) {
+    } else if (value instanceof registry.createClassUnsafe('Call')) {
       return GenericExtrinsic._newFromValue(registry, { method: value }, version);
     }
 

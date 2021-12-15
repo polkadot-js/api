@@ -87,7 +87,7 @@ export class GenericAccountIndex extends u32 {
     }
 
     // convert and compare
-    return super.eq(this.registry.createType('AccountIndex', other));
+    return super.eq(this.registry.createTypeUnsafe('AccountIndex', [other]));
   }
 
   /**

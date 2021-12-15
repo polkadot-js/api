@@ -45,7 +45,7 @@ function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
         ? AYE_BITS
         : NAY_BITS
     ) |
-    registry.createType<Conviction>('Conviction', value.conviction || DEF_CONV).index
+    registry.createTypeUnsafe<Conviction>('Conviction', [value.conviction || DEF_CONV]).index
   ]);
 }
 
@@ -81,7 +81,7 @@ export class GenericVote extends U8aFixed {
     super(registry, decoded, 8);
 
     this.#aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this.#conviction = this.registry.createType('Conviction', decoded[0] & CON_MASK);
+    this.#conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
   }
 
   /**

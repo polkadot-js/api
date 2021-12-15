@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { CodecCreateOptions, CodecRegistry, RegistryTypes } from '@polkadot/types-codec/types';
+import type { CodecRegistry, RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
@@ -118,17 +118,18 @@ export interface Registry extends CodecRegistry {
   // isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R>;
-  createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R;
-  createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, params: unknown[], options?: CodecCreateOptions): R;
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
 
-  get <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
   getChainProperties (): ChainProperties | undefined;
   // getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
   getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R>;
-  getOrUnknown <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R>;
+
+  // getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): CodecClass<DetectCodec<T, K>>;
+  // getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<DetectCodec<T, K>>;
+
   setKnownTypes (types: RegisteredTypes): void;
   // getSignedExtensionExtra (): Record<string, string>;
   // getSignedExtensionTypes (): Record<string, string>;

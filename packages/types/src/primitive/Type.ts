@@ -3,8 +3,7 @@
 
 import type { CodecRegistry } from '@polkadot/types-codec/types';
 
-import { Text } from '@polkadot/types-codec';
-import { sanitize } from '@polkadot/types-codec/utils';
+import { sanitize, Text } from '@polkadot/types-codec';
 
 /**
  * @name Type

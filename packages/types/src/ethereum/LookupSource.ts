@@ -22,8 +22,8 @@ function decodeString (registry: CodecRegistry, value: string): GenericEthereumA
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
-    ? registry.createType('EthereumAccountId', decoded)
-    : registry.createType('AccountIndex', u8aToBn(decoded, true));
+    ? registry.createTypeUnsafe('EthereumAccountId', [decoded])
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded, true)]);
 }
 
 /** @internal */
@@ -31,14 +31,14 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereum
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
-    return registry.createType('EthereumAccountId', value);
+    return registry.createTypeUnsafe('EthereumAccountId', [value]);
   } else if (value[0] === 0xff) {
-    return registry.createType('EthereumAccountId', value.subarray(1));
+    return registry.createTypeUnsafe('EthereumAccountId', [value.subarray(1)]);
   }
 
   const [offset, length] = GenericAccountIndex.readLength(value);
 
-  return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
 /**
@@ -63,7 +63,7 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
         : isU8a(value) || Array.isArray(value) || isHex(value)
           ? decodeU8a(registry, u8aToU8a(value))
           : isBn(value) || isNumber(value) || isBigInt(value)
-            ? registry.createType('AccountIndex', value)
+            ? registry.createTypeUnsafe('AccountIndex', [value])
             : decodeString(registry, value);
   }
 

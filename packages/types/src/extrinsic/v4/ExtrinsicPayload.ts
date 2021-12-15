@@ -33,7 +33,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     // this is an enum, in the case of AnySignature, this is a Hash only
     // (which may be 64 or 65 bytes)
     this.#signOptions = {
-      withType: registry.createType('ExtrinsicSignature') instanceof Enum
+      withType: registry.createTypeUnsafe('ExtrinsicSignature', []) instanceof Enum
     };
   }
 

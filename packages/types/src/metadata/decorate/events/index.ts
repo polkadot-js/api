@@ -30,7 +30,7 @@ export function decorateEvents (registry: CodecRegistry, { lookup, pallets }: Me
         is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
           sectionIndex === eventRecord.index[0] &&
           variant.index.eq(eventRecord.index[1]),
-        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
+        meta: registry.createTypeUnsafe('EventMetadataLatest', [variantToMeta(lookup, variant)])
       }))
     );
   }

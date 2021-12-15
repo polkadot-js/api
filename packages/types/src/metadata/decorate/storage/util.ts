@@ -64,13 +64,13 @@ function findSiType (registry: Registry, orig: string): PortableType | undefined
 export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: CodecRegistry) => StorageEntry {
   return (registry: CodecRegistry): StorageEntry =>
     createFunction(registry, {
-      meta: registry.createType('StorageEntryMetadataLatest', {
-        docs: registry.createType('Vec<Text>', [docs]),
-        modifier: registry.createType('StorageEntryModifierLatest', 'Required'),
-        name: registry.createType('Text', method),
+      meta: registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
+        docs: registry.createTypeUnsafe('Vec<Text>', [[docs]]),
+        modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', ['Required']),
+        name: registry.createTypeUnsafe('Text', [method]),
         toJSON: (): any => key,
-        type: registry.createType('StorageEntryTypeLatest', { Plain: findSiType(registry as Registry, type)?.id || 0 })
-      }),
+        type: registry.createTypeUnsafe('StorageEntryTypeLatest', [{ Plain: findSiType(registry as Registry, type)?.id || 0 }])
+      }]),
       method,
       prefix,
       section

@@ -15,7 +15,7 @@ export const CID_POW = stringToU8a('pow_');
 
 function getAuraAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
   return sessionValidators[
-    registry.createType<RawAuraPreDigest>('RawAuraPreDigest', bytes.toU8a(true))
+    registry.createTypeUnsafe<RawAuraPreDigest>('RawAuraPreDigest', [bytes.toU8a(true)])
       .slotNumber
       .mod(new BN(sessionValidators.length))
       .toNumber()
@@ -23,7 +23,7 @@ function getAuraAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators
 }
 
 function getBabeAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-  const digest = registry.createType<RawBabePreDigestCompat>('RawBabePreDigestCompat', bytes.toU8a(true));
+  const digest = registry.createTypeUnsafe<RawBabePreDigestCompat>('RawBabePreDigestCompat', [bytes.toU8a(true)]);
 
   return sessionValidators[
     (digest.value as u32).toNumber()
@@ -31,7 +31,7 @@ function getBabeAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators
 }
 
 function getBytesAsAuthor (registry: CodecRegistry, bytes: Bytes): AccountId {
-  return registry.createType('AccountId', bytes);
+  return registry.createTypeUnsafe('AccountId', [bytes]);
 }
 
 /**

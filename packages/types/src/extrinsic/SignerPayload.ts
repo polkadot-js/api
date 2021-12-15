@@ -151,7 +151,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     const payload = this.toPayload();
     const data = u8aToHex(
       this.registry
-        .createType('ExtrinsicPayload', payload, { version: payload.version })
+        .createTypeUnsafe('ExtrinsicPayload', [payload, { version: payload.version }])
         // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
         .toU8a({ method: true })
     );

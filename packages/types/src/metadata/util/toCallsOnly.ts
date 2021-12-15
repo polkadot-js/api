@@ -26,23 +26,23 @@ function trimDocs (docs: Text[]): string[] {
 
 /** @internal */
 export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
-  return registry.createType('MetadataLatest', {
+  return registry.createTypeUnsafe('MetadataLatest', [{
     extrinsic,
     lookup: {
       types: lookup.types.map(({ id, type }) =>
-        registry.createType('PortableType', {
+        registry.createTypeUnsafe('PortableType', [{
           id,
           type: {
             ...type,
             docs: trimDocs(type.docs)
           }
-        })
+        }])
       )
     },
     pallets: pallets.map(({ calls, index, name }): ModuleMetadataTrimmed => ({
-      calls: registry.createType('Option<PalletCallMetadataLatest>', calls.unwrapOr(null)),
+      calls: registry.createTypeUnsafe('Option<PalletCallMetadataLatest>', [calls.unwrapOr(null)]),
       index,
       name
     }))
-  }).toJSON();
+  }]).toJSON();
 }

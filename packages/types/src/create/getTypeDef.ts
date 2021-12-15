@@ -3,7 +3,7 @@
 
 import type { TypeDef } from './types';
 
-import { sanitize } from '@polkadot/types-codec/utils';
+import { sanitize } from '@polkadot/types-codec';
 import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
 
 import { TypeDefInfo } from './types';

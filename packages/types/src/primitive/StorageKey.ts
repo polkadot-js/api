@@ -99,8 +99,8 @@ function decodeHashers <A extends AnyTuple> (registry: CodecRegistry, value: Uin
     const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(registry.createLookupType(type) as 'Raw', value.subarray(offset + hashLen))
-      : registry.createType('Raw', value.subarray(offset, offset + hashLen));
+      ? registry.createTypeUnsafe(registry.createLookupType(type), [value.subarray(offset + hashLen)])
+      : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result[i] = decoded;

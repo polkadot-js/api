@@ -19,7 +19,7 @@ import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadat
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
-import { constructTypeClass, createClass } from './createClass';
+import { constructTypeClass, createClassUnsafe } from './createClass';
 import { createTypeUnsafe } from './createType';
 import { lazyVariants } from './lazy';
 
@@ -87,7 +87,7 @@ function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLat
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
-        const meta = registry.createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+        const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: CodecRegistry, value: Uint8Array) {
@@ -129,7 +129,7 @@ function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainP
 
   const { tokenDecimals, tokenSymbol } = original || {};
 
-  return registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
+  return (registry as Registry).createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
 }
 
 export class TypeRegistry implements Registry {
@@ -267,7 +267,14 @@ export class TypeRegistry implements Registry {
    * @describe Creates an instance of the class
    */
   public createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R> {
-    return createClass(this, type) as unknown as CodecClass<R>;
+    return this.createClassUnsafe(type) as unknown as CodecClass<R>;
+  }
+
+  /**
+   * @describe Creates an instance of the class
+   */
+  public createClassUnsafe <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<T> {
+    return createClassUnsafe(this, type);
   }
 
   /**
@@ -325,7 +332,7 @@ export class TypeRegistry implements Registry {
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        BaseType = createClass(this, definition);
+        BaseType = createClassUnsafe(this, definition);
       } else if (knownTypeDef) {
         BaseType = constructTypeClass(this, knownTypeDef);
       } else if (withUnknown) {

@@ -131,19 +131,19 @@ function convertCalls (compatTypes: TypeSpec[], registry: CodecRegistry, modName
   const variants = calls.map(({ args, docs, name }, index): SiVariant => {
     setTypeOverride(sectionTypes, args.map(({ type }) => type));
 
-    return registry.createType('SiVariant', {
+    return registry.createTypeUnsafe('SiVariant', [{
       docs,
       fields: args.map(({ name, type }) =>
-        registry.createType('SiField', { name, type: compatType(compatTypes, type) })
+        registry.createTypeUnsafe('SiField', [{ name, type: compatType(compatTypes, type) }])
       ),
       index,
       name
-    });
+    }]);
   });
 
-  return registry.createType('PalletCallMetadataV14', {
+  return registry.createTypeUnsafe('PalletCallMetadataV14', [{
     type: makeVariantType(modName, 'Call', compatTypes, variants)
-  });
+  }]);
 }
 
 /**
@@ -154,12 +154,12 @@ function convertConstants (compatTypes: TypeSpec[], registry: CodecRegistry, con
   return constants.map(({ docs, name, type, value }): PalletConstantMetadataV14 => {
     setTypeOverride(sectionTypes, [type]);
 
-    return registry.createType('PalletConstantMetadataV14', {
+    return registry.createTypeUnsafe('PalletConstantMetadataV14', [{
       docs,
       name,
       type: compatType(compatTypes, type),
       value
-    });
+    }]);
   });
 }
 
@@ -170,17 +170,17 @@ function convertConstants (compatTypes: TypeSpec[], registry: CodecRegistry, con
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertErrors (compatTypes: TypeSpec[], registry: CodecRegistry, modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
   const variants = errors.map(({ docs, name }, index): SiVariant =>
-    registry.createType('SiVariant', {
+    registry.createTypeUnsafe('SiVariant', [{
       docs,
       fields: [],
       index,
       name
-    })
+    }])
   );
 
-  return registry.createType('PalletErrorMetadataV14', {
+  return registry.createTypeUnsafe('PalletErrorMetadataV14', [{
     type: makeVariantType(modName, 'Error', compatTypes, variants)
-  });
+  }]);
 }
 
 /**
@@ -191,25 +191,25 @@ function convertEvents (compatTypes: TypeSpec[], registry: CodecRegistry, modNam
   const variants = events.map(({ args, docs, name }, index): SiVariant => {
     setTypeOverride(sectionTypes, args);
 
-    return registry.createType('SiVariant', {
+    return registry.createTypeUnsafe('SiVariant', [{
       docs,
       fields: args.map((t) =>
-        registry.createType('SiField', { type: compatType(compatTypes, t) })
+        registry.createTypeUnsafe('SiField', [{ type: compatType(compatTypes, t) }])
       ),
       index,
       name
-    });
+    }]);
   });
 
-  return registry.createType('PalletEventMetadataV14', {
+  return registry.createTypeUnsafe('PalletEventMetadataV14', [{
     type: makeVariantType(modName, 'Event', compatTypes, variants)
-  });
+  }]);
 }
 
 function createMapEntry (compatTypes: TypeSpec[], registry: CodecRegistry, sectionTypes: OverrideModuleType, { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
   setTypeOverride(sectionTypes, [value, ...(Array.isArray(keys) ? keys : [keys])]);
 
-  return registry.createType('StorageEntryTypeV14', {
+  return registry.createTypeUnsafe('StorageEntryTypeV14', [{
     Map: {
       hashers,
       key: hashers.length === 1
@@ -217,7 +217,7 @@ function createMapEntry (compatTypes: TypeSpec[], registry: CodecRegistry, secti
         : makeTupleType(compatTypes, keys.map((t) => compatType(compatTypes, t))),
       value: compatType(compatTypes, value)
     }
-  });
+  }]);
 }
 
 /**
@@ -225,7 +225,7 @@ function createMapEntry (compatTypes: TypeSpec[], registry: CodecRegistry, secti
  * @internal
  **/
 function convertStorage (compatTypes: TypeSpec[], registry: CodecRegistry, { items, prefix }: StorageMetadataV13, sectionTypes: OverrideModuleType): PalletStorageMetadataV14 {
-  return registry.createType('PalletStorageMetadataV14', {
+  return registry.createTypeUnsafe('PalletStorageMetadataV14', [{
     items: items.map(({ docs, fallback, modifier, name, type }): StorageEntryMetadataV14 => {
       let entryType: StorageEntryTypeV14;
 
@@ -234,9 +234,9 @@ function convertStorage (compatTypes: TypeSpec[], registry: CodecRegistry, { ite
 
         setTypeOverride(sectionTypes, [plain]);
 
-        entryType = registry.createType('StorageEntryTypeV14', {
+        entryType = registry.createTypeUnsafe('StorageEntryTypeV14', [{
           Plain: compatType(compatTypes, plain)
-        });
+        }]);
       } else if (type.isMap) {
         const map = type.asMap;
 
@@ -263,36 +263,36 @@ function convertStorage (compatTypes: TypeSpec[], registry: CodecRegistry, { ite
         });
       }
 
-      return registry.createType('StorageEntryMetadataV14', {
+      return registry.createTypeUnsafe('StorageEntryMetadataV14', [{
         docs,
         fallback,
         modifier,
         name,
         type: entryType
-      });
+      }]);
     }),
     prefix
-  });
+  }]);
 }
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertExtrinsic (registry: CodecRegistry, { signedExtensions, version }: ExtrinsicMetadataV13): ExtrinsicMetadataV14 {
-  return registry.createType('ExtrinsicMetadataV14', {
+  return registry.createTypeUnsafe('ExtrinsicMetadataV14', [{
     signedExtensions: signedExtensions.map((identifier) => ({
       identifier,
       type: 0 // we don't map the fields at all
     })),
     type: 0, // Map to extrinsic like in v14?
     version: version
-  });
+  }]);
 }
 
 /** @internal */
 function createPallet (compatTypes: TypeSpec[], registry: CodecRegistry, mod: ModuleMetadataV13, { calls, constants, errors, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], errors: ErrorMetadataV13[] | null, events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
   const sectionTypes = getModuleTypes(registry as Registry, stringCamelCase(mod.name));
 
-  return registry.createType('PalletMetadataV14', {
+  return registry.createTypeUnsafe('PalletMetadataV14', [{
     calls: calls && convertCalls(compatTypes, registry, mod.name, calls, sectionTypes),
     constants: convertConstants(compatTypes, registry, constants, sectionTypes),
     errors: errors && convertErrors(compatTypes, registry, mod.name, errors, sectionTypes),
@@ -300,7 +300,7 @@ function createPallet (compatTypes: TypeSpec[], registry: CodecRegistry, mod: Mo
     index: mod.index,
     name: mod.name,
     storage: storage && convertStorage(compatTypes, registry, storage, sectionTypes)
-  });
+  }]);
 }
 
 /**
@@ -324,13 +324,13 @@ export function toV14 (registry: CodecRegistry, v13: MetadataV13, metaVersion: n
     })
   );
 
-  return registry.createType('MetadataV14', {
+  return registry.createTypeUnsafe('MetadataV14', [{
     extrinsic,
     lookup: {
       types: compatTypes.map((type, id) =>
-        registry.createType('PortableType', { id, type })
+        registry.createTypeUnsafe('PortableType', [{ id, type }])
       )
     },
     pallets
-  });
+  }]);
 }

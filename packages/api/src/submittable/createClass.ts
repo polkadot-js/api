@@ -40,10 +40,10 @@ function makeEraOptions (api: ApiInterfaceRx, registry: CodecRegistry, partialOp
 
   return makeSignOptions(api, partialOptions, {
     blockHash: header.hash,
-    era: registry.createType('ExtrinsicEra', {
+    era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
       period: partialOptions.era || mortalLength
-    }),
+    }]),
     nonce
   });
 }
@@ -286,11 +286,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
-      const payload = this.registry.createType<SignerPayload>('SignerPayload', objectSpread({}, options, {
+      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
         method: this.method
-      }));
+      })]);
       let result: SignerResult;
 
       if (signer.signPayload) {

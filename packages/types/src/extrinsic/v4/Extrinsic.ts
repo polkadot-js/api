@@ -36,12 +36,12 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   public static decodeExtrinsic (registry: CodecRegistry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
-    } else if (value instanceof registry.createClass('Call')) {
+    } else if (value instanceof registry.createClassUnsafe('Call')) {
       return { method: value as Call };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = registry.createType<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', value, { isSigned });
-      const method = registry.createType<Call>('Call', value.subarray(signature.encodedLength));
+      const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
 
       return {
         method,

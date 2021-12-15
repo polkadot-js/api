@@ -45,7 +45,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
       return value._raw;
     }
 
-    return registry.createType(VERSIONS[version] || VERSIONS[0], value, { version });
+    return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
   }
 
   /**
@@ -67,7 +67,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return this._raw.genesisHash || this.registry.createType('Hash');
+    return this._raw.genesisHash || this.registry.createTypeUnsafe('Hash', []);
   }
 
   /**
@@ -89,7 +89,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return this._raw.specVersion || this.registry.createType('u32');
+    return this._raw.specVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**
@@ -97,7 +97,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return this._raw.tip || this.registry.createType('Compact<Balance>');
+    return this._raw.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
   }
 
   /**
@@ -105,7 +105,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get transactionVersion (): u32 {
     // NOTE only v4+
-    return this._raw.transactionVersion || this.registry.createType('u32');
+    return this._raw.transactionVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**

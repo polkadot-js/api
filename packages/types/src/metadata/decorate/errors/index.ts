@@ -43,7 +43,7 @@ export function decorateErrors (registry: CodecRegistry, { lookup, pallets }: Me
           is: ({ error, index }: DispatchErrorModule) =>
             index.eq(sectionIndex) &&
             error.eq(variant.index),
-          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
+          meta: registry.createTypeUnsafe('ErrorMetadataLatest', [variantToMeta(lookup, variant)])
         }))
       );
     }

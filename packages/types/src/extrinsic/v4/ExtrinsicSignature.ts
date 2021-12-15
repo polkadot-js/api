@@ -18,7 +18,7 @@ import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
 function toAddress (registry: CodecRegistry, address: Address | Uint8Array | string): Address {
-  return registry.createType('Address', isU8a(address) ? u8aToHex(address) : address);
+  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
 }
 
 /**
@@ -143,7 +143,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
     return this._injectSignature(
       toAddress(this.registry, signer),
-      this.registry.createType('ExtrinsicSignature', signature),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
       new GenericExtrinsicPayloadV4(this.registry, payload)
     );
   }
@@ -168,11 +168,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
     assert(account && account.addressRaw, () => `Expected a valid keypair for signing, found ${stringify(account)}`);
 
-    const signer = toAddress(this.registry, account.addressRaw);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType<ExtrinsicSignature>('ExtrinsicSignature', payload.sign(account));
 
-    return this._injectSignature(signer, signature, payload);
+    return this._injectSignature(
+      toAddress(this.registry, account.addressRaw),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [payload.sign(account)]),
+      payload
+    );
   }
 
   /**
@@ -181,11 +183,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
     assert(address, () => `Expected a valid address for signing, found ${stringify(address)}`);
 
-    const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType<ExtrinsicSignature>('ExtrinsicSignature', FAKE_SIGNATURE);
 
-    return this._injectSignature(signer, signature, payload);
+    return this._injectSignature(
+      toAddress(this.registry, address),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
+      payload
+    );
   }
 
   /**

@@ -8,13 +8,13 @@ import type { MetadataV11, MetadataV12, ModuleMetadataV12 } from '../../interfac
  * @internal
  **/
 export function toV12 (registry: CodecRegistry, { extrinsic, modules }: MetadataV11): MetadataV12 {
-  return registry.createType('MetadataV12', {
+  return registry.createTypeUnsafe('MetadataV12', [{
     extrinsic,
     modules: modules.map((mod): ModuleMetadataV12 =>
-      registry.createType('ModuleMetadataV12', {
+      registry.createTypeUnsafe('ModuleMetadataV12', [{
         ...mod,
         index: 255
-      })
+      }])
     )
-  });
+  }]);
 }

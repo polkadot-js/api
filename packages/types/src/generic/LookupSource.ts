@@ -22,8 +22,8 @@ function decodeString (registry: CodecRegistry, value: string): GenericAccountId
   const decoded = decodeAddress(value);
 
   return decoded.length === 32
-    ? registry.createType('AccountId', decoded)
-    : registry.createType('AccountIndex', u8aToBn(decoded, true));
+    ? registry.createTypeUnsafe('AccountId', [decoded])
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded, true)]);
 }
 
 /** @internal */
@@ -31,14 +31,14 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountI
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 32) {
-    return registry.createType('AccountId', value);
+    return registry.createTypeUnsafe('AccountId', [value]);
   } else if (value[0] === 0xff) {
-    return registry.createType('AccountId', value.subarray(1));
+    return registry.createTypeUnsafe('AccountId', [value.subarray(1)]);
   }
 
   const [offset, length] = GenericAccountIndex.readLength(value);
 
-  return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
 /**
@@ -61,7 +61,7 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
       : value instanceof GenericAccountId || value instanceof GenericAccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
-          ? registry.createType('AccountIndex', value)
+          ? registry.createTypeUnsafe('AccountIndex', [value])
           : Array.isArray(value) || isHex(value) || isU8a(value)
             ? decodeU8a(registry, u8aToU8a(value))
             : decodeString(registry, value);
