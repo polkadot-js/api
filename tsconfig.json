@@ -13,6 +13,7 @@
     { "path": "./packages/typegen" },
     { "path": "./packages/types" },
     { "path": "./packages/types-codec" },
+    { "path": "./packages/types-create" },
     { "path": "./packages/types-known" },
     { "path": "./packages/types-support" }
   ]

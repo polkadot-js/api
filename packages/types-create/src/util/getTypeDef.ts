@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from './types';
+import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
 import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
 
-import { TypeDefInfo } from './types';
+import { TypeDefInfo } from '../types';
 import { typeSplit } from './typeSplit';
 
 interface TypeDefOptions {

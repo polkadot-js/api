@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson, AnyTuple, Codec, CodecRegistry, ICompact, INumber } from '@polkadot/types-codec/types';
+import type { CreateRegistry } from '@polkadot/types-create/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { InterfaceTypes, IStorageKey, LookupRegistry } from '../types';
+import type { InterfaceTypes, IStorageKey } from '../types';
 import type { StorageEntry } from './types';
 
 import { Bytes } from '@polkadot/types-codec';
@@ -44,7 +45,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: CodecRegistry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName((registry as LookupRegistry).lookup, unwrapStorageSi(type));
+  const outputType = getSiName((registry as CreateRegistry).lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
@@ -118,7 +119,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: CodecRegistry, value
   const { hashers, key } = meta.type.asMap;
   const keys = hashers.length === 1
     ? [key]
-    : (registry as LookupRegistry).lookup.getSiType(key).def.asTuple;
+    : (registry as CreateRegistry).lookup.getSiType(key).def.asTuple;
 
   return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }

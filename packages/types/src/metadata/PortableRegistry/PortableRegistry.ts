@@ -3,18 +3,15 @@
 
 import type { Vec } from '@polkadot/types-codec';
 import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text, Type } from '../../primitive';
-import type { ILookup, TypeDef } from '../../types';
 
-import { sanitize, Struct } from '@polkadot/types-codec';
+import { sanitize, Struct, u32 } from '@polkadot/types-codec';
+import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
-import { withTypeString } from '../../create/encodeTypes';
-import { getTypeDef } from '../../create/getTypeDef';
-import { u32 } from '../../primitive';
-import { TypeDefInfo } from '../../types';
 import { assertUnreachable } from './util';
 
 // Just a placeholder for a type.unrwapOr()

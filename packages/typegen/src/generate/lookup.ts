@@ -3,7 +3,7 @@
 
 import type { PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
-import type { TypeDef } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { HexString } from '@polkadot/util/types';
 
 import Handlebars from 'handlebars';

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { CodecRegistry, ICompact, INumber, RegistryTypes } from '@polkadot/types-codec/types';
+import type { RegistryTypes } from '@polkadot/types-codec/types';
+import type { CreateRegistry, TypeDef } from '@polkadot/types-create/types';
 import type { BN } from '@polkadot/util';
-import type { TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
@@ -96,26 +96,8 @@ export interface RegisteredTypes {
   typesSpec?: Record<string, RegistryTypes>;
 }
 
-export interface ILookup {
-  getSiType (lookupId: ICompact<INumber> | string | number): {
-    def: {
-      asTuple: ICompact<INumber>[]
-    }
-  },
-  getTypeDef (lookupId: ICompact<INumber> | string | number): TypeDef;
-}
-
-export interface LookupRegistry extends CodecRegistry {
-  lookup: ILookup;
-
-  createLookupType (lookupId: ICompact<INumber> | number): string;
-  setLookup (lookup: ILookup): void;
-
-  getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined;
-}
-
 // Note the commented interfaces here are directly from CodecRegistry
-export interface Registry extends LookupRegistry {
+export interface Registry extends CreateRegistry {
   // readonly chainDecimals: number[];
   // readonly chainSS58: number | undefined;
   // readonly chainTokens: string[];

@@ -6,7 +6,8 @@ import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecL
 import type { Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
-import { TypeDefInfo, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types-create';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { v0ToLatest, v1ToLatest } from './toLatest';

@@ -2079,6 +2079,7 @@ __metadata:
     "@polkadot/rpc-provider": 6.12.2-2
     "@polkadot/types": 6.12.2-2
     "@polkadot/types-codec": 6.12.2-2
+    "@polkadot/types-create": 6.12.2-2
     "@polkadot/types-support": 6.12.2-2
     "@polkadot/util": ^8.1.2
     "@types/websocket": ^1.0.4
@@ -2098,6 +2099,15 @@ __metadata:
 "@polkadot/types-codec@6.12.2-2, @polkadot/types-codec@workspace:packages/types-codec":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@polkadot/util": ^8.1.2
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/types-create@6.12.2-2, @polkadot/types-create@workspace:packages/types-create":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
     "@babel/runtime": ^7.16.3
     "@polkadot/util": ^8.1.2
@@ -2131,6 +2141,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.1.2
     "@polkadot/types-codec": 6.12.2-2
+    "@polkadot/types-create": 6.12.2-2
     "@polkadot/types-support": 6.12.2-2
     "@polkadot/util": ^8.1.2
     "@polkadot/util-crypto": ^8.1.2

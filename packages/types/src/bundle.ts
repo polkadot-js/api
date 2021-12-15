@@ -9,7 +9,8 @@ export * from './create';
 export * from './index.types';
 export * from './metadata';
 
-export { TypeDefInfo } from './create/types';
+export { TypeDefInfo } from '@polkadot/types-create';
+
 export { convertSiV0toV1 } from './metadata/PortableRegistry';
 export { packageInfo } from './packageInfo';
 export { unwrapStorageType } from './primitive/StorageKey';

@@ -3,14 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { TypeDef } from '@polkadot/types/create/types';
 import type { Registry } from '@polkadot/types/types';
 import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';
 
-import { getTypeDef, paramsNotation } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
+import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create';
 import { isString, stringify } from '@polkadot/util';
 
 import { readTemplate } from './file';

@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry } from '@polkadot/types-codec/types';
-import type { DetectCodec } from '../types';
-import type { CreateOptions } from './types';
+import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
+import type { CreateOptions } from '../types';
 
 import { Bytes, Option } from '@polkadot/types-codec';
 import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { createClass } from './createClass';
+import { createClassUnsafe } from './class';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
@@ -51,7 +50,7 @@ function initType<T extends Codec> (registry: CodecRegistry, Type: CodecClass, p
   checkPedantic(created, params, isPedantic);
 
   if (blockHash) {
-    created.createdAtHash = createType(registry, 'Hash', blockHash);
+    created.createdAtHash = createTypeUnsafe<IU8a>(registry, 'Hash', [blockHash]);
   }
 
   return created as T;
@@ -60,12 +59,12 @@ function initType<T extends Codec> (registry: CodecRegistry, Type: CodecClass, p
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
   let Clazz: CodecClass | null = null;
   let firstError: Error | null = null;
 
   try {
-    Clazz = createClass(registry, type);
+    Clazz = createClassUnsafe(registry, type);
 
     return initType(registry, Clazz, params, options);
   } catch (error) {
@@ -74,7 +73,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
 
   if (Clazz && Clazz.__fallbackType) {
     try {
-      Clazz = createClass(registry, Clazz.__fallbackType as unknown as K);
+      Clazz = createClassUnsafe(registry, Clazz.__fallbackType as unknown as K);
 
       return initType(registry, Clazz, params, options);
     } catch {
@@ -83,14 +82,4 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
   }
 
   throw firstError;
-}
-
-/**
- * Create an instance of a `type` with a given `params`.
- * @param type - A recognizable string representing the type to create an
- * instance from
- * @param params - The value to instantiate the type with
- */
-export function createType<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, ...params: unknown[]): DetectCodec<T, K> {
-  return createTypeUnsafe(registry, type, params);
 }

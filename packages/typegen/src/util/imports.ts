@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import * as codecClasses from '@polkadot/types/codec';
-import { getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as extrinsicClasses from '@polkadot/types/extrinsic';
 import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
+import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 
 export interface ModuleTypes {
   types: Record<string, unknown>;
