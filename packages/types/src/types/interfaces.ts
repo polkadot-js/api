@@ -6,7 +6,7 @@ import type { AnyTuple, IMethod as IMethodBase } from '@polkadot/types-codec/typ
 import type { BN } from '@polkadot/util';
 import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
 
-export { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
+export type { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 
 export interface IMethod<A extends AnyTuple = AnyTuple> extends IMethodBase<A> {
   readonly meta: FunctionMetadataLatest;
