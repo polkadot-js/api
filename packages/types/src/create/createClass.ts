@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass, CodecRegistry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
-import type { CreateRegistry, DetectCodec, LookupRegistry } from '../types';
+import type { DetectCodec, LookupRegistry } from '../types';
 import type { TypeDef } from './types';
 
 import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '@polkadot/types-codec';
@@ -199,7 +199,7 @@ export function constructTypeClass<T extends Codec = Codec> (registry: CodecRegi
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {
-  return (registry as CreateRegistry).getUnsafe(typeDef.type, false, typeDef) as CodecClass<T>;
+  return (registry as LookupRegistry).getUnsafe(typeDef.type, false, typeDef) as CodecClass<T>;
 }
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<DetectCodec<T, K>> {

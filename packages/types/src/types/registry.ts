@@ -110,14 +110,12 @@ export interface LookupRegistry extends CodecRegistry {
 
   createLookupType (lookupId: ICompact<INumber> | number): string;
   setLookup (lookup: ILookup): void;
-}
 
-export interface CreateRegistry extends LookupRegistry {
   getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined;
 }
 
 // Note the commented interfaces here are directly from CodecRegistry
-export interface Registry extends CreateRegistry {
+export interface Registry extends LookupRegistry {
   // readonly chainDecimals: number[];
   // readonly chainSS58: number | undefined;
   // readonly chainTokens: string[];
