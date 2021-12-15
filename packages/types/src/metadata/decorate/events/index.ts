@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { AnyTuple, IEvent, Registry } from '../../../types';
+import type { AnyTuple, IEvent } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
 import { lazyMethod, stringCamelCase } from '@polkadot/util';

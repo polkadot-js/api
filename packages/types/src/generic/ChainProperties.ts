@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Codec } from '../types';
 
 import { Json, Option, Text, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';

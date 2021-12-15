@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Codec, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { Compact, Option, Struct, Text, Vec } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';

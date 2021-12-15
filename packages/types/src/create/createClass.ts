@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, CodecRegistry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
 import type { DetectCodec, Registry } from '../types';
 import type { TypeDef } from './types';
 
@@ -143,7 +143,7 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
     ),
 
   [TypeDefInfo.Si]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
-    getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
+    getTypeClass(registry, (registry as Registry).lookup.getTypeDef(value.type)),
 
   [TypeDefInfo.Struct]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     Struct.with(getTypeClassMap(value), value.alias),
@@ -199,14 +199,14 @@ export function constructTypeClass<T extends Codec = Codec> (registry: CodecRegi
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {
-  return registry.get(typeDef.type, false, typeDef) as CodecClass<T>;
+  return (registry as Registry).get(typeDef.type, false, typeDef) as CodecClass<T>;
 }
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<DetectCodec<T, K>> {
   return getTypeClass(
     registry,
     registry.isLookupType(type)
-      ? registry.lookup.getTypeDef(type)
+      ? (registry as Registry).lookup.getTypeDef(type)
       : getTypeDef(type)
   );
 }

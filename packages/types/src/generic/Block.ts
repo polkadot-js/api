@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types-codec';
-import type { IU8a } from '@polkadot/types-codec/types';
+import type { CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
 import type { Digest, DigestItem, Header } from '../interfaces/runtime';
-import type { AnyNumber, AnyU8a, Registry } from '../types';
+import type { AnyNumber, AnyU8a } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
 

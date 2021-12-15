@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types-codec';
-import type { IMethod } from '@polkadot/types-codec/types';
+import type { CodecRegistry, IMethod } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Address, Balance, Call, CodecHash, Index } from '../interfaces/runtime';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, Registry, SignatureOptions } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 

@@ -1,24 +1,19 @@
 // Copyright 2017-2021 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { Codec, CodecClass } from './codec';
-import type { AnyTuple } from './helpers';
-import type { ICompact, IMethod, INumber, IU8a } from './interfaces';
+import type { ICompact, INumber, IU8a } from './interfaces';
 
 export type RegistryTypes =
   Record<string, CodecClass | string | Record<string, string> |
   { _enum: string[] | Record<string, number> | Record<string, string | null> } |
   { _set: Record<string, number> }>;
 
-export interface CallBase<A extends AnyTuple> extends IMethod<A> {
-  readonly method: string;
-  readonly section: string;
-
-  toJSON: () => any;
-}
-
-export interface CallFunction<A extends AnyTuple = AnyTuple> extends CallBase<A> {
-  (...args: any[]): IMethod<A>;
+export interface CodecCreateOptions {
+  blockHash?: Uint8Array | string | null;
+  isOptional?: boolean;
+  isPedantic?: boolean;
 }
 
 export interface CodecRegistry {
@@ -33,10 +28,8 @@ export interface CodecRegistry {
 
   createdAtHash?: IU8a;
 
-  findMetaCall (callIndex: Uint8Array): CallFunction;
-  // findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): CodecRegistryError;
-  // // due to same circular imports where types don't really want to import from EventData,
-  // // keep this as a generic Codec, however the actual impl. returns the correct
+  findMetaCall (callIndex: Uint8Array): unknown;
+  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): unknown;
   findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
   isLookupType (value: string): boolean;
@@ -44,20 +37,20 @@ export interface CodecRegistry {
 
   createClass <T extends Codec = Codec, K extends string = string, R = T> (type: K): CodecClass<R>;
   createType <T extends Codec = Codec, K extends string = string, R = T> (type: K, ...params: unknown[]): R;
-  // createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K>;
-  // get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectCodecClass<T, K> | undefined;
+  createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = T> (type: K, params: unknown[], options?: CodecCreateOptions): R;
+  // get <T extends Codec = Codec, K extends string = string, R = T> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<R> | undefined;
   // getChainProperties (): ChainProperties | undefined;
   getClassName (clazz: CodecClass): string | undefined;
   // getDefinition (typeName: string): string | undefined;
   // getModuleInstances (specName: string, moduleName: string): string[] | undefined;
   // getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectCodecClass<T, K>;
-  // getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectCodecClass<T, K>;
+  getOrUnknown <T extends Codec = Codec, K extends string = string, R = T> (name: K): CodecClass<R>;
   // setKnownTypes (types: RegisteredTypes): void;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
-  // hasClass (name: string): boolean;
-  // hasDef (name: string): boolean;
-  // hasType (name: string): boolean;
+  hasClass (name: string): boolean;
+  hasDef (name: string): boolean;
+  hasType (name: string): boolean;
   hash (data: Uint8Array): IU8a;
   // init (): CodecRegistry;
   register (type: CodecClass | RegistryTypes): void;
@@ -66,6 +59,6 @@ export interface CodecRegistry {
   // setChainProperties (properties?: ChainProperties): void;
   // setHasher (hasher?: IU8aer | null): void;
   // setLookup (lookup: PortableCodecRegistry): void;
-  // setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
+  setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown): void;
   // setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

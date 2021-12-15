@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { AnyJson, Codec, CodecClass, CodecRegistry } from '@polkadot/types-codec/types';
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
@@ -57,7 +57,7 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
+    this.#typeDef = fields.map(({ type }) => (registry as Registry).lookup.getTypeDef(type));
   }
 
   /**

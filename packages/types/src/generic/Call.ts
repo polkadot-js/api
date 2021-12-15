@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IMethod } from '@polkadot/types-codec/types';
+import type { CodecRegistry, IMethod } from '@polkadot/types-codec/types';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, Codec, InterfaceTypes, Registry } from '../types';
 
@@ -46,7 +46,7 @@ function decodeCallViaObject (registry: CodecRegistry, value: DecodedMethod, _me
     : callIndex;
 
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(lookupIndex).meta;
+  const meta = _meta || (registry as Registry).findMetaCall(lookupIndex).meta;
 
   return {
     args,
@@ -64,7 +64,7 @@ function decodeCallViaU8a (registry: CodecRegistry, value: Uint8Array, _meta?: F
   callIndex.set(value.subarray(0, 2), 0);
 
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(callIndex).meta;
+  const meta = _meta || (registry as Registry).findMetaCall(callIndex).meta;
 
   return {
     args: value.subarray(2),
@@ -127,7 +127,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       let method = 'unknown.unknown';
 
       try {
-        const c = registry.findMetaCall(decoded.callIndex);
+        const c = (registry as Registry).findMetaCall(decoded.callIndex);
 
         method = `${c.section}.${c.method}`;
       } catch (error) {
@@ -186,14 +186,14 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description Returns the name of the method
    */
   public get method (): string {
-    return this.registry.findMetaCall(this.callIndex).method;
+    return (this.registry as Registry).findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get section (): string {
-    return this.registry.findMetaCall(this.callIndex).section;
+    return (this.registry as Registry).findMetaCall(this.callIndex).section;
   }
 
   /**
@@ -210,7 +210,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     let call: CallFunction | undefined;
 
     try {
-      call = this.registry.findMetaCall(this.callIndex);
+      call = (this.registry as Registry).findMetaCall(this.callIndex);
     } catch (error) {
       // swallow
     }

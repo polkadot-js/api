@@ -3,7 +3,7 @@
 
 import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
-import type { AnyJson, Registry } from '../../types';
+import type { AnyJson } from '../../types';
 
 import { Option, Text } from '@polkadot/types-codec';
 
@@ -29,7 +29,7 @@ export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, palle
   return registry.createType('MetadataLatest', {
     extrinsic,
     lookup: {
-      types: (lookup as Registry).types.map(({ id, type }) =>
+      types: lookup.types.map(({ id, type }) =>
         registry.createType('PortableType', {
           id,
           type: {

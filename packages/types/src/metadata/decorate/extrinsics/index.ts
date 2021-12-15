@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
-import type { CallFunction, Registry } from '../../../types';
+import type { CallFunction } from '../../../types';
 import type { Extrinsics } from '../types';
 
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';

@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Balance, Hash, Index } from '../interfaces/runtime';
-import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, Registry } from '../types';
+import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair } from '../types';
 
 import { Base, Compact, Raw } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';

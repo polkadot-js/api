@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { Registry } from '../types';
 
 import { Base } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';

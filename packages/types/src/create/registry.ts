@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
@@ -87,7 +87,7 @@ function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLat
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
-        const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+        const meta = registry.createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: CodecRegistry, value: Uint8Array) {
@@ -119,7 +119,7 @@ function injectExtrinsics (registry: CodecRegistry, { lookup, pallets }: Metadat
 
 // extract additional properties from the metadata
 function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainProperties | undefined {
-  const original = registry.getChainProperties();
+  const original = (registry as Registry).getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
 
@@ -274,14 +274,14 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R {
-    return this.createTypeUnsafe(type, params) as unknown as R;
+    return this.createTypeUnsafe(type, params);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
-    return createTypeUnsafe(this, type, params, options);
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, params: unknown[], options?: CreateOptions): R {
+    return createTypeUnsafe(this, type, params, options) as unknown as R;
   }
 
   // find a specific call

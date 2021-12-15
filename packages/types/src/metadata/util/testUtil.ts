@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { Check } from './types';
 
 import fs from 'fs';

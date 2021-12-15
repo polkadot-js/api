@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 
 import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
@@ -16,7 +16,7 @@ function decodeU8a (registry: CodecRegistry, u8a: Uint8Array): unknown {
   } else if (u8a.length === 20) {
     return { Address20: u8a };
   } else if (u8a.length <= 8) {
-    return { Index: registry.createType('AccountIndex', u8a).toNumber() };
+    return { Index: registry.createType<GenericAccountIndex>('AccountIndex', u8a).toNumber() };
   }
 
   return u8a;

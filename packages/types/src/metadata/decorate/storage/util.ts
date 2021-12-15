@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { PortableType } from '../../../interfaces';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
@@ -18,7 +19,7 @@ interface ManualDefinition {
   section: string;
 }
 
-function findSiPrimitive (registry: CodecRegistry, _prim: string): PortableType | undefined {
+function findSiPrimitive (registry: Registry, _prim: string): PortableType | undefined {
   const prim = _prim.toLowerCase();
 
   return registry.lookup.types.find((t) =>
@@ -32,7 +33,7 @@ function findSiPrimitive (registry: CodecRegistry, _prim: string): PortableType 
   );
 }
 
-function findSiType (registry: CodecRegistry, orig: string): PortableType | undefined {
+function findSiType (registry: Registry, orig: string): PortableType | undefined {
   let portable = findSiPrimitive(registry, orig);
 
   if (!portable && orig === 'Bytes') {
@@ -68,7 +69,7 @@ export function createRuntimeFunction ({ method, prefix, section }: ManualDefini
         modifier: registry.createType('StorageEntryModifierLatest', 'Required'),
         name: registry.createType('Text', method),
         toJSON: (): any => key,
-        type: registry.createType('StorageEntryTypeLatest', { Plain: findSiType(registry, type)?.id || 0 })
+        type: registry.createType('StorageEntryTypeLatest', { Plain: findSiType(registry as Registry, type)?.id || 0 })
       }),
       method,
       prefix,

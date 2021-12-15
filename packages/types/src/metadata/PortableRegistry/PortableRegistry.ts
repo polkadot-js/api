@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types-codec';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text, Type } from '../../primitive';
-import type { Registry, TypeDef } from '../../types';
+import type { TypeDef } from '../../types';
 
 import { Struct } from '@polkadot/types-codec';
 import { sanitize } from '@polkadot/types-codec/utils';
