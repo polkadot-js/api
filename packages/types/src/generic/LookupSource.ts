@@ -57,7 +57,7 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
   /** @internal */
   private static _decodeAddress (registry: CodecRegistry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
     return value instanceof GenericLookupSource
-      ? value._raw
+      ? value.inner
       : value instanceof GenericAccountId || value instanceof GenericAccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
@@ -85,9 +85,9 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
    * @description The length of the raw value, either AccountIndex or AccountId
    */
   protected get _rawLength (): number {
-    return this._raw instanceof GenericAccountIndex
-      ? GenericAccountIndex.calcLength(this._raw)
-      : this._raw.encodedLength;
+    return this.inner instanceof GenericAccountIndex
+      ? GenericAccountIndex.calcLength(this.inner)
+      : this.inner.encodedLength;
   }
 
   /**
@@ -109,12 +109,12 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this._raw.toU8a().subarray(0, this._rawLength);
+    const encoded = this.inner.toU8a().subarray(0, this._rawLength);
 
     return isBare
       ? encoded
       : u8aConcat(
-        this._raw instanceof GenericAccountIndex
+        this.inner instanceof GenericAccountIndex
           ? GenericAccountIndex.writeLength(encoded)
           : ACCOUNT_ID_PREFIX,
         encoded
