@@ -64,20 +64,20 @@ function createWithSub (Clazz: { with: (t: string) => CodecClass<Codec> }, value
   return Clazz.with(getSubType(value));
 }
 
-const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => CodecClass<Codec>> = {
-  [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef) => CodecClass<Codec>> = {
+  [TypeDefInfo.BTreeMap]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createHashMap(BTreeMap, value),
 
-  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.BTreeSet]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(BTreeSet, value),
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Compact]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(Compact, value),
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.DoNotConstruct]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     DoNotConstruct.with(value.displayName || value.type),
 
-  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
+  [TypeDefInfo.Enum]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> => {
     const subs = getSubDefArray(value);
 
     return Enum.with(
@@ -91,14 +91,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.HashMap]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.HashMap]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createHashMap(HashMap, value),
 
-  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Int]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createInt(Int, value),
 
   // We have circular deps between Linkage & Struct
-  [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
+  [TypeDefInfo.Linkage]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> => {
     const type = `Option<${getSubType(value)}>`;
     // eslint-disable-next-line sort-keys
     const Clazz = Struct.with({ previous: type, next: type } as any);
@@ -113,26 +113,26 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Null]: (registry: CodecRegistry, _: TypeDef): CodecClass<Codec> =>
     Null,
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Option]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(Option, value),
 
-  [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Plain]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     registry.getOrUnknown(value.type),
 
-  [TypeDefInfo.Range]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Range]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     (value.type.includes('RangeInclusive') ? RangeInclusive : Range).with(getSubType(value)),
 
-  [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
+  [TypeDefInfo.Result]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> => {
     const [Ok, Err] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return Result.with({ Err, Ok });
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Set]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     CodecSet.with(
       getSubDefArray(value).reduce<Record<string, number>>((result, { index, name }) => {
         result[name as string] = index as number;
@@ -142,19 +142,19 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
       value.length
     ),
 
-  [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Si]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Struct]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     Struct.with(getTypeClassMap(value), value.alias),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.Tuple]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     Tuple.with(getTypeClassArray(value)),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.UInt]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createInt(UInt, value),
 
-  [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): CodecClass<Codec> => {
+  [TypeDefInfo.Vec]: (registry: CodecRegistry, { sub }: TypeDef): CodecClass<Codec> => {
     assert(sub && !Array.isArray(sub), 'Expected type information for vector');
 
     return (
@@ -164,7 +164,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): CodecClass<Codec> => {
+  [TypeDefInfo.VecFixed]: (registry: CodecRegistry, { displayName, length, sub }: TypeDef): CodecClass<Codec> => {
     assert(sub && isNumber(length) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
 
     return (
@@ -174,11 +174,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.WrapperOpaque]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+  [TypeDefInfo.WrapperOpaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(WrapperOpaque, value)
 };
 
-export function constructTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): CodecClass<T> {
+export function constructTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {
   try {
     const Type = infoMapping[typeDef.info](registry, typeDef);
 
@@ -198,11 +198,11 @@ export function constructTypeClass<T extends Codec = Codec> (registry: Registry,
 }
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeDef: TypeDef): CodecClass<T> {
+export function getTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {
   return registry.get(typeDef.type, false, typeDef) as CodecClass<T>;
 }
 
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): CodecClass<DetectCodec<T, K>> {
+export function createClass<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<DetectCodec<T, K>> {
   return getTypeClass(
     registry,
     registry.isLookupType(type)

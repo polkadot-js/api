@@ -7,7 +7,7 @@ import type { ManualMetadata } from './util';
 
 import { createRuntimeFunction } from './util';
 
-type Creator = (registry: Registry) => StorageEntry;
+type Creator = (registry: CodecRegistry) => StorageEntry;
 
 const prefix = 'Substrate';
 const section = 'substrate';

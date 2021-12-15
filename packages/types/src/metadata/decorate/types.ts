@@ -46,6 +46,6 @@ export interface DecoratedMeta {
   readonly errors: Errors;
   readonly events: Events;
   readonly query: Storage;
-  readonly registry: Registry;
+  readonly registry: CodecRegistry;
   readonly tx: Extrinsics
 }

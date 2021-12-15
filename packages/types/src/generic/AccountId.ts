@@ -30,7 +30,7 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
  * just a Uint8Array wrapper with a fixed length.
  */
 export class GenericAccountId extends U8aFixed {
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: CodecRegistry, value?: AnyU8a) {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)

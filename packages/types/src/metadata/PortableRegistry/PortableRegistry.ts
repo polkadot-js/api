@@ -330,7 +330,7 @@ export class PortableRegistry extends Struct {
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
-  constructor (registry: Registry, value?: Uint8Array) {
+  constructor (registry: CodecRegistry, value?: Uint8Array) {
     // console.time('PortableRegistry')
 
     super(registry, {

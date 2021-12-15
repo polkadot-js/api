@@ -17,7 +17,7 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
-export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
+export function createCallFunction (registry: CodecRegistry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
@@ -44,7 +44,7 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
 }
 
 /** @internal */
-export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
+export function decorateExtrinsics (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
   const result: Extrinsics = {};
   const filtered = pallets.filter(filterCallsSome);
 

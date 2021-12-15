@@ -7,7 +7,7 @@ import type { Registry } from '../../types';
 /**
  * @internal
  **/
-export function toV12 (registry: Registry, { extrinsic, modules }: MetadataV11): MetadataV12 {
+export function toV12 (registry: CodecRegistry, { extrinsic, modules }: MetadataV11): MetadataV12 {
   return registry.createType('MetadataV12', {
     extrinsic,
     modules: modules.map((mod): ModuleMetadataV12 =>

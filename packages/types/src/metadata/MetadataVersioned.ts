@@ -30,7 +30,7 @@ const LATEST_VERSION = 14;
 export class MetadataVersioned extends Struct {
   readonly #converted = new Map<MetaVersions, MetaMapped>();
 
-  constructor (registry: Registry, value?: unknown) {
+  constructor (registry: CodecRegistry, value?: unknown) {
     // console.time('MetadataVersioned')
 
     super(registry, {
@@ -47,7 +47,7 @@ export class MetadataVersioned extends Struct {
     return this.version === version;
   };
 
-  #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
+  #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: CodecRegistry, input: F, metaVersion: number) => T): T => {
     const asCurr = `asV${version}` as MetaAsX;
     const asPrev = version === 'latest'
       ? `asV${LATEST_VERSION}` as MetaAsX
@@ -137,10 +137,6 @@ export class MetadataVersioned extends Struct {
    */
   public get magicNumber (): MagicNumber {
     return this.get('magicNumber') as MagicNumber;
-  }
-
-  override get registry (): Registry {
-    return super.registry as Registry;
   }
 
   /**

@@ -8,7 +8,7 @@ import type { Storage } from '../types';
 import { substrate } from './substrate';
 
 /** @internal */
-export function getStorage (registry: Registry): Storage {
+export function getStorage (registry: CodecRegistry): Storage {
   const storage: Record<string, StorageEntry> = {};
   const entries = Object.entries(substrate);
 

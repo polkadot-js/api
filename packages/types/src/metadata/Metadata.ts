@@ -22,7 +22,7 @@ function toU8a (value: Uint8Array | HexString): Uint8Array {
       : value;
 }
 
-function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned {
+function decodeU8a (registry: CodecRegistry, value: Uint8Array): MetadataVersioned {
   try {
     return new MetadataVersioned(registry, value);
   } catch (error) {
@@ -45,7 +45,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned {
  * The versioned runtime metadata as a decoded structure
  */
 export class Metadata extends MetadataVersioned {
-  constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
+  constructor (registry: CodecRegistry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
     super(
       registry,
       isU8a(value) || isHex(value)

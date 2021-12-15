@@ -131,7 +131,7 @@ describe('Enum', (): void => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (registry: Registry, value?: string, index?: number) {
+        constructor (registry: CodecRegistry, value?: string, index?: number) {
           super(registry, {
             a: A,
             b: B,

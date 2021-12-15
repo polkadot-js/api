@@ -35,12 +35,12 @@ const VERSIONS = [
  * on the contents included
  */
 export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
+  constructor (registry: CodecRegistry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
     super(registry, GenericExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
   /** @internal */
-  public static decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+  public static decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof GenericExtrinsicPayload) {
       return value._raw;
     }

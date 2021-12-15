@@ -11,7 +11,7 @@ function isTx <A extends AnyTuple> (tx: IMethod<AnyTuple>, callIndex: Uint8Array
 }
 
 /** @internal */
-export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
+export function createUnchecked (registry: CodecRegistry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
   const expectedArgs = callMetadata.fields;
   const funcName = stringCamelCase(callMetadata.name);
 

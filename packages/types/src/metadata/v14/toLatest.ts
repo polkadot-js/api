@@ -9,6 +9,6 @@ import type { Registry } from '../../types';
  * @internal
  **/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function toLatest (registry: Registry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
+export function toLatest (registry: CodecRegistry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
   return v14;
 }

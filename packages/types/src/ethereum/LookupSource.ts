@@ -18,7 +18,7 @@ type AnyAddress = bigint | BN | GenericEthereumLookupSource | GenericEthereumAcc
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): GenericEthereumAccountId | GenericAccountIndex {
+function decodeString (registry: CodecRegistry, value: string): GenericEthereumAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
@@ -27,7 +27,7 @@ function decodeString (registry: Registry, value: string): GenericEthereumAccoun
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccountId | GenericAccountIndex {
+function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereumAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
@@ -50,12 +50,12 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
-  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
+  constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
     super(registry, GenericEthereumLookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
+  private static _decodeAddress (registry: CodecRegistry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
     return value instanceof GenericEthereumLookupSource
       ? value._raw
       : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex

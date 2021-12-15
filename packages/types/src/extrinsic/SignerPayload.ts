@@ -46,7 +46,7 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+  constructor (registry: CodecRegistry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);

@@ -77,7 +77,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
 }
 
 // create event classes from metadata
-function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
+function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -90,7 +90,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
         const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
-          constructor (registry: Registry, value: Uint8Array) {
+          constructor (registry: CodecRegistry, value: Uint8Array) {
             super(registry, value, meta, stringCamelCase(name), variant.name.toString());
           }
         };
@@ -100,7 +100,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
   const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
@@ -118,7 +118,7 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 }
 
 // extract additional properties from the metadata
-function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
+function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);

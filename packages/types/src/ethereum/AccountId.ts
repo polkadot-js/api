@@ -28,7 +28,7 @@ function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
  * just a Uint8Array wrapper with a fixed length.
  */
 export class GenericEthereumAccountId extends U8aFixed {
-  constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
+  constructor (registry: CodecRegistry, value: AnyU8a = new Uint8Array()) {
     super(registry, decodeAccountId(value), 160);
   }
 

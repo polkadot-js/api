@@ -18,7 +18,7 @@ interface ManualDefinition {
   section: string;
 }
 
-function findSiPrimitive (registry: Registry, _prim: string): PortableType | undefined {
+function findSiPrimitive (registry: CodecRegistry, _prim: string): PortableType | undefined {
   const prim = _prim.toLowerCase();
 
   return registry.lookup.types.find((t) =>
@@ -32,7 +32,7 @@ function findSiPrimitive (registry: Registry, _prim: string): PortableType | und
   );
 }
 
-function findSiType (registry: Registry, orig: string): PortableType | undefined {
+function findSiType (registry: CodecRegistry, orig: string): PortableType | undefined {
   let portable = findSiPrimitive(registry, orig);
 
   if (!portable && orig === 'Bytes') {
@@ -60,8 +60,8 @@ function findSiType (registry: Registry, orig: string): PortableType | undefined
 
 // Small helper function to factorize code on this page.
 /** @internal */
-export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: Registry) => StorageEntry {
-  return (registry: Registry): StorageEntry =>
+export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: CodecRegistry) => StorageEntry {
+  return (registry: CodecRegistry): StorageEntry =>
     createFunction(registry, {
       meta: registry.createType('StorageEntryMetadataLatest', {
         docs: registry.createType('Vec<Text>', [docs]),

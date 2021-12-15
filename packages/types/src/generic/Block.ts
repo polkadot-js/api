@@ -28,7 +28,7 @@ export interface BlockValue {
  * A block encoded with header and extrinsics
  */
 export class GenericBlock extends Struct {
-  constructor (registry: Registry, value?: BlockValue | Uint8Array) {
+  constructor (registry: CodecRegistry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
       // eslint-disable-next-line sort-keys

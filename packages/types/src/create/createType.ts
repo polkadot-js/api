@@ -45,7 +45,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec> (registry: Registry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
+function initType<T extends Codec> (registry: CodecRegistry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -60,7 +60,7 @@ function initType<T extends Codec> (registry: Registry, Type: CodecClass, params
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, params: unknown[] = [], options: CreateOptions = {}): DetectCodec<T, K> {
   let Clazz: CodecClass | null = null;
   let firstError: Error | null = null;
 
@@ -91,6 +91,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
+export function createType<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, ...params: unknown[]): DetectCodec<T, K> {
   return createTypeUnsafe(registry, type, params);
 }

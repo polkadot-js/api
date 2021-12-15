@@ -6,8 +6,8 @@ import type { Registry } from '../../types';
 
 import { assertUnreachable } from './util';
 
-function convertType (key: 'Compact' | 'Sequence'): (registry: Registry, si: Si0TypeDefSequence) => SiTypeDef {
-  return (registry: Registry, { type }: Si0TypeDefSequence) =>
+function convertType (key: 'Compact' | 'Sequence'): (registry: CodecRegistry, si: Si0TypeDefSequence) => SiTypeDef {
+  return (registry: CodecRegistry, { type }: Si0TypeDefSequence) =>
     registry.createType('Si1TypeDef', {
       [key]: {
         type: type.toNumber()
@@ -15,7 +15,7 @@ function convertType (key: 'Compact' | 'Sequence'): (registry: Registry, si: Si0
     });
 }
 
-function convertArray (registry: Registry, { len, type }: Si0TypeDefArray): Si1TypeDef {
+function convertArray (registry: CodecRegistry, { len, type }: Si0TypeDefArray): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     Array: {
       len,
@@ -24,7 +24,7 @@ function convertArray (registry: Registry, { len, type }: Si0TypeDefArray): Si1T
   });
 }
 
-function convertBitSequence (registry: Registry, { bitOrderType, bitStoreType }: Si0TypeDefBitSequence): Si1TypeDef {
+function convertBitSequence (registry: CodecRegistry, { bitOrderType, bitStoreType }: Si0TypeDefBitSequence): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     BitSequence: {
       bitOrderType: bitOrderType.toNumber(),
@@ -35,7 +35,7 @@ function convertBitSequence (registry: Registry, { bitOrderType, bitStoreType }:
 
 const convertCompact = convertType('Compact');
 
-function convertComposite (registry: Registry, { fields }: Si0TypeDefComposite): Si1TypeDef {
+function convertComposite (registry: CodecRegistry, { fields }: Si0TypeDefComposite): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     Composite: {
       fields: convertFields(registry, fields)
@@ -43,7 +43,7 @@ function convertComposite (registry: Registry, { fields }: Si0TypeDefComposite):
   });
 }
 
-function convertFields (registry: Registry, fields: Si0Field[]): Si1Field[] {
+function convertFields (registry: CodecRegistry, fields: Si0Field[]): Si1Field[] {
   return fields.map(({ docs, name, type, typeName }) =>
     registry.createType('Si1Field', {
       docs,
@@ -54,7 +54,7 @@ function convertFields (registry: Registry, fields: Si0Field[]): Si1Field[] {
   );
 }
 
-function convertPhantom (registry: Registry, path: Si0Path): Si1TypeDef {
+function convertPhantom (registry: CodecRegistry, path: Si0Path): Si1TypeDef {
   console.warn(`Converting phantom type ${path.map((p) => p.toString()).join('::')} to empty tuple`);
 
   return registry.createType('Si1TypeDef', {
@@ -62,7 +62,7 @@ function convertPhantom (registry: Registry, path: Si0Path): Si1TypeDef {
   });
 }
 
-function convertPrimitive (registry: Registry, prim: Si0TypeDefPrimitive): Si1TypeDef {
+function convertPrimitive (registry: CodecRegistry, prim: Si0TypeDefPrimitive): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     Primitive: prim.toString()
   });
@@ -70,13 +70,13 @@ function convertPrimitive (registry: Registry, prim: Si0TypeDefPrimitive): Si1Ty
 
 const convertSequence = convertType('Sequence');
 
-function convertTuple (registry: Registry, types: Si0LookupTypeId[]): Si1TypeDef {
+function convertTuple (registry: CodecRegistry, types: Si0LookupTypeId[]): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     Tuple: types.map((t) => t.toNumber())
   });
 }
 
-function convertVariant (registry: Registry, { variants }: Si0TypeDefVariant): Si1TypeDef {
+function convertVariant (registry: CodecRegistry, { variants }: Si0TypeDefVariant): Si1TypeDef {
   return registry.createType('Si1TypeDef', {
     Variant: {
       variants: variants.map(({ discriminant, docs, fields, name }, index) =>
@@ -93,7 +93,7 @@ function convertVariant (registry: Registry, { variants }: Si0TypeDefVariant): S
   });
 }
 
-function convertDef (registry: Registry, { def, path }: Si0Type): Si1TypeDef {
+function convertDef (registry: CodecRegistry, { def, path }: Si0Type): Si1TypeDef {
   let result: Si1TypeDef;
 
   switch (def.type) {
@@ -112,7 +112,7 @@ function convertDef (registry: Registry, { def, path }: Si0Type): Si1TypeDef {
   return result;
 }
 
-export function toV1 (registry: Registry, types: Si0Type[]): PortableType[] {
+export function toV1 (registry: CodecRegistry, types: Si0Type[]): PortableType[] {
   return types.map((t, index) =>
     registry.createType('PortableType', {
       // offsets are +1 from v0

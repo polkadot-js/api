@@ -11,7 +11,7 @@ import { flattenUniq } from './flattenUniq';
 const l = logger('metadata');
 
 /** @internal */
-export function validateTypes (registry: Registry, throwError: boolean, types: string[]): string[] {
+export function validateTypes (registry: CodecRegistry, throwError: boolean, types: string[]): string[] {
   const missing = flattenUniq(extractTypes(types))
     .filter((type) => !registry.hasType(type))
     .sort();

@@ -7,7 +7,7 @@ import type { Registry } from '../../types';
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
 /** @internal */
-function createStorageHasher (registry: Registry, hasher: StorageHasherV9): StorageHasherV10 {
+function createStorageHasher (registry: CodecRegistry, hasher: StorageHasherV9): StorageHasherV10 {
   // Blake2_128_Concat has been added at index 2, so we increment all the
   // indexes greater than 2
   if (hasher.toNumber() >= 2) {
@@ -18,7 +18,7 @@ function createStorageHasher (registry: Registry, hasher: StorageHasherV9): Stor
 }
 
 /** @internal */
-function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
+function createStorageType (registry: CodecRegistry, entryType: StorageEntryTypeV9): [any, number] {
   if (entryType.isMap) {
     return [{
       ...entryType.asMap,
@@ -38,7 +38,7 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): 
 }
 
 /** @internal */
-function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
+function convertModule (registry: CodecRegistry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
   return registry.createType('ModuleMetadataV10', {
@@ -56,7 +56,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
 }
 
 /** @internal */
-export function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
+export function toV10 (registry: CodecRegistry, { modules }: MetadataV9): MetadataV10 {
   return registry.createType('MetadataV10', {
     modules: modules.map((mod): ModuleMetadataV10 => convertModule(registry, mod))
   });

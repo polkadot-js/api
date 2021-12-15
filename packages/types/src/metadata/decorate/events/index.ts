@@ -16,7 +16,7 @@ export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
 }
 
 /** @internal */
-export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
+export function decorateEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
   const filtered = pallets.filter(filterEventsSome);
 

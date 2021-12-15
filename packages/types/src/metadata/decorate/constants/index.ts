@@ -11,7 +11,7 @@ import { objectNameToCamel } from '../util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
+export function decorateConstants (registry: CodecRegistry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
   for (let i = 0; i < pallets.length; i++) {

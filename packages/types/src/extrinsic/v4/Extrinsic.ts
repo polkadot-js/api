@@ -23,7 +23,7 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
-  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: CodecRegistry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
       // eslint-disable-next-line sort-keys
@@ -32,7 +32,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   }
 
   /** @internal */
-  public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
+  public static decodeExtrinsic (registry: CodecRegistry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
     } else if (value instanceof registry.createClass('Call')) {

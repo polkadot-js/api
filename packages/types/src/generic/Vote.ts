@@ -37,7 +37,7 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 }
 
 /** @internal */
-function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
+function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
   const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
   const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
 
@@ -45,7 +45,7 @@ function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
 }
 
 /** @internal */
-function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
+function decodeVote (registry: CodecRegistry, value?: InputTypes): Uint8Array {
   if (isU8a(value)) {
     return decodeVoteU8a(value);
   } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
@@ -67,7 +67,7 @@ export class GenericVote extends U8aFixed {
 
   #conviction: Conviction;
 
-  constructor (registry: Registry, value?: InputTypes) {
+  constructor (registry: CodecRegistry, value?: InputTypes) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101

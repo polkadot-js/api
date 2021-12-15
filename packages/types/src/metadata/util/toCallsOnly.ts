@@ -24,7 +24,7 @@ function trimDocs (docs: Text[]): string[] {
 }
 
 /** @internal */
-export function toCallsOnly (registry: Registry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
+export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
   return registry.createType('MetadataLatest', {
     extrinsic,
     lookup: {

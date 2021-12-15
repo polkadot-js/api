@@ -62,6 +62,6 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
 }
 
 /** @internal */
-export function getUniqTypes (registry: Registry, meta: MetadataLatest, throwError: boolean): string[] {
+export function getUniqTypes (registry: CodecRegistry, meta: MetadataLatest, throwError: boolean): string[] {
   return validateTypes(registry, throwError, flattenUniq(getPalletNames(meta)));
 }

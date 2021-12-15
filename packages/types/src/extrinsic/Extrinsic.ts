@@ -37,7 +37,7 @@ const VERSIONS = [
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
-  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
+  constructor (registry: CodecRegistry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
@@ -185,12 +185,12 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
   #hashCache?: CodecHash;
 
-  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
+  constructor (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
   }
 
   /** @internal */
-  private static _newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _newFromValue (registry: CodecRegistry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof GenericExtrinsic) {
       return value._raw;
     }
@@ -204,7 +204,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /** @internal */
-  private static _decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (isU8a(value) || Array.isArray(value) || isHex(value)) {
       return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value), version);
     } else if (value instanceof registry.createClass('Call')) {
@@ -215,7 +215,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /** @internal */
-  private static _decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  private static _decodeU8a (registry: CodecRegistry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (!value.length) {
       return GenericExtrinsic._newFromValue(registry, new Uint8Array(), version);
     }

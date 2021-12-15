@@ -37,7 +37,7 @@ function decodeAccountIndex (value: AnyNumber): BN | bigint | Uint8Array | numbe
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
 export class GenericAccountIndex extends u32 {
-  constructor (registry: Registry, value: AnyNumber = new BN(0)) {
+  constructor (registry: CodecRegistry, value: AnyNumber = new BN(0)) {
     super(registry, decodeAccountIndex(value));
   }
 

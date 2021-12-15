@@ -8,7 +8,7 @@ import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
 import { u32 } from '../primitive/U32';
 
-function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
+function createValue (registry: CodecRegistry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
   if (value && isFunction((value as Option<Codec>).unwrapOrDefault)) {
     return value as Option<Codec>;
@@ -26,7 +26,7 @@ function createValue (registry: Registry, type: string, value: unknown, asArray 
   );
 }
 
-function decodeValue (registry: Registry, key: string, value: unknown): unknown {
+function decodeValue (registry: CodecRegistry, key: string, value: unknown): unknown {
   return key === 'ss58Format'
     ? createValue(registry, 'Option<u32>', value, false)
     : key === 'tokenDecimals'
@@ -36,7 +36,7 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
         : value;
 }
 
-function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
+function decode (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
   return (
     // allow decoding from a map as well (ourselves)
     value && isFunction((value as Map<string, unknown>).entries)
@@ -54,7 +54,7 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 }
 
 export class GenericChainProperties extends Json {
-  constructor (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null) {
+  constructor (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null) {
     super(registry, decode(registry, value));
   }
 

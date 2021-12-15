@@ -16,7 +16,7 @@ import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a }
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  #registry: CodecRegistry;
+  readonly registry: CodecRegistry;
 
   public createdAtHash?: IU8a;
 
@@ -25,7 +25,7 @@ export class Raw extends Uint8Array implements IU8a {
   constructor (registry: CodecRegistry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
-    this.#registry = registry;
+    this.registry = registry;
     this.initialU8aLength = initialU8aLength;
   }
 
@@ -70,10 +70,6 @@ export class Raw extends Uint8Array implements IU8a {
   public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
-  }
-
-  public get registry (): CodecRegistry {
-    return this.#registry;
   }
 
   /**

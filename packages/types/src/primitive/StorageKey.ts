@@ -43,7 +43,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 }
 
 /** @internal */
-export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+export function unwrapStorageType (registry: CodecRegistry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
   const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
@@ -90,7 +90,7 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
+function decodeHashers <A extends AnyTuple> (registry: CodecRegistry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
   const result = new Array<Codec>(hashers.length);
@@ -110,7 +110,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
 }
 
 /** @internal */
-function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
+function decodeArgsFromMeta <A extends AnyTuple> (registry: CodecRegistry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
   if (!meta || !meta.type.isMap) {
     return [] as unknown as A;
   }
@@ -139,7 +139,7 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown[]?])
 }
 
 /** @internal */
-function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): string {
+function getType (registry: CodecRegistry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
@@ -175,7 +175,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
   #section?: string;
 
-  constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: CodecRegistry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
@@ -205,10 +205,6 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    */
   public get method (): string | undefined {
     return this.#method;
-  }
-
-  override get registry (): Registry {
-    return super.registry as Registry;
   }
 
   /**
