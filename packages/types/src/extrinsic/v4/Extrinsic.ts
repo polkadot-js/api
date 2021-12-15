@@ -1,15 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
 import type { Address, Call } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../types';
 import type { ExtrinsicOptions } from '../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
-
-import { Struct } from '../../codec/Struct';
 
 export const EXTRINSIC_VERSION = 4;
 
@@ -24,7 +24,7 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
-  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: CodecRegistry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
       // eslint-disable-next-line sort-keys
@@ -33,15 +33,15 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   }
 
   /** @internal */
-  public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
+  public static decodeExtrinsic (registry: CodecRegistry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
-    } else if (value instanceof registry.createClass('Call')) {
-      return { method: value };
+    } else if (value instanceof registry.createClassUnsafe('Call')) {
+      return { method: value as Call };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = registry.createType('ExtrinsicSignatureV4', value, { isSigned });
-      const method = registry.createType('Call', value.subarray(signature.encodedLength));
+      const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
 
       return {
         method,
@@ -49,7 +49,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value || {};
+    return (value as ExtrinsicValueV4) || {};
   }
 
   /**

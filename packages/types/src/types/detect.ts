@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { InterfaceTypes } from '@polkadot/types/types';
-import type { BTreeMap, BTreeSet, CodecSet, Compact, Enum, HashMap, Linkage, Option, Range, RangeInclusive, Result, Struct, U8aFixed, Vec, VecFixed } from '../codec';
-import type { Bytes, Null, u8 } from '../primitive';
-import type { Codec, Constructor } from './codec';
-import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, Enum, HashMap, Linkage, Null, Option, Range, RangeInclusive, Result, Struct, u8, U8aFixed, Vec, VecFixed } from '@polkadot/types-codec';
+import type { Codec, ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 
 export type DetectCodec<T extends Codec, K extends string> =
   // This is weird - it looks the wrong way around (i.e. T check should be done first), however
@@ -15,8 +13,6 @@ export type DetectCodec<T extends Codec, K extends string> =
     : T extends ICompact | IEnum | IMap | IMethod | INumber | IOption | IResult | ISet | IStruct | ITuple | IU8a | IVec
       ? T
       : __Codec<__Codecs<__Tokenize<__Sanitize<K>>[0]>>;
-
-export type DetectConstructor<T extends Codec, K extends string> = Constructor<DetectCodec<T, K>>;
 
 export type __Codec<V extends Codec[]> =
   V[0] extends Codec

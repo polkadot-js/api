@@ -1,14 +1,14 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { Registry } from '../types';
 
+import { Base } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Base } from '../codec/Base';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
@@ -18,27 +18,27 @@ type AnyAddress = bigint | BN | GenericLookupSource | GenericAccountId | Generic
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: Registry, value: string): GenericAccountId | GenericAccountIndex {
+function decodeString (registry: CodecRegistry, value: string): GenericAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 32
-    ? registry.createType('AccountId', decoded)
-    : registry.createType('AccountIndex', u8aToBn(decoded, true));
+    ? registry.createTypeUnsafe('AccountId', [decoded])
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded, true)]);
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array): GenericAccountId | GenericAccountIndex {
+function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 32) {
-    return registry.createType('AccountId', value);
+    return registry.createTypeUnsafe('AccountId', [value]);
   } else if (value[0] === 0xff) {
-    return registry.createType('AccountId', value.subarray(1));
+    return registry.createTypeUnsafe('AccountId', [value.subarray(1)]);
   }
 
   const [offset, length] = GenericAccountIndex.readLength(value);
 
-  return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
 /**
@@ -50,18 +50,18 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericAccountId | G
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export class GenericLookupSource extends Base<GenericAccountId | GenericAccountIndex> {
-  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
+  constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
     super(registry, GenericLookupSource._decodeAddress(registry, value));
   }
 
   /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
+  private static _decodeAddress (registry: CodecRegistry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
     return value instanceof GenericLookupSource
       ? value._raw
       : value instanceof GenericAccountId || value instanceof GenericAccountIndex
         ? value
         : isBn(value) || isNumber(value) || isBigInt(value)
-          ? registry.createType('AccountIndex', value)
+          ? registry.createTypeUnsafe('AccountIndex', [value])
           : Array.isArray(value) || isHex(value) || isU8a(value)
             ? decodeU8a(registry, u8aToU8a(value))
             : decodeString(registry, value);

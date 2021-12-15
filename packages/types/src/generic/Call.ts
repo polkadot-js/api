@@ -1,13 +1,12 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry, IMethod } from '@polkadot/types-codec/types';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, Codec, IMethod, InterfaceTypes, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, Codec, InterfaceTypes, Registry } from '../types';
 
+import { Struct, U8aFixed } from '@polkadot/types-codec';
 import { isHex, isObject, isU8a, objectSpread, u8aToU8a } from '@polkadot/util';
-
-import { Struct } from '../codec/Struct';
-import { U8aFixed } from '../codec/U8aFixed';
 
 interface DecodeMethodInput {
   args: unknown;
@@ -27,7 +26,7 @@ interface DecodedMethod extends DecodeMethodInput {
  * @param meta - The function metadata used to get the definition.
  * @internal
  */
-function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
+function getArgsDef (registry: CodecRegistry, meta: FunctionMetadataLatest): ArgsDef {
   return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
     result[name.unwrapOr(`param${index}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
 
@@ -36,7 +35,7 @@ function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef 
 }
 
 /** @internal */
-function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCallViaObject (registry: CodecRegistry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
   // we only pass args/methodsIndex out
   const { args, callIndex } = value;
 
@@ -47,7 +46,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
     : callIndex;
 
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(lookupIndex).meta;
+  const meta = _meta || (registry as Registry).findMetaCall(lookupIndex).meta;
 
   return {
     args,
@@ -58,14 +57,14 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 }
 
 /** @internal */
-function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCallViaU8a (registry: CodecRegistry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
   // We need 2 bytes for the callIndex
   const callIndex = new Uint8Array(2);
 
   callIndex.set(value.subarray(0, 2), 0);
 
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(callIndex).meta;
+  const meta = _meta || (registry as Registry).findMetaCall(callIndex).meta;
 
   return {
     args: value.subarray(2),
@@ -86,7 +85,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCall (registry: CodecRegistry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isU8a(value) || isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
@@ -102,7 +101,7 @@ function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8A
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
 export class GenericCallIndex extends U8aFixed {
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: CodecRegistry, value?: AnyU8a) {
     super(registry, value, 16);
   }
 }
@@ -115,7 +114,7 @@ export class GenericCallIndex extends U8aFixed {
 export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implements CallBase<A> {
   protected _meta: FunctionMetadataLatest;
 
-  constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
+  constructor (registry: CodecRegistry, value: unknown, meta?: FunctionMetadataLatest) {
     const decoded = decodeCall(registry, value, meta);
 
     try {
@@ -128,7 +127,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       let method = 'unknown.unknown';
 
       try {
-        const c = registry.findMetaCall(decoded.callIndex);
+        const c = (registry as Registry).findMetaCall(decoded.callIndex);
 
         method = `${c.section}.${c.method}`;
       } catch (error) {
@@ -187,14 +186,14 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description Returns the name of the method
    */
   public get method (): string {
-    return this.registry.findMetaCall(this.callIndex).method;
+    return (this.registry as Registry).findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get section (): string {
-    return this.registry.findMetaCall(this.callIndex).section;
+    return (this.registry as Registry).findMetaCall(this.callIndex).section;
   }
 
   /**
@@ -211,7 +210,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     let call: CallFunction | undefined;
 
     try {
-      call = this.registry.findMetaCall(this.callIndex);
+      call = (this.registry as Registry).findMetaCall(this.callIndex);
     } catch (error) {
       // swallow
     }

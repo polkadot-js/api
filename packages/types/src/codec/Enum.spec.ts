@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -131,7 +131,7 @@ describe('Enum', (): void => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (registry: Registry, value?: string, index?: number) {
+        constructor (registry: CodecRegistry, value?: string, index?: number) {
           super(registry, {
             a: A,
             b: B,
@@ -356,11 +356,11 @@ describe('Enum', (): void => {
     });
 
     it('re-creates via rawType (types)', (): void => {
-      const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType() as 'Raw';
-      const value = registry.createType(type, { B: 123 }) as unknown as { isB: true, asB: U32 };
+      const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType();
+      const value = registry.createType(type, { B: 123 });
 
-      expect(value.isB).toEqual(true);
-      expect(value.asB.toNumber()).toEqual(123);
+      expect((value as unknown as Record<string, unknown>).isB).toEqual(true);
+      expect((value as unknown as Record<string, U32>).asB.toNumber()).toEqual(123);
     });
   });
 

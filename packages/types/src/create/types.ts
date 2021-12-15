@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export type { CodecCreateOptions as CreateOptions } from '@polkadot/types-codec/types';
+
 export enum TypeDefInfo {
   BTreeMap,
   BTreeSet,
@@ -42,10 +44,4 @@ export interface TypeDef {
   sub?: TypeDef | TypeDef[];
   type: string;
   typeName?: string;
-}
-
-export interface CreateOptions {
-  blockHash?: Uint8Array | string | null;
-  isOptional?: boolean;
-  isPedantic?: boolean;
 }

@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces';
-import type { Registry } from '../../../types';
 import type { Storage } from '../types';
 
 import { lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
@@ -18,7 +18,7 @@ const VERSION_DOCS = { docs: 'Returns the current pallet version from storage', 
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
+export function decorateStorage (registry: CodecRegistry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 
   for (let i = 0; i < pallets.length; i++) {

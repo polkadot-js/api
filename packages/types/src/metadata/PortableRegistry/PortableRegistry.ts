@@ -1,18 +1,19 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Vec } from '../../codec';
+import type { Vec } from '@polkadot/types-codec';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text, Type } from '../../primitive';
-import type { Registry, TypeDef } from '../../types';
+import type { ILookup, TypeDef } from '../../types';
 
+import { sanitize, Struct } from '@polkadot/types-codec';
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
-import { Struct } from '../../codec/Struct';
 import { withTypeString } from '../../create/encodeTypes';
 import { getTypeDef } from '../../create/getTypeDef';
-import { sanitize } from '../../create/sanitize';
+import { u32 } from '../../primitive';
 import { TypeDefInfo } from '../../types';
 import { assertUnreachable } from './util';
 
@@ -324,12 +325,12 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
   return [types, lookups, names, params];
 }
 
-export class PortableRegistry extends Struct {
+export class PortableRegistry extends Struct implements ILookup {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
-  constructor (registry: Registry, value?: Uint8Array) {
+  constructor (registry: CodecRegistry, value?: Uint8Array) {
     // console.time('PortableRegistry')
 
     super(registry, {
@@ -559,7 +560,7 @@ export class PortableRegistry extends Struct {
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
-      length: this.registry.createType(this.registry.createLookupType(fields[0].type) as 'u32').bitLength(),
+      length: this.registry.createTypeUnsafe<u32>(this.registry.createLookupType(fields[0].type), []).bitLength(),
       sub: this.getSiType(params[0].type.unwrap()).def.asVariant.variants.map(({ index, name }): TypeDef => ({
         // This will be an issue > 2^53 - 1 ... don't have those (yet)
         index: index.toNumber(),

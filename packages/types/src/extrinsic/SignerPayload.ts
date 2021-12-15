@@ -1,18 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Codec, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
+import { Compact, Option, Struct, Text, u8, Vec } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
-
-import { Compact } from '../codec/Compact';
-import { Option } from '../codec/Option';
-import { Struct } from '../codec/Struct';
-import { Vec } from '../codec/Vec';
-import { Text } from '../primitive/Text';
-import { u8 } from '../primitive/U8';
 
 export interface SignerPayloadType extends Codec {
   address: Address;
@@ -50,7 +45,7 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+  constructor (registry: CodecRegistry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
@@ -156,7 +151,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     const payload = this.toPayload();
     const data = u8aToHex(
       this.registry
-        .createType('ExtrinsicPayload', payload, { version: payload.version })
+        .createTypeUnsafe('ExtrinsicPayload', [payload, { version: payload.version }])
         // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
         .toU8a({ method: true })
     );

@@ -1,17 +1,16 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, CodecHash, DispatchErrorModule, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, Codec, CodecHasher, Constructor, Definitions, DetectCodec, DetectConstructor, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
+import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { DoNotConstruct } from '../codec/DoNotConstruct';
-import { Json } from '../codec/Json';
-import { Raw } from '../codec/Raw';
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { GenericEventData } from '../generic/Event';
 import * as baseTypes from '../index.types';
@@ -20,7 +19,7 @@ import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadat
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
-import { constructTypeClass, createClass } from './createClass';
+import { constructTypeClass, createClassUnsafe } from './createClass';
 import { createTypeUnsafe } from './createType';
 import { lazyVariants } from './lazy';
 
@@ -78,7 +77,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
 }
 
 // create event classes from metadata
-function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, Constructor<GenericEventData>>>): void {
+function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -87,11 +86,11 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
     const { events, index, name } = filtered[i];
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
-      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): Constructor<GenericEventData> => {
-        const meta = registry.createType('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+      lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
+        const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
-          constructor (registry: Registry, value: Uint8Array) {
+          constructor (registry: CodecRegistry, value: Uint8Array) {
             super(registry, value, meta, stringCamelCase(name), variant.name.toString());
           }
         };
@@ -101,7 +100,7 @@ function injectEvents (registry: Registry, { lookup, pallets }: MetadataLatest, 
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
   const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
@@ -119,8 +118,8 @@ function injectExtrinsics (registry: Registry, { lookup, pallets }: MetadataLate
 }
 
 // extract additional properties from the metadata
-function extractProperties (registry: Registry, metadata: Metadata): ChainProperties | undefined {
-  const original = registry.getChainProperties();
+function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainProperties | undefined {
+  const original = (registry as Registry).getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
 
@@ -130,11 +129,11 @@ function extractProperties (registry: Registry, metadata: Metadata): ChainProper
 
   const { tokenDecimals, tokenSymbol } = original || {};
 
-  return registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
+  return (registry as Registry).createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, Constructor>();
+  #classes = new Map<string, CodecClass>();
 
   #definitions = new Map<string, string>();
 
@@ -148,7 +147,7 @@ export class TypeRegistry implements Registry {
 
   readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
 
-  readonly #metadataEvents: Record<string, Record<string, Constructor<GenericEventData>>> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -181,7 +180,7 @@ export class TypeRegistry implements Registry {
 
   public init (): this {
     // start clean
-    this.#classes = new Map<string, Constructor>();
+    this.#classes = new Map<string, CodecClass>();
     this.#definitions = new Map<string, string>();
     this.#unknownTypes = new Map<string, boolean>();
     this.#knownTypes = {};
@@ -267,22 +266,29 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <T extends Codec = Codec, K extends string = string> (type: K): DetectConstructor<T, K> {
-    return createClass(this, type);
+  public createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R> {
+    return this.createClassUnsafe(type) as unknown as CodecClass<R>;
+  }
+
+  /**
+   * @describe Creates an instance of the class
+   */
+  public createClassUnsafe <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<T> {
+    return createClassUnsafe(this, type);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
+  public createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R {
     return this.createTypeUnsafe(type, params);
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): DetectCodec<T, K> {
-    return createTypeUnsafe(this, type, params, options);
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, params: unknown[], options?: CreateOptions): R {
+    return createTypeUnsafe(this, type, params, options) as unknown as R;
   }
 
   // find a specific call
@@ -307,7 +313,7 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public findMetaEvent (eventIndex: Uint8Array): Constructor<GenericEventData> {
+  public findMetaEvent (eventIndex: Uint8Array): CodecClass<GenericEventData> {
     const [section, method] = [eventIndex[0], eventIndex[1]];
 
     return assertReturn(
@@ -316,17 +322,21 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): DetectConstructor<T, K> | undefined {
+  public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
+    return this.getUnsafe(name, withUnknown, knownTypeDef) as CodecClass<T>;
+  }
+
+  public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
     let Type = this.#classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
       const definition = this.#definitions.get(name);
-      let BaseType: Constructor | undefined;
+      let BaseType: CodecClass | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        BaseType = createClass(this, definition);
+        BaseType = createClassUnsafe(this, definition);
       } else if (knownTypeDef) {
         BaseType = constructTypeClass(this, knownTypeDef);
       } else if (withUnknown) {
@@ -347,14 +357,14 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    return Type as DetectConstructor<T, K>;
+    return Type as unknown as CodecClass<T>;
   }
 
   public getChainProperties (): ChainProperties | undefined {
     return this.#chainProperties;
   }
 
-  public getClassName (Type: Constructor): string | undefined {
+  public getClassName (Type: CodecClass): string | undefined {
     // we cannot rely on export order (anymore, since babel/core 7.15.8), so in the case of
     // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
     // (previously this used to be a simple find & return)
@@ -382,16 +392,16 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
   }
 
-  public getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): DetectConstructor<T, K> {
+  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
     assert(Clazz, msg || `type ${name} not found`);
 
-    return Clazz;
+    return Clazz as unknown as CodecClass<R>;
   }
 
-  public getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): DetectConstructor<T, K> {
-    return this.get<T, K>(name, true) as DetectConstructor<T, K>;
+  public getOrUnknown <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R> {
+    return this.get<T, K>(name, true) as unknown as CodecClass<R>;
   }
 
   public getSignedExtensionExtra (): Record<string, string> {
@@ -414,17 +424,17 @@ export class TypeRegistry implements Registry {
     return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
-  public hash (data: Uint8Array): CodecHash {
+  public hash (data: Uint8Array): IU8a {
     return this.createType('CodecHash', this.#hasher(data));
   }
 
-  public register (type: Constructor | RegistryTypes): void;
+  public register (type: CodecClass | RegistryTypes): void;
 
   // eslint-disable-next-line no-dupe-class-members
-  public register (name: string, type: Constructor): void;
+  public register (name: string, type: CodecClass): void;
 
   // eslint-disable-next-line no-dupe-class-members
-  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
+  public register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);

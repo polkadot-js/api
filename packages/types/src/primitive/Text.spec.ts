@@ -3,7 +3,8 @@
 
 import type { CodecTo } from '../types';
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '@polkadot/types-codec';
+
 import { TypeRegistry } from '../create';
 import { Bytes, Text } from '.';
 

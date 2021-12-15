@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Text } from '@polkadot/types-codec';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
-import type { Text, u8 } from '../../../primitive';
-import type { Registry } from '../../../types';
+import type { u8 } from '../../../primitive';
 import type { Errors, IsError } from '../types';
 
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
@@ -28,7 +29,7 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 }
 
 /** @internal */
-export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
+export function decorateErrors (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
 
   for (let i = 0; i < pallets.length; i++) {
@@ -42,7 +43,7 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
           is: ({ error, index }: DispatchErrorModule) =>
             index.eq(sectionIndex) &&
             error.eq(variant.index),
-          meta: registry.createType('ErrorMetadataLatest', variantToMeta(lookup, variant))
+          meta: registry.createTypeUnsafe('ErrorMetadataLatest', [variantToMeta(lookup, variant)])
         }))
       );
     }

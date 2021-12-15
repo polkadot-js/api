@@ -1,39 +1,37 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '../interfaces/runtime';
-import type { AnyU8a, Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../interfaces';
+import type { AnyU8a } from '../types';
 
+import { Bytes, U8aFixed, u32 } from '@polkadot/types-codec';
 import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
-
-import { U8aFixed } from '../codec/U8aFixed';
-import { Bytes } from '../primitive/Bytes';
-import { u32 } from '../primitive/U32';
 
 export const CID_AURA = stringToU8a('aura');
 export const CID_BABE = stringToU8a('BABE');
 export const CID_GRPA = stringToU8a('FRNK');
 export const CID_POW = stringToU8a('pow_');
 
-function getAuraAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+function getAuraAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
   return sessionValidators[
-    registry.createType('RawAuraPreDigest', bytes.toU8a(true))
+    registry.createTypeUnsafe<RawAuraPreDigest>('RawAuraPreDigest', [bytes.toU8a(true)])
       .slotNumber
       .mod(new BN(sessionValidators.length))
       .toNumber()
   ];
 }
 
-function getBabeAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-  const digest = registry.createType('RawBabePreDigestCompat', bytes.toU8a(true));
+function getBabeAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  const digest = registry.createTypeUnsafe<RawBabePreDigestCompat>('RawBabePreDigestCompat', [bytes.toU8a(true)]);
 
   return sessionValidators[
     (digest.value as u32).toNumber()
   ];
 }
 
-function getBytesAsAuthor (registry: Registry, bytes: Bytes): AccountId {
-  return registry.createType('AccountId', bytes);
+function getBytesAsAuthor (registry: CodecRegistry, bytes: Bytes): AccountId {
+  return registry.createTypeUnsafe('AccountId', [bytes]);
 }
 
 /**
@@ -42,7 +40,7 @@ function getBytesAsAuthor (registry: Registry, bytes: Bytes): AccountId {
  * A 4-byte identifier identifying the engine
  */
 export class GenericConsensusEngineId extends U8aFixed {
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: CodecRegistry, value?: AnyU8a) {
     super(
       registry,
       isNumber(value)

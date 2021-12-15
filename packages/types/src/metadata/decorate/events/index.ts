@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { AnyTuple, IEvent, Registry } from '../../../types';
+import type { AnyTuple, IEvent } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
 import { lazyMethod, stringCamelCase } from '@polkadot/util';
@@ -16,7 +17,7 @@ export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
 }
 
 /** @internal */
-export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
+export function decorateEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
   const filtered = pallets.filter(filterEventsSome);
 
@@ -29,7 +30,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
         is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
           sectionIndex === eventRecord.index[0] &&
           variant.index.eq(eventRecord.index[1]),
-        meta: registry.createType('EventMetadataLatest', variantToMeta(lookup, variant))
+        meta: registry.createTypeUnsafe('EventMetadataLatest', [variantToMeta(lookup, variant)])
       }))
     );
   }

@@ -24,15 +24,13 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/types-known": "6.12.2-1",
+    "@polkadot/types-codec": "6.12.2-1",
     "@polkadot/util": "^8.1.2",
     "@polkadot/util-crypto": "^8.1.2",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "@polkadot/keyring": "^8.1.2",
-    "@polkadot/types-support": "6.12.2-1",
-    "@types/bn.js": "^4.11.6",
-    "bn.js": "^4.12.0"
+    "@polkadot/types-support": "6.12.2-1"
   }
 }

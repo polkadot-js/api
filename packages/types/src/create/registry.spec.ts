@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import type { Codec, Constructor } from '../types';
+import type { Codec, CodecClass } from '@polkadot/types-codec/types';
 
+import { DoNotConstruct, Struct } from '@polkadot/types-codec';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { DoNotConstruct, Struct } from '../codec';
 import { Text, U32 } from '../primitive';
 import { TypeRegistry } from '.';
 
@@ -20,8 +20,8 @@ describe('TypeRegistry', (): void => {
   });
 
   it('throws on non-existent via getOrThrow', (): void => {
-    expect((): Constructor<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
-    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
+    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
+    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
   });
 
   it('handles non exist type as Unknown (via getOrUnknown)', (): void => {

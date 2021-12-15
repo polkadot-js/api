@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BNOrig from 'bn.js';
-
 import { BN, BN_TWO, isBn } from '@polkadot/util';
 
 import { TypeRegistry } from '../create';
@@ -28,7 +26,7 @@ describe('UInt', (): void => {
     const test = new UInt(registry, 16);
 
     expect(isBn(test)).toBe(true);
-    expect(BNOrig.isBN(test)).toBe(true);
+    expect(BN.isBN(test)).toBe(true);
     expect(test instanceof BN).toBe(true);
   });
 

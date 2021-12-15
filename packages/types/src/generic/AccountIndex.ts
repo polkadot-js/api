@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, Registry } from '../types';
+import type { AnyNumber, CodecRegistry } from '@polkadot/types-codec/types';
 
+import { u32 } from '@polkadot/types-codec';
 import { BN, bnToBn, isBigInt, isBn, isHex, isNumber, isU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-
-import { u32 } from '../primitive/U32';
 
 const PREFIX_1BYTE = 0xef;
 const PREFIX_2BYTE = 0xfc;
@@ -37,7 +36,7 @@ function decodeAccountIndex (value: AnyNumber): BN | bigint | Uint8Array | numbe
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
 export class GenericAccountIndex extends u32 {
-  constructor (registry: Registry, value: AnyNumber = new BN(0)) {
+  constructor (registry: CodecRegistry, value: AnyNumber = new BN(0)) {
     super(registry, decodeAccountIndex(value));
   }
 
@@ -88,7 +87,7 @@ export class GenericAccountIndex extends u32 {
     }
 
     // convert and compare
-    return super.eq(this.registry.createType('AccountIndex', other));
+    return super.eq(this.registry.createTypeUnsafe('AccountIndex', [other]));
   }
 
   /**

@@ -4,8 +4,9 @@
 /* eslint-disable no-dupe-class-members */
 
 import type { Observable, OperatorFunction } from 'rxjs';
-import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, Registry, SignatureOptions } from '@polkadot/types/types';
+import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
+import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
@@ -25,7 +26,7 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 
 const identity = <T> (input: T): T => input;
 
-function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
+function makeEraOptions (api: ApiInterfaceRx, registry: CodecRegistry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
   if (!header) {
     if (isNumber(partialOptions.era)) {
       // since we have no header, it is immortal, remove any option overrides
@@ -39,10 +40,10 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
 
   return makeSignOptions(api, partialOptions, {
     blockHash: header.hash,
-    era: registry.createType('ExtrinsicEra', {
+    era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
       period: partialOptions.era || mortalLength
-    }),
+    }]),
     nonce
   });
 }
@@ -83,7 +84,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
 
-    constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
+    constructor (registry: CodecRegistry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
 
       this.#ignoreStatusCb = apiType === 'rxjs';
@@ -285,11 +286,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
-      const payload = this.registry.createType('SignerPayload', objectSpread({}, options, {
+      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
         method: this.method
-      }));
+      })]);
       let result: SignerResult;
 
       if (signer.signPayload) {

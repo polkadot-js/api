@@ -2,19 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
 import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
+import type { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
 
+import { Bytes, Compact, Enum, Option, Struct, u32 } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { Compact } from '../../codec/Compact';
-import { Enum } from '../../codec/Enum';
-import { Option } from '../../codec/Option';
-import { Struct } from '../../codec/Struct';
-import { Bytes } from '../../primitive/Bytes';
-import { u32 } from '../../primitive/U32';
 import { sign } from '../util';
 
 /**
@@ -26,7 +22,7 @@ import { sign } from '../util';
 export class GenericExtrinsicPayloadV4 extends Struct {
   #signOptions: SignOptions;
 
-  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
+  constructor (registry: CodecRegistry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
       { method: 'Bytes' },
       registry.getSignedExtensionTypes(),
@@ -37,7 +33,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     // this is an enum, in the case of AnySignature, this is a Hash only
     // (which may be 64 or 65 bytes)
     this.#signOptions = {
-      withType: registry.createType('ExtrinsicSignature') instanceof Enum
+      withType: registry.createTypeUnsafe('ExtrinsicSignature', []) instanceof Enum
     };
   }
 

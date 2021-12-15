@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, SiLookupTypeId } from '../../interfaces';
 import type { PortableRegistry } from '../../metadata';
-import type { Registry } from '../../types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';
@@ -62,6 +62,6 @@ function getPalletNames ({ lookup, pallets }: MetadataLatest): string[][][] {
 }
 
 /** @internal */
-export function getUniqTypes (registry: Registry, meta: MetadataLatest, throwError: boolean): string[] {
+export function getUniqTypes (registry: CodecRegistry, meta: MetadataLatest, throwError: boolean): string[] {
   return validateTypes(registry, throwError, flattenUniq(getPalletNames(meta)));
 }

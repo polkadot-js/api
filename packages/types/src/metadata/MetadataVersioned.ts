@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
-import type { AnyJson, Registry } from '../types';
+import type { AnyJson } from '../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { assert } from '@polkadot/util';
 
-import { Struct } from '../codec';
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
 import { toV12 } from './v11/toV12';
@@ -30,7 +31,7 @@ const LATEST_VERSION = 14;
 export class MetadataVersioned extends Struct {
   readonly #converted = new Map<MetaVersions, MetaMapped>();
 
-  constructor (registry: Registry, value?: unknown) {
+  constructor (registry: CodecRegistry, value?: unknown) {
     // console.time('MetadataVersioned')
 
     super(registry, {
@@ -47,7 +48,7 @@ export class MetadataVersioned extends Struct {
     return this.version === version;
   };
 
-  #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
+  #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: CodecRegistry, input: F, metaVersion: number) => T): T => {
     const asCurr = `asV${version}` as MetaAsX;
     const asPrev = version === 'latest'
       ? `asV${LATEST_VERSION}` as MetaAsX
@@ -77,7 +78,7 @@ export class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: this.registry.createType('MetadataAll', toCallsOnly(this.registry, this.asLatest), LATEST_VERSION)
+      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), LATEST_VERSION])
     });
   }
 

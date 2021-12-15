@@ -1,14 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { Conviction } from '../interfaces/democracy';
 import type { AllConvictions } from '../interfaces/democracy/definitions';
-import type { AnyJson, ArrayElementType, Registry } from '../types';
+import type { AnyJson, ArrayElementType } from '../types';
 
+import { Bool, U8aFixed } from '@polkadot/types-codec';
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
-
-import { U8aFixed } from '../codec/U8aFixed';
-import { bool as Bool } from '../primitive/Bool';
 
 interface VoteType {
   aye: boolean;
@@ -39,15 +38,19 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 }
 
 /** @internal */
-function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
-  const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
-
-  return new Uint8Array([vote | conviction.index]);
+function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
+  return new Uint8Array([
+    (
+      new Bool(registry, value.aye).isTrue
+        ? AYE_BITS
+        : NAY_BITS
+    ) |
+    registry.createTypeUnsafe<Conviction>('Conviction', [value.conviction || DEF_CONV]).index
+  ]);
 }
 
 /** @internal */
-function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
+function decodeVote (registry: CodecRegistry, value?: InputTypes): Uint8Array {
   if (isU8a(value)) {
     return decodeVoteU8a(value);
   } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
@@ -69,7 +72,7 @@ export class GenericVote extends U8aFixed {
 
   #conviction: Conviction;
 
-  constructor (registry: Registry, value?: InputTypes) {
+  constructor (registry: CodecRegistry, value?: InputTypes) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101
@@ -78,7 +81,7 @@ export class GenericVote extends U8aFixed {
     super(registry, decoded, 8);
 
     this.#aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this.#conviction = this.registry.createType('Conviction', decoded[0] & CON_MASK);
+    this.#conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
   }
 
   /**

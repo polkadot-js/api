@@ -7,8 +7,7 @@ import { TypeRegistry } from '../create';
 import { I32, Text, U32 } from '../primitive';
 import { Constructor } from '../types';
 import { ITuple } from '../types/interfaces';
-import { Enum } from './Enum';
-import { BTreeSet, Struct, Tuple } from '.';
+import { BTreeSet, Enum, Struct, Tuple } from '.';
 
 const registry = new TypeRegistry();
 

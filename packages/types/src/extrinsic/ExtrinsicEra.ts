@@ -1,15 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { AnyU8a, IExtrinsicEra, Registry } from '../types';
+import type { AnyU8a, IExtrinsicEra } from '../types';
 
+import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
 import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
-import { Enum } from '../codec/Enum';
-import { Raw } from '../codec/Raw';
-import { Tuple } from '../codec/Tuple';
-import { u64 as U64 } from '../primitive/U64';
 import { IMMORTAL_ERA } from './constants';
 
 type MortalEraValue = [U64, U64];
@@ -45,7 +43,7 @@ function getTrailingZeros (period: number): number {
  */
 export class ImmortalEra extends Raw {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: CodecRegistry, value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
     super(registry, IMMORTAL_ERA);
@@ -58,7 +56,7 @@ export class ImmortalEra extends Raw {
  * The MortalEra for an extrinsic, indicating period and phase
  */
 export class MortalEra extends Tuple {
-  constructor (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string) {
+  constructor (registry: CodecRegistry, value?: MortalMethod | Uint8Array | number[] | string) {
     super(registry, {
       period: U64,
       phase: U64
@@ -66,7 +64,7 @@ export class MortalEra extends Tuple {
   }
 
   /** @internal */
-  private static _decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
+  private static _decodeMortalEra (registry: CodecRegistry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
     if (isU8a(value) || isHex(value) || Array.isArray(value)) {
       return MortalEra._decodeMortalU8a(registry, u8aToU8a(value));
     } else if (!value) {
@@ -79,7 +77,7 @@ export class MortalEra extends Tuple {
   }
 
   /** @internal */
-  private static _decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
+  private static _decodeMortalObject (registry: CodecRegistry, value: MortalMethod): MortalEraValue {
     const { current, period } = value;
     let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
 
@@ -93,7 +91,7 @@ export class MortalEra extends Tuple {
   }
 
   /** @internal */
-  private static _decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue {
+  private static _decodeMortalU8a (registry: CodecRegistry, value: Uint8Array): MortalEraValue {
     if (value.length === 0) {
       return [new U64(registry), new U64(registry)];
     }
@@ -198,7 +196,7 @@ export class MortalEra extends Tuple {
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
-  constructor (registry: Registry, value?: unknown) {
+  constructor (registry: CodecRegistry, value?: unknown) {
     super(registry, {
       ImmortalEra,
       MortalEra

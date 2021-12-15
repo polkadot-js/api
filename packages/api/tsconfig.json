@@ -8,6 +8,7 @@
   "references": [
     { "path": "../rpc-core" },
     { "path": "../rpc-provider" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-known" }
   ]
 }

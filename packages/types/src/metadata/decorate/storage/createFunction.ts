@@ -1,15 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry, ICompact, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
-import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
-import type { Registry } from '../../../types';
+import type { LookupRegistry } from '../../../types';
 
+import { Raw } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { Raw } from '../../../codec';
 import { StorageKey } from '../../../primitive';
 import { getHasher } from './getHasher';
 
@@ -36,7 +36,7 @@ interface IterFn {
 interface RawArgs {
   args: unknown[];
   hashers: StorageHasher[];
-  keys: SiLookupTypeId[];
+  keys: ICompact<INumber>[];
 }
 
 export const NO_RAW_ARGS: RawArgs = {
@@ -46,12 +46,12 @@ export const NO_RAW_ARGS: RawArgs = {
 };
 
 /** @internal */
-export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): Uint8Array {
+export function createKeyRaw (registry: CodecRegistry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): Uint8Array {
   const extra = new Array<Uint8Array>(keys.length);
 
   for (let i = 0; i < keys.length; i++) {
     extra[i] = getHasher(hashers[i])(
-      registry.createType(registry.createLookupType(keys[i]), args[i]).toU8a()
+      registry.createTypeUnsafe(registry.createLookupType(keys[i]), [args[i]]).toU8a()
     );
   }
 
@@ -68,7 +68,7 @@ function filterDefined (a: unknown): boolean {
 }
 
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, { args, hashers, keys }: RawArgs): Uint8Array {
+function createKey (registry: CodecRegistry, itemFn: CreateItemFn, { args, hashers, keys }: RawArgs): Uint8Array {
   const { method, section } = itemFn;
 
   assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
@@ -81,7 +81,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, { args, hashers, k
 }
 
 /** @internal */
-function createWStorageFn (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Uint8Array {
+function createWStorageFn (registry: CodecRegistry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Uint8Array {
   const { meta: { type } } = itemFn;
   let cacheKey: Uint8Array | null = null;
 
@@ -104,12 +104,12 @@ function createWStorageFn (registry: Registry, itemFn: CreateItemFn, options: Cr
 
     return hashers.length === 1
       ? createKey(registry, itemFn, { args, hashers, keys: [key] })
-      : createKey(registry, itemFn, { args, hashers, keys: registry.lookup.getSiType(key).def.asTuple });
+      : createKey(registry, itemFn, { args, hashers, keys: (registry as LookupRegistry).lookup.getSiType(key).def.asTuple });
   };
 }
 
 /** @internal */
-function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
+function createWithMeta (registry: CodecRegistry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta, method, prefix, section } = itemFn;
   const storageFn = createWStorageFn(registry, itemFn, options) as StorageEntry;
 
@@ -126,26 +126,26 @@ function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: Crea
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
+function extendHeadMeta (registry: CodecRegistry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
   const outputType = registry.createLookupType(type.asMap.key);
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
+  (iterFn as IterFn).meta = registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
     docs,
-    fallback: registry.createType('Bytes'),
-    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    fallback: registry.createTypeUnsafe('Bytes', []),
+    modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', [1]), // required
     name,
     // FIXME???
-    type: registry.createType('StorageEntryTypeLatest', outputType, 0)
-  });
+    type: registry.createTypeUnsafe('StorageEntryTypeLatest', [outputType, 0])
+  }]);
 
   return (...args: unknown[]) =>
-    registry.createType('StorageKey', iterFn(...args), { method, section });
+    registry.createTypeUnsafe('StorageKey', [iterFn(...args), { method, section }]);
 }
 
 /** @internal */
-function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+function extendPrefixedMap (registry: CodecRegistry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   const { meta: { type }, method, section } = itemFn;
 
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (...args: unknown[]): Raw => {
@@ -162,7 +162,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
         const { hashers, key } = type.asMap;
         const keysVec = hashers.length === 1
           ? [key]
-          : registry.lookup.getSiType(key).def.asTuple;
+          : (registry as LookupRegistry).lookup.getSiType(key).def.asTuple;
 
         return new Raw(registry, createKeyRaw(registry, itemFn, { args, hashers: hashers.slice(0, args.length), keys: keysVec.slice(0, args.length) }));
       }
@@ -175,7 +175,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 }
 
 /** @internal */
-export function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
+export function createFunction (registry: CodecRegistry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const storageFn = createWithMeta(registry, itemFn, options);
 

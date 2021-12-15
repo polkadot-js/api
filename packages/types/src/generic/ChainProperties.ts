@@ -1,35 +1,33 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Codec } from '../types';
 
+import { Json, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
-import { Json } from '../codec/Json';
-import { Option } from '../codec/Option';
-import { Vec } from '../codec/Vec';
-import { Text } from '../primitive/Text';
-import { u32 } from '../primitive/U32';
-
-function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
+function createValue (registry: CodecRegistry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
   if (value && isFunction((value as Option<Codec>).unwrapOrDefault)) {
     return value as Option<Codec>;
   }
 
-  return registry.createType(
-    type as 'Option<u32>',
-    asArray
-      ? isNull(value) || isUndefined(value)
-        ? null
-        : Array.isArray(value)
-          ? value
-          : [value]
-      : value
+  return registry.createTypeUnsafe<Option<u32>>(
+    type,
+    [
+      asArray
+        ? isNull(value) || isUndefined(value)
+          ? null
+          : Array.isArray(value)
+            ? value
+            : [value]
+        : value
+    ]
   );
 }
 
-function decodeValue (registry: Registry, key: string, value: unknown): unknown {
+function decodeValue (registry: CodecRegistry, key: string, value: unknown): unknown {
   return key === 'ss58Format'
     ? createValue(registry, 'Option<u32>', value, false)
     : key === 'tokenDecimals'
@@ -39,7 +37,7 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
         : value;
 }
 
-function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
+function decode (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
   return (
     // allow decoding from a map as well (ourselves)
     value && isFunction((value as Map<string, unknown>).entries)
@@ -50,14 +48,14 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
-    ss58Format: registry.createType('Option<u32>'),
-    tokenDecimals: registry.createType('Option<Vec<u32>>' as 'Vec<u32>'),
-    tokenSymbol: registry.createType('Option<Vec<Text>>' as 'Vec<Text>')
+    ss58Format: registry.createTypeUnsafe('Option<u32>', []),
+    tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
+    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
   });
 }
 
 export class GenericChainProperties extends Json {
-  constructor (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null) {
+  constructor (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null) {
     super(registry, decode(registry, value));
   }
 

@@ -1,16 +1,17 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyJson, AnyTuple, Codec, CodecRegistry, ICompact, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { AnyJson, AnyTuple, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
+import type { InterfaceTypes, IStorageKey, LookupRegistry } from '../types';
 import type { StorageEntry } from './types';
 
+import { Bytes } from '@polkadot/types-codec';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import { getSiName } from '../metadata/util';
-import { Bytes } from './Bytes';
 
 interface Decoded {
   key?: Uint8Array | string;
@@ -42,8 +43,8 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 }
 
 /** @internal */
-export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
+export function unwrapStorageType (registry: CodecRegistry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+  const outputType = getSiName((registry as LookupRegistry).lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
@@ -89,7 +90,7 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
+function decodeHashers <A extends AnyTuple> (registry: CodecRegistry, value: Uint8Array, hashers: [StorageHasher, ICompact<INumber>][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
   const result = new Array<Codec>(hashers.length);
@@ -98,8 +99,8 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
     const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(registry.createLookupType(type) as 'Raw', value.subarray(offset + hashLen))
-      : registry.createType('Raw', value.subarray(offset, offset + hashLen));
+      ? registry.createTypeUnsafe(registry.createLookupType(type), [value.subarray(offset + hashLen)])
+      : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result[i] = decoded;
@@ -109,7 +110,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
 }
 
 /** @internal */
-function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
+function decodeArgsFromMeta <A extends AnyTuple> (registry: CodecRegistry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
   if (!meta || !meta.type.isMap) {
     return [] as unknown as A;
   }
@@ -117,7 +118,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
   const { hashers, key } = meta.type.asMap;
   const keys = hashers.length === 1
     ? [key]
-    : registry.lookup.getSiType(key).def.asTuple;
+    : (registry as LookupRegistry).lookup.getSiType(key).def.asTuple;
 
   return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }
@@ -138,7 +139,7 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown[]?])
 }
 
 /** @internal */
-function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): string {
+function getType (registry: CodecRegistry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
@@ -174,7 +175,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
   #section?: string;
 
-  constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: CodecRegistry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);

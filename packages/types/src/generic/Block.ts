@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Vec } from '../codec/Vec';
+import type { Vec } from '@polkadot/types-codec';
+import type { CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
-import type { CodecHash, Digest, DigestItem, Header } from '../interfaces/runtime';
-import type { AnyNumber, AnyU8a, Registry } from '../types';
+import type { Digest, DigestItem, Header } from '../interfaces/runtime';
+import type { AnyNumber, AnyU8a } from '../types';
 
-import { Struct } from '../codec/Struct';
+import { Struct } from '@polkadot/types-codec';
 
 export interface HeaderValue {
   digest?: Digest | { logs: DigestItem[] | string[] };
@@ -27,7 +28,7 @@ export interface BlockValue {
  * A block encoded with header and extrinsics
  */
 export class GenericBlock extends Struct {
-  constructor (registry: Registry, value?: BlockValue | Uint8Array) {
+  constructor (registry: CodecRegistry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
       // eslint-disable-next-line sort-keys
@@ -38,7 +39,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Encodes a content [[Hash]] for the block
    */
-  public get contentHash (): CodecHash {
+  public get contentHash (): IU8a {
     return this.registry.hash(this.toU8a());
   }
 
@@ -52,7 +53,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Block/header [[Hash]]
    */
-  public override get hash (): CodecHash {
+  public override get hash (): IU8a {
     return this.header.hash;
   }
 

@@ -1,17 +1,15 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Balance, Hash, Index } from '../interfaces/runtime';
-import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, Registry } from '../types';
+import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair } from '../types';
 
+import { Base, Compact, Raw, u32 } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { Base } from '../codec/Base';
-import { Compact } from '../codec/Compact';
-import { Raw } from '../codec/Raw';
-import { u32 } from '../primitive/U32';
 import { DEFAULT_VERSION } from './constants';
 import { GenericExtrinsicEra } from './ExtrinsicEra';
 
@@ -37,17 +35,17 @@ const VERSIONS = [
  * on the contents included
  */
 export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
+  constructor (registry: CodecRegistry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
     super(registry, GenericExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
   /** @internal */
-  public static decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+  public static decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof GenericExtrinsicPayload) {
       return value._raw;
     }
 
-    return registry.createType(VERSIONS[version] || VERSIONS[0], value, { version });
+    return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
   }
 
   /**
@@ -69,7 +67,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return this._raw.genesisHash || this.registry.createType('Hash');
+    return this._raw.genesisHash || this.registry.createTypeUnsafe('Hash', []);
   }
 
   /**
@@ -91,7 +89,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return this._raw.specVersion || this.registry.createType('u32');
+    return this._raw.specVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**
@@ -99,7 +97,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return this._raw.tip || this.registry.createType('Compact<Balance>');
+    return this._raw.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
   }
 
   /**
@@ -107,7 +105,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get transactionVersion (): u32 {
     // NOTE only v4+
-    return this._raw.transactionVersion || this.registry.createType('u32');
+    return this._raw.transactionVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**

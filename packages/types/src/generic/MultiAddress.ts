@@ -1,28 +1,28 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 
+import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
-function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
+function decodeU8a (registry: CodecRegistry, u8a: Uint8Array): unknown {
   if ([0, 32].includes(u8a.length)) {
     return { Id: u8a };
   } else if (u8a.length === 20) {
     return { Address20: u8a };
   } else if (u8a.length <= 8) {
-    return { Index: registry.createType('AccountIndex', u8a).toNumber() };
+    return { Index: registry.createTypeUnsafe<GenericAccountIndex>('AccountIndex', [u8a]).toNumber() };
   }
 
   return u8a;
 }
 
-function decodeMultiAny (registry: Registry, value?: unknown): unknown {
+function decodeMultiAny (registry: CodecRegistry, value?: unknown): unknown {
   if (value instanceof GenericAccountId) {
     return { Id: value };
   } else if (isU8a(value)) {
@@ -40,7 +40,7 @@ function decodeMultiAny (registry: Registry, value?: unknown): unknown {
 }
 
 export class GenericMultiAddress extends Enum {
-  constructor (registry: Registry, value?: unknown) {
+  constructor (registry: CodecRegistry, value?: unknown) {
     super(registry, {
       Id: 'AccountId',
       Index: 'Compact<AccountIndex>',

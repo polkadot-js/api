@@ -1,11 +1,13 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
-import type { AnyJson, Registry } from '../../types';
+import type { AnyJson } from '../../types';
 
-import { Option } from '../../codec';
-import { Text, u8 } from '../../primitive';
+import { Option, Text } from '@polkadot/types-codec';
+
+import { u8 } from '../../primitive';
 
 interface ModuleMetadataTrimmed {
   calls: Option<PalletCallMetadataLatest>;
@@ -23,24 +25,24 @@ function trimDocs (docs: Text[]): string[] {
 }
 
 /** @internal */
-export function toCallsOnly (registry: Registry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
-  return registry.createType('MetadataLatest', {
+export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
+  return registry.createTypeUnsafe('MetadataLatest', [{
     extrinsic,
     lookup: {
       types: lookup.types.map(({ id, type }) =>
-        registry.createType('PortableType', {
+        registry.createTypeUnsafe('PortableType', [{
           id,
           type: {
             ...type,
             docs: trimDocs(type.docs)
           }
-        })
+        }])
       )
     },
     pallets: pallets.map(({ calls, index, name }): ModuleMetadataTrimmed => ({
-      calls: registry.createType('Option<PalletCallMetadataLatest>', calls.unwrapOr(null)),
+      calls: registry.createTypeUnsafe('Option<PalletCallMetadataLatest>', [calls.unwrapOr(null)]),
       index,
       name
     }))
-  }).toJSON();
+  }]).toJSON();
 }
