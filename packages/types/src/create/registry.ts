@@ -265,8 +265,8 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R> {
-    return this.createClassUnsafe(type) as unknown as CodecClass<R>;
+  public createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>> {
+    return this.createClassUnsafe(type) as unknown as CodecClass<DetectCodec<T, K>>;
   }
 
   /**
@@ -279,7 +279,7 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return this.createTypeUnsafe(type, params);
   }
 
