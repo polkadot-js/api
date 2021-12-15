@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue } from '@polkadot/types-codec/Tuple';
+import type { AnyTupleValue } from '@polkadot/types-codec/types';
 import type { VoteThreshold } from '../interfaces/elections';
 import type { BlockNumber } from '../interfaces/runtime';
 import type { CodecTo } from '../types';
@@ -10,7 +10,7 @@ import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
 import { TypeRegistry } from '../create';
 import { Metadata } from '../metadata';
-import { Text, U32, u128 as U128 } from '../primitive';
+import { Text, U32, U128 } from '../primitive';
 import { Tuple } from '.';
 
 describe('Tuple', (): void => {

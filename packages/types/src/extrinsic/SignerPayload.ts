@@ -6,10 +6,8 @@ import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
 import type { Codec, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
-import { Compact, Option, Struct, Text, Vec } from '@polkadot/types-codec';
+import { Compact, Option, Struct, Text, u8, Vec } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
-
-import { u8 } from '../primitive/U8';
 
 export interface SignerPayloadType extends Codec {
   address: Address;

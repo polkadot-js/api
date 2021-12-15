@@ -4,10 +4,8 @@
 import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { Codec } from '../types';
 
-import { Json, Option, Text, Vec } from '@polkadot/types-codec';
+import { Json, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
-
-import { u32 } from '../primitive/U32';
 
 function createValue (registry: CodecRegistry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself

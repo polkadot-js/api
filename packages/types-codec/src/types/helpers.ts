@@ -23,3 +23,5 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 // Likewise 160 is for [u8; 20], which is also a H160, i.e. an Ethereum address. Both these are
 // as a result of the Polkadot claims module. (Technically we don't need the 520 in here)
 export type U8aBitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 264 | 512 | 520 | 1024 | 2048;
+
+export type AnyTupleValue = AnyU8a | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];

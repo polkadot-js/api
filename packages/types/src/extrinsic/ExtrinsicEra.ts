@@ -5,10 +5,9 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { AnyU8a, IExtrinsicEra } from '../types';
 
-import { Enum, Raw, Tuple } from '@polkadot/types-codec';
+import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
 import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
-import { u64 as U64 } from '../primitive/U64';
 import { IMMORTAL_ERA } from './constants';
 
 type MortalEraValue = [U64, U64];

@@ -7,10 +7,9 @@ import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Balance, Hash, Index } from '../interfaces/runtime';
 import type { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair } from '../types';
 
-import { Base, Compact, Raw } from '@polkadot/types-codec';
+import { Base, Compact, Raw, u32 } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { u32 } from '../primitive/U32';
 import { DEFAULT_VERSION } from './constants';
 import { GenericExtrinsicEra } from './ExtrinsicEra';
 
