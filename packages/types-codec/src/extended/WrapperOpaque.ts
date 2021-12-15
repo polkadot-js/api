@@ -37,7 +37,7 @@ export class WrapperOpaque<T extends Codec> extends Base<T> {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `WrapperOpaque<${this._raw.toRawType()}>`;
+    return `WrapperOpaque<${this.inner.toRawType()}>`;
   }
 
   /**
@@ -49,12 +49,5 @@ export class WrapperOpaque<T extends Codec> extends Base<T> {
     return isBare
       ? u8a
       : compactAddLength(u8a);
-  }
-
-  /**
-   * @description Return the inner value for the wrapped type
-   */
-  public unwrap (): T {
-    return this._raw;
   }
 }
