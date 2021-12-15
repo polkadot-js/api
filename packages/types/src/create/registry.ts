@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, CodecHasher, CreateRegistry, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 import type { CreateOptions, TypeDef } from './types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -87,7 +87,7 @@ function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLat
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
-        const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+        const meta = (registry as CreateRegistry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: CodecRegistry, value: Uint8Array) {
@@ -129,7 +129,7 @@ function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainP
 
   const { tokenDecimals, tokenSymbol } = original || {};
 
-  return (registry as Registry).createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
+  return (registry as CreateRegistry).createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
 }
 
 export class TypeRegistry implements Registry {

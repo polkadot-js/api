@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { CodecRegistry, ICompact, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
-import type { SiLookupTypeId } from '../../../interfaces/scaleInfo';
 import type { StorageEntry } from '../../../primitive/types';
-import type { Registry } from '../../../types';
+import type { LookupRegistry } from '../../../types';
 
 import { Raw } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
@@ -37,7 +36,7 @@ interface IterFn {
 interface RawArgs {
   args: unknown[];
   hashers: StorageHasher[];
-  keys: SiLookupTypeId[];
+  keys: ICompact<INumber>[];
 }
 
 export const NO_RAW_ARGS: RawArgs = {
@@ -105,7 +104,7 @@ function createWStorageFn (registry: CodecRegistry, itemFn: CreateItemFn, option
 
     return hashers.length === 1
       ? createKey(registry, itemFn, { args, hashers, keys: [key] })
-      : createKey(registry, itemFn, { args, hashers, keys: (registry as Registry).lookup.getSiType(key).def.asTuple });
+      : createKey(registry, itemFn, { args, hashers, keys: (registry as LookupRegistry).lookup.getSiType(key).def.asTuple });
   };
 }
 
@@ -163,7 +162,7 @@ function extendPrefixedMap (registry: CodecRegistry, itemFn: CreateItemFn, stora
         const { hashers, key } = type.asMap;
         const keysVec = hashers.length === 1
           ? [key]
-          : (registry as Registry).lookup.getSiType(key).def.asTuple;
+          : (registry as LookupRegistry).lookup.getSiType(key).def.asTuple;
 
         return new Raw(registry, createKeyRaw(registry, itemFn, { args, hashers: hashers.slice(0, args.length), keys: keysVec.slice(0, args.length) }));
       }

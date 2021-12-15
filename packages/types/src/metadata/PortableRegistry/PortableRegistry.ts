@@ -6,7 +6,7 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 import type { Text, Type } from '../../primitive';
-import type { TypeDef } from '../../types';
+import type { ILookup, TypeDef } from '../../types';
 
 import { sanitize, Struct } from '@polkadot/types-codec';
 import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
@@ -325,7 +325,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
   return [types, lookups, names, params];
 }
 
-export class PortableRegistry extends Struct {
+export class PortableRegistry extends Struct implements ILookup {
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;

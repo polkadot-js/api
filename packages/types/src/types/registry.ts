@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { CodecRegistry, RegistryTypes } from '@polkadot/types-codec/types';
+import type { CodecRegistry, ICompact, INumber, RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { TypeDef } from '../create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
@@ -96,8 +96,28 @@ export interface RegisteredTypes {
   typesSpec?: Record<string, RegistryTypes>;
 }
 
+export interface ILookup {
+  getSiType (lookupId: ICompact<INumber> | string | number): {
+    def: {
+      asTuple: ICompact<INumber>[]
+    }
+  },
+  getTypeDef (lookupId: ICompact<INumber> | string | number): TypeDef;
+}
+
+export interface LookupRegistry extends CodecRegistry {
+  lookup: ILookup;
+}
+
+export interface CreateRegistry extends LookupRegistry {
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
+}
+
 // Note the commented interfaces here are directly from CodecRegistry
-export interface Registry extends CodecRegistry {
+export interface Registry extends CreateRegistry {
   // readonly chainDecimals: number[];
   // readonly chainSS58: number | undefined;
   // readonly chainTokens: string[];
@@ -118,10 +138,10 @@ export interface Registry extends CodecRegistry {
   // isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
-  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  // createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
+  // createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
 
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
+  // get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
   getChainProperties (): ChainProperties | undefined;
   // getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;

@@ -5,7 +5,7 @@ import type { AnyJson, Codec, CodecClass, CodecRegistry } from '@polkadot/types-
 import type { TypeDef } from '../create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
+import type { IEvent, IEventData, InterfaceTypes, LookupRegistry } from '../types';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
@@ -57,7 +57,7 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = fields.map(({ type }) => (registry as Registry).lookup.getTypeDef(type));
+    this.#typeDef = fields.map(({ type }) => (registry as LookupRegistry).lookup.getTypeDef(type));
   }
 
   /**
