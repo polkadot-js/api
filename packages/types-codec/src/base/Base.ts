@@ -15,11 +15,11 @@ export abstract class Base<T extends Codec> implements Codec {
 
   readonly initialU8aLength?: number;
 
-  protected readonly _raw: T;
+  readonly #raw: T;
 
   protected constructor (registry: CodecRegistry, value: T, initialU8aLength?: number) {
     this.registry = registry;
-    this._raw = value;
+    this.#raw = value;
     this.initialU8aLength = initialU8aLength;
   }
 
@@ -37,46 +37,50 @@ export abstract class Base<T extends Codec> implements Codec {
     return this.registry.hash(this.toU8a());
   }
 
+  public get inner (): T {
+    return this.#raw;
+  }
+
   /**
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this._raw.isEmpty;
+    return this.#raw.isEmpty;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
-    return this._raw.eq(other);
+    return this.#raw.eq(other);
   }
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   public toHex (isLe?: boolean): HexString {
-    return this._raw.toHex(isLe);
+    return this.#raw.toHex(isLe);
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this._raw.toHuman(isExtended);
+    return this.#raw.toHuman(isExtended);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this._raw.toJSON();
+    return this.#raw.toJSON();
   }
 
   /**
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this._raw.toString();
+    return this.#raw.toString();
   }
 
   /**
@@ -84,7 +88,7 @@ export abstract class Base<T extends Codec> implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return this._raw.toU8a(isBare);
+    return this.#raw.toU8a(isBare);
   }
 
   /**
@@ -92,5 +96,9 @@ export abstract class Base<T extends Codec> implements Codec {
    */
   public toRawType (): string {
     return 'Base';
+  }
+
+  public unwrap (): T {
+    return this.#raw;
   }
 }

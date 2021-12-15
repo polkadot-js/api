@@ -234,6 +234,13 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description The value of the enum
+   */
+  public get inner (): Codec {
+    return this.#raw;
+  }
+
+  /**
    * @description true if this is a basic enum (no values)
    */
   public get isBasic (): boolean {

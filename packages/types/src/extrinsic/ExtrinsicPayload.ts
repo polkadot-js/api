@@ -28,6 +28,15 @@ const VERSIONS = [
   'ExtrinsicPayloadV4'
 ];
 
+/** @internal */
+function decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+  if (value instanceof GenericExtrinsicPayload) {
+    return value.unwrap();
+  }
+
+  return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
+}
+
 /**
  * @name GenericExtrinsicPayload
  * @description
@@ -36,30 +45,21 @@ const VERSIONS = [
  */
 export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   constructor (registry: CodecRegistry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
-    super(registry, GenericExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
-  }
-
-  /** @internal */
-  public static decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
-    if (value instanceof GenericExtrinsicPayload) {
-      return value._raw;
-    }
-
-    return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
+    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
   /**
    * @description The block [[Hash]] the signature applies to (mortal/immortal)
    */
   public get blockHash (): Hash {
-    return this._raw.blockHash;
+    return this.inner.blockHash;
   }
 
   /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): GenericExtrinsicEra {
-    return this._raw.era;
+    return this.inner.era;
   }
 
   /**
@@ -67,21 +67,21 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return this._raw.genesisHash || this.registry.createTypeUnsafe('Hash', []);
+    return this.inner.genesisHash || this.registry.createTypeUnsafe('Hash', []);
   }
 
   /**
    * @description The [[Raw]] contained in the payload
    */
   public get method (): Raw {
-    return this._raw.method;
+    return this.inner.method;
   }
 
   /**
    * @description The [[Index]]
    */
   public get nonce (): Compact<Index> {
-    return this._raw.nonce;
+    return this.inner.nonce;
   }
 
   /**
@@ -89,7 +89,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return this._raw.specVersion || this.registry.createTypeUnsafe('u32', []);
+    return this.inner.specVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**
@@ -97,7 +97,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return this._raw.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
+    return this.inner.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
   }
 
   /**
@@ -105,21 +105,21 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get transactionVersion (): u32 {
     // NOTE only v4+
-    return this._raw.transactionVersion || this.registry.createTypeUnsafe('u32', []);
+    return this.inner.transactionVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public override eq (other?: unknown): boolean {
-    return this._raw.eq(other);
+    return this.inner.eq(other);
   }
 
   /**
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): { signature: HexString } {
-    const signature = this._raw.sign(signerPair);
+    const signature = this.inner.sign(signerPair);
 
     // This is extensible, so we could quite readily extend to send back extra
     // information, such as for instance the payload, i.e. `payload: this.toHex()`
@@ -134,7 +134,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExtended?: boolean): AnyJson {
-    return this._raw.toHuman(isExtended);
+    return this.inner.toHuman(isExtended);
   }
 
   /**

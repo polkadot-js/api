@@ -36,12 +36,53 @@ const VERSIONS = [
 
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
+/** @internal */
+function newFromValue (registry: CodecRegistry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  if (value instanceof GenericExtrinsic) {
+    return value.unwrap();
+  }
+
+  const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+  const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+
+  // we cast here since the VERSION definition is incredibly broad - we don't have a
+  // slice for "only add extrinsic types", and more string definitions become unwieldy
+  return registry.createTypeUnsafe(type, [value, { isSigned, version }]);
+}
+
+/** @internal */
+function decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+    return decodeU8a(registry, u8aToU8a(value), version);
+  } else if (value instanceof registry.createClassUnsafe('Call')) {
+    return newFromValue(registry, { method: value }, version);
+  }
+
+  return newFromValue(registry, value, version);
+}
+
+/** @internal */
+function decodeU8a (registry: CodecRegistry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  if (!value.length) {
+    return newFromValue(registry, new Uint8Array(), version);
+  }
+
+  const [offset, length] = compactFromU8a(value);
+  const total = offset + length.toNumber();
+
+  assert(total <= value.length, () => `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+
+  const data = value.subarray(offset, total);
+
+  return newFromValue(registry, data.subarray(1), data[0]);
+}
+
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   constructor (registry: CodecRegistry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
-    const getter = (key: string) => (this._raw as ExtrinsicVx).signature[key as 'signer'];
+    const getter = (key: string) => this.inner.signature[key as 'signer'];
 
     // This is on the abstract class, ensuring that hasOwnProperty operates
     // correctly, i.e. it needs to be on the base class exposing it
@@ -82,7 +123,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    * @description The era for this extrinsic
    */
   public get era (): GenericExtrinsicEra {
-    return (this._raw as ExtrinsicVx).signature.era;
+    return this.inner.signature.era;
   }
 
   /**
@@ -96,7 +137,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return (this._raw as ExtrinsicVx).signature.isSigned;
+    return this.inner.signature.isSigned;
   }
 
   /**
@@ -117,42 +158,46 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): CallBase<A> {
-    return (this._raw as ExtrinsicVx).method as unknown as CallBase<A>;
+    return this.inner.method as unknown as CallBase<A>;
   }
 
   /**
    * @description The nonce for this extrinsic
    */
   public get nonce (): Compact<Index> {
-    return (this._raw as ExtrinsicVx).signature.nonce;
+    return this.inner.signature.nonce;
   }
 
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
   public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
-    return (this._raw as ExtrinsicVx).signature.signature;
+    return this.inner.signature.signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return (this._raw as ExtrinsicVx).signature.signer;
+    return this.inner.signature.signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): Compact<Balance> {
-    return (this._raw as ExtrinsicVx).signature.tip;
+    return this.inner.signature.tip;
   }
 
   /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
-    return (this._raw as ExtrinsicVx).version;
+    return this.inner.version;
+  }
+
+  public override get inner (): ExtrinsicVx {
+    return this.unwrap();
   }
 
   /**
@@ -167,6 +212,10 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    */
   public is (other: IMethod<AnyTuple>): other is IMethod<A> {
     return this.method.is(other);
+  }
+
+  public override unwrap (): ExtrinsicVx {
+    return super.unwrap() as ExtrinsicVx;
   }
 }
 
@@ -186,48 +235,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   #hashCache?: CodecHash;
 
   constructor (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
-    super(registry, GenericExtrinsic._decodeExtrinsic(registry, value, version));
-  }
-
-  /** @internal */
-  private static _newFromValue (registry: CodecRegistry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (value instanceof GenericExtrinsic) {
-      return value._raw;
-    }
-
-    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
-
-    // we cast here since the VERSION definition is incredibly broad - we don't have a
-    // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return registry.createTypeUnsafe(type, [value, { isSigned, version }]);
-  }
-
-  /** @internal */
-  private static _decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-      return GenericExtrinsic._decodeU8a(registry, u8aToU8a(value), version);
-    } else if (value instanceof registry.createClassUnsafe('Call')) {
-      return GenericExtrinsic._newFromValue(registry, { method: value }, version);
-    }
-
-    return GenericExtrinsic._newFromValue(registry, value, version);
-  }
-
-  /** @internal */
-  private static _decodeU8a (registry: CodecRegistry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (!value.length) {
-      return GenericExtrinsic._newFromValue(registry, new Uint8Array(), version);
-    }
-
-    const [offset, length] = compactFromU8a(value);
-    const total = offset + length.toNumber();
-
-    assert(total <= value.length, () => `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
-
-    const data = value.subarray(offset, total);
-
-    return GenericExtrinsic._newFromValue(registry, data.subarray(1), data[0]);
+    super(registry, decodeExtrinsic(registry, value, version));
   }
 
   /**
@@ -245,7 +253,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description Injects an already-generated signature into the extrinsic
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsic<A> {
-    (this._raw as ExtrinsicVx).addSignature(signer, signature, payload);
+    this.inner.addSignature(signer, signature, payload);
     this.#hashCache = undefined;
 
     return this;
@@ -255,7 +263,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
-    (this._raw as ExtrinsicVx).sign(account, options);
+    this.inner.sign(account, options);
     this.#hashCache = undefined;
 
     return this;
@@ -265,7 +273,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @describe Adds a fake signature to the extrinsic
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic<A> {
-    (this._raw as ExtrinsicVx).signFake(signer, options);
+    this.inner.signFake(signer, options);
     this.#hashCache = undefined;
 
     return this;
@@ -321,7 +329,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   public override toU8a (isBare?: boolean): Uint8Array {
     // we do not apply bare to the internal values, rather this only determines out length addition,
     // where we strip all lengths this creates an extrinsic that cannot be decoded
-    const encoded = u8aConcat(new Uint8Array([this.version]), this._raw.toU8a());
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.inner.toU8a());
 
     return isBare
       ? encoded
