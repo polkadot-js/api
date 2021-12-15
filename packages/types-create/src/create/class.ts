@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass, CodecRegistry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
-import type { DetectCodec, LookupRegistry } from '../types';
-import type { TypeDef } from './types';
+import type { CreateRegistry, TypeDef } from '../types';
 
 import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '@polkadot/types-codec';
 import { assert, isNumber, stringify } from '@polkadot/util';
 
-import { getTypeDef } from './getTypeDef';
-import { TypeDefInfo } from './types';
+import { TypeDefInfo } from '../types';
+import { getTypeDef } from '../util/getTypeDef';
 
 function getTypeDefType ({ lookupName, type }: TypeDef): string {
   return lookupName || type;
@@ -143,7 +142,7 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
     ),
 
   [TypeDefInfo.Si]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
-    getTypeClass(registry, (registry as LookupRegistry).lookup.getTypeDef(value.type)),
+    getTypeClass(registry, (registry as CreateRegistry).lookup.getTypeDef(value.type)),
 
   [TypeDefInfo.Struct]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     Struct.with(getTypeClassMap(value), value.alias),
@@ -199,18 +198,14 @@ export function constructTypeClass<T extends Codec = Codec> (registry: CodecRegi
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {
-  return (registry as LookupRegistry).getUnsafe(typeDef.type, false, typeDef) as CodecClass<T>;
-}
-
-export function createClass<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<DetectCodec<T, K>> {
-  return createClassUnsafe(registry, type);
+  return (registry as CreateRegistry).getUnsafe(typeDef.type, false, typeDef) as CodecClass<T>;
 }
 
 export function createClassUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K): CodecClass<T> {
   return getTypeClass(
     registry,
     registry.isLookupType(type)
-      ? (registry as LookupRegistry).lookup.getTypeDef(type)
+      ? (registry as CreateRegistry).lookup.getTypeDef(type)
       : getTypeDef(type)
   );
 }

@@ -18,6 +18,8 @@
       "@polkadot/types/*": ["types/src/*"],
       "@polkadot/types-codec": ["types-codec/src"],
       "@polkadot/types-codec/*": ["types-codec/src/*"],
+      "@polkadot/types-create": ["types-create/src"],
+      "@polkadot/types-create/*": ["types-create/src/*"],
       "@polkadot/types-known": ["types-known/src"],
       "@polkadot/types-known/*": ["types-known/src/*"],
       "@polkadot/types-support": ["types-support/src"],

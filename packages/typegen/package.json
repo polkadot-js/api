@@ -37,6 +37,7 @@
     "@polkadot/rpc-provider": "6.12.2-2",
     "@polkadot/types": "6.12.2-2",
     "@polkadot/types-codec": "6.12.2-2",
+    "@polkadot/types-create": "6.12.2-2",
     "@polkadot/types-support": "6.12.2-2",
     "@polkadot/util": "^8.1.2",
     "handlebars": "^4.7.7",

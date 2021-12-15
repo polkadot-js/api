@@ -18,6 +18,7 @@ try {
         alias: {
           '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
           '^@polkadot/types-codec(.*)': './packages/types-codec/src\\1',
+          '^@polkadot/types-create(.*)': './packages/types-create/src\\1',
           '^@polkadot/types-known(.*)': './packages/types-known/src\\1',
           '^@polkadot/types-support(.*)': './packages/types-support/src\\1',
           '^@polkadot/types(.*)': './packages/types/src\\1'

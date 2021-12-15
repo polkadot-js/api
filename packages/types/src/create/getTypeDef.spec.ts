@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDefInfo } from './types';
+import { TypeDefInfo } from '@polkadot/types-create';
+
 import { getTypeDef, TypeRegistry } from '.';
 
 describe('getTypeDef', (): void => {

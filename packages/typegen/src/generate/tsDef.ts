@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/create/types';
 import type { Registry } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { ModuleTypes } from '../util/imports';
 
 import Handlebars from 'handlebars';
 import path from 'path';
 
-import { getTypeDef, TypeRegistry } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
+import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
 import { createImports, exportInterface, exportType, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';

@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
+import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
-import type { CreateOptions, TypeDef } from './types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
+import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
 import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -19,8 +20,6 @@ import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadat
 import { createCallFunction } from '../metadata/decorate/extrinsics';
 import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
-import { constructTypeClass, createClassUnsafe } from './createClass';
-import { createTypeUnsafe } from './createType';
 import { lazyVariants } from './lazy';
 
 const l = logger('registry');
@@ -266,8 +265,8 @@ export class TypeRegistry implements Registry {
   /**
    * @describe Creates an instance of the class
    */
-  public createClass <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K): CodecClass<R> {
-    return this.createClassUnsafe(type) as unknown as CodecClass<R>;
+  public createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>> {
+    return this.createClassUnsafe(type) as unknown as CodecClass<DetectCodec<T, K>>;
   }
 
   /**
@@ -280,7 +279,7 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, ...params: unknown[]): R {
+  public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
     return this.createTypeUnsafe(type, params);
   }
 

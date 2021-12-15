@@ -18,7 +18,15 @@ const external = [
   '@polkadot/util-crypto'
 ];
 
-const entries = ['api-derive', 'rpc-core', 'rpc-provider', 'types-codec', 'types-known'].reduce((all, p) => ({
+function expand (prefix, all) {
+  return all.map((p) => `${prefix}-${p}`);
+}
+
+const entries = [
+  'api-derive',
+  ...expand('rpc', ['core', 'provider']),
+  ...expand('types', ['codec', 'create', 'known'])
+].reduce((all, p) => ({
   ...all,
   [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)
 }), {

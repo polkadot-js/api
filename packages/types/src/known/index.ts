@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Text } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { Hash } from '../interfaces';
-import type { Text } from '../primitive';
 import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '../types';
 
 import { bnToBn, isNull, isUndefined, objectSpread } from '@polkadot/util';
