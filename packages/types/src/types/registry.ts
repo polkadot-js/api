@@ -107,13 +107,13 @@ export interface ILookup {
 
 export interface LookupRegistry extends CodecRegistry {
   lookup: ILookup;
+
+  createLookupType (lookupId: ICompact<INumber> | number): string;
+  setLookup (lookup: ILookup): void;
 }
 
 export interface CreateRegistry extends LookupRegistry {
-  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
-  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
-
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
+  getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined;
 }
 
 // Note the commented interfaces here are directly from CodecRegistry
@@ -138,10 +138,10 @@ export interface Registry extends CreateRegistry {
   // isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;
 
-  // createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
-  // createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
+  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
+  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
 
-  // get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
+  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
   getChainProperties (): ChainProperties | undefined;
   // getClassName (clazz: Constructor): string | undefined;
   getDefinition (typeName: string): string | undefined;
