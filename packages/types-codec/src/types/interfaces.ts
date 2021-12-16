@@ -84,5 +84,5 @@ export interface IMethod<A extends AnyTuple = AnyTuple, M = any> extends Codec {
   readonly data: Uint8Array;
   readonly meta: M;
 
-  is: (tx: IMethod<AnyTuple, M>) => tx is IMethod<A, M>;
+  is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
 }
