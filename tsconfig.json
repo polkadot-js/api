@@ -14,7 +14,9 @@
     { "path": "./packages/types" },
     { "path": "./packages/types-codec" },
     { "path": "./packages/types-create" },
+    { "path": "./packages/types-helpers" },
     { "path": "./packages/types-known" },
+    { "path": "./packages/types-metadata" },
     { "path": "./packages/types-support" }
   ]
 }

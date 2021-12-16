@@ -24,6 +24,8 @@
       "@polkadot/types-helpers/*": ["types-helpers/src/*"],
       "@polkadot/types-known": ["types-known/src"],
       "@polkadot/types-known/*": ["types-known/src/*"],
+      "@polkadot/types-metadata": ["types-metadata/src"],
+      "@polkadot/types-metadata/*": ["types-metadata/src/*"],
       "@polkadot/types-support": ["types-support/src"],
       "@polkadot/types-support/*": ["types-support/src/*"]
     },

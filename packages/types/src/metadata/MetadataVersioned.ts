@@ -6,14 +6,9 @@ import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11,
 import type { Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
+import { toV10, toV11, toV12, toV13, toV14, toLatest } from '@polkadot/types-metadata';
 import { assert } from '@polkadot/util';
 
-import { toV10 } from './v9/toV10';
-import { toV11 } from './v10/toV11';
-import { toV12 } from './v11/toV12';
-import { toV13 } from './v12/toV13';
-import { toV14 } from './v13/toV14';
-import { toLatest } from './v14/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 

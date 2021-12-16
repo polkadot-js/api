@@ -2137,6 +2137,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/types-metadata@workspace:packages/types-metadata":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-metadata@workspace:packages/types-metadata"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@polkadot/util": ^8.1.2
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/types-support@6.12.2-8, @polkadot/types-support@workspace:packages/types-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"

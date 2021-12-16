@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecRegistry } from '@polkadot/types-codec/types';
-import type { MetadataV12, MetadataV13 } from '../../interfaces/metadata';
+import type { MetadataV12, MetadataV13 } from '@polkadot/types/interfaces/metadata';
 
 /**
  * @internal
