@@ -8,6 +8,7 @@
   },
   "references": [
     { "path": "../types" },
+    { "path": "../types-helpers" },
     { "path": "../types-known" }
   ]
 }

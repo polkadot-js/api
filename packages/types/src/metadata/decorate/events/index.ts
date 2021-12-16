@@ -6,11 +6,11 @@ import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../i
 import type { IEvent } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
+import { objectNameToString } from '@polkadot/types-helpers';
 import { lazyMethod, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
-import { objectNameToString } from '../util';
 
 export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;

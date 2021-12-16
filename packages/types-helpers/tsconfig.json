@@ -7,5 +7,6 @@
     "resolveJsonModule": true
   },
   "references": [
+    { "path": "../types-codec" }
   ]
 }

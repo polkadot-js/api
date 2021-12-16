@@ -5,9 +5,8 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
 import type { ConstantCodec, Constants } from '../types';
 
+import { objectNameToCamel } from '@polkadot/types-helpers';
 import { hexToU8a, lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
-
-import { objectNameToCamel } from '../util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

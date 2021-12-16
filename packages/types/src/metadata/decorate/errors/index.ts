@@ -8,10 +8,10 @@ import type { PortableRegistry } from '../../../metadata';
 import type { u8 } from '../../../primitive';
 import type { Errors, IsError } from '../types';
 
+import { objectNameToString } from '@polkadot/types-helpers';
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
-import { objectNameToString } from '../util';
 
 interface ItemMeta {
   args: string[];

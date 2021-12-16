@@ -7,11 +7,11 @@ import type { PortableRegistry } from '../../../metadata';
 import type { CallFunction } from '../../../types';
 import type { Extrinsics } from '../types';
 
+import { objectNameToCamel } from '@polkadot/types-helpers';
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { getSiName } from '../../util';
-import { objectNameToCamel } from '../util';
 import { createUnchecked } from './createUnchecked';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {

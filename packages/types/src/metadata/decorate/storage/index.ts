@@ -5,9 +5,9 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces';
 import type { Storage } from '../types';
 
+import { objectNameFirstLower } from '@polkadot/types-helpers';
 import { lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
 
-import { objectNameFirstLower } from '../util';
 import { createFunction, createKeyRaw, NO_RAW_ARGS } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';

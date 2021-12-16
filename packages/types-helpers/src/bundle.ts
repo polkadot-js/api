@@ -3,4 +3,5 @@
 
 export { packageInfo } from './packageInfo';
 
+export * from './objectName';
 export * from './xcm';
