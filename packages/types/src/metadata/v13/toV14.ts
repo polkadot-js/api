@@ -7,9 +7,8 @@ import type { ErrorMetadataV13, EventMetadataV13, ExtrinsicMetadataV13, Extrinsi
 import type { SiVariant } from '../../interfaces/scaleInfo';
 import type { OverrideModuleType, Registry } from '../../types';
 
+import { getModuleTypes, knownOrigins } from '@polkadot/types-known';
 import { stringCamelCase } from '@polkadot/util';
-
-import { getModuleTypes, knownOrigins } from '../../known';
 
 interface MapDef {
   hashers: StorageHasherV13[];
