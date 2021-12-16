@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, CodecRegistry } from '@polkadot/types-codec/types';
 import type { Call, FunctionMetadataLatest } from '../../../interfaces';
-import type { AnyJson, AnyTuple, CallFunction, IMethod } from '../../../types';
+import type { CallFunction, IMethod } from '../../../types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
 

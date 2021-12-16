@@ -1,9 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyU8a, CodecRegistry } from '@polkadot/types-codec/types';
 import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../interfaces';
-import type { AnyU8a } from '../types';
 
 import { Bytes, U8aFixed, u32 } from '@polkadot/types-codec';
 import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';

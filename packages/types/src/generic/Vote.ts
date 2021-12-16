@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, CodecRegistry } from '@polkadot/types-codec/types';
 import type { Conviction } from '../interfaces/democracy';
 import type { AllConvictions } from '../interfaces/democracy/definitions';
-import type { AnyJson, ArrayElementType } from '../types';
+import type { ArrayElementType } from '../types';
 
 import { Bool, U8aFixed } from '@polkadot/types-codec';
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';

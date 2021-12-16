@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyTuple } from '@polkadot/types-codec/types';
 import type { Call } from '../interfaces/runtime';
-import type { AnyTuple } from './codec';
 import type { IMethod } from './interfaces';
 
 export interface CallBase<A extends AnyTuple> extends IMethod<A> {
