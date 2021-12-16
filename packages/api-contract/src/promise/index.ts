@@ -5,6 +5,6 @@ import { toPromiseMethod } from '@polkadot/api';
 
 import { extendBlueprint, extendCode, extendContract } from '../base';
 
-export const Blueprint = extendBlueprint<'promise'>('promise', toPromiseMethod);
-export const Code = extendCode<'promise'>('promise', toPromiseMethod);
-export const Contract = extendContract<'promise'>('promise', toPromiseMethod);
+export const BlueprintPromise = extendBlueprint<'promise'>('promise', toPromiseMethod);
+export const CodePromise = extendCode<'promise'>('promise', toPromiseMethod);
+export const ContractPromise = extendContract<'promise'>('promise', toPromiseMethod);
