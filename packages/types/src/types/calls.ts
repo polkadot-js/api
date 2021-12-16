@@ -6,10 +6,10 @@ import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Call } from '../interfaces/runtime';
 import type { Registry } from './registry';
 
-export interface CallBase<A extends AnyTuple> extends CallBaseBase<A, FunctionMetadataLatest> {
+export interface CallBase<A extends AnyTuple, M = FunctionMetadataLatest> extends CallBaseBase<A, M> {
   registry: Registry;
 }
 
-export interface CallFunction<A extends AnyTuple = AnyTuple> extends CallFunctionBase<A, FunctionMetadataLatest> {
-  (...args: any[]): Call & IMethod<A, FunctionMetadataLatest>;
+export interface CallFunction<A extends AnyTuple = AnyTuple, M = FunctionMetadataLatest> extends CallFunctionBase<A, M> {
+  (...args: any[]): Call & IMethod<A, M>;
 }

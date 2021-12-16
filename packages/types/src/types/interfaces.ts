@@ -9,7 +9,7 @@ import type { Registry } from './registry';
 
 export type { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 
-export interface IMethod<A extends AnyTuple = AnyTuple> extends IMethodBase<A, FunctionMetadataLatest> {
+export interface IMethod<A extends AnyTuple = AnyTuple, M = FunctionMetadataLatest> extends IMethodBase<A, M> {
   readonly registry: Registry;
 }
 
