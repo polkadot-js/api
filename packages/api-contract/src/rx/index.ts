@@ -1,10 +1,27 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { toRxMethod } from '@polkadot/api';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
-import { extendBlueprint, extendCode, extendContract } from '../base';
+import { ApiRx, toRxMethod } from '@polkadot/api';
 
-export const BlueprintRx = extendBlueprint<'rxjs'>('rxjs', toRxMethod);
-export const CodeRx = extendCode<'rxjs'>('rxjs', toRxMethod);
-export const ContractRx = extendContract<'rxjs'>('rxjs', toRxMethod);
+import { Abi } from '../Abi';
+import { Blueprint, Code, Contract } from '../base';
+
+export class BlueprintRx extends Blueprint<'rxjs'> {
+  constructor (api: ApiRx, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash) {
+    super(api, abi, codeHash, toRxMethod);
+  }
+}
+
+export class CodeRx extends Code<'rxjs'> {
+  constructor (api: ApiRx, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
+    super(api, abi, wasm, toRxMethod);
+  }
+}
+
+export class ContractRx extends Contract<'rxjs'> {
+  constructor (api: ApiRx, abi: string | Record<string, unknown> | Abi, address: string | AccountId) {
+    super(api, abi, address, toRxMethod);
+  }
+}
