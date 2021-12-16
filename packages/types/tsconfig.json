@@ -10,6 +10,7 @@
     { "path": "../types-codec" },
     { "path": "../types-create" },
     { "path": "../types-helpers" },
+    { "path": "../types-metadata" },
     { "path": "../types-support" }
   ]
 }

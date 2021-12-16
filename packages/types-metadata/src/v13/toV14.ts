@@ -7,7 +7,7 @@ import type { OverrideModuleType, Registry } from '@polkadot/types/types';
 import type { Text, Type } from '@polkadot/types-codec';
 import type { CodecRegistry } from '@polkadot/types-codec/types';
 
-import { getModuleTypes, knownOrigins } from '@polkadot/types/known';
+import { getModuleTypes, knownOrigins } from '@polkadot/types-known';
 import { stringCamelCase } from '@polkadot/util';
 
 interface MapDef {

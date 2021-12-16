@@ -3,6 +3,8 @@
 
 export { packageInfo } from './packageInfo';
 
+export * from './util';
+
 export { toV10 } from './v9/toV10';
 export { toV11 } from './v10/toV11';
 export { toV12 } from './v11/toV12';

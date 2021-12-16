@@ -2137,7 +2137,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-metadata@workspace:packages/types-metadata":
+"@polkadot/types-metadata@6.12.2-8, @polkadot/types-metadata@workspace:packages/types-metadata":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-metadata@workspace:packages/types-metadata"
   dependencies:
@@ -2164,6 +2164,7 @@ __metadata:
     "@polkadot/types-codec": 6.12.2-8
     "@polkadot/types-create": 6.12.2-8
     "@polkadot/types-helpers": 6.12.2-8
+    "@polkadot/types-metadata": 6.12.2-8
     "@polkadot/types-support": 6.12.2-8
     "@polkadot/util": ^8.1.2
     "@polkadot/util-crypto": ^8.1.2
