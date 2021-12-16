@@ -5,6 +5,6 @@ import { toRxMethod } from '@polkadot/api';
 
 import { extendBlueprint, extendCode, extendContract } from '../base';
 
-export const Blueprint = extendBlueprint<'rxjs'>('rxjs', toRxMethod);
-export const Code = extendCode<'rxjs'>('rxjs', toRxMethod);
-export const Contract = extendContract<'rxjs'>('rxjs', toRxMethod);
+export const BlueprintRx = extendBlueprint<'rxjs'>('rxjs', toRxMethod);
+export const CodeRx = extendCode<'rxjs'>('rxjs', toRxMethod);
+export const ContractRx = extendContract<'rxjs'>('rxjs', toRxMethod);
