@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2021 @polkadot/types-metadata authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodecRegistry } from '@polkadot/types-codec/types';
@@ -7,11 +7,10 @@ import type { Check } from './types';
 import fs from 'fs';
 import path from 'path';
 
+import { Metadata, TypeRegistry } from '@polkadot/types';
+import { unwrapStorageSi, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
-import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
-import { Metadata } from '../Metadata';
 import { getUniqTypes } from './getUniqTypes';
 
 function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {

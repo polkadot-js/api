@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 
 /** @internal */
 export function toV11 (registry: CodecRegistry, { modules }: MetadataV10): MetadataV11 {

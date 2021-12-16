@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, MetadataV14 } from '@polkadot/types/interfaces/metadata';
+import type { CodecRegistry } from '@polkadot/types-codec/types';
 
 /**
  * Convert the Metadata (which is an alias) to latest
