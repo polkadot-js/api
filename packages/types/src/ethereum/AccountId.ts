@@ -32,10 +32,6 @@ export class GenericEthereumAccountId extends U8aFixed {
     super(registry, decodeAccountId(value), 160);
   }
 
-  public static encode (value: Uint8Array): string {
-    return ethereumEncode(value);
-  }
-
   /**
    * @description Compares the value of the input to see if there is a match
    */
@@ -61,7 +57,7 @@ export class GenericEthereumAccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    return GenericEthereumAccountId.encode(this);
+    return ethereumEncode(this);
   }
 
   /**

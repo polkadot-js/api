@@ -144,7 +144,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description The arguments for the function call
    */
   public get args (): A {
-    return [...(this.get('args') as Struct).values()] as A;
+    return [...this.getT<Struct>('args').values()] as A;
   }
 
   /**
@@ -158,21 +158,21 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description The argument entries
    */
   public get argsEntries (): [string, Codec][] {
-    return [...(this.get('args') as Struct).entries()];
+    return [...this.getT<Struct>('args').entries()];
   }
 
   /**
    * @description The encoded `[sectionIndex, methodIndex]` identifier
    */
   public get callIndex (): Uint8Array {
-    return (this.get('callIndex') as GenericCallIndex).toU8a();
+    return this.getT<GenericCallIndex>('callIndex').toU8a();
   }
 
   /**
    * @description The encoded data
    */
   public get data (): Uint8Array {
-    return (this.get('args') as Struct).toU8a();
+    return this.getT<Struct>('args').toU8a();
   }
 
   /**

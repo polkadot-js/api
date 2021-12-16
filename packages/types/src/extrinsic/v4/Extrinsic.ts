@@ -63,14 +63,14 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
-    return this.get('method') as Call;
+    return this.getT('method');
   }
 
   /**
    * @description The [[ExtrinsicSignatureV4]]
    */
   public get signature (): ExtrinsicSignatureV4 {
-    return this.get('signature') as ExtrinsicSignatureV4;
+    return this.getT('signature');
   }
 
   /**

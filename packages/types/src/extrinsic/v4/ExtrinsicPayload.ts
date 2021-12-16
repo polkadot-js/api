@@ -41,56 +41,56 @@ export class GenericExtrinsicPayloadV4 extends Struct {
    * @description The block [[Hash]] the signature applies to (mortal/immortal)
    */
   public get blockHash (): Hash {
-    return this.get('blockHash') as Hash;
+    return this.getT('blockHash');
   }
 
   /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+    return this.getT('era');
   }
 
   /**
    * @description The genesis [[Hash]] the signature applies to (mortal/immortal)
    */
   public get genesisHash (): Hash {
-    return this.get('genesisHash') as Hash;
+    return this.getT('genesisHash');
   }
 
   /**
    * @description The [[Bytes]] contained in the payload
    */
   public get method (): Bytes {
-    return this.get('method') as Bytes;
+    return this.getT('method');
   }
 
   /**
    * @description The [[Index]]
    */
   public get nonce (): Compact<Index> {
-    return this.get('nonce') as Compact<Index>;
+    return this.getT('nonce');
   }
 
   /**
    * @description The specVersion for this signature
    */
   public get specVersion (): u32 {
-    return this.get('specVersion') as u32;
+    return this.getT('specVersion');
   }
 
   /**
    * @description The tip [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    return this.get('tip') as Compact<Balance>;
+    return this.getT('tip');
   }
 
   /**
    * @description The transactionVersion for this signature
    */
   public get transactionVersion (): u32 {
-    return this.get('transactionVersion') as u32;
+    return this.getT('transactionVersion');
   }
 
   /**
@@ -98,7 +98,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
    * The (optional) asset id for this signature for chains that support transaction fees in assets
    */
   public get assetId (): Option<AssetId> {
-    return this.get('assetId') as Option<AssetId>;
+    return this.getT('assetId');
   }
 
   /**

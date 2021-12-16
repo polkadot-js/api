@@ -80,14 +80,14 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
   public get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+    return this.getT('era');
   }
 
   /**
    * @description The [[Index]] for the signature
    */
   public get nonce (): Compact<Index> {
-    return this.get('nonce') as Compact<Index>;
+    return this.getT('nonce');
   }
 
   /**
@@ -102,21 +102,21 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description The raw [[ExtrinsicSignature]]
    */
   public get multiSignature (): ExtrinsicSignature {
-    return this.get('signature') as ExtrinsicSignature;
+    return this.getT('signature');
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.get('signer') as Address;
+    return this.getT('signer');
   }
 
   /**
    * @description The [[Balance]] tip
    */
   public get tip (): Compact<Balance> {
-    return this.get('tip') as Compact<Balance>;
+    return this.getT('tip');
   }
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {

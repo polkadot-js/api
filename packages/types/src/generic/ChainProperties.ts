@@ -63,20 +63,20 @@ export class GenericChainProperties extends Json {
    * @description The chain ss58Format
    */
   public get ss58Format (): Option<u32> {
-    return this.get('ss58Format') as Option<u32>;
+    return this.getT('ss58Format');
   }
 
   /**
    * @description The decimals for each of the tokens
    */
   public get tokenDecimals (): Option<Vec<u32>> {
-    return this.get('tokenDecimals') as Option<Vec<u32>>;
+    return this.getT('tokenDecimals');
   }
 
   /**
    * @description The symbols for the tokens
    */
   public get tokenSymbol (): Option<Vec<Text>> {
-    return this.get('tokenSymbol') as Option<Vec<Text>>;
+    return this.getT('tokenSymbol');
   }
 }
