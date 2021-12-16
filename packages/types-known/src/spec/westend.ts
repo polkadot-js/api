@@ -3,11 +3,10 @@
 
 /* eslint-disable sort-keys */
 
-import type { OverrideVersionedType } from '../../types';
+import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { mapXcmTypes } from '@polkadot/types-helpers';
 import { objectSpread } from '@polkadot/util';
-
-import { mapXcmTypes } from '../xcm';
 
 const sharedTypes = {
   // 16 validators

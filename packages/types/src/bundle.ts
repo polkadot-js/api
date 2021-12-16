@@ -7,8 +7,8 @@ import rpcDefinitions from './interfaces/jsonrpc';
 export * from './codec';
 export * from './create';
 export * from './index.types';
-export * from './known';
 export * from './metadata';
+export * from './xcm';
 
 export { TypeDefInfo } from '@polkadot/types-create';
 

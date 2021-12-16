@@ -1,0 +1,29 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
+  "description": "Type helpers",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-helpers#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/types-helpers",
+  "repository": {
+    "directory": "packages/types-helpers",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "6.12.2-8",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.16.3",
+    "@polkadot/util": "^8.1.2"
+  }
+}
