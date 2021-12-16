@@ -2,7 +2,7 @@
 // Copyright 2017-2021 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable sort-keys */
+const { alias } = require('./aliases.cjs');
 
 let main;
 
@@ -14,16 +14,7 @@ try {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
     plugins: [
-      ['module-resolver', {
-        alias: {
-          '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
-          '^@polkadot/types-codec(.*)': './packages/types-codec/src\\1',
-          '^@polkadot/types-create(.*)': './packages/types-create/src\\1',
-          '^@polkadot/types-known(.*)': './packages/types-known/src\\1',
-          '^@polkadot/types-support(.*)': './packages/types-support/src\\1',
-          '^@polkadot/types(.*)': './packages/types/src\\1'
-        }
-      }]
+      ['module-resolver', { alias }]
     ]
   });
 
