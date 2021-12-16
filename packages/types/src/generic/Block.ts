@@ -47,7 +47,7 @@ export class GenericBlock extends Struct {
    * @description The [[Extrinsic]] contained in the block
    */
   public get extrinsics (): Vec<GenericExtrinsic> {
-    return this.getTyped('extrinsics');
+    return this.getT('extrinsics');
   }
 
   /**
@@ -61,6 +61,6 @@ export class GenericBlock extends Struct {
    * @description The [[Header]] of the block
    */
   public get header (): Header {
-    return this.getTyped('header');
+    return this.getT('header');
   }
 }

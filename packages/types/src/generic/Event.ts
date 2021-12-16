@@ -112,14 +112,14 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
    * @description The wrapped [[EventData]]
    */
   public get data (): GenericEventData {
-    return this.getTyped('data');
+    return this.getT('data');
   }
 
   /**
    * @description The [[EventId]], identifying the raw event
    */
   public get index (): EventId {
-    return this.getTyped('index');
+    return this.getT('index');
   }
 
   /**

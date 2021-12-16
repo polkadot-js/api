@@ -352,7 +352,7 @@ export class PortableRegistry extends Struct implements ILookup {
    * @description The types of the registry
    */
   public get types (): Vec<PortableType> {
-    return this.getTyped('types');
+    return this.getT('types');
   }
 
   /**

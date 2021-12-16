@@ -137,7 +137,7 @@ export class Struct<
     return Object.keys(this.#Types);
   }
 
-  public getTyped <T> (key: string): T {
+  public getT <T> (key: string): T {
     return this.get(key) as unknown as T;
   }
 
