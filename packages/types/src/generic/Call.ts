@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, Codec, CodecRegistry, IMethod } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, Codec, CodecRegistry } from '@polkadot/types-codec/types';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { CallBase, CallFunction, InterfaceTypes, Registry } from '../types';
+import type { CallBase, CallFunction, IMethod, InterfaceTypes, Registry } from '../types';
 
 import { Struct, U8aFixed } from '@polkadot/types-codec';
 import { isHex, isObject, isU8a, objectSpread, u8aToU8a } from '@polkadot/util';
