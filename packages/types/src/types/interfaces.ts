@@ -5,11 +5,12 @@ import type { SignOptions } from '@polkadot/keyring/types';
 import type { AnyTuple, IMethod as IMethodBase } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
+import type { Registry } from './registry';
 
 export type { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 
-export interface IMethod<A extends AnyTuple = AnyTuple> extends IMethodBase<A> {
-  readonly meta: FunctionMetadataLatest;
+export interface IMethod<A extends AnyTuple = AnyTuple> extends IMethodBase<A, FunctionMetadataLatest> {
+  readonly registry: Registry;
 }
 
 export interface IKeyringPair {

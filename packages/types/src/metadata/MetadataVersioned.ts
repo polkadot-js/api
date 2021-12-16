@@ -3,6 +3,7 @@
 
 import type { AnyJson, CodecRegistry } from '@polkadot/types-codec/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
+import type { Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
 import { assert } from '@polkadot/util';
@@ -70,6 +71,10 @@ export class MetadataVersioned extends Struct {
   #metadata = (): MetadataAll => {
     return this.getT('metadata');
   };
+
+  public override get registry (): Registry {
+    return super.registry as Registry;
+  }
 
   /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version

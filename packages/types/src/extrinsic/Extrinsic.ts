@@ -7,7 +7,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
 import type { Address, Balance, Call, CodecHash, Index } from '../interfaces/runtime';
-import type { CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
+import type { CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
@@ -166,6 +166,10 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
    */
   public get nonce (): Compact<Index> {
     return this.inner.signature.nonce;
+  }
+
+  public override get registry (): Registry {
+    return super.registry as Registry;
   }
 
   /**
