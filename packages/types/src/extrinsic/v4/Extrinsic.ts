@@ -5,7 +5,7 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
 import type { Address, Call } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../types';
+import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicOptions } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
@@ -64,6 +64,10 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    */
   public get method (): Call {
     return this.getT('method');
+  }
+
+  public override get registry (): Registry {
+    return super.registry as Registry;
   }
 
   /**

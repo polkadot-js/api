@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { RegistryTypes } from '@polkadot/types-codec/types';
+import type { RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
 import type { CreateRegistry, TypeDef } from '@polkadot/types-create/types';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
@@ -30,7 +30,7 @@ export interface ChainUpgrades {
   versions: ChainUpgradeVersion[];
 }
 
-export interface RegistryError {
+export interface RegistryError extends RegistryErrorBase {
   args: string[];
   docs: string[];
   fields: SiField[];
@@ -113,7 +113,7 @@ export interface Registry extends CreateRegistry {
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
-  findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
+  // findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
   // isLookupType (value: string): boolean;
   createLookupType (lookupId: SiLookupTypeId | number): string;

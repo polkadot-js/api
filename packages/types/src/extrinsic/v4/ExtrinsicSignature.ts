@@ -5,7 +5,7 @@ import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
 import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
+import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
 import { Compact, Struct } from '@polkadot/types-codec';
@@ -88,6 +88,10 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    */
   public get nonce (): Compact<Index> {
     return this.getT('nonce');
+  }
+
+  public override get registry (): Registry {
+    return super.registry as Registry;
   }
 
   /**

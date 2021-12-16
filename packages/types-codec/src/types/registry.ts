@@ -3,6 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { Codec, CodecClass } from './codec';
+import type { AnyTuple } from './helpers';
 import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
 
 export type OnlyCodec<K, T, Types> =
@@ -14,6 +15,16 @@ export type OnlyCodec<K, T, Types> =
         ? T
         : never;
 
+export interface RegistryError {
+  args: string[];
+  docs: string[];
+  index: number;
+  // compat
+  method: string;
+  name: string;
+  section: string;
+}
+
 export type RegistryTypes =
   Record<string, CodecClass | string | Record<string, string> |
   { _enum: string[] | Record<string, number> | Record<string, string | null> } |
@@ -23,6 +34,17 @@ export interface CodecCreateOptions {
   blockHash?: Uint8Array | string | null;
   isOptional?: boolean;
   isPedantic?: boolean;
+}
+
+export interface CallBase<A extends AnyTuple, M = any> extends IMethod<A, M> {
+  readonly method: string;
+  readonly section: string;
+
+  toJSON: () => any;
+}
+
+export interface CallFunction<A extends AnyTuple = AnyTuple, M = any> extends CallBase<A, M> {
+  (...args: any[]): IMethod<A, M>;
 }
 
 export interface CodecRegistry {
@@ -37,8 +59,8 @@ export interface CodecRegistry {
 
   createdAtHash?: IU8a;
 
-  findMetaCall (callIndex: Uint8Array): unknown;
-  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): unknown;
+  findMetaCall (callIndex: Uint8Array): CallFunction;
+  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
   findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
   isLookupType (value: string): boolean;

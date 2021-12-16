@@ -8,6 +8,7 @@ import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../inte
 import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
 import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
+import type { Registry } from './registry';
 
 export interface ISubmittableResult {
   readonly dispatchError?: DispatchError;
@@ -188,15 +189,19 @@ export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: Uint8Array | HexString): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
   signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
+
+  readonly registry: Registry;
 }
 
-interface IExtrinsicSignable<T> {
+interface IExtrinsicSignable<T> extends Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
   signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
+
+  readonly registry: Registry;
 }
 
-export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;

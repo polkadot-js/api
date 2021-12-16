@@ -77,11 +77,12 @@ export interface IVec<T extends Codec = Codec> extends Array<T>, Codec {
   toArray (): T[];
 }
 
-export interface IMethod<A extends AnyTuple = AnyTuple> extends Codec {
+export interface IMethod<A extends AnyTuple = AnyTuple, M = any> extends Codec {
   readonly args: A;
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
+  readonly meta: M;
 
   is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
 }
