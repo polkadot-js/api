@@ -48,10 +48,19 @@ export interface TypeDef {
   typeName?: string;
 }
 
+export interface ILookupTypeLink {
+  type: ICompact<INumber>;
+}
+
 export interface ILookup {
   getSiType (lookupId: ICompact<INumber> | string | number): {
     def: {
-      asTuple: ICompact<INumber>[]
+      asTuple: ICompact<INumber>[];
+      asVariant: {
+        variants: {
+          fields: ILookupTypeLink[];
+        }[];
+      };
     }
   },
   getTypeDef (lookupId: ICompact<INumber> | string | number): TypeDef;

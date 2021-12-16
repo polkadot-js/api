@@ -1,22 +1,22 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableRegistry } from '@polkadot/types';
-import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { MetadataLatest } from '@polkadot/types/interfaces';
+import type { CodecRegistry, ICompact, INumber } from '@polkadot/types-codec/types';
+import type { ILookup } from '@polkadot/types-create/types';
 
 import { flattenUniq } from './flattenUniq';
 import { validateTypes } from './validateTypes';
 
 /** @internal */
-function extractTypes (lookup: PortableRegistry, types: { type: SiLookupTypeId }[]): string[] {
+function extractTypes (lookup: ILookup, types: { type: ICompact<INumber> }[]): string[] {
   return types.map(({ type }) =>
     lookup.getTypeDef(type).type
   );
 }
 
 /** @internal */
-function extractFieldTypes (lookup: PortableRegistry, type: SiLookupTypeId): string[][] {
+function extractFieldTypes (lookup: ILookup, type: ICompact<INumber>): string[][] {
   return lookup.getSiType(type).def.asVariant.variants.map(({ fields }) =>
     extractTypes(lookup, fields)
   );
