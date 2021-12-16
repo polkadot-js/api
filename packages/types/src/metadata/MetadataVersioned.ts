@@ -69,7 +69,7 @@ export class MetadataVersioned extends Struct {
    * @description the metadata wrapped
    */
   #metadata = (): MetadataAll => {
-    return this.get('metadata') as MetadataAll;
+    return this.getTyped('metadata');
   };
 
   /**
@@ -137,7 +137,7 @@ export class MetadataVersioned extends Struct {
    * @description The magicNumber for the Metadata (known constant)
    */
   public get magicNumber (): MagicNumber {
-    return this.get('magicNumber') as MagicNumber;
+    return this.getTyped('magicNumber');
   }
 
   /**

@@ -41,6 +41,19 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountI
   return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
+/** @internal */
+function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
+  return value instanceof GenericLookupSource
+    ? value.inner
+    : value instanceof GenericAccountId || value instanceof GenericAccountIndex
+      ? value
+      : isBn(value) || isNumber(value) || isBigInt(value)
+        ? registry.createTypeUnsafe('AccountIndex', [value])
+        : Array.isArray(value) || isHex(value) || isU8a(value)
+          ? decodeU8a(registry, u8aToU8a(value))
+          : decodeString(registry, value);
+}
+
 /**
  * @name LookupSource
  * @description
@@ -51,20 +64,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountI
  */
 export class GenericLookupSource extends Base<GenericAccountId | GenericAccountIndex> {
   constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
-    super(registry, GenericLookupSource._decodeAddress(registry, value));
-  }
-
-  /** @internal */
-  private static _decodeAddress (registry: CodecRegistry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
-    return value instanceof GenericLookupSource
-      ? value.inner
-      : value instanceof GenericAccountId || value instanceof GenericAccountIndex
-        ? value
-        : isBn(value) || isNumber(value) || isBigInt(value)
-          ? registry.createTypeUnsafe('AccountIndex', [value])
-          : Array.isArray(value) || isHex(value) || isU8a(value)
-            ? decodeU8a(registry, u8aToU8a(value))
-            : decodeString(registry, value);
+    super(registry, decodeAddressOrIndex(registry, value));
   }
 
   /**

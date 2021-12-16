@@ -41,6 +41,18 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereum
   return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
+function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
+  return value instanceof GenericEthereumLookupSource
+    ? value.inner
+    : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
+      ? value
+      : isU8a(value) || Array.isArray(value) || isHex(value)
+        ? decodeU8a(registry, u8aToU8a(value))
+        : isBn(value) || isNumber(value) || isBigInt(value)
+          ? registry.createTypeUnsafe('AccountIndex', [value])
+          : decodeString(registry, value);
+}
+
 /**
  * @name GenericEthereumLookupSource
  * @description
@@ -51,20 +63,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereum
  */
 export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
   constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
-    super(registry, GenericEthereumLookupSource._decodeAddress(registry, value));
-  }
-
-  /** @internal */
-  private static _decodeAddress (registry: CodecRegistry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
-    return value instanceof GenericEthereumLookupSource
-      ? value.inner
-      : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
-        ? value
-        : isU8a(value) || Array.isArray(value) || isHex(value)
-          ? decodeU8a(registry, u8aToU8a(value))
-          : isBn(value) || isNumber(value) || isBigInt(value)
-            ? registry.createTypeUnsafe('AccountIndex', [value])
-            : decodeString(registry, value);
+    super(registry, decodeAddressOrIndex(registry, value));
   }
 
   /**

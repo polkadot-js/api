@@ -64,47 +64,47 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
   }
 
   get address (): Address {
-    return this.get('address') as Address;
+    return this.getTyped('address');
   }
 
   get blockHash (): Hash {
-    return this.get('blockHash') as Hash;
+    return this.getTyped('blockHash');
   }
 
   get blockNumber (): BlockNumber {
-    return this.get('blockNumber') as BlockNumber;
+    return this.getTyped('blockNumber');
   }
 
   get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+    return this.getTyped('era');
   }
 
   get genesisHash (): Hash {
-    return this.get('genesisHash') as Hash;
+    return this.getTyped('genesisHash');
   }
 
   get method (): Call {
-    return this.get('method') as Call;
+    return this.getTyped('method');
   }
 
   get nonce (): Compact<Index> {
-    return this.get('nonce') as Compact<Index>;
+    return this.getTyped('nonce');
   }
 
   get runtimeVersion (): RuntimeVersion {
-    return this.get('runtimeVersion') as RuntimeVersion;
+    return this.getTyped('runtimeVersion');
   }
 
   get signedExtensions (): Vec<Text> {
-    return this.get('signedExtensions') as Vec<Text>;
+    return this.getTyped('signedExtensions');
   }
 
   get tip (): Compact<Balance> {
-    return this.get('tip') as Compact<Balance>;
+    return this.getTyped('tip');
   }
 
   get version (): u8 {
-    return this.get('version') as u8;
+    return this.getTyped('version');
   }
 
   /**
