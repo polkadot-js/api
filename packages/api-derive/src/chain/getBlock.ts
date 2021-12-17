@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import type { SignedBlockExtended } from '../type/types';
 import type { DeriveApi } from '../types';
 
@@ -27,13 +26,13 @@ import { memo } from '../util';
 export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
     combineLatest([
-      api.rpc.chain.getBlock<SignedBlock>(blockHash),
+      api.rpc.chain.getBlock(blockHash),
       api.queryAt(blockHash).pipe(
         switchMap((queryAt) =>
           combineLatest([
-            queryAt.system.events<EventRecord[]>(),
+            queryAt.system.events(),
             queryAt.session
-              ? queryAt.session.validators<AccountId[]>()
+              ? queryAt.session.validators()
               : of([])
           ])
         )

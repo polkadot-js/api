@@ -26,13 +26,13 @@ function latestNonce (api: DeriveApi, address: string): Observable<Index> {
 
 function nextNonce (api: DeriveApi, address: string): Observable<Index> {
   return api.rpc.system?.accountNextIndex
-    ? api.rpc.system.accountNextIndex<Index>(address)
+    ? api.rpc.system.accountNextIndex(address)
     : latestNonce(api, address);
 }
 
 function signingHeader (api: DeriveApi): Observable<Header> {
   return combineLatest([
-    api.rpc.chain.getHeader<Header>().pipe(
+    api.rpc.chain.getHeader().pipe(
       switchMap((header) =>
         // check for chains at genesis (until block 1 is produced, e.g. 6s), since
         // we do need to allow transactions at chain start (also dev/seal chains)
@@ -40,12 +40,12 @@ function signingHeader (api: DeriveApi): Observable<Header> {
           ? of(header)
           // in the case of the current block, we use the parent to minimize the
           // impact of forks on the system, but not completely remove it
-          : api.rpc.chain.getHeader<Header>(header.parentHash)
+          : api.rpc.chain.getHeader(header.parentHash)
       )
     ),
     api.rpc.chain.getFinalizedHead().pipe(
       switchMap((hash) =>
-        api.rpc.chain.getHeader<Header>(hash)
+        api.rpc.chain.getHeader(hash)
       )
     )
   ]).pipe(
@@ -76,11 +76,10 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
       map(([nonce, header]) => ({
         header,
         mortalLength: Math.min(
-          (api.consts.system?.blockHashCount as Index)?.toNumber() || FALLBACK_MAX_HASH_COUNT,
+          api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
             .div(
-              ((api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod) as Index).muln(2) ||
-              FALLBACK_PERIOD
+              (api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod).muln(2) || FALLBACK_PERIOD
             )
             .iadd(MAX_FINALITY_LAG)
             .toNumber()

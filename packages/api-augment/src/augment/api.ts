@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableConsts, QueryableStorage, SubmittableExtrinsics } from '@polkadot/api-augment';
+import type { QueryableConsts } from '@polkadot/api-augment/consts';
+import type { QueryableStorage } from '@polkadot/api-augment/query';
+import type { SubmittableExtrinsics } from '@polkadot/api-augment/tx';
 import type { DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Metadata } from '@polkadot/types';
@@ -13,8 +15,6 @@ declare module '@polkadot/api-base/types/api' {
   // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
   export interface ApiInterfaceRx {
     consts: QueryableConsts<'rxjs'>;
-    // TODO This needs to be typed correctly
-    // derive: AllDerives<'rxjs'>;
     extrinsicType: number;
     genesisHash?: Hash;
     hasSubscriptions: boolean;

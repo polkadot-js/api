@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, Header } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { HeaderExtended } from '../type/types';
 import type { DeriveApi } from '../types';
@@ -29,7 +29,7 @@ import { memo } from '../util';
 export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
-      api.rpc.chain.getHeader<Header>(blockHash),
+      api.rpc.chain.getHeader(blockHash),
       api.queryAt(blockHash).pipe(
         switchMap((queryAt) =>
           queryAt.session

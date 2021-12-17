@@ -66,7 +66,7 @@ function _getKeysPaged (api: DeriveApi, childKey: string): Observable<StorageKey
 
   return startSubject.pipe(
     switchMap((startKey) =>
-      api.rpc.childstate.getKeysPaged<Vec<StorageKey>>(childKey, '0x', PAGE_SIZE_K, startKey)
+      api.rpc.childstate.getKeysPaged(childKey, '0x', PAGE_SIZE_K, startKey)
     ),
     tap((keys): void => {
       setTimeout((): void => {
@@ -85,7 +85,7 @@ function _getAll (api: DeriveApi, paraId: string | number | BN, childKey: string
     switchMap(() =>
       isFunction(api.rpc.childstate.getKeysPaged)
         ? _getKeysPaged(api, childKey)
-        : api.rpc.childstate.getKeys<StorageKey[]>(childKey, '0x')
+        : api.rpc.childstate.getKeys(childKey, '0x')
     ),
     map((keys) =>
       keys.map((k) => k.toHex())

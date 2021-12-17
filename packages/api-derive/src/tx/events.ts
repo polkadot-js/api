@@ -17,10 +17,10 @@ interface Result {
 export function events (instanceId: string, api: DeriveApi): (at: Hash) => Observable<Result> {
   return memo(instanceId, (blockHash: Hash) =>
     combineLatest([
-      api.rpc.chain.getBlock<SignedBlock>(blockHash),
+      api.rpc.chain.getBlock(blockHash),
       api.queryAt(blockHash).pipe(
         switchMap((queryAt) =>
-          queryAt.system.events<EventRecord[]>()
+          queryAt.system.events()
         )
       )
     ]).pipe(
