@@ -79,7 +79,11 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
             .div(
-              (api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod).muln(2) || FALLBACK_PERIOD
+              (
+                api.consts.babe?.expectedBlockTime ||
+                api.consts.timestamp?.minimumPeriod ||
+                FALLBACK_PERIOD
+              ).muln(2)
             )
             .iadd(MAX_FINALITY_LAG)
             .toNumber()
