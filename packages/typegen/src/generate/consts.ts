@@ -75,7 +75,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/api/types',
+          file: '@polkadot/api-base/types',
           types: ['ApiTypes', 'AugmentedConst', 'QueryableModuleConsts']
         }
       ]
@@ -85,7 +85,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultConsts (dest = 'packages/api/src/augment/consts.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultConsts (dest = 'packages/api-augment/src/consts.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);

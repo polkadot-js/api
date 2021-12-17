@@ -5,9 +5,12 @@
     "paths": {
       "@polkadot/api": ["api/src"],
       "@polkadot/api/*": ["api/src/*"],
+      "@polkadot/api-augment": ["api-augment/src"],
+      "@polkadot/api-augment/*": ["api-augment/src/*"],
+      "@polkadot/api-base": ["api-base/src"],
+      "@polkadot/api-base/*": ["api-base/src/*"],
       "@polkadot/api-contract": ["api-contract/src"],
       "@polkadot/api-contract/*": ["api-contract/src/*"],
-      "@polkadot/api-contract-support/*": ["api-contract-support/src/*"],
       "@polkadot/api-derive": ["api-derive/src"],
       "@polkadot/api-derive/*": ["api-derive/src/*"],
       "@polkadot/rpc-core": ["rpc-core/src"],

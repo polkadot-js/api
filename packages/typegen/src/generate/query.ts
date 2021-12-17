@@ -124,8 +124,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/api/types',
-          types: ['ApiTypes', 'AugmentedQuery', 'QueryableStorageEntry', 'QueryableModuleStorage']
+          file: '@polkadot/api-base/types',
+          types: ['ApiTypes', 'AugmentedQuery', 'QueryableStorageEntry', 'QueryableModuleStorage', 'QueryableModuleStorageAt']
         }
       ]
     });
@@ -134,7 +134,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultQuery (dest = 'packages/api/src/augment/query.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultQuery (dest = 'packages/api-augment/src/query.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata, registry } = initMeta(data, extraTypes);
 
   return generateForMeta(registry, metadata, dest, extraTypes, isStrict, customLookupDefinitions);

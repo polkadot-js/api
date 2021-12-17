@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "**/*.data.ts",
+    "**/*.spec.ts"
+  ],
+  "references": [
+    { "path": "../types" },
+    { "path": "../types-codec" },
+    { "path": "../types-support" }
+  ]
+}

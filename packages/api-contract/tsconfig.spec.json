@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "**/test/**/*.json",
+    "**/test/**/*.ts",
+    "**/test/**/*.wasm",
+    "**/*.manual.ts",
+    "**/*.spec.ts",
+    "mock.ts"
+  ],
+  "references": [
+    { "path": "../api" },
+    { "path": "../api-contract" },
+    { "path": "../types" }
+  ]
+}

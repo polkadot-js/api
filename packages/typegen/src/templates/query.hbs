@@ -28,4 +28,10 @@ declare module '@polkadot/api/types/storage' {
     {{/unless}}
   } // QueryableStorage
 
+  export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+    {{#unless isStrict}}
+    [key: string]: QueryableModuleStorageAt<ApiType>;
+      {{/unless}}
+  } // QueryableStorageAt
+
 } // declare module
