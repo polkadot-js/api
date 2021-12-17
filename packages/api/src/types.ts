@@ -22,13 +22,14 @@ import type { ApiBase } from './base';
 import type { DeriveCustom, ExactDerive } from './derive';
 import type { DeriveAllSections } from './util/decorate';
 
-export * from '@polkadot/api/types/consts';
-export * from '@polkadot/api/types/errors';
-export * from '@polkadot/api/types/events';
-export * from '@polkadot/api/types/storage';
-export * from '@polkadot/api/types/submittable';
-export * from '@polkadot/api/types/rpc';
 export * from '@polkadot/api-base/types';
+
+export { AugmentedConsts } from '@polkadot/api/types/consts';
+export { AugmentedErrors } from '@polkadot/api/types/errors';
+export { AugmentedEvents } from '@polkadot/api/types/events';
+export { AugmentedQueries } from '@polkadot/api/types/storage';
+export { AugmentedSubmittables } from '@polkadot/api/types/submittable';
+export { RpcInterface } from '@polkadot/rpc-core/types';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from './base';

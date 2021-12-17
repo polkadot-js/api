@@ -5,8 +5,8 @@
     "paths": {
       "@polkadot/api": ["api/src"],
       "@polkadot/api/*": ["api/src/*"],
-      "@polkadot/api-base": ["api-contract/src"],
-      "@polkadot/api-base/*": ["api-contract/src/*"],
+      "@polkadot/api-base": ["api-base/src"],
+      "@polkadot/api-base/*": ["api-base/src/*"],
       "@polkadot/api-contract": ["api-contract/src"],
       "@polkadot/api-contract/*": ["api-contract/src/*"],
       "@polkadot/api-derive": ["api-derive/src"],

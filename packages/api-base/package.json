@@ -24,7 +24,6 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "6.12.2-11",
     "@polkadot/types": "6.12.2-11",
     "@polkadot/util": "^8.1.2",
     "rxjs": "^7.4.0"
