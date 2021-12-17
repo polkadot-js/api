@@ -14,7 +14,8 @@
     { "path": "./packages/types" },
     { "path": "./packages/types-codec" },
     { "path": "./packages/types-create" },
-    { "path": "./packages/types-known" },
+    // This is (for now), combined into types
+    // { "path": "./packages/types-known" },
     { "path": "./packages/types-support" }
   ]
 }

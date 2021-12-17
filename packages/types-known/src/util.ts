@@ -14,8 +14,6 @@ import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
 
-export { knownOrigins } from './knownOrigins';
-
 function withNames <T> (chainName: Text | string, specName: Text | string, fn: (c: string, s: string) => T): T {
   return fn(chainName.toString(), specName.toString());
 }

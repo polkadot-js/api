@@ -5,7 +5,7 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-import { mapXcmTypes } from '@polkadot/types-helpers';
+import { mapXcmTypes } from '@polkadot/types-create';
 import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
