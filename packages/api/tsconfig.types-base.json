@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "**/types-base/*.ts"
+  ],
+  "references": [
+    { "path": "../rpc-core" },
+    { "path": "../types" }
+  ]
+}

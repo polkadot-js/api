@@ -17,12 +17,10 @@ import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase } from '../base';
-import type { DeriveCustom, ExactDerive } from '../derive';
-import type { DeriveAllSections } from '../util/decorate';
-import type { ApiTypes } from './base';
-import type { DecoratedRpc } from './rpc';
-import type { QueryableStorageMulti } from './storage';
+import type { ApiBase } from './base';
+import type { DeriveCustom, ExactDerive } from './derive';
+import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from './types-base';
+import type { DeriveAllSections } from './util/decorate';
 
 export * from '@polkadot/api/types/consts';
 export * from '@polkadot/api/types/errors';
@@ -32,15 +30,8 @@ export * from '@polkadot/api/types/submittable';
 export * from '@polkadot/api/types/rpc';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
-export { ApiBase } from '../base';
-export * from '../submittable/types';
-export * from './base';
-export * from './consts';
-export * from './errors';
-export * from './events';
-export * from './rpc';
-export * from './storage';
-export * from './submittable';
+export { ApiBase } from './base';
+export * from './types-base';
 
 export interface ApiOptions extends RegisteredTypes {
   /**

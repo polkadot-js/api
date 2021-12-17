@@ -5,6 +5,8 @@
   "files": [],
   "references": [
     { "path": "./packages/api" },
+    { "path": "./packages/api/tsconfig.augment.json" },
+    { "path": "./packages/api/tsconfig.types-base.json" },
     { "path": "./packages/api-contract" },
     { "path": "./packages/api-contract/tsconfig.spec.json" },
     { "path": "./packages/api-derive" },
