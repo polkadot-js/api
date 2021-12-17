@@ -1917,9 +1917,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.3":
-  version: 0.64.3
-  resolution: "@polkadot/dev@npm:0.64.3"
+"@polkadot/dev@npm:^0.64.5":
+  version: 0.64.5
+  resolution: "@polkadot/dev@npm:0.64.5"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -1950,7 +1950,7 @@ __metadata:
     babel-plugin-module-extension-resolver: ^1.0.0-rc.2
     babel-plugin-module-resolver: ^4.1.0
     babel-plugin-styled-components: ^2.0.2
-    browserslist: ^4.19.0
+    browserslist: ^4.19.1
     coveralls: ^3.1.1
     eslint: ^8.4.1
     eslint-config-standard: ^16.0.3
@@ -2004,7 +2004,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 16acf8c81a737ebef019d966658f68ec463660a734e364242cfc0970b912945049eb4db4cb3590075c6211d2ae7a6659feb4f5c90de4d485f651552f5364da63
+  checksum: 04a30123e45254058afb772b8484fabb537ebeda07fc7aa595dec1e384b52fcf8cb9be0e2050b4961e63c0adfd2bc9b8d4f78dc8eabfed91a62b5f7ae84681f3
   languageName: node
   linkType: hard
 
@@ -2103,7 +2103,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
-    "@babel/runtime": ^7.16.3
+    "@babel/runtime": ^7.16.5
     "@polkadot/util": ^8.1.2
   languageName: unknown
   linkType: soft
@@ -2112,7 +2112,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
-    "@babel/runtime": ^7.16.3
+    "@babel/runtime": ^7.16.5
     "@polkadot/util": ^8.1.2
   languageName: unknown
   linkType: soft
@@ -3462,9 +3462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.17.5, browserslist@npm:^4.17.6, browserslist@npm:^4.19.0":
-  version: 4.19.0
-  resolution: "browserslist@npm:4.19.0"
+"browserslist@npm:^4.17.5, browserslist@npm:^4.17.6, browserslist@npm:^4.19.1":
+  version: 4.19.1
+  resolution: "browserslist@npm:4.19.1"
   dependencies:
     caniuse-lite: ^1.0.30001286
     electron-to-chromium: ^1.4.17
@@ -3473,7 +3473,7 @@ __metadata:
     picocolors: ^1.0.0
   bin:
     browserslist: cli.js
-  checksum: 17f23eca9c56c726532f199797fa11a48c41b271d36f7ab565c10c952c83d83368487ae415d435419da7443f660d4bb8b024c303f3c49d0aa7f3e1dadb4fe3b1
+  checksum: c0777fd483691638fd6801e16c9d809e1d65f6d2b06db2e806654be51045cbab1452a89841a2c5caea2cbe19d621b4f1d391cffbb24512aa33280039ab345875
   languageName: node
   linkType: hard
 
@@ -8938,7 +8938,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.3
+    "@polkadot/dev": ^0.64.5
     "@polkadot/ts": ^0.4.20
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
