@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 declare module '@polkadot/api/types/errors' {
-  import type { ApiTypes, AugmentedError, ModuleErrors } from '@polkadot/api/types';
+  import type { ApiTypes, AugmentedError, ModuleErrors } from '@polkadot/api-base/types';
 
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     assets: {

@@ -5,6 +5,7 @@
 
 module.exports = {
   alias: {
+    '^@polkadot/api-base(.*)': './packages/api-base/src\\1',
     '^@polkadot/api-derive(.*)': './packages/api-derive/src\\1',
     '^@polkadot/api(.*)': './packages/api/src/\\1',
     '^@polkadot/rpc-core(.*)': './packages/rpc-core/src\\1',

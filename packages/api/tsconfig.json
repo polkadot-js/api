@@ -6,11 +6,12 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "**/augment/*.ts"
+    "**/augment/*.ts",
+    "**/types-base/*.ts"
   ],
   "references": [
     { "path": "../api/tsconfig.augment.json" },
-    { "path": "../api/tsconfig.types-base.json" },
+    { "path": "../api-base" },
     { "path": "../rpc-core" },
     { "path": "../rpc-provider" },
     { "path": "../types" },

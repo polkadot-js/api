@@ -75,7 +75,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/api/types',
+          file: '@polkadot/api-base/types',
           types: ['ApiTypes', 'AugmentedConst', 'QueryableModuleConsts']
         }
       ]

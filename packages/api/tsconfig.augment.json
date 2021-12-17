@@ -6,12 +6,11 @@
     "rootDir": "./src"
   },
   "include": [
-    "**/augment/*.ts",
-    "**/types-base/*.ts"
+    "**/augment/*.ts"
   ],
   "references": [
+    { "path": "../api-base" },
     { "path": "../rpc-core" },
-    { "path": "../types" },
-    { "path": "../types-base" }
+    { "path": "../types" }
   ]
 }

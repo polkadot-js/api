@@ -9,6 +9,7 @@ import type { DecoratedErrors } from '@polkadot/api/types/errors';
 import type { DecoratedEvents } from '@polkadot/api/types/events';
 import type { QueryableStorage } from '@polkadot/api/types/storage';
 import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
+import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
@@ -19,7 +20,6 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from './base';
 import type { DeriveCustom, ExactDerive } from './derive';
-import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from './types-base';
 import type { DeriveAllSections } from './util/decorate';
 
 export * from '@polkadot/api/types/consts';
@@ -28,10 +28,10 @@ export * from '@polkadot/api/types/events';
 export * from '@polkadot/api/types/storage';
 export * from '@polkadot/api/types/submittable';
 export * from '@polkadot/api/types/rpc';
+export * from '@polkadot/api-base/types';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from './base';
-export * from './types-base';
 
 export interface ApiOptions extends RegisteredTypes {
   /**

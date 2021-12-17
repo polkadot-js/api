@@ -23,7 +23,7 @@ function expand (prefix, all) {
 }
 
 const entries = [
-  'api-derive',
+  ...expand('api', ['base', 'derive']),
   ...expand('rpc', ['core', 'provider']),
   ...expand('types', ['codec', 'create', 'helpers', 'known'])
 ].reduce((all, p) => ({

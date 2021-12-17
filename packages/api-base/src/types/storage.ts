@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AugmentedQueries } from '@polkadot/api/types/storage';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
@@ -22,6 +21,10 @@ interface StorageEntryObservableMulti<R extends Codec = Codec> {
 interface StorageEntryPromiseMulti<R extends Codec = Codec> {
   <T extends Codec = R>(args: (unknown[] | unknown)[]): Promise<T[]>;
   <T extends Codec = R>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
+export interface AugmentedQueries<ApiType extends ApiTypes> {
 }
 
 export interface StorageEntryPromiseOverloads {

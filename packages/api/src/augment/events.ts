@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 declare module '@polkadot/api/types/events' {
-  import type { ApiTypes, AugmentedEvent, ModuleEvents } from '@polkadot/api/types';
+  import type { ApiTypes, AugmentedEvent, ModuleEvents } from '@polkadot/api-base/types';
   import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
   import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
   import type { FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/lookup';

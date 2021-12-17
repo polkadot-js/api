@@ -1867,6 +1867,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/api-base@workspace:packages/api-base":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/api-base@workspace:packages/api-base"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/api": 6.12.2-11
+    "@polkadot/types": 6.12.2-11
+    "@polkadot/util": ^8.1.2
+    rxjs: ^7.4.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/api-contract@workspace:packages/api-contract":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
