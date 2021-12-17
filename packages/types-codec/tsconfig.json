@@ -7,8 +7,8 @@
     "resolveJsonModule": true
   },
   "exclude": [
-    "**/*.spec.ts",
-    "**/*.data.ts"
+    "**/*.data.ts",
+    "**/*.spec.ts"
   ],
   "references": []
 }

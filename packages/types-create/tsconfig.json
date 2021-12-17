@@ -7,8 +7,7 @@
     "resolveJsonModule": true
   },
   "exclude": [
-    "**/*.spec.ts",
-    "**/*.data.ts"
+    "**/*.spec.ts"
   ],
   "references": [
     { "path": "../types-codec" }

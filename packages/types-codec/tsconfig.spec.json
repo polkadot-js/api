@@ -4,11 +4,13 @@
     "baseUrl": "..",
     "outDir": "./build",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
-    "**/*.spec.ts",
-    "**/*.data.ts"
+    "**/*.data.ts",
+    "**/*.spec.ts"
   ],
   "references": [
     { "path": "../types" },

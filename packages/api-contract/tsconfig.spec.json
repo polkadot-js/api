@@ -4,11 +4,14 @@
     "baseUrl": "..",
     "outDir": "./build",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
-    "**/*.json",
-    "**/*.wasm",
+    "**/test/**/*.json",
+    "**/test/**/*.ts",
+    "**/test/**/*.wasm",
     "**/*.manual.ts",
     "**/*.spec.ts",
     "mock.ts"

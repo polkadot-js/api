@@ -3,12 +3,13 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src",
-    "resolveJsonModule": true
+    "rootDir": "./src"
   },
   "exclude": [
-    "**/*.json",
-    "**/*.wasm",
+    "**/test/**/*.json",
+    "**/test/**/*.ts",
+    "**/test/**/*.wasm",
+    "**/*.manual.ts",
     "**/*.spec.ts",
     "mock.ts"
   ],

@@ -4,7 +4,9 @@
     "baseUrl": "..",
     "outDir": "./build",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
     "**/*.spec.ts"
