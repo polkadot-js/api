@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAllSections } from './types';
+import type { Observable } from 'rxjs';
+import type { AnyFunction } from '@polkadot/types/types';
 
 import * as accounts from './accounts';
 import * as balances from './balances';
@@ -23,5 +24,18 @@ import * as treasury from './treasury';
 import * as tx from './tx';
 
 export const derive = { accounts, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
+
+type DeriveSection<Section> = {
+  [M in keyof Section]: Section[M] extends AnyFunction
+    ? ReturnType<Section[M]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
+    : never;
+};
+type DeriveAllSections<AllSections> = {
+  [S in keyof AllSections]: DeriveSection<AllSections[S]>
+};
+
+type DeriveCreator = (instanceId: string, api: unknown) => (...args: unknown[]) => Observable<any>;
+
+export type DeriveCustom = Record<string, Record<string, DeriveCreator>>;
 
 export type ExactDerive = DeriveAllSections<typeof derive>;

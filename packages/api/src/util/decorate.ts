@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ExactDerive } from '@polkadot/api-derive';
 import type { AnyFunction } from '@polkadot/types/types';
 import type { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
@@ -17,14 +18,14 @@ type DeriveSection<ApiType extends ApiTypes, Section extends AnyDeriveSection> =
 };
 
 // Exact typings for all sections `api.derive.*.*`
-export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyDerive> = {
-  [S in keyof AllSections]: DeriveSection<ApiType, AllSections[S]>
+export type AllDerives<ApiType extends ApiTypes> = {
+  [S in keyof ExactDerive]: DeriveSection<ApiType, ExactDerive[S]>
 };
 
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDerive> (decorateMethod: DecorateMethod<ApiType>, derives: AnyDerive): DeriveAllSections<ApiType, A> {
+export function decorateDeriveSections<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>, derives: AnyDerive): AllDerives<ApiType> {
   const getKeys = (s: string) =>
     Object.keys(derives[s]);
 
@@ -38,5 +39,5 @@ export function decorateDeriveSections<ApiType extends ApiTypes, A extends AnyDe
     lazyDeriveSection(result, names[i], getKeys, creator);
   }
 
-  return result as DeriveAllSections<ApiType, A>;
+  return result as AllDerives<ApiType>;
 }

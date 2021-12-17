@@ -1,14 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
-// import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u32 } from '@polkadot/types';
 import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, Votes } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty, PalletTreasuryProposal } from '@polkadot/types/lookup';
-import type { AnyFunction } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { ExactDerive } from './derive';
 
 export * from './accounts/types';
 export * from './balances/types';
@@ -21,24 +17,6 @@ export * from './session/types';
 export * from './society/types';
 export * from './staking/types';
 export * from './type/types';
-
-export { ExactDerive };
-
-// export type DeriveApi = ApiInterfaceRx;
-
-export type DeriveSection<Section> = {
-  [M in keyof Section]: Section[M] extends AnyFunction
-    ? ReturnType<Section[M]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
-    : never;
-};
-
-export type DeriveAllSections<AllSections> = {
-  [S in keyof AllSections]: DeriveSection<AllSections[S]>
-};
-
-export type DeriveCreator = (instanceId: string, api: DeriveApi) => (...args: unknown[]) => Observable<any>;
-
-export type DeriveCustom = Record<string, Record<string, DeriveCreator>>;
 
 export interface DeriveContractFees {
   callBaseFee: BN;

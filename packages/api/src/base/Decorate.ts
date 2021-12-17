@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
+import type { DeriveCustom } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -23,7 +23,7 @@ import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, lazy
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
-import { decorateDeriveSections, DeriveAllSections } from '../util/decorate';
+import { decorateDeriveSections, AllDerives } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
 import { findCall, findError } from './find';
@@ -733,17 +733,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
+  protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): AllDerives<'rxjs'> {
     const specName = this._runtimeVersion?.specName.toString();
 
     // Pull in derive from api-derive
     const available = getAvailableDerives(this.#instanceId, this._rx, objectSpread<DeriveCustom>({}, this._options.derives, this._options.typesBundle?.spec?.[specName || '']?.derives));
 
-    return decorateDeriveSections<'rxjs', ExactDerive>(decorateMethod, available);
+    return decorateDeriveSections<'rxjs'>(decorateMethod, available);
   }
 
-  protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateDeriveSections<ApiType, ExactDerive>(decorateMethod, this._rx.derive);
+  protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): AllDerives<ApiType> {
+    return decorateDeriveSections<ApiType>(decorateMethod, this._rx.derive);
   }
 
   /**
