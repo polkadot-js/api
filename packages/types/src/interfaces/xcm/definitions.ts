@@ -6,9 +6,9 @@
 
 import type { Definitions } from '../../types';
 
+import { mapXcmTypes } from '@polkadot/types-create';
 import { objectSpread } from '@polkadot/util';
 
-import { mapXcmTypes } from '../../known';
 import { v0 } from './v0';
 import { v1 } from './v1';
 import { v2 } from './v2';

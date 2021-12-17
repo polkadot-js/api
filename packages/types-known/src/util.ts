@@ -1,21 +1,17 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { Text } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { Hash } from '../interfaces';
-import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '../types';
 
 import { bnToBn, isNull, isUndefined, objectSpread } from '@polkadot/util';
 
 import typesChain from './chain';
-import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
-
-export { knownOrigins } from './knownOrigins';
-export { mapXcmTypes } from './xcm';
 
 function withNames <T> (chainName: Text | string, specName: Text | string, fn: (c: string, s: string) => T): T {
   return fn(chainName.toString(), specName.toString());
@@ -32,16 +28,6 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
     .reduce((result: RegistryTypes, { types }): RegistryTypes =>
       objectSpread(result, types), {}
     );
-}
-
-/**
- * @description Get types for specific modules (metadata override)
- */
-export function getModuleTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
-  return objectSpread({},
-    typesModules[section],
-    knownTypes.typesAlias?.[section]
-  );
 }
 
 /**

@@ -9,7 +9,8 @@ import type { OverrideModuleType, Registry } from '../../types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { getModuleTypes, knownOrigins } from '../../known';
+import { getAliasTypes } from '../../interfaces/alias';
+import { knownOrigins } from '../../interfaces/runtime/definitions';
 
 interface MapDef {
   hashers: StorageHasherV13[];
@@ -289,7 +290,7 @@ function convertExtrinsic (registry: CodecRegistry, { signedExtensions, version 
 
 /** @internal */
 function createPallet (compatTypes: TypeSpec[], registry: CodecRegistry, mod: ModuleMetadataV13, { calls, constants, errors, events, storage }: { calls: FunctionMetadataV13[] | null, constants: ModuleConstantMetadataV13[], errors: ErrorMetadataV13[] | null, events: EventMetadataV13[] | null, storage: StorageMetadataV13 | null }): PalletMetadataV14 {
-  const sectionTypes = getModuleTypes(registry as Registry, stringCamelCase(mod.name));
+  const sectionTypes = getAliasTypes(registry as Registry, stringCamelCase(mod.name));
 
   return registry.createTypeUnsafe('PalletMetadataV14', [{
     calls: calls && convertCalls(compatTypes, registry, mod.name, calls, sectionTypes),
