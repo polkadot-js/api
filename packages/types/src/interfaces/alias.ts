@@ -1,10 +1,12 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OverrideModuleType } from '../types';
+import type { OverrideModuleType, Registry } from '../types';
+
+import { objectSpread } from '@polkadot/util';
 
 // type overrides for modules (where duplication between modules exist)
-const typesModules: Record<string, OverrideModuleType> = {
+const typesAlias: Record<string, OverrideModuleType> = {
   assets: {
     Approval: 'AssetApproval',
     ApprovalKey: 'AssetApprovalKey',
@@ -105,4 +107,12 @@ const typesModules: Record<string, OverrideModuleType> = {
   }
 };
 
-export default typesModules;
+/**
+ * @description Get types for specific modules (metadata override)
+ */
+export function getAliasTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
+  return objectSpread({},
+    typesAlias[section],
+    knownTypes.typesAlias?.[section]
+  );
+}

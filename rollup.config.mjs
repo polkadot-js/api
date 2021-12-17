@@ -25,7 +25,7 @@ function expand (prefix, all) {
 const entries = [
   'api-derive',
   ...expand('rpc', ['core', 'provider']),
-  ...expand('types', ['codec', 'create', 'known'])
+  ...expand('types', ['codec', 'create', 'helpers', 'known'])
 ].reduce((all, p) => ({
   ...all,
   [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)

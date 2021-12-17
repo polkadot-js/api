@@ -3,11 +3,10 @@
 
 /* eslint-disable sort-keys */
 
-import type { OverrideVersionedType } from '../../types';
+import type { OverrideVersionedType } from '@polkadot/types/types';
 
+import { mapXcmTypes } from '@polkadot/types-create';
 import { objectSpread } from '@polkadot/util';
-
-import { mapXcmTypes } from '../xcm';
 
 // structs need to be in order
 /* eslint-disable sort-keys */

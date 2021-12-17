@@ -24,6 +24,27 @@ const numberTypes = {
   Perquintill: 'UInt<64, Perquintill>'
 };
 
+// Since we don't have insight into the origin specification, we can only define what we know about
+// in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
+export const knownOrigins: Record<string, string> = {
+  //
+  // (1) Defaults from Substrate
+  //
+  Council: 'CollectiveOrigin',
+  System: 'SystemOrigin',
+  TechnicalCommittee: 'CollectiveOrigin',
+  //
+  // (2) Defaults from Polkadot
+  //
+  Xcm: 'XcmOrigin',
+  XcmPallet: 'XcmOrigin',
+  //
+  // (3) Defaults from Acala
+  //
+  Authority: 'AuthorityOrigin',
+  GeneralCouncil: 'CollectiveOrigin'
+};
+
 export default {
   rpc: {},
   types: objectSpread({}, numberTypes, {
