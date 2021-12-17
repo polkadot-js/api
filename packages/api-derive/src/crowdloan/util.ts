@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Vec } from '@polkadot/types';
-import type { EventRecord } from '@polkadot/types/interfaces';
+import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
+import type { Vec } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 
 interface Changes {
@@ -11,7 +11,7 @@ interface Changes {
   removed: string[];
 }
 
-export function extractContributed (paraId: string | number | BN, events: Vec<EventRecord>): Changes {
+export function extractContributed (paraId: string | number | BN, events: Vec<FrameSystemEventRecord>): Changes {
   const added: string[] = [];
   const removed: string[] = [];
 

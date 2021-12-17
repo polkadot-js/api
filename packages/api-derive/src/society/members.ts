@@ -3,6 +3,9 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletSocietyVote, PalletSocietyVouchingStatus } from '@polkadot/types/lookup';
+import type { bool, Option, u32, u128, Vec } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { DeriveApi, DeriveSocietyMember } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -13,11 +16,11 @@ export function _members (instanceId: string, api: DeriveApi): (accountIds: Acco
   return memo(instanceId, (accountIds: AccountId[]): Observable<DeriveSocietyMember[]> =>
     combineLatest([
       of(accountIds),
-      api.query.society.payouts.multi(accountIds),
-      api.query.society.strikes.multi(accountIds),
-      api.query.society.defenderVotes.multi(accountIds),
-      api.query.society.suspendedMembers.multi(accountIds),
-      api.query.society.vouching.multi(accountIds)
+      api.query.society.payouts.multi<Vec<ITuple<[u32, u128]>>>(accountIds),
+      api.query.society.strikes.multi<u32>(accountIds),
+      api.query.society.defenderVotes.multi<Option<PalletSocietyVote>>(accountIds),
+      api.query.society.suspendedMembers.multi<bool>(accountIds),
+      api.query.society.vouching.multi<Option<PalletSocietyVouchingStatus>>(accountIds)
     ]).pipe(
       map(([accountIds, payouts, strikes, defenderVotes, suspended, vouching]) =>
         accountIds.map((accountId, index) => ({

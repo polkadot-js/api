@@ -3,6 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { StorageKey } from '@polkadot/types';
+import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
+import type { Vec } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveContributions } from '../types';
 
@@ -25,7 +27,7 @@ function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<
   let added: string[] = [];
   let removed: string[] = [];
 
-  return api.query.system.events().pipe(
+  return api.query.system.events<Vec<FrameSystemEventRecord>>().pipe(
     switchMap((events): Observable<Changes> => {
       const changes = extractContributed(paraId, events);
 
@@ -43,7 +45,7 @@ function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<
 }
 
 function _eventTriggerAll (api: DeriveApi, paraId: string | number | BN): Observable<string> {
-  return api.query.system.events().pipe(
+  return api.query.system.events<Vec<FrameSystemEventRecord>>().pipe(
     switchMap((events): Observable<string> => {
       const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
         section === 'crowdloan' &&
@@ -64,7 +66,7 @@ function _getKeysPaged (api: DeriveApi, childKey: string): Observable<StorageKey
 
   return startSubject.pipe(
     switchMap((startKey) =>
-      api.rpc.childstate.getKeysPaged(childKey, '0x', PAGE_SIZE_K, startKey)
+      api.rpc.childstate.getKeysPaged<Vec<StorageKey>>(childKey, '0x', PAGE_SIZE_K, startKey)
     ),
     tap((keys): void => {
       setTimeout((): void => {
@@ -83,7 +85,7 @@ function _getAll (api: DeriveApi, paraId: string | number | BN, childKey: string
     switchMap(() =>
       isFunction(api.rpc.childstate.getKeysPaged)
         ? _getKeysPaged(api, childKey)
-        : api.rpc.childstate.getKeys(childKey, '0x')
+        : api.rpc.childstate.getKeys<StorageKey[]>(childKey, '0x')
     ),
     map((keys) =>
       keys.map((k) => k.toHex())

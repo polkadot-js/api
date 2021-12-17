@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
+import type { Option, u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveDemocracyLock } from '../types';
 
@@ -26,8 +27,8 @@ function parseEnd (api: DeriveApi, vote: Vote, { approved, end }: ReferendumInfo
     (approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)
       ? end.add(
         (
-          api.consts.democracy.voteLockingPeriod ||
-          api.consts.democracy.enactmentPeriod
+          (api.consts.democracy.voteLockingPeriod as u32) ||
+          (api.consts.democracy.enactmentPeriod as u32)
         ).muln(LOCKUPS[vote.conviction.index]))
       : BN_ZERO
   ];
@@ -55,8 +56,8 @@ function delegateLocks (api: DeriveApi, { balance, conviction, target }: VotingD
           ? unlockAt
           : referendumEnd.add(
             (
-              api.consts.democracy.voteLockingPeriod ||
-              api.consts.democracy.enactmentPeriod
+              (api.consts.democracy.voteLockingPeriod as u32) ||
+              (api.consts.democracy.enactmentPeriod as u32)
             ).muln(LOCKUPS[conviction.index])),
         vote: api.registry.createType('Vote', { aye: vote.isAye, conviction })
       }))
@@ -69,7 +70,7 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
     return of([]);
   }
 
-  return api.query.democracy.referendumInfoOf.multi(votes.map(([referendumId]) => referendumId)).pipe(
+  return api.query.democracy.referendumInfoOf.multi<Option<PalletDemocracyReferendumInfo>>(votes.map(([referendumId]) => referendumId)).pipe(
     map((referendums) =>
       votes
         .map((vote, index): [VotingDirectVote, PalletDemocracyReferendumInfo | ReferendumInfoTo239 | null] =>
@@ -88,7 +89,7 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
 export function locks (instanceId: string, api: DeriveApi): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
   return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
     api.query.democracy.votingOf
-      ? api.query.democracy.votingOf(accountId).pipe(
+      ? api.query.democracy.votingOf<PalletDemocracyVoteVoting>(accountId).pipe(
         switchMap((voting): Observable<DeriveDemocracyLock[]> =>
           voting.isDirect
             ? directLocks(api, voting.asDirect)

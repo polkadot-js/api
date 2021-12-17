@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { SignedBlockExtended } from '../type/types';
 import type { DeriveApi } from '../types';
@@ -24,10 +25,10 @@ export function subscribeNewBlocks (instanceId: string, api: DeriveApi): () => O
         // we get the block first, setting up the registry
         return combineLatest([
           of(header),
-          api.rpc.chain.getBlock(blockHash),
+          api.rpc.chain.getBlock<SignedBlock>(blockHash),
           api.queryAt(blockHash).pipe(
             switchMap((queryAt) =>
-              queryAt.system.events()
+              queryAt.system.events<EventRecord[]>()
             )
           )
         ]);

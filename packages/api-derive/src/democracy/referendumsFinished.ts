@@ -3,6 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { PalletDemocracyReferendumInfo } from '@polkadot/types/lookup';
+import type { Option } from '@polkadot/types-codec';
 import type { DeriveApi } from '../types';
 
 import { map, switchMap } from 'rxjs';
@@ -15,11 +16,11 @@ export function referendumsFinished (instanceId: string, api: DeriveApi): () => 
   return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>
     api.derive.democracy.referendumIds().pipe(
       switchMap((ids) =>
-        api.query.democracy.referendumInfoOf.multi(ids)
+        api.query.democracy.referendumInfoOf.multi<Option<PalletDemocracyReferendumInfo>>(ids)
       ),
       map((infos): ReferendumInfoFinished[] =>
         infos
-          .map((optInfo) => optInfo.unwrapOr(null))
+          .map((o) => o.unwrapOr(null))
           .filter((info): info is PalletDemocracyReferendumInfo => !!info && info.isFinished)
           .map((info) => info.asFinished)
       )

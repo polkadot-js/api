@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option } from '@polkadot/types';
 import type { BalanceOf } from '@polkadot/types/interfaces';
 import type { PalletSocietyBid, PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { Option, u128 } from '@polkadot/types-codec';
 import type { DeriveApi, DeriveSocietyCandidate } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -20,11 +20,11 @@ type Result = [PalletSocietyBid[], ResultSuspend[]]
  */
 export function candidates (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyCandidate[]> {
   return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
-    api.query.society.candidates().pipe(
+    api.query.society.candidates<PalletSocietyBid[]>().pipe(
       switchMap((candidates): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi(
+          api.query.society.suspendedCandidates.multi<Option<ITuple<[u128, PalletSocietyBidKind]>>>(
             candidates.map(({ who }) => who)
           )
         ])

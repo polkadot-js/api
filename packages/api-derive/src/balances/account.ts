@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { QueryableStorageEntry } from '@polkadot/api-base/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
+import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
 
@@ -69,7 +70,7 @@ function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Resul
   ];
 
   return isFunction(api.query.system.account)
-    ? api.query.system.account(accountId).pipe(
+    ? api.query.system.account<FrameSystemAccountInfo>(accountId).pipe(
       map(({ nonce }) => fill(nonce))
     )
     : isFunction(api.query.system.accountNonce)
