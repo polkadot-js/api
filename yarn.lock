@@ -2104,6 +2104,7 @@ __metadata:
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
     "@babel/runtime": ^7.16.5
+    "@polkadot/types": ^6.12.2-9
     "@polkadot/util": ^8.1.2
   languageName: unknown
   linkType: soft
@@ -2137,7 +2138,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@6.12.2-9, @polkadot/types@workspace:packages/types":
+"@polkadot/types@6.12.2-9, @polkadot/types@^6.12.2-9, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:

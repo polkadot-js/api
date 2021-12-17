@@ -6,7 +6,7 @@ const config = require('@polkadot/dev/config/jest.cjs');
 module.exports = {
   ...config,
   moduleNameMapper: {
-    '@polkadot/api-(contract-support|contract|derive)(.*)$': '<rootDir>/packages/api-$1/src/$2',
+    '@polkadot/api-(contract|derive)(.*)$': '<rootDir>/packages/api-$1/src/$2',
     // eslint-disable-next-line sort-keys
     '@polkadot/api(.*)$': '<rootDir>/packages/api/src/$1',
     '@polkadot/rpc-(core|provider)(.*)$': '<rootDir>/packages/rpc-$1/src/$2',

@@ -6,14 +6,13 @@
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "exclude": [
-    "**/*.json",
-    "**/*.wasm",
+  "include": [
     "**/*.spec.ts",
-    "mock.ts"
+    "**/*.data.ts"
   ],
   "references": [
-    { "path": "../api" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-codec" },
+    { "path": "../types-support" }
   ]
 }
