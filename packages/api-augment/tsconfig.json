@@ -5,9 +5,6 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "include": [
-    "**/augment/*.ts"
-  ],
   "references": [
     { "path": "../api-base" },
     { "path": "../rpc-core" },

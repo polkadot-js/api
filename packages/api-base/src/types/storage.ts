@@ -23,10 +23,6 @@ interface StorageEntryPromiseMulti<R extends Codec = Codec> {
   <T extends Codec = R>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
-export interface AugmentedQueries<ApiType extends ApiTypes> {
-}
-
 export interface StorageEntryPromiseOverloads {
   (arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<Codec>;
   <T extends Codec>(arg1?: unknown, arg2?: unknown, arg3?: unknown): Promise<T>;
@@ -53,10 +49,6 @@ export type QueryableStorageEntryAt<ApiType extends ApiTypes, A extends AnyTuple
   ApiType extends 'rxjs'
     ? AugmentedQueryAt<'rxjs', GenericStorageEntryFunction, A>
     : AugmentedQueryAt<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloadsAt;
-
-export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-  [key: string]: QueryableModuleStorageAt<ApiType>;
-}
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> extends StorageEntryBaseAt<ApiType, F, A> {
   /**

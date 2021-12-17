@@ -119,7 +119,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultTx (dest = 'packages/api/src/augment/tx.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultTx (dest = 'packages/api-augment/src/tx.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata, registry } = initMeta(data, extraTypes);
 
   return generateForMeta(registry, metadata, dest, extraTypes, isStrict, customLookupDefinitions);

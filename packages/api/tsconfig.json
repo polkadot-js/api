@@ -10,7 +10,7 @@
     "**/types-base/*.ts"
   ],
   "references": [
-    { "path": "../api/tsconfig.augment.json" },
+    { "path": "../api-augment/tsconfig.json" },
     { "path": "../api-base" },
     { "path": "../rpc-core" },
     { "path": "../rpc-provider" },

@@ -5,6 +5,7 @@
 
 module.exports = {
   alias: {
+    '^@polkadot/api-augment(.*)': './packages/api-augment/src\\1',
     '^@polkadot/api-base(.*)': './packages/api-base/src\\1',
     '^@polkadot/api-derive(.*)': './packages/api-derive/src\\1',
     '^@polkadot/api(.*)': './packages/api/src/\\1',

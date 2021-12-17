@@ -1867,6 +1867,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/api-augment@6.12.2-11, @polkadot/api-augment@workspace:packages/api-augment":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/api-augment@workspace:packages/api-augment"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/api-base": 6.12.2-11
+    "@polkadot/rpc-core": 6.12.2-11
+    "@polkadot/types": 6.12.2-11
+    "@polkadot/util": ^8.1.2
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/api-base@6.12.2-11, @polkadot/api-base@workspace:packages/api-base":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-base@workspace:packages/api-base"
@@ -1904,6 +1916,7 @@ __metadata:
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.16.5
+    "@polkadot/api-augment": 6.12.2-11
     "@polkadot/api-base": 6.12.2-11
     "@polkadot/api-derive": 6.12.2-11
     "@polkadot/keyring": ^8.1.2

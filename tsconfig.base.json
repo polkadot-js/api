@@ -5,6 +5,8 @@
     "paths": {
       "@polkadot/api": ["api/src"],
       "@polkadot/api/*": ["api/src/*"],
+      "@polkadot/api-augment": ["api-augment/src"],
+      "@polkadot/api-augment/*": ["api-augment/src/*"],
       "@polkadot/api-base": ["api-base/src"],
       "@polkadot/api-base/*": ["api-base/src/*"],
       "@polkadot/api-contract": ["api-contract/src"],

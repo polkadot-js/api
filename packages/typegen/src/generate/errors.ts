@@ -48,7 +48,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultErrors (dest = 'packages/api/src/augment/errors.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultErrors (dest = 'packages/api-augment/src/errors.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, isStrict);

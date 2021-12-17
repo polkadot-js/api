@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import '@polkadot/api/augment';
+import '@polkadot/api-augment';
 
 import type { Observable } from 'rxjs';
 import type { QueryableConsts } from '@polkadot/api/types/consts';
@@ -24,12 +24,12 @@ import type { DeriveAllSections } from './util/decorate';
 
 export * from '@polkadot/api-base/types';
 
-export { AugmentedConsts } from '@polkadot/api/types/consts';
-export { AugmentedErrors } from '@polkadot/api/types/errors';
-export { AugmentedEvents } from '@polkadot/api/types/events';
-export { AugmentedQueries } from '@polkadot/api/types/storage';
-export { AugmentedSubmittables } from '@polkadot/api/types/submittable';
-export { RpcInterface } from '@polkadot/rpc-core/types';
+export * from '@polkadot/api/types/consts';
+export * from '@polkadot/api/types/errors';
+export * from '@polkadot/api/types/events';
+export * from '@polkadot/api/types/storage';
+export * from '@polkadot/api/types/submittable';
+export * from '@polkadot/rpc-core/types';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from './base';
