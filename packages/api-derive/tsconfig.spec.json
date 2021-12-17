@@ -13,7 +13,10 @@
   ],
   "references": [
     { "path": "../api" },
+    { "path": "../api-augment" },
+    { "path": "../api-base" },
     { "path": "../api-derive" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-codec" }
   ]
 }
