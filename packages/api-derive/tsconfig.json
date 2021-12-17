@@ -8,6 +8,7 @@
   "references": [
     { "path": "../api" },
     { "path": "../api-base" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-codec" }
   ]
 }

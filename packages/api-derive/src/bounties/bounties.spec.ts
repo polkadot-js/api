@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api-base/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';

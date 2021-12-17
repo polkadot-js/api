@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableModuleStorage } from '@polkadot/api/types';
+import type { QueryableModuleStorage } from '@polkadot/api-base/types';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';

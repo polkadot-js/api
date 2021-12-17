@@ -4,5 +4,7 @@
 declare module '@polkadot/api-derive/types' {
   import type { ApiInterfaceRx } from '@polkadot/api/types';
 
+  export * from '@polkadot/api-derive/types-base';
+
   export type DeriveApi = ApiInterfaceRx;
 }

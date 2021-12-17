@@ -72,7 +72,7 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
 
     // we have a super
     return combineLatest([
-      api.query.identity.identityOf(superOf[0]),
+      api.query.identity.identityOf<Option<PalletIdentityRegistration>>(superOf[0]),
       of(superOf)
     ]);
   }

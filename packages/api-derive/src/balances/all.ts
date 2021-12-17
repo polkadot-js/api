@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableStorageMultiArg } from '@polkadot/api/types';
+import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletVestingVestingInfo } from '@polkadot/types/lookup';

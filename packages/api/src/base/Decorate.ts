@@ -23,7 +23,7 @@ import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, lazy
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
-import { decorateDeriveSections, AllDerives } from '../util/decorate';
+import { AllDerives, decorateDeriveSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
 import { findCall, findError } from './find';

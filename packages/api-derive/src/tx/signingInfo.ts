@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Header, Index } from '@polkadot/types/interfaces';
+import type { Hash, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
 
@@ -33,7 +33,7 @@ function nextNonce (api: DeriveApi, address: string): Observable<Index> {
 function signingHeader (api: DeriveApi): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader().pipe(
-      switchMap((header) =>
+      switchMap((header: Header) =>
         // check for chains at genesis (until block 1 is produced, e.g. 6s), since
         // we do need to allow transactions at chain start (also dev/seal chains)
         header.parentHash.isEmpty
@@ -44,12 +44,12 @@ function signingHeader (api: DeriveApi): Observable<Header> {
       )
     ),
     api.rpc.chain.getFinalizedHead().pipe(
-      switchMap((hash) =>
+      switchMap((hash: Hash) =>
         api.rpc.chain.getHeader(hash)
       )
     )
   ]).pipe(
-    map(([current, finalized]) =>
+    map(([current, finalized]: [Header, Header]) =>
       // determine the hash to use, current when lag > max, else finalized
       current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
         ? current
@@ -76,9 +76,12 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
       map(([nonce, header]) => ({
         header,
         mortalLength: Math.min(
-          api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
+          (api.consts.system?.blockHashCount as Index)?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
-            .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
+            .div(
+              ((api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod) as Index).muln(2) ||
+              FALLBACK_PERIOD
+            )
             .iadd(MAX_FINALITY_LAG)
             .toNumber()
         ),

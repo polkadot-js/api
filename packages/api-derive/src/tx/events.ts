@@ -24,7 +24,7 @@ export function events (instanceId: string, api: DeriveApi): (at: Hash) => Obser
         )
       )
     ]).pipe(
-      map(([block, events]): Result => ({ block, events }))
+      map(([block, events]: [SignedBlock, EventRecord[]]) => ({ block, events }))
     )
   );
 }
