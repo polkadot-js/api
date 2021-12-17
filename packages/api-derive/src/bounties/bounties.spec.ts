@@ -1,15 +1,16 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiInterfaceRx, SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
-import type { ApiInterfaceRx, SubmittableExtrinsic } from '../../types';
 import type { DeriveCollectiveProposal } from '../types';
 
 import { firstValueFrom, of } from 'rxjs';
 
-import { ApiPromise } from '../../promise';
+import { ApiPromise } from '@polkadot/api';
+
 import { BountyFactory } from '../test/bountyFactory';
 import { BytesFactory } from '../test/bytesFactory';
 import { createApiWithAugmentations } from '../test/helpers';

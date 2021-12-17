@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Data, Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { ApiInterfaceRx } from '../../types';
 import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';

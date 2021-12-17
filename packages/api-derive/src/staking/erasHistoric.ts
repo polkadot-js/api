@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { ApiInterfaceRx } from '../../types';
 
 import { map } from 'rxjs';
 

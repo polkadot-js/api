@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '../../types';
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import { Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
-
-import { ApiPromise } from '../..';
 
 export class ProposalFactory {
   readonly #api: ApiPromise;

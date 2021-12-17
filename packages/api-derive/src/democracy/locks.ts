@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { ApiInterfaceRx } from '../../types';
 import type { DeriveDemocracyLock } from '../types';
 
 import { map, of, switchMap } from 'rxjs';

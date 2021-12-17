@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx, ObsInnerType } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx, ObsInnerType } from '../../types';
 import type { ExactDerive } from '../derive';
 
 import { combineLatest, of, switchMap } from 'rxjs';

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletVestingVestingInfo } from '@polkadot/types/lookup';
-import type { ApiInterfaceRx, QueryableStorageMultiArg } from '../../types';
 import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';

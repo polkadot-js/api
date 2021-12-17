@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx, QueryableModuleStorage } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { ApiInterfaceRx, QueryableModuleStorage } from '../../types';
 import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';

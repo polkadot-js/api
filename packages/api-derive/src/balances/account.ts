@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx, QueryableStorageEntry } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { ApiInterfaceRx, QueryableStorageEntry } from '../../types';
 import type { DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';

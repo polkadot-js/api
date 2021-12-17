@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { ApiInterfaceRx } from '../../types';
 import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
 

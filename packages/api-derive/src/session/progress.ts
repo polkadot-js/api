@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u64 } from '@polkadot/types';
 import type { BlockNumber, SessionIndex } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx } from '../../types';
 import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';

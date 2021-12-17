@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Bytes, Option } from '@polkadot/types';
 import type { BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
-import type { ApiInterfaceRx } from '../../types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
