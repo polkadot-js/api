@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
-import type { DeriveStakingQuery, StakingQueryFlags } from '../types';
+import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -27,7 +26,7 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
   };
 }
 
-function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<PalletStakingStakingLedger>[]> {
+function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { withLedger = false }: StakingQueryFlags): Observable<Option<PalletStakingStakingLedger>[]> {
   const ids = optIds
     .filter((o): o is Option<AccountId> => withLedger && !!o && o.isSome)
     .map((o) => o.unwrap());
@@ -50,7 +49,7 @@ function getLedgers (api: ApiInterfaceRx, optIds: (Option<AccountId> | null)[], 
   );
 }
 
-function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], PalletStakingRewardDestination[], PalletStakingValidatorPrefs[], PalletStakingExposure[]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], PalletStakingRewardDestination[], PalletStakingValidatorPrefs[], PalletStakingExposure[]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<PalletStakingRewardDestination>('RewardDestination');
   const emptyExpo = api.registry.createType<PalletStakingExposure>('Exposure');
@@ -75,7 +74,7 @@ function getStashInfo (api: ApiInterfaceRx, stashIds: AccountId[], activeEra: Er
   ]);
 }
 
-function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> {
+function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags).pipe(
     switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
@@ -94,11 +93,11 @@ function getBatch (api: ApiInterfaceRx, activeEra: EraIndex, stashIds: AccountId
  * @description From a stash, retrieve the controllerId and all relevant details
  */
 export const query = firstMemo(
-  (api: ApiInterfaceRx, accountId: Uint8Array | string, flags: StakingQueryFlags) =>
+  (api: DeriveApi, accountId: Uint8Array | string, flags: StakingQueryFlags) =>
     api.derive.staking.queryMulti([accountId], flags)
 );
 
-export function queryMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]> {
+export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> =>
     accountIds.length
       ? api.derive.session.indexes().pipe(

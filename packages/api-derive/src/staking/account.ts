@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Balance } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger, PalletStakingUnlockChunk } from '@polkadot/types/lookup';
-import type { DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
+import type { DeriveApi, DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
@@ -30,7 +29,7 @@ function groupByEra (list: PalletStakingUnlockChunk[]): Record<string, BN> {
   }, {});
 }
 
-function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
+function calculateUnlocking (api: DeriveApi, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): DeriveUnlocking[] | undefined {
   const results = Object
     .entries(groupByEra(
       (stakingLedger?.unlocking || []).filter(({ era }) => era.unwrap().gt(sessionInfo.activeEra))
@@ -45,7 +44,7 @@ function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: PalletStakingSt
     : undefined;
 }
 
-function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
+function redeemableSum (api: DeriveApi, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
   return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
     return sessionInfo.activeEra.gte(era.unwrap())
       ? total.iadd(value.unwrap())
@@ -53,7 +52,7 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: PalletStakingStaking
   }, new BN(0)));
 }
 
-function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {
+function parseResult (api: DeriveApi, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {
   return {
     ...keys,
     ...query,
@@ -65,7 +64,7 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DeriveSessionInfo, keys:
 /**
  * @description From a list of stashes, fill in all the relevant staking details
  */
-export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
+export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
@@ -86,6 +85,6 @@ export function accounts (instanceId: string, api: ApiInterfaceRx): (accountIds:
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export const account = firstMemo(
-  (api: ApiInterfaceRx, accountId: Uint8Array | string) =>
+  (api: DeriveApi, accountId: Uint8Array | string) =>
     api.derive.staking.accounts([accountId])
 );

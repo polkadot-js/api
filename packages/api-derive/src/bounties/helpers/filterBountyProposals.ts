@@ -1,10 +1,9 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveCollectiveProposal } from '../../types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../../types';
 
-export function filterBountiesProposals (api: ApiInterfaceRx, allProposals: DeriveCollectiveProposal[]): DeriveCollectiveProposal[] {
+export function filterBountiesProposals (api: DeriveApi, allProposals: DeriveCollectiveProposal[]): DeriveCollectiveProposal[] {
   const bountyTxBase = api.tx.bounties ? api.tx.bounties : api.tx.treasury;
   const bountyProposalCalls = [bountyTxBase.approveBounty, bountyTxBase.closeBounty, bountyTxBase.proposeCurator, bountyTxBase.unassignCurator];
 

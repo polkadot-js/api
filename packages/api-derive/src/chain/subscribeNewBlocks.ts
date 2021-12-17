@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Registry } from '@polkadot/types/types';
 import type { SignedBlockExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { memo } from '../util';
  * @name subscribeNewBlocks
  * @returns The latest block & events for that block
  */
-export function subscribeNewBlocks (instanceId: string, api: ApiInterfaceRx): () => Observable<SignedBlockExtended> {
+export function subscribeNewBlocks (instanceId: string, api: DeriveApi): () => Observable<SignedBlockExtended> {
   return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeNewHeads().pipe(
       switchMap((header) => {

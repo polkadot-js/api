@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, ObsInnerType } from '@polkadot/api/types';
+import type { ObsInnerType } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { ExactDerive } from '../derive';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, of, switchMap } from 'rxjs';
 
@@ -16,8 +17,8 @@ export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list
   return eras.filter((e) => !list.some(({ era }) => e.eq(era)));
 }
 
-export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '_erasPrefs' | '_erasRewards' | '_erasSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (withActive?: boolean) => ApplyReturn<F> {
-  return (instanceId: string, api: ApiInterfaceRx) =>
+export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '_erasPrefs' | '_erasRewards' | '_erasSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (withActive?: boolean) => ApplyReturn<F> {
+  return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (withActive = false) =>
@@ -27,8 +28,8 @@ export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '
     ) as any;
 }
 
-export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlashes' | '_stakerPoints' | '_stakerPrefs' | '_stakerSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (accountId: string | Uint8Array, withActive?: boolean) => ApplyReturn<F> {
-  return (instanceId: string, api: ApiInterfaceRx) =>
+export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlashes' | '_stakerPoints' | '_stakerPrefs' | '_stakerSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, withActive?: boolean) => ApplyReturn<F> {
+  return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (accountId: string | Uint8Array, withActive = false) =>
@@ -38,8 +39,8 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
     ) as any;
 }
 
-export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (era: EraIndex) => ApplyReturn<F> {
-  return (instanceId: string, api: ApiInterfaceRx) =>
+export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (era: EraIndex) => ApplyReturn<F> {
+  return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (era: EraIndex) =>
@@ -47,8 +48,8 @@ export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes
     ) as any;
 }
 
-export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: ApiInterfaceRx) => (eras: EraIndex[], withActive: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
-  return (instanceId: string, api: ApiInterfaceRx) =>
+export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (eras: EraIndex[], withActive: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
+  return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (eras: EraIndex[], withActive: boolean) =>

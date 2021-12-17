@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx, SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
-import type { DeriveCollectiveProposal } from '../types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../types';
 
 import { firstValueFrom, of } from 'rxjs';
 
@@ -29,7 +29,7 @@ describe('bounties derive', () => {
   let bytes: (value: string) => Bytes;
   let api: ApiPromise;
   let createProposal: (method: SubmittableExtrinsic<'promise'>) => Proposal;
-  let defaultMockApi: ApiInterfaceRx;
+  let defaultMockApi: DeriveApi;
 
   beforeAll(() => {
     api = createApiWithAugmentations();
@@ -65,7 +65,7 @@ describe('bounties derive', () => {
         }
       },
       tx: api.tx
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
   });
 
   it('creates storage key', function () {
@@ -96,7 +96,7 @@ describe('bounties derive', () => {
           }
         }
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
     const result = await firstValueFrom(bounties('', mockApi)());
 
@@ -124,7 +124,7 @@ describe('bounties derive', () => {
         ...defaultMockApi.query,
         council: null
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
     const result = await firstValueFrom(bounties('', mockApi)());
 
@@ -149,7 +149,7 @@ describe('bounties derive', () => {
             { proposal: createProposal(api.tx.treasury.approveProposal(1)) }] as DeriveCollectiveProposal[])
         }
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
     const result = await firstValueFrom(bounties('', mockApi)());
 

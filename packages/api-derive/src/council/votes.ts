@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, QueryableModuleStorage } from '@polkadot/api/types';
+import type { QueryableModuleStorage } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
+import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
 
@@ -36,7 +36,7 @@ function retrieveVoteOf (elections: QueryableModuleStorage<'rxjs'>): Observable<
   );
 }
 
-function retrievePrev (api: ApiInterfaceRx, elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
+function retrievePrev (api: DeriveApi, elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
   return combineLatest([
     retrieveStakeOf(elections),
     retrieveVoteOf(elections)
@@ -76,7 +76,7 @@ function retrieveCurrent (elections: QueryableModuleStorage<'rxjs'>): Observable
   );
 }
 
-export function votes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
+export function votes (instanceId: string, api: DeriveApi): () => Observable<DeriveCouncilVotes> {
   const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
 
   return memo(instanceId, (): Observable<DeriveCouncilVotes> =>

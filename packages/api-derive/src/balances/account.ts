@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, QueryableStorageEntry } from '@polkadot/api/types';
+import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -17,17 +17,17 @@ type BalanceResult = [Balance, Balance, Balance, Balance];
 
 type Result = [Index, BalanceResult[]];
 
-type DeriveCustomAccount = ApiInterfaceRx['derive'] & {
+type DeriveCustomAccount = DeriveApi['derive'] & {
   [custom: string]: {
-    customAccount?: ApiInterfaceRx['query']['balances']['account']
+    customAccount?: DeriveApi['query']['balances']['account']
   }
 }
 
-function zeroBalance (api: ApiInterfaceRx) {
+function zeroBalance (api: DeriveApi) {
   return api.registry.createType('Balance');
 }
 
-function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
+function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
   const votingBalance = api.registry.createType('Balance', freeBalance.toBn());
 
   return {
@@ -39,7 +39,7 @@ function getBalance (api: ApiInterfaceRx, [freeBalance, reservedBalance, frozenF
   };
 }
 
-function calcBalances (api: ApiInterfaceRx, [accountId, [accountNonce, [primary, ...additional]]]: [AccountId, Result]): DeriveBalancesAccount {
+function calcBalances (api: DeriveApi, [accountId, [accountNonce, [primary, ...additional]]]: [AccountId, Result]): DeriveBalancesAccount {
   return {
     accountId,
     accountNonce,
@@ -49,7 +49,7 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [accountNonce, [primary,
 }
 
 // old
-function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesFree (api: DeriveApi, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[Balance, Balance, Index]>([
     [api.query.balances.freeBalance, accountId],
     [api.query.balances.reservedBalance, accountId],
@@ -62,7 +62,7 @@ function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observab
   );
 }
 
-function queryNonceOnly (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Result> {
   const fill = (nonce: Index): Result => [
     nonce,
     [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
@@ -79,7 +79,7 @@ function queryNonceOnly (api: ApiInterfaceRx, accountId: AccountId): Observable<
       : of(fill(api.registry.createType('Index')));
 }
 
-function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
+function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules
     .map((m): QueryableStorageEntry<'rxjs'> => (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m]?.account)
     .filter((q) => isFunction(q))
@@ -102,7 +102,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId, module
     : queryNonceOnly(api, accountId);
 }
 
-function querySystemAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<Result> {
   // AccountInfo is current, support old, eg. Edgeware
   return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
@@ -144,7 +144,7 @@ function querySystemAccount (api: ApiInterfaceRx, accountId: AccountId): Observa
  * });
  * ```
  */
-export function account (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
+export function account (instanceId: string, api: DeriveApi): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>

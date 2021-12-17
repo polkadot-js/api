@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { DeriveApi } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { memo } from '../util';
  * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
  * @description  An [[AccountId]]
  */
-export function accountId (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {
+export function accountId (instanceId: string, api: DeriveApi): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {
   return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountId> => {
     const decoded = isU8a(address)
       ? address

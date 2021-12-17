@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveStakingOverview } from '../types';
+import type { DeriveApi, DeriveStakingOverview } from '../types';
 
 import { combineLatest, map } from 'rxjs';
 
@@ -12,7 +11,7 @@ import { memo } from '../util';
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function overview (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveStakingOverview> {
+export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveStakingOverview> {
   return memo(instanceId, (): Observable<DeriveStakingOverview> =>
     combineLatest([
       api.derive.session.indexes(),

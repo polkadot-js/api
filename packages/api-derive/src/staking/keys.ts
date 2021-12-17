@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { NodeRuntimeSessionKeys } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { DeriveApi } from '../types';
 import type { DeriveStakingKeys } from './types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -28,11 +28,11 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Node
 }
 
 export const keys = firstMemo(
-  (api: ApiInterfaceRx, stashId: Uint8Array | string) =>
+  (api: DeriveApi, stashId: Uint8Array | string) =>
     api.derive.staking.keysMulti([stashId])
 );
 
-export function keysMulti (instanceId: string, api: ApiInterfaceRx): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
+export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length
       ? api.query.session.queuedKeys().pipe(

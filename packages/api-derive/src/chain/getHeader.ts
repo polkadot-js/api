@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { HeaderExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -26,7 +26,7 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (instanceId: string, api: ApiInterfaceRx): (blockHash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
+export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getHeader(blockHash),

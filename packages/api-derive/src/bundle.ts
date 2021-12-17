@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AnyFunction } from '@polkadot/types/types';
 import type { DeriveCustom, ExactDerive } from './derive';
+import type { DeriveApi } from './types';
 
 import { lazyDeriveSection } from './util/lazy';
 import { derive } from './derive';
@@ -78,7 +78,7 @@ const checks: Record<string, Avail> = {
   }
 };
 
-function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: string): string[] {
+function getModuleInstances (api: DeriveApi, specName: string, moduleName: string): string[] {
   return api.registry.getModuleInstances(specName, moduleName) || [];
 }
 
@@ -87,7 +87,7 @@ function getModuleInstances (api: ApiInterfaceRx, specName: string, moduleName: 
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
-function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: DeriveCustom): ExactDerive {
+function injectFunctions (instanceId: string, api: DeriveApi, derives: DeriveCustom): ExactDerive {
   const result: Record<string, Record<string, AnyFunction>> = {};
   const names = Object.keys(derives);
   const keys = Object.keys(api.query);
@@ -122,7 +122,7 @@ function injectFunctions (instanceId: string, api: ApiInterfaceRx, derives: Deri
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
 /** @internal */
-export function getAvailableDerives (instanceId: string, api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
+export function getAvailableDerives (instanceId: string, api: DeriveApi, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(instanceId, api, derive as DeriveCustom),
     ...injectFunctions(instanceId, api, custom)

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
+import type { DeriveApi, DeriveEraExposure, DeriveEraNominatorExposure, DeriveEraValidatorExposure } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -38,7 +37,7 @@ function mapStakers (era: EraIndex, stakers: KeysAndExposures): DeriveEraExposur
   return { era, nominators, validators };
 }
 
-export function _eraExposure (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive?: boolean) => Observable<DeriveEraExposure> {
+export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraIndex, withActive?: boolean) => Observable<DeriveEraExposure> {
   return memo(instanceId, (era: EraIndex, withActive = false): Observable<DeriveEraExposure> => {
     const [cacheKey, cached] = getEraCache<DeriveEraExposure>(CACHE_KEY, era, withActive);
 

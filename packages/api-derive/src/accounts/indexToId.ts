@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId, AccountIndex, BalanceOf } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { DeriveApi } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -24,7 +24,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function indexToId (instanceId: string, api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
+export function indexToId (instanceId: string, api: DeriveApi): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
   return memo(instanceId, (accountIndex: AccountIndex | string): Observable<AccountId | undefined> =>
     api.query.indices
       ? api.query.indices.accounts<Option<ITuple<[AccountId, BalanceOf]>>>(accountIndex).pipe(

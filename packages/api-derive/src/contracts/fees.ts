@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { BN } from '@polkadot/util';
-import type { DeriveContractFees } from '../types';
+import type { DeriveApi, DeriveContractFees } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -13,7 +12,7 @@ import { memo } from '../util';
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
 // query via constants (current applicable path)
-function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
+function queryConstants (api: DeriveApi): Observable<ResultV2> {
   return of([
     // deprecated
     api.consts.contracts.callBaseFee || api.registry.createType('Balance'),
@@ -44,7 +43,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  * });
  * ```
  */
-export function fees (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveContractFees> {
+export function fees (instanceId: string, api: DeriveApi): () => Observable<DeriveContractFees> {
   return memo(instanceId, (): Observable<DeriveContractFees> => {
     return queryConstants(api).pipe(
       map(([callBaseFee, contractFee, creationFee, transactionBaseFee, transactionByteFee, transferFee, rentByteFee, rentDepositOffset, surchargeReward, tombstoneDeposit]): DeriveContractFees => ({

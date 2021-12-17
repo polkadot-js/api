@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { CollatorId, ParaId } from '@polkadot/types/interfaces';
-import type { DeriveParachainActive, DeriveParachainFull, DeriveParachainInfo } from '../types';
+import type { DeriveApi, DeriveParachainActive, DeriveParachainFull, DeriveParachainInfo } from '../types';
 import type { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads } from './types';
 
 import { map, of } from 'rxjs';
@@ -74,7 +73,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
   };
 }
 
-export function info (instanceId: string, api: ApiInterfaceRx): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
+export function info (instanceId: string, api: DeriveApi): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
   return memo(instanceId, (id: ParaId | number): Observable<DeriveParachainFull | null> =>
     api.query.registrar && api.query.parachains
       ? api.queryMulti<Result>([

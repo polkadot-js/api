@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment';
+import './augment-derive-api';
 
 import type { Observable } from 'rxjs';
 import type { QueryableConsts } from '@polkadot/api/types/consts';
@@ -9,8 +10,8 @@ import type { DecoratedErrors } from '@polkadot/api/types/errors';
 import type { DecoratedEvents } from '@polkadot/api/types/events';
 import type { QueryableStorage } from '@polkadot/api/types/storage';
 import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
-import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
+import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';

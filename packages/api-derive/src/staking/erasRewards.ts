@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { Balance, EraIndex } from '@polkadot/types/interfaces';
-import type { DeriveEraRewards } from '../types';
+import type { DeriveApi, DeriveEraRewards } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -22,7 +21,7 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
   }));
 }
 
-export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
+export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
     if (!eras.length) {
       return of([]);

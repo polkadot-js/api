@@ -1,12 +1,11 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Bytes, Option } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import type { DeriveApi, DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import { BN, bnSqrt } from '@polkadot/util';
 
@@ -27,7 +26,7 @@ function isCurrentStatus (status: PalletDemocracyReferendumStatus | ReferendumIn
   return !!(status as PalletDemocracyReferendumStatus).tally;
 }
 
-function isCurrentPreimage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
+function isCurrentPreimage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
   return !!imageOpt && !api.query.democracy.dispatchQueue;
 }
 
@@ -152,7 +151,7 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
   return null;
 }
 
-function constructProposal (api: ApiInterfaceRx, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
+function constructProposal (api: DeriveApi, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
   let proposal: Proposal | undefined;
 
   try {
@@ -164,7 +163,7 @@ function constructProposal (api: ApiInterfaceRx, [bytes, proposer, balance, at]:
   return { at, balance, proposal, proposer };
 }
 
-export function parseImage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
+export function parseImage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
   if (imageOpt.isNone) {
     return;
   }

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { SignedBlockExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { memo } from '../util';
  * console.log(`block #${block.header.number} was authored by ${author}`);
  * ```
  */
-export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
+export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getBlock(blockHash),

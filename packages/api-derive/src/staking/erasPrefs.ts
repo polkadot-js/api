@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
-import type { DeriveEraPrefs, DeriveEraValPrefs } from '../types';
+import type { DeriveApi, DeriveEraPrefs, DeriveEraValPrefs } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -26,7 +25,7 @@ function mapPrefs (era: EraIndex, all: [StorageKey, PalletStakingValidatorPrefs]
   return { era, validators };
 }
 
-export function _eraPrefs (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
+export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
   return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraPrefs> => {
     const [cacheKey, cached] = getEraCache<DeriveEraPrefs>(CACHE_KEY, era, withActive);
 

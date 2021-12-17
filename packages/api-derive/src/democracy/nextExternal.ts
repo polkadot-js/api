@@ -2,18 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { H256 } from '@polkadot/types/interfaces';
 import type { PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveProposalExternal } from '../types';
+import type { DeriveApi, DeriveProposalExternal } from '../types';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-function withImage (api: ApiInterfaceRx, nextOpt: Option<ITuple<[H256, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
+function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
   if (nextOpt.isNone) {
     return of(null);
   }
@@ -29,7 +28,7 @@ function withImage (api: ApiInterfaceRx, nextOpt: Option<ITuple<[H256, PalletDem
   );
 }
 
-export function nextExternal (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposalExternal | null> {
+export function nextExternal (instanceId: string, api: DeriveApi): () => Observable<DeriveProposalExternal | null> {
   return memo(instanceId, (): Observable<DeriveProposalExternal | null> =>
     api.query.democracy?.nextExternal
       ? api.query.democracy.nextExternal().pipe(

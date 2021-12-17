@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
+import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { DeriveOwnExposure } from '../types';
+import type { DeriveApi, DeriveOwnExposure } from '../types';
 
 import { map, of } from 'rxjs';
 
 import { firstMemo, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
 
-export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
+export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
     eras.length
@@ -29,7 +29,7 @@ export function _ownExposures (instanceId: string, api: ApiInterfaceRx): (accoun
 }
 
 export const ownExposure = firstMemo(
-  (api: ApiInterfaceRx, accountId: Uint8Array | string, era: EraIndex) =>
+  (api: DeriveApi, accountId: Uint8Array | string, era: EraIndex) =>
     api.derive.staking._ownExposures(accountId, [era], true)
 );
 

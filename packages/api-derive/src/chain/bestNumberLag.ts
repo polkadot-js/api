@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, map } from 'rxjs';
 
@@ -22,7 +22,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function bestNumberLag (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
+export function bestNumberLag (instanceId: string, api: DeriveApi): () => Observable<BlockNumber> {
   return memo(instanceId, (): Observable<BlockNumber> =>
     combineLatest([
       api.derive.chain.bestNumber(),

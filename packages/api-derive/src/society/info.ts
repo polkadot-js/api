@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
-import type { DeriveSociety } from '../types';
+import type { DeriveApi, DeriveSociety } from '../types';
 
 import { map } from 'rxjs';
 
@@ -17,7 +16,7 @@ type Result = [Vec<PalletSocietyBid>, Option<AccountId>, Option<AccountId>, Opti
 /**
  * @description Get the overall info for a society
  */
-export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSociety> {
+export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveSociety> {
   return memo(instanceId, (): Observable<DeriveSociety> =>
     api.queryMulti<Result>([
       api.query.society.bids,

@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveReferendumExt } from '../types';
+import type { DeriveApi, DeriveReferendumExt } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-export function referendums (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveReferendumExt[]> {
+export function referendums (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendumExt[]> {
   return memo(instanceId, (): Observable<DeriveReferendumExt[]> =>
     api.derive.democracy.referendumsActive().pipe(
       switchMap((referendums) =>

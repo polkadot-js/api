@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Data, Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
+import type { DeriveAccountRegistration, DeriveApi, DeriveHasIdentity } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -64,7 +63,7 @@ function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, su
   };
 }
 
-function getParent (api: ApiInterfaceRx, identityOfOpt: Option<PalletIdentityRegistration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<PalletIdentityRegistration> | undefined, [AccountId, Data] | undefined]> {
+function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<PalletIdentityRegistration> | undefined, [AccountId, Data] | undefined]> {
   if (identityOfOpt?.isSome) {
     // this identity has something set
     return of([identityOfOpt, undefined]);
@@ -82,7 +81,7 @@ function getParent (api: ApiInterfaceRx, identityOfOpt: Option<PalletIdentityReg
   return of([undefined, undefined]);
 }
 
-function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+function getBase (api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
   return accountId && api.query.identity?.identityOf
     ? api.queryMulti<[Option<PalletIdentityRegistration>, Option<ITuple<[AccountId, Data]>>]>([
       [api.query.identity.identityOf, accountId],
@@ -95,7 +94,7 @@ function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | stri
  * @name identity
  * @description Returns identity info for an account
  */
-export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
+export function identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
     getBase(api, accountId).pipe(
       switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
@@ -105,11 +104,11 @@ export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?:
 }
 
 export const hasIdentity = firstMemo(
-  (api: ApiInterfaceRx, accountId: AccountId | Uint8Array | string) =>
+  (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
     api.derive.accounts.hasIdentityMulti([accountId])
 );
 
-export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
+export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf
       ? combineLatest([

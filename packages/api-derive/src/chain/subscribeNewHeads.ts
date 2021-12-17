@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Registry } from '@polkadot/types/types';
 import type { HeaderExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
 
@@ -24,7 +24,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () => Observable<HeaderExtended> {
+export function subscribeNewHeads (instanceId: string, api: DeriveApi): () => Observable<HeaderExtended> {
   return memo(instanceId, (): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),

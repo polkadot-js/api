@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
+import type { DeriveApi } from '../types';
 
 import { switchMap } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { memo } from '../util';
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function currentPoints (instanceId: string, api: ApiInterfaceRx): () => Observable<PalletStakingEraRewardPoints> {
+export function currentPoints (instanceId: string, api: DeriveApi): () => Observable<PalletStakingEraRewardPoints> {
   return memo(instanceId, (): Observable<PalletStakingEraRewardPoints> =>
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra }) =>

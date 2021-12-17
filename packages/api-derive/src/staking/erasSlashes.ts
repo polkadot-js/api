@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, StorageKey } from '@polkadot/types';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveEraSlashes, DeriveEraValSlash } from '../types';
+import type { DeriveApi, DeriveEraSlashes, DeriveEraValSlash } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
 
@@ -31,7 +30,7 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
   return { era, nominators, validators };
 }
 
-export function _eraSlashes (instanceId: string, api: ApiInterfaceRx): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
+export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
   return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
     const [cacheKey, cached] = getEraCache<DeriveEraSlashes>(CACHE_KEY, era, withActive);
 

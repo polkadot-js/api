@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { StorageKey } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
-import type { DeriveContributions } from '../types';
+import type { DeriveApi, DeriveContributions } from '../types';
 
 import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
 
@@ -22,7 +21,7 @@ interface Changes {
 
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
 
-function _getUpdates (api: ApiInterfaceRx, paraId: string | number | BN): Observable<Changes> {
+function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<Changes> {
   let added: string[] = [];
   let removed: string[] = [];
 
@@ -43,7 +42,7 @@ function _getUpdates (api: ApiInterfaceRx, paraId: string | number | BN): Observ
   );
 }
 
-function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | BN): Observable<string> {
+function _eventTriggerAll (api: DeriveApi, paraId: string | number | BN): Observable<string> {
   return api.query.system.events().pipe(
     switchMap((events): Observable<string> => {
       const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
@@ -60,7 +59,7 @@ function _eventTriggerAll (api: ApiInterfaceRx, paraId: string | number | BN): O
   );
 }
 
-function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<StorageKey[]> {
+function _getKeysPaged (api: DeriveApi, childKey: string): Observable<StorageKey[]> {
   const startSubject = new BehaviorSubject<string | undefined>(undefined);
 
   return startSubject.pipe(
@@ -79,7 +78,7 @@ function _getKeysPaged (api: ApiInterfaceRx, childKey: string): Observable<Stora
   );
 }
 
-function _getAll (api: ApiInterfaceRx, paraId: string | number | BN, childKey: string): Observable<string[]> {
+function _getAll (api: DeriveApi, paraId: string | number | BN, childKey: string): Observable<string[]> {
   return _eventTriggerAll(api, paraId).pipe(
     switchMap(() =>
       isFunction(api.rpc.childstate.getKeysPaged)
@@ -92,7 +91,7 @@ function _getAll (api: ApiInterfaceRx, paraId: string | number | BN, childKey: s
   );
 }
 
-function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, childKey: string): Observable<DeriveContributions> {
+function _contributions (api: DeriveApi, paraId: string | number | BN, childKey: string): Observable<DeriveContributions> {
   return combineLatest([
     _getAll(api, paraId, childKey),
     _getUpdates(api, paraId)
@@ -120,7 +119,7 @@ function _contributions (api: ApiInterfaceRx, paraId: string | number | BN, chil
   );
 }
 
-export function contributions (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | BN) => Observable<DeriveContributions> {
+export function contributions (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<DeriveContributions> {
   return memo(instanceId, (paraId: string | number | BN): Observable<DeriveContributions> =>
     api.derive.crowdloan.childKey(paraId).pipe(
       switchMap((childKey) =>

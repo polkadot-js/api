@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { DeriveBalancesAccount } from '../types';
+import type { DeriveApi, DeriveBalancesAccount } from '../types';
 
 import { combineLatest, of } from 'rxjs';
 
 import { memo } from '../util';
 
-export function votingBalances (instanceId: string, api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DeriveBalancesAccount[]> {
+export function votingBalances (instanceId: string, api: DeriveApi): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DeriveBalancesAccount[]> {
   return memo(instanceId, (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DeriveBalancesAccount[]> =>
     !addresses || !addresses.length
       ? of([] as DeriveBalancesAccount[])

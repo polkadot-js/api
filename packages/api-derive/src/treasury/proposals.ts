@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { ProposalIndex } from '@polkadot/types/interfaces';
 import type { PalletTreasuryProposal } from '@polkadot/types/lookup';
-import type { DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
+import type { DeriveApi, DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -20,7 +19,7 @@ interface Result {
   proposalCount: ProposalIndex;
 }
 
-function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
+function parseResult (api: DeriveApi, { allIds, allProposals, approvalIds, councilProposals, proposalCount }: Result): DeriveTreasuryProposals {
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
   const councilTreasury = councilProposals.filter(({ proposal }) =>
@@ -47,7 +46,7 @@ function parseResult (api: ApiInterfaceRx, { allIds, allProposals, approvalIds, 
   return { approvals, proposalCount, proposals };
 }
 
-function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, approvalIds: ProposalIndex[]): Observable<DeriveTreasuryProposals> {
+function retrieveProposals (api: DeriveApi, proposalCount: ProposalIndex, approvalIds: ProposalIndex[]): Observable<DeriveTreasuryProposals> {
   const proposalIds: ProposalIndex[] = [];
   const count = proposalCount.toNumber();
 
@@ -74,7 +73,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
 /**
  * @description Retrieve all active and approved treasury proposals, along with their info
  */
-export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveTreasuryProposals> {
+export function proposals (instanceId: string, api: DeriveApi): () => Observable<DeriveTreasuryProposals> {
   return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([

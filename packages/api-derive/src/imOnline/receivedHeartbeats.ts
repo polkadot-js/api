@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32, WrapperOpaque } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletImOnlineBoundedOpaqueNetworkState } from '@polkadot/types/lookup';
-import type { DeriveHeartbeats } from '../types';
+import type { DeriveApi, DeriveHeartbeats } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -38,7 +37,7 @@ function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbea
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveHeartbeats> {
+export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => Observable<DeriveHeartbeats> {
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(

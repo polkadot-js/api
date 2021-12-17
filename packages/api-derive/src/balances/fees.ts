@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Balance } from '@polkadot/types/interfaces';
-import type { DeriveFees } from '../types';
+import type { DeriveApi, DeriveFees } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -23,7 +22,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function fees (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveFees> {
+export function fees (instanceId: string, api: DeriveApi): () => Observable<DeriveFees> {
   return memo(instanceId, (): Observable<DeriveFees> =>
     of([
       // deprecated - remove

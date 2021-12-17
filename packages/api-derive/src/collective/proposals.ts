@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import type { DeriveCollectiveProposal } from '../types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../types';
 import type { Collective } from './types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
@@ -21,7 +20,7 @@ export type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
-function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
+function parse (api: DeriveApi, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
   return proposals
     .map((o, index): DeriveCollectiveProposal | null =>
       o && o.isSome
@@ -35,7 +34,7 @@ function parse (api: ApiInterfaceRx, [hashes, proposals, votes]: Result): Derive
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (section: string, api: ApiInterfaceRx, hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> {
+function _proposalsFrom (section: string, api: DeriveApi, hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> {
   return (isFunction(api.query[section]?.proposals) && hashes.length
     ? combineLatest([
       of(hashes),
@@ -55,14 +54,14 @@ function _proposalsFrom (section: string, api: ApiInterfaceRx, hashes: (Hash | U
   );
 }
 
-export function hasProposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<boolean> {
+export function hasProposals (_section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<boolean> {
   return withSection(_section, (section, api) =>
     (): Observable<boolean> =>
       of(isFunction(api.query[section]?.proposals))
   );
 }
 
-export function proposals (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => () => Observable<DeriveCollectiveProposal[]> {
+export function proposals (_section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<DeriveCollectiveProposal[]> {
   return withSection(_section, (section, api) =>
     (): Observable<DeriveCollectiveProposal[]> =>
       api.derive[section as 'council'].proposalHashes().pipe(
@@ -71,7 +70,7 @@ export function proposals (_section: Collective): (instanceId: string, api: ApiI
   );
 }
 
-export function proposal (_section: Collective): (instanceId: string, api: ApiInterfaceRx) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposal (_section: Collective): (instanceId: string, api: DeriveApi) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
   return withSection(_section, (section, api) =>
     (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
       isFunction(api.query[section]?.proposals)

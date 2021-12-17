@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { DeriveApi } from '../types';
 
 import { map } from 'rxjs';
 
@@ -25,7 +25,7 @@ function createChildKey ({ trieIndex }: PolkadotRuntimeCommonCrowdloanFundInfo):
   );
 }
 
-export function childKey (instanceId: string, api: ApiInterfaceRx): (paraId: string | number | BN) => Observable<string | null> {
+export function childKey (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<string | null> {
   return memo(instanceId, (paraId: string | number | BN): Observable<string | null> =>
     api.query.crowdloan.funds<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
       map((optInfo) =>

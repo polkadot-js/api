@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -18,19 +18,19 @@ interface Result {
   nonce: Index;
 }
 
-function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+function latestNonce (api: DeriveApi, address: string): Observable<Index> {
   return api.derive.balances.account(address).pipe(
     map(({ accountNonce }) => accountNonce)
   );
 }
 
-function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+function nextNonce (api: DeriveApi, address: string): Observable<Index> {
   return api.rpc.system?.accountNextIndex
     ? api.rpc.system.accountNextIndex(address)
     : latestNonce(api, address);
 }
 
-function signingHeader (api: ApiInterfaceRx): Observable<Header> {
+function signingHeader (api: DeriveApi): Observable<Header> {
   return combineLatest([
     api.rpc.chain.getHeader().pipe(
       switchMap((header) =>
@@ -58,7 +58,7 @@ function signingHeader (api: ApiInterfaceRx): Observable<Header> {
   );
 }
 
-export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
+export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
     combineLatest([

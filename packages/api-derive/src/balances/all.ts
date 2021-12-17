@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx, QueryableStorageMultiArg } from '@polkadot/api/types';
+import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletVestingVestingInfo } from '@polkadot/types/lookup';
-import type { DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -26,15 +26,15 @@ interface AllLocked {
   vestingLocked: Balance
 }
 
-type DeriveCustomLocks = ApiInterfaceRx['derive'] & {
+type DeriveCustomLocks = DeriveApi['derive'] & {
   [custom: string]: {
-    customLocks?: ApiInterfaceRx['query']['balances']['locks']
+    customLocks?: DeriveApi['query']['balances']['locks']
   }
 }
 
 const VESTING_ID = '0x76657374696e6720';
 
-function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): AllLocked {
+function calcLocked (api: DeriveApi, bestNumber: BlockNumber, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): AllLocked {
   let lockedBalance = api.registry.createType('Balance');
   let lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[] = [];
   let vestingLocked = api.registry.createType('Balance');
@@ -57,7 +57,7 @@ function calcLocked (api: ApiInterfaceRx, bestNumber: BlockNumber, locks: (Palle
   return { allLocked, lockedBalance, lockedBreakdown, vestingLocked };
 }
 
-function calcShared (api: ApiInterfaceRx, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
+function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
 
   return {
@@ -100,7 +100,7 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   };
 }
 
-function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLocks]]: Result): DeriveBalancesAll {
+function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks]]: Result): DeriveBalancesAll {
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
   return {
@@ -115,7 +115,7 @@ function calcBalances (api: ApiInterfaceRx, [data, bestNumber, [vesting, allLock
 }
 
 // old
-function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
+function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalance> {
   return api.queryMulti<[Vec<PalletBalancesBalanceLock>, Option<VestingSchedule>]>([
     [api.query.balances.locks, accountId],
     [api.query.balances.vesting, accountId]
@@ -142,8 +142,8 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
 
 // current (balances, vesting)
-function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
-  const calls = balanceInstances.map((m): ApiInterfaceRx['query']['balances']['locks'] | undefined =>
+function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
+  const calls = balanceInstances.map((m): DeriveApi['query']['balances']['locks'] | undefined =>
     (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
   );
   const lockEmpty = calls.map((c) => !c);
@@ -188,7 +188,7 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId, balanceInstanc
  * });
  * ```
  */
-export function all (instanceId: string, api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAll> {
+export function all (instanceId: string, api: DeriveApi): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAll> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAll> =>

@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
+import type { DeriveApi } from '../types';
 import type { DeriveEraValidatorExposure, DeriveStakerExposure } from './types';
 
 import { map, switchMap } from 'rxjs';
 
 import { firstMemo, memo } from '../util';
 
-export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
+export function _stakerExposures (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerExposure[][]> => {
     const stakerIds = accountIds.map((a) => api.registry.createType('AccountId', a).toString());
 
@@ -38,7 +38,7 @@ export function _stakerExposures (instanceId: string, api: ApiInterfaceRx): (acc
   });
 }
 
-export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
+export function stakerExposures (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerExposure[][]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._stakerExposures(accountIds, eras, withActive))
@@ -47,6 +47,6 @@ export function stakerExposures (instanceId: string, api: ApiInterfaceRx): (acco
 }
 
 export const stakerExposure = firstMemo(
-  (api: ApiInterfaceRx, accountId: Uint8Array | string, withActive?: boolean) =>
+  (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.stakerExposures([accountId], withActive)
 );

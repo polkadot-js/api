@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveDemocracyLock } from '../types';
+import type { DeriveApi, DeriveDemocracyLock } from '../types';
 
 import { map, of, switchMap } from 'rxjs';
 
@@ -21,7 +20,7 @@ type VotingDirectVote = VotingDirect['votes'][0];
 
 const LOCKUPS = [0, 1, 2, 4, 8, 16, 32];
 
-function parseEnd (api: ApiInterfaceRx, vote: Vote, { approved, end }: ReferendumInfoFinished): [BN, BN] {
+function parseEnd (api: DeriveApi, vote: Vote, { approved, end }: ReferendumInfoFinished): [BN, BN] {
   return [
     end,
     (approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)
@@ -34,7 +33,7 @@ function parseEnd (api: ApiInterfaceRx, vote: Vote, { approved, end }: Referendu
   ];
 }
 
-function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDirectVote, referendum: PalletDemocracyReferendumInfo): DeriveDemocracyLock {
+function parseLock (api: DeriveApi, [referendumId, accountVote]: VotingDirectVote, referendum: PalletDemocracyReferendumInfo): DeriveDemocracyLock {
   const { balance, vote } = accountVote.asStandard;
   const [referendumEnd, unlockAt] = referendum.isFinished
     ? parseEnd(api, vote, referendum.asFinished)
@@ -43,7 +42,7 @@ function parseLock (api: ApiInterfaceRx, [referendumId, accountVote]: VotingDire
   return { balance, isDelegated: false, isFinished: referendum.isFinished, referendumEnd, referendumId, unlockAt, vote };
 }
 
-function delegateLocks (api: ApiInterfaceRx, { balance, conviction, target }: VotingDelegating): Observable<DeriveDemocracyLock[]> {
+function delegateLocks (api: DeriveApi, { balance, conviction, target }: VotingDelegating): Observable<DeriveDemocracyLock[]> {
   return api.derive.democracy.locks(target).pipe(
     map((available): DeriveDemocracyLock[] =>
       available.map(({ isFinished, referendumEnd, referendumId, unlockAt, vote }): DeriveDemocracyLock => ({
@@ -65,7 +64,7 @@ function delegateLocks (api: ApiInterfaceRx, { balance, conviction, target }: Vo
   );
 }
 
-function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
+function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<DeriveDemocracyLock[]> {
   if (!votes.length) {
     return of([]);
   }
@@ -86,7 +85,7 @@ function directLocks (api: ApiInterfaceRx, { votes }: VotingDirect): Observable<
   );
 }
 
-export function locks (instanceId: string, api: ApiInterfaceRx): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
+export function locks (instanceId: string, api: DeriveApi): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
   return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
     api.query.democracy.votingOf
       ? api.query.democracy.votingOf(accountId).pipe(

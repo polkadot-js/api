@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
 import type { PalletSchedulerScheduledV2 } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveDispatch, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -23,7 +22,7 @@ interface SchedulerInfo {
   index: ReferendumIndex;
 }
 
-function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
   return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
     switchMap((dispatches) =>
       combineLatest([
@@ -43,7 +42,7 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV2>[] | null)[]]> {
+function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV2>[] | null)[]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -70,7 +69,7 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], (Opt
   );
 }
 
-function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
   return schedulerEntries(api).pipe(
     switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];
@@ -100,7 +99,7 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-export function dispatchQueue (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveDispatch[]> {
+export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observable<DeriveDispatch[]> {
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)

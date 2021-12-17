@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveProposal, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveProposal, DeriveProposalImage } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -48,7 +47,7 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     });
 }
 
-export function proposals (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
+export function proposals (instanceId: string, api: DeriveApi): () => Observable<DeriveProposal[]> {
   return memo(instanceId, (): Observable<DeriveProposal[]> =>
     isFunction(api.query.democracy?.publicProps) && isFunction(api.query.democracy?.preimages)
       ? api.query.democracy.publicProps<Proposals>().pipe(

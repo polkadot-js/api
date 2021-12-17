@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveSocietyMember } from '../types';
+import type { DeriveApi, DeriveSocietyMember } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-export function _members (instanceId: string, api: ApiInterfaceRx): (accountIds: AccountId[]) => Observable<DeriveSocietyMember[]> {
+export function _members (instanceId: string, api: DeriveApi): (accountIds: AccountId[]) => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (accountIds: AccountId[]): Observable<DeriveSocietyMember[]> =>
     combineLatest([
       of(accountIds),
@@ -38,7 +37,7 @@ export function _members (instanceId: string, api: ApiInterfaceRx): (accountIds:
 /**
  * @description Get the member info for a society
  */
-export function members (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
+export function members (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (): Observable<DeriveSocietyMember[]> =>
     api.query.society.members<AccountId[]>().pipe(
       switchMap((members) => api.derive.society._members(members))

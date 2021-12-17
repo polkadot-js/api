@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { AccountIdAndIndex } from '../types';
+import type { AccountIdAndIndex, DeriveApi } from '../types';
 
 import { map, of } from 'rxjs';
 
@@ -26,7 +25,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
+export function idAndIndex (instanceId: string, api: DeriveApi): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
   return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it

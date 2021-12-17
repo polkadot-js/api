@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
+import type { DeriveApi } from '../types';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
@@ -14,7 +14,7 @@ interface Result {
   events: EventRecord[];
 }
 
-export function events (instanceId: string, api: ApiInterfaceRx): (at: Hash) => Observable<Result> {
+export function events (instanceId: string, api: DeriveApi): (at: Hash) => Observable<Result> {
   return memo(instanceId, (blockHash: Hash) =>
     combineLatest([
       api.rpc.chain.getBlock(blockHash),

@@ -6,6 +6,8 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../api" }
+    { "path": "../api" },
+    { "path": "../api-base" },
+    { "path": "../types" }
   ]
 }

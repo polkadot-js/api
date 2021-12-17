@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -20,7 +19,7 @@ type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
 type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
 type VotingDirectVote = VotingDirect['votes'][0];
 
-function votesPrev (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
+function votesPrev (api: DeriveApi, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
     switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DeriveBalancesAccount[]]> =>
       combineLatest([
@@ -70,7 +69,7 @@ function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referen
     );
 }
 
-function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveReferendumVote[]> {
+function votesCurr (api: DeriveApi, referendumId: BN): Observable<DeriveReferendumVote[]> {
   return api.query.democracy.votingOf.entries().pipe(
     map((allVoting): DeriveReferendumVote[] => {
       const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, PalletDemocracyVoteVoting] => [accountId, voting]);
@@ -101,7 +100,7 @@ function votesCurr (api: ApiInterfaceRx, referendumId: BN): Observable<DeriveRef
   );
 }
 
-export function _referendumVotes (instanceId: string, api: ApiInterfaceRx): (referendum: DeriveReferendum) => Observable<DeriveReferendumVotes> {
+export function _referendumVotes (instanceId: string, api: DeriveApi): (referendum: DeriveReferendum) => Observable<DeriveReferendumVotes> {
   return memo(instanceId, (referendum: DeriveReferendum): Observable<DeriveReferendumVotes> =>
     combineLatest([
       api.derive.democracy.sqrtElectorate(),
@@ -116,7 +115,7 @@ export function _referendumVotes (instanceId: string, api: ApiInterfaceRx): (ref
   );
 }
 
-export function _referendumsVotes (instanceId: string, api: ApiInterfaceRx): (referendums: DeriveReferendum[]) => Observable<DeriveReferendumVotes[]> {
+export function _referendumsVotes (instanceId: string, api: DeriveApi): (referendums: DeriveReferendum[]) => Observable<DeriveReferendumVotes[]> {
   return memo(instanceId, (referendums: DeriveReferendum[]): Observable<DeriveReferendumVotes[]> =>
     referendums.length
       ? combineLatest(
@@ -128,7 +127,7 @@ export function _referendumsVotes (instanceId: string, api: ApiInterfaceRx): (re
   );
 }
 
-export function _referendumInfo (instanceId: string, api: ApiInterfaceRx): (index: BN, info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
+export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN, info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>) => Observable<DeriveReferendum | null> {
   return memo(instanceId, (index: BN, info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>): Observable<DeriveReferendum | null> => {
     const status = getStatus(info);
 
@@ -145,7 +144,7 @@ export function _referendumInfo (instanceId: string, api: ApiInterfaceRx): (inde
   });
 }
 
-export function referendumsInfo (instanceId: string, api: ApiInterfaceRx): (ids: BN[]) => Observable<DeriveReferendum[]> {
+export function referendumsInfo (instanceId: string, api: DeriveApi): (ids: BN[]) => Observable<DeriveReferendum[]> {
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
       ? api.query.democracy.referendumInfoOf.multi(ids).pipe(

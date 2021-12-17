@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { DeriveApi } from '../types';
 import type { DeriveElectionsInfo } from './types';
 
 import { combineLatest, map, of } from 'rxjs';
@@ -42,7 +42,7 @@ function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [Accoun
   return balanceB.cmp(balanceA);
 }
 
-function getConstants (api: ApiInterfaceRx, elections: string | null): Partial<DeriveElectionsInfo> {
+function getConstants (api: DeriveApi, elections: string | null): Partial<DeriveElectionsInfo> {
   return elections
     ? {
       candidacyBond: api.consts[elections].candidacyBond as Balance,
@@ -54,7 +54,7 @@ function getConstants (api: ApiInterfaceRx, elections: string | null): Partial<D
     : {};
 }
 
-function getModules (api: ApiInterfaceRx): [string, string | null] {
+function getModules (api: DeriveApi): [string, string | null] {
   const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
   const elections = api.query.phragmenElection
     ? 'phragmenElection'
@@ -80,7 +80,7 @@ function getModules (api: ApiInterfaceRx): [string, string | null] {
  * });
  * ```
  */
-export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveElectionsInfo> {
+export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveElectionsInfo> {
   return memo(instanceId, (): Observable<DeriveElectionsInfo> => {
     const [council, elections] = getModules(api);
 
