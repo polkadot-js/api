@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import '@polkadot/api/augment';
+import '@polkadot/api-augment';
 
 import type { Observable } from 'rxjs';
 import type { QueryableConsts } from '@polkadot/api/types/consts';
@@ -9,6 +9,7 @@ import type { DecoratedErrors } from '@polkadot/api/types/errors';
 import type { DecoratedEvents } from '@polkadot/api/types/events';
 import type { QueryableStorage } from '@polkadot/api/types/storage';
 import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
+import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
@@ -17,30 +18,21 @@ import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase } from '../base';
-import type { DeriveCustom, ExactDerive } from '../derive';
-import type { DeriveAllSections } from '../util/decorate';
-import type { ApiTypes } from './base';
-import type { DecoratedRpc } from './rpc';
-import type { QueryableStorageMulti } from './storage';
+import type { ApiBase } from './base';
+import type { DeriveCustom, ExactDerive } from './derive';
+import type { DeriveAllSections } from './util/decorate';
+
+export * from '@polkadot/api-base/types';
 
 export * from '@polkadot/api/types/consts';
 export * from '@polkadot/api/types/errors';
 export * from '@polkadot/api/types/events';
 export * from '@polkadot/api/types/storage';
 export * from '@polkadot/api/types/submittable';
-export * from '@polkadot/api/types/rpc';
+export * from '@polkadot/rpc-core/types';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
-export { ApiBase } from '../base';
-export * from '../submittable/types';
-export * from './base';
-export * from './consts';
-export * from './errors';
-export * from './events';
-export * from './rpc';
-export * from './storage';
-export * from './submittable';
+export { ApiBase } from './base';
 
 export interface ApiOptions extends RegisteredTypes {
   /**

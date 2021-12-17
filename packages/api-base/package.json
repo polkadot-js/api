@@ -1,0 +1,31 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
+  "description": "Interfaces for interacting with contracts and contract ABIs",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-base#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/api-base",
+  "repository": {
+    "directory": "packages/api-base",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "6.12.2-11",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "@polkadot/types": "6.12.2-11",
+    "@polkadot/util": "^8.1.2",
+    "rxjs": "^7.4.0"
+  }
+}

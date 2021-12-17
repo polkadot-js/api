@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 declare module '@polkadot/api/types/consts' {
-  import type { ApiTypes, AugmentedConst, QueryableModuleConsts } from '@polkadot/api/types';
+  import type { ApiTypes, AugmentedConst, QueryableModuleConsts } from '@polkadot/api-base/types';
   import type { U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
   import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
   import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';

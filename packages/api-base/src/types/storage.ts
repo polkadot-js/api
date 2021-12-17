@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AugmentedQueries } from '@polkadot/api/types/storage';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
@@ -50,10 +49,6 @@ export type QueryableStorageEntryAt<ApiType extends ApiTypes, A extends AnyTuple
   ApiType extends 'rxjs'
     ? AugmentedQueryAt<'rxjs', GenericStorageEntryFunction, A>
     : AugmentedQueryAt<'promise', GenericStorageEntryFunction, A> & StorageEntryPromiseOverloadsAt;
-
-export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-  [key: string]: QueryableModuleStorageAt<ApiType>;
-}
 
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> extends StorageEntryBaseAt<ApiType, F, A> {
   /**

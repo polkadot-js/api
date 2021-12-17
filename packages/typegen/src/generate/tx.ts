@@ -109,7 +109,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/api/types',
+          file: '@polkadot/api-base/types',
           types: ['ApiTypes', 'AugmentedSubmittable', 'SubmittableExtrinsic', 'SubmittableExtrinsicFunction', 'SubmittableModuleExtrinsics']
         }
       ]
@@ -119,7 +119,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultTx (dest = 'packages/api/src/augment/tx.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultTx (dest = 'packages/api-augment/src/tx.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata, registry } = initMeta(data, extraTypes);
 
   return generateForMeta(registry, metadata, dest, extraTypes, isStrict, customLookupDefinitions);
