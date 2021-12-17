@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Header } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types';
 
 import { unwrapBlockNumber } from './util';
@@ -20,5 +21,5 @@ import { unwrapBlockNumber } from './util';
  */
 export const bestNumberFinalized = unwrapBlockNumber(
   (api: DeriveApi) =>
-    api.rpc.chain.subscribeFinalizedHeads()
+    api.rpc.chain.subscribeFinalizedHeads<Header>()
 );

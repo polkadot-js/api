@@ -11,6 +11,7 @@
   ],
   "references": [
     { "path": "../api-base" },
+    { "path": "../rpc-core" },
     { "path": "../types" },
     { "path": "../types-codec" }
   ]
