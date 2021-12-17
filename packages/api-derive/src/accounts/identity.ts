@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Data } from '@polkadot/types';
-import type { AccountId, AccountId32 } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
@@ -73,7 +73,7 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
 
     // we have a super
     return combineLatest([
-      api.query.identity.identityOf<Option<PalletIdentityRegistration>>(superOf[0]),
+      api.query.identity.identityOf(superOf[0]),
       of(superOf)
     ]);
   }
@@ -113,8 +113,8 @@ export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountI
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf
       ? combineLatest([
-        api.query.identity.identityOf.multi<Option<PalletIdentityRegistration>>(accountIds),
-        api.query.identity.superOf.multi<Option<ITuple<[AccountId32, Data]>>>(accountIds)
+        api.query.identity.identityOf.multi(accountIds),
+        api.query.identity.superOf.multi(accountIds)
       ]).pipe(
         map(([identities, supers]) =>
           identities.map((identityOfOpt, index): DeriveHasIdentity => {

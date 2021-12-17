@@ -147,7 +147,7 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
 export function referendumsInfo (instanceId: string, api: DeriveApi): (ids: BN[]) => Observable<DeriveReferendum[]> {
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length
-      ? api.query.democracy.referendumInfoOf.multi<Option<PalletDemocracyReferendumInfo>>(ids).pipe(
+      ? api.query.democracy.referendumInfoOf.multi(ids).pipe(
         switchMap((infos): Observable<(DeriveReferendum | null)[]> =>
           combineLatest(
             ids.map((id, index): Observable<DeriveReferendum | null> =>

@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
-import type { Option, u32 } from '@polkadot/types-codec';
+import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveDemocracyLock } from '../types';
 
@@ -70,7 +70,7 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
     return of([]);
   }
 
-  return api.query.democracy.referendumInfoOf.multi<Option<PalletDemocracyReferendumInfo>>(votes.map(([referendumId]) => referendumId)).pipe(
+  return api.query.democracy.referendumInfoOf.multi(votes.map(([referendumId]) => referendumId)).pipe(
     map((referendums) =>
       votes
         .map((vote, index): [VotingDirectVote, PalletDemocracyReferendumInfo | ReferendumInfoTo239 | null] =>

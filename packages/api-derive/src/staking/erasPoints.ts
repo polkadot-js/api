@@ -45,7 +45,7 @@ export function _erasPoints (instanceId: string, api: DeriveApi): (eras: EraInde
 
     return !remaining.length
       ? of(cached)
-      : api.query.staking.erasRewardPoints.multi<PalletStakingEraRewardPoints>(remaining).pipe(
+      : api.query.staking.erasRewardPoints.multi(remaining).pipe(
         map((p) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapPoints(remaining, p))))
       );
   });

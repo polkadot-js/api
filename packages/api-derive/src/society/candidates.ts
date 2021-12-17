@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { BalanceOf } from '@polkadot/types/interfaces';
 import type { PalletSocietyBid, PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { Option, u128 } from '@polkadot/types-codec';
+import type { Option } from '@polkadot/types-codec';
 import type { DeriveApi, DeriveSocietyCandidate } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -24,7 +24,7 @@ export function candidates (instanceId: string, api: DeriveApi): () => Observabl
       switchMap((candidates): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi<Option<ITuple<[u128, PalletSocietyBidKind]>>>(
+          api.query.society.suspendedCandidates.multi(
             candidates.map(({ who }) => who)
           )
         ])

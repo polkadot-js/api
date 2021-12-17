@@ -43,19 +43,19 @@ export function flags (instanceId: string, api: DeriveApi): (address?: AccountId
 
     return combineLatest([
       address && elections?.members
-        ? elections.members<Vec<ITuple<[AccountId, Balance]>>>()
+        ? elections.members()
         : of(undefined),
       address && api.query.council?.members
-        ? api.query.council.members<AccountId[]>()
+        ? api.query.council.members()
         : of([]),
       address && api.query.technicalCommittee?.members
-        ? api.query.technicalCommittee.members<AccountId[]>()
+        ? api.query.technicalCommittee.members()
         : of([]),
       address && api.query.society?.members
-        ? api.query.society.members<AccountId[]>()
+        ? api.query.society.members()
         : of([]),
       address && api.query.sudo?.key
-        ? api.query.sudo.key<AccountId>()
+        ? api.query.sudo.key()
         : of(undefined)
     ]).pipe(
       map((r) => parseFlags(address, r))

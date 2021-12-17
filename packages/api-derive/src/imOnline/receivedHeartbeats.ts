@@ -45,9 +45,9 @@ export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => O
           combineLatest([
             of({}),
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>>(
+            api.query.imOnline.receivedHeartbeats.multi(
               validators.map((_address, index) => [currentIndex, index])),
-            api.query.imOnline.authoredBlocks.multi<u32>(
+            api.query.imOnline.authoredBlocks.multi(
               validators.map((address) => [currentIndex, address]))
           ])
         ),
