@@ -1,20 +1,12 @@
 {
+  "extends": "./tsconfig.base.json",
+  "exclude": [
+    "build/**/*",
+    "**/build/**/*"
+  ],
   "compilerOptions": {
-    "composite": true
-  },
-  "files": [],
-  "references": [
-    { "path": "./packages/api" },
-    { "path": "./packages/api-contract" },
-    { "path": "./packages/api-contract-support" },
-    { "path": "./packages/api-derive" },
-    { "path": "./packages/rpc-core" },
-    { "path": "./packages/rpc-provider" },
-    { "path": "./packages/typegen" },
-    { "path": "./packages/types" },
-    { "path": "./packages/types-codec" },
-    { "path": "./packages/types-create" },
-    { "path": "./packages/types-known" },
-    { "path": "./packages/types-support" }
-  ]
+    "composite": false,
+    "baseUrl": "./packages",
+    "outDir": "./build"
+  }
 }
