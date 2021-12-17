@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-contract authors & contributors
+// Copyright 2017-2021 @polkadot/api-augment authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { packageInfo as rpcInfo } from '@polkadot/rpc-core/packageInfo';

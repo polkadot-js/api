@@ -143,7 +143,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
   });
 }
 
-export function generateDefaultRpc (dest = 'packages/api-augment/src/rpc.ts', extraTypes: ExtraTypes = {}): void {
+export function generateDefaultRpc (dest = 'packages/api-augment/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
   const { registry } = initMeta(undefined, extraTypes);
 
   generateRpcTypes(
