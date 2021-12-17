@@ -51,8 +51,8 @@ export function bounties (instanceId: string, api: DeriveApi): () => Observable<
         const ids = keys.map(({ args: [id] }) => id);
 
         return combineLatest([
-          bountyBase.bounties.multi(ids),
-          bountyBase.bountyDescriptions.multi(ids),
+          bountyBase.bounties.multi<Option<PalletBountiesBounty>>(ids),
+          bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids),
           of(ids),
           of(filterBountiesProposals(api, proposals))
         ]);

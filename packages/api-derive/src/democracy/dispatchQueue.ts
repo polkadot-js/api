@@ -48,7 +48,7 @@ function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<P
   // at a block, the entry for that block will become empty
   return api.derive.democracy.referendumsFinished().pipe(
     switchMap(() =>
-      api.query.scheduler.agenda.keys()
+      api.query.scheduler.agenda.keys<[BlockNumber]>()
     ),
     switchMap((keys) => {
       const blockNumbers = keys.map(({ args: [blockNumber] }) => blockNumber);
@@ -61,7 +61,7 @@ function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<P
           // upgrade, which results in invalid on-chain data
           combineLatest(blockNumbers.map((blockNumber) =>
             // this does create an issue since it discards all at that block
-            api.query.scheduler.agenda(blockNumber).pipe(catchError(() => of(null)))
+            api.query.scheduler.agenda<Option<PalletSchedulerScheduledV2>[]>(blockNumber).pipe(catchError(() => of(null)))
           ))
         ])
         : of<[BlockNumber[], null[]]>([[], []]);

@@ -34,14 +34,14 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
 
   return (
     ids.length
-      ? api.query.staking.ledger.multi(ids)
+      ? api.query.staking.ledger.multi<Option<PalletStakingStakingLedger>>(ids)
       : of([])
   ).pipe(
     map((optLedgers): Option<PalletStakingStakingLedger>[] => {
       let offset = -1;
 
-      return optIds.map((opt): Option<PalletStakingStakingLedger> =>
-        opt && opt.isSome
+      return optIds.map((o): Option<PalletStakingStakingLedger> =>
+        o && o.isSome
           ? optLedgers[++offset] || emptyLed
           : emptyLed
       );
@@ -57,19 +57,19 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
 
   return combineLatest([
     withController || withLedger
-      ? api.query.staking.bonded.multi(stashIds)
+      ? api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
       : of(stashIds.map(() => null)),
     withNominations
-      ? api.query.staking.nominators.multi(stashIds)
+      ? api.query.staking.nominators.multi<Option<PalletStakingNominations>>(stashIds)
       : of(stashIds.map(() => emptyNoms)),
     withDestination
-      ? api.query.staking.payee.multi(stashIds)
+      ? api.query.staking.payee.multi<PalletStakingRewardDestination>(stashIds)
       : of(stashIds.map(() => emptyRewa)),
     withPrefs
-      ? api.query.staking.validators.multi(stashIds)
+      ? api.query.staking.validators.multi<PalletStakingValidatorPrefs>(stashIds)
       : of(stashIds.map(() => emptyPrefs)),
     withExposure
-      ? api.query.staking.erasStakers.multi(stashIds.map((stashId) => [activeEra, stashId]))
+      ? api.query.staking.erasStakers.multi<PalletStakingExposure>(stashIds.map((stashId) => [activeEra, stashId]))
       : of(stashIds.map(() => emptyExpo))
   ]);
 }

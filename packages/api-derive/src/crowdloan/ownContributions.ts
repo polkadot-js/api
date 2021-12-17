@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
+import type { Vec } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveOwnContributions } from '../types';
 
@@ -30,7 +32,7 @@ function _getValues (api: DeriveApi, childKey: string, keys: string[]): Observab
 }
 
 function _watchOwnChanges (api: DeriveApi, paraId: string | number | BN, childkey: string, keys: string[]): Observable<DeriveOwnContributions> {
-  return api.query.system.events().pipe(
+  return api.query.system.events<Vec<FrameSystemEventRecord>>().pipe(
     switchMap((events): Observable<DeriveOwnContributions> => {
       const changes = extractContributed(paraId, events);
       const filtered = keys.filter((k) =>

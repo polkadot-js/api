@@ -46,16 +46,16 @@ export function flags (instanceId: string, api: DeriveApi): (address?: AccountId
         ? elections.members<Vec<ITuple<[AccountId, Balance]>>>()
         : of(undefined),
       address && api.query.council?.members
-        ? api.query.council.members()
+        ? api.query.council.members<AccountId[]>()
         : of([]),
       address && api.query.technicalCommittee?.members
-        ? api.query.technicalCommittee.members()
+        ? api.query.technicalCommittee.members<AccountId[]>()
         : of([]),
       address && api.query.society?.members
-        ? api.query.society.members()
+        ? api.query.society.members<AccountId[]>()
         : of([]),
       address && api.query.sudo?.key
-        ? api.query.sudo.key()
+        ? api.query.sudo.key<AccountId>()
         : of(undefined)
     ]).pipe(
       map((r) => parseFlags(address, r))

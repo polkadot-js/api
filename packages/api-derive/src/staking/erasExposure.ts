@@ -43,7 +43,7 @@ export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraInde
 
     return cached
       ? of(cached)
-      : api.query.staking.erasStakersClipped.entries(era).pipe(
+      : api.query.staking.erasStakersClipped.entries<PalletStakingExposure, [EraIndex, AccountId]>(era).pipe(
         map((r) => setEraCache(cacheKey, withActive, mapStakers(era, r)))
       );
   });

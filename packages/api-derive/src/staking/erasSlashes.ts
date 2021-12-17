@@ -37,8 +37,8 @@ export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex
     return cached
       ? of(cached)
       : combineLatest([
-        api.query.staking.nominatorSlashInEra.entries(era),
-        api.query.staking.validatorSlashInEra.entries(era)
+        api.query.staking.nominatorSlashInEra.entries<Option<BalanceOf>>(era),
+        api.query.staking.validatorSlashInEra.entries<Option<ITuple<[Perbill, BalanceOf]>>>(era)
       ]).pipe(
         map(([n, v]) => setEraCache(cacheKey, withActive, mapSlashes(era, n, v)))
       );

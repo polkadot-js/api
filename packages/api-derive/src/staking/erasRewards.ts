@@ -34,7 +34,7 @@ export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraInd
       return of(cached);
     }
 
-    return api.query.staking.erasValidatorReward.multi(remaining).pipe(
+    return api.query.staking.erasValidatorReward.multi<Option<Balance>>(remaining).pipe(
       map((r) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapRewards(remaining, r))))
     );
   });

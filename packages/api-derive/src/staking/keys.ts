@@ -35,13 +35,13 @@ export const keys = firstMemo(
 export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length
-      ? api.query.session.queuedKeys().pipe(
+      ? api.query.session.queuedKeys<Vec<ITuple<[AccountId, NodeRuntimeSessionKeys]>>>().pipe(
         switchMap((queuedKeys): Observable<[Vec<ITuple<[AccountId, NodeRuntimeSessionKeys]>>, Option<NodeRuntimeSessionKeys>[]]> =>
           combineLatest([
             of(queuedKeys),
             api.consts.session?.dedupKeyPrefix
-              ? api.query.session.nextKeys.multi(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
-              : api.query.session.nextKeys.multi(stashIds)
+              ? api.query.session.nextKeys.multi<Option<NodeRuntimeSessionKeys>>(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
+              : api.query.session.nextKeys.multi<Option<NodeRuntimeSessionKeys>>(stashIds)
           ])
         ),
         map(([queuedKeys, nextKeys]) =>

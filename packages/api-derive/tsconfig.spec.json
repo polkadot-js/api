@@ -3,15 +3,17 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/test/*",
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api-base" },
-    { "path": "../types" },
-    { "path": "../types-codec" }
+    { "path": "../api" },
+    { "path": "../api-derive" },
+    { "path": "../types" }
   ]
 }
