@@ -2,11 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "..",
-    "outDir": "../../build",
-    "rootDir": "...",
+    "outDir": "./build",
+    "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "include": ["types/src/**/*", "types-known/src/**/*"],
   "references": [
     { "path": "../types-codec" },
     { "path": "../types-create" },

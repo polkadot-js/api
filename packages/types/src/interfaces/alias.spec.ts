@@ -1,9 +1,8 @@
 // Copyright 2017-2021 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '@polkadot/types/create/registry';
-
-import { getModuleTypes } from '.';
+import { TypeRegistry } from '../create/registry';
+import { getAliasTypes } from './alias';
 
 const registry = new TypeRegistry();
 
@@ -23,25 +22,25 @@ registry.setKnownTypes({
 
 describe('getModuleTypes', (): void => {
   it('collects the pre-defined types for contracts', (): void => {
-    expect(getModuleTypes(registry, 'contracts')).toEqual({
+    expect(getAliasTypes(registry, 'contracts')).toEqual({
       StorageKey: 'ContractStorageKey'
     });
   });
 
   it('collects the user-defined types for testModule', (): void => {
-    expect(getModuleTypes(registry, 'testModule')).toEqual({
+    expect(getAliasTypes(registry, 'testModule')).toEqual({
       Proposal: 'TestProposal'
     });
   });
 
   it('overrides pre-defined with user-defined for treasury', (): void => {
-    expect(getModuleTypes(registry, 'treasury')).toEqual({
+    expect(getAliasTypes(registry, 'treasury')).toEqual({
       Proposal: 'TreasuryProposals2'
     });
   });
 
   it('merges pre-defined and user-defined for identity', (): void => {
-    expect(getModuleTypes(registry, 'identity')).toEqual({
+    expect(getAliasTypes(registry, 'identity')).toEqual({
       Id: 'IdentityId',
       Judgement: 'IdentityJudgement'
     });

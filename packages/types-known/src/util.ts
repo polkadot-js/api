@@ -10,7 +10,6 @@ import type { BN } from '@polkadot/util';
 import { bnToBn, isNull, isUndefined, objectSpread } from '@polkadot/util';
 
 import typesChain from './chain';
-import typesModules from './modules';
 import typesSpec from './spec';
 import upgrades from './upgrades';
 
@@ -29,16 +28,6 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
     .reduce((result: RegistryTypes, { types }): RegistryTypes =>
       objectSpread(result, types), {}
     );
-}
-
-/**
- * @description Get types for specific modules (metadata override)
- */
-export function getModuleTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
-  return objectSpread({},
-    typesModules[section],
-    knownTypes.typesAlias?.[section]
-  );
 }
 
 /**
