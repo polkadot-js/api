@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import abis from '@polkadot/api-contract-support/contracts';
+import { v0ToLatest, v1ToLatest } from '@polkadot/api-contract/Abi/toLatest';
 import { TypeRegistry } from '@polkadot/types';
 
-import { v0ToLatest, v1ToLatest } from './toLatest';
+import abis from '../test/contracts';
 
 describe('v0ToLatest', (): void => {
   const registry = new TypeRegistry();

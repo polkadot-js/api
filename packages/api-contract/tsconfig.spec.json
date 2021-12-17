@@ -3,9 +3,12 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/test/**/*.json",
     "**/test/**/*.ts",
     "**/test/**/*.wasm",
@@ -15,6 +18,7 @@
   ],
   "references": [
     { "path": "../api" },
+    { "path": "../api-contract" },
     { "path": "../types" }
   ]
 }

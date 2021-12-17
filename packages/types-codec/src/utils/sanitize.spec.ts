@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { alias, flattenSingleTuple, removeColons, removeExtensions } from './sanitize';
+import { alias, flattenSingleTuple, removeColons, removeExtensions } from '@polkadot/types-codec/utils/sanitize';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {
