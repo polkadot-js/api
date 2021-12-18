@@ -10,6 +10,7 @@
     { "path": "./packages/api-contract" },
     { "path": "./packages/api-contract/tsconfig.spec.json" },
     { "path": "./packages/api-derive" },
+    { "path": "./packages/rpc-augment" },
     { "path": "./packages/rpc-core" },
     { "path": "./packages/rpc-provider" },
     { "path": "./packages/typegen" },

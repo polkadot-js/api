@@ -1,13 +1,12 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import '@polkadot/api-augment/augment';
+import './augment';
 
 import type { QueryableConsts } from '@polkadot/api-augment/consts';
 import type { DecoratedErrors } from '@polkadot/api-augment/errors';
 import type { DecoratedEvents } from '@polkadot/api-augment/events';
 import type { QueryableStorage } from '@polkadot/api-augment/query';
-import type { SubmittableExtrinsics } from '@polkadot/api-augment/tx';
 import type { ApiInterfaceRx as ApiInterfaceBase, ApiTypes, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { DeriveCustom } from '@polkadot/api-derive';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
@@ -21,11 +20,10 @@ import type { AllDerives } from './util/decorate';
 
 export * from '@polkadot/api-base/types';
 
+export type { AugmentedConsts, AugmentedErrors, AugmentedEvents, AugmentedQueries, AugmentedSubmittables, QueryableConsts, DecoratedErrors, DecoratedEvents, QueryableStorage, QueryableStorageAt, SubmittableExtrinsics } from '@polkadot/api-augment';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from './base';
-
-export type { DecoratedErrors, DecoratedEvents, QueryableConsts, QueryableStorage, SubmittableExtrinsics };
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {

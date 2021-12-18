@@ -6,7 +6,6 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../rpc-augment" },
-    { "path": "../rpc-provider" }
+    { "path": "../types" }
   ]
 }
