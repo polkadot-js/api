@@ -1,31 +1,31 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-declare module '@polkadot/rpc-augment/rpc' {
-  import type { AugmentedRpc } from '@polkadot/rpc-augment/types';
-  import type { Metadata, StorageKey } from '@polkadot/types';
-  import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
-  import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
-  import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
-  import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
-  import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
-  import type { BlockHash } from '@polkadot/types/interfaces/chain';
-  import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
-  import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
-  import type { ContractCallRequest, ContractExecResult, ContractInstantiateResult, InstantiateRequest } from '@polkadot/types/interfaces/contracts';
-  import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
-  import type { EthAccount, EthCallRequest, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
-  import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-  import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
-  import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
-  import type { StorageKind } from '@polkadot/types/interfaces/offchain';
-  import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-  import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-  import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
-  import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
-  import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
-  import type { IExtrinsic, Observable } from '@polkadot/types/types';
+import type { AugmentedRpc } from '@polkadot/rpc-augment/types';
+import type { Metadata, StorageKey } from '@polkadot/types';
+import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
+import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
+import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
+import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
+import type { BlockHash } from '@polkadot/types/interfaces/chain';
+import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { ContractCallRequest, ContractExecResult, ContractInstantiateResult, InstantiateRequest } from '@polkadot/types/interfaces/contracts';
+import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
+import type { EthAccount, EthCallRequest, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
+import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
+import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
+import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
+import type { StorageKind } from '@polkadot/types/interfaces/offchain';
+import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
+import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
+import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
+import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
+import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
+declare module '@polkadot/rpc-augment/rpc' {
   export interface RpcInterface {
     author: {
       /**
