@@ -15,6 +15,7 @@
     { "path": "./packages/rpc-provider" },
     { "path": "./packages/typegen" },
     { "path": "./packages/types" },
+    { "path": "./packages/types-augment" },
     { "path": "./packages/types-codec" },
     { "path": "./packages/types-codec/tsconfig.spec.json" },
     { "path": "./packages/types-create" },

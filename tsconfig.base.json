@@ -21,6 +21,8 @@
       "@polkadot/rpc-provider/*": ["rpc-provider/src/*"],
       "@polkadot/types": ["types/src"],
       "@polkadot/types/*": ["types/src/*"],
+      "@polkadot/types-augment": ["types-augment/src"],
+      "@polkadot/types-augment/*": ["types-augment/src/*"],
       "@polkadot/types-codec": ["types-codec/src"],
       "@polkadot/types-codec/*": ["types-codec/src/*"],
       "@polkadot/types-create": ["types-create/src"],
