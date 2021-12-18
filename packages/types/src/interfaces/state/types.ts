@@ -1,9 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, HashMap, Option, StorageKey, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
+import type { StorageKey } from '@polkadot/types';
+import type { Bytes, Enum, HashMap, Option, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { Hash, StorageData } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
 
 /** @name ApiId */
 export interface ApiId extends U8aFixed {}

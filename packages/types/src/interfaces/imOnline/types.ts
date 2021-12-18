@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Struct, Vec, u32 } from '@polkadot/types';
+import type { Bytes, Struct, Vec, u32 } from '@polkadot/types-codec';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';

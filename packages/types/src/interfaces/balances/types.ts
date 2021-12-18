@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Set, Struct, U8aFixed } from '@polkadot/types';
+import type { Enum, Set, Struct, U8aFixed } from '@polkadot/types-codec';
 import type { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountData */

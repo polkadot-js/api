@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Option, Struct, Vec, bool, u32 } from '@polkadot/types';
+import type { Bytes, Enum, Option, Struct, Vec, bool, u32 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { Vote, VoteThreshold } from '@polkadot/types/interfaces/elections';
 import type { AccountId, Balance, BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
 
 /** @name AccountVote */
 export interface AccountVote extends Enum {

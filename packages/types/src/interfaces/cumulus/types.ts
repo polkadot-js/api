@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, U8aFixed, u32, u64 } from '@polkadot/types';
+import type { Struct, U8aFixed, u32, u64 } from '@polkadot/types-codec';
 import type { Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name ConfigData */

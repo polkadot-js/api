@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Compact, Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types';
+import type { Compact, Enum, Null, Option, Struct, Text, Type, Vec, u32, u64, u8 } from '@polkadot/types-codec';
 
 /** @name Si0Field */
 export interface Si0Field extends Struct {
