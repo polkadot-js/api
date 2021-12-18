@@ -70,7 +70,7 @@ function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referen
 }
 
 function votesCurr (api: DeriveApi, referendumId: BN): Observable<DeriveReferendumVote[]> {
-  return api.query.democracy.votingOf.entries<PalletDemocracyVoteVoting, [AccountId]>().pipe(
+  return api.query.democracy.votingOf.entries().pipe(
     map((allVoting): DeriveReferendumVote[] => {
       const mapped = allVoting.map(([{ args: [accountId] }, voting]): [AccountId, PalletDemocracyVoteVoting] => [accountId, voting]);
       const votes = extractVotes(mapped, referendumId);

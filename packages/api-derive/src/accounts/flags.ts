@@ -37,7 +37,7 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
-    const elections = api.query.elections || api.query.phragmenElection || api.query.electionsPhragmen;
+    const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
 
     return combineLatest([
       address && elections?.members

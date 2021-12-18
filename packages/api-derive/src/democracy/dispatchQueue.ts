@@ -48,7 +48,7 @@ function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<P
   // at a block, the entry for that block will become empty
   return api.derive.democracy.referendumsFinished().pipe(
     switchMap(() =>
-      api.query.scheduler.agenda.keys<[BlockNumber]>()
+      api.query.scheduler.agenda.keys()
     ),
     switchMap((keys) => {
       const blockNumbers = keys.map(({ args: [blockNumber] }) => blockNumber);

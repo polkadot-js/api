@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { u32, u64 } from '@polkadot/types-codec';
 import type { DeriveApi, DeriveSessionInfo } from '../types';
 
 import { map } from 'rxjs';
@@ -16,8 +15,8 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
   return memo(instanceId, (): Observable<DeriveSessionInfo> =>
     api.derive.session.indexes().pipe(
       map((indexes) => {
-        const sessionLength = (api.consts?.babe?.epochDuration as u64) || api.registry.createType('u64', 1);
-        const sessionsPerEra = (api.consts?.staking?.sessionsPerEra as u32) || api.registry.createType('SessionIndex', 1);
+        const sessionLength = api.consts?.babe?.epochDuration || api.registry.createType('u64', 1);
+        const sessionsPerEra = api.consts?.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1);
 
         return {
           ...indexes,

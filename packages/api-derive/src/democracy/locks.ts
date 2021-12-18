@@ -4,7 +4,6 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
-import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveDemocracyLock } from '../types';
 
@@ -27,9 +26,10 @@ function parseEnd (api: DeriveApi, vote: Vote, { approved, end }: ReferendumInfo
     (approved.isTrue && vote.isAye) || (approved.isFalse && vote.isNay)
       ? end.add(
         (
-          (api.consts.democracy.voteLockingPeriod as u32) ||
-          (api.consts.democracy.enactmentPeriod as u32)
-        ).muln(LOCKUPS[vote.conviction.index]))
+          api.consts.democracy.voteLockingPeriod ||
+          api.consts.democracy.enactmentPeriod
+        ).muln(LOCKUPS[vote.conviction.index])
+      )
       : BN_ZERO
   ];
 }
@@ -56,9 +56,10 @@ function delegateLocks (api: DeriveApi, { balance, conviction, target }: VotingD
           ? unlockAt
           : referendumEnd.add(
             (
-              (api.consts.democracy.voteLockingPeriod as u32) ||
-              (api.consts.democracy.enactmentPeriod as u32)
-            ).muln(LOCKUPS[conviction.index])),
+              api.consts.democracy.voteLockingPeriod ||
+              api.consts.democracy.enactmentPeriod
+            ).muln(LOCKUPS[conviction.index])
+          ),
         vote: api.registry.createType('Vote', { aye: vote.isAye, conviction })
       }))
     )
