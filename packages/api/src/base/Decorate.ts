@@ -2,28 +2,28 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { DeriveCustom } from '@polkadot/api-derive';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
-import type { DeriveCustom } from '../derive';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
 
+import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { arrayChunk, arrayFlatten, assert, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, objectSpread, u8aToHex } from '@polkadot/util';
 
-import { ExactDerive, getAvailableDerives } from '../derive';
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
-import { decorateDeriveSections, DeriveAllSections } from '../util/decorate';
+import { AllDerives, decorateDeriveSections } from '../util/decorate';
 import { extractStorageArgs } from '../util/validate';
 import { Events } from './Events';
 import { findCall, findError } from './find';
@@ -733,17 +733,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
+  protected _decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): AllDerives<'rxjs'> {
     const specName = this._runtimeVersion?.specName.toString();
 
     // Pull in derive from api-derive
     const available = getAvailableDerives(this.#instanceId, this._rx, objectSpread<DeriveCustom>({}, this._options.derives, this._options.typesBundle?.spec?.[specName || '']?.derives));
 
-    return decorateDeriveSections<'rxjs', ExactDerive>(decorateMethod, available);
+    return decorateDeriveSections<'rxjs'>(decorateMethod, available);
   }
 
-  protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateDeriveSections<ApiType, ExactDerive>(decorateMethod, this._rx.derive);
+  protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): AllDerives<ApiType> {
+    return decorateDeriveSections<ApiType>(decorateMethod, this._rx.derive);
   }
 
   /**

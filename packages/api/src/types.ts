@@ -1,38 +1,36 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import '@polkadot/api-augment';
+import '@polkadot/api-augment/augment';
 
-import type { Observable } from 'rxjs';
-import type { QueryableConsts } from '@polkadot/api/types/consts';
-import type { DecoratedErrors } from '@polkadot/api/types/errors';
-import type { DecoratedEvents } from '@polkadot/api/types/events';
-import type { QueryableStorage } from '@polkadot/api/types/storage';
-import type { SubmittableExtrinsics } from '@polkadot/api/types/submittable';
-import type { ApiTypes, DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
-import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { QueryableConsts } from '@polkadot/api-augment/consts';
+import type { DecoratedErrors } from '@polkadot/api-augment/errors';
+import type { DecoratedEvents } from '@polkadot/api-augment/events';
+import type { QueryableStorage } from '@polkadot/api-augment/query';
+import type { SubmittableExtrinsics } from '@polkadot/api-augment/tx';
+import type { ApiInterfaceRx as ApiInterfaceBase, ApiTypes, QueryableStorageMulti } from '@polkadot/api-base/types';
+import type { DeriveCustom } from '@polkadot/api-derive';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { Metadata } from '@polkadot/types/metadata';
+import type { Hash } from '@polkadot/types/interfaces';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from './base';
-import type { DeriveCustom, ExactDerive } from './derive';
-import type { DeriveAllSections } from './util/decorate';
+import type { AllDerives } from './util/decorate';
 
 export * from '@polkadot/api-base/types';
 
-export * from '@polkadot/api/types/consts';
-export * from '@polkadot/api/types/errors';
-export * from '@polkadot/api/types/events';
-export * from '@polkadot/api/types/storage';
-export * from '@polkadot/api/types/submittable';
-export * from '@polkadot/rpc-core/types';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from './base';
+
+export type { DecoratedErrors, DecoratedEvents, QueryableConsts, QueryableStorage, SubmittableExtrinsics };
+
+// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
+export interface ApiInterfaceRx extends ApiInterfaceBase {
+  derive: AllDerives<'rxjs'>;
+}
 
 export interface ApiOptions extends RegisteredTypes {
   /**
@@ -81,25 +79,6 @@ export interface ApiOptions extends RegisteredTypes {
    * @description Throws an error when some types are unknown (useful with throwOnConnect)
    */
   throwOnUnknown?: boolean;
-}
-
-// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
-export interface ApiInterfaceRx {
-  consts: QueryableConsts<'rxjs'>;
-  // TODO This needs to be typed correctly
-  derive: DeriveAllSections<'rxjs', ExactDerive>;
-  extrinsicType: number;
-  genesisHash?: Hash;
-  hasSubscriptions: boolean;
-  registry: Registry;
-  runtimeMetadata: Metadata;
-  runtimeVersion: RuntimeVersion;
-  query: QueryableStorage<'rxjs'>;
-  queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
-  queryMulti: QueryableStorageMulti<'rxjs'>;
-  rpc: DecoratedRpc<'rxjs', RpcInterface>;
-  tx: SubmittableExtrinsics<'rxjs'>;
-  signer?: Signer;
 }
 
 export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';

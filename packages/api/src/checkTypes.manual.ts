@@ -3,10 +3,10 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
-import type { HeaderExtended } from './derive/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';

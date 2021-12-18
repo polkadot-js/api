@@ -68,6 +68,7 @@ export class MockProvider implements ProviderInterface {
     state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, [key]: string[]) => u8aToHex(storage[key]),
     system_chain: () => 'mockChain',
+    system_health: () => ({}),
     system_name: () => 'mockClient',
     system_properties: () => ({ ss58Format: 42 }),
     system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),

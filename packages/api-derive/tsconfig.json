@@ -5,7 +5,15 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "exclude": [
+    "**/test/*",
+    "**/*.spec.ts"
+  ],
   "references": [
-    { "path": "../api" }
+    { "path": "../api-augment" },
+    { "path": "../api-base" },
+    { "path": "../rpc-core" },
+    { "path": "../types" },
+    { "path": "../types-codec" }
   ]
 }
