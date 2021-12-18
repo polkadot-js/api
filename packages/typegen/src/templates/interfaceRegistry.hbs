@@ -1,10 +1,8 @@
 {{> header }}
 
-{{{ importsRelative }}}
+{{{ importsAll }}}
 
 declare module '@polkadot/types-augment/registry' {
-  {{{ importsPackage }}}
-
   export interface InterfaceTypes {
     {{#each items}}
     {{{this}}}: {{{this}}};

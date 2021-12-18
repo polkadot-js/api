@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-declare module '@polkadot/types-augment/lookup' {
-  import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
-  import type { ITuple } from '@polkadot/types-codec/types';
-  import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
+import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
+import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
+declare module '@polkadot/types-augment/lookup' {
   /** @name KusamaRuntimeProxyType (73) */
   export interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
