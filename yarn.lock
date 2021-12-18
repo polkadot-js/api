@@ -1875,7 +1875,6 @@ __metadata:
     "@polkadot/api-base": 6.12.2-13
     "@polkadot/rpc-core": 6.12.2-13
     "@polkadot/types": 6.12.2-13
-    "@polkadot/util": ^8.1.2
   languageName: unknown
   linkType: soft
 
@@ -1910,6 +1909,7 @@ __metadata:
     "@polkadot/api": 6.12.2-13
     "@polkadot/api-augment": 6.12.2-13
     "@polkadot/api-base": 6.12.2-13
+    "@polkadot/rpc-augment": 6.12.2-13
     "@polkadot/rpc-core": 6.12.2-13
     "@polkadot/types": 6.12.2-13
     "@polkadot/types-codec": 6.12.2-13
@@ -2052,12 +2052,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/rpc-augment@6.12.2-13, @polkadot/rpc-augment@workspace:packages/rpc-augment":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/types": 6.12.2-13
+    rxjs: ^7.4.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/rpc-core@6.12.2-13, @polkadot/rpc-core@workspace:packages/rpc-core":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.1.2
+    "@polkadot/rpc-augment": 6.12.2-13
     "@polkadot/rpc-provider": 6.12.2-13
     "@polkadot/types": 6.12.2-13
     "@polkadot/util": ^8.1.2
@@ -2100,6 +2111,7 @@ __metadata:
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
     "@polkadot/api": 6.12.2-13
+    "@polkadot/rpc-augment": 6.12.2-13
     "@polkadot/rpc-provider": 6.12.2-13
     "@polkadot/types": 6.12.2-13
     "@polkadot/types-codec": 6.12.2-13

@@ -135,7 +135,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {
-          file: '@polkadot/rpc-core/types',
+          file: '@polkadot/rpc-augment/types',
           types: ['AugmentedRpc']
         }
       ]
@@ -143,7 +143,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
   });
 }
 
-export function generateDefaultRpc (dest = 'packages/api-augment/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
+export function generateDefaultRpc (dest = 'packages/rpc-augment/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
   const { registry } = initMeta(undefined, extraTypes);
 
   generateRpcTypes(

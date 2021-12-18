@@ -34,6 +34,7 @@
     "@babel/register": "^7.16.5",
     "@babel/runtime": "^7.16.5",
     "@polkadot/api": "6.12.2-13",
+    "@polkadot/rpc-augment": "6.12.2-13",
     "@polkadot/rpc-provider": "6.12.2-13",
     "@polkadot/types": "6.12.2-13",
     "@polkadot/types-codec": "6.12.2-13",

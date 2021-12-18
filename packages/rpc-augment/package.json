@@ -2,16 +2,16 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
   "contributors": [],
-  "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
+  "description": "RPC generated augmentation",
   "engines": {
     "node": ">=14.0.0"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-augment#readme",
   "license": "Apache-2.0",
   "maintainers": [],
-  "name": "@polkadot/api-derive",
+  "name": "@polkadot/rpc-augment",
   "repository": {
-    "directory": "packages/api-derive",
+    "directory": "packages/rpc-augment",
     "type": "git",
     "url": "https://github.com/polkadot-js/api.git"
   },
@@ -24,14 +24,7 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api-augment": "6.12.2-13",
-    "@polkadot/api-base": "6.12.2-13",
-    "@polkadot/rpc-augment": "6.12.2-13",
-    "@polkadot/rpc-core": "6.12.2-13",
     "@polkadot/types": "6.12.2-13",
-    "@polkadot/types-codec": "6.12.2-13"
-  },
-  "devDependencies": {
-    "@polkadot/api": "6.12.2-13"
+    "rxjs": "^7.4.0"
   }
 }

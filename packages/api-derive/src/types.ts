@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment/augment';
+import '@polkadot/rpc-augment/augment';
 
 import type { ApiInterfaceRx } from '@polkadot/api-base/types';
 import type { u32 } from '@polkadot/types';

@@ -13,6 +13,8 @@
       "@polkadot/api-contract/*": ["api-contract/src/*"],
       "@polkadot/api-derive": ["api-derive/src"],
       "@polkadot/api-derive/*": ["api-derive/src/*"],
+      "@polkadot/rpc-augment": ["rpc-augment/src"],
+      "@polkadot/rpc-augment/*": ["rpc-augment/src/*"],
       "@polkadot/rpc-core": ["rpc-core/src"],
       "@polkadot/rpc-core/*": ["rpc-core/src/*"],
       "@polkadot/rpc-provider": ["rpc-provider/src"],

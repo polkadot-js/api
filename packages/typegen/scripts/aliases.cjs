@@ -9,6 +9,7 @@ module.exports = {
     '^@polkadot/api-base(.*)': './packages/api-base/src\\1',
     '^@polkadot/api-derive(.*)': './packages/api-derive/src\\1',
     '^@polkadot/api(.*)': './packages/api/src/\\1',
+    '^@polkadot/rpc-augment(.*)': './packages/rpc-augment/src\\1',
     '^@polkadot/rpc-core(.*)': './packages/rpc-core/src\\1',
     '^@polkadot/rpc-provider(.*)': './packages/rpc-provider/src\\1',
     '^@polkadot/types-codec(.*)': './packages/types-codec/src\\1',

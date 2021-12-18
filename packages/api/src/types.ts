@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment/augment';
+import '@polkadot/rpc-augment/augment';
 
 import type { QueryableConsts } from '@polkadot/api-augment/consts';
 import type { DecoratedErrors } from '@polkadot/api-augment/errors';
