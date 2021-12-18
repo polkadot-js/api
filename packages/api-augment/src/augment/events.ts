@@ -3,10 +3,10 @@
 
 declare module '@polkadot/api-augment/events' {
   import type { ApiTypes, AugmentedEvent, ModuleEvents } from '@polkadot/api-base/types';
-  import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types';
   import type { FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types-augment/lookup';
+  import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+  import type { ITuple } from '@polkadot/types-codec/types';
   import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-  import type { ITuple } from '@polkadot/types/types';
 
   export interface AugmentedEvents<ApiType extends ApiTypes> {
     assets: {
@@ -221,9 +221,9 @@ declare module '@polkadot/api-augment/events' {
       Instantiated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
       /**
        * Contract has been removed.
-       *
+       * 
        * # Note
-       *
+       * 
        * The only way for a contract to be removed and emitting this event is by calling
        * `seal_terminate`.
        **/
@@ -371,10 +371,10 @@ declare module '@polkadot/api-augment/events' {
       Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * A solution was stored with the given compute.
-       *
+       * 
        * If the solution is signed, this means that it hasn't yet been processed. If the
        * solution is unsigned, this means that it has also been processed.
-       *
+       * 
        * The `bool` is `true` when a previous solution was ejected to make room for this one.
        **/
       SolutionStored: AugmentedEvent<ApiType, [PalletElectionProviderMultiPhaseElectionCompute, bool]>;
@@ -391,7 +391,7 @@ declare module '@polkadot/api-augment/events' {
       /**
        * A candidate was slashed by amount due to failing to obtain a seat as member or
        * runner-up.
-       *
+       * 
        * Note that old members and runners-up are also candidates.
        **/
       CandidateSlashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
@@ -767,7 +767,7 @@ declare module '@polkadot/api-augment/events' {
     staking: {
       /**
        * An account has bonded this amount. \[stash, amount\]
-       *
+       * 
        * NOTE: This event is only emitted when funds are bonded via a dispatchable. Notably,
        * it will not be emitted for staking rewards when they are added to stake.
        **/

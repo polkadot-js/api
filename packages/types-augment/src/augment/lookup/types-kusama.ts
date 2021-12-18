@@ -2,7 +2,8 @@
 /* eslint-disable */
 
 declare module '@polkadot/types-augment/lookup' {
-  import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types';
+  import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
+  import type { ITuple } from '@polkadot/types-codec/types';
   import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
   /** @name KusamaRuntimeProxyType (73) */
