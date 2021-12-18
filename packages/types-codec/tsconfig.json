@@ -8,6 +8,7 @@
   },
   "exclude": [
     "**/*.data.ts",
+    "**/*.manual.ts",
     "**/*.spec.ts"
   ],
   "references": []

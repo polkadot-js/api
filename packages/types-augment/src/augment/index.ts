@@ -3,3 +3,4 @@
 
 import './lookup';
 import './registry';
+import './types';

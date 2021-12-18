@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '@polkadot/types-augment';
+
 import type { Compact, Option } from './codec';
 import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces';
 import type { Bytes, u32 } from './primitive';
