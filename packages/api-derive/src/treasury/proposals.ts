@@ -59,7 +59,7 @@ function retrieveProposals (api: DeriveApi, proposalCount: ProposalIndex, approv
   const allIds = [...proposalIds, ...approvalIds];
 
   return combineLatest([
-    api.query.treasury.proposals.multi<Option<PalletTreasuryProposal>>(allIds),
+    api.query.treasury.proposals.multi(allIds),
     api.derive.council
       ? api.derive.council.proposals()
       : of([] as DeriveCollectiveProposal[])
@@ -77,8 +77,8 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
   return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>
     api.query.treasury
       ? combineLatest([
-        api.query.treasury.proposalCount<ProposalIndex>(),
-        api.query.treasury.approvals<ProposalIndex[]>()
+        api.query.treasury.proposalCount(),
+        api.query.treasury.approvals()
       ]).pipe(
         switchMap(([proposalCount, approvalIds]) =>
           retrieveProposals(api, proposalCount, approvalIds)

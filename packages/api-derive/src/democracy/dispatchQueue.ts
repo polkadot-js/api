@@ -61,7 +61,7 @@ function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<P
           // upgrade, which results in invalid on-chain data
           combineLatest(blockNumbers.map((blockNumber) =>
             // this does create an issue since it discards all at that block
-            api.query.scheduler.agenda<Option<PalletSchedulerScheduledV2>[]>(blockNumber).pipe(catchError(() => of(null)))
+            api.query.scheduler.agenda(blockNumber).pipe(catchError(() => of(null)))
           ))
         ])
         : of<[BlockNumber[], null[]]>([[], []]);

@@ -16,7 +16,7 @@ export function currentPoints (instanceId: string, api: DeriveApi): () => Observ
   return memo(instanceId, (): Observable<PalletStakingEraRewardPoints> =>
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra }) =>
-        api.query.staking.erasRewardPoints<PalletStakingEraRewardPoints>(activeEra)
+        api.query.staking.erasRewardPoints(activeEra)
       )
     ));
 }

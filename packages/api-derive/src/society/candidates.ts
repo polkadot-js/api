@@ -20,7 +20,7 @@ type Result = [PalletSocietyBid[], ResultSuspend[]]
  */
 export function candidates (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyCandidate[]> {
   return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
-    api.query.society.candidates<PalletSocietyBid[]>().pipe(
+    api.query.society.candidates().pipe(
       switchMap((candidates): Observable<Result> =>
         combineLatest([
           of(candidates),

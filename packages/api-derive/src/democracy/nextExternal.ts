@@ -31,7 +31,7 @@ function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256, PalletDemocrac
 export function nextExternal (instanceId: string, api: DeriveApi): () => Observable<DeriveProposalExternal | null> {
   return memo(instanceId, (): Observable<DeriveProposalExternal | null> =>
     api.query.democracy?.nextExternal
-      ? api.query.democracy.nextExternal<Option<ITuple<[H256, PalletDemocracyVoteThreshold]>>>().pipe(
+      ? api.query.democracy.nextExternal().pipe(
         switchMap((nextOpt) => withImage(api, nextOpt))
       )
       : of(null)

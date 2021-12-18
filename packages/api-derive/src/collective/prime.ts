@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types';
 import type { Collective } from './types';
@@ -20,7 +19,7 @@ export function prime (_section: Collective): (instanceId: string, api: DeriveAp
   return withSection(_section, (section, api) =>
     (): Observable<AccountId | null> =>
       isFunction(api.query[section as 'council']?.prime)
-        ? api.query[section as 'council'].prime<Option<AccountId>>().pipe(
+        ? api.query[section as 'council'].prime().pipe(
           map((optPrime): AccountId | null =>
             optPrime.unwrapOr(null)
           )

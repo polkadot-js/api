@@ -31,7 +31,7 @@ export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, 
 
     return cached
       ? of(cached)
-      : api.query.staking.erasValidatorPrefs.entries<PalletStakingValidatorPrefs>(era).pipe(
+      : api.query.staking.erasValidatorPrefs.entries(era).pipe(
         map((r) => setEraCache(cacheKey, withActive, mapPrefs(era, r)))
       );
   });

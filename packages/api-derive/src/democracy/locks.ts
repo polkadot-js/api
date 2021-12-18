@@ -89,7 +89,7 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
 export function locks (instanceId: string, api: DeriveApi): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
   return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
     api.query.democracy.votingOf
-      ? api.query.democracy.votingOf<PalletDemocracyVoteVoting>(accountId).pipe(
+      ? api.query.democracy.votingOf(accountId).pipe(
         switchMap((voting): Observable<DeriveDemocracyLock[]> =>
           voting.isDirect
             ? directLocks(api, voting.asDirect)

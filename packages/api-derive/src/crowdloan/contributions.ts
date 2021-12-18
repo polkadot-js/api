@@ -3,8 +3,6 @@
 
 import type { Observable } from 'rxjs';
 import type { StorageKey } from '@polkadot/types';
-import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
-import type { Vec } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveContributions } from '../types';
 
@@ -27,7 +25,7 @@ function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<
   let added: string[] = [];
   let removed: string[] = [];
 
-  return api.query.system.events<Vec<FrameSystemEventRecord>>().pipe(
+  return api.query.system.events().pipe(
     switchMap((events): Observable<Changes> => {
       const changes = extractContributed(paraId, events);
 
@@ -45,7 +43,7 @@ function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<
 }
 
 function _eventTriggerAll (api: DeriveApi, paraId: string | number | BN): Observable<string> {
-  return api.query.system.events<Vec<FrameSystemEventRecord>>().pipe(
+  return api.query.system.events().pipe(
     switchMap((events): Observable<string> => {
       const items = events.filter(({ event: { data: [eventParaId], method, section } }) =>
         section === 'crowdloan' &&

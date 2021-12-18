@@ -33,7 +33,7 @@ export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint
       api.queryAt(blockHash).pipe(
         switchMap((queryAt) =>
           queryAt.session
-            ? queryAt.session.validators<AccountId[]>()
+            ? queryAt.session.validators()
             : of([] as AccountId[])
         )
       )

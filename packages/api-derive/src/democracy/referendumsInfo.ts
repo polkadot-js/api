@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
-import type { PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
@@ -132,7 +132,7 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
     const status = getStatus(info);
 
     return status
-      ? api.query.democracy.preimages<Option<PalletDemocracyPreimageStatus>>(status.proposalHash).pipe(
+      ? api.query.democracy.preimages(status.proposalHash).pipe(
         map((preimage): DeriveReferendum => ({
           image: parseImage(api, preimage),
           imageHash: status.proposalHash,

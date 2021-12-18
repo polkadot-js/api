@@ -45,7 +45,7 @@ function queryStaking (api: DeriveApi): Observable<DeriveSessionIndexes> {
 
 // query based on latest
 function querySession (api: DeriveApi): Observable<DeriveSessionIndexes> {
-  return api.query.session.currentIndex<u32>().pipe(
+  return api.query.session.currentIndex().pipe(
     map((currentIndex): DeriveSessionIndexes => parse([
       currentIndex,
       api.registry.createType('EraIndex'),

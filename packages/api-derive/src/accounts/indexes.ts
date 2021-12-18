@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { bool, Option, u32, u128 } from '@polkadot/types-codec';
-import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountIndexes, DeriveApi } from '../types';
 
 import { map, of, startWith } from 'rxjs';
@@ -14,7 +11,7 @@ import { memo } from '../util';
 let indicesCache: AccountIndexes | null = null;
 
 function queryAccounts (api: DeriveApi): Observable<AccountIndexes> {
-  return api.query.indices.accounts.entries<Option<ITuple<[AccountId32, u128, bool]>>, [u32]>().pipe(
+  return api.query.indices.accounts.entries().pipe(
     map((entries): AccountIndexes =>
       entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
         if (idOpt.isSome) {

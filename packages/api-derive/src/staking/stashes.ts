@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types';
 
 import { map, startWith, switchMap } from 'rxjs';
@@ -12,7 +12,7 @@ import { drr, memo } from '../util';
 function onBondedEvent (api: DeriveApi): Observable<number> {
   let current = Date.now();
 
-  return api.query.system.events<EventRecord[]>().pipe(
+  return api.query.system.events().pipe(
     map((events): number => {
       current = events.filter(({ event, phase }): boolean => {
         try {
@@ -39,7 +39,7 @@ function onBondedEvent (api: DeriveApi): Observable<number> {
 export function stashes (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
     onBondedEvent(api).pipe(
-      switchMap(() => api.query.staking.validators.keys<[AccountId]>()),
+      switchMap(() => api.query.staking.validators.keys()),
       map((keys) => keys.map(({ args: [v] }) => v).filter((a) => a))
     )
   );

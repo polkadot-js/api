@@ -39,7 +39,7 @@ export function _members (instanceId: string, api: DeriveApi): (accountIds: Acco
  */
 export function members (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (): Observable<DeriveSocietyMember[]> =>
-    api.query.society.members<AccountId[]>().pipe(
+    api.query.society.members().pipe(
       switchMap((members) => api.derive.society._members(members))
     )
   );

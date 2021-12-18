@@ -15,7 +15,7 @@ export function nextElected (instanceId: string, api: DeriveApi): () => Observab
       ? api.derive.session.indexes().pipe(
         // only populate for next era in the last session, so track both here - entries are not
         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
-        switchMap(({ currentEra }) => api.query.staking.erasStakers.keys<[any, AccountId]>(currentEra)),
+        switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)),
         map((keys) => keys.map(({ args: [, accountId] }) => accountId))
       )
       : api.query.staking.currentElected<AccountId[]>()
@@ -31,7 +31,7 @@ export function validators (instanceId: string, api: DeriveApi): () => Observabl
     // in all actual real-world deployed chains, it does create some confusion for limited template chains
     combineLatest([
       api.query.session
-        ? api.query.session.validators<AccountId[]>()
+        ? api.query.session.validators()
         : of([]),
       api.query.staking
         ? api.derive.staking.nextElected()

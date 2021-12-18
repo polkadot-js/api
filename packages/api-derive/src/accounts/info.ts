@@ -16,7 +16,7 @@ import { memo } from '../util';
 function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string | undefined> {
   return ((
     accountId && api.query.nicks?.nameOf
-      ? api.query.nicks.nameOf<Option<ITuple<[Bytes, Balance]>>>(accountId)
+      ? api.query.nicks.nameOf(accountId)
       : of(undefined)
   ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
     map((nameOf): string | undefined =>

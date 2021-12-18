@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Bytes, Option } from '@polkadot/types';
-import type { BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { BountyIndex } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveBounties, DeriveCollectiveProposal } from '../types';
 
@@ -36,13 +36,13 @@ export function bounties (instanceId: string, api: DeriveApi): () => Observable<
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
     combineLatest([
-      bountyBase.bountyCount<BountyIndex>(),
+      bountyBase.bountyCount(),
       api.query.council
-        ? api.query.council.proposalCount<ProposalIndex>()
+        ? api.query.council.proposalCount()
         : of(0)
     ]).pipe(
       switchMap(() => combineLatest([
-        bountyBase.bounties.keys<[BountyIndex]>(),
+        bountyBase.bounties.keys(),
         api.derive.council
           ? api.derive.council.proposals()
           : of([])
