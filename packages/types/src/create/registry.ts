@@ -51,7 +51,7 @@ function getVariantStringIdx ({ index }: SiVariant): string {
 }
 
 // create error mapping from metadata
-function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
+function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
   clearRecord(result);
 
   for (let i = 0; i < pallets.length; i++) {
@@ -76,7 +76,7 @@ function injectErrors (_: Registry, { lookup, pallets }: MetadataLatest, version
 }
 
 // create event classes from metadata
-function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
+function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -99,7 +99,7 @@ function injectEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLat
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
   const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
@@ -117,7 +117,7 @@ function injectExtrinsics (registry: CodecRegistry, { lookup, pallets }: Metadat
 }
 
 // extract additional properties from the metadata
-function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainProperties | undefined {
+function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainProperties | undefined {
   const original = (registry as Registry).getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
@@ -128,7 +128,7 @@ function extractProperties (registry: CodecRegistry, metadata: Metadata): ChainP
 
   const { tokenDecimals, tokenSymbol } = original || {};
 
-  return (registry as Registry).createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol });
+  return registry.createTypeUnsafe<ChainProperties>('ChainProperties', [{ ss58Format, tokenDecimals, tokenSymbol }]);
 }
 
 export class TypeRegistry implements Registry {
@@ -286,8 +286,8 @@ export class TypeRegistry implements Registry {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createTypeUnsafe <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (type: K, params: unknown[], options?: CreateOptions): R {
-    return createTypeUnsafe(this, type, params, options) as unknown as R;
+  public createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CreateOptions): T {
+    return createTypeUnsafe(this, type, params, options);
   }
 
   // find a specific call

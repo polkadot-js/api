@@ -17,6 +17,7 @@
     { "path": "../api-base" },
     { "path": "../api-derive" },
     { "path": "../types" },
+    { "path": "../types-augment" },
     { "path": "../types-codec" }
   ]
 }
