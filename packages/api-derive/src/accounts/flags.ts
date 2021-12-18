@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Vec } from '@polkadot/types';
 import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
 import type { DeriveAccountFlags, DeriveApi } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
@@ -12,7 +10,7 @@ import { combineLatest, map, of } from 'rxjs';
 import { memo } from '../util';
 
 type FlagsIntermediate = [
-  Vec<ITuple<[AccountId, Balance]>> | undefined,
+  [AccountId, Balance][] | undefined,
   AccountId[],
   AccountId[],
   AccountId[],
@@ -26,7 +24,7 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
       : false;
 
   return {
-    isCouncil: (electionsMembers?.map(([id]: ITuple<[AccountId, Balance]>) => id) || councilMembers || []).some(isIncluded),
+    isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(isIncluded),
     isSociety: (societyMembers || []).some(isIncluded),
     isSudo: sudoKey?.toString() === address?.toString(),
     isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded)
@@ -39,11 +37,11 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
-    const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
+    const elections = api.query.elections || api.query.phragmenElection || api.query.electionsPhragmen;
 
     return combineLatest([
       address && elections?.members
-        ? elections.members()
+        ? elections.members<[AccountId, Balance][]>()
         : of(undefined),
       address && api.query.council?.members
         ? api.query.council.members()
