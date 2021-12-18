@@ -1,5 +1,4 @@
-// Copyright 2017-2021 @polkadot/types-augment authors & contributors
-// SPDX-License-Identifier: Apache-2.0
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
+/* eslint-disable */
 
-import './types';
-import '../toTypes';
+export * from './types';
