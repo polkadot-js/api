@@ -7,8 +7,8 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { Definitions } from '@polkadot/types/types';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -20,7 +20,7 @@ const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes = {
-      '@polkadot/types/augment': {
+      '@polkadot/types-augment': {
         lookup: {
           ...lookupDefinitions,
           ...customLookupDefinitions

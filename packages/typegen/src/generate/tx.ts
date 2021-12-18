@@ -32,7 +32,7 @@ function mapName (_name: Text): string {
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
-      '@polkadot/types/augment': {
+      '@polkadot/types-augment': {
         lookup: {
           ...lookupDefinitions,
           ...customLookupDefinitions

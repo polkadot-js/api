@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-declare module '@polkadot/types/lookup' {
+declare module '@polkadot/types-augment/lookup' {
   import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types';
   import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
   import type { ITuple } from '@polkadot/types/types';

@@ -20,7 +20,7 @@ const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes = {
-      '@polkadot/types/augment': {
+      '@polkadot/types-augment': {
         lookup: {
           ...lookupDefinitions,
           ...customLookupDefinitions
