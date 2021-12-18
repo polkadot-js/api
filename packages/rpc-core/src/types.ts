@@ -3,5 +3,5 @@
 
 import './augment';
 
-export * from '@polkadot/rpc-augment/rpc';
-export * from '@polkadot/rpc-augment/types';
+export type { RpcInterface } from '@polkadot/rpc-augment/rpc';
+export type { AugmentedRpc, RpcInterfaceMethod } from '@polkadot/rpc-augment/types';

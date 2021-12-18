@@ -6,5 +6,4 @@ import '@polkadot/rpc-augment/augment';
 
 export { packageInfo } from './packageInfo';
 
-// Important: we do the exports here via the full package name
 export * from '@polkadot/rpc-augment/rpc';
