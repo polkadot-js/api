@@ -3,7 +3,9 @@
 
 declare module '@polkadot/rpc-augment/rpc' {
   import type { AugmentedRpc } from '@polkadot/rpc-augment/types';
-  import type { Bytes, HashMap, Json, Metadata, Null, Option, StorageKey, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types';
+  import type { Metadata, StorageKey } from '@polkadot/types';
+  import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+  import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
   import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
   import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
   import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
@@ -22,7 +24,7 @@ declare module '@polkadot/rpc-augment/rpc' {
   import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
   import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
   import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
-  import type { AnyNumber, Codec, IExtrinsic, Observable } from '@polkadot/types/types';
+  import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
   export interface RpcInterface {
     author: {

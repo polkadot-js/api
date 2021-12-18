@@ -75,35 +75,35 @@ declare module '@polkadot/api-augment/consts' {
     bagsList: {
       /**
        * The list of thresholds separating the various bags.
-       * 
+       *
        * Ids are separated into unsorted bags according to their vote weight. This specifies the
        * thresholds separating the bags. An id's bag is the largest bag for which the id's weight
        * is less than or equal to its upper threshold.
-       * 
+       *
        * When ids are iterated, higher bags are iterated completely before lower bags. This means
        * that iteration is _semi-sorted_: ids of higher weight tend to come before ids of lower
        * weight, but peer ids within a particular bag are sorted in insertion order.
-       * 
+       *
        * # Expressing the constant
-       * 
+       *
        * This constant must be sorted in strictly increasing order. Duplicate items are not
        * permitted.
-       * 
+       *
        * There is an implied upper limit of `VoteWeight::MAX`; that value does not need to be
        * specified within the bag. For any two threshold lists, if one ends with
        * `VoteWeight::MAX`, the other one does not, and they are otherwise equal, the two lists
        * will behave identically.
-       * 
+       *
        * # Calculation
-       * 
+       *
        * It is recommended to generate the set of thresholds in a geometric series, such that
        * there exists some constant ratio such that `threshold[k + 1] == (threshold[k] *
        * constant_ratio).max(threshold[k] + 1)` for all `k`.
-       * 
+       *
        * The helpers in the `/utils/frame/generate-bags` module can simplify this calculation.
-       * 
+       *
        * # Examples
-       * 
+       *
        * - If `BagThresholds::get().is_empty()`, then all ids are put into the same bag, and
        * iteration is strictly in insertion order.
        * - If `BagThresholds::get().len() == 64`, and the thresholds are determined according to
@@ -112,9 +112,9 @@ declare module '@polkadot/api-augment/consts' {
        * the procedure given above, then the constant ratio is approximately equal to 1.248.
        * - If the threshold list begins `[1, 2, 3, ...]`, then an id with weight 0 or 1 will fall
        * into bag 0, an id with weight 2 will fall into bag 1, etc.
-       * 
+       *
        * # Migration
-       * 
+       *
        * In the event that this list ever changes, a copy of the old bags list must be retained.
        * With that `List::migrate` can be called, which will perform the appropriate migration.
        **/
@@ -171,7 +171,7 @@ declare module '@polkadot/api-augment/consts' {
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum acceptable reason length.
-       * 
+       *
        * Benchmarks depend on this value, be sure to update weights file when changing this value
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
@@ -210,16 +210,16 @@ declare module '@polkadot/api-augment/consts' {
       deletionWeightLimit: u64 & AugmentedConst<ApiType>;
       /**
        * The amount of balance a caller has to pay for each byte of storage.
-       * 
+       *
        * # Note
-       * 
+       *
        * Changing this value for an existing chain might need a storage migration.
        **/
       depositPerByte: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of balance a caller has to pay for each storage item.
        * # Note
-       * 
+       *
        * Changing this value for an existing chain might need a storage migration.
        **/
       depositPerItem: u128 & AugmentedConst<ApiType>;
@@ -239,7 +239,7 @@ declare module '@polkadot/api-augment/consts' {
       cooloffPeriod: u32 & AugmentedConst<ApiType>;
       /**
        * The period between a proposal being approved and enacted.
-       * 
+       *
        * It should generally be a little more than the unstake period to ensure that
        * voting stakers have an opportunity to remove themselves from the system in the case
        * where they are on the losing side of a vote.
@@ -265,7 +265,7 @@ declare module '@polkadot/api-augment/consts' {
       maxProposals: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
-       * 
+       *
        * Also used to compute weight, an overly big value can
        * lead to extrinsic with very big weight: see `delegate` for instance.
        **/
@@ -280,7 +280,7 @@ declare module '@polkadot/api-augment/consts' {
       preimageByteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The minimum period of vote locking.
-       * 
+       *
        * It should be no shorter than enactment period to ensure that in the case of an approval,
        * those successful voters are locked into the consequences that their votes entail.
        **/
@@ -297,14 +297,14 @@ declare module '@polkadot/api-augment/consts' {
     electionProviderMultiPhase: {
       /**
        * Maximum length (bytes) that the mined solution should consume.
-       * 
+       *
        * The miner will ensure that the total length of the unsigned solution will not exceed
        * this value.
        **/
       minerMaxLength: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum weight that the miner should consume.
-       * 
+       *
        * The miner will ensure that the total weight of the unsigned solution will not exceed
        * this value, based on [`WeightInfo::submit_unsigned`].
        **/
@@ -315,7 +315,7 @@ declare module '@polkadot/api-augment/consts' {
       minerTxPriority: u64 & AugmentedConst<ApiType>;
       /**
        * The repeat threshold of the offchain worker.
-       * 
+       *
        * For example, if it is 5, that means that at least 5 blocks will elapse between attempts
        * to submit the worker's solution.
        **/
@@ -334,7 +334,7 @@ declare module '@polkadot/api-augment/consts' {
       signedDepositWeight: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum number of signed submissions that can be queued.
-       * 
+       *
        * It is best to avoid adjusting this during an election, as it impacts downstream data
        * structures. In particular, `SignedSubmissionIndices<T>` is bounded on this value. If you
        * update this value during an election, you _must_ ensure that
@@ -344,7 +344,7 @@ declare module '@polkadot/api-augment/consts' {
       signedMaxSubmissions: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum weight of a signed solution.
-       * 
+       *
        * This should probably be similar to [`Config::MinerMaxWeight`].
        **/
       signedMaxWeight: u64 & AugmentedConst<ApiType>;
@@ -369,7 +369,7 @@ declare module '@polkadot/api-augment/consts' {
        * The maximum number of voters to put in the snapshot. At the moment, snapshots are only
        * over a single block, but once multi-block elections are introduced they will take place
        * over multiple blocks.
-       * 
+       *
        * Also, note the data type: If the voters are represented by a `u32` in `type
        * CompactSolution`, the same `u32` is used here to ensure bounds are respected.
        **/
@@ -404,7 +404,7 @@ declare module '@polkadot/api-augment/consts' {
       termDuration: u32 & AugmentedConst<ApiType>;
       /**
        * Base deposit associated with voting.
-       * 
+       *
        * This should be sensibly high to economically ensure the pallet cannot be attacked by
        * creating a gigantic number of votes.
        **/
@@ -421,14 +421,14 @@ declare module '@polkadot/api-augment/consts' {
     gilt: {
       /**
        * Portion of the queue which is free from ordering and just a FIFO.
-       * 
+       *
        * Must be no greater than `MaxQueueLen`.
        **/
       fifoQueueLen: u32 & AugmentedConst<ApiType>;
       /**
        * The number of blocks between consecutive attempts to issue more gilts in an effort to
        * get to the target amount to be frozen.
-       * 
+       *
        * A larger value results in fewer storage hits each block, but a slower period to get to
        * the target.
        **/
@@ -447,7 +447,7 @@ declare module '@polkadot/api-augment/consts' {
        * The minimum amount of funds that may be offered to freeze for a gilt. Note that this
        * does not actually limit the amount which may be frozen in a gilt since gilts may be
        * split up in order to satisfy the desired amount of funds under gilts.
-       * 
+       *
        * It should be at least big enough to ensure that there is no possible storage spam attack
        * or queue-filling attack.
        **/
@@ -514,7 +514,7 @@ declare module '@polkadot/api-augment/consts' {
     imOnline: {
       /**
        * A configuration for base priority of unsigned transactions.
-       * 
+       *
        * This is exposed so that it can be tuned for particular runtime, when
        * multiple pallets send unsigned transactions.
        **/
@@ -558,7 +558,7 @@ declare module '@polkadot/api-augment/consts' {
       /**
        * The base amount of currency needed to reserve for creating a multisig execution or to
        * store a dispatch call for later.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is
        * `32 + sizeof(AccountId)` bytes.
@@ -566,7 +566,7 @@ declare module '@polkadot/api-augment/consts' {
       depositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per unit threshold when creating a multisig execution.
-       * 
+       *
        * This is held for adding 32 bytes more into a pre-existing storage value.
        **/
       depositFactor: u128 & AugmentedConst<ApiType>;
@@ -582,14 +582,14 @@ declare module '@polkadot/api-augment/consts' {
     proxy: {
       /**
        * The base amount of currency needed to reserve for creating an announcement.
-       * 
+       *
        * This is held when a new storage item holding a `Balance` is created (typically 16
        * bytes).
        **/
       announcementDepositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per announcement made.
-       * 
+       *
        * This is held for adding an `AccountId`, `Hash` and `BlockNumber` (typically 68 bytes)
        * into a pre-existing storage value.
        **/
@@ -604,14 +604,14 @@ declare module '@polkadot/api-augment/consts' {
       maxProxies: u32 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for creating a proxy.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `sizeof(Balance)` bytes and whose key size is `sizeof(AccountId)` bytes.
        **/
       proxyDepositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per proxy added.
-       * 
+       *
        * This is held for adding 32 bytes plus an instance of `ProxyType` more into a
        * pre-existing storage value. Thus, when configuring `ProxyDepositFactor` one should take
        * into account `32 + proxy_type.encode().len()` bytes of data.
@@ -625,7 +625,7 @@ declare module '@polkadot/api-augment/consts' {
     recovery: {
       /**
        * The base amount of currency needed to reserve for creating a recovery configuration.
-       * 
+       *
        * This is held for an additional storage item whose value size is
        * `2 + sizeof(BlockNumber, Balance)` bytes.
        **/
@@ -633,7 +633,7 @@ declare module '@polkadot/api-augment/consts' {
       /**
        * The amount of currency needed per additional user when creating a recovery
        * configuration.
-       * 
+       *
        * This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage
        * value.
        **/
@@ -644,7 +644,7 @@ declare module '@polkadot/api-augment/consts' {
       maxFriends: u16 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for starting a recovery.
-       * 
+       *
        * This is primarily held for deterring malicious recovery attempts, and should
        * have a value large enough that a bad actor would choose not to place this
        * deposit. It also acts to fund additional storage item whose value size is
@@ -725,7 +725,7 @@ declare module '@polkadot/api-augment/consts' {
       maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
-       * 
+       *
        * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can
        * claim their reward. This used to limit the i/o cost for the nominator payout.
        **/
@@ -736,7 +736,7 @@ declare module '@polkadot/api-augment/consts' {
       sessionsPerEra: u32 & AugmentedConst<ApiType>;
       /**
        * Number of eras that slashes are deferred by, after computation.
-       * 
+       *
        * This should be less than the bonding duration. Set to 0 if slashes
        * should be applied immediately, without opportunity for intervention.
        **/
@@ -765,7 +765,7 @@ declare module '@polkadot/api-augment/consts' {
       dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The designated SS85 prefix of this chain.
-       * 
+       *
        * This replaces the "ss58Format" property declared in the chain spec. Reason is
        * that the runtime should know about the prefix in order to make use of it as
        * an identifier of the chain.
@@ -800,7 +800,7 @@ declare module '@polkadot/api-augment/consts' {
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
        * Maximum acceptable reason length.
-       * 
+       *
        * Benchmarks depend on this value, be sure to update weights file when changing this value
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
@@ -825,21 +825,21 @@ declare module '@polkadot/api-augment/consts' {
       /**
        * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
        * `priority`
-       * 
+       *
        * This value is multipled by the `final_fee` to obtain a "virtual tip" that is later
        * added to a tip component in regular `priority` calculations.
        * It means that a `Normal` transaction can front-run a similarly-sized `Operational`
        * extrinsic (with no tip), by including a tip value greater than the virtual tip.
-       * 
+       *
        * ```rust,ignore
        * // For `Normal`
        * let priority = priority_calc(tip);
-       * 
+       *
        * // For `Operational`
        * let virtual_tip = (inclusion_fee + tip) * OperationalFeeMultiplier;
        * let priority = priority_calc(tip + virtual_tip);
        * ```
-       * 
+       *
        * Note that since we use `final_fee` the multiplier applies also to the regular `tip`
        * sent with the transaction. So, not only does the transaction get a priority bump based
        * on the `inclusion_fee`, but we also amplify the impact of tips applied to `Operational`

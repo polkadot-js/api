@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Option, Struct } from '@polkadot/types';
+import type { Option, Struct } from '@polkadot/types-codec';
 import type { Balance, Weight } from '@polkadot/types/interfaces/runtime';
 import type { DispatchClass } from '@polkadot/types/interfaces/system';
 

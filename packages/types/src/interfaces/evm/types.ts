@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Struct, Text, Vec, u256 } from '@polkadot/types';
+import type { Bytes, Enum, Struct, Text, Vec, u256 } from '@polkadot/types-codec';
 import type { H160, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EvmAccount */

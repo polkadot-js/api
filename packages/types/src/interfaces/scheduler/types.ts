@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, Struct, u32, u8 } from '@polkadot/types';
+import type { Bytes, Option, Struct, u32, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { BlockNumber, Call, PalletsOrigin } from '@polkadot/types/interfaces/runtime';
-import type { ITuple } from '@polkadot/types/types';
 
 /** @name Period */
 export interface Period extends ITuple<[BlockNumber, u32]> {}

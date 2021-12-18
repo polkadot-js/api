@@ -1,13 +1,13 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeSet, Bytes, Enum, Option, Struct, U64, Vec, u32, u64 } from '@polkadot/types';
+import type { BTreeSet, Bytes, Enum, Option, Struct, U64, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
 import type { BlockNumber, Hash, Header } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof } from '@polkadot/types/interfaces/session';
-import type { ITuple } from '@polkadot/types/types';
 
 /** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}

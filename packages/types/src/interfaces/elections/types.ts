@@ -1,7 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Compact, Enum, GenericVote, Struct, u32 } from '@polkadot/types';
+import type { GenericVote } from '@polkadot/types';
+import type { Compact, Enum, Struct, u32 } from '@polkadot/types-codec';
 import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */
