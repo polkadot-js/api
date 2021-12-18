@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2021 @polkadot/types-lookup authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 

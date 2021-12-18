@@ -2114,6 +2114,7 @@ __metadata:
     "@polkadot/rpc-augment": 6.12.2-15
     "@polkadot/rpc-provider": 6.12.2-15
     "@polkadot/types": 6.12.2-15
+    "@polkadot/types-augment": 6.12.2-15
     "@polkadot/types-codec": 6.12.2-15
     "@polkadot/types-create": 6.12.2-15
     "@polkadot/types-support": 6.12.2-15
@@ -2129,6 +2130,16 @@ __metadata:
     polkadot-types-from-defs: ./scripts/polkadot-types-from-defs.cjs
     polkadot-types-internal-interfaces: ./scripts/polkadot-types-internal-interfaces.cjs
     polkadot-types-internal-metadata: ./scripts/polkadot-types-internal-metadata.cjs
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/types-augment@6.12.2-15, @polkadot/types-augment@workspace:packages/types-augment":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-augment@workspace:packages/types-augment"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/types": 6.12.2-15
+    "@polkadot/util": ^8.1.2
   languageName: unknown
   linkType: soft
 

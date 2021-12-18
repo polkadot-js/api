@@ -17,6 +17,11 @@ import type { DetectCodec } from './detect';
 
 export type { RegistryTypes } from '@polkadot/types-codec/types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InterfaceTypes {
+  // augmented inside @polkadot/types-augment
+}
+
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
 export interface ChainUpgradeVersion {

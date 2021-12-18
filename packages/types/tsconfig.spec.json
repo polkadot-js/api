@@ -9,17 +9,14 @@
     "noEmit": true
   },
   "include": [
-    "**/test/**/*.json",
-    "**/test/**/*.ts",
-    "**/test/**/*.wasm",
     "**/*.manual.ts",
-    "**/*.spec.ts",
-    "mock.ts"
+    "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api" },
-    { "path": "../api-contract" },
     { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types-augment" },
+    { "path": "../types-codec" },
+    { "path": "../types-create" },
+    { "path": "../types-support" }
   ]
 }

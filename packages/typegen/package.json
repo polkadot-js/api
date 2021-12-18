@@ -37,6 +37,7 @@
     "@polkadot/rpc-augment": "6.12.2-15",
     "@polkadot/rpc-provider": "6.12.2-15",
     "@polkadot/types": "6.12.2-15",
+    "@polkadot/types-augment": "6.12.2-15",
     "@polkadot/types-codec": "6.12.2-15",
     "@polkadot/types-create": "6.12.2-15",
     "@polkadot/types-support": "6.12.2-15",

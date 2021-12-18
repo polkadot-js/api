@@ -7,9 +7,9 @@ import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import lookupDefinitions from '@polkadot/types/augment/lookup/definitions';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Definitions } from '@polkadot/types/types';
+import lookupDefinitions from '@polkadot/types-augment/augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
@@ -20,7 +20,7 @@ const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes = {
-      '@polkadot/types/augment': {
+      '@polkadot/types-augment': {
         lookup: {
           ...lookupDefinitions,
           ...customLookupDefinitions
@@ -63,7 +63,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       modules,
       types: [
         ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-          file: packagePath.replace('@polkadot/types/augment', '@polkadot/types'),
+          file: packagePath.replace('@polkadot/types-augment', '@polkadot/types'),
           types: Object.keys(imports.localTypes[packagePath])
         })),
         {

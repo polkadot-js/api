@@ -6,7 +6,6 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types" }
   ]
 }

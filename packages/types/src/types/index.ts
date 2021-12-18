@@ -1,9 +1,6 @@
 // Copyright 2017-2021 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// augment the registry
-import '@polkadot/types/augment';
-
 // used inside augmented definitions
 export type { Observable } from 'rxjs';
 export * from '@polkadot/types/types/registry';

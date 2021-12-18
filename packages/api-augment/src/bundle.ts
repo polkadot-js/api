@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // trigger in the same way as we do externally
-import '@polkadot/api-augment/augment';
+import './augment';
 
 export { packageInfo } from './packageInfo';
 
