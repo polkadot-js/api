@@ -12,6 +12,7 @@
   ],
   "references": [
     { "path": "../api-base" },
+    { "path": "../api-augment" },
     { "path": "../rpc-augment" },
     { "path": "../rpc-core" },
     { "path": "../types" },

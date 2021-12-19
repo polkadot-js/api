@@ -6,7 +6,6 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../api" },
     { "path": "../api-base" },
     { "path": "../rpc-augment" },
     { "path": "../rpc-core" },

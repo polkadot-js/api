@@ -5,5 +5,3 @@
 export interface RpcInterface {
   // augmented
 }
-
-export const __PHANTOM_RPC = 'phantom-rpc';

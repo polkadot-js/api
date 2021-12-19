@@ -8,21 +8,19 @@ import type { Metadata } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Registry, Signer } from '@polkadot/types/types';
 
-declare module '@polkadot/api-base/types/api' {
-  // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
-  export interface ApiInterfaceRx {
-    consts: QueryableConsts<'rxjs'>;
-    extrinsicType: number;
-    genesisHash?: Hash;
-    hasSubscriptions: boolean;
-    registry: Registry;
-    runtimeMetadata: Metadata;
-    runtimeVersion: RuntimeVersion;
-    query: QueryableStorage<'rxjs'>;
-    queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
-    queryMulti: QueryableStorageMulti<'rxjs'>;
-    rpc: DecoratedRpc<'rxjs', RpcInterface>;
-    tx: SubmittableExtrinsics<'rxjs'>;
-    signer?: Signer;
-  }
+// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
+export interface ApiInterfaceRx {
+  consts: QueryableConsts<'rxjs'>;
+  extrinsicType: number;
+  genesisHash?: Hash;
+  hasSubscriptions: boolean;
+  registry: Registry;
+  runtimeMetadata: Metadata;
+  runtimeVersion: RuntimeVersion;
+  query: QueryableStorage<'rxjs'>;
+  queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
+  queryMulti: QueryableStorageMulti<'rxjs'>;
+  rpc: DecoratedRpc<'rxjs', RpcInterface>;
+  tx: SubmittableExtrinsics<'rxjs'>;
+  signer?: Signer;
 }
