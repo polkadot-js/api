@@ -3,13 +3,17 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/*.manual.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/test/**/*"
   ],
   "references": [
+    { "path": "../api" },
     { "path": "../api-augment" },
     { "path": "../api-base" },
     { "path": "../api-derive" },
