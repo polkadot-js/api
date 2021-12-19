@@ -36,11 +36,11 @@ export interface ExitError extends Enum {
   readonly isOutOfOffset: boolean;
   readonly isOutOfGas: boolean;
   readonly isOutOfFund: boolean;
-  readonly isPCUnderflow: boolean;
+  readonly isPcUnderflow: boolean;
   readonly isCreateEmpty: boolean;
   readonly isOther: boolean;
   readonly asOther: Text;
-  readonly type: 'StackUnderflow' | 'StackOverflow' | 'InvalidJump' | 'InvalidRange' | 'DesignatedInvalid' | 'CallTooDeep' | 'CreateCollision' | 'CreateContractLimit' | 'OutOfOffset' | 'OutOfGas' | 'OutOfFund' | 'PCUnderflow' | 'CreateEmpty' | 'Other';
+  readonly type: 'StackUnderflow' | 'StackOverflow' | 'InvalidJump' | 'InvalidRange' | 'DesignatedInvalid' | 'CallTooDeep' | 'CreateCollision' | 'CreateContractLimit' | 'OutOfOffset' | 'OutOfGas' | 'OutOfFund' | 'PcUnderflow' | 'CreateEmpty' | 'Other';
 }
 
 /** @name ExitFatal */
