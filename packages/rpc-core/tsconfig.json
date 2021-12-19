@@ -6,7 +6,7 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [
