@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueryableConsts } from '@polkadot/api/types/consts';
 import type { DecoratedErrors } from '@polkadot/api/types/errors';
 import type { DecoratedEvents } from '@polkadot/api/types/events';
 import type { QueryableStorage } from '@polkadot/api/types/query';
 import type { ApiInterfaceRx as ApiInterfaceBase, ApiTypes, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
+import type { QueryableConsts } from '@polkadot/api-base/types/consts';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash } from '@polkadot/types/interfaces';

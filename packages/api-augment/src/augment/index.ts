@@ -6,5 +6,3 @@ import './errors';
 import './events';
 import './query';
 import './tx';
-// these are external to this module
-import './api';

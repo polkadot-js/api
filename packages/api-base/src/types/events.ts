@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2021 @polkadot/api-base authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IsEvent } from '@polkadot/types/metadata/decorate/types';
@@ -10,4 +10,14 @@ export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTup
 
 export interface ModuleEvents<ApiType extends ApiTypes> {
   [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedEvents<ApiType extends ApiTypes> {
+  // augmented
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
+  // augmented
 }

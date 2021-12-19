@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2021 @polkadot/api-base authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -121,3 +121,18 @@ export type AugmentedQueryAt<ApiType extends ApiTypes, F extends AnyFunction, A 
 
 // backwards compatibility-only
 export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = AugmentedQuery<ApiType, F, A>;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedQueries<ApiType extends ApiTypes> {
+  // augmented
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+  // augmented
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+  // augmented
+}

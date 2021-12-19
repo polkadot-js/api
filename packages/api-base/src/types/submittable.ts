@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2021 @polkadot/api-base authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -79,4 +79,14 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
   signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
   withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedSubmittables<ApiType extends ApiTypes> {
+  // augmented
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
+  // augmented
 }

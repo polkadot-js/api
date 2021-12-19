@@ -110,7 +110,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         })),
         {
           file: '@polkadot/api-base/types',
-          types: ['ApiTypes', 'AugmentedSubmittable', 'SubmittableExtrinsic', 'SubmittableExtrinsicFunction', 'SubmittableModuleExtrinsics']
+          types: ['ApiTypes']
         }
       ]
     });
