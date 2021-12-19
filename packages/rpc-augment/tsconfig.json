@@ -7,7 +7,6 @@
   },
   "references": [
     { "path": "../rpc-core" },
-    { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types" }
   ]
 }

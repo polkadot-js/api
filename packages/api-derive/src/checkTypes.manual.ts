@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment';
-import '@polkadot/rpc-augment';
 
 import { derive } from '.';
 

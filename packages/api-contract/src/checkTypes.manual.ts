@@ -4,7 +4,6 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import '@polkadot/api-augment';
-import '@polkadot/rpc-augment';
 
 import { ApiPromise } from '@polkadot/api';
 import { BlueprintPromise, ContractPromise } from '@polkadot/api-contract';

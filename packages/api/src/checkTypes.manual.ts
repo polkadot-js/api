@@ -3,8 +3,6 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import '@polkadot/types-augment';
-import '@polkadot/rpc-augment';
 import '@polkadot/api-augment';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
