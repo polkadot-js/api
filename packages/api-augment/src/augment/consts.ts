@@ -15,11 +15,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       approvalDeposit: u128 & AugmentedConst<ApiType>;
       /**
-       * The amount of funds that must be reserved for a non-provider asset account to be
-       * maintained.
-       **/
-      assetAccountDeposit: u128 & AugmentedConst<ApiType>;
-      /**
        * The basic amount of funds that must be reserved for an asset.
        **/
       assetDeposit: u128 & AugmentedConst<ApiType>;

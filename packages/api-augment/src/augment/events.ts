@@ -609,24 +609,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
-    preimage: {
-      /**
-       * A preimage has ben cleared.
-       **/
-      Cleared: AugmentedEvent<ApiType, [H256]>;
-      /**
-       * A preimage has been noted.
-       **/
-      Noted: AugmentedEvent<ApiType, [H256]>;
-      /**
-       * A preimage has been requested.
-       **/
-      Requested: AugmentedEvent<ApiType, [H256]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
     proxy: {
       /**
        * An announcement was placed to make a call in the future.
@@ -681,10 +663,6 @@ declare module '@polkadot/api-base/types/events' {
       [key: string]: AugmentedEvent<ApiType>;
     };
     scheduler: {
-      /**
-       * The call for the provided hash was not found so the task has been aborted.
-       **/
-      CallLookupFailed: AugmentedEvent<ApiType, [ITuple<[u32, u32]>, Option<Bytes>, FrameSupportScheduleLookupError]>;
       /**
        * Canceled some task.
        **/
@@ -851,9 +829,9 @@ declare module '@polkadot/api-base/types/events' {
     };
     sudo: {
       /**
-       * The \[sudoer\] just switched identity; the old key is supplied if one existed.
+       * The \[sudoer\] just switched identity; the old key is supplied.
        **/
-      KeyChanged: AugmentedEvent<ApiType, [Option<AccountId32>]>;
+      KeyChanged: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * A sudo just took place. \[result\]
        **/

@@ -7,10 +7,6 @@ declare module '@polkadot/api-base/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     assets: {
       /**
-       * The asset-account already exists.
-       **/
-      AlreadyExists: AugmentedError<ApiType>;
-      /**
        * Invalid metadata given.
        **/
       BadMetadata: AugmentedError<ApiType>;
@@ -22,6 +18,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Account balance must be greater than or equal to the transfer amount.
        **/
       BalanceLow: AugmentedError<ApiType>;
+      /**
+       * Balance should be non-zero.
+       **/
+      BalanceZero: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
@@ -35,21 +35,12 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MinBalanceZero: AugmentedError<ApiType>;
       /**
-       * The account to alter does not exist.
-       **/
-      NoAccount: AugmentedError<ApiType>;
-      /**
-       * The asset-account doesn't have an associated deposit.
-       **/
-      NoDeposit: AugmentedError<ApiType>;
-      /**
        * The signing account has no permission to do the operation.
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
-       * Unable to increment the consumer reference counters on the account. Either no provider
-       * reference exists to allow a non-zero balance of a non-self-sufficient asset, or the
-       * maximum number of consumers has been reached.
+       * No provider reference exists to allow a non-zero balance of a non-self-sufficient
+       * asset.
        **/
       NoProvider: AugmentedError<ApiType>;
       /**
@@ -60,10 +51,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The given asset ID is unknown.
        **/
       Unknown: AugmentedError<ApiType>;
-      /**
-       * The operation would result in funds being burned.
-       **/
-      WouldBurn: AugmentedError<ApiType>;
       /**
        * The source account would not survive the transfer and it needs to stay alive.
        **/
@@ -264,13 +251,6 @@ declare module '@polkadot/api-base/types/errors' {
        * No contract was found at the specified address.
        **/
       ContractNotFound: AugmentedError<ApiType>;
-      /**
-       * The contract ran to completion but decided to revert its storage changes.
-       * Please note that this error is only returned from extrinsics. When called directly
-       * or via RPC an `Ok` will be returned. In this case the caller needs to inspect the flags
-       * to determine whether a reversion has taken place.
-       **/
-      ContractReverted: AugmentedError<ApiType>;
       /**
        * Contract trapped during execution.
        **/
@@ -940,36 +920,6 @@ declare module '@polkadot/api-base/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    preimage: {
-      /**
-       * Preimage has already been noted on-chain.
-       **/
-      AlreadyNoted: AugmentedError<ApiType>;
-      /**
-       * The user is not authorized to perform this action.
-       **/
-      NotAuthorized: AugmentedError<ApiType>;
-      /**
-       * The preimage cannot be removed since it has not yet been noted.
-       **/
-      NotNoted: AugmentedError<ApiType>;
-      /**
-       * The preimage request cannot be removed since no outstanding requests exist.
-       **/
-      NotRequested: AugmentedError<ApiType>;
-      /**
-       * A preimage may not be removed when there are outstanding requests.
-       **/
-      Requested: AugmentedError<ApiType>;
-      /**
-       * Preimage is too large to store on-chain.
-       **/
-      TooLarge: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
