@@ -1450,12 +1450,4 @@ declare module '@polkadot/api-base/types/storage' {
       [key: string]: QueryableStorageEntry<ApiType>;
     };
   } // AugmentedQueries
-
-  export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-    [key: string]: QueryableModuleStorage<ApiType>;
-  } // QueryableStorage
-
-  export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-    [key: string]: QueryableModuleStorageAt<ApiType>;
-  } // QueryableStorageAt
 } // declare module

@@ -19,10 +19,4 @@ declare module '@polkadot/api-base/types/events' {
     };
     {{/each}}
   } // AugmentedEvents
-
-  export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
-    {{#unless isStrict}}
-    [key: string]: ModuleEvents<ApiType>;
-    {{/unless}}
-  } // DecoratedEvents
 } // declare module

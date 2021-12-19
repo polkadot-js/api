@@ -951,8 +951,4 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
   } // AugmentedConsts
-
-  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
-    [key: string]: QueryableModuleConsts;
-  } // QueryableConsts
 } // declare module

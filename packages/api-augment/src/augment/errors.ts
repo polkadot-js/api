@@ -1559,8 +1559,4 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
   } // AugmentedErrors
-
-  export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
-    [key: string]: ModuleErrors<ApiType>;
-  } // DecoratedErrors
 } // declare module

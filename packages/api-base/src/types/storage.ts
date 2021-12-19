@@ -8,6 +8,20 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
 import type { ApiTypes, DropLast, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedQueries<ApiType extends ApiTypes> {
+  // augmented
+}
+
+export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+  // when non-augmented, we need to at least have Codec results
+  [key: string]: QueryableModuleStorage<ApiType>;
+}
+
+export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+  [key: string]: QueryableModuleStorageAt<ApiType>;
+}
+
 type AsCodec<R extends Codec | any> = R extends Codec
   ? R
   : Codec;
@@ -90,11 +104,11 @@ export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunct
 }
 
 export interface QueryableModuleStorage<ApiType extends ApiTypes> {
-  [m: string]: QueryableStorageEntry<ApiType, AnyTuple>;
+  [key: string]: QueryableStorageEntry<ApiType, AnyTuple>;
 }
 
 export interface QueryableModuleStorageAt<ApiType extends ApiTypes> {
-  [m: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
+  [key: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
 }
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
@@ -121,18 +135,3 @@ export type AugmentedQueryAt<ApiType extends ApiTypes, F extends AnyFunction, A 
 
 // backwards compatibility-only
 export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> = AugmentedQuery<ApiType, F, A>;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedQueries<ApiType extends ApiTypes> {
-  // augmented
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-  // augmented
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-  // augmented
-}

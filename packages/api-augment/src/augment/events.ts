@@ -1154,8 +1154,4 @@ declare module '@polkadot/api-base/types/events' {
       [key: string]: AugmentedEvent<ApiType>;
     };
   } // AugmentedEvents
-
-  export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
-    [key: string]: ModuleEvents<ApiType>;
-  } // DecoratedEvents
 } // declare module

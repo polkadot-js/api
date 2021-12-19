@@ -2,9 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, Address, ApplyExtrinsicResult, DispatchError, DispatchInfo, EventRecord, Extrinsic, ExtrinsicStatus, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { AccountId, Address, ApplyExtrinsicResult, Call, DispatchError, DispatchInfo, EventRecord, Extrinsic, ExtrinsicStatus, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { AnyFunction, AnyNumber, AnyTuple, Callback, CallBase, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, Signer } from '@polkadot/types/types';
 import type { ApiTypes, PromiseOrObs } from './base';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedSubmittables<ApiType extends ApiTypes> {
+  // augmented
+}
+
+export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
+  (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
+  // when non-augmented, we need to at least have Codec results
+  [key: string]: SubmittableModuleExtrinsics<ApiType>;
+}
 
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
 
@@ -30,7 +41,7 @@ export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes, A extend
 
 export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
   // only with is<Type> augmentation
-  [m: string]: SubmittableExtrinsicFunction<ApiType>;
+  [key: string]: SubmittableExtrinsicFunction<ApiType>;
 }
 
 export type SubmittablePaymentResult<ApiType extends ApiTypes> =
@@ -79,14 +90,4 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
   signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
   withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedSubmittables<ApiType extends ApiTypes> {
-  // augmented
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
-  // augmented
 }

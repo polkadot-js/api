@@ -50,7 +50,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
       .map(({ calls, name }) => {
-        setImports(allDefs, imports, ['Call', 'Extrinsic', 'SubmittableExtrinsic']);
+        setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
         const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants

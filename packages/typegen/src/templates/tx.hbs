@@ -19,11 +19,4 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     {{/each}}
   } // AugmentedSubmittables
-
-  export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
-    (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
-    {{#unless isStrict}}
-    [key: string]: SubmittableModuleExtrinsics<ApiType>;
-    {{/unless}}
-  } // SubmittableExtrinsics
 } // declare module
