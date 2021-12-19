@@ -10,7 +10,6 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types" }
   ]
 }

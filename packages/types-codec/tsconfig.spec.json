@@ -15,8 +15,6 @@
   ],
   "references": [
     { "path": "../types" },
-    { "path": "../types-augment" },
-    { "path": "../types-codec" },
-    { "path": "../types-support" }
+    { "path": "../types-augment" }
   ]
 }

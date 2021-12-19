@@ -13,7 +13,6 @@
   ],
   "references": [
     { "path": "../rpc-provider" },
-    { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types" }
   ]
 }

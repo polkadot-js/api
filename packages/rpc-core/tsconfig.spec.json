@@ -14,6 +14,7 @@
   "references": [
     { "path": "../rpc-core" },
     { "path": "../rpc-augment" },
-    { "path": "../rpc-provider" }
+    { "path": "../rpc-provider" },
+    { "path": "../types" }
   ]
 }

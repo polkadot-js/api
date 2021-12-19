@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## master
+
+Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusama chains.
+
+- **Breaking changes** For TS users the default API augmentation is now optional. This means that the API, for TypeScript, is not decorated by default with the Substrate types and encpoints. TS users should add a singular `import '@polkadot/api-augment';` in their code to retore old behavior.
+
+- **Breaking change** To cater for the above, chain-specific interfaces generated with older versions may not be compaitible with the current version of the API. Additionally, TS interfaces generated with this version of the API is not compatible with older API versions.
+
+Contributed:
+
+- Add contracts storage deposit support (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Split `@polkadot/types-{codec, create}` packages from `types`
+- Extract `@polkadot/{api, rpc, types}-augment` (now optional)
+- Rework build steps to use TS project references
+- Add Polkadot 9140 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
 ## 6.12.1 Dec 13, 2021
 
 Upgrade priority: Low. Recommended for users of contracts on the current Substrate master version and TS users who generate metadata v14 interfaces.

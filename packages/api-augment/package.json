@@ -25,7 +25,9 @@
   "dependencies": {
     "@babel/runtime": "^7.16.5",
     "@polkadot/api-base": "6.12.2-21",
+    "@polkadot/rpc-augment": "6.12.2-21",
     "@polkadot/types": "6.12.2-21",
+    "@polkadot/types-augment": "6.12.2-21",
     "@polkadot/types-codec": "6.12.2-21"
   }
 }

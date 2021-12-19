@@ -20,7 +20,6 @@
     { "path": "../rpc-core" },
     { "path": "../rpc-provider" },
     { "path": "../types" },
-    { "path": "../types-augment" },
     { "path": "../types-known" }
   ]
 }
