@@ -9,6 +9,7 @@
   },
   "include": [
     "**/test/*",
+    "**/*.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [

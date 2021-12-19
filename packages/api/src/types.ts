@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import './augment';
-
 import type { QueryableConsts } from '@polkadot/api-augment/consts';
 import type { DecoratedErrors } from '@polkadot/api-augment/errors';
 import type { DecoratedEvents } from '@polkadot/api-augment/events';
