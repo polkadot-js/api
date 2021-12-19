@@ -8,6 +8,7 @@
     "noEmit": true
   },
   "include": [
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [

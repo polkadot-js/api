@@ -125,7 +125,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         })),
         {
           file: '@polkadot/api-base/types',
-          types: ['ApiTypes', 'AugmentedQuery', 'QueryableStorageEntry', 'QueryableModuleStorage', 'QueryableModuleStorageAt']
+          types: ['ApiTypes']
         }
       ]
     });

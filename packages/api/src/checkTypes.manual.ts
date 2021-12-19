@@ -3,7 +3,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import './augment';
+import '@polkadot/api-augment';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';

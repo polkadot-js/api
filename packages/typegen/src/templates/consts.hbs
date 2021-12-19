@@ -2,8 +2,8 @@
 
 {{{ importsAll }}}
 
-declare module '@polkadot/api-augment/consts' {
-  export interface AugmentedConsts<ApiType  extends ApiTypes> {
+declare module '@polkadot/api-base/types/consts' {
+  export interface AugmentedConsts<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -19,11 +19,4 @@ declare module '@polkadot/api-augment/consts' {
     };
     {{/each}}
   } // AugmentedConsts
-
-  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
-    {{#unless isStrict}}
-    [key: string]: QueryableModuleConsts;
-    {{/unless}}
-  } // QueryableConsts
-
 } // declare module

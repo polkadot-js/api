@@ -4,5 +4,3 @@
 import './augment';
 
 export { packageInfo } from './packageInfo';
-
-export * from '@polkadot/rpc-augment/rpc';

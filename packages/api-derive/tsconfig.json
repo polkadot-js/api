@@ -7,12 +7,13 @@
   },
   "exclude": [
     "**/test/*",
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api-augment" },
     { "path": "../api-base" },
+    { "path": "../api-augment" },
+    { "path": "../rpc-augment" },
     { "path": "../rpc-core" },
     { "path": "../types" },
     { "path": "../types-codec" }

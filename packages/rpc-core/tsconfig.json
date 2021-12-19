@@ -6,10 +6,10 @@
     "rootDir": "./src"
   },
   "exclude": [
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../rpc-augment" },
     { "path": "../rpc-provider" }
   ]
 }

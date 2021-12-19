@@ -1,8 +1,10 @@
 {{> header }}
 
-{{{ importsAll }}}
+{{{ importsRelative }}}
 
-declare module '@polkadot/types-augment/lookup' {
+declare module '@polkadot/types/lookup' {
+  {{{ importsPackage }}}
+
   {{#each items}}
 {{{this}}}
 

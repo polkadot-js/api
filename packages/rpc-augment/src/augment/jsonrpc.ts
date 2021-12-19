@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AugmentedRpc } from '@polkadot/rpc-augment/types';
+import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
@@ -25,7 +25,7 @@ import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/ty
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
-declare module '@polkadot/rpc-augment/rpc' {
+declare module '@polkadot/rpc-core/types/jsonrpc' {
   export interface RpcInterface {
     author: {
       /**
@@ -560,5 +560,4 @@ declare module '@polkadot/rpc-augment/rpc' {
       sha3: AugmentedRpc<(data: Bytes | string | Uint8Array) => Observable<H256>>;
     };
   } // RpcInterface
-
 } // declare module

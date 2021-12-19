@@ -10,7 +10,7 @@
   },
   "include": [
     "**/*.data.ts",
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [

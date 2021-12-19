@@ -1,14 +1,14 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { ApiTypes, AugmentedConst, QueryableModuleConsts } from '@polkadot/api-base/types';
+import type { ApiTypes } from '@polkadot/api-base/types';
 import type { U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 
-declare module '@polkadot/api-augment/consts' {
-  export interface AugmentedConsts<ApiType  extends ApiTypes> {
+declare module '@polkadot/api-base/types/consts' {
+  export interface AugmentedConsts<ApiType extends ApiTypes> {
     assets: {
       /**
        * The amount of funds that must be reserved when creating a new approval.
@@ -951,9 +951,4 @@ declare module '@polkadot/api-augment/consts' {
       [key: string]: Codec;
     };
   } // AugmentedConsts
-
-  export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
-    [key: string]: QueryableModuleConsts;
-  } // QueryableConsts
-
 } // declare module

@@ -6,11 +6,10 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api-augment" },
     { "path": "../api-base" },
     { "path": "../api-derive" },
     { "path": "../rpc-core" },

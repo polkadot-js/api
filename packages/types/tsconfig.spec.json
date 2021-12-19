@@ -9,7 +9,7 @@
     "noEmit": true
   },
   "include": [
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [

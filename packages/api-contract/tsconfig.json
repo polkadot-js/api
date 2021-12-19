@@ -9,12 +9,14 @@
     "**/test/**/*.json",
     "**/test/**/*.ts",
     "**/test/**/*.wasm",
-    "**/*.manual.ts",
+    "**/checkTypes.manual.ts",
     "**/*.spec.ts",
     "mock.ts"
   ],
   "references": [
     { "path": "../api" },
+    { "path": "../api-augment" },
+    { "path": "../rpc-augment" },
     { "path": "../types" }
   ]
 }
