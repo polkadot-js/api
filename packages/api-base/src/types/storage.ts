@@ -90,11 +90,11 @@ export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunct
 }
 
 export interface QueryableModuleStorage<ApiType extends ApiTypes> {
-  [index: string]: QueryableStorageEntry<ApiType, AnyTuple>;
+  [m: string]: QueryableStorageEntry<ApiType, AnyTuple>;
 }
 
 export interface QueryableModuleStorageAt<ApiType extends ApiTypes> {
-  [index: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
+  [m: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
 }
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =

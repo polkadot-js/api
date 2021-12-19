@@ -18,5 +18,5 @@ export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErro
 export type AugmentedError<ApiType extends ApiTypes> = IsError;
 
 export interface ModuleErrors<ApiType extends ApiTypes> {
-  [key: string]: AugmentedError<ApiType>;
+  [m: string]: AugmentedError<ApiType>;
 }

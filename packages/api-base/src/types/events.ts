@@ -9,7 +9,7 @@ import type { ApiTypes } from './base';
 export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple> = IsEvent<T>;
 
 export interface ModuleEvents<ApiType extends ApiTypes> {
-  [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+  [m: string]: AugmentedEvent<ApiType, AnyTuple>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface

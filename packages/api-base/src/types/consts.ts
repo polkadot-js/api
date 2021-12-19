@@ -21,5 +21,5 @@ export interface AugmentedConst<ApiType extends ApiTypes> {
 }
 
 export interface QueryableModuleConsts {
-  [key: string]: Codec;
+  [m: string]: Codec;
 }

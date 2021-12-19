@@ -30,7 +30,7 @@ export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes, A extend
 
 export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
   // only with is<Type> augmentation
-  [index: string]: SubmittableExtrinsicFunction<ApiType>; // | AugmentedIsSubmittable<ApiType, AnyTuple>;
+  [m: string]: SubmittableExtrinsicFunction<ApiType>;
 }
 
 export type SubmittablePaymentResult<ApiType extends ApiTypes> =
