@@ -3,8 +3,7 @@
 
 import type { Mock } from '../mock/types';
 
-import { mockHttp, TEST_HTTP_URL } from '@polkadot/rpc-provider/mock/mockHttp';
-
+import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp';
 import { HttpProvider } from './';
 
 describe('send', (): void => {

@@ -4,12 +4,15 @@
     "baseUrl": "..",
     "outDir": "./build",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/*.spec.ts"
   ],
   "references": [
+    { "path": "../rpc-provider" },
     { "path": "../types" },
     { "path": "../types-augment" }
   ]

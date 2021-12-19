@@ -3,12 +3,15 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/*.spec.ts"
   ],
   "references": [
+    { "path": "../rpc-core" },
     { "path": "../rpc-augment" },
     { "path": "../rpc-provider" }
   ]
