@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableConsts } from '@polkadot/api-augment/consts';
-import type { QueryableStorage } from '@polkadot/api-augment/query';
-import type { SubmittableExtrinsics } from '@polkadot/api-augment/tx';
+import type { QueryableConsts, QueryableStorage, SubmittableExtrinsics } from '@polkadot/api/types';
 import type { DecoratedRpc, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Metadata } from '@polkadot/types';

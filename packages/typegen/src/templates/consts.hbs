@@ -2,7 +2,7 @@
 
 {{{ importsAll }}}
 
-declare module '@polkadot/api-augment/consts' {
+declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType  extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
@@ -25,5 +25,4 @@ declare module '@polkadot/api-augment/consts' {
     [key: string]: QueryableModuleConsts;
     {{/unless}}
   } // QueryableConsts
-
 } // declare module

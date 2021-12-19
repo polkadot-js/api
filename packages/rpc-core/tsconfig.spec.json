@@ -8,6 +8,7 @@
     "noEmit": true
   },
   "include": [
+    "**/*.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [

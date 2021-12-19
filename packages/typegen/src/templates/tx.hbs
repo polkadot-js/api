@@ -2,7 +2,7 @@
 
 {{{ importsAll }}}
 
-declare module '@polkadot/api-augment/tx' {
+declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
@@ -26,5 +26,4 @@ declare module '@polkadot/api-augment/tx' {
     [key: string]: SubmittableModuleExtrinsics<ApiType>;
     {{/unless}}
   } // SubmittableExtrinsics
-
 } // declare module

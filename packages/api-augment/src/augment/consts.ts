@@ -7,7 +7,7 @@ import type { Codec } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 
-declare module '@polkadot/api-augment/consts' {
+declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType  extends ApiTypes> {
     assets: {
       /**
@@ -955,5 +955,4 @@ declare module '@polkadot/api-augment/consts' {
   export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
     [key: string]: QueryableModuleConsts;
   } // QueryableConsts
-
 } // declare module

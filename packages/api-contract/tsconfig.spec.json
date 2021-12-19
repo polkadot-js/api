@@ -18,7 +18,9 @@
   ],
   "references": [
     { "path": "../api" },
+    { "path": "../api-augment" },
     { "path": "../api-contract" },
+    { "path": "../rpc-augment" },
     { "path": "../types" },
     { "path": "../types-augment" }
   ]

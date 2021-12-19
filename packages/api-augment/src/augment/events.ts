@@ -7,7 +7,7 @@ import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/lookup';
 
-declare module '@polkadot/api-augment/events' {
+declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
     assets: {
       /**
@@ -1158,5 +1158,4 @@ declare module '@polkadot/api-augment/events' {
   export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
     [key: string]: ModuleEvents<ApiType>;
   } // DecoratedEvents
-
 } // declare module

@@ -1,6 +1,5 @@
 // Copyright 2017-2021 @polkadot/types-augment authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import './lookup';
 import './registry';
-import './types';
+import './lookup';

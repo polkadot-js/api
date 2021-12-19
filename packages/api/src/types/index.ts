@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueryableConsts } from '@polkadot/api-augment/consts';
-import type { DecoratedErrors } from '@polkadot/api-augment/errors';
-import type { DecoratedEvents } from '@polkadot/api-augment/events';
-import type { QueryableStorage } from '@polkadot/api-augment/query';
+import type { QueryableConsts } from '@polkadot/api/types/consts';
+import type { DecoratedErrors } from '@polkadot/api/types/errors';
+import type { DecoratedEvents } from '@polkadot/api/types/events';
+import type { QueryableStorage } from '@polkadot/api/types/query';
 import type { ApiInterfaceRx as ApiInterfaceBase, ApiTypes, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { DeriveCustom } from '@polkadot/api-derive';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
@@ -13,15 +13,19 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase } from './base';
-import type { AllDerives } from './util/decorate';
+import type { ApiBase } from '../base';
+import type { AllDerives } from '../util/decorate';
 
 export * from '@polkadot/api-base/types';
+export * from '@polkadot/api/types/consts';
+export * from '@polkadot/api/types/errors';
+export * from '@polkadot/api/types/events';
+export * from '@polkadot/api/types/storage';
+export * from '@polkadot/api/types/submittable';
 
-export type { AugmentedConsts, AugmentedErrors, AugmentedEvents, AugmentedQueries, AugmentedSubmittables, QueryableConsts, DecoratedErrors, DecoratedEvents, QueryableStorage, QueryableStorageAt, SubmittableExtrinsics } from '@polkadot/api-augment';
 export { Signer, SignerResult } from '@polkadot/types/types';
 
-export { ApiBase } from './base';
+export { ApiBase } from '../base';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {

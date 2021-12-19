@@ -3,7 +3,7 @@
 
 import type { ApiTypes, AugmentedError, ModuleErrors } from '@polkadot/api-base/types';
 
-declare module '@polkadot/api-augment/errors' {
+declare module '@polkadot/api/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     assets: {
       /**
@@ -1563,5 +1563,4 @@ declare module '@polkadot/api-augment/errors' {
   export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
     [key: string]: ModuleErrors<ApiType>;
   } // DecoratedErrors
-
 } // declare module

@@ -5,7 +5,7 @@ import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
-declare module '@polkadot/types-augment/lookup' {
+declare module '@polkadot/types/lookup' {
   /** @name KusamaRuntimeProxyType (73) */
   export interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;

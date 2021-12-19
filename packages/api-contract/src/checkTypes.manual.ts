@@ -3,6 +3,8 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import './augment';
+
 import { ApiPromise } from '@polkadot/api';
 import { BlueprintPromise, ContractPromise } from '@polkadot/api-contract';
 import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';

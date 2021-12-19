@@ -6,7 +6,7 @@ import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
-declare module '@polkadot/types-augment/lookup' {
+declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (64) */
   export interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
     readonly isClaimed: boolean;

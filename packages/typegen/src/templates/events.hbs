@@ -2,7 +2,7 @@
 
 {{{ importsAll }}}
 
-declare module '@polkadot/api-augment/events' {
+declare module '@polkadot/api/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
@@ -25,5 +25,4 @@ declare module '@polkadot/api-augment/events' {
     [key: string]: ModuleEvents<ApiType>;
     {{/unless}}
   } // DecoratedEvents
-
 } // declare module

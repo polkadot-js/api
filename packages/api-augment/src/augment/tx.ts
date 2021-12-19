@@ -9,7 +9,7 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletSocietyJudgement, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
 
-declare module '@polkadot/api-augment/tx' {
+declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
     assets: {
       /**
@@ -4660,5 +4660,4 @@ declare module '@polkadot/api-augment/tx' {
     (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
     [key: string]: SubmittableModuleExtrinsics<ApiType>;
   } // SubmittableExtrinsics
-
 } // declare module
