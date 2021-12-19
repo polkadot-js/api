@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
 import type { AnyFunction } from '@polkadot/types/types';
 
 import * as accounts from './accounts';
@@ -33,9 +32,5 @@ type DeriveSection<Section> = {
 type DeriveAllSections<AllSections> = {
   [S in keyof AllSections]: DeriveSection<AllSections[S]>
 };
-
-type DeriveCreator = (instanceId: string, api: unknown) => (...args: unknown[]) => Observable<any>;
-
-export type DeriveCustom = Record<string, Record<string, DeriveCreator>>;
 
 export type ExactDerive = DeriveAllSections<typeof derive>;

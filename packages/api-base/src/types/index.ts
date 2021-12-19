@@ -6,6 +6,7 @@ export * from '@polkadot/api-base/types/api';
 
 export * from './base';
 export * from './consts';
+export * from './derive';
 export * from './errors';
 export * from './events';
 export * from './rpc';

@@ -3,7 +3,7 @@
 {{{ importsAll }}}
 
 declare module '@polkadot/api/types/consts' {
-  export interface AugmentedConsts<ApiType  extends ApiTypes> {
+  export interface AugmentedConsts<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}

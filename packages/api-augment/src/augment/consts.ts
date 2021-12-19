@@ -8,7 +8,7 @@ import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runti
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api/types/consts' {
-  export interface AugmentedConsts<ApiType  extends ApiTypes> {
+  export interface AugmentedConsts<ApiType extends ApiTypes> {
     assets: {
       /**
        * The amount of funds that must be reserved when creating a new approval.

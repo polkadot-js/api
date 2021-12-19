@@ -10,7 +10,6 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api-augment" },
     { "path": "../api-base" },
     { "path": "../api-derive" },
     { "path": "../rpc-core" },

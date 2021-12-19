@@ -8,4 +8,3 @@ import './query';
 import './tx';
 // these are external to this module
 import './api';
-import './rpc';
