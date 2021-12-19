@@ -8,8 +8,8 @@
   "references": [
     { "path": "../api-base" },
     { "path": "../rpc-augment" },
-    { "path": "../rpc-core" },
     { "path": "../types" },
+    { "path": "../types-codec" },
     { "path": "../types-augment" }
   ]
 }

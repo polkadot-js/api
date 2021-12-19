@@ -24,14 +24,14 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api-augment": "6.12.2-21",
     "@polkadot/api-base": "6.12.2-21",
-    "@polkadot/rpc-augment": "6.12.2-21",
     "@polkadot/rpc-core": "6.12.2-21",
     "@polkadot/types": "6.12.2-21",
     "@polkadot/types-codec": "6.12.2-21"
   },
   "devDependencies": {
-    "@polkadot/api": "6.12.2-21"
+    "@polkadot/api": "6.12.2-21",
+    "@polkadot/api-augment": "6.12.2-21",
+    "@polkadot/rpc-augment": "6.12.2-21"
   }
 }

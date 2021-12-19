@@ -24,7 +24,6 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api-augment": "6.12.2-21",
     "@polkadot/api-base": "6.12.2-21",
     "@polkadot/api-derive": "6.12.2-21",
     "@polkadot/keyring": "^8.2.2",
@@ -38,5 +37,8 @@
     "@polkadot/util-crypto": "^8.2.2",
     "eventemitter3": "^4.0.7",
     "rxjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "@polkadot/api-augment": "6.12.2-21"
   }
 }

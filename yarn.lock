@@ -1873,7 +1873,9 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/api-base": 6.12.2-21
+    "@polkadot/rpc-augment": 6.12.2-21
     "@polkadot/types": 6.12.2-21
+    "@polkadot/types-augment": 6.12.2-21
     "@polkadot/types-codec": 6.12.2-21
   languageName: unknown
   linkType: soft
@@ -1883,6 +1885,7 @@ __metadata:
   resolution: "@polkadot/api-base@workspace:packages/api-base"
   dependencies:
     "@babel/runtime": ^7.16.5
+    "@polkadot/rpc-core": 6.12.2-21
     "@polkadot/types": 6.12.2-21
     "@polkadot/util": ^8.2.2
     rxjs: ^7.4.0
@@ -2057,8 +2060,8 @@ __metadata:
   resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
   dependencies:
     "@babel/runtime": ^7.16.5
+    "@polkadot/rpc-core": 6.12.2-21
     "@polkadot/types": 6.12.2-21
-    rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
 
@@ -2170,6 +2173,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/networks": ^8.2.2
     "@polkadot/types": 6.12.2-21
+    "@polkadot/types-create": 6.12.2-21
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
