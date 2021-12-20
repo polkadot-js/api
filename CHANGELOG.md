@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 7.0.1 Dec 20, 2021
 
 Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusama chains.
 
@@ -16,7 +16,7 @@ Contributed:
 Changes:
 
 - Split `@polkadot/types-{codec, create}` packages from `types`
-- Extract `@polkadot/{api, rpc, types}-augment` (now optional)
+- Extract `@polkadot/{api, rpc, types}-augment` (now optional, TS-user applied)
 - Rework build steps to use TS project references
 - Add Polkadot 9140 upgrade block
 - Update to latest Substrate, Kusama & Polkadot static metadata
