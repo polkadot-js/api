@@ -3,18 +3,20 @@
 
 import type { Observable } from 'rxjs';
 import type { BitVec, Bool, bool, Bytes, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
-import type { RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
 import type { CreateRegistry, TypeDef } from '@polkadot/types-create/types';
 import type { BN } from '@polkadot/util';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { GenericCall } from '../generic';
 import type { MetadataLatest } from '../interfaces/metadata';
+import type { HeaderPartial } from '../interfaces/runtime';
 import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { RuntimeVersionPartial } from '../interfaces/state';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { Data, StorageKey } from '../primitive';
 import type { CallFunction } from './calls';
-import type { Codec, CodecClass } from './codec';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
 import type { DetectCodec } from './detect';
 
@@ -25,10 +27,14 @@ export interface InterfaceTypes {
   BitVec: BitVec, Bool: Bool, Bytes: Bytes, I128: I128, I16: I16, I256: I256, I32: I32, I64: I64, I8: I8, Json: Json, Null: Null, Raw: Raw, Text: Text, Type: Type, U128: U128, U16: U16, U256: U256, U32: U32, U64: U64, U8: U8, USize: USize, bool: bool, i128: i128, i16: i16, i256: i256, i32: i32, i64: i64, i8: i8, u128: u128, u16: u16, u256: u256, u32: u32, u64: u64, u8: u8, usize: usize,
   // extrinsic
   Extrinsic: GenericExtrinsic, ExtrinsicEra: GenericExtrinsicEra, ExtrinsicPayload: GenericExtrinsicPayload, SignerPayload: GenericSignerPayload,
+  // generic
+  Call: GenericCall,
   // primitive
   Data: Data, StorageKey: StorageKey,
   // metadata
-  Metadata: Metadata, PortableRegistry: PortableRegistry
+  Metadata: Metadata, PortableRegistry: PortableRegistry,
+  // interfaces
+  HeaderPartial: HeaderPartial, RuntimeVersionPartial: RuntimeVersionPartial
 }
 
 export type CodecHasher = (data: Uint8Array) => Uint8Array;

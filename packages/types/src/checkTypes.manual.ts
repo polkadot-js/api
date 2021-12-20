@@ -3,10 +3,9 @@
 
 import '@polkadot/types-augment';
 
-import type { Compact, Option } from './codec';
+import type { Bytes, Compact, Option, u32 } from '@polkadot/types-codec';
+import type { IOption, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces';
-import type { Bytes, u32 } from './primitive';
-import type { IOption, ITuple } from './types';
 
 import { assert } from '@polkadot/util';
 
