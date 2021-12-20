@@ -6,6 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-codec" }
   ]
 }
