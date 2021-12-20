@@ -2069,6 +2069,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/rpc-core": 6.12.2-24
     "@polkadot/types": 6.12.2-24
+    "@polkadot/types-codec": 6.12.2-24
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
