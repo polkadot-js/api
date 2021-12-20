@@ -7,11 +7,13 @@
   },
   "exclude": [
     "**/checkTypes.manual.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/test/**/*"
   ],
   "references": [
     { "path": "../api-base" },
     { "path": "../api-derive" },
+    { "path": "../rpc-augment" },
     { "path": "../rpc-core" },
     { "path": "../rpc-provider" },
     { "path": "../types" },

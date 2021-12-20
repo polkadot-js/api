@@ -1934,6 +1934,7 @@ __metadata:
     "@polkadot/api-base": 6.12.2-24
     "@polkadot/api-derive": 6.12.2-24
     "@polkadot/keyring": ^8.2.2
+    "@polkadot/rpc-augment": 6.12.2-24
     "@polkadot/rpc-core": 6.12.2-24
     "@polkadot/rpc-provider": 6.12.2-24
     "@polkadot/types": 6.12.2-24
@@ -2068,6 +2069,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/rpc-core": 6.12.2-24
     "@polkadot/types": 6.12.2-24
+    "@polkadot/types-codec": 6.12.2-24
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
@@ -2151,6 +2153,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/types": 6.12.2-24
+    "@polkadot/types-codec": 6.12.2-24
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
@@ -2182,6 +2185,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/networks": ^8.2.2
     "@polkadot/types": 6.12.2-24
+    "@polkadot/types-codec": 6.12.2-24
     "@polkadot/types-create": 6.12.2-24
     "@polkadot/util": ^8.2.2
   languageName: unknown

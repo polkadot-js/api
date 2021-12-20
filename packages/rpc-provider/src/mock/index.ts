@@ -3,8 +3,6 @@
 
 /* eslint-disable camelcase */
 
-import '@polkadot/types-augment';
-
 import type { Header } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
 import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
@@ -227,7 +225,7 @@ export class MockProvider implements ProviderInterface {
 
     this.prevNumber = blockNumber;
 
-    return header;
+    return header as unknown as Header;
   }
 
   private setStateBn (key: Uint8Array, value: BN | number): void {

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
-import type { ContractMetadataV1, ContractMetadataV2 } from '@polkadot/types/interfaces';
-import type { InterfaceTypes, Registry } from '@polkadot/types/types';
+import type { ContractConstructorSpecV0, ContractEventSpecV0, ContractMessageSpecV0, ContractMetadataV1, ContractMetadataV2 } from '@polkadot/types/interfaces';
+import type { Registry } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
@@ -13,8 +13,14 @@ interface NamedEntry {
   name: Text | Text[];
 }
 
+type GetArgsType<T extends WithArgs> = T extends 'ContractConstructorSpec'
+  ? ContractConstructorSpecV0
+  : T extends ContractEventSpecV0
+    ? ContractEventSpecV0
+    : ContractMessageSpecV0;
+
 interface ArgsEntry <T extends WithArgs> extends NamedEntry {
-  args: InterfaceTypes[`${T}V0`]['args'][0][];
+  args: GetArgsType<T>['args'][0][];
 }
 
 const ARG_TYPES = {
