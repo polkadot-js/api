@@ -11,6 +11,7 @@ Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusa
 Contributed:
 
 - Add contracts storage deposit support (Thanks to https://github.com/statictype)
+- Do not throw error on socket closes (Thanks to https://github.com/xcaptain)
 
 Changes:
 
