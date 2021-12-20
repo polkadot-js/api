@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '@polkadot/rpc-augment';
+
 export { Keyring } from '@polkadot/keyring';
 export { WsProvider, HttpProvider } from '@polkadot/rpc-provider';
 

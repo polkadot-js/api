@@ -100,7 +100,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       ? isCall
         ? MAX_CALL_GAS
         : (this.api.consts.system.blockWeights
-          ? this.api.consts.system.blockWeights.maxBlock
+          ? (this.api.consts.system.blockWeights as unknown as { maxBlock: Weight }).maxBlock
           : this.api.consts.system.maximumBlockWeight as Weight
         ).muln(64).div(BN_HUNDRED)
       : gasLimit;

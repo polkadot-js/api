@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes, PortableRegistry } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { Bytes } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
 
@@ -36,7 +36,7 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
       : isObject(json.V1)
         ? { V1: json.V1 }
         : { V0: json }
-  );
+  ) as unknown as ContractMetadata;
 
   return metadata.isV2
     ? metadata.asV2
@@ -47,9 +47,9 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
-  const info = registry.createType('ContractProjectInfo', json);
+  const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
   const latest = getLatestMeta(registry, json);
-  const lookup = registry.createType<PortableRegistry>('PortableRegistry', { types: latest.types });
+  const lookup = registry.createType('PortableRegistry', { types: latest.types });
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);
