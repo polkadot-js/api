@@ -1867,27 +1867,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@6.12.2-27, @polkadot/api-augment@workspace:packages/api-augment":
+"@polkadot/api-augment@7.0.0, @polkadot/api-augment@workspace:packages/api-augment":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-augment@workspace:packages/api-augment"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/api-base": 6.12.2-27
-    "@polkadot/rpc-augment": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-augment": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
+    "@polkadot/api-base": 7.0.0
+    "@polkadot/rpc-augment": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-augment": 7.0.0
+    "@polkadot/types-codec": 7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/api-base@6.12.2-27, @polkadot/api-base@workspace:packages/api-base":
+"@polkadot/api-base@7.0.0, @polkadot/api-base@workspace:packages/api-base":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-base@workspace:packages/api-base"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/rpc-core": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
+    "@polkadot/rpc-core": 7.0.0
+    "@polkadot/types": 7.0.0
     "@polkadot/util": ^8.2.2
     rxjs: ^7.4.0
   languageName: unknown
@@ -1898,50 +1898,50 @@ __metadata:
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/api": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-create": 6.12.2-27
+    "@polkadot/api": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-create": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api-derive@6.12.2-27, @polkadot/api-derive@workspace:packages/api-derive":
+"@polkadot/api-derive@7.0.0, @polkadot/api-derive@workspace:packages/api-derive":
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/api": 6.12.2-27
-    "@polkadot/api-augment": 6.12.2-27
-    "@polkadot/api-base": 6.12.2-27
-    "@polkadot/rpc-augment": 6.12.2-27
-    "@polkadot/rpc-core": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
+    "@polkadot/api": 7.0.0
+    "@polkadot/api-augment": 7.0.0
+    "@polkadot/api-base": 7.0.0
+    "@polkadot/rpc-augment": 7.0.0
+    "@polkadot/rpc-core": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-codec": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/api@6.12.2-27, @polkadot/api@workspace:packages/api":
+"@polkadot/api@7.0.0, @polkadot/api@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/api-augment": 6.12.2-27
-    "@polkadot/api-base": 6.12.2-27
-    "@polkadot/api-derive": 6.12.2-27
+    "@polkadot/api-augment": 7.0.0
+    "@polkadot/api-base": 7.0.0
+    "@polkadot/api-derive": 7.0.0
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/rpc-augment": 6.12.2-27
-    "@polkadot/rpc-core": 6.12.2-27
-    "@polkadot/rpc-provider": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-augment": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
-    "@polkadot/types-create": 6.12.2-27
-    "@polkadot/types-known": 6.12.2-27
+    "@polkadot/rpc-augment": 7.0.0
+    "@polkadot/rpc-core": 7.0.0
+    "@polkadot/rpc-provider": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-augment": 7.0.0
+    "@polkadot/types-codec": 7.0.0
+    "@polkadot/types-create": 7.0.0
+    "@polkadot/types-known": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     eventemitter3: ^4.0.7
@@ -1949,9 +1949,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.7":
-  version: 0.64.7
-  resolution: "@polkadot/dev@npm:0.64.7"
+"@polkadot/dev@npm:^0.64.8":
+  version: 0.64.8
+  resolution: "@polkadot/dev@npm:0.64.8"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -2036,7 +2036,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: d863aa9cbe4386c2cb9a9535051154ce378eb705f19f1a364e7c78012cb7796dee3ea4057265cebb60c68e238e95aacdf8fb51bab307b0964f8727ebf3e5ed1d
+  checksum: c8ab862c3184cbbd4d26b27c53b91178245bfcb39ccdf8a5386e25b4ead71beee546fc5d79c28d21bfe252b65d3cb58cdf7465522a9b5e45560fe9bf48cbef7e
   languageName: node
   linkType: hard
 
@@ -2063,40 +2063,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-augment@6.12.2-27, @polkadot/rpc-augment@workspace:packages/rpc-augment":
+"@polkadot/rpc-augment@7.0.0, @polkadot/rpc-augment@workspace:packages/rpc-augment":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/rpc-core": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
+    "@polkadot/rpc-core": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-codec": 7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-core@6.12.2-27, @polkadot/rpc-core@workspace:packages/rpc-core":
+"@polkadot/rpc-core@7.0.0, @polkadot/rpc-core@workspace:packages/rpc-core":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/rpc-augment": 6.12.2-27
-    "@polkadot/rpc-provider": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
+    "@polkadot/rpc-augment": 7.0.0
+    "@polkadot/rpc-provider": 7.0.0
+    "@polkadot/types": 7.0.0
     "@polkadot/util": ^8.2.2
     rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-provider@6.12.2-27, @polkadot/rpc-provider@workspace:packages/rpc-provider":
+"@polkadot/rpc-provider@7.0.0, @polkadot/rpc-provider@workspace:packages/rpc-provider":
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-support": 6.12.2-27
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-support": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     "@polkadot/x-fetch": ^8.2.2
@@ -2124,14 +2124,14 @@ __metadata:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/api": 6.12.2-27
-    "@polkadot/rpc-augment": 6.12.2-27
-    "@polkadot/rpc-provider": 6.12.2-27
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-augment": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
-    "@polkadot/types-create": 6.12.2-27
-    "@polkadot/types-support": 6.12.2-27
+    "@polkadot/api": 7.0.0
+    "@polkadot/rpc-augment": 7.0.0
+    "@polkadot/rpc-provider": 7.0.0
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-augment": 7.0.0
+    "@polkadot/types-codec": 7.0.0
+    "@polkadot/types-create": 7.0.0
+    "@polkadot/types-support": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/x-ws": ^8.2.2
     "@types/websocket": ^1.0.4
@@ -2148,51 +2148,51 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@6.12.2-27, @polkadot/types-augment@workspace:packages/types-augment":
+"@polkadot/types-augment@7.0.0, @polkadot/types-augment@workspace:packages/types-augment":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-codec": 7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-codec@6.12.2-27, @polkadot/types-codec@workspace:packages/types-codec":
+"@polkadot/types-codec@7.0.0, @polkadot/types-codec@workspace:packages/types-codec":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types": ^6.12.2-27
+    "@polkadot/types": ^7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-create@6.12.2-27, @polkadot/types-create@workspace:packages/types-create":
+"@polkadot/types-create@7.0.0, @polkadot/types-create@workspace:packages/types-create":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types-codec": 6.12.2-27
+    "@polkadot/types-codec": 7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-known@6.12.2-27, @polkadot/types-known@workspace:packages/types-known":
+"@polkadot/types-known@7.0.0, @polkadot/types-known@workspace:packages/types-known":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/networks": ^8.2.2
-    "@polkadot/types": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
-    "@polkadot/types-create": 6.12.2-27
+    "@polkadot/types": 7.0.0
+    "@polkadot/types-codec": 7.0.0
+    "@polkadot/types-create": 7.0.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-support@6.12.2-27, @polkadot/types-support@workspace:packages/types-support":
+"@polkadot/types-support@7.0.0, @polkadot/types-support@workspace:packages/types-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
@@ -2201,16 +2201,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@6.12.2-27, @polkadot/types@^6.12.2-27, @polkadot/types@workspace:packages/types":
+"@polkadot/types@7.0.0, @polkadot/types@^7.0.0, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/types-augment": 6.12.2-27
-    "@polkadot/types-codec": 6.12.2-27
-    "@polkadot/types-create": 6.12.2-27
-    "@polkadot/types-support": 6.12.2-27
+    "@polkadot/types-augment": 7.0.0
+    "@polkadot/types-codec": 7.0.0
+    "@polkadot/types-create": 7.0.0
+    "@polkadot/types-support": 7.0.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     rxjs: ^7.4.0
@@ -8983,7 +8983,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.7
+    "@polkadot/dev": ^0.64.8
     "@polkadot/ts": ^0.4.20
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
