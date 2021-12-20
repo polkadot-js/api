@@ -1938,6 +1938,7 @@ __metadata:
     "@polkadot/rpc-core": 6.12.2-26
     "@polkadot/rpc-provider": 6.12.2-26
     "@polkadot/types": 6.12.2-26
+    "@polkadot/types-augment": 6.12.2-26
     "@polkadot/types-codec": 6.12.2-26
     "@polkadot/types-create": 6.12.2-26
     "@polkadot/types-known": 6.12.2-26
@@ -2206,6 +2207,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
+    "@polkadot/types-augment": 6.12.2-26
     "@polkadot/types-codec": 6.12.2-26
     "@polkadot/types-create": 6.12.2-26
     "@polkadot/types-support": 6.12.2-26
