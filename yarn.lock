@@ -1877,6 +1877,7 @@ __metadata:
     "@polkadot/types": 6.12.2-22
     "@polkadot/types-augment": 6.12.2-22
     "@polkadot/types-codec": 6.12.2-22
+    "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
@@ -1899,7 +1900,9 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/api": 6.12.2-22
     "@polkadot/types": 6.12.2-22
+    "@polkadot/types-create": 6.12.2-22
     "@polkadot/util": ^8.2.2
+    "@polkadot/util-crypto": ^8.2.2
     rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
@@ -1916,6 +1919,9 @@ __metadata:
     "@polkadot/rpc-core": 6.12.2-22
     "@polkadot/types": 6.12.2-22
     "@polkadot/types-codec": 6.12.2-22
+    "@polkadot/util": ^8.2.2
+    "@polkadot/util-crypto": ^8.2.2
+    rxjs: ^7.4.0
   languageName: unknown
   linkType: soft
 
@@ -1941,9 +1947,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.6":
-  version: 0.64.6
-  resolution: "@polkadot/dev@npm:0.64.6"
+"@polkadot/dev@npm:^0.64.7":
+  version: 0.64.7
+  resolution: "@polkadot/dev@npm:0.64.7"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -2028,7 +2034,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 9a4f05074fc99ddeb7843f8a14c1b14a8041e23d35590664032e4c3972f6ca6bc1352893698d8be7efacaf06fef09d3fce6b7f8f12612c89c0fdf6ced8f45908
+  checksum: d863aa9cbe4386c2cb9a9535051154ce378eb705f19f1a364e7c78012cb7796dee3ea4057265cebb60c68e238e95aacdf8fb51bab307b0964f8727ebf3e5ed1d
   languageName: node
   linkType: hard
 
@@ -2062,6 +2068,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/rpc-core": 6.12.2-22
     "@polkadot/types": 6.12.2-22
+    "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft
 
@@ -2086,6 +2093,7 @@ __metadata:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
     "@polkadot/types": 6.12.2-22
+    "@polkadot/types-support": 6.12.2-22
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     "@polkadot/x-fetch": ^8.2.2
@@ -2122,6 +2130,7 @@ __metadata:
     "@polkadot/types-create": 6.12.2-22
     "@polkadot/types-support": 6.12.2-22
     "@polkadot/util": ^8.2.2
+    "@polkadot/x-ws": ^8.2.2
     "@types/websocket": ^1.0.4
     "@types/yargs": ^17.0.7
     handlebars: ^4.7.7
@@ -8968,7 +8977,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.6
+    "@polkadot/dev": ^0.64.7
     "@polkadot/ts": ^0.4.20
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3

@@ -28,6 +28,7 @@
     "@polkadot/rpc-augment": "6.12.2-22",
     "@polkadot/types": "6.12.2-22",
     "@polkadot/types-augment": "6.12.2-22",
-    "@polkadot/types-codec": "6.12.2-22"
+    "@polkadot/types-codec": "6.12.2-22",
+    "@polkadot/util": "^8.2.2"
   }
 }
