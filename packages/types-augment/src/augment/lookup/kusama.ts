@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup73: kusama_runtime::ProxyType
+   * Lookup74: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   },
   /**
-   * Lookup102: polkadot_runtime_parachains::disputes::pallet::Event<T>
+   * Lookup104: polkadot_runtime_parachains::disputes::pallet::Event<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletEvent: {
     _enum: {
@@ -22,19 +22,19 @@ export default {
     }
   },
   /**
-   * Lookup104: polkadot_runtime_parachains::disputes::DisputeLocation
+   * Lookup106: polkadot_runtime_parachains::disputes::DisputeLocation
    **/
   PolkadotRuntimeParachainsDisputesDisputeLocation: {
     _enum: ['Local', 'Remote']
   },
   /**
-   * Lookup105: polkadot_runtime_parachains::disputes::DisputeResult
+   * Lookup107: polkadot_runtime_parachains::disputes::DisputeResult
    **/
   PolkadotRuntimeParachainsDisputesDisputeResult: {
     _enum: ['Valid', 'Invalid']
   },
   /**
-   * Lookup244: kusama_runtime::SessionKeys
+   * Lookup246: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -45,7 +45,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup317: kusama_runtime::OriginCaller
+   * Lookup319: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -152,7 +152,7 @@ export default {
     }
   },
   /**
-   * Lookup380: kusama_runtime::NposCompactSolution24
+   * Lookup384: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -181,13 +181,13 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup499: polkadot_runtime_parachains::disputes::pallet::Call<T>
+   * Lookup504: polkadot_runtime_parachains::disputes::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletCall: {
     _enum: ['force_unfreeze']
   },
   /**
-   * Lookup679: polkadot_primitives::v1::DisputeState<N>
+   * Lookup693: polkadot_primitives::v1::DisputeState<N>
    **/
   PolkadotPrimitivesV1DisputeState: {
     validatorsFor: 'BitVec',
@@ -196,13 +196,13 @@ export default {
     concludedAt: 'Option<u32>'
   },
   /**
-   * Lookup680: polkadot_runtime_parachains::disputes::pallet::Error<T>
+   * Lookup694: polkadot_runtime_parachains::disputes::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletError: {
     _enum: ['DuplicateDisputeStatementSets', 'AncientDisputeStatement', 'ValidatorIndexOutOfBounds', 'InvalidSignature', 'DuplicateStatement', 'PotentialSpam', 'SingleSidedDispute']
   },
   /**
-   * Lookup715: kusama_runtime::Runtime
+   * Lookup729: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

@@ -7,6 +7,7 @@
   },
   "references": [
     { "path": "../rpc-core" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../types-codec" }
   ]
 }
