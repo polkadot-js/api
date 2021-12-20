@@ -382,7 +382,14 @@ export class WsProvider implements ProviderInterface {
     this.#emit('disconnected');
 
     // reject all hanging requests
-    eraseRecord(this.#handlers, (h) => h.callback(error, undefined));
+    eraseRecord(this.#handlers, (h) => {
+      try {
+        h.callback(error, undefined);
+      } catch (err) {
+        // does not throw
+        l.error(err);
+      }
+    });
     eraseRecord(this.#waitingForId);
 
     if (this.#autoConnectMs > 0) {
