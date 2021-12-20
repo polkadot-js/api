@@ -28,6 +28,7 @@ export default {
       dest: 'AccountId',
       value: 'Balance',
       gasLimit: 'u64',
+      storageDepositLimit: 'Option<Balance>',
       inputData: 'Bytes'
     },
     ContractExecResultSuccessTo255: {
@@ -82,6 +83,7 @@ export default {
     ContractExecResult: {
       gasConsumed: 'u64',
       gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
       debugMessage: 'Text',
       result: 'ContractExecResultResult'
     },
@@ -206,6 +208,7 @@ export default {
       origin: 'AccountId',
       value: 'Balance',
       gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
       code: 'Bytes',
       data: 'Bytes',
       salt: 'Bytes'
@@ -371,6 +374,12 @@ export default {
       hostFnWeights: 'HostFnWeights'
     },
     SeedOf: 'Hash',
+    StorageDeposit: {
+      _enum: {
+        Refund: 'Balance',
+        Charge: 'Balance'
+      }
+    },
     TombstoneContractInfo: 'Hash',
     TrieId: 'Bytes'
   }
