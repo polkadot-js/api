@@ -70,13 +70,13 @@ export interface DecodedMessage {
   message: AbiMessage;
 }
 
-export interface BlueprintOptions {
+export interface ContractOptions {
   gasLimit?: bigint | string | number | BN;
-  salt?: Uint8Array | string | null;
-  value?: bigint | string | number | BN;
+  storageDepositLimit?: bigint | string | number | BN | null;
+  value?: bigint | BN | string | number;
 }
 
-export interface ContractOptions {
-  gasLimit?: bigint | BN | string | number;
-  value?: bigint | BN | string | number;
+export interface BlueprintOptions extends ContractOptions {
+  salt?: Uint8Array | string | null;
+  value?: bigint | string | number | BN;
 }
