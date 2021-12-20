@@ -78,5 +78,4 @@ export interface ContractOptions {
 
 export interface BlueprintOptions extends ContractOptions {
   salt?: Uint8Array | string | null;
-  value?: bigint | string | number | BN;
 }

@@ -26,6 +26,7 @@ export interface ContractCallRequest extends Struct {
   readonly dest: AccountId;
   readonly value: Balance;
   readonly gasLimit: u64;
+  readonly storageDepositLimit: Option<Balance>;
   readonly inputData: Bytes;
 }
 
@@ -33,6 +34,7 @@ export interface ContractCallRequest extends Struct {
 export interface ContractExecResult extends Struct {
   readonly gasConsumed: u64;
   readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: ContractExecResultResult;
 }
@@ -259,6 +261,7 @@ export interface InstantiateRequest extends Struct {
   readonly origin: AccountId;
   readonly value: Balance;
   readonly gasLimit: Gas;
+  readonly storageDepositLimit: Option<Balance>;
   readonly code: Bytes;
   readonly data: Bytes;
   readonly salt: Bytes;
@@ -435,6 +438,15 @@ export interface ScheduleTo264 extends Struct {
 
 /** @name SeedOf */
 export interface SeedOf extends Hash {}
+
+/** @name StorageDeposit */
+export interface StorageDeposit extends Enum {
+  readonly isRefund: boolean;
+  readonly asRefund: Balance;
+  readonly isCharge: boolean;
+  readonly asCharge: Balance;
+  readonly type: 'Refund' | 'Charge';
+}
 
 /** @name TombstoneContractInfo */
 export interface TombstoneContractInfo extends Hash {}

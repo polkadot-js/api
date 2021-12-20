@@ -143,7 +143,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
         const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
         const rpc = hasStorageDeposit
-          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), storageDepositLimit, inputData: message.toU8a(params), origin, value })
+          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
           : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
 
         const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
