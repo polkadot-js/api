@@ -4,7 +4,7 @@
 import type { Observable, Subscription } from 'rxjs';
 import type { Text } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -151,7 +151,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
         : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
-    ) as unknown as HeaderPartial;
+    );
 
     assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
 
@@ -161,7 +161,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
         ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
         : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
-    ) as unknown as RuntimeVersionPartial;
+    );
 
     const existingViaVersion = this._getBlockRegistryViaVersion(blockHash, version);
 
