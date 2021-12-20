@@ -1934,6 +1934,7 @@ __metadata:
     "@polkadot/api-base": 6.12.2-24
     "@polkadot/api-derive": 6.12.2-24
     "@polkadot/keyring": ^8.2.2
+    "@polkadot/rpc-augment": 6.12.2-24
     "@polkadot/rpc-core": 6.12.2-24
     "@polkadot/rpc-provider": 6.12.2-24
     "@polkadot/types": 6.12.2-24
