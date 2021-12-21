@@ -1,16 +1,12 @@
 // Copyright 2017-2021 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes, Option } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
+import type { ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
-import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import type { Option } from '@polkadot/types-codec';
+import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import { BN, bnSqrt } from '@polkadot/util';
-
-type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
-type OldPreimage = ITuple<PreimageInfo>;
 
 interface ApproxState {
   votedAye: BN;
@@ -24,10 +20,6 @@ function isOldInfo (info: PalletDemocracyReferendumInfo | ReferendumInfoTo239): 
 
 function isCurrentStatus (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): status is PalletDemocracyReferendumStatus {
   return !!(status as PalletDemocracyReferendumStatus).tally;
-}
-
-function isCurrentPreimage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
-  return !!imageOpt && !api.query.democracy.dispatchQueue;
 }
 
 export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
@@ -149,36 +141,4 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
 
   // done, we don't include it here... only currently active
   return null;
-}
-
-function constructProposal (api: DeriveApi, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
-  let proposal: Proposal | undefined;
-
-  try {
-    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
-  } catch (error) {
-    console.error(error);
-  }
-
-  return { at, balance, proposal, proposer };
-}
-
-export function parseImage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
-  if (imageOpt.isNone) {
-    return;
-  }
-
-  if (isCurrentPreimage(api, imageOpt)) {
-    const status = imageOpt.unwrap();
-
-    if (status.isMissing) {
-      return;
-    }
-
-    const { data, deposit, provider, since } = status.asAvailable;
-
-    return constructProposal(api, [data, provider, deposit, since]);
-  }
-
-  return constructProposal(api, imageOpt.unwrap());
 }
