@@ -25,9 +25,9 @@ export function withSection <T, F extends (...args: any[]) => Observable<T>> (se
     memo(instanceId, fn(getInstance(api, section), api, instanceId)) as unknown as F;
 }
 
-export function callMethod <T> (method: 'members' | 'proposals' | 'proposalCount', empty: T): (deriveSection: Collective) => (instanceId: string, api: DeriveApi) => () => Observable<T> {
-  return (deriveSection: Collective) =>
-    withSection(deriveSection, (query) =>
+export function callMethod <T> (method: 'members' | 'proposals' | 'proposalCount', empty: T): (section: Collective) => (instanceId: string, api: DeriveApi) => () => Observable<T> {
+  return (section: Collective) =>
+    withSection(section, (query) =>
       (): Observable<T> =>
         isFunction(query?.[method])
           ? query[method]() as unknown as Observable<T>
