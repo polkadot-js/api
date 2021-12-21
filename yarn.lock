@@ -2148,13 +2148,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/types-augment-lookup@7.0.3-0, @polkadot/types-augment-lookup@workspace:packages/types-augment-lookup":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-augment-lookup@workspace:packages/types-augment-lookup"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/types": 7.0.3-0
+    "@polkadot/types-codec": 7.0.3-0
+    "@polkadot/util": ^8.2.2
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/types-augment-registry@7.0.3-0, @polkadot/types-augment-registry@workspace:packages/types-augment-registry":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/types-augment-registry@workspace:packages/types-augment-registry"
+  dependencies:
+    "@babel/runtime": ^7.16.5
+    "@polkadot/types": 7.0.3-0
+    "@polkadot/types-codec": 7.0.3-0
+    "@polkadot/util": ^8.2.2
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/types-augment@7.0.3-0, @polkadot/types-augment@workspace:packages/types-augment":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types": 7.0.3-0
-    "@polkadot/types-codec": 7.0.3-0
+    "@polkadot/types-augment-lookup": 7.0.3-0
+    "@polkadot/types-augment-registry": 7.0.3-0
     "@polkadot/util": ^8.2.2
   languageName: unknown
   linkType: soft

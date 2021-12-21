@@ -6,12 +6,12 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-augment#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-augment-registry#readme",
   "license": "Apache-2.0",
   "maintainers": [],
-  "name": "@polkadot/types-augment",
+  "name": "@polkadot/types-augment-registry",
   "repository": {
-    "directory": "packages/types-augment",
+    "directory": "packages/types-augment-registry",
     "type": "git",
     "url": "https://github.com/polkadot-js/api.git"
   },
@@ -24,8 +24,8 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/types-augment-lookup": "7.0.3-0",
-    "@polkadot/types-augment-registry": "7.0.3-0",
+    "@polkadot/types": "7.0.3-0",
+    "@polkadot/types-codec": "7.0.3-0",
     "@polkadot/util": "^8.2.2"
   }
 }

@@ -38,6 +38,8 @@
     "@polkadot/rpc-provider": "7.0.3-0",
     "@polkadot/types": "7.0.3-0",
     "@polkadot/types-augment": "7.0.3-0",
+    "@polkadot/types-augment-definitions": "7.0.3-0",
+    "@polkadot/types-augment-lookup": "7.0.3-0",
     "@polkadot/types-codec": "7.0.3-0",
     "@polkadot/types-create": "7.0.3-0",
     "@polkadot/types-support": "7.0.3-0",

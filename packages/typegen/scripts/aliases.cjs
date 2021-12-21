@@ -4,19 +4,10 @@
 /* eslint-disable sort-keys */
 
 const alias = {
-  '^@polkadot/api-augment(.*)': './packages/api-augment/src\\1',
-  '^@polkadot/api-base(.*)': './packages/api-base/src\\1',
-  '^@polkadot/api-derive(.*)': './packages/api-derive/src\\1',
+  '^@polkadot/api-(augment|base|derive)(.*)': './packages/api-\\1/src\\2',
   '^@polkadot/api(.*)': './packages/api/src/\\1',
-  '^@polkadot/rpc-augment(.*)': './packages/rpc-augment/src\\1',
-  '^@polkadot/rpc-core(.*)': './packages/rpc-core/src\\1',
-  '^@polkadot/rpc-provider(.*)': './packages/rpc-provider/src\\1',
-  '^@polkadot/types-(augment)(.*)': './packages/types-\\1/src\\2',
-  '^@polkadot/types-codec(.*)': './packages/types-codec/src\\1',
-  '^@polkadot/types-create(.*)': './packages/types-create/src\\1',
-  '^@polkadot/types-known(.*)': './packages/types-known/src\\1',
-  '^@polkadot/types-metadata(.*)': './packages/types-metadata/src\\1',
-  '^@polkadot/types-support(.*)': './packages/types-support/src\\1',
+  '^@polkadot/rpc-(augment|core|provider)(.*)': './packages/rpc-\\1/src\\2',
+  '^@polkadot/types-(augment-lookup|augment-registry|augment|codec|create|known|metadata|support)(.*)': './packages/types-\\1/src\\2',
   '^@polkadot/types(.*)': './packages/types/src\\1'
 };
 
