@@ -34,19 +34,19 @@ function parse (api: DeriveApi, [hashes, proposals, votes]: Result): DeriveColle
     .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
 }
 
-function _proposalsFrom (section: string, api: DeriveApi, hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> {
-  return (isFunction(api.query[section]?.proposals) && hashes.length
+function _proposalsFrom (api: DeriveApi, query: DeriveApi['query']['council'], hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> {
+  return (isFunction(query?.proposals) && hashes.length
     ? combineLatest([
       of(hashes),
       // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
       // however we have had cases on Edgeware where the indices have moved around after an
       // upgrade, which results in invalid on-chain data
       combineLatest(hashes.map((h) =>
-        api.query[section].proposalOf<Option<Proposal>>(h).pipe(
+        query.proposalOf<Option<Proposal>>(h).pipe(
           catchError(() => of(null))
         )
       )),
-      api.query[section].voting.multi<Option<Votes>>(hashes)
+      query.voting.multi<Option<Votes>>(hashes)
     ])
     : of<Result>([[], [], []])
   ).pipe(
@@ -54,27 +54,27 @@ function _proposalsFrom (section: string, api: DeriveApi, hashes: (Hash | Uint8A
   );
 }
 
-export function hasProposals (_section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<boolean> {
-  return withSection(_section, (section, api) =>
+export function hasProposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<boolean> {
+  return withSection(section, (query) =>
     (): Observable<boolean> =>
-      of(isFunction(api.query[section]?.proposals))
+      of(isFunction(query?.proposals))
   );
 }
 
-export function proposals (_section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<DeriveCollectiveProposal[]> {
-  return withSection(_section, (section, api) =>
+export function proposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<DeriveCollectiveProposal[]> {
+  return withSection(section, (query, api) =>
     (): Observable<DeriveCollectiveProposal[]> =>
-      api.derive[section as 'council'].proposalHashes().pipe(
-        switchMap((all) => _proposalsFrom(section, api, all))
+      api.derive[section].proposalHashes().pipe(
+        switchMap((all) => _proposalsFrom(api, query, all))
       )
   );
 }
 
-export function proposal (_section: Collective): (instanceId: string, api: DeriveApi) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
-  return withSection(_section, (section, api) =>
+export function proposal (section: Collective): (instanceId: string, api: DeriveApi) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+  return withSection(section, (query, api) =>
     (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
-      isFunction(api.query[section]?.proposals)
-        ? firstObservable(_proposalsFrom(section, api, [hash]))
+      isFunction(query?.proposals)
+        ? firstObservable(_proposalsFrom(api, query, [hash]))
         : of(null)
   );
 }

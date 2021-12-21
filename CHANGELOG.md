@@ -4,6 +4,7 @@
 
 Changes:
 
+- Fix alias module mapping in collective derives
 - Update `dispathchQueue` derive to align with latest Substrate
 - Update to latest Substrate metadata
 
