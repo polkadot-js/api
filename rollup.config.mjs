@@ -19,13 +19,13 @@ const external = [
 ];
 
 function expand (prefix, all) {
-  return all.map((p) => `${prefix}-${p}`);
+  return all.map((p) => p ? `${prefix}-${p}` : prefix);
 }
 
 const entries = [
   ...expand('api', ['augment', 'base', 'derive']),
   ...expand('rpc', ['augment', 'core', 'provider']),
-  ...expand('types', ['augment', 'codec', 'create', 'helpers', 'known'])
+  ...expand('types', [...expand('augment', ['', 'lookup', 'registry']), 'codec', 'create', 'helpers', 'known'])
 ].reduce((all, p) => ({
   ...all,
   [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)

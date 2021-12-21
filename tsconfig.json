@@ -21,6 +21,8 @@
     { "path": "./packages/types" },
     { "path": "./packages/types/tsconfig.spec.json" },
     { "path": "./packages/types-augment" },
+    { "path": "./packages/types-augment-lookup" },
+    { "path": "./packages/types-augment-registry" },
     { "path": "./packages/types-codec" },
     { "path": "./packages/types-codec/tsconfig.spec.json" },
     { "path": "./packages/types-create" },

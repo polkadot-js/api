@@ -20,6 +20,7 @@ exclude_patterns:
 - "docs/**/*.js"
 - "docs/**/*.ts"
 - "packages/*-augment/"
+- "packages/*-augment-*/"
 - "packages/typegen/scripts"
 - "packages/typegen/src"
 - "packages/types/src/interfaces/"
