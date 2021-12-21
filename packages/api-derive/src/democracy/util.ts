@@ -133,12 +133,10 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
 
   const unwrapped = info.unwrap();
 
-  if (isOldInfo(unwrapped)) {
-    return unwrapped;
-  } else if (unwrapped.isOngoing) {
-    return unwrapped.asOngoing;
-  }
-
-  // done, we don't include it here... only currently active
-  return null;
+  return isOldInfo(unwrapped)
+    ? unwrapped
+    : unwrapped.isOngoing
+      ? unwrapped.asOngoing
+      // done, we don't include it here... only currently active
+      : null;
 }
