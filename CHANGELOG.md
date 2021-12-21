@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 7.0.2 Dec 21, 2021
+
+Upgrade priority: Low. Recommended for applications where collective derives with aliasses are being used.
 
 Changes:
 
