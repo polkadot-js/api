@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update `dispathchQueue` derive to align with latest Substrate
+- Update to latest Substrate metadata
+
+
 ## 7.0.1 Dec 20, 2021
 
 Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusama chains.

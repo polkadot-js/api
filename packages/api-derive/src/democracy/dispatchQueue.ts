@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
-import type { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
-import type { PalletSchedulerScheduledV2 } from '@polkadot/types/lookup';
+import type { BlockNumber, Call, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
+import type { FrameSupportScheduleMaybeHashed, PalletSchedulerScheduledV3 } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
@@ -20,6 +20,11 @@ interface SchedulerInfo {
   at: BlockNumber;
   imageHash: Hash;
   index: ReferendumIndex;
+}
+
+function isMaybeHashed (call: FrameSupportScheduleMaybeHashed | Call): call is FrameSupportScheduleMaybeHashed {
+  // check for enum
+  return (call as FrameSupportScheduleMaybeHashed).isBasic === false;
 }
 
 function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
@@ -42,7 +47,7 @@ function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV2>[] | null)[]]> {
+function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV3 | Scheduled>[] | null)[]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -81,7 +86,15 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
           if (scheduled.maybeId.isSome) {
             const id = scheduled.maybeId.unwrap().toHex();
 
-            id.startsWith(DEMOCRACY_ID) && result.push({ at, imageHash: scheduled.call.args[0] as Hash, index: api.registry.createType('(u64, ReferendumIndex)', id)[1] });
+            if (id.startsWith(DEMOCRACY_ID)) {
+              const imageHash = isMaybeHashed(scheduled.call)
+                ? scheduled.call.isHash
+                  ? scheduled.call.asHash
+                  : scheduled.call.asValue.args[0] as Hash
+                : scheduled.call.args[0] as Hash;
+
+              result.push({ at, imageHash, index: api.registry.createType('(u64, ReferendumIndex)', id)[1] });
+            }
           }
         });
       });

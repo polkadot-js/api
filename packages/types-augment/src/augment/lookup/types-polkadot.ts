@@ -5,31 +5,7 @@ declare module '@polkadot/types/lookup' {
   import type { BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
   import type { ITuple } from '@polkadot/types-codec/types';
   import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-  import type { AccountId32, Call, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
-
-  /** @name FrameSupportScheduleLookupError (30) */
-  export interface FrameSupportScheduleLookupError extends Enum {
-    readonly isUnknown: boolean;
-    readonly isBadFormat: boolean;
-    readonly type: 'Unknown' | 'BadFormat';
-  }
-
-  /** @name PalletPreimageEvent (31) */
-  export interface PalletPreimageEvent extends Enum {
-    readonly isNoted: boolean;
-    readonly asNoted: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly isRequested: boolean;
-    readonly asRequested: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly isCleared: boolean;
-    readonly asCleared: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly type: 'Noted' | 'Requested' | 'Cleared';
-  }
+  import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (66) */
   export interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
@@ -742,45 +718,6 @@ declare module '@polkadot/types/lookup' {
     readonly isV1: boolean;
     readonly asV1: XcmV1MultiLocation;
     readonly type: 'V0' | 'V1';
-  }
-
-  /** @name PalletSchedulerScheduledV3 (164) */
-  export interface PalletSchedulerScheduledV3 extends Struct {
-    readonly maybeId: Option<Bytes>;
-    readonly priority: u8;
-    readonly call: FrameSupportScheduleMaybeHashed;
-    readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
-    readonly origin: PolkadotRuntimeOriginCaller;
-  }
-
-  /** @name FrameSupportScheduleMaybeHashed (165) */
-  export interface FrameSupportScheduleMaybeHashed extends Enum {
-    readonly isValue: boolean;
-    readonly asValue: Call;
-    readonly isHash: boolean;
-    readonly asHash: H256;
-    readonly type: 'Value' | 'Hash';
-  }
-
-  /** @name PalletPreimageCall (169) */
-  export interface PalletPreimageCall extends Enum {
-    readonly isNotePreimage: boolean;
-    readonly asNotePreimage: {
-      readonly bytes: Bytes;
-    } & Struct;
-    readonly isUnnotePreimage: boolean;
-    readonly asUnnotePreimage: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly isRequestPreimage: boolean;
-    readonly asRequestPreimage: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly isUnrequestPreimage: boolean;
-    readonly asUnrequestPreimage: {
-      readonly hash_: H256;
-    } & Struct;
-    readonly type: 'NotePreimage' | 'UnnotePreimage' | 'RequestPreimage' | 'UnrequestPreimage';
   }
 
   /** @name PolkadotRuntimeSessionKeys (197) */
@@ -1736,26 +1673,6 @@ declare module '@polkadot/types/lookup' {
     readonly isVersion: boolean;
     readonly asVersion: u32;
     readonly type: 'Assets' | 'Version';
-  }
-
-  /** @name PalletPreimageRequestStatus (428) */
-  export interface PalletPreimageRequestStatus extends Enum {
-    readonly isUnrequested: boolean;
-    readonly asUnrequested: Option<ITuple<[AccountId32, u128]>>;
-    readonly isRequested: boolean;
-    readonly asRequested: u32;
-    readonly type: 'Unrequested' | 'Requested';
-  }
-
-  /** @name PalletPreimageError (431) */
-  export interface PalletPreimageError extends Enum {
-    readonly isTooLarge: boolean;
-    readonly isAlreadyNoted: boolean;
-    readonly isNotAuthorized: boolean;
-    readonly isNotNoted: boolean;
-    readonly isRequested: boolean;
-    readonly isNotRequested: boolean;
-    readonly type: 'TooLarge' | 'AlreadyNoted' | 'NotAuthorized' | 'NotNoted' | 'Requested' | 'NotRequested';
   }
 
   /** @name PolkadotRuntimeCommonClaimsPalletError (528) */

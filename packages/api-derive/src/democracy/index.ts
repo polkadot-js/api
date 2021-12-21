@@ -4,7 +4,6 @@
 export * from './dispatchQueue';
 export * from './locks';
 export * from './nextExternal';
-export * from './preimage';
 export * from './preimages';
 export * from './proposals';
 export * from './referendumIds';
