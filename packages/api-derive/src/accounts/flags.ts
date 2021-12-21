@@ -3,6 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types-codec';
 import type { DeriveAccountFlags, DeriveApi } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
@@ -14,19 +15,18 @@ type FlagsIntermediate = [
   AccountId[],
   AccountId[],
   AccountId[],
-  AccountId | undefined
+  Option<AccountId> | AccountId | undefined
 ];
 
 function parseFlags (address: AccountId | Address | string | null | undefined, [electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]: FlagsIntermediate): DeriveAccountFlags {
+  const addrStr = address && address.toString();
   const isIncluded = (id: AccountId | Address | string) =>
-    address
-      ? id.toString() === address.toString()
-      : false;
+    id.toString() === addrStr;
 
   return {
     isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(isIncluded),
     isSociety: (societyMembers || []).some(isIncluded),
-    isSudo: sudoKey?.toString() === address?.toString(),
+    isSudo: sudoKey?.toString() === addrStr,
     isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded)
   };
 }
