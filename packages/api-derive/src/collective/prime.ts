@@ -15,13 +15,13 @@ import { withSection } from './helpers';
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
 export type { AccountId } from '@polkadot/types/interfaces';
 
-export function prime (_section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<AccountId | null> {
-  return withSection(_section, (section, api) =>
+export function prime (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<AccountId | null> {
+  return withSection(section, (query) =>
     (): Observable<AccountId | null> =>
-      isFunction(api.query[section as 'council']?.prime)
-        ? api.query[section as 'council'].prime().pipe(
-          map((optPrime): AccountId | null =>
-            optPrime.unwrapOr(null)
+      isFunction(query?.prime)
+        ? query.prime().pipe(
+          map((o): AccountId | null =>
+            o.unwrapOr(null)
           )
         )
         : of(null)
