@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
-import { calcVotes, getStatus, parseImage } from './util';
+import { calcVotes, getStatus } from './util';
 
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
 type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
@@ -132,9 +132,9 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
     const status = getStatus(info);
 
     return status
-      ? api.query.democracy.preimages(status.proposalHash).pipe(
-        map((preimage): DeriveReferendum => ({
-          image: parseImage(api, preimage),
+      ? api.derive.democracy.preimage(status.proposalHash).pipe(
+        map((image): DeriveReferendum => ({
+          image,
           imageHash: status.proposalHash,
           index: api.registry.createType('ReferendumIndex', index),
           status
