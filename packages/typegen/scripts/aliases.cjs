@@ -3,6 +3,9 @@
 
 /* eslint-disable sort-keys */
 
+// required for dev-only setups
+process.env.JEST_WORKER_ID = '123';
+
 const alias = {
   '^@polkadot/api-(augment|base|derive)(.*)': './packages/api-\\1/src\\2',
   '^@polkadot/api(.*)': './packages/api/src/\\1',

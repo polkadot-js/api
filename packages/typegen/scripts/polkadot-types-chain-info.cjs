@@ -7,8 +7,6 @@ let main;
 try {
   main = require('../extractChain.cjs').main;
 } catch (error) {
-  process.env.JEST_WORKER_ID = '123';
-
   require('./aliases.cjs');
 
   main = require('../src/extractChain.ts').main;
