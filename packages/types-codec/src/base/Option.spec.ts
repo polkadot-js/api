@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types';
-import { Bytes, Option, Text, U32 } from '@polkadot/types-codec';
+import { bool, Bytes, Option, Text, U32 } from '@polkadot/types-codec';
 
 const registry = new TypeRegistry();
 
@@ -27,6 +27,14 @@ describe('Option', (): void => {
     expect(new Option(registry, Text, null).isNone).toBe(true);
     expect(new Option(registry, Text, 'test').isNone).toBe(false);
     expect(new Option(registry, Text, '0x').isNone).toBe(true);
+  });
+
+  it('correctly handles booleans', (): void => {
+    expect(new Option(registry, bool).isNone).toBe(true);
+    expect(new Option(registry, bool, true).isSome).toBe(true);
+    expect(new Option(registry, bool, true).unwrap().isTrue).toBe(true);
+    expect(new Option(registry, bool, false).isSome).toBe(true);
+    expect(new Option(registry, bool, false).unwrap().isTrue).toBe(false);
   });
 
   it('converts an option to an option', (): void => {
