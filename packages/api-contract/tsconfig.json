@@ -16,7 +16,6 @@
   "references": [
     { "path": "../api" },
     { "path": "../types" },
-    { "path": "../types-create" },
-    { "path": "../types-support" }
+    { "path": "../types-create" }
   ]
 }

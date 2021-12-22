@@ -1949,9 +1949,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.13":
-  version: 0.64.13
-  resolution: "@polkadot/dev@npm:0.64.13"
+"@polkadot/dev@npm:^0.64.14":
+  version: 0.64.14
+  resolution: "@polkadot/dev@npm:0.64.14"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -2036,7 +2036,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: f6b11e40be09fd9a668d56eed5f329f6f7c554eea5e74ae90050d28eba121a9a7d9a8031e8a19f0767e0f0013bb4cac50b0293186f3f10d209a8bc3e0d59743b
+  checksum: 4daa5546033aeec1a0c79f61fbf935e6d3f46bf7340711cb1bbc315bdfb2029c93ba847d888e1bfda8ecb8c94f6af0ceeae62e3828254f083d0c4e364125e211
   languageName: node
   linkType: hard
 
@@ -2125,6 +2125,7 @@ __metadata:
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
     "@polkadot/api": 7.0.3-3
+    "@polkadot/api-augment": 7.0.3-3
     "@polkadot/rpc-augment": 7.0.3-3
     "@polkadot/rpc-provider": 7.0.3-3
     "@polkadot/types": 7.0.3-3
@@ -9007,7 +9008,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.13
+    "@polkadot/dev": ^0.64.14
     "@polkadot/ts": ^0.4.22
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
