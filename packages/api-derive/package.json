@@ -37,6 +37,8 @@
   "devDependencies": {
     "@polkadot/api": "7.0.3-5",
     "@polkadot/api-augment": "7.0.3-5",
-    "@polkadot/rpc-augment": "7.0.3-5"
+    "@polkadot/rpc-augment": "7.0.3-5",
+    "@polkadot/rpc-provider": "7.0.3-5",
+    "@polkadot/types-support": "7.0.3-5"
   }
 }

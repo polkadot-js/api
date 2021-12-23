@@ -42,6 +42,7 @@
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "7.0.3-5"
+    "@polkadot/api-augment": "7.0.3-5",
+    "@polkadot/types-support": "7.0.3-5"
   }
 }

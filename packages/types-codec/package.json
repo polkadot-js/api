@@ -27,6 +27,9 @@
     "@polkadot/util": "^8.2.2"
   },
   "devDependencies": {
-    "@polkadot/types": "^7.0.3-5"
+    "@polkadot/types": "^7.0.3-5",
+    "@polkadot/types-augment": "^7.0.3-5",
+    "@polkadot/types-support": "^7.0.3-5",
+    "@polkadot/util-crypto": "^8.2.2"
   }
 }
