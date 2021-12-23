@@ -20,12 +20,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.0.3-5",
+  "version": "7.0.3-6",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/types-augment-lookup": "7.0.3-5",
-    "@polkadot/types-augment-registry": "7.0.3-5",
+    "@polkadot/types-augment-lookup": "7.0.3-6",
+    "@polkadot/types-augment-registry": "7.0.3-6",
     "@polkadot/util": "^8.2.2"
   }
 }
