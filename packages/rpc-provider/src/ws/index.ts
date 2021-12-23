@@ -288,10 +288,9 @@ export class WsProvider implements ProviderInterface {
         const id = this.#coder.getId();
 
         const callback = (error?: Error | null, result?: T): void => {
-          if (error) {
-            this.#emit('error', error);
-          }
-          resolve(result as T);
+          error
+            ? reject(error)
+            : resolve(result as T);
         };
 
         l.debug(() => ['calling', method, json]);
