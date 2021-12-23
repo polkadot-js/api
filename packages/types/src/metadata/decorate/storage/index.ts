@@ -7,7 +7,7 @@ import type { Storage } from '../types';
 
 import { lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
 
-import { objectNameFirstLower } from '../util';
+import { objectNameToCamel } from '../util';
 import { createFunction, createKeyRaw, NO_RAW_ARGS } from './createFunction';
 import { getStorage } from './getStorage';
 import { createRuntimeFunction } from './util';
@@ -41,7 +41,7 @@ export function decorateStorage (registry: CodecRegistry, { pallets }: MetadataL
           items,
           (meta: StorageEntryMetadataLatest) =>
             createFunction(registry, { meta, method: meta.name.toString(), prefix, section }, {}),
-          objectNameFirstLower
+          objectNameToCamel
         )
       );
     }
