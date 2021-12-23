@@ -288,9 +288,10 @@ export class WsProvider implements ProviderInterface {
         const id = this.#coder.getId();
 
         const callback = (error?: Error | null, result?: T): void => {
-          error
-            ? reject(error)
-            : resolve(result as T);
+          if (error) {
+            this.#emit('error', error);
+          }
+          resolve(result as T);
         };
 
         l.debug(() => ['calling', method, json]);
@@ -384,7 +385,7 @@ export class WsProvider implements ProviderInterface {
     // reject all hanging requests
     eraseRecord(this.#handlers, (h) => {
       try {
-        h.callback(error, undefined);
+        h.callback(null, undefined);
       } catch (err) {
         // does not throw
         l.error(err);
