@@ -1949,9 +1949,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.14":
-  version: 0.64.14
-  resolution: "@polkadot/dev@npm:0.64.14"
+"@polkadot/dev@npm:^0.64.15":
+  version: 0.64.15
+  resolution: "@polkadot/dev@npm:0.64.15"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -2036,7 +2036,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 4daa5546033aeec1a0c79f61fbf935e6d3f46bf7340711cb1bbc315bdfb2029c93ba847d888e1bfda8ecb8c94f6af0ceeae62e3828254f083d0c4e364125e211
+  checksum: 4f866be68acf54d36a7428e6a05d698b51d7db5409e64a72a59bae3f11794fb3a44639054fe06dc052533c8df4eec8a21ae70dd490310c31dfe1990437555a0c
   languageName: node
   linkType: hard
 
@@ -2138,7 +2138,7 @@ __metadata:
     "@polkadot/util": ^8.2.2
     "@polkadot/x-ws": ^8.2.2
     "@types/websocket": ^1.0.4
-    "@types/yargs": ^17.0.7
+    "@types/yargs": ^17.0.8
     handlebars: ^4.7.7
     websocket: ^1.0.34
     yargs: ^17.3.0
@@ -2751,12 +2751,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.7":
-  version: 17.0.7
-  resolution: "@types/yargs@npm:17.0.7"
+"@types/yargs@npm:^17.0.8":
+  version: 17.0.8
+  resolution: "@types/yargs@npm:17.0.8"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: 520e803720b2a626338c0e2b61825dd1b956910fec4d855018c17e62cf9fb41eb67bcf122ba5c6fb569b1bfac73520d5d73e8be502b87f9a551619df441b1875
+  checksum: 63d06700ffbed745f00d7994eb92416649c8a3ead22f26446979d383f3af52fa9400bb185268f3a44a2348749098ffe33a8185ca676b77bc3206c63b8b73fd01
   languageName: node
   linkType: hard
 
@@ -9008,7 +9008,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.14
+    "@polkadot/dev": ^0.64.15
     "@polkadot/ts": ^0.4.22
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
