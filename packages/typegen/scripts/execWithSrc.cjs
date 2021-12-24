@@ -20,7 +20,7 @@ module.exports = function (file) {
             // eslint-disable-next-line sort-keys
             '^@polkadot/api(.*)': './packages/api/src/\\1',
             '^@polkadot/rpc-(augment|core|provider)(.*)': './packages/rpc-\\1/src\\2',
-            '^@polkadot/types-(augment-lookup|augment-registry|augment|codec|create|known|metadata|support)(.*)': './packages/types-\\1/src\\2',
+            '^@polkadot/types-(augment|codec|create|known|metadata|support)(.*)': './packages/types-\\1/src\\2',
             // eslint-disable-next-line sort-keys
             '^@polkadot/types(.*)': './packages/types/src\\1'
           }
