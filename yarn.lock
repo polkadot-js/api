@@ -1955,9 +1955,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.64.18":
-  version: 0.64.18
-  resolution: "@polkadot/dev@npm:0.64.18"
+"@polkadot/dev@npm:^0.64.19":
+  version: 0.64.19
+  resolution: "@polkadot/dev@npm:0.64.19"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.5
@@ -1998,7 +1998,7 @@ __metadata:
     eslint-plugin-import-newlines: ^1.1.7
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.0.0
-    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-simple-import-sort: ^7.0.0
     eslint-plugin-sort-destructure-keys: ^1.4.0
@@ -2020,7 +2020,7 @@ __metadata:
     rollup: ^2.61.1
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.5.4
-    yargs: ^17.3.0
+    yargs: ^17.3.1
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.mjs
     polkadot-ci-ghact-docs: scripts/polkadot-ci-ghact-docs.mjs
@@ -2042,7 +2042,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 9e5fc2c65bf2132422e103caa34c194b6c6d731997200cb72893634be3c1656a16f27a698c316ead92984470eaecc301594043b21a8aad270e5678983d7953f1
+  checksum: 4a1fa23d0f54f5901761ec0819f337d180b81ac481a20e57ec20086bc6f12810c60cda06ab5b2802f36c2ad952b51a36fe20a4f293cfda2427fb668cc9aa91da
   languageName: node
   linkType: hard
 
@@ -2147,7 +2147,7 @@ __metadata:
     "@types/yargs": ^17.0.8
     handlebars: ^4.7.7
     websocket: ^1.0.34
-    yargs: ^17.3.0
+    yargs: ^17.3.1
   bin:
     polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.cjs
     polkadot-types-from-chain: ./scripts/polkadot-types-from-chain.cjs
@@ -4806,9 +4806,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.27.1":
-  version: 7.27.1
-  resolution: "eslint-plugin-react@npm:7.27.1"
+"eslint-plugin-react@npm:^7.28.0":
+  version: 7.28.0
+  resolution: "eslint-plugin-react@npm:7.28.0"
   dependencies:
     array-includes: ^3.1.4
     array.prototype.flatmap: ^1.2.5
@@ -4826,7 +4826,7 @@ __metadata:
     string.prototype.matchall: ^4.0.6
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
-  checksum: db1ce303b597ede0bc8873d3f575b05873b06a058162c80f76604c9096eee8f72f299d7f849a86ac2e59f269c196575e6bcfb1ef9d7cbb23f533d081bcc15ea0
+  checksum: 90293d0fd53bb1f735ffd32141cdd211fb1120c9f7bbe5342f9e923261a39e52a2b2575d4e46c9cd77d257f42db4a99b8b339689fc5b5c1c26048929f69b1784
   languageName: node
   linkType: hard
 
@@ -9018,7 +9018,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.5
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
-    "@polkadot/dev": ^0.64.18
+    "@polkadot/dev": ^0.64.19
     "@polkadot/ts": ^0.4.22
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
@@ -10478,9 +10478,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.0.0, yargs@npm:^17.3.0":
-  version: 17.3.0
-  resolution: "yargs@npm:17.3.0"
+"yargs@npm:^17.0.0, yargs@npm:^17.3.1":
+  version: 17.3.1
+  resolution: "yargs@npm:17.3.1"
   dependencies:
     cliui: ^7.0.2
     escalade: ^3.1.1
@@ -10489,6 +10489,6 @@ resolve@^2.0.0-next.3:
     string-width: ^4.2.3
     y18n: ^5.0.5
     yargs-parser: ^21.0.0
-  checksum: 2b687338684bf9645e9389ffdbe813fc5a2ddfede299d46fbe5ac80eb9a391e558b97861ba44d2256936ebe9d7f8135f6a38af1c76a5685eac4061008b2df57a
+  checksum: 64fc2e32c56739f1d14d2d24acd17a6944c3c8e3e3558f09fc1953ac112e868cc16013d282886b9d5be22187f8b9ed4f60741a6b1011f595ce2718805a656852
   languageName: node
   linkType: hard

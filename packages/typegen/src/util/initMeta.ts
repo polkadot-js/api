@@ -5,7 +5,6 @@ import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from '../generate/types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
-import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 
 import { registerDefinitions } from './register';
 
@@ -14,7 +13,7 @@ interface Result {
   registry: TypeRegistry;
 }
 
-export function initMeta (staticMeta: HexString = staticSubstrate, extraTypes: ExtraTypes = {}): Result {
+export function initMeta (staticMeta: HexString, extraTypes: ExtraTypes = {}): Result {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);

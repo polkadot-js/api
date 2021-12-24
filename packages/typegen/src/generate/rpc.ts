@@ -8,6 +8,7 @@ import type { ExtraTypes } from './types';
 import Handlebars from 'handlebars';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -144,7 +145,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 }
 
 export function generateDefaultRpc (dest = 'packages/rpc-augment/src/augment/jsonrpc.ts', extraTypes: ExtraTypes = {}): void {
-  const { registry } = initMeta(undefined, extraTypes);
+  const { registry } = initMeta(staticSubstrate, extraTypes);
 
   generateRpcTypes(
     registry,

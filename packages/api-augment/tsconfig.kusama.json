@@ -5,9 +5,9 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "exclude": [
-    "**/kusama/*.ts",
-    "**/polkadot/*.ts"
+  "include": [
+    "**/base.ts",
+    "**/kusama/*.ts"
   ],
   "references": [
     { "path": "../api-base" },
