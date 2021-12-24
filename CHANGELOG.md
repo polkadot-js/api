@@ -9,9 +9,9 @@ Contributed:
 Changes:
 
 - Expose `@polkadot/api-augment/{kusama, polkadot, substrate}` for specific augmentations (The bare `@polkadot/api-augment` is equivalent to `/substrate`, keeping the existing behavior)
+- Expose `@polkadot/types-augment/{lookup, registry}` variants (The bare `@polkadot/types-augment` applies both)
 - Expose `txHash` on submittable results, e.g. `tx.signAndSend(..., ({ txHash }) => ...)`
 - Align casing for TS & exposed queries (adjusts for `ALLCAPS` entries)
-- Split `types-augment` into `registry` & `lookup` variants (better control)
 - Additional tests for `Option` codec (explicit in expectations)
 
 
