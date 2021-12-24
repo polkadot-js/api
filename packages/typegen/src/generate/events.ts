@@ -77,7 +77,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultEvents (dest = 'packages/api-augment/src/augment/events.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultEvents (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);
