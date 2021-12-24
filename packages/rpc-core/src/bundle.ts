@@ -212,7 +212,7 @@ export class RpcCore {
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       const isDelayed = isScale && hashIndex !== -1 && !!values[hashIndex];
 
-      return new Observable((observer: Observer<T>): VoidCallback => {
+      return new Observable((observer: Observer<T>): () => void => {
         callWithRegistry<T>(isScale, values)
           .then((value): void => {
             observer.next(value);
@@ -263,7 +263,7 @@ export class RpcCore {
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
-      return new Observable((observer: Observer<T>): VoidCallback => {
+      return new Observable((observer: Observer<T>): () => void => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
         const registry = this.#registryDefault;
