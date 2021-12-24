@@ -4,6 +4,7 @@
 
 Changes:
 
+- Expose `txHash` on submittable results, e.g. `tx.signAndSend(..., ({ txHash }) => ...)`
 - Split `types-augment` into `registry` & `lookup` variants (better control)
 
 
