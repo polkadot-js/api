@@ -8,5 +8,7 @@
     "packages/**/scripts/**/*",
     "packages/**/test/**/*"
   ],
-  "exclue": ["**/node_modules/**/*"]
+  "exclude": [
+    "**/node_modules/**/*"
+  ]
 }
