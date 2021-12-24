@@ -231,7 +231,7 @@ function generateLookup (destDir: string, entries: [string | undefined, HexStrin
 }
 
 // Generate `packages/types/src/lookup/*s`, the registry of all lookup types
-export function generateDefaultLookup (destDir = 'packages/types-augment-lookup/src/augment', staticData?: HexString): void {
+export function generateDefaultLookup (destDir = 'packages/types-augment/src/lookup', staticData?: HexString): void {
   generateLookup(
     destDir,
     staticData
