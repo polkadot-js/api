@@ -2114,15 +2114,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.4.22":
-  version: 0.4.22
-  resolution: "@polkadot/ts@npm:0.4.22"
-  dependencies:
-    "@types/chrome": ^0.0.171
-  checksum: 4f900a16949b13bf46c420d110dcd9287ebe4b112c30e3250e3374b6f4203f28b08d85039cb2daf645012807b6817d09079d84cda53eb4b9a826bfa74bb1fe55
-  languageName: node
-  linkType: hard
-
 "@polkadot/typegen@workspace:packages/typegen":
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
@@ -2549,16 +2540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.171":
-  version: 0.0.171
-  resolution: "@types/chrome@npm:0.0.171"
-  dependencies:
-    "@types/filesystem": "*"
-    "@types/har-format": "*"
-  checksum: 657bd2a82b2550bc70a24f43e15121eaf2ee56e52e7a7a904375cded6ffd2e7a1dc27f2456719f5272454a88c483727b99deec1b7244c0cab815f8946c8a3a73
-  languageName: node
-  linkType: hard
-
 "@types/estree@npm:*":
   version: 0.0.49
   resolution: "@types/estree@npm:0.0.49"
@@ -2573,35 +2554,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/filesystem@npm:*":
-  version: 0.0.29
-  resolution: "@types/filesystem@npm:0.0.29"
-  dependencies:
-    "@types/filewriter": "*"
-  checksum: d57682687c3df2593d56cf78981e3d7f14c1e8bfb4e595995c5acd1a3c81e38079b572feb7de91f2838e8005ee018bc536b93e473d7a4bbdb8116fde3e93c2f8
-  languageName: node
-  linkType: hard
-
-"@types/filewriter@npm:*":
-  version: 0.0.28
-  resolution: "@types/filewriter@npm:0.0.28"
-  checksum: e558fd6aed0444e5512037f51ae21d43628012c20a2149b9d9aa4cef029a4a36c7d46cbce430ecac3beedf9a55ac0f9751acd83cec67236c22bbe988d7c46d04
-  languageName: node
-  linkType: hard
-
 "@types/graceful-fs@npm:^4.1.2":
   version: 4.1.4
   resolution: "@types/graceful-fs@npm:4.1.4"
   dependencies:
     "@types/node": "*"
   checksum: d13028412fdc7dd16bcb566da730a15e49bdc71d2681adc67b01a9df6c5ab775d1d547298adf0cbe36f227781c1400d0b0f1da3cb1c2d4b3f9bea02e8aac75ec
-  languageName: node
-  linkType: hard
-
-"@types/har-format@npm:*":
-  version: 1.2.5
-  resolution: "@types/har-format@npm:1.2.5"
-  checksum: f2507601100364fd261bf7589feb1f9b9b0cd18c6273db29b45d694133a7063baa473004238d8a03954f0e9622cff9f42b0050d86743b4272f6b4d68007db651
   languageName: node
   linkType: hard
 
@@ -8995,7 +8953,6 @@ resolve@^2.0.0-next.3:
     "@babel/register": ^7.16.5
     "@babel/runtime": ^7.16.5
     "@polkadot/dev": ^0.64.19
-    "@polkadot/ts": ^0.4.22
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.0.3
     copyfiles: ^2.4.1
