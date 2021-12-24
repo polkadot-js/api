@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
+import type { DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import type { SubmittableResultValue } from './types';
 
@@ -45,12 +45,15 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ dispatchError, dispatchInfo, events, internalError, status }: SubmittableResultValue) {
+  public readonly txHash: Hash;
+
+  constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
     this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
     this.internalError = internalError;
     this.status = status;
+    this.txHash = txHash;
   }
 
   public get isCompleted (): boolean {
