@@ -1489,6 +1489,7 @@ declare module '@polkadot/types/lookup' {
     readonly implVersion: u32;
     readonly apis: Vec<ITuple<[U8aFixed, u32]>>;
     readonly transactionVersion: u32;
+    readonly stateVersion: u8;
   }
 
   /** @name FrameSystemError (120) */

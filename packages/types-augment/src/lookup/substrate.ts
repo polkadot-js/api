@@ -1354,7 +1354,8 @@ export default {
     specVersion: 'u32',
     implVersion: 'u32',
     apis: 'Vec<([u8;8],u32)>',
-    transactionVersion: 'u32'
+    transactionVersion: 'u32',
+    stateVersion: 'u8'
   },
   /**
    * Lookup120: frame_system::pallet::Error<T>

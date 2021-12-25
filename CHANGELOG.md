@@ -13,6 +13,7 @@ Changes:
 - Expose `txHash` on submittable results, e.g. `tx.signAndSend(..., ({ txHash }) => ...)`
 - Align casing for TS & exposed queries (adjusts for `ALLCAPS` entries)
 - Additional tests for `Option` codec (explicit in expectations)
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.0.2 Dec 21, 2021
