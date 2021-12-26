@@ -58,19 +58,19 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     const hasStorageDeposit = this.api.tx.contracts.instantiate.meta.args.length === 6;
-
+    const encParams = this.abi.findConstructor(constructorOrId).toU8a(params);
+    const encSalt = encodeSalt(salt);
     const tx = hasStorageDeposit
-      ? this.api.tx.contracts.instantiate(value, gasLimit, storageDepositLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt))
+      ? this.api.tx.contracts.instantiate(value, gasLimit, storageDepositLimit, this.codeHash, encParams, encSalt)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
-      : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, this.abi.findConstructor(constructorOrId).toU8a(params), encodeSalt(salt));
+      : this.api.tx.contracts.instantiate(value, gasLimit, this.codeHash, encParams, encSalt);
 
-    return tx
-      .withResultTransform((result: ISubmittableResult) =>
-        new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-          new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-        ))
-      );
+    return tx.withResultTransform((result: ISubmittableResult) =>
+      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+      ))
+    );
   };
 }
 

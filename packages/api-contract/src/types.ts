@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { Text, u64 } from '@polkadot/types';
-import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
+import type { ContractExecResultResult, ContractSelector, StorageDeposit } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Abi } from '.';
@@ -58,6 +58,7 @@ export interface ContractCallOutcome {
   gasRequired: u64;
   output: Codec | null;
   result: ContractExecResultResult;
+  storageDeposit: StorageDeposit;
 }
 
 export interface DecodedEvent {
