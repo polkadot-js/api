@@ -2146,7 +2146,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@7.1.0, @polkadot/types-augment@^7.1.0, @polkadot/types-augment@workspace:packages/types-augment":
+"@polkadot/types-augment@7.1.0, @polkadot/types-augment@workspace:packages/types-augment":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
@@ -2162,9 +2162,9 @@ __metadata:
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types": ^7.1.0
-    "@polkadot/types-augment": ^7.1.0
-    "@polkadot/types-support": ^7.1.0
+    "@polkadot/types": 7.1.0
+    "@polkadot/types-augment": 7.1.0
+    "@polkadot/types-support": 7.1.0
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
   languageName: unknown
@@ -2175,7 +2175,7 @@ __metadata:
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/types": ^7.1.0
+    "@polkadot/types": 7.1.0
     "@polkadot/types-codec": 7.1.0
     "@polkadot/util": ^8.2.2
   languageName: unknown
@@ -2194,7 +2194,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-support@7.1.0, @polkadot/types-support@^7.1.0, @polkadot/types-support@workspace:packages/types-support":
+"@polkadot/types-support@7.1.0, @polkadot/types-support@workspace:packages/types-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
@@ -2203,7 +2203,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types@7.1.0, @polkadot/types@^7.1.0, @polkadot/types@workspace:packages/types":
+"@polkadot/types@7.1.0, @polkadot/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:

@@ -28,6 +28,6 @@
     "@polkadot/util": "^8.2.2"
   },
   "devDependencies": {
-    "@polkadot/types": "^7.1.0"
+    "@polkadot/types": "7.1.0"
   }
 }
