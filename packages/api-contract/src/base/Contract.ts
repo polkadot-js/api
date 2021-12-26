@@ -108,12 +108,13 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
-
+    const gas = this.#getGas(gasLimit);
+    const encParams = this.abi.findMessage(messageOrId).toU8a(params);
     const tx = hasStorageDeposit
-      ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
+      ? this.api.tx.contracts.call(this.address, value, gas, storageDepositLimit, encParams)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
-      : this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
+      : this.api.tx.contracts.call(this.address, value, gas, encParams);
 
     return tx.withResultTransform((result: ISubmittableResult) =>
     // ContractEmitted is the current generation, ContractExecution is the previous generation
@@ -142,11 +143,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
         const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+        const inputData = message.toU8a(params);
         const rpc = hasStorageDeposit
-          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
-          : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
+          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData, origin, storageDepositLimit, value })
+          : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData, origin, value });
 
-        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
+        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }: ContractExecResult): ContractCallOutcome => ({
           debugMessage,
           gasConsumed,
           gasRequired: gasRequired && !gasRequired.isZero()
@@ -155,12 +157,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           output: result.isOk && message.returnType
             ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
             : null,
-          result
+          result,
+          storageDeposit
         });
 
         return rpc.pipe(map(mapFn));
-      }
-      )
+      })
     };
   };
 }
