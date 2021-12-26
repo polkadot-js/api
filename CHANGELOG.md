@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 7.1.1 Dev 26, 2021
+
+Upgrade priority: Low. Recommended for users of contracts form Substrate master & Polkador/Kusama TS app developers where specific chain augmentation would be helpful.
 
 Contributed:
 
