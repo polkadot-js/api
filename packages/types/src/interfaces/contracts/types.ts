@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Null, Option, Raw, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Compact, Enum, Null, Option, Raw, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */
@@ -19,6 +19,14 @@ export interface AliveContractInfo extends Struct {
 
 /** @name CodeHash */
 export interface CodeHash extends Hash {}
+
+/** @name ContractCallFlags */
+export interface ContractCallFlags extends Set {
+  readonly isForwardInput: boolean;
+  readonly isCloneInput: boolean;
+  readonly isTailCall: boolean;
+  readonly isAllowReentry: boolean;
+}
 
 /** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
@@ -59,7 +67,7 @@ export interface ContractExecResultErrModule extends Struct {
 
 /** @name ContractExecResultOk */
 export interface ContractExecResultOk extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
 }
 
@@ -80,7 +88,7 @@ export interface ContractExecResultSuccessTo255 extends Struct {
 
 /** @name ContractExecResultSuccessTo260 */
 export interface ContractExecResultSuccessTo260 extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
   readonly gasConsumed: u64;
 }
@@ -133,6 +141,11 @@ export interface ContractInstantiateResultTo267 extends Enum {
   readonly type: 'Ok' | 'Err';
 }
 
+/** @name ContractReturnFlags */
+export interface ContractReturnFlags extends Set {
+  readonly isRevert: boolean;
+}
+
 /** @name ContractStorageKey */
 export interface ContractStorageKey extends U8aFixed {}
 
@@ -144,7 +157,7 @@ export interface DeletedContract extends Struct {
 
 /** @name ExecReturnValue */
 export interface ExecReturnValue extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
 }
 
