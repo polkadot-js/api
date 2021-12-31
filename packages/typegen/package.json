@@ -30,9 +30,9 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
   "dependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/register": "^7.16.5",
-    "@babel/runtime": "^7.16.5",
+    "@babel/core": "^7.16.7",
+    "@babel/register": "^7.16.7",
+    "@babel/runtime": "^7.16.7",
     "@polkadot/api": "7.1.2-1",
     "@polkadot/api-augment": "7.1.2-1",
     "@polkadot/rpc-augment": "7.1.2-1",
