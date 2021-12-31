@@ -8,6 +8,7 @@ import { packageInfo as typesInfo } from '@polkadot/types/packageInfo';
 import { packageInfo as knownInfo } from '@polkadot/types-known/packageInfo';
 import { detectPackage } from '@polkadot/util';
 
+import __dirname from './cjs/dirname';
 import { packageInfo } from './packageInfo';
 
 detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname, [deriveInfo, coreInfo, providerInfo, typesInfo, knownInfo]);

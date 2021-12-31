@@ -5,6 +5,7 @@ import { packageInfo as codecInfo } from '@polkadot/types-codec';
 import { packageInfo as createInfo } from '@polkadot/types-create';
 import { detectPackage } from '@polkadot/util';
 
+import __dirname from './cjs/dirname';
 import { packageInfo } from './packageInfo';
 
 detectPackage(packageInfo, typeof __dirname !== 'undefined' && __dirname, [codecInfo, createInfo]);
