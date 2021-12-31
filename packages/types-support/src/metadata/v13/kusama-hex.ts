@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types-support authors & contributors
+// Copyright 2017-2022 @polkadot/types-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // cargo run --release -- purge-chain -y --chain kusama-dev && cargo run --release -- --chain kusama-dev
