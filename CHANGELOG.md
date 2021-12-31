@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Convert contract `ReturnFlags` to set (as opposed to bare `u32`)
+- Ensure package path is availble under ESM & CJS
+
+
 ## 7.1.1 Dev 26, 2021
 
 Upgrade priority: Low. Recommended for users of contracts form Substrate master & Polkador/Kusama TS app developers where specific chain augmentation would be helpful.
