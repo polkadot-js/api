@@ -32,9 +32,6 @@
       "@polkadot/types-support": ["types-support/src"],
       "@polkadot/types-support/*": ["types-support/src/*"]
     },
-    "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "skipLibCheck": true
   }
  }
