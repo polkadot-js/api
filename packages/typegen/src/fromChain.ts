@@ -45,7 +45,6 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
     [
       HEADER('chain'),
       ...[
-        '@polkadot/api/augment/rpc',
         ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
