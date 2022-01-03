@@ -1,14 +1,17 @@
 # CHANGELOG
 
-## master
+## 7.2.1 Jan 3, 2022
+
+Upgrade priority: Low. Recommended for users generating TS chain-specific augmentations.
 
 Changes:
 
 - Convert contract `ReturnFlags` to set (as opposed to bare `u32`)
+- Adjust chain-specific augmentation to not auto-add RPC imports
 - Ensure package path is availble under ESM & CJS
 
 
-## 7.1.1 Dev 26, 2021
+## 7.1.1 Dec 26, 2021
 
 Upgrade priority: Low. Recommended for users of contracts form Substrate master & Polkador/Kusama TS app developers where specific chain augmentation would be helpful.
 
