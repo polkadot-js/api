@@ -1,97 +1,91 @@
-    2741	Jaco Greeff <jacogr@gmail.com>
-      83	Amaury Martiny <amaury.martiny@protonmail.com>
-      36	Keith Ingram <kwingram25@gmail.com>
-      35	Stefanie Doll <stefie.doll@googlemail.com>
-      20	Luke Schoen <ltfschoen@users.noreply.github.com>
-      15	Jeremías Díaz <monitz87@gmail.com>
-      15	Xiliang Chen <xlchen1291@gmail.com>
-      11	Ian He <39037239+ianhe8x@users.noreply.github.com>
-      10	Axel Chalon <xaxel@protonmail.com>
-       5	Chevdor <chevdor@users.noreply.github.com>
-       4	Alex Wang <wangzhennz@gmail.com>
-       4	Joshy Orndorff <JoshOrndorff@users.noreply.github.com>
-       4	Nantian <nxiiun@gmail.com>
-       4	Thibaut Sardan <33178835+Tbaut@users.noreply.github.com>
-       3	Alex D <pr0fedt@gmail.com>
-       3	Alexander Popiak <alexander.popiak@parity.io>
-       3	André Silva <123550+andresilva@users.noreply.github.com>
-       3	Antoine Estienne <estienne.antoine@gmail.com>
-       3	Ewa Kowalska <30404388+ekowalsk@users.noreply.github.com>
-       3	hamidra <hamid.alipour@gmail.com>
-       3	Hamza Tokuchi <h@mza.jp>
-       3	Jake Naviasky <jnaviask@gmail.com>
-       3	Julien Eluard <jeluard@users.noreply.github.com>
-       3	KarishmaBothara <bothara.karishma@gmail.com>
-       3	Miguel Hervas <miguel.hervas.lazaro@gmail.com>
-       3	Shawn Tabrizi <shawntabrizi@gmail.com>
-       3	YJ <yjkimjunior@gmail.com>
-       2	Alexander Krupenkin <mail@akru.me>
-       2	Arjan Zijderveld <5286904+arjanz@users.noreply.github.com>
-       2	Caio <c410.f3r@gmail.com>
-       2	Jake Naviasky <jake@commonwealth.im>
-       2	Jakub Pánik <jakub.panik@gmail.com>
-       2	Keith Yeung <kungfukeith11@gmail.com>
-       2	Nikos Kontakis <wirednkod@gmail.com>
-       2	Paweł Nguyen <pawel.nguyen@gmail.com>
-       2	sung wu <swswsw@gmail.com>
-       2	Veliko <2662912+vminkov@users.noreply.github.com>
-       2	扩散性百万甜面包 <himself65@outlook.com>
-       1	Alexander Popiak <alexander.popiak@gmail.com>
-       1	Andreea Eftene <42985153+statictype@users.noreply.github.com>
-       1	Arjan Zijderveld <arjan@web3scan.eu>
-       1	Brad Larson <brad.duke.larson@gmail.com>
-       1	Branan Riley <branan@centrifuge.io>
-       1	Branan Riley <branan@gmail.com>
-       1	chriswmercer <chriswm@me.com>
-       1	codingsh <codingsh@pm.me>
-       1	Dan Forbes <dan@danforbes.dev>
-       1	Daniel Maricic <woss@users.noreply.github.com>
-       1	Daniel Savu <savudani04@yahoo.ro>
-       1	David <dvdplm@gmail.com>
-       1	Denis Tsai <denistsai@aetheras.io>
-       1	djuanito.eth <dennisjuanito@gmail.com>
-       1	Drew Stone <drewstone329@gmail.com>
-       1	Dylan Galea <dillu_galea@hotmail.com>
-       1	flex <czl1378@126.com>
-       1	Furqan A <35498810+nblogist@users.noreply.github.com>
-       1	Gerben van de Wiel <clshannon@protonmail.com>
-       1	HackFisher <denny.wang@itering.com>
-       1	Hoani Bryson <hoani.bryson@gmail.com>
-       1	Hyungsuk Kang <hskang9@gmail.com>
-       1	icodezjb <8869892+icodezjb@users.noreply.github.com>
-       1	iiiiiiii <lllliliiii@outlook.com>
-       1	James Lefrère <james@lefrere.com>
-       1	James Lefrère <jlefrere@gmail.com>
-       1	JesseAbram <33698952+JesseAbram@users.noreply.github.com>
-       1	Joey <joey.xf@gmail.com>
-       1	Jordan <beauchjord@gmail.com>
-       1	JQQQ <jiqiang90@hotmail.com>
-       1	Kian Paimani <5588131+kianenigma@users.noreply.github.com>
-       1	Krzysztof Jelski <kjelski@gmail.com>
-       1	Lae <laec@protonmail.ch>
-       1	Lezek123 <leszek@jsgenesis.com>
-       1	Lovesh Harchandani <lovesh@users.noreply.github.com>
-       1	Mario Neises <github@mnio.net>
-       1	Mario Pino <info@quequiereshacer.es>
-       1	Mark Robert Henderson <henderson.mark@gmail.com>
-       1	Matej Nemček <5887929+yangwao@users.noreply.github.com>
-       1	Mokhtar Naamani <mokhtar.naamani@gmail.com>
-       1	Nazar Mokrynskyi <nazar@mokrynskyi.com>
-       1	Nikhil Ranjan <niklabh811@gmail.com>
-       1	Nikolay Volf <nikvolf@gmail.com>
-       1	Paul M Fox <iam@yourheropaul.com>
-       1	philipstanislaus <6912756+philipstanislaus@users.noreply.github.com>
-       1	qiuhao <qiuhao951@gmail.com>
-       1	Rocco Musolino <roccomuso@users.noreply.github.com>
-       1	satellitex <s.a.t.e.3.ths@gmail.com>
-       1	satellitex <s1220245@u-aizu.ac.jp>
-       1	Satyam Agrawal <satyam0499@gmail.com>
-       1	Sean Young <sean@mess.org>
-       1	Sergei Pepyakin <s.pepyakin@gmail.com>
-       1	Wei Tang <accounts@that.world>
-       1	Wei Tang <wei@that.world>
-       1	WoeOm <1015996366@qq.com>
-       1	Xat_MassacrE <ywt13639397661@gmail.com>
-       1	yjh <yjh465402634@gmail.com>
-       1	Yuri <yuripetusko@gmail.com>
-       1	Zeke Mostov <32168567+emostov@users.noreply.github.com>
+    2742	Jaco
+      83	Amaury Martiny
+      36	Keith Ingram
+      35	Stefanie Doll
+      20	Luke Schoen
+      15	Jeremías Díaz
+      15	Xiliang Chen
+      11	Ian He
+      10	Axel Chalon
+       5	Chevdor
+       5	Jake Naviasky
+       4	Alex Wang
+       4	Alexander Popiak
+       4	Joshy Orndorff
+       4	Nantian
+       4	Thibaut Sardan
+       3	Alex D
+       3	André Silva
+       3	Antoine Estienne
+       3	Arjan Zijderveld
+       3	Ewa Kowalska
+       3	hamidra
+       3	Hamza Tokuchi
+       3	Julien Eluard
+       3	KarishmaBothara
+       3	Miguel Hervas
+       3	Shawn Tabrizi
+       3	YJ
+       2	Alexander Krupenkin
+       2	Branan Riley
+       2	Caio
+       2	Jakub Pánik
+       2	James Lefrère
+       2	Keith Yeung
+       2	Nikos Kontakis
+       2	Paweł Nguyen
+       2	sung wu
+       2	Veliko
+       2	Wei Tang
+       2	扩散性百万甜面包
+       1	Andreea Eftene
+       1	Brad Larson
+       1	chriswmercer
+       1	codingsh
+       1	Dan Forbes
+       1	Daniel Maricic
+       1	Daniel Savu
+       1	David
+       1	Denis Tsai
+       1	djuanito.eth
+       1	Drew Stone
+       1	Dylan Galea
+       1	flex
+       1	Furqan A
+       1	Gerben van de Wiel
+       1	HackFisher
+       1	Hoani Bryson
+       1	Hyungsuk Kang
+       1	icodezjb
+       1	iiiiiiii
+       1	JesseAbram
+       1	Joey
+       1	Jordan
+       1	JQQQ
+       1	Kian Paimani
+       1	Krzysztof Jelski
+       1	Lae
+       1	Lezek123
+       1	Lovesh Harchandani
+       1	Mario Neises
+       1	Mario Pino
+       1	Mark Robert Henderson
+       1	Matej Nemček
+       1	Mokhtar Naamani
+       1	Nazar Mokrynskyi
+       1	Nikhil Ranjan
+       1	Nikolay Volf
+       1	Paul M Fox
+       1	philipstanislaus
+       1	qiuhao
+       1	Rocco Musolino
+       1	satellitex
+       1	satellitex
+       1	Satyam Agrawal
+       1	Sean Young
+       1	Sergei Pepyakin
+       1	WoeOm
+       1	Xat_MassacrE
+       1	yjh
+       1	Yuri
+       1	Zeke Mostov
