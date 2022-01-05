@@ -2,7 +2,7 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
   "contributors": [],
-  "description": "Implementation of the Parity codec",
+  "description": "Implementation of the SCALE codec",
   "engines": {
     "node": ">=14.0.0"
   },
