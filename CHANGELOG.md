@@ -2,9 +2,12 @@
 
 ## master
 
+**Important** Webpack 4 has known issues with `import.meta.url` that is solvable via a rule, see https://polkadot.js.org/docs/api/FAQ/#on-webpack-4-i-have-a-parse-error-on-importmetaurl
+
 Changes:
 
 - Adjust max-entries in historic provider LRU
+- Update `@polkadot/util` to 8.3.1 (including `bn.js` upgrade)
 
 
 ## 7.2.1 Jan 3, 2022
