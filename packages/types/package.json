@@ -24,16 +24,16 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
-    "@polkadot/keyring": "^8.2.2",
+    "@polkadot/keyring": "^8.2.3-29",
     "@polkadot/types-augment": "7.2.2-5",
     "@polkadot/types-codec": "7.2.2-5",
     "@polkadot/types-create": "7.2.2-5",
-    "@polkadot/util": "^8.2.2",
-    "@polkadot/util-crypto": "^8.2.2",
+    "@polkadot/util": "^8.2.3-29",
+    "@polkadot/util-crypto": "^8.2.3-29",
     "rxjs": "^7.5.1"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^8.2.2",
+    "@polkadot/keyring": "^8.2.3-29",
     "@polkadot/types-support": "7.2.2-5"
   }
 }

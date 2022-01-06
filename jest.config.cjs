@@ -11,7 +11,7 @@ module.exports = {
     '@polkadot/api(.*)$': '<rootDir>/packages/api/src/$1',
     '@polkadot/rpc-(augment|core|provider)(.*)$': '<rootDir>/packages/rpc-$1/src/$2',
     '@polkadot/typegen(.*)$': '<rootDir>/packages/typegen/src/$1',
-    '@polkadot/types-(augment-lookup|augment-registry|augment|codec|create|known|support)(.*)$': '<rootDir>/packages/types-$1/src/$2',
+    '@polkadot/types-(augment|codec|create|known|support)(.*)$': '<rootDir>/packages/types-$1/src/$2',
     // eslint-disable-next-line sort-keys
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
