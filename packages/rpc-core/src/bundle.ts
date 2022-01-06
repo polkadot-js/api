@@ -204,6 +204,8 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
+
+      // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
       const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()), !!blockHash);
 
       return this._formatResult(isScale, registry, blockHash, method, def, params, result);

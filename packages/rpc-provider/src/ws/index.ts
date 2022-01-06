@@ -328,6 +328,7 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    // subscriptions are not cached, LRU applies to .at(<blockHash>) only
     return this.send<number | string>(method, params, false, { callback, type });
   }
 
