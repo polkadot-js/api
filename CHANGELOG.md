@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust max-entries in historic provider LRU
+
+
 ## 7.2.1 Jan 3, 2022
 
 Upgrade priority: Low. Recommended for users generating TS chain-specific augmentations.
