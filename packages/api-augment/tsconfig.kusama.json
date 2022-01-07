@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "**/base.ts",
+    "**/kusama/*.ts"
+  ],
+  "references": [
+    { "path": "../api-base" },
+    { "path": "../rpc-augment" },
+    { "path": "../types" },
+    { "path": "../types-codec" },
+    { "path": "../types-augment" }
+  ]
+}

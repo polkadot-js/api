@@ -12,7 +12,6 @@
   ],
   "references": [
     { "path": "../types-codec" },
-    { "path": "../types-create" },
-    { "path": "../types-support" }
+    { "path": "../types-create" }
   ]
 }

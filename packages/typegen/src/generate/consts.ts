@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
@@ -9,7 +9,7 @@ import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Definitions } from '@polkadot/types/types';
-import lookupDefinitions from '@polkadot/types-augment-lookup/augment/definitions';
+import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
@@ -85,7 +85,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultConsts (dest = 'packages/api-augment/src/augment/consts.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultConsts (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);

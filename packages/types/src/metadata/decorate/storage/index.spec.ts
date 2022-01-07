@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
@@ -55,7 +55,7 @@ describe('decorateStorage', (): void => {
       '0x' +
       '80' + // length
       '26aa394eea5630e07c48ae0c9558cef7' + // System
-      xxhashAsHex(':__STORAGE_VERSION__:', 128).substr(2)
+      xxhashAsHex(':__STORAGE_VERSION__:', 128).substring(2)
     );
   });
 });

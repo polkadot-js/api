@@ -15,6 +15,7 @@
   ],
   "references": [
     { "path": "../types" },
-    { "path": "../types-augment" }
+    { "path": "../types-augment" },
+    { "path": "../types-support" }
   ]
 }

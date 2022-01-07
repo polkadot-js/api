@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -56,7 +56,7 @@ export default {
       }
     },
     ContractExecResultSuccessTo260: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes',
       gasConsumed: 'u64'
     },
@@ -80,7 +80,7 @@ export default {
       }
     },
     ContractExecResultOk: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
     ContractExecResultResult: {
@@ -139,13 +139,28 @@ export default {
       result: 'ExecReturnValue',
       accountId: 'AccountId'
     },
+    ContractCallFlags: {
+      _set: {
+        _bitLength: 32,
+        ForwardInput: 0b0000_0001,
+        CloneInput: 0b0000_0010,
+        TailCall: 0b0000_0100,
+        AllowReentry: 0b0000_1000
+      }
+    },
+    ContractReturnFlags: {
+      _set: {
+        _bitLength: 32,
+        Revert: 0x0000_0001
+      }
+    },
     ContractStorageKey: '[u8; 32]',
     DeletedContract: {
       pairCount: 'u32',
       trieId: 'TrieId'
     },
     ExecReturnValue: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
     Gas: 'u64',

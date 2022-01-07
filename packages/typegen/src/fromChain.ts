@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -45,7 +45,6 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
     [
       HEADER('chain'),
       ...[
-        '@polkadot/api/augment/rpc',
         ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')

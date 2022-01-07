@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-contract authors & contributors
+// Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
@@ -111,11 +111,14 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+    const gas = this.#getGas(gasLimit);
+    const encParams = this.abi.findMessage(messageOrId).toU8a(params);
+
     const tx = this.#hasStorageDeposit
-      ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
+      ? this.api.tx.contracts.call(this.address, value, gas, storageDepositLimit, encParams)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
-      : this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), this.abi.findMessage(messageOrId).toU8a(params));
+      : this.api.tx.contracts.call(this.address, value, gas, encParams);
 
     return tx.withResultTransform((result: ISubmittableResult) =>
     // ContractEmitted is the current generation, ContractExecution is the previous generation
@@ -152,7 +155,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           value
         });
 
-        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
+        const mapFn = ({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }: ContractExecResult): ContractCallOutcome => ({
           debugMessage,
           gasConsumed,
           gasRequired: gasRequired && !gasRequired.isZero()
@@ -161,12 +164,12 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           output: result.isOk && message.returnType
             ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
             : null,
-          result
+          result,
+          storageDeposit
         });
 
         return rpc.pipe(map(mapFn));
-      }
-      )
+      })
     };
   };
 }

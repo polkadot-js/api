@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observer } from 'rxjs';
@@ -204,6 +204,8 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
       const params = this._formatInputs(registry, null, def, values);
+
+      // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
       const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()), !!blockHash);
 
       return this._formatResult(isScale, registry, blockHash, method, def, params, result);
@@ -212,7 +214,7 @@ export class RpcCore {
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       const isDelayed = isScale && hashIndex !== -1 && !!values[hashIndex];
 
-      return new Observable((observer: Observer<T>): VoidCallback => {
+      return new Observable((observer: Observer<T>): () => void => {
         callWithRegistry<T>(isScale, values)
           .then((value): void => {
             observer.next(value);
@@ -263,7 +265,7 @@ export class RpcCore {
     let memoized: null | Memoized<RpcInterfaceMethod> = null;
 
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
-      return new Observable((observer: Observer<T>): VoidCallback => {
+      return new Observable((observer: Observer<T>): () => void => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
         const registry = this.#registryDefault;

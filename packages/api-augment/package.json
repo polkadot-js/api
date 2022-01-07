@@ -20,15 +20,15 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.0.3-1",
+  "version": "7.2.2-6",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.16.5",
-    "@polkadot/api-base": "7.0.3-1",
-    "@polkadot/rpc-augment": "7.0.3-1",
-    "@polkadot/types": "7.0.3-1",
-    "@polkadot/types-augment": "7.0.3-1",
-    "@polkadot/types-codec": "7.0.3-1",
-    "@polkadot/util": "^8.2.2"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/api-base": "7.2.2-6",
+    "@polkadot/rpc-augment": "7.2.2-6",
+    "@polkadot/types": "7.2.2-6",
+    "@polkadot/types-augment": "7.2.2-6",
+    "@polkadot/types-codec": "7.2.2-6",
+    "@polkadot/util": "^8.2.3-29"
   }
 }

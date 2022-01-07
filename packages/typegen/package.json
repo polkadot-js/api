@@ -20,7 +20,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.0.3-1",
+  "version": "7.2.2-6",
   "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
@@ -30,27 +30,26 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
   "dependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/register": "^7.16.5",
-    "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "7.0.3-1",
-    "@polkadot/rpc-augment": "7.0.3-1",
-    "@polkadot/rpc-provider": "7.0.3-1",
-    "@polkadot/types": "7.0.3-1",
-    "@polkadot/types-augment": "7.0.3-1",
-    "@polkadot/types-augment-lookup": "7.0.3-1",
-    "@polkadot/types-augment-registry": "7.0.3-1",
-    "@polkadot/types-codec": "7.0.3-1",
-    "@polkadot/types-create": "7.0.3-1",
-    "@polkadot/types-support": "7.0.3-1",
-    "@polkadot/util": "^8.2.2",
-    "@polkadot/x-ws": "^8.2.2",
+    "@babel/core": "^7.16.7",
+    "@babel/register": "^7.16.7",
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/api": "7.2.2-6",
+    "@polkadot/api-augment": "7.2.2-6",
+    "@polkadot/rpc-augment": "7.2.2-6",
+    "@polkadot/rpc-provider": "7.2.2-6",
+    "@polkadot/types": "7.2.2-6",
+    "@polkadot/types-augment": "7.2.2-6",
+    "@polkadot/types-codec": "7.2.2-6",
+    "@polkadot/types-create": "7.2.2-6",
+    "@polkadot/types-support": "7.2.2-6",
+    "@polkadot/util": "^8.2.3-29",
+    "@polkadot/x-ws": "^8.2.3-29",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
-    "yargs": "^17.3.0"
+    "yargs": "^17.3.1"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.4",
-    "@types/yargs": "^17.0.7"
+    "@types/yargs": "^17.0.8"
   }
 }

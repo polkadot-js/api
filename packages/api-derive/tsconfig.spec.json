@@ -18,9 +18,10 @@
     { "path": "../api-base" },
     { "path": "../api-derive" },
     { "path": "../rpc-augment" },
+    { "path": "../rpc-provider" },
     { "path": "../types" },
     { "path": "../types-augment" },
     { "path": "../types-codec" },
-    { "path": "../types-support" },
+    { "path": "../types-support" }
   ]
 }

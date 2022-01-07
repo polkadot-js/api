@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
@@ -48,7 +48,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultErrors (dest = 'packages/api-augment/src/augment/errors.ts', data?: HexString, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultErrors (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false): void {
   const { metadata } = initMeta(data, extraTypes);
 
   return generateForMeta(metadata, dest, isStrict);

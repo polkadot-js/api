@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-base authors & contributors
+// Copyright 2017-2022 @polkadot/api-base authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -65,6 +65,7 @@ export interface SubmittableResultValue {
   events?: EventRecord[];
   internalError?: Error;
   status: ExtrinsicStatus;
+  txHash: Hash;
 }
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> extends Extrinsic {

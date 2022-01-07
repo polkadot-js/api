@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { Decorate } from './Decorate';
@@ -102,12 +102,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * @description Returns the default versioned registry
    */
   private _getDefaultRegistry (): VersionedRegistry<ApiType> {
-    // get the default registry version
-    const thisRegistry = this.#registries.find(({ isDefault }) => isDefault);
-
-    assert(thisRegistry, 'Initialization error, cannot find the default registry');
-
-    return thisRegistry;
+    return assertReturn(this.#registries.find(({ isDefault }) => isDefault), 'Initialization error, cannot find the default registry');
   }
 
   /**

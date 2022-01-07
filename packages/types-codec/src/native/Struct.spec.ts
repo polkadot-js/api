@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
@@ -6,7 +6,7 @@
 import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
-import { Enum, Struct, Text, U32, Vec } from '@polkadot/types-codec';
+import { Bool, Enum, Option, Struct, Text, U32, Vec } from '@polkadot/types-codec';
 
 import { TEST_A } from './Struct.data';
 
@@ -62,6 +62,19 @@ describe('Struct', (): void => {
     expect(new Clazz(registry, {}).toHuman()).toEqual(expected);
     expect(new Clazz(registry, null).toHuman()).toEqual(expected);
     expect(new Clazz(registry, undefined).toHuman()).toEqual(expected);
+  });
+
+  it('decodes with Optionals', (): void => {
+    const Clazz = Struct.with({
+      a: 'Option<Bool>',
+      b: 'Option<Bool>'
+    });
+
+    const c = new Clazz(registry, { a: false }) as unknown as { a: Option<Bool>, b: Option<Bool> };
+
+    expect(c.a.isSome).toEqual(true);
+    expect(c.a.unwrap().isTrue).toEqual(false);
+    expect(c.b.isSome).toEqual(false);
   });
 
   it('decodes reusing instantiated inputs', (): void => {

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable no-dupe-class-members */
@@ -233,10 +233,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       );
     };
 
-    #observeStatus = (hash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
+    #observeStatus = (txHash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
         return of(this.#transformResult(new SubmittableResult({
-          status
+          status,
+          txHash
         })));
       }
 
@@ -247,14 +248,16 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
           this.#transformResult(new SubmittableResult({
-            events: filterEvents(hash, block, events, status),
-            status
+            events: filterEvents(txHash, block, events, status),
+            status,
+            txHash
           }))
         ),
         catchError((internalError: Error) =>
           of(this.#transformResult(new SubmittableResult({
             internalError,
-            status
+            status,
+            txHash
           })))
         )
       );
@@ -269,11 +272,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     };
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
-      const hash = this.hash;
+      const txHash = this.hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
-          this.#observeStatus(hash, status)
+          this.#observeStatus(txHash, status)
         ),
         tap((status): void => {
           this.#updateSigner(updateId, status);

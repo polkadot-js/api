@@ -2,9 +2,42 @@
 
 ## master
 
+**Important** Webpack 4 has known issues with `import.meta.url` that is solvable via a rule, see https://polkadot.js.org/docs/usage/FAQ#on-webpack-4-i-have-a-parse-error-on-importmetaurl
+
 Changes:
 
-- Split `types-augment` into `registry` & `lookup` variants (better control)
+- Adjust max-entries in historic provider LRU
+- Update `@polkadot/util` to 8.3.1
+- Update package paths under ESM
+
+
+## 7.2.1 Jan 3, 2022
+
+Upgrade priority: Low. Recommended for users generating TS chain-specific augmentations.
+
+Changes:
+
+- Convert contract `ReturnFlags` to set (as opposed to bare `u32`)
+- Adjust chain-specific augmentation to not auto-add RPC imports
+- Ensure package path is availble under ESM & CJS
+
+
+## 7.1.1 Dec 26, 2021
+
+Upgrade priority: Low. Recommended for users of contracts form Substrate master & Polkador/Kusama TS app developers where specific chain augmentation would be helpful.
+
+Contributed:
+
+- Expose `storageDepositLimit` on contract options (Thanks to https://github.com/kwingram25)
+
+Changes:
+
+- Expose `@polkadot/api-augment/{kusama, polkadot, substrate}` for specific augmentations (The bare `@polkadot/api-augment` is equivalent to `/substrate`, keeping the existing behavior)
+- Expose `@polkadot/types-augment/{lookup, registry}` variants (The bare `@polkadot/types-augment` applies both)
+- Expose `txHash` on submittable results, e.g. `tx.signAndSend(..., ({ txHash }) => ...)`
+- Align casing for TS & exposed queries (adjusts for `ALLCAPS` entries)
+- Additional tests for `Option` codec (explicit in expectations)
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.0.2 Dec 21, 2021

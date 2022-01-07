@@ -8484,6 +8484,12 @@
               "type": 4,
               "typeName": "u32",
               "docs": []
+            },
+            {
+              "name": "state_version",
+              "type": 2,
+              "typeName": "u8",
+              "docs": []
             }
           ]
         }

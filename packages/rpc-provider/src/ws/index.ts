@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -328,6 +328,7 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    // subscriptions are not cached, LRU applies to .at(<blockHash>) only
     return this.send<number | string>(method, params, false, { callback, type });
   }
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-contract authors & contributors
+// Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiBase } from '@polkadot/api/base';
@@ -62,6 +62,7 @@ export interface DryRunOutcome {
 export interface ContractCallOutcome extends DryRunOutcome {
   output: Codec | null;
   result: ContractExecResultResult;
+  storageDeposit: StorageDeposit;
 }
 
 export interface ContractInstantiateOutcome extends DryRunOutcome {

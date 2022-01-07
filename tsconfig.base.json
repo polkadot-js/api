@@ -21,10 +21,6 @@
       "@polkadot/rpc-provider/*": ["rpc-provider/src/*"],
       "@polkadot/types": ["types/src"],
       "@polkadot/types/*": ["types/src/*"],
-      "@polkadot/types-augment-lookup": ["types-augment-lookup/src"],
-      "@polkadot/types-augment-lookup/*": ["types-augment-lookup/src/*"],
-      "@polkadot/types-augment-registry": ["types-augment-registry/src"],
-      "@polkadot/types-augment-registry/*": ["types-augment-registry/src/*"],
       "@polkadot/types-augment": ["types-augment/src"],
       "@polkadot/types-augment/*": ["types-augment/src/*"],
       "@polkadot/types-codec": ["types-codec/src"],
@@ -36,10 +32,6 @@
       "@polkadot/types-support": ["types-support/src"],
       "@polkadot/types-support/*": ["types-support/src/*"]
     },
-    "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@polkadot/ts",
-      "./node_modules/@types"
-    ]
+    "skipLibCheck": true
   }
  }
