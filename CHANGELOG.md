@@ -6,6 +6,7 @@
 
 Changes:
 
+- Extend support for `WrapperKeepOpaque` with internal decoding (allowed to fail)
 - Adjust max-entries in historic provider LRU
 - Update `@polkadot/util` to 8.3.1
 - Update package paths under ESM

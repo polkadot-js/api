@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   UInt,
   Vec,
   VecFixed,
+  WrapperKeepOpaque,
   WrapperOpaque
 }
 

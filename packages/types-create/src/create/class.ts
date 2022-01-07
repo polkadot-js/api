@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, CodecRegistry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
 import type { CreateRegistry, TypeDef } from '../types';
 
-import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperOpaque } from '@polkadot/types-codec';
+import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { assert, isNumber, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
@@ -172,6 +172,9 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
         : VecFixed.with(getTypeDefType(sub), length)
     );
   },
+
+  [TypeDefInfo.WrapperKeepOpaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
+    createWithSub(WrapperKeepOpaque, value),
 
   [TypeDefInfo.WrapperOpaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(WrapperOpaque, value)
