@@ -143,9 +143,14 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
-        const rpc = this.#hasStorageDeposit
-          ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
-          : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
+        const rpc = this.api.rx.rpc.contracts.call({
+          dest: this.address,
+          gasLimit: this.#getGas(gasLimit, true),
+          inputData: message.toU8a(params),
+          origin,
+          storageDepositLimit: this.#hasStorageDeposit ? storageDepositLimit : undefined,
+          value
+        });
 
         const mapFn = ({ debugMessage, gasConsumed, gasRequired, result }: ContractExecResult): ContractCallOutcome => ({
           debugMessage,

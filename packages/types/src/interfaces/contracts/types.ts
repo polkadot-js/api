@@ -39,6 +39,15 @@ export interface ContractCallRequest extends Struct {
   readonly inputData: Bytes;
 }
 
+/** @name ContractCallRequestTo267 */
+export interface ContractCallRequestTo267 extends Struct {
+  readonly origin: AccountId;
+  readonly dest: AccountId;
+  readonly value: Balance;
+  readonly gasLimit: u64;
+  readonly inputData: Bytes;
+}
+
 /** @name ContractExecResult */
 export interface ContractExecResult extends Struct {
   readonly gasConsumed: u64;

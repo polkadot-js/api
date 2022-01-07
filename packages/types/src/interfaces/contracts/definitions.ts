@@ -29,7 +29,15 @@ export default {
         Existing: 'Hash'
       }
     },
+    ContractCallRequestTo267: {
+      origin: 'AccountId',
+      dest: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'u64',
+      inputData: 'Bytes'
+    },
     ContractCallRequest: {
+      _fallback: 'ContractCallRequestTo267',
       origin: 'AccountId',
       dest: 'AccountId',
       value: 'Balance',

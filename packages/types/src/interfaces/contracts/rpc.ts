@@ -33,7 +33,7 @@ export default {
       {
         name: 'at',
         type: 'BlockHash',
-        isHstoric: true,
+        isHistoric: true,
         isOptional: true
       }
     ],

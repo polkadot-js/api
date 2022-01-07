@@ -64,7 +64,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 
-  readonly #rpc: MapConstructorQuery<ApiType> = {};
+  readonly #query: MapConstructorQuery<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, source: string | Record<string, unknown> | CodeSource | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
@@ -78,14 +78,20 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
         this.#tx[c.method] = createTx(this.#hasStorageDeposit, (o, p) => this.#deploy(c, o, p));
       }
 
-      if (isUndefined(this.#rpc[c.method])) {
-        this.#rpc[c.method] = createQuery(this.#hasStorageDeposit, (f, o, p) => this.#read(c, o, p).send(f));
+      if (isUndefined(this.#query[c.method])) {
+        this.#query[c.method] = createQuery(this.#hasStorageDeposit, (f, o, p) => this.#read(c, o, p).send(f));
       }
     });
   }
 
   public get tx (): MapConstructorExec<ApiType> {
     return this.#tx;
+  }
+
+  public get query (): MapConstructorQuery<ApiType> {
+    assert(this.hasRpcInstantiate, ERROR_NO_INSTANTIATE);
+
+    return this.#query;
   }
 
   public get hasRpcInstantiate (): boolean {
@@ -133,7 +139,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   #read = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]): ContractInstantiateSend<ApiType> => {
     assert(this.hasRpcInstantiate, ERROR_NO_INSTANTIATE);
 
-    const { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO } = options;
+    const { gasLimit = BN_ZERO, storageDepositLimit, value = BN_ZERO } = options;
 
     const [data, salt] = this.#prepareRequest(constructorOrId, options, params);
 
@@ -147,7 +153,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
           gasLimit,
           origin,
           salt,
-          storageDepositLimit,
+          storageDepositLimit: this.#hasStorageDeposit ? storageDepositLimit : undefined,
           value
         });
 
