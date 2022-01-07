@@ -69,6 +69,13 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>',
+    payable: 'bool'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -79,6 +86,12 @@ const spec = {
     constructors: 'Vec<ContractConstructorSpecV2>',
     messages: 'Vec<ContractMessageSpecV2>',
     events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV3: {
+    constructors: 'Vec<ContractConstructorSpecV3>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV3>',
     docs: 'Vec<Text>'
   },
   ContractDisplayName: 'SiPath',
@@ -94,6 +107,12 @@ const spec = {
     type: 'ContractTypeSpec',
     docs: 'Vec<Text>'
   },
+  ContractEventParamSpecV3: {
+    label: 'Text',
+    indexed: 'bool',
+    type: 'ContractTypeSpec',
+    docs: 'Vec<Text>'
+  },
   ContractEventSpecV0: {
     name: 'Text',
     args: 'Vec<ContractEventParamSpecV0>',
@@ -104,11 +123,20 @@ const spec = {
     args: 'Vec<ContractEventParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractEventSpecV3: {
+    label: 'Text',
+    args: 'Vec<ContractEventParamSpecV3>',
+    docs: 'Vec<Text>'
+  },
   ContractMessageParamSpecV0: {
     name: 'Text',
     type: 'ContractTypeSpec'
   },
   ContractMessageParamSpecV2: {
+    label: 'Text',
+    type: 'ContractTypeSpec'
+  },
+  ContractMessageParamSpecV3: {
     label: 'Text',
     type: 'ContractTypeSpec'
   },
@@ -127,6 +155,15 @@ const spec = {
     mutates: 'bool',
     payable: 'bool',
     args: 'Vec<ContractMessageParamSpecV2>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>'
+  },
+  ContractMessageSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV3>',
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
@@ -152,6 +189,11 @@ const ContractMetadataV2 = {
   spec: 'ContractContractSpecV2'
 };
 
+const ContractMetadataV3 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV3'
+};
+
 const ContractProjectInfo = {
   source: 'ContractProjectSource',
   contract: 'ContractProjectContract'
@@ -173,11 +215,13 @@ export default {
     ContractMetadataV0,
     ContractMetadataV1,
     ContractMetadataV2,
+    ContractMetadataV3,
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
         V1: 'ContractMetadataV1',
-        V2: 'ContractMetadataV2'
+        V2: 'ContractMetadataV2',
+        V3: 'ContractMetadataV3',
       }
     },
     ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),

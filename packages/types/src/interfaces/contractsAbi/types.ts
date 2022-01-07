@@ -53,8 +53,8 @@ export interface ContractContractSpecV2 extends Struct {
 /** @name ContractContractSpecV3 */
 export interface ContractContractSpecV3 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV3>;
-  readonly messages: Vec<ContractMessageSpecV2>;
-  readonly events: Vec<ContractEventSpecV2>;
+  readonly messages: Vec<ContractMessageSpecV3>;
+  readonly events: Vec<ContractEventSpecV3>;
   readonly docs: Vec<Text>;
 }
 
@@ -91,6 +91,14 @@ export interface ContractEventParamSpecV2 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractEventParamSpecV3 */
+export interface ContractEventParamSpecV3 extends Struct {
+  readonly label: Text;
+  readonly indexed: bool;
+  readonly type: ContractTypeSpec;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractEventSpecLatest */
 export interface ContractEventSpecLatest extends ContractEventSpecV2 {}
 
@@ -105,6 +113,13 @@ export interface ContractEventSpecV0 extends Struct {
 export interface ContractEventSpecV2 extends Struct {
   readonly label: Text;
   readonly args: Vec<ContractEventParamSpecV2>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractEventSpecV3 */
+export interface ContractEventSpecV3 extends Struct {
+  readonly label: Text;
+  readonly args: Vec<ContractEventParamSpecV3>;
   readonly docs: Vec<Text>;
 }
 
@@ -171,6 +186,12 @@ export interface ContractMessageParamSpecV2 extends Struct {
   readonly type: ContractTypeSpec;
 }
 
+/** @name ContractMessageParamSpecV3 */
+export interface ContractMessageParamSpecV3 extends Struct {
+  readonly label: Text;
+  readonly type: ContractTypeSpec;
+}
+
 /** @name ContractMessageSpecLatest */
 export interface ContractMessageSpecLatest extends ContractMessageSpecV2 {}
 
@@ -196,6 +217,17 @@ export interface ContractMessageSpecV2 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractMessageSpecV3 */
+export interface ContractMessageSpecV3 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly mutates: bool;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV3>;
+  readonly returnType: Option<ContractTypeSpec>;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractMetadata */
 export interface ContractMetadata extends Enum {
   readonly isV0: boolean;
@@ -210,7 +242,7 @@ export interface ContractMetadata extends Enum {
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV3 {}
+export interface ContractMetadataLatest extends ContractMetadataV2 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -233,8 +265,9 @@ export interface ContractMetadataV2 extends Struct {
 /** @name ContractMetadataV3 */
 export interface ContractMetadataV3 extends Struct {
   readonly types: Vec<PortableType>;
-  readonly spec: ContractContractSpecV2;
+  readonly spec: ContractContractSpecV3;
 }
+
 /** @name ContractProject */
 export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
 
