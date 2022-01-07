@@ -28,7 +28,7 @@ export default {
     params: [
       {
         name: 'request',
-        type: 'InstantiateRequest'
+        type: 'ContractInstantiateRequest'
       },
       {
         name: 'at',

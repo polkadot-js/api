@@ -23,6 +23,12 @@ export default {
       _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
+    CodeSource: {
+      _enum: {
+        Upload: 'Bytes',
+        Existing: 'Hash'
+      }
+    },
     ContractCallRequest: {
       origin: 'AccountId',
       dest: 'AccountId',
@@ -92,6 +98,38 @@ export default {
         Alive: 'AliveContractInfo',
         Tombstone: 'TombstoneContractInfo'
       }
+    },
+    ContractInstantiateRequest: {
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
+      code: 'CodeSource',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    ContractInstantiateResultResult: {
+      _enum: {
+        Ok: 'ContractInstantiateResultOk',
+        Err: 'ContractExecResultErr'
+      }
+    },
+    ContractInstantiateResult: {
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'ContractInstantiateResultResult'
+    },
+    ContractInstantiateResultOkTo267: {
+      result: 'ExecReturnValue',
+      accountId: 'AccountId',
+      rentProjection: 'Option<RentProjection>'
+    },
+    ContractInstantiateResultOk: {
+      _fallback: 'ContractInstantiateResultOkTo267',
+      result: 'ExecReturnValue',
+      accountId: 'AccountId'
     },
     ContractStorageKey: '[u8; 32]',
     DeletedContract: {
@@ -203,37 +241,6 @@ export default {
       hashBlake2128: 'Weight',
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
-    },
-    InstantiateRequest: {
-      origin: 'AccountId',
-      value: 'Balance',
-      gasLimit: 'Gas',
-      storageDepositLimit: 'Option<Balance>',
-      code: 'Bytes',
-      data: 'Bytes',
-      salt: 'Bytes'
-    },
-    ContractInstantiateResultTo267: {
-      _enum: {
-        Ok: 'InstantiateReturnValueTo267',
-        Err: 'Null'
-      }
-    },
-    ContractInstantiateResult: {
-      _enum: {
-        Ok: 'InstantiateReturnValue',
-        Err: 'Null'
-      }
-    },
-    InstantiateReturnValueTo267: {
-      result: 'ExecReturnValue',
-      accountId: 'AccountId',
-      rentProjection: 'Option<RentProjection>'
-    },
-    InstantiateReturnValue: {
-      _fallback: 'InstantiateReturnValueTo267',
-      result: 'ExecReturnValue',
-      accountId: 'AccountId'
     },
     InstructionWeights: {
       i64const: 'u32',

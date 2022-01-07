@@ -28,8 +28,10 @@ export function isOptions <T> (options: bigint | string | number | BN | T): opti
   return !(isBn(options) || isBigInt(options) || isNumber(options) || isString(options));
 }
 
-export function extractOptions <T extends TOptions> (value: bigint | string | number | BN, params: unknown[]): [T, unknown[]] {
+export function extractOptions <T extends TOptions> (hasStorageDepositLimit = false, value: bigint | string | number | BN, params: unknown[]): [T, unknown[]] {
   const gasLimit = params.shift() as BN;
 
-  return [{ gasLimit, value } as T, params];
+  const storageDepositLimit = hasStorageDepositLimit ? params.shift() as BN : null;
+
+  return [{ gasLimit, value, ...(storageDepositLimit ? { storageDepositLimit } : {}) } as T, params];
 }

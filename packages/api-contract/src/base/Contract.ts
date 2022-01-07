@@ -7,7 +7,7 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { ContractCallSend, ContractQuery, ContractResult, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import { map } from 'rxjs';
 
@@ -29,18 +29,18 @@ const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is
 
 const l = logger('Contract');
 
-function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
-  return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
+function createQuery <ApiType extends ApiTypes> (hasStorageDeposit = false, fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
+  return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractResult<ApiType, ContractCallOutcome> =>
     isOptions(options)
       ? fn(origin, options, params)
-      : fn(origin, ...extractOptions<ContractOptions>(options, params));
+      : fn(origin, ...extractOptions<ContractOptions>(hasStorageDeposit, options, params));
 }
 
-function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
+function createTx <ApiType extends ApiTypes> (hasStorageDeposit = false, fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
   return (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
       ? fn(options, params)
-      : fn(...extractOptions<ContractOptions>(options, params));
+      : fn(...extractOptions<ContractOptions>(hasStorageDeposit, options, params));
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -59,6 +59,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public readonly address: AccountId;
 
+  readonly #hasStorageDeposit: boolean = false;
+
   readonly #query: MapMessageQuery<ApiType> = {};
 
   readonly #tx: MapMessageTx<ApiType> = {};
@@ -66,15 +68,17 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
+    this.#hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+
     this.address = this.registry.createType('AccountId', address);
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
-        this.#tx[m.method] = createTx((o, p) => this.#exec(m, o, p));
+        this.#tx[m.method] = createTx(this.#hasStorageDeposit, (o, p) => this.#exec(m, o, p));
       }
 
       if (isUndefined(this.#query[m.method])) {
-        this.#query[m.method] = createQuery((f, o, p) => this.#read(m, o, p).send(f));
+        this.#query[m.method] = createQuery(this.#hasStorageDeposit, (f, o, p) => this.#read(m, o, p).send(f));
       }
     });
   }
@@ -107,9 +111,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
-
-    const tx = hasStorageDeposit
+    const tx = this.#hasStorageDeposit
       ? this.api.tx.contracts.call(this.address, value, this.#getGas(gasLimit), storageDepositLimit, this.abi.findMessage(messageOrId).toU8a(params))
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore old style without storage deposit
@@ -141,8 +143,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) => {
-        const hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
-        const rpc = hasStorageDeposit
+        const rpc = this.#hasStorageDeposit
           ? this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, storageDepositLimit, value })
           : this.api.rx.rpc.contracts.call({ dest: this.address, gasLimit: this.#getGas(gasLimit, true), inputData: message.toU8a(params), origin, value });
 

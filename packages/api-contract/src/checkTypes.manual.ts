@@ -12,7 +12,7 @@ import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs'
 import abiIncrementer from './test/contracts/ink/v0/incrementer.json';
 
 async function checkBlueprint (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  const blueprint = new BlueprintPromise(api, abiIncrementer as Record<string, unknown>, '0x1234');
+  const blueprint = new BlueprintPromise(api, abiIncrementer as Record<string, unknown>, { Existing: '0x1234' });
 
   // new style
   await blueprint.tx.new({ gasLimit: 456, salt: '0x1234', value: 123 }, 42).signAndSend(pairs.bob);

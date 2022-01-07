@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { Text, u64 } from '@polkadot/types';
-import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
+import type { AccountId, ContractExecResultResult, ContractInstantiateResultResult, ContractSelector, StorageDeposit } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Abi } from '.';
@@ -52,12 +52,21 @@ export interface InterfaceContractCalls {
   [index: string]: Function;
 }
 
-export interface ContractCallOutcome {
+export interface DryRunOutcome {
   debugMessage: Text;
   gasConsumed: u64;
   gasRequired: u64;
+  storageDeposit?: StorageDeposit;
+}
+
+export interface ContractCallOutcome extends DryRunOutcome {
   output: Codec | null;
   result: ContractExecResultResult;
+}
+
+export interface ContractInstantiateOutcome extends DryRunOutcome {
+  accountId: AccountId | null;
+  result: ContractInstantiateResultResult;
 }
 
 export interface DecodedEvent {

@@ -20,6 +20,15 @@ export interface AliveContractInfo extends Struct {
 /** @name CodeHash */
 export interface CodeHash extends Hash {}
 
+/** @name CodeSource */
+export interface CodeSource extends Enum {
+  readonly isUpload: boolean;
+  readonly asUpload: Bytes;
+  readonly isExisting: boolean;
+  readonly asExisting: Hash;
+  readonly type: 'Upload' | 'Existing';
+}
+
 /** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
   readonly origin: AccountId;
@@ -117,19 +126,45 @@ export interface ContractInfo extends Enum {
   readonly type: 'Alive' | 'Tombstone';
 }
 
-/** @name ContractInstantiateResult */
-export interface ContractInstantiateResult extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValue;
-  readonly isErr: boolean;
-  readonly type: 'Ok' | 'Err';
+/** @name ContractInstantiateRequest */
+export interface ContractInstantiateRequest extends Struct {
+  readonly origin: AccountId;
+  readonly value: Balance;
+  readonly gasLimit: Gas;
+  readonly storageDepositLimit: Option<Balance>;
+  readonly code: CodeSource;
+  readonly data: Bytes;
+  readonly salt: Bytes;
 }
 
-/** @name ContractInstantiateResultTo267 */
-export interface ContractInstantiateResultTo267 extends Enum {
+/** @name ContractInstantiateResult */
+export interface ContractInstantiateResult extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: ContractInstantiateResultResult;
+}
+
+/** @name ContractInstantiateResultOk */
+export interface ContractInstantiateResultOk extends Struct {
+  readonly result: ExecReturnValue;
+  readonly accountId: AccountId;
+}
+
+/** @name ContractInstantiateResultOkTo267 */
+export interface ContractInstantiateResultOkTo267 extends Struct {
+  readonly result: ExecReturnValue;
+  readonly accountId: AccountId;
+  readonly rentProjection: Option<RentProjection>;
+}
+
+/** @name ContractInstantiateResultResult */
+export interface ContractInstantiateResultResult extends Enum {
   readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValueTo267;
+  readonly asOk: ContractInstantiateResultOk;
   readonly isErr: boolean;
+  readonly asErr: ContractExecResultErr;
   readonly type: 'Ok' | 'Err';
 }
 
@@ -254,30 +289,6 @@ export interface HostFnWeightsTo264 extends Struct {
   readonly hashBlake2256PerByte: Weight;
   readonly hashBlake2128: Weight;
   readonly hashBlake2128PerByte: Weight;
-}
-
-/** @name InstantiateRequest */
-export interface InstantiateRequest extends Struct {
-  readonly origin: AccountId;
-  readonly value: Balance;
-  readonly gasLimit: Gas;
-  readonly storageDepositLimit: Option<Balance>;
-  readonly code: Bytes;
-  readonly data: Bytes;
-  readonly salt: Bytes;
-}
-
-/** @name InstantiateReturnValue */
-export interface InstantiateReturnValue extends Struct {
-  readonly result: ExecReturnValue;
-  readonly accountId: AccountId;
-}
-
-/** @name InstantiateReturnValueTo267 */
-export interface InstantiateReturnValueTo267 extends Struct {
-  readonly result: ExecReturnValue;
-  readonly accountId: AccountId;
-  readonly rentProjection: Option<RentProjection>;
 }
 
 /** @name InstructionWeights */
