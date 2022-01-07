@@ -8,12 +8,11 @@ import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions, ContractInstantiateOutcome } from '../types';
 import type { BlueprintQuery, BlueprintTx, ContractInstantiateSend, ContractResult, MapConstructorExec, MapConstructorQuery } from './types';
 
-import BN from 'bn.js';
 import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, BN_ZERO, compactAddLength, isFunction, isUndefined } from '@polkadot/util';
+import { assert, BN, BN_ZERO, compactAddLength, isFunction, isUndefined } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
