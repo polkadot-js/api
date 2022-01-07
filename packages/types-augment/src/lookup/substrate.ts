@@ -2495,7 +2495,7 @@ export default {
         threshold: 'u16',
         otherSignatories: 'Vec<AccountId32>',
         maybeTimepoint: 'Option<PalletMultisigTimepoint>',
-        call: 'Bytes',
+        call: 'FrameSupportMiscWrapperKeepOpaque',
         storeCall: 'bool',
         maxWeight: 'u64',
       },
@@ -2514,6 +2514,10 @@ export default {
       }
     }
   },
+  /**
+   * Lookup295: frame_support::traits::misc::WrapperKeepOpaque<node_runtime::Call>
+   **/
+  FrameSupportMiscWrapperKeepOpaque: 'WrapperKeepOpaque<Call>',
   /**
    * Lookup296: pallet_bounties::pallet::Call<T>
    **/
