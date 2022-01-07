@@ -533,16 +533,15 @@ export class PortableRegistry extends Struct implements ILookup {
           ))
       });
     } else if (path.length) {
-      if (path[path.length - 1].toString() === 'WrapperOpaque') {
+      const last = path[path.length - 1].toString();
+
+      if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(last)) {
         return withTypeString(this.registry, {
-          info: TypeDefInfo.WrapperOpaque,
+          info: last === 'WrapperKeepOpaque'
+            ? TypeDefInfo.WrapperKeepOpaque
+            : TypeDefInfo.WrapperOpaque,
           sub: this.#createSiDef(params[0].type.unwrap())
         });
-      } else if (path[path.length - 1].toString() === 'WrapperKeepOpaque') {
-        return {
-          info: TypeDefInfo.Plain,
-          type: 'Bytes'
-        };
       }
     }
 

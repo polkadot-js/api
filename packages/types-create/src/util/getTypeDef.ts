@@ -215,6 +215,7 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
   ['Vec<', '>', TypeDefInfo.Vec],
+  ['WrapperKeepOpaque<', '>', TypeDefInfo.WrapperKeepOpaque],
   ['WrapperOpaque<', '>', TypeDefInfo.WrapperOpaque]
 ];
 

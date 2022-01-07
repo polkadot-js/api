@@ -32,6 +32,7 @@ function encodeWithParams (CodecRegistry: CodecRegistry, typeDef: TypeDef, outer
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.WrapperKeepOpaque:
     case TypeDefInfo.WrapperOpaque:
       return paramsNotation(outer, sub, (p) => encodeTypeDef(CodecRegistry, p));
   }
@@ -137,6 +138,8 @@ const encoders: Record<TypeDefInfo, (CodecRegistry: CodecRegistry, typeDef: Type
 
     return `[${sub.type};${length}]`;
   },
+  [TypeDefInfo.WrapperKeepOpaque]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
+    encodeWithParams(CodecRegistry, typeDef, 'WrapperKeepOpaque'),
   [TypeDefInfo.WrapperOpaque]: (CodecRegistry: CodecRegistry, typeDef: TypeDef) =>
     encodeWithParams(CodecRegistry, typeDef, 'WrapperOpaque')
 };

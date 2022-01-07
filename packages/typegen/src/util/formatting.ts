@@ -257,6 +257,10 @@ const formatters: Record<TypeDefInfo, (registry: CodecRegistry, typeDef: TypeDef
     return dualParamsNotation(registry, 'Result', typeDef, definitions, imports, withShortcut);
   },
 
+  [TypeDefInfo.WrapperKeepOpaque]: (registry: CodecRegistry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+    return singleParamNotation(registry, 'WrapperKeepOpaque', typeDef, definitions, imports, withShortcut);
+  },
+
   [TypeDefInfo.WrapperOpaque]: (registry: CodecRegistry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     return singleParamNotation(registry, 'WrapperOpaque', typeDef, definitions, imports, withShortcut);
   }

@@ -50,6 +50,7 @@ const tsHashMap = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
 const tsTuple = tsExport;
+const tsWrapperKeepOpaque = tsExport;
 const tsWrapperOpaque = tsExport;
 
 /** @internal */
@@ -78,6 +79,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
       case TypeDefInfo.Vec:
       case TypeDefInfo.Option:
       case TypeDefInfo.VecFixed:
+      case TypeDefInfo.WrapperKeepOpaque:
       case TypeDefInfo.WrapperOpaque:
         return `${isGetter}${asGetter}`;
 
@@ -123,6 +125,7 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
     case TypeDefInfo.Si:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.WrapperKeepOpaque:
     case TypeDefInfo.WrapperOpaque:
       return `${isGetter}${asGetter}`;
 
@@ -240,6 +243,7 @@ export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions:
   [TypeDefInfo.UInt]: tsUInt,
   [TypeDefInfo.Vec]: tsVec,
   [TypeDefInfo.VecFixed]: tsVec,
+  [TypeDefInfo.WrapperKeepOpaque]: tsWrapperKeepOpaque,
   [TypeDefInfo.WrapperOpaque]: tsWrapperOpaque
 };
 
