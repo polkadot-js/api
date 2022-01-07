@@ -1,10 +1,10 @@
 // Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Vec } from '@polkadot/types-codec/base';
 import type { ContractConstructorSpecV2, ContractConstructorSpecV3, ContractEventSpecV2, ContractMessageSpecV2, ContractMetadataV2, ContractMetadataV3 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
+import { Vec } from '@polkadot/types-codec/base';
 import { objectSpread } from '@polkadot/util';
 
 type WithArgs = keyof typeof ARG_TYPES;
@@ -15,7 +15,7 @@ type GetArgsType<T extends WithArgs> = T extends 'ContractConstructorSpec'
     ? ContractEventSpecV2
     : ContractMessageSpecV2;
 
-interface ArgsEntry <T extends WithArgs>  {
+interface ArgsEntry <T extends WithArgs> {
   args: GetArgsType<T>['args'][0][];
 }
 
@@ -46,7 +46,7 @@ export function v2ToV3 (registry: Registry, v2: ContractMetadataV2): ContractMet
     spec: objectSpread({}, v2.spec, {
       constructors: v2ToV3Labels(registry, 'ContractConstructorSpec', addPayable(v2.spec.constructors)),
       events: v2ToV3Labels(registry, 'ContractEventSpec', v2.spec.events),
-      messages: v2ToV3Labels(registry, 'ContractMessageSpec', v2.spec.messages),
+      messages: v2ToV3Labels(registry, 'ContractMessageSpec', v2.spec.messages)
     })
   }));
 }
