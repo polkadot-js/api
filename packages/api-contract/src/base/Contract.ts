@@ -68,7 +68,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.#hasStorageDeposit = this.api.tx.contracts.call.meta.args.length === 5;
+    this.#hasStorageDeposit = this.api.tx.contracts.call?.meta.args.length === 5;
 
     this.address = this.registry.createType('AccountId', address);
 

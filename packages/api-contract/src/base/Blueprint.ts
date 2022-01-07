@@ -70,7 +70,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
     this.source = this.registry.createType('CodeSource', source);
 
-    this.#hasStorageDeposit = this.api.tx.contracts.instantiate.meta.args.length === 6;
+    this.#hasStorageDeposit = this.api.tx.contracts.instantiate?.meta.args.length === 6;
 
     this.abi.constructors.forEach((c): void => {
       if (isUndefined(this.#tx[c.method])) {
