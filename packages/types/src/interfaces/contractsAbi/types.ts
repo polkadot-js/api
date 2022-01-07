@@ -211,6 +211,11 @@ export interface ContractMetadataV2 extends Struct {
   readonly spec: ContractContractSpecV2;
 }
 
+/** @name ContractMetadataV3 */
+export interface ContractMetadataV3 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpecV2;
+}
 /** @name ContractProject */
 export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
 
