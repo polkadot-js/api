@@ -8,7 +8,7 @@ interface SanitizeOptions {
 type Mapper = (value: string, options?: SanitizeOptions) => string;
 
 const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
-const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperOpaque']);
+const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
