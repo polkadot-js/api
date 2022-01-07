@@ -50,6 +50,14 @@ export interface ContractContractSpecV2 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractContractSpecV3 */
+export interface ContractContractSpecV3 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV3>;
+  readonly messages: Vec<ContractMessageSpecV2>;
+  readonly events: Vec<ContractEventSpecV2>;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
   readonly isBlake2x256: boolean;
@@ -196,7 +204,9 @@ export interface ContractMetadata extends Enum {
   readonly asV1: ContractMetadataV1;
   readonly isV2: boolean;
   readonly asV2: ContractMetadataV2;
-  readonly type: 'V0' | 'V1' | 'V2';
+  readonly isV3: boolean;
+  readonly asV3: ContractMetadataV3;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3';
 }
 
 /** @name ContractMetadataLatest */

@@ -40,11 +40,13 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
           : { V0: json }
   ) as unknown as ContractMetadata;
 
-  return metadata.isV2
-    ? metadata.asV2
-    : metadata.isV1
-      ? v1ToLatest(registry, metadata.asV1)
-      : v0ToLatest(registry, metadata.asV0);
+  return metadata.isV3
+    ? metadata.asV3
+    : metadata.isV2
+      ? metadata.asV2
+      : metadata.isV1
+        ? v1ToLatest(registry, metadata.asV1)
+        : v0ToLatest(registry, metadata.asV0);
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
