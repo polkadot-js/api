@@ -25,6 +25,15 @@ export interface ContractConstructorSpecV2 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractConstructorSpecV3 */
+export interface ContractConstructorSpecV3 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly args: Vec<ContractMessageParamSpecV2>;
+  readonly docs: Vec<Text>;
+  readonly payable: bool;
+}
+
 /** @name ContractContractSpecV0 */
 export interface ContractContractSpecV0 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV0>;
@@ -191,7 +200,7 @@ export interface ContractMetadata extends Enum {
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV2 {}
+export interface ContractMetadataLatest extends ContractMetadataV3 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
