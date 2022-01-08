@@ -6,7 +6,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 
 import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types-codec';
+import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Vec, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { isChildClass, stringify } from '@polkadot/util';
 
@@ -94,6 +94,9 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(GenericVote, Clazz)) {
     possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
+  } else if (isChildClass(WrapperKeepOpaque, Clazz) || isChildClass(WrapperOpaque, Clazz)) {
+    // TODO inspect container
+    possibleTypes.push('object', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, Clazz)) {
