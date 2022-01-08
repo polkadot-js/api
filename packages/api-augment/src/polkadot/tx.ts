@@ -7,7 +7,7 @@ import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, 
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportMiscWrapperKeepOpaque, FrameSupportScheduleMaybeHashed, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV0ValidatorAppSignature, PolkadotPrimitivesV1InherentData, PolkadotPrimitivesV1PvfCheckStatement, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeOriginCaller, PolkadotRuntimeProxyType, PolkadotRuntimeSessionKeys, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { FrameSupportMiscWrapperKeepOpaque, FrameSupportScheduleMaybeHashed, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV0ValidatorAppSignature, PolkadotPrimitivesV1InherentData, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeOriginCaller, PolkadotRuntimeProxyType, PolkadotRuntimeSessionKeys, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
@@ -438,6 +438,11 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     configuration: {
       /**
+       * Setting this to true will disable consistency checks for the configuration setters.
+       * Use with caution.
+       **/
+      setBypassConsistencyCheck: AugmentedSubmittable<(updated: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [bool]>;
+      /**
        * Set the availability period for parachains.
        **/
       setChainAvailabilityPeriod: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
@@ -553,6 +558,8 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Sets the minimum delay between announcing the upgrade block for a parachain until the
        * upgrade taking place.
+       * 
+       * See the field documentation for information and constraints for the new value.
        **/
       setMinimumValidationUpgradeDelay: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
@@ -605,13 +612,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setUmpServiceTotalWeight: AugmentedSubmittable<(updated: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64]>;
       /**
+       * Set the validation upgrade cooldown.
+       **/
+      setValidationUpgradeCooldown: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Set the validation upgrade delay.
        **/
       setValidationUpgradeDelay: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
-      /**
-       * Set the validation upgrade frequency.
-       **/
-      setValidationUpgradeFrequency: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Set the zeroth delay tranche width.
        **/
@@ -1917,6 +1924,22 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     paras: {
       /**
+       * Adds the validation code to the storage.
+       * 
+       * The code will not be added if it is already present. Additionally, if PVF pre-checking
+       * is running for that code, it will be instantly accepted.
+       * 
+       * Otherwise, the code will be added into the storage. Note that the code will be added
+       * into storage with reference count 0. This is to account the fact that there are no users
+       * for this code yet. The caller will have to make sure that this code eventually gets
+       * used by some parachain or removed from the storage to avoid storage leaks. For the latter
+       * prefer to use the `poke_unused_validation_code` dispatchable to raw storage manipulation.
+       * 
+       * This function is mainly meant to be used for upgrading parachains that do not follow
+       * the go-ahead signal while the PVF pre-checking feature is enabled.
+       **/
+      addTrustedValidationCode: AugmentedSubmittable<(validationCode: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
        * Note a new block head for para within the context of the current block.
        **/
       forceNoteNewHead: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, newHead: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
@@ -1942,7 +1965,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * Includes a statement for a PVF pre-checking vote. Potentially, finalizes the vote and
        * enacts the results if that was the last vote before achieving the supermajority.
        **/
-      includePvfCheckStatement: AugmentedSubmittable<(stmt: PolkadotPrimitivesV1PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV0ValidatorAppSignature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV1PvfCheckStatement, PolkadotPrimitivesV0ValidatorAppSignature]>;
+      includePvfCheckStatement: AugmentedSubmittable<(stmt: PolkadotPrimitivesV2PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV0ValidatorAppSignature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV0ValidatorAppSignature]>;
+      /**
+       * Remove the validation code from the storage iff the reference count is 0.
+       * 
+       * This is better than removing the storage directly, because it will not remove the code
+       * that was suddenly got used by some parachain while this dispatchable was pending
+       * dispatching.
+       **/
+      pokeUnusedValidationCode: AugmentedSubmittable<(validationCodeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Generic tx
        **/

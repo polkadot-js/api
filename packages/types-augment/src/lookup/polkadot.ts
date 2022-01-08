@@ -834,7 +834,7 @@ export default {
    **/
   PolkadotRuntimeParachainsConfigurationPalletCall: {
     _enum: {
-      set_validation_upgrade_frequency: {
+      set_validation_upgrade_cooldown: {
         _alias: {
           new_: 'new',
         },
@@ -1096,7 +1096,13 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'u32'
+        new_: 'u32',
+      },
+      set_bypass_consistency_check: {
+        _alias: {
+          new_: 'new',
+        },
+        new_: 'bool'
       }
     }
   },
@@ -1245,16 +1251,22 @@ export default {
       force_queue_action: {
         para: 'u32',
       },
+      add_trusted_validation_code: {
+        validationCode: 'Bytes',
+      },
+      poke_unused_validation_code: {
+        validationCodeHash: 'H256',
+      },
       include_pvf_check_statement: {
-        stmt: 'PolkadotPrimitivesV1PvfCheckStatement',
+        stmt: 'PolkadotPrimitivesV2PvfCheckStatement',
         signature: 'PolkadotPrimitivesV0ValidatorAppSignature'
       }
     }
   },
   /**
-   * Lookup384: polkadot_primitives::v1::PvfCheckStatement
+   * Lookup384: polkadot_primitives::v2::PvfCheckStatement
    **/
-  PolkadotPrimitivesV1PvfCheckStatement: {
+  PolkadotPrimitivesV2PvfCheckStatement: {
     accept: 'bool',
     subject: 'H256',
     sessionIndex: 'u32',
@@ -1742,7 +1754,7 @@ export default {
     maxUpwardMessageSize: 'u32',
     maxUpwardMessageNumPerCandidate: 'u32',
     hrmpMaxMessageNumPerCandidate: 'u32',
-    validationUpgradeFrequency: 'u32',
+    validationUpgradeCooldown: 'u32',
     validationUpgradeDelay: 'u32',
     maxPovSize: 'u32',
     maxDownwardMessageSize: 'u32',
@@ -2052,9 +2064,12 @@ export default {
     _enum: ['OpenHrmpChannelToSelf', 'OpenHrmpChannelInvalidRecipient', 'OpenHrmpChannelZeroCapacity', 'OpenHrmpChannelCapacityExceedsLimit', 'OpenHrmpChannelZeroMessageSize', 'OpenHrmpChannelMessageSizeExceedsLimit', 'OpenHrmpChannelAlreadyExists', 'OpenHrmpChannelAlreadyRequested', 'OpenHrmpChannelLimitExceeded', 'AcceptHrmpChannelDoesntExist', 'AcceptHrmpChannelAlreadyConfirmed', 'AcceptHrmpChannelLimitExceeded', 'CloseHrmpChannelUnauthorized', 'CloseHrmpChannelDoesntExist', 'CloseHrmpChannelAlreadyUnderway', 'CancelHrmpOpenChannelUnauthorized', 'OpenHrmpChannelDoesntExist', 'OpenHrmpChannelAlreadyConfirmed']
   },
   /**
-   * Lookup638: polkadot_primitives::v1::SessionInfo
+   * Lookup638: polkadot_primitives::v2::SessionInfo
    **/
-  PolkadotPrimitivesV1SessionInfo: {
+  PolkadotPrimitivesV2SessionInfo: {
+    activeValidatorIndices: 'Vec<u32>',
+    randomSeed: '[u8;32]',
+    disputePeriod: 'u32',
     validators: 'Vec<PolkadotPrimitivesV0ValidatorAppPublic>',
     discoveryKeys: 'Vec<SpAuthorityDiscoveryAppPublic>',
     assignmentKeys: 'Vec<PolkadotPrimitivesV1AssignmentAppPublic>',

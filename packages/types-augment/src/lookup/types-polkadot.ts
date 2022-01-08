@@ -833,8 +833,8 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PolkadotRuntimeParachainsConfigurationPalletCall (353) */
   export interface PolkadotRuntimeParachainsConfigurationPalletCall extends Enum {
-    readonly isSetValidationUpgradeFrequency: boolean;
-    readonly asSetValidationUpgradeFrequency: {
+    readonly isSetValidationUpgradeCooldown: boolean;
+    readonly asSetValidationUpgradeCooldown: {
       readonly new_: u32;
     } & Struct;
     readonly isSetValidationUpgradeDelay: boolean;
@@ -1009,7 +1009,11 @@ declare module '@polkadot/types/lookup' {
     readonly asSetMinimumValidationUpgradeDelay: {
       readonly new_: u32;
     } & Struct;
-    readonly type: 'SetValidationUpgradeFrequency' | 'SetValidationUpgradeDelay' | 'SetCodeRetentionPeriod' | 'SetMaxCodeSize' | 'SetMaxPovSize' | 'SetMaxHeadDataSize' | 'SetParathreadCores' | 'SetParathreadRetries' | 'SetGroupRotationFrequency' | 'SetChainAvailabilityPeriod' | 'SetThreadAvailabilityPeriod' | 'SetSchedulingLookahead' | 'SetMaxValidatorsPerCore' | 'SetMaxValidators' | 'SetDisputePeriod' | 'SetDisputePostConclusionAcceptancePeriod' | 'SetDisputeMaxSpamSlots' | 'SetDisputeConclusionByTimeOutPeriod' | 'SetNoShowSlots' | 'SetNDelayTranches' | 'SetZerothDelayTrancheWidth' | 'SetNeededApprovals' | 'SetRelayVrfModuloSamples' | 'SetMaxUpwardQueueCount' | 'SetMaxUpwardQueueSize' | 'SetMaxDownwardMessageSize' | 'SetUmpServiceTotalWeight' | 'SetMaxUpwardMessageSize' | 'SetMaxUpwardMessageNumPerCandidate' | 'SetHrmpOpenRequestTtl' | 'SetHrmpSenderDeposit' | 'SetHrmpRecipientDeposit' | 'SetHrmpChannelMaxCapacity' | 'SetHrmpChannelMaxTotalSize' | 'SetHrmpMaxParachainInboundChannels' | 'SetHrmpMaxParathreadInboundChannels' | 'SetHrmpChannelMaxMessageSize' | 'SetHrmpMaxParachainOutboundChannels' | 'SetHrmpMaxParathreadOutboundChannels' | 'SetHrmpMaxMessageNumPerCandidate' | 'SetUmpMaxIndividualWeight' | 'SetPvfCheckingEnabled' | 'SetPvfVotingTtl' | 'SetMinimumValidationUpgradeDelay';
+    readonly isSetBypassConsistencyCheck: boolean;
+    readonly asSetBypassConsistencyCheck: {
+      readonly new_: bool;
+    } & Struct;
+    readonly type: 'SetValidationUpgradeCooldown' | 'SetValidationUpgradeDelay' | 'SetCodeRetentionPeriod' | 'SetMaxCodeSize' | 'SetMaxPovSize' | 'SetMaxHeadDataSize' | 'SetParathreadCores' | 'SetParathreadRetries' | 'SetGroupRotationFrequency' | 'SetChainAvailabilityPeriod' | 'SetThreadAvailabilityPeriod' | 'SetSchedulingLookahead' | 'SetMaxValidatorsPerCore' | 'SetMaxValidators' | 'SetDisputePeriod' | 'SetDisputePostConclusionAcceptancePeriod' | 'SetDisputeMaxSpamSlots' | 'SetDisputeConclusionByTimeOutPeriod' | 'SetNoShowSlots' | 'SetNDelayTranches' | 'SetZerothDelayTrancheWidth' | 'SetNeededApprovals' | 'SetRelayVrfModuloSamples' | 'SetMaxUpwardQueueCount' | 'SetMaxUpwardQueueSize' | 'SetMaxDownwardMessageSize' | 'SetUmpServiceTotalWeight' | 'SetMaxUpwardMessageSize' | 'SetMaxUpwardMessageNumPerCandidate' | 'SetHrmpOpenRequestTtl' | 'SetHrmpSenderDeposit' | 'SetHrmpRecipientDeposit' | 'SetHrmpChannelMaxCapacity' | 'SetHrmpChannelMaxTotalSize' | 'SetHrmpMaxParachainInboundChannels' | 'SetHrmpMaxParathreadInboundChannels' | 'SetHrmpChannelMaxMessageSize' | 'SetHrmpMaxParachainOutboundChannels' | 'SetHrmpMaxParathreadOutboundChannels' | 'SetHrmpMaxMessageNumPerCandidate' | 'SetUmpMaxIndividualWeight' | 'SetPvfCheckingEnabled' | 'SetPvfVotingTtl' | 'SetMinimumValidationUpgradeDelay' | 'SetBypassConsistencyCheck';
   }
 
   /** @name PolkadotRuntimeParachainsSharedPalletCall (354) */
@@ -1146,16 +1150,24 @@ declare module '@polkadot/types/lookup' {
     readonly asForceQueueAction: {
       readonly para: u32;
     } & Struct;
+    readonly isAddTrustedValidationCode: boolean;
+    readonly asAddTrustedValidationCode: {
+      readonly validationCode: Bytes;
+    } & Struct;
+    readonly isPokeUnusedValidationCode: boolean;
+    readonly asPokeUnusedValidationCode: {
+      readonly validationCodeHash: H256;
+    } & Struct;
     readonly isIncludePvfCheckStatement: boolean;
     readonly asIncludePvfCheckStatement: {
-      readonly stmt: PolkadotPrimitivesV1PvfCheckStatement;
+      readonly stmt: PolkadotPrimitivesV2PvfCheckStatement;
       readonly signature: PolkadotPrimitivesV0ValidatorAppSignature;
     } & Struct;
-    readonly type: 'ForceSetCurrentCode' | 'ForceSetCurrentHead' | 'ForceScheduleCodeUpgrade' | 'ForceNoteNewHead' | 'ForceQueueAction' | 'IncludePvfCheckStatement';
+    readonly type: 'ForceSetCurrentCode' | 'ForceSetCurrentHead' | 'ForceScheduleCodeUpgrade' | 'ForceNoteNewHead' | 'ForceQueueAction' | 'AddTrustedValidationCode' | 'PokeUnusedValidationCode' | 'IncludePvfCheckStatement';
   }
 
-  /** @name PolkadotPrimitivesV1PvfCheckStatement (384) */
-  export interface PolkadotPrimitivesV1PvfCheckStatement extends Struct {
+  /** @name PolkadotPrimitivesV2PvfCheckStatement (384) */
+  export interface PolkadotPrimitivesV2PvfCheckStatement extends Struct {
     readonly accept: bool;
     readonly subject: H256;
     readonly sessionIndex: u32;
@@ -1695,7 +1707,7 @@ declare module '@polkadot/types/lookup' {
     readonly maxUpwardMessageSize: u32;
     readonly maxUpwardMessageNumPerCandidate: u32;
     readonly hrmpMaxMessageNumPerCandidate: u32;
-    readonly validationUpgradeFrequency: u32;
+    readonly validationUpgradeCooldown: u32;
     readonly validationUpgradeDelay: u32;
     readonly maxPovSize: u32;
     readonly maxDownwardMessageSize: u32;
@@ -2043,8 +2055,11 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'OpenHrmpChannelToSelf' | 'OpenHrmpChannelInvalidRecipient' | 'OpenHrmpChannelZeroCapacity' | 'OpenHrmpChannelCapacityExceedsLimit' | 'OpenHrmpChannelZeroMessageSize' | 'OpenHrmpChannelMessageSizeExceedsLimit' | 'OpenHrmpChannelAlreadyExists' | 'OpenHrmpChannelAlreadyRequested' | 'OpenHrmpChannelLimitExceeded' | 'AcceptHrmpChannelDoesntExist' | 'AcceptHrmpChannelAlreadyConfirmed' | 'AcceptHrmpChannelLimitExceeded' | 'CloseHrmpChannelUnauthorized' | 'CloseHrmpChannelDoesntExist' | 'CloseHrmpChannelAlreadyUnderway' | 'CancelHrmpOpenChannelUnauthorized' | 'OpenHrmpChannelDoesntExist' | 'OpenHrmpChannelAlreadyConfirmed';
   }
 
-  /** @name PolkadotPrimitivesV1SessionInfo (638) */
-  export interface PolkadotPrimitivesV1SessionInfo extends Struct {
+  /** @name PolkadotPrimitivesV2SessionInfo (638) */
+  export interface PolkadotPrimitivesV2SessionInfo extends Struct {
+    readonly activeValidatorIndices: Vec<u32>;
+    readonly randomSeed: U8aFixed;
+    readonly disputePeriod: u32;
     readonly validators: Vec<PolkadotPrimitivesV0ValidatorAppPublic>;
     readonly discoveryKeys: Vec<SpAuthorityDiscoveryAppPublic>;
     readonly assignmentKeys: Vec<PolkadotPrimitivesV1AssignmentAppPublic>;
