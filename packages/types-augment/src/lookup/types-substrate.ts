@@ -2695,7 +2695,7 @@ declare module '@polkadot/types/lookup' {
       readonly threshold: u16;
       readonly otherSignatories: Vec<AccountId32>;
       readonly maybeTimepoint: Option<PalletMultisigTimepoint>;
-      readonly call: FrameSupportMiscWrapperKeepOpaque;
+      readonly call: WrapperKeepOpaque<Call>;
       readonly storeCall: bool;
       readonly maxWeight: u64;
     } & Struct;
@@ -2716,9 +2716,6 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly type: 'AsMultiThreshold1' | 'AsMulti' | 'ApproveAsMulti' | 'CancelAsMulti';
   }
-
-  /** @name FrameSupportMiscWrapperKeepOpaque (295) */
-  export interface FrameSupportMiscWrapperKeepOpaque extends WrapperKeepOpaque<Call> {}
 
   /** @name PalletBountiesCall (296) */
   export interface PalletBountiesCall extends Enum {
