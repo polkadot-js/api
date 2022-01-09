@@ -2,8 +2,6 @@
 
 ## master
 
-**Important** Webpack 4 has known issues with `import.meta.url` that is solvable via a rule, see https://polkadot.js.org/docs/usage/FAQ#on-webpack-4-i-have-a-parse-error-on-importmetaurl
-
 Changes:
 
 - Extend support for `WrapperKeepOpaque` with internal decoding (allowed to fail)
