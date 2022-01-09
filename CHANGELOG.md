@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 7.3.1 Jan 9, 2022
+
+Upgrade priority: Low. Maintenance upgrade, tracking the latest `@polkadot` libraries.
 
 Changes:
 
