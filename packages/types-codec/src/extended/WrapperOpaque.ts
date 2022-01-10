@@ -3,7 +3,7 @@
 
 import type { AnyJson, AnyU8a, Codec, CodecClass, CodecRegistry } from '../types';
 
-import { assertReturn, compactStripLength, isHex, isU8a } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isHex, isU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
@@ -28,7 +28,7 @@ function decodeRaw<T extends Codec> (registry: CodecRegistry, typeName: CodecCla
 
   const instance = new Type(registry, value);
 
-  return [Type, instance, instance.toHex(true)];
+  return [Type, instance, compactAddLength(instance.toU8a())];
 }
 
 export class WrapperKeepOpaque<T extends Codec> extends Bytes {
