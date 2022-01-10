@@ -69,6 +69,13 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -77,6 +84,12 @@ const spec = {
   },
   ContractContractSpecV2: {
     constructors: 'Vec<ContractConstructorSpecV2>',
+    messages: 'Vec<ContractMessageSpecV2>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV3: {
+    constructors: 'Vec<ContractConstructorSpecV3>',
     messages: 'Vec<ContractMessageSpecV2>',
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>'
@@ -152,18 +165,23 @@ const ContractMetadataV2 = {
   spec: 'ContractContractSpecV2'
 };
 
+const ContractMetadataV3 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV3'
+};
+
 const ContractProjectInfo = {
   source: 'ContractProjectSource',
   contract: 'ContractProjectContract'
 };
 
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV2',
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
   ContractEventSpecLatest: 'ContractEventSpecV2',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV2',
-  ContractMetadataLatest: 'ContractMetadataV2'
+  ContractMetadataLatest: 'ContractMetadataV3'
 };
 
 export default {
@@ -173,11 +191,13 @@ export default {
     ContractMetadataV0,
     ContractMetadataV1,
     ContractMetadataV2,
+    ContractMetadataV3,
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
         V1: 'ContractMetadataV1',
-        V2: 'ContractMetadataV2'
+        V2: 'ContractMetadataV2',
+        V3: 'ContractMetadataV3'
       }
     },
     ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),

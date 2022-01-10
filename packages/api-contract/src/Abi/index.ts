@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { v0ToLatest, v1ToLatest } from './toLatest';
+import { v0ToLatest, v1ToLatest, v2ToLatest } from './toLatest';
 
 const l = logger('Abi');
 
@@ -31,18 +31,22 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
 // as the conversion tactics in the runtime Metadata)
 function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
   const metadata = registry.createType('ContractMetadata',
-    isObject(json.V2)
-      ? { V2: json.V2 }
-      : isObject(json.V1)
-        ? { V1: json.V1 }
-        : { V0: json }
+    isObject(json.V3)
+      ? { V3: json.V3 }
+      : isObject(json.V2)
+        ? { V2: json.V2 }
+        : isObject(json.V1)
+          ? { V1: json.V1 }
+          : { V0: json }
   ) as unknown as ContractMetadata;
 
-  return metadata.isV2
-    ? metadata.asV2
-    : metadata.isV1
-      ? v1ToLatest(registry, metadata.asV1)
-      : v0ToLatest(registry, metadata.asV0);
+  return metadata.isV3
+    ? metadata.asV3
+    : metadata.isV2
+      ? v2ToLatest(registry, metadata.asV2)
+      : metadata.isV1
+        ? v1ToLatest(registry, metadata.asV1)
+        : v0ToLatest(registry, metadata.asV0);
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
@@ -90,7 +94,8 @@ export class Abi {
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
-        isConstructor: true
+        isConstructor: true,
+        isPayable: spec.payable.isTrue
       })
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
