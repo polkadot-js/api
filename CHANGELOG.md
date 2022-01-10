@@ -5,6 +5,7 @@
 Changes:
 
 - Ensure non-option calls in api-contract are marked as `@deprecated`
+- Combine `WrapperOpaque` & `WrapperKeepOpaque` handling
 
 
 ## 7.3.1 Jan 9, 2022
