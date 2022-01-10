@@ -509,14 +509,15 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
-    const specialVariant = path[0].toString();
+    const pathFirst = path[0].toString();
+    const pathLast = path[path.length - 1].toString();
 
-    if (path.length === 1 && specialVariant === 'BTreeMap') {
+    if (path.length === 1 && pathFirst === 'BTreeMap') {
       return withTypeString(this.registry, {
         info: TypeDefInfo.BTreeMap,
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
       });
-    } else if (['Range', 'RangeInclusive'].includes(specialVariant)) {
+    } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Range,
         sub: fields.map(({ name, type, typeName }, index) =>
@@ -530,19 +531,17 @@ export class PortableRegistry extends Struct implements ILookup {
             typeName.isSome
               ? { typeName: sanitize(typeName.unwrap()) }
               : null
-          ))
+          )),
+        type: pathFirst
       });
-    } else if (path.length) {
-      const last = path[path.length - 1].toString();
-
-      if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(last)) {
-        return withTypeString(this.registry, {
-          info: last === 'WrapperKeepOpaque'
-            ? TypeDefInfo.WrapperKeepOpaque
-            : TypeDefInfo.WrapperOpaque,
-          sub: this.#createSiDef(params[0].type.unwrap())
-        });
-      }
+    } else if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(pathLast)) {
+      return withTypeString(this.registry, {
+        info: pathLast === 'WrapperKeepOpaque'
+          ? TypeDefInfo.WrapperKeepOpaque
+          : TypeDefInfo.WrapperOpaque,
+        sub: this.#createSiDef(params[0].type.unwrap()),
+        type: pathLast
+      });
     }
 
     return PATHS_SET.some((p) => matchParts(p, path))
