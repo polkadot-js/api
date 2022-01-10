@@ -28,7 +28,7 @@ function decodeRaw<T extends Codec> (registry: CodecRegistry, typeName: CodecCla
 
   const instance = new Type(registry, value);
 
-  return [Type, instance, instance.toHex()];
+  return [Type, instance, instance.toHex(true)];
 }
 
 export class WrapperKeepOpaque<T extends Codec> extends Bytes {

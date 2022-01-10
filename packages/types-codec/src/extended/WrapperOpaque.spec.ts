@@ -3,6 +3,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 import { WrapperOpaque } from '@polkadot/types-codec';
+import { u8aConcat } from '@polkadot/util';
 
 describe('WrapperOpaque', (): void => {
   const registry = new TypeRegistry();
@@ -12,6 +13,12 @@ describe('WrapperOpaque', (): void => {
     expect(
       new WrapperOpaque(registry, 'u32', 1234567).toU8a()
     ).toEqual(u8au32);
+  });
+
+  it('u8a encodes a wrapped option correctly', (): void => {
+    expect(
+      new WrapperOpaque(registry, 'Option<u32>', 1234567).toU8a()
+    ).toEqual(u8aConcat([1], u8au32));
   });
 
   it('u8a decodes a wrapped u32 correctly', (): void => {
