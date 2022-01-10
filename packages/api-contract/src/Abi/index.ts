@@ -30,14 +30,11 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
 // approach (right at this point don't quite have better ideas that is not as complex
 // as the conversion tactics in the runtime Metadata)
 function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
+  const vx = ['V3', 'V2', 'V1'].find((v) => isObject(json[v]));
   const metadata = registry.createType('ContractMetadata',
-    isObject(json.V3)
-      ? { V3: json.V3 }
-      : isObject(json.V2)
-        ? { V2: json.V2 }
-        : isObject(json.V1)
-          ? { V1: json.V1 }
-          : { V0: json }
+    vx
+      ? { [vx]: json[vx] }
+      : { V0: json }
   ) as unknown as ContractMetadata;
 
   return metadata.isV3
