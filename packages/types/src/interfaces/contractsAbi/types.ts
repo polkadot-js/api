@@ -7,7 +7,7 @@ import type { PortableType } from '@polkadot/types/interfaces/metadata';
 import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpecLatest */
-export interface ContractConstructorSpecLatest extends ContractConstructorSpecV2 {}
+export interface ContractConstructorSpecLatest extends ContractConstructorSpecV3 {}
 
 /** @name ContractConstructorSpecV0 */
 export interface ContractConstructorSpecV0 extends Struct {
@@ -73,7 +73,7 @@ export interface ContractDiscriminant extends u32 {}
 export interface ContractDisplayName extends SiPath {}
 
 /** @name ContractEventParamSpecLatest */
-export interface ContractEventParamSpecLatest extends ContractEventParamSpecV2 {}
+export interface ContractEventParamSpecLatest extends ContractEventParamSpecV3 {}
 
 /** @name ContractEventParamSpecV0 */
 export interface ContractEventParamSpecV0 extends Struct {
@@ -100,7 +100,7 @@ export interface ContractEventParamSpecV3 extends Struct {
 }
 
 /** @name ContractEventSpecLatest */
-export interface ContractEventSpecLatest extends ContractEventSpecV2 {}
+export interface ContractEventSpecLatest extends ContractEventSpecV3 {}
 
 /** @name ContractEventSpecV0 */
 export interface ContractEventSpecV0 extends Struct {
@@ -172,7 +172,7 @@ export interface ContractLayoutStructField extends Struct {
 }
 
 /** @name ContractMessageParamSpecLatest */
-export interface ContractMessageParamSpecLatest extends ContractMessageParamSpecV2 {}
+export interface ContractMessageParamSpecLatest extends ContractMessageParamSpecV3 {}
 
 /** @name ContractMessageParamSpecV0 */
 export interface ContractMessageParamSpecV0 extends Struct {
@@ -193,7 +193,7 @@ export interface ContractMessageParamSpecV3 extends Struct {
 }
 
 /** @name ContractMessageSpecLatest */
-export interface ContractMessageSpecLatest extends ContractMessageSpecV2 {}
+export interface ContractMessageSpecLatest extends ContractMessageSpecV3 {}
 
 /** @name ContractMessageSpecV0 */
 export interface ContractMessageSpecV0 extends Struct {
@@ -242,7 +242,7 @@ export interface ContractMetadata extends Enum {
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV2 {}
+export interface ContractMetadataLatest extends ContractMetadataV3 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {

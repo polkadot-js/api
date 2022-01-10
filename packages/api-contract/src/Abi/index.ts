@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { v0ToLatest, v1ToLatest } from './toLatest';
+import { v0ToLatest, v1ToLatest, v2ToLatest } from './toLatest';
 
 const l = logger('Abi');
 
@@ -43,7 +43,7 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
   return metadata.isV3
     ? metadata.asV3
     : metadata.isV2
-      ? metadata.asV2
+      ? v2ToLatest(registry, metadata.asV2)
       : metadata.isV1
         ? v1ToLatest(registry, metadata.asV1)
         : v0ToLatest(registry, metadata.asV0);
