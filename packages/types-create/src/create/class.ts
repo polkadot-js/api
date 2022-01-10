@@ -115,6 +115,9 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
   [TypeDefInfo.Null]: (registry: CodecRegistry, _: TypeDef): CodecClass<Codec> =>
     Null,
 
+  [TypeDefInfo.Opaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
+    createWithSub(value.type.includes('WrapperKeepOpaque') ? WrapperKeepOpaque : WrapperOpaque, value),
+
   [TypeDefInfo.Option]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
     createWithSub(Option, value),
 
@@ -122,7 +125,7 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
     registry.getOrUnknown(value.type),
 
   [TypeDefInfo.Range]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
-    (value.type.includes('RangeInclusive') ? RangeInclusive : Range).with(getSubType(value)),
+    createWithSub(value.type.includes('RangeInclusive') ? RangeInclusive : Range, value),
 
   [TypeDefInfo.Result]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> => {
     const [Ok, Err] = getTypeClassArray(value);
@@ -171,13 +174,7 @@ const infoMapping: Record<TypeDefInfo, (registry: CodecRegistry, value: TypeDef)
         ? U8aFixed.with((length * 8) as U8aBitLength, displayName)
         : VecFixed.with(getTypeDefType(sub), length)
     );
-  },
-
-  [TypeDefInfo.WrapperKeepOpaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
-    createWithSub(WrapperKeepOpaque, value),
-
-  [TypeDefInfo.WrapperOpaque]: (registry: CodecRegistry, value: TypeDef): CodecClass<Codec> =>
-    createWithSub(WrapperOpaque, value)
+  }
 };
 
 export function constructTypeClass<T extends Codec = Codec> (registry: CodecRegistry, typeDef: TypeDef): CodecClass<T> {

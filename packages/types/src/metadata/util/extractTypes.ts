@@ -26,11 +26,10 @@ export function extractTypes (types: string[]): Extracted[] {
 
       case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Compact:
+      case TypeDefInfo.Opaque:
       case TypeDefInfo.Option:
       case TypeDefInfo.Vec:
       case TypeDefInfo.VecFixed:
-      case TypeDefInfo.WrapperKeepOpaque:
-      case TypeDefInfo.WrapperOpaque:
         return extractSubSingle(decoded.sub as TypeDef);
 
       case TypeDefInfo.BTreeMap:

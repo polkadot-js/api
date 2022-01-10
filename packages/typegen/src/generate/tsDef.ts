@@ -47,11 +47,10 @@ const tsBTreeSet = tsExport;
 const tsCompact = tsExport;
 const tsDoNotConstruct = tsExport;
 const tsHashMap = tsExport;
+const tsOpaque = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
 const tsTuple = tsExport;
-const tsWrapperKeepOpaque = tsExport;
-const tsWrapperOpaque = tsExport;
 
 /** @internal */
 function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
@@ -71,16 +70,15 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
 
     switch (info) {
       case TypeDefInfo.Compact:
+      case TypeDefInfo.Opaque:
+      case TypeDefInfo.Option:
       case TypeDefInfo.Plain:
       case TypeDefInfo.Result:
       case TypeDefInfo.Si:
       case TypeDefInfo.Struct:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
-      case TypeDefInfo.Option:
       case TypeDefInfo.VecFixed:
-      case TypeDefInfo.WrapperKeepOpaque:
-      case TypeDefInfo.WrapperOpaque:
         return `${isGetter}${asGetter}`;
 
       case TypeDefInfo.DoNotConstruct:
@@ -120,13 +118,12 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
   const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
+    case TypeDefInfo.Opaque:
     case TypeDefInfo.Option:
     case TypeDefInfo.Plain:
     case TypeDefInfo.Si:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
-    case TypeDefInfo.WrapperKeepOpaque:
-    case TypeDefInfo.WrapperOpaque:
       return `${isGetter}${asGetter}`;
 
     case TypeDefInfo.Null:
@@ -232,6 +229,7 @@ export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions:
   [TypeDefInfo.Int]: tsInt,
   [TypeDefInfo.Linkage]: errorUnhandled,
   [TypeDefInfo.Null]: tsNull,
+  [TypeDefInfo.Opaque]: tsOpaque,
   [TypeDefInfo.Option]: tsOption,
   [TypeDefInfo.Plain]: tsPlain,
   [TypeDefInfo.Range]: errorUnhandled,
@@ -242,9 +240,7 @@ export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions:
   [TypeDefInfo.Tuple]: tsTuple,
   [TypeDefInfo.UInt]: tsUInt,
   [TypeDefInfo.Vec]: tsVec,
-  [TypeDefInfo.VecFixed]: tsVec,
-  [TypeDefInfo.WrapperKeepOpaque]: tsWrapperKeepOpaque,
-  [TypeDefInfo.WrapperOpaque]: tsWrapperOpaque
+  [TypeDefInfo.VecFixed]: tsVec
 };
 
 /** @internal */

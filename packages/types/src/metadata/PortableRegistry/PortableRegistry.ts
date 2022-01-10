@@ -535,9 +535,7 @@ export class PortableRegistry extends Struct implements ILookup {
       });
     } else if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(pathLast)) {
       return withTypeString(this.registry, {
-        info: pathLast === 'WrapperKeepOpaque'
-          ? TypeDefInfo.WrapperKeepOpaque
-          : TypeDefInfo.WrapperOpaque,
+        info: TypeDefInfo.Opaque,
         sub: this.#createSiDef(params[0].type.unwrap())
       });
     }
