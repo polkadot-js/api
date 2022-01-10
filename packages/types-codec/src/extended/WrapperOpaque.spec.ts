@@ -18,7 +18,7 @@ describe('WrapperOpaque', (): void => {
   it('u8a encodes a wrapped option correctly', (): void => {
     expect(
       new WrapperOpaque(registry, 'Option<u32>', 1234567).toU8a()
-    ).toEqual(u8aConcat([1], u8au32));
+    ).toEqual(u8aConcat([5 << 2, 1], u8au32.slice(1)));
   });
 
   it('u8a decodes a wrapped u32 correctly', (): void => {
