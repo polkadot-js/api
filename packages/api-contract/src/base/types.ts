@@ -10,21 +10,25 @@ import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions
 
 export interface BlueprintDeploy<ApiType extends ApiTypes> {
   (options: BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
+  // @deprecated Use options form (to be dropped in a major update)
   (value: bigint | string | number | BN, gasLimit: bigint | string | number | BN, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface ContractQuery<ApiType extends ApiTypes> {
   (origin: AccountId | string | Uint8Array, options: ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome>;
+  // @deprecated Use options form (to be dropped in a major update)
   (origin: AccountId | string | Uint8Array, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome>;
 }
 
 export interface ContractTx<ApiType extends ApiTypes> {
   (options: ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
+  // @deprecated Use options form (to be dropped in a major update)
   (value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface ContractGeneric<O, T> {
   (messageOrId: AbiMessage | string | number, options: O, ...params: unknown[]): T;
+  // @deprecated Use options form (to be dropped in a major update)
   (messageOrId: AbiMessage | string | number, value: bigint | BN | string | number, gasLimit: bigint | BN | string | number, ...params: unknown[]): T;
 }
 
