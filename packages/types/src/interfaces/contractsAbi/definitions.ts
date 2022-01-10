@@ -200,12 +200,12 @@ const ContractProjectInfo = {
 };
 
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV2',
-  ContractEventSpecLatest: 'ContractEventSpecV2',
-  ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
-  ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
-  ContractMessageSpecLatest: 'ContractMessageSpecV2',
-  ContractMetadataLatest: 'ContractMetadataV2'
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractEventSpecLatest: 'ContractEventSpecV3',
+  ContractEventParamSpecLatest: 'ContractEventParamSpecV3',
+  ContractMessageParamSpecLatest: 'ContractMessageParamSpecV3',
+  ContractMessageSpecLatest: 'ContractMessageSpecV3',
+  ContractMetadataLatest: 'ContractMetadataV3'
 };
 
 export default {
