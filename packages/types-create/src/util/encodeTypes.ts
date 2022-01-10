@@ -159,6 +159,8 @@ export function encodeTypeDef (CodecRegistry: CodecRegistry, typeDef: TypeDef): 
     : encodeType(CodecRegistry, typeDef);
 }
 
-export function withTypeString (CodecRegistry: CodecRegistry, typeDef: Omit<TypeDef, 'type'>): TypeDef {
-  return objectSpread({}, typeDef, { type: encodeType(CodecRegistry, typeDef as TypeDef, false) });
+export function withTypeString (CodecRegistry: CodecRegistry, typeDef: Omit<TypeDef, 'type'> & { type?: string }): TypeDef {
+  return objectSpread({}, typeDef, {
+    type: encodeType(CodecRegistry, typeDef as TypeDef, false)
+  });
 }
