@@ -4,6 +4,7 @@
 
 Changes:
 
+- Asserts for invalid number format inputs (MAX_SAFE_INTEGER, float)
 - Ensure `Range/RangeInclusive` variant check does not fail on encoding
 - Ensure non-option calls in api-contract are marked as `@deprecated`
 
