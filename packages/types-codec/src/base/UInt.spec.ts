@@ -8,6 +8,19 @@ import { BN, BN_TWO, isBn } from '@polkadot/util';
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
+  it('fails on > MAX_SAFE_INTEGER and float', (): void => {
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    expect(() => new UInt(registry, 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    expect(() => new UInt(registry, -9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
+    expect(() => new UInt(registry, 9.123)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
+  });
+
+  it('fails on strings with decimal points & scientific notation', (): void => {
+    expect(() => new UInt(registry, '123.4')).toThrow(/not contain decimal points/);
+    expect(() => new UInt(registry, '9e10')).toThrow(/not contain decimal points/);
+  });
+
   it('decodes an empty Uint8array correctly', (): void => {
     expect(
       new UInt(registry, new Uint8Array()).toNumber()
