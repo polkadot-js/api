@@ -1,33 +1,13 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "composite": true
+    "baseUrl": "./packages",
+    "composite": false
   },
-  "files": [],
-  "references": [
-    { "path": "./packages/api" },
-    { "path": "./packages/api/tsconfig.spec.json" },
-    { "path": "./packages/api-augment" },
-    { "path": "./packages/api-augment/tsconfig.kusama.json" },
-    { "path": "./packages/api-augment/tsconfig.polkadot.json" },
-    { "path": "./packages/api-base" },
-    { "path": "./packages/api-contract" },
-    { "path": "./packages/api-contract/tsconfig.spec.json" },
-    { "path": "./packages/api-derive" },
-    { "path": "./packages/api-derive/tsconfig.spec.json" },
-    { "path": "./packages/rpc-augment" },
-    { "path": "./packages/rpc-core" },
-    { "path": "./packages/rpc-core/tsconfig.spec.json" },
-    { "path": "./packages/rpc-provider" },
-    { "path": "./packages/rpc-provider/tsconfig.spec.json" },
-    { "path": "./packages/typegen" },
-    { "path": "./packages/types" },
-    { "path": "./packages/types/tsconfig.spec.json" },
-    { "path": "./packages/types-augment" },
-    { "path": "./packages/types-codec" },
-    { "path": "./packages/types-codec/tsconfig.spec.json" },
-    { "path": "./packages/types-create" },
-    { "path": "./packages/types-create/tsconfig.spec.json" },
-    { "path": "./packages/types-known" },
-    { "path": "./packages/types-support" }
+  "include": [
+    "packages/**/src/**/*"
+  ],
+  "exclude": [
+    "**/node_modules/**/*"
   ]
 }

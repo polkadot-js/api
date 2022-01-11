@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, CodecRegistry, INumber, IU8a, UIntBitLength } from '../types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -32,6 +32,10 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
     return value.toString();
   } else if (isHex(value, -1, true)) {
     return hexToBn(value, { isLe: false, isNegative }).toString();
+  } else if (isNumber(value)) {
+    assert(value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER && Math.floor(value) === value, 'Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
+  } else if (isString(value)) {
+    assert(!(value.includes('.') || value.includes(',') || value.includes('e')), 'String should not contain decimal points or scientific notation');
   }
 
   return bnToBn(value).toString();

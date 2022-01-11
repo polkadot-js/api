@@ -532,7 +532,7 @@ export class PortableRegistry extends Struct implements ILookup {
               ? { typeName: sanitize(typeName.unwrap()) }
               : null
           )),
-        type: pathLast
+        type: pathFirst
       });
     } else if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(pathLast)) {
       return withTypeString(this.registry, {
