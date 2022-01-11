@@ -9,7 +9,7 @@ describe('Compact', (): void => {
   const registry = new TypeRegistry();
 
   describe('constructor', (): void => {
-    it('fails on on > MAX_SAFE_INTEGER', (): void => {
+    it('fails on > MAX_SAFE_INTEGER', (): void => {
       // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
       expect(() => new Compact(registry, 'u128', 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
     });
