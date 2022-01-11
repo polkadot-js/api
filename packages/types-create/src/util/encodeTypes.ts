@@ -31,6 +31,7 @@ function encodeWithParams (registry: CodecRegistry, typeDef: TypeDef, outer: str
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Opaque:
     case TypeDefInfo.Option:
+    case TypeDefInfo.Range:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
       return paramsNotation(outer, sub, (p) => encodeTypeDef(registry, p));

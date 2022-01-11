@@ -520,18 +520,7 @@ export class PortableRegistry extends Struct implements ILookup {
     } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Range,
-        sub: fields.map(({ name, type, typeName }, index) =>
-          objectSpread(
-            {
-              name: name.isSome
-                ? name.unwrap().toString()
-                : ['start', 'end'][index]
-            },
-            this.#createSiDef(type),
-            typeName.isSome
-              ? { typeName: sanitize(typeName.unwrap()) }
-              : null
-          )),
+        sub: this.#createSiDef(params[0].type.unwrap()),
         type: pathFirst
       });
     } else if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(pathLast)) {
