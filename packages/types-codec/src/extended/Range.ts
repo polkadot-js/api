@@ -16,7 +16,10 @@ export class Range<T extends INumber> extends Tuple {
   #rangeName: RangeType;
 
   constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value?: AnyTuple, rangeName: RangeType = 'Range') {
-    super(registry, { end: Type, start: Type }, value);
+    super(registry, {
+      end: Type,
+      start: Type
+    }, value);
 
     this.#rangeName = rangeName;
   }
@@ -52,14 +55,14 @@ export class Range<T extends INumber> extends Tuple {
 }
 
 export class RangeInclusive<T extends INumber = INumber> extends Range<T> {
-  constructor (registry: CodecRegistry, type: CodecClass<T> | string, value?: AnyTuple) {
-    super(registry, type, value, 'RangeInclusive');
+  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value?: AnyTuple) {
+    super(registry, Type, value, 'RangeInclusive');
   }
 
-  public static override with <T extends INumber> (Types: CodecClass<T> | string): CodecClass<RangeInclusive<T>> {
+  public static override with <T extends INumber> (Type: CodecClass<T> | string): CodecClass<RangeInclusive<T>> {
     return class extends RangeInclusive<T> {
       constructor (registry: CodecRegistry, value?: AnyTuple) {
-        super(registry, Types, value);
+        super(registry, Type, value);
       }
     };
   }
