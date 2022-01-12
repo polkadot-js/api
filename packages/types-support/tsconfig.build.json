@@ -6,10 +6,9 @@
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "exclude": [
-    "**/*.spec.ts"
+  "include": [
+    "src/**/*.json",
+    "src/**/*.ts"
   ],
-  "references": [
-    { "path": "../types-codec" }
-  ]
+  "references": []
 }

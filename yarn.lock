@@ -1361,9 +1361,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/register@npm:^7.16.8":
-  version: 7.16.8
-  resolution: "@babel/register@npm:7.16.8"
+"@babel/register@npm:^7.16.9":
+  version: 7.16.9
+  resolution: "@babel/register@npm:7.16.9"
   dependencies:
     clone-deep: ^4.0.1
     find-cache-dir: ^2.0.0
@@ -1372,7 +1372,7 @@ __metadata:
     source-map-support: ^0.5.16
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: e6b53de9eff3766cf62397561d3250c1c9da0cd67c5879c439140c42cf5a0a017b69025ec526c015af0b5ae7a50f7df61415be68ff6bb0af78af99a58ba59f85
+  checksum: bbe9552c9e5816aec2bf7d899b43f95fd649714f38d14de48f42c895cc9ef65708f1359f393c235d5f02224c115544aeeb174495682a07734cdf9484ed2e6175
   languageName: node
   linkType: hard
 
@@ -1956,9 +1956,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.65.27":
-  version: 0.65.27
-  resolution: "@polkadot/dev@npm:0.65.27"
+"@polkadot/dev@npm:^0.65.31":
+  version: 0.65.31
+  resolution: "@polkadot/dev@npm:0.65.31"
   dependencies:
     "@babel/cli": ^7.16.8
     "@babel/core": ^7.16.7
@@ -1974,7 +1974,7 @@ __metadata:
     "@babel/preset-env": ^7.16.8
     "@babel/preset-react": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
-    "@babel/register": ^7.16.8
+    "@babel/register": ^7.16.9
     "@babel/runtime": ^7.16.7
     "@rollup/plugin-alias": ^3.1.9
     "@rollup/plugin-commonjs": ^21.0.1
@@ -2044,7 +2044,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: cbd5d65a9d7fa78c1a8e5a214b5fbf7e2e2286fe35c16780f8dd069076adbf0c91dca647ba9d83c62e78b527df1b669528c2c3b8683e0c0711cbdfa47b3830f3
+  checksum: 8c2b24fa398aee60ba0ffa72c9d0c7964b565e94702511b24d52189c36d3703c3b325080384bcca29c85ad5b5e7057131d42b91e566df6fef5783af8ed8298bf
   languageName: node
   linkType: hard
 
@@ -2122,7 +2122,7 @@ __metadata:
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
     "@babel/core": ^7.16.7
-    "@babel/register": ^7.16.8
+    "@babel/register": ^7.16.9
     "@babel/runtime": ^7.16.7
     "@polkadot/api": 7.3.2-5
     "@polkadot/api-augment": 7.3.2-5
@@ -8944,9 +8944,9 @@ resolve@^2.0.0-next.3:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/core": ^7.16.7
-    "@babel/register": ^7.16.8
+    "@babel/register": ^7.16.9
     "@babel/runtime": ^7.16.7
-    "@polkadot/dev": ^0.65.27
+    "@polkadot/dev": ^0.65.31
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.0
     copyfiles: ^2.4.1
