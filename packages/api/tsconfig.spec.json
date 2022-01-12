@@ -13,14 +13,14 @@
     "**/test/**/*"
   ],
   "references": [
-    { "path": "../api" },
-    { "path": "../api-augment" },
-    { "path": "../api-base" },
-    { "path": "../api-derive" },
-    { "path": "../rpc-core" },
-    { "path": "../rpc-provider" },
-    { "path": "../types" },
-    { "path": "../types-known" },
-    { "path": "../types-support" }
+    { "path": "../api/tsconfig.build.json" },
+    { "path": "../api-augment/tsconfig.build.json" },
+    { "path": "../api-base/tsconfig.build.json" },
+    { "path": "../api-derive/tsconfig.build.json" },
+    { "path": "../rpc-core/tsconfig.build.json" },
+    { "path": "../rpc-provider/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-known/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
   ]
 }

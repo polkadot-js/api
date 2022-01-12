@@ -13,10 +13,10 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../types" },
-    { "path": "../types-augment" },
-    { "path": "../types-codec" },
-    { "path": "../types-create" },
-    { "path": "../types-support" }
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
   ]
 }

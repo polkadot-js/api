@@ -10,10 +10,10 @@
     "**/polkadot/*.ts"
   ],
   "references": [
-    { "path": "../api-base" },
-    { "path": "../rpc-augment" },
-    { "path": "../types" },
-    { "path": "../types-codec" },
-    { "path": "../types-augment" }
+    { "path": "../api-base/tsconfig.build.json" },
+    { "path": "../rpc-augment/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" }
   ]
 }
