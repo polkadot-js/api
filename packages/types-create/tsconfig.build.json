@@ -6,6 +6,12 @@
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.json", "src/**/*.ts"],
-  "references": []
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+  "references": [
+    {
+      "path": "../types-codec/tsconfig.build.json"
+    }
+  ]
 }
