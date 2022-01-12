@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { v0ToLatest, v1ToLatest, v2ToLatest } from './toLatest';
+import { convertVersions, enumVersions } from './toLatest';
 
 const l = logger('Abi');
 
@@ -26,24 +26,18 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-// FIXME: This is still workable with V0, V1 & V2, but certainly is not a scalable
-// approach (right at this point don't quite have better ideas that is not as complex
-// as the conversion tactics in the runtime Metadata)
 function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
-  const vx = ['V3', 'V2', 'V1'].find((v) => isObject(json[v]));
+  const vx = enumVersions.find((v) => isObject(json[v]));
   const metadata = registry.createType('ContractMetadata',
     vx
       ? { [vx]: json[vx] }
       : { V0: json }
   ) as unknown as ContractMetadata;
+  const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
-  return metadata.isV3
-    ? metadata.asV3
-    : metadata.isV2
-      ? v2ToLatest(registry, metadata.asV2)
-      : metadata.isV1
-        ? v1ToLatest(registry, metadata.asV1)
-        : v0ToLatest(registry, metadata.asV0);
+  assert(converter, () => `Unable to convert ABI with version ${metadata.type} to latest`);
+
+  return converter[1](registry, metadata[`as${converter[0]}`]);
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
