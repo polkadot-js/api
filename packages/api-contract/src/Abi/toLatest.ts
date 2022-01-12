@@ -8,10 +8,11 @@ import { v0ToV1 } from './toV1';
 import { v1ToV2 } from './toV2';
 import { v2ToV3 } from './toV3';
 
-type Versions = 'V0' | 'V1' | 'V2' | 'V3';
+type Versions = 'V3' | 'V2' | 'V1' | 'V0';
 
 type Converter = (registry: Registry, vx: any) => ContractMetadataLatest;
 
+// Helper to convert metadata from one step to the next
 function createConverter <I, O> (next: (registry: Registry, input: O) => ContractMetadataLatest, step: (registry: Registry, input: I) => O): (registry: Registry, input: I) => ContractMetadataLatest {
   return (registry: Registry, input: I): ContractMetadataLatest =>
     next(registry, step(registry, input));
@@ -29,7 +30,6 @@ export const v0ToLatest = createConverter(v1ToLatest, v0ToV1);
 // (Order from newest, i.e. we expect more on newest vs oldest)
 export const enumVersions = ['V3', 'V2', 'V1'];
 
-// (Order from newest, i.e. we expect more on newest vs oldest)
 export const convertVersions: [Versions, Converter][] = [
   ['V3', v3ToLatest],
   ['V2', v2ToLatest],
