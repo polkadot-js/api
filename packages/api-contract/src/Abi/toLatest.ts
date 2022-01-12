@@ -33,7 +33,7 @@ export function v1ToLatest (registry: Registry, v1: ContractMetadataV1): Contrac
 }
 
 export function v2ToLatest (registry: Registry, v2: ContractMetadataV2): ContractMetadataLatest {
-  return v2ToV3(registry, v2);
+  return v3ToLatest(registry, v2ToV3(registry, v2));
 }
 
 export function v3ToLatest (registry: Registry, v3: ContractMetadataV3): ContractMetadataLatest {
