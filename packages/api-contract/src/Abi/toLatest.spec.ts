@@ -77,8 +77,6 @@ describe('v2ToLatest', (): void => {
   const contract = registry.createType('ContractMetadata', { V2: abis.ink_v2_flipper.V2 });
   const latest = v2ToLatest(registry, contract.asV2);
 
-  console.log(latest.spec.constructors[0]);
-
   it('has the correct constructor flag', (): void => {
     expect(
       latest.spec.constructors[0].payable.isTrue
