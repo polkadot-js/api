@@ -11,11 +11,7 @@
     "**/*.spec.ts"
   ],
   "references": [
-    {
-      "path": "../types-codec/tsconfig.build.json"
-    },
-    {
-      "path": "../types-create/tsconfig.build.json"
-    }
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" }
   ]
 }
