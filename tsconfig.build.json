@@ -4,80 +4,30 @@
   },
   "files": [],
   "references": [
-    {
-      "path": "./packages/api/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/api/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/api-augment/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/api-augment/tsconfig.kusama.json"
-    },
-    {
-      "path": "./packages/api-augment/tsconfig.polkadot.json"
-    },
-    {
-      "path": "./packages/api-base/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/api-contract/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/api-contract/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/api-derive/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/api-derive/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/rpc-augment/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/rpc-core/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/rpc-core/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/rpc-provider/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/rpc-provider/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/typegen/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/types-augment/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types-codec/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types-codec/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/types-create/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types-create/tsconfig.spec.json"
-    },
-    {
-      "path": "./packages/types-known/tsconfig.build.json"
-    },
-    {
-      "path": "./packages/types-support/tsconfig.build.json"
-    }
+    { "path": "./packages/api/tsconfig.build.json" },
+    { "path": "./packages/api/tsconfig.spec.json" },
+    { "path": "./packages/api-augment/tsconfig.build.json" },
+    { "path": "./packages/api-augment/tsconfig.kusama.json" },
+    { "path": "./packages/api-augment/tsconfig.polkadot.json" },
+    { "path": "./packages/api-base/tsconfig.build.json" },
+    { "path": "./packages/api-contract/tsconfig.build.json" },
+    { "path": "./packages/api-contract/tsconfig.spec.json" },
+    { "path": "./packages/api-derive/tsconfig.build.json" },
+    { "path": "./packages/api-derive/tsconfig.spec.json" },
+    { "path": "./packages/rpc-augment/tsconfig.build.json" },
+    { "path": "./packages/rpc-core/tsconfig.build.json" },
+    { "path": "./packages/rpc-core/tsconfig.spec.json" },
+    { "path": "./packages/rpc-provider/tsconfig.build.json" },
+    { "path": "./packages/rpc-provider/tsconfig.spec.json" },
+    { "path": "./packages/typegen/tsconfig.build.json" },
+    { "path": "./packages/types/tsconfig.build.json" },
+    { "path": "./packages/types/tsconfig.spec.json" },
+    { "path": "./packages/types-augment/tsconfig.build.json" },
+    { "path": "./packages/types-codec/tsconfig.build.json" },
+    { "path": "./packages/types-codec/tsconfig.spec.json" },
+    { "path": "./packages/types-create/tsconfig.build.json" },
+    { "path": "./packages/types-create/tsconfig.spec.json" },
+    { "path": "./packages/types-known/tsconfig.build.json" },
+    { "path": "./packages/types-support/tsconfig.build.json" }
   ]
 }

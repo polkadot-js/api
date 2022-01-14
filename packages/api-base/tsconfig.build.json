@@ -6,11 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
-    {
-      "path": "../rpc-core/tsconfig.build.json"
-    },
-    {
-      "path": "../types/tsconfig.build.json"
-    }
+    { "path": "../rpc-core/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" }
   ]
 }
