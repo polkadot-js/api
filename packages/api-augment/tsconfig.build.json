@@ -5,8 +5,8 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "include": [
-    "**/base.ts",
+  "exclude": [
+    "**/kusama/*.ts",
     "**/polkadot/*.ts"
   ],
   "references": [

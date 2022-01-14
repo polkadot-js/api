@@ -14,8 +14,8 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../types" },
-    { "path": "../types-augment" },
-    { "path": "../types-support" }
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
   ]
 }

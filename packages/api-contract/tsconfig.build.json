@@ -14,9 +14,9 @@
     "mock.ts"
   ],
   "references": [
-    { "path": "../api" },
-    { "path": "../types" },
-    { "path": "../types-codec" },
-    { "path": "../types-create" }
+    { "path": "../api/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" }
   ]
 }

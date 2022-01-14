@@ -3,18 +3,15 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "resolveJsonModule": true
   },
   "exclude": [
-    "**/test/*",
     "**/checkTypes.manual.ts",
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api-base" },
-    { "path": "../api-augment" },
-    { "path": "../rpc-core" },
-    { "path": "../types" },
-    { "path": "../types-codec" }
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" }
   ]
 }

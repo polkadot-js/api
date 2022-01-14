@@ -6,8 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../types" },
-    { "path": "../types-codec" },
-    { "path": "../types-create" }
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" }
   ]
 }

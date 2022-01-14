@@ -13,15 +13,15 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../api" },
-    { "path": "../api-augment" },
-    { "path": "../api-base" },
-    { "path": "../api-derive" },
-    { "path": "../rpc-augment" },
-    { "path": "../rpc-provider" },
-    { "path": "../types" },
-    { "path": "../types-augment" },
-    { "path": "../types-codec" },
-    { "path": "../types-support" }
+    { "path": "../api/tsconfig.build.json" },
+    { "path": "../api-augment/tsconfig.build.json" },
+    { "path": "../api-base/tsconfig.build.json" },
+    { "path": "../api-derive/tsconfig.build.json" },
+    { "path": "../rpc-augment/tsconfig.build.json" },
+    { "path": "../rpc-provider/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
   ]
 }

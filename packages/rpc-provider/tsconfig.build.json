@@ -10,6 +10,7 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../types-codec" }
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
   ]
 }

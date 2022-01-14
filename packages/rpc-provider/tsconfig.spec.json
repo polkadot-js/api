@@ -12,7 +12,7 @@
     "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../rpc-provider" },
-    { "path": "../types" }
+    { "path": "../rpc-provider/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" }
   ]
 }
