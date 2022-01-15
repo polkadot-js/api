@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 7.4.1 Jan 15, 2022
+
+Upgrade priority: Medium. Required for all chains using `Range` and `RangeInclusive` types. Also includes better error handling for number conversions.
 
 Changes:
 
@@ -8,6 +10,7 @@ Changes:
 - Ensure `Range/RangeInclusive` variant check does not fail on encoding
 - Ensure non-option calls in api-contract are marked as `@deprecated`
 - Added Kusama 9150 upgrade block (known types)
+- Update `@polkadot/util` to 8.3.2
 
 
 ## 7.3.1 Jan 9, 2022
