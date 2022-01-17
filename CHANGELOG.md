@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Added Kusama 9151 upgrade block (known types)
+
 ## 7.4.1 Jan 15, 2022
 
 Upgrade priority: Medium. Required for all chains using `Range` and `RangeInclusive` types. Also includes better error handling for number conversions.
