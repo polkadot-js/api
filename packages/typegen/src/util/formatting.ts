@@ -109,14 +109,6 @@ export function exportInterface (lookupIndex = -1, name = '', base: string, body
   return `${doc}export interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
 
-// helper to create an `export type <Name> = <Base>`
-// but since we don't want type alias (TS doesn't preserve names) we use
-// interface here.
-/** @internal */
-export function exportType (lookupIndex = -1, name = '', base: string): string {
-  return exportInterface(lookupIndex, name, base);
-}
-
 function singleParamNotation (registry: CodecRegistry, wrapper: string, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean): string {
   const sub = (typeDef.sub as TypeDef);
 

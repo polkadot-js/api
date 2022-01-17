@@ -16,7 +16,7 @@ import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 import { isString, stringify } from '@polkadot/util';
 
-import { createImports, exportType, initMeta, readTemplate, writeFile } from '../util';
+import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util';
 import { typeEncoders } from './tsDef';
 
 const WITH_TYPEDEF = false;
@@ -191,7 +191,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
     typeDef.name = typeDef.lookupName;
 
     return typeDef.lookupNameRoot && typeDef.lookupName
-      ? exportType(typeDef.lookupIndex, typeDef.lookupName, typeDef.lookupNameRoot)
+      ? exportInterface(typeDef.lookupIndex, typeDef.lookupName, typeDef.lookupNameRoot)
       : typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
   }).filter((t): t is string => !!t);
 
