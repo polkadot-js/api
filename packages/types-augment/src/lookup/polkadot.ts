@@ -66,7 +66,10 @@ export default {
       CurrentHeadUpdated: 'u32',
       CodeUpgradeScheduled: 'u32',
       NewHeadNoted: 'u32',
-      ActionQueued: '(u32,u32)'
+      ActionQueued: '(u32,u32)',
+      PvfCheckStarted: '(H256,u32)',
+      PvfCheckAccepted: '(H256,u32)',
+      PvfCheckRejected: '(H256,u32)'
     }
   },
   /**
@@ -2003,7 +2006,7 @@ export default {
    * Lookup621: polkadot_runtime_parachains::paras::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsParasPalletError: {
-    _enum: ['NotRegistered', 'CannotOnboard', 'CannotOffboard', 'CannotUpgrade', 'CannotDowngrade', 'PvfCheckStatementStale', 'PvfCheckStatementFuture', 'PvfCheckValidatorIndexOutOfBounds', 'PvfCheckInvalidSignature', 'PvfCheckDoubleVote', 'PvfCheckSubjectInvalid']
+    _enum: ['NotRegistered', 'CannotOnboard', 'CannotOffboard', 'CannotUpgrade', 'CannotDowngrade', 'PvfCheckStatementStale', 'PvfCheckStatementFuture', 'PvfCheckValidatorIndexOutOfBounds', 'PvfCheckInvalidSignature', 'PvfCheckDoubleVote', 'PvfCheckSubjectInvalid', 'PvfCheckDisabled']
   },
   /**
    * Lookup623: polkadot_runtime_parachains::initializer::BufferedSessionChange

@@ -1624,7 +1624,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - be less than the number of possible candidates. Note that all current members and
        * runners-up are also automatically candidates for the next round.
        * 
-       * If `value` is more than `who`'s total balance, then the maximum of the two is used.
+       * If `value` is more than `who`'s free balance, then the maximum of the two is used.
        * 
        * The dispatch origin of this call must be signed.
        * 
