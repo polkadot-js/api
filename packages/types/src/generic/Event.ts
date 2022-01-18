@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, Codec, CodecClass, Registry } from '@polkadot/types-codec/types';
-import type { Registry, TypeDef } from '@polkadot/types-create/types';
+import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { IEvent, IEventData, InterfaceTypes } from '../types';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';

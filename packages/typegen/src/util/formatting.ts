@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import type { Registry } from '@polkadot/types/types';
-import type { Registry } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';

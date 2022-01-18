@@ -1,10 +1,10 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ICompact, INumber, Registry } from '@polkadot/types-codec/types';
-import type { Registry } from '@polkadot/types-create/types';
+import type { ICompact, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
 import type { StorageEntry } from '../../../primitive/types';
+import type { Registry } from '../../../types';
 
 import { Raw } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
