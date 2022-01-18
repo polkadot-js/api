@@ -80,9 +80,9 @@ Changes:
 
 Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusama chains.
 
-- **Breaking changes** For TS users the default API augmentation is now optional. This means that the API, for TypeScript, is not decorated by default with the Substrate types and encpoints. TS users should add a singular `import '@polkadot/api-augment';` in their code to retore old behavior.
+- **Breaking changes** For TS users the default API augmentation is now optional. This means that the API, for TypeScript, is not decorated by default with the Substrate types and encpoints. TS users should add a singular `import '@polkadot/api-augment';` in their code to restore old behavior. A full writeup of the rationale and other options can be found [in the FAQ](https://polkadot.js.org/docs/api/FAQ#since-upgrading-to-the-7x-series-typescript-augmentation-is-missing)
 
-- **Breaking change** To cater for the above, chain-specific interfaces generated with older versions may not be compaitible with the current version of the API. Additionally, TS interfaces generated with this version of the API is not compatible with older API versions.
+- **Breaking change** To cater for the above, chain-specific interfaces generated with older versions may not be compatible with the current version of the API. Additionally, TS interfaces generated with this version of the API is not compatible with older API versions.
 
 Contributed:
 
