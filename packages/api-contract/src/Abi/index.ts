@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { v0ToLatest, v1ToLatest } from './toLatest';
+import { convertVersions, enumVersions } from './toLatest';
 
 const l = logger('Abi');
 
@@ -26,23 +26,18 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-// FIXME: This is still workable with V0, V1 & V2, but certainly is not a scalable
-// approach (right at this point don't quite have better ideas that is not as complex
-// as the conversion tactics in the runtime Metadata)
 function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
+  const vx = enumVersions.find((v) => isObject(json[v]));
   const metadata = registry.createType('ContractMetadata',
-    isObject(json.V2)
-      ? { V2: json.V2 }
-      : isObject(json.V1)
-        ? { V1: json.V1 }
-        : { V0: json }
+    vx
+      ? { [vx]: json[vx] }
+      : { V0: json }
   ) as unknown as ContractMetadata;
+  const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
-  return metadata.isV2
-    ? metadata.asV2
-    : metadata.isV1
-      ? v1ToLatest(registry, metadata.asV1)
-      : v0ToLatest(registry, metadata.asV0);
+  assert(converter, () => `Unable to convert ABI with version ${metadata.type} to latest`);
+
+  return converter[1](registry, metadata[`as${converter[0]}`]);
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
@@ -90,7 +85,8 @@ export class Abi {
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
-        isConstructor: true
+        isConstructor: true,
+        isPayable: spec.payable.isTrue
       })
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>

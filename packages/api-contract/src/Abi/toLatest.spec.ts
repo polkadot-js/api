@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { v0ToLatest, v1ToLatest } from '@polkadot/api-contract/Abi/toLatest';
+import { v0ToLatest, v1ToLatest, v2ToLatest } from '@polkadot/api-contract/Abi/toLatest';
 import { TypeRegistry } from '@polkadot/types';
 
 import abis from '../test/contracts';
@@ -69,5 +69,17 @@ describe('v1ToLatest', (): void => {
     expect(
       latest.spec.constructors[0].args.map(({ label }) => label.toString())
     ).toEqual(['init_value']);
+  });
+});
+
+describe('v2ToLatest', (): void => {
+  const registry = new TypeRegistry();
+  const contract = registry.createType('ContractMetadata', { V2: abis.ink_v2_flipper.V2 });
+  const latest = v2ToLatest(registry, contract.asV2);
+
+  it('has the correct constructor flag', (): void => {
+    expect(
+      latest.spec.constructors[0].payable.isTrue
+    ).toEqual(true);
   });
 });

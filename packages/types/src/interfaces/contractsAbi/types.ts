@@ -7,7 +7,7 @@ import type { PortableType } from '@polkadot/types/interfaces/metadata';
 import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpecLatest */
-export interface ContractConstructorSpecLatest extends ContractConstructorSpecV2 {}
+export interface ContractConstructorSpecLatest extends ContractConstructorSpecV3 {}
 
 /** @name ContractConstructorSpecV0 */
 export interface ContractConstructorSpecV0 extends Struct {
@@ -25,6 +25,15 @@ export interface ContractConstructorSpecV2 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractConstructorSpecV3 */
+export interface ContractConstructorSpecV3 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV2>;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractContractSpecV0 */
 export interface ContractContractSpecV0 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV0>;
@@ -36,6 +45,14 @@ export interface ContractContractSpecV0 extends Struct {
 /** @name ContractContractSpecV2 */
 export interface ContractContractSpecV2 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV2>;
+  readonly messages: Vec<ContractMessageSpecV2>;
+  readonly events: Vec<ContractEventSpecV2>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractContractSpecV3 */
+export interface ContractContractSpecV3 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV3>;
   readonly messages: Vec<ContractMessageSpecV2>;
   readonly events: Vec<ContractEventSpecV2>;
   readonly docs: Vec<Text>;
@@ -187,11 +204,13 @@ export interface ContractMetadata extends Enum {
   readonly asV1: ContractMetadataV1;
   readonly isV2: boolean;
   readonly asV2: ContractMetadataV2;
-  readonly type: 'V0' | 'V1' | 'V2';
+  readonly isV3: boolean;
+  readonly asV3: ContractMetadataV3;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3';
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV2 {}
+export interface ContractMetadataLatest extends ContractMetadataV3 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -209,6 +228,12 @@ export interface ContractMetadataV1 extends Struct {
 export interface ContractMetadataV2 extends Struct {
   readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpecV2;
+}
+
+/** @name ContractMetadataV3 */
+export interface ContractMetadataV3 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpecV3;
 }
 
 /** @name ContractProject */
