@@ -8,7 +8,7 @@ Changes:
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
 - Adjust typegen, only using exportInterface
-- Added Kusama 9151 upgrade block (known types)
+- Added Kusama/Polkadot 9151 upgrade block (known types)
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 
