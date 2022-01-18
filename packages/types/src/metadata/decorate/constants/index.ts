@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
 import type { ConstantCodec, Constants } from '../types';
 
@@ -11,7 +11,7 @@ import { objectNameToCamel } from '../util';
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function decorateConstants (registry: CodecRegistry, { pallets }: MetadataLatest, _version: number): Constants {
+export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
   for (let i = 0; i < pallets.length; i++) {

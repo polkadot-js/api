@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, CodecClass, CodecRegistry, INumber } from '../types';
+import type { AnyTuple, CodecClass, INumber, Registry } from '../types';
 
 import { Tuple } from '../base/Tuple';
 
@@ -15,7 +15,7 @@ type RangeType = 'Range' | 'RangeInclusive';
 export class Range<T extends INumber> extends Tuple {
   #rangeName: RangeType;
 
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value?: AnyTuple, rangeName: RangeType = 'Range') {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple, rangeName: RangeType = 'Range') {
     super(registry, {
       end: Type,
       start: Type
@@ -26,7 +26,7 @@ export class Range<T extends INumber> extends Tuple {
 
   public static override with <T extends INumber> (Types: CodecClass<T> | string): CodecClass<Range<T>> {
     return class extends Range<T> {
-      constructor (registry: CodecRegistry, value?: AnyTuple) {
+      constructor (registry: Registry, value?: AnyTuple) {
         super(registry, Types, value);
       }
     };
@@ -55,13 +55,13 @@ export class Range<T extends INumber> extends Tuple {
 }
 
 export class RangeInclusive<T extends INumber = INumber> extends Range<T> {
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value?: AnyTuple) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple) {
     super(registry, Type, value, 'RangeInclusive');
   }
 
   public static override with <T extends INumber> (Type: CodecClass<T> | string): CodecClass<RangeInclusive<T>> {
     return class extends RangeInclusive<T> {
-      constructor (registry: CodecRegistry, value?: AnyTuple) {
+      constructor (registry: Registry, value?: AnyTuple) {
         super(registry, Type, value);
       }
     };

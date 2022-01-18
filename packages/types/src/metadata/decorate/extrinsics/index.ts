@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
 import type { CallFunction } from '../../../types';
@@ -18,7 +18,7 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
 }
 
-export function createCallFunction (registry: CodecRegistry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
+export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
   const { fields, index } = variant;
   const args = new Array<Record<string, unknown>>(fields.length);
 
@@ -45,7 +45,7 @@ export function createCallFunction (registry: CodecRegistry, lookup: PortableReg
 }
 
 /** @internal */
-export function decorateExtrinsics (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
+export function decorateExtrinsics (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Extrinsics {
   const result: Extrinsics = {};
   const filtered = pallets.filter(filterCallsSome);
 

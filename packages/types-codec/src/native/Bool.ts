@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecRegistry, IU8a } from '../types';
+import type { Codec, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
@@ -24,12 +24,12 @@ function decodeBool (value: any): boolean {
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor (registry: CodecRegistry, value: bool | Boolean | Uint8Array | boolean | number = false) {
+  constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
     super(decodeBool(value));
 
     this.registry = registry;

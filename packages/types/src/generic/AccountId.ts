@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyString, AnyU8a, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyString, AnyU8a, Registry } from '@polkadot/types-codec/types';
 
 import { U8aFixed } from '@polkadot/types-codec';
 import { assert, hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
@@ -30,7 +30,7 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
  * just a Uint8Array wrapper with a fixed length.
  */
 export class GenericAccountId extends U8aFixed {
-  constructor (registry: CodecRegistry, value?: AnyU8a) {
+  constructor (registry: Registry, value?: AnyU8a) {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)

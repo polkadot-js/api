@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, IU8a, Registry } from '@polkadot/types-codec/types';
 import type { CreateOptions } from '../types';
 
 import { Bytes, Option } from '@polkadot/types-codec';
@@ -20,7 +20,7 @@ function checkInstance (created: Codec, matcher: Uint8Array): void {
     (
       // on a length-prefixed type, just check the actual length
       ['Bytes', 'Text', 'Type'].includes(rawType) &&
-      matcher.length === (created as Bytes).length
+      matcher.length === (created as unknown as Bytes).length
     ) ||
     (
       // when the created is empty and matcher is also empty, let it slide...
@@ -44,7 +44,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec> (registry: CodecRegistry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
+function initType<T extends Codec> (registry: Registry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
   checkPedantic(created, params, isPedantic);
@@ -59,7 +59,7 @@ function initType<T extends Codec> (registry: CodecRegistry, Type: CodecClass, p
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, when it cannot parse, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: unknown[] = [], options: CreateOptions = {}): T {
   let Clazz: CodecClass | null = null;
   let firstError: Error | null = null;
 

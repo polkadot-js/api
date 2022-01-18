@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types-codec';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CodecRegistry, IMethod } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
@@ -37,7 +37,7 @@ const VERSIONS = [
 export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /** @internal */
-function newFromValue (registry: CodecRegistry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+function newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
   if (value instanceof GenericExtrinsic) {
     return value.unwrap();
   }
@@ -51,7 +51,7 @@ function newFromValue (registry: CodecRegistry, value: any, version: number): Ex
 }
 
 /** @internal */
-function decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
   if (isU8a(value) || Array.isArray(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), version);
   } else if (value instanceof registry.createClassUnsafe('Call')) {
@@ -62,7 +62,7 @@ function decodeExtrinsic (registry: CodecRegistry, value?: GenericExtrinsic | Ex
 }
 
 /** @internal */
-function decodeU8a (registry: CodecRegistry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+function decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
   if (!value.length) {
     return newFromValue(registry, new Uint8Array(), version);
   }
@@ -78,7 +78,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array, version: number)
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
-  constructor (registry: CodecRegistry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
+  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
@@ -169,7 +169,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   }
 
   public override get registry (): Registry {
-    return super.registry as Registry;
+    return super.registry;
   }
 
   /**
@@ -238,7 +238,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
   #hashCache?: CodecHash;
 
-  constructor (registry: CodecRegistry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
+  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, decodeExtrinsic(registry, value, version));
   }
 

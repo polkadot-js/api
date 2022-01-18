@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, IEnum, IU8a } from '../types';
+import type { AnyJson, Codec, CodecClass, IEnum, IU8a, Registry } from '../types';
 
 import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { Null } from './Null';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumCodecClass<T = Codec> {
-  new(registry: CodecRegistry, value?: any, index?: number): T;
+  new(registry: Registry, value?: any, index?: number): T;
 }
 
 interface EntryDef {
@@ -38,7 +38,7 @@ function isRustEnum (def: Record<string, string | CodecClass> | Record<string, n
   return true;
 }
 
-function extractDef (registry: CodecRegistry, _def: Record<string, string | CodecClass> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+function extractDef (registry: Registry, _def: Record<string, string | CodecClass> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
   const def: TypesDef = {};
   let isBasic: boolean;
   let isIndexed: boolean;
@@ -81,7 +81,7 @@ function extractDef (registry: CodecRegistry, _def: Record<string, string | Code
   };
 }
 
-function createFromValue (registry: CodecRegistry, def: TypesDef, index = 0, value?: unknown): Decoded {
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
   const entry = Object.values(def).find((e) => e.index === index);
 
   assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
@@ -94,7 +94,7 @@ function createFromValue (registry: CodecRegistry, def: TypesDef, index = 0, val
   };
 }
 
-function decodeFromJSON (registry: CodecRegistry, def: TypesDef, key: string, value?: unknown): Decoded {
+function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: unknown): Decoded {
   // JSON comes in the form of { "<type (camelCase)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
   const keys = Object.keys(def).map((k) => k.toLowerCase());
@@ -110,7 +110,7 @@ function decodeFromJSON (registry: CodecRegistry, def: TypesDef, key: string, va
   }
 }
 
-function decodeEnum (registry: CodecRegistry, def: TypesDef, value?: unknown, index?: number): Decoded {
+function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?: number): Decoded {
   // NOTE We check the index path first, before looking at values - this allows treating
   // the optional indexes before anything else, more-specific > less-specific
   if (isNumber(index)) {
@@ -145,7 +145,7 @@ function decodeEnum (registry: CodecRegistry, def: TypesDef, value?: unknown, in
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -163,7 +163,7 @@ export class Enum implements IEnum {
 
   readonly #raw: Codec;
 
-  constructor (registry: CodecRegistry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number) {
+  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number) {
     const { def, isBasic, isIndexed } = extractDef(registry, Types);
 
     // shortcut isU8a as used in SCALE decoding
@@ -199,7 +199,7 @@ export class Enum implements IEnum {
     }
 
     return class extends Enum {
-      constructor (registry: CodecRegistry, value?: unknown, index?: number) {
+      constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index);
 
         objectProperties(this, isKeys, (_, i) => this.type === keys[i]);

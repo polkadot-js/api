@@ -47,12 +47,12 @@ export interface CallFunction<A extends AnyTuple = AnyTuple, M = any> extends Ca
   (...args: any[]): IMethod<A, M>;
 }
 
-export interface CodecRegistry {
+export interface Registry {
   readonly chainDecimals: number[];
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
   // readonly knownTypes: RegisteredTypes;
-  // readonly lookup: PortableCodecRegistry;
+  // readonly lookup: PortableRegistry;
   // readonly metadata: MetadataLatest;
   // readonly unknownTypes: string[];
   // readonly signedExtensions: string[];
@@ -88,13 +88,13 @@ export interface CodecRegistry {
   hasDef (name: string): boolean;
   hasType (name: string): boolean;
   hash (data: Uint8Array): IU8a;
-  // init (): CodecRegistry;
+  // init (): Registry;
   register (type: CodecClass | RegistryTypes): void;
   register (name: string, type: CodecClass): void;
   register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;
   // setChainProperties (properties?: ChainProperties): void;
   // setHasher (hasher?: IU8aer | null): void;
-  // setLookup (lookup: PortableCodecRegistry): void;
+  // setLookup (lookup: PortableRegistry): void;
   setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown): void;
   // setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecRegistry, IU8a, IVec } from '../types';
+import type { AnyJson, Codec, IU8a, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -16,13 +16,13 @@ import { compareArray } from '../utils/compareArray';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
   readonly initialU8aLength?: number;
 
-  protected constructor (registry: CodecRegistry, values: T[], initialU8aLength?: number) {
+  protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
     super(values.length);
 
     // explicitly set the values here - this removes the need for any extra allocations

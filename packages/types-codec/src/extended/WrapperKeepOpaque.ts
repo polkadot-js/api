@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyU8a, Codec, CodecClass, CodecRegistry } from '../types';
+import type { AnyJson, AnyU8a, Codec, CodecClass, Registry } from '../types';
 
 import { assertReturn, compactStripLength, isHex, isU8a } from '@polkadot/util';
 
@@ -9,7 +9,7 @@ import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
 import { Bytes } from './Bytes';
 
-function decodeRaw<T extends Codec> (registry: CodecRegistry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec): [CodecClass<T>, T | null, AnyU8a] {
+function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec): [CodecClass<T>, T | null, AnyU8a] {
   const Type = typeToConstructor(registry, typeName);
 
   if (isU8a(value) || isHex(value)) {
@@ -34,7 +34,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
 
   readonly #decoded: T | null;
 
-  constructor (registry: CodecRegistry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec) {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec) {
     const [Type, decoded, u8a] = decodeRaw(registry, typeName, value);
 
     super(registry, u8a);
@@ -45,7 +45,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
 
   public static with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperKeepOpaque<T>> {
     return class extends WrapperKeepOpaque<T> {
-      constructor (registry: CodecRegistry, value?: AnyU8a | T) {
+      constructor (registry: Registry, value?: AnyU8a | T) {
         super(registry, Type, value);
       }
     };

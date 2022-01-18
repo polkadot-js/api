@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecClass, CodecRegistry } from '../types';
+import type { CodecClass, Registry } from '../types';
 
-export function typesToMap (registry: CodecRegistry, Types: Record<string, CodecClass>): Record<string, string> {
+export function typesToMap (registry: Registry, Types: Record<string, CodecClass>): Record<string, string> {
   const entries = Object.entries(Types);
   const result: Record<string, string> = {};
 

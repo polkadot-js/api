@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
 import type { IEvent } from '../../../types';
 import type { Events, IsEvent } from '../types';
@@ -17,7 +17,7 @@ export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
 }
 
 /** @internal */
-export function decorateEvents (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Events {
+export function decorateEvents (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Events {
   const result: Events = {};
   const filtered = pallets.filter(filterEventsSome);
 

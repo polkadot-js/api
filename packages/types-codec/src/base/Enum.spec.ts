@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
@@ -129,7 +129,7 @@ describe('Enum', (): void => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (registry: CodecRegistry, value?: string, index?: number) {
+        constructor (registry: Registry, value?: string, index?: number) {
           super(registry, {
             a: A,
             b: B,

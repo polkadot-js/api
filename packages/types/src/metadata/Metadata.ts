@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 
 import { isHex, isU8a, u8aToU8a } from '@polkadot/util';
@@ -22,7 +22,7 @@ function toU8a (value: Uint8Array | HexString): Uint8Array {
       : value;
 }
 
-function decodeU8a (registry: CodecRegistry, value: Uint8Array): MetadataVersioned {
+function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned {
   try {
     return new MetadataVersioned(registry, value);
   } catch (error) {
@@ -45,7 +45,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): MetadataVersion
  * The versioned runtime metadata as a decoded structure
  */
 export class Metadata extends MetadataVersioned {
-  constructor (registry: CodecRegistry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
+  constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
     super(
       registry,
       isU8a(value) || isHex(value)

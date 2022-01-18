@@ -1,13 +1,13 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '../../interfaces/metadata';
 
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
 /** @internal */
-function createStorageHasher (registry: CodecRegistry, hasher: StorageHasherV9): StorageHasherV10 {
+function createStorageHasher (registry: Registry, hasher: StorageHasherV9): StorageHasherV10 {
   // Blake2_128_Concat has been added at index 2, so we increment all the
   // indexes greater than 2
   if (hasher.toNumber() >= 2) {
@@ -18,7 +18,7 @@ function createStorageHasher (registry: CodecRegistry, hasher: StorageHasherV9):
 }
 
 /** @internal */
-function createStorageType (registry: CodecRegistry, entryType: StorageEntryTypeV9): [any, number] {
+function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
   if (entryType.isMap) {
     return [{
       ...entryType.asMap,
@@ -38,7 +38,7 @@ function createStorageType (registry: CodecRegistry, entryType: StorageEntryType
 }
 
 /** @internal */
-function convertModule (registry: CodecRegistry, mod: ModuleMetadataV9): ModuleMetadataV10 {
+function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
   return registry.createTypeUnsafe('ModuleMetadataV10', [{
@@ -56,7 +56,7 @@ function convertModule (registry: CodecRegistry, mod: ModuleMetadataV9): ModuleM
 }
 
 /** @internal */
-export function toV10 (registry: CodecRegistry, { modules }: MetadataV9): MetadataV10 {
+export function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
   return registry.createTypeUnsafe('MetadataV10', [{
     modules: modules.map((mod) => convertModule(registry, mod))
   }]);

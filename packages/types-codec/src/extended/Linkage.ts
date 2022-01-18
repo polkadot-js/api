@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, CodecRegistry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types';
 
 import { Option } from '../base/Option';
 import { Tuple } from '../base/Tuple';
@@ -18,7 +18,7 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export class Linkage<T extends Codec> extends Struct {
-  constructor (registry: CodecRegistry, Type: CodecClass | string, value?: unknown) {
+  constructor (registry: Registry, Type: CodecClass | string, value?: unknown) {
     super(registry, {
       previous: Option.with(Type),
       // eslint-disable-next-line sort-keys
@@ -28,7 +28,7 @@ export class Linkage<T extends Codec> extends Struct {
 
   public static withKey<O extends Codec> (Type: CodecClass | string): CodecClass<Linkage<O>> {
     return class extends Linkage<O> {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };
@@ -66,7 +66,7 @@ export class Linkage<T extends Codec> extends Struct {
  * @description A Linkage keys/Values tuple
  */
 export class LinkageResult extends Tuple {
-  constructor (registry: CodecRegistry, [TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+  constructor (registry: Registry, [TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
     super(registry, {
       Keys: Vec.with(TypeKey),
       Values: Vec.with(TypeValue)

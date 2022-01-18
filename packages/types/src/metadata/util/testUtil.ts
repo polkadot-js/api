@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { Check } from './types';
 
 import fs from 'fs';
@@ -23,7 +23,7 @@ function writeJson (json: unknown, version: number, type: string, sub: 'json' | 
 }
 
 /** @internal */
-export function decodeLatestMeta (registry: CodecRegistry, type: string, version: number, { compare, data, types }: Check): void {
+export function decodeLatestMeta (registry: Registry, type: string, version: number, { compare, data, types }: Check): void {
   const metadata = new Metadata(registry, data);
 
   registry.setMetadata(metadata);
@@ -68,7 +68,7 @@ export function decodeLatestMeta (registry: CodecRegistry, type: string, version
 }
 
 /** @internal */
-export function toLatest (registry: CodecRegistry, version: number, { data }: Check, withThrow = true): void {
+export function toLatest (registry: Registry, version: number, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, data);
 
@@ -83,7 +83,7 @@ export function toLatest (registry: CodecRegistry, version: number, { data }: Ch
 }
 
 /** @internal */
-export function defaultValues (registry: CodecRegistry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
+export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, data);
     const { pallets } = metadata.asLatest;
@@ -125,7 +125,7 @@ export function defaultValues (registry: CodecRegistry, { data, fails = [] }: Ch
   });
 }
 
-function serialize (registry: CodecRegistry, { data }: Check): void {
+function serialize (registry: Registry, { data }: Check): void {
   const metadata = new Metadata(registry, data);
 
   it('serializes to hex in the same form as retrieved', (): void => {

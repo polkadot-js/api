@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, CodecRegistry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types';
 
 import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
 
@@ -13,7 +13,7 @@ const MAX_LENGTH = 64 * 1024;
 
 const l = logger('Vec');
 
-export function decodeVec<T extends Codec> (registry: CodecRegistry, Type: CodecClass<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
+export function decodeVec<T extends Codec> (registry: Registry, Type: CodecClass<T>, value: Uint8Array | HexString | unknown[], length = -1): [T[], number, number] {
   if (Array.isArray(value)) {
     const result = new Array<T>(value.length);
 
@@ -59,7 +59,7 @@ export function decodeVec<T extends Codec> (registry: CodecRegistry, Type: Codec
 export class Vec<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = []) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = []) {
     const Clazz = typeToConstructor<T>(registry, Type);
     const [values, decodedLength] = decodeVec(registry, Clazz, value);
 
@@ -70,7 +70,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {
     return class extends Vec<O> {
-      constructor (registry: CodecRegistry, value?: any[]) {
+      constructor (registry: Registry, value?: any[]) {
         super(registry, Type, value);
       }
     };

@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
 import type { PortableType } from '../../../interfaces';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
@@ -61,15 +60,15 @@ function findSiType (registry: Registry, orig: string): PortableType | undefined
 
 // Small helper function to factorize code on this page.
 /** @internal */
-export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: CodecRegistry) => StorageEntry {
-  return (registry: CodecRegistry): StorageEntry =>
+export function createRuntimeFunction ({ method, prefix, section }: ManualDefinition, key: Uint8Array | string, { docs, type }: ManualMetadata): (registry: Registry) => StorageEntry {
+  return (registry: Registry): StorageEntry =>
     createFunction(registry, {
       meta: registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
         docs: registry.createTypeUnsafe('Vec<Text>', [[docs]]),
         modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', ['Required']),
         name: registry.createTypeUnsafe('Text', [method]),
         toJSON: (): any => key,
-        type: registry.createTypeUnsafe('StorageEntryTypeLatest', [{ Plain: findSiType(registry as Registry, type)?.id || 0 }])
+        type: registry.createTypeUnsafe('StorageEntryTypeLatest', [{ Plain: findSiType(registry, type)?.id || 0 }])
       }]),
       method,
       prefix,

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { Conviction } from '../interfaces/democracy';
 import type { AllConvictions } from '../interfaces/democracy/definitions';
 import type { ArrayElementType } from '../types';
@@ -38,7 +38,7 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 }
 
 /** @internal */
-function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
+function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
   return new Uint8Array([
     (
       new Bool(registry, value.aye).isTrue
@@ -50,7 +50,7 @@ function decodeVoteType (registry: CodecRegistry, value: VoteType): Uint8Array {
 }
 
 /** @internal */
-function decodeVote (registry: CodecRegistry, value?: InputTypes): Uint8Array {
+function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
   if (isU8a(value)) {
     return decodeVoteU8a(value);
   } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
@@ -72,7 +72,7 @@ export class GenericVote extends U8aFixed {
 
   #conviction: Conviction;
 
-  constructor (registry: CodecRegistry, value?: InputTypes) {
+  constructor (registry: Registry, value?: InputTypes) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101

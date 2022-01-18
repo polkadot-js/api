@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, CodecRegistry, IStruct, IU8a } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, IStruct, IU8a, Registry } from '../types';
 
 import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
 /** @internal */
-function decodeStructFromObject (registry: CodecRegistry, Types: CodecClassDef, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
+function decodeStructFromObject (registry: Registry, Types: CodecClassDef, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   let jsonObj: Record<string, unknown> | undefined;
   const inputKeys = Object.keys(Types);
   const typeofArray = Array.isArray(value);
@@ -90,7 +90,7 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  #registry: CodecRegistry;
+  #registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -100,7 +100,7 @@ export class Struct<
 
   readonly #Types: CodecClassDef;
 
-  constructor (registry: CodecRegistry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
     const typeMap = mapToTypeMap(registry, Types);
     const [decoded, decodedLength] = isU8a(value)
       ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
@@ -122,7 +122,7 @@ export class Struct<
     const keys = Object.keys(Types);
 
     return class extends Struct<S> {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap);
 
         objectProperties(this, keys, (k) => this.get(k));
@@ -190,7 +190,7 @@ export class Struct<
     return this.registry.hash(this.toU8a());
   }
 
-  public get registry (): CodecRegistry {
+  public get registry (): Registry {
     return this.#registry;
   }
 

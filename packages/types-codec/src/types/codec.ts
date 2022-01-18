@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson } from './helpers';
 import type { IU8a } from './interfaces';
-import type { CodecRegistry } from './registry';
+import type { Registry } from './registry';
 
 export type BareOpts = boolean | Record<string, boolean>;
 
@@ -39,7 +39,7 @@ export interface Codec {
   /**
    * @description The registry associated with this object
    */
-  readonly registry: CodecRegistry;
+  readonly registry: Registry;
 
   /**
    * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
@@ -91,7 +91,7 @@ export interface CodecClass<T = Codec> {
 
   // NOTE: We need the any[] here, unknown[] does not work as expected
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: CodecRegistry, ...args: any[]): T;
+  new(registry: Registry, ...args: any[]): T;
 }
 
 export type CodecClassDef<T = Codec> = Record<string, CodecClass<T>>;

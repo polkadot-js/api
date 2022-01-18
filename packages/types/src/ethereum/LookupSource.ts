@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
@@ -18,7 +18,7 @@ type AnyAddress = bigint | BN | GenericEthereumLookupSource | GenericEthereumAcc
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: CodecRegistry, value: string): GenericEthereumAccountId | GenericAccountIndex {
+function decodeString (registry: Registry, value: string): GenericEthereumAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
@@ -27,7 +27,7 @@ function decodeString (registry: CodecRegistry, value: string): GenericEthereumA
 }
 
 /** @internal */
-function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereumAccountId | GenericAccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
@@ -41,7 +41,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericEthereum
   return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
 }
 
-function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
+function decodeAddressOrIndex (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
   return value instanceof GenericEthereumLookupSource
     ? value.inner
     : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
@@ -62,7 +62,7 @@ function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): Gene
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
-  constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
+  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, decodeAddressOrIndex(registry, value));
   }
 

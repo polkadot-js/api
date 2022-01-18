@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '../types';
+import type { Registry } from '../types';
 
 import { Text } from '../native/Text';
 import { sanitize } from '../utils';
@@ -14,7 +14,7 @@ import { sanitize } from '../utils';
  * i.e. we remove the `T::` prefixes found in some types for consistency across implementation.
  */
 export class Type extends Text {
-  constructor (registry: CodecRegistry, value: Text | Uint8Array | string = '') {
+  constructor (registry: Registry, value: Text | Uint8Array | string = '') {
     super(registry, value);
 
     this.setOverride(sanitize(this.toString()));

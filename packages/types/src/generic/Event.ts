@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, Codec, CodecClass, CodecRegistry } from '@polkadot/types-codec/types';
-import type { CreateRegistry, TypeDef } from '@polkadot/types-create/types';
+import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { IEvent, IEventData, InterfaceTypes } from '../types';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
@@ -19,7 +19,7 @@ interface Decoded {
 }
 
 /** @internal */
-function decodeEvent (registry: CodecRegistry, value?: Uint8Array): Decoded {
+function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
   if (!value || !value.length) {
     return { DataType: Null };
   }
@@ -49,7 +49,7 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: CodecRegistry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
+  constructor (registry: Registry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
     const fields = meta?.fields || [];
 
     super(registry, fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
@@ -57,7 +57,7 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = fields.map(({ type }) => (registry as CreateRegistry).lookup.getTypeDef(type));
+    this.#typeDef = fields.map(({ type }) => (registry).lookup.getTypeDef(type));
   }
 
   /**
@@ -98,7 +98,7 @@ export class GenericEventData extends Tuple implements IEventData {
 export class GenericEvent extends Struct implements IEvent<Codec[]> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (registry: CodecRegistry, _value?: Uint8Array) {
+  constructor (registry: Registry, _value?: Uint8Array) {
     const { DataType, value } = decodeEvent(registry, _value);
 
     super(registry, {

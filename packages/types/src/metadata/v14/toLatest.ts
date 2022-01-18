@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, MetadataV14 } from '../../interfaces/metadata';
 
 /**
@@ -9,6 +9,6 @@ import type { MetadataLatest, MetadataV14 } from '../../interfaces/metadata';
  * @internal
  **/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function toLatest (registry: CodecRegistry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
+export function toLatest (registry: Registry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
   return v14;
 }

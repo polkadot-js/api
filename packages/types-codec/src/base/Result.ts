@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry, IResult } from '../types';
+import type { Codec, CodecClass, IResult, Registry } from '../types';
 
 import { assert } from '@polkadot/util';
 
@@ -13,7 +13,7 @@ import { Enum } from './Enum';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export class Result<O extends Codec, E extends Codec> extends Enum implements IResult<O, E> {
-  constructor (registry: CodecRegistry, Ok: CodecClass<O> | string, Err: CodecClass<E> | string, value?: unknown) {
+  constructor (registry: Registry, Ok: CodecClass<O> | string, Err: CodecClass<E> | string, value?: unknown) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
     // eslint-disable-next-line sort-keys
     super(registry, { Ok, Err }, value);
@@ -21,7 +21,7 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
 
   public static override with<O extends Codec, E extends Codec> (Types: { Ok: CodecClass<O> | string; Err: CodecClass<E> | string }): CodecClass<Result<O, E>> {
     return class extends Result<O, E> {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Types.Ok, Types.Err, value);
       }
     };

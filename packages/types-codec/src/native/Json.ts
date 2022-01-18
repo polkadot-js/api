@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecRegistry, IU8a } from '../types';
+import type { AnyJson, Codec, IU8a, Registry } from '../types';
 
 import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
@@ -22,11 +22,11 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
-  constructor (registry: CodecRegistry, value?: Record<string, unknown> | null) {
+  constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);
 
     super(decoded);

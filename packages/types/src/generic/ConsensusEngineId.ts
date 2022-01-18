@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyU8a, Registry } from '@polkadot/types-codec/types';
 import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../interfaces';
 
 import { Bytes, U8aFixed, u32 } from '@polkadot/types-codec';
@@ -12,7 +12,7 @@ export const CID_BABE = stringToU8a('BABE');
 export const CID_GRPA = stringToU8a('FRNK');
 export const CID_POW = stringToU8a('pow_');
 
-function getAuraAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+function getAuraAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
   return sessionValidators[
     registry.createTypeUnsafe<RawAuraPreDigest>('RawAuraPreDigest', [bytes.toU8a(true)])
       .slotNumber
@@ -21,7 +21,7 @@ function getAuraAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators
   ];
 }
 
-function getBabeAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+function getBabeAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
   const digest = registry.createTypeUnsafe<RawBabePreDigestCompat>('RawBabePreDigestCompat', [bytes.toU8a(true)]);
 
   return sessionValidators[
@@ -29,7 +29,7 @@ function getBabeAuthor (registry: CodecRegistry, bytes: Bytes, sessionValidators
   ];
 }
 
-function getBytesAsAuthor (registry: CodecRegistry, bytes: Bytes): AccountId {
+function getBytesAsAuthor (registry: Registry, bytes: Bytes): AccountId {
   return registry.createTypeUnsafe('AccountId', [bytes]);
 }
 
@@ -39,7 +39,7 @@ function getBytesAsAuthor (registry: CodecRegistry, bytes: Bytes): AccountId {
  * A 4-byte identifier identifying the engine
  */
 export class GenericConsensusEngineId extends U8aFixed {
-  constructor (registry: CodecRegistry, value?: AnyU8a) {
+  constructor (registry: Registry, value?: AnyU8a) {
     super(
       registry,
       isNumber(value)

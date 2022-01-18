@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
 import type { Codec, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
@@ -45,7 +45,7 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: CodecRegistry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);

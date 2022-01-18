@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, CodecRegistry, INumber, IU8a, UIntBitLength } from '../types';
+import type { AnyNumber, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
@@ -33,11 +33,11 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
-  constructor (registry: CodecRegistry, value: CodecDate | Date | AnyNumber = 0) {
+  constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));
 
     this.registry = registry;

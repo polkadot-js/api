@@ -1,14 +1,14 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types';
 
 import { compactAddLength, compactStripLength, isU8a } from '@polkadot/util';
 
 import { Base } from '../base/Base';
 import { typeToConstructor } from '../utils';
 
-function decodeRaw<T extends Codec> (registry: CodecRegistry, Type: CodecClass<T> | string, value?: unknown): T {
+function decodeRaw<T extends Codec> (registry: Registry, Type: CodecClass<T> | string, value?: unknown): T {
   const Clazz = typeToConstructor<T>(registry, Type);
 
   if (isU8a(value)) {
@@ -21,13 +21,13 @@ function decodeRaw<T extends Codec> (registry: CodecRegistry, Type: CodecClass<T
 }
 
 export class WrapperOpaque<T extends Codec> extends Base<T> {
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value?: unknown) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value?: unknown) {
     super(registry, decodeRaw(registry, Type, value));
   }
 
   public static with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperOpaque<T>> {
     return class extends WrapperOpaque<T> {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };

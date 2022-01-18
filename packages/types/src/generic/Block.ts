@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types-codec';
-import type { AnyNumber, AnyU8a, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
+import type { AnyNumber, AnyU8a, IU8a, Registry } from '@polkadot/types-codec/types';
 import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
 import type { Digest, DigestItem, Header } from '../interfaces/runtime';
 
@@ -27,7 +27,7 @@ export interface BlockValue {
  * A block encoded with header and extrinsics
  */
 export class GenericBlock extends Struct {
-  constructor (registry: CodecRegistry, value?: BlockValue | Uint8Array) {
+  constructor (registry: Registry, value?: BlockValue | Uint8Array) {
     super(registry, {
       header: 'Header',
       // eslint-disable-next-line sort-keys

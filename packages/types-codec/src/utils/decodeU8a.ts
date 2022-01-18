@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -9,7 +9,7 @@ function formatFailure (error: Error, type: string | null, u8a: Uint8Array, key?
   return `decodeU8a: failed at ${u8aToHex(u8a)}…${key ? ` on ${key}` : ''}${type ? `: ${type}` : ''}:: ${error.message}`;
 }
 
-function getRawType (registry: CodecRegistry, Type: CodecClass): string | null {
+function getRawType (registry: Registry, Type: CodecClass): string | null {
   try {
     return new Type(registry).toRawType();
   } catch {
@@ -25,7 +25,7 @@ function getRawType (registry: CodecRegistry, Type: CodecClass): string | null {
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of CodecClass to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec, E = T> (registry: CodecRegistry, u8a: Uint8Array, types: CodecClass[] | { [index: string]: CodecClass }, withZip?: boolean): [E[], number] {
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: CodecClass[] | { [index: string]: CodecClass }, withZip?: boolean): [E[], number] {
   const [Types, keys]: [CodecClass[], string[]] = Array.isArray(types)
     ? [types, []]
     : [Object.values(types), Object.keys(types)];
@@ -56,7 +56,7 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: CodecRegis
 
 // Split from decodeU8a since this is specialized to 1 instance ... yes duplication, but
 // since we have to do less checks (and these are intensive anyway), much faster
-export function decodeU8aVec <T extends Codec = Codec> (registry: CodecRegistry, u8a: Uint8Array, start: number, Type: CodecClass<T>, count: number): [T[], number, number] {
+export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, start: number, Type: CodecClass<T>, count: number): [T[], number, number] {
   const result = new Array<T>(count);
   let offset = start;
 

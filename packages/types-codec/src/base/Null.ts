@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecRegistry, IU8a } from '../types';
+import type { Codec, IU8a, Registry } from '../types';
 
 import { isNull } from '@polkadot/util';
 
@@ -12,14 +12,14 @@ import { isNull } from '@polkadot/util';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
   // Added for compatibility reasons, e.g. see Option
   public readonly initialU8aLength = 0;
 
-  constructor (registry: CodecRegistry) {
+  constructor (registry: Registry) {
     this.registry = registry;
   }
 

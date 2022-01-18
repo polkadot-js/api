@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, CodecRegistry } from '../types';
+import type { AnyU8a, Registry } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -47,7 +47,7 @@ function decodeBytes (value?: AnyU8a): [Uint8Array | undefined, number] {
  * as what is found in [[Text]] and [[Vec]])
  */
 export class Bytes extends Raw {
-  constructor (registry: CodecRegistry, value?: AnyU8a) {
+  constructor (registry: Registry, value?: AnyU8a) {
     const [u8a, decodedLength] = decodeBytes(value);
 
     super(registry, u8a, decodedLength);
