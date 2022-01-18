@@ -219,8 +219,8 @@ function generateLookup (destDir: string, entries: [string | undefined, HexStrin
     const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
     const filtered = getFilteredTypes(lookup, exclude);
 
-    generateLookupDefs(registry as Registry, filtered, destDir, subPath);
-    generateLookupTypes(registry as Registry, filtered, destDir, subPath);
+    generateLookupDefs(registry, filtered, destDir, subPath);
+    generateLookupTypes(registry, filtered, destDir, subPath);
 
     return exclude.concat(
       ...filtered

@@ -1,14 +1,14 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { StorageEntry } from '../../../primitive/types';
 import type { Storage } from '../types';
 
 import { substrate } from './substrate';
 
 /** @internal */
-export function getStorage (registry: CodecRegistry): Storage {
+export function getStorage (registry: Registry): Storage {
   const storage: Record<string, StorageEntry> = {};
   const entries = Object.entries(substrate);
 

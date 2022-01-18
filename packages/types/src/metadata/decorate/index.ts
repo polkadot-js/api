@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { DecoratedMeta } from './types';
 
 import { assert } from '@polkadot/util';
@@ -16,7 +16,7 @@ import { decorateStorage } from './storage';
 /**
  * Expands the metadata by decoration into consts, query and tx sections
  */
-export function expandMetadata (registry: CodecRegistry, metadata: Metadata): DecoratedMeta {
+export function expandMetadata (registry: Registry, metadata: Metadata): DecoratedMeta {
   assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
 
   const latest = metadata.asLatest;

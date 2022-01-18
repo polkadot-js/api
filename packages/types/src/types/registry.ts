@@ -3,24 +3,17 @@
 
 import type { Observable } from 'rxjs';
 import type { BitVec, Bool, bool, Bytes, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
-import type { Codec, CodecClass, RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
-import type { CreateRegistry, TypeDef } from '@polkadot/types-create/types';
+import type { RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { GenericCall } from '../generic';
-import type { MetadataLatest } from '../interfaces/metadata';
 import type { HeaderPartial } from '../interfaces/runtime';
-import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { SiField } from '../interfaces/scaleInfo';
 import type { RuntimeVersionPartial } from '../interfaces/state';
-import type { ChainProperties } from '../interfaces/system';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { Data, StorageKey } from '../primitive';
-import type { CallFunction } from './calls';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
-import type { DetectCodec } from './detect';
-
-export type { RegistryTypes } from '@polkadot/types-codec/types';
 
 export interface InterfaceTypes {
   // base codec
@@ -114,57 +107,4 @@ export interface RegisteredTypes {
    * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
    */
   typesSpec?: Record<string, RegistryTypes>;
-}
-
-// Note the commented interfaces here are directly from CodecRegistry
-export interface Registry extends CreateRegistry {
-  // readonly chainDecimals: number[];
-  // readonly chainSS58: number | undefined;
-  // readonly chainTokens: string[];
-  readonly knownTypes: RegisteredTypes;
-  readonly lookup: PortableRegistry;
-  readonly metadata: MetadataLatest;
-  readonly unknownTypes: string[];
-  readonly signedExtensions: string[];
-
-  // createdAtHash?: Hash;
-
-  findMetaCall (callIndex: Uint8Array): CallFunction;
-  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
-  // due to same circular imports where types don't really want to import from EventData,
-  // keep this as a generic Codec, however the actual impl. returns the correct
-  // findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
-
-  // isLookupType (value: string): boolean;
-  createLookupType (lookupId: SiLookupTypeId | number): string;
-
-  createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
-  createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
-
-  get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
-  getChainProperties (): ChainProperties | undefined;
-  // getClassName (clazz: Constructor): string | undefined;
-  getDefinition (typeName: string): string | undefined;
-  getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-
-  // getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): CodecClass<DetectCodec<T, K>>;
-  // getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<DetectCodec<T, K>>;
-
-  setKnownTypes (types: RegisteredTypes): void;
-  // getSignedExtensionExtra (): Record<string, string>;
-  // getSignedExtensionTypes (): Record<string, string>;
-
-  // hasClass (name: string): boolean;
-  // hasDef (name: string): boolean;
-  // hasType (name: string): boolean;
-  // hash (data: Uint8Array): IU8a;
-  init (): Registry;
-  // register (type: CodecClass | RegistryTypes): void;
-  // register (name: string, type: CodecClass): void;
-  // register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;
-  setChainProperties (properties?: ChainProperties): void;
-  setHasher (hasher?: CodecHasher | null): void;
-  setLookup (lookup: PortableRegistry): void;
-  setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
-  setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

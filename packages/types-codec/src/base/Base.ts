@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecRegistry, IU8a } from '../types';
+import type { AnyJson, BareOpts, Codec, IU8a, Registry } from '../types';
 
 /**
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class Base<T extends Codec> implements Codec {
-  readonly #registry: CodecRegistry;
+  readonly #registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -17,7 +17,7 @@ export abstract class Base<T extends Codec> implements Codec {
 
   readonly #raw: T;
 
-  protected constructor (registry: CodecRegistry, value: T, initialU8aLength?: number) {
+  protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.#registry = registry;
     this.#raw = value;
     this.initialU8aLength = initialU8aLength;
@@ -48,7 +48,7 @@ export abstract class Base<T extends Codec> implements Codec {
     return this.#raw.isEmpty;
   }
 
-  public get registry (): CodecRegistry {
+  public get registry (): Registry {
     return this.#registry;
   }
 

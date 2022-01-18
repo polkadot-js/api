@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue, Codec, CodecClass, CodecRegistry, ITuple } from '../types';
+import type { AnyTupleValue, Codec, CodecClass, ITuple, Registry } from '../types';
 
 import { isFunction, isHex, isString, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -19,7 +19,7 @@ type TupleTypes = TupleType[] | {
 };
 
 /** @internal */
-function decodeTuple (registry: CodecRegistry, Classes: TupleCodecClasss, value?: AnyTupleValue): [Codec[], number] {
+function decodeTuple (registry: Registry, Classes: TupleCodecClasss, value?: AnyTupleValue): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), Classes);
   }
@@ -55,7 +55,7 @@ function decodeTuple (registry: CodecRegistry, Classes: TupleCodecClasss, value?
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   #Types: TupleCodecClasss;
 
-  constructor (registry: CodecRegistry, Types: TupleTypes | TupleType, value?: AnyTupleValue) {
+  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue) {
     const Classes = Array.isArray(Types)
       ? Types.map((t) => typeToConstructor(registry, t))
       : isFunction(Types) || isString(Types)
@@ -72,7 +72,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
     return class extends Tuple {
-      constructor (registry: CodecRegistry, value?: AnyTupleValue) {
+      constructor (registry: Registry, value?: AnyTupleValue) {
         super(registry, Types, value);
       }
     };

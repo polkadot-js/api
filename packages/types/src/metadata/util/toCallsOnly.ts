@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
 
 import { Option, Text, u8 } from '@polkadot/types-codec';
@@ -22,7 +22,7 @@ function trimDocs (docs: Text[]): string[] {
 }
 
 /** @internal */
-export function toCallsOnly (registry: CodecRegistry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
+export function toCallsOnly (registry: Registry, { extrinsic, lookup, pallets }: MetadataLatest): AnyJson {
   return registry.createTypeUnsafe('MetadataLatest', [{
     extrinsic,
     lookup: {

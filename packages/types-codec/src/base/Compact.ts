@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, CodecRegistry, ICompact, INumber, IU8a } from '../types';
+import type { AnyJson, AnyNumber, CodecClass, ICompact, INumber, IU8a, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
@@ -18,7 +18,7 @@ import { typeToConstructor } from '../utils';
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -28,7 +28,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   readonly #raw: T;
 
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0) {
     this.registry = registry;
     this.#Type = typeToConstructor(registry, Type);
 
@@ -40,14 +40,14 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public static with<T extends INumber> (Type: CodecClass<T> | string): CodecClass<Compact<T>> {
     return class extends Compact<T> {
-      constructor (registry: CodecRegistry, value?: Compact<T> | AnyNumber) {
+      constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
         super(registry, Type, value);
       }
     };
   }
 
   /** @internal */
-  public static decodeCompact<T extends INumber> (registry: CodecRegistry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
+  public static decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
     if (value instanceof Compact) {
       return [new Type(registry, value.#raw), 0];
     } else if (value instanceof Type) {

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { Call, FunctionMetadataLatest } from '../../../interfaces';
 import type { CallFunction, IMethod } from '../../../types';
 
@@ -12,7 +12,7 @@ function isTx <A extends AnyTuple> (tx: IMethod<AnyTuple>, callIndex: Uint8Array
 }
 
 /** @internal */
-export function createUnchecked (registry: CodecRegistry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
+export function createUnchecked (registry: Registry, section: string, callIndex: Uint8Array, callMetadata: FunctionMetadataLatest): CallFunction {
   const expectedArgs = callMetadata.fields;
   const funcName = stringCamelCase(callMetadata.name);
 

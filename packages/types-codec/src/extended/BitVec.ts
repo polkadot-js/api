@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, CodecRegistry } from '../types';
+import type { AnyU8a, Registry } from '../types';
 
 import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -42,7 +42,7 @@ function decodeBitVec (value?: AnyU8a): [number, Uint8Array] {
 export class BitVec extends Raw {
   readonly #decodedLength: number;
 
-  constructor (registry: CodecRegistry, value?: AnyU8a) {
+  constructor (registry: Registry, value?: AnyU8a) {
     const [decodedLength, u8a] = decodeBitVec(value);
 
     super(registry, u8a);

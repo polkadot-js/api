@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, CodecRegistry, INumber, IU8a, UIntBitLength } from '../types';
+import type { AnyNumber, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
 import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn } from '@polkadot/util';
 
@@ -47,7 +47,7 @@ function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegati
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -57,7 +57,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
   readonly #isSigned: boolean;
 
-  constructor (registry: CodecRegistry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
     // Construct via a string, which will be passed in the BN constructor.
     // It would be ideal to actually return a BN, but there is an issue:
     // https://github.com/indutny/bn.js/issues/206

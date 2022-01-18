@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { CodecClass, CodecRegistry, ISet, IU8a } from '../types';
+import type { CodecClass, ISet, IU8a, Registry } from '../types';
 
 import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -86,7 +86,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 export class CodecSet extends Set<string> implements ISet<string> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -94,7 +94,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
 
   readonly #byteLength: number;
 
-  constructor (registry: CodecRegistry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
+  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
     super(decodeSet(setValues, value, bitLength));
 
     this.registry = registry;
@@ -111,7 +111,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
     }
 
     return class extends CodecSet {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, values, value as undefined, bitLength);
 
         objectProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));

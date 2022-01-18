@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyU8a, Codec, CodecRegistry, IU8a } from '../types';
+import type { AnyU8a, Codec, IU8a, Registry } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -48,7 +48,7 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export class Text extends String implements Codec {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -56,7 +56,7 @@ export class Text extends String implements Codec {
 
   #override: string | null = null;
 
-  constructor (registry: CodecRegistry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
+  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
     const [str, decodedLength] = decodeText(value);
 
     super(str);

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, BareOpts, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Balance, Hash, Index } from '../interfaces/runtime';
@@ -29,7 +29,7 @@ const VERSIONS = [
 ];
 
 /** @internal */
-function decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
   }
@@ -44,7 +44,7 @@ function decodeExtrinsicPayload (registry: CodecRegistry, value?: GenericExtrins
  * on the contents included
  */
 export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  constructor (registry: CodecRegistry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
+  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
     super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, CodecRegistry, IU8a } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, IU8a, Registry } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
@@ -89,7 +89,7 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
         const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
-          constructor (registry: CodecRegistry, value: Uint8Array) {
+          constructor (registry: Registry, value: Uint8Array) {
             super(registry, value, meta, stringCamelCase(name), variant.name.toString());
           }
         };

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, IOption, IU8a } from '../types';
+import type { AnyJson, Codec, CodecClass, IOption, IU8a, Registry } from '../types';
 
 import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -10,7 +10,7 @@ import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
 /** @internal */
-function decodeOption (registry: CodecRegistry, Type: CodecClass, value?: unknown): Codec {
+function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
   // In the case of an option, unwrap the inner
   if (value instanceof Option) {
     value = value.value;
@@ -41,7 +41,7 @@ function decodeOption (registry: CodecRegistry, Type: CodecClass, value?: unknow
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -51,7 +51,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
   readonly #raw: T;
 
-  constructor (registry: CodecRegistry, typeName: CodecClass<T> | string, value?: unknown) {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {
     const Type = typeToConstructor(registry, typeName);
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
@@ -70,7 +70,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
     return class extends Option<O> {
-      constructor (registry: CodecRegistry, value?: unknown) {
+      constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
       }
     };

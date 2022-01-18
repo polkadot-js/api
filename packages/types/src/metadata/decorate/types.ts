@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, Codec, CodecRegistry } from '@polkadot/types-codec/types';
+import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
 import type { StorageEntry } from '../../primitive/types';
 import type { CallFunction, IEvent } from '../../types';
@@ -47,6 +47,6 @@ export interface DecoratedMeta {
   readonly errors: Errors;
   readonly events: Events;
   readonly query: Storage;
-  readonly registry: CodecRegistry;
+  readonly registry: Registry;
   readonly tx: Extrinsics
 }

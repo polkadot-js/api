@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text, Type, Vec } from '@polkadot/types-codec';
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
@@ -326,7 +326,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
-  constructor (registry: CodecRegistry, value?: Uint8Array) {
+  constructor (registry: Registry, value?: Uint8Array) {
     // console.time('PortableRegistry')
 
     super(registry, {

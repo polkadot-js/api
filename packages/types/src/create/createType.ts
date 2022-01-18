@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecRegistry } from '@polkadot/types-codec/types';
+import type { Codec, Registry } from '@polkadot/types-codec/types';
 import type { DetectCodec } from '../types';
 
 import { createTypeUnsafe } from '@polkadot/types-create';
@@ -12,6 +12,6 @@ import { createTypeUnsafe } from '@polkadot/types-create';
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<T extends Codec = Codec, K extends string = string> (registry: CodecRegistry, type: K, ...params: unknown[]): DetectCodec<T, K> {
+export function createType<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, ...params: unknown[]): DetectCodec<T, K> {
   return createTypeUnsafe(registry, type, params);
 }

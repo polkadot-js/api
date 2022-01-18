@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, CodecClass, CodecRegistry, U8aBitLength } from '../types';
+import type { AnyU8a, CodecClass, Registry, U8aBitLength } from '../types';
 
 import { assert, u8aToU8a } from '@polkadot/util';
 
@@ -28,7 +28,7 @@ function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): [AnyU8a, numbe
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
 export class U8aFixed extends Raw {
-  constructor (registry: CodecRegistry, value: AnyU8a = new Uint8Array(), bitLength: U8aBitLength = 256) {
+  constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: U8aBitLength = 256) {
     const [u8a, decodedLength] = decodeU8aFixed(value, bitLength);
 
     super(registry, u8a, decodedLength);
@@ -36,7 +36,7 @@ export class U8aFixed extends Raw {
 
   public static with (bitLength: U8aBitLength, typeName?: string): CodecClass<U8aFixed> {
     return class extends U8aFixed {
-      constructor (registry: CodecRegistry, value?: AnyU8a) {
+      constructor (registry: Registry, value?: AnyU8a) {
         super(registry, value, bitLength);
       }
 

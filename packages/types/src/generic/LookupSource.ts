@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
@@ -18,7 +18,7 @@ type AnyAddress = bigint | BN | GenericLookupSource | GenericAccountId | Generic
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
 /** @internal */
-function decodeString (registry: CodecRegistry, value: string): GenericAccountId | GenericAccountIndex {
+function decodeString (registry: Registry, value: string): GenericAccountId | GenericAccountIndex {
   const decoded = decodeAddress(value);
 
   return decoded.length === 32
@@ -27,7 +27,7 @@ function decodeString (registry: CodecRegistry, value: string): GenericAccountId
 }
 
 /** @internal */
-function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountId | GenericAccountIndex {
+function decodeU8a (registry: Registry, value: Uint8Array): GenericAccountId | GenericAccountIndex {
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 32) {
@@ -42,7 +42,7 @@ function decodeU8a (registry: CodecRegistry, value: Uint8Array): GenericAccountI
 }
 
 /** @internal */
-function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
+function decodeAddressOrIndex (registry: Registry, value: AnyAddress): GenericAccountId | GenericAccountIndex {
   return value instanceof GenericLookupSource
     ? value.inner
     : value instanceof GenericAccountId || value instanceof GenericAccountIndex
@@ -63,7 +63,7 @@ function decodeAddressOrIndex (registry: CodecRegistry, value: AnyAddress): Gene
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export class GenericLookupSource extends Base<GenericAccountId | GenericAccountIndex> {
-  constructor (registry: CodecRegistry, value: AnyAddress = new Uint8Array()) {
+  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, decodeAddressOrIndex(registry, value));
   }
 

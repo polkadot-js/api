@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text, u8 } from '@polkadot/types-codec';
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
 import type { Errors, IsError } from '../types';
@@ -28,7 +28,7 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 }
 
 /** @internal */
-export function decorateErrors (registry: CodecRegistry, { lookup, pallets }: MetadataLatest, version: number): Errors {
+export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
 
   for (let i = 0; i < pallets.length; i++) {

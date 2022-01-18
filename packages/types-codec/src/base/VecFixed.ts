@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, CodecRegistry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types';
 
 import { assert, isU8a, u8aConcat } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { decodeU8aVec, typeToConstructor } from '../utils';
 import { decodeVec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: CodecRegistry, value: Uint8Array | HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
+function decodeVecFixed<T extends Codec> (registry: Registry, value: Uint8Array | HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
   const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
 
   while (values.length < length) {
@@ -31,7 +31,7 @@ function decodeVecFixed<T extends Codec> (registry: CodecRegistry, value: Uint8A
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: CodecRegistry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
     const Clazz = typeToConstructor<T>(registry, Type);
     const [values,, decodedLengthNoOffset] = isU8a(value)
       ? decodeU8aVec(registry, value, 0, Clazz, length)
@@ -44,7 +44,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {
     return class extends VecFixed<O> {
-      constructor (registry: CodecRegistry, value?: any[]) {
+      constructor (registry: Registry, value?: any[]) {
         super(registry, Type, length, value);
       }
     };

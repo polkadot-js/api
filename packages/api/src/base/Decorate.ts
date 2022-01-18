@@ -472,7 +472,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const lazySection = (section: string) =>
       lazyMethods({}, Object.keys(query[section]), (method: string) =>
         blockHash
-          ? this._decorateStorageEntryAt(registry as Registry, query[section][method], decorateMethod, blockHash)
+          ? this._decorateStorageEntryAt(registry, query[section][method], decorateMethod, blockHash)
           : this._decorateStorageEntry(query[section][method], decorateMethod)
       );
 
@@ -526,7 +526,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.sizeAt = decorateMethod((blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
       getQueryAt(blockHash).pipe(
         switchMap((q) =>
-          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry as Registry), blockHash))));
+          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry), blockHash))));
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {

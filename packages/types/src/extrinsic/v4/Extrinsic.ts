@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
 import type { Address, Call } from '../../interfaces/runtime';
@@ -24,7 +24,7 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
-  constructor (registry: CodecRegistry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV4',
       // eslint-disable-next-line sort-keys
@@ -33,7 +33,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   }
 
   /** @internal */
-  public static decodeExtrinsic (registry: CodecRegistry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
+  public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
     } else if (value instanceof registry.createClassUnsafe('Call')) {
@@ -67,7 +67,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   }
 
   public override get registry (): Registry {
-    return super.registry as Registry;
+    return super.registry;
   }
 
   /**

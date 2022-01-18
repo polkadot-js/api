@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, ISet, IU8a } from '../types';
+import type { AnyJson, Codec, CodecClass, ISet, IU8a, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
 const l = logger('BTreeSet');
 
 /** @internal */
-function decodeSetFromU8a<V extends Codec> (registry: CodecRegistry, ValClass: CodecClass<V>, u8a: Uint8Array): [Set<V>, number] {
+function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: CodecClass<V>, u8a: Uint8Array): [Set<V>, number] {
   const output = new Set<V>();
   const [offset, length] = compactFromU8a(u8a);
   const [values, decodedLength] = decodeU8aVec(registry, u8a, offset, ValClass, length.toNumber());
@@ -24,7 +24,7 @@ function decodeSetFromU8a<V extends Codec> (registry: CodecRegistry, ValClass: C
 }
 
 /** @internal */
-function decodeSetFromSet<V extends Codec> (registry: CodecRegistry, ValClass: CodecClass<V>, value: Set<any> | string[]): [Set<V>, number] {
+function decodeSetFromSet<V extends Codec> (registry: Registry, ValClass: CodecClass<V>, value: Set<any> | string[]): [Set<V>, number] {
   const output = new Set<V>();
 
   value.forEach((val: any) => {
@@ -54,7 +54,7 @@ function decodeSetFromSet<V extends Codec> (registry: CodecRegistry, ValClass: C
  * @param jsonSet
  * @internal
  */
-function decodeSet<V extends Codec> (registry: CodecRegistry, valType: CodecClass<V> | string, value?: Uint8Array | string | string[] | Set<any>): [Set<V>, number] {
+function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> | string, value?: Uint8Array | string | string[] | Set<any>): [Set<V>, number] {
   if (!value) {
     return [new Set<V>(), 0];
   }
@@ -71,7 +71,7 @@ function decodeSet<V extends Codec> (registry: CodecRegistry, valType: CodecClas
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -79,7 +79,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   readonly #ValClass: CodecClass<V>;
 
-  constructor (registry: CodecRegistry, valType: CodecClass<V> | string, rawValue?: Uint8Array | string | string[] | Set<any>) {
+  constructor (registry: Registry, valType: CodecClass<V> | string, rawValue?: Uint8Array | string | string[] | Set<any>) {
     const [values, decodedLength] = decodeSet(registry, valType, rawValue);
 
     super(sortSet(values));
@@ -91,7 +91,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
     return class extends BTreeSet<V> {
-      constructor (registry: CodecRegistry, value?: Uint8Array | string | Set<any>) {
+      constructor (registry: Registry, value?: Uint8Array | string | Set<any>) {
         super(registry, valType, value);
       }
     };

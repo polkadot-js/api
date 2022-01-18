@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '../types';
+import type { Registry } from '../types';
 
 import { u32 } from './U32';
 
@@ -13,7 +13,7 @@ import { u32 } from './U32';
  * It is not to be used, since it created consensus mismatches.
  */
 export class usize extends u32 {
-  constructor (registry: CodecRegistry, value?: unknown) {
+  constructor (registry: Registry, value?: unknown) {
     super(registry, value);
 
     throw new Error('The `usize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.');

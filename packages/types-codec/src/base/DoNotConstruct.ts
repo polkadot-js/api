@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, IU8a } from '../types';
+import type { AnyJson, Codec, CodecClass, IU8a, Registry } from '../types';
 
 /**
  * @name DoNotConstruct
@@ -10,13 +10,13 @@ import type { AnyJson, Codec, CodecClass, CodecRegistry, IU8a } from '../types';
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
   #neverError: Error;
 
-  constructor (registry: CodecRegistry, typeName = 'DoNotConstruct') {
+  constructor (registry: Registry, typeName = 'DoNotConstruct') {
     this.registry = registry;
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
@@ -25,7 +25,7 @@ export class DoNotConstruct implements Codec {
 
   public static with (typeName?: string): CodecClass {
     return class extends DoNotConstruct {
-      constructor (registry: CodecRegistry) {
+      constructor (registry: Registry) {
         super(registry, typeName);
       }
     };

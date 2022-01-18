@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, CodecRegistry, IMap, IU8a } from '../types';
+import type { AnyJson, Codec, CodecClass, IMap, IU8a, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -14,7 +14,7 @@ import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
 const l = logger('Map');
 
 /** @internal */
-function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: CodecRegistry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, u8a: Uint8Array): [Map<K, V>, number] {
+function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, u8a: Uint8Array): [Map<K, V>, number] {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
   const count = length.toNumber();
@@ -34,7 +34,7 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: CodecRegi
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec, V extends Codec> (registry: CodecRegistry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, value: Map<any, any>): [Map<K, V>, number] {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, value: Map<any, any>): [Map<K, V>, number] {
   const output = new Map<K, V>();
 
   for (const [key, val] of value.entries()) {
@@ -76,7 +76,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: CodecRegi
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec, V extends Codec> (registry: CodecRegistry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, value?: Uint8Array | string | Map<any, any>): [Map<K, V>, number] {
+function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, value?: Uint8Array | string | Map<any, any>): [Map<K, V>, number] {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
@@ -94,7 +94,7 @@ function decodeMap<K extends Codec, V extends Codec> (registry: CodecRegistry, k
 }
 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
-  public readonly registry: CodecRegistry;
+  public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -106,7 +106,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #type: string;
 
-  constructor (registry: CodecRegistry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
+  constructor (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
     const [decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);

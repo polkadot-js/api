@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
 import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
@@ -17,7 +17,7 @@ import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 // Ensure we have enough data for all types of signatures
 const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
-function toAddress (registry: CodecRegistry, address: Address | Uint8Array | string): Address {
+function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
 }
 
@@ -29,7 +29,7 @@ function toAddress (registry: CodecRegistry, address: Address | Uint8Array | str
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
   #signKeys: string[];
 
-  constructor (registry: CodecRegistry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
+  constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
 
     super(
@@ -91,7 +91,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   }
 
   public override get registry (): Registry {
-    return super.registry as Registry;
+    return super.registry;
   }
 
   /**

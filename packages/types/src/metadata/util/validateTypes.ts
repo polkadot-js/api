@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 
 import { logger } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { flattenUniq } from './flattenUniq';
 const l = logger('metadata');
 
 /** @internal */
-export function validateTypes (registry: CodecRegistry, throwError: boolean, types: string[]): string[] {
+export function validateTypes (registry: Registry, throwError: boolean, types: string[]): string[] {
   const missing = flattenUniq(extractTypes(types))
     .filter((type) => !registry.hasType(type))
     .sort();

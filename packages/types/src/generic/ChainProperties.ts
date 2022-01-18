@@ -1,13 +1,13 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecRegistry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
 import type { Codec } from '../types';
 
 import { Json, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
 
-function createValue (registry: CodecRegistry, type: string, value: unknown, asArray = true): Option<Codec> {
+function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
   if (value && isFunction((value as Option<Codec>).unwrapOrDefault)) {
     return value as Option<Codec>;
@@ -27,7 +27,7 @@ function createValue (registry: CodecRegistry, type: string, value: unknown, asA
   );
 }
 
-function decodeValue (registry: CodecRegistry, key: string, value: unknown): unknown {
+function decodeValue (registry: Registry, key: string, value: unknown): unknown {
   return key === 'ss58Format'
     ? createValue(registry, 'Option<u32>', value, false)
     : key === 'tokenDecimals'
@@ -37,7 +37,7 @@ function decodeValue (registry: CodecRegistry, key: string, value: unknown): unk
         : value;
 }
 
-function decode (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
+function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
   return (
     // allow decoding from a map as well (ourselves)
     value && isFunction((value as Map<string, unknown>).entries)
@@ -55,7 +55,7 @@ function decode (registry: CodecRegistry, value?: Map<string, unknown> | Record<
 }
 
 export class GenericChainProperties extends Json {
-  constructor (registry: CodecRegistry, value?: Map<string, unknown> | Record<string, unknown> | null) {
+  constructor (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null) {
     super(registry, decode(registry, value));
   }
 
