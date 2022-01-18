@@ -8,7 +8,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
-import type { SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
 import type { ChainProperties } from '../interfaces/system';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { CallFunction as CallFunctionExt } from './calls';
@@ -16,6 +16,10 @@ import type { DetectCodec } from './detect';
 import type { CodecHasher, RegisteredTypes } from './registry';
 
 declare module '@polkadot/types-codec/types/registry' {
+  export interface RegistryError {
+    fields: SiField[];
+  }
+
   export interface Registry {
     // readonly chainDecimals: number[];
     // readonly chainSS58: number | undefined;

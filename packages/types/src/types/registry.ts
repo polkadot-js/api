@@ -3,17 +3,18 @@
 
 import type { Observable } from 'rxjs';
 import type { BitVec, Bool, bool, Bytes, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
-import type { RegistryError as RegistryErrorBase, RegistryTypes } from '@polkadot/types-codec/types';
+import type { RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { GenericCall } from '../generic';
 import type { HeaderPartial } from '../interfaces/runtime';
-import type { SiField } from '../interfaces/scaleInfo';
 import type { RuntimeVersionPartial } from '../interfaces/state';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { Data, StorageKey } from '../primitive';
 import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
+
+export type { Registry, RegistryError, RegistryTypes } from '@polkadot/types-codec/types';
 
 export interface InterfaceTypes {
   // base codec
@@ -41,17 +42,6 @@ export interface ChainUpgrades {
   genesisHash: Uint8Array;
   network: string;
   versions: ChainUpgradeVersion[];
-}
-
-export interface RegistryError extends RegistryErrorBase {
-  args: string[];
-  docs: string[];
-  fields: SiField[];
-  index: number;
-  // compat
-  method: string;
-  name: string;
-  section: string;
 }
 
 export interface OverrideVersionedType {
