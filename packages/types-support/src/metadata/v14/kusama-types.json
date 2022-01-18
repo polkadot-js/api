@@ -6766,6 +6766,72 @@
               "docs": [
                 "A para has been queued to execute pending actions. `para_id`"
               ]
+            },
+            {
+              "name": "PvfCheckStarted",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 94,
+                  "typeName": "ValidationCodeHash",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 89,
+                  "typeName": "ParaId",
+                  "docs": []
+                }
+              ],
+              "index": 5,
+              "docs": [
+                "The given para either initiated or subscribed to a PVF check for the given validation",
+                "code. `code_hash` `para_id`"
+              ]
+            },
+            {
+              "name": "PvfCheckAccepted",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 94,
+                  "typeName": "ValidationCodeHash",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 89,
+                  "typeName": "ParaId",
+                  "docs": []
+                }
+              ],
+              "index": 6,
+              "docs": [
+                "The given validation code was rejected by the PVF pre-checking vote.",
+                "`code_hash` `para_id`"
+              ]
+            },
+            {
+              "name": "PvfCheckRejected",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 94,
+                  "typeName": "ValidationCodeHash",
+                  "docs": []
+                },
+                {
+                  "name": null,
+                  "type": 89,
+                  "typeName": "ParaId",
+                  "docs": []
+                }
+              ],
+              "index": 7,
+              "docs": [
+                "The given validation code was accepted by the PVF pre-checking vote.",
+                "`code_hash` `para_id`"
+              ]
             }
           ]
         }
@@ -13360,7 +13426,6 @@
                 "Transfer some liquid free balance to another account.",
                 "",
                 "`transfer` will set the `FreeBalance` of the sender and receiver.",
-                "It will decrease the total issuance of the system by the `TransferFee`.",
                 "If the sender's account is below the existential deposit as a result",
                 "of the transfer, the account will be reaped.",
                 "",
@@ -13412,7 +13477,7 @@
                 "Set the balances of a given account.",
                 "",
                 "This will alter `FreeBalance` and `ReservedBalance` in storage. it will",
-                "also decrease the total issuance of the system (`TotalIssuance`).",
+                "also alter the total issuance of the system (`TotalIssuance`) appropriately.",
                 "If the new free or reserved balance is below the existential deposit,",
                 "it will reset the account nonce (`frame_system::AccountNonce`).",
                 "",
@@ -20266,7 +20331,7 @@
                 "  - be less than the number of possible candidates. Note that all current members and",
                 "    runners-up are also automatically candidates for the next round.",
                 "",
-                "If `value` is more than `who`'s total balance, then the maximum of the two is used.",
+                "If `value` is more than `who`'s free balance, then the maximum of the two is used.",
                 "",
                 "The dispatch origin of this call must be signed.",
                 "",
@@ -40520,6 +40585,15 @@
               "index": 10,
               "docs": [
                 "The given PVF does not exist at the moment of process a vote."
+              ]
+            },
+            {
+              "name": "PvfCheckDisabled",
+              "fields": [],
+              "index": 11,
+              "docs": [
+                "The PVF pre-checking statement cannot be included since the PVF pre-checking mechanism",
+                "is disabled."
               ]
             }
           ]

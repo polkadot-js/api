@@ -74,7 +74,13 @@ declare module '@polkadot/types/lookup' {
     readonly asNewHeadNoted: u32;
     readonly isActionQueued: boolean;
     readonly asActionQueued: ITuple<[u32, u32]>;
-    readonly type: 'CurrentCodeUpdated' | 'CurrentHeadUpdated' | 'CodeUpgradeScheduled' | 'NewHeadNoted' | 'ActionQueued';
+    readonly isPvfCheckStarted: boolean;
+    readonly asPvfCheckStarted: ITuple<[H256, u32]>;
+    readonly isPvfCheckAccepted: boolean;
+    readonly asPvfCheckAccepted: ITuple<[H256, u32]>;
+    readonly isPvfCheckRejected: boolean;
+    readonly asPvfCheckRejected: ITuple<[H256, u32]>;
+    readonly type: 'CurrentCodeUpdated' | 'CurrentHeadUpdated' | 'CodeUpgradeScheduled' | 'NewHeadNoted' | 'ActionQueued' | 'PvfCheckStarted' | 'PvfCheckAccepted' | 'PvfCheckRejected';
   }
 
   /** @name PolkadotRuntimeParachainsUmpPalletEvent (96) */
@@ -1981,7 +1987,8 @@ declare module '@polkadot/types/lookup' {
     readonly isPvfCheckInvalidSignature: boolean;
     readonly isPvfCheckDoubleVote: boolean;
     readonly isPvfCheckSubjectInvalid: boolean;
-    readonly type: 'NotRegistered' | 'CannotOnboard' | 'CannotOffboard' | 'CannotUpgrade' | 'CannotDowngrade' | 'PvfCheckStatementStale' | 'PvfCheckStatementFuture' | 'PvfCheckValidatorIndexOutOfBounds' | 'PvfCheckInvalidSignature' | 'PvfCheckDoubleVote' | 'PvfCheckSubjectInvalid';
+    readonly isPvfCheckDisabled: boolean;
+    readonly type: 'NotRegistered' | 'CannotOnboard' | 'CannotOffboard' | 'CannotUpgrade' | 'CannotDowngrade' | 'PvfCheckStatementStale' | 'PvfCheckStatementFuture' | 'PvfCheckValidatorIndexOutOfBounds' | 'PvfCheckInvalidSignature' | 'PvfCheckDoubleVote' | 'PvfCheckSubjectInvalid' | 'PvfCheckDisabled';
   }
 
   /** @name PolkadotRuntimeParachainsInitializerBufferedSessionChange (623) */

@@ -13965,7 +13965,7 @@
                 "  - be less than the number of possible candidates. Note that all current members and",
                 "    runners-up are also automatically candidates for the next round.",
                 "",
-                "If `value` is more than `who`'s total balance, then the maximum of the two is used.",
+                "If `value` is more than `who`'s free balance, then the maximum of the two is used.",
                 "",
                 "The dispatch origin of this call must be signed.",
                 "",
@@ -28178,6 +28178,12 @@
               "docs": []
             },
             {
+              "name": "contains_storage",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
               "name": "get_storage",
               "type": 8,
               "typeName": "Weight",
@@ -28185,6 +28191,18 @@
             },
             {
               "name": "get_storage_per_byte",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
+              "name": "take_storage",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
+              "name": "take_storage_per_byte",
               "type": 8,
               "typeName": "Weight",
               "docs": []
@@ -28549,6 +28567,16 @@
                 "Please note that this error is only returned from extrinsics. When called directly",
                 "or via RPC an `Ok` will be returned. In this case the caller needs to inspect the flags",
                 "to determine whether a reversion has taken place."
+              ]
+            },
+            {
+              "name": "CodeRejected",
+              "fields": [],
+              "index": 27,
+              "docs": [
+                "The contract's code was found to be invalid during validation or instrumentation.",
+                "A more detailed error can be found on the node console if debug messages are enabled",
+                "or in the debug buffer which is returned to RPC clients."
               ]
             }
           ]
@@ -32090,6 +32118,40 @@
   {
     "id": 502,
     "type": {
+      "path": [
+        "frame_support",
+        "storage",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 86
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 503,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 503,
+    "type": {
       "path": [],
       "params": [],
       "def": {
@@ -32101,7 +32163,7 @@
     }
   },
   {
-    "id": 503,
+    "id": 504,
     "type": {
       "path": [
         "pallet_lottery",
@@ -32182,20 +32244,20 @@
     }
   },
   {
-    "id": 504,
+    "id": 505,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 505
+          "type": 506
         }
       },
       "docs": []
     }
   },
   {
-    "id": 505,
+    "id": 506,
     "type": {
       "path": [
         "pallet_gilt",
@@ -32234,7 +32296,7 @@
     }
   },
   {
-    "id": 506,
+    "id": 507,
     "type": {
       "path": [
         "pallet_gilt",
@@ -32281,7 +32343,7 @@
     }
   },
   {
-    "id": 507,
+    "id": 508,
     "type": {
       "path": [
         "pallet_gilt",
@@ -32336,7 +32398,7 @@
     }
   },
   {
-    "id": 508,
+    "id": 509,
     "type": {
       "path": [
         "pallet_gilt",
@@ -32426,7 +32488,7 @@
     }
   },
   {
-    "id": 509,
+    "id": 510,
     "type": {
       "path": [
         "pallet_uniques",
@@ -32513,7 +32575,7 @@
     }
   },
   {
-    "id": 510,
+    "id": 511,
     "type": {
       "path": [],
       "params": [],
@@ -32528,7 +32590,7 @@
     }
   },
   {
-    "id": 511,
+    "id": 512,
     "type": {
       "path": [
         "pallet_uniques",
@@ -32579,7 +32641,7 @@
     }
   },
   {
-    "id": 512,
+    "id": 513,
     "type": {
       "path": [
         "pallet_uniques",
@@ -32624,7 +32686,7 @@
     }
   },
   {
-    "id": 513,
+    "id": 514,
     "type": {
       "path": [
         "pallet_uniques",
@@ -32669,7 +32731,7 @@
     }
   },
   {
-    "id": 514,
+    "id": 515,
     "type": {
       "path": [],
       "params": [],
@@ -32684,7 +32746,7 @@
     }
   },
   {
-    "id": 515,
+    "id": 516,
     "type": {
       "path": [],
       "params": [],
@@ -32698,7 +32760,7 @@
     }
   },
   {
-    "id": 516,
+    "id": 517,
     "type": {
       "path": [
         "pallet_uniques",
@@ -32807,20 +32869,20 @@
     }
   },
   {
-    "id": 517,
+    "id": 518,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 518
+          "type": 519
         }
       },
       "docs": []
     }
   },
   {
-    "id": 518,
+    "id": 519,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -32861,7 +32923,7 @@
     }
   },
   {
-    "id": 519,
+    "id": 520,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -32990,7 +33052,7 @@
     }
   },
   {
-    "id": 520,
+    "id": 521,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -33037,7 +33099,7 @@
     }
   },
   {
-    "id": 521,
+    "id": 522,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -33072,7 +33134,7 @@
     }
   },
   {
-    "id": 522,
+    "id": 523,
     "type": {
       "path": [],
       "params": [],
@@ -33085,7 +33147,7 @@
     }
   },
   {
-    "id": 523,
+    "id": 524,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -33134,7 +33196,7 @@
     }
   },
   {
-    "id": 524,
+    "id": 525,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -33183,7 +33245,7 @@
             },
             {
               "name": "status",
-              "type": 525,
+              "type": 526,
               "typeName": "ChildBountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -33194,7 +33256,7 @@
     }
   },
   {
-    "id": 525,
+    "id": 526,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -33277,7 +33339,7 @@
     }
   },
   {
-    "id": 526,
+    "id": 527,
     "type": {
       "path": [
         "frame_support",
@@ -33311,7 +33373,7 @@
     }
   },
   {
-    "id": 527,
+    "id": 528,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -33360,7 +33422,7 @@
     }
   },
   {
-    "id": 528,
+    "id": 529,
     "type": {
       "path": [
         "sp_runtime",
@@ -33379,11 +33441,11 @@
         },
         {
           "name": "Signature",
-          "type": 529
+          "type": 530
         },
         {
           "name": "Extra",
-          "type": 532
+          "type": 533
         }
       ],
       "def": {
@@ -33402,7 +33464,7 @@
     }
   },
   {
-    "id": 529,
+    "id": 530,
     "type": {
       "path": [
         "sp_runtime",
@@ -33443,7 +33505,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 530,
+                  "type": 531,
                   "typeName": "ecdsa::Signature",
                   "docs": []
                 }
@@ -33458,7 +33520,7 @@
     }
   },
   {
-    "id": 530,
+    "id": 531,
     "type": {
       "path": [
         "sp_core",
@@ -33471,7 +33533,7 @@
           "fields": [
             {
               "name": null,
-              "type": 531,
+              "type": 532,
               "typeName": "[u8; 65]",
               "docs": []
             }
@@ -33482,7 +33544,7 @@
     }
   },
   {
-    "id": 531,
+    "id": 532,
     "type": {
       "path": [],
       "params": [],
@@ -33496,27 +33558,27 @@
     }
   },
   {
-    "id": 532,
+    "id": 533,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          533,
           534,
           535,
           536,
           537,
-          539,
+          538,
           540,
-          541
+          541,
+          542
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 533,
+    "id": 534,
     "type": {
       "path": [
         "frame_system",
@@ -33539,7 +33601,7 @@
     }
   },
   {
-    "id": 534,
+    "id": 535,
     "type": {
       "path": [
         "frame_system",
@@ -33562,7 +33624,7 @@
     }
   },
   {
-    "id": 535,
+    "id": 536,
     "type": {
       "path": [
         "frame_system",
@@ -33585,7 +33647,7 @@
     }
   },
   {
-    "id": 536,
+    "id": 537,
     "type": {
       "path": [
         "frame_system",
@@ -33608,7 +33670,7 @@
     }
   },
   {
-    "id": 537,
+    "id": 538,
     "type": {
       "path": [
         "frame_system",
@@ -33627,7 +33689,7 @@
           "fields": [
             {
               "name": null,
-              "type": 538,
+              "type": 539,
               "typeName": "Era",
               "docs": []
             }
@@ -33638,7 +33700,7 @@
     }
   },
   {
-    "id": 538,
+    "id": 539,
     "type": {
       "path": [
         "sp_runtime",
@@ -36978,7 +37040,7 @@
     }
   },
   {
-    "id": 539,
+    "id": 540,
     "type": {
       "path": [
         "frame_system",
@@ -37008,7 +37070,7 @@
     }
   },
   {
-    "id": 540,
+    "id": 541,
     "type": {
       "path": [
         "frame_system",
@@ -37031,7 +37093,7 @@
     }
   },
   {
-    "id": 541,
+    "id": 542,
     "type": {
       "path": [
         "pallet_asset_tx_payment",
@@ -37065,7 +37127,7 @@
     }
   },
   {
-    "id": 542,
+    "id": 543,
     "type": {
       "path": [
         "node_runtime",
