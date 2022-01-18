@@ -13,7 +13,7 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
-import { createImports, exportInterface, exportType, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
+import { createImports, exportInterface, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -204,11 +204,11 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
     if (def.info === TypeDefInfo.VecFixed) {
       setImports(definitions, imports, ['U8aFixed']);
 
-      return exportType(def.lookupIndex, def.name, 'U8aFixed');
+      return exportInterface(def.lookupIndex, def.name, 'U8aFixed');
     } else {
       setImports(definitions, imports, ['Bytes']);
 
-      return exportType(def.lookupIndex, def.name, 'Bytes');
+      return exportInterface(def.lookupIndex, def.name, 'Bytes');
     }
   }
 
