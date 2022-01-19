@@ -7,6 +7,7 @@ Changes:
 - Adjust `Registry` to augment based on used packages
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
+- Fix storage metadata, aligning method with decorated name
 - Adjust typegen, only using exportInterface
 - Added Kusama/Polkadot 9151 upgrade block (known types)
 - Update to latest Substrate, Kusama & Polkadot static metadata

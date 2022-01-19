@@ -7,7 +7,7 @@ import type { StorageEntry } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 
 import { Raw } from '@polkadot/types-codec';
-import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, stringLowerFirst, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { StorageKey } from '../../../primitive';
@@ -114,7 +114,7 @@ function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: Crea
   const storageFn = createWStorageFn(registry, itemFn, options) as StorageEntry;
 
   storageFn.meta = meta;
-  storageFn.method = stringLowerFirst(method);
+  storageFn.method = stringCamelCase(method);
   storageFn.prefix = prefix;
   storageFn.section = section;
 
