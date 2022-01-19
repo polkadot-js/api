@@ -1,4 +1,4 @@
-    2772	Jaco                          	Polkadot 9151 upgrade block (#4466)
+    2773	Jaco                          	Fix storage metadata (#4467)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
