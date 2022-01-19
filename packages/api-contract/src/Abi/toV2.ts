@@ -32,7 +32,7 @@ const ARG_TYPES = {
 function v1ToV2Label (entry: NamedEntry): { label: Text } {
   return objectSpread({}, entry, {
     label: Array.isArray(entry.name)
-      ? entry.name[0]
+      ? entry.name.join('::')
       : entry.name
   });
 }
