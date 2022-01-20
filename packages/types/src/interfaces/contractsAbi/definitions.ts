@@ -58,7 +58,7 @@ const layout = {
 
 const spec = {
   ContractConstructorSpecV0: {
-    name: 'Text',
+    name: 'Vec<Text>',
     selector: 'ContractSelector',
     args: 'Vec<ContractMessageParamSpecV0>',
     docs: 'Vec<Text>'
@@ -126,7 +126,7 @@ const spec = {
     type: 'ContractTypeSpec'
   },
   ContractMessageSpecV0: {
-    name: 'Text',
+    name: 'Vec<Text>',
     selector: 'ContractSelector',
     mutates: 'bool',
     payable: 'bool',

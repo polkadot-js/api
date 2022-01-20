@@ -71,9 +71,9 @@ describe('v1ToLatest', (): void => {
 
     expect(
       latest.spec.messages.map(({ label }) => label.toString())
-    ).toEqual(['PSP22Metadata,token_name', 'PSP22Metadata,token_symbol', 'PSP22Metadata,token_decimals', 'PSP22Mintable,mint',
-      'PSP22,decrease_allowance', 'PSP22,transfer', 'PSP22,approve', 'PSP22,allowance', 'PSP22,transfer_from', 'PSP22,balance_of', 'PSP22,increase_allowance',
-      'PSP22,total_supply', 'pause', 'unpause']);
+    ).toEqual([
+      'PSP22Metadata::token_name', 'PSP22Metadata::token_symbol', 'PSP22Metadata::token_decimals', 'PSP22Mintable::mint', 'PSP22::decrease_allowance', 'PSP22::transfer', 'PSP22::approve', 'PSP22::allowance', 'PSP22::transfer_from', 'PSP22::balance_of', 'PSP22::increase_allowance', 'PSP22::total_supply', 'pause', 'unpause'
+    ]);
   });
 
   it('has the correct constructor arguments', (): void => {
@@ -110,11 +110,13 @@ describe('v3ToLatest', (): void => {
   });
 
   it('has the correct messages', (): void => {
-    const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_trait_erc20.V3 });
+    const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_traitErc20.V3 });
     const latest = v3ToLatest(registry, contract.asV3);
 
     expect(
       latest.spec.messages.map(({ label }) => label.toString())
-    ).toEqual(['BaseErc20::total_supply', 'BaseErc20::balance_of', 'BaseErc20::allowance', 'BaseErc20::transfer', 'BaseErc20::approve', 'BaseErc20::transfer_from']);
+    ).toEqual([
+      'BaseErc20::total_supply', 'BaseErc20::balance_of', 'BaseErc20::allowance', 'BaseErc20::transfer', 'BaseErc20::approve', 'BaseErc20::transfer_from'
+    ]);
   });
 });

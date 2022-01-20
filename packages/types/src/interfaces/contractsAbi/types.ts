@@ -11,7 +11,7 @@ export interface ContractConstructorSpecLatest extends ContractConstructorSpecV3
 
 /** @name ContractConstructorSpecV0 */
 export interface ContractConstructorSpecV0 extends Struct {
-  readonly name: Text;
+  readonly name: Vec<Text>;
   readonly selector: ContractSelector;
   readonly args: Vec<ContractMessageParamSpecV0>;
   readonly docs: Vec<Text>;
@@ -176,7 +176,7 @@ export interface ContractMessageSpecLatest extends ContractMessageSpecV2 {}
 
 /** @name ContractMessageSpecV0 */
 export interface ContractMessageSpecV0 extends Struct {
-  readonly name: Text;
+  readonly name: Vec<Text>;
   readonly selector: ContractSelector;
   readonly mutates: bool;
   readonly payable: bool;
