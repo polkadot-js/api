@@ -3,4 +3,4 @@
 
 export { default as flipper } from './flipper.contract.json';
 // A complex contract example with traits.
-export { default as trait_erc20 } from './trait_erc20.contract.json';
+export { default as traitErc20 } from './trait_erc20.contract.json';
