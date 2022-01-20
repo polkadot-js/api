@@ -613,6 +613,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           this._retrieveMapKeys(creator, blockHash, args)));
     }
 
+    if (this.supportMulti && creator.meta.type.isMap) {
+      // When using double map storage function, user need to pass double map key as an array
+      decorated.multi = decorateMethod((args: unknown[]): Observable<Codec[]> =>
+        creator.meta.type.asMap.hashers.length === 1
+          ? this._retrieveMulti(args.map((a) => [creator, [a]]), blockHash)
+          : this._retrieveMulti(args.map((a) => [creator, a as unknown[]]), blockHash)
+      );
+    }
+
     /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
     return this._decorateFunctionMeta(creator as unknown as MetaDecoration, decorated) as unknown as QueryableStorageEntry<ApiType>;
@@ -647,17 +656,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes
-  private _retrieveMulti (keys: [StorageEntry, unknown[]][]): Observable<Codec[]> {
+  private _retrieveMulti (keys: [StorageEntry, unknown[]][], blockHash?: Uint8Array): Observable<Codec[]> {
     if (!keys.length) {
       return of([]);
     }
 
-    const queryCall = this.hasSubscriptions
+    const queryCall = this.hasSubscriptions && !blockHash
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
 
     return combineLatest(
-      arrayChunk(keys, PAGE_SIZE_V).map((keys) => queryCall(keys))
+      arrayChunk(keys, PAGE_SIZE_V).map((k) =>
+        blockHash
+          ? queryCall(k, blockHash)
+          : queryCall(k)
+      )
     ).pipe(
       map(arrayFlatten)
     );
