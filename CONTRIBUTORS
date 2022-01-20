@@ -1,4 +1,4 @@
-    2775	Jaco                          	Contract meta v1 name to v2 label w/ :: (#4471)
+    2776	Jaco                          	Correct V0/V1 contract def, adjust namespace tests (#4477)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
@@ -75,6 +75,7 @@
        1	Nazar Mokrynskyi              	Performance tweaks (#4143)
        1	Nikhil Ranjan                 	add vestingPerBlock and vestingEndBlock in DeriveBalancesAll when doing calcBalances (#2563)
        1	Nikolay Volf                  	Fix typo (#1730)
+       1	Oleksandr Mykhailenko         	Add more complex namespaced contracts & test cases for them (#4472)
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	qiuhao                        	update DeriveCustom type (#2581)
