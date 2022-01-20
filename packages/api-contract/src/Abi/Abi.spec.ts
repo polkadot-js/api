@@ -62,7 +62,7 @@ describe('Abi', (): void => {
           const messageIds = (abi.V3 || abi.V2 || abi.V1 || abi).spec.messages.map(({ label, name }) =>
             label || (
               Array.isArray(name)
-                ? name[0]
+                ? name.join('::')
                 : name
             )
           );
