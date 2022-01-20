@@ -110,7 +110,7 @@ describe('v3ToLatest', (): void => {
   });
 
   it('has the correct messages', (): void => {
-    const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_traitErc20.V3 });
+    const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_trait_erc20.V3 });
     const latest = v3ToLatest(registry, contract.asV3);
 
     expect(
