@@ -9,6 +9,7 @@ Contributed:
 Changes:
 
 - Adjust `Registry` to augment based on used packages
+- Add `.multi` support on `api.at(...).<section>.<method>`
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
 - Fix storage metadata, aligning method with decorated name
