@@ -2,6 +2,10 @@
 
 ## master
 
+Contributed:
+
+- Add additional namespaced contract tests (Thanks to https://github.com/VargSupercolony)
+
 Changes:
 
 - Adjust `Registry` to augment based on used packages

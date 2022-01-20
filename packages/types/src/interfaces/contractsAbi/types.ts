@@ -17,6 +17,14 @@ export interface ContractConstructorSpecV0 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractConstructorSpecV1 */
+export interface ContractConstructorSpecV1 extends Struct {
+  readonly name: Vec<Text>;
+  readonly selector: ContractSelector;
+  readonly args: Vec<ContractMessageParamSpecV0>;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractConstructorSpecV2 */
 export interface ContractConstructorSpecV2 extends Struct {
   readonly label: Text;
@@ -39,6 +47,14 @@ export interface ContractContractSpecV0 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV0>;
   readonly messages: Vec<ContractMessageSpecV0>;
   readonly events: Vec<ContractEventSpecV0>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractContractSpecV1 */
+export interface ContractContractSpecV1 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV1>;
+  readonly messages: Vec<ContractMessageSpecV1>;
+  readonly events: Vec<ContractEventSpecV1>;
   readonly docs: Vec<Text>;
 }
 
@@ -96,6 +112,13 @@ export interface ContractEventSpecLatest extends ContractEventSpecV2 {}
 
 /** @name ContractEventSpecV0 */
 export interface ContractEventSpecV0 extends Struct {
+  readonly name: Text;
+  readonly args: Vec<ContractEventParamSpecV0>;
+  readonly docs: Vec<Text>;
+}
+
+/** @name ContractEventSpecV1 */
+export interface ContractEventSpecV1 extends Struct {
   readonly name: Text;
   readonly args: Vec<ContractEventParamSpecV0>;
   readonly docs: Vec<Text>;
@@ -185,6 +208,17 @@ export interface ContractMessageSpecV0 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name ContractMessageSpecV1 */
+export interface ContractMessageSpecV1 extends Struct {
+  readonly name: Vec<Text>;
+  readonly selector: ContractSelector;
+  readonly mutates: bool;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV0>;
+  readonly returnType: Option<ContractTypeSpec>;
+  readonly docs: Vec<Text>;
+}
+
 /** @name ContractMessageSpecV2 */
 export interface ContractMessageSpecV2 extends Struct {
   readonly label: Text;
@@ -221,7 +255,7 @@ export interface ContractMetadataV0 extends Struct {
 /** @name ContractMetadataV1 */
 export interface ContractMetadataV1 extends Struct {
   readonly types: Vec<PortableType>;
-  readonly spec: ContractContractSpecV0;
+  readonly spec: ContractContractSpecV1;
 }
 
 /** @name ContractMetadataV2 */
