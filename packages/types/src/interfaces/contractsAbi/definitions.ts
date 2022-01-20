@@ -58,6 +58,12 @@ const layout = {
 
 const spec = {
   ContractConstructorSpecV0: {
+    name: 'Text',
+    selector: 'ContractSelector',
+    args: 'Vec<ContractMessageParamSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractConstructorSpecV1: {
     name: 'Vec<Text>',
     selector: 'ContractSelector',
     args: 'Vec<ContractMessageParamSpecV0>',
@@ -80,6 +86,12 @@ const spec = {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
     events: 'Vec<ContractEventSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV1: {
+    constructors: 'Vec<ContractConstructorSpecV1>',
+    messages: 'Vec<ContractMessageSpecV1>',
+    events: 'Vec<ContractEventSpecV1>',
     docs: 'Vec<Text>'
   },
   ContractContractSpecV2: {
@@ -112,6 +124,11 @@ const spec = {
     args: 'Vec<ContractEventParamSpecV0>',
     docs: 'Vec<Text>'
   },
+  ContractEventSpecV1: {
+    name: 'Text',
+    args: 'Vec<ContractEventParamSpecV0>',
+    docs: 'Vec<Text>'
+  },
   ContractEventSpecV2: {
     label: 'Text',
     args: 'Vec<ContractEventParamSpecV2>',
@@ -126,6 +143,15 @@ const spec = {
     type: 'ContractTypeSpec'
   },
   ContractMessageSpecV0: {
+    name: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV0>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>'
+  },
+  ContractMessageSpecV1: {
     name: 'Vec<Text>',
     selector: 'ContractSelector',
     mutates: 'bool',
@@ -157,7 +183,7 @@ const ContractMetadataV0 = {
 
 const ContractMetadataV1 = {
   types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV0'
+  spec: 'ContractContractSpecV1'
 };
 
 const ContractMetadataV2 = {
