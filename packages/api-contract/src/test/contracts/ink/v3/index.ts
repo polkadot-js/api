@@ -2,3 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export { default as flipper } from './flipper.contract.json';
+// A complex contract example with traits.
+export { default as traitErc20 } from './trait_erc20.contract.json';
