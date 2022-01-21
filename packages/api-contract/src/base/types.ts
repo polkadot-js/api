@@ -8,14 +8,14 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { AbiMessage, BlueprintOptions, ContractCallOutcome, ContractOptions } from '../types';
 
-export interface BlueprintDeploy<ApiType extends ApiTypes> {
+export interface MessageMeta {
+  readonly meta: AbiMessage;
+}
+
+export interface BlueprintDeploy<ApiType extends ApiTypes> extends MessageMeta {
   (options: BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
   // @deprecated Use options form (to be dropped in a major update)
   (value: bigint | string | number | BN, gasLimit: bigint | string | number | BN, ...params: unknown[]): SubmittableExtrinsic<ApiType>;
-}
-
-export interface MessageMeta {
-  readonly meta: AbiMessage;
 }
 
 export interface ContractQuery<ApiType extends ApiTypes> extends MessageMeta {

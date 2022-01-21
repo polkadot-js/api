@@ -47,7 +47,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
     this.abi.constructors.forEach((c): void => {
       if (isUndefined(this.#tx[c.method])) {
-        this.#tx[c.method] = createBluePrintTx((o, p) => this.#deploy(c, o, p));
+        this.#tx[c.method] = createBluePrintTx(c, (o, p) => this.#deploy(c, o, p));
       }
     });
   }
