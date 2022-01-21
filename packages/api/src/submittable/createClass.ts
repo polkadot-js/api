@@ -26,8 +26,8 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 
 const identity = <T> (input: T): T => input;
 
-function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
-  if (!header) {
+function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { blockHash, header, mortalLength, nonce }: { blockHash: Hash | null, header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
+  if (!header || !blockHash) {
     if (isNumber(partialOptions.era)) {
       // since we have no header, it is immortal, remove any option overrides
       // so we only supply the genesisHash and no era to the construction
@@ -39,7 +39,7 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   }
 
   return makeSignOptions(api, partialOptions, {
-    blockHash: header.hash,
+    blockHash,
     era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
       period: partialOptions.era || mortalLength
