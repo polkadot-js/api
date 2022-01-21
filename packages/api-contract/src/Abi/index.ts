@@ -205,6 +205,7 @@ export class Abi {
       identifier,
       index,
       method: stringCamelCase(identifier),
+      path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,
       toU8a: (params: unknown[]) =>
         this.#encodeArgs(spec, args, params)

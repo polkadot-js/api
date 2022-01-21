@@ -40,6 +40,7 @@ export interface AbiMessage {
   isMutating?: boolean;
   isPayable?: boolean;
   method: string;
+  path: string[];
   returnType?: TypeDef | null;
   selector: ContractSelector;
   toU8a: (params: unknown[]) => Uint8Array;
