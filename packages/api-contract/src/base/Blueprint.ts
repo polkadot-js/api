@@ -6,17 +6,17 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
-import type { MapConstructorExec } from './types';
+import type { BlueprintDeploy, MapConstructorExec, Namespaced } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { BN_ZERO, isUndefined } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
-import { createBluePrintTx, encodeSalt } from './util';
+import { encodeSalt, expandConstructors } from './util';
 
 export interface BlueprintConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array): Blueprint<ApiType>;
@@ -38,6 +38,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public readonly codeHash: Hash;
 
+  readonly #ns: { tx: Namespaced<BlueprintDeploy<ApiType>> } = { tx: {} };
+
   readonly #tx: MapConstructorExec<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
@@ -45,11 +47,11 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
 
     this.codeHash = this.registry.createType('Hash', codeHash);
 
-    this.abi.constructors.forEach((c): void => {
-      if (isUndefined(this.#tx[c.method])) {
-        this.#tx[c.method] = createBluePrintTx((o, p) => this.#deploy(c, o, p));
-      }
-    });
+    expandConstructors(this.abi.constructors, this.#ns.tx, this.#tx, this.#deploy);
+  }
+
+  public get ns (): { tx: Namespaced<BlueprintDeploy<ApiType>> } {
+    return this.#ns;
   }
 
   public get tx (): MapConstructorExec<ApiType> {

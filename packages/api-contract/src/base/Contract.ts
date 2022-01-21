@@ -7,7 +7,7 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx, Namespaced } from './types';
 
 import { map } from 'rxjs';
 
@@ -18,6 +18,12 @@ import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefine
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
+import { expandNs } from './util';
+
+interface NsMessages<ApiType extends ApiTypes> {
+  readonly query: Namespaced<ContractQuery<ApiType>>;
+  readonly tx: Namespaced<ContractTx<ApiType>>;
+}
 
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
@@ -35,19 +41,21 @@ function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: O
   return creator as T;
 }
 
-function createQuery <ApiType extends ApiTypes> (meta: AbiMessage, fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
+function createQuery <ApiType extends ApiTypes> (meta: AbiMessage, fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: unknown[]) => ContractCallSend<ApiType>): ContractQuery<ApiType> {
   return withMeta(meta, (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
-    isOptions(options)
-      ? fn(origin, options, params)
-      : fn(origin, ...extractOptions<ContractOptions>(options, params))
+    (
+      isOptions(options)
+        ? fn(meta, options, params)
+        : fn(meta, ...extractOptions<ContractOptions>(options, params))
+    ).send(origin)
   );
 }
 
-function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
+function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (messageOrId: AbiMessage | string | number, options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
   return withMeta(meta, (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
-      ? fn(options, params)
-      : fn(...extractOptions<ContractOptions>(options, params))
+      ? fn(meta, options, params)
+      : fn(meta, ...extractOptions<ContractOptions>(options, params))
   );
 }
 
@@ -67,6 +75,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   public readonly address: AccountId;
 
+  readonly #ns: NsMessages<ApiType> = { query: {}, tx: {} };
+
   readonly #query: MapMessageQuery<ApiType> = {};
 
   readonly #tx: MapMessageTx<ApiType> = {};
@@ -78,11 +88,11 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
-        this.#tx[m.method] = createTx(m, (o, p) => this.#exec(m, o, p));
+        this.#tx[m.method] = expandNs(this.#ns.tx, m, createTx(m, this.#exec));
       }
 
       if (isUndefined(this.#query[m.method])) {
-        this.#query[m.method] = createQuery(m, (f, o, p) => this.#read(m, o, p).send(f));
+        this.#query[m.method] = expandNs(this.#ns.query, m, createQuery(m, this.#read));
       }
     });
   }

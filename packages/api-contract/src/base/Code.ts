@@ -7,18 +7,18 @@ import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { AbiConstructor, BlueprintOptions } from '../types';
-import type { MapConstructorExec } from './types';
+import type { BlueprintDeploy, MapConstructorExec, Namespaced } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, BN_ZERO, compactAddLength, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
+import { assert, BN_ZERO, compactAddLength, isWasm, u8aToU8a } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
-import { createBluePrintTx, encodeSalt } from './util';
+import { encodeSalt, expandConstructors } from './util';
 
 export interface CodeConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;
@@ -39,6 +39,8 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly code: Uint8Array;
 
+  readonly #ns: { tx: Namespaced<BlueprintDeploy<ApiType>> } = { tx: {} };
+
   readonly #tx: MapConstructorExec<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
@@ -50,11 +52,11 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
 
     assert(isWasm(this.code), 'No WASM code provided');
 
-    this.abi.constructors.forEach((c): void => {
-      if (isUndefined(this.#tx[c.method])) {
-        this.#tx[c.method] = createBluePrintTx((o, p) => this.#instantiate(c, o, p));
-      }
-    });
+    expandConstructors(this.abi.constructors, this.#ns.tx, this.#tx, this.#instantiate);
+  }
+
+  public get ns (): { tx: Namespaced<BlueprintDeploy<ApiType>> } {
+    return this.#ns;
   }
 
   public get tx (): MapConstructorExec<ApiType> {
