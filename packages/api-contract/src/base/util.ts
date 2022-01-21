@@ -17,6 +17,12 @@ import { extractOptions, isOptions } from '../util';
 
 export const EMPTY_SALT = new Uint8Array();
 
+export function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: Omit<T, 'meta'>): T {
+  (creator as T).meta = meta;
+
+  return creator as T;
+}
+
 export function createBluePrintTx <ApiType extends ApiTypes, R extends SubmittableResult> (meta: AbiMessage, fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>): BlueprintDeploy<ApiType> {
   return (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
     isOptions(options)
