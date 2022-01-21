@@ -18,6 +18,7 @@ import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefine
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
 import { Base } from './Base';
+import { withMeta } from './util';
 
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
@@ -28,12 +29,6 @@ const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 const l = logger('Contract');
-
-function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: Omit<T, 'meta'>): T {
-  (creator as T).meta = meta;
-
-  return creator as T;
-}
 
 function createQuery <ApiType extends ApiTypes> (meta: AbiMessage, fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
   return withMeta(meta, (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
