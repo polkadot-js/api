@@ -29,18 +29,26 @@ const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is
 
 const l = logger('Contract');
 
-function createQuery <ApiType extends ApiTypes> (fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
-  return (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
-    isOptions(options)
-      ? fn(origin, options, params)
-      : fn(origin, ...extractOptions<ContractOptions>(options, params));
+function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: Omit<T, 'meta'>): T {
+  (creator as T).meta = meta;
+
+  return creator as T;
 }
 
-function createTx <ApiType extends ApiTypes> (fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
-  return (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
+function createQuery <ApiType extends ApiTypes> (meta: AbiMessage, fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
+  return withMeta(meta, (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
+    isOptions(options)
+      ? fn(origin, options, params)
+      : fn(origin, ...extractOptions<ContractOptions>(options, params))
+  );
+}
+
+function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
+  return withMeta(meta, (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
     isOptions(options)
       ? fn(options, params)
-      : fn(...extractOptions<ContractOptions>(options, params));
+      : fn(...extractOptions<ContractOptions>(options, params))
+  );
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
@@ -70,11 +78,11 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
-        this.#tx[m.method] = createTx((o, p) => this.#exec(m, o, p));
+        this.#tx[m.method] = createTx(m, (o, p) => this.#exec(m, o, p));
       }
 
       if (isUndefined(this.#query[m.method])) {
-        this.#query[m.method] = createQuery((f, o, p) => this.#read(m, o, p).send(f));
+        this.#query[m.method] = createQuery(m, (f, o, p) => this.#read(m, o, p).send(f));
       }
     });
   }
