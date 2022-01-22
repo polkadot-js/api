@@ -140,12 +140,6 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   return value;
 }
 
-function _decodeRange (value: TypeDef, _: string, subType: string): TypeDef {
-  value.sub = getTypeDef(subType);
-
-  return value;
-}
-
 // decode a tuple
 function _decodeTuple (value: TypeDef, _: string, subType: string, count: number): TypeDef {
   value.sub = subType.length === 0
@@ -199,8 +193,6 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
   ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
-  ['Range<', '>', TypeDefInfo.Range, _decodeRange],
-  ['RangeInclusive<', '>', TypeDefInfo.RangeInclusive, _decodeRange],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt],
   ['DoNotConstruct<', '>', TypeDefInfo.DoNotConstruct, _decodeDoNotConstruct]
@@ -211,6 +203,8 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
+  ['Range<', '>', TypeDefInfo.Range],
+  ['RangeInclusive<', '>', TypeDefInfo.RangeInclusive],
   ['Vec<', '>', TypeDefInfo.Vec],
   ['WrapperKeepOpaque<', '>', TypeDefInfo.WrapperKeepOpaque],
   ['WrapperOpaque<', '>', TypeDefInfo.WrapperOpaque]
