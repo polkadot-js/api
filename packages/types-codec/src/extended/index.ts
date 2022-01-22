@@ -11,4 +11,5 @@ export { CodecMap, CodecMap as Map } from './Map';
 export { Range, RangeInclusive } from './Range';
 export { Type } from './Type';
 export { U8aFixed } from './U8aFixed';
-export { WrapperKeepOpaque, WrapperOpaque } from './WrapperOpaque';
+export { WrapperKeepOpaque } from './WrapperKeepOpaque';
+export { WrapperOpaque } from './WrapperOpaque';
