@@ -141,9 +141,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 }
 
 function _decodeRange (value: TypeDef, _: string, subType: string): TypeDef {
-  const Type = getTypeDef(subType);
-
-  value.sub = [Type, Type];
+  value.sub = getTypeDef(subType);
 
   return value;
 }
@@ -201,9 +199,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
   ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
-  // Not sure about these, have a specific implementation?
-  ['Range<', '>', TypeDefInfo.Tuple, _decodeRange],
-  ['RangeInclusive<', '>', TypeDefInfo.Tuple, _decodeRange],
+  ['Range<', '>', TypeDefInfo.Range, _decodeRange],
+  ['RangeInclusive<', '>', TypeDefInfo.RangeInclusive, _decodeRange],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt],
   ['DoNotConstruct<', '>', TypeDefInfo.DoNotConstruct, _decodeDoNotConstruct]
