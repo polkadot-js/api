@@ -122,7 +122,10 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     registry.getOrUnknown(value.type),
 
   [TypeDefInfo.Range]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
-    (value.type.includes('RangeInclusive') ? RangeInclusive : Range).with(getSubType(value)),
+    createWithSub(Range, value),
+
+  [TypeDefInfo.RangeInclusive]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
+    createWithSub(RangeInclusive, value),
 
   [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
     const [Ok, Err] = getTypeClassArray(value);

@@ -519,7 +519,9 @@ export class PortableRegistry extends Struct implements ILookup {
       });
     } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
       return withTypeString(this.registry, {
-        info: TypeDefInfo.Range,
+        info: pathFirst === 'Range'
+          ? TypeDefInfo.Range
+          : TypeDefInfo.RangeInclusive,
         sub: this.#createSiDef(params[0].type.unwrap()),
         type: pathFirst
       });

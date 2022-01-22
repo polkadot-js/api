@@ -14,6 +14,7 @@ export enum TypeDefInfo {
   Option,
   Plain,
   Range,
+  RangeInclusive,
   Result,
   Set,
   Si,

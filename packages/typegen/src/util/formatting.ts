@@ -174,6 +174,10 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.Range: Not implemented on ${stringify(typeDef)}`);
   },
 
+  [TypeDefInfo.RangeInclusive]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+    throw new Error(`TypeDefInfo.RangeInclusive: Not implemented on ${stringify(typeDef)}`);
+  },
+
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
   },
