@@ -22,7 +22,6 @@ Changes:
 - Add `.multi` support on `api.at(...).<section>.<method>`
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
-- Align `Range/RangeInclusive` handling with other definitions
 - Expose `contract.{query, tx}.<method>.meta`, aligning with API
 - Fix storage metadata, aligning method with decorated name
 - Adjust typegen, only use exportInterface
