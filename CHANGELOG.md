@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
+- Align `Range/RangeInclusive` usage with similar types
+
+
 ## 7.5.1 Jan 23, 2022
 
 Upgrade priority: Low. Recommended for users of the latest contract pallet and ink! versions.
