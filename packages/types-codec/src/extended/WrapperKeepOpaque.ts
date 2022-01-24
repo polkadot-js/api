@@ -3,13 +3,15 @@
 
 import type { AnyJson, AnyU8a, Codec, CodecClass, Registry } from '../types';
 
-import { assertReturn, compactStripLength, isHex, isU8a } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isHex, isU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
 import { Bytes } from './Bytes';
 
-function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec): [CodecClass<T>, T | null, AnyU8a] {
+type OpaqueName = 'WrapperKeepOpaque' | 'WrapperOpaque';
+
+function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T> | string, value?: unknown): [CodecClass<T>, T | null, AnyU8a] {
   const Type = typeToConstructor(registry, typeName);
 
   if (isU8a(value) || isHex(value)) {
@@ -26,7 +28,7 @@ function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T>
 
   const instance = new Type(registry, value);
 
-  return [Type, instance, instance.toHex()];
+  return [Type, instance, compactAddLength(instance.toU8a())];
 }
 
 export class WrapperKeepOpaque<T extends Codec> extends Bytes {
@@ -34,13 +36,16 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
 
   readonly #decoded: T | null;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: AnyU8a | Codec) {
+  readonly #opaqueName: OpaqueName;
+
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, opaqueName: OpaqueName = 'WrapperKeepOpaque') {
     const [Type, decoded, u8a] = decodeRaw(registry, typeName, value);
 
     super(registry, u8a);
 
     this.#Type = Type;
     this.#decoded = decoded;
+    this.#opaqueName = opaqueName;
   }
 
   public static with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperKeepOpaque<T>> {
@@ -71,7 +76,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `WrapperKeepOpaque<${this.registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.registry).toRawType())}>`;
+    return `${this.#opaqueName}<${this.registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.registry).toRawType())}>`;
   }
 
   /**
@@ -87,6 +92,6 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the decoded that the WrapperKeepOpaque represents (if available), throws if non-decodable
    */
   public unwrap (): T {
-    return assertReturn(this.#decoded, 'WrapperKeepOpaque: unwrapping an undecodable value');
+    return assertReturn(this.#decoded, () => `${this.#opaqueName}: unwrapping an undecodable value`);
   }
 }

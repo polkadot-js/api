@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## master
+## 7.5.1 Jan 23, 2022
+
+Upgrade priority: Low. Recommended for users of the latest contract pallet and ink! versions.
 
 Contributed:
 
@@ -8,7 +10,7 @@ Contributed:
 
 Changes:
 
-- Adjust `Registry` to augment based on used packages
+- Adjust `Registry` consistency, augment extensions
 - Add `.multi` support on `api.at(...).<section>.<method>`
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
