@@ -3,29 +3,14 @@
 
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { compactAddLength, compactStripLength, isU8a } from '@polkadot/util';
+import { WrapperKeepOpaque } from './WrapperKeepOpaque';
 
-import { Base } from '../base/Base';
-import { typeToConstructor } from '../utils';
-
-function decodeRaw<T extends Codec> (registry: Registry, Type: CodecClass<T> | string, value?: unknown): T {
-  const Clazz = typeToConstructor<T>(registry, Type);
-
-  if (isU8a(value)) {
-    const [, u8a] = compactStripLength(value);
-
-    return new Clazz(registry, u8a);
+export class WrapperOpaque<T extends Codec> extends WrapperKeepOpaque<T> {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {
+    super(registry, typeName, value, 'WrapperOpaque');
   }
 
-  return new Clazz(registry, value);
-}
-
-export class WrapperOpaque<T extends Codec> extends Base<T> {
-  constructor (registry: Registry, Type: CodecClass<T> | string, value?: unknown) {
-    super(registry, decodeRaw(registry, Type, value));
-  }
-
-  public static with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperOpaque<T>> {
+  public static override with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperKeepOpaque<T>> {
     return class extends WrapperOpaque<T> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Type, value);
@@ -34,20 +19,9 @@ export class WrapperOpaque<T extends Codec> extends Base<T> {
   }
 
   /**
-   * @description Returns the base runtime type name for this instance
+   * @description The inner value for this wrapper, in all cases it _should_ be decodable (unlike KeepOpaque)
    */
-  public override toRawType (): string {
-    return `WrapperOpaque<${this.inner.toRawType()}>`;
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public override toU8a (isBare?: boolean): Uint8Array {
-    const u8a = super.toU8a(isBare);
-
-    return isBare
-      ? u8a
-      : compactAddLength(u8a);
+  public get inner (): T {
+    return this.unwrap();
   }
 }
