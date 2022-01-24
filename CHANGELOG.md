@@ -24,7 +24,7 @@ Changes:
 - Cleanup ink! metadata parsing, allowing for easier extension
 - Expose `contract.{query, tx}.<method>.meta`, aligning with API
 - Fix storage metadata, aligning method with decorated name
-- Adjust typegen, only use exportInterface
+- Adjust typegen, only using exportInterface
 - Added Kusama/Polkadot 9151 upgrade block (known types)
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
