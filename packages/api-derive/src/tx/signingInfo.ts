@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { BlockHash, Header, Index } from '@polkadot/types/interfaces';
+import type { BlockHash, BlockNumber, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
 
@@ -14,7 +14,7 @@ import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERI
 
 interface Result {
   blockHash: BlockHash | null;
-  header: Header | null;
+  blockNumber: BlockNumber | null;
   mortalLength: number;
   nonce: Index;
 }
@@ -64,17 +64,20 @@ function getFin (api: DeriveApi): Observable<[BlockHash, Header]> {
   );
 }
 
-function signingHeader (api: DeriveApi): Observable<[BlockHash, Header]> {
+function signingHeader (api: DeriveApi): Observable<[BlockHash, BlockNumber]> {
   return combineLatest([
     getBest(api),
     getFin(api)
   ]).pipe(
-    map(([[hash, head], [finHash, finHead]]): [BlockHash, Header] =>
+    map(([[hash, head], [finHash, finHead]]): [BlockHash, BlockNumber] => {
+      const bestNum = head.number.unwrap();
+      const finNum = finHead.number.unwrap();
+
       // determine the hash to use, current when lag > max, else finalized
-      head.number.unwrap().sub(finHead.number.unwrap()).gt(MAX_FINALITY_LAG)
-        ? [hash, head]
-        : [finHash, finHead]
-    )
+      return bestNum.sub(finNum).gt(MAX_FINALITY_LAG)
+        ? [hash, bestNum]
+        : [finHash, finNum];
+    })
   );
 }
 
@@ -91,11 +94,11 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
       // if no era (create) or era > 0 (mortal), do block retrieval
       (isUndefined(era) || (isNumber(era) && era > 0))
         ? signingHeader(api)
-        : of([null, null])
+        : of([null, null, null])
     ]).pipe(
-      map(([nonce, [blockHash, header]]) => ({
+      map(([nonce, [blockHash, blockNumber]]) => ({
         blockHash,
-        header,
+        blockNumber,
         mortalLength: Math.min(
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD

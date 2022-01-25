@@ -4,7 +4,7 @@
 /* eslint-disable no-dupe-class-members */
 
 import type { Observable, OperatorFunction } from 'rxjs';
-import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
+import type { Address, ApplyExtrinsicResult, BlockNumber, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
 import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
@@ -26,8 +26,8 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 
 const identity = <T> (input: T): T => input;
 
-function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { blockHash, header, mortalLength, nonce }: { blockHash: Hash | null, header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
-  if (!header || !blockHash) {
+function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { blockHash, blockNumber, mortalLength, nonce }: { blockHash: Hash | null; blockNumber: BlockNumber | null; mortalLength: number; nonce: Index }): SignatureOptions {
+  if (!blockHash || !blockNumber) {
     if (isNumber(partialOptions.era)) {
       // since we have no header, it is immortal, remove any option overrides
       // so we only supply the genesisHash and no era to the construction
@@ -41,7 +41,7 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   return makeSignOptions(api, partialOptions, {
     blockHash,
     era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
-      current: header.number,
+      current: blockNumber,
       period: partialOptions.era || mortalLength
     }]),
     nonce
@@ -226,7 +226,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
-            updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+            updateId = await this.#signViaSigner(address, eraOptions, signingInfo.blockNumber);
           }
         }),
         mapTo(updateId) as OperatorFunction<void, number | undefined>
@@ -284,14 +284,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       );
     };
 
-    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
+    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, blockNumber: BlockNumber | null): Promise<number> => {
       const signer = options.signer || api.signer;
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
 
       const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
-        blockNumber: header ? header.number : 0,
+        blockNumber: blockNumber || 0,
         method: this.method
       })]);
       let result: SignerResult;
