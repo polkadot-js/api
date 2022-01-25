@@ -24,10 +24,11 @@ export function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, cre
 }
 
 export function createBluePrintTx <ApiType extends ApiTypes, R extends SubmittableResult> (meta: AbiMessage, fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>): BlueprintDeploy<ApiType> {
-  return (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
+  return withMeta(meta, (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
     isOptions(options)
       ? fn(meta, options, params)
-      : fn(meta, ...extractOptions<BlueprintOptions>(options, params));
+      : fn(meta, ...extractOptions<BlueprintOptions>(options, params))
+  );
 }
 
 export function createBluePrintWithId <T> (fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => T): ContractGeneric<BlueprintOptions, T> {
