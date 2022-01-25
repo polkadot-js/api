@@ -614,6 +614,47 @@ export interface SlotRange extends Enum {
   readonly isZeroOne: boolean;
   readonly isZeroTwo: boolean;
   readonly isZeroThree: boolean;
+  readonly isZeroFour: boolean;
+  readonly isZeroFive: boolean;
+  readonly isZeroSix: boolean;
+  readonly isZeroSeven: boolean;
+  readonly isOneOne: boolean;
+  readonly isOneTwo: boolean;
+  readonly isOneThree: boolean;
+  readonly isOneFour: boolean;
+  readonly isOneFive: boolean;
+  readonly isOneSix: boolean;
+  readonly isOneSeven: boolean;
+  readonly isTwoTwo: boolean;
+  readonly isTwoThree: boolean;
+  readonly isTwoFour: boolean;
+  readonly isTwoFive: boolean;
+  readonly isTwoSix: boolean;
+  readonly isTwoSeven: boolean;
+  readonly isThreeThree: boolean;
+  readonly isThreeFour: boolean;
+  readonly isThreeFive: boolean;
+  readonly isThreeSix: boolean;
+  readonly isThreeSeven: boolean;
+  readonly isFourFour: boolean;
+  readonly isFourFive: boolean;
+  readonly isFourSix: boolean;
+  readonly isFourSeven: boolean;
+  readonly isFiveFive: boolean;
+  readonly isFiveSix: boolean;
+  readonly isFiveSeven: boolean;
+  readonly isSixSix: boolean;
+  readonly isSixSeven: boolean;
+  readonly isSevenSeven: boolean;
+  readonly type: 'ZeroZero' | 'ZeroOne' | 'ZeroTwo' | 'ZeroThree' | 'ZeroFour' | 'ZeroFive' | 'ZeroSix' | 'ZeroSeven' | 'OneOne' | 'OneTwo' | 'OneThree' | 'OneFour' | 'OneFive' | 'OneSix' | 'OneSeven' | 'TwoTwo' | 'TwoThree' | 'TwoFour' | 'TwoFive' | 'TwoSix' | 'TwoSeven' | 'ThreeThree' | 'ThreeFour' | 'ThreeFive' | 'ThreeSix' | 'ThreeSeven' | 'FourFour' | 'FourFive' | 'FourSix' | 'FourSeven' | 'FiveFive' | 'FiveSix' | 'FiveSeven' | 'SixSix' | 'SixSeven' | 'SevenSeven';
+}
+
+/** @name SlotRange10 */
+export interface SlotRange10 extends Enum {
+  readonly isZeroZero: boolean;
+  readonly isZeroOne: boolean;
+  readonly isZeroTwo: boolean;
+  readonly isZeroThree: boolean;
   readonly isOneOne: boolean;
   readonly isOneTwo: boolean;
   readonly isOneThree: boolean;
@@ -721,11 +762,20 @@ export interface VecInboundHrmpMessage extends Vec<InboundHrmpMessage> {}
 /** @name WinnersData */
 export interface WinnersData extends Vec<WinnersDataTuple> {}
 
+/** @name WinnersData10 */
+export interface WinnersData10 extends Vec<WinnersDataTuple10> {}
+
 /** @name WinnersDataTuple */
 export interface WinnersDataTuple extends ITuple<[AccountId, ParaId, BalanceOf, SlotRange]> {}
 
+/** @name WinnersDataTuple10 */
+export interface WinnersDataTuple10 extends ITuple<[AccountId, ParaId, BalanceOf, SlotRange10]> {}
+
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}
+
+/** @name WinningData10 */
+export interface WinningData10 extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
 export interface WinningDataEntry extends Option<ITuple<[AccountId, ParaId, BalanceOf]>> {}
