@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { ISubmittableResult } from '@polkadot/types/types';
@@ -17,13 +16,15 @@ import { extractOptions, isOptions } from '../util';
 
 export const EMPTY_SALT = new Uint8Array();
 
+type ConstructorTx <ApiType extends ApiTypes, R extends ISubmittableResult> = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>;
+
 export function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: Omit<T, 'meta'>): T {
   (creator as T).meta = meta;
 
   return creator as T;
 }
 
-export function createBluePrintTx <ApiType extends ApiTypes, R extends SubmittableResult> (meta: AbiMessage, fn: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>): BlueprintDeploy<ApiType> {
+export function createBluePrintTx <ApiType extends ApiTypes, R extends ISubmittableResult> (meta: AbiMessage, fn: ConstructorTx<ApiType, R>): BlueprintDeploy<ApiType> {
   return withMeta(meta, (options: bigint | string | number | BN | BlueprintOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType, R> =>
     isOptions(options)
       ? fn(meta, options, params)
@@ -58,7 +59,7 @@ export function expandNs <T> (ns: Namespaced<T>, { path }: AbiMessage, call: T):
   return call;
 }
 
-export function expandConstructors <ApiType extends ApiTypes, R extends ISubmittableResult> (constructors: AbiMessage[], ns: Namespaced<BlueprintDeploy<ApiType>>, tx: MapConstructorExec<ApiType>, creator: (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>): void {
+export function expandConstructors <ApiType extends ApiTypes, R extends ISubmittableResult> (constructors: AbiMessage[], ns: Namespaced<BlueprintDeploy<ApiType>>, tx: MapConstructorExec<ApiType>, creator: ConstructorTx<ApiType, R>): void {
   constructors.forEach((c): void => {
     if (isUndefined(tx[c.method])) {
       tx[c.method] = expandNs(ns, c, createBluePrintTx(c, creator));
