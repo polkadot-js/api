@@ -6,9 +6,13 @@ import { objectSpread } from '@polkadot/util';
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-const SlotRange10Enum = ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree'];
+const SlotRange10 = {
+  _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree']
+};
 
-const SlotRangeEnum = ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'ZeroFour', 'ZeroFive', 'ZeroSix', 'ZeroSeven', 'OneOne', 'OneTwo', 'OneThree', 'OneFour', 'OneFive', 'OneSix', 'OneSeven', 'TwoTwo', 'TwoThree', 'TwoFour', 'TwoFive', 'TwoSix', 'TwoSeven', 'ThreeThree', 'ThreeFour', 'ThreeFive', 'ThreeSix', 'ThreeSeven', 'FourFour', 'FourFive', 'FourSix', 'FourSeven', 'FiveFive', 'FiveSix', 'FiveSeven', 'SixSix', 'SixSeven', 'SevenSeven'];
+const SlotRange = {
+  _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'ZeroFour', 'ZeroFive', 'ZeroSix', 'ZeroSeven', 'OneOne', 'OneTwo', 'OneThree', 'OneFour', 'OneFive', 'OneSix', 'OneSeven', 'TwoTwo', 'TwoThree', 'TwoFour', 'TwoFive', 'TwoSix', 'TwoSeven', 'ThreeThree', 'ThreeFour', 'ThreeFive', 'ThreeSix', 'ThreeSeven', 'FourFour', 'FourFive', 'FourSix', 'FourSeven', 'FiveFive', 'FiveSix', 'FiveSeven', 'SixSix', 'SixSeven', 'SevenSeven']
+};
 
 const oldTypes = {
   Bidder: {
@@ -44,14 +48,10 @@ export default objectSpread({}, oldTypes, {
   AuctionIndex: 'u32',
   LeasePeriod: 'BlockNumber',
   LeasePeriodOf: 'BlockNumber',
-  SlotRange10: {
-    _enum: SlotRange10Enum
-  },
-  SlotRange: {
-    _enum: SlotRangeEnum
-  },
-  WinningData10: `[WinningDataEntry; ${SlotRange10Enum.length}]`,
-  WinningData: `[WinningDataEntry; ${SlotRangeEnum.length}]`,
+  SlotRange10,
+  SlotRange,
+  WinningData10: `[WinningDataEntry; ${SlotRange10._enum.length}]`,
+  WinningData: `[WinningDataEntry; ${SlotRange._enum.length}]`,
   WinningDataEntry: 'Option<(AccountId, ParaId, BalanceOf)>',
   WinnersData10: 'Vec<WinnersDataTuple10>',
   WinnersData: 'Vec<WinnersDataTuple>',
