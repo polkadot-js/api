@@ -1318,11 +1318,18 @@ export default {
       },
       force_clean_hrmp: {
         para: 'u32',
+        inbound: 'u32',
+        outbound: 'u32',
       },
-      force_process_hrmp_open: 'Null',
-      force_process_hrmp_close: 'Null',
+      force_process_hrmp_open: {
+        channels: 'u32',
+      },
+      force_process_hrmp_close: {
+        channels: 'u32',
+      },
       hrmp_cancel_open_request: {
-        channelId: 'PolkadotParachainPrimitivesHrmpChannelId'
+        channelId: 'PolkadotParachainPrimitivesHrmpChannelId',
+        openRequests: 'u32'
       }
     }
   },
@@ -1741,13 +1748,13 @@ export default {
     }
   },
   /**
-   * Lookup528: polkadot_runtime_common::claims::pallet::Error<T>
+   * Lookup529: polkadot_runtime_common::claims::pallet::Error<T>
    **/
   PolkadotRuntimeCommonClaimsPalletError: {
     _enum: ['InvalidEthereumSignature', 'SignerHasNoClaim', 'SenderHasNoClaim', 'PotUnderflow', 'InvalidStatement', 'VestedBalanceExists']
   },
   /**
-   * Lookup579: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
+   * Lookup580: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
    **/
   PolkadotRuntimeParachainsConfigurationHostConfiguration: {
     maxCodeSize: 'u32',
@@ -1795,7 +1802,7 @@ export default {
     minimumValidationUpgradeDelay: 'u32'
   },
   /**
-   * Lookup580: polkadot_runtime_parachains::configuration::migration::v1::HostConfiguration<BlockNumber>
+   * Lookup581: polkadot_runtime_parachains::configuration::migration::v1::HostConfiguration<BlockNumber>
    **/
   PolkadotRuntimeParachainsConfigurationMigrationV1HostConfiguration: {
     maxCodeSize: 'u32',
@@ -1840,20 +1847,20 @@ export default {
     umpMaxIndividualWeight: 'u64'
   },
   /**
-   * Lookup583: polkadot_runtime_parachains::configuration::pallet::Error<T>
+   * Lookup584: polkadot_runtime_parachains::configuration::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsConfigurationPalletError: {
     _enum: ['InvalidNewValue']
   },
   /**
-   * Lookup586: polkadot_runtime_parachains::inclusion::AvailabilityBitfieldRecord<N>
+   * Lookup587: polkadot_runtime_parachains::inclusion::AvailabilityBitfieldRecord<N>
    **/
   PolkadotRuntimeParachainsInclusionAvailabilityBitfieldRecord: {
     bitfield: 'BitVec',
     submittedAt: 'u32'
   },
   /**
-   * Lookup587: polkadot_runtime_parachains::inclusion::CandidatePendingAvailability<primitive_types::H256, N>
+   * Lookup588: polkadot_runtime_parachains::inclusion::CandidatePendingAvailability<primitive_types::H256, N>
    **/
   PolkadotRuntimeParachainsInclusionCandidatePendingAvailability: {
     _alias: {
@@ -1869,13 +1876,13 @@ export default {
     backingGroup: 'u32'
   },
   /**
-   * Lookup588: polkadot_runtime_parachains::inclusion::pallet::Error<T>
+   * Lookup589: polkadot_runtime_parachains::inclusion::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsInclusionPalletError: {
-    _enum: ['WrongBitfieldSize', 'BitfieldDuplicateOrUnordered', 'ValidatorIndexOutOfBounds', 'InvalidBitfieldSignature', 'UnscheduledCandidate', 'CandidateScheduledBeforeParaFree', 'WrongCollator', 'ScheduledOutOfOrder', 'HeadDataTooLarge', 'PrematureCodeUpgrade', 'NewCodeTooLarge', 'CandidateNotInParentContext', 'InvalidGroupIndex', 'InsufficientBacking', 'InvalidBacking', 'NotCollatorSigned', 'ValidationDataHashMismatch', 'IncorrectDownwardMessageHandling', 'InvalidUpwardMessages', 'HrmpWatermarkMishandling', 'InvalidOutboundHrmp', 'InvalidValidationCodeHash', 'ParaHeadMismatch', 'BitfieldReferencesFreedCore']
+    _enum: ['UnsortedOrDuplicateValidatorIndices', 'UnsortedOrDuplicateDisputeStatementSet', 'UnsortedOrDuplicateBackedCandidates', 'UnexpectedRelayParent', 'WrongBitfieldSize', 'BitfieldAllZeros', 'BitfieldDuplicateOrUnordered', 'ValidatorIndexOutOfBounds', 'InvalidBitfieldSignature', 'UnscheduledCandidate', 'CandidateScheduledBeforeParaFree', 'WrongCollator', 'ScheduledOutOfOrder', 'HeadDataTooLarge', 'PrematureCodeUpgrade', 'NewCodeTooLarge', 'CandidateNotInParentContext', 'InvalidGroupIndex', 'InsufficientBacking', 'InvalidBacking', 'NotCollatorSigned', 'ValidationDataHashMismatch', 'IncorrectDownwardMessageHandling', 'InvalidUpwardMessages', 'HrmpWatermarkMishandling', 'InvalidOutboundHrmp', 'InvalidValidationCodeHash', 'ParaHeadMismatch', 'BitfieldReferencesFreedCore']
   },
   /**
-   * Lookup589: polkadot_primitives::v1::ScrapedOnChainVotes<primitive_types::H256>
+   * Lookup590: polkadot_primitives::v1::ScrapedOnChainVotes<primitive_types::H256>
    **/
   PolkadotPrimitivesV1ScrapedOnChainVotes: {
     session: 'u32',
@@ -1883,38 +1890,38 @@ export default {
     disputes: 'Vec<PolkadotPrimitivesV1DisputeStatementSet>'
   },
   /**
-   * Lookup594: polkadot_runtime_parachains::paras_inherent::pallet::Error<T>
+   * Lookup595: polkadot_runtime_parachains::paras_inherent::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsParasInherentPalletError: {
-    _enum: ['TooManyInclusionInherents', 'InvalidParentHeader', 'CandidateConcludedInvalid', 'InherentOverweight']
+    _enum: ['TooManyInclusionInherents', 'InvalidParentHeader', 'CandidateConcludedInvalid', 'InherentOverweight', 'DisputeStatementsUnsortedOrDuplicates', 'DisputeInvalid']
   },
   /**
-   * Lookup596: polkadot_runtime_parachains::scheduler::ParathreadClaimQueue
+   * Lookup597: polkadot_runtime_parachains::scheduler::ParathreadClaimQueue
    **/
   PolkadotRuntimeParachainsSchedulerParathreadClaimQueue: {
     queue: 'Vec<PolkadotRuntimeParachainsSchedulerQueuedParathread>',
     nextCoreOffset: 'u32'
   },
   /**
-   * Lookup598: polkadot_runtime_parachains::scheduler::QueuedParathread
+   * Lookup599: polkadot_runtime_parachains::scheduler::QueuedParathread
    **/
   PolkadotRuntimeParachainsSchedulerQueuedParathread: {
     claim: 'PolkadotPrimitivesV1ParathreadEntry',
     coreOffset: 'u32'
   },
   /**
-   * Lookup599: polkadot_primitives::v1::ParathreadEntry
+   * Lookup600: polkadot_primitives::v1::ParathreadEntry
    **/
   PolkadotPrimitivesV1ParathreadEntry: {
     claim: 'PolkadotPrimitivesV1ParathreadClaim',
     retries: 'u32'
   },
   /**
-   * Lookup600: polkadot_primitives::v1::ParathreadClaim
+   * Lookup601: polkadot_primitives::v1::ParathreadClaim
    **/
   PolkadotPrimitivesV1ParathreadClaim: '(u32,PolkadotPrimitivesV0CollatorAppPublic)',
   /**
-   * Lookup603: polkadot_primitives::v1::CoreOccupied
+   * Lookup604: polkadot_primitives::v1::CoreOccupied
    **/
   PolkadotPrimitivesV1CoreOccupied: {
     _enum: {
@@ -1923,7 +1930,7 @@ export default {
     }
   },
   /**
-   * Lookup606: polkadot_runtime_parachains::scheduler::CoreAssignment
+   * Lookup607: polkadot_runtime_parachains::scheduler::CoreAssignment
    **/
   PolkadotRuntimeParachainsSchedulerCoreAssignment: {
     core: 'u32',
@@ -1932,7 +1939,7 @@ export default {
     groupIdx: 'u32'
   },
   /**
-   * Lookup607: polkadot_runtime_parachains::scheduler::AssignmentKind
+   * Lookup608: polkadot_runtime_parachains::scheduler::AssignmentKind
    **/
   PolkadotRuntimeParachainsSchedulerAssignmentKind: {
     _enum: {
@@ -1941,7 +1948,7 @@ export default {
     }
   },
   /**
-   * Lookup608: polkadot_runtime_parachains::paras::PvfCheckActiveVoteState<BlockNumber>
+   * Lookup609: polkadot_runtime_parachains::paras::PvfCheckActiveVoteState<BlockNumber>
    **/
   PolkadotRuntimeParachainsParasPvfCheckActiveVoteState: {
     votesAccept: 'BitVec',
@@ -1951,7 +1958,7 @@ export default {
     causes: 'Vec<PolkadotRuntimeParachainsParasPvfCheckCause>'
   },
   /**
-   * Lookup610: polkadot_runtime_parachains::paras::PvfCheckCause<BlockNumber>
+   * Lookup611: polkadot_runtime_parachains::paras::PvfCheckCause<BlockNumber>
    **/
   PolkadotRuntimeParachainsParasPvfCheckCause: {
     _enum: {
@@ -1963,39 +1970,39 @@ export default {
     }
   },
   /**
-   * Lookup612: polkadot_runtime_parachains::paras::ParaLifecycle
+   * Lookup613: polkadot_runtime_parachains::paras::ParaLifecycle
    **/
   PolkadotRuntimeParachainsParasParaLifecycle: {
     _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingParathread', 'DowngradingParachain', 'OffboardingParathread', 'OffboardingParachain']
   },
   /**
-   * Lookup614: polkadot_runtime_parachains::paras::ParaPastCodeMeta<N>
+   * Lookup615: polkadot_runtime_parachains::paras::ParaPastCodeMeta<N>
    **/
   PolkadotRuntimeParachainsParasParaPastCodeMeta: {
     upgradeTimes: 'Vec<PolkadotRuntimeParachainsParasReplacementTimes>',
     lastPruned: 'Option<u32>'
   },
   /**
-   * Lookup616: polkadot_runtime_parachains::paras::ReplacementTimes<N>
+   * Lookup617: polkadot_runtime_parachains::paras::ReplacementTimes<N>
    **/
   PolkadotRuntimeParachainsParasReplacementTimes: {
     expectedAt: 'u32',
     activatedAt: 'u32'
   },
   /**
-   * Lookup618: polkadot_primitives::v1::UpgradeGoAhead
+   * Lookup619: polkadot_primitives::v1::UpgradeGoAhead
    **/
   PolkadotPrimitivesV1UpgradeGoAhead: {
     _enum: ['Abort', 'GoAhead']
   },
   /**
-   * Lookup619: polkadot_primitives::v1::UpgradeRestriction
+   * Lookup620: polkadot_primitives::v1::UpgradeRestriction
    **/
   PolkadotPrimitivesV1UpgradeRestriction: {
     _enum: ['Present']
   },
   /**
-   * Lookup620: polkadot_runtime_parachains::paras::ParaGenesisArgs
+   * Lookup621: polkadot_runtime_parachains::paras::ParaGenesisArgs
    **/
   PolkadotRuntimeParachainsParasParaGenesisArgs: {
     genesisHead: 'Bytes',
@@ -2003,13 +2010,13 @@ export default {
     parachain: 'bool'
   },
   /**
-   * Lookup621: polkadot_runtime_parachains::paras::pallet::Error<T>
+   * Lookup622: polkadot_runtime_parachains::paras::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsParasPalletError: {
     _enum: ['NotRegistered', 'CannotOnboard', 'CannotOffboard', 'CannotUpgrade', 'CannotDowngrade', 'PvfCheckStatementStale', 'PvfCheckStatementFuture', 'PvfCheckValidatorIndexOutOfBounds', 'PvfCheckInvalidSignature', 'PvfCheckDoubleVote', 'PvfCheckSubjectInvalid', 'PvfCheckDisabled']
   },
   /**
-   * Lookup623: polkadot_runtime_parachains::initializer::BufferedSessionChange
+   * Lookup624: polkadot_runtime_parachains::initializer::BufferedSessionChange
    **/
   PolkadotRuntimeParachainsInitializerBufferedSessionChange: {
     validators: 'Vec<PolkadotPrimitivesV0ValidatorAppPublic>',
@@ -2017,20 +2024,20 @@ export default {
     sessionIndex: 'u32'
   },
   /**
-   * Lookup625: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
+   * Lookup626: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
    **/
   PolkadotCorePrimitivesInboundDownwardMessage: {
     sentAt: 'u32',
     msg: 'Bytes'
   },
   /**
-   * Lookup627: polkadot_runtime_parachains::ump::pallet::Error<T>
+   * Lookup628: polkadot_runtime_parachains::ump::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsUmpPalletError: {
     _enum: ['UnknownMessageIndex', 'WeightOverLimit']
   },
   /**
-   * Lookup628: polkadot_runtime_parachains::hrmp::HrmpOpenChannelRequest
+   * Lookup629: polkadot_runtime_parachains::hrmp::HrmpOpenChannelRequest
    **/
   PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest: {
     confirmed: 'bool',
@@ -2041,7 +2048,7 @@ export default {
     maxTotalSize: 'u32'
   },
   /**
-   * Lookup630: polkadot_runtime_parachains::hrmp::HrmpChannel
+   * Lookup631: polkadot_runtime_parachains::hrmp::HrmpChannel
    **/
   PolkadotRuntimeParachainsHrmpHrmpChannel: {
     maxCapacity: 'u32',
@@ -2054,20 +2061,20 @@ export default {
     recipientDeposit: 'u128'
   },
   /**
-   * Lookup633: polkadot_core_primitives::InboundHrmpMessage<BlockNumber>
+   * Lookup634: polkadot_core_primitives::InboundHrmpMessage<BlockNumber>
    **/
   PolkadotCorePrimitivesInboundHrmpMessage: {
     sentAt: 'u32',
     data: 'Bytes'
   },
   /**
-   * Lookup636: polkadot_runtime_parachains::hrmp::pallet::Error<T>
+   * Lookup637: polkadot_runtime_parachains::hrmp::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsHrmpPalletError: {
-    _enum: ['OpenHrmpChannelToSelf', 'OpenHrmpChannelInvalidRecipient', 'OpenHrmpChannelZeroCapacity', 'OpenHrmpChannelCapacityExceedsLimit', 'OpenHrmpChannelZeroMessageSize', 'OpenHrmpChannelMessageSizeExceedsLimit', 'OpenHrmpChannelAlreadyExists', 'OpenHrmpChannelAlreadyRequested', 'OpenHrmpChannelLimitExceeded', 'AcceptHrmpChannelDoesntExist', 'AcceptHrmpChannelAlreadyConfirmed', 'AcceptHrmpChannelLimitExceeded', 'CloseHrmpChannelUnauthorized', 'CloseHrmpChannelDoesntExist', 'CloseHrmpChannelAlreadyUnderway', 'CancelHrmpOpenChannelUnauthorized', 'OpenHrmpChannelDoesntExist', 'OpenHrmpChannelAlreadyConfirmed']
+    _enum: ['OpenHrmpChannelToSelf', 'OpenHrmpChannelInvalidRecipient', 'OpenHrmpChannelZeroCapacity', 'OpenHrmpChannelCapacityExceedsLimit', 'OpenHrmpChannelZeroMessageSize', 'OpenHrmpChannelMessageSizeExceedsLimit', 'OpenHrmpChannelAlreadyExists', 'OpenHrmpChannelAlreadyRequested', 'OpenHrmpChannelLimitExceeded', 'AcceptHrmpChannelDoesntExist', 'AcceptHrmpChannelAlreadyConfirmed', 'AcceptHrmpChannelLimitExceeded', 'CloseHrmpChannelUnauthorized', 'CloseHrmpChannelDoesntExist', 'CloseHrmpChannelAlreadyUnderway', 'CancelHrmpOpenChannelUnauthorized', 'OpenHrmpChannelDoesntExist', 'OpenHrmpChannelAlreadyConfirmed', 'WrongWitness']
   },
   /**
-   * Lookup638: polkadot_primitives::v2::SessionInfo
+   * Lookup639: polkadot_primitives::v2::SessionInfo
    **/
   PolkadotPrimitivesV2SessionInfo: {
     activeValidatorIndices: 'Vec<u32>',
@@ -2085,7 +2092,7 @@ export default {
     neededApprovals: 'u32'
   },
   /**
-   * Lookup640: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
+   * Lookup641: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PolkadotRuntimeCommonParasRegistrarParaInfo: {
     manager: 'AccountId32',
@@ -2093,25 +2100,25 @@ export default {
     locked: 'bool'
   },
   /**
-   * Lookup641: polkadot_runtime_common::paras_registrar::pallet::Error<T>
+   * Lookup642: polkadot_runtime_common::paras_registrar::pallet::Error<T>
    **/
   PolkadotRuntimeCommonParasRegistrarPalletError: {
     _enum: ['NotRegistered', 'AlreadyRegistered', 'NotOwner', 'CodeTooLarge', 'HeadDataTooLarge', 'NotParachain', 'NotParathread', 'CannotDeregister', 'CannotDowngrade', 'CannotUpgrade', 'ParaLocked', 'NotReserved', 'EmptyCode']
   },
   /**
-   * Lookup643: polkadot_runtime_common::slots::pallet::Error<T>
+   * Lookup644: polkadot_runtime_common::slots::pallet::Error<T>
    **/
   PolkadotRuntimeCommonSlotsPalletError: {
     _enum: ['ParaNotOnboarding', 'LeaseError']
   },
   /**
-   * Lookup648: polkadot_runtime_common::auctions::pallet::Error<T>
+   * Lookup649: polkadot_runtime_common::auctions::pallet::Error<T>
    **/
   PolkadotRuntimeCommonAuctionsPalletError: {
     _enum: ['AuctionInProgress', 'LeasePeriodInPast', 'ParaNotRegistered', 'NotCurrentAuction', 'NotAuction', 'AuctionEnded', 'AlreadyLeasedOut']
   },
   /**
-   * Lookup649: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
+   * Lookup650: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
    **/
   PolkadotRuntimeCommonCrowdloanFundInfo: {
     depositor: 'AccountId32',
@@ -2126,7 +2133,7 @@ export default {
     trieIndex: 'u32'
   },
   /**
-   * Lookup650: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
+   * Lookup651: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
    **/
   PolkadotRuntimeCommonCrowdloanLastContribution: {
     _enum: {
@@ -2136,13 +2143,13 @@ export default {
     }
   },
   /**
-   * Lookup651: polkadot_runtime_common::crowdloan::pallet::Error<T>
+   * Lookup652: polkadot_runtime_common::crowdloan::pallet::Error<T>
    **/
   PolkadotRuntimeCommonCrowdloanPalletError: {
     _enum: ['FirstPeriodInPast', 'FirstPeriodTooFarInFuture', 'LastPeriodBeforeFirstPeriod', 'LastPeriodTooFarInFuture', 'CannotEndInPast', 'EndTooFarInFuture', 'Overflow', 'ContributionTooSmall', 'InvalidParaId', 'CapExceeded', 'ContributionPeriodOver', 'InvalidOrigin', 'NotParachain', 'LeaseActive', 'BidOrLeaseActive', 'FundNotEnded', 'NoContributions', 'NotReadyToDissolve', 'InvalidSignature', 'MemoTooLarge', 'AlreadyInNewRaise', 'VrfDelayInProgress', 'NoLeasePeriod']
   },
   /**
-   * Lookup652: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup653: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -2162,7 +2169,7 @@ export default {
     }
   },
   /**
-   * Lookup655: xcm::VersionedResponse
+   * Lookup656: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -2172,7 +2179,7 @@ export default {
     }
   },
   /**
-   * Lookup661: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup662: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -2183,21 +2190,21 @@ export default {
     }
   },
   /**
-   * Lookup662: pallet_xcm::pallet::Error<T>
+   * Lookup663: pallet_xcm::pallet::Error<T>
    **/
   PalletXcmError: {
     _enum: ['Unreachable', 'SendFailure', 'Filtered', 'UnweighableMessage', 'DestinationNotInvertible', 'Empty', 'CannotReanchor', 'TooManyAssets', 'InvalidOrigin', 'BadVersion', 'BadLocation', 'NoSubscription', 'AlreadySubscribed']
   },
   /**
-   * Lookup673: pallet_transaction_payment::ChargeTransactionPayment<T>
+   * Lookup674: pallet_transaction_payment::ChargeTransactionPayment<T>
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup674: polkadot_runtime_common::claims::PrevalidateAttests<T>
+   * Lookup675: polkadot_runtime_common::claims::PrevalidateAttests<T>
    **/
   PolkadotRuntimeCommonClaimsPrevalidateAttests: 'Null',
   /**
-   * Lookup675: polkadot_runtime::Runtime
+   * Lookup676: polkadot_runtime::Runtime
    **/
   PolkadotRuntimeRuntime: 'Null'
 };

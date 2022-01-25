@@ -8,6 +8,7 @@ Changes:
 - Emit `decorated` event on API on metadata decoration
 - Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
 - Align `Range/RangeInclusive` usage with similar types
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.5.1 Jan 23, 2022

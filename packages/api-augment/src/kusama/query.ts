@@ -596,13 +596,12 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       hrmpChannelContents: AugmentedQuery<ApiType, (arg: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array) => Observable<Vec<PolkadotCorePrimitivesInboundHrmpMessage>>, [PolkadotParachainPrimitivesHrmpChannelId]> & QueryableStorageEntry<ApiType, [PolkadotParachainPrimitivesHrmpChannelId]>;
       /**
-       * Maintains a mapping that can be used to answer the question:
-       * What paras sent a message at the given block number for a given receiver.
-       * Invariants:
+       * Maintains a mapping that can be used to answer the question: What paras sent a message at
+       * the given block number for a given receiver. Invariants:
        * - The inner `Vec<ParaId>` is never empty.
        * - The inner `Vec<ParaId>` cannot store two same `ParaId`.
-       * - The outer vector is sorted ascending by block number and cannot store two items with the same
-       * block number.
+       * - The outer vector is sorted ascending by block number and cannot store two items with the
+       * same block number.
        **/
       hrmpChannelDigests: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, Vec<u32>]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
@@ -612,8 +611,8 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       hrmpChannels: AugmentedQuery<ApiType, (arg: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array) => Observable<Option<PolkadotRuntimeParachainsHrmpHrmpChannel>>, [PolkadotParachainPrimitivesHrmpChannelId]> & QueryableStorageEntry<ApiType, [PolkadotParachainPrimitivesHrmpChannelId]>;
       /**
-       * A set of pending HRMP close channel requests that are going to be closed during the session change.
-       * Used for checking if a given channel is registered for closure.
+       * A set of pending HRMP close channel requests that are going to be closed during the session
+       * change. Used for checking if a given channel is registered for closure.
        * 
        * The set is accompanied by a list for iteration.
        * 
@@ -624,25 +623,25 @@ declare module '@polkadot/api-base/types/storage' {
       hrmpCloseChannelRequestsList: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotParachainPrimitivesHrmpChannelId>>, []> & QueryableStorageEntry<ApiType, []>;
       hrmpEgressChannelsIndex: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<u32>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-       * Ingress/egress indexes allow to find all the senders and receivers given the opposite
-       * side. I.e.
+       * Ingress/egress indexes allow to find all the senders and receivers given the opposite side.
+       * I.e.
        * 
        * (a) ingress index allows to find all the senders for a given recipient.
        * (b) egress index allows to find all the recipients for a given sender.
        * 
        * Invariants:
-       * - for each ingress index entry for `P` each item `I` in the index should present in `HrmpChannels`
-       * as `(I, P)`.
-       * - for each egress index entry for `P` each item `E` in the index should present in `HrmpChannels`
-       * as `(P, E)`.
+       * - for each ingress index entry for `P` each item `I` in the index should present in
+       * `HrmpChannels` as `(I, P)`.
+       * - for each egress index entry for `P` each item `E` in the index should present in
+       * `HrmpChannels` as `(P, E)`.
        * - there should be no other dangling channels in `HrmpChannels`.
        * - the vectors are sorted.
        **/
       hrmpIngressChannelsIndex: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<u32>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * This mapping tracks how many open channel requests are initiated by a given sender para.
-       * Invariant: `HrmpOpenChannelRequests` should contain the same number of items that has `(X, _)`
-       * as the number of `HrmpOpenChannelRequestCount` for `X`.
+       * Invariant: `HrmpOpenChannelRequests` should contain the same number of items that has
+       * `(X, _)` as the number of `HrmpOpenChannelRequestCount` for `X`.
        **/
       hrmpOpenChannelRequestCount: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**

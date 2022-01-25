@@ -24695,6 +24695,18 @@
                   "type": 86,
                   "typeName": "ParaId",
                   "docs": []
+                },
+                {
+                  "name": "inbound",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                },
+                {
+                  "name": "outbound",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
                 }
               ],
               "index": 3,
@@ -24703,29 +24715,49 @@
                 "a para may have. Normally this happens once per session, but this allows",
                 "you to trigger the cleanup immediately for a specific parachain.",
                 "",
-                "Origin must be Root."
+                "Origin must be Root.",
+                "",
+                "Number of inbound and outbound channels for `para` must be provided as witness data of weighing."
               ]
             },
             {
               "name": "force_process_hrmp_open",
-              "fields": [],
+              "fields": [
+                {
+                  "name": "channels",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                }
+              ],
               "index": 4,
               "docs": [
                 "Force process HRMP open channel requests.",
                 "",
                 "If there are pending HRMP open channel requests, you can use this",
-                "function process all of those requests immediately."
+                "function process all of those requests immediately.",
+                "",
+                "Total number of opening channels must be provided as witness data of weighing."
               ]
             },
             {
               "name": "force_process_hrmp_close",
-              "fields": [],
+              "fields": [
+                {
+                  "name": "channels",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                }
+              ],
               "index": 5,
               "docs": [
                 "Force process HRMP close channel requests.",
                 "",
                 "If there are pending HRMP close channel requests, you can use this",
-                "function process all of those requests immediately."
+                "function process all of those requests immediately.",
+                "",
+                "Total number of closing channels must be provided as witness data of weighing."
               ]
             },
             {
@@ -24736,15 +24768,24 @@
                   "type": 100,
                   "typeName": "HrmpChannelId",
                   "docs": []
+                },
+                {
+                  "name": "open_requests",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
                 }
               ],
               "index": 6,
               "docs": [
-                "This cancels a pending open channel request. It can be canceled be either of the sender",
+                "This cancels a pending open channel request. It can be canceled by either of the sender",
                 "or the recipient for that request. The origin must be either of those.",
                 "",
                 "The cancellation happens immediately. It is not possible to cancel the request if it is",
-                "already accepted."
+                "already accepted.",
+                "",
+                "Total number of open requests (i.e. `HrmpOpenChannelRequestsList`) must be provided as",
+                "witness data."
               ]
             }
           ]
@@ -33079,6 +33120,46 @@
     "id": 526,
     "type": {
       "path": [
+        "Option"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 6
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "None",
+              "fields": [],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "Some",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 6,
+                  "typeName": null,
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 527,
+    "type": {
+      "path": [
         "frame_support",
         "PalletId"
       ],
@@ -33099,7 +33180,7 @@
     }
   },
   {
-    "id": 527,
+    "id": 528,
     "type": {
       "path": [
         "pallet_treasury",
@@ -33152,7 +33233,7 @@
     }
   },
   {
-    "id": 528,
+    "id": 529,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -33227,7 +33308,7 @@
     }
   },
   {
-    "id": 529,
+    "id": 530,
     "type": {
       "path": [
         "frame_support",
@@ -33250,7 +33331,7 @@
           "fields": [
             {
               "name": null,
-              "type": 530,
+              "type": 531,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -33261,7 +33342,7 @@
     }
   },
   {
-    "id": 530,
+    "id": 531,
     "type": {
       "path": [],
       "params": [],
@@ -33274,7 +33355,7 @@
     }
   },
   {
-    "id": 531,
+    "id": 532,
     "type": {
       "path": [
         "pallet_vesting",
@@ -33303,7 +33384,7 @@
     }
   },
   {
-    "id": 532,
+    "id": 533,
     "type": {
       "path": [
         "pallet_vesting",
@@ -33369,7 +33450,7 @@
     }
   },
   {
-    "id": 533,
+    "id": 534,
     "type": {
       "path": [
         "pallet_utility",
@@ -33402,7 +33483,7 @@
     }
   },
   {
-    "id": 534,
+    "id": 535,
     "type": {
       "path": [
         "pallet_identity",
@@ -33428,7 +33509,7 @@
           "fields": [
             {
               "name": "judgements",
-              "type": 535,
+              "type": 536,
               "typeName": "BoundedVec<(RegistrarIndex, Judgement<Balance>), MaxJudgements>",
               "docs": []
             },
@@ -33451,7 +33532,7 @@
     }
   },
   {
-    "id": 535,
+    "id": 536,
     "type": {
       "path": [
         "frame_support",
@@ -33462,7 +33543,7 @@
       "params": [
         {
           "name": "T",
-          "type": 536
+          "type": 537
         },
         {
           "name": "S",
@@ -33474,7 +33555,7 @@
           "fields": [
             {
               "name": null,
-              "type": 537,
+              "type": 538,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -33485,7 +33566,7 @@
     }
   },
   {
-    "id": 536,
+    "id": 537,
     "type": {
       "path": [],
       "params": [],
@@ -33499,34 +33580,34 @@
     }
   },
   {
-    "id": 537,
+    "id": 538,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 536
+          "type": 537
         }
       },
       "docs": []
     }
   },
   {
-    "id": 538,
+    "id": 539,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          539
+          540
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 539,
+    "id": 540,
     "type": {
       "path": [
         "frame_support",
@@ -33560,7 +33641,7 @@
     }
   },
   {
-    "id": 540,
+    "id": 541,
     "type": {
       "path": [
         "frame_support",
@@ -33571,7 +33652,7 @@
       "params": [
         {
           "name": "T",
-          "type": 541
+          "type": 542
         },
         {
           "name": "S",
@@ -33583,7 +33664,7 @@
           "fields": [
             {
               "name": null,
-              "type": 543,
+              "type": 544,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -33594,7 +33675,7 @@
     }
   },
   {
-    "id": 541,
+    "id": 542,
     "type": {
       "path": [
         "Option"
@@ -33602,7 +33683,7 @@
       "params": [
         {
           "name": "T",
-          "type": 542
+          "type": 543
         }
       ],
       "def": {
@@ -33619,7 +33700,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 542,
+                  "type": 543,
                   "typeName": null,
                   "docs": []
                 }
@@ -33634,7 +33715,7 @@
     }
   },
   {
-    "id": 542,
+    "id": 543,
     "type": {
       "path": [
         "pallet_identity",
@@ -33679,20 +33760,20 @@
     }
   },
   {
-    "id": 543,
+    "id": 544,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 541
+          "type": 542
         }
       },
       "docs": []
     }
   },
   {
-    "id": 544,
+    "id": 545,
     "type": {
       "path": [
         "pallet_identity",
@@ -33845,13 +33926,13 @@
     }
   },
   {
-    "id": 545,
+    "id": 546,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          546,
+          547,
           6
         ]
       },
@@ -33859,7 +33940,7 @@
     }
   },
   {
-    "id": 546,
+    "id": 547,
     "type": {
       "path": [
         "frame_support",
@@ -33870,7 +33951,7 @@
       "params": [
         {
           "name": "T",
-          "type": 547
+          "type": 548
         },
         {
           "name": "S",
@@ -33882,7 +33963,7 @@
           "fields": [
             {
               "name": null,
-              "type": 548,
+              "type": 549,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -33893,7 +33974,7 @@
     }
   },
   {
-    "id": 547,
+    "id": 548,
     "type": {
       "path": [
         "pallet_proxy",
@@ -33941,26 +34022,26 @@
     }
   },
   {
-    "id": 548,
+    "id": 549,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 547
+          "type": 548
         }
       },
       "docs": []
     }
   },
   {
-    "id": 549,
+    "id": 550,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          550,
+          551,
           6
         ]
       },
@@ -33968,7 +34049,7 @@
     }
   },
   {
-    "id": 550,
+    "id": 551,
     "type": {
       "path": [
         "frame_support",
@@ -33979,7 +34060,7 @@
       "params": [
         {
           "name": "T",
-          "type": 551
+          "type": 552
         },
         {
           "name": "S",
@@ -33991,7 +34072,7 @@
           "fields": [
             {
               "name": null,
-              "type": 552,
+              "type": 553,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -34002,7 +34083,7 @@
     }
   },
   {
-    "id": 551,
+    "id": 552,
     "type": {
       "path": [
         "pallet_proxy",
@@ -34050,20 +34131,20 @@
     }
   },
   {
-    "id": 552,
+    "id": 553,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 551
+          "type": 552
         }
       },
       "docs": []
     }
   },
   {
-    "id": 553,
+    "id": 554,
     "type": {
       "path": [
         "pallet_proxy",
@@ -34152,7 +34233,7 @@
     }
   },
   {
-    "id": 554,
+    "id": 555,
     "type": {
       "path": [],
       "params": [],
@@ -34166,7 +34247,7 @@
     }
   },
   {
-    "id": 555,
+    "id": 556,
     "type": {
       "path": [
         "pallet_multisig",
@@ -34220,7 +34301,7 @@
     }
   },
   {
-    "id": 556,
+    "id": 557,
     "type": {
       "path": [],
       "params": [],
@@ -34235,7 +34316,7 @@
     }
   },
   {
-    "id": 557,
+    "id": 558,
     "type": {
       "path": [
         "pallet_multisig",
@@ -34372,7 +34453,7 @@
     }
   },
   {
-    "id": 558,
+    "id": 559,
     "type": {
       "path": [
         "pallet_bounties",
@@ -34427,7 +34508,7 @@
             },
             {
               "name": "status",
-              "type": 559,
+              "type": 560,
               "typeName": "BountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -34438,7 +34519,7 @@
     }
   },
   {
-    "id": 559,
+    "id": 560,
     "type": {
       "path": [
         "pallet_bounties",
@@ -34539,7 +34620,7 @@
     }
   },
   {
-    "id": 560,
+    "id": 561,
     "type": {
       "path": [
         "pallet_bounties",
@@ -34645,7 +34726,7 @@
     }
   },
   {
-    "id": 561,
+    "id": 562,
     "type": {
       "path": [
         "pallet_tips",
@@ -34721,7 +34802,7 @@
     }
   },
   {
-    "id": 562,
+    "id": 563,
     "type": {
       "path": [
         "pallet_tips",
@@ -34794,7 +34875,7 @@
     }
   },
   {
-    "id": 563,
+    "id": 564,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -34826,7 +34907,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 564,
+                  "type": 565,
                   "typeName": "(bool, Bn)",
                   "docs": []
                 }
@@ -34847,7 +34928,7 @@
     }
   },
   {
-    "id": 564,
+    "id": 565,
     "type": {
       "path": [],
       "params": [],
@@ -34861,7 +34942,7 @@
     }
   },
   {
-    "id": 565,
+    "id": 566,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -34901,7 +34982,7 @@
     }
   },
   {
-    "id": 566,
+    "id": 567,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -34918,7 +34999,7 @@
           "fields": [
             {
               "name": "voters",
-              "type": 567,
+              "type": 568,
               "typeName": "Vec<(A, VoteWeight, Vec<A>)>",
               "docs": []
             },
@@ -34935,20 +35016,20 @@
     }
   },
   {
-    "id": 567,
+    "id": 568,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 568
+          "type": 569
         }
       },
       "docs": []
     }
   },
   {
-    "id": 568,
+    "id": 569,
     "type": {
       "path": [],
       "params": [],
@@ -34963,7 +35044,7 @@
     }
   },
   {
-    "id": 569,
+    "id": 570,
     "type": {
       "path": [
         "frame_support",
@@ -34990,7 +35071,7 @@
           "fields": [
             {
               "name": null,
-              "type": 570,
+              "type": 571,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -35001,7 +35082,7 @@
     }
   },
   {
-    "id": 570,
+    "id": 571,
     "type": {
       "path": [
         "BTreeMap"
@@ -35021,7 +35102,7 @@
           "fields": [
             {
               "name": null,
-              "type": 571,
+              "type": 572,
               "typeName": null,
               "docs": []
             }
@@ -35032,20 +35113,20 @@
     }
   },
   {
-    "id": 571,
+    "id": 572,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 572
+          "type": 573
         }
       },
       "docs": []
     }
   },
   {
-    "id": 572,
+    "id": 573,
     "type": {
       "path": [],
       "params": [],
@@ -35059,7 +35140,7 @@
     }
   },
   {
-    "id": 573,
+    "id": 574,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -35114,7 +35195,7 @@
     }
   },
   {
-    "id": 574,
+    "id": 575,
     "type": {
       "path": [
         "pallet_election_provider_multi_phase",
@@ -35227,7 +35308,7 @@
     }
   },
   {
-    "id": 575,
+    "id": 576,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -35274,7 +35355,7 @@
     }
   },
   {
-    "id": 576,
+    "id": 577,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -35309,7 +35390,7 @@
     }
   },
   {
-    "id": 577,
+    "id": 578,
     "type": {
       "path": [],
       "params": [],
@@ -35322,7 +35403,7 @@
     }
   },
   {
-    "id": 578,
+    "id": 579,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -35371,7 +35452,7 @@
     }
   },
   {
-    "id": 579,
+    "id": 580,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -35652,7 +35733,7 @@
     }
   },
   {
-    "id": 580,
+    "id": 581,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -35917,34 +35998,34 @@
     }
   },
   {
-    "id": 581,
+    "id": 582,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 582
+          "type": 583
         }
       },
       "docs": []
     }
   },
   {
-    "id": 582,
+    "id": 583,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          579
+          580
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 583,
+    "id": 584,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -35978,7 +36059,7 @@
     }
   },
   {
-    "id": 584,
+    "id": 585,
     "type": {
       "path": [],
       "params": [],
@@ -35991,7 +36072,7 @@
     }
   },
   {
-    "id": 585,
+    "id": 586,
     "type": {
       "path": [],
       "params": [],
@@ -36004,7 +36085,7 @@
     }
   },
   {
-    "id": 586,
+    "id": 587,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36039,7 +36120,7 @@
     }
   },
   {
-    "id": 587,
+    "id": 588,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36114,7 +36195,7 @@
     }
   },
   {
-    "id": 588,
+    "id": 589,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36132,17 +36213,57 @@
         "variant": {
           "variants": [
             {
-              "name": "WrongBitfieldSize",
+              "name": "UnsortedOrDuplicateValidatorIndices",
               "fields": [],
               "index": 0,
+              "docs": [
+                "Validator indices are out of order or contains duplicates."
+              ]
+            },
+            {
+              "name": "UnsortedOrDuplicateDisputeStatementSet",
+              "fields": [],
+              "index": 1,
+              "docs": [
+                "Dispute statement sets are out of order or contain duplicates."
+              ]
+            },
+            {
+              "name": "UnsortedOrDuplicateBackedCandidates",
+              "fields": [],
+              "index": 2,
+              "docs": [
+                "Backed candidates are out of order (core index) or contain duplicates."
+              ]
+            },
+            {
+              "name": "UnexpectedRelayParent",
+              "fields": [],
+              "index": 3,
+              "docs": [
+                "A different relay parent was provided compared to the on-chain stored one."
+              ]
+            },
+            {
+              "name": "WrongBitfieldSize",
+              "fields": [],
+              "index": 4,
               "docs": [
                 "Availability bitfield has unexpected size."
               ]
             },
             {
+              "name": "BitfieldAllZeros",
+              "fields": [],
+              "index": 5,
+              "docs": [
+                "Bitfield consists of zeros only."
+              ]
+            },
+            {
               "name": "BitfieldDuplicateOrUnordered",
               "fields": [],
-              "index": 1,
+              "index": 6,
               "docs": [
                 "Multiple bitfields submitted by same validator or validators out of order by index."
               ]
@@ -36150,7 +36271,7 @@
             {
               "name": "ValidatorIndexOutOfBounds",
               "fields": [],
-              "index": 2,
+              "index": 7,
               "docs": [
                 "Validator index out of bounds."
               ]
@@ -36158,7 +36279,7 @@
             {
               "name": "InvalidBitfieldSignature",
               "fields": [],
-              "index": 3,
+              "index": 8,
               "docs": [
                 "Invalid signature"
               ]
@@ -36166,7 +36287,7 @@
             {
               "name": "UnscheduledCandidate",
               "fields": [],
-              "index": 4,
+              "index": 9,
               "docs": [
                 "Candidate submitted but para not scheduled."
               ]
@@ -36174,7 +36295,7 @@
             {
               "name": "CandidateScheduledBeforeParaFree",
               "fields": [],
-              "index": 5,
+              "index": 10,
               "docs": [
                 "Candidate scheduled despite pending candidate already existing for the para."
               ]
@@ -36182,7 +36303,7 @@
             {
               "name": "WrongCollator",
               "fields": [],
-              "index": 6,
+              "index": 11,
               "docs": [
                 "Candidate included with the wrong collator."
               ]
@@ -36190,7 +36311,7 @@
             {
               "name": "ScheduledOutOfOrder",
               "fields": [],
-              "index": 7,
+              "index": 12,
               "docs": [
                 "Scheduled cores out of order."
               ]
@@ -36198,7 +36319,7 @@
             {
               "name": "HeadDataTooLarge",
               "fields": [],
-              "index": 8,
+              "index": 13,
               "docs": [
                 "Head data exceeds the configured maximum."
               ]
@@ -36206,7 +36327,7 @@
             {
               "name": "PrematureCodeUpgrade",
               "fields": [],
-              "index": 9,
+              "index": 14,
               "docs": [
                 "Code upgrade prematurely."
               ]
@@ -36214,7 +36335,7 @@
             {
               "name": "NewCodeTooLarge",
               "fields": [],
-              "index": 10,
+              "index": 15,
               "docs": [
                 "Output code is too large"
               ]
@@ -36222,7 +36343,7 @@
             {
               "name": "CandidateNotInParentContext",
               "fields": [],
-              "index": 11,
+              "index": 16,
               "docs": [
                 "Candidate not in parent context."
               ]
@@ -36230,7 +36351,7 @@
             {
               "name": "InvalidGroupIndex",
               "fields": [],
-              "index": 12,
+              "index": 17,
               "docs": [
                 "Invalid group index in core assignment."
               ]
@@ -36238,7 +36359,7 @@
             {
               "name": "InsufficientBacking",
               "fields": [],
-              "index": 13,
+              "index": 18,
               "docs": [
                 "Insufficient (non-majority) backing."
               ]
@@ -36246,7 +36367,7 @@
             {
               "name": "InvalidBacking",
               "fields": [],
-              "index": 14,
+              "index": 19,
               "docs": [
                 "Invalid (bad signature, unknown validator, etc.) backing."
               ]
@@ -36254,7 +36375,7 @@
             {
               "name": "NotCollatorSigned",
               "fields": [],
-              "index": 15,
+              "index": 20,
               "docs": [
                 "Collator did not sign PoV."
               ]
@@ -36262,7 +36383,7 @@
             {
               "name": "ValidationDataHashMismatch",
               "fields": [],
-              "index": 16,
+              "index": 21,
               "docs": [
                 "The validation data hash does not match expected."
               ]
@@ -36270,7 +36391,7 @@
             {
               "name": "IncorrectDownwardMessageHandling",
               "fields": [],
-              "index": 17,
+              "index": 22,
               "docs": [
                 "The downward message queue is not processed correctly."
               ]
@@ -36278,7 +36399,7 @@
             {
               "name": "InvalidUpwardMessages",
               "fields": [],
-              "index": 18,
+              "index": 23,
               "docs": [
                 "At least one upward message sent does not pass the acceptance criteria."
               ]
@@ -36286,7 +36407,7 @@
             {
               "name": "HrmpWatermarkMishandling",
               "fields": [],
-              "index": 19,
+              "index": 24,
               "docs": [
                 "The candidate didn't follow the rules of HRMP watermark advancement."
               ]
@@ -36294,7 +36415,7 @@
             {
               "name": "InvalidOutboundHrmp",
               "fields": [],
-              "index": 20,
+              "index": 25,
               "docs": [
                 "The HRMP messages sent by the candidate is not valid."
               ]
@@ -36302,7 +36423,7 @@
             {
               "name": "InvalidValidationCodeHash",
               "fields": [],
-              "index": 21,
+              "index": 26,
               "docs": [
                 "The validation code hash of the candidate is not valid."
               ]
@@ -36310,7 +36431,7 @@
             {
               "name": "ParaHeadMismatch",
               "fields": [],
-              "index": 22,
+              "index": 27,
               "docs": [
                 "The `para_head` hash in the candidate descriptor doesn't match the hash of the actual para head in the",
                 "commitments."
@@ -36319,7 +36440,7 @@
             {
               "name": "BitfieldReferencesFreedCore",
               "fields": [],
-              "index": 23,
+              "index": 28,
               "docs": [
                 "A bitfield that references a freed core,",
                 "either intentionally or as part of a concluded",
@@ -36335,7 +36456,7 @@
     }
   },
   {
-    "id": 589,
+    "id": 590,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -36359,7 +36480,7 @@
             },
             {
               "name": "backing_validators_per_candidate",
-              "type": 590,
+              "type": 591,
               "typeName": "Vec<(CandidateReceipt<H>, Vec<(ValidatorIndex, ValidityAttestation)>)\n>",
               "docs": []
             },
@@ -36376,28 +36497,14 @@
     }
   },
   {
-    "id": 590,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 591
-        }
-      },
-      "docs": []
-    }
-  },
-  {
     "id": 591,
     "type": {
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          84,
-          592
-        ]
+        "sequence": {
+          "type": 592
+        }
       },
       "docs": []
     }
@@ -36408,15 +36515,29 @@
       "path": [],
       "params": [],
       "def": {
-        "sequence": {
-          "type": 593
-        }
+        "tuple": [
+          84,
+          593
+        ]
       },
       "docs": []
     }
   },
   {
     "id": 593,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 594
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 594,
     "type": {
       "path": [],
       "params": [],
@@ -36430,7 +36551,7 @@
     }
   },
   {
-    "id": 594,
+    "id": 595,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36479,6 +36600,22 @@
               "docs": [
                 "The data given to the inherent will result in an overweight block."
               ]
+            },
+            {
+              "name": "DisputeStatementsUnsortedOrDuplicates",
+              "fields": [],
+              "index": 4,
+              "docs": [
+                "The ordering of dispute statements was invalid."
+              ]
+            },
+            {
+              "name": "DisputeInvalid",
+              "fields": [],
+              "index": 5,
+              "docs": [
+                "A dispute statement was invalid."
+              ]
             }
           ]
         }
@@ -36489,20 +36626,20 @@
     }
   },
   {
-    "id": 595,
+    "id": 596,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 584
+          "type": 585
         }
       },
       "docs": []
     }
   },
   {
-    "id": 596,
+    "id": 597,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36515,7 +36652,7 @@
           "fields": [
             {
               "name": "queue",
-              "type": 597,
+              "type": 598,
               "typeName": "Vec<QueuedParathread>",
               "docs": []
             },
@@ -36532,20 +36669,20 @@
     }
   },
   {
-    "id": 597,
+    "id": 598,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 598
+          "type": 599
         }
       },
       "docs": []
     }
   },
   {
-    "id": 598,
+    "id": 599,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36558,7 +36695,7 @@
           "fields": [
             {
               "name": "claim",
-              "type": 599,
+              "type": 600,
               "typeName": "ParathreadEntry",
               "docs": []
             },
@@ -36575,7 +36712,7 @@
     }
   },
   {
-    "id": 599,
+    "id": 600,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -36588,7 +36725,7 @@
           "fields": [
             {
               "name": "claim",
-              "type": 600,
+              "type": 601,
               "typeName": "ParathreadClaim",
               "docs": []
             },
@@ -36605,7 +36742,7 @@
     }
   },
   {
-    "id": 600,
+    "id": 601,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -36635,20 +36772,20 @@
     }
   },
   {
-    "id": 601,
+    "id": 602,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 602
+          "type": 603
         }
       },
       "docs": []
     }
   },
   {
-    "id": 602,
+    "id": 603,
     "type": {
       "path": [
         "Option"
@@ -36656,7 +36793,7 @@
       "params": [
         {
           "name": "T",
-          "type": 603
+          "type": 604
         }
       ],
       "def": {
@@ -36673,7 +36810,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 603,
+                  "type": 604,
                   "typeName": null,
                   "docs": []
                 }
@@ -36688,7 +36825,7 @@
     }
   },
   {
-    "id": 603,
+    "id": 604,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -36704,7 +36841,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 599,
+                  "type": 600,
                   "typeName": "ParathreadEntry",
                   "docs": []
                 }
@@ -36725,7 +36862,7 @@
     }
   },
   {
-    "id": 604,
+    "id": 605,
     "type": {
       "path": [],
       "params": [],
@@ -36738,20 +36875,20 @@
     }
   },
   {
-    "id": 605,
+    "id": 606,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 606
+          "type": 607
         }
       },
       "docs": []
     }
   },
   {
-    "id": 606,
+    "id": 607,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36776,7 +36913,7 @@
             },
             {
               "name": "kind",
-              "type": 607,
+              "type": 608,
               "typeName": "AssignmentKind",
               "docs": []
             },
@@ -36793,7 +36930,7 @@
     }
   },
   {
-    "id": 607,
+    "id": 608,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36836,7 +36973,7 @@
     }
   },
   {
-    "id": 608,
+    "id": 609,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36878,7 +37015,7 @@
             },
             {
               "name": "causes",
-              "type": 609,
+              "type": 610,
               "typeName": "Vec<PvfCheckCause<BlockNumber>>",
               "docs": []
             }
@@ -36889,20 +37026,20 @@
     }
   },
   {
-    "id": 609,
+    "id": 610,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 610
+          "type": 611
         }
       },
       "docs": []
     }
   },
   {
-    "id": 610,
+    "id": 611,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -36957,7 +37094,7 @@
     }
   },
   {
-    "id": 611,
+    "id": 612,
     "type": {
       "path": [],
       "params": [],
@@ -36970,7 +37107,7 @@
     }
   },
   {
-    "id": 612,
+    "id": 613,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37030,7 +37167,7 @@
     }
   },
   {
-    "id": 613,
+    "id": 614,
     "type": {
       "path": [],
       "params": [],
@@ -37044,7 +37181,7 @@
     }
   },
   {
-    "id": 614,
+    "id": 615,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37062,7 +37199,7 @@
           "fields": [
             {
               "name": "upgrade_times",
-              "type": 615,
+              "type": 616,
               "typeName": "Vec<ReplacementTimes<N>>",
               "docs": []
             },
@@ -37079,20 +37216,20 @@
     }
   },
   {
-    "id": 615,
+    "id": 616,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 616
+          "type": 617
         }
       },
       "docs": []
     }
   },
   {
-    "id": 616,
+    "id": 617,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37127,20 +37264,20 @@
     }
   },
   {
-    "id": 617,
+    "id": 618,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 613
+          "type": 614
         }
       },
       "docs": []
     }
   },
   {
-    "id": 618,
+    "id": 619,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -37170,7 +37307,7 @@
     }
   },
   {
-    "id": 619,
+    "id": 620,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -37194,7 +37331,7 @@
     }
   },
   {
-    "id": 620,
+    "id": 621,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37230,7 +37367,7 @@
     }
   },
   {
-    "id": 621,
+    "id": 622,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37353,20 +37490,20 @@
     }
   },
   {
-    "id": 622,
+    "id": 623,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 623
+          "type": 624
         }
       },
       "docs": []
     }
   },
   {
-    "id": 623,
+    "id": 624,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37379,13 +37516,13 @@
           "fields": [
             {
               "name": "validators",
-              "type": 585,
+              "type": 586,
               "typeName": "Vec<ValidatorId>",
               "docs": []
             },
             {
               "name": "queued",
-              "type": 585,
+              "type": 586,
               "typeName": "Vec<ValidatorId>",
               "docs": []
             },
@@ -37402,20 +37539,20 @@
     }
   },
   {
-    "id": 624,
+    "id": 625,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 625
+          "type": 626
         }
       },
       "docs": []
     }
   },
   {
-    "id": 625,
+    "id": 626,
     "type": {
       "path": [
         "polkadot_core_primitives",
@@ -37449,7 +37586,7 @@
     }
   },
   {
-    "id": 626,
+    "id": 627,
     "type": {
       "path": [],
       "params": [],
@@ -37463,7 +37600,7 @@
     }
   },
   {
-    "id": 627,
+    "id": 628,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37505,7 +37642,7 @@
     }
   },
   {
-    "id": 628,
+    "id": 629,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37559,7 +37696,7 @@
     }
   },
   {
-    "id": 629,
+    "id": 630,
     "type": {
       "path": [],
       "params": [],
@@ -37572,7 +37709,7 @@
     }
   },
   {
-    "id": 630,
+    "id": 631,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37615,7 +37752,7 @@
             },
             {
               "name": "mqc_head",
-              "type": 631,
+              "type": 632,
               "typeName": "Option<Hash>",
               "docs": []
             },
@@ -37638,7 +37775,7 @@
     }
   },
   {
-    "id": 631,
+    "id": 632,
     "type": {
       "path": [
         "Option"
@@ -37678,20 +37815,20 @@
     }
   },
   {
-    "id": 632,
+    "id": 633,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 633
+          "type": 634
         }
       },
       "docs": []
     }
   },
   {
-    "id": 633,
+    "id": 634,
     "type": {
       "path": [
         "polkadot_core_primitives",
@@ -37725,34 +37862,34 @@
     }
   },
   {
-    "id": 634,
+    "id": 635,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 635
+          "type": 636
         }
       },
       "docs": []
     }
   },
   {
-    "id": 635,
+    "id": 636,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          604
+          605
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 636,
+    "id": 637,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -37912,6 +38049,14 @@
               "docs": [
                 "Cannot cancel an HRMP open channel request because it is already confirmed."
               ]
+            },
+            {
+              "name": "WrongWitness",
+              "fields": [],
+              "index": 18,
+              "docs": [
+                "The provided witness data is wrong."
+              ]
             }
           ]
         }
@@ -37922,7 +38067,7 @@
     }
   },
   {
-    "id": 637,
+    "id": 638,
     "type": {
       "path": [],
       "params": [],
@@ -37935,7 +38080,7 @@
     }
   },
   {
-    "id": 638,
+    "id": 639,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -37948,7 +38093,7 @@
           "fields": [
             {
               "name": "active_validator_indices",
-              "type": 584,
+              "type": 585,
               "typeName": "Vec<v1::ValidatorIndex>",
               "docs": []
             },
@@ -37966,25 +38111,25 @@
             },
             {
               "name": "validators",
-              "type": 585,
+              "type": 586,
               "typeName": "Vec<v1::ValidatorId>",
               "docs": []
             },
             {
               "name": "discovery_keys",
-              "type": 639,
+              "type": 640,
               "typeName": "Vec<v1::AuthorityDiscoveryId>",
               "docs": []
             },
             {
               "name": "assignment_keys",
-              "type": 637,
+              "type": 638,
               "typeName": "Vec<v1::AssignmentId>",
               "docs": []
             },
             {
               "name": "validator_groups",
-              "type": 595,
+              "type": 596,
               "typeName": "Vec<Vec<v1::ValidatorIndex>>",
               "docs": []
             },
@@ -38031,7 +38176,7 @@
     }
   },
   {
-    "id": 639,
+    "id": 640,
     "type": {
       "path": [],
       "params": [],
@@ -38044,7 +38189,7 @@
     }
   },
   {
-    "id": 640,
+    "id": 641,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38089,7 +38234,7 @@
     }
   },
   {
-    "id": 641,
+    "id": 642,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38219,7 +38364,7 @@
     }
   },
   {
-    "id": 642,
+    "id": 643,
     "type": {
       "path": [],
       "params": [],
@@ -38232,7 +38377,7 @@
     }
   },
   {
-    "id": 643,
+    "id": 644,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38274,7 +38419,7 @@
     }
   },
   {
-    "id": 644,
+    "id": 645,
     "type": {
       "path": [],
       "params": [],
@@ -38288,21 +38433,21 @@
     }
   },
   {
-    "id": 645,
+    "id": 646,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "array": {
           "len": 36,
-          "type": 646
+          "type": 647
         }
       },
       "docs": []
     }
   },
   {
-    "id": 646,
+    "id": 647,
     "type": {
       "path": [
         "Option"
@@ -38310,7 +38455,7 @@
       "params": [
         {
           "name": "T",
-          "type": 647
+          "type": 648
         }
       ],
       "def": {
@@ -38327,7 +38472,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 647,
+                  "type": 648,
                   "typeName": null,
                   "docs": []
                 }
@@ -38342,7 +38487,7 @@
     }
   },
   {
-    "id": 647,
+    "id": 648,
     "type": {
       "path": [],
       "params": [],
@@ -38357,7 +38502,7 @@
     }
   },
   {
-    "id": 648,
+    "id": 649,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38439,7 +38584,7 @@
     }
   },
   {
-    "id": 649,
+    "id": 650,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38505,7 +38650,7 @@
             },
             {
               "name": "last_contribution",
-              "type": 650,
+              "type": 651,
               "typeName": "LastContribution<BlockNumber>",
               "docs": []
             },
@@ -38534,7 +38679,7 @@
     }
   },
   {
-    "id": 650,
+    "id": 651,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38589,7 +38734,7 @@
     }
   },
   {
-    "id": 651,
+    "id": 652,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -38799,7 +38944,7 @@
     }
   },
   {
-    "id": 652,
+    "id": 653,
     "type": {
       "path": [
         "pallet_xcm",
@@ -38826,7 +38971,7 @@
                 },
                 {
                   "name": "maybe_notify",
-                  "type": 653,
+                  "type": 654,
                   "typeName": "Option<(u8, u8)>",
                   "docs": []
                 },
@@ -38864,7 +39009,7 @@
               "fields": [
                 {
                   "name": "response",
-                  "type": 655,
+                  "type": 656,
                   "typeName": "VersionedResponse",
                   "docs": []
                 },
@@ -38885,7 +39030,7 @@
     }
   },
   {
-    "id": 653,
+    "id": 654,
     "type": {
       "path": [
         "Option"
@@ -38893,7 +39038,7 @@
       "params": [
         {
           "name": "T",
-          "type": 654
+          "type": 655
         }
       ],
       "def": {
@@ -38910,7 +39055,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 654,
+                  "type": 655,
                   "typeName": null,
                   "docs": []
                 }
@@ -38925,7 +39070,7 @@
     }
   },
   {
-    "id": 654,
+    "id": 655,
     "type": {
       "path": [],
       "params": [],
@@ -38939,7 +39084,7 @@
     }
   },
   {
-    "id": 655,
+    "id": 656,
     "type": {
       "path": [
         "xcm",
@@ -38995,7 +39140,7 @@
     }
   },
   {
-    "id": 656,
+    "id": 657,
     "type": {
       "path": [],
       "params": [],
@@ -39009,7 +39154,7 @@
     }
   },
   {
-    "id": 657,
+    "id": 658,
     "type": {
       "path": [],
       "params": [],
@@ -39024,7 +39169,7 @@
     }
   },
   {
-    "id": 658,
+    "id": 659,
     "type": {
       "path": [
         "frame_support",
@@ -39035,7 +39180,7 @@
       "params": [
         {
           "name": "T",
-          "type": 659
+          "type": 660
         },
         {
           "name": "S",
@@ -39047,7 +39192,7 @@
           "fields": [
             {
               "name": null,
-              "type": 660,
+              "type": 661,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -39058,7 +39203,7 @@
     }
   },
   {
-    "id": 659,
+    "id": 660,
     "type": {
       "path": [],
       "params": [],
@@ -39072,20 +39217,20 @@
     }
   },
   {
-    "id": 660,
+    "id": 661,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 659
+          "type": 660
         }
       },
       "docs": []
     }
   },
   {
-    "id": 661,
+    "id": 662,
     "type": {
       "path": [
         "pallet_xcm",
@@ -39134,7 +39279,7 @@
     }
   },
   {
-    "id": 662,
+    "id": 663,
     "type": {
       "path": [
         "pallet_xcm",
@@ -39266,7 +39411,7 @@
     }
   },
   {
-    "id": 663,
+    "id": 664,
     "type": {
       "path": [
         "sp_runtime",
@@ -39289,7 +39434,7 @@
         },
         {
           "name": "Extra",
-          "type": 664
+          "type": 665
         }
       ],
       "def": {
@@ -39308,28 +39453,28 @@
     }
   },
   {
-    "id": 664,
+    "id": 665,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          665,
           666,
           667,
           668,
           669,
-          671,
+          670,
           672,
           673,
-          674
+          674,
+          675
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 665,
+    "id": 666,
     "type": {
       "path": [
         "frame_system",
@@ -39352,7 +39497,7 @@
     }
   },
   {
-    "id": 666,
+    "id": 667,
     "type": {
       "path": [
         "frame_system",
@@ -39375,7 +39520,7 @@
     }
   },
   {
-    "id": 667,
+    "id": 668,
     "type": {
       "path": [
         "frame_system",
@@ -39398,7 +39543,7 @@
     }
   },
   {
-    "id": 668,
+    "id": 669,
     "type": {
       "path": [
         "frame_system",
@@ -39421,7 +39566,7 @@
     }
   },
   {
-    "id": 669,
+    "id": 670,
     "type": {
       "path": [
         "frame_system",
@@ -39440,7 +39585,7 @@
           "fields": [
             {
               "name": null,
-              "type": 670,
+              "type": 671,
               "typeName": "Era",
               "docs": []
             }
@@ -39451,7 +39596,7 @@
     }
   },
   {
-    "id": 670,
+    "id": 671,
     "type": {
       "path": [
         "sp_runtime",
@@ -42791,7 +42936,7 @@
     }
   },
   {
-    "id": 671,
+    "id": 672,
     "type": {
       "path": [
         "frame_system",
@@ -42821,7 +42966,7 @@
     }
   },
   {
-    "id": 672,
+    "id": 673,
     "type": {
       "path": [
         "frame_system",
@@ -42844,7 +42989,7 @@
     }
   },
   {
-    "id": 673,
+    "id": 674,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -42872,7 +43017,7 @@
     }
   },
   {
-    "id": 674,
+    "id": 675,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -42894,7 +43039,7 @@
     }
   },
   {
-    "id": 675,
+    "id": 676,
     "type": {
       "path": [
         "polkadot_runtime",

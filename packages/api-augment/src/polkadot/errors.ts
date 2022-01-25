@@ -658,6 +658,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OpenHrmpChannelZeroMessageSize: AugmentedError<ApiType>;
       /**
+       * The provided witness data is wrong.
+       **/
+      WrongWitness: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -836,6 +840,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     paraInclusion: {
       /**
+       * Bitfield consists of zeros only.
+       **/
+      BitfieldAllZeros: AugmentedError<ApiType>;
+      /**
        * Multiple bitfields submitted by same validator or validators out of order by index.
        **/
       BitfieldDuplicateOrUnordered: AugmentedError<ApiType>;
@@ -915,9 +923,25 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ScheduledOutOfOrder: AugmentedError<ApiType>;
       /**
+       * A different relay parent was provided compared to the on-chain stored one.
+       **/
+      UnexpectedRelayParent: AugmentedError<ApiType>;
+      /**
        * Candidate submitted but para not scheduled.
        **/
       UnscheduledCandidate: AugmentedError<ApiType>;
+      /**
+       * Backed candidates are out of order (core index) or contain duplicates.
+       **/
+      UnsortedOrDuplicateBackedCandidates: AugmentedError<ApiType>;
+      /**
+       * Dispute statement sets are out of order or contain duplicates.
+       **/
+      UnsortedOrDuplicateDisputeStatementSet: AugmentedError<ApiType>;
+      /**
+       * Validator indices are out of order or contains duplicates.
+       **/
+      UnsortedOrDuplicateValidatorIndices: AugmentedError<ApiType>;
       /**
        * The validation data hash does not match expected.
        **/
@@ -944,6 +968,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Disputed candidate that was concluded invalid.
        **/
       CandidateConcludedInvalid: AugmentedError<ApiType>;
+      /**
+       * A dispute statement was invalid.
+       **/
+      DisputeInvalid: AugmentedError<ApiType>;
+      /**
+       * The ordering of dispute statements was invalid.
+       **/
+      DisputeStatementsUnsortedOrDuplicates: AugmentedError<ApiType>;
       /**
        * The data given to the inherent will result in an overweight block.
        **/

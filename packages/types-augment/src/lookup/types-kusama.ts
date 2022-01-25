@@ -105,7 +105,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'ForceUnfreeze';
   }
 
-  /** @name PolkadotPrimitivesV1DisputeState (696) */
+  /** @name PolkadotPrimitivesV1DisputeState (697) */
   export interface PolkadotPrimitivesV1DisputeState extends Struct {
     readonly validatorsFor: BitVec;
     readonly validatorsAgainst: BitVec;
@@ -113,7 +113,7 @@ declare module '@polkadot/types/lookup' {
     readonly concludedAt: Option<u32>;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesPalletError (697) */
+  /** @name PolkadotRuntimeParachainsDisputesPalletError (698) */
   export interface PolkadotRuntimeParachainsDisputesPalletError extends Enum {
     readonly isDuplicateDisputeStatementSets: boolean;
     readonly isAncientDisputeStatement: boolean;
@@ -125,7 +125,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'DuplicateDisputeStatementSets' | 'AncientDisputeStatement' | 'ValidatorIndexOutOfBounds' | 'InvalidSignature' | 'DuplicateStatement' | 'PotentialSpam' | 'SingleSidedDispute';
   }
 
-  /** @name KusamaRuntimeRuntime (732) */
+  /** @name KusamaRuntimeRuntime (733) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module
