@@ -1297,22 +1297,28 @@ declare module '@polkadot/api-base/types/submittable' {
        * you to trigger the cleanup immediately for a specific parachain.
        * 
        * Origin must be Root.
+       * 
+       * Number of inbound and outbound channels for `para` must be provided as witness data of weighing.
        **/
-      forceCleanHrmp: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      forceCleanHrmp: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, inbound: u32 | AnyNumber | Uint8Array, outbound: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
        * Force process HRMP close channel requests.
        * 
        * If there are pending HRMP close channel requests, you can use this
        * function process all of those requests immediately.
+       * 
+       * Total number of closing channels must be provided as witness data of weighing.
        **/
-      forceProcessHrmpClose: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      forceProcessHrmpClose: AugmentedSubmittable<(channels: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Force process HRMP open channel requests.
        * 
        * If there are pending HRMP open channel requests, you can use this
        * function process all of those requests immediately.
+       * 
+       * Total number of opening channels must be provided as witness data of weighing.
        **/
-      forceProcessHrmpOpen: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      forceProcessHrmpOpen: AugmentedSubmittable<(channels: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Accept a pending open channel request from the given sender.
        * 
@@ -1320,13 +1326,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       hrmpAcceptOpenChannel: AugmentedSubmittable<(sender: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * This cancels a pending open channel request. It can be canceled be either of the sender
+       * This cancels a pending open channel request. It can be canceled by either of the sender
        * or the recipient for that request. The origin must be either of those.
        * 
        * The cancellation happens immediately. It is not possible to cancel the request if it is
        * already accepted.
+       * 
+       * Total number of open requests (i.e. `HrmpOpenChannelRequestsList`) must be provided as
+       * witness data.
        **/
-      hrmpCancelOpenRequest: AugmentedSubmittable<(channelId: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotParachainPrimitivesHrmpChannelId]>;
+      hrmpCancelOpenRequest: AugmentedSubmittable<(channelId: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array, openRequests: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotParachainPrimitivesHrmpChannelId, u32]>;
       /**
        * Initiate unilateral closing of a channel. The origin must be either the sender or the
        * recipient in the channel being closed.

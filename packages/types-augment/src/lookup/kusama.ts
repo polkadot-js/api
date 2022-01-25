@@ -187,7 +187,7 @@ export default {
     _enum: ['force_unfreeze']
   },
   /**
-   * Lookup696: polkadot_primitives::v1::DisputeState<N>
+   * Lookup697: polkadot_primitives::v1::DisputeState<N>
    **/
   PolkadotPrimitivesV1DisputeState: {
     validatorsFor: 'BitVec',
@@ -196,13 +196,13 @@ export default {
     concludedAt: 'Option<u32>'
   },
   /**
-   * Lookup697: polkadot_runtime_parachains::disputes::pallet::Error<T>
+   * Lookup698: polkadot_runtime_parachains::disputes::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletError: {
     _enum: ['DuplicateDisputeStatementSets', 'AncientDisputeStatement', 'ValidatorIndexOutOfBounds', 'InvalidSignature', 'DuplicateStatement', 'PotentialSpam', 'SingleSidedDispute']
   },
   /**
-   * Lookup732: kusama_runtime::Runtime
+   * Lookup733: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
