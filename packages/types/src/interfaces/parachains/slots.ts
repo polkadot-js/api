@@ -53,8 +53,8 @@ export default objectSpread({}, oldTypes, {
   WinningData10: `[WinningDataEntry; ${SlotRange10Enum.length}]`,
   WinningData: `[WinningDataEntry; ${SlotRangeEnum.length}]`,
   WinningDataEntry: 'Option<(AccountId, ParaId, BalanceOf)>',
-  WinnersData10: 'Vec<WinnersDataTuple>',
-  WinnersData: 'Vec<WinnersDataTuple10>',
+  WinnersData10: 'Vec<WinnersDataTuple10>',
+  WinnersData: 'Vec<WinnersDataTuple>',
   WinnersDataTuple10: '(AccountId, ParaId, BalanceOf, SlotRange10)',
   WinnersDataTuple: '(AccountId, ParaId, BalanceOf, SlotRange)'
 });

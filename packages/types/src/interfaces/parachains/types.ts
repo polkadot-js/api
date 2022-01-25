@@ -760,10 +760,10 @@ export interface ValidityAttestation extends Enum {
 export interface VecInboundHrmpMessage extends Vec<InboundHrmpMessage> {}
 
 /** @name WinnersData */
-export interface WinnersData extends Vec<WinnersDataTuple10> {}
+export interface WinnersData extends Vec<WinnersDataTuple> {}
 
 /** @name WinnersData10 */
-export interface WinnersData10 extends Vec<WinnersDataTuple> {}
+export interface WinnersData10 extends Vec<WinnersDataTuple10> {}
 
 /** @name WinnersDataTuple */
 export interface WinnersDataTuple extends ITuple<[AccountId, ParaId, BalanceOf, SlotRange]> {}
