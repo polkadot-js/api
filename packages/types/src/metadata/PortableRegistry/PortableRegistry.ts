@@ -297,7 +297,7 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
 
     alias[type.unwrap().toNumber()] = 'Call';
   } else if (hasParams && !isContract) {
-    l.warn('Unable to determine runtime Call type, unable to inspect sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic');
+    l.warn('Unable to determine runtime Call type, cannot inspect sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic');
   }
 
   if (params.FrameSystemEventRecord) {
