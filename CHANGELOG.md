@@ -4,6 +4,8 @@
 
 Changes:
 
+- Adjust historic `WinningData` and `SlotRange` types (36-entry variant)
+- Emit `decorated` event on API on metadata decoration
 - Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
 - Align `Range/RangeInclusive` usage with similar types
 

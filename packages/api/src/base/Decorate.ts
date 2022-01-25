@@ -275,6 +275,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     augmentObject(null, decoratedMeta.consts, this._rx.consts, fromEmpty);
+
+    this.emit('decorated');
   }
 
   /**
