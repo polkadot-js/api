@@ -81,7 +81,7 @@ export interface ApiOptions extends RegisteredTypes {
   throwOnUnknown?: boolean;
 }
 
-export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
+export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready' | 'decorated';
 
 export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;

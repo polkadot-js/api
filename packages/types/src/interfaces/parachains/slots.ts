@@ -6,7 +6,13 @@ import { objectSpread } from '@polkadot/util';
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-const SLOT_RANGE_COUNT = 10;
+const SlotRange10 = {
+  _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree']
+};
+
+const SlotRange = {
+  _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'ZeroFour', 'ZeroFive', 'ZeroSix', 'ZeroSeven', 'OneOne', 'OneTwo', 'OneThree', 'OneFour', 'OneFive', 'OneSix', 'OneSeven', 'TwoTwo', 'TwoThree', 'TwoFour', 'TwoFive', 'TwoSix', 'TwoSeven', 'ThreeThree', 'ThreeFour', 'ThreeFive', 'ThreeSix', 'ThreeSeven', 'FourFour', 'FourFive', 'FourSix', 'FourSeven', 'FiveFive', 'FiveSix', 'FiveSeven', 'SixSix', 'SixSeven', 'SevenSeven']
+};
 
 const oldTypes = {
   Bidder: {
@@ -42,11 +48,13 @@ export default objectSpread({}, oldTypes, {
   AuctionIndex: 'u32',
   LeasePeriod: 'BlockNumber',
   LeasePeriodOf: 'BlockNumber',
-  SlotRange: {
-    _enum: ['ZeroZero', 'ZeroOne', 'ZeroTwo', 'ZeroThree', 'OneOne', 'OneTwo', 'OneThree', 'TwoTwo', 'TwoThree', 'ThreeThree']
-  },
-  WinningData: `[WinningDataEntry; ${SLOT_RANGE_COUNT}]`,
+  SlotRange10,
+  SlotRange,
+  WinningData10: `[WinningDataEntry; ${SlotRange10._enum.length}]`,
+  WinningData: `[WinningDataEntry; ${SlotRange._enum.length}]`,
   WinningDataEntry: 'Option<(AccountId, ParaId, BalanceOf)>',
+  WinnersData10: 'Vec<WinnersDataTuple10>',
   WinnersData: 'Vec<WinnersDataTuple>',
+  WinnersDataTuple10: '(AccountId, ParaId, BalanceOf, SlotRange10)',
   WinnersDataTuple: '(AccountId, ParaId, BalanceOf, SlotRange)'
 });

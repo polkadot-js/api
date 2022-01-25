@@ -31,6 +31,7 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Option:
     case TypeDefInfo.Range:
+    case TypeDefInfo.RangeInclusive:
     case TypeDefInfo.Result:
     case TypeDefInfo.Vec:
     case TypeDefInfo.WrapperKeepOpaque:
@@ -66,12 +67,16 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
 const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'BTreeMap'),
+
   [TypeDefInfo.BTreeSet]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'BTreeSet'),
+
   [TypeDefInfo.Compact]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Compact'),
+
   [TypeDefInfo.DoNotConstruct]: (registry: Registry, { displayName, lookupIndex, lookupName }: TypeDef) =>
     `DoNotConstruct<${lookupName || displayName || (isUndefined(lookupIndex) ? 'Unknown' : registry.createLookupType(lookupIndex))}>`,
+
   [TypeDefInfo.Enum]: (registry: Registry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Enum type');
 
@@ -81,24 +86,36 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
       ? stringify({ _enum: sub.map(({ name }, index) => `${name || `Empty${index}`}`) })
       : encodeSubTypes(registry, sub, true);
   },
+
   [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'HashMap'),
+
   [TypeDefInfo.Int]: (registry: Registry, { length = 32 }: TypeDef) =>
     `Int<${length}>`,
+
   [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Linkage'),
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef) =>
     'Null',
+
   [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Option'),
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Plain]: (registry: Registry, { displayName, type }: TypeDef) =>
     displayName || type,
+
   [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef) =>
-    encodeWithParams(registry, typeDef, typeDef.type.includes('RangeInclusive') ? 'RangeInclusive' : 'Range'),
+    encodeWithParams(registry, typeDef, 'Range'),
+
+  [TypeDefInfo.RangeInclusive]: (registry: Registry, typeDef: TypeDef) =>
+    encodeWithParams(registry, typeDef, 'RangeInclusive'),
+
   [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Result'),
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Set]: (registry: Registry, { length = 8, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Set type');
@@ -109,9 +126,11 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
       { _bitLength: length || 8 })
     });
   },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Si]: (registry: Registry, { lookupName, type }: TypeDef) =>
     lookupName || type,
+
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
 
@@ -125,22 +144,28 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
         : {}
     );
   },
+
   [TypeDefInfo.Tuple]: (registry: Registry, { sub }: TypeDef): string => {
     assert(sub && Array.isArray(sub), 'Unable to encode Tuple type');
 
     return `(${sub.map((type) => encodeTypeDef(registry, type)).join(',')})`;
   },
+
   [TypeDefInfo.UInt]: (registry: Registry, { length = 32 }: TypeDef) =>
     `UInt<${length}>`,
+
   [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Vec'),
+
   [TypeDefInfo.VecFixed]: (registry: Registry, { length, sub }: TypeDef): string => {
     assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Unable to encode VecFixed type');
 
     return `[${sub.type};${length}]`;
   },
+
   [TypeDefInfo.WrapperKeepOpaque]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'WrapperKeepOpaque'),
+
   [TypeDefInfo.WrapperOpaque]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'WrapperOpaque')
 };

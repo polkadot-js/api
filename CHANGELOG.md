@@ -2,13 +2,25 @@
 
 ## master
 
+Changes:
+
+- Adjust historic `WinningData` and `SlotRange` types (36-entry variant)
+- Emit `decorated` event on API on metadata decoration
+- Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
+- Align `Range/RangeInclusive` usage with similar types
+
+
+## 7.5.1 Jan 23, 2022
+
+Upgrade priority: Low. Recommended for users of the latest contract pallet and ink! versions.
+
 Contributed:
 
 - Add additional namespaced contract tests (Thanks to https://github.com/VargSupercolony)
 
 Changes:
 
-- Adjust `Registry` to augment based on used packages
+- Adjust `Registry` consistency, augment extensions
 - Add `.multi` support on `api.at(...).<section>.<method>`
 - Add support for ink! metadata V3 with payable constructors
 - Cleanup ink! metadata parsing, allowing for easier extension
