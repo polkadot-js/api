@@ -31,7 +31,14 @@ function nextNonce (api: DeriveApi, address: string): Observable<Index> {
     : latestNonce(api, address);
 }
 
-function getHead (api: DeriveApi): Observable<[BlockHash, Header]> {
+function getHeader (api: DeriveApi, hash: BlockHash): Observable<[BlockHash, Header]> {
+  return combineLatest([
+    of(hash),
+    api.rpc.chain.getHeader(hash)
+  ]);
+}
+
+function getBest (api: DeriveApi): Observable<[BlockHash, Header]> {
   return api.rpc.chain.getBlockHash().pipe(
     switchMap((hash) =>
       api.rpc.chain.getHeader(hash).pipe(
@@ -42,10 +49,7 @@ function getHead (api: DeriveApi): Observable<[BlockHash, Header]> {
             ? of<[BlockHash, Header]>([hash, header])
             // in the case of the current block, we use the parent to minimize the
             // impact of forks on the system, but not completely remove it
-            : combineLatest([
-              of(header.parentHash),
-              api.rpc.chain.getHeader(header.parentHash)
-            ])
+            : getHeader(api, header.parentHash)
         )
       )
     )
@@ -55,17 +59,14 @@ function getHead (api: DeriveApi): Observable<[BlockHash, Header]> {
 function getFin (api: DeriveApi): Observable<[BlockHash, Header]> {
   return api.rpc.chain.getFinalizedHead().pipe(
     switchMap((hash) =>
-      combineLatest([
-        of(hash),
-        api.rpc.chain.getHeader(hash)
-      ])
+      getHeader(api, hash)
     )
   );
 }
 
 function signingHeader (api: DeriveApi): Observable<[BlockHash, Header]> {
   return combineLatest([
-    getHead(api),
+    getBest(api),
     getFin(api)
   ]).pipe(
     map(([[hash, head], [finHash, finHead]]): [BlockHash, Header] =>
