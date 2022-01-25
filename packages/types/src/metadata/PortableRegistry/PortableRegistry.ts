@@ -13,6 +13,8 @@ import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, s
 
 import { assertUnreachable } from './util';
 
+type Named = [number, string, SiTypeParameter[], string[]];
+
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
 
@@ -116,7 +118,7 @@ function getAliasPath (path: SiPath): string | null {
     : null;
 }
 
-function hasNoDupes (input: [number, string, SiTypeParameter[]][]): boolean {
+function hasNoDupes (input: Named[]): boolean {
   for (let i = 0; i < input.length; i++) {
     const [ai, an] = input[i];
 
@@ -133,17 +135,17 @@ function hasNoDupes (input: [number, string, SiTypeParameter[]][]): boolean {
   return true;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
+function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[], string[]][]): Named[] {
   const rewrite: Record<number, string> = {};
 
   return names
-    .map(([lookupIndex, name, params]): [number, string, SiTypeParameter[]] | null => {
+    .map(([lookupIndex, name, params, aliases]): Named | null => {
       if (!name) {
         return null;
       }
 
       // those where the name is matching (since name is filtered, these all do have names)
-      const allSame = names.filter(([, oName]) => name === oName) as [number, string, SiTypeParameter[]][];
+      const allSame = names.filter(([, oName]) => name === oName) as Named[];
 
       // are there among matching names
       const anyDiff = allSame.some(([oIndex,, oParams]) =>
@@ -158,7 +160,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // everything matches, we can combine these
       if (!anyDiff || !allSame[0][2].length) {
-        return [lookupIndex, name, params];
+        return [lookupIndex, name, params, aliases];
       }
 
       // find the first parameter that yields differences
@@ -172,14 +174,14 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 
       // No param found that is different
       if (paramIdx === -1) {
-        return [lookupIndex, name, params];
+        return [lookupIndex, name, params, aliases];
       }
 
       // see if using the param type helps
-      const adjusted = new Array<[number, string, SiTypeParameter[]]>(allSame.length);
+      const adjusted = new Array<Named>(allSame.length);
 
       for (let i = 0; i < allSame.length; i++) {
-        const [oIndex, oName, oParams] = allSame[i];
+        const [oIndex, oName, oParams, oAlias] = allSame[i];
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
         if (!def.isPrimitive && !path.length) {
@@ -191,7 +193,8 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
           def.isPrimitive
             ? `${oName}${def.asPrimitive.toString()}`
             : `${oName}${path[path.length - 1].toString()}`,
-          params
+          params,
+          oAlias
         ];
       }
 
@@ -202,25 +205,56 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
           rewrite[index] = name;
         }
 
-        return [lookupIndex, name, params];
+        return [lookupIndex, name, params, aliases];
       }
 
       return null;
     })
-    .filter((n): n is [number, string, SiTypeParameter[]] => !!n)
-    .map(([lookupIndex, name, params]) => [
+    .filter((n): n is Named => !!n)
+    .map(([lookupIndex, name, params, aliases]) => [
       lookupIndex,
       rewrite[lookupIndex] || name,
-      params
+      params,
+      aliases
     ]);
 }
 
-function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
+function removeDuplicateAliases (list: Named[]): Named[] {
+  const dupes: string[] = [];
+
+  for (let i = 0; i < list.length; i++) {
+    const [,,, aliases] = list[i];
+
+    for (let j = 0; j < list.length; j++) {
+      if (i !== j) {
+        const [,,, others] = list[j];
+
+        for (let a = 1; a < aliases.length; a++) {
+          const alias = aliases[a];
+
+          if (!dupes.includes(alias) && others.includes(alias)) {
+            dupes.push(alias);
+          }
+        }
+      }
+    }
+  }
+
+  return list.map(([lookupIndex, name, params, aliases]) => [
+    lookupIndex,
+    name,
+    params,
+    aliases.slice(1).filter((a) => !dupes.includes(a))
+  ]);
+}
+
+function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): Named | null {
   // if we have no path or determined as a wrapper, we just skip it
   if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
     return null;
   }
 
+  const aliases = [];
   const parts = path
     .map((p) => stringPascalCase(p))
     .filter((p, index) => {
@@ -238,7 +272,15 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
         lower !== path[index + 1].toLowerCase()
       );
     });
-  let typeName = parts.join('');
+
+  // based on the input, combine various parts to create type aliases, e.g
+  // [sp_runtime::generic::Digest, generic::Digest, Digest]
+  for (let i = 0; i < parts.length; i++) {
+    aliases.push(parts.slice(i).join(''));
+  }
+
+  // the first alias contains all info, this is the canonical typeName
+  let typeName = aliases[0];
 
   // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
   if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
@@ -249,7 +291,7 @@ function extractName (types: PortableType[], { id, type: { params, path } }: Por
     }
   }
 
-  return [id.toNumber(), typeName, params];
+  return [id.toNumber(), typeName, params, aliases];
 }
 
 function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
@@ -290,8 +332,8 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
   }
 }
 
-function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
-  const nameInfo: [number, string, SiTypeParameter[]][] = [];
+function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>, Record<number, string[]>] {
+  const nameInfo: Named[] = [];
   const types: Record<number, PortableType> = {};
 
   for (let i = 0; i < portable.length; i++) {
@@ -305,23 +347,26 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
     types[type.id.toNumber()] = type;
   }
 
-  const dedup = removeDuplicateNames(lookup, nameInfo);
+  const dedup = removeDuplicateAliases(removeDuplicateNames(lookup, nameInfo));
   const lookups: Record<string, string> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
+  const aliases: Record<number, string[]> = {};
 
   for (let i = 0; i < dedup.length; i++) {
-    const [lookupIndex, name, p] = dedup[i];
+    const [lookupIndex, name, p, a] = dedup[i];
 
+    aliases[lookupIndex] = a;
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
     params[name] = p;
   }
 
-  return [types, lookups, names, params];
+  return [types, lookups, names, params, aliases];
 }
 
 export class PortableRegistry extends Struct implements ILookup {
+  #aliases: Record<number, string[]>;
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
@@ -333,8 +378,9 @@ export class PortableRegistry extends Struct implements ILookup {
       types: 'Vec<PortableType>'
     }, value);
 
-    const [types, lookups, names, params] = extractTypeInfo(this, this.types);
+    const [types, lookups, names, params, aliases] = extractTypeInfo(this, this.types);
 
+    this.#aliases = aliases;
     this.#names = names;
     this.#types = types;
 
@@ -352,6 +398,13 @@ export class PortableRegistry extends Struct implements ILookup {
    */
   public get types (): Vec<PortableType> {
     return this.getT('types');
+  }
+
+  /**
+   * @description Returns the aliases for this specific type
+   */
+  public getAliases (lookupId: SiLookupTypeId | string | number): string[] {
+    return this.#aliases[this.#getLookupId(lookupId)] || [];
   }
 
   /**
