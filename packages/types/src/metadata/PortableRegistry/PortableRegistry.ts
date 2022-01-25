@@ -9,9 +9,11 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
-import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
+import { assert, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
 import { assertUnreachable } from './util';
+
+const l = logger('PortableRegistry');
 
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
@@ -24,13 +26,6 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // These come in different forms
-  //   - node_runtime::Call
-  //   - polkadot_runtime::Call
-  //   - node_template_runtime::Call
-  //   - interbtc_runtime_parachain::Call
-  '*_runtime_*::Call',
-  '*_runtime_*::Event',
   // these have a specific encoding or logic (for pallets)
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
@@ -290,6 +285,33 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
   }
 }
 
+// this extracts aliases based on what we know the runtime config looks like in a
+// Substrate chain. Specifically we want to have access to the Call and Event params
+function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
+  const hasParams = Object.keys(params).length !== 0;
+  const alias: Record<number, string> = {};
+
+  if (params.SpRuntimeUncheckedExtrinsic) {
+    // Address, Call, Signature, Extra
+    const [, { type }] = params.SpRuntimeUncheckedExtrinsic;
+
+    alias[type.unwrap().toNumber()] = 'Call';
+  } else if (hasParams && !isContract) {
+    l.warn('Unable to determine runtime Call type, cannot inspect sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic');
+  }
+
+  if (params.FrameSystemEventRecord) {
+    // Event, Topic
+    const [{ type }] = params.FrameSystemEventRecord;
+
+    alias[type.unwrap().toNumber()] = 'Event';
+  } else if (hasParams && !isContract) {
+    l.warn('Unable to determine runtime Event type, cannot inspect frame_system::EventRecord');
+  }
+
+  return alias;
+}
+
 function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
   const nameInfo: [number, string, SiTypeParameter[]][] = [];
   const types: Record<number, PortableType> = {};
@@ -322,11 +344,12 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
 }
 
 export class PortableRegistry extends Struct implements ILookup {
+  #alias: Record<number, string>;
   #names: Record<number, string>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
-  constructor (registry: Registry, value?: Uint8Array) {
+  constructor (registry: Registry, value?: Uint8Array, isContract?: boolean) {
     // console.time('PortableRegistry')
 
     super(registry, {
@@ -335,6 +358,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
     const [types, lookups, names, params] = extractTypeInfo(this, this.types);
 
+    this.#alias = extractAliases(params, isContract);
     this.#names = names;
     this.#types = types;
 
@@ -449,7 +473,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = [...type.path].join('::');
     let typeDef: TypeDef;
-    const aliasType = getAliasPath(type.path);
+    const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
 
     try {
       if (aliasType) {

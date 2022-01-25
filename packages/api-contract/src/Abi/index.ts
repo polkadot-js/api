@@ -44,7 +44,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
   const latest = getLatestMeta(registry, json);
-  const lookup = registry.createType('PortableRegistry', { types: latest.types });
+  const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);
