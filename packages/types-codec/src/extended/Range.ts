@@ -53,17 +53,3 @@ export class Range<T extends INumber> extends Tuple {
     return `${this.#rangeName}<${this.start.toRawType()}>`;
   }
 }
-
-export class RangeInclusive<T extends INumber = INumber> extends Range<T> {
-  constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple) {
-    super(registry, Type, value, 'RangeInclusive');
-  }
-
-  public static override with <T extends INumber> (Type: CodecClass<T> | string): CodecClass<RangeInclusive<T>> {
-    return class extends RangeInclusive<T> {
-      constructor (registry: Registry, value?: AnyTuple) {
-        super(registry, Type, value);
-      }
-    };
-  }
-}

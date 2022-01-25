@@ -1,4 +1,4 @@
-    2777	Jaco                          	Add .multi support on api.at(...).<section>.<method> (#4478)
+    2786	Jaco                          	Emit decorated event on API (incl. upgrades) (#4497)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
