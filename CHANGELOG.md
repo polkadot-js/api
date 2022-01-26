@@ -8,6 +8,7 @@ Changes:
 - Emit `decorated` event on API on metadata decoration
 - Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
 - Align `Range/RangeInclusive` usage with similar types
+- Adjust bounty derive, return empty on no `{treasury, bounties}.bounties`
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 
