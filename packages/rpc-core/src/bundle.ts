@@ -229,7 +229,11 @@ export class RpcCore {
 
         return (): void => {
           // delete old results from cache
-          memoized?.unmemoize(...values);
+          if (isScale) {
+            memoized?.unmemoize(...values);
+          } else {
+            memoized?.raw.unmemoize(...values);
+          }
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
