@@ -33,7 +33,7 @@
     "@polkadot/x-global": "^8.3.3",
     "@polkadot/x-ws": "^8.3.3",
     "eventemitter3": "^4.0.7",
-    "mock-socket": "^9.1.0",
+    "mock-socket": "^9.1.2",
     "nock": "^13.2.2"
   }
 }
