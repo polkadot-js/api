@@ -23,6 +23,21 @@ export default {
       _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
+    CodeUploadRequest: {
+      origin: 'AccountId',
+      code: 'Bytes',
+      storageDepositLimit: 'Option<Balance>'
+    },
+    CodeUploadResult: {
+      _enum: {
+        Ok: 'CodeUploadResultValue',
+        Err: 'Null'
+      }
+    },
+    CodeUploadResultValue: {
+      codeHash: 'CodeHash',
+      deposit: 'Balance'
+    },
     ContractCallRequest: {
       origin: 'AccountId',
       dest: 'AccountId',
