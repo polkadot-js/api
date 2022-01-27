@@ -24,6 +24,11 @@ interface StorageChangeSetJSON {
   changes: [string, string | null][];
 }
 
+type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
+  raw: Memoized<RpcInterfaceMethod>;
+  meta: DefinitionRpc;
+}
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -174,14 +179,14 @@ export class RpcCore {
     }
   }
 
-  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
+  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): MemoizedRpcInterfaceMethod {
     const memoOpts = { getInstanceId: () => this.#instanceId };
     const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
 
     memoized.raw = memoize(creator(false), memoOpts);
     memoized.meta = def;
 
-    return memoized;
+    return memoized as MemoizedRpcInterfaceMethod;
   }
 
   private _formatResult <T> (isScale: boolean, registry: Registry, blockHash: string | Uint8Array | null | undefined, method: string, def: DefinitionRpc, params: Codec[], result: unknown): T {
@@ -193,7 +198,7 @@ export class RpcCore {
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
-    let memoized: null | Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | MemoizedRpcInterfaceMethod = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async <T> (isScale: boolean, values: unknown[]): Promise<T> => {
@@ -266,7 +271,7 @@ export class RpcCore {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
-    let memoized: null | Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | MemoizedRpcInterfaceMethod = null;
 
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       return new Observable((observer: Observer<T>): () => void => {
@@ -306,7 +311,11 @@ export class RpcCore {
         // Teardown logic
         return (): void => {
           // Delete from cache, so old results don't hang around
-          memoized?.unmemoize(...values);
+          if (isScale) {
+            memoized?.unmemoize(...values);
+          } else {
+            memoized?.raw.unmemoize(...values);
+          }
 
           // Unsubscribe from provider
           subscriptionPromise
