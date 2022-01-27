@@ -1,4 +1,4 @@
-    2790	Jaco                          	Exhaustive TypeDefInfo handling in extractType (#4506)
+    2791	Jaco                          	Add support for rpc.contracts.uploadCode (#4508)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
