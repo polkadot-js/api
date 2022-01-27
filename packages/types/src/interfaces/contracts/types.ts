@@ -20,6 +20,27 @@ export interface AliveContractInfo extends Struct {
 /** @name CodeHash */
 export interface CodeHash extends Hash {}
 
+/** @name CodeUploadRequest */
+export interface CodeUploadRequest extends Struct {
+  readonly origin: AccountId;
+  readonly code: Bytes;
+  readonly storageDepositLimit: Option<Balance>;
+}
+
+/** @name CodeUploadResult */
+export interface CodeUploadResult extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: CodeUploadResultValue;
+  readonly isErr: boolean;
+  readonly type: 'Ok' | 'Err';
+}
+
+/** @name CodeUploadResultValue */
+export interface CodeUploadResultValue extends Struct {
+  readonly codeHash: CodeHash;
+  readonly deposit: Balance;
+}
+
 /** @name ContractCallFlags */
 export interface ContractCallFlags extends Set {
   readonly isForwardInput: boolean;

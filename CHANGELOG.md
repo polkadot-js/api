@@ -10,6 +10,7 @@ Changes:
 - Align `Range/RangeInclusive` usage with similar types
 - Adjust bounty derive, return empty on no `{treasury, bounties}.bounties`
 - Ensure handling of all `TypeDefInfo` keys in extraction
+- Add support for `rpc.contracts.uploadCode`
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 
