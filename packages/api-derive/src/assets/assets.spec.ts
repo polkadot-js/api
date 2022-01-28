@@ -9,7 +9,8 @@ import type { PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
 import { concatMap, delay, from, Observable, ObservableInput, of, Subscription } from 'rxjs';
 
 import { ApiPromise } from '@polkadot/api';
-import { all, Asset } from '@polkadot/api-derive/assets/all';
+import { all } from '@polkadot/api-derive/assets/all';
+import { DeriveAsset } from '@polkadot/api-derive/assets/types';
 import { createApiWithAugmentations } from '@polkadot/api-derive/test/helpers';
 import { StorageKey } from '@polkadot/types';
 import { BN } from '@polkadot/util';
@@ -27,7 +28,7 @@ const SECOND_BLOCK_HASH = '0x05bdcc454f60a08d427d05e7f19f240fdc391f570ab76fcb96e
 describe('assets derive', () => {
   let api: ApiPromise;
   let mockedApi: DeriveApi;
-  let assets: Asset[] = [];
+  let assets: DeriveAsset[] = [];
   let sub: Subscription;
 
   const createAssetStorageKey = (id: number): StorageKey<[AssetId]> => {

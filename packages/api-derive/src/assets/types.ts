@@ -8,3 +8,7 @@ import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polka
 export type FetchedAssetsEntries = [StorageKey<[AssetId]>, Option<PalletAssetsAssetDetails>][];
 export type FetchedAssetsMetadataEntries = [StorageKey<[AssetId]>, PalletAssetsAssetMetadata][];
 export type FetchedAssetsIddEntries = StorageKey<[u32]>[]
+
+export interface DeriveAsset extends PalletAssetsAssetDetails, PalletAssetsAssetMetadata {
+  id: StorageKey<[u32]>
+}
