@@ -1,19 +1,20 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveApi } from '@polkadot/api-derive/types';
 import type { GenericEventData, Vec } from '@polkadot/types';
 import type { AssetId, EventRecord, Hash, Header } from '@polkadot/types/interfaces';
 import type { PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { DeriveApi } from '../types';
 
 import { concatMap, delay, from, Observable, ObservableInput, of, Subscription } from 'rxjs';
 
 import { ApiPromise } from '@polkadot/api';
-import { all } from '@polkadot/api-derive/assets/all';
-import { DeriveAsset } from '@polkadot/api-derive/assets/types';
-import { createApiWithAugmentations } from '@polkadot/api-derive/test/helpers';
 import { StorageKey } from '@polkadot/types';
 import { BN } from '@polkadot/util';
+
+import { createApiWithAugmentations } from '../test/helpers';
+import { all } from './all';
+import { DeriveAsset } from './types';
 
 export const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 export const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';

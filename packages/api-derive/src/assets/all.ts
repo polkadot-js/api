@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAsset, FetchedAssetsEntries, FetchedAssetsIddEntries, FetchedAssetsMetadataEntries } from '@polkadot/api-derive/assets/types';
-import type { DeriveApi } from '@polkadot/api-derive/types';
 import type { EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
 import type { Vec } from '@polkadot/types-codec';
+import type { DeriveApi } from '../types';
+import type { DeriveAsset, FetchedAssetsEntries, FetchedAssetsIddEntries, FetchedAssetsMetadataEntries } from './types';
 
 import { combineLatest, concat, EMPTY, map, Observable, of, switchMap, take } from 'rxjs';
 
