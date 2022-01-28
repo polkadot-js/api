@@ -167,8 +167,7 @@ describe('assets derive', () => {
   });
 
   it('gets current assets list', () => {
-    // eslint-disable-next-line no-return-assign
-    sub = all(mockedApi).subscribe((value) => assets = value);
+    sub = all(mockedApi).subscribe((value) => { assets = value; });
 
     expect(assets).toHaveLength(3);
     expect(assets[0].id.args[0].toNumber()).toBe(FIRST_ASSET_ID);
@@ -181,8 +180,7 @@ describe('assets derive', () => {
   });
 
   it('updates assets list after an asset event', () => {
-    // eslint-disable-next-line no-return-assign
-    sub = all(mockedApi).subscribe((value) => assets = value);
+    sub = all(mockedApi).subscribe((value) => { assets = value; });
 
     expect(assets).toHaveLength(3);
 
@@ -223,8 +221,7 @@ describe('assets derive', () => {
       }
     } as unknown as DeriveApi;
 
-    // eslint-disable-next-line no-return-assign
-    sub = all(mockedApiWithNonAssetEvent).subscribe((value) => assets = value);
+    sub = all(mockedApiWithNonAssetEvent).subscribe((value) => { assets = value; });
 
     expect(assets).toHaveLength(3);
 
