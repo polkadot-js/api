@@ -47,12 +47,12 @@ function concatAssetData ([maybeAssets, maybeMetadatas, ids]: [maybeAssets: Fetc
  */
 
 export function all (api: DeriveApi): Observable<DeriveAsset[]> {
-  const initBlockHash = api.rpc.chain.subscribeNewHeads()
+  const initialBlockHash = api.rpc.chain.subscribeNewHeads()
     .pipe(take(1))
     .pipe((val) => val.pipe(map(({ hash }) => hash)));
 
   return concat(
-    initBlockHash,
+    initialBlockHash,
     api.query.system.events()
       .pipe(switchMap((events: Vec<EventRecord>) => extractAssetEventsHash(events)))
   )
