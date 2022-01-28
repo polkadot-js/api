@@ -1,34 +1,49 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AugmentedEvent } from '@polkadot/api-base/types';
+import type { FetchedAssetsEntries, FetchedAssetsIddEntries, FetchedAssetsMetadataEntries } from '@polkadot/api-derive/assets/types';
+import type { DeriveApi } from '@polkadot/api-derive/types';
+import type { StorageKey } from '@polkadot/types';
 import type { EventRecord, Hash } from '@polkadot/types/interfaces';
-import type { Vec } from '@polkadot/types-codec';
+import type { FrameSystemEventRecord, PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { u32, Vec } from '@polkadot/types-codec';
 
-import { combineLatest, concat, EMPTY, firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
+import { combineLatest, concat, EMPTY, map, Observable, of, switchMap, take } from 'rxjs';
 
-import { DeriveApi } from '@polkadot/api-derive/types';
-import { StorageKey } from '@polkadot/types';
-import { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
-import { u32 } from '@polkadot/types-codec';
-
-type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
-
-interface Asset extends PalletAssetsAssetDetails, PalletAssetsAssetMetadata{
+export interface Asset extends PalletAssetsAssetDetails, PalletAssetsAssetMetadata{
   id: StorageKey<[u32]>
 }
 
-function extractEvents (eventRecords: Vec<EventRecord>, checks: EventCheck[]): Observable<Hash> {
-  const assetEvents = eventRecords.filter((record) =>
-    record.event &&
-    checks.some((check) => check && check.is(record.event))
-  );
+const ASSET_EVENTS: string[] = [
+  'Created',
+  'Destroyed',
+  'MetadataCleared',
+  'MetadataSet',
+  'OwnerChanged',
+  'TeamChanged',
+  'Issued'
+];
 
-  if (assetEvents.length && eventRecords.createdAtHash) {
-    return of(eventRecords.createdAtHash);
-  }
+export function extractAssetEventsHash (events: Vec<FrameSystemEventRecord>): Observable<Hash> {
+  const filtered = events.find(({ event: { method, section } }) => section === 'assets' && ASSET_EVENTS.includes(method));
 
-  return EMPTY;
+  return filtered ? of(events.createdAtHash as Hash) : EMPTY;
+}
+
+function concatAssetData ([maybeAssets, maybeMetadatas, ids]: [maybeAssets: FetchedAssetsEntries, maybeMetadatas: FetchedAssetsMetadataEntries, ids: FetchedAssetsIddEntries]): Asset[] {
+  const result: Asset[] = [];
+
+  maybeAssets.forEach(([, asset], index) => {
+    if (asset.isSome) {
+      result.push({
+        ...asset.unwrap(),
+        ...maybeMetadatas[index][1],
+        id: ids[index]
+      } as Asset);
+    }
+  });
+
+  return result;
 }
 
 /**
@@ -36,12 +51,17 @@ function extractEvents (eventRecords: Vec<EventRecord>, checks: EventCheck[]): O
  * @returns An array containing all assets with metadata
  */
 
-export async function all (api: DeriveApi) {
-  const checks = [api.events.assets.Created, api.events.assets.Destroyed];
-  const { hash: currentBlockHash } = await firstValueFrom(api.rpc.chain.subscribeNewHeads());
-  const resultObservable = concat(of(currentBlockHash as Hash), api.query.system.events()
-    .pipe(switchMap((events: Vec<EventRecord>) => extractEvents(events, checks))))
-    .pipe(tap((blockHash) => console.log(`Block hash: ${blockHash.toString()}`)))
+export function all (api: DeriveApi): Observable<Asset[]> {
+  const initBlockHash = api.rpc.chain.subscribeNewHeads()
+    .pipe(take(1))
+    .pipe((val) => val.pipe(map(({ hash }) => hash)));
+
+  return concat(
+    initBlockHash,
+    api.query.system.events()
+      .pipe(switchMap((events: Vec<EventRecord>) => extractAssetEventsHash(events)))
+  )
+
     .pipe(
       switchMap((blockHash: Hash) =>
         combineLatest([
@@ -51,23 +71,5 @@ export async function all (api: DeriveApi) {
         ])
       )
     )
-    .pipe(map(([maybeAssets, maybeMetadatas, ids]) => {
-      const result: Asset[] = [];
-
-      maybeAssets.forEach(([, asset], index) => {
-        console.log(`For id ${ids[index].toString()} there is ${asset.isSome ? 'an' : 'no'} asset and ${maybeMetadatas[index][1].decimals.toBn().gtn(0) ? 'a' : 'no'} metadata`);
-
-        if (asset.isSome) {
-          result.push({
-            ...asset.unwrap(),
-            ...maybeMetadatas[index][1],
-            id: ids[index]
-          } as Asset);
-        }
-      });
-
-      return result;
-    }));
-
-  return resultObservable;
+    .pipe(map(concatAssetData));
 }
