@@ -2,8 +2,15 @@
 
 ## master
 
+Upgdare priority: Low. Recommended for users with long-running scripts and those chains based around the latest Substrate master versions.
+
+Contributed:
+
+- Fix memory leak on `.raw` RPC calls (Thanks to https://github.com/r0t0r-r0t0r)
+
 Changes:
 
+- Adjust extraction of `Call` & `Event` types for metadata v14
 - Adjust historic `WinningData` and `SlotRange` types (36-entry variant)
 - Emit `decorated` event on API on metadata decoration
 - Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
