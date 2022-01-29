@@ -20,18 +20,18 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.5.2-9",
+  "version": "7.5.2-10",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
-    "@polkadot/rpc-augment": "7.5.2-9",
-    "@polkadot/rpc-provider": "7.5.2-9",
-    "@polkadot/types": "7.5.2-9",
+    "@polkadot/rpc-augment": "7.5.2-10",
+    "@polkadot/rpc-provider": "7.5.2-10",
+    "@polkadot/types": "7.5.2-10",
     "@polkadot/util": "^8.3.3",
     "rxjs": "^7.5.2"
   },
   "devDependencies": {
     "@polkadot/keyring": "^8.3.3",
-    "@polkadot/rpc-augment": "7.5.2-9"
+    "@polkadot/rpc-augment": "7.5.2-10"
   }
 }
