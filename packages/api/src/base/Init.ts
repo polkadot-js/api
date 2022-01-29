@@ -65,9 +65,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
 
     if (this.hasSubscriptions) {
-      this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
-      this._rpcCore.provider.on('error', this.#onProviderError);
-      this._rpcCore.provider.on('connected', this.#onProviderConnect);
+      this._rpcCore.provider.on('disconnected', () => this.#onProviderDisconnect());
+      this._rpcCore.provider.on('error', (e: Error) => this.#onProviderError(e));
+      this._rpcCore.provider.on('connected', () => this.#onProviderConnect());
     } else {
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
@@ -380,7 +380,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._unsubscribeUpdates();
   }
 
-  #onProviderConnect = async (): Promise<void> => {
+  async #onProviderConnect (): Promise<void> {
     this._isConnected.next(true);
     this.emit('connected');
 
@@ -406,15 +406,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
       this.emit('error', error);
     }
-  };
+  }
 
-  #onProviderDisconnect = (): void => {
+  #onProviderDisconnect (): void {
     this._isConnected.next(false);
     this._unsubscribeHealth();
     this.emit('disconnected');
-  };
+  }
 
-  #onProviderError = (error: Error): void => {
+  #onProviderError (error: Error): void {
     this.emit('error', error);
-  };
+  }
 }
