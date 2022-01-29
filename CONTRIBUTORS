@@ -1,4 +1,4 @@
-    2791	Jaco                          	Add support for rpc.contracts.uploadCode (#4508)
+    2792	Jaco                          	Bump deps (#4511)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
@@ -79,6 +79,7 @@
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	qiuhao                        	update DeriveCustom type (#2581)
+       1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
        1	Rocco Musolino                	remove broken link (#2671)
        1	satellitex                    	Add BTreeSet<V> Codec (#1639)
        1	satellitex                    	Add traits replace rules. for invalid cases `::<type>` and `<type>::`. (#885)
