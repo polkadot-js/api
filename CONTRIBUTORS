@@ -1,4 +1,4 @@
-    2794	Jaco                          	Workaround for regenerator runtime + private callback (#4514)
+    2795	Jaco                          	7.6.1 (#4515)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
