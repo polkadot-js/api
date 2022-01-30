@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 7.6.1 Jan 30, 2022
 
 Upgdare priority: Low. Recommended for users with long-running scripts and those chains based around the latest Substrate master versions.
 
