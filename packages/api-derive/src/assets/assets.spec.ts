@@ -171,13 +171,13 @@ describe('assets derive', () => {
     sub = all(mockedApi).subscribe((value) => { assets = value; });
 
     expect(assets).toHaveLength(3);
-    expect(assets[0].id.args[0].toNumber()).toBe(FIRST_ASSET_ID);
-    expect(assets[1].id.args[0].toNumber()).toBe(SECOND_ASSET_ID);
-    expect(assets[2].id.args[0].toNumber()).toBe(THIRD_ASSET_ID);
+    expect(assets[0].id.toNumber()).toBe(FIRST_ASSET_ID);
+    expect(assets[1].id.toNumber()).toBe(SECOND_ASSET_ID);
+    expect(assets[2].id.toNumber()).toBe(THIRD_ASSET_ID);
 
-    expect(assets[0].name.toUtf8()).toBe('TestToken');
-    expect(assets[1].name.toUtf8()).toBe('TestTokenExtra');
-    expect(assets[2].name.toUtf8()).toBe('Kusama😻');
+    expect(assets[0].name).toBe('TestToken');
+    expect(assets[1].name).toBe('TestTokenExtra');
+    expect(assets[2].name).toBe('Kusama😻');
   });
 
   it('updates assets list after an asset event', () => {
@@ -188,11 +188,11 @@ describe('assets derive', () => {
     jest.advanceTimersByTime(200);
 
     expect(assets).toHaveLength(2);
-    expect(assets[0].id.args[0].toNumber()).toBe(FIRST_ASSET_ID);
-    expect(assets[1].id.args[0].toNumber()).toBe(THIRD_ASSET_ID);
+    expect(assets[0].id.toNumber()).toBe(FIRST_ASSET_ID);
+    expect(assets[1].id.toNumber()).toBe(THIRD_ASSET_ID);
 
-    expect(assets[0].name.toUtf8()).toBe('TestToken');
-    expect(assets[1].name.toUtf8()).toBe('Kusama😻');
+    expect(assets[0].name).toBe('TestToken');
+    expect(assets[1].name).toBe('Kusama😻');
   });
 
   it('does not update assets list for a non asset event', () => {

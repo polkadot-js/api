@@ -30,10 +30,27 @@ function concatAssetData ([maybeAssets, maybeMetadatas, ids]: [maybeAssets: Fetc
 
   maybeAssets.forEach(([, asset], index) => {
     if (asset.isSome) {
+      const { accounts, admin, approvals, freezer, isFrozen, isSufficient, issuer, minBalance, owner, sufficients, supply } = asset.unwrap();
+      const { decimals, deposit, name, symbol } = maybeMetadatas[index][1];
+      const id = ids[index];
+
       result.push({
-        ...asset.unwrap(),
-        ...maybeMetadatas[index][1],
-        id: ids[index]
+        accounts: accounts.toBn(),
+        admin,
+        approvals: approvals.toBn(),
+        decimals: decimals.toNumber(),
+        deposit: deposit.toBn(),
+        freezer,
+        id: id.args[0],
+        isFrozen: isFrozen.toHuman(),
+        isSufficient: isSufficient.toHuman(),
+        issuer,
+        minBalance: minBalance.toBn(),
+        name: name.toUtf8(),
+        owner,
+        sufficients: sufficients.toBn(),
+        supply: supply.toBn(),
+        symbol: symbol.toUtf8()
       } as DeriveAsset);
     }
   });
