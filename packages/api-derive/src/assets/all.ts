@@ -5,7 +5,7 @@ import type { EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { FrameSystemEventRecord } from '@polkadot/types/lookup';
 import type { Vec } from '@polkadot/types-codec';
 import type { DeriveApi } from '../types';
-import type { DeriveAsset, FetchedAssetsEntries, FetchedAssetsIddEntries, FetchedAssetsMetadataEntries } from './types';
+import type { DeriveAsset, FetchedAssetsEntries, FetchedAssetsMetadataEntries } from './types';
 
 import { combineLatest, concat, EMPTY, map, Observable, of, switchMap, take } from 'rxjs';
 
@@ -25,14 +25,13 @@ export function extractAssetEventsHash (events: Vec<FrameSystemEventRecord>): Ob
   return filtered ? of(events.createdAtHash as Hash) : EMPTY;
 }
 
-function concatAssetData ([maybeAssets, maybeMetadatas, ids]: [maybeAssets: FetchedAssetsEntries, maybeMetadatas: FetchedAssetsMetadataEntries, ids: FetchedAssetsIddEntries]): DeriveAsset[] {
+function concatAssetData ([maybeAssets, maybeMetadatas]: [maybeAssets: FetchedAssetsEntries, maybeMetadatas: FetchedAssetsMetadataEntries]): DeriveAsset[] {
   const result: DeriveAsset[] = [];
 
-  maybeAssets.forEach(([, asset], index) => {
+  maybeAssets.forEach(([id, asset], index) => {
     if (asset.isSome) {
       const { accounts, admin, approvals, freezer, isFrozen, isSufficient, issuer, minBalance, owner, sufficients, supply } = asset.unwrap();
       const { decimals, deposit, name, symbol } = maybeMetadatas[index][1];
-      const id = ids[index];
 
       result.push({
         accounts: accounts.toBn(),
@@ -78,8 +77,7 @@ export function all (api: DeriveApi): Observable<DeriveAsset[]> {
       switchMap((blockHash: Hash) =>
         combineLatest([
           api.query.assets.asset.entriesAt(blockHash),
-          api.query.assets.metadata.entriesAt(blockHash),
-          api.query.assets.asset.keysAt(blockHash)
+          api.query.assets.metadata.entriesAt(blockHash)
         ])
       )
     )

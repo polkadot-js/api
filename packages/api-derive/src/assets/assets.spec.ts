@@ -80,17 +80,6 @@ describe('assets derive', () => {
                   unwrap: () => ({})
                 })]
               ]
-            }),
-            keysAt: (hash: Hash) => valueAt(hash, {
-              [FIRST_BLOCK_HASH]: [
-                createAssetStorageKey(FIRST_ASSET_ID),
-                createAssetStorageKey(SECOND_ASSET_ID),
-                createAssetStorageKey(THIRD_ASSET_ID)
-              ],
-              [SECOND_BLOCK_HASH]: [
-                createAssetStorageKey(FIRST_ASSET_ID),
-                createAssetStorageKey(THIRD_ASSET_ID)
-              ]
             })
           },
           metadata: {
