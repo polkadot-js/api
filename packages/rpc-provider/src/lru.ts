@@ -108,6 +108,7 @@ export class LRUCache {
         this.#refs.delete(this.#tail.key);
 
         this.#tail = this.#tail.prev;
+        this.#tail.next = this.#head;
       } else {
         this.#length += 1;
       }
