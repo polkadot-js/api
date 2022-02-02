@@ -52,6 +52,7 @@
        1	Dylan Galea                   	Updated users of the polkadot-js/api (#2027)
        1	flex                          	Change BeefySignedCommitment signatures type to EcdsaSignature (#4204)
        1	Furqan A                      	fix: fixed 404 to the docs from the api readme (#3985)
+       1	Gérard Dethier                	Fix LRUCache memory leak. (#4520)
        1	Gerben van de Wiel            	Adding some extra notes on changes in the specname (#2329)
        1	HackFisher                    	fix OutboundLaneData types (#3992)
        1	Hoani Bryson                  	Multiple Endpoint support for WsProvider (#2234)
