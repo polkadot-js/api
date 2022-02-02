@@ -61,7 +61,7 @@ declare module '@polkadot/types-codec/types/registry' {
     // hasDef (name: string): boolean;
     // hasType (name: string): boolean;
     // hash (data: Uint8Array): IU8a;
-    init (): Registry;
+
     // register (type: CodecClass | RegistryTypes): void;
     // register (name: string, type: CodecClass): void;
     // register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;

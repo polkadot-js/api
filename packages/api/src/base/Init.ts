@@ -284,8 +284,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               thisRegistry.metadata = metadata;
               thisRegistry.specVersion = version.specVersion;
 
-              // clear the registry types to ensure that we override correctly
-              this._initRegistry(thisRegistry.registry.init(), this._runtimeChain as Text, version, metadata);
+              this._initRegistry(this.registry, this._runtimeChain as Text, version, metadata);
               this._injectMetadata(thisRegistry, false);
 
               return true;

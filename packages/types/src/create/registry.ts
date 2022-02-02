@@ -86,7 +86,7 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
-        const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+        const meta = registry.createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
@@ -118,7 +118,7 @@ function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: Metadata
 
 // extract additional properties from the metadata
 function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainProperties | undefined {
-  const original = (registry as Registry).getChainProperties();
+  const original = registry.getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
 
@@ -170,20 +170,6 @@ export class TypeRegistry implements Registry {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
     this.#knownDefinitions = definitions;
 
-    this.init();
-
-    if (createdAtHash) {
-      this.createdAtHash = this.createType('Hash', createdAtHash);
-    }
-  }
-
-  public init (): this {
-    // start clean
-    this.#classes = new Map<string, CodecClass>();
-    this.#definitions = new Map<string, string>();
-    this.#unknownTypes = new Map<string, boolean>();
-    this.#knownTypes = {};
-
     // register know, first classes then on-demand-created definitions
     this.register(this.#knownDefaults);
 
@@ -193,7 +179,9 @@ export class TypeRegistry implements Registry {
       this.register(allKnown[i].types as unknown as RegistryTypes);
     }
 
-    return this;
+    if (createdAtHash) {
+      this.createdAtHash = this.createType('Hash', createdAtHash);
+    }
   }
 
   public get chainDecimals (): number[] {
