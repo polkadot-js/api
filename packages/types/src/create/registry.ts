@@ -252,6 +252,7 @@ export class TypeRegistry implements Registry {
 
   public clearCache (): void {
     this.#classes = new Map();
+    this.register(this.#knownDefaults);
   }
 
   /**
