@@ -315,7 +315,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    let Type = this.#knownDefaults[name] || this.#classes.get(name);
+    let Type = this.#classes.get(name) || this.#knownDefaults[name];
 
     // we have not already created the type, attempt it
     if (!Type) {
@@ -407,7 +407,7 @@ export class TypeRegistry implements Registry {
   }
 
   public hasClass (name: string): boolean {
-    return !!this.#knownDefaults[name] || this.#classes.has(name);
+    return this.#classes.has(name) || !!this.#knownDefaults[name];
   }
 
   public hasDef (name: string): boolean {
