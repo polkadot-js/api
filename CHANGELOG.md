@@ -12,6 +12,8 @@ Changes:
 
 - Don't warn on `Lookup*` types missing (these are resolvable)
 - Don't clear injected `PortableRegistry` types on runtime upgrade
+- Clear warning for `Call`/`Event` on non-meta v14 runtimes
+- Add `beefy_getFinalizedHead` RPC support
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 

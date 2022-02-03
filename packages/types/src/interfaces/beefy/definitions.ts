@@ -17,6 +17,11 @@ export default {
         'unsubscribeJustifications'
       ],
       type: 'BeefySignedCommitment'
+    },
+    getFinalizedHead: {
+      description: 'Returns hash of the latest BEEFY finalized block as seen by this client.',
+      params: [],
+      type: 'H256'
     }
   },
   types: {
