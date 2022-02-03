@@ -2,10 +2,17 @@
 
 ## master
 
+Upgrade priority: Low. Recommended for users with long-running scripts.
+
+Contributed:
+
+- Fix rpc-provider LRU memory leak (Thanks to https://github.com/gdethier)
+
 Changes:
 
 - Don't warn on `Lookup*` types missing (these are resolvable)
 - Don't clear injected `PortableRegistry` types on runtime upgrade
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.6.1 Jan 30, 2022

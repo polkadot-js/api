@@ -265,7 +265,7 @@
             {
               "name": "Version",
               "type": 157,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000b42300000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000900000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000c82300000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000a00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -326,19 +326,6 @@
                 "docs": [
                   " Lookup from identity to the block number and index of the task."
                 ]
-              },
-              {
-                "name": "StorageVersion",
-                "modifier": "Default",
-                "type": {
-                  "plain": 426
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " Storage version of the pallet.",
-                  "",
-                  " New networks start with last version."
-                ]
               }
             ]
           },
@@ -369,7 +356,7 @@
             }
           ],
           "errors": {
-            "type": 427
+            "type": 426
           },
           "index": 1
         },
@@ -387,7 +374,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 428
+                    "value": 427
                   }
                 },
                 "fallback": "0x00",
@@ -404,7 +391,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 430
+                    "value": 429
                   }
                 },
                 "fallback": "0x00",
@@ -422,7 +409,7 @@
           },
           "constants": [],
           "errors": {
-            "type": 431
+            "type": 430
           },
           "index": 10
         },
@@ -446,7 +433,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 432
+                  "plain": 431
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -522,7 +509,7 @@
                 "name": "NextAuthorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 432
+                  "plain": 431
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -557,7 +544,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 435
+                    "value": 434
                   }
                 },
                 "fallback": "0x00",
@@ -569,7 +556,7 @@
                 "name": "Initialized",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 437
+                  "plain": 436
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -581,7 +568,7 @@
                 "name": "AuthorVrfRandomness",
                 "modifier": "Default",
                 "type": {
-                  "plain": 437
+                  "plain": 436
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -625,7 +612,7 @@
                 "name": "EpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 438
+                  "plain": 437
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -637,7 +624,7 @@
                 "name": "NextEpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 438
+                  "plain": 437
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -684,7 +671,7 @@
             }
           ],
           "errors": {
-            "type": 439
+            "type": 438
           },
           "index": 2
         },
@@ -751,7 +738,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 440
+                    "value": 439
                   }
                 },
                 "fallback": "0x00",
@@ -778,7 +765,7 @@
             }
           ],
           "errors": {
-            "type": 441
+            "type": 440
           },
           "index": 4
         },
@@ -812,8 +799,29 @@
                 },
                 "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 "docs": [
-                  " The balance of an account.",
+                  " The Balances pallet example of storing the balance of an account.",
                   "",
+                  " # Example",
+                  "",
+                  " ```nocompile",
+                  "  impl pallet_balances::Config for Runtime {",
+                  "    type AccountStore = StorageMapShim<Self::Account<Runtime>, frame_system::Provider<Runtime>, AccountId, Self::AccountData<Balance>>",
+                  "  }",
+                  " ```",
+                  "",
+                  " You can also store the balance of an account in the `System` pallet.",
+                  "",
+                  " # Example",
+                  "",
+                  " ```nocompile",
+                  "  impl pallet_balances::Config for Runtime {",
+                  "   type AccountStore = System",
+                  "  }",
+                  " ```",
+                  "",
+                  " But this comes with tradeoffs, storing account balances in the system pallet stores",
+                  " `frame_system` data alongside the account data contrary to storing account balances in the",
+                  " `Balances` pallet, which uses a `StorageMap` to store balances data only.",
                   " NOTE: This is only used in the case that this pallet is used to store balances."
                 ]
               },
@@ -826,7 +834,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 442
+                    "value": 441
                   }
                 },
                 "fallback": "0x00",
@@ -844,7 +852,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 446
+                    "value": 445
                   }
                 },
                 "fallback": "0x00",
@@ -856,7 +864,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 449
+                  "plain": 448
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -901,7 +909,7 @@
             }
           ],
           "errors": {
-            "type": 450
+            "type": 449
           },
           "index": 5
         },
@@ -914,7 +922,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": "Default",
                 "type": {
-                  "plain": 451
+                  "plain": 450
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": []
@@ -923,7 +931,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 452
+                  "plain": 451
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -971,7 +979,7 @@
             },
             {
               "name": "WeightToFee",
-              "type": 453,
+              "type": 452,
               "value": "0x040000000000000000000000000000000000b4c4040001",
               "docs": [
                 " The polynomial that is applied in order to derive fee from weight."
@@ -990,7 +998,7 @@
                 "name": "Uncles",
                 "modifier": "Default",
                 "type": {
-                  "plain": 455
+                  "plain": 454
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1038,7 +1046,7 @@
             }
           ],
           "errors": {
-            "type": 457
+            "type": 456
           },
           "index": 6
         },
@@ -1160,7 +1168,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 458
+                    "value": 457
                   }
                 },
                 "fallback": "0x00",
@@ -1235,12 +1243,27 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 461
+                    "value": 460
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The map from nominator stash key to the set of stash keys of all validators to nominate."
+                  " The map from nominator stash key to their nomination preferences, namely the validators that",
+                  " they wish to support.",
+                  "",
+                  " Note that the keys of this storage map might become non-decodable in case the",
+                  " [`Config::MaxNominations`] configuration is decreased. In this rare case, these nominators",
+                  " are still existent in storage, their key is correct and retrievable (i.e. `contains_key`",
+                  " indicates that they exist), but their value cannot be decoded. Therefore, the non-decodable",
+                  " nominators will effectively not-exist, until they re-submit their preferences such that it",
+                  " is within the bounds of the newly set `Config::MaxNominations`.",
+                  "",
+                  " This implies that `::iter_keys().count()` and `::iter().count()` might return different",
+                  " values for this map. Moreover, the main `::count()` is aligned with the former, namely the",
+                  " number of keys that exist.",
+                  "",
+                  " Lastly, if any of the nominators become non-decodable, they can be chilled immediately via",
+                  " [`Call::chill_other`] dispatchable by anyone."
                 ]
               },
               {
@@ -1698,12 +1721,6 @@
                 " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can",
                 " claim their reward. This used to limit the i/o cost for the nominator payout."
               ]
-            },
-            {
-              "name": "MaxNominations",
-              "type": 4,
-              "value": "0x10000000",
-              "docs": []
             }
           ],
           "errors": {

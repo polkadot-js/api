@@ -504,6 +504,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CallNotAllowed: AugmentedError<ApiType>;
       /**
+       * The fallback failed
+       **/
+      FallbackFailed: AugmentedError<ApiType>;
+      /**
        * `Self::insert_submission` returned an invalid index.
        **/
       InvalidSubmissionIndex: AugmentedError<ApiType>;

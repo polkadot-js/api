@@ -34,7 +34,7 @@ export default {
     _enum: ['Valid', 'Invalid']
   },
   /**
-   * Lookup246: kusama_runtime::SessionKeys
+   * Lookup247: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -45,7 +45,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup319: kusama_runtime::OriginCaller
+   * Lookup320: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -152,7 +152,7 @@ export default {
     }
   },
   /**
-   * Lookup384: kusama_runtime::NposCompactSolution24
+   * Lookup385: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -181,7 +181,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup504: polkadot_runtime_parachains::disputes::pallet::Call<T>
+   * Lookup505: polkadot_runtime_parachains::disputes::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletCall: {
     _enum: ['force_unfreeze']
