@@ -13,7 +13,10 @@ const l = logger('metadata');
 /** @internal */
 export function validateTypes (registry: Registry, throwError: boolean, types: string[]): string[] {
   const missing = flattenUniq(extractTypes(types))
-    .filter((type) => !registry.hasType(type))
+    .filter((type) =>
+      !registry.hasType(type) &&
+      !registry.isLookupType(type)
+    )
     .sort();
 
   if (missing.length !== 0) {
