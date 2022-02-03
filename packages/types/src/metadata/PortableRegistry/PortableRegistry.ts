@@ -288,7 +288,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 // this extracts aliases based on what we know the runtime config looks like in a
 // Substrate chain. Specifically we want to have access to the Call and Event params
 function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
-  const hasParams = Object.keys(params).length !== 0;
+  const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
   const alias: Record<number, string> = {};
 
   if (params.SpRuntimeUncheckedExtrinsic) {
