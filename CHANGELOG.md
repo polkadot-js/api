@@ -4,6 +4,7 @@
 
 Changes:
 
+- Don't warn on `Lookup*` types missing (these are resolvable)
 - Don't clear injected `PortableRegistry` types on runtime upgrade
 
 
