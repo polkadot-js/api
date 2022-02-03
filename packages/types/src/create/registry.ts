@@ -250,6 +250,10 @@ export class TypeRegistry implements Registry {
     return this.#signedExtensions;
   }
 
+  public clearCache (): void {
+    this.#classes = new Map();
+  }
+
   /**
    * @describe Creates an instance of the class
    */

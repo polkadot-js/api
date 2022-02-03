@@ -85,6 +85,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * @description Decorates a registry based on the runtime version
    */
   private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): void {
+    registry.clearCache();
     registry.setChainProperties(chainProps || this.registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
