@@ -69,6 +69,10 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
     };
     beefy: {
       /**
+       * Returns hash of the latest BEEFY finalized block as seen by this client.
+       **/
+      getFinalizedHead: AugmentedRpc<() => Observable<H256>>;
+      /**
        * Returns the block most recently finalized by BEEFY, alongside side its justification.
        **/
       subscribeJustifications: AugmentedRpc<() => Observable<BeefySignedCommitment>>;
