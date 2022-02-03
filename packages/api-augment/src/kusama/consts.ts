@@ -703,7 +703,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Number of eras that staked funds must remain bonded for.
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
-      maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
        * 

@@ -1478,6 +1478,13 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     electionProviderMultiPhase: {
       /**
+       * Trigger the governance fallback.
+       * 
+       * This can only be called when [`Phase::Emergency`] is enabled, as an alternative to
+       * calling [`Call::set_emergency_election_result`].
+       **/
+      governanceFallback: AugmentedSubmittable<(maybeMaxVoters: Option<u32> | null | object | string | Uint8Array, maybeMaxTargets: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u32>, Option<u32>]>;
+      /**
        * Set a solution in the queue, to be handed out to the client of this pallet in the next
        * call to `ElectionProvider::elect`.
        * 
@@ -3203,14 +3210,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Can be called by the `T::SlashCancelOrigin`.
        * 
        * Parameters: era and indices of the slashes for that era to kill.
-       * 
-       * # <weight>
-       * Complexity: O(U + S)
-       * with U unapplied slashes weighted with U=1000
-       * and S is the number of slash indices to be canceled.
-       * - Read: Unapplied Slashes
-       * - Write: Unapplied Slashes
-       * # </weight>
        **/
       cancelDeferredSlash: AugmentedSubmittable<(era: u32 | AnyNumber | Uint8Array, slashIndices: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<u32>]>;
       /**
@@ -3239,6 +3238,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * If the caller is different than the controller being targeted, the following conditions
        * must be met:
+       * 
+       * * `controller` must belong to a nominator who has become non-decodable,
+       * 
+       * Or:
+       * 
        * * A `ChillThreshold` must be set and checked which defines how close to the max
        * nominators or validators we must reach before users can start chilling one-another.
        * * A `MaxNominatorCount` and `MaxValidatorCount` must be set which is used to determine
@@ -3280,11 +3284,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * The election process starts multiple blocks before the end of the era.
        * If this is called just before a new era is triggered, the election process may not
        * have enough blocks to get a result.
-       * 
-       * # <weight>
-       * - Weight: O(1)
-       * - Write: ForceEra
-       * # </weight>
        **/
       forceNewEraAlways: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
@@ -3309,13 +3308,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Force a current staker to become completely unstaked, immediately.
        * 
        * The dispatch origin must be Root.
-       * 
-       * # <weight>
-       * O(S) where S is the number of slashing spans to be removed
-       * Reads: Bonded, Slashing Spans, Account, Locks
-       * Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,
-       * Account, Locks Writes Each: SpanSlash * S
-       * # </weight>
        **/
       forceUnstake: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
       /**
@@ -3351,7 +3343,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # <weight>
        * - The transaction's complexity is proportional to the size of `targets` (N)
-       * which is capped at CompactAssignments::LIMIT (MAX_NOMINATIONS).
+       * which is capped at CompactAssignments::LIMIT (T::MaxNominations).
        * - Both the reads and writes follow a similar pattern.
        * # </weight>
        **/
@@ -3465,11 +3457,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Set the validators who cannot be slashed (if any).
        * 
        * The dispatch origin must be Root.
-       * 
-       * # <weight>
-       * - O(V)
-       * - Write: Invulnerables
-       * # </weight>
        **/
       setInvulnerables: AugmentedSubmittable<(invulnerables: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>]>;
       /**
@@ -3660,11 +3647,6 @@ declare module '@polkadot/api-base/types/submittable' {
       remark: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Make some on-chain remark and emit event.
-       * 
-       * # <weight>
-       * - `O(b)` where b is the length of the remark.
-       * - 1 event.
-       * # </weight>
        **/
       remarkWithEvent: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
