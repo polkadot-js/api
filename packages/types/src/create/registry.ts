@@ -154,7 +154,7 @@ export class TypeRegistry implements Registry {
 
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
 
-  readonly #knownDefaults: RegistryTypes;
+  readonly #knownDefaults: Record<string, CodecClass>;
 
   readonly #knownDefinitions: Record<string, Definitions>;
 
@@ -169,9 +169,6 @@ export class TypeRegistry implements Registry {
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
     this.#knownDefinitions = definitions;
-
-    // register know, first classes then on-demand-created definitions
-    this.register(this.#knownDefaults);
 
     const allKnown = Object.values(this.#knownDefinitions);
 
@@ -252,7 +249,6 @@ export class TypeRegistry implements Registry {
 
   public clearCache (): void {
     this.#classes = new Map();
-    this.register(this.#knownDefaults);
   }
 
   /**
@@ -319,7 +315,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    let Type = this.#classes.get(name);
+    let Type = this.#knownDefaults[name] || this.#classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
@@ -361,6 +357,12 @@ export class TypeRegistry implements Registry {
     // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
     // (previously this used to be a simple find & return)
     const names: string[] = [];
+
+    for (const [name, Clazz] of Object.entries(this.#knownDefaults)) {
+      if (Type === Clazz) {
+        names.push(name);
+      }
+    }
 
     for (const [name, Clazz] of this.#classes.entries()) {
       if (Type === Clazz) {
@@ -405,7 +407,7 @@ export class TypeRegistry implements Registry {
   }
 
   public hasClass (name: string): boolean {
-    return this.#classes.has(name);
+    return !!this.#knownDefaults[name] || this.#classes.has(name);
   }
 
   public hasDef (name: string): boolean {
