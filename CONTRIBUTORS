@@ -1,4 +1,4 @@
-    2802	Jaco                          	Bump deps (#4531)
+    2803	Jaco                          	Re-decorate all runtime endpoints (#4532)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
