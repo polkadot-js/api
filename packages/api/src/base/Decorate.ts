@@ -213,7 +213,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       } as ApiDecoration<ApiType>;
     }
 
-    if (!registry.decoratedMeta) {
+    if (fromEmpty || !registry.decoratedMeta) {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
