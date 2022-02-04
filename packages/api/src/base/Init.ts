@@ -286,7 +286,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               thisRegistry.specVersion = version.specVersion;
 
               this._initRegistry(this.registry, this._runtimeChain as Text, version, metadata);
-              this._injectMetadata(thisRegistry, false);
+              this._injectMetadata(thisRegistry, true);
 
               return true;
             })
