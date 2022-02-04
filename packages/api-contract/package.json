@@ -20,20 +20,20 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.6.2-6",
+  "version": "7.6.2-7",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.0",
-    "@polkadot/api": "7.6.2-6",
-    "@polkadot/types": "7.6.2-6",
-    "@polkadot/types-codec": "7.6.2-6",
-    "@polkadot/types-create": "7.6.2-6",
+    "@polkadot/api": "7.6.2-7",
+    "@polkadot/types": "7.6.2-7",
+    "@polkadot/types-codec": "7.6.2-7",
+    "@polkadot/types-create": "7.6.2-7",
     "@polkadot/util": "^8.3.3",
     "@polkadot/util-crypto": "^8.3.3",
     "rxjs": "^7.5.2"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "7.6.2-6",
+    "@polkadot/api-augment": "7.6.2-7",
     "@polkadot/keyring": "^8.3.3"
   }
 }
