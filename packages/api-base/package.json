@@ -20,12 +20,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.6.2-8",
+  "version": "7.6.2-9",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.0",
-    "@polkadot/rpc-core": "7.6.2-8",
-    "@polkadot/types": "7.6.2-8",
+    "@polkadot/rpc-core": "7.6.2-9",
+    "@polkadot/types": "7.6.2-9",
     "@polkadot/util": "^8.3.3",
     "rxjs": "^7.5.2"
   }
