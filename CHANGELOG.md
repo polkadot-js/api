@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 7.7.1 Feb 6, 2022
 
 Upgrade priority: Low. Recommended for users with long-running scripts.
 
