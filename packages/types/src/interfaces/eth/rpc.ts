@@ -62,6 +62,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'EthCallRequest'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -87,6 +88,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'EthCallRequest'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -107,6 +109,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'H160'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -167,6 +170,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'H160'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -234,6 +238,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'U256'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -287,6 +292,7 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
         type: 'H256'
       },
       {
+        isHistorical: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
