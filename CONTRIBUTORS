@@ -85,6 +85,7 @@
        1	satellitex                    	Add BTreeSet<V> Codec (#1639)
        1	satellitex                    	Add traits replace rules. for invalid cases `::<type>` and `<type>::`. (#885)
        1	Satyam Agrawal                	update as per the 0.97.0-beta.38 release (#1617)
+       1	Scott Twiname                 	Add `isHistorical` field to relevant eth rpc requests (#4539)
        1	Sean Young                    	Solang requires u256 and i256 types (#2752)
        1	Sergei Pepyakin               	INK! -> ink! (#1347)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
