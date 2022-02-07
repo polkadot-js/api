@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue, Codec, CodecClass, ITuple, Registry } from '../types';
+import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types';
 
 import { isFunction, isHex, isString, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -101,6 +101,16 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   }
 
   /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    return {
+      params: this.inspectParams(),
+      value: new Uint8Array()
+    };
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
@@ -128,12 +138,6 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    const encoded = new Array<Uint8Array>(this.length);
-
-    for (let i = 0; i < this.length; i++) {
-      encoded[i] = this[i].toU8a(isBare);
-    }
-
-    return u8aConcat(...encoded);
+    return u8aConcat(...this.toU8aParams(isBare));
   }
 }

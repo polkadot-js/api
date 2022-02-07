@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Registry } from '../types';
+import type { AnyU8a, Inspect, Registry } from '../types';
 
 import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
@@ -55,6 +55,16 @@ export class BitVec extends Raw {
    */
   public override get encodedLength (): number {
     return this.length + compactToU8a(this.#decodedLength).length;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      params: [{ value: super.toU8a() }],
+      value: compactToU8a(this.#decodedLength)
+    };
   }
 
   public override toHuman (): string {

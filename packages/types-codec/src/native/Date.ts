@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, INumber, IU8a, Registry, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
@@ -65,6 +65,13 @@ export class CodecDate extends Date implements INumber {
   }
 
   /**
+   * @description Returns the number of bits in the value
+   */
+  public bitLength (): UIntBitLength {
+    return BITLENGTH;
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
@@ -72,10 +79,12 @@ export class CodecDate extends Date implements INumber {
   }
 
   /**
-   * @description Returns the number of bits in the value
+   * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public bitLength (): UIntBitLength {
-    return BITLENGTH;
+  inspect (): Inspect {
+    return {
+      value: this.toU8a()
+    };
   }
 
   /**

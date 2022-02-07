@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, IU8a, IVec, Registry } from '../types';
+import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -79,6 +79,26 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   }
 
   /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      params: this.inspectParams(),
+      value: compactToU8a(this.length)
+    };
+  }
+
+  inspectParams (): Inspect[] {
+    const params = new Array<Inspect>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      params[i] = this[i].inspect();
+    }
+
+    return params;
+  }
+
+  /**
    * @description Converts the Object to an standard JavaScript Array
    */
   public toArray (): T[] {
@@ -141,11 +161,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = new Array<Uint8Array>(this.length);
-
-    for (let i = 0; i < this.length; i++) {
-      encoded[i] = this[i].toU8a(isBare);
-    }
+    const encoded = this.toU8aParams();
 
     return isBare
       ? u8aConcat(...encoded)
@@ -153,6 +169,16 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
         compactToU8a(this.length),
         ...encoded
       );
+  }
+
+  public toU8aParams (isBare?: boolean): Uint8Array[] {
+    const encoded = new Array<Uint8Array>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      encoded[i] = this[i].toU8a(isBare);
+    }
+
+    return encoded;
   }
 
   // Below are methods that we override. When we do a `new Vec(...).map()`,

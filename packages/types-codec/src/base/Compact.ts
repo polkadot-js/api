@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, ICompact, INumber, IU8a, Registry } from '../types';
+import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 
@@ -98,6 +98,15 @@ export class Compact<T extends INumber> implements ICompact<T> {
         ? other.#raw
         : other
     );
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      value: this.toU8a()
+    };
   }
 
   /**

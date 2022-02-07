@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IMap, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
 
 import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -125,7 +125,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     let len = compactToU8a(this.size).length;
 
     for (const [k, v] of this.entries()) {
-      len += v.encodedLength + k.encodedLength;
+      len += k.encodedLength + v.encodedLength;
     }
 
     return len;
@@ -150,6 +150,23 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    */
   public eq (other?: unknown): boolean {
     return compareMap(this, other);
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    const params = new Array<Inspect>(this.size * 2);
+
+    for (const [k, v] of this.entries()) {
+      params.push(k.inspect());
+      params.push(v.inspect());
+    }
+
+    return {
+      params,
+      value: compactToU8a(this.size)
+    };
   }
 
   /**
