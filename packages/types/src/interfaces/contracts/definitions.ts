@@ -23,6 +23,12 @@ export default {
       _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
+    CodeSource: {
+      _enum: {
+        Upload: 'Bytes',
+        Existing: 'Hash'
+      }
+    },
     CodeUploadRequest: {
       origin: 'AccountId',
       code: 'Bytes',
@@ -239,7 +245,7 @@ export default {
       value: 'Balance',
       gasLimit: 'Gas',
       storageDepositLimit: 'Option<Balance>',
-      code: 'Bytes',
+      code: 'CodeSource',
       data: 'Bytes',
       salt: 'Bytes'
     },
@@ -249,11 +255,19 @@ export default {
         Err: 'Null'
       }
     },
-    ContractInstantiateResult: {
+    ContractInstantiateResultTo299: {
       _enum: {
         Ok: 'InstantiateReturnValue',
         Err: 'Null'
       }
+    },
+    ContractInstantiateResult: {
+      _fallback: 'ContractInstantiateResultTo299',
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'InstantiateReturnValue'
     },
     InstantiateReturnValueTo267: {
       result: 'ExecReturnValue',

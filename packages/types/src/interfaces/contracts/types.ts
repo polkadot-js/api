@@ -20,6 +20,15 @@ export interface AliveContractInfo extends Struct {
 /** @name CodeHash */
 export interface CodeHash extends Hash {}
 
+/** @name CodeSource */
+export interface CodeSource extends Enum {
+  readonly isUpload: boolean;
+  readonly asUpload: Bytes;
+  readonly isExisting: boolean;
+  readonly asExisting: Hash;
+  readonly type: 'Upload' | 'Existing';
+}
+
 /** @name CodeUploadRequest */
 export interface CodeUploadRequest extends Struct {
   readonly origin: AccountId;
@@ -147,17 +156,26 @@ export interface ContractInfo extends Enum {
 }
 
 /** @name ContractInstantiateResult */
-export interface ContractInstantiateResult extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValue;
-  readonly isErr: boolean;
-  readonly type: 'Ok' | 'Err';
+export interface ContractInstantiateResult extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: InstantiateReturnValue;
 }
 
 /** @name ContractInstantiateResultTo267 */
 export interface ContractInstantiateResultTo267 extends Enum {
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueTo267;
+  readonly isErr: boolean;
+  readonly type: 'Ok' | 'Err';
+}
+
+/** @name ContractInstantiateResultTo299 */
+export interface ContractInstantiateResultTo299 extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValue;
   readonly isErr: boolean;
   readonly type: 'Ok' | 'Err';
 }
@@ -296,7 +314,7 @@ export interface InstantiateRequest extends Struct {
   readonly value: Balance;
   readonly gasLimit: Gas;
   readonly storageDepositLimit: Option<Balance>;
-  readonly code: Bytes;
+  readonly code: CodeSource;
   readonly data: Bytes;
   readonly salt: Bytes;
 }
