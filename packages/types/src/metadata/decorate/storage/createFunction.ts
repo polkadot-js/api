@@ -3,7 +3,7 @@
 
 import type { ICompact, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
-import type { StorageEntry } from '../../../primitive/types';
+import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types';
 import type { Registry } from '../../../types';
 
 import { Raw } from '@polkadot/types-codec';
@@ -126,10 +126,10 @@ function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: Crea
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): StorageEntryIterator {
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  (iterFn as IterFn).meta = registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
+  const meta = registry.createTypeUnsafe<StorageEntryMetadataLatest>('StorageEntryMetadataLatest', [{
     docs,
     fallback: registry.createTypeUnsafe('Bytes', []),
     modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', [1]), // required
@@ -137,8 +137,14 @@ function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, secti
     type: registry.createTypeUnsafe('StorageEntryTypeLatest', [type.asMap.key, 0])
   }]);
 
-  return (...args: unknown[]) =>
-    registry.createTypeUnsafe('StorageKey', [iterFn(...args), { method, section }]);
+  (iterFn as IterFn).meta = meta;
+
+  const fn = (...args: unknown[]) =>
+    registry.createTypeUnsafe<StorageKey>('StorageKey', [iterFn(...args), { method, section }]);
+
+  fn.meta = meta;
+
+  return fn;
 }
 
 /** @internal */

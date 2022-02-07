@@ -86,7 +86,7 @@ describe('createFunction', (): void => {
       '1a7938fede32e1275281b3eee5708706d88444a6dc898a4dec463f1eb298463f' // AccountId
     );
     expect(
-      storageFn.meta.type.asPlain.toNumber()
+      storageFn.iterKey && storageFn.iterKey.meta.type.asPlain.toNumber()
     ).toEqual(0);
   });
 
