@@ -127,8 +127,6 @@ function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: Crea
 
 /** @internal */
 function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (...args: unknown[]) => Raw): (...args: unknown[]) => StorageKey {
-  const outputType = registry.createLookupType(type.asMap.key);
-
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = registry.createTypeUnsafe('StorageEntryMetadataLatest', [{
@@ -136,8 +134,7 @@ function extendHeadMeta (registry: Registry, { meta: { docs, name, type }, secti
     fallback: registry.createTypeUnsafe('Bytes', []),
     modifier: registry.createTypeUnsafe('StorageEntryModifierLatest', [1]), // required
     name,
-    // FIXME???
-    type: registry.createTypeUnsafe('StorageEntryTypeLatest', [outputType, 0])
+    type: registry.createTypeUnsafe('StorageEntryTypeLatest', [type.asMap.key, 0])
   }]);
 
   return (...args: unknown[]) =>

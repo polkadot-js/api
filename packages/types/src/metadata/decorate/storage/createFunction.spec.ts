@@ -75,9 +75,7 @@ describe('createFunction', (): void => {
 
     expect(
       u8aToHex(
-        storageFn(
-          'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
-        )
+        storageFn('DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4')
       )
     ).toEqual(
       '0x' +
@@ -87,6 +85,9 @@ describe('createFunction', (): void => {
       '79c598d130209ab0dea15637a5b16be7' + // blake 128
       '1a7938fede32e1275281b3eee5708706d88444a6dc898a4dec463f1eb298463f' // AccountId
     );
+    expect(
+      storageFn.meta.type.asPlain.toNumber()
+    ).toEqual(0);
   });
 
   it('allows creating of known 2 Map keys (with Bytes)', (): void => {
