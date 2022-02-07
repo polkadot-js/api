@@ -1,4 +1,4 @@
-    2805	Jaco                          	7.7.1 (#4535)
+    2806	Jaco                          	Adjust map header output type with lookup (#4536)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       36	Keith Ingram                  	Storage deposit limit changes (#4370)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
