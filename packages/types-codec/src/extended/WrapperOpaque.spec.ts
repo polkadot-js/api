@@ -44,4 +44,13 @@ describe('WrapperOpaque', (): void => {
       new WrapperOpaque(registry, 'u32').toRawType()
     ).toEqual('WrapperOpaque<u32>');
   });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new WrapperOpaque(registry, 'u32', '0x12345678').inspect()
+    ).toEqual({
+      inner: [{ inner: [], value: new Uint8Array([0x78, 0x56, 0x34, 0x12]) }],
+      value: new Uint8Array([4 << 2])
+    });
+  });
 });
