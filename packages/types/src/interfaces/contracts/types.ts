@@ -3,6 +3,7 @@
 
 import type { Bytes, Compact, Enum, Null, Option, Raw, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import type { DispatchError } from '@polkadot/types/interfaces/system';
 
 /** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {
@@ -320,7 +321,16 @@ export interface InstantiateRequest extends Struct {
 }
 
 /** @name InstantiateReturnValue */
-export interface InstantiateReturnValue extends Struct {
+export interface InstantiateReturnValue extends Enum {
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueOk;
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  readonly type: 'Ok' | 'Err';
+}
+
+/** @name InstantiateReturnValueOk */
+export interface InstantiateReturnValueOk extends Struct {
   readonly result: ExecReturnValue;
   readonly accountId: AccountId;
 }

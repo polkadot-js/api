@@ -274,10 +274,15 @@ export default {
       accountId: 'AccountId',
       rentProjection: 'Option<RentProjection>'
     },
-    InstantiateReturnValue: {
-      _fallback: 'InstantiateReturnValueTo267',
+    InstantiateReturnValueOk: {
       result: 'ExecReturnValue',
       accountId: 'AccountId'
+    },
+    InstantiateReturnValue: {
+      _enum: {
+        Ok: 'InstantiateReturnValueOk',
+        Err: 'DispatchError'
+      }
     },
     InstructionWeights: {
       i64const: 'u32',
