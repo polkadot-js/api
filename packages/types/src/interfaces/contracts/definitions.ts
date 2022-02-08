@@ -240,7 +240,26 @@ export default {
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
     },
+    InstantiateRequestV1: {
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    InstantiateRequestV2: {
+      _fallback: 'InstantiateRequestV1',
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
     InstantiateRequest: {
+      _fallback: 'InstantiateRequestV2',
       origin: 'AccountId',
       value: 'Balance',
       gasLimit: 'Gas',
@@ -259,7 +278,8 @@ export default {
       _enum: {
         Ok: 'InstantiateReturnValue',
         Err: 'Null'
-      }
+      },
+      _fallback: 'ContractInstantiateResultTo267'
     },
     ContractInstantiateResult: {
       _fallback: 'ContractInstantiateResultTo299',

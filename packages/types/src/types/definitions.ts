@@ -3,7 +3,7 @@
 
 export type DefinitionTypeType = string;
 
-export type DefinitionTypeEnum = { _enum: DefinitionTypeType[] } | { _enum: Record<string, DefinitionTypeType | null> };
+export type DefinitionTypeEnum = { _fallback?: DefinitionTypeType } & ({ _enum: DefinitionTypeType[] } | { _enum: Record<string, DefinitionTypeType | null> });
 
 export type DefinitionTypeSet = { _set: Record<string, number> };
 

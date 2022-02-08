@@ -39,8 +39,9 @@ function isRustEnum (details: Record<string, string> | Record<string, number>): 
 //  { _enum: ['A', 'B', 'C'] }
 //  { _enum: { A: AccountId, B: Balance, C: u32 } }
 //  { _enum: { A: 1, B: 2 } }
-function _decodeEnum (value: TypeDef, details: string[] | Record<string, string> | Record<string, number>, count: number): TypeDef {
+function _decodeEnum (value: TypeDef, details: string[] | Record<string, string> | Record<string, number>, count: number, fallbackType?: string): TypeDef {
   value.info = TypeDefInfo.Enum;
+  value.fallbackType = fallbackType;
 
   // not as pretty, but remain compatible with oo7 for both struct and Array types
   if (Array.isArray(details)) {
@@ -68,8 +69,9 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 
 // decode a set of the form
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
-function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
+function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackType: string | undefined): TypeDef {
   value.info = TypeDefInfo.Set;
+  value.fallbackType = fallbackType;
   value.length = details._bitLength;
   value.sub = Object
     .entries(details)
@@ -87,19 +89,19 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string };
+  const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string, _fallback?: string };
   const keys = Object.keys(parsed);
 
-  if (keys.length === 1 && keys[0] === '_enum') {
-    return _decodeEnum(value, parsed[keys[0]] as string[], count);
-  } else if (keys.length === 1 && keys[0] === '_set') {
-    return _decodeSet(value, parsed[keys[0]] as Record<string, number>);
+  if (keys.includes('_enum')) {
+    return _decodeEnum(value, parsed._enum as string[], count, parsed._fallback);
+  } else if (keys.includes('_set')) {
+    return _decodeSet(value, parsed._set as Record<string, number>, parsed._fallback);
   }
 
   value.alias = parsed._alias
     ? new Map(Object.entries(parsed._alias))
     : undefined;
-  value.fallbackType = parsed._fallback as string | undefined;
+  value.fallbackType = parsed._fallback;
   value.sub = keys.filter((name) => !KNOWN_INTERNALS.includes(name)).map((name): TypeDef =>
     getTypeDef(getTypeString(parsed[name]), { name }, count)
   );

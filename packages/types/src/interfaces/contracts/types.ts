@@ -320,6 +320,27 @@ export interface InstantiateRequest extends Struct {
   readonly salt: Bytes;
 }
 
+/** @name InstantiateRequestV1 */
+export interface InstantiateRequestV1 extends Struct {
+  readonly origin: AccountId;
+  readonly value: Balance;
+  readonly gasLimit: Gas;
+  readonly code: Bytes;
+  readonly data: Bytes;
+  readonly salt: Bytes;
+}
+
+/** @name InstantiateRequestV2 */
+export interface InstantiateRequestV2 extends Struct {
+  readonly origin: AccountId;
+  readonly value: Balance;
+  readonly gasLimit: Gas;
+  readonly storageDepositLimit: Option<Balance>;
+  readonly code: Bytes;
+  readonly data: Bytes;
+  readonly salt: Bytes;
+}
+
 /** @name InstantiateReturnValue */
 export interface InstantiateReturnValue extends Enum {
   readonly isOk: boolean;
