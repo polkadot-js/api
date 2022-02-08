@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyU8a, Codec, IU8a, Registry } from '../types';
+import type { AnyU8a, Codec, Inspect, IU8a, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Raw } from './Raw';
 
@@ -108,6 +108,18 @@ export class Text extends String implements Codec {
     return isString(other)
       ? this.toString() === other.toString()
       : false;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    const value = stringToU8a(super.toString());
+
+    return {
+      inner: [{ inner: [], value }],
+      value: compactToU8a(value.length)
+    };
   }
 
   /**

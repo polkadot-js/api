@@ -180,4 +180,18 @@ describe('BTreeSet', (): void => {
     expect(new (BTreeSet.with(Struct.with({ a: U32, b: Text })))(registry).toRawType())
       .toBe('BTreeSet<{"a":"u32","b":"Text"}>');
   });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new (BTreeSet.with(U32))(registry, [1, 2, 3, 4]).inspect()
+    ).toEqual({
+      inner: [
+        { inner: [], value: new Uint8Array([1, 0, 0, 0]) },
+        { inner: [], value: new Uint8Array([2, 0, 0, 0]) },
+        { inner: [], value: new Uint8Array([3, 0, 0, 0]) },
+        { inner: [], value: new Uint8Array([4, 0, 0, 0]) }
+      ],
+      value: new Uint8Array([4 << 2])
+    });
+  });
 });

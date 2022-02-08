@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IOption, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } from '../types';
 
 import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -135,6 +135,22 @@ export class Option<T extends Codec> implements IOption<T> {
     }
 
     return this.value.eq(other);
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: this.isSome
+        ? [this.#raw.inspect()]
+        : [],
+      value: new Uint8Array(
+        this.isSome
+          ? [1]
+          : [0]
+      )
+    };
   }
 
   /**

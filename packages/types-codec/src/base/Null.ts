@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, IU8a, Registry } from '../types';
+import type { Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isNull } from '@polkadot/util';
 
@@ -49,6 +49,16 @@ export class Null implements Codec {
    */
   public eq (other?: unknown): boolean {
     return other instanceof Null || isNull(other);
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: [],
+      value: new Uint8Array()
+    };
   }
 
   /**

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, IStruct, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, Inspect, IStruct, IU8a, Registry } from '../types';
 
 import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -214,6 +214,22 @@ export class Struct<
    */
   public getAtIndex (index: number): Codec {
     return this.toArray()[index];
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    const inner = new Array<Inspect>();
+
+    for (const [k, v] of this.entries()) {
+      inner.push({ ...v.inspect(), name: k.toString() });
+    }
+
+    return {
+      inner,
+      value: new Uint8Array()
+    };
   }
 
   /**

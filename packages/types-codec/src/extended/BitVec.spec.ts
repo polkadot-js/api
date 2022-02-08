@@ -28,4 +28,15 @@ describe('BitVec', (): void => {
       });
     });
   });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new BitVec(registry, '0x0837').inspect()
+    ).toEqual({
+      inner: [
+        { inner: [], value: new Uint8Array([0x08, 0x37]) }
+      ],
+      value: new Uint8Array([0])
+    });
+  });
 });

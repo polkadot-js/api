@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types-codec';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
@@ -12,7 +12,7 @@ import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
 import { Base } from '@polkadot/types-codec';
-import { assert, compactAddLength, compactFromU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
@@ -264,6 +264,21 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   }
 
   /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    const encoded = u8aConcat(...this.toU8aInner());
+
+    return {
+      inner: [{
+        inner: this.inner.inspect().inner,
+        value: new Uint8Array([this.version])
+      }],
+      value: compactToU8a(encoded.length)
+    };
+  }
+
+  /**
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
@@ -331,12 +346,19 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @param isBare true when the value is not length-prefixed
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    // we do not apply bare to the internal values, rather this only determines out length addition,
-    // where we strip all lengths this creates an extrinsic that cannot be decoded
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.inner.toU8a());
+    const encoded = u8aConcat(...this.toU8aInner());
 
     return isBare
       ? encoded
       : compactAddLength(encoded);
+  }
+
+  public toU8aInner (): Uint8Array[] {
+    // we do not apply bare to the internal values, rather this only determines out length addition,
+    // where we strip all lengths this creates an extrinsic that cannot be decoded
+    return [
+      new Uint8Array([this.version]),
+      this.inner.toU8a()
+    ];
   }
 }

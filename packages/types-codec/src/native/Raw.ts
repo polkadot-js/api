@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyU8a, IU8a, Registry } from '../types';
+import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
 
 import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
@@ -89,6 +89,16 @@ export class Raw extends Uint8Array implements IU8a {
     }
 
     return this.eq(u8aToU8a(other as string));
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: [],
+      value: this.toU8a()
+    };
   }
 
   /**

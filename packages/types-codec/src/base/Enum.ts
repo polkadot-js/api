@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IEnum, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
 import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -318,6 +318,18 @@ export class Enum implements IEnum {
 
     // compare the actual wrapper value
     return this.value.eq(other);
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: this.isBasic
+        ? []
+        : [this.#raw.inspect()],
+      value: new Uint8Array([this.index])
+    };
   }
 
   /**

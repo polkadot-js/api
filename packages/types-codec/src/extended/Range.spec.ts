@@ -28,4 +28,14 @@ describe('Range', (): void => {
   it('has a sane toRawType representation', (): void => {
     expect(range.toRawType()).toEqual('Range<u32>');
   });
+
+  it('has a sane inspect', (): void => {
+    expect(range.inspect()).toEqual({
+      inner: [
+        { inner: [], value: new Uint8Array([1, 0, 0, 0]) },
+        { inner: [], value: new Uint8Array([2, 0, 0, 0]) }
+      ],
+      value: new Uint8Array()
+    });
+  });
 });

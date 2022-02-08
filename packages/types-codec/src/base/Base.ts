@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types';
 
 /**
  * @name Base
@@ -57,6 +57,13 @@ export abstract class Base<T extends Codec> implements Codec {
    */
   public eq (other?: unknown): boolean {
     return this.#raw.eq(other);
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return this.#raw.inspect();
   }
 
   /**

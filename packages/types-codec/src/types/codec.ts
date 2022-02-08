@@ -58,6 +58,11 @@ export interface Codec {
   eq (other?: unknown): boolean;
 
   /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect;
+
+  /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   toHex (isLe?: boolean): HexString;

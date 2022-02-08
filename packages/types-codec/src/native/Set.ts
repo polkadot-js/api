@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { CodecClass, ISet, IU8a, Registry } from '../types';
+import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
 import { assert, BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -182,6 +182,16 @@ export class CodecSet extends Set<string> implements ISet<string> {
     }
 
     return false;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: [],
+      value: this.toU8a()
+    };
   }
 
   /**

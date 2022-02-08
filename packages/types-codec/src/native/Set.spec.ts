@@ -95,6 +95,13 @@ describe('Set', (): void => {
         set.eq('full')
       ).toBe(false);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(set.inspect()).toEqual({
+        inner: [],
+        value: new Uint8Array([SET_ROLES.full | SET_ROLES.authority])
+      });
+    });
   });
 
   it('has a sane toRawType representation', (): void => {

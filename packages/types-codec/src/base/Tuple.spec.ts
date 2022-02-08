@@ -7,6 +7,7 @@ import type { AnyTupleValue, CodecTo } from '@polkadot/types-codec/types';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { Text, Tuple, U32, U128 } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import { stringToU8a } from '@polkadot/util';
 
 describe('Tuple', (): void => {
   const registry = new TypeRegistry();
@@ -118,6 +119,18 @@ describe('Tuple', (): void => {
 
     it('compares against inputs (mismatch)', (): void => {
       expect(tuple.eq(['bazzing', 72])).toBe(false);
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        tuple.inspect()
+      ).toEqual({
+        inner: [
+          { inner: [{ inner: [], value: stringToU8a('bazzing') }], value: new Uint8Array([7 << 2]) },
+          { inner: [], value: new Uint8Array([69, 0, 0, 0]) }
+        ],
+        value: new Uint8Array()
+      });
     });
   });
 

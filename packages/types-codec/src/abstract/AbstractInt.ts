@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, INumber, IU8a, Registry, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
 import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn } from '@polkadot/util';
 
@@ -120,6 +120,16 @@ export abstract class AbstractInt extends BN implements INumber {
         ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
         : bnToBn(other as string)
     );
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      inner: [],
+      value: this.toU8a()
+    };
   }
 
   /**

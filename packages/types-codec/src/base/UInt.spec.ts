@@ -123,6 +123,15 @@ describe('UInt', (): void => {
     expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
   });
 
+  it('has a sane inspect', (): void => {
+    expect(
+      new UInt(registry, '0x12', 16).inspect()
+    ).toEqual({
+      inner: [],
+      value: new Uint8Array([0x12, 0x00])
+    });
+  });
+
   describe('eq', (): void => {
     const test = new UInt(registry, 12345);
 

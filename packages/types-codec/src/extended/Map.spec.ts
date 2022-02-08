@@ -5,6 +5,7 @@ import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { CodecMap, Text, U32 } from '@polkadot/types-codec';
+import { stringToU8a } from '@polkadot/util';
 
 const registry = new TypeRegistry();
 const mockU32TextMap = new Map<Text, U32>();
@@ -60,7 +61,7 @@ describe('CodecMap', (): void => {
     testEncode('toString', mockU32TextMapString);
   });
 
-  describe('encoding muple values', (): void => {
+  describe('encoding multiple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
         const s = new CodecMap(registry, Text, U32, mockU32U32Map, 'BTreeMap');
@@ -72,5 +73,34 @@ describe('CodecMap', (): void => {
     testEncode('toJSON', mockU32U32MapObject);
     testEncode('toU8a', mockU32U32MapUint8Array);
     testEncode('toString', mockU32U32MapString);
+  });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new CodecMap(registry, Text, Text, new Map([
+        [new Text(registry, '1'), new Text(registry, 'foo')],
+        [new Text(registry, '2'), new Text(registry, 'bar')]
+      ])).inspect()
+    ).toEqual({
+      inner: [
+        {
+          inner: [{ inner: [], value: stringToU8a('1') }],
+          value: new Uint8Array([1 << 2])
+        },
+        {
+          inner: [{ inner: [], value: stringToU8a('foo') }],
+          value: new Uint8Array([3 << 2])
+        },
+        {
+          inner: [{ inner: [], value: stringToU8a('2') }],
+          value: new Uint8Array([1 << 2])
+        },
+        {
+          inner: [{ inner: [], value: stringToU8a('bar') }],
+          value: new Uint8Array([3 << 2])
+        }
+      ],
+      value: new Uint8Array([2 << 2])
+    });
   });
 });
