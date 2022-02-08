@@ -85,8 +85,10 @@ export function createKeyInspect (registry: Registry, itemFn: CreateItemFn, args
     const { hashers, key } = meta.type.asMap;
 
     types = hashers.length === 1
-      ? [getSiName(registry.lookup, key)]
-      : registry.lookup.getSiType(key).def.asTuple.map((k) => getSiName(registry.lookup, k));
+      ? [`${hashers[0].type}(${getSiName(registry.lookup, key)})`]
+      : registry.lookup.getSiType(key).def.asTuple.map((k, i) =>
+        `${hashers[i].type}(${getSiName(registry.lookup, k)})`
+      );
   }
 
   const names = ['module', 'method'].concat(...args.args.map((_, i) => types[i]));

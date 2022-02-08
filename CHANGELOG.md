@@ -10,6 +10,7 @@ Changes:
 
 - Adjust map header output type with lookup id
 - Re-enable all `BitVec` tests for `toU8a`
+- Allow inspection of storage key breakdown (experimental)
 
 
 ## 7.7.1 Feb 6, 2022
