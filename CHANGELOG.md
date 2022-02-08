@@ -2,9 +2,14 @@
 
 ## master
 
+Contributed:
+
+- Add `isHistoric` flag to ETH RPCs (Thanks to https://github.com/stwiname)
+
 Changes:
 
 - Adjust map header output type with lookup id
+- Re-enable all `BitVec` tests for `toU8a`
 
 
 ## 7.7.1 Feb 6, 2022
