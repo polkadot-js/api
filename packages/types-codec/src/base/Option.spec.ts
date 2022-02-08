@@ -153,5 +153,17 @@ describe('Option', (): void => {
     it('unwrapOrDefault to specified if non-empty', (): void => {
       expect(new Option(registry, U32, '1234').unwrapOrDefault().toNumber()).toEqual(1234);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new Option(registry, U32, '1234').inspect()
+      ).toEqual({
+        inner: [{
+          inner: [],
+          value: new Uint8Array([210, 4, 0, 0])
+        }],
+        value: new Uint8Array([0x01])
+      });
+    });
   });
 });
