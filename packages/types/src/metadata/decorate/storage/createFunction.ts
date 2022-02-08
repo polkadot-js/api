@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ICompact, INumber } from '@polkadot/types-codec/types';
+import type { ICompact, Inspect, INumber } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
 import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types';
 import type { Registry } from '../../../types';
@@ -46,7 +46,14 @@ export const NO_RAW_ARGS: RawArgs = {
 };
 
 /** @internal */
-export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): Uint8Array {
+function assertArgs ({ method, section }: CreateItemFn, { args, keys }: RawArgs): void {
+  assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
+
+  assert(args.filter(filterDefined).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
+}
+
+/** @internal */
+export function createKeyRawParts (registry: Registry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): [Uint8Array[], Uint8Array[]] {
   const extra = new Array<Uint8Array>(keys.length);
 
   for (let i = 0; i < keys.length; i++) {
@@ -55,9 +62,36 @@ export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, { args
     );
   }
 
+  return [
+    [
+      xxhashAsU8a(itemFn.prefix, 128),
+      xxhashAsU8a(itemFn.method, 128)
+    ],
+    extra
+  ];
+}
+
+/** @internal */
+export function createKeyInspect (registry: Registry, itemFn: CreateItemFn, args: RawArgs): Inspect {
+  assertArgs(itemFn, args);
+
+  const [prefix, extra] = createKeyRawParts(registry, itemFn, args);
+  const names = ['module', 'method'].concat(...args.args.map((_, i) => `arg${i}`));
+
+  return {
+    inner: prefix
+      .concat(...extra)
+      .map((value, i) => ({ inner: [], name: names[i], value })),
+    value: new Uint8Array()
+  };
+}
+
+/** @internal */
+export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, args: RawArgs): Uint8Array {
+  const [prefix, extra] = createKeyRawParts(registry, itemFn, args);
+
   return u8aConcat(
-    xxhashAsU8a(itemFn.prefix, 128),
-    xxhashAsU8a(itemFn.method, 128),
+    ...prefix,
     ...extra
   );
 }
@@ -68,20 +102,36 @@ function filterDefined (a: unknown): boolean {
 }
 
 /** @internal */
-function createKey (registry: Registry, itemFn: CreateItemFn, { args, hashers, keys }: RawArgs): Uint8Array {
-  const { method, section } = itemFn;
+function createKey (registry: Registry, itemFn: CreateItemFn, args: RawArgs): Uint8Array {
+  assertArgs(itemFn, args);
 
-  assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
-  assert(args.filter(filterDefined).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
-
-  // as per createKey, always add the length prefix (underlying it is Bytes)
+  // always add the length prefix (underlying it is Bytes)
   return compactAddLength(
-    createKeyRaw(registry, itemFn, { args, hashers, keys })
+    createKeyRaw(registry, itemFn, args)
   );
 }
 
 /** @internal */
-function createWStorageFn (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Uint8Array {
+function createStorageInspect (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Inspect {
+  const { meta: { type } } = itemFn;
+
+  return (...args: unknown[]) => {
+    if (type.isPlain) {
+      return options.skipHashing
+        ? { inner: [], name: 'encoded', value: u8aToU8a(options.key) }
+        : createKeyInspect(registry, itemFn, NO_RAW_ARGS);
+    }
+
+    const { hashers, key } = type.asMap;
+
+    return hashers.length === 1
+      ? createKeyInspect(registry, itemFn, { args, hashers, keys: [key] })
+      : createKeyInspect(registry, itemFn, { args, hashers, keys: registry.lookup.getSiType(key).def.asTuple });
+  };
+}
+
+/** @internal */
+function createStorageFn (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Uint8Array {
   const { meta: { type } } = itemFn;
   let cacheKey: Uint8Array | null = null;
 
@@ -104,15 +154,16 @@ function createWStorageFn (registry: Registry, itemFn: CreateItemFn, options: Cr
 
     return hashers.length === 1
       ? createKey(registry, itemFn, { args, hashers, keys: [key] })
-      : createKey(registry, itemFn, { args, hashers, keys: (registry).lookup.getSiType(key).def.asTuple });
+      : createKey(registry, itemFn, { args, hashers, keys: registry.lookup.getSiType(key).def.asTuple });
   };
 }
 
 /** @internal */
 function createWithMeta (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta, method, prefix, section } = itemFn;
-  const storageFn = createWStorageFn(registry, itemFn, options) as StorageEntry;
+  const storageFn = createStorageFn(registry, itemFn, options) as StorageEntry;
 
+  storageFn.inspect = createStorageInspect(registry, itemFn, options);
   storageFn.meta = meta;
   storageFn.method = stringCamelCase(method);
   storageFn.prefix = prefix;
@@ -165,7 +216,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
         const { hashers, key } = type.asMap;
         const keysVec = hashers.length === 1
           ? [key]
-          : (registry).lookup.getSiType(key).def.asTuple;
+          : registry.lookup.getSiType(key).def.asTuple;
 
         return new Raw(registry, createKeyRaw(registry, itemFn, { args, hashers: hashers.slice(0, args.length), keys: keysVec.slice(0, args.length) }));
       }

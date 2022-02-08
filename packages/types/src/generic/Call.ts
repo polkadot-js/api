@@ -127,7 +127,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       let method = 'unknown.unknown';
 
       try {
-        const c = (registry).findMetaCall(decoded.callIndex);
+        const c = registry.findMetaCall(decoded.callIndex);
 
         method = `${c.section}.${c.method}`;
       } catch (error) {
