@@ -11,6 +11,7 @@ import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { StorageKey } from '../../../primitive';
+import { getSiName } from '../../util';
 import { getHasher } from './getHasher';
 
 export interface CreateItemOptions {
@@ -75,8 +76,20 @@ export function createKeyRawParts (registry: Registry, itemFn: CreateItemBase, {
 export function createKeyInspect (registry: Registry, itemFn: CreateItemFn, args: RawArgs): Inspect {
   assertArgs(itemFn, args);
 
+  const { meta } = itemFn;
   const [prefix, extra] = createKeyRawParts(registry, itemFn, args);
-  const names = ['module', 'method'].concat(...args.args.map((_, i) => `arg${i}`));
+
+  let types: string[] = [];
+
+  if (meta.type.isMap) {
+    const { hashers, key } = meta.type.asMap;
+
+    types = hashers.length === 1
+      ? [getSiName(registry.lookup, key)]
+      : registry.lookup.getSiType(key).def.asTuple.map((k) => getSiName(registry.lookup, k));
+  }
+
+  const names = ['module', 'method'].concat(...args.args.map((_, i) => types[i]));
 
   return {
     inner: prefix
