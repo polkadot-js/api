@@ -220,11 +220,10 @@ export class Struct<
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    const u8as = this.toU8aInner();
-    const inner = new Array<Inspect>(u8as.length);
+    const inner = new Array<Inspect>();
 
-    for (let i = 0; i < u8as.length; i++) {
-      inner[i] = { inner: [], value: u8as[i] };
+    for (const v of this.values()) {
+      inner.push(v.inspect());
     }
 
     return {

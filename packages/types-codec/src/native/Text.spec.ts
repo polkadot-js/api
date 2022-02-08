@@ -5,6 +5,7 @@ import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { Bytes, Raw, Text } from '@polkadot/types-codec';
+import { stringToU8a } from '@polkadot/util';
 
 describe('Text', (): void => {
   const registry = new TypeRegistry();
@@ -63,6 +64,15 @@ describe('Text', (): void => {
 
       expect(test.encodedLength).toEqual(7);
       expect(test).toHaveLength(2);
+    });
+
+    it('has a snae inspect', (): void => {
+      expect(
+        new Text(registry, 'abcde').inspect()
+      ).toEqual({
+        inner: [{ inner: [], value: stringToU8a('abcde') }],
+        value: new Uint8Array([5 << 2])
+      });
     });
   });
 });
