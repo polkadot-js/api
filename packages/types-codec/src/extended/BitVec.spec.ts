@@ -22,7 +22,7 @@ describe('BitVec', (): void => {
       });
 
       // FIXME These do not align at all
-      it.skip('re-encodes to the same input value', (): void => {
+      it('re-encodes to the same input value', (): void => {
         expect(
           new BitVec(registry, input).toU8a()
         ).toEqual(input);
