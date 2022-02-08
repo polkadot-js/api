@@ -127,6 +127,7 @@ export abstract class AbstractInt extends BN implements INumber {
    */
   inspect (): Inspect {
     return {
+      inner: [],
       value: this.toU8a()
     };
   }

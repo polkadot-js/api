@@ -60,9 +60,9 @@ export class BitVec extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  override inspect (): Inspect {
     return {
-      params: [{ value: super.toU8a() }],
+      inner: [{ inner: [], value: super.toU8a() }],
       value: compactToU8a(this.#decodedLength)
     };
   }

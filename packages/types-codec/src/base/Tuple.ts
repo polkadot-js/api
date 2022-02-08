@@ -105,7 +105,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   override inspect (): Inspect {
     return {
-      params: this.inspectParams(),
+      inner: this.inspectInner(),
       value: new Uint8Array()
     };
   }
@@ -138,6 +138,6 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(...this.toU8aParams(isBare));
+    return u8aConcat(...this.toU8aInner(isBare));
   }
 }

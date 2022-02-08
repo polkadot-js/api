@@ -325,7 +325,9 @@ export class Enum implements IEnum {
    */
   inspect (): Inspect {
     return {
-      params: [this.#raw.inspect()],
+      inner: this.isBasic
+        ? []
+        : [this.#raw.inspect()],
       value: new Uint8Array([this.index])
     };
   }

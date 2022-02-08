@@ -142,7 +142,7 @@ export class Option<T extends Codec> implements IOption<T> {
    */
   inspect (): Inspect {
     return {
-      params: this.isSome
+      inner: this.isSome
         ? [this.#raw.inspect()]
         : [],
       value: new Uint8Array(

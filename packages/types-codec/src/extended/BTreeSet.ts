@@ -142,14 +142,14 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    const params = new Array<Inspect>(this.size);
+    const inner = new Array<Inspect>();
 
     for (const v of this.values()) {
-      params.push(v.inspect());
+      inner.push(v.inspect());
     }
 
     return {
-      params,
+      inner,
       value: compactToU8a(this.size)
     };
   }

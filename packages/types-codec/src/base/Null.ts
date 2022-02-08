@@ -56,6 +56,7 @@ export class Null implements Codec {
    */
   inspect (): Inspect {
     return {
+      inner: [],
       value: new Uint8Array()
     };
   }

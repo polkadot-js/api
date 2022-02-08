@@ -220,15 +220,15 @@ export class Struct<
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    const u8as = this.toU8aParams();
-    const params = new Array<Inspect>(u8as.length);
+    const u8as = this.toU8aInner();
+    const inner = new Array<Inspect>(u8as.length);
 
     for (let i = 0; i < u8as.length; i++) {
-      params[i] = { value: u8as[i] };
+      inner[i] = { inner: [], value: u8as[i] };
     }
 
     return {
-      params,
+      inner,
       value: new Uint8Array()
     };
   }
@@ -294,10 +294,10 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return u8aConcat(...this.toU8aParams(isBare));
+    return u8aConcat(...this.toU8aInner(isBare));
   }
 
-  public toU8aParams (isBare?: BareOpts): Uint8Array[] {
+  public toU8aInner (isBare?: BareOpts): Uint8Array[] {
     const encoded: Uint8Array[] = [];
 
     for (const [k, v] of this.entries()) {

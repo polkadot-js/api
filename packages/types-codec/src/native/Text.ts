@@ -114,11 +114,11 @@ export class Text extends String implements Codec {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    const encoded = stringToU8a(super.toString());
+    const value = stringToU8a(super.toString());
 
     return {
-      params: [{ value: encoded }],
-      value: compactToU8a(encoded.length)
+      inner: [{ inner: [], value }],
+      value: compactToU8a(value.length)
     };
   }
 

@@ -189,6 +189,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    */
   inspect (): Inspect {
     return {
+      inner: [],
       value: this.toU8a()
     };
   }

@@ -65,7 +65,7 @@ export class Bytes extends Raw {
    */
   override inspect (): Inspect {
     return {
-      params: [{ value: this }],
+      inner: [{ inner: [], value: this }],
       value: compactToU8a(this.length)
     };
   }

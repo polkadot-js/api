@@ -156,15 +156,15 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    const params = new Array<Inspect>(this.size * 2);
+    const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
-      params.push(k.inspect());
-      params.push(v.inspect());
+      inner.push(k.inspect());
+      inner.push(v.inspect());
     }
 
     return {
-      params,
+      inner,
       value: compactToU8a(this.size)
     };
   }

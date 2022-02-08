@@ -75,7 +75,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    */
   override inspect (): Inspect {
     return {
-      params: this.inspectParams(),
+      inner: this.inspectInner(),
       value: new Uint8Array()
     };
   }
@@ -83,7 +83,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   public override toU8a (): Uint8Array {
     // we override, we don't add the length prefix for ourselves, and at the same time we
     // ignore isBare on entries, since they should be properly encoded at all times
-    const encoded = this.toU8aParams();
+    const encoded = this.toU8aInner();
 
     return encoded.length
       ? u8aConcat(...encoded)

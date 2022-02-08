@@ -9,7 +9,7 @@ import type { Registry } from './registry';
 export type BareOpts = boolean | Record<string, boolean>;
 
 export interface Inspect {
-  params?: Inspect[];
+  inner: Inspect[];
   value?: Uint8Array;
 }
 
