@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, IStruct, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, Inspect, IStruct, IU8a, Registry } from '../types';
 
 import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -217,6 +217,23 @@ export class Struct<
   }
 
   /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    const u8as = this.toU8aParams();
+    const params = new Array<Inspect>(u8as.length);
+
+    for (let i = 0; i < u8as.length; i++) {
+      params[i] = { value: u8as[i] };
+    }
+
+    return {
+      params,
+      value: new Uint8Array()
+    };
+  }
+
+  /**
    * @description Converts the Object to an standard JavaScript Array
    */
   public toArray (): Codec[] {
@@ -277,6 +294,10 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
+    return u8aConcat(...this.toU8aParams(isBare));
+  }
+
+  public toU8aParams (isBare?: BareOpts): Uint8Array[] {
     const encoded: Uint8Array[] = [];
 
     for (const [k, v] of this.entries()) {
@@ -291,6 +312,6 @@ export class Struct<
       }
     }
 
-    return u8aConcat(...encoded);
+    return encoded;
   }
 }
