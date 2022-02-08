@@ -89,13 +89,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   }
 
   inspectInner (): Inspect[] {
-    const params = new Array<Inspect>(this.length);
+    const inner = new Array<Inspect>(this.length);
 
     for (let i = 0; i < this.length; i++) {
-      params[i] = this[i].inspect();
+      inner[i] = this[i].inspect();
     }
 
-    return params;
+    return inner;
   }
 
   /**
@@ -165,10 +165,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
     return isBare
       ? u8aConcat(...encoded)
-      : u8aConcat(
-        compactToU8a(this.length),
-        ...encoded
-      );
+      : u8aConcat(compactToU8a(this.length), ...encoded);
   }
 
   public toU8aInner (isBare?: boolean): Uint8Array[] {
