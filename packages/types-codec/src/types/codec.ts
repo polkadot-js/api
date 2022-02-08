@@ -10,6 +10,7 @@ export type BareOpts = boolean | Record<string, boolean>;
 
 export interface Inspect {
   inner: Inspect[];
+  name?: string;
   value?: Uint8Array;
 }
 
