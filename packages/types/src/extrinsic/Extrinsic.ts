@@ -270,10 +270,10 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
     const encoded = u8aConcat(...this.toU8aInner());
 
     return {
-      inner: [
-        { inner: [], value: new Uint8Array([this.version]) },
-        ...this.inner.inspect().inner
-      ],
+      inner: [{
+        inner: this.inner.inspect().inner,
+        value: new Uint8Array([this.version])
+      }],
       value: compactToU8a(encoded.length)
     };
   }

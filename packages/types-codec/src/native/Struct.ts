@@ -293,10 +293,6 @@ export class Struct<
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return u8aConcat(...this.toU8aInner(isBare));
-  }
-
-  public toU8aInner (isBare?: BareOpts): Uint8Array[] {
     const encoded: Uint8Array[] = [];
 
     for (const [k, v] of this.entries()) {
@@ -311,6 +307,6 @@ export class Struct<
       }
     }
 
-    return encoded;
+    return u8aConcat(...encoded);
   }
 }
