@@ -222,8 +222,8 @@ export class Struct<
   inspect (): Inspect {
     const inner = new Array<Inspect>();
 
-    for (const v of this.values()) {
-      inner.push(v.inspect());
+    for (const [k, v] of this.entries()) {
+      inner.push({ ...v.inspect(), name: k.toString() });
     }
 
     return {
