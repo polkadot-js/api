@@ -73,5 +73,12 @@ describe('Date', (): void => {
     it('compares values (non-match)', (): void => {
       expect(new CodecDate(registry, 123).eq(456)).toBe(false);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(new CodecDate(registry, 3).inspect()).toEqual({
+        inner: [],
+        value: new Uint8Array([3, 0, 0, 0, 0, 0, 0, 0])
+      });
+    });
   });
 });
