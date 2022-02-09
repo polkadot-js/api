@@ -24,12 +24,12 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@polkadot/util": "^8.3.4-8"
+    "@polkadot/util": "^8.3.4-10"
   },
   "devDependencies": {
     "@polkadot/types": "7.7.2-9",
     "@polkadot/types-augment": "7.7.2-9",
     "@polkadot/types-support": "7.7.2-9",
-    "@polkadot/util-crypto": "^8.3.4-8"
+    "@polkadot/util-crypto": "^8.3.4-10"
   }
 }
