@@ -29,6 +29,6 @@
     "@polkadot/types": "7.7.2-9",
     "@polkadot/types-augment": "7.7.2-9",
     "@polkadot/types-codec": "7.7.2-9",
-    "@polkadot/util": "^8.3.4-8"
+    "@polkadot/util": "^8.3.4-10"
   }
 }
