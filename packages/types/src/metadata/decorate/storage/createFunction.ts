@@ -129,10 +129,10 @@ function createKey (registry: Registry, itemFn: CreateItemFn, args: RawArgs): Ui
 function createStorageInspect (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): (...args: unknown[]) => Inspect {
   const { meta: { type } } = itemFn;
 
-  return (...args: unknown[]) => {
+  return (...args: unknown[]): Inspect => {
     if (type.isPlain) {
       return options.skipHashing
-        ? { inner: [], name: 'encoded', value: u8aToU8a(options.key) }
+        ? { inner: [], name: 'wellKnown', outer: [u8aToU8a(options.key)] }
         : createKeyInspect(registry, itemFn, NO_RAW_ARGS);
     }
 

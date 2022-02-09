@@ -223,7 +223,10 @@ export class Struct<
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
-      inner.push({ ...v.inspect(), name: k.toString() });
+      inner.push({
+        ...v.inspect(),
+        name: stringCamelCase(k as string)
+      });
     }
 
     return {
