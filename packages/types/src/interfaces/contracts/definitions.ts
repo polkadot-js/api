@@ -23,6 +23,12 @@ export default {
       _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
+    CodeSource: {
+      _enum: {
+        Upload: 'Bytes',
+        Existing: 'Hash'
+      }
+    },
     CodeUploadRequest: {
       origin: 'AccountId',
       code: 'Bytes',
@@ -234,12 +240,31 @@ export default {
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
     },
-    InstantiateRequest: {
+    InstantiateRequestV1: {
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    InstantiateRequestV2: {
+      _fallback: 'InstantiateRequestV1',
       origin: 'AccountId',
       value: 'Balance',
       gasLimit: 'Gas',
       storageDepositLimit: 'Option<Balance>',
       code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    InstantiateRequest: {
+      _fallback: 'InstantiateRequestV2',
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
+      code: 'CodeSource',
       data: 'Bytes',
       salt: 'Bytes'
     },
@@ -249,21 +274,35 @@ export default {
         Err: 'Null'
       }
     },
-    ContractInstantiateResult: {
+    ContractInstantiateResultTo299: {
       _enum: {
         Ok: 'InstantiateReturnValue',
         Err: 'Null'
-      }
+      },
+      _fallback: 'ContractInstantiateResultTo267'
+    },
+    ContractInstantiateResult: {
+      _fallback: 'ContractInstantiateResultTo299',
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'InstantiateReturnValue'
     },
     InstantiateReturnValueTo267: {
       result: 'ExecReturnValue',
       accountId: 'AccountId',
       rentProjection: 'Option<RentProjection>'
     },
-    InstantiateReturnValue: {
-      _fallback: 'InstantiateReturnValueTo267',
+    InstantiateReturnValueOk: {
       result: 'ExecReturnValue',
       accountId: 'AccountId'
+    },
+    InstantiateReturnValue: {
+      _enum: {
+        Ok: 'InstantiateReturnValueOk',
+        Err: 'DispatchError'
+      }
     },
     InstructionWeights: {
       i64const: 'u32',
