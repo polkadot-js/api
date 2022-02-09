@@ -58,16 +58,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.0, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
-  version: 7.17.0
-  resolution: "@babel/core@npm:7.17.0"
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.2, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+  version: 7.17.2
+  resolution: "@babel/core@npm:7.17.2"
   dependencies:
     "@ampproject/remapping": ^2.0.0
     "@babel/code-frame": ^7.16.7
     "@babel/generator": ^7.17.0
     "@babel/helper-compilation-targets": ^7.16.7
     "@babel/helper-module-transforms": ^7.16.7
-    "@babel/helpers": ^7.17.0
+    "@babel/helpers": ^7.17.2
     "@babel/parser": ^7.17.0
     "@babel/template": ^7.16.7
     "@babel/traverse": ^7.17.0
@@ -77,7 +77,7 @@ __metadata:
     gensync: ^1.0.0-beta.2
     json5: ^2.1.2
     semver: ^6.3.0
-  checksum: b05ab50ee3234cf6ead6fc947fff1c577773040d88b6fea64efda046c3b87aa596c5bbfe2bd287680102bda620e5294625fe1350a54d800d09cca51435b70918
+  checksum: 68ab3459f41b41feb5cb263937f15e418e1c46998d482d1b6dfe34f78064765466cfd5b10205c22fb16b69dbd1d46e7a3c26c067884ca4eb514b3dac1e09a57f
   languageName: node
   linkType: hard
 
@@ -346,14 +346,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.17.0":
-  version: 7.17.0
-  resolution: "@babel/helpers@npm:7.17.0"
+"@babel/helpers@npm:^7.17.2":
+  version: 7.17.2
+  resolution: "@babel/helpers@npm:7.17.2"
   dependencies:
     "@babel/template": ^7.16.7
     "@babel/traverse": ^7.17.0
     "@babel/types": ^7.17.0
-  checksum: fed0b0d8fe1b0aef18a0dbc4a0683bbcb039fd3fcff09a4f5b2a1e8f5fc911368983a9a177610c4a88f35ed5c3f5d51bf971ff01596e6f384414dcee2de694a4
+  checksum: 5fa06bbf59636314fb4098bb2e70cf488e0fb6989553438abab90356357b79976102ac129fb16fc8186893c79e0809de1d90e3304426d6fcdb1750da2b6dff9d
   languageName: node
   linkType: hard
 
@@ -1386,12 +1386,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.0, @babel/runtime@npm:^7.8.4":
-  version: 7.17.0
-  resolution: "@babel/runtime@npm:7.17.0"
+"@babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.0, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.8.4":
+  version: 7.17.2
+  resolution: "@babel/runtime@npm:7.17.2"
   dependencies:
     regenerator-runtime: ^0.13.4
-  checksum: 1864ac3c6aa061798c706ce858af311f06f6ad6efafc20cca7029fdaa9786c58ccaf5bdb8bd133cb505f27bed7659b65f1503b8da58adbd1eb88f7333644e6ed
+  checksum: a48702d271ecc59c09c397856407afa29ff980ab537b3da58eeee1aeaa0f545402d340a1680c9af58aec94dfdcbccfb6abb211991b74686a86d03d3f6956cacd
   languageName: node
   linkType: hard
 
@@ -1899,7 +1899,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-augment@workspace:packages/api-augment"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/api-base": 7.7.2-8
     "@polkadot/rpc-augment": 7.7.2-8
     "@polkadot/types": 7.7.2-8
@@ -1913,11 +1913,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-base@workspace:packages/api-base"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/rpc-core": 7.7.2-8
     "@polkadot/types": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
@@ -1925,7 +1925,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/api": 7.7.2-8
     "@polkadot/api-augment": 7.7.2-8
     "@polkadot/keyring": ^8.3.4-8
@@ -1934,7 +1934,7 @@ __metadata:
     "@polkadot/types-create": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
     "@polkadot/util-crypto": ^8.3.4-8
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
@@ -1942,7 +1942,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/api": 7.7.2-8
     "@polkadot/api-augment": 7.7.2-8
     "@polkadot/api-base": 7.7.2-8
@@ -1954,7 +1954,7 @@ __metadata:
     "@polkadot/types-support": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
     "@polkadot/util-crypto": ^8.3.4-8
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
@@ -1962,7 +1962,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/api-augment": 7.7.2-8
     "@polkadot/api-base": 7.7.2-8
     "@polkadot/api-derive": 7.7.2-8
@@ -1979,16 +1979,16 @@ __metadata:
     "@polkadot/util": ^8.3.4-8
     "@polkadot/util-crypto": ^8.3.4-8
     eventemitter3: ^4.0.7
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.65.51":
-  version: 0.65.51
-  resolution: "@polkadot/dev@npm:0.65.51"
+"@polkadot/dev@npm:^0.65.52":
+  version: 0.65.52
+  resolution: "@polkadot/dev@npm:0.65.52"
   dependencies:
     "@babel/cli": ^7.17.0
-    "@babel/core": ^7.17.0
+    "@babel/core": ^7.17.2
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.16.7
     "@babel/plugin-proposal-numeric-separator": ^7.16.7
     "@babel/plugin-proposal-optional-chaining": ^7.16.7
@@ -2002,7 +2002,7 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
     "@babel/register": ^7.17.0
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@rollup/plugin-alias": ^3.1.9
     "@rollup/plugin-commonjs": ^21.0.1
     "@rollup/plugin-inject": ^4.0.4
@@ -2071,7 +2071,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 34cb006be03da5d35fe2d4914bde25f1fcf400df577e09678090bd98841f3bd8fddc42f6c1e50c1e3bcbcdc3904621dfcbde35757a8ea17202d1f524cbee3e75
+  checksum: 1c0e02fec855db73fd9d17f6051419ce278d9572d1df9c1c1f7a5f0b0e46668729015dce07197a2d2f34db4c898e564d8ffeaab9483eef5915685975bf1e317f
   languageName: node
   linkType: hard
 
@@ -2104,7 +2104,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/rpc-core": 7.7.2-8
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-codec": 7.7.2-8
@@ -2116,13 +2116,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/keyring": ^8.3.4-8
     "@polkadot/rpc-augment": 7.7.2-8
     "@polkadot/rpc-provider": 7.7.2-8
     "@polkadot/types": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
@@ -2130,7 +2130,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/keyring": ^8.3.4-8
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-support": 7.7.2-8
@@ -2149,9 +2149,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.17.0
+    "@babel/core": ^7.17.2
     "@babel/register": ^7.17.0
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/api": 7.7.2-8
     "@polkadot/api-augment": 7.7.2-8
     "@polkadot/rpc-augment": 7.7.2-8
@@ -2181,7 +2181,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-codec": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
@@ -2192,7 +2192,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-augment": 7.7.2-8
     "@polkadot/types-support": 7.7.2-8
@@ -2205,7 +2205,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-codec": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
@@ -2216,7 +2216,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/networks": ^8.3.4-8
     "@polkadot/types": 7.7.2-8
     "@polkadot/types-codec": 7.7.2-8
@@ -2229,7 +2229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/util": ^8.3.4-8
   languageName: unknown
   linkType: soft
@@ -2238,7 +2238,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.17.0
+    "@babel/runtime": ^7.17.2
     "@polkadot/keyring": ^8.3.4-8
     "@polkadot/types-augment": 7.7.2-8
     "@polkadot/types-codec": 7.7.2-8
@@ -2246,7 +2246,7 @@ __metadata:
     "@polkadot/types-support": 7.7.2-8
     "@polkadot/util": ^8.3.4-8
     "@polkadot/util-crypto": ^8.3.4-8
-    rxjs: ^7.5.2
+    rxjs: ^7.5.3
   languageName: unknown
   linkType: soft
 
@@ -8958,10 +8958,10 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.17.0
+    "@babel/core": ^7.17.2
     "@babel/register": ^7.17.0
-    "@babel/runtime": ^7.17.0
-    "@polkadot/dev": ^0.65.51
+    "@babel/runtime": ^7.17.2
+    "@polkadot/dev": ^0.65.52
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.0
     copyfiles: ^2.4.1
@@ -8991,12 +8991,12 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.2":
-  version: 7.5.2
-  resolution: "rxjs@npm:7.5.2"
+"rxjs@npm:^7.5.3":
+  version: 7.5.3
+  resolution: "rxjs@npm:7.5.3"
   dependencies:
     tslib: ^2.1.0
-  checksum: daf1fe7289de500b25d822fd96cde3c138c7902e8bf0e6aa12a3e70847a5cabeeb4d677f10e19387e1db44b12c5b1be0ff5c79b8cd63ed6ce891d765e566cf4d
+  checksum: 0e1f45ef20e45aee940dddb8158a489616b0574eff493f790092f8021dc215c65440b8332498edd42a59e37d10c900493d6a598a260a491eb9faefdd0d876f7b
   languageName: node
   linkType: hard
 
