@@ -97,12 +97,14 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
     const value = this.inner.toU8a().subarray(0, this._rawLength);
 
     return {
-      inner: [{ inner: [], value }],
-      value: new Uint8Array(
-        this.inner instanceof GenericAccountIndex
-          ? GenericAccountIndex.writeLength(value)
-          : ACCOUNT_ID_PREFIX
-      )
+      outer: [
+        new Uint8Array(
+          this.inner instanceof GenericAccountIndex
+            ? GenericAccountIndex.writeLength(value)
+            : ACCOUNT_ID_PREFIX
+        ),
+        value
+      ]
     };
   }
 

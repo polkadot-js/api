@@ -165,7 +165,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
     return {
       inner,
-      value: compactToU8a(this.size)
+      outer: [compactToU8a(this.size)]
     };
   }
 

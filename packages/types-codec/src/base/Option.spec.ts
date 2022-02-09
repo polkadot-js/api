@@ -158,11 +158,7 @@ describe('Option', (): void => {
       expect(
         new Option(registry, U32, '1234').inspect()
       ).toEqual({
-        inner: [{
-          inner: [],
-          value: new Uint8Array([210, 4, 0, 0])
-        }],
-        value: new Uint8Array([0x01])
+        outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
       });
     });
   });

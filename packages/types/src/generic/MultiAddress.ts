@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Inspect, Registry } from '@polkadot/types-codec/types';
 
 import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
@@ -50,6 +50,18 @@ export class GenericMultiAddress extends Enum {
       // eslint-disable-next-line sort-keys
       Address20: 'H160'
     }, decodeMultiAny(registry, value));
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    const { inner, outer = [] } = this.inner.inspect();
+
+    return {
+      inner: inner,
+      outer: [new Uint8Array([this.index]), ...outer]
+    };
   }
 
   /**

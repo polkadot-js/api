@@ -150,7 +150,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
     return {
       inner,
-      value: compactToU8a(this.size)
+      outer: [compactToU8a(this.size)]
     };
   }
 

@@ -117,8 +117,9 @@ export class Text extends String implements Codec {
     const value = stringToU8a(super.toString());
 
     return {
-      inner: [{ inner: [], value }],
-      value: compactToU8a(value.length)
+      outer: value.length
+        ? [compactToU8a(value.length), value]
+        : [compactToU8a(value.length)]
     };
   }
 

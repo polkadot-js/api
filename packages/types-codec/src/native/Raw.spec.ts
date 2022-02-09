@@ -94,8 +94,7 @@ describe('Raw', (): void => {
       expect(
         new Raw(registry, [1, 2, 3, 4, 5]).inspect()
       ).toEqual({
-        inner: [],
-        value: new Uint8Array([1, 2, 3, 4, 5])
+        outer: [new Uint8Array([1, 2, 3, 4, 5])]
       });
     });
   });

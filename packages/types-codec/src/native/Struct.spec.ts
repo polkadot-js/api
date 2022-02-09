@@ -342,27 +342,22 @@ describe('Struct', (): void => {
       ).toEqual({
         inner: [
           {
-            inner: [{ inner: [], value: new Uint8Array([0x42, 0x69]) }],
             name: 'foo',
-            value: new Uint8Array([2 << 2])
+            outer: [new Uint8Array([2 << 2]), new Uint8Array([0x42, 0x69])]
           },
           {
-            inner: [{ inner: [], value: new Uint8Array([0x99]) }],
             name: 'method',
-            value: new Uint8Array([1 << 2])
+            outer: [new Uint8Array([1 << 2]), new Uint8Array([0x99])]
           },
           {
-            inner: [{ inner: [], value: new Uint8Array([1, 0, 0, 0]) }],
             name: 'bar',
-            value: new Uint8Array([1])
+            outer: [new Uint8Array([1]), new Uint8Array([1, 0, 0, 0])]
           },
           {
-            inner: [],
             name: 'baz',
-            value: new Uint8Array([1])
+            outer: [new Uint8Array([1])]
           }
-        ],
-        value: new Uint8Array()
+        ]
       });
     });
   });

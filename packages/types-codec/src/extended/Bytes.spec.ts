@@ -67,8 +67,7 @@ describe('Bytes', (): void => {
     expect(
       new Bytes(registry, '0x12345678').inspect()
     ).toEqual({
-      inner: [{ inner: [], value: new Uint8Array([0x12, 0x34, 0x56, 0x78]) }],
-      value: new Uint8Array([4 << 2])
+      outer: [new Uint8Array([4 << 2]), new Uint8Array([0x12, 0x34, 0x56, 0x78])]
     });
   });
 });

@@ -86,8 +86,7 @@ export class bool extends Boolean implements Codec {
    */
   inspect (): Inspect {
     return {
-      inner: [],
-      value: this.toU8a()
+      outer: [this.toU8a()]
     };
   }
 

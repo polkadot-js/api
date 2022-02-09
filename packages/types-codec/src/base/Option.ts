@@ -141,15 +141,15 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
+    if (this.isNone) {
+      return { outer: [new Uint8Array([0])] };
+    }
+
+    const { inner, outer = [] } = this.#raw.inspect();
+
     return {
-      inner: this.isSome
-        ? [this.#raw.inspect()]
-        : [],
-      value: new Uint8Array(
-        this.isSome
-          ? [1]
-          : [0]
-      )
+      inner,
+      outer: [new Uint8Array([1]), ...outer]
     };
   }
 

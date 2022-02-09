@@ -83,24 +83,12 @@ describe('CodecMap', (): void => {
       ])).inspect()
     ).toEqual({
       inner: [
-        {
-          inner: [{ inner: [], value: stringToU8a('1') }],
-          value: new Uint8Array([1 << 2])
-        },
-        {
-          inner: [{ inner: [], value: stringToU8a('foo') }],
-          value: new Uint8Array([3 << 2])
-        },
-        {
-          inner: [{ inner: [], value: stringToU8a('2') }],
-          value: new Uint8Array([1 << 2])
-        },
-        {
-          inner: [{ inner: [], value: stringToU8a('bar') }],
-          value: new Uint8Array([3 << 2])
-        }
+        { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },
+        { outer: [new Uint8Array([3 << 2]), stringToU8a('foo')] },
+        { outer: [new Uint8Array([1 << 2]), stringToU8a('2')] },
+        { outer: [new Uint8Array([3 << 2]), stringToU8a('bar')] }
       ],
-      value: new Uint8Array([2 << 2])
+      outer: [new Uint8Array([2 << 2])]
     });
   });
 });

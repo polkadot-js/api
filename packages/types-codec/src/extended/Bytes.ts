@@ -64,9 +64,12 @@ export class Bytes extends Raw {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   override inspect (): Inspect {
+    const clength = compactToU8a(this.length);
+
     return {
-      inner: [{ inner: [], value: super.toU8a() }],
-      value: compactToU8a(this.length)
+      outer: this.length
+        ? [clength, super.toU8a()]
+        : [clength]
     };
   }
 

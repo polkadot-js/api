@@ -55,10 +55,7 @@ export class Null implements Codec {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
-    return {
-      inner: [],
-      value: new Uint8Array()
-    };
+    return {};
   }
 
   /**

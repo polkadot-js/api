@@ -105,8 +105,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   inspect (): Inspect {
     return {
-      inner: [],
-      value: this.toU8a()
+      outer: [this.toU8a()]
     };
   }
 
