@@ -62,8 +62,7 @@ export class BitVec extends Raw {
    */
   override inspect (): Inspect {
     return {
-      inner: [{ inner: [], value: super.toU8a() }],
-      value: compactToU8a(this.#decodedLength)
+      outer: [compactToU8a(this.#decodedLength), super.toU8a()]
     };
   }
 

@@ -126,10 +126,9 @@ describe('Tuple', (): void => {
         tuple.inspect()
       ).toEqual({
         inner: [
-          { inner: [{ inner: [], value: stringToU8a('bazzing') }], value: new Uint8Array([7 << 2]) },
-          { inner: [], value: new Uint8Array([69, 0, 0, 0]) }
-        ],
-        value: new Uint8Array()
+          { outer: [new Uint8Array([7 << 2]), stringToU8a('bazzing')] },
+          { outer: [new Uint8Array([69, 0, 0, 0])] }
+        ]
       });
     });
   });

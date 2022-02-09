@@ -184,10 +184,9 @@ describe('Vec', (): void => {
 
       expect(vec.inspect()).toEqual({
         inner: addrs.map((a) => ({
-          inner: [],
-          value: decodeAddress(a)
+          outer: [decodeAddress(a)]
         })),
-        value: new Uint8Array([3 << 2])
+        outer: [new Uint8Array([3 << 2])]
       });
     });
   });

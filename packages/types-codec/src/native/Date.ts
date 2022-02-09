@@ -83,8 +83,7 @@ export class CodecDate extends Date implements INumber {
    */
   inspect (): Inspect {
     return {
-      inner: [],
-      value: this.toU8a()
+      outer: [this.toU8a()]
     };
   }
 

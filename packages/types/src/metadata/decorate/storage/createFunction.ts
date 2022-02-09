@@ -96,8 +96,7 @@ export function createKeyInspect (registry: Registry, itemFn: CreateItemFn, args
   return {
     inner: prefix
       .concat(...extra)
-      .map((value, i) => ({ inner: [], name: names[i], value })),
-    value: new Uint8Array()
+      .map((v, i) => ({ name: names[i], outer: [v] }))
   };
 }
 

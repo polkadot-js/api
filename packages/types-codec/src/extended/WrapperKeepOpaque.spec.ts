@@ -54,8 +54,7 @@ describe('WrapperKeepOpaque', (): void => {
     expect(
       new ClazzUSize(registry, u8au32).inspect()
     ).toEqual({
-      inner: [{ inner: [], value: new Uint8Array([0x87, 0xd6, 0x12, 0x00]) }],
-      value: new Uint8Array([4 << 2])
+      outer: [new Uint8Array([4 << 2]), new Uint8Array([0x87, 0xd6, 0x12, 0x00])]
     });
   });
 
@@ -63,8 +62,8 @@ describe('WrapperKeepOpaque', (): void => {
     expect(
       new ClazzU32(registry, u8au32).inspect()
     ).toEqual({
-      inner: [{ inner: [], value: new Uint8Array([0x87, 0xd6, 0x12, 0x00]) }],
-      value: new Uint8Array([4 << 2])
+      inner: [{ outer: [new Uint8Array([0x87, 0xd6, 0x12, 0x00])] }],
+      outer: [new Uint8Array([4 << 2])]
     });
   });
 });

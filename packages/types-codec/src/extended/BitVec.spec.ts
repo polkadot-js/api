@@ -33,10 +33,7 @@ describe('BitVec', (): void => {
     expect(
       new BitVec(registry, '0x0837').inspect()
     ).toEqual({
-      inner: [
-        { inner: [], value: new Uint8Array([0x08, 0x37]) }
-      ],
-      value: new Uint8Array([0])
+      outer: [new Uint8Array([0]), new Uint8Array([0x08, 0x37])]
     });
   });
 });

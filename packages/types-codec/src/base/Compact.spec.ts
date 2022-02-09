@@ -84,8 +84,7 @@ describe('Compact', (): void => {
       expect(
         new (Compact.with(U32))(registry, 0xffff).inspect()
       ).toEqual({
-        inner: [],
-        value: new Uint8Array([254, 255, 3, 0])
+        outer: [new Uint8Array([254, 255, 3, 0])]
       });
     });
   });

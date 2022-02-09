@@ -298,8 +298,7 @@ describe('Enum', (): void => {
             '0x0134120000'
           ).inspect()
         ).toEqual({
-          inner: [{ inner: [], value: new Uint8Array([0x34, 0x12, 0x00, 0x00]) }],
-          value: new Uint8Array([0x01])
+          outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });
       });
     });

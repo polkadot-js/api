@@ -227,8 +227,7 @@ export class Struct<
     }
 
     return {
-      inner,
-      value: new Uint8Array()
+      inner
     };
   }
 

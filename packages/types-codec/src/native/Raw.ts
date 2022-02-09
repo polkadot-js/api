@@ -96,8 +96,7 @@ export class Raw extends Uint8Array implements IU8a {
    */
   inspect (): Inspect {
     return {
-      inner: [],
-      value: this.toU8a()
+      outer: [this.toU8a()]
     };
   }
 

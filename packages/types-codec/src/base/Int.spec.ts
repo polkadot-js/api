@@ -56,8 +56,7 @@ describe('Int', (): void => {
     expect(
       new Int(registry, '0x12', 16).inspect()
     ).toEqual({
-      inner: [],
-      value: new Uint8Array([0x12, 0x00])
+      outer: [new Uint8Array([0x12, 0x00])]
     });
   });
 

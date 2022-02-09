@@ -84,7 +84,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   inspect (): Inspect {
     return {
       inner: this.inspectInner(),
-      value: compactToU8a(this.length)
+      outer: [compactToU8a(this.length)]
     };
   }
 

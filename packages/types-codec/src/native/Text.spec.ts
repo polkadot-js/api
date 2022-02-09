@@ -70,8 +70,7 @@ describe('Text', (): void => {
       expect(
         new Text(registry, 'abcde').inspect()
       ).toEqual({
-        inner: [{ inner: [], value: stringToU8a('abcde') }],
-        value: new Uint8Array([5 << 2])
+        outer: [new Uint8Array([5 << 2]), stringToU8a('abcde')]
       });
     });
   });

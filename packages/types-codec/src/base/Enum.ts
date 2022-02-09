@@ -324,11 +324,15 @@ export class Enum implements IEnum {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   inspect (): Inspect {
+    if (this.isBasic) {
+      return { outer: [new Uint8Array([this.index])] };
+    }
+
+    const { inner, outer = [] } = this.#raw.inspect();
+
     return {
-      inner: this.isBasic
-        ? []
-        : [this.#raw.inspect()],
-      value: new Uint8Array([this.index])
+      inner,
+      outer: [new Uint8Array([this.index]), ...outer]
     };
   }
 

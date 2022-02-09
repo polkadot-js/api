@@ -186,12 +186,12 @@ describe('BTreeSet', (): void => {
       new (BTreeSet.with(U32))(registry, [1, 2, 3, 4]).inspect()
     ).toEqual({
       inner: [
-        { inner: [], value: new Uint8Array([1, 0, 0, 0]) },
-        { inner: [], value: new Uint8Array([2, 0, 0, 0]) },
-        { inner: [], value: new Uint8Array([3, 0, 0, 0]) },
-        { inner: [], value: new Uint8Array([4, 0, 0, 0]) }
+        { outer: [new Uint8Array([1, 0, 0, 0])] },
+        { outer: [new Uint8Array([2, 0, 0, 0])] },
+        { outer: [new Uint8Array([3, 0, 0, 0])] },
+        { outer: [new Uint8Array([4, 0, 0, 0])] }
       ],
-      value: new Uint8Array([4 << 2])
+      outer: [new Uint8Array([4 << 2])]
     });
   });
 });

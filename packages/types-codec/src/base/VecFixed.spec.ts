@@ -64,13 +64,12 @@ describe('VecFixed', (): void => {
     it('has a sane inspect', (): void => {
       expect(test.inspect()).toEqual({
         inner: [
-          { inner: [{ inner: [], value: stringToU8a('1') }], value: new Uint8Array([1 << 2]) },
-          { inner: [{ inner: [], value: stringToU8a('2') }], value: new Uint8Array([1 << 2]) },
-          { inner: [{ inner: [], value: stringToU8a('3') }], value: new Uint8Array([1 << 2]) },
-          { inner: [{ inner: [], value: new Uint8Array() }], value: new Uint8Array([0]) },
-          { inner: [{ inner: [], value: stringToU8a('56') }], value: new Uint8Array([2 << 2]) }
-        ],
-        value: new Uint8Array()
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('2')] },
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('3')] },
+          { outer: [new Uint8Array([0])] },
+          { outer: [new Uint8Array([2 << 2]), stringToU8a('56')] }
+        ]
       });
     });
   });

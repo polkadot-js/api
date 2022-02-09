@@ -32,10 +32,9 @@ describe('Range', (): void => {
   it('has a sane inspect', (): void => {
     expect(range.inspect()).toEqual({
       inner: [
-        { inner: [], value: new Uint8Array([1, 0, 0, 0]) },
-        { inner: [], value: new Uint8Array([2, 0, 0, 0]) }
-      ],
-      value: new Uint8Array()
+        { outer: [new Uint8Array([1, 0, 0, 0])] },
+        { outer: [new Uint8Array([2, 0, 0, 0])] }
+      ]
     });
   });
 });
