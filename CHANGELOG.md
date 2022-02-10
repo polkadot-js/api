@@ -10,6 +10,7 @@ Changes:
 
 - Adjust map header output type with lookup id
 - Re-enable all `BitVec` tests for `toU8a`
+- Expose `txIndex` as event index on extrinsic results
 - Allow inspection of Codec encoding (experimental)
 - Allow inspection of storage key encoding (experimental)
 

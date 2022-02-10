@@ -47,13 +47,16 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly txHash: Hash;
 
-  constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash }: SubmittableResultValue) {
+  public readonly txIndex: number;
+
+  constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
     this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
     this.internalError = internalError;
     this.status = status;
     this.txHash = txHash;
+    this.txIndex = txIndex;
   }
 
   public get isCompleted (): boolean {

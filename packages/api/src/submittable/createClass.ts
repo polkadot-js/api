@@ -237,7 +237,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       if (!status.isFinalized && !status.isInBlock) {
         return of(this.#transformResult(new SubmittableResult({
           status,
-          txHash
+          txHash,
+          txIndex: -1
         })));
       }
 
@@ -248,7 +249,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
           this.#transformResult(new SubmittableResult({
-            events: filterEvents(txHash, block, events, status),
+            ...filterEvents(txHash, block, events, status),
             status,
             txHash
           }))
@@ -257,7 +258,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           of(this.#transformResult(new SubmittableResult({
             internalError,
             status,
-            txHash
+            txHash,
+            txIndex: -1
           })))
         )
       );

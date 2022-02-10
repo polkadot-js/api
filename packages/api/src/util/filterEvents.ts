@@ -5,14 +5,17 @@ import type { EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/
 
 import { l } from './logging';
 
-export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): EventRecord[] | undefined {
+export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): { events: EventRecord[] | undefined, txIndex: number } {
   // extrinsics to hashes
-  for (const [index, x] of extrinsics.entries()) {
+  for (const [txIndex, x] of extrinsics.entries()) {
     if (x.hash.eq(txHash)) {
-      return allEvents.filter(({ phase }) =>
-        // only ApplyExtrinsic has the extrinsic index
-        phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(index)
-      );
+      return {
+        events: allEvents.filter(({ phase }) =>
+          phase.isApplyExtrinsic &&
+          phase.asApplyExtrinsic.eqn(txIndex)
+        ),
+        txIndex
+      };
     }
   }
 
@@ -24,5 +27,5 @@ export function filterEvents (txHash: H256, { block: { extrinsics, header } }: S
     l.warn(`block ${header.hash.toHex()}: Unable to find extrinsic ${txHash.toHex()} inside ${allHashes.join(', ')}`);
   }
 
-  return undefined;
+  return { events: undefined, txIndex: -1 };
 }
