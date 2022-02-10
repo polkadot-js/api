@@ -5,11 +5,13 @@
 Contributed:
 
 - Add `isHistoric` flag to ETH RPCs (Thanks to https://github.com/stwiname)
+- Align contract instantiate types with Substrate (Thanks to https://github.com/kwingram25)
 
 Changes:
 
 - Adjust map header output type with lookup id
 - Re-enable all `BitVec` tests for `toU8a`
+- Expose `txIndex` as event index on extrinsic results
 - Allow inspection of Codec encoding (experimental)
 - Allow inspection of storage key encoding (experimental)
 

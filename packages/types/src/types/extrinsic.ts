@@ -22,6 +22,7 @@ export interface ISubmittableResult {
   readonly isInBlock: boolean;
   readonly isWarning: boolean;
   readonly txHash: Hash;
+  readonly txIndex?: number;
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;

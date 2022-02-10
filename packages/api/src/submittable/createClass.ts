@@ -248,7 +248,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
           this.#transformResult(new SubmittableResult({
-            events: filterEvents(txHash, block, events, status),
+            ...filterEvents(txHash, block, events, status),
             status,
             txHash
           }))
