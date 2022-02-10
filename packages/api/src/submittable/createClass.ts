@@ -237,8 +237,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       if (!status.isFinalized && !status.isInBlock) {
         return of(this.#transformResult(new SubmittableResult({
           status,
-          txHash,
-          txIndex: -1
+          txHash
         })));
       }
 
@@ -258,8 +257,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           of(this.#transformResult(new SubmittableResult({
             internalError,
             status,
-            txHash,
-            txIndex: -1
+            txHash
           })))
         )
       );

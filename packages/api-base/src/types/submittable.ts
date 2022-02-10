@@ -66,7 +66,7 @@ export interface SubmittableResultValue {
   internalError?: Error;
   status: ExtrinsicStatus;
   txHash: Hash;
-  txIndex: number;
+  txIndex?: number;
 }
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> extends Extrinsic {
