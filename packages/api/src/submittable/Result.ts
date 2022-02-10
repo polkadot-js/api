@@ -47,7 +47,7 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly txHash: Hash;
 
-  public readonly txIndex: number | undefined;
+  public readonly txIndex?: number;
 
   constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
