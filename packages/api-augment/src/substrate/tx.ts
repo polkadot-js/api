@@ -985,6 +985,130 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    convictionVoting: {
+      /**
+       * Delegate the voting power (with some given conviction) of the sending account for a
+       * particular class of polls.
+       * 
+       * The balance delegated is locked for as long as it's delegated, and thereafter for the
+       * time appropriate for the conviction's lock period.
+       * 
+       * The dispatch origin of this call must be _Signed_, and the signing account must either:
+       * - be delegating already; or
+       * - have no voting activity (if there is, then it will need to be removed/consolidated
+       * through `reap_vote` or `unvote`).
+       * 
+       * - `to`: The account whose voting the `target` account's voting power will follow.
+       * - `class`: The class of polls to delegate. To delegate multiple classes, multiple calls
+       * to this function are required.
+       * - `conviction`: The conviction that will be attached to the delegated votes. When the
+       * account is undelegated, the funds will be locked for the corresponding period.
+       * - `balance`: The amount of the account's balance to be used in delegating. This must not
+       * be more than the account's current balance.
+       * 
+       * Emits `Delegated`.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter delegating to has
+       * voted on. Weight is initially charged as if maximum votes, but is refunded later.
+       **/
+      delegate: AugmentedSubmittable<(clazz: u8 | AnyNumber | Uint8Array, to: AccountId32 | string | Uint8Array, conviction: PalletConvictionVotingConviction | 'None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x' | number | Uint8Array, balance: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u8, AccountId32, PalletConvictionVotingConviction, u128]>;
+      /**
+       * Remove a vote for a poll.
+       * 
+       * If the `target` is equal to the signer, then this function is exactly equivalent to
+       * `remove_vote`. If not equal to the signer, then the vote must have expired,
+       * either because the poll was cancelled, because the voter lost the poll or
+       * because the conviction period is over.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `target`: The account of the vote to be removed; this account must have voted for poll
+       * `index`.
+       * - `index`: The index of poll of the vote to be removed.
+       * - `class`: The class of the poll.
+       * 
+       * Weight: `O(R + log R)` where R is the number of polls that `target` has voted on.
+       * Weight is calculated for the maximum number of vote.
+       **/
+      removeOtherVote: AugmentedSubmittable<(target: AccountId32 | string | Uint8Array, clazz: u8 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u8, u32]>;
+      /**
+       * Remove a vote for a poll.
+       * 
+       * If:
+       * - the poll was cancelled, or
+       * - the poll is ongoing, or
+       * - the poll has ended such that
+       * - the vote of the account was in opposition to the result; or
+       * - there was no conviction to the account's vote; or
+       * - the account made a split vote
+       * ...then the vote is removed cleanly and a following call to `unlock` may result in more
+       * funds being available.
+       * 
+       * If, however, the poll has ended and:
+       * - it finished corresponding to the vote of the account, and
+       * - the account made a standard vote with conviction, and
+       * - the lock period of the conviction is not over
+       * ...then the lock will be aggregated into the overall account's lock, which may involve
+       * *overlocking* (where the two locks are combined into a single lock that is the maximum
+       * of both the amount locked and the time is it locked for).
+       * 
+       * The dispatch origin of this call must be _Signed_, and the signer must have a vote
+       * registered for poll `index`.
+       * 
+       * - `index`: The index of poll of the vote to be removed.
+       * - `class`: Optional parameter, if given it indicates the class of the poll. For polls
+       * which have finished or are cancelled, this must be `Some`.
+       * 
+       * Weight: `O(R + log R)` where R is the number of polls that `target` has voted on.
+       * Weight is calculated for the maximum number of vote.
+       **/
+      removeVote: AugmentedSubmittable<(clazz: Option<u8> | null | object | string | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u8>, u32]>;
+      /**
+       * Undelegate the voting power of the sending account for a particular class of polls.
+       * 
+       * Tokens may be unlocked following once an amount of time consistent with the lock period
+       * of the conviction with which the delegation was issued.
+       * 
+       * The dispatch origin of this call must be _Signed_ and the signing account must be
+       * currently delegating.
+       * 
+       * - `class`: The class of polls to remove the delegation from.
+       * 
+       * Emits `Undelegated`.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter delegating to has
+       * voted on. Weight is initially charged as if maximum votes, but is refunded later.
+       **/
+      undelegate: AugmentedSubmittable<(clazz: u8 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u8]>;
+      /**
+       * Remove the lock caused prior voting/delegating which has expired within a particluar
+       * class.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `class`: The class of polls to unlock.
+       * - `target`: The account to remove the lock on.
+       * 
+       * Weight: `O(R)` with R number of vote of target.
+       **/
+      unlock: AugmentedSubmittable<(clazz: u8 | AnyNumber | Uint8Array, target: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u8, AccountId32]>;
+      /**
+       * Vote in a poll. If `vote.is_aye()`, the vote is to enact the proposal;
+       * otherwise it is a vote to keep the status quo.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `poll_index`: The index of the poll to vote for.
+       * - `vote`: The vote configuration.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter has voted on.
+       **/
+      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     council: {
       /**
        * Close a vote that is either approved, disapproved or whose voting period has ended.
@@ -2758,6 +2882,82 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    referenda: {
+      /**
+       * Cancel an ongoing referendum.
+       * 
+       * - `origin`: must be the `CancelOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Cancelled`.
+       **/
+      cancel: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Cancel an ongoing referendum and slash the deposits.
+       * 
+       * - `origin`: must be the `KillOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Killed` and `DepositSlashed`.
+       **/
+      kill: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a referendum onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `index`: the referendum to be advanced.
+       **/
+      nudgeReferendum: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a track onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `track`: the track to be advanced.
+       * 
+       * Action item for when there is now one fewer referendum in the deciding phase and the
+       * `DecidingCount` is not yet updated. This means that we should either:
+       * - begin deciding another referendum (and leave `DecidingCount` alone); or
+       * - decrement `DecidingCount`.
+       **/
+      oneFewerDeciding: AugmentedSubmittable<(track: u8 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u8]>;
+      /**
+       * Post the Decision Deposit for a referendum.
+       * 
+       * - `origin`: must be `Signed` and the account must have funds available for the
+       * referendum's track's Decision Deposit.
+       * - `index`: The index of the submitted referendum whose Decision Deposit is yet to be
+       * posted.
+       * 
+       * Emits `DecisionDepositPlaced`.
+       **/
+      placeDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Refund the Decision Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Decision Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `DecisionDepositRefunded`.
+       **/
+      refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Propose a referendum on a privileged action.
+       * 
+       * - `origin`: must be `Signed` and the account must have `SubmissionDeposit` funds
+       * available.
+       * - `proposal_origin`: The origin from which the proposal should be executed.
+       * - `proposal_hash`: The hash of the proposal preimage.
+       * - `enactment_moment`: The moment that the proposal should be enacted.
+       * 
+       * Emits `Submitted`.
+       **/
+      submit: AugmentedSubmittable<(proposalOrigin: NodeRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | string | Uint8Array, proposalHash: H256 | string | Uint8Array, enactmentMoment: PalletReferendaAtOrAfter | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [NodeRuntimeOriginCaller, H256, PalletReferendaAtOrAfter]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     scheduler: {
       /**
        * Cancel an anonymously scheduled task.
@@ -3255,6 +3455,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * who do not satisfy these requirements.
        **/
       chillOther: AugmentedSubmittable<(controller: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
+       * Force a validator to have at least the minimum commission. This will not affect a
+       * validator who already has a commission greater than or equal to the minimum. Any account
+       * can call this.
+       **/
+      forceApplyMinCommission: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Force there to be a new era at the end of the next session. After this, it will be
        * reset to normal (non-forced) behaviour.
@@ -4188,21 +4394,18 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       cancelApproval: AugmentedSubmittable<(clazz: Compact<u32> | AnyNumber | Uint8Array, instance: Compact<u32> | AnyNumber | Uint8Array, maybeCheckDelegate: Option<MultiAddress> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>, Option<MultiAddress>]>;
       /**
-       * Set an attribute for an asset class or instance.
+       * Clear an attribute for an asset class or instance.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
        * asset `class`.
        * 
-       * If the origin is Signed, then funds of signer are reserved according to the formula:
-       * `MetadataDepositBase + DepositPerByte * (key.len + value.len)` taking into
-       * account any already reserved funds.
+       * Any deposit is freed for the asset class owner.
        * 
-       * - `class`: The identifier of the asset class whose instance's metadata to set.
-       * - `instance`: The identifier of the asset instance whose metadata to set.
+       * - `class`: The identifier of the asset class whose instance's metadata to clear.
+       * - `maybe_instance`: The identifier of the asset instance whose metadata to clear.
        * - `key`: The key of the attribute.
-       * - `value`: The value to which to set the attribute.
        * 
-       * Emits `AttributeSet`.
+       * Emits `AttributeCleared`.
        * 
        * Weight: `O(1)`
        **/

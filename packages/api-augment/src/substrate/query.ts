@@ -327,6 +327,23 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    convictionVoting: {
+      /**
+       * The voting classes which have a non-zero lock requirement and the lock amounts which they
+       * require. The actual amount locked on behalf of this pallet should always be the maximum of
+       * this list.
+       **/
+      classLocksFor: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u8, u128]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * All voting for a particular voter in a particular voting class. We store the balance for the
+       * number of votes that we have recorded.
+       **/
+      votingFor: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u8 | AnyNumber | Uint8Array) => Observable<PalletConvictionVotingVoteVoting>, [AccountId32, u8]> & QueryableStorageEntry<ApiType, [AccountId32, u8]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     council: {
       /**
        * The current members of the collective. This is stored sorted (just by value).
@@ -378,13 +395,6 @@ declare module '@polkadot/api-base/types/storage' {
        * proposal.
        **/
       lastTabledWasExternal: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Accounts for which there are locks in action which may be removed at some point in the
-       * future. The value is the block number at which the lock expires and may be removed.
-       * 
-       * TWOX-NOTE: OK ― `AccountId` is a secure hash.
-       **/
-      locks: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The lowest referendum index representing an unbaked referendum. Equal to
        * `ReferendumCount` if there isn't a unbaked referendum.
@@ -836,6 +846,33 @@ declare module '@polkadot/api-base/types/storage' {
        * The set of recoverable accounts and their recovery configuration.
        **/
       recoverable: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletRecoveryRecoveryConfig>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    referenda: {
+      /**
+       * The number of referenda being decided currently.
+       **/
+      decidingCount: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<u32>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
+      /**
+       * The next free referendum index, aka the number of referenda started so far.
+       **/
+      referendumCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Information concerning any given referendum.
+       * 
+       * TWOX-NOTE: SAFE as indexes are not under an attacker’s control.
+       **/
+      referendumInfoFor: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletReferendaReferendumInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The sorted list of referenda ready to be decided but not yet being decided, ordered by
+       * conviction-weighted approvals.
+       * 
+       * This should be empty if `DecidingCount` is less than `TrackInfo::max_deciding`.
+       **/
+      trackQueue: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
       /**
        * Generic query
        **/

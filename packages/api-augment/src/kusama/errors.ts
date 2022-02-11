@@ -186,6 +186,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       RequireCurator: AugmentedError<ApiType>;
       /**
+       * Too many approvals are already queued.
+       **/
+      TooManyQueued: AugmentedError<ApiType>;
+      /**
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
