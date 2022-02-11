@@ -233,6 +233,20 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    convictionVoting: {
+      /**
+       * An account has delegated their vote to another account. \[who, target\]
+       **/
+      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      /**
+       * An \[account\] has cancelled a previous delegation operation.
+       **/
+      Undelegated: AugmentedEvent<ApiType, [AccountId32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     council: {
       /**
        * A motion was approved by the required threshold.
@@ -675,6 +689,58 @@ declare module '@polkadot/api-base/types/events' {
        * A recovery process for lost account by rescuer account has been vouched for by sender.
        **/
       RecoveryVouched: AugmentedEvent<ApiType, [AccountId32, AccountId32, AccountId32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    referenda: {
+      /**
+       * A referendum has been approved and its proposal has been scheduled.
+       **/
+      Approved: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A referendum has been cancelled.
+       **/
+      Cancelled: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      ConfirmAborted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A referendum has ended its confirmation phase and is ready for approval.
+       **/
+      Confirmed: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      ConfirmStarted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * The decision deposit has been placed.
+       **/
+      DecisionDepositPlaced: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      /**
+       * The decision deposit has been refunded.
+       **/
+      DecisionDepositRefunded: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      /**
+       * A referendum has moved into the deciding phase.
+       **/
+      DecisionStarted: AugmentedEvent<ApiType, [u32, u8, H256, PalletConvictionVotingTally]>;
+      /**
+       * A deposit has been slashaed.
+       **/
+      DepositSlashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * A referendum has been killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      /**
+       * A proposal has been rejected by referendum.
+       **/
+      Rejected: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      /**
+       * A referendum has being submitted.
+       **/
+      Submitted: AugmentedEvent<ApiType, [u32, u8, H256]>;
+      /**
+       * A referendum has been timed out without being decided.
+       **/
+      TimedOut: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
       /**
        * Generic event
        **/

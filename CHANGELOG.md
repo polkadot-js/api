@@ -14,6 +14,8 @@ Changes:
 - Expose `txIndex` as event index on extrinsic results
 - Allow inspection of Codec encoding (experimental)
 - Allow inspection of storage key encoding (experimental)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update `@polkadot/util` to 8.4.1
 
 
 ## 7.7.1 Feb 6, 2022
