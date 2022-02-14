@@ -24,6 +24,6 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@polkadot/util": "^8.3.4-10"
+    "@polkadot/util": "^8.4.1"
   }
 }
