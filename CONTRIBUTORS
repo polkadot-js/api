@@ -1,4 +1,4 @@
-    2819	Jaco                          	Don't run scripts on CI (#4562)
+    2820	Jaco                          	Bump common (#4563)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
