@@ -60,7 +60,7 @@ export interface Registry {
   createdAtHash?: IU8a;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
-  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
+  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN | Uint8Array }): RegistryError;
   findMetaEvent (eventIndex: Uint8Array): CodecClass<any>;
 
   isLookupType (value: string): boolean;
