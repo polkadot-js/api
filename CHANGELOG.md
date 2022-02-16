@@ -4,6 +4,7 @@
 
 Changes:
 
+- Cater for `DispatchError` with `error` as `[u8; 4]`
 - Kusama 9160 upgrade block
 
 
