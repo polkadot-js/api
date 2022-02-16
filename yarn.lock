@@ -58,9 +58,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.3, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
-  version: 7.17.3
-  resolution: "@babel/core@npm:7.17.3"
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+  version: 7.17.4
+  resolution: "@babel/core@npm:7.17.4"
   dependencies:
     "@ampproject/remapping": ^2.1.0
     "@babel/code-frame": ^7.16.7
@@ -77,7 +77,7 @@ __metadata:
     gensync: ^1.0.0-beta.2
     json5: ^2.1.2
     semver: ^6.3.0
-  checksum: 5a5680888a30db2d5075eb376e25facdd3c2357fe882e6e8b2098a0bf09550bdd1895fa29064af1d4bdd8b6d0964c3bdc08f28c4e1429a5b3597e010a234d15e
+  checksum: d367259b188fde69493fea407a1c134d6bb7a0d859cbe2c0f0d1f2464143bdee0fdfd3c8d45a2cdabdf321b95dd392cbc4f55e2d0c41a842a581d37fee4cef64
   languageName: node
   linkType: hard
 
@@ -1990,12 +1990,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.65.59":
-  version: 0.65.59
-  resolution: "@polkadot/dev@npm:0.65.59"
+"@polkadot/dev@npm:^0.65.60":
+  version: 0.65.60
+  resolution: "@polkadot/dev@npm:0.65.60"
   dependencies:
     "@babel/cli": ^7.17.3
-    "@babel/core": ^7.17.3
+    "@babel/core": ^7.17.4
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.16.7
     "@babel/plugin-proposal-numeric-separator": ^7.16.7
     "@babel/plugin-proposal-optional-chaining": ^7.16.7
@@ -2078,7 +2078,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: f70603b316a591dc6e06e66bd344ccd97f14cdd7a2552995dc5f8ef617e78c97b3c0e6b3b2155dd85b80306287bf78ea080eb9dcf464aa70685635833d9d60b9
+  checksum: b99c43951367d2e74aea08072e7a37aa256fe59af9f24de4de09c9175426b7515c9b61080662f407c309585df6ddb8d496c1b44fa23580f76c77faab03976924
   languageName: node
   linkType: hard
 
@@ -2156,7 +2156,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.17.3
+    "@babel/core": ^7.17.4
     "@babel/register": ^7.17.0
     "@babel/runtime": ^7.17.2
     "@polkadot/api": 7.8.2-2
@@ -8983,10 +8983,10 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.17.3
+    "@babel/core": ^7.17.4
     "@babel/register": ^7.17.0
     "@babel/runtime": ^7.17.2
-    "@polkadot/dev": ^0.65.59
+    "@polkadot/dev": ^0.65.60
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.0
     copyfiles: ^2.4.1
