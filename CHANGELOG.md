@@ -4,6 +4,7 @@
 
 Changes:
 
+- Align `grandpa_proveFinality` with Substrate
 - Kusama 9160 upgrade block
 
 

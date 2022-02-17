@@ -9,20 +9,11 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {
     proveFinality: {
-      description: 'Prove finality for the range (begin; end] hash.',
+      description: 'Prove finality for the given block number, returning the Justification for the last block in the set.',
       params: [
         {
-          name: 'begin',
-          type: 'BlockHash'
-        },
-        {
-          name: 'end',
-          type: 'BlockHash'
-        },
-        {
-          name: 'authoritiesSetId',
-          type: 'u64',
-          isOptional: true
+          name: 'blockNumber',
+          type: 'BlockNumber'
         }
       ],
       type: 'Option<EncodedFinalityProofs>'
