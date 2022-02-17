@@ -197,7 +197,7 @@ export class RpcCore {
 
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = def.endpoint || `${section}_${method}`;
-    const hashIndex = def.params.findIndex(({ isHistoric, type }) => isHistoric && type === 'BlockHash');
+    const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     let memoized: null | MemoizedRpcInterfaceMethod = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
