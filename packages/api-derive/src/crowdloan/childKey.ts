@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types';
@@ -14,12 +14,20 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { memo } from '../util';
 
-function createChildKey ({ trieIndex }: PolkadotRuntimeCommonCrowdloanFundInfo): string {
+interface AllInfo extends PolkadotRuntimeCommonCrowdloanFundInfo {
+  // previously it was named trieIndex
+  trieIndex?: u32;
+}
+
+function createChildKey (info: AllInfo): string {
   return u8aToHex(
     u8aConcat(
       ':child_storage:default:',
       blake2AsU8a(
-        u8aConcat('crowdloan', trieIndex.toU8a())
+        u8aConcat(
+          'crowdloan',
+          (info.fundIndex || info.trieIndex).toU8a()
+        )
       )
     )
   );
