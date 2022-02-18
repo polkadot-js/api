@@ -6,6 +6,7 @@ Changes:
 
 - Align `grandpa_proveFinality` with Substrate
 - Kusama 9160 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.8.1 Feb 14, 2022

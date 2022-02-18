@@ -553,12 +553,12 @@ declare module '@polkadot/api-base/types/events' {
        **/
       NewHeadNoted: AugmentedEvent<ApiType, [u32]>;
       /**
-       * The given validation code was rejected by the PVF pre-checking vote.
+       * The given validation code was accepted by the PVF pre-checking vote.
        * `code_hash` `para_id`
        **/
       PvfCheckAccepted: AugmentedEvent<ApiType, [H256, u32]>;
       /**
-       * The given validation code was accepted by the PVF pre-checking vote.
+       * The given validation code was rejected by the PVF pre-checking vote.
        * `code_hash` `para_id`
        **/
       PvfCheckRejected: AugmentedEvent<ApiType, [H256, u32]>;

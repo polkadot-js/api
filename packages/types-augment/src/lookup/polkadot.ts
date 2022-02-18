@@ -2103,7 +2103,7 @@ export default {
    * Lookup644: polkadot_runtime_common::paras_registrar::pallet::Error<T>
    **/
   PolkadotRuntimeCommonParasRegistrarPalletError: {
-    _enum: ['NotRegistered', 'AlreadyRegistered', 'NotOwner', 'CodeTooLarge', 'HeadDataTooLarge', 'NotParachain', 'NotParathread', 'CannotDeregister', 'CannotDowngrade', 'CannotUpgrade', 'ParaLocked', 'NotReserved', 'EmptyCode']
+    _enum: ['NotRegistered', 'AlreadyRegistered', 'NotOwner', 'CodeTooLarge', 'HeadDataTooLarge', 'NotParachain', 'NotParathread', 'CannotDeregister', 'CannotDowngrade', 'CannotUpgrade', 'ParaLocked', 'NotReserved', 'EmptyCode', 'CannotSwap']
   },
   /**
    * Lookup646: polkadot_runtime_common::slots::pallet::Error<T>
@@ -2130,7 +2130,7 @@ export default {
     lastContribution: 'PolkadotRuntimeCommonCrowdloanLastContribution',
     firstPeriod: 'u32',
     lastPeriod: 'u32',
-    trieIndex: 'u32'
+    fundIndex: 'u32'
   },
   /**
    * Lookup653: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>

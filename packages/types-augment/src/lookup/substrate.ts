@@ -544,7 +544,12 @@ export default {
         data: 'Bytes',
       },
       CodeRemoved: {
-        codeHash: 'H256'
+        codeHash: 'H256',
+      },
+      ContractCodeUpdated: {
+        contract: 'AccountId32',
+        newCodeHash: 'H256',
+        oldCodeHash: 'H256'
       }
     }
   },
@@ -1631,7 +1636,7 @@ export default {
         witness: 'PalletElectionProviderMultiPhaseSolutionOrSnapshotSize',
       },
       set_minimum_untrusted_score: {
-        maybeNextScore: 'Option<[u128;3]>',
+        maybeNextScore: 'Option<SpNposElectionsElectionScore>',
       },
       set_emergency_election_result: {
         supports: 'Vec<(AccountId32,SpNposElectionsSupport)>',
@@ -1651,7 +1656,7 @@ export default {
    **/
   PalletElectionProviderMultiPhaseRawSolution: {
     solution: 'NodeRuntimeNposSolution16',
-    score: '[u128;3]',
+    score: 'SpNposElectionsElectionScore',
     round: 'u32'
   },
   /**
@@ -1674,6 +1679,14 @@ export default {
     votes14: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);13],Compact<u16>)>',
     votes15: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);14],Compact<u16>)>',
     votes16: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);15],Compact<u16>)>'
+  },
+  /**
+   * Lookup199: sp_npos_elections::ElectionScore
+   **/
+  SpNposElectionsElectionScore: {
+    minimalStake: 'u128',
+    sumStake: 'u128',
+    sumStakeSquared: 'u128'
   },
   /**
    * Lookup200: pallet_election_provider_multi_phase::SolutionOrSnapshotSize
@@ -3298,7 +3311,7 @@ export default {
    **/
   PalletElectionProviderMultiPhaseReadySolution: {
     supports: 'Vec<(AccountId32,SpNposElectionsSupport)>',
-    score: '[u128;3]',
+    score: 'SpNposElectionsElectionScore',
     compute: 'PalletElectionProviderMultiPhaseElectionCompute'
   },
   /**
@@ -3745,6 +3758,7 @@ export default {
     setStorage: 'u64',
     setStoragePerNewByte: 'u64',
     setStoragePerOldByte: 'u64',
+    setCodeHash: 'u64',
     clearStorage: 'u64',
     clearStoragePerByte: 'u64',
     containsStorage: 'u64',
@@ -3757,11 +3771,9 @@ export default {
     call: 'u64',
     delegateCall: 'u64',
     callTransferSurcharge: 'u64',
-    callPerInputByte: 'u64',
-    callPerOutputByte: 'u64',
+    callPerClonedByte: 'u64',
     instantiate: 'u64',
-    instantiatePerInputByte: 'u64',
-    instantiatePerOutputByte: 'u64',
+    instantiateTransferSurcharge: 'u64',
     instantiatePerSaltByte: 'u64',
     hashSha2256: 'u64',
     hashSha2256PerByte: 'u64',

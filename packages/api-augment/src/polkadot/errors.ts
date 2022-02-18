@@ -1213,6 +1213,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotDowngrade: AugmentedError<ApiType>;
       /**
+       * Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras are
+       * correct for the swap to work.
+       **/
+      CannotSwap: AugmentedError<ApiType>;
+      /**
        * Cannot schedule upgrade of parathread to parachain
        **/
       CannotUpgrade: AugmentedError<ApiType>;

@@ -614,7 +614,13 @@ declare module '@polkadot/types/lookup' {
     readonly asCodeRemoved: {
       readonly codeHash: H256;
     } & Struct;
-    readonly type: 'Instantiated' | 'Terminated' | 'CodeStored' | 'ContractEmitted' | 'CodeRemoved';
+    readonly isContractCodeUpdated: boolean;
+    readonly asContractCodeUpdated: {
+      readonly contract: AccountId32;
+      readonly newCodeHash: H256;
+      readonly oldCodeHash: H256;
+    } & Struct;
+    readonly type: 'Instantiated' | 'Terminated' | 'CodeStored' | 'ContractEmitted' | 'CodeRemoved' | 'ContractCodeUpdated';
   }
 
   /** @name PalletSudoEvent (56) */
@@ -1776,7 +1782,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isSetMinimumUntrustedScore: boolean;
     readonly asSetMinimumUntrustedScore: {
-      readonly maybeNextScore: Option<Vec<u128>>;
+      readonly maybeNextScore: Option<SpNposElectionsElectionScore>;
     } & Struct;
     readonly isSetEmergencyElectionResult: boolean;
     readonly asSetEmergencyElectionResult: {
@@ -1798,7 +1804,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletElectionProviderMultiPhaseRawSolution (147) */
   export interface PalletElectionProviderMultiPhaseRawSolution extends Struct {
     readonly solution: NodeRuntimeNposSolution16;
-    readonly score: Vec<u128>;
+    readonly score: SpNposElectionsElectionScore;
     readonly round: u32;
   }
 
@@ -1820,6 +1826,13 @@ declare module '@polkadot/types/lookup' {
     readonly votes14: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
     readonly votes15: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
     readonly votes16: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
+  }
+
+  /** @name SpNposElectionsElectionScore (199) */
+  export interface SpNposElectionsElectionScore extends Struct {
+    readonly minimalStake: u128;
+    readonly sumStake: u128;
+    readonly sumStakeSquared: u128;
   }
 
   /** @name PalletElectionProviderMultiPhaseSolutionOrSnapshotSize (200) */
@@ -3579,7 +3592,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletElectionProviderMultiPhaseReadySolution (356) */
   export interface PalletElectionProviderMultiPhaseReadySolution extends Struct {
     readonly supports: Vec<ITuple<[AccountId32, SpNposElectionsSupport]>>;
-    readonly score: Vec<u128>;
+    readonly score: SpNposElectionsElectionScore;
     readonly compute: PalletElectionProviderMultiPhaseElectionCompute;
   }
 
@@ -4100,6 +4113,7 @@ declare module '@polkadot/types/lookup' {
     readonly setStorage: u64;
     readonly setStoragePerNewByte: u64;
     readonly setStoragePerOldByte: u64;
+    readonly setCodeHash: u64;
     readonly clearStorage: u64;
     readonly clearStoragePerByte: u64;
     readonly containsStorage: u64;
@@ -4112,11 +4126,9 @@ declare module '@polkadot/types/lookup' {
     readonly call: u64;
     readonly delegateCall: u64;
     readonly callTransferSurcharge: u64;
-    readonly callPerInputByte: u64;
-    readonly callPerOutputByte: u64;
+    readonly callPerClonedByte: u64;
     readonly instantiate: u64;
-    readonly instantiatePerInputByte: u64;
-    readonly instantiatePerOutputByte: u64;
+    readonly instantiateTransferSurcharge: u64;
     readonly instantiatePerSaltByte: u64;
     readonly hashSha2256: u64;
     readonly hashSha2256PerByte: u64;
