@@ -148,7 +148,7 @@ export class RpcCore {
   }
 
   /**
-   * @description Sets a registry swap (typically from Api)
+   * @description Sets a function to resolve block hash from block number
    */
   public setResolveBlockHash (resolveBlockHash: (blockNumber: BlockNumber | AnyNumber | undefined) => Promise<Uint8Array | string | null | undefined>): void {
     this.#getBlockHash = memoize(resolveBlockHash, {
