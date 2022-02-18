@@ -15,7 +15,8 @@ declare module '@polkadot/types/lookup' {
     readonly isIdentityJudgement: boolean;
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
-    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction';
+    readonly isSociety: boolean;
+    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
   /** @name PolkadotRuntimeParachainsDisputesPalletEvent (105) */

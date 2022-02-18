@@ -4044,6 +4044,39 @@
               "docs": [
                 "A code with the specified hash was removed."
               ]
+            },
+            {
+              "name": "ContractCodeUpdated",
+              "fields": [
+                {
+                  "name": "contract",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": [
+                    "The contract that has been updated."
+                  ]
+                },
+                {
+                  "name": "new_code_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": [
+                    "New code hash that was set for the contract."
+                  ]
+                },
+                {
+                  "name": "old_code_hash",
+                  "type": 9,
+                  "typeName": "T::Hash",
+                  "docs": [
+                    "Previous code hash of the contract."
+                  ]
+                }
+              ],
+              "index": 5,
+              "docs": [
+                "A contract's code was updated."
+              ]
             }
           ]
         }
@@ -11909,12 +11942,33 @@
   {
     "id": 199,
     "type": {
-      "path": [],
+      "path": [
+        "sp_npos_elections",
+        "ElectionScore"
+      ],
       "params": [],
       "def": {
-        "array": {
-          "len": 3,
-          "type": 6
+        "composite": {
+          "fields": [
+            {
+              "name": "minimal_stake",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            },
+            {
+              "name": "sum_stake",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            },
+            {
+              "name": "sum_stake_squared",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            }
+          ]
         }
       },
       "docs": []
@@ -29504,6 +29558,12 @@
               "docs": []
             },
             {
+              "name": "set_code_hash",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
               "name": "clear_storage",
               "type": 8,
               "typeName": "Weight",
@@ -29576,13 +29636,7 @@
               "docs": []
             },
             {
-              "name": "call_per_input_byte",
-              "type": 8,
-              "typeName": "Weight",
-              "docs": []
-            },
-            {
-              "name": "call_per_output_byte",
+              "name": "call_per_cloned_byte",
               "type": 8,
               "typeName": "Weight",
               "docs": []
@@ -29594,13 +29648,7 @@
               "docs": []
             },
             {
-              "name": "instantiate_per_input_byte",
-              "type": 8,
-              "typeName": "Weight",
-              "docs": []
-            },
-            {
-              "name": "instantiate_per_output_byte",
+              "name": "instantiate_transfer_surcharge",
               "type": 8,
               "typeName": "Weight",
               "docs": []
