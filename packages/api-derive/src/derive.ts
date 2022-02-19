@@ -33,4 +33,7 @@ type DeriveAllSections<AllSections> = {
   [S in keyof AllSections]: DeriveSection<AllSections[S]>
 };
 
-export type ExactDerive = DeriveAllSections<typeof derive>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ExactDerive extends DeriveAllSections<typeof derive> {
+  // keep empty, allows for augmentation
+}
