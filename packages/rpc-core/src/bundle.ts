@@ -4,7 +4,7 @@
 import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
-import type { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterfaceMethod } from './types';
@@ -85,7 +85,7 @@ export class RpcCore {
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
-  #getBlockHash?: (blockNumber?: BlockNumber | AnyNumber | undefined) => Promise<Uint8Array | string | null | undefined>;
+  #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -150,7 +150,7 @@ export class RpcCore {
   /**
    * @description Sets a function to resolve block hash from block number
    */
-  public setResolveBlockHash (resolveBlockHash: (blockNumber: BlockNumber | AnyNumber | undefined) => Promise<Uint8Array | string | null | undefined>): void {
+  public setResolveBlockHash (resolveBlockHash: (blockNumber: AnyNumber) => Promise<Uint8Array>): void {
     this.#getBlockHash = memoize(resolveBlockHash, {
       getInstanceId: () => this.#instanceId
     });
@@ -217,7 +217,7 @@ export class RpcCore {
         : values[hashIndex];
 
       const blockHash = blockId && def.params[hashIndex].type === 'BlockNumber'
-        ? await this.#getBlockHash?.(blockId as (BlockNumber | AnyNumber | undefined))
+        ? await this.#getBlockHash?.(blockId as AnyNumber)
         : blockId as (Uint8Array | string | null | undefined);
 
       const { registry } = isScale && blockHash && this.#getBlockRegistry
