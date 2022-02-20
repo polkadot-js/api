@@ -2,9 +2,14 @@
 
 ## master
 
+Contributed:
+
+- Support historic queries via blockNumber (Thanks to https://github.com/stwiname)
+
 Changes:
 
 - Align `grandpa_proveFinality` with Substrate
+- Allow for derive augmentation (swap base type to interfaces)
 - Kusama 9160 upgrade block
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
