@@ -5,7 +5,7 @@ import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterfaceMethod } from './types';
 
@@ -85,6 +85,7 @@ export class RpcCore {
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
+  #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -146,6 +147,15 @@ export class RpcCore {
     });
   }
 
+  /**
+   * @description Sets a function to resolve block hash from block number
+   */
+  public setResolveBlockHash (resolveBlockHash: (blockNumber: AnyNumber) => Promise<Uint8Array>): void {
+    this.#getBlockHash = memoize(resolveBlockHash, {
+      getInstanceId: () => this.#instanceId
+    });
+  }
+
   public addUserInterfaces (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
@@ -202,12 +212,18 @@ export class RpcCore {
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async <T> (isScale: boolean, values: unknown[]): Promise<T> => {
-      const blockHash = hashIndex === -1
+      const blockId = hashIndex === -1
         ? null
-        : values[hashIndex] as (Uint8Array | string | null | undefined);
+        : values[hashIndex];
+
+      const blockHash = blockId && def.params[hashIndex].type === 'BlockNumber'
+        ? await this.#getBlockHash?.(blockId as AnyNumber)
+        : blockId as (Uint8Array | string | null | undefined);
+
       const { registry } = isScale && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
+
       const params = this._formatInputs(registry, null, def, values);
 
       // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
