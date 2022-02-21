@@ -133,6 +133,23 @@ describe('BTreeSet', (): void => {
     ).toEqual(17);
   });
 
+  it('correctly encodes/decodes the length', (): void => {
+    const none = new (BTreeSet.with(U32))(registry, []).toHex();
+    const some = new (BTreeSet.with(U32))(registry, [1, 2]).toHex();
+
+    // only the length byte
+    expect(none).toEqual('0x00');
+    expect(
+      (new (BTreeSet.with(U32))(registry, none)).initialU8aLength
+    ).toEqual(1);
+
+    // length byte + 2 values, 2 << 2 with u32 values
+    expect(some).toEqual('0x080100000002000000');
+    expect(
+      (new (BTreeSet.with(U32))(registry, some)).initialU8aLength
+    ).toEqual(1 + (2 * 4));
+  });
+
   it('correctly sorts numeric values', (): void => {
     expect(
       Array.from(new (BTreeSet.with(I32))(registry, mockI32SetObj)).map((k) => k.toNumber())
