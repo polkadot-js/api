@@ -9,6 +9,9 @@
     "**/base.ts",
     "**/polkadot/*.ts"
   ],
+  "exclude": [
+    "**/polkadot/*.spec.ts"
+  ],
   "references": [
     { "path": "../api-base/tsconfig.build.json" },
     { "path": "../rpc-augment/tsconfig.build.json" },
