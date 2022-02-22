@@ -1912,6 +1912,7 @@ __metadata:
     "@polkadot/types": 7.9.2-3
     "@polkadot/types-augment": 7.9.2-3
     "@polkadot/types-codec": 7.9.2-3
+    "@polkadot/types-support": 7.9.2-3
     "@polkadot/util": ^8.4.1
   languageName: unknown
   linkType: soft
