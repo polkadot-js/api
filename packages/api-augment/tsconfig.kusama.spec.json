@@ -11,6 +11,10 @@
     "**/kusama/*.spec.ts"
   ],
   "references": [
+    { "path": "../api-augment/tsconfig.build.json" },
+    { "path": "../api-augment/tsconfig.kusama.json" },
+    { "path": "../api-base/tsconfig.build.json" },
+    { "path": "../rpc-augment/tsconfig.build.json" },
     { "path": "../types/tsconfig.build.json" },
     { "path": "../types-augment/tsconfig.build.json" },
     { "path": "../types-support/tsconfig.build.json" }
