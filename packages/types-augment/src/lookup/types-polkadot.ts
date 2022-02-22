@@ -2118,7 +2118,8 @@ declare module '@polkadot/types/lookup' {
     readonly isParaLocked: boolean;
     readonly isNotReserved: boolean;
     readonly isEmptyCode: boolean;
-    readonly type: 'NotRegistered' | 'AlreadyRegistered' | 'NotOwner' | 'CodeTooLarge' | 'HeadDataTooLarge' | 'NotParachain' | 'NotParathread' | 'CannotDeregister' | 'CannotDowngrade' | 'CannotUpgrade' | 'ParaLocked' | 'NotReserved' | 'EmptyCode';
+    readonly isCannotSwap: boolean;
+    readonly type: 'NotRegistered' | 'AlreadyRegistered' | 'NotOwner' | 'CodeTooLarge' | 'HeadDataTooLarge' | 'NotParachain' | 'NotParathread' | 'CannotDeregister' | 'CannotDowngrade' | 'CannotUpgrade' | 'ParaLocked' | 'NotReserved' | 'EmptyCode' | 'CannotSwap';
   }
 
   /** @name PolkadotRuntimeCommonSlotsPalletError (646) */
@@ -2151,7 +2152,7 @@ declare module '@polkadot/types/lookup' {
     readonly lastContribution: PolkadotRuntimeCommonCrowdloanLastContribution;
     readonly firstPeriod: u32;
     readonly lastPeriod: u32;
-    readonly trieIndex: u32;
+    readonly fundIndex: u32;
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanLastContribution (653) */

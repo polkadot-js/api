@@ -212,6 +212,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       CodeStored: AugmentedEvent<ApiType, [H256]>;
       /**
+       * A contract's code was updated.
+       **/
+      ContractCodeUpdated: AugmentedEvent<ApiType, [AccountId32, H256, H256]>;
+      /**
        * A custom event emitted by the contract.
        **/
       ContractEmitted: AugmentedEvent<ApiType, [AccountId32, Bytes]>;

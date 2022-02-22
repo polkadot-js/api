@@ -5,7 +5,21 @@
 Changes:
 
 - Cater for `DispatchError` with `error` as `[u8; 4]`
+- Ensure `BTreeSet` has the correct decoded length
+
+
+## 7.9.1 Feb 20, 2022
+
+Contributed:
+
+- Support historic queries via blockNumber (Thanks to https://github.com/stwiname)
+
+Changes:
+
+- Align `grandpa_proveFinality` with Substrate
+- Allow for derive augmentation (swap base type to interfaces)
 - Kusama 9160 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.8.1 Feb 14, 2022

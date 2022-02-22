@@ -8,7 +8,7 @@ export default {
    * Lookup75: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
   },
   /**
    * Lookup105: polkadot_runtime_parachains::disputes::pallet::Event<T>

@@ -75,6 +75,33 @@ describe('CodecMap', (): void => {
     testEncode('toString', mockU32U32MapString);
   });
 
+  describe('enocodedLength & initialU8aLength', (): void => {
+    it('correctly encodes/decodes empty', (): void => {
+      const none = new CodecMap(registry, Text, Text, new Map([]));
+
+      // only the length byte
+      expect(none.toHex()).toEqual('0x00');
+      expect(none.encodedLength).toEqual(1);
+      expect(
+        new CodecMap(registry, Text, Text, none.toHex()).initialU8aLength
+      ).toEqual(none.encodedLength);
+    });
+
+    it('correctly encodes/decodes filled', (): void => {
+      const some = new CodecMap(registry, Text, Text, new Map([
+        [new Text(registry, '1'), new Text(registry, 'foo')],
+        [new Text(registry, '2'), new Text(registry, 'bar')]
+      ]));
+
+      // length byte + 2 values, 2 << 2 with Text values
+      expect(some.toHex()).toEqual('0x0804310c666f6f04320c626172');
+      expect(some.encodedLength).toEqual(1 + ((1 + 1) * 2) + ((1 + 3) * 2));
+      expect(
+        new CodecMap(registry, Text, Text, some.toHex()).initialU8aLength
+      ).toEqual(some.encodedLength);
+    });
+  });
+
   it('has a sane inspect', (): void => {
     expect(
       new CodecMap(registry, Text, Text, new Map([

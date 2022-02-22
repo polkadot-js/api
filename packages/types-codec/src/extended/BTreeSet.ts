@@ -20,7 +20,7 @@ function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: CodecC
     output.add(values[i]);
   }
 
-  return [output, decodedLength + offset];
+  return [output, decodedLength];
 }
 
 /** @internal */

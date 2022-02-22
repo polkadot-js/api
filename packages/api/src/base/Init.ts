@@ -64,6 +64,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
 
+    this._rpcCore.setResolveBlockHash((blockNumber) => firstValueFrom(this._rpcCore.chain.getBlockHash(blockNumber)));
+
     if (this.hasSubscriptions) {
       this._rpcCore.provider.on('disconnected', () => this.#onProviderDisconnect());
       this._rpcCore.provider.on('error', (e: Error) => this.#onProviderError(e));

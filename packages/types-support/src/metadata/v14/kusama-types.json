@@ -5277,6 +5277,12 @@
               "fields": [],
               "index": 6,
               "docs": []
+            },
+            {
+              "name": "Society",
+              "fields": [],
+              "index": 7,
+              "docs": []
             }
           ]
         }
@@ -6830,7 +6836,7 @@
               ],
               "index": 6,
               "docs": [
-                "The given validation code was rejected by the PVF pre-checking vote.",
+                "The given validation code was accepted by the PVF pre-checking vote.",
                 "`code_hash` `para_id`"
               ]
             },
@@ -6852,7 +6858,7 @@
               ],
               "index": 7,
               "docs": [
-                "The given validation code was accepted by the PVF pre-checking vote.",
+                "The given validation code was rejected by the PVF pre-checking vote.",
                 "`code_hash` `para_id`"
               ]
             }
@@ -27784,12 +27790,33 @@
   {
     "id": 461,
     "type": {
-      "path": [],
+      "path": [
+        "sp_npos_elections",
+        "ElectionScore"
+      ],
       "params": [],
       "def": {
-        "array": {
-          "len": 3,
-          "type": 6
+        "composite": {
+          "fields": [
+            {
+              "name": "minimal_stake",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            },
+            {
+              "name": "sum_stake",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            },
+            {
+              "name": "sum_stake_squared",
+              "type": 6,
+              "typeName": "ExtendedBalance",
+              "docs": []
+            }
+          ]
         }
       },
       "docs": []
@@ -41940,6 +41967,15 @@
               "docs": [
                 "Registering parachain with empty code is not allowed."
               ]
+            },
+            {
+              "name": "CannotSwap",
+              "fields": [],
+              "index": 13,
+              "docs": [
+                "Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras are",
+                "correct for the swap to work."
+              ]
             }
           ]
         }
@@ -42253,9 +42289,9 @@
               "docs": []
             },
             {
-              "name": "trie_index",
+              "name": "fund_index",
               "type": 4,
-              "typeName": "TrieIndex",
+              "typeName": "FundIndex",
               "docs": []
             }
           ]
