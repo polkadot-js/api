@@ -5,6 +5,7 @@
 Changes:
 
 - Ensure `BTreeSet` has the correct decoded length
+- Attach `PortableRegistry` at point of metadata set
 
 
 ## 7.9.1 Feb 20, 2022
