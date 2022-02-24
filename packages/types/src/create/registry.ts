@@ -230,13 +230,11 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.#lookup || this.metadata.lookup;
+    return assertReturn(this.#lookup, 'Lookup has not been set on this registry');
   }
 
   public get metadata (): MetadataLatest {
-    assert(this.#metadata, 'Metadata has not been set on this registry');
-
-    return this.#metadata;
+    return assertReturn(this.#metadata, 'Metadata has not been set on this registry');
   }
 
   public get unknownTypes (): string[] {
@@ -485,12 +483,18 @@ export class TypeRegistry implements Registry {
 
   setLookup (lookup: PortableRegistry): void {
     this.#lookup = lookup;
+
+    // register all applicable types found
+    lookup.register();
   }
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
+
+    // attach the lookup at this point (before injecting)
+    this.setLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);

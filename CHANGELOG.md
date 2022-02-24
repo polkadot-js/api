@@ -5,6 +5,9 @@
 Changes:
 
 - Ensure `BTreeSet` has the correct decoded length
+- Attach `PortableRegistry` at point of metadata set
+- Add `derive.chain.getBlockByNumber`
+- Ensure `v13 -> v14` metadata conversion attaches primitives
 
 
 ## 7.9.1 Feb 20, 2022

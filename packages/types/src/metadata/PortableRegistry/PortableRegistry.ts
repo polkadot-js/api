@@ -345,7 +345,9 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
 
 export class PortableRegistry extends Struct implements ILookup {
   #alias: Record<number, string>;
+  #lookups: Record<string, string>;
   #names: Record<number, string>;
+  #params: Record<string, SiTypeParameter[]>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
@@ -359,10 +361,10 @@ export class PortableRegistry extends Struct implements ILookup {
     const [types, lookups, names, params] = extractTypeInfo(this, this.types);
 
     this.#alias = extractAliases(params, isContract);
+    this.#lookups = lookups;
     this.#names = names;
+    this.#params = params;
     this.#types = types;
-
-    registerTypes(this, lookups, names, params);
 
     // console.timeEnd('PortableRegistry')
   }
@@ -376,6 +378,10 @@ export class PortableRegistry extends Struct implements ILookup {
    */
   public get types (): Vec<PortableType> {
     return this.getT('types');
+  }
+
+  public register (): void {
+    registerTypes(this, this.#lookups, this.#names, this.#params);
   }
 
   /**
