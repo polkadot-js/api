@@ -51,6 +51,12 @@ function compatType (compatTypes: TypeSpec[], _type: Text | string): number {
   }) - 1;
 }
 
+function compatTypes (compatTypes: TypeSpec[], ...types: (Text | string)[]): void {
+  for (let i = 0; i < types.length; i++) {
+    compatType(compatTypes, types[i]);
+  }
+}
+
 function makeTupleType (compatTypes: TypeSpec[], entries: number[]): number {
   return compatTypes.push({
     def: {
@@ -307,14 +313,15 @@ function createPallet (compatTypes: TypeSpec[], registry: Registry, mod: ModuleM
  * @internal
  **/
 export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number): MetadataV14 {
-  const compatTypes: TypeSpec[] = [];
+  const specs: TypeSpec[] = [];
 
-  compatType(compatTypes, 'Null'); // position 0 always has Null
+  // position 0 always has Null, additionally add internal defaults
+  compatTypes(specs, 'Null', 'u8', 'u16', 'u32', 'u64');
   registerOriginCaller(registry, v13.modules, metaVersion);
 
   const extrinsic = convertExtrinsic(registry, v13.extrinsic);
   const pallets = v13.modules.map((mod) =>
-    createPallet(compatTypes, registry, mod, {
+    createPallet(specs, registry, mod, {
       calls: mod.calls.unwrapOr(null),
       constants: mod.constants,
       errors: mod.errors.length ? mod.errors : null,
@@ -326,7 +333,7 @@ export function toV14 (registry: Registry, v13: MetadataV13, metaVersion: number
   return registry.createTypeUnsafe('MetadataV14', [{
     extrinsic,
     lookup: {
-      types: compatTypes.map((type, id) =>
+      types: specs.map((type, id) =>
         registry.createTypeUnsafe('PortableType', [{ id, type }])
       )
     },
