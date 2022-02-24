@@ -6,5 +6,6 @@ export * from './bestNumberFinalized';
 export * from './bestNumberLag';
 export * from './getHeader';
 export * from './getBlock';
+export * from './getBlockByNumber';
 export * from './subscribeNewBlocks';
 export * from './subscribeNewHeads';
