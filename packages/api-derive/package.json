@@ -20,25 +20,25 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.9.2-9",
+  "version": "7.9.2-10",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@polkadot/api": "7.9.2-9",
-    "@polkadot/api-augment": "7.9.2-9",
-    "@polkadot/api-base": "7.9.2-9",
-    "@polkadot/rpc-core": "7.9.2-9",
-    "@polkadot/types": "7.9.2-9",
-    "@polkadot/types-codec": "7.9.2-9",
+    "@polkadot/api": "7.9.2-10",
+    "@polkadot/api-augment": "7.9.2-10",
+    "@polkadot/api-base": "7.9.2-10",
+    "@polkadot/rpc-core": "7.9.2-10",
+    "@polkadot/types": "7.9.2-10",
+    "@polkadot/types-codec": "7.9.2-10",
     "@polkadot/util": "^8.4.1",
     "@polkadot/util-crypto": "^8.4.1",
     "rxjs": "^7.5.4"
   },
   "devDependencies": {
-    "@polkadot/api": "7.9.2-9",
-    "@polkadot/api-augment": "7.9.2-9",
-    "@polkadot/rpc-augment": "7.9.2-9",
-    "@polkadot/rpc-provider": "7.9.2-9",
-    "@polkadot/types-support": "7.9.2-9"
+    "@polkadot/api": "7.9.2-10",
+    "@polkadot/api-augment": "7.9.2-10",
+    "@polkadot/rpc-augment": "7.9.2-10",
+    "@polkadot/rpc-provider": "7.9.2-10",
+    "@polkadot/types-support": "7.9.2-10"
   }
 }
