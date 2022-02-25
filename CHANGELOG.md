@@ -7,6 +7,7 @@ Changes:
 - Ensure `BTreeSet` has the correct decoded length
 - Attach `PortableRegistry` at point of metadata set
 - Add `derive.chain.getBlockByNumber`
+- Retrieve named reserves in `derive.balances.all`
 - Ensure `v13 -> v14` metadata conversion attaches primitives
 
 
