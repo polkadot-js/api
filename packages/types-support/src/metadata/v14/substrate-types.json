@@ -28991,8 +28991,8 @@
             },
             {
               "name": "stack_height",
-              "type": 4,
-              "typeName": "u32",
+              "type": 92,
+              "typeName": "Option<u32>",
               "docs": []
             },
             {
@@ -34338,7 +34338,7 @@
               ]
             },
             {
-              "name": "Unknown",
+              "name": "UnknownClass",
               "fields": [],
               "index": 1,
               "docs": [

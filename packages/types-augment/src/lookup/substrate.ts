@@ -3655,7 +3655,7 @@ export default {
    **/
   PalletContractsScheduleLimits: {
     eventTopics: 'u32',
-    stackHeight: 'u32',
+    stackHeight: 'Option<u32>',
     globals: 'u32',
     parameters: 'u32',
     memoryPages: 'u32',
@@ -4185,7 +4185,7 @@ export default {
    * Lookup534: pallet_uniques::pallet::Error<T, I>
    **/
   PalletUniquesError: {
-    _enum: ['NoPermission', 'Unknown', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved']
+    _enum: ['NoPermission', 'UnknownClass', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved']
   },
   /**
    * Lookup536: pallet_transaction_storage::TransactionInfo

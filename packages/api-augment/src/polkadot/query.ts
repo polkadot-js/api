@@ -867,6 +867,8 @@ declare module '@polkadot/api-base/types/storage' {
       heads: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * All parachains. Ordered ascending by `ParaId`. Parathreads are not included.
+       * 
+       * Consider using the [`ParachainsCache`] type of modifying.
        **/
       parachains: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**

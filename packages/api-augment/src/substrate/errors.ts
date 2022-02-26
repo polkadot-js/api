@@ -1680,7 +1680,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * The given asset ID is unknown.
        **/
-      Unknown: AugmentedError<ApiType>;
+      UnknownClass: AugmentedError<ApiType>;
       /**
        * The delegate turned out to be different to what was expected.
        **/

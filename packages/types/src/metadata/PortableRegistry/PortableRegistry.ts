@@ -104,7 +104,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 // check if the path matches the PATHS_ALIAS (with wildcards)
 function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
     : null;
 }
@@ -514,8 +514,13 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
-    const bitOrder = this.#createSiDef(bitOrderType);
-    const bitStore = this.#createSiDef(bitStoreType);
+    // With the v3 of scale-info this swapped around, but obviously the decoder cannot determine
+    // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
+    const a = this.#createSiDef(bitOrderType);
+    const b = this.#createSiDef(bitStoreType);
+    const [bitOrder, bitStore] = ['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(a.namespace || '')
+      ? [a, b]
+      : [b, a];
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
@@ -740,7 +745,7 @@ export class PortableRegistry extends Struct implements ILookup {
       return this.getTypeDef(ids[0]);
     }
 
-    const sub = ids.map((type) => this.#createSiDef(type));
+    const sub = ids.map((t) => this.#createSiDef(t));
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,

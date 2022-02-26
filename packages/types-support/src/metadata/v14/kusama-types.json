@@ -29103,7 +29103,7 @@
             {
               "name": null,
               "type": 479,
-              "typeName": "BitVec<bitvec::order::Lsb0, u8>",
+              "typeName": "BitVec<u8, bitvec::order::Lsb0>",
               "docs": []
             }
           ]
@@ -29237,7 +29237,7 @@
             {
               "name": "validator_indices",
               "type": 479,
-              "typeName": "BitVec<bitvec::order::Lsb0, u8>",
+              "typeName": "BitVec<u8, bitvec::order::Lsb0>",
               "docs": []
             }
           ]
@@ -39631,13 +39631,13 @@
             {
               "name": "availability_votes",
               "type": 479,
-              "typeName": "BitVec<BitOrderLsb0, u8>",
+              "typeName": "BitVec<u8, BitOrderLsb0>",
               "docs": []
             },
             {
               "name": "backers",
               "type": 479,
-              "typeName": "BitVec<BitOrderLsb0, u8>",
+              "typeName": "BitVec<u8, BitOrderLsb0>",
               "docs": []
             },
             {
@@ -40462,13 +40462,13 @@
             {
               "name": "votes_accept",
               "type": 479,
-              "typeName": "BitVec<BitOrderLsb0, u8>",
+              "typeName": "BitVec<u8, BitOrderLsb0>",
               "docs": []
             },
             {
               "name": "votes_reject",
               "type": 479,
-              "typeName": "BitVec<BitOrderLsb0, u8>",
+              "typeName": "BitVec<u8, BitOrderLsb0>",
               "docs": []
             },
             {
@@ -41692,13 +41692,13 @@
             {
               "name": "validators_for",
               "type": 479,
-              "typeName": "BitVec<bitvec::order::Lsb0, u8>",
+              "typeName": "BitVec<u8, bitvec::order::Lsb0>",
               "docs": []
             },
             {
               "name": "validators_against",
               "type": 479,
-              "typeName": "BitVec<bitvec::order::Lsb0, u8>",
+              "typeName": "BitVec<u8, bitvec::order::Lsb0>",
               "docs": []
             },
             {
