@@ -197,10 +197,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
-            switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
-              isSubscription
+            switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> => {
+              console.log('🚀 ~ file: createClass.ts ~ line 226 ~ Submittable ~ switchMap ~ updateId', updateId);
+
+              return isSubscription
                 ? this.#observeSubscribe(updateId)
-                : this.#observeSend(updateId)
+                : this.#observeSend(updateId);
+            }
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -230,6 +233,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
             console.log('🚀 ~ file: createClass.ts ~ line 230 ~ Submittable ~ mergeMap ~ updateId', updateId);
           }
+        }),
+        tap(() => {
+          console.log('🚀 ~ file: createClass.ts ~ line 240 ~ Submittable ~ updateId - tap', updateId);
         }),
         mapTo(updateId) as OperatorFunction<void, number | undefined>
       );
