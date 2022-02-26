@@ -104,7 +104,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 // check if the path matches the PATHS_ALIAS (with wildcards)
 function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
     : null;
 }
@@ -745,7 +745,7 @@ export class PortableRegistry extends Struct implements ILookup {
       return this.getTypeDef(ids[0]);
     }
 
-    const sub = ids.map((type) => this.#createSiDef(type));
+    const sub = ids.map((t) => this.#createSiDef(t));
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
