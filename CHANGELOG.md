@@ -9,6 +9,7 @@ Changes:
 - Add `derive.chain.getBlockByNumber`
 - Retrieve named reserves in `derive.balances.all`
 - Ensure `v13 -> v14` metadata conversion attaches primitives
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.9.1 Feb 20, 2022

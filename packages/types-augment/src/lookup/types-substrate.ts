@@ -4018,7 +4018,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletContractsScheduleLimits (434) */
   export interface PalletContractsScheduleLimits extends Struct {
     readonly eventTopics: u32;
-    readonly stackHeight: u32;
+    readonly stackHeight: Option<u32>;
     readonly globals: u32;
     readonly parameters: u32;
     readonly memoryPages: u32;
@@ -4669,7 +4669,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletUniquesError (534) */
   export interface PalletUniquesError extends Enum {
     readonly isNoPermission: boolean;
-    readonly isUnknown: boolean;
+    readonly isUnknownClass: boolean;
     readonly isAlreadyExists: boolean;
     readonly isWrongOwner: boolean;
     readonly isBadWitness: boolean;
@@ -4678,7 +4678,7 @@ declare module '@polkadot/types/lookup' {
     readonly isWrongDelegate: boolean;
     readonly isNoDelegate: boolean;
     readonly isUnapproved: boolean;
-    readonly type: 'NoPermission' | 'Unknown' | 'AlreadyExists' | 'WrongOwner' | 'BadWitness' | 'InUse' | 'Frozen' | 'WrongDelegate' | 'NoDelegate' | 'Unapproved';
+    readonly type: 'NoPermission' | 'UnknownClass' | 'AlreadyExists' | 'WrongOwner' | 'BadWitness' | 'InUse' | 'Frozen' | 'WrongDelegate' | 'NoDelegate' | 'Unapproved';
   }
 
   /** @name PalletTransactionStorageTransactionInfo (536) */
