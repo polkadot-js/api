@@ -514,8 +514,13 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
-    const bitOrder = this.#createSiDef(bitOrderType);
-    const bitStore = this.#createSiDef(bitStoreType);
+    // With the v3 of scale-info this swapped around, but obviously the decoder cannot determine
+    // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
+    const a = this.#createSiDef(bitOrderType);
+    const b = this.#createSiDef(bitStoreType);
+    const [bitOrder, bitStore] = ['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(a.namespace || '')
+      ? [a, b]
+      : [b, a];
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
