@@ -227,6 +227,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             this.sign(account, eraOptions);
           } else {
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+
+            console.log('🚀 ~ file: createClass.ts ~ line 230 ~ Submittable ~ mergeMap ~ updateId', updateId);
           }
         }),
         mapTo(updateId) as OperatorFunction<void, number | undefined>
@@ -264,6 +266,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     };
 
     #observeSend = (updateId = -1): Observable<Hash> => {
+      console.log('in the observe send');
+
       return api.rpc.author.submitExtrinsic(this).pipe(
         tap((hash): void => {
           this.#updateSigner(updateId, hash);
@@ -273,6 +277,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
       const txHash = this.hash;
+
+      console.log('in the observe subscribe');
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
@@ -309,11 +315,17 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       // payload data is not modified from our inputs, but the signer
       super.addSignature(address, result.signature, payload.toPayload());
 
+      console.log('🚀 ~ file: createClass.ts ~ line 317 ~ Submittable ~ #signViaSigner= ~ result', result);
+
       return result.id;
     };
 
     #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
+      console.log('in the update signer');
+
       if ((updateId !== -1) && api.signer && api.signer.update) {
+        console.log('does trigger update');
+
         api.signer.update(updateId, status);
       }
     };
