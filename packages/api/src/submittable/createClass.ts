@@ -174,7 +174,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, partialOptions).pipe(
-            mapTo<number | undefined, this>(this)
+            mapTo<() => number | undefined, this>(this)
           )
       )();
     }
@@ -197,10 +197,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
-            switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
-              isSubscription
-                ? this.#observeSubscribe(updateId)
-                : this.#observeSend(updateId)
+            switchMap((getUpdateId): Observable<ISubmittableResult> | Observable<Hash> => {
+              return isSubscription
+                ? this.#observeSubscribe(getUpdateId())
+                : this.#observeSend(getUpdateId());
+            }
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -213,10 +214,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return this;
     }
 
-    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<number | undefined> => {
+    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<() => number | undefined> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
       let updateId: number | undefined;
+
+      function getUpdateId () {
+        return updateId;
+      }
 
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
@@ -229,7 +234,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
-        mapTo(updateId) as OperatorFunction<void, number | undefined>
+        mapTo(getUpdateId) as OperatorFunction<void, () => number | undefined>
       );
     };
 
