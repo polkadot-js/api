@@ -25,7 +25,6 @@
     "clean": "polkadot-dev-clean-build",
     "docs:metadata": "polkadot-types-internal-metadata",
     "lint": "polkadot-dev-run-lint",
-    "polkadot-dev-copy-to": "polkadot-dev-copy-to",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit",
