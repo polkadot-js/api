@@ -43,6 +43,7 @@
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
        1	chriswmercer                  	little readme tweak (#279)
        1	codingsh                      	#2182 - add: search for docs (#2232)
+       1	coolcorexix                   	Investigate 4559 v2 (#4608)
        1	Dan Forbes                    	Add WeightToFeeCoefficient type (#2296)
        1	Daniel Maricic                	Fixed typo in README (#2402)
        1	Daniel Savu                   	fix: Generate custom type definitions (#4224)
