@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## master
+## 7.10.1 Feb 27, 2022
+
+Contributed:
+
+- Ensure `updateId` is correct in signer callbacks (Thanks to https://github.com/coolcorexix)
 
 Changes:
 
