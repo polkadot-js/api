@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Kusama 9170 upgrade block
+
+
 ## 7.10.1 Feb 27, 2022
 
 Contributed:
