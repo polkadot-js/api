@@ -14,6 +14,13 @@ interface Tracker<T> {
   resolve: (value: T) => void;
 }
 
+type CodecReturnType<T extends (...args: unknown[]) => unknown> =
+  T extends (...args: any) => infer R
+    ? R extends Observable<Codec>
+      ? ObsInnerType<R>
+      : Codec
+    : Codec;
+
 // a Promise completion tracker, wrapping an isComplete variable that ensures the promise only resolves once
 export function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) => void): Tracker<T> {
   let isCompleted = false;
@@ -56,7 +63,7 @@ function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Call
 }
 
 // Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
-function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, args: unknown[]): Promise<ObsInnerType<ReturnType<M>>> {
+function decorateCall<M extends DecorateFn<CodecReturnType<M>>> (method: M, args: unknown[]): Promise<CodecReturnType<M>> {
   return new Promise((resolve, reject): void => {
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
@@ -74,7 +81,7 @@ function decorateCall<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, args: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
+function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M, args: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
@@ -95,10 +102,10 @@ function decorateSubscribe<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (m
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function toPromiseMethod<M extends DecorateFn<ObsInnerType<ReturnType<M>>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function toPromiseMethod<M extends DecorateFn<CodecReturnType<M>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
 
-  return function (...args: unknown[]): Promise<ObsInnerType<ReturnType<M>>> | UnsubscribePromise {
+  return function (...args: unknown[]): Promise<CodecReturnType<M>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb
