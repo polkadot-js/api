@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
+import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -18,7 +18,7 @@ type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
-    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} };
+    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} as DeriveEraValPoints };
     const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
