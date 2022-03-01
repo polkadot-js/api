@@ -297,9 +297,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       })]);
       let result: SignerResult;
 
-      if (signer.signPayload) {
+      if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
-      } else if (signer.signRaw) {
+      } else if (isFunction(signer.signRaw)) {
         result = await signer.signRaw(payload.toRaw());
       } else {
         throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
@@ -316,7 +316,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
     #updateSigner = (options: SignatureOptions, updateId: number, status: Hash | ISubmittableResult): void => {
       const signer = options.signer || api.signer;
 
-      if ((updateId !== -1) && signer && signer.update) {
+      if ((updateId !== -1) && signer && isFunction(signer.update)) {
         signer.update(updateId, status);
       }
     };
