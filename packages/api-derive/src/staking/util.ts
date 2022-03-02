@@ -7,11 +7,39 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { ExactDerive } from '../derive';
 import type { DeriveApi } from '../types';
 
-import { combineLatest, of, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
+
+import { arrayChunk, arrayFlatten } from '@polkadot/util';
 
 import { memo } from '../util';
 
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
+
+function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
+  if (!eras.length) {
+    return of([]);
+  }
+
+  // only retrieve a maximum of 8 eras at a time (thumbsuck)
+  const chunked = arrayChunk(eras, 8);
+  let index = 0;
+  const startSubject = new BehaviorSubject<EraIndex[]>(chunked[index]);
+
+  return startSubject.pipe(
+    switchMap(fn),
+    tap((): void => {
+      setTimeout((): void => {
+        index++;
+
+        index === chunked.length
+          ? startSubject.complete()
+          : startSubject.next(chunked[index]);
+      }, 0);
+    }),
+    toArray(),
+    map(arrayFlatten)
+  );
+}
 
 export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list: T[]): EraIndex[] {
   return eras.filter((e) => !list.some(({ era }) => e.eq(era)));
@@ -53,9 +81,10 @@ export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlash
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (eras: EraIndex[], withActive: boolean) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      eras.length
-        ? combineLatest(eras.map((e) => api.derive.staking[fn](e, withActive)))
-        : of([])
+      chunkEras(eras, (eras) =>
+        combineLatest(
+          eras.map((e) => api.derive.staking[fn](e, withActive))
+        )
+      )
     ) as any;
 }
