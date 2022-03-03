@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Header, Index } from '@polkadot/types/interfaces';
+import type { BlockHash, BlockNumber, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
 
@@ -13,7 +13,8 @@ import { isNumber, isUndefined } from '@polkadot/util';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
-  header: Header | null;
+  blockHash: BlockHash | null;
+  blockNumber: BlockNumber | null;
   mortalLength: number;
   nonce: Index;
 }
@@ -30,31 +31,53 @@ function nextNonce (api: DeriveApi, address: string): Observable<Index> {
     : latestNonce(api, address);
 }
 
-function signingHeader (api: DeriveApi): Observable<Header> {
+function getHeader (api: DeriveApi, hash: BlockHash): Observable<[BlockHash, Header]> {
   return combineLatest([
-    api.rpc.chain.getHeader().pipe(
-      switchMap((header) =>
-        // check for chains at genesis (until block 1 is produced, e.g. 6s), since
-        // we do need to allow transactions at chain start (also dev/seal chains)
-        header.parentHash.isEmpty
-          ? of(header)
-          // in the case of the current block, we use the parent to minimize the
-          // impact of forks on the system, but not completely remove it
-          : api.rpc.chain.getHeader(header.parentHash)
-      )
-    ),
-    api.rpc.chain.getFinalizedHead().pipe(
-      switchMap((hash) =>
-        api.rpc.chain.getHeader(hash)
+    of(hash),
+    api.rpc.chain.getHeader(hash)
+  ]);
+}
+
+function getBest (api: DeriveApi): Observable<[BlockHash, Header]> {
+  return api.rpc.chain.getBlockHash().pipe(
+    switchMap((hash) =>
+      api.rpc.chain.getHeader(hash).pipe(
+        switchMap((header) =>
+          // check for chains at genesis (until block 1 is produced, e.g. 6s), since
+          // we do need to allow transactions at chain start (also dev/seal chains)
+          hash.eq(api.genesisHash)
+            ? of<[BlockHash, Header]>([hash, header])
+            // in the case of the current block, we use the parent to minimize the
+            // impact of forks on the system, but not completely remove it
+            : getHeader(api, header.parentHash)
+        )
       )
     )
+  );
+}
+
+function getFin (api: DeriveApi): Observable<[BlockHash, Header]> {
+  return api.rpc.chain.getFinalizedHead().pipe(
+    switchMap((hash) =>
+      getHeader(api, hash)
+    )
+  );
+}
+
+function signingHeader (api: DeriveApi): Observable<[BlockHash, BlockNumber]> {
+  return combineLatest([
+    getBest(api),
+    getFin(api)
   ]).pipe(
-    map(([current, finalized]) =>
+    map(([[hash, head], [finHash, finHead]]): [BlockHash, BlockNumber] => {
+      const bestNum = head.number.unwrap();
+      const finNum = finHead.number.unwrap();
+
       // determine the hash to use, current when lag > max, else finalized
-      current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
-        ? current
-        : finalized
-    )
+      return bestNum.sub(finNum).gt(MAX_FINALITY_LAG)
+        ? [hash, bestNum]
+        : [finHash, finNum];
+    })
   );
 }
 
@@ -71,10 +94,11 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
       // if no era (create) or era > 0 (mortal), do block retrieval
       (isUndefined(era) || (isNumber(era) && era > 0))
         ? signingHeader(api)
-        : of(null)
+        : of([null, null, null])
     ]).pipe(
-      map(([nonce, header]) => ({
-        header,
+      map(([nonce, [blockHash, blockNumber]]) => ({
+        blockHash,
+        blockNumber,
         mortalLength: Math.min(
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
