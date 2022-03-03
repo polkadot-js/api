@@ -21,10 +21,6 @@ type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDeriv
 const ERA_CHUNK_SIZE = 14;
 
 function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
-  if (!eras.length) {
-    return of([]);
-  }
-
   const chunked = arrayChunk(eras, ERA_CHUNK_SIZE);
   let index = 0;
   const startSubject = new BehaviorSubject<EraIndex[]>(chunked[index]);
@@ -85,10 +81,12 @@ export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlash
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (eras: EraIndex[], withActive: boolean) =>
-      chunkEras(eras, (eras) =>
-        combineLatest(
-          eras.map((e) => api.derive.staking[fn](e, withActive))
+      !eras.length
+        ? of([])
+        : chunkEras(eras, (eras) =>
+          combineLatest(
+            eras.map((e) => api.derive.staking[fn](e, withActive))
+          )
         )
-      )
     ) as any;
 }
