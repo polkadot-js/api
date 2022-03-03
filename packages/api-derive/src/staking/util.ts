@@ -15,13 +15,17 @@ import { memo } from '../util';
 
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
 
+// only retrieve a maximum of 14 eras (84 / 6) at a time
+// (This is not empirically calculate. Rather smaller sizes take longer
+// time due to the serial nature, large sizes may tie up the RPCs)
+const ERA_CHUNK_SIZE = 14;
+
 function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
   if (!eras.length) {
     return of([]);
   }
 
-  // only retrieve a maximum of 8 eras at a time (thumbsuck)
-  const chunked = arrayChunk(eras, 8);
+  const chunked = arrayChunk(eras, ERA_CHUNK_SIZE);
   let index = 0;
   const startSubject = new BehaviorSubject<EraIndex[]>(chunked[index]);
 

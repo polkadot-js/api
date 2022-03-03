@@ -4,6 +4,7 @@
 
 Changes:
 
+- Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
 - Kusama 9170 upgrade block
 
 
