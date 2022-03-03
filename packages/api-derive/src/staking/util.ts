@@ -16,7 +16,7 @@ import { memo } from '../util';
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
 
 // only retrieve a maximum of 14 eras (84 / 6) at a time
-// (This is not empirically calculate. Rather smaller sizes take longer
+// (This is not empirically calculated. Rather smaller sizes take longer
 // time due to the serial nature, large sizes may tie up the RPCs)
 const ERA_CHUNK_SIZE = 14;
 
