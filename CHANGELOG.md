@@ -5,7 +5,7 @@
 Changes:
 
 - Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
-- Kusama 9170 upgrade block
+- Kusama & Polkadot 9170 upgrade blocks
 
 
 ## 7.10.1 Feb 27, 2022
