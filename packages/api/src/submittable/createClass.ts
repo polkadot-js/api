@@ -3,7 +3,7 @@
 
 /* eslint-disable no-dupe-class-members */
 
-import type { Observable, OperatorFunction } from 'rxjs';
+import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
 import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
@@ -22,6 +22,11 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   apiType: ApiTypes;
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
+}
+
+interface UpdateInfo {
+  options: SignatureOptions;
+  updateId: number;
 }
 
 const identity = <T> (input: T): T => input;
@@ -174,7 +179,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, partialOptions).pipe(
-            mapTo<() => number | undefined, this>(this)
+            mapTo(this)
           )
       )();
     }
@@ -197,11 +202,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
-            switchMap((getUpdateId): Observable<ISubmittableResult> | Observable<Hash> => {
-              return isSubscription
-                ? this.#observeSubscribe(getUpdateId())
-                : this.#observeSend(getUpdateId());
-            }
+            switchMap((infoFn): Observable<ISubmittableResult> | Observable<Hash> =>
+              isSubscription
+                ? this.#observeSubscribe(infoFn)
+                : this.#observeSend(infoFn)
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -214,19 +218,16 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return this;
     }
 
-    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<() => number | undefined> => {
+    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<() => UpdateInfo> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
-      let updateId: number | undefined;
-
-      function getUpdateId () {
-        return updateId;
-      }
+      let updateId = -1;
+      let eraOptions: SignatureOptions;
 
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
         mergeMap(async (signingInfo): Promise<void> => {
-          const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
+          eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
 
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
@@ -234,7 +235,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
         }),
-        mapTo(getUpdateId) as OperatorFunction<void, () => number | undefined>
+        mapTo(() => ({ options: eraOptions, updateId }))
       );
     };
 
@@ -268,15 +269,15 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       );
     };
 
-    #observeSend = (updateId = -1): Observable<Hash> => {
+    #observeSend = (infoFn: () => UpdateInfo): Observable<Hash> => {
       return api.rpc.author.submitExtrinsic(this).pipe(
         tap((hash): void => {
-          this.#updateSigner(updateId, hash);
+          this.#updateSigner(infoFn, hash);
         })
       );
     };
 
-    #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
+    #observeSubscribe = (infoFn: () => UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
@@ -284,7 +285,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           this.#observeStatus(txHash, status)
         ),
         tap((status): void => {
-          this.#updateSigner(updateId, status);
+          this.#updateSigner(infoFn, status);
         })
       );
     };
@@ -301,9 +302,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       })]);
       let result: SignerResult;
 
-      if (signer.signPayload) {
+      if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
-      } else if (signer.signRaw) {
+      } else if (isFunction(signer.signRaw)) {
         result = await signer.signRaw(payload.toRaw());
       } else {
         throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
@@ -317,9 +318,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return result.id;
     };
 
-    #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
-      if ((updateId !== -1) && api.signer && api.signer.update) {
-        api.signer.update(updateId, status);
+    #updateSigner = (infoFn: () => UpdateInfo, status: Hash | ISubmittableResult): void => {
+      const { options, updateId } = infoFn();
+      const signer = options.signer || api.signer;
+
+      if ((updateId !== -1) && signer && isFunction(signer.update)) {
+        signer.update(updateId, status);
       }
     };
   }
