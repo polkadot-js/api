@@ -202,10 +202,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return decorateMethod(
         (): Observable<Codec> => (
           this.#observeSign(account, options).pipe(
-            switchMap((infoFn): Observable<ISubmittableResult> | Observable<Hash> =>
+            switchMap((info): Observable<ISubmittableResult> | Observable<Hash> =>
               isSubscription
-                ? this.#observeSubscribe(infoFn)
-                : this.#observeSend(infoFn)
+                ? this.#observeSubscribe(info)
+                : this.#observeSend(info)
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -218,24 +218,24 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return this;
     }
 
-    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<() => UpdateInfo> => {
+    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<UpdateInfo> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
-      let updateId = -1;
-      let eraOptions: SignatureOptions;
 
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
-        mergeMap(async (signingInfo): Promise<void> => {
-          eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
+        mergeMap(async (signingInfo): Promise<UpdateInfo> => {
+          const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
+          let updateId = -1;
 
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
             updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
           }
-        }),
-        mapTo(() => ({ options: eraOptions, updateId }))
+
+          return { options: eraOptions, updateId };
+        })
       );
     };
 
@@ -269,15 +269,15 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       );
     };
 
-    #observeSend = (infoFn: () => UpdateInfo): Observable<Hash> => {
+    #observeSend = (info: UpdateInfo): Observable<Hash> => {
       return api.rpc.author.submitExtrinsic(this).pipe(
         tap((hash): void => {
-          this.#updateSigner(infoFn, hash);
+          this.#updateSigner(hash, info);
         })
       );
     };
 
-    #observeSubscribe = (infoFn: () => UpdateInfo): Observable<ISubmittableResult> => {
+    #observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
@@ -285,7 +285,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
           this.#observeStatus(txHash, status)
         ),
         tap((status): void => {
-          this.#updateSigner(infoFn, status);
+          this.#updateSigner(status, info);
         })
       );
     };
@@ -318,12 +318,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
       return result.id;
     };
 
-    #updateSigner = (infoFn: () => UpdateInfo, status: Hash | ISubmittableResult): void => {
-      const { options, updateId } = infoFn();
-      const signer = options.signer || api.signer;
+    #updateSigner = (status: Hash | ISubmittableResult, info?: UpdateInfo): void => {
+      if (info && (info.updateId !== -1)) {
+        const { options, updateId } = info;
+        const signer = options.signer || api.signer;
 
-      if ((updateId !== -1) && signer && isFunction(signer.update)) {
-        signer.update(updateId, status);
+        if (signer && isFunction(signer.update)) {
+          signer.update(updateId, status);
+        }
       }
     };
   }
