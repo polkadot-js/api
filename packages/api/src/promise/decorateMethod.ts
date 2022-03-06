@@ -14,14 +14,15 @@ interface Tracker<T> {
   resolve: (value: T) => void;
 }
 
-type CodecReturnType<T extends (...args: unknown[]) => unknown> =
+type CodecReturnType<T extends (...args: unknown[]) => Observable<Codec>> =
   T extends (...args: any) => infer R
     ? R extends Observable<Codec>
       ? ObsInnerType<R>
-      : Codec
-    : Codec;
+      : never
+    : never;
 
-// a Promise completion tracker, wrapping an isComplete variable that ensures the promise only resolves once
+// a Promise completion tracker, wrapping an isComplete variable that ensures
+// that the promise only resolves once
 export function promiseTracker<T> (resolve: (value: T) => void, reject: (value: Error) => void): Tracker<T> {
   let isCompleted = false;
 
@@ -47,14 +48,13 @@ export function promiseTracker<T> (resolve: (value: T) => void, reject: (value: 
 
 // extract the arguments and callback params from a value array possibly containing a callback
 function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Callback<Codec> | undefined] {
-  let callback: Callback<Codec> | undefined;
   const actualArgs = args.slice();
 
   // If the last arg is a function, we pop it, put it into callback.
   // actualArgs will then hold the actual arguments to be passed to `method`
-  if (args.length && isFunction(args[args.length - 1])) {
-    callback = actualArgs.pop() as Callback<Codec>;
-  }
+  const callback = (args.length && isFunction(args[args.length - 1]))
+    ? actualArgs.pop() as Callback<Codec>
+    : undefined;
 
   // When we need a subscription, ensure that a valid callback is actually passed
   assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
