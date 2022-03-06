@@ -1438,6 +1438,28 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    stateTrieMigration: {
+      /**
+       * bad witness data provided.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * max signed limits not respected.
+       **/
+      MaxSignedLimits: AugmentedError<ApiType>;
+      /**
+       * submitter does not have enough funds.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * upper bound of size is exceeded,
+       **/
+      SizeUpperBoundExceeded: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     sudo: {
       /**
        * Sender must be the Sudo account
@@ -1726,6 +1748,32 @@ declare module '@polkadot/api-base/types/errors' {
        * An index was out of bounds of the vesting schedules.
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    whitelist: {
+      /**
+       * The call was already whitelisted; No-Op.
+       **/
+      CallAlreadyWhitelisted: AugmentedError<ApiType>;
+      /**
+       * The call was not whitelisted.
+       **/
+      CallIsNotWhitelisted: AugmentedError<ApiType>;
+      /**
+       * The weight of the decoded call was higher than the witness.
+       **/
+      InvalidCallWeightWitness: AugmentedError<ApiType>;
+      /**
+       * The preimage of the call hash could not be loaded.
+       **/
+      UnavailablePreImage: AugmentedError<ApiType>;
+      /**
+       * The call could not be decoded.
+       **/
+      UndecodableCall: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

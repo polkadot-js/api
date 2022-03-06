@@ -5,6 +5,7 @@
 Changes:
 
 - Kusama & Polkadot 9170 upgrade blocks
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.10.1 Feb 27, 2022
