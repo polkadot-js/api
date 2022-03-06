@@ -576,12 +576,21 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
+       * Maximum number of nominations per nominator.
+       **/
+      maxNominations: u32 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of nominators rewarded for each validator.
        * 
        * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can
        * claim their reward. This used to limit the i/o cost for the nominator payout.
        **/
       maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of `unlocking` chunks a [`StakingLedger`] can have. Effectively
+       * determines how many unique eras a staker may be unbonding in.
+       **/
+      maxUnlockingChunks: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/

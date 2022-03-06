@@ -6,7 +6,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV1CandidateReceipt, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV1CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -567,6 +567,33 @@ declare module '@polkadot/api-base/types/events' {
        * code. `code_hash` `para_id`
        **/
       PvfCheckStarted: AugmentedEvent<ApiType, [H256, u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    parasDisputes: {
+      /**
+       * A dispute has concluded for or against a candidate.
+       * `\[para id, candidate hash, dispute result\]`
+       **/
+      DisputeConcluded: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeResult]>;
+      /**
+       * A dispute has been initiated. \[candidate hash, dispute location\]
+       **/
+      DisputeInitiated: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeLocation]>;
+      /**
+       * A dispute has timed out due to insufficient participation.
+       * `\[para id, candidate hash\]`
+       **/
+      DisputeTimedOut: AugmentedEvent<ApiType, [H256]>;
+      /**
+       * A dispute has concluded with supermajority against a candidate.
+       * Block authors should no longer build on top of this head and should
+       * instead revert the block at the given height. This should be the
+       * number of the child of the last known valid block in the chain.
+       **/
+      Revert: AugmentedEvent<ApiType, [u32]>;
       /**
        * Generic event
        **/
