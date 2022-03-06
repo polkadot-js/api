@@ -5,6 +5,7 @@
 Changes:
 
 - Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
+- Ensure that signer (passed via options) do get updated
 - Kusama & Polkadot 9170 upgrade blocks
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
