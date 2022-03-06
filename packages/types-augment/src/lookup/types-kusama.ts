@@ -2,9 +2,9 @@
 /* eslint-disable */
 
 declare module '@polkadot/types/lookup' {
-  import type { BitVec, Compact, Enum, Null, Option, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
+  import type { Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
   import type { ITuple } from '@polkadot/types-codec/types';
-  import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
+  import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
   /** @name KusamaRuntimeProxyType (75) */
   export interface KusamaRuntimeProxyType extends Enum {
@@ -19,34 +19,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesPalletEvent (105) */
-  export interface PolkadotRuntimeParachainsDisputesPalletEvent extends Enum {
-    readonly isDisputeInitiated: boolean;
-    readonly asDisputeInitiated: ITuple<[H256, PolkadotRuntimeParachainsDisputesDisputeLocation]>;
-    readonly isDisputeConcluded: boolean;
-    readonly asDisputeConcluded: ITuple<[H256, PolkadotRuntimeParachainsDisputesDisputeResult]>;
-    readonly isDisputeTimedOut: boolean;
-    readonly asDisputeTimedOut: H256;
-    readonly isRevert: boolean;
-    readonly asRevert: u32;
-    readonly type: 'DisputeInitiated' | 'DisputeConcluded' | 'DisputeTimedOut' | 'Revert';
-  }
-
-  /** @name PolkadotRuntimeParachainsDisputesDisputeLocation (107) */
-  export interface PolkadotRuntimeParachainsDisputesDisputeLocation extends Enum {
-    readonly isLocal: boolean;
-    readonly isRemote: boolean;
-    readonly type: 'Local' | 'Remote';
-  }
-
-  /** @name PolkadotRuntimeParachainsDisputesDisputeResult (108) */
-  export interface PolkadotRuntimeParachainsDisputesDisputeResult extends Enum {
-    readonly isValid: boolean;
-    readonly isInvalid: boolean;
-    readonly type: 'Valid' | 'Invalid';
-  }
-
-  /** @name KusamaRuntimeSessionKeys (248) */
+  /** @name KusamaRuntimeSessionKeys (251) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -56,7 +29,7 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (321) */
+  /** @name KusamaRuntimeOriginCaller (325) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
@@ -72,7 +45,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (386) */
+  /** @name KusamaRuntimeNposCompactSolution24 (390) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -100,33 +73,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesPalletCall (506) */
-  export interface PolkadotRuntimeParachainsDisputesPalletCall extends Enum {
-    readonly isForceUnfreeze: boolean;
-    readonly type: 'ForceUnfreeze';
-  }
-
-  /** @name PolkadotPrimitivesV1DisputeState (702) */
-  export interface PolkadotPrimitivesV1DisputeState extends Struct {
-    readonly validatorsFor: BitVec;
-    readonly validatorsAgainst: BitVec;
-    readonly start: u32;
-    readonly concludedAt: Option<u32>;
-  }
-
-  /** @name PolkadotRuntimeParachainsDisputesPalletError (703) */
-  export interface PolkadotRuntimeParachainsDisputesPalletError extends Enum {
-    readonly isDuplicateDisputeStatementSets: boolean;
-    readonly isAncientDisputeStatement: boolean;
-    readonly isValidatorIndexOutOfBounds: boolean;
-    readonly isInvalidSignature: boolean;
-    readonly isDuplicateStatement: boolean;
-    readonly isPotentialSpam: boolean;
-    readonly isSingleSidedDispute: boolean;
-    readonly type: 'DuplicateDisputeStatementSets' | 'AncientDisputeStatement' | 'ValidatorIndexOutOfBounds' | 'InvalidSignature' | 'DuplicateStatement' | 'PotentialSpam' | 'SingleSidedDispute';
-  }
-
-  /** @name KusamaRuntimeRuntime (738) */
+  /** @name KusamaRuntimeRuntime (742) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module

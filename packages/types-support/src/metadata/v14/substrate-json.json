@@ -159,7 +159,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 9,
-                    "value": 103
+                    "value": 110
                   }
                 },
                 "fallback": "0x00",
@@ -180,7 +180,7 @@
                 "name": "LastRuntimeUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 104
+                  "plain": 111
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -214,7 +214,7 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 101
+                  "plain": 108
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -224,7 +224,7 @@
             ]
           },
           "calls": {
-            "type": 107
+            "type": 114
           },
           "events": {
             "type": 18
@@ -232,7 +232,7 @@
           "constants": [
             {
               "name": "BlockWeights",
-              "type": 112,
+              "type": 119,
               "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c06e96a62e010000010098f73e5d010000010000000000000000405973070000000001c0f6e810a30100000100204aa9d1010000010088526a740000004059730700000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
@@ -240,7 +240,7 @@
             },
             {
               "name": "BlockLength",
-              "type": 116,
+              "type": 122,
               "value": "0x00003c000000500000005000",
               "docs": [
                 " The maximum length of a block (in bytes)."
@@ -256,7 +256,7 @@
             },
             {
               "name": "DbWeight",
-              "type": 118,
+              "type": 124,
               "value": "0x40787d010000000000e1f50500000000",
               "docs": [
                 " The weight of runtime database operations the runtime can invoke."
@@ -264,7 +264,7 @@
             },
             {
               "name": "Version",
-              "type": 119,
+              "type": 125,
               "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000c0100000000000034df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b010000000200000001",
               "docs": [
                 " Get the chain's current version."
@@ -284,7 +284,7 @@
             }
           ],
           "errors": {
-            "type": 124
+            "type": 130
           },
           "index": 0
         },
@@ -292,7 +292,7 @@
           "name": "Utility",
           "storage": null,
           "calls": {
-            "type": 125
+            "type": 131
           },
           "events": {
             "type": 26
@@ -308,7 +308,7 @@
             }
           ],
           "errors": {
-            "type": 327
+            "type": 341
           },
           "index": 1
         },
@@ -332,7 +332,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 328
+                  "plain": 342
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -343,7 +343,7 @@
                 "name": "GenesisSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 133
+                  "plain": 139
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -355,7 +355,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 133
+                  "plain": 139
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -386,7 +386,7 @@
                 "name": "PendingEpochConfigChange",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 135
+                  "plain": 141
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -408,7 +408,7 @@
                 "name": "NextAuthorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 328
+                  "plain": 342
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -443,7 +443,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 331
+                    "value": 345
                   }
                 },
                 "fallback": "0x00",
@@ -455,7 +455,7 @@
                 "name": "Initialized",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 333
+                  "plain": 347
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -467,7 +467,7 @@
                 "name": "AuthorVrfRandomness",
                 "modifier": "Default",
                 "type": {
-                  "plain": 333
+                  "plain": 347
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -511,7 +511,7 @@
                 "name": "EpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 334
+                  "plain": 348
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -523,7 +523,7 @@
                 "name": "NextEpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 334
+                  "plain": 348
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -534,7 +534,7 @@
             ]
           },
           "calls": {
-            "type": 128
+            "type": 134
           },
           "events": null,
           "constants": [
@@ -570,7 +570,7 @@
             }
           ],
           "errors": {
-            "type": 335
+            "type": 349
           },
           "index": 2
         },
@@ -604,7 +604,7 @@
             ]
           },
           "calls": {
-            "type": 138
+            "type": 144
           },
           "events": null,
           "constants": [
@@ -632,7 +632,7 @@
                 "name": "Uncles",
                 "modifier": "Default",
                 "type": {
-                  "plain": 336
+                  "plain": 350
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -664,7 +664,7 @@
             ]
           },
           "calls": {
-            "type": 140
+            "type": 146
           },
           "events": null,
           "constants": [
@@ -680,7 +680,7 @@
             }
           ],
           "errors": {
-            "type": 338
+            "type": 352
           },
           "index": 4
         },
@@ -698,7 +698,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 339
+                    "value": 353
                   }
                 },
                 "fallback": "0x00",
@@ -709,7 +709,7 @@
             ]
           },
           "calls": {
-            "type": 142
+            "type": 148
           },
           "events": {
             "type": 29
@@ -725,7 +725,7 @@
             }
           ],
           "errors": {
-            "type": 340
+            "type": 354
           },
           "index": 5
         },
@@ -794,7 +794,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 341
+                    "value": 355
                   }
                 },
                 "fallback": "0x00",
@@ -812,7 +812,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 345
+                    "value": 359
                   }
                 },
                 "fallback": "0x00",
@@ -824,7 +824,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 348
+                  "plain": 362
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -836,7 +836,7 @@
             ]
           },
           "calls": {
-            "type": 143
+            "type": 149
           },
           "events": {
             "type": 30
@@ -869,7 +869,7 @@
             }
           ],
           "errors": {
-            "type": 349
+            "type": 363
           },
           "index": 6
         },
@@ -882,7 +882,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": "Default",
                 "type": {
-                  "plain": 350
+                  "plain": 364
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": []
@@ -891,7 +891,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 351
+                  "plain": 365
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -939,7 +939,7 @@
             },
             {
               "name": "WeightToFee",
-              "type": 352,
+              "type": 366,
               "value": "0x0401000000000000000000000000000000000000000001",
               "docs": [
                 " The polynomial that is applied in order to derive fee from weight."
@@ -983,7 +983,7 @@
                 "name": "CurrentPhase",
                 "modifier": "Default",
                 "type": {
-                  "plain": 354
+                  "plain": 368
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -994,7 +994,7 @@
                 "name": "QueuedSolution",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 356
+                  "plain": 370
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1005,7 +1005,7 @@
                 "name": "Snapshot",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 357
+                  "plain": 371
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1031,7 +1031,7 @@
                 "name": "SnapshotMetadata",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 200
+                  "plain": 206
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1063,7 +1063,7 @@
                 "name": "SignedSubmissionIndices",
                 "modifier": "Default",
                 "type": {
-                  "plain": 361
+                  "plain": 375
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1084,7 +1084,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 365
+                    "value": 379
                   }
                 },
                 "fallback": "0x00",
@@ -1102,7 +1102,7 @@
                 "name": "MinimumUntrustedScore",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 199
+                  "plain": 205
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1115,7 +1115,7 @@
             ]
           },
           "calls": {
-            "type": 146
+            "type": 152
           },
           "events": {
             "type": 32
@@ -1139,7 +1139,7 @@
             },
             {
               "name": "SolutionImprovementThreshold",
-              "type": 108,
+              "type": 115,
               "value": "0xa0860100",
               "docs": [
                 " The minimum amount of improvement to the solution score that defines a solution as",
@@ -1258,7 +1258,7 @@
             }
           ],
           "errors": {
-            "type": 366
+            "type": 380
           },
           "index": 9
         },
@@ -1362,7 +1362,7 @@
                 "name": "MinCommission",
                 "modifier": "Default",
                 "type": {
-                  "plain": 108
+                  "plain": 115
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -1380,7 +1380,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 367
+                    "value": 381
                   }
                 },
                 "fallback": "0x00",
@@ -1397,7 +1397,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 206
+                    "value": 212
                   }
                 },
                 "fallback": "0x00",
@@ -1414,7 +1414,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 207
+                    "value": 213
                   }
                 },
                 "fallback": "0x0000",
@@ -1455,7 +1455,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 370
+                    "value": 385
                   }
                 },
                 "fallback": "0x00",
@@ -1520,7 +1520,7 @@
                 "name": "ActiveEra",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 371
+                  "plain": 386
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1559,7 +1559,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
+                    "key": 387,
                     "value": 63
                   }
                 },
@@ -1582,7 +1582,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
+                    "key": 387,
                     "value": 63
                   }
                 },
@@ -1610,8 +1610,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
-                    "value": 207
+                    "key": 387,
+                    "value": 213
                   }
                 },
                 "fallback": "0x0000",
@@ -1651,7 +1651,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 373
+                    "value": 388
                   }
                 },
                 "fallback": "0x0000000000",
@@ -1682,7 +1682,7 @@
                 "name": "ForceEra",
                 "modifier": "Default",
                 "type": {
-                  "plain": 377
+                  "plain": 392
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1693,7 +1693,7 @@
                 "name": "SlashRewardFraction",
                 "modifier": "Default",
                 "type": {
-                  "plain": 108
+                  "plain": 115
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -1723,7 +1723,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 378
+                    "value": 393
                   }
                 },
                 "fallback": "0x00",
@@ -1735,7 +1735,7 @@
                 "name": "BondedEras",
                 "modifier": "Default",
                 "type": {
-                  "plain": 103
+                  "plain": 110
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1754,8 +1754,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
-                    "value": 380
+                    "key": 387,
+                    "value": 395
                   }
                 },
                 "fallback": "0x00",
@@ -1773,7 +1773,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
+                    "key": 387,
                     "value": 6
                   }
                 },
@@ -1791,7 +1791,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 381
+                    "value": 396
                   }
                 },
                 "fallback": "0x00",
@@ -1807,8 +1807,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 376,
-                    "value": 382
+                    "key": 391,
+                    "value": 397
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -1845,7 +1845,7 @@
                 "name": "OffendingValidators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 383
+                  "plain": 398
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1864,7 +1864,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 385
+                  "plain": 400
                 },
                 "fallback": "0x07",
                 "docs": [
@@ -1878,7 +1878,7 @@
                 "name": "ChillThreshold",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 210
+                  "plain": 216
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1890,12 +1890,20 @@
             ]
           },
           "calls": {
-            "type": 205
+            "type": 211
           },
           "events": {
             "type": 36
           },
           "constants": [
+            {
+              "name": "MaxNominations",
+              "type": 4,
+              "value": "0x10000000",
+              "docs": [
+                " Maximum number of nominations per nominator."
+              ]
+            },
             {
               "name": "SessionsPerEra",
               "type": 4,
@@ -1933,10 +1941,19 @@
                 " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can",
                 " claim their reward. This used to limit the i/o cost for the nominator payout."
               ]
+            },
+            {
+              "name": "MaxUnlockingChunks",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum number of `unlocking` chunks a [`StakingLedger`] can have. Effectively",
+                " determines how many unique eras a staker may be unbonding in."
+              ]
             }
           ],
           "errors": {
-            "type": 386
+            "type": 401
           },
           "index": 10
         },
@@ -1983,7 +2000,7 @@
                 "name": "QueuedKeys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 387
+                  "plain": 402
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2015,7 +2032,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 213
+                    "value": 222
                   }
                 },
                 "fallback": "0x00",
@@ -2031,7 +2048,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 389,
+                    "key": 404,
                     "value": 0
                   }
                 },
@@ -2043,14 +2060,14 @@
             ]
           },
           "calls": {
-            "type": 212
+            "type": 221
           },
           "events": {
             "type": 37
           },
           "constants": [],
           "errors": {
-            "type": 391
+            "type": 406
           },
           "index": 11
         },
@@ -2074,7 +2091,7 @@
                 "name": "PublicProps",
                 "modifier": "Default",
                 "type": {
-                  "plain": 392
+                  "plain": 407
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2090,7 +2107,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 394
+                    "value": 409
                   }
                 },
                 "fallback": "0x00",
@@ -2109,7 +2126,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 395
+                    "value": 410
                   }
                 },
                 "fallback": "0x00",
@@ -2150,7 +2167,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 396
+                    "value": 411
                   }
                 },
                 "fallback": "0x00",
@@ -2169,7 +2186,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 399
+                    "value": 414
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -2196,7 +2213,7 @@
                 "name": "NextExternal",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 404
+                  "plain": 419
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2215,7 +2232,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 405
+                    "value": 420
                   }
                 },
                 "fallback": "0x00",
@@ -2245,7 +2262,7 @@
                 "name": "StorageVersion",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 406
+                  "plain": 421
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2257,7 +2274,7 @@
             ]
           },
           "calls": {
-            "type": 215
+            "type": 224
           },
           "events": {
             "type": 38
@@ -2365,7 +2382,7 @@
             }
           ],
           "errors": {
-            "type": 407
+            "type": 422
           },
           "index": 12
         },
@@ -2378,7 +2395,7 @@
                 "name": "Proposals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 408
+                  "plain": 423
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2394,7 +2411,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 127
+                    "value": 133
                   }
                 },
                 "fallback": "0x00",
@@ -2411,7 +2428,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 409
+                    "value": 424
                   }
                 },
                 "fallback": "0x00",
@@ -2455,14 +2472,14 @@
             ]
           },
           "calls": {
-            "type": 217
+            "type": 226
           },
           "events": {
             "type": 43
           },
           "constants": [],
           "errors": {
-            "type": 410
+            "type": 425
           },
           "index": 13
         },
@@ -2475,7 +2492,7 @@
                 "name": "Proposals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 411
+                  "plain": 426
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2491,7 +2508,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 127
+                    "value": 133
                   }
                 },
                 "fallback": "0x00",
@@ -2508,7 +2525,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 409
+                    "value": 424
                   }
                 },
                 "fallback": "0x00",
@@ -2552,14 +2569,14 @@
             ]
           },
           "calls": {
-            "type": 218
+            "type": 227
           },
           "events": {
             "type": 44
           },
           "constants": [],
           "errors": {
-            "type": 412
+            "type": 427
           },
           "index": 14
         },
@@ -2572,7 +2589,7 @@
                 "name": "Members",
                 "modifier": "Default",
                 "type": {
-                  "plain": 413
+                  "plain": 428
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2585,7 +2602,7 @@
                 "name": "RunnersUp",
                 "modifier": "Default",
                 "type": {
-                  "plain": 413
+                  "plain": 428
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2631,7 +2648,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 415
+                    "value": 430
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -2644,7 +2661,7 @@
             ]
           },
           "calls": {
-            "type": 219
+            "type": 228
           },
           "events": {
             "type": 45
@@ -2652,7 +2669,7 @@
           "constants": [
             {
               "name": "PalletId",
-              "type": 123,
+              "type": 129,
               "value": "0x706872656c656374",
               "docs": [
                 " Identifier for the elections-phragmen pallet's lock"
@@ -2713,7 +2730,7 @@
             }
           ],
           "errors": {
-            "type": 416
+            "type": 431
           },
           "index": 15
         },
@@ -2747,14 +2764,14 @@
             ]
           },
           "calls": {
-            "type": 221
+            "type": 230
           },
           "events": {
             "type": 48
           },
           "constants": [],
           "errors": {
-            "type": 417
+            "type": 432
           },
           "index": 16
         },
@@ -2767,7 +2784,7 @@
                 "name": "State",
                 "modifier": "Default",
                 "type": {
-                  "plain": 418
+                  "plain": 433
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2778,7 +2795,7 @@
                 "name": "PendingChange",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 419
+                  "plain": 434
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2842,7 +2859,7 @@
             ]
           },
           "calls": {
-            "type": 222
+            "type": 231
           },
           "events": {
             "type": 49
@@ -2858,7 +2875,7 @@
             }
           ],
           "errors": {
-            "type": 421
+            "type": 436
           },
           "index": 17
         },
@@ -2887,7 +2904,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 422
+                    "value": 437
                   }
                 },
                 "fallback": "0x00",
@@ -2899,7 +2916,7 @@
                 "name": "Approvals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 423
+                  "plain": 438
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2909,7 +2926,7 @@
             ]
           },
           "calls": {
-            "type": 234
+            "type": 243
           },
           "events": {
             "type": 54
@@ -2917,7 +2934,7 @@
           "constants": [
             {
               "name": "ProposalBond",
-              "type": 424,
+              "type": 439,
               "value": "0x50c30000",
               "docs": [
                 " Fraction of a proposal's value that should be bonded in order to place the proposal.",
@@ -2934,7 +2951,7 @@
             },
             {
               "name": "ProposalBondMaximum",
-              "type": 425,
+              "type": 440,
               "value": "0x00",
               "docs": [
                 " Maximum amount of funds that should be placed in a deposit for making a proposal."
@@ -2950,7 +2967,7 @@
             },
             {
               "name": "Burn",
-              "type": 424,
+              "type": 439,
               "value": "0x20a10700",
               "docs": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
@@ -2958,7 +2975,7 @@
             },
             {
               "name": "PalletId",
-              "type": 426,
+              "type": 441,
               "value": "0x70792f7472737279",
               "docs": [
                 " The treasury's pallet id, used for deriving its sovereign account ID."
@@ -2976,7 +2993,7 @@
             }
           ],
           "errors": {
-            "type": 427
+            "type": 442
           },
           "index": 18
         },
@@ -3011,7 +3028,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 428
+                    "value": 443
                   }
                 },
                 "fallback": "0x00",
@@ -3028,7 +3045,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 429
+                    "value": 444
                   }
                 },
                 "fallback": "0x00",
@@ -3056,7 +3073,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 430
+                    "value": 445
                   }
                 },
                 "fallback": "0x00",
@@ -3070,7 +3087,7 @@
                 "name": "DeletionQueue",
                 "modifier": "Default",
                 "type": {
-                  "plain": 431
+                  "plain": 446
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3083,7 +3100,7 @@
             ]
           },
           "calls": {
-            "type": 235
+            "type": 244
           },
           "events": {
             "type": 55
@@ -3091,7 +3108,7 @@
           "constants": [
             {
               "name": "Schedule",
-              "type": 433,
+              "type": 448,
               "value": "0x0400000000000100008000000010000000001000000001000020000000200000000040000000000200020000009f0b00008a1b0000e01f00008417000051270000080c0000b31500008b1a000028000000c8040100754d01002b070000df0c0000d30e0000860b000089210000bd290000bf0e00007550b100c20b0000b80b0000540b0000b20c0000fa0a0000c80a0000cc0b000089120000fd1100004d12000007120000fd110000751200004312000039120000a712000025120000ad110000851100002b1100000b2c0000372d0000e32b0000c32d000053110000491100005d110000e9110000431200003912000007120000f31100001ab10700000000004ac7b501000000009648030000000000d2a8070000000000fa9907000000000020b6150000000000689f070000000000b093070000000000fea4070000000000589607000000000020f512000000000050e8030000000000727c070000000000730000000000000088d01f0000000000bc0000000000000088b5f52600000000746e180000000000b4462d00000000005241a107000000002603000000000000e6590600000000000843b2070000000017010000000000006a000000000000005658ef0700000000d452ae0700000000680000000000000042fdaa01000000005e000000000000004677af01000000007002000000000000941fb307000000007802000000000000e697830800000000f2243a130000000002a0460d00000000589785080000000020d401000000000096383f2e000000000120000000000000ef0500000000000038610c0000000000ba11000000000000a83f0e0000000000ad0b0000000000006eec0900000000008904000000000000f8d0090000000000890400000000000082d12f0900000000",
               "docs": [
                 " Cost schedule and limits."
@@ -3158,7 +3175,7 @@
             }
           ],
           "errors": {
-            "type": 437
+            "type": 452
           },
           "index": 19
         },
@@ -3181,14 +3198,14 @@
             ]
           },
           "calls": {
-            "type": 237
+            "type": 246
           },
           "events": {
             "type": 56
           },
           "constants": [],
           "errors": {
-            "type": 438
+            "type": 453
           },
           "index": 20
         },
@@ -3222,7 +3239,7 @@
                 "name": "Keys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 439
+                  "plain": 454
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3239,7 +3256,7 @@
                       "Twox64Concat"
                     ],
                     "key": 74,
-                    "value": 441
+                    "value": 456
                   }
                 },
                 "fallback": "0x00",
@@ -3257,7 +3274,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 372,
+                    "key": 387,
                     "value": 4
                   }
                 },
@@ -3270,7 +3287,7 @@
             ]
           },
           "calls": {
-            "type": 238
+            "type": 247
           },
           "events": {
             "type": 58
@@ -3289,7 +3306,7 @@
             }
           ],
           "errors": {
-            "type": 446
+            "type": 461
           },
           "index": 21
         },
@@ -3302,7 +3319,7 @@
                 "name": "Keys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 447
+                  "plain": 462
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3313,7 +3330,7 @@
                 "name": "NextKeys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 447
+                  "plain": 462
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3342,7 +3359,7 @@
                       "Twox64Concat"
                     ],
                     "key": 9,
-                    "value": 449
+                    "value": 464
                   }
                 },
                 "fallback": "0x00",
@@ -3359,8 +3376,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 450,
-                    "value": 102
+                    "key": 465,
+                    "value": 109
                   }
                 },
                 "fallback": "0x00",
@@ -3418,7 +3435,7 @@
                 "name": "RandomMaterial",
                 "modifier": "Default",
                 "type": {
-                  "plain": 451
+                  "plain": 466
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3449,7 +3466,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 452
+                    "value": 467
                   }
                 },
                 "fallback": "0x00",
@@ -3468,7 +3485,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 282
+                    "value": 291
                   }
                 },
                 "fallback": "0x00",
@@ -3486,7 +3503,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 456
+                    "value": 471
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -3502,7 +3519,7 @@
                 "name": "Registrars",
                 "modifier": "Default",
                 "type": {
-                  "plain": 458
+                  "plain": 473
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3515,7 +3532,7 @@
             ]
           },
           "calls": {
-            "type": 246
+            "type": 255
           },
           "events": {
             "type": 69
@@ -3575,7 +3592,7 @@
             }
           ],
           "errors": {
-            "type": 462
+            "type": 477
           },
           "index": 26
         },
@@ -3611,7 +3628,7 @@
                 "name": "Candidates",
                 "modifier": "Default",
                 "type": {
-                  "plain": 463
+                  "plain": 478
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3627,7 +3644,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 466
+                    "value": 481
                   }
                 },
                 "fallback": "0x00",
@@ -3689,7 +3706,7 @@
                 "name": "Bids",
                 "modifier": "Default",
                 "type": {
-                  "plain": 463
+                  "plain": 478
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3705,7 +3722,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 467
+                    "value": 482
                   }
                 },
                 "fallback": "0x00",
@@ -3722,7 +3739,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 468
+                    "value": 483
                   }
                 },
                 "fallback": "0x00",
@@ -3756,8 +3773,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 470,
-                    "value": 471
+                    "key": 485,
+                    "value": 486
                   }
                 },
                 "fallback": "0x00",
@@ -3785,7 +3802,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 471
+                    "value": 486
                   }
                 },
                 "fallback": "0x00",
@@ -3807,7 +3824,7 @@
             ]
           },
           "calls": {
-            "type": 286
+            "type": 295
           },
           "events": {
             "type": 70
@@ -3815,7 +3832,7 @@
           "constants": [
             {
               "name": "PalletId",
-              "type": 426,
+              "type": 441,
               "value": "0x70792f736f636965",
               "docs": [
                 " The societies's pallet id"
@@ -3889,7 +3906,7 @@
             }
           ],
           "errors": {
-            "type": 472
+            "type": 487
           },
           "index": 27
         },
@@ -3907,7 +3924,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 473
+                    "value": 488
                   }
                 },
                 "fallback": "0x00",
@@ -3924,8 +3941,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 470,
-                    "value": 475
+                    "key": 485,
+                    "value": 490
                   }
                 },
                 "fallback": "0x00",
@@ -3958,7 +3975,7 @@
             ]
           },
           "calls": {
-            "type": 288
+            "type": 297
           },
           "events": {
             "type": 71
@@ -4016,7 +4033,7 @@
             }
           ],
           "errors": {
-            "type": 476
+            "type": 491
           },
           "index": 28
         },
@@ -4034,7 +4051,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 477
+                    "value": 492
                   }
                 },
                 "fallback": "0x00",
@@ -4046,7 +4063,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 479
+                  "plain": 494
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4058,7 +4075,7 @@
             ]
           },
           "calls": {
-            "type": 289
+            "type": 298
           },
           "events": {
             "type": 72
@@ -4080,7 +4097,7 @@
             }
           ],
           "errors": {
-            "type": 480
+            "type": 495
           },
           "index": 29
         },
@@ -4098,7 +4115,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 481
+                    "value": 496
                   }
                 },
                 "fallback": "0x00",
@@ -4126,7 +4143,7 @@
             ]
           },
           "calls": {
-            "type": 291
+            "type": 300
           },
           "events": {
             "type": 73
@@ -4152,7 +4169,7 @@
             }
           ],
           "errors": {
-            "type": 484
+            "type": 499
           },
           "index": 30
         },
@@ -4170,7 +4187,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 485
+                    "value": 500
                   }
                 },
                 "fallback": "0x00",
@@ -4187,7 +4204,7 @@
                       "Identity"
                     ],
                     "key": 9,
-                    "value": 487
+                    "value": 502
                   }
                 },
                 "fallback": "0x00",
@@ -4198,14 +4215,14 @@
             ]
           },
           "calls": {
-            "type": 294
+            "type": 303
           },
           "events": {
             "type": 77
           },
           "constants": [],
           "errors": {
-            "type": 488
+            "type": 503
           },
           "index": 31
         },
@@ -4223,7 +4240,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 489
+                    "value": 504
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -4241,7 +4258,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 493
+                    "value": 508
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -4252,7 +4269,7 @@
             ]
           },
           "calls": {
-            "type": 295
+            "type": 304
           },
           "events": {
             "type": 78
@@ -4321,7 +4338,7 @@
             }
           ],
           "errors": {
-            "type": 497
+            "type": 512
           },
           "index": 32
         },
@@ -4339,8 +4356,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 498,
-                    "value": 499
+                    "key": 513,
+                    "value": 514
                   }
                 },
                 "fallback": "0x00",
@@ -4357,7 +4374,7 @@
                       "Identity"
                     ],
                     "key": 1,
-                    "value": 500
+                    "value": 515
                   }
                 },
                 "fallback": "0x00",
@@ -4366,7 +4383,7 @@
             ]
           },
           "calls": {
-            "type": 297
+            "type": 306
           },
           "events": {
             "type": 81
@@ -4405,7 +4422,7 @@
             }
           ],
           "errors": {
-            "type": 501
+            "type": 516
           },
           "index": 33
         },
@@ -4434,7 +4451,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 502
+                    "value": 517
                   }
                 },
                 "fallback": "0x00",
@@ -4451,7 +4468,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 504
+                    "value": 519
                   }
                 },
                 "fallback": "0x00",
@@ -4463,7 +4480,7 @@
                 "name": "BountyApprovals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 423
+                  "plain": 438
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4473,7 +4490,7 @@
             ]
           },
           "calls": {
-            "type": 300
+            "type": 309
           },
           "events": {
             "type": 83
@@ -4505,7 +4522,7 @@
             },
             {
               "name": "BountyCuratorDeposit",
-              "type": 424,
+              "type": 439,
               "value": "0x20a10700",
               "docs": [
                 " Percentage of the curator fee that will be reserved upfront as deposit for bounty",
@@ -4540,7 +4557,7 @@
             }
           ],
           "errors": {
-            "type": 505
+            "type": 520
           },
           "index": 34
         },
@@ -4558,7 +4575,7 @@
                       "Twox64Concat"
                     ],
                     "key": 9,
-                    "value": 506
+                    "value": 521
                   }
                 },
                 "fallback": "0x00",
@@ -4589,7 +4606,7 @@
             ]
           },
           "calls": {
-            "type": 301
+            "type": 310
           },
           "events": {
             "type": 84
@@ -4623,7 +4640,7 @@
             },
             {
               "name": "TipFindersFee",
-              "type": 210,
+              "type": 216,
               "value": "0x14",
               "docs": [
                 " The percent of the final tip which goes to the original reporter of the tip."
@@ -4639,7 +4656,7 @@
             }
           ],
           "errors": {
-            "type": 507
+            "type": 522
           },
           "index": 35
         },
@@ -4657,7 +4674,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 508
+                    "value": 523
                   }
                 },
                 "fallback": "0x00",
@@ -4674,8 +4691,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 372,
-                    "value": 509
+                    "key": 387,
+                    "value": 524
                   }
                 },
                 "fallback": "0x00",
@@ -4693,8 +4710,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 511,
-                    "value": 512
+                    "key": 526,
+                    "value": 527
                   }
                 },
                 "fallback": "0x00",
@@ -4713,7 +4730,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 513
+                    "value": 528
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000",
@@ -4724,7 +4741,7 @@
             ]
           },
           "calls": {
-            "type": 302
+            "type": 311
           },
           "events": {
             "type": 85
@@ -4782,7 +4799,7 @@
             }
           ],
           "errors": {
-            "type": 514
+            "type": 529
           },
           "index": 36
         },
@@ -4859,7 +4876,7 @@
                 "name": "Lottery",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 515
+                  "plain": 530
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4875,7 +4892,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 516
+                    "value": 531
                   }
                 },
                 "fallback": "0x0000000000",
@@ -4918,7 +4935,7 @@
                 "name": "CallIndices",
                 "modifier": "Default",
                 "type": {
-                  "plain": 517
+                  "plain": 532
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4929,7 +4946,7 @@
             ]
           },
           "calls": {
-            "type": 304
+            "type": 313
           },
           "events": {
             "type": 86
@@ -4937,7 +4954,7 @@
           "constants": [
             {
               "name": "PalletId",
-              "type": 426,
+              "type": 441,
               "value": "0x70792f6c6f74746f",
               "docs": [
                 " The Lottery's pallet id"
@@ -4963,7 +4980,7 @@
             }
           ],
           "errors": {
-            "type": 519
+            "type": 534
           },
           "index": 38
         },
@@ -4976,7 +4993,7 @@
                 "name": "QueueTotals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 520
+                  "plain": 535
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4996,7 +5013,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 521
+                    "value": 536
                   }
                 },
                 "fallback": "0x00",
@@ -5008,7 +5025,7 @@
                 "name": "ActiveTotal",
                 "modifier": "Default",
                 "type": {
-                  "plain": 524
+                  "plain": 539
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000",
                 "docs": [
@@ -5024,7 +5041,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 525
+                    "value": 540
                   }
                 },
                 "fallback": "0x00",
@@ -5035,7 +5052,7 @@
             ]
           },
           "calls": {
-            "type": 305
+            "type": 314
           },
           "events": {
             "type": 88
@@ -5114,7 +5131,7 @@
             }
           ],
           "errors": {
-            "type": 526
+            "type": 541
           },
           "index": 39
         },
@@ -5132,7 +5149,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 527
+                    "value": 542
                   }
                 },
                 "fallback": "0x00",
@@ -5150,7 +5167,7 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 528,
+                    "key": 543,
                     "value": 28
                   }
                 },
@@ -5169,7 +5186,7 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 376,
+                    "key": 391,
                     "value": 28
                   }
                 },
@@ -5189,7 +5206,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 74,
-                    "value": 529
+                    "value": 544
                   }
                 },
                 "fallback": "0x00",
@@ -5206,7 +5223,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 530
+                    "value": 545
                   }
                 },
                 "fallback": "0x00",
@@ -5224,7 +5241,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 74,
-                    "value": 531
+                    "value": 546
                   }
                 },
                 "fallback": "0x00",
@@ -5242,8 +5259,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 532,
-                    "value": 533
+                    "key": 547,
+                    "value": 548
                   }
                 },
                 "fallback": "0x00",
@@ -5254,7 +5271,7 @@
             ]
           },
           "calls": {
-            "type": 308
+            "type": 317
           },
           "events": {
             "type": 89
@@ -5327,7 +5344,7 @@
             }
           ],
           "errors": {
-            "type": 534
+            "type": 549
           },
           "index": 40
         },
@@ -5345,7 +5362,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 535
+                    "value": 550
                   }
                 },
                 "fallback": "0x00",
@@ -5430,7 +5447,7 @@
                 "name": "BlockTransactions",
                 "modifier": "Default",
                 "type": {
-                  "plain": 535
+                  "plain": 550
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -5449,14 +5466,14 @@
             ]
           },
           "calls": {
-            "type": 311
+            "type": 320
           },
           "events": {
             "type": 95
           },
           "constants": [],
           "errors": {
-            "type": 537
+            "type": 552
           },
           "index": 41
         },
@@ -5474,7 +5491,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 538
+                    "value": 553
                   }
                 },
                 "fallback": "0x00",
@@ -5504,7 +5521,7 @@
                       "Twox64Concat"
                     ],
                     "key": 8,
-                    "value": 539
+                    "value": 554
                   }
                 },
                 "fallback": "0x00",
@@ -5517,7 +5534,7 @@
             ]
           },
           "calls": {
-            "type": 313
+            "type": 322
           },
           "events": {
             "type": 96
@@ -5525,7 +5542,7 @@
           "constants": [
             {
               "name": "BagThresholds",
-              "type": 540,
+              "type": 555,
               "value": "0x210300407a10f35a00006a70ccd4a96000009ef3397fbc660000a907ccd5306d00003d9a67fb0c740000a9bfa275577b0000a6fdf73217830000034f5d91538b0000132445651494000078081001629d00000302f63c45a70000392e6f7fc7b10000f59c23c6f2bc00004ae76aafd1c80000598a64846fd50000129fb243d8e200003f22e1ac18f1000033a4844c3e000100e2e51b895710010076a2c0b0732101006789b407a3330100793ed8d7f646010078131b81815b01000c1cf38a567101004437eeb68a8801009eb56d1434a10100335e9f156abb010067c3c7a545d701003218f340e1f40100de0b230d59140200699c11f5ca350200ad50a2c4565902009ae41c471e7f0200d0244e6745a70200f984ad51f2d10200ace7a7984dff0200a118325b822f0300ffa4c76dbe620300580bfd8532990300a9afce6812d30300109ad81b95100400d9caa519f551040038df488970970400bee1727949e10400cc73401fc62f0500b304f91831830500828bffb4d9db05001235383d143a0600a5b42a473a9e060036662d09ab080700f73aeab4cb790700b87e93d707f20700ffec23c0d1710800b84b0beca2f90800c9dcae7afc89090091752ba867230a0064f1cd4f76c60a003609be76c3730b0078655fdff32b0c00a407f5a5b6ef0c0052f61be7c5bf0d00da71bb70e79c0e000de9127eed870f001477987fb7811000ebee65ef328b11001269fe325ca5120033f8428b3fd113008ba57a13fa0f15001b2b60d0ba6216000d1d37d0c3ca17006c64fa5c6b4919002622c7411de01a00045bb9245c901c00233d83f6c25b1e00c8771c79064420003013fddef64a2200aa8b6e848172240082c096c4b2bc260016a3faebb72b29008296524ae1c12b00a636a865a4812e00d0e2d4509e6d31009c0a9a2796883400e4faafb27fd53700e6e64d367e573b000e4bd66de7113f0088b17db746084300b07def72603e470034de249635b84b00d48bd57b077a5000d0bd20ef5b885500b8f0467801e85a0010f88aee139e60003892925301b066009c95e4fc8e236d00b4126d10dffe730028b43e5976487b00a08a1c7a42078300b09ab083a0428b002846b2f463029400c861a42ade4e9d0050d23d4ae630a700805101a7e1b1b10038e501b2ccdbbc002016527844b9c800388924ba9055d50070ca35a4aebce200805fb1355cfbf0008035685d241f0001a0c3dcd96b361001d07862e87e50210160e852d09f7d330190662c5816cf460110274c3340575b01804be277a22971013082b92dfc5a880180d276075a01a101b0f511592b34bb014031745f580cd701802f6cee59a4f40140ff799b521814026075607d2986350260fde999a60d590200e5e71c91d07e02c0df2575cff2a602a07fd975899ad102a067009d4cf0fe0220dc29a1321f2f0320ff526b0a5562038088caa383c29803e05683fb5c9bd203401dd75d9516100400317e39a06e5104c0b071129de1960480b48c9192b1e00480e8124aad242f05c007ca7082858205007c13c45623db0540836fe869523906c0700f81466c9d0640f09c5017d00707c0e624b301e37807c0332ac78510f10780074ca1e4ca700800d5a9eb8c8bf80800a849588ed3880900804254142c220a80a25170e826c50a00e8d5fafc5e720b801df64e00792a0c80d4fe64f923ee0c006dd038ee19be0d001e90a494209b0e0010bf570e0a860f00da6a9db0b57f1000bf64afd810891100bb5b60cd17a31200f963f3aed6ce1300d5f004766a0d1500e099770202601600103d663bdfc71700de3e2d4158461900ecdbadb2d8dc1a0045c70007e38c1c00b8bde0fc11581e00ba5c2a211a402000407de46dcb462200dea55b03136e2400aaf1f3fcfcb7260014226f63b62629006492803e8fbc2b008486a6c7fc7b2e002cf05fc09b673100da63f7ed32823400f0b13fbdb5ce3700f291c41047503b00422a1a3c3c0a3f002c24212f20004300ac9342d4b6354700cc6ed7a400af4b00c4d022773e70500020017d89f57d5500f86387cef3dc5a008c4c7f7e54926000206207f284a36600cc1e05cb49166d00b42a7a70c4f07300d43a90e278397b0038f461ec53f78200a07264b9b1318b0048c9b3d464f09300007fe998bd3b9d0010058f17921ca70000dfaf7f469cb100e80c880bd6c4bc0058bdcb7ddca0c80038d18d37a03bd50030d55bf01ca1e200704ac01a0fdef0ffffffffffffffff",
               "docs": [
                 " The list of thresholds separating the various bags.",
@@ -5575,9 +5592,64 @@
             }
           ],
           "errors": {
-            "type": 541
+            "type": 556
           },
           "index": 42
+        },
+        {
+          "name": "StateTrieMigration",
+          "storage": {
+            "prefix": "StateTrieMigration",
+            "items": [
+              {
+                "name": "MigrationProcess",
+                "modifier": "Default",
+                "type": {
+                  "plain": 326
+                },
+                "fallback": "0x01000000000000000000000000000000",
+                "docs": [
+                  " Migration progress.",
+                  "",
+                  " This stores the snapshot of the last migrated keys. It can be set into motion and move",
+                  " forward by any of the means provided by this pallet."
+                ]
+              },
+              {
+                "name": "AutoLimits",
+                "modifier": "Default",
+                "type": {
+                  "plain": 324
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The limits that are imposed on automatic migrations.",
+                  "",
+                  " If set to None, then no automatic migration happens."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 323
+          },
+          "events": {
+            "type": 97
+          },
+          "constants": [
+            {
+              "name": "SignedMigrationMaxLimits",
+              "type": 325,
+              "value": "0x0000080000020000",
+              "docs": [
+                " The maximum limits that the signed migration could use."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 557
+          },
+          "index": 43
         },
         {
           "name": "ChildBounties",
@@ -5623,7 +5695,7 @@
                       "Twox64Concat"
                     ],
                     "key": 74,
-                    "value": 542
+                    "value": 558
                   }
                 },
                 "fallback": "0x00",
@@ -5640,7 +5712,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 504
+                    "value": 519
                   }
                 },
                 "fallback": "0x00",
@@ -5668,10 +5740,10 @@
             ]
           },
           "calls": {
-            "type": 314
+            "type": 327
           },
           "events": {
-            "type": 97
+            "type": 99
           },
           "constants": [
             {
@@ -5692,7 +5764,7 @@
             },
             {
               "name": "ChildBountyCuratorDepositBase",
-              "type": 424,
+              "type": 439,
               "value": "0xa0860100",
               "docs": [
                 " Percentage of child-bounty value to be reserved as curator deposit",
@@ -5701,9 +5773,9 @@
             }
           ],
           "errors": {
-            "type": 544
+            "type": 560
           },
-          "index": 43
+          "index": 44
         },
         {
           "name": "Referenda",
@@ -5730,7 +5802,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 545
+                    "value": 561
                   }
                 },
                 "fallback": "0x00",
@@ -5749,7 +5821,7 @@
                       "Twox64Concat"
                     ],
                     "key": 2,
-                    "value": 553
+                    "value": 569
                   }
                 },
                 "fallback": "0x00",
@@ -5780,10 +5852,10 @@
             ]
           },
           "calls": {
-            "type": 315
+            "type": 328
           },
           "events": {
-            "type": 98
+            "type": 100
           },
           "constants": [
             {
@@ -5823,9 +5895,9 @@
             }
           ],
           "errors": {
-            "type": 554
+            "type": 570
           },
-          "index": 44
+          "index": 45
         },
         {
           "name": "ConvictionVoting",
@@ -5841,8 +5913,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 555,
-                    "value": 556
+                    "key": 571,
+                    "value": 572
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -5860,7 +5932,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 564
+                    "value": 580
                   }
                 },
                 "fallback": "0x00",
@@ -5873,10 +5945,10 @@
             ]
           },
           "calls": {
-            "type": 322
+            "type": 335
           },
           "events": {
-            "type": 100
+            "type": 102
           },
           "constants": [
             {
@@ -5903,58 +5975,92 @@
             }
           ],
           "errors": {
-            "type": 566
+            "type": 582
           },
-          "index": 45
+          "index": 46
+        },
+        {
+          "name": "Whitelist",
+          "storage": {
+            "prefix": "Whitelist",
+            "items": [
+              {
+                "name": "WhitelistedCall",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 9,
+                    "value": 28
+                  }
+                },
+                "fallback": "0x00",
+                "docs": []
+              }
+            ]
+          },
+          "calls": {
+            "type": 340
+          },
+          "events": {
+            "type": 103
+          },
+          "constants": [],
+          "errors": {
+            "type": 583
+          },
+          "index": 47
         }
       ],
       "extrinsic": {
-        "type": 567,
+        "type": 584,
         "version": 4,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 572,
+            "type": 589,
             "additionalSigned": 28
           },
           {
             "identifier": "CheckSpecVersion",
-            "type": 573,
+            "type": 590,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckTxVersion",
-            "type": 574,
+            "type": 591,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckGenesis",
-            "type": 575,
+            "type": 592,
             "additionalSigned": 9
           },
           {
             "identifier": "CheckMortality",
-            "type": 576,
+            "type": 593,
             "additionalSigned": 9
           },
           {
             "identifier": "CheckNonce",
-            "type": 578,
+            "type": 595,
             "additionalSigned": 28
           },
           {
             "identifier": "CheckWeight",
-            "type": 579,
+            "type": 596,
             "additionalSigned": 28
           },
           {
             "identifier": "ChargeAssetTxPayment",
-            "type": 580,
+            "type": 597,
             "additionalSigned": 28
           }
         ]
       },
-      "type": 581
+      "type": 598
     }
   }
 }
