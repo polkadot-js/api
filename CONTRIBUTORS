@@ -1,4 +1,4 @@
-    2853	Jaco                          	Apply chunking to era{Exposure, Prefs, Slashes} (#4620)
+    2854	Jaco                          	Allow use of options.signer for status updates (#4615)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
