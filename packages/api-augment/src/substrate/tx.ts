@@ -6,7 +6,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleMaybeHashed, NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletReferendaAtOrAfter, PalletSocietyJudgement, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleMaybeHashed, NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletReferendaAtOrAfter, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
@@ -1637,12 +1637,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * A deposit is reserved and recorded for the solution. Based on the outcome, the solution
        * might be rewarded, slashed, or get all or a part of the deposit back.
-       * 
-       * # <weight>
-       * Queue size must be provided as witness data.
-       * # </weight>
        **/
-      submit: AugmentedSubmittable<(rawSolution: PalletElectionProviderMultiPhaseRawSolution | { solution?: any; score?: any; round?: any } | string | Uint8Array, numSignedSubmissions: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletElectionProviderMultiPhaseRawSolution, u32]>;
+      submit: AugmentedSubmittable<(rawSolution: PalletElectionProviderMultiPhaseRawSolution | { solution?: any; score?: any; round?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletElectionProviderMultiPhaseRawSolution]>;
       /**
        * Submit a solution for the unsigned phase.
        * 
@@ -3600,7 +3596,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # <weight>
        * - Time complexity: O(L), where L is unlocking chunks
-       * - Bounded by `MAX_UNLOCKING_CHUNKS`.
+       * - Bounded by `MaxUnlockingChunks`.
        * - Storage changes: Can't increase storage, only decrease it.
        * # </weight>
        **/
@@ -3703,7 +3699,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * NOTE: Existing nominators and validators will not be affected by this update.
        * to kick people under the new limits, `chill_other` should be called.
        **/
-      setStakingConfigs: AugmentedSubmittable<(minNominatorBond: u128 | AnyNumber | Uint8Array, minValidatorBond: u128 | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array, chillThreshold: Option<Percent> | null | object | string | Uint8Array, minCommission: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128, Option<u32>, Option<u32>, Option<Percent>, Perbill]>;
+      setStakingConfigs: AugmentedSubmittable<(minNominatorBond: PalletStakingPalletConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minValidatorBond: PalletStakingPalletConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxNominatorCount: PalletStakingPalletConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxValidatorCount: PalletStakingPalletConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, chillThreshold: PalletStakingPalletConfigOpPercent | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minCommission: PalletStakingPalletConfigOpPerbill | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingPalletConfigOpU32, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpPerbill]>;
       /**
        * Sets the ideal number of validators.
        * 
@@ -3725,7 +3721,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Once the unlock period is done, you can call `withdraw_unbonded` to actually move
        * the funds out of management ready for transfer.
        * 
-       * No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)
+       * No more than a limited number of unlocking chunks (see `MaxUnlockingChunks`)
        * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
        * to be called first to remove some of the chunks (if possible).
        * 
@@ -3763,6 +3759,58 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       withdrawUnbonded: AugmentedSubmittable<(numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * Continue the migration for the given `limits`.
+       * 
+       * The dispatch origin of this call can be any signed account.
+       * 
+       * This transaction has NO MONETARY INCENTIVES. calling it will not reward anyone. Albeit,
+       * Upon successful execution, the transaction fee is returned.
+       * 
+       * The (potentially over-estimated) of the byte length of all the data read must be
+       * provided for up-front fee-payment and weighing. In essence, the caller is guaranteeing
+       * that executing the current `MigrationTask` with the given `limits` will not exceed
+       * `real_size_upper` bytes of read data.
+       * 
+       * The `witness_task` is merely a helper to prevent the caller from being slashed or
+       * generally trigger a migration that they do not intend. This parameter is just a message
+       * from caller, saying that they believed `witness_task` was the last state of the
+       * migration, and they only wish for their transaction to do anything, if this assumption
+       * holds. In case `witness_task` does not match, the transaction fails.
+       * 
+       * Based on the documentation of [`MigrationTask::migrate_until_exhaustion`], the
+       * recommended way of doing this is to pass a `limit` that only bounds `count`, as the
+       * `size` limit can always be overwritten.
+       **/
+      continueMigrate: AugmentedSubmittable<(limits: PalletStateTrieMigrationMigrationLimits | { size_?: any; item?: any } | string | Uint8Array, realSizeUpper: u32 | AnyNumber | Uint8Array, witnessTask: PalletStateTrieMigrationMigrationTask | { lastTop?: any; lastChild?: any; prevTickChild?: any; size_?: any; topItems?: any; childItems?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletStateTrieMigrationMigrationLimits, u32, PalletStateTrieMigrationMigrationTask]>;
+      /**
+       * Control the automatic migration.
+       * 
+       * The dispatch origin of this call must be [`Config::ControlOrigin`].
+       **/
+      controlAutoMigration: AugmentedSubmittable<(maybeConfig: Option<PalletStateTrieMigrationMigrationLimits> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<PalletStateTrieMigrationMigrationLimits>]>;
+      /**
+       * Migrate the list of child keys by iterating each of them one by one.
+       * 
+       * All of the given child keys must be present under one `child_root`.
+       * 
+       * This does not affect the global migration process tracker ([`MigrationProcess`]), and
+       * should only be used in case any keys are leftover due to a bug.
+       **/
+      migrateCustomChild: AugmentedSubmittable<(root: Bytes | string | Uint8Array, childKeys: Vec<Bytes> | (Bytes | string | Uint8Array)[], totalSize: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, Vec<Bytes>, u32]>;
+      /**
+       * Migrate the list of top keys by iterating each of them one by one.
+       * 
+       * This does not affect the global migration process tracker ([`MigrationProcess`]), and
+       * should only be used in case any keys are leftover due to a bug.
+       **/
+      migrateCustomTop: AugmentedSubmittable<(keys: Vec<Bytes> | (Bytes | string | Uint8Array)[], witnessSize: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<Bytes>, u32]>;
       /**
        * Generic tx
        **/
@@ -4885,6 +4933,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       vestOther: AugmentedSubmittable<(target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    whitelist: {
+      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callWeightWitness: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, u64]>;
+      dispatchWhitelistedCallWithPreimage: AugmentedSubmittable<(call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
+      removeWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      whitelistCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Generic tx
        **/

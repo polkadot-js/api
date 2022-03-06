@@ -1057,6 +1057,40 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    parasDisputes: {
+      /**
+       * Ancient dispute statement provided.
+       **/
+      AncientDisputeStatement: AugmentedError<ApiType>;
+      /**
+       * Duplicate dispute statement sets provided.
+       **/
+      DuplicateDisputeStatementSets: AugmentedError<ApiType>;
+      /**
+       * Validator vote submitted more than once to dispute.
+       **/
+      DuplicateStatement: AugmentedError<ApiType>;
+      /**
+       * Invalid signature on statement.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * Too many spam slots used by some specific validator.
+       **/
+      PotentialSpam: AugmentedError<ApiType>;
+      /**
+       * A dispute where there are only votes on one side.
+       **/
+      SingleSidedDispute: AugmentedError<ApiType>;
+      /**
+       * Validator index on statement is out of bounds for session.
+       **/
+      ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     phragmenElection: {
       /**
        * Duplicated candidate submission.
