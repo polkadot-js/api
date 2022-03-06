@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 7.11.1 Mar 6, 2022
 
 Changes:
 
@@ -8,6 +8,7 @@ Changes:
 - Ensure that signer (passed via options) do get updated
 - Kusama & Polkadot 9170 upgrade blocks
 - Update to latest Substrate, Kusama & Polkadot static metadata
+- Adjustments for TypeScript 7.6.2
 
 
 ## 7.10.1 Feb 27, 2022
