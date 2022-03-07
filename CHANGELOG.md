@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust for bundlers where `import.meta.url` is undefined
+
+
 ## 7.11.1 Mar 6, 2022
 
 Changes:
