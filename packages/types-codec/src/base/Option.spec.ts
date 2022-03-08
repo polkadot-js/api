@@ -31,10 +31,10 @@ describe('Option', (): void => {
   });
 
   it('can wrap an Option<Null>/Option<()>', (): void => {
-    const a = new Option(registry, Null, new Null(registry));
-    const b = new Option(registry, '()', new Null(registry));
-
-    [a, b].forEach((test): void => {
+    [
+      new Option(registry, Null, new Null(registry)),
+      new Option(registry, '()', new Null(registry))
+    ].forEach((test): void => {
       expect(test.isSome).toBe(true);
       expect(test.isNone).toBe(false);
       expect(test.isEmpty).toBe(false);
