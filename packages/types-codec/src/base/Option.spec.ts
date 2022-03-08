@@ -27,16 +27,20 @@ describe('Option', (): void => {
     expect(new Option(registry, Text, null).isNone).toBe(true);
     expect(new Option(registry, Text, 'test').isNone).toBe(false);
     expect(new Option(registry, Text, '0x').isNone).toBe(true);
+    expect(new Option(registry, '()', null).isNone).toBe(true);
   });
 
-  it('can wrap an Option<Null>', (): void => {
-    const test = new Option(registry, Null, new Null(registry));
+  it('can wrap an Option<Null>/Option<()>', (): void => {
+    const a = new Option(registry, Null, new Null(registry));
+    const b = new Option(registry, '()', new Null(registry));
 
-    expect(test.isSome).toBe(true);
-    expect(test.isNone).toBe(false);
-    expect(test.isEmpty).toBe(false);
-    expect(test.toU8a()).toEqual(new Uint8Array([1]));
-    expect(test.unwrap().toHex()).toEqual('0x');
+    [a, b].forEach((test): void => {
+      expect(test.isSome).toBe(true);
+      expect(test.isNone).toBe(false);
+      expect(test.isEmpty).toBe(false);
+      expect(test.toU8a()).toEqual(new Uint8Array([1]));
+      expect(test.unwrap().toHex()).toEqual('0x');
+    });
   });
 
   it('correctly handles booleans', (): void => {
