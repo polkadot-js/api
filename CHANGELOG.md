@@ -4,6 +4,7 @@
 
 Changes:
 
+- Allow for correct handling of `Option<Null>` types
 - Adjust for bundlers where `import.meta.url` is undefined
 
 
