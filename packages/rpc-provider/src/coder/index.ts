@@ -3,6 +3,7 @@
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
+import RpcError from '@polkadot/rpc-core/error';
 import { assert, isNumber, isString, isUndefined, stringify } from '@polkadot/util';
 
 function formatErrorData (data?: string | number): string {
@@ -69,7 +70,7 @@ export class RpcCoder {
     if (error) {
       const { code, data, message } = error;
 
-      throw new Error(`${code}: ${message}${formatErrorData(data)}`);
+      throw new RpcError(message, code, data);
     }
   }
 }
