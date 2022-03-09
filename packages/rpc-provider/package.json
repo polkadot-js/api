@@ -25,7 +25,6 @@
   "dependencies": {
     "@babel/runtime": "^7.17.2",
     "@polkadot/keyring": "^8.4.1",
-    "@polkadot/rpc-core": "7.10.2-4",
     "@polkadot/types": "7.10.2-4",
     "@polkadot/types-support": "7.10.2-4",
     "@polkadot/util": "^8.4.1",
