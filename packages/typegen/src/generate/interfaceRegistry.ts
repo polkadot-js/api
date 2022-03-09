@@ -79,6 +79,6 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 export function generateDefaultInterface (): void {
   generateInterfaceTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types-augment/src/registry.ts'
+    'packages/types-augment/src/registry/interfaces.ts'
   );
 }
