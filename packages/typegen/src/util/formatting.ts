@@ -48,6 +48,10 @@ function extractImports ({ imports, types }: This): string[] {
       )
     },
     {
+      file: '@polkadot/types/lookup',
+      types: Object.keys(imports.lookupTypes)
+    },
+    {
       file: '@polkadot/types/types',
       types: Object.keys(imports.typesTypes).filter((n) =>
         !ON_CODEC_TYPES.includes(n)
