@@ -25,6 +25,7 @@ const generateLookupDefsTmpl = Handlebars.compile(readTemplate('lookup/defs'));
 const generateLookupDefsNamedTmpl = Handlebars.compile(readTemplate('lookup/defs-named'));
 const generateLookupIndexTmpl = Handlebars.compile(readTemplate('lookup/index'));
 const generateLookupTypesTmpl = Handlebars.compile(readTemplate('lookup/types'));
+const generateRegistryTmpl = Handlebars.compile(readTemplate('interfaceRegistry'));
 
 function generateParamType (registry: Registry, { name, type }: SiTypeParameter): string {
   if (type.isSome) {
@@ -214,13 +215,34 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateLookup (destDir: string, entries: [string | undefined, HexString][]): void {
+function generateRegistry (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
+  writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
+    const items = filtered
+      .map(([, { lookupName }]) => lookupName)
+      .filter((n): n is string => !!n)
+      .sort()
+      .reduce((all: string[], n) => all.includes(n) ? all : all.concat(n), []);
+    const imports = createImports({}, { types: {} });
+
+    imports.lookupTypes = items.reduce((all, n) => ({ ...all, [n]: true }), {});
+
+    return generateRegistryTmpl({
+      headerType: 'defs',
+      imports,
+      items,
+      types: []
+    });
+  }, true);
+}
+
+function generateLookup (destDir: string, entries: [string, HexString][]): void {
   entries.reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
     const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
     const filtered = getFilteredTypes(lookup, exclude);
 
     generateLookupDefs(registry, filtered, destDir, subPath);
     generateLookupTypes(registry, filtered, destDir, subPath);
+    generateRegistry(registry, filtered, destDir, subPath === 'lookup' ? 'registry' : `../registry/${subPath}`);
 
     return exclude.concat(
       ...filtered
