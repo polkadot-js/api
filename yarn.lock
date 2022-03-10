@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 5
+  version: 6
   cacheKey: 8
 
 "@ampproject/remapping@npm:^2.1.0":
@@ -1925,7 +1925,7 @@ __metadata:
     "@polkadot/rpc-core": 7.11.2-3
     "@polkadot/types": 7.11.2-3
     "@polkadot/util": ^8.4.1
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -1942,7 +1942,7 @@ __metadata:
     "@polkadot/types-create": 7.11.2-3
     "@polkadot/util": ^8.4.1
     "@polkadot/util-crypto": ^8.4.1
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -1962,7 +1962,7 @@ __metadata:
     "@polkadot/types-support": 7.11.2-3
     "@polkadot/util": ^8.4.1
     "@polkadot/util-crypto": ^8.4.1
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -1987,13 +1987,13 @@ __metadata:
     "@polkadot/util": ^8.4.1
     "@polkadot/util-crypto": ^8.4.1
     eventemitter3: ^4.0.7
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.65.86":
-  version: 0.65.86
-  resolution: "@polkadot/dev@npm:0.65.86"
+"@polkadot/dev@npm:^0.65.87":
+  version: 0.65.87
+  resolution: "@polkadot/dev@npm:0.65.87"
   dependencies:
     "@babel/cli": ^7.17.6
     "@babel/core": ^7.17.5
@@ -2079,7 +2079,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: f92189c5f29683a62e4419c9ee2b883fe39e18312828af2a3a363c7c64c1264c035461f6d57ec46baa500957bdcc0b5260409f2dab6d25e2b50c032d57d4baaa
+  checksum: 8420f08d5b7981e7d016fdd37d804af4528a9cc4c247e2cd7b1b956bdcb6f34d2859fdc5a99e308e4b4011d1a65368fc1bd1b28764a30776459e0bb99ba85874
   languageName: node
   linkType: hard
 
@@ -2130,7 +2130,7 @@ __metadata:
     "@polkadot/rpc-provider": 7.11.2-3
     "@polkadot/types": 7.11.2-3
     "@polkadot/util": ^8.4.1
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -2254,7 +2254,7 @@ __metadata:
     "@polkadot/types-support": 7.11.2-3
     "@polkadot/util": ^8.4.1
     "@polkadot/util-crypto": ^8.4.1
-    rxjs: ^7.5.4
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -8988,7 +8988,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.17.5
     "@babel/register": ^7.17.0
     "@babel/runtime": ^7.17.2
-    "@polkadot/dev": ^0.65.86
+    "@polkadot/dev": ^0.65.87
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.1
     copyfiles: ^2.4.1
@@ -9018,12 +9018,12 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.4":
-  version: 7.5.4
-  resolution: "rxjs@npm:7.5.4"
+"rxjs@npm:^7.5.5":
+  version: 7.5.5
+  resolution: "rxjs@npm:7.5.5"
   dependencies:
     tslib: ^2.1.0
-  checksum: 6f55f835f2543bc8214900f9e28b6320e6adc95875011fbca63e80a66eb18c9ff7cfdccb23b2180cbb6412762b98ed158c89fd51cb020799d127c66ea38c3c0e
+  checksum: e034f60805210cce756dd2f49664a8108780b117cf5d0e2281506e9e6387f7b4f1532d974a8c8b09314fa7a16dd2f6cff3462072a5789672b5dcb45c4173f3c6
   languageName: node
   linkType: hard
 
@@ -9919,11 +9919,11 @@ resolve@^2.0.0-next.3:
 
 "typescript@patch:typescript@npm%3A^4.6.2#~builtin<compat/typescript>":
   version: 4.6.2
-  resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: efb83260a22ee49d4c8bdc59b3cefe54fdf51d6f563f5c3a35aa3d5e46fb12f3f1d33a36d6f9f64171e567ead1847e99cb612d0a9a74e7d44e16cad9d0bbc937
+  checksum: 40b493a71747fb89fa70df104e2c4a5e284b43750af5bea024090a5261cefa387f7a9372411b13030f7bf5555cee4275443d08805642ae5c74ef76740854a4c7
   languageName: node
   linkType: hard
 
