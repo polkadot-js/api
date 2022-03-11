@@ -4,6 +4,7 @@
 
 Changes:
 
+- Fix conversion of metadata prior to V12 to latest
 - Allow for correct handling of `Option<Null>` types
 - Adjust for bundlers where `import.meta.url` is undefined
 
