@@ -1,4 +1,4 @@
-    2861	Jaco                          	Fix conversion of metadata prior to <= V11 to V14 (#4646)
+    2862	Jaco                          	Ensure Option<None> of different type evaluates to None (#4647)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
