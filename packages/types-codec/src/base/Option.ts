@@ -25,7 +25,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
     value = value.value;
   }
 
-  if (isNull(value) || isUndefined(value) || value === '0x') {
+  if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
     return new None(registry);
   } else if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)

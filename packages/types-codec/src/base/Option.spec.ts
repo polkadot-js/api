@@ -43,6 +43,16 @@ describe('Option', (): void => {
     });
   });
 
+  it('can convert between different Some/None', (): void => {
+    const def = '{ "foo":"Text", "zar":"Text" }';
+    const none = new Option(registry, def, null);
+    const some = new Option(registry, def, new Option(registry, def, { foo: 'a', zar: 'b' }));
+
+    expect(new Option(registry, def, none).isNone).toBe(true);
+    expect(new Option(registry, def, some).isNone).toBe(false);
+    expect(new Option(registry, def, some).unwrap().toHuman()).toEqual({ foo: 'a', zar: 'b' });
+  });
+
   it('correctly handles booleans', (): void => {
     expect(new Option(registry, bool).isNone).toBe(true);
     expect(new Option(registry, bool, true).isSome).toBe(true);
