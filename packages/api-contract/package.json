@@ -28,12 +28,12 @@
     "@polkadot/types": "7.11.2-7",
     "@polkadot/types-codec": "7.11.2-7",
     "@polkadot/types-create": "7.11.2-7",
-    "@polkadot/util": "^8.4.1",
-    "@polkadot/util-crypto": "^8.4.1",
+    "@polkadot/util": "^8.5.1",
+    "@polkadot/util-crypto": "^8.5.1",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
     "@polkadot/api-augment": "7.11.2-7",
-    "@polkadot/keyring": "^8.4.1"
+    "@polkadot/keyring": "^8.5.1"
   }
 }
