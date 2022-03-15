@@ -78,6 +78,7 @@
        1	Nazar Mokrynskyi              	Performance tweaks (#4143)
        1	Nikhil Ranjan                 	add vestingPerBlock and vestingEndBlock in DeriveBalancesAll when doing calcBalances (#2563)
        1	Nikolay Volf                  	Fix typo (#1730)
+       1	Noah Corona                   	Add rpc error fields (#4637)
        1	Oleksandr Mykhailenko         	Add more complex namespaced contracts & test cases for them (#4472)
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
