@@ -17,6 +17,13 @@ export interface JsonRpcResponseBaseError {
   message: string;
 }
 
+export interface RpcErrorInterface {
+  code: number;
+  data?: string | number;
+  message: string;
+  stack: string;
+}
+
 interface JsonRpcResponseSingle {
   error?: JsonRpcResponseBaseError;
   result?: unknown;
