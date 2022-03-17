@@ -62,13 +62,6 @@ export interface ProviderInterface {
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
 }
 
-export interface ProviderStatsCount {
-  errors: number;
-  requests: number;
-  subscriptions: number;
-  timeout: number;
-}
-
 export interface ProviderStats {
   active: {
     requests: number;
