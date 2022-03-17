@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Support for rejection of hanging RPC requests (30s timeout)
+
+
 ## 7.12.1 Mar 13, 2022
 
 Changes:

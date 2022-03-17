@@ -25,6 +25,7 @@ interface WsStateAwaiting {
   callback: ProviderInterfaceCallback;
   method: string;
   params: unknown[];
+  start: number;
   subscription?: SubscriptionHandler;
 }
 
@@ -39,7 +40,11 @@ const ALIASES: { [index: string]: string } = {
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
 
-const RETRY_DELAY = 2500;
+const RETRY_DELAY = 2_500;
+
+const TIMEOUT_S = 30;
+const TIMEOUT_MS = TIMEOUT_S * 1000;
+const TIMEOUT_INTERVAL = 5_000;
 
 const MEGABYTE = 1024 * 1024;
 
@@ -142,6 +147,9 @@ export class WsProvider implements ProviderInterface {
         resolve(this);
       });
     });
+
+    // timeout any handlers that have not had a response
+    setInterval(() => this.#timeout(), TIMEOUT_INTERVAL);
   }
 
   /**
@@ -322,6 +330,7 @@ export class WsProvider implements ProviderInterface {
           callback,
           method,
           params,
+          start: Date.now(),
           subscription
         };
 
@@ -539,5 +548,24 @@ export class WsProvider implements ProviderInterface {
         l.error(error);
       }
     })).catch(l.error);
+  };
+
+  #timeout = (): void => {
+    const now = Date.now();
+    const ids = Object.keys(this.#handlers);
+
+    for (let i = 0; i < ids.length; i++) {
+      const handler = this.#handlers[ids[i]];
+
+      if ((now - handler.start) > TIMEOUT_MS) {
+        try {
+          handler.callback(new Error(`No response received from RPC endpoint in ${TIMEOUT_S}s`), undefined);
+        } catch {
+          // ignore
+        }
+
+        delete this.#handlers[ids[i]];
+      }
+    }
   };
 }
