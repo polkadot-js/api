@@ -20,29 +20,29 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.12.2-2",
+  "version": "7.12.2-3",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.7",
-    "@polkadot/api-augment": "7.12.2-2",
-    "@polkadot/api-base": "7.12.2-2",
-    "@polkadot/api-derive": "7.12.2-2",
+    "@polkadot/api-augment": "7.12.2-3",
+    "@polkadot/api-base": "7.12.2-3",
+    "@polkadot/api-derive": "7.12.2-3",
     "@polkadot/keyring": "^8.5.1",
-    "@polkadot/rpc-augment": "7.12.2-2",
-    "@polkadot/rpc-core": "7.12.2-2",
-    "@polkadot/rpc-provider": "7.12.2-2",
-    "@polkadot/types": "7.12.2-2",
-    "@polkadot/types-augment": "7.12.2-2",
-    "@polkadot/types-codec": "7.12.2-2",
-    "@polkadot/types-create": "7.12.2-2",
-    "@polkadot/types-known": "7.12.2-2",
+    "@polkadot/rpc-augment": "7.12.2-3",
+    "@polkadot/rpc-core": "7.12.2-3",
+    "@polkadot/rpc-provider": "7.12.2-3",
+    "@polkadot/types": "7.12.2-3",
+    "@polkadot/types-augment": "7.12.2-3",
+    "@polkadot/types-codec": "7.12.2-3",
+    "@polkadot/types-create": "7.12.2-3",
+    "@polkadot/types-known": "7.12.2-3",
     "@polkadot/util": "^8.5.1",
     "@polkadot/util-crypto": "^8.5.1",
     "eventemitter3": "^4.0.7",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "7.12.2-2",
-    "@polkadot/types-support": "7.12.2-2"
+    "@polkadot/api-augment": "7.12.2-3",
+    "@polkadot/types-support": "7.12.2-3"
   }
 }
