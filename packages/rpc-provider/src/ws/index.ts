@@ -527,19 +527,20 @@ export class WsProvider implements ProviderInterface {
 
   #timeout = (): void => {
     const now = Date.now();
+    const ids = Object.keys(this.#handlers);
 
-    Object
-      .entries(this.#handlers)
-      .forEach(([id, handler]): void => {
-        if ((now - handler.start) > TIMEOUT_MS) {
-          try {
-            handler.callback(new Error(`No response received from RPC endpoint in ${TIMEOUT_S}s`), undefined);
-          } catch {
-            // ignore
-          }
+    for (let i = 0; i < ids.length; i++) {
+      const handler = this.#handlers[ids[i]];
 
-          delete this.#handlers[id];
+      if ((now - handler.start) > TIMEOUT_MS) {
+        try {
+          handler.callback(new Error(`No response received from RPC endpoint in ${TIMEOUT_S}s`), undefined);
+        } catch {
+          // ignore
         }
-      });
+
+        delete this.#handlers[ids[i]];
+      }
+    }
   };
 }
