@@ -5,7 +5,7 @@
 
 import type { Header } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
-import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
+import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
 
 import EventEmitter from 'eventemitter3';
@@ -112,15 +112,6 @@ export class MockProvider implements ProviderInterface {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-  }
-
-  public stats (): ProviderStats {
-    // There _may_ be some benefit tracking mock stats as well, but at this point
-    // just keep everything empty (we are more intersted in live stats)
-    return {
-      active: { requests: 0, subscriptions: 0 },
-      total: { cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
-    };
   }
 
   public get isConnected (): boolean {
