@@ -5,6 +5,7 @@
 Changes:
 
 - Support for rejection of hanging RPC requests (30s timeout)
+- Add `.stats()` to provider interfaces with running counters
 
 
 ## 7.12.1 Mar 13, 2022

@@ -564,6 +564,7 @@ export class WsProvider implements ProviderInterface {
           // ignore
         }
 
+        this.#stats.total.timeout++;
         delete this.#handlers[ids[i]];
       }
     }
