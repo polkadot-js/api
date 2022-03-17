@@ -5,6 +5,7 @@
 Changes:
 
 - Support for rejection of hanging RPC requests (30s timeout)
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.12.1 Mar 13, 2022

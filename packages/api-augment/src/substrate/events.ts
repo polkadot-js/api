@@ -1210,6 +1210,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       OwnerChanged: AugmentedEvent<ApiType, [u32, AccountId32]>;
       /**
+       * Ownership acceptance has changed for an account.
+       **/
+      OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [AccountId32, Option<u32>]>;
+      /**
        * Metadata has been cleared for an asset instance.
        **/
       Redeposited: AugmentedEvent<ApiType, [u32, Vec<u32>]>;

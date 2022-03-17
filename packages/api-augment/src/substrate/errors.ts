@@ -131,7 +131,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IdNotFound: AugmentedError<ApiType>;
       /**
-       * An Id does not have a greater vote weight than another Id.
+       * An Id does not have a greater score than another Id.
        **/
       NotHeavier: AugmentedError<ApiType>;
       /**
@@ -1172,7 +1172,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * Referendum's decision deposit is already paid.
        **/
-      HaveDeposit: AugmentedError<ApiType>;
+      HasDeposit: AugmentedError<ApiType>;
       /**
        * The deposit cannot be refunded since none was made.
        **/
@@ -1695,6 +1695,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The signing account has no permission to do the operation.
        **/
       NoPermission: AugmentedError<ApiType>;
+      /**
+       * The named owner has not signed ownership of the class is acceptable.
+       **/
+      Unaccepted: AugmentedError<ApiType>;
       /**
        * No approval exists that would allow the transfer.
        **/

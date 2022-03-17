@@ -97,7 +97,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IdNotFound: AugmentedError<ApiType>;
       /**
-       * An Id does not have a greater vote weight than another Id.
+       * An Id does not have a greater score than another Id.
        **/
       NotHeavier: AugmentedError<ApiType>;
       /**
@@ -193,6 +193,24 @@ declare module '@polkadot/api-base/types/errors' {
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    childBounties: {
+      /**
+       * The bounty balance is not enough to add new child-bounty.
+       **/
+      InsufficientBountyBalance: AugmentedError<ApiType>;
+      /**
+       * The parent bounty is not in active state.
+       **/
+      ParentBountyNotActive: AugmentedError<ApiType>;
+      /**
+       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

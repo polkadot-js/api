@@ -19,17 +19,17 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
-  /** @name KusamaRuntimeSessionKeys (251) */
+  /** @name KusamaRuntimeSessionKeys (252) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
     readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
-    readonly paraValidator: PolkadotPrimitivesV0ValidatorAppPublic;
-    readonly paraAssignment: PolkadotPrimitivesV1AssignmentAppPublic;
+    readonly paraValidator: PolkadotPrimitivesV2ValidatorAppPublic;
+    readonly paraAssignment: PolkadotPrimitivesV2AssignmentAppPublic;
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (325) */
+  /** @name KusamaRuntimeOriginCaller (326) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
@@ -45,7 +45,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (390) */
+  /** @name KusamaRuntimeNposCompactSolution24 (392) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -73,7 +73,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (742) */
+  /** @name KusamaRuntimeRuntime (747) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module
