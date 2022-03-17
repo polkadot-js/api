@@ -11,18 +11,18 @@ export default {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
   },
   /**
-   * Lookup251: kusama_runtime::SessionKeys
+   * Lookup252: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
     imOnline: 'PalletImOnlineSr25519AppSr25519Public',
-    paraValidator: 'PolkadotPrimitivesV0ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV1AssignmentAppPublic',
+    paraValidator: 'PolkadotPrimitivesV2ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV2AssignmentAppPublic',
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup325: kusama_runtime::OriginCaller
+   * Lookup326: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -129,7 +129,7 @@ export default {
     }
   },
   /**
-   * Lookup390: kusama_runtime::NposCompactSolution24
+   * Lookup392: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -158,7 +158,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup742: kusama_runtime::Runtime
+   * Lookup747: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
