@@ -3,7 +3,7 @@
 
 /* eslint-disable camelcase */
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
 import EventEmitter from 'eventemitter3';
 
@@ -95,6 +95,8 @@ export class WsProvider implements ProviderInterface {
 
   readonly #isReadyPromise: Promise<WsProvider>;
 
+  readonly #stats: ProviderStats;
+
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
   #autoConnectMs: number;
@@ -129,6 +131,10 @@ export class WsProvider implements ProviderInterface {
     this.#endpoints = endpoints;
     this.#headers = headers;
     this.#websocket = null;
+    this.#stats = {
+      active: { requests: 0, subscriptions: 0 },
+      total: { cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+    };
 
     if (autoConnectMs > 0) {
       this.connectWithRetry().catch((): void => {
@@ -252,6 +258,19 @@ export class WsProvider implements ProviderInterface {
   }
 
   /**
+   * @description Returns the connection stats
+   */
+  public stats (): ProviderStats {
+    return {
+      active: {
+        requests: Object.keys(this.#handlers).length,
+        subscriptions: Object.keys(this.#subscriptions).length
+      },
+      total: this.#stats.total
+    };
+  }
+
+  /**
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterfaceEmitted} type Event
    * @param  {ProviderInterfaceEmitCb}  sub  Callback
@@ -272,6 +291,8 @@ export class WsProvider implements ProviderInterface {
    * @param subscription Subscription details (internally used)
    */
   public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
+    this.#stats.total.requests++;
+
     const body = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(body) as Promise<T>
@@ -283,6 +304,8 @@ export class WsProvider implements ProviderInterface {
       if (isCacheable) {
         this.#callCache.set(body, resultPromise);
       }
+    } else {
+      this.#stats.total.cached++;
     }
 
     return resultPromise;
@@ -337,6 +360,8 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    this.#stats.total.subscriptions++;
+
     // subscriptions are not cached, LRU applies to .at(<blockHash>) only
     return this.send<number | string>(method, params, false, { callback, type });
   }
@@ -539,6 +564,7 @@ export class WsProvider implements ProviderInterface {
           // ignore
         }
 
+        this.#stats.total.timeout++;
         delete this.#handlers[ids[i]];
       }
     }

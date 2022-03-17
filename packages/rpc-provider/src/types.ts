@@ -57,6 +57,20 @@ export interface ProviderInterface {
   disconnect (): Promise<void>;
   on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void;
   send <T = any> (method: string, params: unknown[], isCacheable?: boolean): Promise<T>;
+  stats?: () => ProviderStats;
   subscribe (type: string, method: string, params: unknown[], cb: ProviderInterfaceCallback): Promise<number | string>;
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
+}
+
+export interface ProviderStats {
+  active: {
+    requests: number;
+    subscriptions: number;
+  };
+  total: {
+    cached: number;
+    requests: number;
+    subscriptions: number;
+    timeout: number;
+  };
 }
