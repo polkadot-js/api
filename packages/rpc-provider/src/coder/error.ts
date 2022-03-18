@@ -51,7 +51,9 @@ export default class RpcError<Data = never> extends Error implements RpcErrorInt
     if (isFunction(Error.captureStackTrace)) {
       Error.captureStackTrace(this, this.constructor);
     } else {
-      extend(this, 'stack', (new Error(message)).stack);
+      const { stack } = new Error(message);
+
+      stack && extend(this, 'stack', stack);
     }
   }
 
