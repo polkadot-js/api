@@ -91,7 +91,7 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @description Returns the connection stats
    */
-  public stats (): ProviderStats {
+  public get stats (): ProviderStats {
     return this.#stats;
   }
 

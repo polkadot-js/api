@@ -5,7 +5,8 @@
 Changes:
 
 - Support for rejection of hanging RPC requests (30s timeout)
-- Add `.stats()` to provider interfaces with running counters
+- Add `.stats` to provider interfaces with running counters
+- Add support for `state_trieMigrationStatus` RPC
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 
