@@ -56,6 +56,14 @@ describe('RpcError', (): void => {
         new RpcError('test message', 1234, data).data
       ).toEqual(data);
     });
+
+    it('sets the .data property to generic value', (): void => {
+      const data = { custom: 'value' } as const;
+
+      expect(
+        new RpcError('test message', 1234, data).data
+      ).toEqual(data);
+    });
   });
 
   describe('stack traces', (): void => {
