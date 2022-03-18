@@ -75,6 +75,7 @@
        1	Mark Robert Henderson         	Update warnings.ts to have the latest URLs (#2720)
        1	Matej Nemček                  	added Kodadot to @polkadot/api users section (#2220)
        1	Mokhtar Naamani               	Disable websocket outgoing message fragmentation for w3cwebsocket (#2738)
+       1	MOZGIII                       	Allow generic Data param at RpcError (#4665)
        1	Nazar Mokrynskyi              	Performance tweaks (#4143)
        1	Nikhil Ranjan                 	add vestingPerBlock and vestingEndBlock in DeriveBalancesAll when doing calcBalances (#2563)
        1	Nikolay Volf                  	Fix typo (#1730)
