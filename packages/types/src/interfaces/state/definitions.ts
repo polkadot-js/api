@@ -394,6 +394,18 @@ export default {
         }
       ],
       type: 'TraceBlockResponse'
+    },
+    trieMigrationStatus: {
+      description: 'Check current migration state',
+      params: [
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'MigrationStatusResult'
     }
   },
   types: {
@@ -422,6 +434,10 @@ export default {
       wasm: 'bool'
     },
     KeyValueOption: '(StorageKey, Option<StorageData>)',
+    MigrationStatusResult: {
+      topRemainingToMigrate: 'u64',
+      childRemainingToMigrate: 'u64'
+    },
     ReadProof: {
       at: 'Hash',
       proof: 'Vec<Bytes>'

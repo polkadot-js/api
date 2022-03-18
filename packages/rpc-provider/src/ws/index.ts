@@ -260,7 +260,7 @@ export class WsProvider implements ProviderInterface {
   /**
    * @description Returns the connection stats
    */
-  public stats (): ProviderStats {
+  public get stats (): ProviderStats {
     return {
       active: {
         requests: Object.keys(this.#handlers).length,
