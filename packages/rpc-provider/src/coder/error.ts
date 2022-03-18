@@ -7,7 +7,7 @@ import { RpcErrorInterface } from '../types';
 
 const UNKNOWN = -99999;
 
-function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, name: K, value?: RpcError<Data>[K]): void {
+function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, name: K, value: RpcError<Data>[K]): void {
   Object.defineProperty(that, name, {
     configurable: true,
     enumerable: false,
