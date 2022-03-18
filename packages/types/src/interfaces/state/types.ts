@@ -43,6 +43,12 @@ export interface BlockTraceSpan extends Struct {
 /** @name KeyValueOption */
 export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
 
+/** @name MigrationStatusResult */
+export interface MigrationStatusResult extends Struct {
+  readonly topRemainingToMigrate: u64;
+  readonly childRemainingToMigrate: u64;
+}
+
 /** @name ReadProof */
 export interface ReadProof extends Struct {
   readonly at: Hash;
