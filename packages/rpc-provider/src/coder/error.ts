@@ -29,7 +29,7 @@ function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, nam
  * throw new RpcError('some message', RpcError.CODES.METHOD_NOT_FOUND); // => error.code = -32601
  * ```
  */
-export default class RpcError<Data = string | number> extends Error implements RpcErrorInterface<Data> {
+export default class RpcError<Data = never> extends Error implements RpcErrorInterface<Data> {
   public code!: number;
 
   public data?: Data;
