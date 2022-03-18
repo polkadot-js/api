@@ -7,7 +7,7 @@ import { RpcErrorInterface } from '../types';
 
 const UNKNOWN = -99999;
 
-function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, name: K, value?: RpcError<Data>[K]): void {
+function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, name: K, value: RpcError<Data>[K]): void {
   Object.defineProperty(that, name, {
     configurable: true,
     enumerable: false,
@@ -51,7 +51,9 @@ export default class RpcError<Data = never> extends Error implements RpcErrorInt
     if (isFunction(Error.captureStackTrace)) {
       Error.captureStackTrace(this, this.constructor);
     } else {
-      extend(this, 'stack', (new Error(message)).stack);
+      const { stack } = new Error(message);
+
+      stack && extend(this, 'stack', stack);
     }
   }
 
