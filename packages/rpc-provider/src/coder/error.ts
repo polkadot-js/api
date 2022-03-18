@@ -7,7 +7,7 @@ import { RpcErrorInterface } from '../types';
 
 const UNKNOWN = -99999;
 
-function extend (that: RpcError, name: string, value?: string | number): void {
+function extend<Data, K extends keyof RpcError<Data>> (that: RpcError<Data>, name: K, value?: RpcError<Data>[K]): void {
   Object.defineProperty(that, name, {
     configurable: true,
     enumerable: false,
@@ -29,10 +29,10 @@ function extend (that: RpcError, name: string, value?: string | number): void {
  * throw new RpcError('some message', RpcError.CODES.METHOD_NOT_FOUND); // => error.code = -32601
  * ```
  */
-export default class RpcError extends Error implements RpcErrorInterface {
+export default class RpcError<Data = string | number> extends Error implements RpcErrorInterface<Data> {
   public code!: number;
 
-  public data?: number | string;
+  public data?: Data;
 
   public override message!: string;
 
@@ -40,7 +40,7 @@ export default class RpcError extends Error implements RpcErrorInterface {
 
   public override stack!: string;
 
-  public constructor (message = '', code: number = UNKNOWN, data?: number | string) {
+  public constructor (message = '', code: number = UNKNOWN, data?: Data) {
     super();
 
     extend(this, 'message', String(message));

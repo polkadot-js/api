@@ -17,9 +17,9 @@ export interface JsonRpcResponseBaseError {
   message: string;
 }
 
-export interface RpcErrorInterface {
+export interface RpcErrorInterface<Data> {
   code: number;
-  data?: string | number;
+  data?: Data;
   message: string;
   stack: string;
 }
