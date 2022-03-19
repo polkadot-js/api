@@ -1,8 +1,13 @@
 # CHANGELOG
 
-## master
+## 7.13.1 Mar 19, 2022
 
 **Important** This contains an upgraded version of `@polkadot/wasm-crypto`. For users of asm.js, e.g. React Native, there are some additional upgrade instructions in the release notes for this version https://github.com/polkadot-js/wasm/releases/tag/v5.0.1
+
+Contributed:
+
+- Expose custom RPC error details (Thanks to https://github.com/intendednull)
+- Improve custom RPC error typings (Thanks to https://github.com/MOZGIII)
 
 Changes:
 
@@ -11,6 +16,7 @@ Changes:
 - Add support for `state_trieMigrationStatus` RPC
 - Update to latest Substrate, Kusama & Polkadot static metadata
 - Update to `@polkadot/util` 8.6.1
+- Additional workaround for Vite bundling
 
 
 ## 7.12.1 Mar 13, 2022
