@@ -6,7 +6,7 @@
 
 Contributed:
 
-- Expose custom RPC error details (https://github.com/intendednull)
+- Expose custom RPC error details (Thanks to https://github.com/intendednull)
 - Improve custom RPC error typings (Thanks to https://github.com/MOZGIII)
 
 Changes:
