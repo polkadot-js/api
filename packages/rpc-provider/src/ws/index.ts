@@ -133,7 +133,7 @@ export class WsProvider implements ProviderInterface {
     this.#websocket = null;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
 
     if (autoConnectMs > 0) {
@@ -333,7 +333,7 @@ export class WsProvider implements ProviderInterface {
           start: Date.now(),
           subscription
         };
-
+        this.#stats.total.bytesSent += json.length;
         this.#websocket.send(json);
       } catch (error) {
         reject(error);
@@ -443,6 +443,8 @@ export class WsProvider implements ProviderInterface {
 
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
+
+    this.#stats.total.bytesRecv += message.data.length;
 
     const response = JSON.parse(message.data) as JsonRpcResponse;
 
