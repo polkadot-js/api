@@ -30,9 +30,9 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
   "dependencies": {
-    "@babel/core": "^7.17.7",
+    "@babel/core": "^7.17.8",
     "@babel/register": "^7.17.7",
-    "@babel/runtime": "^7.17.7",
+    "@babel/runtime": "^7.17.8",
     "@polkadot/api": "7.12.2-7",
     "@polkadot/api-augment": "7.12.2-7",
     "@polkadot/rpc-augment": "7.12.2-7",
@@ -50,6 +50,6 @@
   },
   "devDependencies": {
     "@types/websocket": "^1.0.5",
-    "@types/yargs": "^17.0.9"
+    "@types/yargs": "^17.0.10"
   }
 }
