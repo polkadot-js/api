@@ -4,4 +4,4 @@
 export { HttpProvider } from './http';
 export { packageInfo } from './packageInfo';
 export { WsProvider } from './ws';
-export { createSmoldotClient } from './smoldot';
+export { createScClient } from './substrate-connect';
