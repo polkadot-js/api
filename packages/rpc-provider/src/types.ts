@@ -68,6 +68,8 @@ export interface ProviderStats {
     subscriptions: number;
   };
   total: {
+    bytesRecv: number;
+    bytesSent: number;
     cached: number;
     requests: number;
     subscriptions: number;

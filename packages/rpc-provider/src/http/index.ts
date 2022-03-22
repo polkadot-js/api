@@ -56,7 +56,7 @@ export class HttpProvider implements ProviderInterface {
     this.#headers = headers;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
   }
 
@@ -142,6 +142,7 @@ export class HttpProvider implements ProviderInterface {
 
   async #send <T> (body: string): Promise<T> {
     this.#stats.active.requests++;
+    this.#stats.total.bytesSent += body.length;
 
     try {
       const response = await fetch(this.#endpoint, {
@@ -157,8 +158,11 @@ export class HttpProvider implements ProviderInterface {
 
       assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
 
-      const result = (await response.json()) as JsonRpcResponse;
-      const decoded = this.#coder.decodeResponse(result) as T;
+      const result = await response.text();
+
+      this.#stats.total.bytesRecv += result.length;
+
+      const decoded = this.#coder.decodeResponse(JSON.parse(result) as JsonRpcResponse) as T;
 
       this.#stats.active.requests--;
 
