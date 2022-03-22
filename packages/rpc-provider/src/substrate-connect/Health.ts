@@ -1,19 +1,6 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable sort-keys */
-/* eslint-disable promise/param-names */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-
 export interface SmoldotHealth {
   isSyncing: boolean
   peers: number
@@ -66,10 +53,20 @@ export function healthChecker (): HealthChecker {
   let sendJsonRpc: null | ((request: string) => void) = null;
 
   return {
+    responsePassThrough: (jsonRpcResponse) => {
+      if (checker === null) return jsonRpcResponse;
+
+      return checker.responsePassThrough(jsonRpcResponse);
+    },
+    sendJsonRpc: (request) => {
+      if (!sendJsonRpc) { throw new Error('setSendJsonRpc must be called before sending requests'); }
+
+      if (checker === null) sendJsonRpc(request);
+      else checker.sendJsonRpc(request);
+    },
     setSendJsonRpc: (cb) => {
       sendJsonRpc = cb;
     },
-
     start: (healthCallback) => {
       if (checker !== null) {
         throw new Error(
@@ -90,20 +87,9 @@ export function healthChecker (): HealthChecker {
       if (checker === null) return; // Already stopped.
       checker.destroy();
       checker = null;
-    },
-    sendJsonRpc: (request) => {
-      if (!sendJsonRpc) { throw new Error('setSendJsonRpc must be called before sending requests'); }
-
-      if (checker === null) sendJsonRpc(request);
-      else checker.sendJsonRpc(request);
-    },
-    responsePassThrough: (jsonRpcResponse) => {
-      if (checker === null) return jsonRpcResponse;
-
-      return checker.responsePassThrough(jsonRpcResponse);
     }
   };
-};
+}
 
 class InnerChecker {
   #healthCallback: (health: SmoldotHealth) => void;
@@ -125,10 +111,10 @@ class InnerChecker {
 
   sendJsonRpc = (request: string): void => {
     // Replace the `id` in the request to prefix the request ID with `extern:`.
-    let parsedRequest;
+    let parsedRequest: {id: string | number};
 
     try {
-      parsedRequest = JSON.parse(request);
+      parsedRequest = JSON.parse(request) as {id: string | number};
     } catch (err) {
       return;
     }
@@ -143,10 +129,10 @@ class InnerChecker {
   };
 
   responsePassThrough = (jsonRpcResponse: string): string | null => {
-    let parsedResponse;
+    let parsedResponse: {id: string, result?: SmoldotHealth, params?: { subscription: string }};
 
     try {
-      parsedResponse = JSON.parse(jsonRpcResponse);
+      parsedResponse = JSON.parse(jsonRpcResponse) as {id: string, result: undefined | SmoldotHealth};
     } catch (err) {
       return jsonRpcResponse;
     }
@@ -215,10 +201,12 @@ class InnerChecker {
 
     // Response doesn't concern us.
     if (parsedResponse.id) {
-      // Need to remove the `extern:` prefix.
-      if (!parsedResponse.id.startsWith('extern:')) { throw new Error('State inconsistency in health checker'); }
+      const id: string = parsedResponse.id;
 
-      const newId = JSON.parse(parsedResponse.id.slice('extern:'.length));
+      // Need to remove the `extern:` prefix.
+      if (!id.startsWith('extern:')) { throw new Error('State inconsistency in health checker'); }
+
+      const newId = JSON.parse(id.slice('extern:'.length)) as string;
 
       parsedResponse.id = newId;
     }
@@ -248,8 +236,8 @@ class InnerChecker {
         this.#nextRequestId += 1;
         this.#requestToSmoldot(
           JSON.stringify({
-            jsonrpc: '2.0',
             id: this.#currentHealthCheckId,
+            jsonrpc: '2.0',
             method: 'system_health',
             params: []
           })
@@ -282,8 +270,8 @@ class InnerChecker {
     this.#nextRequestId += 1;
     this.#requestToSmoldot(
       JSON.stringify({
-        jsonrpc: '2.0',
         id: this.#currentSubunsubRequestId,
+        jsonrpc: '2.0',
         method: 'chain_subscribeNewHeads',
         params: []
       })
@@ -299,8 +287,8 @@ class InnerChecker {
     this.#nextRequestId += 1;
     this.#requestToSmoldot(
       JSON.stringify({
-        jsonrpc: '2.0',
         id: this.#currentSubunsubRequestId,
+        jsonrpc: '2.0',
         method: 'chain_unsubscribeNewHeads',
         params: [this.#currentSubscriptionId]
       })
