@@ -14,6 +14,7 @@ export { default as collective } from './collective/definitions';
 export { default as consensus } from './consensus/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as democracy } from './democracy/definitions';
+export { default as dev } from './dev/definitions';
 export { default as elections } from './elections/definitions';
 export { default as engine } from './engine/definitions';
 export { default as evm } from './evm/definitions';
