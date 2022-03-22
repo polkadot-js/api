@@ -1,4 +1,4 @@
-    2874	Jaco                          	Exatra BitVec namespaces top-level (#4674)
+    2875	Jaco                          	Add total.bytes{Recv, Sent} to provider stats (#4671)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
