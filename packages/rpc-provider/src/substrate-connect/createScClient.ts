@@ -21,7 +21,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import { Chain, createScClient as internalCreateScClient, JsonRpcCallback, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
-import { RpcCoder } from '@polkadot/rpc-provider/coder';
+import { RpcCoder } from '../coder';
 
 import { healthChecker } from './Health';
 
