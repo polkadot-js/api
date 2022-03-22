@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Only explicitly support LSB on `BitVec` types
+- Change `toHuman` on `BitVec` to output default LSB
+- Add `bytes{Sent, Recv}` to provider stats
+
+
 ## 7.13.1 Mar 19, 2022
 
 **Important** This contains an upgraded version of `@polkadot/wasm-crypto`. For users of asm.js, e.g. React Native, there are some additional upgrade instructions in the release notes for this version https://github.com/polkadot-js/wasm/releases/tag/v5.0.1
