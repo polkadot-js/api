@@ -1,28 +1,12 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable sort-keys */
-/* eslint-disable promise/param-names */
-/* eslint-disable no-useless-catch */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/ban-types */
-
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { Chain, createScClient as internalCreateScClient, JsonRpcCallback, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
 import { RpcCoder } from '../coder';
-
 import { healthChecker } from './Health';
 
 export interface ScClient {
@@ -112,7 +96,7 @@ class Provider implements ProviderInterface {
       }
 
       // It's not a subscription message, but rather a standar RPC response
-      if (response.params?.subscription === undefined) {
+      if (response.params?.subscription === undefined || !response.method) {
         return this.#requests.get(response.id)?.(decodedResponse);
       }
 
@@ -147,11 +131,13 @@ class Provider implements ProviderInterface {
       const killStaleSubscriptions = () => {
         if (staleSubscriptions.length === 0) return;
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const { id, unsubscribeMethod } = staleSubscriptions.pop()!;
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         Promise.race([
-          this.send(unsubscribeMethod, [id]).catch(() => {}),
-          new Promise((res) => setTimeout(res, 500))
+          this.send(unsubscribeMethod, [id]).catch(Function.prototype as () => void),
+          new Promise((resolve) => setTimeout(resolve, 500))
         ]).then(killStaleSubscriptions);
       };
 
@@ -194,12 +180,12 @@ class Provider implements ProviderInterface {
 
       return {
         ...chain,
-        sendJsonRpc: hc.sendJsonRpc.bind(hc),
         remove: () => {
           hc.stop();
-          cleanup();
           chain.remove();
-        }
+          cleanup();
+        },
+        sendJsonRpc: hc.sendJsonRpc.bind(hc)
       };
     });
 
@@ -245,16 +231,17 @@ class Provider implements ProviderInterface {
     };
   }
 
-  public async send (method: string, params: unknown[]): Promise<any> {
+  public async send<T = any> (method: string, params: unknown[]): Promise<T> {
     if (!this.isConnected) throw new Error('Provider is not connected');
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const chain = await this.#chain!;
     const json = this.#coder.encodeJson(method, params);
     const id = this.#coder.getId();
 
-    const result = new Promise((res, rej): void => {
+    const result = new Promise<T>((resolve, reject): void => {
       this.#requests.set(id, (response) => {
-        (response instanceof Error ? rej : res)(response);
+        (response instanceof Error ? reject : resolve)(response as unknown as T);
       });
 
       try {
@@ -272,8 +259,6 @@ class Provider implements ProviderInterface {
 
     try {
       return await result;
-    } catch (e) {
-      throw e;
     } finally {
       // let's ensure that once the Promise is resolved/rejected, then we remove
       // remove its entry from the internal #requests
@@ -289,7 +274,7 @@ class Provider implements ProviderInterface {
   ): Promise<number | string> {
     if (!subscriptionUnsubscriptionMethods.has(method)) { throw new Error(`Unsupported subscribe method: ${method}`); }
 
-    const id = await this.send(method, params);
+    const id = await this.send<number | string>(method, params);
     const subscriptionId = `${type}::${id}`;
 
     const cb = (response: Error | string) => {
@@ -300,9 +285,10 @@ class Provider implements ProviderInterface {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const unsubscribeMethod = subscriptionUnsubscriptionMethods.get(method)!;
 
-    this.#subscriptions.set(subscriptionId, [cb, { unsubscribeMethod, id }]);
+    this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
     return id;
   }
