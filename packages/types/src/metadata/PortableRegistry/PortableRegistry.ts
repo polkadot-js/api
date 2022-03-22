@@ -46,6 +46,9 @@ const PATHS_SET = splitNamespace([
   'pallet_identity::types::BitFlags'
 ]);
 
+// These are the set namespaces for BitVec definitions (the last 2 appear in types as well)
+const BITVEC_NS = ['bitvec::order::Lsb0', 'bitvec::order::Msb0', 'BitOrderLsb0', 'BitOrderMsb0'];
+
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
 
@@ -518,14 +521,14 @@ export class PortableRegistry extends Struct implements ILookup {
     // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
     const a = this.#createSiDef(bitOrderType);
     const b = this.#createSiDef(bitStoreType);
-    const [bitOrder, bitStore] = ['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(a.namespace || '')
+    const [bitOrder, bitStore] = BITVEC_NS.includes(a.namespace || '')
       ? [a, b]
       : [b, a];
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
     // we don't pass it though at all
-    assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    assert(BITVEC_NS.includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
     assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
 
     return {
