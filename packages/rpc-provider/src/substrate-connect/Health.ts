@@ -60,7 +60,7 @@ export interface HealthChecker {
  * `isSyncing: false` is very low.
  *
  */
-export const healthChecker = (): HealthChecker => {
+export function healthChecker (): HealthChecker {
   // `null` if health checker is not started.
   let checker: null | InnerChecker = null;
   let sendJsonRpc: null | ((request: string) => void) = null;
