@@ -107,6 +107,8 @@ export class WsProvider implements ProviderInterface {
 
   #subscriptions: Record<string, WsStateSubscription> = {};
 
+  #timeoutId?: NodeJS.Timeout | null = null;
+
   #websocket: WebSocket | null;
 
   /**
@@ -147,9 +149,6 @@ export class WsProvider implements ProviderInterface {
         resolve(this);
       });
     });
-
-    // timeout any handlers that have not had a response
-    setInterval(() => this.#timeout(), TIMEOUT_INTERVAL);
   }
 
   /**
@@ -209,6 +208,9 @@ export class WsProvider implements ProviderInterface {
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
       this.#websocket.onopen = this.#onSocketOpen;
+
+      // timeout any handlers that have not had a response
+      this.#timeoutId = setInterval(() => this.#timeout(), TIMEOUT_INTERVAL);
     } catch (error) {
       l.error(error);
 
@@ -412,6 +414,11 @@ export class WsProvider implements ProviderInterface {
       this.#websocket.onmessage = null;
       this.#websocket.onopen = null;
       this.#websocket = null;
+    }
+
+    if (this.#timeoutId) {
+      clearInterval(this.#timeoutId);
+      this.#timeoutId = null;
     }
 
     this.#emit('disconnected');
