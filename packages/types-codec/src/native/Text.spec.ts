@@ -23,7 +23,9 @@ describe('Text', (): void => {
     testDecode('Raw', new Raw(registry, Uint8Array.from([102, 111, 111])), 'foo', 'toHuman'); // no length
     testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo'); // length-aware encoding
     testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo', 'toHuman'); // length-aware encoding
-    testDecode('object with `toString()`', { toString (): string { return 'foo'; } }, 'foo');
+    testDecode('object with `toString()`', { toString (): string {
+      return 'foo';
+    } }, 'foo');
     testDecode('hex input value', new Text(registry, '0x12345678'), '0x12345678', 'toHex');
     testDecode('null', null, '');
   });
