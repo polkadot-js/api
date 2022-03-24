@@ -40,12 +40,21 @@ const version = await provider.send('chain_getBlockHash', []);
 console.log('latest block Hash', hash);
 ```
 
-ScClient Initialization -
+@substrate/connect Initialization -
 
+Instantiating a Provider for the Polkadot Relay Chain:
 ```javascript
-import { createScClient } from '@polkadot/rpc-provider';
+import { ScProvider } from '@polkadot/rpc-provider';
 
-const scClient = createScClient();
-const provider = await scClient.addWellKnownChain(SupportedChains.westend2);
+const provider = new ScProvider(SupportedChains.polkadot);
+const version = await provider.send('chain_getBlockHash', []);
+```
+
+Instantiating a Provider for  a Polkadot parachain:
+```javascript
+import { ScProvider } from '@polkadot/rpc-provider';
+
+const polkadotProvider = new ScProvider(SupportedChains.polkadot);
+const parachainProvider = new ScProvider(parachainSpec, polkadotProvider);
 const version = await provider.send('chain_getBlockHash', []);
 ```

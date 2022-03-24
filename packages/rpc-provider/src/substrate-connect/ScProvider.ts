@@ -3,20 +3,13 @@
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
-import { Chain, createScClient as internalCreateScClient, JsonRpcCallback, WellKnownChain } from '@substrate/connect';
+import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
 import { assert, isError } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
-
-export interface ScClient {
-  addWellKnownChain: (
-    wellKnownChain: WellKnownChain,
-  ) => Promise<ProviderInterface>
-  addChain: (chainSpec: string) => Promise<ProviderInterface>
-}
 
 type ResponseCallback = (response: string | Error) => void
 
@@ -38,9 +31,13 @@ const subscriptionUnsubscriptionMethods = new Map<string, string>([
   ['state_subscribeStorage', 'state_unsubscribeStorage']
 ]);
 
-class Provider implements ProviderInterface {
+const wellKnownChains = new Set(Object.values(WellKnownChain));
+const scClients = new WeakMap<ScProvider, ScClient>();
+
+export class ScProvider implements ProviderInterface {
   readonly #coder: RpcCoder = new RpcCoder();
-  readonly #getChain: (handler: JsonRpcCallback) => Promise<Chain>;
+  readonly #spec: string | WellKnownChain;
+  readonly #dependency?: ScProvider;
   readonly #subscriptions: Map<
   string,
   [ResponseCallback, { unsubscribeMethod: string; id: string | number }]
@@ -51,8 +48,10 @@ class Provider implements ProviderInterface {
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
 
-  public constructor (getChain: (handler: JsonRpcCallback) => Promise<Chain>) {
-    this.#getChain = getChain;
+  public constructor (spec: string | WellKnownChain, dependency?: ScProvider) {
+    this.#spec = spec;
+    this.#dependency = dependency;
+    this.connect().catch(Function.prototype as () => void);
   }
 
   public get hasSubscriptions (): boolean {
@@ -80,6 +79,17 @@ class Provider implements ProviderInterface {
 
       return;
     }
+
+    if (this.#dependency) {
+      await this.#dependency.connect();
+    }
+
+    const client = this.#dependency
+      ? scClients.get(this.#dependency)
+      : createScClient();
+
+    assert(client, 'Unkown ScProvider!');
+    scClients.set(this, client);
 
     const hc = healthChecker();
 
@@ -112,7 +122,11 @@ class Provider implements ProviderInterface {
       callback?.(decodedResponse);
     };
 
-    this.#chain = this.#getChain(onResponse).then((chain) => {
+    const addChain = wellKnownChains.has(this.#spec as WellKnownChain)
+      ? client.addWellKnownChain
+      : client.addChain;
+
+    this.#chain = addChain(this.#spec as WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
 
       this.#isChainReady = false;
@@ -329,36 +343,4 @@ class Provider implements ProviderInterface {
     return this.send(method, [id]);
   }
 }
-
-/**
- * Returns a {ScClient} that connects to chains, either through the substrate-connect
- * extension or by executing a light client directly from JavaScript, depending on whether the
- * extension is installed and available.
- *
- * The chains returned by `addChain` and `addWellKnownChain` implement the `ProviderInterface`
- * trait of the `@polkadot/api` library.
- */
-export const createScClient = (): ScClient => {
-  const client = internalCreateScClient();
-
-  return {
-    addChain: async (chainSpec: string) => {
-      const provider = new Provider((callback: JsonRpcCallback) =>
-        client.addChain(chainSpec, callback)
-      );
-
-      await provider.connect();
-
-      return provider;
-    },
-    addWellKnownChain: async (wellKnownChain: WellKnownChain) => {
-      const provider = new Provider((callback: JsonRpcCallback) =>
-        client.addWellKnownChain(wellKnownChain, callback)
-      );
-
-      await provider.connect();
-
-      return provider;
-    }
-  };
-};
+export type ScProviderClass = typeof ScProvider
