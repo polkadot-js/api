@@ -86,7 +86,9 @@ class Provider implements ProviderInterface {
     const onResponse = (res: string): void => {
       const hcRes = hc.responsePassThrough(res);
 
-      if (!hcRes) return;
+      if (!hcRes) {
+        return;
+      }
 
       const response = JSON.parse(hcRes) as JsonRpcResponse;
       let decodedResponse: string | Error;
@@ -131,7 +133,9 @@ class Provider implements ProviderInterface {
       }[] = [];
 
       const killStaleSubscriptions = () => {
-        if (staleSubscriptions.length === 0) return;
+        if (staleSubscriptions.length === 0) {
+          return;
+        }
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const { id, unsubscribeMethod } = staleSubscriptions.pop()!;
@@ -148,7 +152,9 @@ class Provider implements ProviderInterface {
           !health.isSyncing && (health.peers > 0 || !health.shouldHavePeers);
 
         // if it's the same as before, then nothing has changed and we are done
-        if (this.#isChainReady === isReady) return;
+        if (this.#isChainReady === isReady) {
+          return;
+        }
 
         this.#isChainReady = isReady;
 
@@ -201,7 +207,9 @@ class Provider implements ProviderInterface {
   }
 
   async disconnect (): Promise<void> {
-    if (!this.#chain) return;
+    if (!this.#chain) {
+      return;
+    }
 
     const chain = await this.#chain;
 

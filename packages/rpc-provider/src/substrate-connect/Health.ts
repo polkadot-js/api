@@ -56,7 +56,9 @@ export function healthChecker (): HealthChecker {
 
   return {
     responsePassThrough: (jsonRpcResponse) => {
-      if (checker === null) return jsonRpcResponse;
+      if (checker === null) {
+        return jsonRpcResponse;
+      }
 
       return checker.responsePassThrough(jsonRpcResponse);
     },
@@ -66,8 +68,11 @@ export function healthChecker (): HealthChecker {
         'setSendJsonRpc must be called before sending requests'
       );
 
-      if (checker === null) sendJsonRpc(request);
-      else checker.sendJsonRpc(request);
+      if (checker === null) {
+        sendJsonRpc(request);
+      } else {
+        checker.sendJsonRpc(request);
+      }
     },
     setSendJsonRpc: (cb) => {
       sendJsonRpc = cb;
@@ -85,7 +90,10 @@ export function healthChecker (): HealthChecker {
       checker.update(true);
     },
     stop: () => {
-      if (checker === null) return; // Already stopped.
+      if (checker === null) {
+        return;
+      } // Already stopped.
+
       checker.destroy();
       checker = null;
     }
@@ -172,8 +180,11 @@ class InnerChecker {
         return null;
       }
 
-      if (this.#currentSubscriptionId) this.#currentSubscriptionId = null;
-      else { this.#currentSubscriptionId = parsedResponse.result as unknown as string; }
+      if (this.#currentSubscriptionId) {
+        this.#currentSubscriptionId = null;
+      } else {
+        this.#currentSubscriptionId = parsedResponse.result as unknown as string;
+      }
 
       this.update(false);
 
@@ -228,7 +239,9 @@ class InnerChecker {
 
         // No matter what, don't start a health request if there is already one in progress.
         // This is sane to do because receiving a response to a health request calls `update()`.
-        if (this.#currentHealthCheckId) return;
+        if (this.#currentHealthCheckId) {
+          return;
+        }
 
         // Actual request starting.
         this.#currentHealthCheckId = 'health-checker:'.concat(
@@ -245,21 +258,28 @@ class InnerChecker {
         );
       };
 
-      if (startNow) startHealthRequest();
-      else this.#currentHealthTimeout = setTimeout(startHealthRequest, 1000);
+      if (startNow) {
+        startHealthRequest();
+      } else {
+        this.#currentHealthTimeout = setTimeout(startHealthRequest, 1000);
+      }
     }
 
     if (
       this.#isSyncing &&
       !this.#currentSubscriptionId &&
       !this.#currentSubunsubRequestId
-    ) { this.startSubscription(); }
+    ) {
+      this.startSubscription();
+    }
 
     if (
       !this.#isSyncing &&
       this.#currentSubscriptionId &&
       !this.#currentSubunsubRequestId
-    ) { this.endSubscription(); }
+    ) {
+      this.endSubscription();
+    }
   };
 
   startSubscription = (): void => {
