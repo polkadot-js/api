@@ -80,7 +80,7 @@ export class ScProvider implements ProviderInterface {
       return;
     }
 
-    if (this.#dependency) {
+    if (this.#dependency && !this.#dependency.isConnected) {
       await this.#dependency.connect();
     }
 
