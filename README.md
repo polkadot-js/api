@@ -14,17 +14,3 @@ If you are an existing user, please be sure to track the [CHANGELOG](CHANGELOG.m
 ## tutorials
 
 Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/docs/api/examples/promise/) for guides on how to use the API to make queries and submit transactions.
-
-## overview
-
-The API is split up into a number of internal packages -
-
-- [@polkadot/api](packages/api/) The API library, providing both Promise and RxJS Observable-based interfaces. This is the main user-facing entry point.
-- [@polkadot/api-derive](packages/api-derive/) Derived results that are injected into the API, allowing for combinations of various query results (only used internally and exposed on the Api instances via `api.derive.*`)
-- [@polkadot/metadata](packages/metadata/) Base extrinsic, storage and constant injectors for injection
-- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/docs/substrate/rpc) exposed by a Polkadot network client
-- [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting to nodes, including WebSockets and Http
-
-Type definitions for interfaces as exposed by Polkadot & Substrate clients -
-
-- [@polkadot/types](packages/types/) Codecs for all Polkadot and Substrate primitives
