@@ -6,6 +6,8 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import { Chain, createScClient as internalCreateScClient, JsonRpcCallback, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
+import { assert, isError } from '@polkadot/util';
+
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
 
@@ -67,7 +69,7 @@ class Provider implements ProviderInterface {
   }
 
   async connect (): Promise<void> {
-    if (this.isConnected) throw new Error('Already connected!');
+    assert(!this.isConnected, 'Already connected!');
 
     // it could happen that after emitting `disconnected` due to the fact taht
     // smoldot is syncing, the consumer tries to reconnect after a certain amount
@@ -232,7 +234,7 @@ class Provider implements ProviderInterface {
   }
 
   public async send<T = any> (method: string, params: unknown[]): Promise<T> {
-    if (!this.isConnected) throw new Error('Provider is not connected');
+    assert(this.isConnected, 'Provider is not connected');
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const chain = await this.#chain!;
@@ -241,7 +243,7 @@ class Provider implements ProviderInterface {
 
     const result = new Promise<T>((resolve, reject): void => {
       this.#requests.set(id, (response) => {
-        (response instanceof Error ? reject : resolve)(response as unknown as T);
+        (isError(response) ? reject : resolve)(response as unknown as T);
       });
 
       try {
@@ -272,7 +274,10 @@ class Provider implements ProviderInterface {
     params: any[],
     callback: ProviderInterfaceCallback
   ): Promise<number | string> {
-    if (!subscriptionUnsubscriptionMethods.has(method)) { throw new Error(`Unsupported subscribe method: ${method}`); }
+    assert(
+      subscriptionUnsubscriptionMethods.has(method),
+      `Unsupported subscribe method: ${method}`
+    );
 
     const id = await this.send<number | string>(method, params);
     const subscriptionId = `${type}::${id}`;
@@ -298,7 +303,10 @@ class Provider implements ProviderInterface {
     method: string,
     id: number | string
   ): Promise<boolean> {
-    if (!this.isConnected) throw new Error('Provider is not connected');
+    assert(
+      this.isConnected,
+      'Provider is not connected'
+    );
 
     const subscriptionId = `${type}::${id}`;
 
