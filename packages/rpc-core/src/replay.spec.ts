@@ -36,7 +36,9 @@ describe('replay', (): void => {
     const observable = rpc.system.chain();
     let a: any | undefined;
 
-    observable.subscribe((value?: unknown): void => { a = value; });
+    observable.subscribe((value?: unknown): void => {
+      a = value;
+    });
 
     setTimeout((): void => {
       // Subscribe again to the same observable, it should fire value immediately

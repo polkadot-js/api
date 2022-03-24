@@ -7,6 +7,7 @@ Changes:
 - Only explicitly support LSB on `BitVec` types
 - Change `toHuman` on `BitVec` to output default LSB
 - Add `bytes{Sent, Recv}` to provider stats
+- Add support for `dev_getBlockStats` RPC
 
 
 ## 7.13.1 Mar 19, 2022

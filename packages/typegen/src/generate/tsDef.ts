@@ -77,6 +77,8 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
       case TypeDefInfo.Struct:
       case TypeDefInfo.Tuple:
       case TypeDefInfo.Vec:
+      case TypeDefInfo.BTreeMap:
+      case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Option:
       case TypeDefInfo.VecFixed:
       case TypeDefInfo.WrapperKeepOpaque:
@@ -125,6 +127,8 @@ function tsResultGetter (registry: Registry, definitions: Record<string, ModuleT
     case TypeDefInfo.Si:
     case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
+    case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.BTreeSet:
     case TypeDefInfo.WrapperKeepOpaque:
     case TypeDefInfo.WrapperOpaque:
       return `${isGetter}${asGetter}`;

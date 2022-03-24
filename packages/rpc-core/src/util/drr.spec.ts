@@ -14,7 +14,9 @@ describe('drr', (): void => {
   it('should not fire twice the same value', (done): void => {
     let count = 0;
 
-    const sub = of(1, 1).pipe(drr({ delay: 500 })).subscribe((): void => { ++count; });
+    const sub = of(1, 1).pipe(drr({ delay: 500 })).subscribe((): void => {
+      ++count;
+    });
 
     setTimeout((): void => {
       expect(count).toBe(1);

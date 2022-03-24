@@ -1,4 +1,4 @@
-    2876	Jaco                          	Output BitVec toHuman to LSB (limit support) (#4676)
+    2879	Jaco                          	Clear connection timeout on disconnect (#4681)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
@@ -93,6 +93,7 @@
        1	Sergei Pepyakin               	INK! -> ink! (#1347)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
        1	Xat_MassacrE                  	Fix packages/types/src/codec/utils/encodeTypes.ts encodeSubTypes bug (#1544)
+       1	Yaroslav Bolyukin             	Support BTreeMap/BTreeSet in typegen (#4682)
        1	yjh                           	fix MetadataVersioned.asV12 (#2983)
        1	Yuri                          	fixes #3693 Fix uniques return types (#3694)
        1	Zeke Mostov                   	fix: Allow sudo for polkadot indexed proxy enum (#3286)
