@@ -4,8 +4,66 @@
 
 Changes:
 
+- Only explicitly support LSB on `BitVec` types
+- Change `toHuman` on `BitVec` to output default LSB
+- Add `bytes{Sent, Recv}` to provider stats
+- Add support for `dev_getBlockStats` RPC
 - Cater for `DispatchError` with `error` as `[u8; 4]`
+
+
+## 7.13.1 Mar 19, 2022
+
+**Important** This contains an upgraded version of `@polkadot/wasm-crypto`. For users of asm.js, e.g. React Native, there are some additional upgrade instructions in the release notes for this version https://github.com/polkadot-js/wasm/releases/tag/v5.0.1
+
+Contributed:
+
+- Expose custom RPC error details (Thanks to https://github.com/intendednull)
+- Improve custom RPC error typings (Thanks to https://github.com/MOZGIII)
+
+Changes:
+
+- Support for rejection of hanging RPC requests (30s timeout)
+- Add `.stats` to provider interfaces with running counters
+- Add support for `state_trieMigrationStatus` RPC
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update to `@polkadot/util` 8.6.1
+- Additional workaround for Vite bundling
+
+
+## 7.12.1 Mar 13, 2022
+
+Changes:
+
+- Allow for correct handling of `Option<Null>` types
+- Adjust for bundlers where `import.meta.url` is undefined
+- Update to `@polkadot/util` 8.5.1
+
+
+## 7.11.1 Mar 6, 2022
+
+Changes:
+
+- Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
+- Ensure that signer (passed via options) do get updated
+- Kusama & Polkadot 9170 upgrade blocks
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Adjustments for TypeScript 7.6.2
+
+
+## 7.10.1 Feb 27, 2022
+
+Contributed:
+
+- Ensure `updateId` is correct in signer callbacks (Thanks to https://github.com/coolcorexix)
+
+Changes:
+
 - Ensure `BTreeSet` has the correct decoded length
+- Attach `PortableRegistry` at point of metadata set
+- Add `derive.chain.getBlockByNumber`
+- Retrieve named reserves in `derive.balances.all`
+- Ensure `v13 -> v14` metadata conversion attaches primitives
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.9.1 Feb 20, 2022

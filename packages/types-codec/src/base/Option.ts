@@ -9,6 +9,15 @@ import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot
 import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
+class None extends Null {
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public override toRawType (): string {
+    return 'None';
+  }
+}
+
 /** @internal */
 function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
   // In the case of an option, unwrap the inner
@@ -16,8 +25,8 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
     value = value.value;
   }
 
-  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
-    return new Null(registry);
+  if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
+    return new None(registry);
   } else if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
     return value;
@@ -25,7 +34,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first
     return !value.length || value[0] === 0
-      ? new Null(registry)
+      ? new None(registry)
       : new Type(registry, value.subarray(1));
   }
 
@@ -55,7 +64,7 @@ export class Option<T extends Codec> implements IOption<T> {
     const Type = typeToConstructor(registry, typeName);
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
-        ? new Null(registry)
+        ? new None(registry)
         : new Type(registry, value.subarray(1))
       : decodeOption(registry, Type, value);
 
@@ -63,7 +72,7 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded.initialU8aLength) {
+    if (decoded && decoded.initialU8aLength) {
       this.#initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
@@ -109,7 +118,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this.#raw instanceof Null;
+    return this.#raw instanceof None;
   }
 
   /**

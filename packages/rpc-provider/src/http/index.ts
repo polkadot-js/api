@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
 import { assert, logger } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
@@ -43,6 +43,8 @@ export class HttpProvider implements ProviderInterface {
 
   readonly #headers: Record<string, string>;
 
+  readonly #stats: ProviderStats;
+
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
@@ -52,6 +54,10 @@ export class HttpProvider implements ProviderInterface {
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
     this.#headers = headers;
+    this.#stats = {
+      active: { requests: 0, subscriptions: 0 },
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+    };
   }
 
   /**
@@ -83,6 +89,13 @@ export class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @description Returns the connection stats
+   */
+  public get stats (): ProviderStats {
+    return this.#stats;
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
@@ -107,6 +120,8 @@ export class HttpProvider implements ProviderInterface {
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
   public async send <T> (method: string, params: unknown[], isCacheable?: boolean): Promise<T> {
+    this.#stats.total.requests++;
+
     const body = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(body) as Promise<T>
@@ -118,28 +133,45 @@ export class HttpProvider implements ProviderInterface {
       if (isCacheable) {
         this.#callCache.set(body, resultPromise);
       }
+    } else {
+      this.#stats.total.cached++;
     }
 
     return resultPromise;
   }
 
   async #send <T> (body: string): Promise<T> {
-    const response = await fetch(this.#endpoint, {
-      body,
-      headers: {
-        Accept: 'application/json',
-        'Content-Length': `${body.length}`,
-        'Content-Type': 'application/json',
-        ...this.#headers
-      },
-      method: 'POST'
-    });
+    this.#stats.active.requests++;
+    this.#stats.total.bytesSent += body.length;
 
-    assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
+    try {
+      const response = await fetch(this.#endpoint, {
+        body,
+        headers: {
+          Accept: 'application/json',
+          'Content-Length': `${body.length}`,
+          'Content-Type': 'application/json',
+          ...this.#headers
+        },
+        method: 'POST'
+      });
 
-    const result = (await response.json()) as JsonRpcResponse;
+      assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
 
-    return this.#coder.decodeResponse(result) as T;
+      const result = await response.text();
+
+      this.#stats.total.bytesRecv += result.length;
+
+      const decoded = this.#coder.decodeResponse(JSON.parse(result) as JsonRpcResponse) as T;
+
+      this.#stats.active.requests--;
+
+      return decoded;
+    } catch (e) {
+      this.#stats.active.requests--;
+
+      throw e;
+    }
   }
 
   /**

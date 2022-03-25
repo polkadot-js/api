@@ -97,7 +97,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IdNotFound: AugmentedError<ApiType>;
       /**
-       * An Id does not have a greater vote weight than another Id.
+       * An Id does not have a greater score than another Id.
        **/
       NotHeavier: AugmentedError<ApiType>;
       /**
@@ -193,6 +193,24 @@ declare module '@polkadot/api-base/types/errors' {
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    childBounties: {
+      /**
+       * The bounty balance is not enough to add new child-bounty.
+       **/
+      InsufficientBountyBalance: AugmentedError<ApiType>;
+      /**
+       * The parent bounty is not in active state.
+       **/
+      ParentBountyNotActive: AugmentedError<ApiType>;
+      /**
+       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1052,6 +1070,40 @@ declare module '@polkadot/api-base/types/errors' {
        * Claimed validator index is out of bounds.
        **/
       PvfCheckValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    parasDisputes: {
+      /**
+       * Ancient dispute statement provided.
+       **/
+      AncientDisputeStatement: AugmentedError<ApiType>;
+      /**
+       * Duplicate dispute statement sets provided.
+       **/
+      DuplicateDisputeStatementSets: AugmentedError<ApiType>;
+      /**
+       * Validator vote submitted more than once to dispute.
+       **/
+      DuplicateStatement: AugmentedError<ApiType>;
+      /**
+       * Invalid signature on statement.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * Too many spam slots used by some specific validator.
+       **/
+      PotentialSpam: AugmentedError<ApiType>;
+      /**
+       * A dispute where there are only votes on one side.
+       **/
+      SingleSidedDispute: AugmentedError<ApiType>;
+      /**
+       * Validator index on statement is out of bounds for session.
+       **/
+      ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

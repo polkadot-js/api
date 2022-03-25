@@ -9,6 +9,9 @@
     "**/base.ts",
     "**/kusama/*.ts"
   ],
+  "exclude": [
+    "**/kusama/*.spec.ts"
+  ],
   "references": [
     { "path": "../api-base/tsconfig.build.json" },
     { "path": "../rpc-augment/tsconfig.build.json" },

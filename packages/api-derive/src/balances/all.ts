@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
-import type { PalletBalancesBalanceLock, PalletVestingVestingInfo } from '@polkadot/types/lookup';
+import type { PalletBalancesBalanceLock, PalletBalancesReserveData, PalletVestingVestingInfo } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -14,9 +14,7 @@ import { BN, BN_ZERO, bnMax, bnMin, isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type BalanceLocksEntry = Vec<PalletBalancesBalanceLock | BalanceLockTo212>;
-type BalanceLocks = BalanceLocksEntry[];
-type ResultBalance = [PalletVestingVestingInfo[] | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[]];
+type ResultBalance = [PalletVestingVestingInfo[] | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[], PalletBalancesReserveData[][]];
 type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
 
 interface AllLocked {
@@ -86,7 +84,9 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   return {
     isVesting,
     vestedBalance,
-    vestedClaimable: isVesting ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance)) : BN_ZERO,
+    vestedClaimable: isVesting
+      ? shared.vestingLocked.sub(vestingTotal.sub(vestedBalance))
+      : BN_ZERO,
     vesting: vesting
       .map(({ locked, perBlock, startingBlock }, index) => ({
         endBlock: locked.div(perBlock).iadd(startingBlock),
@@ -100,7 +100,7 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   };
 }
 
-function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks]]: Result): DeriveBalancesAll {
+function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks, namedReserves]]: Result): DeriveBalancesAll {
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
   return {
@@ -110,7 +110,8 @@ function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks]]: 
     accountNonce: data.accountNonce,
     additional: allLocks
       .filter((_, index) => index !== 0)
-      .map((l, index) => calcShared(api, bestNumber, data.additional[index], l))
+      .map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
+    namedReserves
   };
 }
 
@@ -133,7 +134,8 @@ function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalan
         vestingNew
           ? [vestingNew]
           : null,
-        [locks]
+        [locks],
+        []
       ];
     })
   );
@@ -141,33 +143,58 @@ function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalan
 
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
 
+function createCalls (accountId: AccountId, calls: unknown[]): [boolean[], QueryableStorageMultiArg<'rxjs'>[]] {
+  return [
+    calls.map((c) => !c),
+    calls
+      .filter(isNonNullable)
+      .map((c) => [c, accountId] as unknown as QueryableStorageMultiArg<'rxjs'>)
+  ];
+}
+
 // current (balances, vesting)
 function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
-  const calls = balanceInstances.map((m): DeriveApi['query']['balances']['locks'] | undefined =>
-    (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
+  const [lockEmpty, lockQueries] = createCalls(
+    accountId,
+    balanceInstances.map((m): DeriveApi['query']['balances']['locks'] | undefined =>
+      (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
+    )
   );
-  const lockEmpty = calls.map((c) => !c);
-  const queries = calls.filter(isNonNullable).map((c): QueryableStorageMultiArg<'rxjs'> => [c, accountId]);
+  const [reserveEmpty, reserveQueries] = createCalls(
+    accountId,
+    balanceInstances.map((m): DeriveApi['query']['balances']['reserves'] | undefined =>
+      api.query[m as 'balances']?.reserves
+    )
+  );
 
-  return (
+  return combineLatest([
     api.query.vesting?.vesting
-      ? api.queryMulti<[Option<PalletVestingVestingInfo> | Option<Vec<PalletVestingVestingInfo>>, ...BalanceLocks]>([[api.query.vesting.vesting, accountId], ...queries])
-      // TODO We need to check module instances here as well, not only the balances module
-      : queries.length
-        ? api.queryMulti<[...(Vec<PalletBalancesBalanceLock>)[]]>(queries).pipe(
-          map((r): [Option<PalletVestingVestingInfo>, ...BalanceLocks] => [api.registry.createType('Option<VestingInfo>'), ...r])
-        )
-        : of([api.registry.createType('Option<VestingInfo>')] as [Option<PalletVestingVestingInfo>])
-  ).pipe(
-    map(([opt, ...locks]): ResultBalance => {
-      let offset = -1;
+      ? api.query.vesting.vesting(accountId)
+      : of(api.registry.createType('Option<VestingInfo>')),
+    lockQueries.length
+      ? api.queryMulti<[...(Vec<PalletBalancesBalanceLock>)[]]>(lockQueries)
+      : of([] as Vec<PalletBalancesBalanceLock>[]),
+    reserveQueries.length
+      ? api.queryMulti<[...(Vec<PalletBalancesReserveData>)[]]>(reserveQueries)
+      : of([] as Vec<PalletBalancesReserveData>[])
+  ]).pipe(
+    map(([opt, locks, reserves]): ResultBalance => {
+      let offsetLock = -1;
+      let offsetReserve = -1;
       const vesting = opt.unwrapOr(null);
 
       return [
         vesting
-          ? Array.isArray(vesting) ? vesting : [vesting]
+          ? Array.isArray(vesting)
+            ? vesting
+            : [vesting as PalletVestingVestingInfo]
           : null,
-        lockEmpty.map((e) => e ? api.registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offset])
+        lockEmpty.map((e) =>
+          e ? api.registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offsetLock]
+        ),
+        reserveEmpty.map((e) =>
+          e ? api.registry.createType<Vec<PalletBalancesReserveData>>('Vec<PalletBalancesReserveData>') : reserves[++offsetReserve]
+        )
       ];
     })
   );
@@ -202,7 +229,7 @@ export function all (instanceId: string, api: DeriveApi): (address: AccountIndex
               ? queryCurrent(api, account.accountId, balanceInstances)
               : queryOld(api, account.accountId)
           ])
-          : of([account, api.registry.createType('BlockNumber'), [null, []]])
+          : of([account, api.registry.createType('BlockNumber'), [null, [], []]])
         )
       ),
       map((result): DeriveBalancesAll => calcBalances(api, result))
