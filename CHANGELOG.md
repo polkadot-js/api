@@ -2,11 +2,17 @@
 
 ## master
 
+Contributed:
+
+- Add `ScProvider` for `@substrate/substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `BTree{Map, Set}` in typegen (Thanks to https://github.com/CertainLach)
+
 Changes:
 
 - Only explicitly support LSB on `BitVec` types
 - Change `toHuman` on `BitVec` to output default LSB
 - Add `bytes{Sent, Recv}` to provider stats
+- Clear connection timout on provider `disconnect()`
 - Add support for `dev_getBlockStats` RPC
 
 
