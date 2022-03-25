@@ -65,6 +65,7 @@
        1	JesseAbram                    	added 07 Example showing how to make a transfer with allowed block permissions folder in docs (#1062)
        1	Joey                          	don't throw error at `onSocketClose` (#4363)
        1	Jordan                        	Allow typegen for custom RPCs (#2876)
+       1	Josep M Sobrepere             	Add smoldot rpc provider (#4672)
        1	JQQQ                          	Allow rpc expose definition/ metadata (#3488)
        1	Kian Paimani                  	Update definitions.ts (#2514)
        1	Krzysztof Jelski              	Derive for bounties and descriptions (#2925)
