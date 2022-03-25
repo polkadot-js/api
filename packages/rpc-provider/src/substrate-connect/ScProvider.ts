@@ -51,7 +51,6 @@ export class ScProvider implements ProviderInterface {
   public constructor (spec: string | WellKnownChain, dependency?: ScProvider) {
     this.#spec = spec;
     this.#dependency = dependency;
-    this.connect().catch(Function.prototype as () => void);
   }
 
   public get hasSubscriptions (): boolean {

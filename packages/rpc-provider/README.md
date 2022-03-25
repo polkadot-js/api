@@ -47,6 +47,7 @@ Instantiating a Provider for the Polkadot Relay Chain:
 import { ScProvider } from '@polkadot/rpc-provider';
 
 const provider = new ScProvider(SupportedChains.polkadot);
+await provider.connect();
 const version = await provider.send('chain_getBlockHash', []);
 ```
 
@@ -56,5 +57,6 @@ import { ScProvider } from '@polkadot/rpc-provider';
 
 const polkadotProvider = new ScProvider(SupportedChains.polkadot);
 const parachainProvider = new ScProvider(parachainSpec, polkadotProvider);
-const version = await provider.send('chain_getBlockHash', []);
+await parachainProvider.connect();
+const version = await parachainProvider.send('chain_getBlockHash', []);
 ```
