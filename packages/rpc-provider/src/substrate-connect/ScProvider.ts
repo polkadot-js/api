@@ -37,7 +37,7 @@ const scClients = new WeakMap<ScProvider, ScClient>();
 export class ScProvider implements ProviderInterface {
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | WellKnownChain;
-  readonly #dependency?: ScProvider;
+  readonly #sharedSandbox?: ScProvider;
   readonly #subscriptions: Map<
   string,
   [ResponseCallback, { unsubscribeMethod: string; id: string | number }]
@@ -48,9 +48,9 @@ export class ScProvider implements ProviderInterface {
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
 
-  public constructor (spec: string | WellKnownChain, dependency?: ScProvider) {
+  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider) {
     this.#spec = spec;
-    this.#dependency = dependency;
+    this.#sharedSandbox = sharedSandbox;
   }
 
   public get hasSubscriptions (): boolean {
@@ -79,12 +79,12 @@ export class ScProvider implements ProviderInterface {
       return;
     }
 
-    if (this.#dependency && !this.#dependency.isConnected) {
-      await this.#dependency.connect();
+    if (this.#sharedSandbox && !this.#sharedSandbox.isConnected) {
+      await this.#sharedSandbox.connect();
     }
 
-    const client = this.#dependency
-      ? scClients.get(this.#dependency)
+    const client = this.#sharedSandbox
+      ? scClients.get(this.#sharedSandbox)
       : createScClient();
 
     assert(client, 'Unkown ScProvider!');
