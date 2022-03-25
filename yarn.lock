@@ -1991,9 +1991,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.65.99":
-  version: 0.65.99
-  resolution: "@polkadot/dev@npm:0.65.99"
+"@polkadot/dev@npm:^0.65.100":
+  version: 0.65.100
+  resolution: "@polkadot/dev@npm:0.65.100"
   dependencies:
     "@babel/cli": ^7.17.6
     "@babel/core": ^7.17.8
@@ -2051,7 +2051,7 @@ __metadata:
     madge: ^5.0.1
     minimatch: ^5.0.1
     mkdirp: ^1.0.4
-    prettier: ^2.6.0
+    prettier: ^2.6.1
     rimraf: ^3.0.2
     rollup: ^2.70.1
     rollup-plugin-cleanup: ^3.2.1
@@ -2079,7 +2079,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 88dc02b134f45afa570943c0dd4ac3daa3f74f4c759379d0c07f0e2b49e6017cedb7f88bd0a7a17aa12497b48d9ce198c06578e16f67097bc9e793dbf3953504
+  checksum: 475f577fa4decb3685fbfacc10f2a62ed080afd384bd884edb7ee8840735e3a405830dc71be01f0a8e909b67ee7e949e5804552adf96af543569ced0813f86fc
   languageName: node
   linkType: hard
 
@@ -8467,12 +8467,12 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "prettier@npm:2.6.0"
+"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "prettier@npm:2.6.1"
   bin:
     prettier: bin-prettier.js
-  checksum: 3e527ad62279676778a8404d18174d7ca2365ada4caba6eebbcdd9907d1187afd3bc6ade5b4e5f5d4549bb9fb71e45ca8930d71500017635524f8fc05bc52e93
+  checksum: 78be1f8a3ddfad7c3d8a854b6c8941a3bb1ddfca4225c38d778e0fe1029a55368f71b3bbefff82c689015fbb4d391ec44add957f01308ad2725e01a7c1f37cb6
   languageName: node
   linkType: hard
 
@@ -9023,7 +9023,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.17.8
     "@babel/register": ^7.17.7
     "@babel/runtime": ^7.17.8
-    "@polkadot/dev": ^0.65.99
+    "@polkadot/dev": ^0.65.100
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.1
     copyfiles: ^2.4.1
