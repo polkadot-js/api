@@ -4,4 +4,4 @@
 export { HttpProvider } from './http';
 export { packageInfo } from './packageInfo';
 export { WsProvider } from './ws';
-export { createScClient } from './substrate-connect';
+export { ScProvider } from './substrate-connect';
