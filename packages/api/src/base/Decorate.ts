@@ -199,18 +199,23 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
+  protected _emptyDecorated (registry: Registry, blockHash?: Uint8Array): ApiDecoration<ApiType> {
+    return {
+      consts: {},
+      errors: {},
+      events: {},
+      query: {},
+      registry,
+      rx: {
+        query: {}
+      },
+      tx: createSubmittable(this._type, this._rx, this._decorateMethod, registry, blockHash)
+    } as ApiDecoration<ApiType>;
+  }
+
   protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
-      decoratedApi = {
-        consts: {},
-        errors: {},
-        events: {},
-        query: {},
-        registry: registry.registry,
-        rx: {
-          query: {}
-        }
-      } as ApiDecoration<ApiType>;
+      decoratedApi = this._emptyDecorated(registry.registry, blockHash);
     }
 
     if (fromEmpty || !registry.decoratedMeta) {
@@ -243,16 +248,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty = false): void {
     // clear the decoration, we are redoing it here
     if (fromEmpty || !registry.decoratedApi) {
-      registry.decoratedApi = {
-        consts: {},
-        errors: {},
-        events: {},
-        query: {},
-        registry: registry.registry,
-        rx: {
-          query: {}
-        }
-      } as ApiDecoration<ApiType>;
+      registry.decoratedApi = this._emptyDecorated(registry.registry);
     }
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);

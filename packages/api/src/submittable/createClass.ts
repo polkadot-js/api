@@ -21,6 +21,7 @@ import { SubmittableResult } from './Result';
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   apiType: ApiTypes;
+  blockHash?: Uint8Array;
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
@@ -80,7 +81,7 @@ function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<S
     : partialOptions;
 }
 
-export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
+export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
@@ -97,10 +98,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     // dry run an extrinsic
     public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
-      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+      if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
-          () => api.rpc.system.dryRun(this.toHex(), optionsOrHash)
+          () => api.rpc.system.dryRun(this.toHex(), blockHash || optionsOrHash as string)
         );
       }
 
@@ -115,10 +116,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, decorate
 
     // calculate the payment info for this transaction (if signed and submitted)
     public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
-      if (isString(optionsOrHash) || isU8a(optionsOrHash)) {
+      if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
-          (): Observable<RuntimeDispatchInfo> => api.rpc.payment.queryInfo(this.toHex(), optionsOrHash)
+          (): Observable<RuntimeDispatchInfo> => api.rpc.payment.queryInfo(this.toHex(), blockHash || optionsOrHash as string)
         );
       }
 
