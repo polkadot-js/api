@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 7.14.2 Mat 28, 2022
+
+Changes:
+
+- Don't export `ScProvider` top-level in `@polkadot/rpc-provider`
+
+
 ## 7.14.1 Mar 27, 2022
 
 Contributed:
