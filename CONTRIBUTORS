@@ -1,4 +1,4 @@
-    2884	Jaco                          	Correct release to 7.14.1 (#4691)
+    2885	Jaco                          	Don't export `ScProvider` top-level in `@polkadot/rpc-provider` (#4694)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
