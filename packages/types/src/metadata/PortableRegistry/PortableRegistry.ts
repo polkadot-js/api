@@ -529,8 +529,8 @@ export class PortableRegistry extends Struct implements ILookup {
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
-    // we don't pass it though at all, however we only currently cater for the default Lsb
-    assert(BITVEC_NS_LSB.includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    // we don't pass it though at all (all displays in LSB)
+    assert(BITVEC_NS.includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
     assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
 
     return {
