@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## 7.14.2 Mat 28, 2022
+## 7.14.3 Mar 28, 2022
+
+Changes:
+
+- Ensure `BitVec` with MSB does not fail (used in `DeliveredMessages`)
+
+
+## 7.14.2 Mar 28, 2022
 
 Changes:
 
