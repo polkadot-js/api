@@ -20,13 +20,13 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "7.14.3",
+  "version": "7.14.4-0",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.8",
-    "@polkadot/rpc-core": "7.14.3",
-    "@polkadot/types": "7.14.3",
-    "@polkadot/types-codec": "7.14.3",
+    "@polkadot/rpc-core": "7.14.4-0",
+    "@polkadot/types": "7.14.4-0",
+    "@polkadot/types-codec": "7.14.4-0",
     "@polkadot/util": "^8.7.1"
   }
 }
