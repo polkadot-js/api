@@ -1,12 +1,32 @@
 # CHANGELOG
 
-## master
+## 7.14.3 Mar 28, 2022
+
+Changes:
+
+- Ensure `BitVec` with MSB does not fail (used in Polkadot `DeliveredMessages`)
+
+
+## 7.14.2 Mar 28, 2022
+
+Changes:
+
+- Don't export `ScProvider` top-level in `@polkadot/rpc-provider`
+
+
+## 7.14.1 Mar 27, 2022
+
+Contributed:
+
+- Add `ScProvider` for `@substrate/substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `BTree{Map, Set}` in typegen (Thanks to https://github.com/CertainLach)
 
 Changes:
 
 - Only explicitly support LSB on `BitVec` types
-- Change `toHuman` on `BitVec` to output default LSB
+- Change `toHuman()` on `BitVec` to output default LSB
 - Add `bytes{Sent, Recv}` to provider stats
+- Clear connection timout on provider `disconnect()`
 - Add support for `dev_getBlockStats` RPC
 - Cater for `DispatchError` with `error` as `[u8; 4]`
 
