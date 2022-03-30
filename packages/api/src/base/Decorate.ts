@@ -543,7 +543,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntriesPaged(creator, opts)));
+          this._retrieveMapEntriesPaged(creator, undefined, opts)));
 
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
@@ -556,7 +556,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
-          this._retrieveMapKeysPaged(creator, opts)));
+          this._retrieveMapKeysPaged(creator, undefined, opts)));
     }
 
     if (this.supportMulti && creator.meta.type.isMap) {
@@ -610,9 +610,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, blockHash, args)));
 
+      decorated.entriesPaged = decorateMethod(
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntriesPaged(creator, blockHash, opts)));
+
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, blockHash, args)));
+
+      decorated.keysPaged = decorateMethod(
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
+          this._retrieveMapKeysPaged(creator, blockHash, opts)));
     }
 
     if (this.supportMulti && creator.meta.type.isMap) {
@@ -703,13 +711,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
     const headKey = iterKey(...opts.args).toHex();
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
-    return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
+    return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at).pipe(
       map((keys) => keys.map(setMeta))
     );
   }
@@ -732,11 +740,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
-    return this._retrieveMapKeysPaged(entry, opts).pipe(
+  private _retrieveMapEntriesPaged (entry: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
+    return this._retrieveMapKeysPaged(entry, at, opts).pipe(
       switchMap((keys) =>
         keys.length
-          ? this._rpcCore.state.queryStorageAt(keys).pipe(
+          ? this._rpcCore.state.queryStorageAt(keys, at).pipe(
             map((valsArr) =>
               valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
