@@ -5,7 +5,6 @@ import '@polkadot/types-create/types/augmentRegistry';
 
 import type { Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { BN } from '@polkadot/util';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
 import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
@@ -27,7 +26,6 @@ declare module '@polkadot/types-codec/types/registry' {
     readonly signedExtensions: string[];
 
     findMetaCall (callIndex: Uint8Array): CallFunctionExt;
-    findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
 
     clearCache (): void
 
