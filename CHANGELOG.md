@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Export `WellKnownChain` for `substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `{entries, keys}Paged` in `.at` (Thanks to https://github.com/xlc)
+- Align `WeightsPerClass` interface on `maxExtrinsic` (Thanks to https://github.com/HackFisher)
+
+Changes:
+
+- Cater for `DispatchError` with `error` as `[u8; 4]`
+
+
 ## 7.14.3 Mar 28, 2022
 
 Changes:
@@ -28,7 +41,6 @@ Changes:
 - Add `bytes{Sent, Recv}` to provider stats
 - Clear connection timout on provider `disconnect()`
 - Add support for `dev_getBlockStats` RPC
-- Cater for `DispatchError` with `error` as `[u8; 4]`
 
 
 ## 7.13.1 Mar 19, 2022
