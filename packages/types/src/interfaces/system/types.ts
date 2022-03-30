@@ -404,7 +404,7 @@ export interface UnknownTransaction extends Enum {
 /** @name WeightPerClass */
 export interface WeightPerClass extends Struct {
   readonly baseExtrinsic: Weight;
-  readonly maxExtrinsic: Weight;
+  readonly maxExtrinsic: Option<Weight>;
   readonly maxTotal: Option<Weight>;
   readonly reserved: Option<Weight>;
 }
