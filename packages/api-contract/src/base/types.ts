@@ -57,5 +57,5 @@ export interface MapMessageQuery<ApiType extends ApiTypes> {
 }
 
 export interface Namespaced <T> {
-  [path: string]: T | Namespaced<T>;
+  [path: string]: (T & Namespaced<T>) | Namespaced<T>;
 }

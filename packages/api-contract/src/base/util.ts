@@ -16,6 +16,10 @@ import { extractOptions, isOptions } from '../util';
 
 export const EMPTY_SALT = new Uint8Array();
 
+interface WithPath {
+  path: string[];
+}
+
 type ConstructorTx <ApiType extends ApiTypes, R extends ISubmittableResult> = (constructorOrId: AbiConstructor | string | number, options: BlueprintOptions, params: unknown[]) => SubmittableExtrinsic<ApiType, R>;
 
 export function withMeta <T extends { meta: AbiMessage }> (meta: AbiMessage, creator: Omit<T, 'meta'>): T {
@@ -47,14 +51,18 @@ export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): U
       : EMPTY_SALT;
 }
 
-export function expandNs <T> (ns: Namespaced<T>, { path }: AbiMessage, call: T): T {
+export function expandNs <T> (ns: Namespaced<T>, { path }: WithPath, call: T): T {
   if (path.length > 1) {
-    for (let i = 0; i < path.length - 2; i++) {
-      ns = ns[path[i]] = {} as Namespaced<T>;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!ns[path[i]]) {
+        ns[path[i]] = {};
+      }
+
+      ns = ns[path[i]];
     }
   }
 
-  ns[path[path.length - 1]] = call;
+  ns[path[path.length - 1]] = call as unknown as Namespaced<T>;
 
   return call;
 }
