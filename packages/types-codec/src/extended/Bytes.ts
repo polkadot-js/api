@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Registry } from '../types';
+import type { AnyU8a, Inspect, Registry } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -58,6 +58,19 @@ export class Bytes extends Raw {
    */
   public override get encodedLength (): number {
     return this.length + compactToU8a(this.length).length;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    const clength = compactToU8a(this.length);
+
+    return {
+      outer: this.length
+        ? [clength, super.toU8a()]
+        : [clength]
+    };
   }
 
   /**

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../types';
 
 /**
  * @name DoNotConstruct
@@ -53,6 +53,10 @@ export class DoNotConstruct implements Codec {
   }
 
   eq (): boolean {
+    throw this.#neverError;
+  }
+
+  inspect (): Inspect {
     throw this.#neverError;
   }
 

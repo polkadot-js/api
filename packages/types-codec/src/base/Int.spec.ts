@@ -52,6 +52,14 @@ describe('Int', (): void => {
     ).toEqual(-123);
   });
 
+  it('has a sane inspect', (): void => {
+    expect(
+      new Int(registry, '0x12', 16).inspect()
+    ).toEqual({
+      outer: [new Uint8Array([0x12, 0x00])]
+    });
+  });
+
   describe('static with', (): void => {
     it('allows default toRawType', (): void => {
       expect(

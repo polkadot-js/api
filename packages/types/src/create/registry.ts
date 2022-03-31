@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -86,7 +86,7 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
       lazyVariants(lookup, events.unwrap(), getVariantStringIdx, (variant: SiVariant): CodecClass<GenericEventData> => {
-        const meta = (registry as Registry).createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
+        const meta = registry.createType<EventMetadataLatest>('EventMetadataLatest', objectSpread({}, variant, { args: getFieldArgs(lookup, variant.fields) }));
 
         return class extends GenericEventData {
           constructor (registry: Registry, value: Uint8Array) {
@@ -118,7 +118,7 @@ function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: Metadata
 
 // extract additional properties from the metadata
 function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainProperties | undefined {
-  const original = (registry as Registry).getChainProperties();
+  const original = registry.getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
   const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
 
@@ -154,7 +154,7 @@ export class TypeRegistry implements Registry {
 
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
 
-  readonly #knownDefaults: RegistryTypes;
+  readonly #knownDefaults: Record<string, CodecClass>;
 
   readonly #knownDefinitions: Record<string, Definitions>;
 
@@ -170,30 +170,15 @@ export class TypeRegistry implements Registry {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
     this.#knownDefinitions = definitions;
 
-    this.init();
-
-    if (createdAtHash) {
-      this.createdAtHash = this.createType('Hash', createdAtHash);
-    }
-  }
-
-  public init (): this {
-    // start clean
-    this.#classes = new Map<string, CodecClass>();
-    this.#definitions = new Map<string, string>();
-    this.#unknownTypes = new Map<string, boolean>();
-    this.#knownTypes = {};
-
-    // register know, first classes then on-demand-created definitions
-    this.register(this.#knownDefaults);
-
     const allKnown = Object.values(this.#knownDefinitions);
 
     for (let i = 0; i < allKnown.length; i++) {
       this.register(allKnown[i].types as unknown as RegistryTypes);
     }
 
-    return this;
+    if (createdAtHash) {
+      this.createdAtHash = this.createType('Hash', createdAtHash);
+    }
   }
 
   public get chainDecimals (): number[] {
@@ -245,13 +230,11 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.#lookup || this.metadata.lookup;
+    return assertReturn(this.#lookup, 'Lookup has not been set on this registry');
   }
 
   public get metadata (): MetadataLatest {
-    assert(this.#metadata, 'Metadata has not been set on this registry');
-
-    return this.#metadata;
+    return assertReturn(this.#metadata, 'Metadata has not been set on this registry');
   }
 
   public get unknownTypes (): string[] {
@@ -260,6 +243,10 @@ export class TypeRegistry implements Registry {
 
   public get signedExtensions (): string[] {
     return this.#signedExtensions;
+  }
+
+  public clearCache (): void {
+    this.#classes = new Map();
   }
 
   /**
@@ -301,10 +288,15 @@ export class TypeRegistry implements Registry {
   }
 
   // finds an error
-  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule): RegistryError {
+  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule | DispatchErrorModuleU8a): RegistryError {
     const [section, method] = isU8a(errorIndex)
       ? [errorIndex[0], errorIndex[1]]
-      : [errorIndex.index.toNumber(), errorIndex.error.toNumber()];
+      : [
+        errorIndex.index.toNumber(),
+        isU8a(errorIndex.error)
+          ? errorIndex.error[0]
+          : errorIndex.error.toNumber()
+      ];
 
     return assertReturn(
       this.#metadataErrors[`${section}`] && this.#metadataErrors[`${section}`][`${method}`],
@@ -326,7 +318,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    let Type = this.#classes.get(name);
+    let Type = this.#classes.get(name) || this.#knownDefaults[name];
 
     // we have not already created the type, attempt it
     if (!Type) {
@@ -368,6 +360,12 @@ export class TypeRegistry implements Registry {
     // items such as u32 & U32, we get the lowercase versions here... not quite as optimal
     // (previously this used to be a simple find & return)
     const names: string[] = [];
+
+    for (const [name, Clazz] of Object.entries(this.#knownDefaults)) {
+      if (Type === Clazz) {
+        names.push(name);
+      }
+    }
 
     for (const [name, Clazz] of this.#classes.entries()) {
       if (Type === Clazz) {
@@ -412,7 +410,7 @@ export class TypeRegistry implements Registry {
   }
 
   public hasClass (name: string): boolean {
-    return this.#classes.has(name);
+    return this.#classes.has(name) || !!this.#knownDefaults[name];
   }
 
   public hasDef (name: string): boolean {
@@ -490,12 +488,18 @@ export class TypeRegistry implements Registry {
 
   setLookup (lookup: PortableRegistry): void {
     this.#lookup = lookup;
+
+    // register all applicable types found
+    lookup.register();
   }
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
+
+    // attach the lookup at this point (before injecting)
+    this.setLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);

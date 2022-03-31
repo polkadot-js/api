@@ -7,7 +7,7 @@ import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u1
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleMaybeHashed, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV0ValidatorAppSignature, PolkadotPrimitivesV1InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeOriginCaller, PolkadotRuntimeProxyType, PolkadotRuntimeSessionKeys, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleMaybeHashed, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeOriginCaller, PolkadotRuntimeProxyType, PolkadotRuntimeSessionKeys, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
@@ -100,12 +100,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Only works if
        * - both nodes are within the same bag,
-       * - and `origin` has a greater `VoteWeight` than `lighter`.
+       * - and `origin` has a greater `Score` than `lighter`.
        **/
       putInFrontOf: AugmentedSubmittable<(lighter: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Declare that some `dislocated` account has, through rewards or penalties, sufficiently
-       * changed its weight that it should properly fall into a different bag than its current
+       * changed its score that it should properly fall into a different bag than its current
        * one.
        * 
        * Anyone can call this function about any potentially dislocated account.
@@ -329,6 +329,175 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       unassignCurator: AugmentedSubmittable<(bountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    childBounties: {
+      /**
+       * Accept the curator role for the child-bounty.
+       * 
+       * The dispatch origin for this call must be the curator of this
+       * child-bounty.
+       * 
+       * A deposit will be reserved from the curator and refund upon
+       * successful payout or cancellation.
+       * 
+       * Fee for curator is deducted from curator fee of parent bounty.
+       * 
+       * Parent bounty must be in active state, for this child-bounty call to
+       * work.
+       * 
+       * Child-bounty must be in "CuratorProposed" state, for processing the
+       * call. And state of child-bounty is moved to "Active" on successful
+       * call completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       **/
+      acceptCurator: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>]>;
+      /**
+       * Add a new child-bounty.
+       * 
+       * The dispatch origin for this call must be the curator of parent
+       * bounty and the parent bounty must be in "active" state.
+       * 
+       * Child-bounty gets added successfully & fund gets transferred from
+       * parent bounty to child-bounty account, if parent bounty has enough
+       * funds, else the call fails.
+       * 
+       * Upper bound to maximum number of active  child-bounties that can be
+       * added are managed via runtime trait config
+       * [`Config::MaxActiveChildBountyCount`].
+       * 
+       * If the call is success, the status of child-bounty is updated to
+       * "Added".
+       * 
+       * - `parent_bounty_id`: Index of parent bounty for which child-bounty is being added.
+       * - `value`: Value for executing the proposal.
+       * - `description`: Text description for the child-bounty.
+       **/
+      addChildBounty: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, description: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u128>, Bytes]>;
+      /**
+       * Award child-bounty to a beneficiary.
+       * 
+       * The beneficiary will be able to claim the funds after a delay.
+       * 
+       * The dispatch origin for this call must be the master curator or
+       * curator of this child-bounty.
+       * 
+       * Parent bounty must be in active state, for this child-bounty call to
+       * work.
+       * 
+       * Child-bounty must be in active state, for processing the call. And
+       * state of child-bounty is moved to "PendingPayout" on successful call
+       * completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       * - `beneficiary`: Beneficiary account.
+       **/
+      awardChildBounty: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>, MultiAddress]>;
+      /**
+       * Claim the payout from an awarded child-bounty after payout delay.
+       * 
+       * The dispatch origin for this call may be any signed origin.
+       * 
+       * Call works independent of parent bounty state, No need for parent
+       * bounty to be in active state.
+       * 
+       * The Beneficiary is paid out with agreed bounty value. Curator fee is
+       * paid & curator deposit is unreserved.
+       * 
+       * Child-bounty must be in "PendingPayout" state, for processing the
+       * call. And instance of child-bounty is removed from the state on
+       * successful call completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       **/
+      claimChildBounty: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>]>;
+      /**
+       * Cancel a proposed or active child-bounty. Child-bounty account funds
+       * are transferred to parent bounty account. The child-bounty curator
+       * deposit may be unreserved if possible.
+       * 
+       * The dispatch origin for this call must be either parent curator or
+       * `T::RejectOrigin`.
+       * 
+       * If the state of child-bounty is `Active`, curator deposit is
+       * unreserved.
+       * 
+       * If the state of child-bounty is `PendingPayout`, call fails &
+       * returns `PendingPayout` error.
+       * 
+       * For the origin other than T::RejectOrigin, parent bounty must be in
+       * active state, for this child-bounty call to work. For origin
+       * T::RejectOrigin execution is forced.
+       * 
+       * Instance of child-bounty is removed from the state on successful
+       * call completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       **/
+      closeChildBounty: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>]>;
+      /**
+       * Propose curator for funded child-bounty.
+       * 
+       * The dispatch origin for this call must be curator of parent bounty.
+       * 
+       * Parent bounty must be in active state, for this child-bounty call to
+       * work.
+       * 
+       * Child-bounty must be in "Added" state, for processing the call. And
+       * state of child-bounty is moved to "CuratorProposed" on successful
+       * call completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       * - `curator`: Address of child-bounty curator.
+       * - `fee`: payment fee to child-bounty curator for execution.
+       **/
+      proposeCurator: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array, curator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, fee: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>, MultiAddress, Compact<u128>]>;
+      /**
+       * Unassign curator from a child-bounty.
+       * 
+       * The dispatch origin for this call can be either `RejectOrigin`, or
+       * the curator of the parent bounty, or any signed origin.
+       * 
+       * For the origin other than T::RejectOrigin and the child-bounty
+       * curator, parent-bounty must be in active state, for this call to
+       * work. We allow child-bounty curator and T::RejectOrigin to execute
+       * this call irrespective of the parent-bounty state.
+       * 
+       * If this function is called by the `RejectOrigin` or the
+       * parent-bounty curator, we assume that the child-bounty curator is
+       * malicious or inactive. As a result, child-bounty curator deposit is
+       * slashed.
+       * 
+       * If the origin is the child-bounty curator, we take this as a sign
+       * that they are unable to do their job, and are willingly giving up.
+       * We could slash the deposit, but for now we allow them to unreserve
+       * their deposit and exit without issue. (We may want to change this if
+       * it is abused.)
+       * 
+       * Finally, the origin can be anyone iff the child-bounty curator is
+       * "inactive". Expiry update due of parent bounty is used to estimate
+       * inactive state of child-bounty curator.
+       * 
+       * This allows anyone in the community to call out that a child-bounty
+       * curator is not doing their due diligence, and we should pick a new
+       * one. In this case the child-bounty curator deposit is slashed.
+       * 
+       * State of child-bounty is moved to Added state on successful call
+       * completion.
+       * 
+       * - `parent_bounty_id`: Index of parent bounty.
+       * - `child_bounty_id`: Index of child bounty.
+       **/
+      unassignCurator: AugmentedSubmittable<(parentBountyId: Compact<u32> | AnyNumber | Uint8Array, childBountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>]>;
       /**
        * Generic tx
        **/
@@ -1199,6 +1368,13 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     electionProviderMultiPhase: {
       /**
+       * Trigger the governance fallback.
+       * 
+       * This can only be called when [`Phase::Emergency`] is enabled, as an alternative to
+       * calling [`Call::set_emergency_election_result`].
+       **/
+      governanceFallback: AugmentedSubmittable<(maybeMaxVoters: Option<u32> | null | object | string | Uint8Array, maybeMaxTargets: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u32>, Option<u32>]>;
+      /**
        * Set a solution in the queue, to be handed out to the client of this pallet in the next
        * call to `ElectionProvider::elect`.
        * 
@@ -1216,7 +1392,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * This check can be turned off by setting the value to `None`.
        **/
-      setMinimumUntrustedScore: AugmentedSubmittable<(maybeNextScore: Option<Vec<u128>> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<Vec<u128>>]>;
+      setMinimumUntrustedScore: AugmentedSubmittable<(maybeNextScore: Option<SpNposElectionsElectionScore> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<SpNposElectionsElectionScore>]>;
       /**
        * Submit a solution for the signed phase.
        * 
@@ -1227,12 +1403,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * A deposit is reserved and recorded for the solution. Based on the outcome, the solution
        * might be rewarded, slashed, or get all or a part of the deposit back.
-       * 
-       * # <weight>
-       * Queue size must be provided as witness data.
-       * # </weight>
        **/
-      submit: AugmentedSubmittable<(rawSolution: PalletElectionProviderMultiPhaseRawSolution | { solution?: any; score?: any; round?: any } | string | Uint8Array, numSignedSubmissions: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletElectionProviderMultiPhaseRawSolution, u32]>;
+      submit: AugmentedSubmittable<(rawSolution: PalletElectionProviderMultiPhaseRawSolution | { solution?: any; score?: any; round?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletElectionProviderMultiPhaseRawSolution]>;
       /**
        * Submit a solution for the unsigned phase.
        * 
@@ -1297,22 +1469,28 @@ declare module '@polkadot/api-base/types/submittable' {
        * you to trigger the cleanup immediately for a specific parachain.
        * 
        * Origin must be Root.
+       * 
+       * Number of inbound and outbound channels for `para` must be provided as witness data of weighing.
        **/
-      forceCleanHrmp: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      forceCleanHrmp: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, inbound: u32 | AnyNumber | Uint8Array, outbound: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
        * Force process HRMP close channel requests.
        * 
        * If there are pending HRMP close channel requests, you can use this
        * function process all of those requests immediately.
+       * 
+       * Total number of closing channels must be provided as witness data of weighing.
        **/
-      forceProcessHrmpClose: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      forceProcessHrmpClose: AugmentedSubmittable<(channels: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Force process HRMP open channel requests.
        * 
        * If there are pending HRMP open channel requests, you can use this
        * function process all of those requests immediately.
+       * 
+       * Total number of opening channels must be provided as witness data of weighing.
        **/
-      forceProcessHrmpOpen: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      forceProcessHrmpOpen: AugmentedSubmittable<(channels: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Accept a pending open channel request from the given sender.
        * 
@@ -1320,13 +1498,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       hrmpAcceptOpenChannel: AugmentedSubmittable<(sender: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * This cancels a pending open channel request. It can be canceled be either of the sender
+       * This cancels a pending open channel request. It can be canceled by either of the sender
        * or the recipient for that request. The origin must be either of those.
        * 
        * The cancellation happens immediately. It is not possible to cancel the request if it is
        * already accepted.
+       * 
+       * Total number of open requests (i.e. `HrmpOpenChannelRequestsList`) must be provided as
+       * witness data.
        **/
-      hrmpCancelOpenRequest: AugmentedSubmittable<(channelId: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotParachainPrimitivesHrmpChannelId]>;
+      hrmpCancelOpenRequest: AugmentedSubmittable<(channelId: PolkadotParachainPrimitivesHrmpChannelId | { sender?: any; recipient?: any } | string | Uint8Array, openRequests: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotParachainPrimitivesHrmpChannelId, u32]>;
       /**
        * Initiate unilateral closing of a channel. The origin must be either the sender or the
        * recipient in the channel being closed.
@@ -1915,7 +2096,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Enter the paras inherent. This will process bitfields and backed candidates.
        **/
-      enter: AugmentedSubmittable<(data: PolkadotPrimitivesV1InherentData | { bitfields?: any; backedCandidates?: any; disputes?: any; parentHeader?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV1InherentData]>;
+      enter: AugmentedSubmittable<(data: PolkadotPrimitivesV2InherentData | { bitfields?: any; backedCandidates?: any; disputes?: any; parentHeader?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV2InherentData]>;
       /**
        * Generic tx
        **/
@@ -1964,7 +2145,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Includes a statement for a PVF pre-checking vote. Potentially, finalizes the vote and
        * enacts the results if that was the last vote before achieving the supermajority.
        **/
-      includePvfCheckStatement: AugmentedSubmittable<(stmt: PolkadotPrimitivesV2PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV0ValidatorAppSignature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV0ValidatorAppSignature]>;
+      includePvfCheckStatement: AugmentedSubmittable<(stmt: PolkadotPrimitivesV2PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV2ValidatorAppSignature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature]>;
       /**
        * Remove the validation code from the storage iff the reference count is 0.
        * 
@@ -1973,6 +2154,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * dispatching.
        **/
       pokeUnusedValidationCode: AugmentedSubmittable<(validationCodeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    parasDisputes: {
+      forceUnfreeze: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Generic tx
        **/
@@ -2551,14 +2739,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Can be called by the `T::SlashCancelOrigin`.
        * 
        * Parameters: era and indices of the slashes for that era to kill.
-       * 
-       * # <weight>
-       * Complexity: O(U + S)
-       * with U unapplied slashes weighted with U=1000
-       * and S is the number of slash indices to be canceled.
-       * - Read: Unapplied Slashes
-       * - Write: Unapplied Slashes
-       * # </weight>
        **/
       cancelDeferredSlash: AugmentedSubmittable<(era: u32 | AnyNumber | Uint8Array, slashIndices: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<u32>]>;
       /**
@@ -2587,6 +2767,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * If the caller is different than the controller being targeted, the following conditions
        * must be met:
+       * 
+       * * `controller` must belong to a nominator who has become non-decodable,
+       * 
+       * Or:
+       * 
        * * A `ChillThreshold` must be set and checked which defines how close to the max
        * nominators or validators we must reach before users can start chilling one-another.
        * * A `MaxNominatorCount` and `MaxValidatorCount` must be set which is used to determine
@@ -2599,6 +2784,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * who do not satisfy these requirements.
        **/
       chillOther: AugmentedSubmittable<(controller: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
+       * Force a validator to have at least the minimum commission. This will not affect a
+       * validator who already has a commission greater than or equal to the minimum. Any account
+       * can call this.
+       **/
+      forceApplyMinCommission: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Force there to be a new era at the end of the next session. After this, it will be
        * reset to normal (non-forced) behaviour.
@@ -2628,11 +2819,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * The election process starts multiple blocks before the end of the era.
        * If this is called just before a new era is triggered, the election process may not
        * have enough blocks to get a result.
-       * 
-       * # <weight>
-       * - Weight: O(1)
-       * - Write: ForceEra
-       * # </weight>
        **/
       forceNewEraAlways: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
@@ -2657,13 +2843,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Force a current staker to become completely unstaked, immediately.
        * 
        * The dispatch origin must be Root.
-       * 
-       * # <weight>
-       * O(S) where S is the number of slashing spans to be removed
-       * Reads: Bonded, Slashing Spans, Account, Locks
-       * Writes: Bonded, Slashing Spans (if S > 0), Ledger, Payee, Validators, Nominators,
-       * Account, Locks Writes Each: SpanSlash * S
-       * # </weight>
        **/
       forceUnstake: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
       /**
@@ -2699,7 +2878,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # <weight>
        * - The transaction's complexity is proportional to the size of `targets` (N)
-       * which is capped at CompactAssignments::LIMIT (MAX_NOMINATIONS).
+       * which is capped at CompactAssignments::LIMIT (T::MaxNominations).
        * - Both the reads and writes follow a similar pattern.
        * # </weight>
        **/
@@ -2750,7 +2929,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # <weight>
        * - Time complexity: O(L), where L is unlocking chunks
-       * - Bounded by `MAX_UNLOCKING_CHUNKS`.
+       * - Bounded by `MaxUnlockingChunks`.
        * - Storage changes: Can't increase storage, only decrease it.
        * # </weight>
        **/
@@ -2813,11 +2992,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Set the validators who cannot be slashed (if any).
        * 
        * The dispatch origin must be Root.
-       * 
-       * # <weight>
-       * - O(V)
-       * - Write: Invulnerables
-       * # </weight>
        **/
       setInvulnerables: AugmentedSubmittable<(invulnerables: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>]>;
       /**
@@ -2858,7 +3032,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * NOTE: Existing nominators and validators will not be affected by this update.
        * to kick people under the new limits, `chill_other` should be called.
        **/
-      setStakingConfigs: AugmentedSubmittable<(minNominatorBond: u128 | AnyNumber | Uint8Array, minValidatorBond: u128 | AnyNumber | Uint8Array, maxNominatorCount: Option<u32> | null | object | string | Uint8Array, maxValidatorCount: Option<u32> | null | object | string | Uint8Array, chillThreshold: Option<Percent> | null | object | string | Uint8Array, minCommission: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128, Option<u32>, Option<u32>, Option<Percent>, Perbill]>;
+      setStakingConfigs: AugmentedSubmittable<(minNominatorBond: PalletStakingPalletConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minValidatorBond: PalletStakingPalletConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxNominatorCount: PalletStakingPalletConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxValidatorCount: PalletStakingPalletConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, chillThreshold: PalletStakingPalletConfigOpPercent | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minCommission: PalletStakingPalletConfigOpPerbill | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingPalletConfigOpU32, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpPerbill]>;
       /**
        * Sets the ideal number of validators.
        * 
@@ -2880,7 +3054,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Once the unlock period is done, you can call `withdraw_unbonded` to actually move
        * the funds out of management ready for transfer.
        * 
-       * No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)
+       * No more than a limited number of unlocking chunks (see `MaxUnlockingChunks`)
        * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
        * to be called first to remove some of the chunks (if possible).
        * 
@@ -2949,11 +3123,6 @@ declare module '@polkadot/api-base/types/submittable' {
       remark: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Make some on-chain remark and emit event.
-       * 
-       * # <weight>
-       * - `O(b)` where b is the length of the remark.
-       * - 1 event.
-       * # </weight>
        **/
       remarkWithEvent: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**

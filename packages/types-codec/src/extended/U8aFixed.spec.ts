@@ -58,8 +58,14 @@ describe('U8aFixed', (): void => {
       ).toEqual(new Uint8Array([1, 2, 3, 4]));
     });
 
-    it('hash a sane toRawType', (): void => {
+    it('has a sane toRawType', (): void => {
       expect(u8a.toRawType()).toEqual('[u8;4]');
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(u8a.inspect()).toEqual({
+        outer: [new Uint8Array([1, 2, 3, 4])]
+      });
     });
   });
 

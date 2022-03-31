@@ -35,29 +35,31 @@ export function bounties (instanceId: string, api: DeriveApi): () => Observable<
   const bountyBase = api.query.bounties || api.query.treasury;
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
-    combineLatest([
-      bountyBase.bountyCount(),
-      api.query.council
-        ? api.query.council.proposalCount()
-        : of(0)
-    ]).pipe(
-      switchMap(() => combineLatest([
-        bountyBase.bounties.keys(),
-        api.derive.council
-          ? api.derive.council.proposals()
-          : of([])
-      ])),
-      switchMap(([keys, proposals]): Observable<Result> => {
-        const ids = keys.map(({ args: [id] }) => id);
+    bountyBase.bounties
+      ? combineLatest([
+        bountyBase.bountyCount(),
+        api.query.council
+          ? api.query.council.proposalCount()
+          : of(0)
+      ]).pipe(
+        switchMap(() => combineLatest([
+          bountyBase.bounties.keys(),
+          api.derive.council
+            ? api.derive.council.proposals()
+            : of([])
+        ])),
+        switchMap(([keys, proposals]): Observable<Result> => {
+          const ids = keys.map(({ args: [id] }) => id);
 
-        return combineLatest([
-          bountyBase.bounties.multi(ids),
-          bountyBase.bountyDescriptions.multi(ids),
-          of(ids),
-          of(filterBountiesProposals(api, proposals))
-        ]);
-      }),
-      map(parseResult)
-    )
+          return combineLatest([
+            bountyBase.bounties.multi(ids),
+            bountyBase.bountyDescriptions.multi(ids),
+            of(ids),
+            of(filterBountiesProposals(api, proposals))
+          ]);
+        }),
+        map(parseResult)
+      )
+      : of(parseResult([[], [], [], []]))
   );
 }

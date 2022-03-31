@@ -2,10 +2,10 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api-base/types';
-import type { U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, PalletStateTrieMigrationMigrationLimits, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/consts' {
   export interface AugmentedConsts<ApiType extends ApiTypes> {
@@ -81,23 +81,23 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The list of thresholds separating the various bags.
        * 
-       * Ids are separated into unsorted bags according to their vote weight. This specifies the
-       * thresholds separating the bags. An id's bag is the largest bag for which the id's weight
+       * Ids are separated into unsorted bags according to their score. This specifies the
+       * thresholds separating the bags. An id's bag is the largest bag for which the id's score
        * is less than or equal to its upper threshold.
        * 
        * When ids are iterated, higher bags are iterated completely before lower bags. This means
-       * that iteration is _semi-sorted_: ids of higher weight tend to come before ids of lower
-       * weight, but peer ids within a particular bag are sorted in insertion order.
+       * that iteration is _semi-sorted_: ids of higher score tend to come before ids of lower
+       * score, but peer ids within a particular bag are sorted in insertion order.
        * 
        * # Expressing the constant
        * 
        * This constant must be sorted in strictly increasing order. Duplicate items are not
        * permitted.
        * 
-       * There is an implied upper limit of `VoteWeight::MAX`; that value does not need to be
+       * There is an implied upper limit of `Score::MAX`; that value does not need to be
        * specified within the bag. For any two threshold lists, if one ends with
-       * `VoteWeight::MAX`, the other one does not, and they are otherwise equal, the two lists
-       * will behave identically.
+       * `Score::MAX`, the other one does not, and they are otherwise equal, the two
+       * lists will behave identically.
        * 
        * # Calculation
        * 
@@ -115,8 +115,8 @@ declare module '@polkadot/api-base/types/consts' {
        * the procedure given above, then the constant ratio is equal to 2.
        * - If `BagThresholds::get().len() == 200`, and the thresholds are determined according to
        * the procedure given above, then the constant ratio is approximately equal to 1.248.
-       * - If the threshold list begins `[1, 2, 3, ...]`, then an id with weight 0 or 1 will fall
-       * into bag 0, an id with weight 2 will fall into bag 1, etc.
+       * - If the threshold list begins `[1, 2, 3, ...]`, then an id with score 0 or 1 will fall
+       * into bag 0, an id with score 2 will fall into bag 1, etc.
        * 
        * # Migration
        * 
@@ -252,6 +252,26 @@ declare module '@polkadot/api-base/types/consts' {
        * Cost schedule and limits.
        **/
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    convictionVoting: {
+      /**
+       * The maximum number of concurrent votes an account may have.
+       * 
+       * Also used to compute weight, an overly large value can
+       * lead to extrinsic with large weight estimation: see `delegate` for instance.
+       **/
+      maxVotes: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum period of vote locking.
+       * 
+       * It should be no shorter than enactment period to ensure that in the case of an approval,
+       * those successful voters are locked into the consequences that their votes entail.
+       **/
+      voteLockingPeriod: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -665,8 +685,13 @@ declare module '@polkadot/api-base/types/consts' {
       friendDepositFactor: u128 & AugmentedConst<ApiType>;
       /**
        * The maximum amount of friends allowed in a recovery configuration.
+       * 
+       * NOTE: The threshold programmed in this Pallet uses u16, so it does
+       * not really make sense to have a limit here greater than u16::MAX.
+       * But also, that is a lot more than you should probably set this value
+       * to anyway...
        **/
-      maxFriends: u16 & AugmentedConst<ApiType>;
+      maxFriends: u32 & AugmentedConst<ApiType>;
       /**
        * The base amount of currency needed to reserve for starting a recovery.
        * 
@@ -677,6 +702,31 @@ declare module '@polkadot/api-base/types/consts' {
        * threshold.
        **/
       recoveryDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    referenda: {
+      /**
+       * Quantization level for the referendum wakeup scheduler. A higher number will result in
+       * fewer storage reads/writes needed for smaller voters, but also result in delays to the
+       * automatic referendum status changes. Explicit servicing instructions are unaffected.
+       **/
+      alarmInterval: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum size of the referendum queue for a single track.
+       **/
+      maxQueued: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount to be used as a deposit for a public referendum proposal.
+       **/
+      submissionDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks after submission that a referendum must begin being decided by.
+       * Once this passes, then anyone may cancel the referendum.
+       **/
+      undecidingTimeout: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -747,6 +797,9 @@ declare module '@polkadot/api-base/types/consts' {
        * Number of eras that staked funds must remain bonded for.
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of nominations per nominator.
+       **/
       maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
@@ -755,6 +808,11 @@ declare module '@polkadot/api-base/types/consts' {
        * claim their reward. This used to limit the i/o cost for the nominator payout.
        **/
       maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of `unlocking` chunks a [`StakingLedger`] can have. Effectively
+       * determines how many unique eras a staker may be unbonding in.
+       **/
+      maxUnlockingChunks: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
@@ -766,6 +824,16 @@ declare module '@polkadot/api-base/types/consts' {
        * should be applied immediately, without opportunity for intervention.
        **/
       slashDeferDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    stateTrieMigration: {
+      /**
+       * The maximum limits that the signed migration could use.
+       **/
+      signedMigrationMaxLimits: PalletStateTrieMigrationMigrationLimits & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -891,6 +959,8 @@ declare module '@polkadot/api-base/types/consts' {
       burn: Permill & AugmentedConst<ApiType>;
       /**
        * The maximum number of approvals that can wait in the spending queue.
+       * 
+       * NOTE: This parameter is also used within the Bounties Pallet extension if enabled.
        **/
       maxApprovals: u32 & AugmentedConst<ApiType>;
       /**
@@ -902,6 +972,10 @@ declare module '@polkadot/api-base/types/consts' {
        * An accepted proposal gets these back. A rejected proposal does not.
        **/
       proposalBond: Permill & AugmentedConst<ApiType>;
+      /**
+       * Maximum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      proposalBondMaximum: Option<u128> & AugmentedConst<ApiType>;
       /**
        * Minimum amount of funds that should be placed in a deposit for making a proposal.
        **/

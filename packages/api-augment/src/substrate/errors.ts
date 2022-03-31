@@ -131,7 +131,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IdNotFound: AugmentedError<ApiType>;
       /**
-       * An Id does not have a greater vote weight than another Id.
+       * An Id does not have a greater score than another Id.
        **/
       NotHeavier: AugmentedError<ApiType>;
       /**
@@ -219,6 +219,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Require bounty curator.
        **/
       RequireCurator: AugmentedError<ApiType>;
+      /**
+       * Too many approvals are already queued.
+       **/
+      TooManyQueued: AugmentedError<ApiType>;
       /**
        * The bounty status is unexpected.
        **/
@@ -310,6 +314,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InputForwarded: AugmentedError<ApiType>;
       /**
+       * Invalid combination of flags supplied to `seal_call` or `seal_delegate_call`.
+       **/
+      InvalidCallFlags: AugmentedError<ApiType>;
+      /**
        * A new schedule must have a greater version than the current one.
        **/
       InvalidScheduleVersion: AugmentedError<ApiType>;
@@ -376,6 +384,61 @@ declare module '@polkadot/api-base/types/errors' {
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
       ValueTooLarge: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * The account is already delegating.
+       **/
+      AlreadyDelegating: AugmentedError<ApiType>;
+      /**
+       * The account currently has votes attached to it and the operation cannot succeed until
+       * these are removed, either through `unvote` or `reap_vote`.
+       **/
+      AlreadyVoting: AugmentedError<ApiType>;
+      /**
+       * The class ID supplied is invalid.
+       **/
+      BadClass: AugmentedError<ApiType>;
+      /**
+       * The class must be supplied since it is not easily determinable from the state.
+       **/
+      ClassNeeded: AugmentedError<ApiType>;
+      /**
+       * Too high a balance was provided that the account cannot afford.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
+       * Maximum number of votes reached.
+       **/
+      MaxVotesReached: AugmentedError<ApiType>;
+      /**
+       * Delegation to oneself makes no sense.
+       **/
+      Nonsense: AugmentedError<ApiType>;
+      /**
+       * The actor has no permission to conduct the action.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * The actor has no permission to conduct the action right now but will do in the future.
+       **/
+      NoPermissionYet: AugmentedError<ApiType>;
+      /**
+       * The account is not currently delegating.
+       **/
+      NotDelegating: AugmentedError<ApiType>;
+      /**
+       * Poll is not ongoing.
+       **/
+      NotOngoing: AugmentedError<ApiType>;
+      /**
+       * The given account did not vote on the poll.
+       **/
+      NotVoter: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -551,6 +614,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The call is not allowed at this point.
        **/
       CallNotAllowed: AugmentedError<ApiType>;
+      /**
+       * The fallback failed
+       **/
+      FallbackFailed: AugmentedError<ApiType>;
       /**
        * `Self::insert_submission` returned an invalid index.
        **/
@@ -1089,6 +1156,56 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    referenda: {
+      /**
+       * The referendum index provided is invalid in this context.
+       **/
+      BadReferendum: AugmentedError<ApiType>;
+      /**
+       * The track identifier given was invalid.
+       **/
+      BadTrack: AugmentedError<ApiType>;
+      /**
+       * There are already a full complement of referendums in progress for this track.
+       **/
+      Full: AugmentedError<ApiType>;
+      /**
+       * Referendum's decision deposit is already paid.
+       **/
+      HasDeposit: AugmentedError<ApiType>;
+      /**
+       * The deposit cannot be refunded since none was made.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
+      /**
+       * The deposit refunder is not the depositor.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * There was nothing to do in the advancement.
+       **/
+      NothingToDo: AugmentedError<ApiType>;
+      /**
+       * Referendum is not ongoing.
+       **/
+      NotOngoing: AugmentedError<ApiType>;
+      /**
+       * No track exists for the proposal origin.
+       **/
+      NoTrack: AugmentedError<ApiType>;
+      /**
+       * The queue of the track is empty.
+       **/
+      QueueEmpty: AugmentedError<ApiType>;
+      /**
+       * Any deposit cannot be refunded until after the decision is over.
+       **/
+      Unfinished: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     scheduler: {
       /**
        * Failed to schedule a call
@@ -1316,6 +1433,28 @@ declare module '@polkadot/api-base/types/errors' {
        * settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * bad witness data provided.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * max signed limits not respected.
+       **/
+      MaxSignedLimits: AugmentedError<ApiType>;
+      /**
+       * submitter does not have enough funds.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * upper bound of size is exceeded,
+       **/
+      SizeUpperBoundExceeded: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1557,13 +1696,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
+       * The named owner has not signed ownership of the class is acceptable.
+       **/
+      Unaccepted: AugmentedError<ApiType>;
+      /**
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
-      Unknown: AugmentedError<ApiType>;
+      UnknownClass: AugmentedError<ApiType>;
       /**
        * The delegate turned out to be different to what was expected.
        **/
@@ -1609,6 +1752,32 @@ declare module '@polkadot/api-base/types/errors' {
        * An index was out of bounds of the vesting schedules.
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    whitelist: {
+      /**
+       * The call was already whitelisted; No-Op.
+       **/
+      CallAlreadyWhitelisted: AugmentedError<ApiType>;
+      /**
+       * The call was not whitelisted.
+       **/
+      CallIsNotWhitelisted: AugmentedError<ApiType>;
+      /**
+       * The weight of the decoded call was higher than the witness.
+       **/
+      InvalidCallWeightWitness: AugmentedError<ApiType>;
+      /**
+       * The preimage of the call hash could not be loaded.
+       **/
+      UnavailablePreImage: AugmentedError<ApiType>;
+      /**
+       * The call could not be decoded.
+       **/
+      UndecodableCall: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

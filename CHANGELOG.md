@@ -2,12 +2,172 @@
 
 ## master
 
+Contributed:
+
+- Export `WellKnownChain` for `substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `{entries, keys}Paged` in `.at` (Thanks to https://github.com/xlc)
+- Align `WeightsPerClass` interface on `maxExtrinsic` (Thanks to https://github.com/HackFisher)
+
 Changes:
 
+- Cater for `DispatchError` with `error` as `[u8; 4]`
+- Add in-flight cache for parallel same-version metadata queries
+
+
+## 7.14.3 Mar 28, 2022
+
+Changes:
+
+- Ensure `BitVec` with MSB does not fail (used in Polkadot `DeliveredMessages`)
+
+
+## 7.14.2 Mar 28, 2022
+
+Changes:
+
+- Don't export `ScProvider` top-level in `@polkadot/rpc-provider`
+
+
+## 7.14.1 Mar 27, 2022
+
+Contributed:
+
+- Add `ScProvider` for `@substrate/substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `BTree{Map, Set}` in typegen (Thanks to https://github.com/CertainLach)
+
+Changes:
+
+- Only explicitly support LSB on `BitVec` types
+- Change `toHuman()` on `BitVec` to output default LSB
+- Add `bytes{Sent, Recv}` to provider stats
+- Clear connection timout on provider `disconnect()`
+- Add support for `dev_getBlockStats` RPC
+
+
+## 7.13.1 Mar 19, 2022
+
+**Important** This contains an upgraded version of `@polkadot/wasm-crypto`. For users of asm.js, e.g. React Native, there are some additional upgrade instructions in the release notes for this version https://github.com/polkadot-js/wasm/releases/tag/v5.0.1
+
+Contributed:
+
+- Expose custom RPC error details (Thanks to https://github.com/intendednull)
+- Improve custom RPC error typings (Thanks to https://github.com/MOZGIII)
+
+Changes:
+
+- Support for rejection of hanging RPC requests (30s timeout)
+- Add `.stats` to provider interfaces with running counters
+- Add support for `state_trieMigrationStatus` RPC
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update to `@polkadot/util` 8.6.1
+- Additional workaround for Vite bundling
+
+
+## 7.12.1 Mar 13, 2022
+
+Changes:
+
+- Allow for correct handling of `Option<Null>` types
+- Adjust for bundlers where `import.meta.url` is undefined
+- Update to `@polkadot/util` 8.5.1
+
+
+## 7.11.1 Mar 6, 2022
+
+Changes:
+
+- Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
+- Ensure that signer (passed via options) do get updated
+- Kusama & Polkadot 9170 upgrade blocks
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Adjustments for TypeScript 7.6.2
+
+
+## 7.10.1 Feb 27, 2022
+
+Contributed:
+
+- Ensure `updateId` is correct in signer callbacks (Thanks to https://github.com/coolcorexix)
+
+Changes:
+
+- Ensure `BTreeSet` has the correct decoded length
+- Attach `PortableRegistry` at point of metadata set
+- Add `derive.chain.getBlockByNumber`
+- Retrieve named reserves in `derive.balances.all`
+- Ensure `v13 -> v14` metadata conversion attaches primitives
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.9.1 Feb 20, 2022
+
+Contributed:
+
+- Support historic queries via blockNumber (Thanks to https://github.com/stwiname)
+
+Changes:
+
+- Align `grandpa_proveFinality` with Substrate
+- Allow for derive augmentation (swap base type to interfaces)
+- Kusama 9160 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.8.1 Feb 14, 2022
+
+Contributed:
+
+- Add `isHistoric` flag to ETH RPCs (Thanks to https://github.com/stwiname)
+- Align contract instantiate types with Substrate (Thanks to https://github.com/kwingram25)
+
+Changes:
+
+- Adjust map header output type with lookup id
+- Re-enable all `BitVec` tests for `toU8a`
+- Expose `txIndex` as event index on extrinsic results
+- Allow inspection of Codec encoding (experimental)
+- Allow inspection of storage key encoding (experimental)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update `@polkadot/util` to 8.4.1
+
+
+## 7.7.1 Feb 6, 2022
+
+Upgrade priority: Low. Recommended for users with long-running scripts.
+
+Contributed:
+
+- Fix rpc-provider LRU memory leak (Thanks to https://github.com/gdethier)
+
+Changes:
+
+- Don't warn on `Lookup*` types missing (these are resolvable)
+- Don't clear injected `PortableRegistry` types on runtime upgrade
+- Clear warning for `Call`/`Event` on non-meta v14 runtimes
+- Add `beefy_getFinalizedHead` RPC support
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.6.1 Jan 30, 2022
+
+Upgdare priority: Low. Recommended for users with long-running scripts and those chains based around the latest Substrate master versions.
+
+Contributed:
+
+- Fix memory leak on `.raw` RPC calls (Thanks to https://github.com/r0t0r-r0t0r)
+
+Changes:
+
+- Adjust extraction of `Call` & `Event` types for metadata v14
 - Adjust historic `WinningData` and `SlotRange` types (36-entry variant)
 - Emit `decorated` event on API on metadata decoration
 - Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
 - Align `Range/RangeInclusive` usage with similar types
+- Adjust bounty derive, return empty on no `{treasury, bounties}.bounties`
+- Ensure handling of all `TypeDefInfo` keys in extraction
+- Add support for `rpc.contracts.uploadCode`
+- Workaround for generators where `#private = { this... }` yields undefined
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.5.1 Jan 23, 2022

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
@@ -66,6 +66,13 @@ export class Json extends Map<string, any> implements Codec {
 
   public getT <T> (key: string): T {
     return this.get(key) as unknown as T;
+  }
+
+  /**
+   * @description Unimplemented, will throw
+   */
+  public inspect (): Inspect {
+    throw new Error('Unimplemented');
   }
 
   /**

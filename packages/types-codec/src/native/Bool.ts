@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, IU8a, Registry } from '../types';
+import type { Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
@@ -79,6 +79,15 @@ export class bool extends Boolean implements Codec {
         ? other.valueOf()
         : other
     );
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect {
+    return {
+      outer: [this.toU8a()]
+    };
   }
 
   /**

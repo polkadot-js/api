@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Registry } from '../types';
+import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
 import { assert, isU8a, u8aConcat } from '@polkadot/util';
 
@@ -70,14 +70,19 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
     return total;
   }
 
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    return {
+      inner: this.inspectInner()
+    };
+  }
+
   public override toU8a (): Uint8Array {
     // we override, we don't add the length prefix for ourselves, and at the same time we
     // ignore isBare on entries, since they should be properly encoded at all times
-    const encoded = new Array<Uint8Array>(this.length);
-
-    for (let i = 0; i < this.length; i++) {
-      encoded[i] = this[i].toU8a();
-    }
+    const encoded = this.toU8aInner();
 
     return encoded.length
       ? u8aConcat(...encoded)

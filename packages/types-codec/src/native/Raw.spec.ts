@@ -89,5 +89,13 @@ describe('Raw', (): void => {
         () => new Raw(registry, '0x7f07b1f87709608bee603bbc79a0dfc29cd315c1351a83aa31adf7458d7d3003').toUtf8()
       ).toThrow(/The character sequence is not a valid Utf8 string/);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new Raw(registry, [1, 2, 3, 4, 5]).inspect()
+      ).toEqual({
+        outer: [new Uint8Array([1, 2, 3, 4, 5])]
+      });
+    });
   });
 });

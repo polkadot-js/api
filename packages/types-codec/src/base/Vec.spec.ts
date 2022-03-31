@@ -7,7 +7,7 @@ import type { Codec, CodecTo, ITuple } from '@polkadot/types-codec/types';
 import { createTypeUnsafe, GenericAccountId as AccountId, Metadata, TypeRegistry } from '@polkadot/types';
 import { Text, Vec } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
-import { randomAsU8a } from '@polkadot/util-crypto';
+import { decodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -174,6 +174,20 @@ describe('Vec', (): void => {
 
       expect(vec).toHaveLength(10);
       expect(vec.slice(2, 7)).toHaveLength(5);
+    });
+
+    it('has a sane inspect', (): void => {
+      const addrs = [
+        '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
+      ];
+      const vec = registry.createType('Vec<AccountId>', addrs);
+
+      expect(vec.inspect()).toEqual({
+        inner: addrs.map((a) => ({
+          outer: [decodeAddress(a)]
+        })),
+        outer: [new Uint8Array([3 << 2])]
+      });
     });
   });
 });

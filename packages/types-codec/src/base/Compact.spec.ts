@@ -79,5 +79,13 @@ describe('Compact', (): void => {
         (new (Compact.with('u128'))(registry, 12345678987654321n).toBigInt() + 1n) === 12345678987654322n
       ).toBe(true);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new (Compact.with(U32))(registry, 0xffff).inspect()
+      ).toEqual({
+        outer: [new Uint8Array([254, 255, 3, 0])]
+      });
+    });
   });
 });

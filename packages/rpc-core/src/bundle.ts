@@ -5,7 +5,7 @@ import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { AnyJson, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterfaceMethod } from './types';
 
@@ -22,6 +22,11 @@ export * from './util';
 interface StorageChangeSetJSON {
   block: string;
   changes: [string, string | null][];
+}
+
+type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
+  raw: Memoized<RpcInterfaceMethod>;
+  meta: DefinitionRpc;
 }
 
 const l = logger('rpc-core');
@@ -80,6 +85,7 @@ export class RpcCore {
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
+  #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
   readonly #storageCache = new Map<string, string | null>();
 
@@ -141,6 +147,15 @@ export class RpcCore {
     });
   }
 
+  /**
+   * @description Sets a function to resolve block hash from block number
+   */
+  public setResolveBlockHash (resolveBlockHash: (blockNumber: AnyNumber) => Promise<Uint8Array>): void {
+    this.#getBlockHash = memoize(resolveBlockHash, {
+      getInstanceId: () => this.#instanceId
+    });
+  }
+
   public addUserInterfaces (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
@@ -174,14 +189,14 @@ export class RpcCore {
     }
   }
 
-  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): Memoized<RpcInterfaceMethod> {
+  private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): MemoizedRpcInterfaceMethod {
     const memoOpts = { getInstanceId: () => this.#instanceId };
     const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
 
     memoized.raw = memoize(creator(false), memoOpts);
     memoized.meta = def;
 
-    return memoized;
+    return memoized as MemoizedRpcInterfaceMethod;
   }
 
   private _formatResult <T> (isScale: boolean, registry: Registry, blockHash: string | Uint8Array | null | undefined, method: string, def: DefinitionRpc, params: Codec[], result: unknown): T {
@@ -193,16 +208,22 @@ export class RpcCore {
   private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
     const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
-    let memoized: null | Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | MemoizedRpcInterfaceMethod = null;
 
     // execute the RPC call, doing a registry swap for historic as applicable
     const callWithRegistry = async <T> (isScale: boolean, values: unknown[]): Promise<T> => {
-      const blockHash = hashIndex === -1
+      const blockId = hashIndex === -1
         ? null
-        : values[hashIndex] as (Uint8Array | string | null | undefined);
+        : values[hashIndex];
+
+      const blockHash = blockId && def.params[hashIndex].type === 'BlockNumber'
+        ? await this.#getBlockHash?.(blockId as AnyNumber)
+        : blockId as (Uint8Array | string | null | undefined);
+
       const { registry } = isScale && blockHash && this.#getBlockRegistry
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
+
       const params = this._formatInputs(registry, null, def, values);
 
       // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
@@ -229,7 +250,11 @@ export class RpcCore {
 
         return (): void => {
           // delete old results from cache
-          memoized?.unmemoize(...values);
+          if (isScale) {
+            memoized?.unmemoize(...values);
+          } else {
+            memoized?.raw.unmemoize(...values);
+          }
         };
       }).pipe(
         publishReplay(1), // create a Replay(1)
@@ -262,7 +287,7 @@ export class RpcCore {
     const subName = `${section}_${subMethod}`;
     const unsubName = `${section}_${unsubMethod}`;
     const subType = `${section}_${updateType}`;
-    let memoized: null | Memoized<RpcInterfaceMethod> = null;
+    let memoized: null | MemoizedRpcInterfaceMethod = null;
 
     const creator = <T> (isScale: boolean) => (...values: unknown[]): Observable<T> => {
       return new Observable((observer: Observer<T>): () => void => {
@@ -302,7 +327,11 @@ export class RpcCore {
         // Teardown logic
         return (): void => {
           // Delete from cache, so old results don't hang around
-          memoized?.unmemoize(...values);
+          if (isScale) {
+            memoized?.unmemoize(...values);
+          } else {
+            memoized?.raw.unmemoize(...values);
+          }
 
           // Unsubscribe from provider
           subscriptionPromise

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
@@ -88,6 +88,24 @@ export class GenericLookupSource extends Base<GenericAccountId | GenericAccountI
     return this.inner instanceof GenericAccountIndex
       ? GenericAccountIndex.calcLength(this.inner)
       : this.inner.encodedLength;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    const value = this.inner.toU8a().subarray(0, this._rawLength);
+
+    return {
+      outer: [
+        new Uint8Array(
+          this.inner instanceof GenericAccountIndex
+            ? GenericAccountIndex.writeLength(value)
+            : ACCOUNT_ID_PREFIX
+        ),
+        value
+      ]
+    };
   }
 
   /**

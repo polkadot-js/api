@@ -5,7 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, NodeRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, FrameSupportWeightsPostDispatchInfo, NodeRuntimeProxyType, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -212,6 +212,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       CodeStored: AugmentedEvent<ApiType, [H256]>;
       /**
+       * A contract's code was updated.
+       **/
+      ContractCodeUpdated: AugmentedEvent<ApiType, [AccountId32, H256, H256]>;
+      /**
        * A custom event emitted by the contract.
        **/
       ContractEmitted: AugmentedEvent<ApiType, [AccountId32, Bytes]>;
@@ -228,6 +232,20 @@ declare module '@polkadot/api-base/types/events' {
        * `seal_terminate`.
        **/
       Terminated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * An account has delegated their vote to another account. \[who, target\]
+       **/
+      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      /**
+       * An \[account\] has cancelled a previous delegation operation.
+       **/
+      Undelegated: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * Generic event
        **/
@@ -680,6 +698,58 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    referenda: {
+      /**
+       * A referendum has been approved and its proposal has been scheduled.
+       **/
+      Approved: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A referendum has been cancelled.
+       **/
+      Cancelled: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      ConfirmAborted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A referendum has ended its confirmation phase and is ready for approval.
+       **/
+      Confirmed: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      ConfirmStarted: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * The decision deposit has been placed.
+       **/
+      DecisionDepositPlaced: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      /**
+       * The decision deposit has been refunded.
+       **/
+      DecisionDepositRefunded: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      /**
+       * A referendum has moved into the deciding phase.
+       **/
+      DecisionStarted: AugmentedEvent<ApiType, [u32, u8, H256, PalletConvictionVotingTally]>;
+      /**
+       * A deposit has been slashaed.
+       **/
+      DepositSlashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * A referendum has been killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      /**
+       * A proposal has been rejected by referendum.
+       **/
+      Rejected: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      /**
+       * A referendum has being submitted.
+       **/
+      Submitted: AugmentedEvent<ApiType, [u32, u8, H256]>;
+      /**
+       * A referendum has been timed out without being decided.
+       **/
+      TimedOut: AugmentedEvent<ApiType, [u32, PalletConvictionVotingTally]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     scheduler: {
       /**
        * The call for the provided hash was not found so the task has been aborted.
@@ -844,6 +914,29 @@ declare module '@polkadot/api-base/types/events' {
        * from the unlocking queue. \[stash, amount\]
        **/
       Withdrawn: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * The auto migration task finished.
+       **/
+      AutoMigrationFinished: AugmentedEvent<ApiType, []>;
+      /**
+       * Migration got halted.
+       **/
+      Halted: AugmentedEvent<ApiType, []>;
+      /**
+       * Given number of `(top, child)` keys were migrated respectively, with the given
+       * `compute`.
+       **/
+      Migrated: AugmentedEvent<ApiType, [u32, u32, PalletStateTrieMigrationMigrationCompute]>;
+      /**
+       * Some account got slashed by the given amount.
+       **/
+      Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * Generic event
        **/
@@ -1117,6 +1210,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       OwnerChanged: AugmentedEvent<ApiType, [u32, AccountId32]>;
       /**
+       * Ownership acceptance has changed for an account.
+       **/
+      OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [AccountId32, Option<u32>]>;
+      /**
        * Metadata has been cleared for an asset instance.
        **/
       Redeposited: AugmentedEvent<ApiType, [u32, Vec<u32>]>;
@@ -1170,6 +1267,15 @@ declare module '@polkadot/api-base/types/events' {
        * The balance given is the amount which is left unvested (and thus locked).
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    whitelist: {
+      CallWhitelisted: AugmentedEvent<ApiType, [H256]>;
+      WhitelistedCallDispatched: AugmentedEvent<ApiType, [H256, Result<FrameSupportWeightsPostDispatchInfo, SpRuntimeDispatchErrorWithPostInfo>]>;
+      WhitelistedCallRemoved: AugmentedEvent<ApiType, [H256]>;
       /**
        * Generic event
        **/

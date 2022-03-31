@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyU8a, Codec, CodecClass, Registry } from '../types';
+import type { AnyJson, AnyU8a, Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { assertReturn, compactAddLength, compactStripLength, isHex, isU8a } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, compactToU8a, isHex, isU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
@@ -61,6 +61,20 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    */
   public get isDecoded (): boolean {
     return !!this.#decoded;
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    return this.#decoded
+      ? {
+        inner: [this.#decoded.inspect()],
+        outer: [compactToU8a(this.length)]
+      }
+      : {
+        outer: [compactToU8a(this.length), this.toU8a(true)]
+      };
   }
 
   /**

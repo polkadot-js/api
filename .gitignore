@@ -6,6 +6,7 @@ docs/.vuepress/dist/
 docs/substrate/*.md
 node_modules/
 tmp/
+NOTES.md
 .DS_Store
 .env.local
 .env.development.local

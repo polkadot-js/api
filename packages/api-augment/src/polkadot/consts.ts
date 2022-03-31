@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api-base/types';
-import type { Bytes, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
@@ -67,23 +67,23 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The list of thresholds separating the various bags.
        * 
-       * Ids are separated into unsorted bags according to their vote weight. This specifies the
-       * thresholds separating the bags. An id's bag is the largest bag for which the id's weight
+       * Ids are separated into unsorted bags according to their score. This specifies the
+       * thresholds separating the bags. An id's bag is the largest bag for which the id's score
        * is less than or equal to its upper threshold.
        * 
        * When ids are iterated, higher bags are iterated completely before lower bags. This means
-       * that iteration is _semi-sorted_: ids of higher weight tend to come before ids of lower
-       * weight, but peer ids within a particular bag are sorted in insertion order.
+       * that iteration is _semi-sorted_: ids of higher score tend to come before ids of lower
+       * score, but peer ids within a particular bag are sorted in insertion order.
        * 
        * # Expressing the constant
        * 
        * This constant must be sorted in strictly increasing order. Duplicate items are not
        * permitted.
        * 
-       * There is an implied upper limit of `VoteWeight::MAX`; that value does not need to be
+       * There is an implied upper limit of `Score::MAX`; that value does not need to be
        * specified within the bag. For any two threshold lists, if one ends with
-       * `VoteWeight::MAX`, the other one does not, and they are otherwise equal, the two lists
-       * will behave identically.
+       * `Score::MAX`, the other one does not, and they are otherwise equal, the two
+       * lists will behave identically.
        * 
        * # Calculation
        * 
@@ -101,8 +101,8 @@ declare module '@polkadot/api-base/types/consts' {
        * the procedure given above, then the constant ratio is equal to 2.
        * - If `BagThresholds::get().len() == 200`, and the thresholds are determined according to
        * the procedure given above, then the constant ratio is approximately equal to 1.248.
-       * - If the threshold list begins `[1, 2, 3, ...]`, then an id with weight 0 or 1 will fall
-       * into bag 0, an id with weight 2 will fall into bag 1, etc.
+       * - If the threshold list begins `[1, 2, 3, ...]`, then an id with score 0 or 1 will fall
+       * into bag 0, an id with score 2 will fall into bag 1, etc.
        * 
        * # Migration
        * 
@@ -166,6 +166,25 @@ declare module '@polkadot/api-base/types/consts' {
        * Benchmarks depend on this value, be sure to update weights file when changing this value
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    childBounties: {
+      /**
+       * Percentage of child-bounty value to be reserved as curator deposit
+       * when curator fee is zero.
+       **/
+      childBountyCuratorDepositBase: Permill & AugmentedConst<ApiType>;
+      /**
+       * Minimum value for a child-bounty.
+       **/
+      childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of child-bounties that can be added to a parent bounty.
+       **/
+      maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -575,6 +594,9 @@ declare module '@polkadot/api-base/types/consts' {
        * Number of eras that staked funds must remain bonded for.
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of nominations per nominator.
+       **/
       maxNominations: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of nominators rewarded for each validator.
@@ -583,6 +605,11 @@ declare module '@polkadot/api-base/types/consts' {
        * claim their reward. This used to limit the i/o cost for the nominator payout.
        **/
       maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of `unlocking` chunks a [`StakingLedger`] can have. Effectively
+       * determines how many unique eras a staker may be unbonding in.
+       **/
+      maxUnlockingChunks: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
@@ -719,6 +746,8 @@ declare module '@polkadot/api-base/types/consts' {
       burn: Permill & AugmentedConst<ApiType>;
       /**
        * The maximum number of approvals that can wait in the spending queue.
+       * 
+       * NOTE: This parameter is also used within the Bounties Pallet extension if enabled.
        **/
       maxApprovals: u32 & AugmentedConst<ApiType>;
       /**
@@ -730,6 +759,10 @@ declare module '@polkadot/api-base/types/consts' {
        * An accepted proposal gets these back. A rejected proposal does not.
        **/
       proposalBond: Permill & AugmentedConst<ApiType>;
+      /**
+       * Maximum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      proposalBondMaximum: Option<u128> & AugmentedConst<ApiType>;
       /**
        * Minimum amount of funds that should be placed in a deposit for making a proposal.
        **/

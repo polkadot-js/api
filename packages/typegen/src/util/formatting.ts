@@ -48,6 +48,10 @@ function extractImports ({ imports, types }: This): string[] {
       )
     },
     {
+      file: '@polkadot/types/lookup',
+      types: Object.keys(imports.lookupTypes)
+    },
+    {
       file: '@polkadot/types/types',
       types: Object.keys(imports.typesTypes).filter((n) =>
         !ON_CODEC_TYPES.includes(n)
@@ -183,7 +187,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    return formatType(registry, definitions, (registry).lookup.getTypeDef(typeDef.type), imports, withShortcut);
+    return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports, withShortcut);
   },
 
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {

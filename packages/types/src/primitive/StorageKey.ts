@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, Codec, ICompact, INumber } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
@@ -44,7 +44,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName((registry).lookup, unwrapStorageSi(type));
+  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
@@ -90,7 +90,7 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, ICompact<INumber>][]): A {
+function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
   const result = new Array<Codec>(hashers.length);
@@ -99,7 +99,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
     const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createTypeUnsafe(registry.createLookupType(type), [value.subarray(offset + hashLen)])
+      ? registry.createTypeUnsafe(getSiName(registry.lookup, type), [value.subarray(offset + hashLen)])
       : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
@@ -118,7 +118,7 @@ function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uin
   const { hashers, key } = meta.type.asMap;
   const keys = hashers.length === 1
     ? [key]
-    : (registry).lookup.getSiType(key).def.asTuple;
+    : registry.lookup.getSiType(key).def.asTuple;
 
   return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }

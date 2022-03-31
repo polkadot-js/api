@@ -289,6 +289,18 @@ describe('Enum', (): void => {
         expect(test.isNone).toBe(true);
         expect(test.index).toEqual(1);
       });
+
+      it('has a sane inspect', (): void => {
+        expect(
+          new Enum(
+            registry,
+            { Text, U32 },
+            '0x0134120000'
+          ).inspect()
+        ).toEqual({
+          outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
+        });
+      });
     });
   });
 

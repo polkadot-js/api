@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types';
-import { bool, Bytes, Option, Text, U32 } from '@polkadot/types-codec';
+import { bool, Bytes, Null, Option, Text, U32 } from '@polkadot/types-codec';
 
 const registry = new TypeRegistry();
 
@@ -27,6 +27,30 @@ describe('Option', (): void => {
     expect(new Option(registry, Text, null).isNone).toBe(true);
     expect(new Option(registry, Text, 'test').isNone).toBe(false);
     expect(new Option(registry, Text, '0x').isNone).toBe(true);
+    expect(new Option(registry, '()', null).isNone).toBe(true);
+  });
+
+  it('can wrap an Option<Null>/Option<()>', (): void => {
+    [
+      new Option(registry, Null, new Null(registry)),
+      new Option(registry, '()', new Null(registry))
+    ].forEach((test): void => {
+      expect(test.isSome).toBe(true);
+      expect(test.isNone).toBe(false);
+      expect(test.isEmpty).toBe(false);
+      expect(test.toU8a()).toEqual(new Uint8Array([1]));
+      expect(test.unwrap().toHex()).toEqual('0x');
+    });
+  });
+
+  it('can convert between different Some/None', (): void => {
+    const def = '{ "foo":"Text", "zar":"Text" }';
+    const none = new Option(registry, def, null);
+    const some = new Option(registry, def, new Option(registry, def, { foo: 'a', zar: 'b' }));
+
+    expect(new Option(registry, def, none).isNone).toBe(true);
+    expect(new Option(registry, def, some).isNone).toBe(false);
+    expect(new Option(registry, def, some).unwrap().toHuman()).toEqual({ foo: 'a', zar: 'b' });
   });
 
   it('correctly handles booleans', (): void => {
@@ -152,6 +176,14 @@ describe('Option', (): void => {
 
     it('unwrapOrDefault to specified if non-empty', (): void => {
       expect(new Option(registry, U32, '1234').unwrapOrDefault().toNumber()).toEqual(1234);
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new Option(registry, U32, '1234').inspect()
+      ).toEqual({
+        outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
+      });
     });
   });
 });

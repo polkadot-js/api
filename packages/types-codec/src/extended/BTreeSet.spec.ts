@@ -126,52 +126,78 @@ describe('BTreeSet', (): void => {
     ).toThrowError(/BTreeSet: cannot decode type/);
   });
 
-  it('correctly encodes length', (): void => {
-    expect(
-      new (
-        BTreeSet.with(U32))(registry, mockU32Set).encodedLength
-    ).toEqual(17);
+  describe('enocodedLength & initialU8aLength', (): void => {
+    it('correctly encodes length', (): void => {
+      expect(
+        new (
+          BTreeSet.with(U32))(registry, mockU32Set).encodedLength
+      ).toEqual(17);
+    });
+
+    it('correctly encodes/decodes empty', (): void => {
+      const none = new (BTreeSet.with(U32))(registry, []);
+
+      // only the length byte
+      expect(none.toHex()).toEqual('0x00');
+      expect(none.encodedLength).toEqual(1);
+      expect(
+        (new (BTreeSet.with(U32))(registry, none.toHex())).initialU8aLength
+      ).toEqual(none.encodedLength);
+    });
+
+    it('correctly encodes/decodes filled', (): void => {
+      const some = new (BTreeSet.with(U32))(registry, [1, 2]);
+
+      // length byte + 2 values, 2 << 2 with u32 values
+      expect(some.toHex()).toEqual('0x080100000002000000');
+      expect(some.encodedLength).toEqual(1 + (4 * 2));
+      expect(
+        (new (BTreeSet.with(U32))(registry, some.toHex())).initialU8aLength
+      ).toEqual(some.encodedLength);
+    });
   });
 
-  it('correctly sorts numeric values', (): void => {
-    expect(
-      Array.from(new (BTreeSet.with(I32))(registry, mockI32SetObj)).map((k) => k.toNumber())
-    ).toEqual([-1000, -255, 0, 255, 1000]);
-  });
+  describe('sorting', (): void => {
+    it('correctly sorts numeric values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(I32))(registry, mockI32SetObj)).map((k) => k.toNumber())
+      ).toEqual([-1000, -255, 0, 255, 1000]);
+    });
 
-  it('correctly sorts text values', (): void => {
-    expect(
-      Array.from(new (BTreeSet.with(Text))(registry, mockTextSetObj)).map((k) => k.toString())
-    ).toEqual(['b', 'ba', 'baz', 'bb', 'c']);
-  });
+    it('correctly sorts text values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(Text))(registry, mockTextSetObj)).map((k) => k.toString())
+      ).toEqual(['b', 'ba', 'baz', 'bb', 'c']);
+    });
 
-  it('correctly sorts complex tuple values', (): void => {
-    expect(
-      Array.from(new (BTreeSet.with(U32TextTuple))(registry, mockTupleSetObj)).map((k) => k.toJSON())
-    ).toEqual([[1, 'baz'], [2, 'b'], [2, 'ba'], [2, 'bb']]);
-  });
+    it('correctly sorts complex tuple values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(U32TextTuple))(registry, mockTupleSetObj)).map((k) => k.toJSON())
+      ).toEqual([[1, 'baz'], [2, 'b'], [2, 'ba'], [2, 'bb']]);
+    });
 
-  it('correctly sorts complex struct values', (): void => {
-    expect(
-      Array.from(new (BTreeSet.with(MockStruct))(registry, mockStructSetObj)).map((k) => k.toJSON())
-    ).toEqual([
-      { int: -1, text: 'b' },
-      { int: 1, text: 'b' },
-      { int: -1, text: 'ba' },
-      { int: -2, text: 'baz' }
-    ]);
-  });
+    it('correctly sorts complex struct values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(MockStruct))(registry, mockStructSetObj)).map((k) => k.toJSON())
+      ).toEqual([
+        { int: -1, text: 'b' },
+        { int: 1, text: 'b' },
+        { int: -1, text: 'ba' },
+        { int: -2, text: 'baz' }
+      ]);
+    });
 
-  it('correctly sorts complex enum values', (): void => {
-    expect(
-      Array.from(new (BTreeSet.with(MockEnum))(registry, mockEnumSetObj)).map((k) => k.toJSON())
-    ).toEqual([
-      { key1: { int: -1, text: 'b' } },
-      { key1: { int: 1, text: 'b' } },
-      { key2: { int: -1, text: 'b' } },
-      { key3: [2, 'b'] },
-      { key3: [2, 'ba'] }
-    ]);
+    it('correctly sorts complex enum values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(MockEnum))(registry, mockEnumSetObj)).map((k) => k.toJSON())
+      ).toEqual([
+        { key1: { int: -1, text: 'b' } },
+        { key1: { int: 1, text: 'b' } },
+        { key2: { int: -1, text: 'b' } },
+        { key3: [2, 'b'] },
+        { key3: [2, 'ba'] }
+      ]);
+    });
   });
 
   it('generates sane toRawTypes', (): void => {
@@ -179,5 +205,19 @@ describe('BTreeSet', (): void => {
     expect(new (BTreeSet.with(Text))(registry).toRawType()).toBe('BTreeSet<Text>');
     expect(new (BTreeSet.with(Struct.with({ a: U32, b: Text })))(registry).toRawType())
       .toBe('BTreeSet<{"a":"u32","b":"Text"}>');
+  });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new (BTreeSet.with(U32))(registry, [1, 2, 3, 4]).inspect()
+    ).toEqual({
+      inner: [
+        { outer: [new Uint8Array([1, 0, 0, 0])] },
+        { outer: [new Uint8Array([2, 0, 0, 0])] },
+        { outer: [new Uint8Array([3, 0, 0, 0])] },
+        { outer: [new Uint8Array([4, 0, 0, 0])] }
+      ],
+      outer: [new Uint8Array([4 << 2])]
+    });
   });
 });

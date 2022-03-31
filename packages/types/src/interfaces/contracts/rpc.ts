@@ -39,6 +39,25 @@ export default {
     ],
     type: 'ContractInstantiateResult'
   },
+  uploadCode: {
+    // The RPC here is terribly misnamed - somebody forgot how the RPCs
+    // are actually done, ie. <module>_<camelCasedMethod>
+    endpoint: 'contracts_upload_code',
+    description: 'Upload new code without instantiating a contract from it',
+    params: [
+      {
+        name: 'uploadRequest',
+        type: 'CodeUploadRequest'
+      },
+      {
+        name: 'at',
+        type: 'BlockHash',
+        isHstoric: true,
+        isOptional: true
+      }
+    ],
+    type: 'CodeUploadResult'
+  },
   getStorage: {
     description: 'Returns the value under a specified storage key in a contract',
     params: [

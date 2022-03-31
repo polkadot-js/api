@@ -3,6 +3,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 import { Text, u16, VecFixed } from '@polkadot/types-codec';
+import { stringToU8a } from '@polkadot/util';
 
 describe('VecFixed', (): void => {
   const registry = new TypeRegistry();
@@ -33,7 +34,7 @@ describe('VecFixed', (): void => {
     let test: VecFixed<Text>;
 
     beforeEach((): void => {
-      test = new (VecFixed.with(Text, 5))(registry, ['1', '2', '3', undefined, '5']);
+      test = new (VecFixed.with(Text, 5))(registry, ['1', '2', '3', undefined, '56']);
     });
 
     it('has a sane string types', (): void => {
@@ -43,7 +44,7 @@ describe('VecFixed', (): void => {
 
     it('has a correct toHex', (): void => {
       // each entry length 1 << 2, char as hex (0x31 === `1`), one empty
-      expect(test.toHex()).toEqual('0x043104320433000435');
+      expect(test.toHex()).toEqual('0x04310432043300083536');
     });
 
     it('has empty Uint8Array when length is 0', (): void => {
@@ -58,6 +59,18 @@ describe('VecFixed', (): void => {
 
       expect(test.encodedLength).toEqual(1 + 5);
       expect(test.toU8a()).toEqual(new Uint8Array([20, 104, 101, 108, 108, 111]));
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(test.inspect()).toEqual({
+        inner: [
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('2')] },
+          { outer: [new Uint8Array([1 << 2]), stringToU8a('3')] },
+          { outer: [new Uint8Array([0])] },
+          { outer: [new Uint8Array([2 << 2]), stringToU8a('56')] }
+        ]
+      });
     });
   });
 });

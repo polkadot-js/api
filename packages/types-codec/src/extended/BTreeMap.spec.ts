@@ -5,6 +5,7 @@ import type { CodecClass, ITuple } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { BTreeMap, Enum, I32, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
+import { stringToU8a } from '@polkadot/util';
 
 const registry = new TypeRegistry();
 
@@ -186,5 +187,25 @@ describe('BTreeMap', (): void => {
     expect(new (BTreeMap.with(Text, Text))(registry).toRawType()).toBe('BTreeMap<Text,Text>');
     expect(new (BTreeMap.with(Text, Struct.with({ a: U32, b: Text })))(registry).toRawType())
       .toBe('BTreeMap<Text,{"a":"u32","b":"Text"}>');
+  });
+
+  it('has a sane inspect', (): void => {
+    expect(
+      new (BTreeMap.with(Text, Text))(registry, new Map([
+        [new Text(registry, '1'), new Text(registry, 'foo')],
+        [new Text(registry, '2'), new Text(registry, 'bar')],
+        [new Text(registry, '3'), new Text(registry, 'baz')]
+      ])).inspect()
+    ).toEqual({
+      inner: [
+        { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },
+        { outer: [new Uint8Array([3 << 2]), stringToU8a('foo')] },
+        { outer: [new Uint8Array([1 << 2]), stringToU8a('2')] },
+        { outer: [new Uint8Array([3 << 2]), stringToU8a('bar')] },
+        { outer: [new Uint8Array([1 << 2]), stringToU8a('3')] },
+        { outer: [new Uint8Array([3 << 2]), stringToU8a('baz')] }
+      ],
+      outer: [new Uint8Array([3 << 2])]
+    });
   });
 });

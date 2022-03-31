@@ -6,7 +6,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV1CandidateReceipt, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -138,6 +138,28 @@ declare module '@polkadot/api-base/types/events' {
        * A bounty proposal was rejected; funds were slashed.
        **/
       BountyRejected: AugmentedEvent<ApiType, [u32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    childBounties: {
+      /**
+       * A child-bounty is added.
+       **/
+      Added: AugmentedEvent<ApiType, [u32, u32]>;
+      /**
+       * A child-bounty is awarded to a beneficiary.
+       **/
+      Awarded: AugmentedEvent<ApiType, [u32, u32, AccountId32]>;
+      /**
+       * A child-bounty is cancelled.
+       **/
+      Canceled: AugmentedEvent<ApiType, [u32, u32]>;
+      /**
+       * A child-bounty is claimed by beneficiary.
+       **/
+      Claimed: AugmentedEvent<ApiType, [u32, u32, u128, AccountId32]>;
       /**
        * Generic event
        **/
@@ -517,15 +539,15 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A candidate was backed. `[candidate, head_data]`
        **/
-      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV1CandidateReceipt, Bytes, u32, u32]>;
+      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate was included. `[candidate, head_data]`
        **/
-      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV1CandidateReceipt, Bytes, u32, u32]>;
+      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate timed out. `[candidate, head_data]`
        **/
-      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV1CandidateReceipt, Bytes, u32]>;
+      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32]>;
       /**
        * Generic event
        **/
@@ -553,12 +575,12 @@ declare module '@polkadot/api-base/types/events' {
        **/
       NewHeadNoted: AugmentedEvent<ApiType, [u32]>;
       /**
-       * The given validation code was rejected by the PVF pre-checking vote.
+       * The given validation code was accepted by the PVF pre-checking vote.
        * `code_hash` `para_id`
        **/
       PvfCheckAccepted: AugmentedEvent<ApiType, [H256, u32]>;
       /**
-       * The given validation code was accepted by the PVF pre-checking vote.
+       * The given validation code was rejected by the PVF pre-checking vote.
        * `code_hash` `para_id`
        **/
       PvfCheckRejected: AugmentedEvent<ApiType, [H256, u32]>;
@@ -567,6 +589,33 @@ declare module '@polkadot/api-base/types/events' {
        * code. `code_hash` `para_id`
        **/
       PvfCheckStarted: AugmentedEvent<ApiType, [H256, u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    parasDisputes: {
+      /**
+       * A dispute has concluded for or against a candidate.
+       * `\[para id, candidate hash, dispute result\]`
+       **/
+      DisputeConcluded: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeResult]>;
+      /**
+       * A dispute has been initiated. \[candidate hash, dispute location\]
+       **/
+      DisputeInitiated: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeLocation]>;
+      /**
+       * A dispute has timed out due to insufficient participation.
+       * `\[para id, candidate hash\]`
+       **/
+      DisputeTimedOut: AugmentedEvent<ApiType, [H256]>;
+      /**
+       * A dispute has concluded with supermajority against a candidate.
+       * Block authors should no longer build on top of this head and should
+       * instead revert the block at the given height. This should be the
+       * number of the child of the last known valid block in the chain.
+       **/
+      Revert: AugmentedEvent<ApiType, [u32]>;
       /**
        * Generic event
        **/

@@ -57,7 +57,7 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = fields.map(({ type }) => (registry).lookup.getTypeDef(type));
+    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
   }
 
   /**

@@ -8,6 +8,12 @@ import type { Registry } from './registry';
 
 export type BareOpts = boolean | Record<string, boolean>;
 
+export interface Inspect {
+  inner?: Inspect[];
+  name?: string;
+  outer?: Uint8Array[];
+}
+
 /**
  * @name Codec
  * @description
@@ -50,6 +56,11 @@ export interface Codec {
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: unknown): boolean;
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  inspect (): Inspect;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation

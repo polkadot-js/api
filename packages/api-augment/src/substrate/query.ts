@@ -6,7 +6,7 @@ import type { Data } from '@polkadot/types';
 import type { BTreeMap, Bytes, Null, Option, U8aFixed, Vec, WrapperKeepOpaque, WrapperOpaque, bool, u128, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageDeletedContract, PalletContractsStorageRawContractInfo, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltActiveGilt, PalletGiltActiveGiltsTotal, PalletGiltGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletSchedulerReleases, PalletSchedulerScheduledV3, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesClassDetails, PalletUniquesClassMetadata, PalletUniquesInstanceDetails, PalletUniquesInstanceMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpCoreCryptoKeyTypeId, SpRuntimeDigest, SpStakingOffenceOffenceDetails } from '@polkadot/types/lookup';
+import type { FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageDeletedContract, PalletContractsStorageRawContractInfo, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletConvictionVotingVoteVoting, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltActiveGilt, PalletGiltActiveGiltsTotal, PalletGiltGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfo, PalletSchedulerScheduledV3, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesClassDetails, PalletUniquesClassMetadata, PalletUniquesInstanceDetails, PalletUniquesInstanceMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingOffenceOffenceDetails } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/storage' {
@@ -193,8 +193,29 @@ declare module '@polkadot/api-base/types/storage' {
     };
     balances: {
       /**
-       * The balance of an account.
+       * The Balances pallet example of storing the balance of an account.
        * 
+       * # Example
+       * 
+       * ```nocompile
+       * impl pallet_balances::Config for Runtime {
+       * type AccountStore = StorageMapShim<Self::Account<Runtime>, frame_system::Provider<Runtime>, AccountId, Self::AccountData<Balance>>
+       * }
+       * ```
+       * 
+       * You can also store the balance of an account in the `System` pallet.
+       * 
+       * # Example
+       * 
+       * ```nocompile
+       * impl pallet_balances::Config for Runtime {
+       * type AccountStore = System
+       * }
+       * ```
+       * 
+       * But this comes with tradeoffs, storing account balances in the system pallet stores
+       * `frame_system` data alongside the account data contrary to storing account balances in the
+       * `Balances` pallet, which uses a `StorageMap` to store balances data only.
        * NOTE: This is only used in the case that this pallet is used to store balances.
        **/
       account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletBalancesAccountData>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
@@ -273,10 +294,6 @@ declare module '@polkadot/api-base/types/storage' {
     };
     contracts: {
       /**
-       * The subtrie counter.
-       **/
-      accountCounter: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
        * A mapping between an original code hash and instrumented wasm code, ready for execution.
        **/
       codeStorage: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletContractsWasmPrefabWasmModule>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
@@ -294,6 +311,31 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       deletionQueue: AugmentedQuery<ApiType, () => Observable<Vec<PalletContractsStorageDeletedContract>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * This is a **monotonic** counter incremented on contract instantiation.
+       * 
+       * This is used in order to generate unique trie ids for contracts.
+       * The trie id of a new contract is calculated from hash(account_id, nonce).
+       * The nonce is required because otherwise the following sequence would lead to
+       * a possible collision of storage:
+       * 
+       * 1. Create a new contract.
+       * 2. Terminate the contract.
+       * 3. Immediately recreate the contract with the same account_id.
+       * 
+       * This is bad because the contents of a trie are deleted lazily and there might be
+       * storage of the old instantiation still in it when the new contract is created. Please
+       * note that we can't replace the counter by the block number because the sequence above
+       * can happen in the same block. We also can't keep the account counter in memory only
+       * because storage is the only way to communicate across different extrinsics in the
+       * same block.
+       * 
+       * # Note
+       * 
+       * Do not use it to determine the number of contracts. It won't be decremented if
+       * a contract is destroyed.
+       **/
+      nonce: AugmentedQuery<ApiType, () => Observable<u64>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * A mapping between an original code hash and its owner information.
        **/
       ownerInfoOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletContractsWasmOwnerInfo>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
@@ -301,6 +343,23 @@ declare module '@polkadot/api-base/types/storage' {
        * A mapping from an original code hash to the original code, untouched by instrumentation.
        **/
       pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * The voting classes which have a non-zero lock requirement and the lock amounts which they
+       * require. The actual amount locked on behalf of this pallet should always be the maximum of
+       * this list.
+       **/
+      classLocksFor: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u8, u128]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * All voting for a particular voter in a particular voting class. We store the balance for the
+       * number of votes that we have recorded.
+       **/
+      votingFor: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u8 | AnyNumber | Uint8Array) => Observable<PalletConvictionVotingVoteVoting>, [AccountId32, u8]> & QueryableStorageEntry<ApiType, [AccountId32, u8]>;
       /**
        * Generic query
        **/
@@ -357,13 +416,6 @@ declare module '@polkadot/api-base/types/storage' {
        * proposal.
        **/
       lastTabledWasExternal: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Accounts for which there are locks in action which may be removed at some point in the
-       * future. The value is the block number at which the lock expires and may be removed.
-       * 
-       * TWOX-NOTE: OK ― `AccountId` is a secure hash.
-       **/
-      locks: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The lowest referendum index representing an unbaked referendum. Equal to
        * `ReferendumCount` if there isn't a unbaked referendum.
@@ -434,7 +486,7 @@ declare module '@polkadot/api-base/types/storage' {
        * 
        * Can be set via `set_minimum_untrusted_score`.
        **/
-      minimumUntrustedScore: AugmentedQuery<ApiType, () => Observable<Option<Vec<u128>>>, []> & QueryableStorageEntry<ApiType, []>;
+      minimumUntrustedScore: AugmentedQuery<ApiType, () => Observable<Option<SpNposElectionsElectionScore>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Current best solution, signed or unsigned, queued to be returned upon `elect`.
        **/
@@ -456,7 +508,7 @@ declare module '@polkadot/api-base/types/storage' {
        * can be quite large, so we're willing to pay the cost of multiple database accesses to access
        * them one at a time instead of reading and decoding all of them at once.
        **/
-      signedSubmissionIndices: AugmentedQuery<ApiType, () => Observable<BTreeMap<Vec<u128>, u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      signedSubmissionIndices: AugmentedQuery<ApiType, () => Observable<BTreeMap<SpNposElectionsElectionScore, u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The next index to be assigned to an incoming signed submission.
        * 
@@ -820,6 +872,31 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    referenda: {
+      /**
+       * The number of referenda being decided currently.
+       **/
+      decidingCount: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<u32>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
+      /**
+       * The next free referendum index, aka the number of referenda started so far.
+       **/
+      referendumCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Information concerning any given referendum.
+       **/
+      referendumInfoFor: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletReferendaReferendumInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The sorted list of referenda ready to be decided but not yet being decided, ordered by
+       * conviction-weighted approvals.
+       * 
+       * This should be empty if `DecidingCount` is less than `TrackInfo::max_deciding`.
+       **/
+      trackQueue: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     scheduler: {
       /**
        * Items to be executed, indexed by the block number that they should be executed on.
@@ -829,12 +906,6 @@ declare module '@polkadot/api-base/types/storage' {
        * Lookup from identity to the block number and index of the task.
        **/
       lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<ITuple<[u32, u32]>>>, [Bytes]> & QueryableStorageEntry<ApiType, [Bytes]>;
-      /**
-       * Storage version of the pallet.
-       * 
-       * New networks start with last version.
-       **/
-      storageVersion: AugmentedQuery<ApiType, () => Observable<PalletSchedulerReleases>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -1115,7 +1186,22 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       minValidatorBond: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The map from nominator stash key to the set of stash keys of all validators to nominate.
+       * The map from nominator stash key to their nomination preferences, namely the validators that
+       * they wish to support.
+       * 
+       * Note that the keys of this storage map might become non-decodable in case the
+       * [`Config::MaxNominations`] configuration is decreased. In this rare case, these nominators
+       * are still existent in storage, their key is correct and retrievable (i.e. `contains_key`
+       * indicates that they exist), but their value cannot be decoded. Therefore, the non-decodable
+       * nominators will effectively not-exist, until they re-submit their preferences such that it
+       * is within the bounds of the newly set `Config::MaxNominations`.
+       * 
+       * This implies that `::iter_keys().count()` and `::iter().count()` might return different
+       * values for this map. Moreover, the main `::count()` is aligned with the former, namely the
+       * number of keys that exist.
+       * 
+       * Lastly, if any of the nominators become non-decodable, they can be chilled immediately via
+       * [`Call::chill_other`] dispatchable by anyone.
        **/
       nominators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletStakingNominations>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
@@ -1177,6 +1263,25 @@ declare module '@polkadot/api-base/types/storage' {
        * and slash value of the era.
        **/
       validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[Perbill, u128]>>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * The limits that are imposed on automatic migrations.
+       * 
+       * If set to None, then no automatic migration happens.
+       **/
+      autoLimits: AugmentedQuery<ApiType, () => Observable<Option<PalletStateTrieMigrationMigrationLimits>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Migration progress.
+       * 
+       * This stores the snapshot of the last migrated keys. It can be set into motion and move
+       * forward by any of the means provided by this pallet.
+       **/
+      migrationProcess: AugmentedQuery<ApiType, () => Observable<PalletStateTrieMigrationMigrationTask>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -1448,6 +1553,10 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       instanceMetadataOf: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletUniquesInstanceMetadata>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
+       * The class, if any, of which an account is willing to take ownership.
+       **/
+      ownershipAcceptance: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
@@ -1463,6 +1572,13 @@ declare module '@polkadot/api-base/types/storage' {
        * Information regarding the vesting of a given account.
        **/
       vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Vec<PalletVestingVestingInfo>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    whitelist: {
+      whitelistedCall: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Null>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/

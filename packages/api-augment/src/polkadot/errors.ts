@@ -97,7 +97,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IdNotFound: AugmentedError<ApiType>;
       /**
-       * An Id does not have a greater vote weight than another Id.
+       * An Id does not have a greater score than another Id.
        **/
       NotHeavier: AugmentedError<ApiType>;
       /**
@@ -186,9 +186,31 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       RequireCurator: AugmentedError<ApiType>;
       /**
+       * Too many approvals are already queued.
+       **/
+      TooManyQueued: AugmentedError<ApiType>;
+      /**
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    childBounties: {
+      /**
+       * The bounty balance is not enough to add new child-bounty.
+       **/
+      InsufficientBountyBalance: AugmentedError<ApiType>;
+      /**
+       * The parent bounty is not in active state.
+       **/
+      ParentBountyNotActive: AugmentedError<ApiType>;
+      /**
+       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -504,6 +526,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CallNotAllowed: AugmentedError<ApiType>;
       /**
+       * The fallback failed
+       **/
+      FallbackFailed: AugmentedError<ApiType>;
+      /**
        * `Self::insert_submission` returned an invalid index.
        **/
       InvalidSubmissionIndex: AugmentedError<ApiType>;
@@ -657,6 +683,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The requested maximum message size is 0.
        **/
       OpenHrmpChannelZeroMessageSize: AugmentedError<ApiType>;
+      /**
+       * The provided witness data is wrong.
+       **/
+      WrongWitness: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -836,6 +866,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     paraInclusion: {
       /**
+       * Bitfield consists of zeros only.
+       **/
+      BitfieldAllZeros: AugmentedError<ApiType>;
+      /**
        * Multiple bitfields submitted by same validator or validators out of order by index.
        **/
       BitfieldDuplicateOrUnordered: AugmentedError<ApiType>;
@@ -915,9 +949,25 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ScheduledOutOfOrder: AugmentedError<ApiType>;
       /**
+       * A different relay parent was provided compared to the on-chain stored one.
+       **/
+      UnexpectedRelayParent: AugmentedError<ApiType>;
+      /**
        * Candidate submitted but para not scheduled.
        **/
       UnscheduledCandidate: AugmentedError<ApiType>;
+      /**
+       * Backed candidates are out of order (core index) or contain duplicates.
+       **/
+      UnsortedOrDuplicateBackedCandidates: AugmentedError<ApiType>;
+      /**
+       * Dispute statement sets are out of order or contain duplicates.
+       **/
+      UnsortedOrDuplicateDisputeStatementSet: AugmentedError<ApiType>;
+      /**
+       * Validator indices are out of order or contains duplicates.
+       **/
+      UnsortedOrDuplicateValidatorIndices: AugmentedError<ApiType>;
       /**
        * The validation data hash does not match expected.
        **/
@@ -944,6 +994,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Disputed candidate that was concluded invalid.
        **/
       CandidateConcludedInvalid: AugmentedError<ApiType>;
+      /**
+       * A dispute statement was invalid.
+       **/
+      DisputeInvalid: AugmentedError<ApiType>;
+      /**
+       * The ordering of dispute statements was invalid.
+       **/
+      DisputeStatementsUnsortedOrDuplicates: AugmentedError<ApiType>;
       /**
        * The data given to the inherent will result in an overweight block.
        **/
@@ -1012,6 +1070,40 @@ declare module '@polkadot/api-base/types/errors' {
        * Claimed validator index is out of bounds.
        **/
       PvfCheckValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    parasDisputes: {
+      /**
+       * Ancient dispute statement provided.
+       **/
+      AncientDisputeStatement: AugmentedError<ApiType>;
+      /**
+       * Duplicate dispute statement sets provided.
+       **/
+      DuplicateDisputeStatementSets: AugmentedError<ApiType>;
+      /**
+       * Validator vote submitted more than once to dispute.
+       **/
+      DuplicateStatement: AugmentedError<ApiType>;
+      /**
+       * Invalid signature on statement.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * Too many spam slots used by some specific validator.
+       **/
+      PotentialSpam: AugmentedError<ApiType>;
+      /**
+       * A dispute where there are only votes on one side.
+       **/
+      SingleSidedDispute: AugmentedError<ApiType>;
+      /**
+       * Validator index on statement is out of bounds for session.
+       **/
+      ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1172,6 +1264,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Cannot schedule downgrade of parachain to parathread
        **/
       CannotDowngrade: AugmentedError<ApiType>;
+      /**
+       * Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras are
+       * correct for the swap to work.
+       **/
+      CannotSwap: AugmentedError<ApiType>;
       /**
        * Cannot schedule upgrade of parathread to parachain
        **/

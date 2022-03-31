@@ -335,5 +335,30 @@ describe('Struct', (): void => {
         new Struct(registry, def, val).toU8a({ method: true })
       ).toEqual(new Uint8Array([2 << 2, 0x42, 0x69, 0x99, 1, 1, 0, 0, 0, 1]));
     });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new Struct(registry, def, val).inspect()
+      ).toEqual({
+        inner: [
+          {
+            name: 'foo',
+            outer: [new Uint8Array([2 << 2]), new Uint8Array([0x42, 0x69])]
+          },
+          {
+            name: 'method',
+            outer: [new Uint8Array([1 << 2]), new Uint8Array([0x99])]
+          },
+          {
+            name: 'bar',
+            outer: [new Uint8Array([1]), new Uint8Array([1, 0, 0, 0])]
+          },
+          {
+            name: 'baz',
+            outer: [new Uint8Array([1])]
+          }
+        ]
+      });
+    });
   });
 });

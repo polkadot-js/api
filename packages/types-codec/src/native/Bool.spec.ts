@@ -62,5 +62,11 @@ describe('Bool', (): void => {
       expect(new Bool(registry, false).isEmpty).toBe(true);
       expect(new Bool(registry, true).isEmpty).toBe(false);
     });
+
+    it('has a sane inspect', (): void => {
+      expect(new Bool(registry, true).inspect()).toEqual({
+        outer: [new Uint8Array([1])]
+      });
+    });
   });
 });

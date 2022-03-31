@@ -9,9 +9,9 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
-import { assert, isNumber, isString, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
+import { assert, assertUnreachable, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
-import { assertUnreachable } from './util';
+const l = logger('PortableRegistry');
 
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
@@ -24,13 +24,6 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // These come in different forms
-  //   - node_runtime::Call
-  //   - polkadot_runtime::Call
-  //   - node_template_runtime::Call
-  //   - interbtc_runtime_parachain::Call
-  '*_runtime_*::Call',
-  '*_runtime_*::Event',
   // these have a specific encoding or logic (for pallets)
   'pallet_democracy::vote::Vote',
   'pallet_identity::types::Data',
@@ -52,6 +45,11 @@ const PATHS_ALIAS = splitNamespace([
 const PATHS_SET = splitNamespace([
   'pallet_identity::types::BitFlags'
 ]);
+
+// These are the set namespaces for BitVec definitions (the last 2 appear in types as well)
+const BITVEC_NS_LSB = ['bitvec::order::Lsb0', 'BitOrderLsb0'];
+const BITVEC_NS_MSB = ['bitvec::order::Msb0', 'BitOrderMsb0'];
+const BITVEC_NS = [...BITVEC_NS_LSB, ...BITVEC_NS_MSB];
 
 // These we never use these as top-level names, they are wrappers
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
@@ -111,7 +109,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 // check if the path matches the PATHS_ALIAS (with wildcards)
 function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
     : null;
 }
@@ -290,6 +288,33 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
   }
 }
 
+// this extracts aliases based on what we know the runtime config looks like in a
+// Substrate chain. Specifically we want to have access to the Call and Event params
+function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
+  const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
+  const alias: Record<number, string> = {};
+
+  if (params.SpRuntimeUncheckedExtrinsic) {
+    // Address, Call, Signature, Extra
+    const [, { type }] = params.SpRuntimeUncheckedExtrinsic;
+
+    alias[type.unwrap().toNumber()] = 'Call';
+  } else if (hasParams && !isContract) {
+    l.warn('Unable to determine runtime Call type, cannot inspect sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic');
+  }
+
+  if (params.FrameSystemEventRecord) {
+    // Event, Topic
+    const [{ type }] = params.FrameSystemEventRecord;
+
+    alias[type.unwrap().toNumber()] = 'Event';
+  } else if (hasParams && !isContract) {
+    l.warn('Unable to determine runtime Event type, cannot inspect frame_system::EventRecord');
+  }
+
+  return alias;
+}
+
 function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
   const nameInfo: [number, string, SiTypeParameter[]][] = [];
   const types: Record<number, PortableType> = {};
@@ -322,11 +347,14 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
 }
 
 export class PortableRegistry extends Struct implements ILookup {
+  #alias: Record<number, string>;
+  #lookups: Record<string, string>;
   #names: Record<number, string>;
+  #params: Record<string, SiTypeParameter[]>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
-  constructor (registry: Registry, value?: Uint8Array) {
+  constructor (registry: Registry, value?: Uint8Array, isContract?: boolean) {
     // console.time('PortableRegistry')
 
     super(registry, {
@@ -335,10 +363,11 @@ export class PortableRegistry extends Struct implements ILookup {
 
     const [types, lookups, names, params] = extractTypeInfo(this, this.types);
 
+    this.#alias = extractAliases(params, isContract);
+    this.#lookups = lookups;
     this.#names = names;
+    this.#params = params;
     this.#types = types;
-
-    registerTypes(this, lookups, names, params);
 
     // console.timeEnd('PortableRegistry')
   }
@@ -352,6 +381,10 @@ export class PortableRegistry extends Struct implements ILookup {
    */
   public get types (): Vec<PortableType> {
     return this.getT('types');
+  }
+
+  public register (): void {
+    registerTypes(this, this.#lookups, this.#names, this.#params);
   }
 
   /**
@@ -449,7 +482,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = [...type.path].join('::');
     let typeDef: TypeDef;
-    const aliasType = getAliasPath(type.path);
+    const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
 
     try {
       if (aliasType) {
@@ -486,13 +519,18 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
-    const bitOrder = this.#createSiDef(bitOrderType);
-    const bitStore = this.#createSiDef(bitStoreType);
+    // With the v3 of scale-info this swapped around, but obviously the decoder cannot determine
+    // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
+    const a = this.#createSiDef(bitOrderType);
+    const b = this.#createSiDef(bitStoreType);
+    const [bitOrder, bitStore] = BITVEC_NS.includes(a.namespace || '')
+      ? [a, b]
+      : [b, a];
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
-    // we don't pass it though at all
-    assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    // we don't pass it though at all (all displays in LSB)
+    assert(BITVEC_NS.includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
     assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
 
     return {
@@ -712,7 +750,7 @@ export class PortableRegistry extends Struct implements ILookup {
       return this.getTypeDef(ids[0]);
     }
 
-    const sub = ids.map((type) => this.#createSiDef(type));
+    const sub = ids.map((t) => this.#createSiDef(t));
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
