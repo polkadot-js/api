@@ -203,7 +203,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       // try to find via version
       this._getBlockRegistryViaVersion(blockHash, version) ||
       // return new or in-flight result
-      this._cacheBlockRegistryProgress(version.toHex(), () => this._createBlockRegistry(blockHash, header, version))
+      await this._cacheBlockRegistryProgress(version.toHex(), () => this._createBlockRegistry(blockHash, header, version))
     );
   }
 
@@ -219,7 +219,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       // try to find via version
       this._getBlockRegistryViaVersion(blockHash, knownVersion) ||
       // return new or in-flight result
-      this._cacheBlockRegistryProgress(u8aToHex(blockHash), () => this._getBlockRegistryViaHash(blockHash))
+      await this._cacheBlockRegistryProgress(u8aToHex(blockHash), () => this._getBlockRegistryViaHash(blockHash))
     );
   }
 
