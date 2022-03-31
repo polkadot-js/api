@@ -11,6 +11,7 @@ Contributed:
 Changes:
 
 - Cater for `DispatchError` with `error` as `[u8; 4]`
+- Add in-flight cache for parallel same-version metadata queries
 
 
 ## 7.14.3 Mar 28, 2022
