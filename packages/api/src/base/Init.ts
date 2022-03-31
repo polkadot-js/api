@@ -391,12 +391,10 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this.emit('connected');
 
     try {
-      const [hasMeta, cryptoReady] = await Promise.all([
-        this._loadMeta(),
-        this._options.initWasm === false
-          ? Promise.resolve(true)
-          : cryptoWaitReady()
-      ]);
+      const cryptoReady = this._options.initWasm === false
+        ? true
+        : await cryptoWaitReady();
+      const hasMeta = await this._loadMeta();
 
       this._subscribeHealth();
 
