@@ -194,12 +194,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       waiting = this.#waitingVersions[versionHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
         this._createBlockRegistry(blockHash, header, version)
           .then((registry): void => {
-            resolve(registry);
             delete this.#waitingVersions[versionHex];
+            resolve(registry);
           })
           .catch((error): void => {
-            reject(error);
             delete this.#waitingVersions[versionHex];
+            reject(error);
           });
       });
     }
@@ -234,12 +234,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       waiting = this.#waitingRegistries[blockHashHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
         this._getBlockRegistryViaHash(blockHash)
           .then((registry): void => {
-            resolve(registry);
             delete this.#waitingRegistries[blockHashHex];
+            resolve(registry);
           })
           .catch((error): void => {
-            reject(error);
             delete this.#waitingRegistries[blockHashHex];
+            reject(error);
           });
       });
     }
