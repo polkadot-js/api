@@ -35,7 +35,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #updateSub?: Subscription | null = null;
 
-  #waitingRegistries: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
+  #waitingRegistries: Record<HexString, Promise<VersionedRegistry<ApiType>>> = {};
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -136,7 +136,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return result;
   }
 
-  private _cacheBlockRegistryProgress (key: string, creator: () => Promise<VersionedRegistry<ApiType>>): Promise<VersionedRegistry<ApiType>> {
+  private _cacheBlockRegistryProgress (key: HexString, creator: () => Promise<VersionedRegistry<ApiType>>): Promise<VersionedRegistry<ApiType>> {
     // look for waiting resolves
     let waiting = this.#waitingRegistries[key];
 
