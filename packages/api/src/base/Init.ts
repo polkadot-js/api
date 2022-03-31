@@ -37,8 +37,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #waitingRegistries: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
 
-  #waitingVersions: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
-
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
@@ -187,18 +185,18 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // look for waiting resolves
     const versionHex = version.toHex();
-    let waiting = this.#waitingVersions[versionHex];
+    let waiting = this.#waitingRegistries[versionHex];
 
     if (isUndefined(waiting)) {
       // nothing waiting, construct new
-      waiting = this.#waitingVersions[versionHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
+      waiting = this.#waitingRegistries[versionHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
         this._createBlockRegistry(blockHash, header, version)
           .then((registry): void => {
-            delete this.#waitingVersions[versionHex];
+            delete this.#waitingRegistries[versionHex];
             resolve(registry);
           })
           .catch((error): void => {
-            delete this.#waitingVersions[versionHex];
+            delete this.#waitingRegistries[versionHex];
             reject(error);
           });
       });
