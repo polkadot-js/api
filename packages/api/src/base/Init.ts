@@ -120,6 +120,44 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return this._createDecorated(registry, true, null, u8aHash).decoratedApi;
   }
 
+  private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
+    const registry = new TypeRegistry(blockHash);
+    const metadata = new Metadata(registry,
+      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
+    );
+
+    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
+
+    // add our new registry
+    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
+
+    this.#registries.push(result);
+
+    return result;
+  }
+
+  private _cacheBlockRegistryProgress (key: string, creator: () => Promise<VersionedRegistry<ApiType>>): Promise<VersionedRegistry<ApiType>> {
+    // look for waiting resolves
+    let waiting = this.#waitingRegistries[key];
+
+    if (isUndefined(waiting)) {
+      // nothing waiting, construct new
+      waiting = this.#waitingRegistries[key] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
+        creator()
+          .then((registry): void => {
+            delete this.#waitingRegistries[key];
+            resolve(registry);
+          })
+          .catch((error): void => {
+            delete this.#waitingRegistries[key];
+            reject(error);
+          });
+      });
+    }
+
+    return waiting;
+  }
+
   private _getBlockRegistryViaVersion (blockHash: Uint8Array, version?: RuntimeVersionPartial): VersionedRegistry<ApiType> | null {
     if (version) {
       // check for pre-existing registries. We also check specName, e.g. it
@@ -137,22 +175,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     return null;
-  }
-
-  private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
-    const registry = new TypeRegistry(blockHash);
-    const metadata = new Metadata(registry,
-      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
-    );
-
-    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
-
-    // add our new registry
-    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
-
-    this.#registries.push(result);
-
-    return result;
   }
 
   private async _getBlockRegistryViaHash (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
@@ -177,72 +199,28 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
-    const existingViaVersion = this._getBlockRegistryViaVersion(blockHash, version);
-
-    if (existingViaVersion) {
-      return existingViaVersion;
-    }
-
-    // look for waiting resolves
-    const versionHex = version.toHex();
-    let waiting = this.#waitingRegistries[versionHex];
-
-    if (isUndefined(waiting)) {
-      // nothing waiting, construct new
-      waiting = this.#waitingRegistries[versionHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
-        this._createBlockRegistry(blockHash, header, version)
-          .then((registry): void => {
-            delete this.#waitingRegistries[versionHex];
-            resolve(registry);
-          })
-          .catch((error): void => {
-            delete this.#waitingRegistries[versionHex];
-            reject(error);
-          });
-      });
-    }
-
-    return waiting;
+    return (
+      // try to find via version
+      this._getBlockRegistryViaVersion(blockHash, version) ||
+      // return new or in-flight result
+      this._cacheBlockRegistryProgress(version.toHex(), () => this._createBlockRegistry(blockHash, header, version))
+    );
   }
 
   /**
    * @description Sets up a registry based on the block hash defined
    */
   public async getBlockRegistry (blockHash: Uint8Array, knownVersion?: RuntimeVersion): Promise<VersionedRegistry<ApiType>> {
-    const existingViaHash = this.#registries.find(({ lastBlockHash }) =>
-      lastBlockHash && u8aEq(lastBlockHash, blockHash)
+    return (
+      // try to find via blockHash
+      this.#registries.find(({ lastBlockHash }) =>
+        lastBlockHash && u8aEq(lastBlockHash, blockHash)
+      ) ||
+      // try to find via version
+      this._getBlockRegistryViaVersion(blockHash, knownVersion) ||
+      // return new or in-flight result
+      this._cacheBlockRegistryProgress(u8aToHex(blockHash), () => this._getBlockRegistryViaHash(blockHash))
     );
-
-    if (existingViaHash) {
-      return existingViaHash;
-    }
-
-    const existingViaVersion = this._getBlockRegistryViaVersion(blockHash, knownVersion);
-
-    if (existingViaVersion) {
-      return existingViaVersion;
-    }
-
-    // look for waiting resolves
-    const blockHashHex = u8aToHex(blockHash);
-    let waiting = this.#waitingRegistries[blockHashHex];
-
-    if (isUndefined(waiting)) {
-      // nothing waiting, construct new
-      waiting = this.#waitingRegistries[blockHashHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
-        this._getBlockRegistryViaHash(blockHash)
-          .then((registry): void => {
-            delete this.#waitingRegistries[blockHashHex];
-            resolve(registry);
-          })
-          .catch((error): void => {
-            delete this.#waitingRegistries[blockHashHex];
-            reject(error);
-          });
-      });
-    }
-
-    return waiting;
   }
 
   protected async _loadMeta (): Promise<boolean> {
