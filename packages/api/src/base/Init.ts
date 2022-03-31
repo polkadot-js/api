@@ -4,7 +4,7 @@
 import type { Observable, Subscription } from 'rxjs';
 import type { Text } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { ChainProperties, Hash, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -36,6 +36,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #updateSub?: Subscription | null = null;
 
   #waitingRegistries: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
+
+  #waitingVersions: Record<string, Promise<VersionedRegistry<ApiType>>> = {};
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -139,7 +141,23 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     return null;
   }
 
-  private async _getBlockRegistry (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
+  private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
+    const registry = new TypeRegistry(blockHash);
+    const metadata = new Metadata(registry,
+      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
+    );
+
+    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
+
+    // add our new registry
+    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
+
+    this.#registries.push(result);
+
+    return result;
+  }
+
+  private async _getBlockRegistryViaHash (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
     // ensure we have everything required
     assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve data on an uninitialized chain');
 
@@ -167,20 +185,26 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       return existingViaVersion;
     }
 
-    // nothing has been found, construct new
-    const registry = new TypeRegistry(blockHash);
-    const metadata = new Metadata(registry,
-      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
-    );
+    // look for waiting resolves
+    const versionHex = version.toHex();
+    let waiting = this.#waitingVersions[versionHex];
 
-    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
+    if (isUndefined(waiting)) {
+      // nothing waiting, construct new
+      waiting = this.#waitingVersions[versionHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
+        this._createBlockRegistry(blockHash, header, version)
+          .then((registry): void => {
+            resolve(registry);
+            delete this.#waitingVersions[versionHex];
+          })
+          .catch((error): void => {
+            reject(error);
+            delete this.#waitingVersions[versionHex];
+          });
+      });
+    }
 
-    // add our new registry
-    const result = { lastBlockHash: blockHash, metadata, registry, specName: version.specName, specVersion: version.specVersion };
-
-    this.#registries.push(result);
-
-    return result;
+    return waiting;
   }
 
   /**
@@ -201,19 +225,23 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       return existingViaVersion;
     }
 
+    // look for waiting resolves
     const blockHashHex = u8aToHex(blockHash);
     let waiting = this.#waitingRegistries[blockHashHex];
 
     if (isUndefined(waiting)) {
-      waiting = this._getBlockRegistry(blockHash);
-      this.#waitingRegistries[blockHashHex] = waiting;
-
-      // when we have resolved, remove this from the waiting list
-      waiting
-        .then((): void => {
-          delete this.#waitingRegistries[blockHashHex];
-        })
-        .catch(() => undefined);
+      // nothing waiting, construct new
+      waiting = this.#waitingRegistries[blockHashHex] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
+        this._getBlockRegistryViaHash(blockHash)
+          .then((registry): void => {
+            resolve(registry);
+            delete this.#waitingRegistries[blockHashHex];
+          })
+          .catch((error): void => {
+            reject(error);
+            delete this.#waitingRegistries[blockHashHex];
+          });
+      });
     }
 
     return waiting;
