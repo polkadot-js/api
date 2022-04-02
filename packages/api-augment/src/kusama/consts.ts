@@ -136,11 +136,6 @@ declare module '@polkadot/api-base/types/consts' {
     };
     bounties: {
       /**
-       * Percentage of the curator fee that will be reserved upfront as deposit for bounty
-       * curator.
-       **/
-      bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
-      /**
        * The amount held on deposit for placing a bounty proposal.
        **/
       bountyDepositBase: u128 & AugmentedConst<ApiType>;
@@ -157,6 +152,21 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
+       * Maximum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      curatorDepositMax: Option<u128> & AugmentedConst<ApiType>;
+      /**
+       * Minimum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      curatorDepositMin: Option<u128> & AugmentedConst<ApiType>;
+      /**
+       * The curator deposit is calculated as a percentage of the curator fee.
+       * 
+       * This deposit has optional upper and lower bounds with `CuratorDepositMax` and
+       * `CuratorDepositMin`.
+       **/
+      curatorDepositMultiplier: Permill & AugmentedConst<ApiType>;
+      /**
        * The amount held on deposit per byte within the tip report reason or bounty description.
        **/
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
@@ -172,11 +182,6 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     childBounties: {
-      /**
-       * Percentage of child-bounty value to be reserved as curator deposit
-       * when curator fee is zero.
-       **/
-      childBountyCuratorDepositBase: Permill & AugmentedConst<ApiType>;
       /**
        * Minimum value for a child-bounty.
        **/
@@ -280,6 +285,16 @@ declare module '@polkadot/api-base/types/consts' {
     };
     electionProviderMultiPhase: {
       /**
+       * The maximum number of electable targets to put in the snapshot.
+       **/
+      maxElectableTargets: u16 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of electing voters to put in the snapshot. At the moment, snapshots
+       * are only over a single block, but once multi-block elections are introduced they will
+       * take place over multiple blocks.
+       **/
+      maxElectingVoters: u32 & AugmentedConst<ApiType>;
+      /**
        * Maximum length (bytes) that the mined solution should consume.
        * 
        * The miner will ensure that the total length of the unsigned solution will not exceed
@@ -349,15 +364,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Duration of the unsigned phase.
        **/
       unsignedPhase: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of voters to put in the snapshot. At the moment, snapshots are only
-       * over a single block, but once multi-block elections are introduced they will take place
-       * over multiple blocks.
-       * 
-       * Also, note the data type: If the voters are represented by a `u32` in `type
-       * CompactSolution`, the same `u32` is used here to ensure bounds are respected.
-       **/
-      voterSnapshotPerBlock: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

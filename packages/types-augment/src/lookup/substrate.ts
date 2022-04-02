@@ -130,7 +130,7 @@ export default {
    **/
   SpRuntimeModuleError: {
     index: 'u8',
-    error: 'u8'
+    error: '[u8;4]'
   },
   /**
    * Lookup24: sp_runtime::TokenError
@@ -851,6 +851,12 @@ export default {
         delegator: 'AccountId32',
         delegatee: 'AccountId32',
         proxyType: 'NodeRuntimeProxyType',
+        delay: 'u32',
+      },
+      ProxyRemoved: {
+        delegator: 'AccountId32',
+        delegatee: 'AccountId32',
+        proxyType: 'NodeRuntimeProxyType',
         delay: 'u32'
       }
     }
@@ -1281,7 +1287,7 @@ export default {
     }
   },
   /**
-   * Lookup100: pallet_referenda::pallet::Event<T>
+   * Lookup100: pallet_referenda::pallet::Event<T, I>
    **/
   PalletReferendaEvent: {
     _enum: {
@@ -1350,7 +1356,7 @@ export default {
     turnout: 'u128'
   },
   /**
-   * Lookup102: pallet_conviction_voting::pallet::Event<T>
+   * Lookup102: pallet_conviction_voting::pallet::Event<T, I>
    **/
   PalletConvictionVotingEvent: {
     _enum: {
@@ -3153,7 +3159,14 @@ export default {
       migrate_custom_child: {
         root: 'Bytes',
         childKeys: 'Vec<Bytes>',
-        totalSize: 'u32'
+        totalSize: 'u32',
+      },
+      set_signed_max_limits: {
+        limits: 'PalletStateTrieMigrationMigrationLimits',
+      },
+      force_set_progress: {
+        progressTop: 'PalletStateTrieMigrationProgress',
+        progressChild: 'PalletStateTrieMigrationProgress'
       }
     }
   },
@@ -3230,7 +3243,7 @@ export default {
     }
   },
   /**
-   * Lookup329: pallet_referenda::pallet::Call<T>
+   * Lookup329: pallet_referenda::pallet::Call<T, I>
    **/
   PalletReferendaCall: {
     _enum: {
@@ -3315,7 +3328,7 @@ export default {
     }
   },
   /**
-   * Lookup336: pallet_conviction_voting::pallet::Call<T>
+   * Lookup336: pallet_conviction_voting::pallet::Call<T, I>
    **/
   PalletConvictionVotingCall: {
     _enum: {
@@ -3592,7 +3605,7 @@ export default {
    * Lookup401: pallet_staking::Releases
    **/
   PalletStakingReleases: {
-    _enum: ['V1_0_0Ancient', 'V2_0_0', 'V3_0_0', 'V4_0_0', 'V5_0_0', 'V6_0_0', 'V7_0_0', 'V8_0_0']
+    _enum: ['V1_0_0Ancient', 'V2_0_0', 'V3_0_0', 'V4_0_0', 'V5_0_0', 'V6_0_0', 'V7_0_0', 'V8_0_0', 'V9_0_0']
   },
   /**
    * Lookup402: pallet_staking::pallet::pallet::Error<T>
@@ -3916,6 +3929,8 @@ export default {
     },
     caller: 'u64',
     isContract: 'u64',
+    codeHash: 'u64',
+    ownCodeHash: 'u64',
     callerIsOrigin: 'u64',
     address: 'u64',
     gasLeft: 'u64',
@@ -4412,7 +4427,7 @@ export default {
    * Lookup558: pallet_state_trie_migration::pallet::Error<T>
    **/
   PalletStateTrieMigrationError: {
-    _enum: ['MaxSignedLimits', 'NotEnoughFunds', 'BadWitness', 'SizeUpperBoundExceeded']
+    _enum: ['MaxSignedLimits', 'NotEnoughFunds', 'BadWitness', 'SizeUpperBoundExceeded', 'SignedMigrationNotAllowed']
   },
   /**
    * Lookup559: pallet_child_bounties::ChildBounty<sp_core::crypto::AccountId32, Balance, BlockNumber>
@@ -4493,7 +4508,7 @@ export default {
     confirming: 'Option<u32>'
   },
   /**
-   * Lookup571: pallet_referenda::pallet::Error<T>
+   * Lookup571: pallet_referenda::pallet::Error<T, I>
    **/
   PalletReferendaError: {
     _enum: ['NotOngoing', 'HasDeposit', 'BadTrack', 'Full', 'QueueEmpty', 'BadReferendum', 'NothingToDo', 'NoTrack', 'Unfinished', 'NoPermission', 'NoDeposit']
@@ -4537,7 +4552,7 @@ export default {
     prior: 'PalletConvictionVotingVotePriorLock'
   },
   /**
-   * Lookup583: pallet_conviction_voting::pallet::Error<T>
+   * Lookup583: pallet_conviction_voting::pallet::Error<T, I>
    **/
   PalletConvictionVotingError: {
     _enum: ['NotOngoing', 'NotVoter', 'NoPermission', 'NoPermissionYet', 'AlreadyDelegating', 'AlreadyVoting', 'InsufficientFunds', 'NotDelegating', 'Nonsense', 'MaxVotesReached', 'ClassNeeded', 'BadClass']

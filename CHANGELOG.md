@@ -13,6 +13,7 @@ Changes:
 - Cater for `DispatchError` with `error` as `[u8; 4]`
 - Add in-flight cache for parallel same-version metadata queries
 - Cater for lazy `@polkadot/util-crypto` init (adjustment for React Native)
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 7.14.3 Mar 28, 2022

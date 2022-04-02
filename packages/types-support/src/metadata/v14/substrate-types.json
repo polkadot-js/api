@@ -1321,8 +1321,8 @@
             },
             {
               "name": "error",
-              "type": 2,
-              "typeName": "u8",
+              "type": 14,
+              "typeName": "[u8; MAX_MODULE_ERROR_ENCODED_SIZE]",
               "docs": []
             }
           ]
@@ -5696,6 +5696,39 @@
               "docs": [
                 "A proxy was added."
               ]
+            },
+            {
+              "name": "ProxyRemoved",
+              "fields": [
+                {
+                  "name": "delegator",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "delegatee",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "proxy_type",
+                  "type": 79,
+                  "typeName": "T::ProxyType",
+                  "docs": []
+                },
+                {
+                  "name": "delay",
+                  "type": 4,
+                  "typeName": "T::BlockNumber",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "A proxy was removed."
+              ]
             }
           ]
         }
@@ -8061,6 +8094,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -8080,7 +8117,7 @@
                 {
                   "name": "track",
                   "type": 2,
-                  "typeName": "TrackIdOf<T>",
+                  "typeName": "TrackIdOf<T, I>",
                   "docs": [
                     "The track (and by extension proposal dispatch origin) of this referendum."
                   ]
@@ -8121,7 +8158,7 @@
                 {
                   "name": "amount",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": [
                     "The amount placed by the account."
                   ]
@@ -8154,7 +8191,7 @@
                 {
                   "name": "amount",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": [
                     "The amount placed by the account."
                   ]
@@ -8179,7 +8216,7 @@
                 {
                   "name": "amount",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": [
                     "The amount placed by the account."
                   ]
@@ -8204,7 +8241,7 @@
                 {
                   "name": "track",
                   "type": 2,
-                  "typeName": "TrackIdOf<T>",
+                  "typeName": "TrackIdOf<T, I>",
                   "docs": [
                     "The track (and by extension proposal dispatch origin) of this referendum."
                   ]
@@ -8467,6 +8504,10 @@
       "params": [
         {
           "name": "T",
+          "type": null
+        },
+        {
+          "name": "I",
           "type": null
         }
       ],
@@ -23957,6 +23998,50 @@
                 "This does not affect the global migration process tracker ([`MigrationProcess`]), and",
                 "should only be used in case any keys are leftover due to a bug."
               ]
+            },
+            {
+              "name": "set_signed_max_limits",
+              "fields": [
+                {
+                  "name": "limits",
+                  "type": 325,
+                  "typeName": "MigrationLimits",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "Set the maximum limit of the signed migration."
+              ]
+            },
+            {
+              "name": "force_set_progress",
+              "fields": [
+                {
+                  "name": "progress_top",
+                  "type": 327,
+                  "typeName": "Progress",
+                  "docs": []
+                },
+                {
+                  "name": "progress_child",
+                  "type": 327,
+                  "typeName": "Progress",
+                  "docs": []
+                }
+              ],
+              "index": 5,
+              "docs": [
+                "Forcefully set the progress the running migration.",
+                "",
+                "This is only useful in one case: the next key to migrate is too big to be migrated with",
+                "a signed account, in a parachain context, and we simply want to skip it. A reasonable",
+                "example of this would be `:code:`, which is both very expensive to migrate, and commonly",
+                "used, so probably it is already migrated.",
+                "",
+                "In case you mess things up, you can also, in principle, use this to reset the migration",
+                "process."
+              ]
             }
           ]
         }
@@ -24475,6 +24560,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -24622,7 +24711,7 @@
                 {
                   "name": "track",
                   "type": 2,
-                  "typeName": "TrackIdOf<T>",
+                  "typeName": "TrackIdOf<T, I>",
                   "docs": []
                 }
               ],
@@ -24970,6 +25059,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -24981,13 +25074,13 @@
                 {
                   "name": "poll_index",
                   "type": 112,
-                  "typeName": "PollIndexOf<T>",
+                  "typeName": "PollIndexOf<T, I>",
                   "docs": []
                 },
                 {
                   "name": "vote",
                   "type": 337,
-                  "typeName": "AccountVote<BalanceOf<T>>",
+                  "typeName": "AccountVote<BalanceOf<T, I>>",
                   "docs": []
                 }
               ],
@@ -25010,7 +25103,7 @@
                 {
                   "name": "class",
                   "type": 2,
-                  "typeName": "ClassOf<T>",
+                  "typeName": "ClassOf<T, I>",
                   "docs": []
                 },
                 {
@@ -25028,7 +25121,7 @@
                 {
                   "name": "balance",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -25065,7 +25158,7 @@
                 {
                   "name": "class",
                   "type": 2,
-                  "typeName": "ClassOf<T>",
+                  "typeName": "ClassOf<T, I>",
                   "docs": []
                 }
               ],
@@ -25093,7 +25186,7 @@
                 {
                   "name": "class",
                   "type": 2,
-                  "typeName": "ClassOf<T>",
+                  "typeName": "ClassOf<T, I>",
                   "docs": []
                 },
                 {
@@ -25122,13 +25215,13 @@
                 {
                   "name": "class",
                   "type": 340,
-                  "typeName": "Option<ClassOf<T>>",
+                  "typeName": "Option<ClassOf<T, I>>",
                   "docs": []
                 },
                 {
                   "name": "index",
                   "type": 4,
-                  "typeName": "PollIndexOf<T>",
+                  "typeName": "PollIndexOf<T, I>",
                   "docs": []
                 }
               ],
@@ -25177,13 +25270,13 @@
                 {
                   "name": "class",
                   "type": 2,
-                  "typeName": "ClassOf<T>",
+                  "typeName": "ClassOf<T, I>",
                   "docs": []
                 },
                 {
                   "name": "index",
                   "type": 4,
-                  "typeName": "PollIndexOf<T>",
+                  "typeName": "PollIndexOf<T, I>",
                   "docs": []
                 }
               ],
@@ -27492,6 +27585,12 @@
               "name": "V8_0_0",
               "fields": [],
               "index": 7,
+              "docs": []
+            },
+            {
+              "name": "V9_0_0",
+              "fields": [],
+              "index": 8,
               "docs": []
             }
           ]
@@ -30401,6 +30500,18 @@
             },
             {
               "name": "is_contract",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
+              "name": "code_hash",
+              "type": 8,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
+              "name": "own_code_hash",
               "type": 8,
               "typeName": "Weight",
               "docs": []
@@ -35798,6 +35909,14 @@
               "docs": [
                 "upper bound of size is exceeded,"
               ]
+            },
+            {
+              "name": "SignedMigrationNotAllowed",
+              "fields": [],
+              "index": 4,
+              "docs": [
+                "Signed migration is not allowed because the maximum limit is not set yet."
+              ]
             }
           ]
         }
@@ -36547,6 +36666,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -37014,6 +37137,10 @@
       "params": [
         {
           "name": "T",
+          "type": null
+        },
+        {
+          "name": "I",
           "type": null
         }
       ],

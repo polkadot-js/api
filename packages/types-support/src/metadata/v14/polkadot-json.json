@@ -233,7 +233,7 @@
             {
               "name": "BlockWeights",
               "type": 156,
-              "value": "0x00f2052a0100000000204aa9d1010000405973070000000001c0766c8f58010000010098f73e5d010000010000000000000000405973070000000001c0febef9cc0100000100204aa9d1010000010088526a740000004059730700000000000000",
+              "value": "0xb0fc6d0c0100000000204aa9d10100005844f0040000000001a88bef9158010000010098f73e5d0100000100000000000000005844f0040000000001a81342fccc0100000100204aa9d1010000010088526a740000005844f00400000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -257,7 +257,7 @@
             {
               "name": "DbWeight",
               "type": 162,
-              "value": "0x40787d010000000000e1f50500000000",
+              "value": "0x38ca38010000000098aaf90400000000",
               "docs": [
                 " The weight of runtime database operations the runtime can invoke."
               ]
@@ -265,7 +265,7 @@
             {
               "name": "Version",
               "type": 163,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000dc2300000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000c00000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000dd2300000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000c00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -980,7 +980,7 @@
             {
               "name": "WeightToFee",
               "type": 462,
-              "value": "0x040000000000000000000000000000000000b4c4040001",
+              "value": "0x040000000000000000000000000000000028a031070001",
               "docs": [
                 " The polynomial that is applied in order to derive fee from weight."
               ]
@@ -3607,12 +3607,30 @@
               ]
             },
             {
-              "name": "BountyCuratorDeposit",
+              "name": "CuratorDepositMultiplier",
               "type": 536,
               "value": "0x20a10700",
               "docs": [
-                " Percentage of the curator fee that will be reserved upfront as deposit for bounty",
-                " curator."
+                " The curator deposit is calculated as a percentage of the curator fee.",
+                "",
+                " This deposit has optional upper and lower bounds with `CuratorDepositMax` and",
+                " `CuratorDepositMin`."
+              ]
+            },
+            {
+              "name": "CuratorDepositMax",
+              "type": 537,
+              "value": "0x0100204aa9d10100000000000000000000",
+              "docs": [
+                " Maximum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "CuratorDepositMin",
+              "type": 537,
+              "value": "0x0100e87648170000000000000000000000",
+              "docs": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
               ]
             },
             {
@@ -3756,15 +3774,6 @@
               "value": "0x00e40b54020000000000000000000000",
               "docs": [
                 " Minimum value for a child-bounty."
-              ]
-            },
-            {
-              "name": "ChildBountyCuratorDepositBase",
-              "type": 536,
-              "value": "0x10270000",
-              "docs": [
-                " Percentage of child-bounty value to be reserved as curator deposit",
-                " when curator fee is zero."
               ]
             }
           ],
@@ -4082,7 +4091,7 @@
             {
               "name": "MinerMaxWeight",
               "type": 8,
-              "value": "0xc084666557010000",
+              "value": "0xf88e818557010000",
               "docs": [
                 " Maximum weight that the miner should consume.",
                 "",
@@ -4107,7 +4116,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0xc084666557010000",
+              "value": "0xf88e818557010000",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
@@ -4147,16 +4156,21 @@
               ]
             },
             {
-              "name": "VoterSnapshotPerBlock",
+              "name": "MaxElectingVoters",
               "type": 4,
               "value": "0xe4570000",
               "docs": [
-                " The maximum number of voters to put in the snapshot. At the moment, snapshots are only",
-                " over a single block, but once multi-block elections are introduced they will take place",
-                " over multiple blocks.",
-                "",
-                " Also, note the data type: If the voters are represented by a `u32` in `type",
-                " CompactSolution`, the same `u32` is used here to ensure bounds are respected."
+                " The maximum number of electing voters to put in the snapshot. At the moment, snapshots",
+                " are only over a single block, but once multi-block elections are introduced they will",
+                " take place over multiple blocks."
+              ]
+            },
+            {
+              "name": "MaxElectableTargets",
+              "type": 75,
+              "value": "0xffff",
+              "docs": [
+                " The maximum number of electable targets to put in the snapshot."
               ]
             },
             {
