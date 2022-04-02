@@ -265,7 +265,7 @@
             {
               "name": "Version",
               "type": 125,
-              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000c0100000000000034df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a05000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b010000000200000001",
+              "value": "0x106e6f6465387375627374726174652d6e6f64650a0000000c0100000000000034df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000bc9d89904f5b923f0100000068b66ba122c93fa70100000037c8bb1350a9a2a80100000091d5df18b0d2cf5801000000ab3c0572291feb8b010000000200000001",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -1233,16 +1233,21 @@
               ]
             },
             {
-              "name": "VoterSnapshotPerBlock",
+              "name": "MaxElectingVoters",
               "type": 4,
               "value": "0x10270000",
               "docs": [
-                " The maximum number of voters to put in the snapshot. At the moment, snapshots are only",
-                " over a single block, but once multi-block elections are introduced they will take place",
-                " over multiple blocks.",
-                "",
-                " Also, note the data type: If the voters are represented by a `u32` in `type",
-                " CompactSolution`, the same `u32` is used here to ensure bounds are respected."
+                " The maximum number of electing voters to put in the snapshot. At the moment, snapshots",
+                " are only over a single block, but once multi-block elections are introduced they will",
+                " take place over multiple blocks."
+              ]
+            },
+            {
+              "name": "MaxElectableTargets",
+              "type": 80,
+              "value": "0xffff",
+              "docs": [
+                " The maximum number of electable targets to put in the snapshot."
               ]
             },
             {
@@ -3130,7 +3135,7 @@
             {
               "name": "Schedule",
               "type": 449,
-              "value": "0x0400000000000100008000000010000000001000000001000020000000200000000040000000000200020000009f0b00008a1b0000e01f00008417000051270000080c0000b31500008b1a000028000000c8040100754d01002b070000df0c0000d30e0000860b000089210000bd290000bf0e00007550b100c20b0000b80b0000540b0000b20c0000fa0a0000c80a0000cc0b000089120000fd1100004d12000007120000fd110000751200004312000039120000a712000025120000ad110000851100002b1100000b2c0000372d0000e32b0000c32d000053110000491100005d110000e9110000431200003912000007120000f31100001ab10700000000004ac7b501000000009648030000000000d2a8070000000000fa9907000000000020b6150000000000689f070000000000b093070000000000fea4070000000000589607000000000020f512000000000050e8030000000000727c070000000000730000000000000088d01f0000000000bc0000000000000088b5f52600000000746e180000000000b4462d00000000005241a107000000002603000000000000e6590600000000000843b2070000000017010000000000006a000000000000005658ef0700000000d452ae0700000000680000000000000042fdaa01000000005e000000000000004677af01000000007002000000000000941fb307000000007802000000000000e697830800000000f2243a130000000002a0460d00000000589785080000000020d401000000000096383f2e000000000120000000000000ef0500000000000038610c0000000000ba11000000000000a83f0e0000000000ad0b0000000000006eec0900000000008904000000000000f8d0090000000000890400000000000082d12f0900000000",
+              "value": "0x040000000000010000800000001000000000100000000100002000000020000000004000000000020002000000900b0000701c0000a82000005c17000006270000f40b00008a160000021c000028000000bc0b0100bc4c0100e0060000ea0b00003c0f0000d60b00005a230000842b0000380e00009118b000440c0000e00b00009a0b0000580c00004a0b00000e0b0000440c00008412000070120000481200005212000070120000e81200007a12000066120000341200005212000062110000a8110000a81100003e2b0000642d0000522b0000d22d00009411000080110000da11000084120000481200005c120000521200005c120000964e0700000000004c1fb60100000000fe65c201000000002e1008000000000036350300000000003055070000000000a238070000000000bcbf15000000000050620700000000009a540700000000009e55070000000000d64a070000000000289d12000000000020aa030000000000a02607000000000074000000000000000000000000000000c4000000000000008827e32600000000520918000000000082502d00000000003843a00700000000210300000000000016fd050000000000eae9b0070000000014010000000000006e000000000000004e08ed07000000004696ad0700000000640000000000000046dca901000000006300000000000000b008af01000000006f020000000000002cfbb2070000000080020000000000006a7f860800000000bab1531300000000121a620d0000000084f87f080000000002d4010000000000241e6c2e000000005c26000000000000f50500000000000008f10b0000000000cb11000000000000cec90d0000000000b60b0000000000008a800900000000008f04000000000000427d09000000000090040000000000003ca2470200000000",
               "docs": [
                 " Cost schedule and limits."
               ]
@@ -3138,7 +3143,7 @@
             {
               "name": "DeletionQueueDepth",
               "type": 4,
-              "value": "0x52440000",
+              "value": "0x0c570000",
               "docs": [
                 " The maximum number of contracts that can be pending for deletion.",
                 "",
@@ -4542,12 +4547,30 @@
               ]
             },
             {
-              "name": "BountyCuratorDeposit",
+              "name": "CuratorDepositMultiplier",
               "type": 440,
               "value": "0x20a10700",
               "docs": [
-                " Percentage of the curator fee that will be reserved upfront as deposit for bounty",
-                " curator."
+                " The curator deposit is calculated as a percentage of the curator fee.",
+                "",
+                " This deposit has optional upper and lower bounds with `CuratorDepositMax` and",
+                " `CuratorDepositMin`."
+              ]
+            },
+            {
+              "name": "CuratorDepositMax",
+              "type": 441,
+              "value": "0x010000c16ff28623000000000000000000",
+              "docs": [
+                " Maximum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "CuratorDepositMin",
+              "type": 441,
+              "value": "0x0100407a10f35a00000000000000000000",
+              "docs": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
               ]
             },
             {
@@ -5665,6 +5688,19 @@
                   "",
                   " If set to None, then no automatic migration happens."
                 ]
+              },
+              {
+                "name": "SignedMigrationMaxLimits",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 325
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The maximum limits that the signed migration could use.",
+                  "",
+                  " If not set, no signed submission is allowed."
+                ]
               }
             ]
           },
@@ -5674,16 +5710,7 @@
           "events": {
             "type": 97
           },
-          "constants": [
-            {
-              "name": "SignedMigrationMaxLimits",
-              "type": 325,
-              "value": "0x0000080000020000",
-              "docs": [
-                " The maximum limits that the signed migration could use."
-              ]
-            }
-          ],
+          "constants": [],
           "errors": {
             "type": 558
           },
@@ -5798,15 +5825,6 @@
               "value": "0x00407a10f35a00000000000000000000",
               "docs": [
                 " Minimum value for a child-bounty."
-              ]
-            },
-            {
-              "name": "ChildBountyCuratorDepositBase",
-              "type": 440,
-              "value": "0xa0860100",
-              "docs": [
-                " Percentage of child-bounty value to be reserved as curator deposit",
-                " when curator fee is zero."
               ]
             }
           ],

@@ -1295,8 +1295,8 @@
             },
             {
               "name": "error",
-              "type": 2,
-              "typeName": "u8",
+              "type": 14,
+              "typeName": "[u8; MAX_MODULE_ERROR_ENCODED_SIZE]",
               "docs": []
             }
           ]
@@ -4794,6 +4794,39 @@
               "index": 3,
               "docs": [
                 "A proxy was added."
+              ]
+            },
+            {
+              "name": "ProxyRemoved",
+              "fields": [
+                {
+                  "name": "delegator",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "delegatee",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "proxy_type",
+                  "type": 74,
+                  "typeName": "T::ProxyType",
+                  "docs": []
+                },
+                {
+                  "name": "delay",
+                  "type": 4,
+                  "typeName": "T::BlockNumber",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": [
+                "A proxy was removed."
               ]
             }
           ]
@@ -26751,9 +26784,9 @@
               "docs": [
                 "Teleport some assets from the local chain to some destination chain.",
                 "",
-                "Fee payment on the destination side is made from the first asset listed in the `assets` vector and",
-                "fee-weight is calculated locally and thus remote weights are assumed to be equal to",
-                "local weights.",
+                "Fee payment on the destination side is made from the asset in the `assets` vector of",
+                "index `fee_asset_item`. The weight limit for fees is not provided and thus is unlimited,",
+                "with all fees taken as needed from the asset.",
                 "",
                 "- `origin`: Must be capable of withdrawing the `assets` and executing XCM.",
                 "- `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send",
@@ -26796,12 +26829,12 @@
               ],
               "index": 2,
               "docs": [
-                "Transfer some assets from the local chain to the sovereign account of a destination chain and forward",
-                "a notification XCM.",
+                "Transfer some assets from the local chain to the sovereign account of a destination",
+                "chain and forward a notification XCM.",
                 "",
-                "Fee payment on the destination side is made from the first asset listed in the `assets` vector and",
-                "fee-weight is calculated locally and thus remote weights are assumed to be equal to",
-                "local weights.",
+                "Fee payment on the destination side is made from the asset in the `assets` vector of",
+                "index `fee_asset_item`. The weight limit for fees is not provided and thus is unlimited,",
+                "with all fees taken as needed from the asset.",
                 "",
                 "- `origin`: Must be capable of withdrawing the `assets` and executing XCM.",
                 "- `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send",
@@ -26964,10 +26997,13 @@
               ],
               "index": 8,
               "docs": [
-                "Transfer some assets from the local chain to the sovereign account of a destination chain and forward",
-                "a notification XCM.",
+                "Transfer some assets from the local chain to the sovereign account of a destination",
+                "chain and forward a notification XCM.",
                 "",
-                "Fee payment on the destination side is made from the first asset listed in the `assets` vector.",
+                "Fee payment on the destination side is made from the asset in the `assets` vector of",
+                "index `fee_asset_item`, up to enough to pay for `weight_limit` of weight. If more weight",
+                "is needed than `weight_limit`, then the operation will fail and the assets send may be",
+                "at risk.",
                 "",
                 "- `origin`: Must be capable of withdrawing the `assets` and executing XCM.",
                 "- `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send",
@@ -27019,7 +27055,10 @@
               "docs": [
                 "Teleport some assets from the local chain to some destination chain.",
                 "",
-                "Fee payment on the destination side is made from the first asset listed in the `assets` vector.",
+                "Fee payment on the destination side is made from the asset in the `assets` vector of",
+                "index `fee_asset_item`, up to enough to pay for `weight_limit` of weight. If more weight",
+                "is needed than `weight_limit`, then the operation will fail and the assets send may be",
+                "at risk.",
                 "",
                 "- `origin`: Must be capable of withdrawing the `assets` and executing XCM.",
                 "- `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send",
@@ -31631,6 +31670,12 @@
               "name": "V8_0_0",
               "fields": [],
               "index": 7,
+              "docs": []
+            },
+            {
+              "name": "V9_0_0",
+              "fields": [],
+              "index": 8,
               "docs": []
             }
           ]

@@ -129,7 +129,7 @@ declare module '@polkadot/types/lookup' {
   /** @name SpRuntimeModuleError (23) */
   export interface SpRuntimeModuleError extends Struct {
     readonly index: u8;
-    readonly error: u8;
+    readonly error: U8aFixed;
   }
 
   /** @name SpRuntimeTokenError (24) */
@@ -941,7 +941,14 @@ declare module '@polkadot/types/lookup' {
       readonly proxyType: NodeRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
-    readonly type: 'ProxyExecuted' | 'AnonymousCreated' | 'Announced' | 'ProxyAdded';
+    readonly isProxyRemoved: boolean;
+    readonly asProxyRemoved: {
+      readonly delegator: AccountId32;
+      readonly delegatee: AccountId32;
+      readonly proxyType: NodeRuntimeProxyType;
+      readonly delay: u32;
+    } & Struct;
+    readonly type: 'ProxyExecuted' | 'AnonymousCreated' | 'Announced' | 'ProxyAdded' | 'ProxyRemoved';
   }
 
   /** @name NodeRuntimeProxyType (79) */
@@ -3408,7 +3415,16 @@ declare module '@polkadot/types/lookup' {
       readonly childKeys: Vec<Bytes>;
       readonly totalSize: u32;
     } & Struct;
-    readonly type: 'ControlAutoMigration' | 'ContinueMigrate' | 'MigrateCustomTop' | 'MigrateCustomChild';
+    readonly isSetSignedMaxLimits: boolean;
+    readonly asSetSignedMaxLimits: {
+      readonly limits: PalletStateTrieMigrationMigrationLimits;
+    } & Struct;
+    readonly isForceSetProgress: boolean;
+    readonly asForceSetProgress: {
+      readonly progressTop: PalletStateTrieMigrationProgress;
+      readonly progressChild: PalletStateTrieMigrationProgress;
+    } & Struct;
+    readonly type: 'ControlAutoMigration' | 'ContinueMigrate' | 'MigrateCustomTop' | 'MigrateCustomChild' | 'SetSignedMaxLimits' | 'ForceSetProgress';
   }
 
   /** @name PalletStateTrieMigrationMigrationLimits (325) */
@@ -3874,7 +3890,8 @@ declare module '@polkadot/types/lookup' {
     readonly isV600: boolean;
     readonly isV700: boolean;
     readonly isV800: boolean;
-    readonly type: 'V100Ancient' | 'V200' | 'V300' | 'V400' | 'V500' | 'V600' | 'V700' | 'V800';
+    readonly isV900: boolean;
+    readonly type: 'V100Ancient' | 'V200' | 'V300' | 'V400' | 'V500' | 'V600' | 'V700' | 'V800' | 'V900';
   }
 
   /** @name PalletStakingPalletError (402) */
@@ -4261,6 +4278,8 @@ declare module '@polkadot/types/lookup' {
   export interface PalletContractsScheduleHostFnWeights extends Struct {
     readonly caller: u64;
     readonly isContract: u64;
+    readonly codeHash: u64;
+    readonly ownCodeHash: u64;
     readonly callerIsOrigin: u64;
     readonly address: u64;
     readonly gasLeft: u64;
@@ -4907,7 +4926,8 @@ declare module '@polkadot/types/lookup' {
     readonly isNotEnoughFunds: boolean;
     readonly isBadWitness: boolean;
     readonly isSizeUpperBoundExceeded: boolean;
-    readonly type: 'MaxSignedLimits' | 'NotEnoughFunds' | 'BadWitness' | 'SizeUpperBoundExceeded';
+    readonly isSignedMigrationNotAllowed: boolean;
+    readonly type: 'MaxSignedLimits' | 'NotEnoughFunds' | 'BadWitness' | 'SizeUpperBoundExceeded' | 'SignedMigrationNotAllowed';
   }
 
   /** @name PalletChildBountiesChildBounty (559) */
