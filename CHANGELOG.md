@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 7.15.1 Apr 3, 2022
 
 Contributed:
 
@@ -14,7 +14,7 @@ Changes:
 - Add in-flight cache for parallel same-version metadata queries
 - Cater for lazy `@polkadot/util-crypto` init (adjustment for React Native)
 - Update to latest Substrate, Kusama & Polkadot static metadata
-- Updaqte latest Westend & Kusama (up to 9180) upgrade blocks
+- Update latest Westend & Kusama (up to 9180) upgrade blocks
 
 
 ## 7.14.3 Mar 28, 2022
