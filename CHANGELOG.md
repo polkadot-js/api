@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add latest Polkadot 9180 upgrade block
+
+
 ## 7.15.1 Apr 3, 2022
 
 Contributed:
