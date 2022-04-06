@@ -58,7 +58,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
-      } else {
+      } else if (subDef.info !== TypeDefInfo.VecFixed) {
         throw new Error(`Unhandled subtype in Vec, ${stringify(subDef)}`);
       }
     }
