@@ -40,5 +40,5 @@ describe('getSimilarTypes', (): void => {
     expect(getSimilarTypes(registry, {}, 'Vec<[Balance;8]>', mockImports)).toEqual([
       'Vec<Vec<Balance>>'
     ]);
-  })
+  });
 });
