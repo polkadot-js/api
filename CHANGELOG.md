@@ -2,8 +2,14 @@
 
 ## master
 
+Contributed:
+
+- Improve `rpc-provider` README (Thanks to https://github.com/josepot)
+- Add handling for `Vec<[<Type>;<length>]>` in typegen (Thanks to https://github.com/zannis)
+
 Changes:
 
+- Optimize JSONRPC requests/response handling
 - Add latest Polkadot 9180 upgrade block
 
 
