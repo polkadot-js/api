@@ -98,4 +98,5 @@
        1	Yaroslav Bolyukin             	Support BTreeMap/BTreeSet in typegen (#4682)
        1	yjh                           	fix MetadataVersioned.asV12 (#2983)
        1	Yuri                          	fixes #3693 Fix uniques return types (#3694)
+       1	Zannis Kalampoukis            	fix: typegen supports vectors of slices (#4720)
        1	Zeke Mostov                   	fix: Allow sudo for polkadot indexed proxy enum (#3286)
