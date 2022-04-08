@@ -373,7 +373,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   public get names (): string[] {
-    return Object.values(this.#names);
+    return Object.values(this.#names).sort();
   }
 
   /**

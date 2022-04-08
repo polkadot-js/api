@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Add basic `derive.bagsList` support
+- Return sorted names for `api.registry.lookup.names`
 - Optimize JSONRPC requests/response handling
 - Add latest Polkadot 9180 upgrade block
 
