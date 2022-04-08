@@ -2,8 +2,13 @@
 
 ## master
 
+Contributed:
+
+- Improve `rpc-provider` README (thanks to https://github.com/josepot)
+
 Changes:
 
+- Optimize JSONRPC requests/response handling
 - Add latest Polkadot 9180 upgrade block
 
 

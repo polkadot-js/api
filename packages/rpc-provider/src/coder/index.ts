@@ -20,27 +20,34 @@ function formatErrorData (data?: string | number): string {
   // very nested, pick a number and trim the result display to it
   return formatted.length <= 256
     ? formatted
-    : `${formatted.substr(0, 255)}…`;
+    : `${formatted.substring(0, 255)}…`;
+}
+
+function checkError (error?: JsonRpcResponseBaseError): void {
+  if (error) {
+    const { code, data, message } = error;
+
+    throw new RpcError(`${code}: ${message}${formatErrorData(data)}`, code, data);
+  }
 }
 
 /** @internal */
 export class RpcCoder {
   #id = 0;
 
-  public decodeResponse (response: JsonRpcResponse): unknown {
-    assert(response, 'Empty response object received');
-    assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
+  public decodeResponse (response?: JsonRpcResponse): unknown {
+    assert(response && response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
     const isSubscription = !isUndefined(response.params) && !isUndefined(response.method);
 
     assert(isNumber(response.id) || (isSubscription && (isNumber(response.params.subscription) || isString(response.params.subscription))), 'Invalid id field in decoded object');
 
-    this._checkError(response.error);
+    checkError(response.error);
 
-    assert(!isUndefined(response.result) || isSubscription, 'No result found in JsonRpc response');
+    assert(!isUndefined(response.result) || isSubscription, 'No result found in jsonrpc response');
 
     if (isSubscription) {
-      this._checkError(response.params.error);
+      checkError(response.params.error);
 
       return response.params.result;
     }
@@ -48,31 +55,20 @@ export class RpcCoder {
     return response.result;
   }
 
-  public encodeJson (method: string, params: unknown[]): string {
-    return stringify(
-      this.encodeObject(method, params)
-    );
+  public encodeJson (method: string, params: unknown[]): [number, string] {
+    const [id, data] = this.encodeObject(method, params);
+
+    return [id, stringify(data)];
   }
 
-  public encodeObject (method: string, params: unknown[]): JsonRpcRequest {
-    return {
-      id: ++this.#id,
+  public encodeObject (method: string, params: unknown[]): [number, JsonRpcRequest] {
+    const id = ++this.#id;
+
+    return [id, {
+      id,
       jsonrpc: '2.0',
       method,
       params
-    };
-  }
-
-  public getId (): number {
-    return this.#id;
-  }
-
-  private _checkError (error?: JsonRpcResponseBaseError): void {
-    if (error) {
-      const { code, data, message } = error;
-      const fmtMessage = `${code}: ${message}${formatErrorData(data)}`;
-
-      throw new RpcError(fmtMessage, code, data);
-    }
+    }];
   }
 }
