@@ -9,6 +9,7 @@ Contributed:
 
 Changes:
 
+- Add basic `derive.bagsList` support
 - Optimize JSONRPC requests/response handling
 - Add latest Polkadot 9180 upgrade block
 
