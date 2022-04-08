@@ -6,23 +6,47 @@ import type { Option, StorageKey, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types';
-import type { BagBase } from './types';
+import type { BagBase, BagList, BagListEntry } from './types';
 
 import { map } from 'rxjs';
 
-import { bnToBn } from '@polkadot/util';
+import { BN_ZERO, bnToBn } from '@polkadot/util';
 
 import { memo } from '../util';
 
-export function all (instanceId: string, api: DeriveApi): () => Observable<BagBase[]> {
-  return memo(instanceId, (): Observable<BagBase[]> =>
+function unwrap (id: BN, opt: Option<PalletBagsListListBag>): BagBase {
+  return {
+    bag: opt.unwrapOr(null),
+    id,
+    key: id.toString()
+  };
+}
+
+function orderBags (entries: [StorageKey<[u64]>, Option<PalletBagsListListBag>][]): BagList {
+  const sorted = entries
+    .map(([{ args: [id] }, o]) => unwrap(id, o))
+    .filter(({ bag }) => bag)
+    .sort((a, b) => b.id.cmp(a.id))
+    .map((base, index): BagListEntry => ({
+      ...base,
+      bagLower: BN_ZERO,
+      bagUpper: base.id,
+      index
+    }));
+  const max = sorted.length - 1;
+
+  return sorted.map((entry, index) =>
+    index === max
+      ? entry
+      // We could probably use a .add(BN_ONE) here
+      : { ...entry, bagLower: sorted[index + 1].bagUpper }
+  );
+}
+
+export function all (instanceId: string, api: DeriveApi): () => Observable<BagList> {
+  return memo(instanceId, (): Observable<BagList> =>
     api.query.bagsList.listBags.entries().pipe(
-      map((entries: [StorageKey<[u64]>, Option<PalletBagsListListBag>][]) =>
-        entries.map(([{ args: [id] }, opt]) => ({
-          bag: opt.unwrapOr(null),
-          id
-        }))
-      )
+      map(orderBags)
     )
   );
 }
@@ -32,10 +56,7 @@ export function get (instanceId: string, api: DeriveApi): (id: BN | number) => O
     const id = bnToBn(_id);
 
     return api.query.bagsList.listBags(id).pipe(
-      map((opt: Option<PalletBagsListListBag>) => ({
-        bag: opt.unwrapOr(null),
-        id
-      }))
+      map((o) => unwrap(id, o))
     );
   });
 }

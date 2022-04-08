@@ -7,9 +7,17 @@ import type { BN } from '@polkadot/util';
 export interface BagBase {
   bag: PalletBagsListListBag | null;
   id: BN;
+  key: string;
 }
 
 export interface Bag extends BagBase {
-
   nodes: PalletBagsListListNode[];
 }
+
+export interface BagListEntry extends BagBase {
+  bagUpper: BN;
+  bagLower: BN;
+  index: number;
+}
+
+export type BagList = BagListEntry[];
