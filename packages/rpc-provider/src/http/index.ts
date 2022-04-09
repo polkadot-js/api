@@ -122,7 +122,7 @@ export class HttpProvider implements ProviderInterface {
   public async send <T> (method: string, params: unknown[], isCacheable?: boolean): Promise<T> {
     this.#stats.total.requests++;
 
-    const body = this.#coder.encodeJson(method, params);
+    const [, body] = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(body) as Promise<T>
       : null;

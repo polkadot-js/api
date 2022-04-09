@@ -1452,6 +1452,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotEnoughFunds: AugmentedError<ApiType>;
       /**
+       * Signed migration is not allowed because the maximum limit is not set yet.
+       **/
+      SignedMigrationNotAllowed: AugmentedError<ApiType>;
+      /**
        * upper bound of size is exceeded,
        **/
       SizeUpperBoundExceeded: AugmentedError<ApiType>;

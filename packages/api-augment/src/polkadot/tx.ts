@@ -3826,10 +3826,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       forceXcmVersion: AugmentedSubmittable<(location: XcmV1MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, xcmVersion: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmV1MultiLocation, u32]>;
       /**
-       * Transfer some assets from the local chain to the sovereign account of a destination chain and forward
-       * a notification XCM.
+       * Transfer some assets from the local chain to the sovereign account of a destination
+       * chain and forward a notification XCM.
        * 
-       * Fee payment on the destination side is made from the first asset listed in the `assets` vector.
+       * Fee payment on the destination side is made from the asset in the `assets` vector of
+       * index `fee_asset_item`, up to enough to pay for `weight_limit` of weight. If more weight
+       * is needed than `weight_limit`, then the operation will fail and the assets send may be
+       * at risk.
        * 
        * - `origin`: Must be capable of withdrawing the `assets` and executing XCM.
        * - `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send
@@ -3846,7 +3849,10 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Teleport some assets from the local chain to some destination chain.
        * 
-       * Fee payment on the destination side is made from the first asset listed in the `assets` vector.
+       * Fee payment on the destination side is made from the asset in the `assets` vector of
+       * index `fee_asset_item`, up to enough to pay for `weight_limit` of weight. If more weight
+       * is needed than `weight_limit`, then the operation will fail and the assets send may be
+       * at risk.
        * 
        * - `origin`: Must be capable of withdrawing the `assets` and executing XCM.
        * - `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send
@@ -3861,12 +3867,12 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       limitedTeleportAssets: AugmentedSubmittable<(dest: XcmVersionedMultiLocation | { V0: any } | { V1: any } | string | Uint8Array, beneficiary: XcmVersionedMultiLocation | { V0: any } | { V1: any } | string | Uint8Array, assets: XcmVersionedMultiAssets | { V0: any } | { V1: any } | string | Uint8Array, feeAssetItem: u32 | AnyNumber | Uint8Array, weightLimit: XcmV2WeightLimit | { Unlimited: any } | { Limited: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedMultiLocation, XcmVersionedMultiLocation, XcmVersionedMultiAssets, u32, XcmV2WeightLimit]>;
       /**
-       * Transfer some assets from the local chain to the sovereign account of a destination chain and forward
-       * a notification XCM.
+       * Transfer some assets from the local chain to the sovereign account of a destination
+       * chain and forward a notification XCM.
        * 
-       * Fee payment on the destination side is made from the first asset listed in the `assets` vector and
-       * fee-weight is calculated locally and thus remote weights are assumed to be equal to
-       * local weights.
+       * Fee payment on the destination side is made from the asset in the `assets` vector of
+       * index `fee_asset_item`. The weight limit for fees is not provided and thus is unlimited,
+       * with all fees taken as needed from the asset.
        * 
        * - `origin`: Must be capable of withdrawing the `assets` and executing XCM.
        * - `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send
@@ -3883,9 +3889,9 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Teleport some assets from the local chain to some destination chain.
        * 
-       * Fee payment on the destination side is made from the first asset listed in the `assets` vector and
-       * fee-weight is calculated locally and thus remote weights are assumed to be equal to
-       * local weights.
+       * Fee payment on the destination side is made from the asset in the `assets` vector of
+       * index `fee_asset_item`. The weight limit for fees is not provided and thus is unlimited,
+       * with all fees taken as needed from the asset.
        * 
        * - `origin`: Must be capable of withdrawing the `assets` and executing XCM.
        * - `dest`: Destination context for the assets. Will typically be `X2(Parent, Parachain(..))` to send

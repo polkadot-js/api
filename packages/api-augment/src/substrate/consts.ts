@@ -5,7 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, PalletStateTrieMigrationMigrationLimits, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/consts' {
   export interface AugmentedConsts<ApiType extends ApiTypes> {
@@ -150,11 +150,6 @@ declare module '@polkadot/api-base/types/consts' {
     };
     bounties: {
       /**
-       * Percentage of the curator fee that will be reserved upfront as deposit for bounty
-       * curator.
-       **/
-      bountyCuratorDeposit: Permill & AugmentedConst<ApiType>;
-      /**
        * The amount held on deposit for placing a bounty proposal.
        **/
       bountyDepositBase: u128 & AugmentedConst<ApiType>;
@@ -171,6 +166,21 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
+       * Maximum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      curatorDepositMax: Option<u128> & AugmentedConst<ApiType>;
+      /**
+       * Minimum amount of funds that should be placed in a deposit for making a proposal.
+       **/
+      curatorDepositMin: Option<u128> & AugmentedConst<ApiType>;
+      /**
+       * The curator deposit is calculated as a percentage of the curator fee.
+       * 
+       * This deposit has optional upper and lower bounds with `CuratorDepositMax` and
+       * `CuratorDepositMin`.
+       **/
+      curatorDepositMultiplier: Permill & AugmentedConst<ApiType>;
+      /**
        * The amount held on deposit per byte within the tip report reason or bounty description.
        **/
       dataDepositPerByte: u128 & AugmentedConst<ApiType>;
@@ -186,11 +196,6 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     childBounties: {
-      /**
-       * Percentage of child-bounty value to be reserved as curator deposit
-       * when curator fee is zero.
-       **/
-      childBountyCuratorDepositBase: Permill & AugmentedConst<ApiType>;
       /**
        * Minimum value for a child-bounty.
        **/
@@ -341,6 +346,16 @@ declare module '@polkadot/api-base/types/consts' {
     };
     electionProviderMultiPhase: {
       /**
+       * The maximum number of electable targets to put in the snapshot.
+       **/
+      maxElectableTargets: u16 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of electing voters to put in the snapshot. At the moment, snapshots
+       * are only over a single block, but once multi-block elections are introduced they will
+       * take place over multiple blocks.
+       **/
+      maxElectingVoters: u32 & AugmentedConst<ApiType>;
+      /**
        * Maximum length (bytes) that the mined solution should consume.
        * 
        * The miner will ensure that the total length of the unsigned solution will not exceed
@@ -410,15 +425,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Duration of the unsigned phase.
        **/
       unsignedPhase: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of voters to put in the snapshot. At the moment, snapshots are only
-       * over a single block, but once multi-block elections are introduced they will take place
-       * over multiple blocks.
-       * 
-       * Also, note the data type: If the voters are represented by a `u32` in `type
-       * CompactSolution`, the same `u32` is used here to ensure bounds are respected.
-       **/
-      voterSnapshotPerBlock: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -829,16 +835,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    stateTrieMigration: {
-      /**
-       * The maximum limits that the signed migration could use.
-       **/
-      signedMigrationMaxLimits: PalletStateTrieMigrationMigrationLimits & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     system: {
       /**
        * Maximum number of block number to block hash mappings to keep (oldest pruned first).
@@ -916,6 +912,10 @@ declare module '@polkadot/api-base/types/consts' {
     };
     transactionPayment: {
       /**
+       * The polynomial that is applied in order to derive fee from length.
+       **/
+      lengthToFee: Vec<FrameSupportWeightsWeightToFeeCoefficient> & AugmentedConst<ApiType>;
+      /**
        * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
        * `priority`
        * 
@@ -939,10 +939,6 @@ declare module '@polkadot/api-base/types/consts' {
        * transactions.
        **/
       operationalFeeMultiplier: u8 & AugmentedConst<ApiType>;
-      /**
-       * The fee to be paid for making a transaction; the per-byte portion.
-       **/
-      transactionByteFee: u128 & AugmentedConst<ApiType>;
       /**
        * The polynomial that is applied in order to derive fee from weight.
        **/

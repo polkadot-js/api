@@ -2,6 +2,26 @@
 
 ## master
 
+- **Breaking change** In this major version the commonjs outputs are moved to a sub-folder. Since the export map and main field in package.json does reflect this change, there should be no usage changes. However the packages here will all need to be on the same version for internal linkage.
+
+Contributed:
+
+- Improve `rpc-provider` README (Thanks to https://github.com/josepot)
+- Add handling for `Vec<[<Type>;<length>]>` in typegen (Thanks to https://github.com/zannis)
+
+Changes:
+
+- Add basic `api.derive.bagsList.*` support
+- Return sorted names for `api.registry.lookup.names`
+- Optimize JSONRPC requests/response handling
+- Output commonjs files under the `cjs/**` root
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Add latest Polkadot 9180 upgrade block
+- Update to `@polkadot/util` 9.0.1
+
+
+## 7.15.1 Apr 3, 2022
+
 Contributed:
 
 - Export `WellKnownChain` for `substrate-connect` (Thanks to https://github.com/josepot)
@@ -12,6 +32,9 @@ Changes:
 
 - Cater for `DispatchError` with `error` as `[u8; 4]`
 - Add in-flight cache for parallel same-version metadata queries
+- Cater for lazy `@polkadot/util-crypto` init (adjustment for React Native)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update latest Westend & Kusama (up to 9180) upgrade blocks
 
 
 ## 7.14.3 Mar 28, 2022

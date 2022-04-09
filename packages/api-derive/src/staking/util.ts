@@ -23,17 +23,17 @@ const ERA_CHUNK_SIZE = 14;
 function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
   const chunked = arrayChunk(eras, ERA_CHUNK_SIZE);
   let index = 0;
-  const startSubject = new BehaviorSubject<EraIndex[]>(chunked[index]);
+  const subject = new BehaviorSubject<EraIndex[]>(chunked[index]);
 
-  return startSubject.pipe(
+  return subject.pipe(
     switchMap(fn),
     tap((): void => {
       setTimeout((): void => {
         index++;
 
         index === chunked.length
-          ? startSubject.complete()
-          : startSubject.next(chunked[index]);
+          ? subject.complete()
+          : subject.next(chunked[index]);
       }, 0);
     }),
     toArray(),

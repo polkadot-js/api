@@ -151,14 +151,19 @@ export class ScProvider implements ProviderInterface {
           return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const { id, unsubscribeMethod } = staleSubscriptions.pop()!;
+        const stale = staleSubscriptions.pop();
 
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        Promise.race([
-          this.send(unsubscribeMethod, [id]).catch(Function.prototype as () => void),
-          new Promise((resolve) => setTimeout(resolve, 500))
-        ]).then(killStaleSubscriptions);
+        assert(stale, 'Unable to get stale subscription');
+
+        const { id, unsubscribeMethod } = stale;
+
+        Promise
+          .race([
+            this.send(unsubscribeMethod, [id]).catch(() => undefined),
+            new Promise((resolve) => setTimeout(resolve, 500))
+          ])
+          .then(killStaleSubscriptions)
+          .catch(() => undefined);
       };
 
       hc.start((health) => {
@@ -256,12 +261,10 @@ export class ScProvider implements ProviderInterface {
   }
 
   public async send<T = any> (method: string, params: unknown[]): Promise<T> {
-    assert(this.isConnected, 'Provider is not connected');
+    assert(this.isConnected && this.#chain, 'Provider is not connected');
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const chain = await this.#chain!;
-    const json = this.#coder.encodeJson(method, params);
-    const id = this.#coder.getId();
+    const chain = await this.#chain;
+    const [id, json] = this.#coder.encodeJson(method, params);
 
     const result = new Promise<T>((resolve, reject): void => {
       this.#requests.set(id, (response) => {
@@ -312,8 +315,9 @@ export class ScProvider implements ProviderInterface {
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const unsubscribeMethod = subscriptionUnsubscriptionMethods.get(method)!;
+    const unsubscribeMethod = subscriptionUnsubscriptionMethods.get(method);
+
+    assert(unsubscribeMethod, 'Invalid unsubscribe method found');
 
     this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
