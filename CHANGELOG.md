@@ -15,6 +15,7 @@ Changes:
 - Return sorted names for `api.registry.lookup.names`
 - Optimize JSONRPC requests/response handling
 - Output commonjs files under the `cjs/**` root
+- Update to latest Substrate, Kusama & Polkadot static metadata
 - Add latest Polkadot 9180 upgrade block
 - Update to `@polkadot/util` 9.0.1
 
