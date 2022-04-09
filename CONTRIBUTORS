@@ -1,4 +1,4 @@
-    2903	Jaco                          	Align derive.bagsList.all with multi (#4729)
+    2904	Jaco                          	Re-use bagList types (#4730)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
