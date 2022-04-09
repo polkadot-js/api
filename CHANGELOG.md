@@ -2,6 +2,8 @@
 
 ## master
 
+- **Breaking change** In this major version the commonjs outputs are moved to a sub-folder. Since the export map and main field in package.json does reflect this change, there should be no usage changes. However the packages here will all need to be on the same version for internal linkage.
+
 Contributed:
 
 - Improve `rpc-provider` README (Thanks to https://github.com/josepot)
@@ -9,10 +11,12 @@ Contributed:
 
 Changes:
 
-- Add basic `derive.bagsList` support
+- Add basic `api.derive.bagsList.*` support
 - Return sorted names for `api.registry.lookup.names`
 - Optimize JSONRPC requests/response handling
+- Output commonjs files under the `cjs/**` root
 - Add latest Polkadot 9180 upgrade block
+- Update to `@polkadot/util` 9.0.1
 
 
 ## 7.15.1 Apr 3, 2022
