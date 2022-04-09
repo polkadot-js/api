@@ -295,13 +295,13 @@ export class WsProvider implements ProviderInterface {
   public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
     this.#stats.total.requests++;
 
-    const body = this.#coder.encodeJson(method, params);
+    const [id, body] = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(body) as Promise<T>
       : null;
 
     if (!resultPromise) {
-      resultPromise = this.#send(body, method, params, subscription);
+      resultPromise = this.#send(id, body, method, params, subscription);
 
       if (isCacheable) {
         this.#callCache.set(body, resultPromise);
@@ -313,12 +313,10 @@ export class WsProvider implements ProviderInterface {
     return resultPromise;
   }
 
-  async #send <T> (json: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
+  async #send <T> (id: number, body: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
         assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
-
-        const id = this.#coder.getId();
 
         const callback = (error?: Error | null, result?: T): void => {
           error
@@ -326,7 +324,7 @@ export class WsProvider implements ProviderInterface {
             : resolve(result as T);
         };
 
-        l.debug(() => ['calling', method, json]);
+        l.debug(() => ['calling', method, body]);
 
         this.#handlers[id] = {
           callback,
@@ -335,8 +333,8 @@ export class WsProvider implements ProviderInterface {
           start: Date.now(),
           subscription
         };
-        this.#stats.total.bytesSent += json.length;
-        this.#websocket.send(json);
+        this.#stats.total.bytesSent += body.length;
+        this.#websocket.send(body);
       } catch (error) {
         reject(error);
       }

@@ -74,12 +74,10 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
    * @deprecated Use api.at(<blockHash>)
    */
   entriesAt: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
-  entriesPaged: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   /**
    * @deprecated Use api.at(<blockHash>)
    */
   keysAt: <K extends AnyTuple = A> (hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
-  keysPaged: <K extends AnyTuple = A> (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   /**
    * @deprecated The underlying RPC this been marked unsafe and is generally not exposed
    */
@@ -95,11 +93,13 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
 
 export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
   entries: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesPaged: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
   key: (...args: Parameters<F>) => string;
   keyPrefix: (...args: DropLast<Parameters<F>>) => string;
   keys: <K extends AnyTuple = A> (...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
+  keysPaged: <K extends AnyTuple = A> (opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
 }
 

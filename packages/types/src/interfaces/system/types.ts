@@ -125,6 +125,12 @@ export interface DispatchErrorModule extends Struct {
   readonly error: u8;
 }
 
+/** @name DispatchErrorModuleU8a */
+export interface DispatchErrorModuleU8a extends Struct {
+  readonly index: u8;
+  readonly error: U8aFixed;
+}
+
 /** @name DispatchErrorTo198 */
 export interface DispatchErrorTo198 extends Struct {
   readonly module: Option<u8>;
@@ -404,7 +410,7 @@ export interface UnknownTransaction extends Enum {
 /** @name WeightPerClass */
 export interface WeightPerClass extends Struct {
   readonly baseExtrinsic: Weight;
-  readonly maxExtrinsic: Weight;
+  readonly maxExtrinsic: Option<Weight>;
   readonly maxTotal: Option<Weight>;
   readonly reserved: Option<Weight>;
 }

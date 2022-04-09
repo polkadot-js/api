@@ -15,7 +15,7 @@ describe('decodeResponse', (): void => {
   it('expects a non-empty input object', (): void => {
     expect(
       () => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
-    ).toThrow(/Empty response/);
+    ).toThrow(/Invalid jsonrpc/);
   });
 
   it('expects a valid jsonrpc field', (): void => {

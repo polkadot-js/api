@@ -214,6 +214,10 @@ export default {
       index: 'u8',
       error: 'u8'
     },
+    DispatchErrorModuleU8a: {
+      index: 'u8',
+      error: '[u8; 4]'
+    },
     DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
@@ -395,7 +399,7 @@ export default {
     },
     WeightPerClass: {
       baseExtrinsic: 'Weight',
-      maxExtrinsic: 'Weight',
+      maxExtrinsic: 'Option<Weight>',
       maxTotal: 'Option<Weight>',
       reserved: 'Option<Weight>'
     }

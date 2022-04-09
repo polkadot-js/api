@@ -723,6 +723,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ProxyExecuted: AugmentedEvent<ApiType, [Result<Null, SpRuntimeDispatchError>]>;
       /**
+       * A proxy was removed.
+       **/
+      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, KusamaRuntimeProxyType, u32]>;
+      /**
        * Generic event
        **/
       [key: string]: AugmentedEvent<ApiType>;

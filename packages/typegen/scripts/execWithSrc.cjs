@@ -5,7 +5,7 @@ module.exports = function (file) {
   let main;
 
   try {
-    main = require(`../${file}.cjs`).main;
+    main = require(`../cjs/${file}.js`).main;
   } catch (error) {
     // required for dev-only setups
     process.env.JEST_WORKER_ID = '123';
