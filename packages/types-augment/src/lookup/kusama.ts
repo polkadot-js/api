@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup75: kusama_runtime::ProxyType
+   * Lookup76: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
   },
   /**
-   * Lookup252: kusama_runtime::SessionKeys
+   * Lookup253: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -22,7 +22,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup326: kusama_runtime::OriginCaller
+   * Lookup327: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -129,7 +129,7 @@ export default {
     }
   },
   /**
-   * Lookup392: kusama_runtime::NposCompactSolution24
+   * Lookup393: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -158,7 +158,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup747: kusama_runtime::Runtime
+   * Lookup748: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
