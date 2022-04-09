@@ -11,6 +11,7 @@ Contributed:
 
 Changes:
 
+- Add support for `apiAt.tx(...)` to construct at a specific point
 - Add basic `api.derive.bagsList.*` support
 - Return sorted names for `api.registry.lookup.names`
 - Optimize JSONRPC requests/response handling
