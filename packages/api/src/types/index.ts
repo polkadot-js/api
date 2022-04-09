@@ -9,11 +9,12 @@ import type { DecoratedEvents } from '@polkadot/api-base/types/events';
 import type { QueryableStorage } from '@polkadot/api-base/types/storage';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { Hash } from '@polkadot/types/interfaces';
+import type { Call, Extrinsic, Hash } from '@polkadot/types/interfaces';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
+import type { SubmittableExtrinsic } from '../types/submittable';
 import type { AllDerives } from '../util/decorate';
 
 export * from '@polkadot/api-base/types';
@@ -96,7 +97,8 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   registry: Registry;
   rx: {
     query: QueryableStorage<'rxjs'>;
-  }
+  };
+  tx: (extrinsic: Call | Extrinsic | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
 
   findCall (callIndex: Uint8Array | string): CallFunction;
   findError (errorIndex: Uint8Array | string): RegistryError;
