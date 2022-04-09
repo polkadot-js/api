@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, StorageKey, u64 } from '@polkadot/types';
+import type { Option, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types';
 import type { BagBase, BagList, BagListEntry } from './types';
 
-import { map } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, bnToBn } from '@polkadot/util';
 
@@ -22,9 +22,9 @@ function unwrap (id: BN, opt: Option<PalletBagsListListBag>): BagBase {
   };
 }
 
-function orderBags (entries: [StorageKey<[u64]>, Option<PalletBagsListListBag>][]): BagList {
-  const sorted = entries
-    .map(([{ args: [id] }, o]) => unwrap(id, o))
+function orderBags (ids: u64[], bags: Option<PalletBagsListListBag>[]): BagList {
+  const sorted = ids
+    .map((id, index) => unwrap(id, bags[index]))
     .filter(({ bag }) => bag)
     .sort((a, b) => b.id.cmp(a.id))
     .map((base, index): BagListEntry => ({
@@ -45,8 +45,18 @@ function orderBags (entries: [StorageKey<[u64]>, Option<PalletBagsListListBag>][
 
 export function all (instanceId: string, api: DeriveApi): () => Observable<BagList> {
   return memo(instanceId, (): Observable<BagList> =>
-    api.query.bagsList.listBags.entries().pipe(
-      map(orderBags)
+    api.query.bagsList.listBags.keys().pipe(
+      switchMap((keys) => {
+        if (!keys.length) {
+          return of([]);
+        }
+
+        const ids = keys.map(({ args: [id] }) => id);
+
+        return api.query.listBags.multi<Option<PalletBagsListListBag>[]>(ids).pipe(
+          map((bags) => orderBags(ids, bags))
+        );
+      })
     )
   );
 }
