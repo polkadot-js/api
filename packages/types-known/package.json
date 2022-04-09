@@ -23,11 +23,11 @@
   "version": "7.15.2-9",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.17.8",
-    "@polkadot/networks": "^8.7.2-3",
+    "@babel/runtime": "^7.17.9",
+    "@polkadot/networks": "^9.0.1",
     "@polkadot/types": "7.15.2-9",
     "@polkadot/types-codec": "7.15.2-9",
     "@polkadot/types-create": "7.15.2-9",
-    "@polkadot/util": "^8.7.2-3"
+    "@polkadot/util": "^9.0.1"
   }
 }
