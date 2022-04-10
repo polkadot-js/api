@@ -1,4 +1,4 @@
-    2907	Jaco                          	Add support for apiAt.tx(...) (#4696)
+    2908	Jaco                          	8.0.1 (#4734)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
