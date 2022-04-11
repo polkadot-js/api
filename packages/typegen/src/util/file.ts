@@ -4,6 +4,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import { assert } from '@polkadot/util';
+
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);
 
@@ -21,5 +23,12 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 }
 
 export function readTemplate (template: string): string {
-  return fs.readFileSync(path.join(__dirname, `../templates/${template}.hbs`)).toString();
+  // NOTE With cjs in a subdir, search one lower as well
+  const file = ['../templates', '../../templates']
+    .map((p) => path.join(__dirname, p, `${template}.hbs`))
+    .find((p) => fs.existsSync(p));
+
+  assert(file, `Unable to locate ${template}.hbs from ${__dirname}`);
+
+  return fs.readFileSync(file).toString();
 }
