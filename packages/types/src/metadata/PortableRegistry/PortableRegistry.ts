@@ -24,9 +24,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // these have a specific encoding or logic (for pallets)
-  'pallet_democracy::vote::Vote',
-  'pallet_identity::types::Data',
+  // full matching on exact names...
   // these are well-known types with additional encoding
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
@@ -34,6 +32,10 @@ const PATHS_ALIAS = splitNamespace([
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
+  // wildcard matching in place...
+  // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
+  '*_democracy::vote::Vote',
+  '*_identity::types::Data',
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
