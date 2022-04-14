@@ -41,6 +41,7 @@
        2	sung wu                       	Update tx.md (#2485)
        2	Veliko                        	Abi constructor takes different parameters (#3347)
        2	Wei Tang                      	Use /usr/bin/env bash instead of /bin/bash (#2053)
+       2	Zannis Kalampoukis            	fix: Typegen handles structs and vectors of structs without erroring (#4743)
        2	扩散性百万甜面包                      	Typo, deocrateMethod -> decorateMethod (#1594)
        1	Andreea Eftene                	Add storage deposit support (#4304)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
@@ -98,5 +99,4 @@
        1	Yaroslav Bolyukin             	Support BTreeMap/BTreeSet in typegen (#4682)
        1	yjh                           	fix MetadataVersioned.asV12 (#2983)
        1	Yuri                          	fixes #3693 Fix uniques return types (#3694)
-       1	Zannis Kalampoukis            	fix: typegen supports vectors of slices (#4720)
        1	Zeke Mostov                   	fix: Allow sudo for polkadot indexed proxy enum (#3286)
