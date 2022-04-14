@@ -2,8 +2,13 @@
 
 ## master
 
+Contributed:
+
+- Adjust typegen for `Vec<{ struct: <type> }>` (Thanks to https://github.com/zannis)
+
 Changes:
 
+- Fix `entriesPaged` where no `at?: BlockHash` is specified
 - Apply windcard matches for `democracy::vote::Vote` and `identity::type::Data`
 
 

@@ -687,13 +687,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
-    const queryCall = at
+    const getKeysPaged = at
       ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
       : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
     return startSubject.pipe(
-      switchMap(queryCall),
+      switchMap(getKeysPaged),
       map((keys) => keys.map(setMeta)),
       tap((keys): void => {
         setTimeout((): void => {
@@ -710,23 +710,25 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
-    const headKey = iterKey(...opts.args).toHex();
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
+    const getKeysPaged = at
+      ? (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at)
+      : (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey);
 
-    return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at).pipe(
+    return getKeysPaged(iterKey(...opts.args).toHex()).pipe(
       map((keys) => keys.map(setMeta))
     );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<[StorageKey, Codec][]> {
-    const query = at
-      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
+    const queryStorageAt = at
+      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
         keys.length
-          ? combineLatest(arrayChunk(keys, PAGE_SIZE_V).map(query)).pipe(
+          ? combineLatest(arrayChunk(keys, PAGE_SIZE_V).map(queryStorageAt)).pipe(
             map((valsArr) =>
               arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
@@ -737,10 +739,14 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapEntriesPaged (entry: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
+    const queryStorageAt = at
+      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
+
     return this._retrieveMapKeysPaged(entry, at, opts).pipe(
       switchMap((keys) =>
         keys.length
-          ? this._rpcCore.state.queryStorageAt(keys, at).pipe(
+          ? queryStorageAt(keys).pipe(
             map((valsArr) =>
               valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
