@@ -722,8 +722,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<[StorageKey, Codec][]> {
     const queryStorageAt = at
-      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
+      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
