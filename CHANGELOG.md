@@ -4,7 +4,7 @@
 
 Changes:
 
-- Apply windcard matches for `democracy::cote::Vote` and `identity::type::Data`
+- Apply windcard matches for `democracy::vote::Vote` and `identity::type::Data`
 
 
 ## 8.0.2 Apr 11, 2022
