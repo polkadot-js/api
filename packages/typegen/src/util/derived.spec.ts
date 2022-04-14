@@ -41,4 +41,21 @@ describe('getSimilarTypes', (): void => {
       'Vec<Vec<Balance>>'
     ]);
   });
+
+  it('handles structs', (): void => {
+    expect(getSimilarTypes(registry, {}, '{ "a": "u8", "b": "Vec<u8>" }', mockImports)).toEqual([
+      `{
+    readonly a: u8;
+    readonly b: Bytes;
+  } & Struct`, '{ a?: any; b?: any }', 'string', 'Uint8Array'
+    ]);
+  });
+  it('handles vectors of structs', (): void => {
+    expect(getSimilarTypes(registry, {}, 'Vec<{ "a": "H256", "b": "Vec<H256>" }>', mockImports)).toEqual([
+      `Vec<{
+    readonly a: H256;
+    readonly b: Vec<H256>;
+  } & Struct>`
+    ]);
+  });
 });
