@@ -740,8 +740,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _retrieveMapEntriesPaged (entry: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
     const queryStorageAt = at
-      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
+      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeysPaged(entry, at, opts).pipe(
       switchMap((keys) =>
