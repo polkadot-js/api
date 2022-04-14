@@ -1,4 +1,4 @@
-    2912	Jaco                          	Adjust entriesPages w/ & w/o at (#4745)
+    2913	Jaco                          	Adjust default "no RPC response" timeout to 60s (#4746)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
