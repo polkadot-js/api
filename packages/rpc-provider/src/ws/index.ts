@@ -42,7 +42,7 @@ const ALIASES: { [index: string]: string } = {
 
 const RETRY_DELAY = 2_500;
 
-const TIMEOUT_S = 30;
+const TIMEOUT_S = 60;
 const TIMEOUT_MS = TIMEOUT_S * 1000;
 const TIMEOUT_INTERVAL = 5_000;
 
