@@ -710,13 +710,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
-    const headKey = iterKey(...opts.args).toHex();
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
     const getKeysPaged = at
       ? (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at)
       : (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey);
 
-    return getKeysPaged(headKey).pipe(
+    return getKeysPaged(iterKey(...opts.args).toHex()).pipe(
       map((keys) => keys.map(setMeta))
     );
   }
