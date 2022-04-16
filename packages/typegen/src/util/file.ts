@@ -23,6 +23,9 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 }
 
 export function readTemplate (template: string): string {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
   // NOTE With cjs in a subdir, search one lower as well
   const file = ['../templates', '../../templates']
     .map((p) => path.join(__dirname, p, `${template}.hbs`))
