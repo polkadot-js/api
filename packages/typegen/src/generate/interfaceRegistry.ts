@@ -50,15 +50,17 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
     // create imports for everything that we have available
     Object.values(definitions).forEach(({ types }) => {
-      setImports(definitions, imports, Object.keys(types));
+      if (types) {
+        setImports(definitions, imports, Object.keys(types));
 
-      const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
+        const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
 
-      uniqueTypes.forEach((type): void => {
-        existingTypes[type] = true;
+        uniqueTypes.forEach((type): void => {
+          existingTypes[type] = true;
 
-        items.push(type);
-      });
+          items.push(type);
+        });
+      }
     });
 
     return generateInterfaceTypesTemplate({

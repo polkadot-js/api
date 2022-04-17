@@ -440,7 +440,7 @@ export class TypeRegistry implements Registry {
       assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
 
       this.#classes.set(arg1, arg2);
-    } else {
+    } else if (arg1) {
       this._registerObject(arg1);
     }
   }

@@ -76,9 +76,13 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
       setImports(allDefs, imports, splitTypes);
     } else {
       // find this module inside the exports from the rest
-      const [moduleName] = Object.entries(allDefs).find(([, { types }]): boolean =>
-        Object.keys(types).includes(type)
-      ) || [null];
+      const [moduleName] = Object.entries(allDefs).find(([, { types }]): boolean => {
+        if (types) {
+          return Object.keys(types).includes(type)
+        } else {
+          return false
+        }
+      }) || [null];
 
       if (moduleName) {
         localTypes[moduleName][type] = true;
@@ -99,13 +103,15 @@ export function createImports (importDefinitions: Record<string, Record<string, 
 
       definitions[fullName] = moduleDef;
 
-      Object.keys(moduleDef.types).forEach((type): void => {
-        if (typeToModule[type]) {
-          console.warn(`\t\tWARN: Overwriting duplicated type '${type}' ${typeToModule[type]} -> ${fullName}`);
-        }
+      if (moduleDef.types) {
+        Object.keys(moduleDef.types).forEach((type): void => {
+          if (typeToModule[type]) {
+            console.warn(`\t\tWARN: Overwriting duplicated type '${type}' ${typeToModule[type]} -> ${fullName}`);
+          }
 
-        typeToModule[type] = fullName;
-      });
+          typeToModule[type] = fullName;
+        });
+      }
     });
   });
 
