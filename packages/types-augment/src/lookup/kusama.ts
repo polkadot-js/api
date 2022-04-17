@@ -5,7 +5,7 @@
 
 export default {
   /**
-   * Lookup76: kusama_runtime::ProxyType
+   * Lookup79: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
@@ -158,7 +158,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup748: kusama_runtime::Runtime
+   * Lookup747: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

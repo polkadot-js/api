@@ -6,7 +6,7 @@ declare module '@polkadot/types/lookup' {
   import type { ITuple } from '@polkadot/types-codec/types';
   import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
-  /** @name KusamaRuntimeProxyType (76) */
+  /** @name KusamaRuntimeProxyType (79) */
   export interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -73,7 +73,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (748) */
+  /** @name KusamaRuntimeRuntime (747) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module
