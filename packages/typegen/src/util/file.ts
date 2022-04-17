@@ -6,6 +6,8 @@ import path from 'path';
 
 import { assert } from '@polkadot/util';
 
+import { packageInfo } from '../packageInfo';
+
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);
 
@@ -23,12 +25,17 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 }
 
 export function readTemplate (template: string): string {
+  // Inside the api repo itself, it will be 'auto'
+  const rootDir = packageInfo.path === 'auto'
+    ? path.join(__dirname, '..')
+    : packageInfo.path;
+
   // NOTE With cjs in a subdir, search one lower as well
-  const file = ['../templates', '../../templates']
-    .map((p) => path.join(__dirname, p, `${template}.hbs`))
+  const file = ['./templates', '../templates']
+    .map((p) => path.join(rootDir, p, `${template}.hbs`))
     .find((p) => fs.existsSync(p));
 
-  assert(file, `Unable to locate ${template}.hbs from ${__dirname}`);
+  assert(file, `Unable to locate ${template}.hbs from ${rootDir}`);
 
   return fs.readFileSync(file).toString();
 }
