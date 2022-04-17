@@ -5,6 +5,7 @@
 Contributed:
 
 - Adjust typegen for `Vec<{ struct: <type> }>` (Thanks to https://github.com/zannis)
+- Adjust typegen __dirname for ESM (Thanks to https://github.com/drewstone)
 
 Changes:
 
