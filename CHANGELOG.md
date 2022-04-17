@@ -12,6 +12,7 @@ Changes:
 - Fix `entriesPaged` where no `at?: BlockHash` is specified
 - Apply windcard matches for `democracy::vote::Vote` and `identity::type::Data`
 - Adjust default "no RPC response" timeout to 60s
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 8.0.2 Apr 11, 2022

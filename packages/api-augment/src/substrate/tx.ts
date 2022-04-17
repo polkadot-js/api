@@ -761,7 +761,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * parent bounty to child-bounty account, if parent bounty has enough
        * funds, else the call fails.
        * 
-       * Upper bound to maximum number of active  child-bounties that can be
+       * Upper bound to maximum number of active  child bounties that can be
        * added are managed via runtime trait config
        * [`Config::MaxActiveChildBountyCount`].
        * 
@@ -778,7 +778,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * The beneficiary will be able to claim the funds after a delay.
        * 
-       * The dispatch origin for this call must be the master curator or
+       * The dispatch origin for this call must be the parent curator or
        * curator of this child-bounty.
        * 
        * Parent bounty must be in active state, for this child-bounty call to
@@ -862,12 +862,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * the curator of the parent bounty, or any signed origin.
        * 
        * For the origin other than T::RejectOrigin and the child-bounty
-       * curator, parent-bounty must be in active state, for this call to
+       * curator, parent bounty must be in active state, for this call to
        * work. We allow child-bounty curator and T::RejectOrigin to execute
-       * this call irrespective of the parent-bounty state.
+       * this call irrespective of the parent bounty state.
        * 
        * If this function is called by the `RejectOrigin` or the
-       * parent-bounty curator, we assume that the child-bounty curator is
+       * parent bounty curator, we assume that the child-bounty curator is
        * malicious or inactive. As a result, child-bounty curator deposit is
        * slashed.
        * 
@@ -3614,7 +3614,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * (Re-)set the controller of a stash.
        * 
-       * Effects will be felt at the beginning of the next era.
+       * Effects will be felt instantly (as soon as this function is completed successfully).
        * 
        * The dispatch origin for this call must be _Signed_ by the stash, not the controller.
        * 
@@ -3664,7 +3664,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * (Re-)set the payment target for a controller.
        * 
-       * Effects will be felt at the beginning of the next era.
+       * Effects will be felt instantly (as soon as this function is completed successfully).
        * 
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        * 

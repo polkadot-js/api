@@ -3529,7 +3529,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * (Re-)set the controller of a stash.
        * 
-       * Effects will be felt at the beginning of the next era.
+       * Effects will be felt instantly (as soon as this function is completed successfully).
        * 
        * The dispatch origin for this call must be _Signed_ by the stash, not the controller.
        * 
@@ -3579,7 +3579,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * (Re-)set the payment target for a controller.
        * 
-       * Effects will be felt at the beginning of the next era.
+       * Effects will be felt instantly (as soon as this function is completed successfully).
        * 
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        * 

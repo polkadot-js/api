@@ -1981,9 +1981,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.66.2":
-  version: 0.66.2
-  resolution: "@polkadot/dev@npm:0.66.2"
+"@polkadot/dev@npm:^0.66.4":
+  version: 0.66.4
+  resolution: "@polkadot/dev@npm:0.66.4"
   dependencies:
     "@babel/cli": ^7.17.6
     "@babel/core": ^7.17.9
@@ -2006,7 +2006,7 @@ __metadata:
     "@rollup/plugin-inject": ^4.0.4
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^13.2.0
-    "@rushstack/eslint-patch": ^1.1.2
+    "@rushstack/eslint-patch": ^1.1.3
     "@typescript-eslint/eslint-plugin": 5.19.0
     "@typescript-eslint/parser": 5.19.0
     "@vue/component-compiler-utils": ^3.3.0
@@ -2030,7 +2030,7 @@ __metadata:
     eslint-plugin-sort-destructure-keys: ^1.4.0
     fs-extra: ^10.0.1
     gh-pages: ^3.2.3
-    gh-release: ^6.0.3
+    gh-release: ^6.0.4
     glob: ^8.0.1
     glob2base: ^0.0.12
     jest: ^27.5.1
@@ -2043,7 +2043,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.6.2
     rimraf: ^3.0.2
-    rollup: ^2.70.1
+    rollup: ^2.70.2
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.6.3
     yargs: ^17.4.1
@@ -2069,7 +2069,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: f398c8359b86cddda66046f7720d35c3d21a83607f834ec861fee08c81652932723a7723ef68ab0511f760104abe3e2c7527fd48fb61c4456cf29d9123c37fef
+  checksum: 7402de4643468c6e42af5b680dd8cab0cfa0efcf994eef2cafd467b7973fa68ae1dfe7c38e202a5874495a8bb1f28d404653997bf9e4f1ad884b582e54d3ca5b
   languageName: node
   linkType: hard
 
@@ -2476,10 +2476,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/eslint-patch@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@rushstack/eslint-patch@npm:1.1.2"
-  checksum: 81cf671853fde5f696f4b79ba169484ace61831183784b3849764dca9f58b4e9d4d937064fc08d1053d0dccf9f214b80a5f6fafad985037ca9b049dc8d961732
+"@rushstack/eslint-patch@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@rushstack/eslint-patch@npm:1.1.3"
+  checksum: 53752d1e34e45a91b30a016b837c33054fcbd0a295c0312b0812dab78289ea680d7c0c3f19c1f885f49764d416727747133765ff5bfce31a9c4cc93c7a56ebe1
   languageName: node
   linkType: hard
 
@@ -5483,9 +5483,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"gauge@npm:^v4.0.3":
-  version: 4.0.3
-  resolution: "gauge@npm:4.0.3"
+"gauge@npm:^v4.0.4":
+  version: 4.0.4
+  resolution: "gauge@npm:4.0.4"
   dependencies:
     aproba: ^1.0.3 || ^2.0.0
     color-support: ^1.1.3
@@ -5495,7 +5495,7 @@ fsevents@~2.1.2:
     string-width: ^4.2.3
     strip-ansi: ^6.0.1
     wide-align: ^1.1.5
-  checksum: baf982238a5270def90a4895f2e083b5cf8e6f7df20b53b24a932845aec363a6cf411f88b33dcb016a43c9334fdfccd956e4514ee875d70af016bf6fead3d3ae
+  checksum: 788b6bfe52f1dd8e263cda800c26ac0ca2ff6de0b6eee2fe0d9e3abf15e149b651bd27bf5226be10e6e3edb5c4e5d5985a5a1a98137e7a892f75eff76467ad2d
   languageName: node
   linkType: hard
 
@@ -5640,14 +5640,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"gh-release@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "gh-release@npm:6.0.3"
+"gh-release@npm:^6.0.4":
+  version: 6.0.4
+  resolution: "gh-release@npm:6.0.4"
   dependencies:
     "@octokit/rest": ^18.0.9
     changelog-parser: ^2.0.0
     deep-extend: ^0.6.0
-    gauge: ^v4.0.3
+    gauge: ^v4.0.4
     gh-release-assets: ^2.0.0
     ghauth: ^5.0.0
     github-url-to-object: ^4.0.4
@@ -5657,7 +5657,7 @@ fsevents@~2.1.2:
     yargs: ^17.0.0
   bin:
     gh-release: bin/cli.js
-  checksum: 57dae524d2be0dacdae5be1ecabd111a3f594a8a095107f776fc424445dbe1b90c0000639a05a7ce9f4aa796d13883a3c7b65a3bd46a13915c200b7e04cbbcad
+  checksum: aae5a044628235dc567a8a8bc3df99fac82e37a52f1b233efb898818d8f70a9b11573a13892bdd0f73992966834e38b40f8f1ef47c680e9ed2655f401c4f516b
   languageName: node
   linkType: hard
 
@@ -9010,9 +9010,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.70.1":
-  version: 2.70.1
-  resolution: "rollup@npm:2.70.1"
+"rollup@npm:^2.70.2":
+  version: 2.70.2
+  resolution: "rollup@npm:2.70.2"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -9020,7 +9020,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 06c62933e6e81a1c8c684d7d576e507081aabdb63cc0c91bca86b7348b66df03b77827068e4990b8b6c738bd3ef66dcc8c7ed7e0ea40b736068e7618f693133e
+  checksum: eb04eb9b87b30517308cb41018d57a23976f42b269c3229e4124746d3136a77aa16ba8b891a3fa571931dd72419eea40642a334835fe4f33161fea30d0b803f7
   languageName: node
   linkType: hard
 
@@ -9031,7 +9031,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.17.9
     "@babel/register": ^7.17.7
     "@babel/runtime": ^7.17.9
-    "@polkadot/dev": ^0.66.2
+    "@polkadot/dev": ^0.66.4
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.4.1
     copyfiles: ^2.4.1
