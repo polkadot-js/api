@@ -183,7 +183,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bounties: {
       /**
-       * The bounty cannot be closed because it has active child bounties.
+       * The bounty cannot be closed because it has active child-bounties.
        **/
       HasActiveChildBounty: AugmentedError<ApiType>;
       /**
@@ -242,7 +242,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ParentBountyNotActive: AugmentedError<ApiType>;
       /**
-       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
+       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
        **/
       TooManyChildBounties: AugmentedError<ApiType>;
       /**
@@ -1013,6 +1013,104 @@ declare module '@polkadot/api-base/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    nominationPools: {
+      /**
+       * An account is already delegating in another pool. An account may only belong to one
+       * pool at a time.
+       **/
+      AccountBelongsToOtherPool: AugmentedError<ApiType>;
+      /**
+       * The delegator is already unbonding.
+       **/
+      AlreadyUnbonding: AugmentedError<ApiType>;
+      /**
+       * The pools state cannot be changed.
+       **/
+      CanNotChangeState: AugmentedError<ApiType>;
+      /**
+       * Some error occurred that should never happen. This should be reported to the
+       * maintainers.
+       **/
+      DefensiveError: AugmentedError<ApiType>;
+      /**
+       * An account is not a delegator.
+       **/
+      DelegatorNotFound: AugmentedError<ApiType>;
+      /**
+       * The caller does not have adequate permissions.
+       **/
+      DoesNotHavePermission: AugmentedError<ApiType>;
+      /**
+       * The pool has insufficient balance to bond as a nominator.
+       **/
+      InsufficientBond: AugmentedError<ApiType>;
+      /**
+       * Too many delegators in the pool or system.
+       **/
+      MaxDelegators: AugmentedError<ApiType>;
+      /**
+       * The system is maxed out on pools.
+       **/
+      MaxPools: AugmentedError<ApiType>;
+      /**
+       * Metadata exceeds [`Config::MaxMetadataLen`]
+       **/
+      MetadataExceedsMaxLen: AugmentedError<ApiType>;
+      /**
+       * The amount does not meet the minimum bond to either join or create a pool.
+       **/
+      MinimumBondNotMet: AugmentedError<ApiType>;
+      /**
+       * A pool must be in [`PoolState::Destroying`] in order for the depositor to unbond or for
+       * other delegators to be permissionlessly unbonded.
+       **/
+      NotDestroying: AugmentedError<ApiType>;
+      /**
+       * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
+       **/
+      NotKickerOrDestroying: AugmentedError<ApiType>;
+      /**
+       * The caller does not have nominating permissions for the pool.
+       **/
+      NotNominator: AugmentedError<ApiType>;
+      /**
+       * The depositor must be the only delegator in the bonded pool in order to unbond. And the
+       * depositor must be the only delegator in the sub pools in order to withdraw unbonded.
+       **/
+      NotOnlyDelegator: AugmentedError<ApiType>;
+      /**
+       * The pool is not open to join
+       **/
+      NotOpen: AugmentedError<ApiType>;
+      /**
+       * Unbonded funds cannot be withdrawn yet because the bonding duration has not passed.
+       **/
+      NotUnbondedYet: AugmentedError<ApiType>;
+      /**
+       * The delegator is not unbonding and thus cannot withdraw funds.
+       **/
+      NotUnbonding: AugmentedError<ApiType>;
+      /**
+       * The transaction could not be executed due to overflow risk for the pool.
+       **/
+      OverflowRisk: AugmentedError<ApiType>;
+      /**
+       * A (bonded) pool id does not exist.
+       **/
+      PoolNotFound: AugmentedError<ApiType>;
+      /**
+       * A reward pool does not exist. In all cases this is a system logic error.
+       **/
+      RewardPoolNotFound: AugmentedError<ApiType>;
+      /**
+       * A sub pool does not exist.
+       **/
+      SubPoolsNotFound: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

@@ -201,7 +201,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
-       * Maximum number of child bounties that can be added to a parent bounty.
+       * Maximum number of child-bounties that can be added to a parent bounty.
        **/
       maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
       /**
@@ -625,6 +625,16 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    nominationPools: {
+      /**
+       * The nomination pool's pallet id.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
