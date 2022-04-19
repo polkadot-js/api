@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Don't fake signature for `paymentInfo` if already signed
+
+
 ## 8.1.1 Apr 17, 2022
 
 Contributed:
