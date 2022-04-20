@@ -201,7 +201,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
-       * Maximum number of child-bounties that can be added to a parent bounty.
+       * Maximum number of child bounties that can be added to a parent bounty.
        **/
       maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
       /**

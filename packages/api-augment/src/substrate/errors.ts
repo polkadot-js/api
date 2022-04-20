@@ -183,7 +183,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bounties: {
       /**
-       * The bounty cannot be closed because it has active child-bounties.
+       * The bounty cannot be closed because it has active child bounties.
        **/
       HasActiveChildBounty: AugmentedError<ApiType>;
       /**
@@ -242,7 +242,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ParentBountyNotActive: AugmentedError<ApiType>;
       /**
-       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
        **/
       TooManyChildBounties: AugmentedError<ApiType>;
       /**
@@ -1299,6 +1299,20 @@ declare module '@polkadot/api-base/types/errors' {
        * Any deposit cannot be refunded until after the decision is over.
        **/
       Unfinished: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    remark: {
+      /**
+       * Attempted to call `store` outside of block execution.
+       **/
+      BadContext: AugmentedError<ApiType>;
+      /**
+       * Attempting to store empty data.
+       **/
+      Empty: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
