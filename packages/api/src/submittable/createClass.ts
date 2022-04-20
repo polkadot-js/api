@@ -119,7 +119,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
-          (): Observable<RuntimeDispatchInfo> => api.rpc.payment.queryInfo(this.toHex(), blockHash || optionsOrHash as string)
+          (): Observable<RuntimeDispatchInfo> =>
+            api.rpc.payment.queryInfo(this.toHex(), blockHash || optionsOrHash as string)
+        );
+      } else if (this.isSigned) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+        return decorateMethod(
+          (): Observable<RuntimeDispatchInfo> =>
+            api.rpc.payment.queryInfo(this.toHex())
         );
       }
 
