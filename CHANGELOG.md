@@ -5,6 +5,7 @@
 Changes:
 
 - Don't fake signature for `paymentInfo` if already signed
+- Remove `api.derive.balances.fees` (use direct constants as applicable)
 
 
 ## 8.1.1 Apr 17, 2022
