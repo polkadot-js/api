@@ -1025,13 +1025,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
-       * The delegator is already unbonding.
+       * The delegator is already unbonding in this era.
        **/
       AlreadyUnbonding: AugmentedError<ApiType>;
       /**
        * The pools state cannot be changed.
        **/
       CanNotChangeState: AugmentedError<ApiType>;
+      /**
+       * None of the funds can be withdrawn yet because the bonding duration has not passed.
+       **/
+      CannotWithdrawAny: AugmentedError<ApiType>;
       /**
        * Some error occurred that should never happen. This should be reported to the
        * maintainers.
@@ -1046,6 +1050,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DoesNotHavePermission: AugmentedError<ApiType>;
       /**
+       * The delegator is fully unbonded (and thus cannot access the bonded and reward pool
+       * anymore to, for example, collect rewards).
+       **/
+      FullyUnbonding: AugmentedError<ApiType>;
+      /**
        * The pool has insufficient balance to bond as a nominator.
        **/
       InsufficientBond: AugmentedError<ApiType>;
@@ -1057,6 +1066,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The system is maxed out on pools.
        **/
       MaxPools: AugmentedError<ApiType>;
+      /**
+       * The delegator cannot unbond further chunks due to reaching the limit.
+       **/
+      MaxUnbondingLimit: AugmentedError<ApiType>;
       /**
        * Metadata exceeds [`Config::MaxMetadataLen`]
        **/
@@ -1070,6 +1083,10 @@ declare module '@polkadot/api-base/types/errors' {
        * other delegators to be permissionlessly unbonded.
        **/
       NotDestroying: AugmentedError<ApiType>;
+      /**
+       * Not enough points. Ty unbonding less.
+       **/
+      NotEnoughPointsToUnbond: AugmentedError<ApiType>;
       /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
@@ -1087,14 +1104,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The pool is not open to join
        **/
       NotOpen: AugmentedError<ApiType>;
-      /**
-       * Unbonded funds cannot be withdrawn yet because the bonding duration has not passed.
-       **/
-      NotUnbondedYet: AugmentedError<ApiType>;
-      /**
-       * The delegator is not unbonding and thus cannot withdraw funds.
-       **/
-      NotUnbonding: AugmentedError<ApiType>;
       /**
        * The transaction could not be executed due to overflow risk for the pool.
        **/

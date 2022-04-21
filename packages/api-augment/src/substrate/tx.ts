@@ -2522,12 +2522,14 @@ declare module '@polkadot/api-base/types/submittable' {
       setMetadata: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, metadata: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
       setState: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, state: PalletNominationPoolsPoolState | 'Open' | 'Blocked' | 'Destroying' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsPoolState]>;
       /**
-       * Unbond _all_ of the `delegator_account`'s funds from the pool.
+       * Unbond up to `unbonding_points` of the `delegator_account`'s funds from the pool. It
+       * implicitly collects the rewards one last time, since not doing so would mean some
+       * rewards would go forfeited.
        * 
        * Under certain conditions, this call can be dispatched permissionlessly (i.e. by any
        * account).
        * 
-       * # Conditions for a permissionless dispatch
+       * # Conditions for a permissionless dispatch.
        * 
        * * The pool is blocked and the caller is either the root or state-toggler. This is
        * refereed to as a kick.
@@ -2535,7 +2537,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * * The pool is destroying, the delegator is the depositor and no other delegators are in
        * the pool.
        * 
-       * # Conditions for permissioned dispatch (i.e. the caller is also the
+       * ## Conditions for permissioned dispatch (i.e. the caller is also the
        * `delegator_account`):
        * 
        * * The caller is not the depositor.
@@ -2549,10 +2551,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * there are too many unlocking chunks, the result of this call will likely be the
        * `NoMoreChunks` error from the staking system.
        **/
-      unbond: AugmentedSubmittable<(delegatorAccount: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      unbond: AugmentedSubmittable<(delegatorAccount: AccountId32 | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Compact<u128>]>;
       /**
-       * Withdraw unbonded funds for the `target` delegator. Under certain conditions,
-       * this call can be dispatched permissionlessly (i.e. by any account).
+       * Withdraw unbonded funds from `delegator_account`. If no bonded funds can be unbonded, an
+       * error is returned.
+       * 
+       * Under certain conditions, this call can be dispatched permissionlessly (i.e. by any
+       * account).
        * 
        * # Conditions for a permissionless dispatch
        * 

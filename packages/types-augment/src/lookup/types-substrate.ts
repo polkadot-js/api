@@ -3756,6 +3756,7 @@ declare module '@polkadot/types/lookup' {
     readonly isUnbond: boolean;
     readonly asUnbond: {
       readonly delegatorAccount: AccountId32;
+      readonly unbondingPoints: Compact<u128>;
     } & Struct;
     readonly isPoolWithdrawUnbonded: boolean;
     readonly asPoolWithdrawUnbonded: {
@@ -3961,7 +3962,7 @@ declare module '@polkadot/types/lookup' {
     readonly who: AccountId32;
     readonly deposit: u128;
     readonly rawSolution: PalletElectionProviderMultiPhaseRawSolution;
-    readonly reward: u128;
+    readonly callFee: u128;
   }
 
   /** @name PalletElectionProviderMultiPhaseError (390) */
@@ -5268,10 +5269,10 @@ declare module '@polkadot/types/lookup' {
     readonly poolId: u32;
     readonly points: u128;
     readonly rewardPoolTotalEarnings: u128;
-    readonly unbondingEra: Option<u32>;
+    readonly unbondingEras: BTreeMap<u32, u128>;
   }
 
-  /** @name PalletNominationPoolsBondedPoolInner (596) */
+  /** @name PalletNominationPoolsBondedPoolInner (598) */
   export interface PalletNominationPoolsBondedPoolInner extends Struct {
     readonly points: u128;
     readonly state: PalletNominationPoolsPoolState;
@@ -5279,7 +5280,7 @@ declare module '@polkadot/types/lookup' {
     readonly roles: PalletNominationPoolsPoolRoles;
   }
 
-  /** @name PalletNominationPoolsPoolRoles (597) */
+  /** @name PalletNominationPoolsPoolRoles (599) */
   export interface PalletNominationPoolsPoolRoles extends Struct {
     readonly depositor: AccountId32;
     readonly root: AccountId32;
@@ -5287,26 +5288,26 @@ declare module '@polkadot/types/lookup' {
     readonly stateToggler: AccountId32;
   }
 
-  /** @name PalletNominationPoolsRewardPool (598) */
+  /** @name PalletNominationPoolsRewardPool (600) */
   export interface PalletNominationPoolsRewardPool extends Struct {
     readonly balance: u128;
     readonly totalEarnings: u128;
     readonly points: U256;
   }
 
-  /** @name PalletNominationPoolsSubPools (601) */
+  /** @name PalletNominationPoolsSubPools (603) */
   export interface PalletNominationPoolsSubPools extends Struct {
     readonly noEra: PalletNominationPoolsUnbondPool;
     readonly withEra: BTreeMap<u32, PalletNominationPoolsUnbondPool>;
   }
 
-  /** @name PalletNominationPoolsUnbondPool (602) */
+  /** @name PalletNominationPoolsUnbondPool (604) */
   export interface PalletNominationPoolsUnbondPool extends Struct {
     readonly points: u128;
     readonly balance: u128;
   }
 
-  /** @name PalletNominationPoolsError (608) */
+  /** @name PalletNominationPoolsError (610) */
   export interface PalletNominationPoolsError extends Enum {
     readonly isPoolNotFound: boolean;
     readonly isDelegatorNotFound: boolean;
@@ -5315,8 +5316,9 @@ declare module '@polkadot/types/lookup' {
     readonly isAccountBelongsToOtherPool: boolean;
     readonly isInsufficientBond: boolean;
     readonly isAlreadyUnbonding: boolean;
-    readonly isNotUnbonding: boolean;
-    readonly isNotUnbondedYet: boolean;
+    readonly isFullyUnbonding: boolean;
+    readonly isMaxUnbondingLimit: boolean;
+    readonly isCannotWithdrawAny: boolean;
     readonly isMinimumBondNotMet: boolean;
     readonly isOverflowRisk: boolean;
     readonly isNotDestroying: boolean;
@@ -5330,10 +5332,11 @@ declare module '@polkadot/types/lookup' {
     readonly isDoesNotHavePermission: boolean;
     readonly isMetadataExceedsMaxLen: boolean;
     readonly isDefensiveError: boolean;
-    readonly type: 'PoolNotFound' | 'DelegatorNotFound' | 'RewardPoolNotFound' | 'SubPoolsNotFound' | 'AccountBelongsToOtherPool' | 'InsufficientBond' | 'AlreadyUnbonding' | 'NotUnbonding' | 'NotUnbondedYet' | 'MinimumBondNotMet' | 'OverflowRisk' | 'NotDestroying' | 'NotOnlyDelegator' | 'NotNominator' | 'NotKickerOrDestroying' | 'NotOpen' | 'MaxPools' | 'MaxDelegators' | 'CanNotChangeState' | 'DoesNotHavePermission' | 'MetadataExceedsMaxLen' | 'DefensiveError';
+    readonly isNotEnoughPointsToUnbond: boolean;
+    readonly type: 'PoolNotFound' | 'DelegatorNotFound' | 'RewardPoolNotFound' | 'SubPoolsNotFound' | 'AccountBelongsToOtherPool' | 'InsufficientBond' | 'AlreadyUnbonding' | 'FullyUnbonding' | 'MaxUnbondingLimit' | 'CannotWithdrawAny' | 'MinimumBondNotMet' | 'OverflowRisk' | 'NotDestroying' | 'NotOnlyDelegator' | 'NotNominator' | 'NotKickerOrDestroying' | 'NotOpen' | 'MaxPools' | 'MaxDelegators' | 'CanNotChangeState' | 'DoesNotHavePermission' | 'MetadataExceedsMaxLen' | 'DefensiveError' | 'NotEnoughPointsToUnbond';
   }
 
-  /** @name SpRuntimeMultiSignature (610) */
+  /** @name SpRuntimeMultiSignature (612) */
   export interface SpRuntimeMultiSignature extends Enum {
     readonly isEd25519: boolean;
     readonly asEd25519: SpCoreEd25519Signature;
@@ -5344,34 +5347,34 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
   }
 
-  /** @name SpCoreEcdsaSignature (611) */
+  /** @name SpCoreEcdsaSignature (613) */
   export interface SpCoreEcdsaSignature extends U8aFixed {}
 
-  /** @name FrameSystemExtensionsCheckNonZeroSender (614) */
+  /** @name FrameSystemExtensionsCheckNonZeroSender (616) */
   export type FrameSystemExtensionsCheckNonZeroSender = Null;
 
-  /** @name FrameSystemExtensionsCheckSpecVersion (615) */
+  /** @name FrameSystemExtensionsCheckSpecVersion (617) */
   export type FrameSystemExtensionsCheckSpecVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckTxVersion (616) */
+  /** @name FrameSystemExtensionsCheckTxVersion (618) */
   export type FrameSystemExtensionsCheckTxVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckGenesis (617) */
+  /** @name FrameSystemExtensionsCheckGenesis (619) */
   export type FrameSystemExtensionsCheckGenesis = Null;
 
-  /** @name FrameSystemExtensionsCheckNonce (620) */
+  /** @name FrameSystemExtensionsCheckNonce (622) */
   export interface FrameSystemExtensionsCheckNonce extends Compact<u32> {}
 
-  /** @name FrameSystemExtensionsCheckWeight (621) */
+  /** @name FrameSystemExtensionsCheckWeight (623) */
   export type FrameSystemExtensionsCheckWeight = Null;
 
-  /** @name PalletAssetTxPaymentChargeAssetTxPayment (622) */
+  /** @name PalletAssetTxPaymentChargeAssetTxPayment (624) */
   export interface PalletAssetTxPaymentChargeAssetTxPayment extends Struct {
     readonly tip: Compact<u128>;
     readonly assetId: Option<u32>;
   }
 
-  /** @name NodeRuntimeRuntime (623) */
+  /** @name NodeRuntimeRuntime (625) */
   export type NodeRuntimeRuntime = Null;
 
 } // declare module

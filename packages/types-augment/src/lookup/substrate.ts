@@ -3490,6 +3490,7 @@ export default {
       claim_payout: 'Null',
       unbond: {
         delegatorAccount: 'AccountId32',
+        unbondingPoints: 'Compact<u128>',
       },
       pool_withdraw_unbonded: {
         poolId: 'u32',
@@ -3676,7 +3677,7 @@ export default {
     who: 'AccountId32',
     deposit: 'u128',
     rawSolution: 'PalletElectionProviderMultiPhaseRawSolution',
-    reward: 'u128'
+    callFee: 'u128'
   },
   /**
    * Lookup390: pallet_election_provider_multi_phase::pallet::Error<T>
@@ -4731,10 +4732,10 @@ export default {
     poolId: 'u32',
     points: 'u128',
     rewardPoolTotalEarnings: 'u128',
-    unbondingEra: 'Option<u32>'
+    unbondingEras: 'BTreeMap<u32, u128>'
   },
   /**
-   * Lookup596: pallet_nomination_pools::BondedPoolInner<T>
+   * Lookup598: pallet_nomination_pools::BondedPoolInner<T>
    **/
   PalletNominationPoolsBondedPoolInner: {
     points: 'u128',
@@ -4743,7 +4744,7 @@ export default {
     roles: 'PalletNominationPoolsPoolRoles'
   },
   /**
-   * Lookup597: pallet_nomination_pools::PoolRoles<sp_core::crypto::AccountId32>
+   * Lookup599: pallet_nomination_pools::PoolRoles<sp_core::crypto::AccountId32>
    **/
   PalletNominationPoolsPoolRoles: {
     depositor: 'AccountId32',
@@ -4752,7 +4753,7 @@ export default {
     stateToggler: 'AccountId32'
   },
   /**
-   * Lookup598: pallet_nomination_pools::RewardPool<T>
+   * Lookup600: pallet_nomination_pools::RewardPool<T>
    **/
   PalletNominationPoolsRewardPool: {
     balance: 'u128',
@@ -4760,27 +4761,27 @@ export default {
     points: 'U256'
   },
   /**
-   * Lookup601: pallet_nomination_pools::SubPools<T>
+   * Lookup603: pallet_nomination_pools::SubPools<T>
    **/
   PalletNominationPoolsSubPools: {
     noEra: 'PalletNominationPoolsUnbondPool',
     withEra: 'BTreeMap<u32, PalletNominationPoolsUnbondPool>'
   },
   /**
-   * Lookup602: pallet_nomination_pools::UnbondPool<T>
+   * Lookup604: pallet_nomination_pools::UnbondPool<T>
    **/
   PalletNominationPoolsUnbondPool: {
     points: 'u128',
     balance: 'u128'
   },
   /**
-   * Lookup608: pallet_nomination_pools::pallet::Error<T>
+   * Lookup610: pallet_nomination_pools::pallet::Error<T>
    **/
   PalletNominationPoolsError: {
-    _enum: ['PoolNotFound', 'DelegatorNotFound', 'RewardPoolNotFound', 'SubPoolsNotFound', 'AccountBelongsToOtherPool', 'InsufficientBond', 'AlreadyUnbonding', 'NotUnbonding', 'NotUnbondedYet', 'MinimumBondNotMet', 'OverflowRisk', 'NotDestroying', 'NotOnlyDelegator', 'NotNominator', 'NotKickerOrDestroying', 'NotOpen', 'MaxPools', 'MaxDelegators', 'CanNotChangeState', 'DoesNotHavePermission', 'MetadataExceedsMaxLen', 'DefensiveError']
+    _enum: ['PoolNotFound', 'DelegatorNotFound', 'RewardPoolNotFound', 'SubPoolsNotFound', 'AccountBelongsToOtherPool', 'InsufficientBond', 'AlreadyUnbonding', 'FullyUnbonding', 'MaxUnbondingLimit', 'CannotWithdrawAny', 'MinimumBondNotMet', 'OverflowRisk', 'NotDestroying', 'NotOnlyDelegator', 'NotNominator', 'NotKickerOrDestroying', 'NotOpen', 'MaxPools', 'MaxDelegators', 'CanNotChangeState', 'DoesNotHavePermission', 'MetadataExceedsMaxLen', 'DefensiveError', 'NotEnoughPointsToUnbond']
   },
   /**
-   * Lookup610: sp_runtime::MultiSignature
+   * Lookup612: sp_runtime::MultiSignature
    **/
   SpRuntimeMultiSignature: {
     _enum: {
@@ -4790,42 +4791,42 @@ export default {
     }
   },
   /**
-   * Lookup611: sp_core::ecdsa::Signature
+   * Lookup613: sp_core::ecdsa::Signature
    **/
   SpCoreEcdsaSignature: '[u8;65]',
   /**
-   * Lookup614: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
+   * Lookup616: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
    **/
   FrameSystemExtensionsCheckNonZeroSender: 'Null',
   /**
-   * Lookup615: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
+   * Lookup617: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
    **/
   FrameSystemExtensionsCheckSpecVersion: 'Null',
   /**
-   * Lookup616: frame_system::extensions::check_tx_version::CheckTxVersion<T>
+   * Lookup618: frame_system::extensions::check_tx_version::CheckTxVersion<T>
    **/
   FrameSystemExtensionsCheckTxVersion: 'Null',
   /**
-   * Lookup617: frame_system::extensions::check_genesis::CheckGenesis<T>
+   * Lookup619: frame_system::extensions::check_genesis::CheckGenesis<T>
    **/
   FrameSystemExtensionsCheckGenesis: 'Null',
   /**
-   * Lookup620: frame_system::extensions::check_nonce::CheckNonce<T>
+   * Lookup622: frame_system::extensions::check_nonce::CheckNonce<T>
    **/
   FrameSystemExtensionsCheckNonce: 'Compact<u32>',
   /**
-   * Lookup621: frame_system::extensions::check_weight::CheckWeight<T>
+   * Lookup623: frame_system::extensions::check_weight::CheckWeight<T>
    **/
   FrameSystemExtensionsCheckWeight: 'Null',
   /**
-   * Lookup622: pallet_asset_tx_payment::ChargeAssetTxPayment<T>
+   * Lookup624: pallet_asset_tx_payment::ChargeAssetTxPayment<T>
    **/
   PalletAssetTxPaymentChargeAssetTxPayment: {
     tip: 'Compact<u128>',
     assetId: 'Option<u32>'
   },
   /**
-   * Lookup623: node_runtime::Runtime
+   * Lookup625: node_runtime::Runtime
    **/
   NodeRuntimeRuntime: 'Null'
 };
