@@ -1,4 +1,4 @@
-    2918	Jaco                          	Bump deps (#4757)
+    2920	Jaco                          	Re-bump dev
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
@@ -93,6 +93,7 @@
        1	satellitex                    	Add traits replace rules. for invalid cases `::<type>` and `<type>::`. (#885)
        1	Satyam Agrawal                	update as per the 0.97.0-beta.38 release (#1617)
        1	Sean Young                    	Solang requires u256 and i256 types (#2752)
+       1	serge                         	make WS provider timeout configurable (#4758)
        1	Sergei Pepyakin               	INK! -> ink! (#1347)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
        1	Xat_MassacrE                  	Fix packages/types/src/codec/utils/encodeTypes.ts encodeSubTypes bug (#1544)
