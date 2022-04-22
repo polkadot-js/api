@@ -42,8 +42,7 @@ const ALIASES: { [index: string]: string } = {
 
 const RETRY_DELAY = 2_500;
 
-const TIMEOUT_S = 60;
-const TIMEOUT_MS = TIMEOUT_S * 1000;
+const DEFAULT_TIMEOUT_MS = 60 * 1000;
 const TIMEOUT_INTERVAL = 5_000;
 
 const MEGABYTE = 1024 * 1024;
@@ -111,11 +110,14 @@ export class WsProvider implements ProviderInterface {
 
   #websocket: WebSocket | null;
 
+  #timeout: number;
+
   /**
    * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
+   * @param {number} [timeout] Custom timeout value
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -137,6 +139,7 @@ export class WsProvider implements ProviderInterface {
       active: { requests: 0, subscriptions: 0 },
       total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
+    this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
     if (autoConnectMs > 0) {
       this.connectWithRetry().catch((): void => {
@@ -210,7 +213,7 @@ export class WsProvider implements ProviderInterface {
       this.#websocket.onopen = this.#onSocketOpen;
 
       // timeout any handlers that have not had a response
-      this.#timeoutId = setInterval(() => this.#timeout(), TIMEOUT_INTERVAL);
+      this.#timeoutId = setInterval(() => this.#timeoutHandlers(), TIMEOUT_INTERVAL);
     } catch (error) {
       l.error(error);
 
@@ -557,16 +560,16 @@ export class WsProvider implements ProviderInterface {
     })).catch(l.error);
   };
 
-  #timeout = (): void => {
+  #timeoutHandlers = (): void => {
     const now = Date.now();
     const ids = Object.keys(this.#handlers);
 
     for (let i = 0; i < ids.length; i++) {
       const handler = this.#handlers[ids[i]];
 
-      if ((now - handler.start) > TIMEOUT_MS) {
+      if ((now - handler.start) > this.#timeout) {
         try {
-          handler.callback(new Error(`No response received from RPC endpoint in ${TIMEOUT_S}s`), undefined);
+          handler.callback(new Error(`No response received from RPC endpoint in ${this.#timeout / 1000}s`), undefined);
         } catch {
           // ignore
         }
