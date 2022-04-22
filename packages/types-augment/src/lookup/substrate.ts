@@ -1431,23 +1431,23 @@ export default {
         poolId: 'u32',
       },
       Bonded: {
-        delegator: 'AccountId32',
+        member: 'AccountId32',
         poolId: 'u32',
         bonded: 'u128',
         joined: 'bool',
       },
       PaidOut: {
-        delegator: 'AccountId32',
+        member: 'AccountId32',
         poolId: 'u32',
         payout: 'u128',
       },
       Unbonded: {
-        delegator: 'AccountId32',
+        member: 'AccountId32',
         poolId: 'u32',
         amount: 'u128',
       },
       Withdrawn: {
-        delegator: 'AccountId32',
+        member: 'AccountId32',
         poolId: 'u32',
         amount: 'u128',
       },
@@ -3489,7 +3489,7 @@ export default {
       },
       claim_payout: 'Null',
       unbond: {
-        delegatorAccount: 'AccountId32',
+        memberAccount: 'AccountId32',
         unbondingPoints: 'Compact<u128>',
       },
       pool_withdraw_unbonded: {
@@ -3497,7 +3497,7 @@ export default {
         numSlashingSpans: 'u32',
       },
       withdraw_unbonded: {
-        delegatorAccount: 'AccountId32',
+        memberAccount: 'AccountId32',
         numSlashingSpans: 'u32',
       },
       create: {
@@ -3522,8 +3522,8 @@ export default {
         minJoinBond: 'PalletNominationPoolsConfigOpU128',
         minCreateBond: 'PalletNominationPoolsConfigOpU128',
         maxPools: 'PalletNominationPoolsConfigOpU32',
-        maxDelegators: 'PalletNominationPoolsConfigOpU32',
-        maxDelegatorsPerPool: 'PalletNominationPoolsConfigOpU32'
+        maxMembers: 'PalletNominationPoolsConfigOpU32',
+        maxMembersPerPool: 'PalletNominationPoolsConfigOpU32'
       }
     }
   },
@@ -4726,9 +4726,9 @@ export default {
     _enum: ['UnavailablePreImage', 'UndecodableCall', 'InvalidCallWeightWitness', 'CallIsNotWhitelisted', 'CallAlreadyWhitelisted']
   },
   /**
-   * Lookup595: pallet_nomination_pools::Delegator<T>
+   * Lookup595: pallet_nomination_pools::PoolMember<T>
    **/
-  PalletNominationPoolsDelegator: {
+  PalletNominationPoolsPoolMember: {
     poolId: 'u32',
     points: 'u128',
     rewardPoolTotalEarnings: 'u128',
@@ -4740,7 +4740,7 @@ export default {
   PalletNominationPoolsBondedPoolInner: {
     points: 'u128',
     state: 'PalletNominationPoolsPoolState',
-    delegatorCounter: 'u32',
+    memberCounter: 'u32',
     roles: 'PalletNominationPoolsPoolRoles'
   },
   /**
@@ -4778,7 +4778,7 @@ export default {
    * Lookup610: pallet_nomination_pools::pallet::Error<T>
    **/
   PalletNominationPoolsError: {
-    _enum: ['PoolNotFound', 'DelegatorNotFound', 'RewardPoolNotFound', 'SubPoolsNotFound', 'AccountBelongsToOtherPool', 'InsufficientBond', 'AlreadyUnbonding', 'FullyUnbonding', 'MaxUnbondingLimit', 'CannotWithdrawAny', 'MinimumBondNotMet', 'OverflowRisk', 'NotDestroying', 'NotOnlyDelegator', 'NotNominator', 'NotKickerOrDestroying', 'NotOpen', 'MaxPools', 'MaxDelegators', 'CanNotChangeState', 'DoesNotHavePermission', 'MetadataExceedsMaxLen', 'DefensiveError', 'NotEnoughPointsToUnbond']
+    _enum: ['PoolNotFound', 'PoolMemberNotFound', 'RewardPoolNotFound', 'SubPoolsNotFound', 'AccountBelongsToOtherPool', 'InsufficientBond', 'AlreadyUnbonding', 'FullyUnbonding', 'MaxUnbondingLimit', 'CannotWithdrawAny', 'MinimumBondNotMet', 'OverflowRisk', 'NotDestroying', 'NotOnlyPoolMember', 'NotNominator', 'NotKickerOrDestroying', 'NotOpen', 'MaxPools', 'MaxPoolMembers', 'CanNotChangeState', 'DoesNotHavePermission', 'MetadataExceedsMaxLen', 'DefensiveError', 'NotEnoughPointsToUnbond']
   },
   /**
    * Lookup612: sp_runtime::MultiSignature

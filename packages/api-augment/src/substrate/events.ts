@@ -617,7 +617,7 @@ declare module '@polkadot/api-base/types/events' {
     };
     nominationPools: {
       /**
-       * A delegator has became bonded in a pool.
+       * A member has became bonded in a pool.
        **/
       Bonded: AugmentedEvent<ApiType, [AccountId32, u32, u128, bool]>;
       /**
@@ -629,7 +629,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Destroyed: AugmentedEvent<ApiType, [u32]>;
       /**
-       * A payout has been made to a delegator.
+       * A payout has been made to a member.
        **/
       PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
@@ -637,11 +637,11 @@ declare module '@polkadot/api-base/types/events' {
        **/
       StateChanged: AugmentedEvent<ApiType, [u32, PalletNominationPoolsPoolState]>;
       /**
-       * A delegator has unbonded from their pool.
+       * A member has unbonded from their pool.
        **/
       Unbonded: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
-       * A delegator has withdrawn from their pool.
+       * A member has withdrawn from their pool.
        **/
       Withdrawn: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**

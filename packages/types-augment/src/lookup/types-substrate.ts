@@ -1583,26 +1583,26 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isBonded: boolean;
     readonly asBonded: {
-      readonly delegator: AccountId32;
+      readonly member: AccountId32;
       readonly poolId: u32;
       readonly bonded: u128;
       readonly joined: bool;
     } & Struct;
     readonly isPaidOut: boolean;
     readonly asPaidOut: {
-      readonly delegator: AccountId32;
+      readonly member: AccountId32;
       readonly poolId: u32;
       readonly payout: u128;
     } & Struct;
     readonly isUnbonded: boolean;
     readonly asUnbonded: {
-      readonly delegator: AccountId32;
+      readonly member: AccountId32;
       readonly poolId: u32;
       readonly amount: u128;
     } & Struct;
     readonly isWithdrawn: boolean;
     readonly asWithdrawn: {
-      readonly delegator: AccountId32;
+      readonly member: AccountId32;
       readonly poolId: u32;
       readonly amount: u128;
     } & Struct;
@@ -3755,7 +3755,7 @@ declare module '@polkadot/types/lookup' {
     readonly isClaimPayout: boolean;
     readonly isUnbond: boolean;
     readonly asUnbond: {
-      readonly delegatorAccount: AccountId32;
+      readonly memberAccount: AccountId32;
       readonly unbondingPoints: Compact<u128>;
     } & Struct;
     readonly isPoolWithdrawUnbonded: boolean;
@@ -3765,7 +3765,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isWithdrawUnbonded: boolean;
     readonly asWithdrawUnbonded: {
-      readonly delegatorAccount: AccountId32;
+      readonly memberAccount: AccountId32;
       readonly numSlashingSpans: u32;
     } & Struct;
     readonly isCreate: boolean;
@@ -3795,8 +3795,8 @@ declare module '@polkadot/types/lookup' {
       readonly minJoinBond: PalletNominationPoolsConfigOpU128;
       readonly minCreateBond: PalletNominationPoolsConfigOpU128;
       readonly maxPools: PalletNominationPoolsConfigOpU32;
-      readonly maxDelegators: PalletNominationPoolsConfigOpU32;
-      readonly maxDelegatorsPerPool: PalletNominationPoolsConfigOpU32;
+      readonly maxMembers: PalletNominationPoolsConfigOpU32;
+      readonly maxMembersPerPool: PalletNominationPoolsConfigOpU32;
     } & Struct;
     readonly type: 'Join' | 'BondExtra' | 'ClaimPayout' | 'Unbond' | 'PoolWithdrawUnbonded' | 'WithdrawUnbonded' | 'Create' | 'Nominate' | 'SetState' | 'SetMetadata' | 'SetConfigs';
   }
@@ -5264,8 +5264,8 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'UnavailablePreImage' | 'UndecodableCall' | 'InvalidCallWeightWitness' | 'CallIsNotWhitelisted' | 'CallAlreadyWhitelisted';
   }
 
-  /** @name PalletNominationPoolsDelegator (595) */
-  export interface PalletNominationPoolsDelegator extends Struct {
+  /** @name PalletNominationPoolsPoolMember (595) */
+  export interface PalletNominationPoolsPoolMember extends Struct {
     readonly poolId: u32;
     readonly points: u128;
     readonly rewardPoolTotalEarnings: u128;
@@ -5276,7 +5276,7 @@ declare module '@polkadot/types/lookup' {
   export interface PalletNominationPoolsBondedPoolInner extends Struct {
     readonly points: u128;
     readonly state: PalletNominationPoolsPoolState;
-    readonly delegatorCounter: u32;
+    readonly memberCounter: u32;
     readonly roles: PalletNominationPoolsPoolRoles;
   }
 
@@ -5310,7 +5310,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletNominationPoolsError (610) */
   export interface PalletNominationPoolsError extends Enum {
     readonly isPoolNotFound: boolean;
-    readonly isDelegatorNotFound: boolean;
+    readonly isPoolMemberNotFound: boolean;
     readonly isRewardPoolNotFound: boolean;
     readonly isSubPoolsNotFound: boolean;
     readonly isAccountBelongsToOtherPool: boolean;
@@ -5322,18 +5322,18 @@ declare module '@polkadot/types/lookup' {
     readonly isMinimumBondNotMet: boolean;
     readonly isOverflowRisk: boolean;
     readonly isNotDestroying: boolean;
-    readonly isNotOnlyDelegator: boolean;
+    readonly isNotOnlyPoolMember: boolean;
     readonly isNotNominator: boolean;
     readonly isNotKickerOrDestroying: boolean;
     readonly isNotOpen: boolean;
     readonly isMaxPools: boolean;
-    readonly isMaxDelegators: boolean;
+    readonly isMaxPoolMembers: boolean;
     readonly isCanNotChangeState: boolean;
     readonly isDoesNotHavePermission: boolean;
     readonly isMetadataExceedsMaxLen: boolean;
     readonly isDefensiveError: boolean;
     readonly isNotEnoughPointsToUnbond: boolean;
-    readonly type: 'PoolNotFound' | 'DelegatorNotFound' | 'RewardPoolNotFound' | 'SubPoolsNotFound' | 'AccountBelongsToOtherPool' | 'InsufficientBond' | 'AlreadyUnbonding' | 'FullyUnbonding' | 'MaxUnbondingLimit' | 'CannotWithdrawAny' | 'MinimumBondNotMet' | 'OverflowRisk' | 'NotDestroying' | 'NotOnlyDelegator' | 'NotNominator' | 'NotKickerOrDestroying' | 'NotOpen' | 'MaxPools' | 'MaxDelegators' | 'CanNotChangeState' | 'DoesNotHavePermission' | 'MetadataExceedsMaxLen' | 'DefensiveError' | 'NotEnoughPointsToUnbond';
+    readonly type: 'PoolNotFound' | 'PoolMemberNotFound' | 'RewardPoolNotFound' | 'SubPoolsNotFound' | 'AccountBelongsToOtherPool' | 'InsufficientBond' | 'AlreadyUnbonding' | 'FullyUnbonding' | 'MaxUnbondingLimit' | 'CannotWithdrawAny' | 'MinimumBondNotMet' | 'OverflowRisk' | 'NotDestroying' | 'NotOnlyPoolMember' | 'NotNominator' | 'NotKickerOrDestroying' | 'NotOpen' | 'MaxPools' | 'MaxPoolMembers' | 'CanNotChangeState' | 'DoesNotHavePermission' | 'MetadataExceedsMaxLen' | 'DefensiveError' | 'NotEnoughPointsToUnbond';
   }
 
   /** @name SpRuntimeMultiSignature (612) */

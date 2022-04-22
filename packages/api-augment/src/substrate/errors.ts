@@ -1025,7 +1025,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
-       * The delegator is already unbonding in this era.
+       * The member is already unbonding in this era.
        **/
       AlreadyUnbonding: AugmentedError<ApiType>;
       /**
@@ -1042,15 +1042,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DefensiveError: AugmentedError<ApiType>;
       /**
-       * An account is not a delegator.
-       **/
-      DelegatorNotFound: AugmentedError<ApiType>;
-      /**
        * The caller does not have adequate permissions.
        **/
       DoesNotHavePermission: AugmentedError<ApiType>;
       /**
-       * The delegator is fully unbonded (and thus cannot access the bonded and reward pool
+       * The member is fully unbonded (and thus cannot access the bonded and reward pool
        * anymore to, for example, collect rewards).
        **/
       FullyUnbonding: AugmentedError<ApiType>;
@@ -1059,15 +1055,15 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientBond: AugmentedError<ApiType>;
       /**
-       * Too many delegators in the pool or system.
+       * Too many members in the pool or system.
        **/
-      MaxDelegators: AugmentedError<ApiType>;
+      MaxPoolMembers: AugmentedError<ApiType>;
       /**
        * The system is maxed out on pools.
        **/
       MaxPools: AugmentedError<ApiType>;
       /**
-       * The delegator cannot unbond further chunks due to reaching the limit.
+       * The member cannot unbond further chunks due to reaching the limit.
        **/
       MaxUnbondingLimit: AugmentedError<ApiType>;
       /**
@@ -1080,7 +1076,7 @@ declare module '@polkadot/api-base/types/errors' {
       MinimumBondNotMet: AugmentedError<ApiType>;
       /**
        * A pool must be in [`PoolState::Destroying`] in order for the depositor to unbond or for
-       * other delegators to be permissionlessly unbonded.
+       * other members to be permissionlessly unbonded.
        **/
       NotDestroying: AugmentedError<ApiType>;
       /**
@@ -1096,10 +1092,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotNominator: AugmentedError<ApiType>;
       /**
-       * The depositor must be the only delegator in the bonded pool in order to unbond. And the
-       * depositor must be the only delegator in the sub pools in order to withdraw unbonded.
+       * The depositor must be the only member in the bonded pool in order to unbond. And the
+       * depositor must be the only member in the sub pools in order to withdraw unbonded.
        **/
-      NotOnlyDelegator: AugmentedError<ApiType>;
+      NotOnlyPoolMember: AugmentedError<ApiType>;
       /**
        * The pool is not open to join
        **/
@@ -1108,6 +1104,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The transaction could not be executed due to overflow risk for the pool.
        **/
       OverflowRisk: AugmentedError<ApiType>;
+      /**
+       * An account is not a member.
+       **/
+      PoolMemberNotFound: AugmentedError<ApiType>;
       /**
        * A (bonded) pool id does not exist.
        **/

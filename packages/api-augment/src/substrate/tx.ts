@@ -2455,12 +2455,12 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       bondExtra: AugmentedSubmittable<(extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsBondExtra]>;
       /**
-       * A bonded delegator can use this to claim their payout based on the rewards that the pool
+       * A bonded member can use this to claim their payout based on the rewards that the pool
        * has accumulated since their last claimed payout (OR since joining if this is there first
-       * time claiming rewards). The payout will be transferred to the delegator's account.
+       * time claiming rewards). The payout will be transferred to the member's account.
        * 
-       * The delegator will earn rewards pro rata based on the delegators stake vs the sum of the
-       * delegators in the pools stake. Rewards do not "expire".
+       * The member will earn rewards pro rata based on the members stake vs the sum of the
+       * members in the pools stake. Rewards do not "expire".
        **/
       claimPayout: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
@@ -2484,14 +2484,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       create: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: AccountId32 | string | Uint8Array, nominator: AccountId32 | string | Uint8Array, stateToggler: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, AccountId32, AccountId32, AccountId32]>;
       /**
-       * Stake funds with a pool. The amount to bond is transferred from the delegator to the
+       * Stake funds with a pool. The amount to bond is transferred from the member to the
        * pools account and immediately increases the pools bond.
        * 
        * # Note
        * 
        * * An account can only be a member of a single pool.
        * * An account cannot join the same pool multiple times.
-       * * This call will *not* dust the delegator account, so the delegator must have at least
+       * * This call will *not* dust the member account, so the member must have at least
        * `existential deposit + amount` in their account.
        * * Only a pool with [`PoolState::Open`] can be joined
        **/
@@ -2515,14 +2515,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * * `min_join_bond` - Set [`MinJoinBond`].
        * * `min_create_bond` - Set [`MinCreateBond`].
        * * `max_pools` - Set [`MaxPools`].
-       * * `max_delegators` - Set [`MaxDelegators`].
-       * * `max_delegators_per_pool` - Set [`MaxDelegatorsPerPool`].
+       * * `max_members` - Set [`MaxPoolMembers`].
+       * * `max_members_per_pool` - Set [`MaxPoolMembersPerPool`].
        **/
-      setConfigs: AugmentedSubmittable<(minJoinBond: PalletNominationPoolsConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minCreateBond: PalletNominationPoolsConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxPools: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxDelegators: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxDelegatorsPerPool: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsConfigOpU32, PalletNominationPoolsConfigOpU32]>;
+      setConfigs: AugmentedSubmittable<(minJoinBond: PalletNominationPoolsConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, minCreateBond: PalletNominationPoolsConfigOpU128 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxPools: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxMembers: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, maxMembersPerPool: PalletNominationPoolsConfigOpU32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsConfigOpU32, PalletNominationPoolsConfigOpU32]>;
       setMetadata: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, metadata: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
       setState: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, state: PalletNominationPoolsPoolState | 'Open' | 'Blocked' | 'Destroying' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsPoolState]>;
       /**
-       * Unbond up to `unbonding_points` of the `delegator_account`'s funds from the pool. It
+       * Unbond up to `unbonding_points` of the `member_account`'s funds from the pool. It
        * implicitly collects the rewards one last time, since not doing so would mean some
        * rewards would go forfeited.
        * 
@@ -2533,15 +2533,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * * The pool is blocked and the caller is either the root or state-toggler. This is
        * refereed to as a kick.
-       * * The pool is destroying and the delegator is not the depositor.
-       * * The pool is destroying, the delegator is the depositor and no other delegators are in
-       * the pool.
+       * * The pool is destroying and the member is not the depositor.
+       * * The pool is destroying, the member is the depositor and no other members are in the
+       * pool.
        * 
        * ## Conditions for permissioned dispatch (i.e. the caller is also the
-       * `delegator_account`):
+       * `member_account`):
        * 
        * * The caller is not the depositor.
-       * * The caller is the depositor, the pool is destroying and no other delegators are in the
+       * * The caller is the depositor, the pool is destroying and no other members are in the
        * pool.
        * 
        * # Note
@@ -2551,9 +2551,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * there are too many unlocking chunks, the result of this call will likely be the
        * `NoMoreChunks` error from the staking system.
        **/
-      unbond: AugmentedSubmittable<(delegatorAccount: AccountId32 | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Compact<u128>]>;
+      unbond: AugmentedSubmittable<(memberAccount: AccountId32 | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Compact<u128>]>;
       /**
-       * Withdraw unbonded funds from `delegator_account`. If no bonded funds can be unbonded, an
+       * Withdraw unbonded funds from `member_account`. If no bonded funds can be unbonded, an
        * error is returned.
        * 
        * Under certain conditions, this call can be dispatched permissionlessly (i.e. by any
@@ -2562,7 +2562,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * # Conditions for a permissionless dispatch
        * 
        * * The pool is in destroy mode and the target is not the depositor.
-       * * The target is the depositor and they are the only delegator in the sub pools.
+       * * The target is the depositor and they are the only member in the sub pools.
        * * The pool is blocked and the caller is either the root or state-toggler.
        * 
        * # Conditions for permissioned dispatch
@@ -2573,7 +2573,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * If the target is the depositor, the pool will be destroyed.
        **/
-      withdrawUnbonded: AugmentedSubmittable<(delegatorAccount: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
+      withdrawUnbonded: AugmentedSubmittable<(memberAccount: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
       /**
        * Generic tx
        **/
