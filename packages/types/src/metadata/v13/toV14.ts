@@ -289,7 +289,7 @@ function convertExtrinsic (registry: Registry, { signedExtensions, version }: Ex
       type: 0 // we don't map the fields at all
     })),
     type: 0, // Map to extrinsic like in v14?
-    version: version
+    version
   }]);
 }
 
