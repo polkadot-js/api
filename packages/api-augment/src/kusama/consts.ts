@@ -378,6 +378,55 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    gilt: {
+      /**
+       * Portion of the queue which is free from ordering and just a FIFO.
+       * 
+       * Must be no greater than `MaxQueueLen`.
+       **/
+      fifoQueueLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks between consecutive attempts to issue more gilts in an effort to
+       * get to the target amount to be frozen.
+       * 
+       * A larger value results in fewer storage hits each block, but a slower period to get to
+       * the target.
+       **/
+      intakePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of bids that can be turned into issued gilts each block. A larger
+       * value here means less of the block available for transactions should there be a glut of
+       * bids to make into gilts to reach the target.
+       **/
+      maxIntakeBids: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of items that may be in each duration queue.
+       **/
+      maxQueueLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount of funds that may be offered to freeze for a gilt. Note that this
+       * does not actually limit the amount which may be frozen in a gilt since gilts may be
+       * split up in order to satisfy the desired amount of funds under gilts.
+       * 
+       * It should be at least big enough to ensure that there is no possible storage spam attack
+       * or queue-filling attack.
+       **/
+      minFreeze: u128 & AugmentedConst<ApiType>;
+      /**
+       * The base period for the duration queues. This is the common multiple across all
+       * supported freezing durations that can be bid upon.
+       **/
+      period: u32 & AugmentedConst<ApiType>;
+      /**
+       * Number of duration queues in total. This sets the maximum duration supported, which is
+       * this value multiplied by `Period`.
+       **/
+      queueCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     grandpa: {
       /**
        * Max Authorities in use
@@ -559,6 +608,46 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    recovery: {
+      /**
+       * The base amount of currency needed to reserve for creating a recovery configuration.
+       * 
+       * This is held for an additional storage item whose value size is
+       * `2 + sizeof(BlockNumber, Balance)` bytes.
+       **/
+      configDepositBase: u128 & AugmentedConst<ApiType>;
+      /**
+       * The amount of currency needed per additional user when creating a recovery
+       * configuration.
+       * 
+       * This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage
+       * value.
+       **/
+      friendDepositFactor: u128 & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of friends allowed in a recovery configuration.
+       * 
+       * NOTE: The threshold programmed in this Pallet uses u16, so it does
+       * not really make sense to have a limit here greater than u16::MAX.
+       * But also, that is a lot more than you should probably set this value
+       * to anyway...
+       **/
+      maxFriends: u32 & AugmentedConst<ApiType>;
+      /**
+       * The base amount of currency needed to reserve for starting a recovery.
+       * 
+       * This is primarily held for deterring malicious recovery attempts, and should
+       * have a value large enough that a bad actor would choose not to place this
+       * deposit. It also acts to fund additional storage item whose value size is
+       * `sizeof(BlockNumber, Balance + T * AccountId)` bytes. Where T is a configurable
+       * threshold.
+       **/
+      recoveryDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     registrar: {
       /**
        * The deposit to be paid per byte stored on chain.
@@ -599,6 +688,50 @@ declare module '@polkadot/api-base/types/consts' {
        * The number of blocks over which a single period lasts.
        **/
       leasePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    society: {
+      /**
+       * The minimum amount of a deposit required for a bid to be made.
+       **/
+      candidateDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks between membership challenges.
+       **/
+      challengePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of candidates that we accept per round.
+       **/
+      maxCandidateIntake: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum duration of the payout lock.
+       **/
+      maxLockDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of times a member may vote the wrong way (or not at all, when they are a
+       * skeptic) before they become suspended.
+       **/
+      maxStrikes: u32 & AugmentedConst<ApiType>;
+      /**
+       * The societies's pallet id
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * The amount of incentive paid within each period. Doesn't include VoterTip.
+       **/
+      periodSpend: u128 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks between candidate/membership rotation periods.
+       **/
+      rotationPeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * The amount of the unpaid reward that gets deducted in the case that either a skeptic
+       * doesn't vote or someone votes in the wrong way.
+       **/
+      wrongSideDeduction: u128 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
