@@ -2954,6 +2954,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    remark: {
+      /**
+       * Index and store data off chain.
+       **/
+      store: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     scheduler: {
       /**
        * Cancel an anonymously scheduled task.
@@ -4351,7 +4361,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       renew: AugmentedSubmittable<(block: u32 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Index and store data on chain. Minimum data size is 1 bytes, maximum is
+       * Index and store data off chain. Minimum data size is 1 bytes, maximum is
        * `MaxTransactionSize`. Data will be removed after `STORAGE_PERIOD` blocks, unless `renew`
        * is called. # <weight>
        * - n*log(n) of data size, as all data is pushed to an in-memory trie.

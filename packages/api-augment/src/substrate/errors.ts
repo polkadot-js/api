@@ -1206,6 +1206,20 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    remark: {
+      /**
+       * Attempted to call `store` outside of block execution.
+       **/
+      BadContext: AugmentedError<ApiType>;
+      /**
+       * Attempting to store empty data.
+       **/
+      Empty: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     scheduler: {
       /**
        * Failed to schedule a call

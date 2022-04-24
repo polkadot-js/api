@@ -754,6 +754,16 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    remark: {
+      /**
+       * Stored data off chain.
+       **/
+      Stored: AugmentedEvent<ApiType, [AccountId32, H256]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     scheduler: {
       /**
        * The call for the provided hash was not found so the task has been aborted.
