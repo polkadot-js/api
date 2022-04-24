@@ -1,4 +1,4 @@
-    2922	Jaco                          	Bump static metadata (#4764)
+    2923	Jaco                          	Bump dev (w/ lint fixes) (#4765)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
