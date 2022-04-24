@@ -59,7 +59,7 @@ export class GenericMultiAddress extends Enum {
     const { inner, outer = [] } = this.inner.inspect();
 
     return {
-      inner: inner,
+      inner,
       outer: [new Uint8Array([this.index]), ...outer]
     };
   }
