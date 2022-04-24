@@ -149,7 +149,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bounties: {
       /**
-       * The bounty cannot be closed because it has active child-bounties.
+       * The bounty cannot be closed because it has active child bounties.
        **/
       HasActiveChildBounty: AugmentedError<ApiType>;
       /**
@@ -208,7 +208,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ParentBountyNotActive: AugmentedError<ApiType>;
       /**
-       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
        **/
       TooManyChildBounties: AugmentedError<ApiType>;
       /**
@@ -569,45 +569,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The signed submission consumes too much weight
        **/
       SignedTooMuchWeight: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    gilt: {
-      /**
-       * The amount of the bid is less than the minimum allowed.
-       **/
-      AmountTooSmall: AugmentedError<ApiType>;
-      /**
-       * The queue for the bid's duration is full and the amount bid is too low to get in
-       * through replacing an existing bid.
-       **/
-      BidTooLow: AugmentedError<ApiType>;
-      /**
-       * The duration is the bid is greater than the number of queues.
-       **/
-      DurationTooBig: AugmentedError<ApiType>;
-      /**
-       * The duration of the bid is less than one.
-       **/
-      DurationTooSmall: AugmentedError<ApiType>;
-      /**
-       * Gilt not yet at expiry date.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * The given bid for retraction is not found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
-       * Not the owner of the gilt.
-       **/
-      NotOwner: AugmentedError<ApiType>;
-      /**
-       * Gilt index is unknown.
-       **/
-      Unknown: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1290,76 +1251,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    recovery: {
-      /**
-       * This account is already set up for recovery
-       **/
-      AlreadyProxy: AugmentedError<ApiType>;
-      /**
-       * This account is already set up for recovery
-       **/
-      AlreadyRecoverable: AugmentedError<ApiType>;
-      /**
-       * A recovery process has already started for this account
-       **/
-      AlreadyStarted: AugmentedError<ApiType>;
-      /**
-       * This user has already vouched for this recovery
-       **/
-      AlreadyVouched: AugmentedError<ApiType>;
-      /**
-       * Some internal state is broken.
-       **/
-      BadState: AugmentedError<ApiType>;
-      /**
-       * The friend must wait until the delay period to vouch for this recovery
-       **/
-      DelayPeriod: AugmentedError<ApiType>;
-      /**
-       * Friends list must be less than max friends
-       **/
-      MaxFriends: AugmentedError<ApiType>;
-      /**
-       * User is not allowed to make a call on behalf of this account
-       **/
-      NotAllowed: AugmentedError<ApiType>;
-      /**
-       * Friends list must be greater than zero and threshold
-       **/
-      NotEnoughFriends: AugmentedError<ApiType>;
-      /**
-       * This account is not a friend who can vouch
-       **/
-      NotFriend: AugmentedError<ApiType>;
-      /**
-       * This account is not set up for recovery
-       **/
-      NotRecoverable: AugmentedError<ApiType>;
-      /**
-       * Friends list must be sorted and free of duplicates
-       **/
-      NotSorted: AugmentedError<ApiType>;
-      /**
-       * A recovery process has not started for this rescuer
-       **/
-      NotStarted: AugmentedError<ApiType>;
-      /**
-       * There are still active recovery attempts that need to be closed
-       **/
-      StillActive: AugmentedError<ApiType>;
-      /**
-       * The threshold for recovering this account has not been met
-       **/
-      Threshold: AugmentedError<ApiType>;
-      /**
-       * Threshold must be greater than zero
-       **/
-      ZeroThreshold: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     registrar: {
       /**
        * The ID is already registered.
@@ -1480,84 +1371,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The parachain ID is not onboarding.
        **/
       ParaNotOnboarding: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    society: {
-      /**
-       * User has already made a bid.
-       **/
-      AlreadyBid: AugmentedError<ApiType>;
-      /**
-       * User is already a candidate.
-       **/
-      AlreadyCandidate: AugmentedError<ApiType>;
-      /**
-       * Society already founded.
-       **/
-      AlreadyFounded: AugmentedError<ApiType>;
-      /**
-       * User is already a member.
-       **/
-      AlreadyMember: AugmentedError<ApiType>;
-      /**
-       * Member is already vouching or banned from vouching again.
-       **/
-      AlreadyVouching: AugmentedError<ApiType>;
-      /**
-       * An incorrect position was provided.
-       **/
-      BadPosition: AugmentedError<ApiType>;
-      /**
-       * Cannot remove the founder.
-       **/
-      Founder: AugmentedError<ApiType>;
-      /**
-       * Cannot remove the head of the chain.
-       **/
-      Head: AugmentedError<ApiType>;
-      /**
-       * Not enough in pot to accept candidate.
-       **/
-      InsufficientPot: AugmentedError<ApiType>;
-      /**
-       * Too many members in the society.
-       **/
-      MaxMembers: AugmentedError<ApiType>;
-      /**
-       * Nothing to payout.
-       **/
-      NoPayout: AugmentedError<ApiType>;
-      /**
-       * User is not a candidate.
-       **/
-      NotCandidate: AugmentedError<ApiType>;
-      /**
-       * The caller is not the founder.
-       **/
-      NotFounder: AugmentedError<ApiType>;
-      /**
-       * The caller is not the head.
-       **/
-      NotHead: AugmentedError<ApiType>;
-      /**
-       * User is not a member.
-       **/
-      NotMember: AugmentedError<ApiType>;
-      /**
-       * User is not suspended.
-       **/
-      NotSuspended: AugmentedError<ApiType>;
-      /**
-       * Member is not vouching.
-       **/
-      NotVouching: AugmentedError<ApiType>;
-      /**
-       * User is suspended.
-       **/
-      Suspended: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

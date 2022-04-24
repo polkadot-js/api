@@ -2,10 +2,16 @@
 
 ## master
 
+Contributed:
+
+- Make WS timeout check configurable (Thanks to https://github.com/isSerge)
+
 Changes:
 
 - Don't fake signature for `paymentInfo` if already signed
 - Remove `api.derive.balances.fees` (use direct constants as applicable)
+- Add Westend 9190 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 8.1.1 Apr 17, 2022
