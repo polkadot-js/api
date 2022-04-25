@@ -259,7 +259,7 @@ declare module '@polkadot/api-base/types/storage' {
     };
     childBounties: {
       /**
-       * Child-bounties that have been added.
+       * Child bounties that have been added.
        **/
       childBounties: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletChildBountiesChildBounty>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
@@ -275,7 +275,7 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       childrenCuratorFees: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u128>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-       * Number of child-bounties per parent bounty.
+       * Number of child bounties per parent bounty.
        * Map of parent bounty index to number of child bounties.
        **/
       parentChildBounties: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;

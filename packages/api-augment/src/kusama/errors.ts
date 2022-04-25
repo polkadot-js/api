@@ -149,7 +149,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bounties: {
       /**
-       * The bounty cannot be closed because it has active child-bounties.
+       * The bounty cannot be closed because it has active child bounties.
        **/
       HasActiveChildBounty: AugmentedError<ApiType>;
       /**
@@ -208,7 +208,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ParentBountyNotActive: AugmentedError<ApiType>;
       /**
-       * Number of child-bounties exceeds limit `MaxActiveChildBountyCount`.
+       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
        **/
       TooManyChildBounties: AugmentedError<ApiType>;
       /**

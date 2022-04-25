@@ -187,7 +187,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
       /**
-       * Maximum number of child-bounties that can be added to a parent bounty.
+       * Maximum number of child bounties that can be added to a parent bounty.
        **/
       maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
       /**
@@ -285,6 +285,16 @@ declare module '@polkadot/api-base/types/consts' {
     };
     electionProviderMultiPhase: {
       /**
+       * The minimum amount of improvement to the solution score that defines a solution as
+       * "better" in the Signed phase.
+       **/
+      betterSignedThreshold: Perbill & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount of improvement to the solution score that defines a solution as
+       * "better" in the Unsigned phase.
+       **/
+      betterUnsignedThreshold: Perbill & AugmentedConst<ApiType>;
+      /**
        * The maximum number of electable targets to put in the snapshot.
        **/
       maxElectableTargets: u16 & AugmentedConst<ApiType>;
@@ -332,6 +342,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       signedDepositWeight: u128 & AugmentedConst<ApiType>;
       /**
+       * The maximum amount of unchecked solutions to refund the call fee for.
+       **/
+      signedMaxRefunds: u32 & AugmentedConst<ApiType>;
+      /**
        * Maximum number of signed submissions that can be queued.
        * 
        * It is best to avoid adjusting this during an election, as it impacts downstream data
@@ -355,11 +369,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Base reward for a signed solution
        **/
       signedRewardBase: u128 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount of improvement to the solution score that defines a solution as
-       * "better" (in any phase).
-       **/
-      solutionImprovementThreshold: Perbill & AugmentedConst<ApiType>;
       /**
        * Duration of the unsigned phase.
        **/

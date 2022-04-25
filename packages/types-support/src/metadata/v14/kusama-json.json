@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 162,
-              "value": "0xb04971f80000000000204aa9d1010000300bca040000000001d0c4159258010000010098f73e5d010000010000000000000000300bca040000000001d04c68fccc0100000100204aa9d1010000010088526a74000000300bca0400000000000000",
+              "value": "0xd0c45c580100000000204aa9d101000088f82405000000000178d7ba9158010000010098f73e5d01000001000000000000000088f824050000000001785f0dfccc0100000100204aa9d1010000010088526a7400000088f8240500000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -850,7 +850,7 @@
             {
               "name": "WeightToFee",
               "type": 210,
-              "value": "0x0400000000000000000000000000000000700379020001",
+              "value": "0x0400000000000000000000000000000000fb4e4d020001",
               "docs": [
                 " The polynomial that is applied in order to derive fee from weight."
               ]
@@ -4139,7 +4139,7 @@
                 },
                 "fallback": "0x00000000",
                 "docs": [
-                  " Number of child-bounties per parent bounty.",
+                  " Number of child bounties per parent bounty.",
                   " Map of parent bounty index to number of child bounties."
                 ]
               },
@@ -4158,7 +4158,7 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Child-bounties that have been added."
+                  " Child bounties that have been added."
                 ]
               },
               {
@@ -4209,7 +4209,7 @@
               "type": 4,
               "value": "0x64000000",
               "docs": [
-                " Maximum number of child-bounties that can be added to a parent bounty."
+                " Maximum number of child bounties that can be added to a parent bounty."
               ]
             },
             {
@@ -4505,12 +4505,21 @@
               ]
             },
             {
-              "name": "SolutionImprovementThreshold",
+              "name": "BetterSignedThreshold",
+              "type": 33,
+              "value": "0x00000000",
+              "docs": [
+                " The minimum amount of improvement to the solution score that defines a solution as",
+                " \"better\" in the Signed phase."
+              ]
+            },
+            {
+              "name": "BetterUnsignedThreshold",
               "type": 33,
               "value": "0x20a10700",
               "docs": [
                 " The minimum amount of improvement to the solution score that defines a solution as",
-                " \"better\" (in any phase)."
+                " \"better\" in the Unsigned phase."
               ]
             },
             {
@@ -4535,7 +4544,7 @@
             {
               "name": "MinerMaxWeight",
               "type": 8,
-              "value": "0x207ba49957010000",
+              "value": "0xa8125e3957010000",
               "docs": [
                 " Maximum weight that the miner should consume.",
                 "",
@@ -4560,11 +4569,19 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x207ba49957010000",
+              "value": "0xa8125e3957010000",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
                 " This should probably be similar to [`Config::MinerMaxWeight`]."
+              ]
+            },
+            {
+              "name": "SignedMaxRefunds",
+              "type": 4,
+              "value": "0x04000000",
+              "docs": [
+                " The maximum amount of unchecked solutions to refund the call fee for."
               ]
             },
             {

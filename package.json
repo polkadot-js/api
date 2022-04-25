@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "commonjs",
-  "version": "8.1.2-2",
+  "version": "8.2.1",
   "workspaces": [
     "packages/*"
   ],
@@ -34,7 +34,7 @@
     "@babel/core": "^7.17.9",
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.17.9",
-    "@polkadot/dev": "^0.66.8",
+    "@polkadot/dev": "^0.66.9",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^27.4.1",
     "copyfiles": "^2.4.1"
