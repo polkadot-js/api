@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add Kusama 9190 upgrade block
+
+
 ## 8.2.1 Apr 24, 2022
 
 Contributed:
