@@ -5,69 +5,35 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 
 declare module '@polkadot/api-base/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
-    assets: {
+    auctions: {
       /**
-       * The asset-account already exists.
+       * The para is already leased out for part of this range.
        **/
-      AlreadyExists: AugmentedError<ApiType>;
+      AlreadyLeasedOut: AugmentedError<ApiType>;
       /**
-       * Invalid metadata given.
+       * Auction has already ended.
        **/
-      BadMetadata: AugmentedError<ApiType>;
+      AuctionEnded: AugmentedError<ApiType>;
       /**
-       * Invalid witness data given.
+       * This auction is already in progress.
        **/
-      BadWitness: AugmentedError<ApiType>;
+      AuctionInProgress: AugmentedError<ApiType>;
       /**
-       * Account balance must be greater than or equal to the transfer amount.
+       * The lease period is in the past.
        **/
-      BalanceLow: AugmentedError<ApiType>;
+      LeasePeriodInPast: AugmentedError<ApiType>;
       /**
-       * The origin account is frozen.
+       * Not an auction.
        **/
-      Frozen: AugmentedError<ApiType>;
+      NotAuction: AugmentedError<ApiType>;
       /**
-       * The asset ID is already taken.
+       * Not a current auction.
        **/
-      InUse: AugmentedError<ApiType>;
+      NotCurrentAuction: AugmentedError<ApiType>;
       /**
-       * Minimum balance should be non-zero.
+       * Para is not registered
        **/
-      MinBalanceZero: AugmentedError<ApiType>;
-      /**
-       * The account to alter does not exist.
-       **/
-      NoAccount: AugmentedError<ApiType>;
-      /**
-       * The asset-account doesn't have an associated deposit.
-       **/
-      NoDeposit: AugmentedError<ApiType>;
-      /**
-       * The signing account has no permission to do the operation.
-       **/
-      NoPermission: AugmentedError<ApiType>;
-      /**
-       * Unable to increment the consumer reference counters on the account. Either no provider
-       * reference exists to allow a non-zero balance of a non-self-sufficient asset, or the
-       * maximum number of consumers has been reached.
-       **/
-      NoProvider: AugmentedError<ApiType>;
-      /**
-       * No approval exists that would allow the transfer.
-       **/
-      Unapproved: AugmentedError<ApiType>;
-      /**
-       * The given asset ID is unknown.
-       **/
-      Unknown: AugmentedError<ApiType>;
-      /**
-       * The operation would result in funds being burned.
-       **/
-      WouldBurn: AugmentedError<ApiType>;
-      /**
-       * The source account would not survive the transfer and it needs to stay alive.
-       **/
-      WouldDie: AugmentedError<ApiType>;
+      ParaNotRegistered: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -250,195 +216,42 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    contracts: {
+    claims: {
       /**
-       * Code removal was denied because the code is still in use by at least one contract.
+       * Invalid Ethereum signature.
        **/
-      CodeInUse: AugmentedError<ApiType>;
+      InvalidEthereumSignature: AugmentedError<ApiType>;
       /**
-       * No code could be found at the supplied code hash.
+       * A needed statement was not included.
        **/
-      CodeNotFound: AugmentedError<ApiType>;
+      InvalidStatement: AugmentedError<ApiType>;
       /**
-       * The contract's code was found to be invalid during validation or instrumentation.
-       * A more detailed error can be found on the node console if debug messages are enabled
-       * or in the debug buffer which is returned to RPC clients.
+       * There's not enough in the pot to pay out some unvested amount. Generally implies a logic
+       * error.
        **/
-      CodeRejected: AugmentedError<ApiType>;
+      PotUnderflow: AugmentedError<ApiType>;
       /**
-       * The code supplied to `instantiate_with_code` exceeds the limit specified in the
-       * current schedule.
+       * Account ID sending transaction has no claim.
        **/
-      CodeTooLarge: AugmentedError<ApiType>;
+      SenderHasNoClaim: AugmentedError<ApiType>;
       /**
-       * No contract was found at the specified address.
+       * Ethereum address has no claim.
        **/
-      ContractNotFound: AugmentedError<ApiType>;
+      SignerHasNoClaim: AugmentedError<ApiType>;
       /**
-       * The contract ran to completion but decided to revert its storage changes.
-       * Please note that this error is only returned from extrinsics. When called directly
-       * or via RPC an `Ok` will be returned. In this case the caller needs to inspect the flags
-       * to determine whether a reversion has taken place.
+       * The account already has a vested balance.
        **/
-      ContractReverted: AugmentedError<ApiType>;
-      /**
-       * Contract trapped during execution.
-       **/
-      ContractTrapped: AugmentedError<ApiType>;
-      /**
-       * The debug message specified to `seal_debug_message` does contain invalid UTF-8.
-       **/
-      DebugMessageInvalidUTF8: AugmentedError<ApiType>;
-      /**
-       * Input passed to a contract API function failed to decode as expected type.
-       **/
-      DecodingFailed: AugmentedError<ApiType>;
-      /**
-       * Removal of a contract failed because the deletion queue is full.
-       * 
-       * This can happen when calling `seal_terminate`.
-       * The queue is filled by deleting contracts and emptied by a fixed amount each block.
-       * Trying again during another block is the only way to resolve this issue.
-       **/
-      DeletionQueueFull: AugmentedError<ApiType>;
-      /**
-       * A contract with the same AccountId already exists.
-       **/
-      DuplicateContract: AugmentedError<ApiType>;
-      /**
-       * The topics passed to `seal_deposit_events` contains at least one duplicate.
-       **/
-      DuplicateTopics: AugmentedError<ApiType>;
-      /**
-       * `seal_call` forwarded this contracts input. It therefore is no longer available.
-       **/
-      InputForwarded: AugmentedError<ApiType>;
-      /**
-       * Invalid combination of flags supplied to `seal_call` or `seal_delegate_call`.
-       **/
-      InvalidCallFlags: AugmentedError<ApiType>;
-      /**
-       * A new schedule must have a greater version than the current one.
-       **/
-      InvalidScheduleVersion: AugmentedError<ApiType>;
-      /**
-       * Performing a call was denied because the calling depth reached the limit
-       * of what is specified in the schedule.
-       **/
-      MaxCallDepthReached: AugmentedError<ApiType>;
-      /**
-       * The chain does not provide a chain extension. Calling the chain extension results
-       * in this error. Note that this usually  shouldn't happen as deploying such contracts
-       * is rejected.
-       **/
-      NoChainExtension: AugmentedError<ApiType>;
-      /**
-       * A buffer outside of sandbox memory was passed to a contract API function.
-       **/
-      OutOfBounds: AugmentedError<ApiType>;
-      /**
-       * The executed contract exhausted its gas limit.
-       **/
-      OutOfGas: AugmentedError<ApiType>;
-      /**
-       * The output buffer supplied to a contract API call was too small.
-       **/
-      OutputBufferTooSmall: AugmentedError<ApiType>;
-      /**
-       * The subject passed to `seal_random` exceeds the limit.
-       **/
-      RandomSubjectTooLong: AugmentedError<ApiType>;
-      /**
-       * A call tried to invoke a contract that is flagged as non-reentrant.
-       **/
-      ReentranceDenied: AugmentedError<ApiType>;
-      /**
-       * More storage was created than allowed by the storage deposit limit.
-       **/
-      StorageDepositLimitExhausted: AugmentedError<ApiType>;
-      /**
-       * Origin doesn't have enough balance to pay the required storage deposits.
-       **/
-      StorageDepositNotEnoughFunds: AugmentedError<ApiType>;
-      /**
-       * A contract self destructed in its constructor.
-       * 
-       * This can be triggered by a call to `seal_terminate`.
-       **/
-      TerminatedInConstructor: AugmentedError<ApiType>;
-      /**
-       * Termination of a contract is not allowed while the contract is already
-       * on the call stack. Can be triggered by `seal_terminate`.
-       **/
-      TerminatedWhileReentrant: AugmentedError<ApiType>;
-      /**
-       * The amount of topics passed to `seal_deposit_events` exceeds the limit.
-       **/
-      TooManyTopics: AugmentedError<ApiType>;
-      /**
-       * Performing the requested transfer failed. Probably because there isn't enough
-       * free balance in the sender's account.
-       **/
-      TransferFailed: AugmentedError<ApiType>;
-      /**
-       * The size defined in `T::MaxValueSize` was exceeded.
-       **/
-      ValueTooLarge: AugmentedError<ApiType>;
+      VestedBalanceExists: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    convictionVoting: {
+    configuration: {
       /**
-       * The account is already delegating.
+       * The new value for a configuration parameter is invalid.
        **/
-      AlreadyDelegating: AugmentedError<ApiType>;
-      /**
-       * The account currently has votes attached to it and the operation cannot succeed until
-       * these are removed, either through `unvote` or `reap_vote`.
-       **/
-      AlreadyVoting: AugmentedError<ApiType>;
-      /**
-       * The class ID supplied is invalid.
-       **/
-      BadClass: AugmentedError<ApiType>;
-      /**
-       * The class must be supplied since it is not easily determinable from the state.
-       **/
-      ClassNeeded: AugmentedError<ApiType>;
-      /**
-       * Too high a balance was provided that the account cannot afford.
-       **/
-      InsufficientFunds: AugmentedError<ApiType>;
-      /**
-       * Maximum number of votes reached.
-       **/
-      MaxVotesReached: AugmentedError<ApiType>;
-      /**
-       * Delegation to oneself makes no sense.
-       **/
-      Nonsense: AugmentedError<ApiType>;
-      /**
-       * The actor has no permission to conduct the action.
-       **/
-      NoPermission: AugmentedError<ApiType>;
-      /**
-       * The actor has no permission to conduct the action right now but will do in the future.
-       **/
-      NoPermissionYet: AugmentedError<ApiType>;
-      /**
-       * The account is not currently delegating.
-       **/
-      NotDelegating: AugmentedError<ApiType>;
-      /**
-       * Poll is not ongoing.
-       **/
-      NotOngoing: AugmentedError<ApiType>;
-      /**
-       * The given account did not vote on the poll.
-       **/
-      NotVoter: AugmentedError<ApiType>;
+      InvalidNewValue: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -485,6 +298,104 @@ declare module '@polkadot/api-base/types/errors' {
        * The given weight bound for the proposal was too low.
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    crowdloan: {
+      /**
+       * The fund is already in `NewRaise`
+       **/
+      AlreadyInNewRaise: AugmentedError<ApiType>;
+      /**
+       * This parachain's bid or lease is still active and withdraw cannot yet begin.
+       **/
+      BidOrLeaseActive: AugmentedError<ApiType>;
+      /**
+       * The campaign ends before the current block number. The end must be in the future.
+       **/
+      CannotEndInPast: AugmentedError<ApiType>;
+      /**
+       * Contributions exceed maximum amount.
+       **/
+      CapExceeded: AugmentedError<ApiType>;
+      /**
+       * The contribution period has already ended.
+       **/
+      ContributionPeriodOver: AugmentedError<ApiType>;
+      /**
+       * The contribution was below the minimum, `MinContribution`.
+       **/
+      ContributionTooSmall: AugmentedError<ApiType>;
+      /**
+       * The end date for this crowdloan is not sensible.
+       **/
+      EndTooFarInFuture: AugmentedError<ApiType>;
+      /**
+       * The current lease period is more than the first lease period.
+       **/
+      FirstPeriodInPast: AugmentedError<ApiType>;
+      /**
+       * The first lease period needs to at least be less than 3 `max_value`.
+       **/
+      FirstPeriodTooFarInFuture: AugmentedError<ApiType>;
+      /**
+       * The crowdloan has not yet ended.
+       **/
+      FundNotEnded: AugmentedError<ApiType>;
+      /**
+       * The origin of this call is invalid.
+       **/
+      InvalidOrigin: AugmentedError<ApiType>;
+      /**
+       * Invalid fund index.
+       **/
+      InvalidParaId: AugmentedError<ApiType>;
+      /**
+       * Invalid signature.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * Last lease period must be greater than first lease period.
+       **/
+      LastPeriodBeforeFirstPeriod: AugmentedError<ApiType>;
+      /**
+       * The last lease period cannot be more than 3 periods after the first period.
+       **/
+      LastPeriodTooFarInFuture: AugmentedError<ApiType>;
+      /**
+       * This parachain lease is still active and retirement cannot yet begin.
+       **/
+      LeaseActive: AugmentedError<ApiType>;
+      /**
+       * The provided memo is too large.
+       **/
+      MemoTooLarge: AugmentedError<ApiType>;
+      /**
+       * There are no contributions stored in this crowdloan.
+       **/
+      NoContributions: AugmentedError<ApiType>;
+      /**
+       * A lease period has not started yet, due to an offset in the starting block.
+       **/
+      NoLeasePeriod: AugmentedError<ApiType>;
+      /**
+       * This crowdloan does not correspond to a parachain.
+       **/
+      NotParachain: AugmentedError<ApiType>;
+      /**
+       * The crowdloan is not ready to dissolve. Potentially still has a slot or in retirement period.
+       **/
+      NotReadyToDissolve: AugmentedError<ApiType>;
+      /**
+       * There was an overflow.
+       **/
+      Overflow: AugmentedError<ApiType>;
+      /**
+       * No contributions allowed during the VRF delay
+       **/
+      VrfDelayInProgress: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -663,119 +574,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    elections: {
-      /**
-       * Duplicated candidate submission.
-       **/
-      DuplicatedCandidate: AugmentedError<ApiType>;
-      /**
-       * Candidate does not have enough funds.
-       **/
-      InsufficientCandidateFunds: AugmentedError<ApiType>;
-      /**
-       * The renouncing origin presented a wrong `Renouncing` parameter.
-       **/
-      InvalidRenouncing: AugmentedError<ApiType>;
-      /**
-       * Prediction regarding replacement after member removal is wrong.
-       **/
-      InvalidReplacement: AugmentedError<ApiType>;
-      /**
-       * The provided count of number of votes is incorrect.
-       **/
-      InvalidVoteCount: AugmentedError<ApiType>;
-      /**
-       * The provided count of number of candidates is incorrect.
-       **/
-      InvalidWitnessData: AugmentedError<ApiType>;
-      /**
-       * Cannot vote with stake less than minimum balance.
-       **/
-      LowBalance: AugmentedError<ApiType>;
-      /**
-       * Cannot vote more than maximum allowed.
-       **/
-      MaximumVotesExceeded: AugmentedError<ApiType>;
-      /**
-       * Member cannot re-submit candidacy.
-       **/
-      MemberSubmit: AugmentedError<ApiType>;
-      /**
-       * Must be a voter.
-       **/
-      MustBeVoter: AugmentedError<ApiType>;
-      /**
-       * Not a member.
-       **/
-      NotMember: AugmentedError<ApiType>;
-      /**
-       * Must vote for at least one candidate.
-       **/
-      NoVotes: AugmentedError<ApiType>;
-      /**
-       * Cannot report self.
-       **/
-      ReportSelf: AugmentedError<ApiType>;
-      /**
-       * Runner cannot re-submit candidacy.
-       **/
-      RunnerUpSubmit: AugmentedError<ApiType>;
-      /**
-       * Cannot vote more than candidates.
-       **/
-      TooManyVotes: AugmentedError<ApiType>;
-      /**
-       * Voter can not pay voting bond.
-       **/
-      UnableToPayBond: AugmentedError<ApiType>;
-      /**
-       * Cannot vote when no candidates or members exist.
-       **/
-      UnableToVote: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    gilt: {
-      /**
-       * The amount of the bid is less than the minimum allowed.
-       **/
-      AmountTooSmall: AugmentedError<ApiType>;
-      /**
-       * The queue for the bid's duration is full and the amount bid is too low to get in
-       * through replacing an existing bid.
-       **/
-      BidTooLow: AugmentedError<ApiType>;
-      /**
-       * The duration is the bid is greater than the number of queues.
-       **/
-      DurationTooBig: AugmentedError<ApiType>;
-      /**
-       * The duration of the bid is less than one.
-       **/
-      DurationTooSmall: AugmentedError<ApiType>;
-      /**
-       * Gilt not yet at expiry date.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * The given bid for retraction is not found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
-       * Not the owner of the gilt.
-       **/
-      NotOwner: AugmentedError<ApiType>;
-      /**
-       * Gilt index is unknown.
-       **/
-      Unknown: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     grandpa: {
       /**
        * Attempt to signal GRANDPA change with one already pending.
@@ -807,6 +605,88 @@ declare module '@polkadot/api-base/types/errors' {
        * Cannot signal forced change so soon after last.
        **/
       TooSoon: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    hrmp: {
+      /**
+       * The channel is already confirmed.
+       **/
+      AcceptHrmpChannelAlreadyConfirmed: AugmentedError<ApiType>;
+      /**
+       * The channel from the sender to the origin doesn't exist.
+       **/
+      AcceptHrmpChannelDoesntExist: AugmentedError<ApiType>;
+      /**
+       * The recipient already has the maximum number of allowed inbound channels.
+       **/
+      AcceptHrmpChannelLimitExceeded: AugmentedError<ApiType>;
+      /**
+       * Canceling is requested by neither the sender nor recipient of the open channel request.
+       **/
+      CancelHrmpOpenChannelUnauthorized: AugmentedError<ApiType>;
+      /**
+       * The channel close request is already requested.
+       **/
+      CloseHrmpChannelAlreadyUnderway: AugmentedError<ApiType>;
+      /**
+       * The channel to be closed doesn't exist.
+       **/
+      CloseHrmpChannelDoesntExist: AugmentedError<ApiType>;
+      /**
+       * The origin tries to close a channel where it is neither the sender nor the recipient.
+       **/
+      CloseHrmpChannelUnauthorized: AugmentedError<ApiType>;
+      /**
+       * Cannot cancel an HRMP open channel request because it is already confirmed.
+       **/
+      OpenHrmpChannelAlreadyConfirmed: AugmentedError<ApiType>;
+      /**
+       * The channel already exists
+       **/
+      OpenHrmpChannelAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * There is already a request to open the same channel.
+       **/
+      OpenHrmpChannelAlreadyRequested: AugmentedError<ApiType>;
+      /**
+       * The requested capacity exceeds the global limit.
+       **/
+      OpenHrmpChannelCapacityExceedsLimit: AugmentedError<ApiType>;
+      /**
+       * The open request doesn't exist.
+       **/
+      OpenHrmpChannelDoesntExist: AugmentedError<ApiType>;
+      /**
+       * The recipient is not a valid para.
+       **/
+      OpenHrmpChannelInvalidRecipient: AugmentedError<ApiType>;
+      /**
+       * The sender already has the maximum number of allowed outbound channels.
+       **/
+      OpenHrmpChannelLimitExceeded: AugmentedError<ApiType>;
+      /**
+       * The open request requested the message size that exceeds the global limit.
+       **/
+      OpenHrmpChannelMessageSizeExceedsLimit: AugmentedError<ApiType>;
+      /**
+       * The sender tried to open a channel to themselves.
+       **/
+      OpenHrmpChannelToSelf: AugmentedError<ApiType>;
+      /**
+       * The requested capacity is zero.
+       **/
+      OpenHrmpChannelZeroCapacity: AugmentedError<ApiType>;
+      /**
+       * The requested maximum message size is 0.
+       **/
+      OpenHrmpChannelZeroMessageSize: AugmentedError<ApiType>;
+      /**
+       * The provided witness data is wrong.
+       **/
+      WrongWitness: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -922,40 +802,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    lottery: {
-      /**
-       * A lottery has already ended.
-       **/
-      AlreadyEnded: AugmentedError<ApiType>;
-      /**
-       * You are already participating in the lottery with this call.
-       **/
-      AlreadyParticipating: AugmentedError<ApiType>;
-      /**
-       * Failed to encode calls
-       **/
-      EncodingFailed: AugmentedError<ApiType>;
-      /**
-       * A lottery is already in progress.
-       **/
-      InProgress: AugmentedError<ApiType>;
-      /**
-       * The call is not valid for an open lottery.
-       **/
-      InvalidCall: AugmentedError<ApiType>;
-      /**
-       * A lottery has not been configured.
-       **/
-      NotConfigured: AugmentedError<ApiType>;
-      /**
-       * Too many calls for a single lottery.
-       **/
-      TooManyCalls: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     multisig: {
       /**
        * Call is already approved by this signatory.
@@ -1018,108 +864,320 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    nominationPools: {
+    paraInclusion: {
       /**
-       * An account is already delegating in another pool. An account may only belong to one
-       * pool at a time.
+       * Bitfield consists of zeros only.
        **/
-      AccountBelongsToOtherPool: AugmentedError<ApiType>;
+      BitfieldAllZeros: AugmentedError<ApiType>;
       /**
-       * The member is already unbonding in this era.
+       * Multiple bitfields submitted by same validator or validators out of order by index.
        **/
-      AlreadyUnbonding: AugmentedError<ApiType>;
+      BitfieldDuplicateOrUnordered: AugmentedError<ApiType>;
       /**
-       * The pools state cannot be changed.
+       * A bitfield that references a freed core,
+       * either intentionally or as part of a concluded
+       * invalid dispute.
        **/
-      CanNotChangeState: AugmentedError<ApiType>;
+      BitfieldReferencesFreedCore: AugmentedError<ApiType>;
       /**
-       * None of the funds can be withdrawn yet because the bonding duration has not passed.
+       * Candidate not in parent context.
        **/
-      CannotWithdrawAny: AugmentedError<ApiType>;
+      CandidateNotInParentContext: AugmentedError<ApiType>;
       /**
-       * Some error occurred that should never happen. This should be reported to the
-       * maintainers.
+       * Candidate scheduled despite pending candidate already existing for the para.
        **/
-      DefensiveError: AugmentedError<ApiType>;
+      CandidateScheduledBeforeParaFree: AugmentedError<ApiType>;
       /**
-       * The caller does not have adequate permissions.
+       * Head data exceeds the configured maximum.
        **/
-      DoesNotHavePermission: AugmentedError<ApiType>;
+      HeadDataTooLarge: AugmentedError<ApiType>;
       /**
-       * The member is fully unbonded (and thus cannot access the bonded and reward pool
-       * anymore to, for example, collect rewards).
+       * The candidate didn't follow the rules of HRMP watermark advancement.
        **/
-      FullyUnbonding: AugmentedError<ApiType>;
+      HrmpWatermarkMishandling: AugmentedError<ApiType>;
       /**
-       * The pool has insufficient balance to bond as a nominator.
+       * The downward message queue is not processed correctly.
        **/
-      InsufficientBond: AugmentedError<ApiType>;
+      IncorrectDownwardMessageHandling: AugmentedError<ApiType>;
       /**
-       * Too many members in the pool or system.
+       * Insufficient (non-majority) backing.
        **/
-      MaxPoolMembers: AugmentedError<ApiType>;
+      InsufficientBacking: AugmentedError<ApiType>;
       /**
-       * The system is maxed out on pools.
+       * Invalid (bad signature, unknown validator, etc.) backing.
        **/
-      MaxPools: AugmentedError<ApiType>;
+      InvalidBacking: AugmentedError<ApiType>;
       /**
-       * The member cannot unbond further chunks due to reaching the limit.
+       * Invalid signature
        **/
-      MaxUnbondingLimit: AugmentedError<ApiType>;
+      InvalidBitfieldSignature: AugmentedError<ApiType>;
       /**
-       * Metadata exceeds [`Config::MaxMetadataLen`]
+       * Invalid group index in core assignment.
        **/
-      MetadataExceedsMaxLen: AugmentedError<ApiType>;
+      InvalidGroupIndex: AugmentedError<ApiType>;
       /**
-       * The amount does not meet the minimum bond to either join or create a pool.
+       * The HRMP messages sent by the candidate is not valid.
        **/
-      MinimumBondNotMet: AugmentedError<ApiType>;
+      InvalidOutboundHrmp: AugmentedError<ApiType>;
       /**
-       * A pool must be in [`PoolState::Destroying`] in order for the depositor to unbond or for
-       * other members to be permissionlessly unbonded.
+       * At least one upward message sent does not pass the acceptance criteria.
        **/
-      NotDestroying: AugmentedError<ApiType>;
+      InvalidUpwardMessages: AugmentedError<ApiType>;
       /**
-       * Not enough points. Ty unbonding less.
+       * The validation code hash of the candidate is not valid.
        **/
-      NotEnoughPointsToUnbond: AugmentedError<ApiType>;
+      InvalidValidationCodeHash: AugmentedError<ApiType>;
       /**
-       * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
+       * Output code is too large
        **/
-      NotKickerOrDestroying: AugmentedError<ApiType>;
+      NewCodeTooLarge: AugmentedError<ApiType>;
       /**
-       * The caller does not have nominating permissions for the pool.
+       * Collator did not sign PoV.
        **/
-      NotNominator: AugmentedError<ApiType>;
+      NotCollatorSigned: AugmentedError<ApiType>;
       /**
-       * The depositor must be the only member in the bonded pool in order to unbond. And the
-       * depositor must be the only member in the sub pools in order to withdraw unbonded.
+       * The `para_head` hash in the candidate descriptor doesn't match the hash of the actual para head in the
+       * commitments.
        **/
-      NotOnlyPoolMember: AugmentedError<ApiType>;
+      ParaHeadMismatch: AugmentedError<ApiType>;
       /**
-       * The pool is not open to join
+       * Code upgrade prematurely.
        **/
-      NotOpen: AugmentedError<ApiType>;
+      PrematureCodeUpgrade: AugmentedError<ApiType>;
       /**
-       * The transaction could not be executed due to overflow risk for the pool.
+       * Scheduled cores out of order.
        **/
-      OverflowRisk: AugmentedError<ApiType>;
+      ScheduledOutOfOrder: AugmentedError<ApiType>;
       /**
-       * An account is not a member.
+       * A different relay parent was provided compared to the on-chain stored one.
        **/
-      PoolMemberNotFound: AugmentedError<ApiType>;
+      UnexpectedRelayParent: AugmentedError<ApiType>;
       /**
-       * A (bonded) pool id does not exist.
+       * Candidate submitted but para not scheduled.
        **/
-      PoolNotFound: AugmentedError<ApiType>;
+      UnscheduledCandidate: AugmentedError<ApiType>;
       /**
-       * A reward pool does not exist. In all cases this is a system logic error.
+       * Backed candidates are out of order (core index) or contain duplicates.
        **/
-      RewardPoolNotFound: AugmentedError<ApiType>;
+      UnsortedOrDuplicateBackedCandidates: AugmentedError<ApiType>;
       /**
-       * A sub pool does not exist.
+       * Dispute statement sets are out of order or contain duplicates.
        **/
-      SubPoolsNotFound: AugmentedError<ApiType>;
+      UnsortedOrDuplicateDisputeStatementSet: AugmentedError<ApiType>;
+      /**
+       * Validator indices are out of order or contains duplicates.
+       **/
+      UnsortedOrDuplicateValidatorIndices: AugmentedError<ApiType>;
+      /**
+       * The validation data hash does not match expected.
+       **/
+      ValidationDataHashMismatch: AugmentedError<ApiType>;
+      /**
+       * Validator index out of bounds.
+       **/
+      ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Availability bitfield has unexpected size.
+       **/
+      WrongBitfieldSize: AugmentedError<ApiType>;
+      /**
+       * Candidate included with the wrong collator.
+       **/
+      WrongCollator: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    paraInherent: {
+      /**
+       * Disputed candidate that was concluded invalid.
+       **/
+      CandidateConcludedInvalid: AugmentedError<ApiType>;
+      /**
+       * A dispute statement was invalid.
+       **/
+      DisputeInvalid: AugmentedError<ApiType>;
+      /**
+       * The ordering of dispute statements was invalid.
+       **/
+      DisputeStatementsUnsortedOrDuplicates: AugmentedError<ApiType>;
+      /**
+       * The data given to the inherent will result in an overweight block.
+       **/
+      InherentOverweight: AugmentedError<ApiType>;
+      /**
+       * The hash of the submitted parent header doesn't correspond to the saved block hash of
+       * the parent.
+       **/
+      InvalidParentHeader: AugmentedError<ApiType>;
+      /**
+       * Inclusion inherent called more than once per block.
+       **/
+      TooManyInclusionInherents: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    paras: {
+      /**
+       * Para cannot be downgraded to a parathread.
+       **/
+      CannotDowngrade: AugmentedError<ApiType>;
+      /**
+       * Para cannot be offboarded at this time.
+       **/
+      CannotOffboard: AugmentedError<ApiType>;
+      /**
+       * Para cannot be onboarded because it is already tracked by our system.
+       **/
+      CannotOnboard: AugmentedError<ApiType>;
+      /**
+       * Para cannot be upgraded to a parachain.
+       **/
+      CannotUpgrade: AugmentedError<ApiType>;
+      /**
+       * Para is not registered in our system.
+       **/
+      NotRegistered: AugmentedError<ApiType>;
+      /**
+       * The PVF pre-checking statement cannot be included since the PVF pre-checking mechanism
+       * is disabled.
+       **/
+      PvfCheckDisabled: AugmentedError<ApiType>;
+      /**
+       * The given validator already has cast a vote.
+       **/
+      PvfCheckDoubleVote: AugmentedError<ApiType>;
+      /**
+       * The signature for the PVF pre-checking is invalid.
+       **/
+      PvfCheckInvalidSignature: AugmentedError<ApiType>;
+      /**
+       * The statement for PVF pre-checking is for a future session.
+       **/
+      PvfCheckStatementFuture: AugmentedError<ApiType>;
+      /**
+       * The statement for PVF pre-checking is stale.
+       **/
+      PvfCheckStatementStale: AugmentedError<ApiType>;
+      /**
+       * The given PVF does not exist at the moment of process a vote.
+       **/
+      PvfCheckSubjectInvalid: AugmentedError<ApiType>;
+      /**
+       * Claimed validator index is out of bounds.
+       **/
+      PvfCheckValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    parasDisputes: {
+      /**
+       * Ancient dispute statement provided.
+       **/
+      AncientDisputeStatement: AugmentedError<ApiType>;
+      /**
+       * Duplicate dispute statement sets provided.
+       **/
+      DuplicateDisputeStatementSets: AugmentedError<ApiType>;
+      /**
+       * Validator vote submitted more than once to dispute.
+       **/
+      DuplicateStatement: AugmentedError<ApiType>;
+      /**
+       * Invalid signature on statement.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * Too many spam slots used by some specific validator.
+       **/
+      PotentialSpam: AugmentedError<ApiType>;
+      /**
+       * A dispute where there are only votes on one side.
+       **/
+      SingleSidedDispute: AugmentedError<ApiType>;
+      /**
+       * Validator index on statement is out of bounds for session.
+       **/
+      ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    phragmenElection: {
+      /**
+       * Duplicated candidate submission.
+       **/
+      DuplicatedCandidate: AugmentedError<ApiType>;
+      /**
+       * Candidate does not have enough funds.
+       **/
+      InsufficientCandidateFunds: AugmentedError<ApiType>;
+      /**
+       * The renouncing origin presented a wrong `Renouncing` parameter.
+       **/
+      InvalidRenouncing: AugmentedError<ApiType>;
+      /**
+       * Prediction regarding replacement after member removal is wrong.
+       **/
+      InvalidReplacement: AugmentedError<ApiType>;
+      /**
+       * The provided count of number of votes is incorrect.
+       **/
+      InvalidVoteCount: AugmentedError<ApiType>;
+      /**
+       * The provided count of number of candidates is incorrect.
+       **/
+      InvalidWitnessData: AugmentedError<ApiType>;
+      /**
+       * Cannot vote with stake less than minimum balance.
+       **/
+      LowBalance: AugmentedError<ApiType>;
+      /**
+       * Cannot vote more than maximum allowed.
+       **/
+      MaximumVotesExceeded: AugmentedError<ApiType>;
+      /**
+       * Member cannot re-submit candidacy.
+       **/
+      MemberSubmit: AugmentedError<ApiType>;
+      /**
+       * Must be a voter.
+       **/
+      MustBeVoter: AugmentedError<ApiType>;
+      /**
+       * Not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * Must vote for at least one candidate.
+       **/
+      NoVotes: AugmentedError<ApiType>;
+      /**
+       * Cannot report self.
+       **/
+      ReportSelf: AugmentedError<ApiType>;
+      /**
+       * Runner cannot re-submit candidacy.
+       **/
+      RunnerUpSubmit: AugmentedError<ApiType>;
+      /**
+       * Cannot vote more than candidates.
+       **/
+      TooManyVotes: AugmentedError<ApiType>;
+      /**
+       * Voter can not pay voting bond.
+       **/
+      UnableToPayBond: AugmentedError<ApiType>;
+      /**
+       * Cannot vote when no candidates or members exist.
+       **/
+      UnableToVote: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1193,135 +1251,64 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    recovery: {
+    registrar: {
       /**
-       * This account is already set up for recovery
+       * The ID is already registered.
        **/
-      AlreadyProxy: AugmentedError<ApiType>;
+      AlreadyRegistered: AugmentedError<ApiType>;
       /**
-       * This account is already set up for recovery
+       * Cannot deregister para
        **/
-      AlreadyRecoverable: AugmentedError<ApiType>;
+      CannotDeregister: AugmentedError<ApiType>;
       /**
-       * A recovery process has already started for this account
+       * Cannot schedule downgrade of parachain to parathread
        **/
-      AlreadyStarted: AugmentedError<ApiType>;
+      CannotDowngrade: AugmentedError<ApiType>;
       /**
-       * This user has already vouched for this recovery
+       * Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras are
+       * correct for the swap to work.
        **/
-      AlreadyVouched: AugmentedError<ApiType>;
+      CannotSwap: AugmentedError<ApiType>;
       /**
-       * Some internal state is broken.
+       * Cannot schedule upgrade of parathread to parachain
        **/
-      BadState: AugmentedError<ApiType>;
+      CannotUpgrade: AugmentedError<ApiType>;
       /**
-       * The friend must wait until the delay period to vouch for this recovery
+       * Invalid para code size.
        **/
-      DelayPeriod: AugmentedError<ApiType>;
+      CodeTooLarge: AugmentedError<ApiType>;
       /**
-       * Friends list must be less than max friends
+       * Registering parachain with empty code is not allowed.
        **/
-      MaxFriends: AugmentedError<ApiType>;
+      EmptyCode: AugmentedError<ApiType>;
       /**
-       * User is not allowed to make a call on behalf of this account
+       * Invalid para head data size.
        **/
-      NotAllowed: AugmentedError<ApiType>;
+      HeadDataTooLarge: AugmentedError<ApiType>;
       /**
-       * Friends list must be greater than zero and threshold
+       * The caller is not the owner of this Id.
        **/
-      NotEnoughFriends: AugmentedError<ApiType>;
+      NotOwner: AugmentedError<ApiType>;
       /**
-       * This account is not a friend who can vouch
+       * Para is not a Parachain.
        **/
-      NotFriend: AugmentedError<ApiType>;
+      NotParachain: AugmentedError<ApiType>;
       /**
-       * This account is not set up for recovery
+       * Para is not a Parathread.
        **/
-      NotRecoverable: AugmentedError<ApiType>;
+      NotParathread: AugmentedError<ApiType>;
       /**
-       * Friends list must be sorted and free of duplicates
+       * The ID is not registered.
        **/
-      NotSorted: AugmentedError<ApiType>;
+      NotRegistered: AugmentedError<ApiType>;
       /**
-       * A recovery process has not started for this rescuer
+       * The ID given for registration has not been reserved.
        **/
-      NotStarted: AugmentedError<ApiType>;
+      NotReserved: AugmentedError<ApiType>;
       /**
-       * There are still active recovery attempts that need to be closed
+       * Para is locked from manipulation by the manager. Must use parachain or relay chain governance.
        **/
-      StillActive: AugmentedError<ApiType>;
-      /**
-       * The threshold for recovering this account has not been met
-       **/
-      Threshold: AugmentedError<ApiType>;
-      /**
-       * Threshold must be greater than zero
-       **/
-      ZeroThreshold: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    referenda: {
-      /**
-       * The referendum index provided is invalid in this context.
-       **/
-      BadReferendum: AugmentedError<ApiType>;
-      /**
-       * The track identifier given was invalid.
-       **/
-      BadTrack: AugmentedError<ApiType>;
-      /**
-       * There are already a full complement of referendums in progress for this track.
-       **/
-      Full: AugmentedError<ApiType>;
-      /**
-       * Referendum's decision deposit is already paid.
-       **/
-      HasDeposit: AugmentedError<ApiType>;
-      /**
-       * The deposit cannot be refunded since none was made.
-       **/
-      NoDeposit: AugmentedError<ApiType>;
-      /**
-       * The deposit refunder is not the depositor.
-       **/
-      NoPermission: AugmentedError<ApiType>;
-      /**
-       * There was nothing to do in the advancement.
-       **/
-      NothingToDo: AugmentedError<ApiType>;
-      /**
-       * Referendum is not ongoing.
-       **/
-      NotOngoing: AugmentedError<ApiType>;
-      /**
-       * No track exists for the proposal origin.
-       **/
-      NoTrack: AugmentedError<ApiType>;
-      /**
-       * The queue of the track is empty.
-       **/
-      QueueEmpty: AugmentedError<ApiType>;
-      /**
-       * Any deposit cannot be refunded until after the decision is over.
-       **/
-      Unfinished: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    remark: {
-      /**
-       * Attempted to call `store` outside of block execution.
-       **/
-      BadContext: AugmentedError<ApiType>;
-      /**
-       * Attempting to store empty data.
-       **/
-      Empty: AugmentedError<ApiType>;
+      ParaLocked: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1375,79 +1362,15 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    society: {
+    slots: {
       /**
-       * User has already made a bid.
+       * There was an error with the lease.
        **/
-      AlreadyBid: AugmentedError<ApiType>;
+      LeaseError: AugmentedError<ApiType>;
       /**
-       * User is already a candidate.
+       * The parachain ID is not onboarding.
        **/
-      AlreadyCandidate: AugmentedError<ApiType>;
-      /**
-       * Society already founded.
-       **/
-      AlreadyFounded: AugmentedError<ApiType>;
-      /**
-       * User is already a member.
-       **/
-      AlreadyMember: AugmentedError<ApiType>;
-      /**
-       * Member is already vouching or banned from vouching again.
-       **/
-      AlreadyVouching: AugmentedError<ApiType>;
-      /**
-       * An incorrect position was provided.
-       **/
-      BadPosition: AugmentedError<ApiType>;
-      /**
-       * Cannot remove the founder.
-       **/
-      Founder: AugmentedError<ApiType>;
-      /**
-       * Cannot remove the head of the chain.
-       **/
-      Head: AugmentedError<ApiType>;
-      /**
-       * Not enough in pot to accept candidate.
-       **/
-      InsufficientPot: AugmentedError<ApiType>;
-      /**
-       * Too many members in the society.
-       **/
-      MaxMembers: AugmentedError<ApiType>;
-      /**
-       * Nothing to payout.
-       **/
-      NoPayout: AugmentedError<ApiType>;
-      /**
-       * User is not a candidate.
-       **/
-      NotCandidate: AugmentedError<ApiType>;
-      /**
-       * The caller is not the founder.
-       **/
-      NotFounder: AugmentedError<ApiType>;
-      /**
-       * The caller is not the head.
-       **/
-      NotHead: AugmentedError<ApiType>;
-      /**
-       * User is not a member.
-       **/
-      NotMember: AugmentedError<ApiType>;
-      /**
-       * User is not suspended.
-       **/
-      NotSuspended: AugmentedError<ApiType>;
-      /**
-       * Member is not vouching.
-       **/
-      NotVouching: AugmentedError<ApiType>;
-      /**
-       * User is suspended.
-       **/
-      Suspended: AugmentedError<ApiType>;
+      ParaNotOnboarding: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1554,42 +1477,6 @@ declare module '@polkadot/api-base/types/errors' {
        * settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    stateTrieMigration: {
-      /**
-       * bad witness data provided.
-       **/
-      BadWitness: AugmentedError<ApiType>;
-      /**
-       * max signed limits not respected.
-       **/
-      MaxSignedLimits: AugmentedError<ApiType>;
-      /**
-       * submitter does not have enough funds.
-       **/
-      NotEnoughFunds: AugmentedError<ApiType>;
-      /**
-       * Signed migration is not allowed because the maximum limit is not set yet.
-       **/
-      SignedMigrationNotAllowed: AugmentedError<ApiType>;
-      /**
-       * upper bound of size is exceeded,
-       **/
-      SizeUpperBoundExceeded: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    sudo: {
-      /**
-       * Sender must be the Sudo account
-       **/
-      RequireSudo: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1719,64 +1606,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    transactionStorage: {
-      /**
-       * Attempted to call `store` outside of block execution.
-       **/
-      BadContext: AugmentedError<ApiType>;
-      /**
-       * Double proof check in the block.
-       **/
-      DoubleCheck: AugmentedError<ApiType>;
-      /**
-       * Attempting to store empty transaction
-       **/
-      EmptyTransaction: AugmentedError<ApiType>;
-      /**
-       * Insufficient account balance.
-       **/
-      InsufficientFunds: AugmentedError<ApiType>;
-      /**
-       * Proof failed verification.
-       **/
-      InvalidProof: AugmentedError<ApiType>;
-      /**
-       * Missing storage proof.
-       **/
-      MissingProof: AugmentedError<ApiType>;
-      /**
-       * Unable to verify proof becasue state data is missing.
-       **/
-      MissingStateData: AugmentedError<ApiType>;
-      /**
-       * Invalid configuration.
-       **/
-      NotConfigured: AugmentedError<ApiType>;
-      /**
-       * Storage proof was not checked in the block.
-       **/
-      ProofNotChecked: AugmentedError<ApiType>;
-      /**
-       * Renewed extrinsic is not found.
-       **/
-      RenewedNotFound: AugmentedError<ApiType>;
-      /**
-       * Too many transactions in the block.
-       **/
-      TooManyTransactions: AugmentedError<ApiType>;
-      /**
-       * Transaction is too large.
-       **/
-      TransactionTooLarge: AugmentedError<ApiType>;
-      /**
-       * Proof was not expected in this block.
-       **/
-      UnexpectedProof: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     treasury: {
       /**
        * Proposer's balance is too low.
@@ -1795,51 +1624,15 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    uniques: {
+    ump: {
       /**
-       * The asset instance ID has already been used for an asset.
+       * The message index given is unknown.
        **/
-      AlreadyExists: AugmentedError<ApiType>;
+      UnknownMessageIndex: AugmentedError<ApiType>;
       /**
-       * Invalid witness data given.
+       * The amount of weight given is possibly not enough for executing the message.
        **/
-      BadWitness: AugmentedError<ApiType>;
-      /**
-       * The asset instance or class is frozen.
-       **/
-      Frozen: AugmentedError<ApiType>;
-      /**
-       * The asset ID is already taken.
-       **/
-      InUse: AugmentedError<ApiType>;
-      /**
-       * There is no delegate approved.
-       **/
-      NoDelegate: AugmentedError<ApiType>;
-      /**
-       * The signing account has no permission to do the operation.
-       **/
-      NoPermission: AugmentedError<ApiType>;
-      /**
-       * The named owner has not signed ownership of the class is acceptable.
-       **/
-      Unaccepted: AugmentedError<ApiType>;
-      /**
-       * No approval exists that would allow the transfer.
-       **/
-      Unapproved: AugmentedError<ApiType>;
-      /**
-       * The given asset ID is unknown.
-       **/
-      UnknownClass: AugmentedError<ApiType>;
-      /**
-       * The delegate turned out to be different to what was expected.
-       **/
-      WrongDelegate: AugmentedError<ApiType>;
-      /**
-       * The owner turned out to be different to what was expected.
-       **/
-      WrongOwner: AugmentedError<ApiType>;
+      WeightOverLimit: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1882,27 +1675,62 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    whitelist: {
+    xcmPallet: {
       /**
-       * The call was already whitelisted; No-Op.
+       * The location is invalid since it already has a subscription from us.
        **/
-      CallAlreadyWhitelisted: AugmentedError<ApiType>;
+      AlreadySubscribed: AugmentedError<ApiType>;
       /**
-       * The call was not whitelisted.
+       * The given location could not be used (e.g. because it cannot be expressed in the
+       * desired version of XCM).
        **/
-      CallIsNotWhitelisted: AugmentedError<ApiType>;
+      BadLocation: AugmentedError<ApiType>;
       /**
-       * The weight of the decoded call was higher than the witness.
+       * The version of the `Versioned` value used is not able to be interpreted.
        **/
-      InvalidCallWeightWitness: AugmentedError<ApiType>;
+      BadVersion: AugmentedError<ApiType>;
       /**
-       * The preimage of the call hash could not be loaded.
+       * Could not re-anchor the assets to declare the fees for the destination chain.
        **/
-      UnavailablePreImage: AugmentedError<ApiType>;
+      CannotReanchor: AugmentedError<ApiType>;
       /**
-       * The call could not be decoded.
+       * The destination `MultiLocation` provided cannot be inverted.
        **/
-      UndecodableCall: AugmentedError<ApiType>;
+      DestinationNotInvertible: AugmentedError<ApiType>;
+      /**
+       * The assets to be sent are empty.
+       **/
+      Empty: AugmentedError<ApiType>;
+      /**
+       * The message execution fails the filter.
+       **/
+      Filtered: AugmentedError<ApiType>;
+      /**
+       * Origin is invalid for sending.
+       **/
+      InvalidOrigin: AugmentedError<ApiType>;
+      /**
+       * The referenced subscription could not be found.
+       **/
+      NoSubscription: AugmentedError<ApiType>;
+      /**
+       * There was some other issue (i.e. not to do with routing) in sending the message. Perhaps
+       * a lack of space for buffering the message.
+       **/
+      SendFailure: AugmentedError<ApiType>;
+      /**
+       * Too many assets have been attempted for transfer.
+       **/
+      TooManyAssets: AugmentedError<ApiType>;
+      /**
+       * The desired destination was unreachable, generally because there is a no way of routing
+       * to it.
+       **/
+      Unreachable: AugmentedError<ApiType>;
+      /**
+       * The message's weight could not be determined.
+       **/
+      UnweighableMessage: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
