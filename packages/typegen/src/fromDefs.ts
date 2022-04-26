@@ -7,6 +7,7 @@ import path from 'path';
 import yargs from 'yargs';
 
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
+import { WebSocket } from '@polkadot/x-ws';
 
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
@@ -33,10 +34,37 @@ export function main (): void {
   }).argv as ArgV;
 
   if (endpoint) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result;
+    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+      try {
+        const websocket = new WebSocket(endpoint);
 
-    generateDefaultLookup(path.join(process.cwd(), input), metaHex);
+        websocket.onclose = (event: { code: number; reason: string }): void => {
+          console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
+          process.exit(1);
+        };
+
+        websocket.onerror = (event: unknown): void => {
+          console.error(event);
+          process.exit(1);
+        };
+
+        websocket.onopen = (): void => {
+          console.log('connected');
+          websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
+        };
+
+        websocket.onmessage = (message: unknown): void => {
+          generateDefaultLookup(path.join(process.cwd(), input), (JSON.parse((message as Record<string, string>).data) as Record<string, HexString>).result);
+        };
+      } catch (error) {
+        process.exit(1);
+      }
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result;
+
+      generateDefaultLookup(path.join(process.cwd(), input), metaHex);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -66,4 +94,5 @@ export function main (): void {
 
   generateTsDef(allDefs, path.join(process.cwd(), input), pkg);
   generateInterfaceTypes(allDefs, path.join(process.cwd(), input, 'augment-types.ts'));
+  process.exit(0);
 }
