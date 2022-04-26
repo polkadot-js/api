@@ -5,7 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, FrameSupportWeightsPostDispatchInfo, NodeRuntimeProxyType, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, FrameSupportWeightsPostDispatchInfo, NodeRuntimeProxyType, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -610,6 +610,40 @@ declare module '@polkadot/api-base/types/events' {
        * A new multisig operation has begun.
        **/
       NewMultisig: AugmentedEvent<ApiType, [AccountId32, AccountId32, U8aFixed]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    nominationPools: {
+      /**
+       * A member has became bonded in a pool.
+       **/
+      Bonded: AugmentedEvent<ApiType, [AccountId32, u32, u128, bool]>;
+      /**
+       * A pool has been created.
+       **/
+      Created: AugmentedEvent<ApiType, [AccountId32, u32]>;
+      /**
+       * A pool has been destroyed.
+       **/
+      Destroyed: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A payout has been made to a member.
+       **/
+      PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * The state of a pool has changed
+       **/
+      StateChanged: AugmentedEvent<ApiType, [u32, PalletNominationPoolsPoolState]>;
+      /**
+       * A member has unbonded from their pool.
+       **/
+      Unbonded: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * A member has withdrawn from their pool.
+       **/
+      Withdrawn: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
        * Generic event
        **/

@@ -639,6 +639,16 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    nominationPools: {
+      /**
+       * The nomination pool's pallet id.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     proxy: {
       /**
        * The base amount of currency needed to reserve for creating an announcement.
