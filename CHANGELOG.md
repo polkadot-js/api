@@ -2,9 +2,16 @@
 
 ## master
 
+Contributed:
+
+- Fetch metadata via WS for `types-from-defs` (Thanks to https://github.com/alex-nax)
+
 Changes:
 
+- Adjust `tx.paymentInfo` signing process
 - Add Kusama 9190 upgrade block
+- Add Westend 9200 upgrade block
+- Update to latest Substrate static metadata
 
 
 ## 8.2.1 Apr 24, 2022
