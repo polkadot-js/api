@@ -15,8 +15,5 @@ module.exports = {
     // eslint-disable-next-line sort-keys
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
-  "transformIgnorePatterns": [
-    '/node_modules/(?!@polkadot|@substrate/connect|@babel/runtime/helpers/esm/)'
-  ],
   testTimeout: 30000
 };
