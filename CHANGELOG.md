@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Extract metadata v14 `BTreeSet` types into correct type
 - Adjust `tx.paymentInfo` signing process
 - Add Kusama 9190 upgrade block
 - Add Westend 9200 upgrade block
