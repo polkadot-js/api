@@ -3,7 +3,7 @@
 
 import type { AnyU8a, CodecClass, Registry, U8aBitLength } from '../types';
 
-import { assert, u8aToU8a } from '@polkadot/util';
+import { assert, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -16,7 +16,7 @@ function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): [AnyU8a, numbe
     return [new Uint8Array(byteLength), 0];
   }
 
-  assert(u8a.length >= byteLength, () => `Expected at least ${byteLength} bytes (${bitLength} bits), found ${u8a.length} bytes`);
+  assert(isU8a(value) ? u8a.length >= byteLength : u8a.length === byteLength, () => `Expected input with ${byteLength} bytes (${bitLength} bits), found ${u8a.length} bytes`);
 
   return [u8a.subarray(0, byteLength), byteLength];
 }
