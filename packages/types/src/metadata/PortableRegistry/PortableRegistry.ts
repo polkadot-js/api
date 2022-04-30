@@ -557,6 +557,11 @@ export class PortableRegistry extends Struct implements ILookup {
         info: TypeDefInfo.BTreeMap,
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
       });
+    } else if (path.length === 1 && pathFirst === 'BTreeSet') {
+      return withTypeString(this.registry, {
+        info: TypeDefInfo.BTreeSet,
+        sub: this.#createSiDef(params[0].type.unwrap())
+      });
     } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
       return withTypeString(this.registry, {
         info: pathFirst === 'Range'
