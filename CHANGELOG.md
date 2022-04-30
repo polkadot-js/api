@@ -9,6 +9,7 @@ Contributed:
 Changes:
 
 - Extract metadata v14 `BTreeSet` types into correct type
+- Assert to ensure that `[u8; <size>]` has exact sizes (non-u8a inputs)
 - Adjust `tx.paymentInfo` signing process
 - Add Kusama 9190 upgrade block
 - Add Westend 9200 upgrade block
