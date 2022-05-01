@@ -1787,6 +1787,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidIndex: AugmentedError<ApiType>;
       /**
+       * Proposal has not been approved.
+       **/
+      ProposalNotApproved: AugmentedError<ApiType>;
+      /**
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
@@ -1812,6 +1816,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The asset ID is already taken.
        **/
       InUse: AugmentedError<ApiType>;
+      /**
+       * The asset instance is locked.
+       **/
+      Locked: AugmentedError<ApiType>;
       /**
        * There is no delegate approved.
        **/

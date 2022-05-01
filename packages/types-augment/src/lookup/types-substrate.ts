@@ -2484,7 +2484,11 @@ declare module '@polkadot/types/lookup' {
     readonly asApproveProposal: {
       readonly proposalId: Compact<u32>;
     } & Struct;
-    readonly type: 'ProposeSpend' | 'RejectProposal' | 'ApproveProposal';
+    readonly isRemoveApproval: boolean;
+    readonly asRemoveApproval: {
+      readonly proposalId: Compact<u32>;
+    } & Struct;
+    readonly type: 'ProposeSpend' | 'RejectProposal' | 'ApproveProposal' | 'RemoveApproval';
   }
 
   /** @name PalletContractsCall (248) */
@@ -4334,7 +4338,8 @@ declare module '@polkadot/types/lookup' {
     readonly isInsufficientProposersBalance: boolean;
     readonly isInvalidIndex: boolean;
     readonly isTooManyApprovals: boolean;
-    readonly type: 'InsufficientProposersBalance' | 'InvalidIndex' | 'TooManyApprovals';
+    readonly isProposalNotApproved: boolean;
+    readonly type: 'InsufficientProposersBalance' | 'InvalidIndex' | 'TooManyApprovals' | 'ProposalNotApproved';
   }
 
   /** @name PalletContractsWasmPrefabWasmModule (453) */
@@ -5038,7 +5043,8 @@ declare module '@polkadot/types/lookup' {
     readonly isNoDelegate: boolean;
     readonly isUnapproved: boolean;
     readonly isUnaccepted: boolean;
-    readonly type: 'NoPermission' | 'UnknownClass' | 'AlreadyExists' | 'WrongOwner' | 'BadWitness' | 'InUse' | 'Frozen' | 'WrongDelegate' | 'NoDelegate' | 'Unapproved' | 'Unaccepted';
+    readonly isLocked: boolean;
+    readonly type: 'NoPermission' | 'UnknownClass' | 'AlreadyExists' | 'WrongOwner' | 'BadWitness' | 'InUse' | 'Frozen' | 'WrongDelegate' | 'NoDelegate' | 'Unapproved' | 'Unaccepted' | 'Locked';
   }
 
   /** @name PalletTransactionStorageTransactionInfo (561) */

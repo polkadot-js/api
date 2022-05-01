@@ -2293,6 +2293,9 @@ export default {
         proposalId: 'Compact<u32>',
       },
       approve_proposal: {
+        proposalId: 'Compact<u32>',
+      },
+      remove_approval: {
         proposalId: 'Compact<u32>'
       }
     }
@@ -3958,7 +3961,7 @@ export default {
    * Lookup452: pallet_treasury::pallet::Error<T, I>
    **/
   PalletTreasuryError: {
-    _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'TooManyApprovals']
+    _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'TooManyApprovals', 'ProposalNotApproved']
   },
   /**
    * Lookup453: pallet_contracts::wasm::PrefabWasmModule<T>
@@ -4537,7 +4540,7 @@ export default {
    * Lookup559: pallet_uniques::pallet::Error<T, I>
    **/
   PalletUniquesError: {
-    _enum: ['NoPermission', 'UnknownClass', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved', 'Unaccepted']
+    _enum: ['NoPermission', 'UnknownClass', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved', 'Unaccepted', 'Locked']
   },
   /**
    * Lookup561: pallet_transaction_storage::TransactionInfo

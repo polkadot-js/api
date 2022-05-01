@@ -16457,6 +16457,35 @@
                 "- DbWrite: `Approvals`",
                 "# </weight>"
               ]
+            },
+            {
+              "name": "remove_approval",
+              "fields": [
+                {
+                  "name": "proposal_id",
+                  "type": 119,
+                  "typeName": "ProposalIndex",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": [
+                "Force a previously approved proposal to be removed from the approval queue.",
+                "The original deposit will no longer be returned.",
+                "",
+                "May only be called from `T::RejectOrigin`.",
+                "- `proposal_id`: The index of a proposal",
+                "",
+                "# <weight>",
+                "- Complexity: O(A) where `A` is the number of approvals",
+                "- Db reads and writes: `Approvals`",
+                "# </weight>",
+                "",
+                "Errors:",
+                "- `ProposalNotApproved`: The `proposal_id` supplied was not found in the approval queue,",
+                "i.e., the proposal has not been approved. This could also mean the proposal does not",
+                "exist altogether, thus there is no way it would have been approved in the first place."
+              ]
             }
           ]
         }
@@ -19478,12 +19507,7 @@
                 "",
                 "Parameters:",
                 "- `account`: The recovered account you want to make a call on-behalf-of.",
-                "- `call`: The call you want to make with the recovered account.",
-                "",
-                "# <weight>",
-                "- The weight of the `call` + 10,000.",
-                "- One storage lookup to check account is recovered by `who`. O(1)",
-                "# </weight>"
+                "- `call`: The call you want to make with the recovered account."
               ]
             },
             {
@@ -19511,12 +19535,7 @@
                 "",
                 "Parameters:",
                 "- `lost`: The \"lost account\" to be recovered.",
-                "- `rescuer`: The \"rescuer account\" which can call as the lost account.",
-                "",
-                "# <weight>",
-                "- One storage write O(1)",
-                "- One event",
-                "# </weight>"
+                "- `rescuer`: The \"rescuer account\" which can call as the lost account."
               ]
             },
             {
@@ -19558,18 +19577,7 @@
                 "  account can be recovered. Should be less than or equal to the length of the list of",
                 "  friends.",
                 "- `delay_period`: The number of blocks after a recovery attempt is initialized that",
-                "  needs to pass before the account can be recovered.",
-                "",
-                "# <weight>",
-                "- Key: F (len of friends)",
-                "- One storage read to check that account is not already recoverable. O(1).",
-                "- A check that the friends list is sorted and unique. O(F)",
-                "- One currency reserve operation. O(X)",
-                "- One storage write. O(1). Codec O(F).",
-                "- One event.",
-                "",
-                "Total Complexity: O(F + X)",
-                "# </weight>"
+                "  needs to pass before the account can be recovered."
               ]
             },
             {
@@ -19594,18 +19602,7 @@
                 "",
                 "Parameters:",
                 "- `account`: The lost account that you want to recover. This account needs to be",
-                "  recoverable (i.e. have a recovery configuration).",
-                "",
-                "# <weight>",
-                "- One storage read to check that account is recoverable. O(F)",
-                "- One storage read to check that this recovery process hasn't already started. O(1)",
-                "- One currency reserve operation. O(X)",
-                "- One storage read to get the current block number. O(1)",
-                "- One storage write. O(1).",
-                "- One event.",
-                "",
-                "Total Complexity: O(F + X)",
-                "# </weight>"
+                "  recoverable (i.e. have a recovery configuration)."
               ]
             },
             {
@@ -19637,19 +19634,7 @@
                 "- `rescuer`: The account trying to rescue the lost account that you want to vouch for.",
                 "",
                 "The combination of these two parameters must point to an active recovery",
-                "process.",
-                "",
-                "# <weight>",
-                "Key: F (len of friends in config), V (len of vouching friends)",
-                "- One storage read to get the recovery configuration. O(1), Codec O(F)",
-                "- One storage read to get the active recovery process. O(1), Codec O(V)",
-                "- One binary search to confirm caller is a friend. O(logF)",
-                "- One binary search to confirm caller has not already vouched. O(logV)",
-                "- One storage write. O(1), Codec O(V).",
-                "- One event.",
-                "",
-                "Total Complexity: O(F + logF + V + logV)",
-                "# </weight>"
+                "process."
               ]
             },
             {
@@ -19672,18 +19657,7 @@
                 "",
                 "Parameters:",
                 "- `account`: The lost account that you want to claim has been successfully recovered by",
-                "  you.",
-                "",
-                "# <weight>",
-                "Key: F (len of friends in config), V (len of vouching friends)",
-                "- One storage read to get the recovery configuration. O(1), Codec O(F)",
-                "- One storage read to get the active recovery process. O(1), Codec O(V)",
-                "- One storage read to get the current block number. O(1)",
-                "- One storage write. O(1), Codec O(V).",
-                "- One event.",
-                "",
-                "Total Complexity: O(F + V)",
-                "# </weight>"
+                "  you."
               ]
             },
             {
@@ -19708,16 +19682,7 @@
                 "recoverable account with an active recovery process for it.",
                 "",
                 "Parameters:",
-                "- `rescuer`: The account trying to rescue this recoverable account.",
-                "",
-                "# <weight>",
-                "Key: V (len of vouching friends)",
-                "- One storage read/remove to get the active recovery process. O(1), Codec O(V)",
-                "- One balance call to repatriate reserved. O(X)",
-                "- One event.",
-                "",
-                "Total Complexity: O(V + X)",
-                "# </weight>"
+                "- `rescuer`: The account trying to rescue this recoverable account."
               ]
             },
             {
@@ -19735,17 +19700,7 @@
                 "(`ConfigDepositBase` + `FriendDepositFactor` * #_of_friends)",
                 "",
                 "The dispatch origin for this call must be _Signed_ and must be a",
-                "recoverable account (i.e. has a recovery configuration).",
-                "",
-                "# <weight>",
-                "Key: F (len of friends)",
-                "- One storage read to get the prefix iterator for active recoveries. O(1)",
-                "- One storage read/remove to get the recovery configuration. O(1), Codec O(F)",
-                "- One balance call to unreserved. O(X)",
-                "- One event.",
-                "",
-                "Total Complexity: O(F + X)",
-                "# </weight>"
+                "recoverable account (i.e. has a recovery configuration)."
               ]
             },
             {
@@ -19766,11 +19721,7 @@
                 "be able to make calls on behalf of the recovered account.",
                 "",
                 "Parameters:",
-                "- `account`: The recovered account you are able to call on-behalf-of.",
-                "",
-                "# <weight>",
-                "- One storage mutation to check account is recovered by `who`. O(1)",
-                "# </weight>"
+                "- `account`: The recovered account you are able to call on-behalf-of."
               ]
             }
           ]
@@ -30752,6 +30703,14 @@
               "docs": [
                 "Too many approvals in the queue."
               ]
+            },
+            {
+              "name": "ProposalNotApproved",
+              "fields": [],
+              "index": 3,
+              "docs": [
+                "Proposal has not been approved."
+              ]
             }
           ]
         }
@@ -36434,6 +36393,14 @@
               "index": 10,
               "docs": [
                 "The named owner has not signed ownership of the class is acceptable."
+              ]
+            },
+            {
+              "name": "Locked",
+              "fields": [],
+              "index": 11,
+              "docs": [
+                "The asset instance is locked."
               ]
             }
           ]
