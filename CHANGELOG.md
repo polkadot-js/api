@@ -10,10 +10,10 @@ Changes:
 
 - Extract metadata v14 `BTreeSet` types into correct type
 - Assert to ensure that `[u8; <size>]` has exact sizes (non-u8a inputs)
-- Adjust `tx.paymentInfo` signing process
+- Adjust `tx.paymentInfo` signing process for existing signature
 - Add Kusama 9190 upgrade block
 - Add Westend 9200 upgrade block
-- Update to latest Substrate static metadata
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 8.2.1 Apr 24, 2022

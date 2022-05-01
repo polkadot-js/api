@@ -1803,6 +1803,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidIndex: AugmentedError<ApiType>;
       /**
+       * Proposal has not been approved.
+       **/
+      ProposalNotApproved: AugmentedError<ApiType>;
+      /**
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
