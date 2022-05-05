@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { Config } from '@substrate/connect/dist/connector/smoldot-light';
 
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
@@ -67,7 +68,16 @@ export class ScProvider implements ProviderInterface {
     throw new Error('clone() is not supported.');
   }
 
-  async connect (): Promise<void> {
+  /**
+   * The client prints logs in the console. Without passing parameter to connect, only log
+   * levels 1, 2, and 3 (corresponding respectively to ERROR, WARN, and INFO) are printed.
+   * In order to more easily debug problems, you can pass 4 (DEBUG) or more.
+   *
+   * This setting is only taken into account between the moment when you use this chain to add a
+   * chain for the first time, and the moment when all the chains that you have added have been
+   * removed.
+   */
+  async connect (config?: Config): Promise<void> {
     assert(!this.isConnected, 'Already connected!');
 
     // it could happen that after emitting `disconnected` due to the fact taht
@@ -86,7 +96,7 @@ export class ScProvider implements ProviderInterface {
 
     const client = this.#sharedSandbox
       ? scClients.get(this.#sharedSandbox)
-      : createScClient();
+      : createScClient(config);
 
     assert(client, 'Unkown ScProvider!');
     scClients.set(this, client);
