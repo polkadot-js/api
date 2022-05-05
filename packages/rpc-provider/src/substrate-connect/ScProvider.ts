@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Config } from '@substrate/connect/dist/connector/smoldot-light';
+import type { Config as logConfig } from '@substrate/connect/dist/connector/smoldot-light';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
@@ -68,7 +68,7 @@ export class ScProvider implements ProviderInterface {
     throw new Error('clone() is not supported.');
   }
 
-  async connect (config?: Config): Promise<void> {
+  async connect (config?: logConfig): Promise<void> {
     assert(!this.isConnected, 'Already connected!');
 
     // it could happen that after emitting `disconnected` due to the fact taht
@@ -349,4 +349,4 @@ export class ScProvider implements ProviderInterface {
   }
 }
 export type ScProviderClass = typeof ScProvider
-export type Config = Config
+export type Config = logConfig
