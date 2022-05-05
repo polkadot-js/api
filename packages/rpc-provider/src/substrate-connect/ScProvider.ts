@@ -1,8 +1,8 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 import type { Config } from '@substrate/connect/dist/connector/smoldot-light';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
