@@ -68,15 +68,6 @@ export class ScProvider implements ProviderInterface {
     throw new Error('clone() is not supported.');
   }
 
-  /**
-   * The client prints logs in the console. Without passing parameter to connect, only log
-   * levels 1, 2, and 3 (corresponding respectively to ERROR, WARN, and INFO) are printed.
-   * In order to more easily debug problems, you can pass 4 (DEBUG) or more.
-   *
-   * This setting is only taken into account between the moment when you use this chain to add a
-   * chain for the first time, and the moment when all the chains that you have added have been
-   * removed.
-   */
   async connect (config?: Config): Promise<void> {
     assert(!this.isConnected, 'Already connected!');
 
