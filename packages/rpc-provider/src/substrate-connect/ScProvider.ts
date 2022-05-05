@@ -358,3 +358,4 @@ export class ScProvider implements ProviderInterface {
   }
 }
 export type ScProviderClass = typeof ScProvider
+export type Config = Config
