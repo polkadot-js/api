@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust `BTreeSet` in typegen top-level generation
+
+
 ## 8.3.1 May 1, 2022
 
 Contributed:
