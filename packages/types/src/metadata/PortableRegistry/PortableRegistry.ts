@@ -54,7 +54,7 @@ const BITVEC_NS_MSB = ['bitvec::order::Msb0', 'BitOrderMsb0'];
 const BITVEC_NS = [...BITVEC_NS_LSB, ...BITVEC_NS_MSB];
 
 // These we never use these as top-level names, they are wrappers
-const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
+const WRAPPERS = ['BoundedBTreeMap', 'BoundedBTreeSet', 'BoundedVec', 'Box', 'BTreeMap', 'BTreeSet', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
 
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
