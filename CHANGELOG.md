@@ -6,6 +6,7 @@ Changes:
 
 - Added support for typegen over `Range/RangeInclusive` types
 - Add explicit support for `Call` typegen (inclusive of non-defaults)
+- Deupe `wss://` handling in `polkadot-types-from-{chain, defs}`
 
 
 ## 8.3.2 May 8, 2022

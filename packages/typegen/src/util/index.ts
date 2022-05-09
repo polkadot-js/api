@@ -8,6 +8,7 @@ export * from './formatting';
 export * from './imports';
 export * from './initMeta';
 export * from './register';
+export * from './wsMeta';
 
 type Cmp = { name: { toString(): string } };
 
