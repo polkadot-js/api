@@ -42,17 +42,6 @@ function tsExport (registry: Registry, definitions: Record<string, ModuleTypes>,
   return exportInterface(def.lookupIndex, def.name, formatType(registry, definitions, def, imports, false));
 }
 
-const tsBTreeMap = tsExport;
-const tsBTreeSet = tsExport;
-const tsCompact = tsExport;
-const tsDoNotConstruct = tsExport;
-const tsHashMap = tsExport;
-const tsOption = tsExport;
-const tsPlain = tsExport;
-const tsTuple = tsExport;
-const tsWrapperKeepOpaque = tsExport;
-const tsWrapperOpaque = tsExport;
-
 /** @internal */
 function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
@@ -227,29 +216,29 @@ function tsVec (registry: Registry, definitions: Record<string, ModuleTypes>, de
 // `generators[typedef.info](...)` TS will show any unhandled types. Rather
 // we are being explicit in having no handlers where we do not support (yet)
 export const typeEncoders: Record<TypeDefInfo, (registry: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports) => string> = {
-  [TypeDefInfo.BTreeMap]: tsBTreeMap,
-  [TypeDefInfo.BTreeSet]: tsBTreeSet,
-  [TypeDefInfo.Compact]: tsCompact,
-  [TypeDefInfo.DoNotConstruct]: tsDoNotConstruct,
+  [TypeDefInfo.BTreeMap]: tsExport,
+  [TypeDefInfo.BTreeSet]: tsExport,
+  [TypeDefInfo.Compact]: tsExport,
+  [TypeDefInfo.DoNotConstruct]: tsExport,
   [TypeDefInfo.Enum]: tsEnum,
-  [TypeDefInfo.HashMap]: tsHashMap,
+  [TypeDefInfo.HashMap]: tsExport,
   [TypeDefInfo.Int]: tsInt,
   [TypeDefInfo.Linkage]: errorUnhandled,
   [TypeDefInfo.Null]: tsNull,
-  [TypeDefInfo.Option]: tsOption,
-  [TypeDefInfo.Plain]: tsPlain,
-  [TypeDefInfo.Range]: errorUnhandled,
-  [TypeDefInfo.RangeInclusive]: errorUnhandled,
+  [TypeDefInfo.Option]: tsExport,
+  [TypeDefInfo.Plain]: tsExport,
+  [TypeDefInfo.Range]: tsExport,
+  [TypeDefInfo.RangeInclusive]: tsExport,
   [TypeDefInfo.Result]: tsResult,
   [TypeDefInfo.Set]: tsSet,
   [TypeDefInfo.Si]: tsSi,
   [TypeDefInfo.Struct]: tsStruct,
-  [TypeDefInfo.Tuple]: tsTuple,
+  [TypeDefInfo.Tuple]: tsExport,
   [TypeDefInfo.UInt]: tsUInt,
   [TypeDefInfo.Vec]: tsVec,
   [TypeDefInfo.VecFixed]: tsVec,
-  [TypeDefInfo.WrapperKeepOpaque]: tsWrapperKeepOpaque,
-  [TypeDefInfo.WrapperOpaque]: tsWrapperOpaque
+  [TypeDefInfo.WrapperKeepOpaque]: tsExport,
+  [TypeDefInfo.WrapperOpaque]: tsExport
 };
 
 /** @internal */
