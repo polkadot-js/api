@@ -42,7 +42,7 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
   types.filter((t): t is string => !!t).forEach((type): void => {
     if (ignoredTypes.includes(type)) {
       // do nothing
-    } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
+    } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'IMethod', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
     } else if (['Metadata', 'PortableRegistry'].includes(type)) {
       metadataTypes[type] = true;

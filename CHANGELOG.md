@@ -5,6 +5,7 @@
 Changes:
 
 - Added support for typegen over `Range/RangeInclusive` types
+- Add explicit support for `Call` typegen (inclusive of non-defaults)
 
 
 ## 8.3.2 May 8, 2022
