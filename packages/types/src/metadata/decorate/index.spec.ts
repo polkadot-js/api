@@ -31,7 +31,7 @@ describe('Decorated', () => {
     const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
     expect(
-      registry.createType('Extrinsic', tx.timestamp.set(111)).toU8a()
+      registry.createType('Extrinsic', tx.timestamp.set(63)).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)
@@ -41,7 +41,7 @@ describe('Decorated', () => {
         // index
         3, 0,
         // values, Compact<Moment>
-        111 << 2
+        63 << 2
       ])
     );
   });
