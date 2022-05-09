@@ -8,6 +8,7 @@ Changes:
 - Add explicit support for `Call` typegen (inclusive of non-defaults)
 - Deupe `wss://` handling in `polkadot-types-from-{chain, defs}`
 - Allow for optional `definitions.ts` in typegen (only use chain)
+- Optimize `Compact<*>` decoding in Uint8Array streams
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 

@@ -16,7 +16,7 @@ export function createUnchecked (registry: Registry, section: string, callIndex:
   const expectedArgs = callMetadata.fields;
   const funcName = stringCamelCase(callMetadata.name);
 
-  const extrinsicFn = (...args: any[]): Call => {
+  const extrinsicFn = (...args: unknown[]): Call => {
     assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length} arguments, got ${args.length}.`);
 
     return registry.createTypeUnsafe('Call', [{ args, callIndex }, callMetadata]);
