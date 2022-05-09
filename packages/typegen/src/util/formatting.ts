@@ -175,11 +175,11 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Range: Not implemented on ${stringify(typeDef)}`);
+    return singleParamNotation(registry, 'Range', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.RangeInclusive]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.RangeInclusive: Not implemented on ${stringify(typeDef)}`);
+    return singleParamNotation(registry, 'RangeInclusive', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {

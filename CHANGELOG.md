@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Added support for typegen over `Range/RangeInclusive` types
+
+
 ## 8.3.2 May 8, 2022
 
 Contributed:
