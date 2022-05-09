@@ -8,10 +8,9 @@ import yargs from 'yargs';
 
 import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
-import { WebSocket } from '@polkadot/x-ws';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
-import { HEADER, writeFile } from './util';
+import { getMetadataViaWs, HEADER, writeFile } from './util';
 
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
@@ -78,30 +77,9 @@ export function main (): void {
   }).argv as ArgV;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    try {
-      const websocket = new WebSocket(endpoint);
-
-      websocket.onclose = (event: { code: number; reason: string }): void => {
-        console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
-        process.exit(1);
-      };
-
-      websocket.onerror = (event: unknown): void => {
-        console.error(event);
-        process.exit(1);
-      };
-
-      websocket.onopen = (): void => {
-        console.log('connected');
-        websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
-      };
-
-      websocket.onmessage = (message: unknown): void => {
-        generate((JSON.parse((message as Record<string, string>).data) as Record<string, HexString>).result, pkg, output, isStrict);
-      };
-    } catch (error) {
-      process.exit(1);
-    }
+    getMetadataViaWs(endpoint)
+      .then((metadata) => generate(metadata, pkg, output, isStrict))
+      .catch(() => process.exit(1));
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     generate((require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result, pkg, output, isStrict);
