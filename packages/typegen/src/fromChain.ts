@@ -10,37 +10,44 @@ import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
-import { getMetadataViaWs, HEADER, writeFile } from './util';
+import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
-  const base = path.join(process.cwd(), output);
-  const extraTypes = pkg
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    ? { [pkg]: require(path.join(base, 'definitions')) as Record<string, any> }
-    : {};
+  const outputPath = assertDir(path.join(process.cwd(), output));
+  let extraTypes: Record<string, any> = {};
+  let customLookupDefinitions: Definitions = { rpc: {}, types: {} };
 
-  let customLookupDefinitions;
+  if (pkg) {
+    try {
+      extraTypes = {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
+        [pkg]: require(assertFile(path.join(outputPath, 'definitions.ts'))) as Record<string, any>
+      };
+    } catch (error) {
+      console.error('ERROR: No custom definitions found:', (error as Error).message);
+    }
+  }
 
   try {
     customLookupDefinitions = {
       rpc: {},
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-      types: require(path.join(base, 'lookup.ts')).default
-    } as Definitions;
+      types: require(assertFile(path.join(outputPath, 'lookup.ts'))).default
+    };
   } catch (error) {
-    console.log('No custom definitions found.');
+    console.error('ERROR: No lookup definitions found:', (error as Error).message);
   }
 
-  generateDefaultConsts(path.join(base, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultErrors(path.join(base, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultEvents(path.join(base, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultQuery(path.join(base, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultRpc(path.join(base, 'augment-api-rpc.ts'), extraTypes);
-  generateDefaultTx(path.join(base, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultConsts(path.join(outputPath, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultErrors(path.join(outputPath, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultEvents(path.join(outputPath, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
-  writeFile(path.join(base, 'augment-api.ts'), (): string =>
+  writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
@@ -82,6 +89,6 @@ export function main (): void {
       .catch(() => process.exit(1));
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    generate((require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result, pkg, output, isStrict);
+    generate((require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result, pkg, output, isStrict);
   }
 }

@@ -11,7 +11,7 @@ import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
 import { generateDefaultLookup } from './generate';
-import { getMetadataViaWs } from './util';
+import { assertDir, assertFile, getMetadataViaWs } from './util';
 
 type ArgV = { input: string; package: string; endpoint?: string; };
 
@@ -33,8 +33,16 @@ export function main (): void {
     }
   }).argv as ArgV;
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const userDefs = require(path.join(process.cwd(), input, 'definitions.ts')) as Record<string, any>;
+  const inputPath = assertDir(path.join(process.cwd(), input));
+  let userDefs: Record<string, any> = {};
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    userDefs = require(assertFile(path.join(inputPath, 'definitions.ts'))) as Record<string, any>;
+  } catch (error) {
+    console.error('ERROR: Unable to load user definitions:', (error as Error).message);
+  }
+
   const userKeys = Object.keys(userDefs);
   const filteredBase = Object
     .entries(substrateDefs as Record<string, unknown>)
@@ -57,7 +65,6 @@ export function main (): void {
     '@polkadot/types/interfaces': filteredBase,
     [pkg]: userDefs
   };
-  const inputPath = path.join(process.cwd(), input);
 
   generateTsDef(allDefs, inputPath, pkg);
   generateInterfaceTypes(allDefs, path.join(inputPath, 'augment-types.ts'));
@@ -69,7 +76,7 @@ export function main (): void {
         .catch(() => process.exit(1));
     } else {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result;
+      const metaHex = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
 
       generateDefaultLookup(inputPath, metaHex);
     }
