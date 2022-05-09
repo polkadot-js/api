@@ -1,4 +1,4 @@
-    2940	Jaco                          	Add support for Range/RangeInclusive typegen (#4802)
+    2941	Jaco                          	Add explicit support for `Call` typegen (inclusive of non-defaults) (#4803)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
