@@ -89,6 +89,6 @@ export function main (): void {
       .catch(() => process.exit(1));
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    generate((require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result, pkg, output, isStrict);
+    generate((require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result, pkg, output, isStrict);
   }
 }

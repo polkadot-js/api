@@ -76,7 +76,7 @@ export function main (): void {
         .catch(() => process.exit(1));
     } else {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const metaHex = (require(path.join(process.cwd(), endpoint)) as Record<string, HexString>).result;
+      const metaHex = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
 
       generateDefaultLookup(inputPath, metaHex);
     }
