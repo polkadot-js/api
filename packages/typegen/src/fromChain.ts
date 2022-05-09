@@ -10,7 +10,7 @@ import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
-import { assertDir, assertExist, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
+import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
@@ -23,7 +23,7 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
     try {
       extraTypes = {
         // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
-        [pkg]: require(assertExist(path.join(outputPath, 'definitions'))) as Record<string, any>
+        [pkg]: require(assertFile(path.join(outputPath, 'definitions.ts'))) as Record<string, any>
       };
     } catch (error) {
       console.error('ERROR: No custom definitions found:', (error as Error).message);

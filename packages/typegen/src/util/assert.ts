@@ -11,12 +11,6 @@ export function assertDir (path: string): string {
   return path;
 }
 
-export function assertExist (path: string): string {
-  assert(fs.existsSync(path), `${path} does not exist`);
-
-  return path;
-}
-
 export function assertFile (path: string): string {
   assert(fs.existsSync(path) && fs.lstatSync(path).isFile(), `${path} is not a file`);
 
