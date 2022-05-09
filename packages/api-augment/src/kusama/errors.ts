@@ -93,17 +93,9 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bagsList: {
       /**
-       * Id not found in list.
+       * A error in the list interface implementation.
        **/
-      IdNotFound: AugmentedError<ApiType>;
-      /**
-       * An Id does not have a greater score than another Id.
-       **/
-      NotHeavier: AugmentedError<ApiType>;
-      /**
-       * Attempted to place node in front of a node in another bag.
-       **/
-      NotInSameBag: AugmentedError<ApiType>;
+      List: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

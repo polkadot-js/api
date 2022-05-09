@@ -629,6 +629,12 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Destroyed: AugmentedEvent<ApiType, [u32]>;
       /**
+       * A member has been removed from a pool.
+       * 
+       * The removal can be voluntary (withdrawn all unbonded funds) or involuntary (kicked).
+       **/
+      MemberRemoved: AugmentedEvent<ApiType, [u32, AccountId32]>;
+      /**
        * A payout has been made to a member.
        **/
       PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
@@ -1292,6 +1298,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BatchCompleted: AugmentedEvent<ApiType, []>;
       /**
+       * Batch of dispatches completed but has errors.
+       **/
+      BatchCompletedWithErrors: AugmentedEvent<ApiType, []>;
+      /**
        * Batch of dispatches did not complete fully. Index of first failing dispatch given, as
        * well as the error.
        **/
@@ -1304,6 +1314,10 @@ declare module '@polkadot/api-base/types/events' {
        * A single item within a Batch of dispatches has completed with no error.
        **/
       ItemCompleted: AugmentedEvent<ApiType, []>;
+      /**
+       * A single item within a Batch of dispatches has completed with error.
+       **/
+      ItemFailed: AugmentedEvent<ApiType, [SpRuntimeDispatchError]>;
       /**
        * Generic event
        **/
