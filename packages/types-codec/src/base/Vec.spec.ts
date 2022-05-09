@@ -118,7 +118,7 @@ describe('Vec', (): void => {
 
     it('exposes a working map', (): void => {
       expect(
-        vector.map((e): string => e.toString().substr(0, 1))
+        vector.map((e): string => e.toString().substring(0, 1))
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
