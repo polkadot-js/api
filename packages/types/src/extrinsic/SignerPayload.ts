@@ -3,8 +3,8 @@
 
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, Call, ExtrinsicEra, Hash, RuntimeVersion } from '../interfaces';
-import type { Codec, ICompact, INumber, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Address, Call, ExtrinsicEra, Hash } from '../interfaces';
+import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { Option, Struct, Text, Vec } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
@@ -17,7 +17,7 @@ export interface SignerPayloadType extends Codec {
   genesisHash: Hash;
   method: Call;
   nonce: ICompact<INumber>;
-  runtimeVersion: RuntimeVersion;
+  runtimeVersion: IRuntimeVersion;
   signedExtensions: Vec<Text>;
   tip: ICompact<INumber>;
   version: INumber;
@@ -91,7 +91,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('nonce');
   }
 
-  get runtimeVersion (): RuntimeVersion {
+  get runtimeVersion (): IRuntimeVersion {
     return this.getT('runtimeVersion');
   }
 
