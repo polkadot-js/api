@@ -88,8 +88,8 @@ export function cleanupCompact (): Mapper {
       if (value[index] === '<') {
         const end = findClosing(value, index + 1) - 14;
 
-        if (value.substr(end, 14) === ' as HasCompact') {
-          value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+        if (value.substring(end, end + 14) === ' as HasCompact') {
+          value = `Compact<${value.substring(index + 1, end)}>`;
         }
       }
     }
@@ -126,7 +126,7 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
     const start = index + matcher.length;
     const end = findClosing(value, start);
 
-    value = `${value.substr(0, index)}${replacer(value.substr(start, end - start))}${value.substr(end + 1)}`;
+    value = `${value.substring(0, index)}${replacer(value.substring(start, end))}${value.substring(end + 1)}`;
   }
 }
 
@@ -157,7 +157,7 @@ export function removeColons (): Mapper {
       index = value.indexOf('::');
 
       if (index === 0) {
-        value = value.substr(2);
+        value = value.substring(2);
       } else if (index !== -1) {
         if (allowNamespaces) {
           return value;
@@ -169,7 +169,7 @@ export function removeColons (): Mapper {
           start--;
         }
 
-        value = `${value.substr(0, start + 1)}${value.substr(index + 2)}`;
+        value = `${value.substring(0, start + 1)}${value.substring(index + 2)}`;
       }
     }
 
@@ -185,7 +185,7 @@ export function removeGenerics (): Mapper {
         const box = ALLOWED_BOXES.find((box): boolean => {
           const start = index - box.length;
 
-          return (start >= 0 && value.substr(start, box.length) === box) && (
+          return (start >= 0 && value.substring(start, start + box.length) === box) && (
             // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
             start === 0 || BOX_PRECEDING.includes(value[start - 1])
           );
@@ -195,7 +195,7 @@ export function removeGenerics (): Mapper {
         if (!box) {
           const end = findClosing(value, index + 1);
 
-          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+          value = `${value.substring(0, index)}${value.substring(end + 1)}`;
         }
       }
     }

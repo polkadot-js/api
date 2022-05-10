@@ -14,7 +14,7 @@ export function typeSplit (type: string): string[] {
 
   const extract = (index: number): void => {
     if (isNotNested(cDepth, fDepth, sDepth, tDepth)) {
-      result.push(type.substr(start, index - start).trim());
+      result.push(type.substring(start, index).trim());
       start = index + 1;
     }
   };
@@ -45,7 +45,7 @@ export function typeSplit (type: string): string[] {
   assert(isNotNested(cDepth, fDepth, sDepth, tDepth), () => `Invalid definition (missing terminators) found in ${type}`);
 
   // the final leg of the journey
-  result.push(type.substr(start, type.length - start).trim());
+  result.push(type.substring(start, type.length).trim());
 
   return result;
 }

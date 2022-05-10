@@ -128,8 +128,8 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
 
   assert(index !== -1, () => `${type}: Unable to extract location of ';'`);
 
-  const vecType = type.substr(1, index - 1);
-  const [strLength, displayName] = type.substr(index + 1, max - index - 1).split(';');
+  const vecType = type.substring(1, index);
+  const [strLength, displayName] = type.substring(index + 1, max).split(';');
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
@@ -154,7 +154,7 @@ function _decodeTuple (value: TypeDef, _: string, subType: string, count: number
 // decode a Int/UInt<bitLength[, name]>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt'): TypeDef {
-  const [strLength, displayName] = type.substr(clazz.length + 1, type.length - clazz.length - 1 - 1).split(',');
+  const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
@@ -178,13 +178,13 @@ function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
 function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDef {
   const NAME_LENGTH = 'DoNotConstruct'.length;
 
-  value.displayName = type.substr(NAME_LENGTH + 1, type.length - NAME_LENGTH - 1 - 1);
+  value.displayName = type.substring(NAME_LENGTH + 1, type.length - 1);
 
   return value;
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  return (type.substr(0, start.length) === start) && (type.substr(-1 * end.length) === end);
+  return (type.substring(0, start.length) === start) && (type.slice(-1 * end.length) === end);
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [
@@ -213,7 +213,7 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
 ];
 
 function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any?]): string {
-  return type.substr(start.length, type.length - start.length - end.length);
+  return type.substring(start.length, type.length - end.length);
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

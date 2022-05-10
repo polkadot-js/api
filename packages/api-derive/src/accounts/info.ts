@@ -21,7 +21,7 @@ function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string
   ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
     map((nameOf): string | undefined =>
       nameOf?.isSome
-        ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
+        ? u8aToString(nameOf.unwrap()[0]).substring(0, (api.consts.nicks.maxLength as u32).toNumber())
         : undefined
     )
   );

@@ -80,8 +80,8 @@ describe('Option', (): void => {
 
     // watch the hex prefix and length
     expect(
-      new Option(registry, Bytes, HEX).toHex().substr(6)
-    ).toEqual(HEX.substr(2));
+      new Option(registry, Bytes, HEX).toHex().substring(6)
+    ).toEqual(HEX.substring(2));
   });
 
   it('converts correctly from hex with toNumber (U64)', (): void => {
