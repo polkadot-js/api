@@ -20,7 +20,17 @@ export interface IKeyringPair {
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
-export interface IRuntimeVersion {
+export interface IRuntimeVersionBase {
+  readonly apis: unknown[];
+  readonly authoringVersion: unknown;
+  readonly implName: unknown;
+  readonly implVersion: unknown;
+  readonly specName: unknown;
+  readonly specVersion: unknown;
+  readonly transactionVersion: unknown;
+}
+
+export interface IRuntimeVersion extends IRuntimeVersionBase {
   readonly apis: Codec[];
   readonly authoringVersion: INumber;
   readonly implName: IText;

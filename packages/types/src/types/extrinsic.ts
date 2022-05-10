@@ -7,7 +7,7 @@ import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import type { Address, Call, H256, Hash } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
-import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersion } from './interfaces';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces';
 import type { Registry } from './registry';
 
 export interface ISubmittableResult {
@@ -159,7 +159,7 @@ export interface SignatureOptions {
   era?: IExtrinsicEra;
   genesisHash: Uint8Array | string;
   nonce: AnyNumber;
-  runtimeVersion: IRuntimeVersion;
+  runtimeVersion: IRuntimeVersionBase;
   signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
