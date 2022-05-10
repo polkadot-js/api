@@ -1,13 +1,12 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Compact } from '@polkadot/types-codec';
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
 import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { Address, Balance, Call, CodecHash, Index } from '../interfaces/runtime';
-import type { CallBase, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, Registry, SignatureOptions } from '../types';
+import type { Address, Call, CodecHash } from '../interfaces/runtime';
+import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types';
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
@@ -164,7 +163,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   /**
    * @description The nonce for this extrinsic
    */
-  public get nonce (): Compact<Index> {
+  public get nonce (): ICompact<INumber> {
     return this.inner.signature.nonce;
   }
 
@@ -189,7 +188,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
   /**
    * @description Forwards compat
    */
-  public get tip (): Compact<Balance> {
+  public get tip (): ICompact<INumber> {
     return this.inner.signature.tip;
   }
 

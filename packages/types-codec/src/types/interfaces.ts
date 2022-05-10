@@ -61,6 +61,10 @@ export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>,
   toArray (): Codec[];
 }
 
+export interface IText extends String, Codec {
+  // nothing additional
+}
+
 export type ITuple<T extends AnyTuple = Codec[]> = T & Codec;
 
 export interface IU8a extends Uint8Array, Codec {

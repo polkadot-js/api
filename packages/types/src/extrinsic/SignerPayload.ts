@@ -3,24 +3,24 @@
 
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Address, Call, ExtrinsicEra, Hash } from '../interfaces';
+import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
-import { Compact, Option, Struct, Text, u8, Vec } from '@polkadot/types-codec';
+import { Option, Struct, Text, Vec } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
 
 export interface SignerPayloadType extends Codec {
   address: Address;
   blockHash: Hash;
-  blockNumber: BlockNumber;
+  blockNumber: INumber;
   era: ExtrinsicEra;
   genesisHash: Hash;
   method: Call;
-  nonce: Compact<Index>;
-  runtimeVersion: RuntimeVersion;
+  nonce: ICompact<INumber>;
+  runtimeVersion: IRuntimeVersion;
   signedExtensions: Vec<Text>;
-  tip: Compact<Balance>;
-  version: u8;
+  tip: ICompact<INumber>;
+  version: INumber;
 }
 
 const knownTypes: Record<string, string> = {
@@ -71,7 +71,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('blockHash');
   }
 
-  get blockNumber (): BlockNumber {
+  get blockNumber (): INumber {
     return this.getT('blockNumber');
   }
 
@@ -87,11 +87,11 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('method');
   }
 
-  get nonce (): Compact<Index> {
+  get nonce (): ICompact<INumber> {
     return this.getT('nonce');
   }
 
-  get runtimeVersion (): RuntimeVersion {
+  get runtimeVersion (): IRuntimeVersion {
     return this.getT('runtimeVersion');
   }
 
@@ -99,11 +99,11 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('signedExtensions');
   }
 
-  get tip (): Compact<Balance> {
+  get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
 
-  get version (): u8 {
+  get version (): INumber {
     return this.getT('version');
   }
 
