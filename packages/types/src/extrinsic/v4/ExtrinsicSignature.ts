@@ -3,11 +3,11 @@
 
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { Address, Call } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { Compact, Struct } from '@polkadot/types-codec';
+import { Struct } from '@polkadot/types-codec';
 import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
@@ -85,7 +85,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The [[Index]] for the signature
    */
-  public get nonce (): Compact<Index> {
+  public get nonce (): ICompact<INumber> {
     return this.getT('nonce');
   }
 
@@ -118,7 +118,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): Compact<Balance> {
+  public get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
 

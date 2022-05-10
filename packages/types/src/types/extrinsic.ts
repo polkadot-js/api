@@ -5,9 +5,9 @@ import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from '@polkadot/type
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
-import type { Address, Balance, Call, H256, Hash, Index } from '../interfaces/runtime';
+import type { Address, Call, H256, Hash } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
-import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersion } from './interfaces';
 import type { Registry } from './registry';
 
 export interface ISubmittableResult {
@@ -169,10 +169,10 @@ export interface SignatureOptions {
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
-  readonly nonce: ICompact<Index>;
+  readonly nonce: ICompact<INumber>;
   readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
-  readonly tip: ICompact<Balance>;
+  readonly tip: ICompact<INumber>;
 }
 
 export interface ExtrinsicPayloadValue {

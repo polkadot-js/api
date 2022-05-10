@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyU8a, Registry } from '@polkadot/types-codec/types';
-import type { BN } from '@polkadot/util';
-import type { IExtrinsicEra } from '../types';
+import type { IExtrinsicEra, INumber } from '../types';
 
 import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
 import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
 import { IMMORTAL_ERA } from './constants';
 
-type MortalEraValue = [U64, U64];
+type MortalEraValue = [INumber, INumber];
 
 interface MortalMethod {
   current: number;
@@ -147,15 +146,15 @@ export class MortalEra extends Tuple {
   /**
    * @description The period of this Mortal wraps as a [[U64]]
    */
-  public get period (): U64 {
-    return this[0] as U64;
+  public get period (): INumber {
+    return this[0] as INumber;
   }
 
   /**
    * @description The phase of this Mortal wraps as a [[U64]]
    */
-  public get phase (): U64 {
-    return this[1] as U64;
+  public get phase (): INumber {
+    return this[1] as INumber;
   }
 
   /**
@@ -201,7 +200,7 @@ export class MortalEra extends Tuple {
   /**
    * @description Get the block number of the start of the era whose properties this object describes that `current` belongs to.
    */
-  public birth (current: BN | number): number {
+  public birth (current: INumber | number): number {
     // FIXME No toNumber() here
     return Math.floor(
       (
@@ -213,7 +212,7 @@ export class MortalEra extends Tuple {
   /**
    * @description Get the block number of the first block at which the era has ended.
    */
-  public death (current: BN | number): number {
+  public death (current: INumber | number): number {
     // FIXME No toNumber() here
     return this.birth(current) + this.period.toNumber();
   }
