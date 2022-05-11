@@ -12,7 +12,7 @@ import type { RpcInterfaceMethod } from './types';
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aToU8a } from '@polkadot/util';
+import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
@@ -455,7 +455,10 @@ export class RpcCore {
       return registry.createTypeUnsafe(type, [
         isEmpty
           ? meta.fallback
-            ? hexToU8a(meta.fallback.toHex())
+            // For old-style Linkage, we add an empty linkage at the end
+            ? type.includes('Linkage<')
+              ? u8aConcat(hexToU8a(meta.fallback.toHex()), new Uint8Array(2))
+              : hexToU8a(meta.fallback.toHex())
             : undefined
           : meta.modifier.isOptional
             ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })
