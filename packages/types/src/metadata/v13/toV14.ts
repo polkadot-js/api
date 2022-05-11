@@ -13,6 +13,8 @@ import { knownOrigins } from '../../interfaces/runtime/definitions';
 
 interface MapDef {
   hashers: StorageHasherV13[];
+  isLinked: boolean;
+  isOptional: boolean;
   keys: Type[];
   value: Type;
 }
@@ -211,7 +213,7 @@ function convertEvents (specs: TypeSpec[], registry: Registry, modName: Text, ev
   }]);
 }
 
-function createMapEntry (specs: TypeSpec[], registry: Registry, sectionTypes: OverrideModuleType, { hashers, keys, value }: MapDef): StorageEntryTypeV14 {
+function createMapEntry (specs: TypeSpec[], registry: Registry, sectionTypes: OverrideModuleType, { hashers, isLinked, isOptional, keys, value }: MapDef): StorageEntryTypeV14 {
   setTypeOverride(sectionTypes, [value, ...(Array.isArray(keys) ? keys : [keys])]);
 
   return registry.createTypeUnsafe('StorageEntryTypeV14', [{
@@ -220,7 +222,11 @@ function createMapEntry (specs: TypeSpec[], registry: Registry, sectionTypes: Ov
       key: hashers.length === 1
         ? compatType(specs, keys[0])
         : makeTupleType(specs, keys.map((t) => compatType(specs, t))),
-      value: compatType(specs, value)
+      value: isLinked
+        // For previous-generation linked-map support, the actual storage result
+        // is a Tuple with the value and the Linkage (Option appears in teh value-part only)
+        ? compatType(specs, `(${isOptional ? `Option<${value.toString()}>` : value.toString()}, Linkage<${keys[0].toString()}>)`)
+        : compatType(specs, value)
     }
   }]);
 }
@@ -247,6 +253,8 @@ function convertStorage (specs: TypeSpec[], registry: Registry, { items, prefix 
 
         entryType = createMapEntry(specs, registry, sectionTypes, {
           hashers: [map.hasher],
+          isLinked: map.linked.isTrue,
+          isOptional: modifier.isOptional,
           keys: [map.key],
           value: map.value
         });
@@ -255,6 +263,8 @@ function convertStorage (specs: TypeSpec[], registry: Registry, { items, prefix 
 
         entryType = createMapEntry(specs, registry, sectionTypes, {
           hashers: [dm.hasher, dm.key2Hasher],
+          isLinked: false,
+          isOptional: modifier.isOptional,
           keys: [dm.key1, dm.key2],
           value: dm.value
         });
@@ -263,6 +273,8 @@ function convertStorage (specs: TypeSpec[], registry: Registry, { items, prefix 
 
         entryType = createMapEntry(specs, registry, sectionTypes, {
           hashers: nm.hashers,
+          isLinked: false,
+          isOptional: modifier.isOptional,
           keys: nm.keyVec,
           value: nm.value
         });
