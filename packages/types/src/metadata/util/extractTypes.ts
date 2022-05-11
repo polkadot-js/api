@@ -30,7 +30,7 @@ const mapping: Record<TypeDefInfo, (type: string, typeDef: TypeDef) => Extracted
   [TypeDefInfo.Enum]: extractSubArray,
   [TypeDefInfo.HashMap]: extractSubArray,
   [TypeDefInfo.Int]: unhandled,
-  [TypeDefInfo.Linkage]: unhandled,
+  [TypeDefInfo.Linkage]: extractSubSingle,
   [TypeDefInfo.Null]: unhandled,
   [TypeDefInfo.Option]: extractSubSingle,
   [TypeDefInfo.Plain]: (_: string, typeDef: TypeDef) => typeDef.lookupName || typeDef.type,
