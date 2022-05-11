@@ -10,6 +10,7 @@ Changes:
 - Allow for optional `definitions.ts` in typegen (only use chain)
 - Optimize `Compact<*>` decoding in Uint8Array streams
 - Use `I*` interfaces for extrinsic payload getters
+- Re-add support for historic linked-map queries
 - Update to latest Substrate, Kusama & Polkadot static metadata
 
 
