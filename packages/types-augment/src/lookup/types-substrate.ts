@@ -3714,7 +3714,7 @@ declare module '@polkadot/types/lookup' {
   export interface PalletConvictionVotingVoteAccountVote extends Enum {
     readonly isStandard: boolean;
     readonly asStandard: {
-      readonly vote: u8;
+      readonly vote: Vote;
       readonly balance: u128;
     } & Struct;
     readonly isSplit: boolean;

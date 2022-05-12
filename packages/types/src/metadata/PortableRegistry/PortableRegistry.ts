@@ -35,6 +35,7 @@ const PATHS_ALIAS = splitNamespace([
   // wildcard matching in place...
   // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
   '*_democracy::vote::Vote',
+  '*_conviction_voting::vote::Vote',
   '*_identity::types::Data',
   // shorten some well-known types
   'primitive_types::*',
