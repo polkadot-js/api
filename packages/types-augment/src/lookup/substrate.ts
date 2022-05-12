@@ -3454,7 +3454,7 @@ export default {
   PalletConvictionVotingVoteAccountVote: {
     _enum: {
       Standard: {
-        vote: 'u8',
+        vote: 'Vote',
         balance: 'u128',
       },
       Split: {
