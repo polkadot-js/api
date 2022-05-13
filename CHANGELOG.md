@@ -12,6 +12,7 @@ Changes:
 - Use `I*` interfaces for extrinsic payload getters
 - Re-add support for historic linked-map queries
 - Update to latest Substrate, Kusama & Polkadot static metadata
+- Add latest upgrade blocks for Polkadot, Kusama & Westend
 
 
 ## 8.3.2 May 8, 2022
