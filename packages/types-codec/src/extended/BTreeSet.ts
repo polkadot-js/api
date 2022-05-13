@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isString, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
 
@@ -59,7 +59,7 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 
   if (!value) {
     return [ValClass, new Set<V>(), 0];
-  } else if (isU8a(value) || isString(value)) {
+  } else if (isU8a(value) || isHex(value)) {
     return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (Array.isArray(value) || value instanceof Set) {
     return decodeSetFromSet<V>(registry, ValClass, value);
