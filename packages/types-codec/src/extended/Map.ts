@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isObject, isString, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { Enum } from '../base/Enum';
@@ -82,7 +82,7 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 
   if (!value) {
     return [KeyClass, ValClass, new Map<K, V>(), 0];
-  } else if (isU8a(value) || isString(value)) {
+  } else if (isU8a(value) || isHex(value)) {
     return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
     return decodeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
