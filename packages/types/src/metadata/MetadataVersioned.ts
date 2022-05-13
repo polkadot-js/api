@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
 import type { Registry } from '../types';
 
@@ -31,13 +32,13 @@ const LATEST_VERSION = 14;
 export class MetadataVersioned extends Struct {
   readonly #converted = new Map<MetaVersions, MetaMapped>();
 
-  constructor (registry: Registry, value?: unknown) {
+  constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
     // console.time('MetadataVersioned')
 
     super(registry, {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
-    }, value as Map<unknown, unknown>);
+    }, value);
 
     // console.timeEnd('MetadataVersioned')
   }

@@ -11,7 +11,7 @@ import { decodeU8aVec, typeToConstructor } from '../utils';
 import { decodeVec } from './Vec';
 
 /** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, value: Uint8Array | HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
+function decodeVecFixed<T extends Codec> (registry: Registry, value: HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
   const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
 
   while (values.length < length) {

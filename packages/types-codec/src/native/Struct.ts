@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, Inspect, IStruct, IU8a, Registry } from '../types';
 
-import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isBoolean, isFunction, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 
@@ -104,7 +104,7 @@ export class Struct<
     const typeMap = mapToTypeMap(registry, Types);
     const [decoded, decodedLength] = isU8a(value)
       ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
-      : isHex(value)
+      : isString(value)
         ? decodeU8a<Codec, [string, Codec]>(registry, u8aToU8a(value), typeMap, true)
         : value instanceof Struct
           ? [value as Iterable<[string, Codec]>, 0]

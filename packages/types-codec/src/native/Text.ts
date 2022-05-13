@@ -45,8 +45,6 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
  * object, inheriting all methods exposed from `String`.
  * @noInheritDoc
  */
-// TODO
-//   - Strings should probably be trimmed (docs do come through with extra padding)
 export class Text extends String implements IText {
   public readonly registry: Registry;
 

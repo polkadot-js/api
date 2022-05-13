@@ -111,8 +111,8 @@ export class CodecSet extends Set<string> implements ISet<string> {
     }
 
     return class extends CodecSet {
-      constructor (registry: Registry, value?: unknown) {
-        super(registry, values, value as undefined, bitLength);
+      constructor (registry: Registry, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
+        super(registry, values, value, bitLength);
 
         objectProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));
       }

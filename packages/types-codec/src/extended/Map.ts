@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8a, compactToU8a, isObject, isString, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { Enum } from '../base/Enum';
@@ -14,7 +14,7 @@ import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
 const l = logger('Map');
 
 /** @internal */
-function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, u8a: Uint8Array): [Map<K, V>, number] {
+function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, u8a: Uint8Array): [CodecClass<K>, CodecClass<V>, Map<K, V>, number] {
   const output = new Map<K, V>();
   const [offset, length] = compactFromU8a(u8a);
   const count = length.toNumber();
@@ -30,11 +30,11 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
     output.set(values[i] as K, values[i + 1] as V);
   }
 
-  return [output, offset + decodedLength];
+  return [KeyClass, ValClass, output, offset + decodedLength];
 }
 
 /** @internal */
-function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, value: Map<any, any>): [Map<K, V>, number] {
+function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, value: Map<any, any>): [CodecClass<K>, CodecClass<V>, Map<K, V>, number] {
   const output = new Map<K, V>();
 
   for (const [key, val] of value.entries()) {
@@ -58,7 +58,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
     }
   }
 
-  return [output, 0];
+  return [KeyClass, ValClass, output, 0];
 }
 
 /**
@@ -76,13 +76,13 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
  * @param jsonMap
  * @internal
  */
-function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, value?: Uint8Array | string | Map<any, any>): [Map<K, V>, number] {
+function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, value?: Uint8Array | string | Map<any, any>): [CodecClass<K>, CodecClass<V>, Map<K, V>, number] {
   const KeyClass = typeToConstructor(registry, keyType);
   const ValClass = typeToConstructor(registry, valType);
 
   if (!value) {
-    return [new Map<K, V>(), 0];
-  } else if (isU8a(value) || isHex(value)) {
+    return [KeyClass, ValClass, new Map<K, V>(), 0];
+  } else if (isU8a(value) || isString(value)) {
     return decodeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
     return decodeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
@@ -107,14 +107,14 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   readonly #type: string;
 
   constructor (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
-    const [decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
+    const [KeyClass, ValClass, decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
     this.initialU8aLength = decodedLength;
-    this.#KeyClass = typeToConstructor(registry, keyType);
-    this.#ValClass = typeToConstructor(registry, valType);
+    this.#KeyClass = KeyClass;
+    this.#ValClass = ValClass;
     this.#type = type;
   }
 

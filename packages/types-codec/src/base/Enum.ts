@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isCodec, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -88,7 +88,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 
   return {
     index,
-    value: value instanceof entry.Type
+    value: isCodec(value) && value instanceof entry.Type
       ? value
       : new entry.Type(registry, value)
   };
@@ -266,7 +266,7 @@ export class Enum implements IEnum {
    * @deprecated use isNone
    */
   public get isNull (): boolean {
-    return this.#raw instanceof Null;
+    return this.isNone;
   }
 
   /**
@@ -310,7 +310,7 @@ export class Enum implements IEnum {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
-    } else if (other instanceof Enum) {
+    } else if (isCodec(other) && other instanceof Enum) {
       return this.index === other.index && this.value.eq(other.value);
     } else if (isObject(other)) {
       return this.value.eq(other[this.type]);
@@ -404,7 +404,7 @@ export class Enum implements IEnum {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.isNull
+    return this.isNone
       ? this.type
       : stringify(this.toJSON());
   }
