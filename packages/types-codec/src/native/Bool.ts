@@ -6,17 +6,6 @@ import type { Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
-/** @internal */
-function decodeBool (value: any): boolean {
-  if (isU8a(value)) {
-    return value[0] === 1;
-  } else if (value instanceof Boolean) {
-    return value.valueOf();
-  }
-
-  return !!value;
-}
-
 /**
  * @name bool
  * @description
@@ -30,7 +19,13 @@ export class bool extends Boolean implements Codec {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
-    super(decodeBool(value));
+    super(
+      isU8a(value)
+        ? value[0] === 1
+        : value instanceof Boolean
+          ? value.valueOf()
+          : !!value
+    );
 
     this.registry = registry;
   }

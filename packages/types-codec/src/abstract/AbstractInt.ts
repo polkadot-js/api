@@ -25,10 +25,8 @@ function toPercentage (value: BN, divisor: BN): string {
 }
 
 /** @internal */
-function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
-  if (isU8a(value)) {
-    return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
-  } else if (isBn(value)) {
+function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string {
+  if (isBn(value)) {
     return value.toString();
   } else if (isHex(value, -1, true)) {
     return hexToBn(value, { isLe: false, isNegative }).toString();
@@ -65,7 +63,7 @@ export abstract class AbstractInt extends BN implements INumber {
       // shortcut isU8a as used in SCALE decoding
       isU8a(value)
         ? u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
-        : decodeAbstractInt(value, bitLength, isSigned)
+        : decodeAbstractInt(value, isSigned)
     );
 
     this.registry = registry;

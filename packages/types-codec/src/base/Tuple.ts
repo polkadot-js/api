@@ -19,7 +19,7 @@ type TupleTypes = TupleType[] | {
 };
 
 /** @internal */
-function decodeTuple (registry: Registry, Classes: TupleCodecClasss, value?: AnyTupleValue): [Codec[], number] {
+function decodeTuple (registry: Registry, Classes: TupleCodecClasss, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), Classes);
   }
