@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 8.4.2 May 15, 2022
+
+Changes:
+
+- Expand/fix TS typings for `MortalEra.{birth, death}(...)`
+
+
 ## 8.4.1 May 14, 2022
 
 Changes:
