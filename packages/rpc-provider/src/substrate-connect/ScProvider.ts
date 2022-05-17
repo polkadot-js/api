@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Config } from '@substrate/connect/dist/connector/index';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
@@ -67,7 +68,9 @@ export class ScProvider implements ProviderInterface {
     throw new Error('clone() is not supported.');
   }
 
-  async connect (): Promise<void> {
+  // Config details can be found in @substrate/connect repo following the link:
+  // https://github.com/paritytech/substrate-connect/blob/main/packages/connect/src/connector/index.ts#L35-L51
+  async connect (config?: Config): Promise<void> {
     assert(!this.isConnected, 'Already connected!');
 
     // it could happen that after emitting `disconnected` due to the fact taht
@@ -86,7 +89,7 @@ export class ScProvider implements ProviderInterface {
 
     const client = this.#sharedSandbox
       ? scClients.get(this.#sharedSandbox)
-      : createScClient();
+      : createScClient(config);
 
     assert(client, 'Unkown ScProvider!');
     scClients.set(this, client);
