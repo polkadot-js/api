@@ -31,7 +31,7 @@
     "test:watch": "polkadot-dev-run-test --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
+    "@babel/core": "^7.17.12",
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.17.9",
     "@polkadot/dev": "^0.66.23",
