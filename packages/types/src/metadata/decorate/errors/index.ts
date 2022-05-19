@@ -7,7 +7,7 @@ import type { DispatchErrorModule, DispatchErrorModuleU8a, MetadataLatest, SiFie
 import type { PortableRegistry } from '../../../metadata';
 import type { Errors, IsError } from '../types';
 
-import { isU8a, lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
+import { isCodec, isU8a, lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { objectNameToString } from '../util';
@@ -39,11 +39,14 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
 
       lazyMethod(result, stringCamelCase(name), () =>
         lazyVariants(lookup, errors.unwrap(), objectNameToString, (variant: SiVariant): IsError => ({
-          is: ({ error, index }: DispatchErrorModule | DispatchErrorModuleU8a) =>
-            index.eq(sectionIndex) && (
-              isU8a(error)
-                ? error[0] === variant.index.toNumber()
-                : error.eq(variant.index)
+          // We sprinkle in isCodec & isU8a to ensure we are dealing with the correct objects
+          is: (errorMod: DispatchErrorModule | DispatchErrorModuleU8a) =>
+            isCodec(errorMod) &&
+            isCodec(errorMod.index) &&
+            errorMod.index.eq(sectionIndex) && (
+              isU8a(errorMod.error)
+                ? errorMod.error[0] === variant.index.toNumber()
+                : isCodec(errorMod.error) && errorMod.error.eq(variant.index)
             ),
           meta: registry.createTypeUnsafe('ErrorMetadataLatest', [variantToMeta(lookup, variant)])
         }))
