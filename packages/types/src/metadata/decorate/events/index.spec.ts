@@ -1,9 +1,6 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple } from '@polkadot/types-codec/types';
-import type { IEvent } from '../../../types';
-
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
 import { TypeRegistry } from '../../../create';
@@ -42,7 +39,7 @@ describe('decorateEvents', (): void => {
 
   it('should check against a specific error', (): void => {
     expect(
-      events.system.ExtrinsicSuccess.is({ index: [0, 0] } as unknown as IEvent<AnyTuple>)
+      events.system.ExtrinsicSuccess.is(registry.createType('Event', { index: [0, 0] }))
     ).toBe(true);
   });
 });

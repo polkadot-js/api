@@ -6,6 +6,7 @@ Changes:
 
 - Adjust extrinsic inspect for signed/unsigned
 - Add support for `mmr_generateBatchProof` RPC
+- Add additional `isCodec` checks to error/event `.is`
 
 
 ## 8.4.2 May 15, 2022
