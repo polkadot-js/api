@@ -113,6 +113,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateOffenceReport: AugmentedError<ApiType>;
       /**
+       * Submitted configuration is invalid.
+       **/
+      InvalidConfiguration: AugmentedError<ApiType>;
+      /**
        * An equivocation proof provided as part of an equivocation report is invalid.
        **/
       InvalidEquivocationProof: AugmentedError<ApiType>;
@@ -1797,7 +1801,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     uniques: {
       /**
-       * The asset instance ID has already been used for an asset.
+       * The item ID has already been used for an item.
        **/
       AlreadyExists: AugmentedError<ApiType>;
       /**
@@ -1805,17 +1809,29 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadWitness: AugmentedError<ApiType>;
       /**
-       * The asset instance or class is frozen.
+       * The item or collection is frozen.
        **/
       Frozen: AugmentedError<ApiType>;
       /**
-       * The asset ID is already taken.
+       * The item ID is already taken.
        **/
       InUse: AugmentedError<ApiType>;
       /**
-       * The asset instance is locked.
+       * The item is locked.
        **/
       Locked: AugmentedError<ApiType>;
+      /**
+       * The max supply has already been set.
+       **/
+      MaxSupplyAlreadySet: AugmentedError<ApiType>;
+      /**
+       * All items have been minted.
+       **/
+      MaxSupplyReached: AugmentedError<ApiType>;
+      /**
+       * The provided max supply is less to the amount of items a collection already has.
+       **/
+      MaxSupplyTooSmall: AugmentedError<ApiType>;
       /**
        * There is no delegate approved.
        **/
@@ -1825,7 +1841,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
-       * The named owner has not signed ownership of the class is acceptable.
+       * The named owner has not signed ownership of the collection is acceptable.
        **/
       Unaccepted: AugmentedError<ApiType>;
       /**
@@ -1833,9 +1849,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Unapproved: AugmentedError<ApiType>;
       /**
-       * The given asset ID is unknown.
+       * The given item ID is unknown.
        **/
-      UnknownClass: AugmentedError<ApiType>;
+      UnknownCollection: AugmentedError<ApiType>;
       /**
        * The delegate turned out to be different to what was expected.
        **/

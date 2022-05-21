@@ -10,7 +10,11 @@ declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (71) */
   export interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
     readonly isClaimed: boolean;
-    readonly asClaimed: ITuple<[AccountId32, EthereumAddress, u128]>;
+    readonly asClaimed: {
+      readonly who: AccountId32;
+      readonly ethereumAddress: EthereumAddress;
+      readonly amount: u128;
+    } & Struct;
     readonly type: 'Claimed';
   }
 
@@ -195,64 +199,134 @@ declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeCommonParasRegistrarPalletEvent (111) */
   export interface PolkadotRuntimeCommonParasRegistrarPalletEvent extends Enum {
     readonly isRegistered: boolean;
-    readonly asRegistered: ITuple<[u32, AccountId32]>;
+    readonly asRegistered: {
+      readonly paraId: u32;
+      readonly manager: AccountId32;
+    } & Struct;
     readonly isDeregistered: boolean;
-    readonly asDeregistered: u32;
+    readonly asDeregistered: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isReserved: boolean;
-    readonly asReserved: ITuple<[u32, AccountId32]>;
+    readonly asReserved: {
+      readonly paraId: u32;
+      readonly who: AccountId32;
+    } & Struct;
     readonly type: 'Registered' | 'Deregistered' | 'Reserved';
   }
 
   /** @name PolkadotRuntimeCommonSlotsPalletEvent (112) */
   export interface PolkadotRuntimeCommonSlotsPalletEvent extends Enum {
     readonly isNewLeasePeriod: boolean;
-    readonly asNewLeasePeriod: u32;
+    readonly asNewLeasePeriod: {
+      readonly leasePeriod: u32;
+    } & Struct;
     readonly isLeased: boolean;
-    readonly asLeased: ITuple<[u32, AccountId32, u32, u32, u128, u128]>;
+    readonly asLeased: {
+      readonly paraId: u32;
+      readonly leaser: AccountId32;
+      readonly periodBegin: u32;
+      readonly periodCount: u32;
+      readonly extraReserved: u128;
+      readonly totalAmount: u128;
+    } & Struct;
     readonly type: 'NewLeasePeriod' | 'Leased';
   }
 
   /** @name PolkadotRuntimeCommonAuctionsPalletEvent (113) */
   export interface PolkadotRuntimeCommonAuctionsPalletEvent extends Enum {
     readonly isAuctionStarted: boolean;
-    readonly asAuctionStarted: ITuple<[u32, u32, u32]>;
+    readonly asAuctionStarted: {
+      readonly auctionIndex: u32;
+      readonly leasePeriod: u32;
+      readonly ending: u32;
+    } & Struct;
     readonly isAuctionClosed: boolean;
-    readonly asAuctionClosed: u32;
+    readonly asAuctionClosed: {
+      readonly auctionIndex: u32;
+    } & Struct;
     readonly isReserved: boolean;
-    readonly asReserved: ITuple<[AccountId32, u128, u128]>;
+    readonly asReserved: {
+      readonly bidder: AccountId32;
+      readonly extraReserved: u128;
+      readonly totalAmount: u128;
+    } & Struct;
     readonly isUnreserved: boolean;
-    readonly asUnreserved: ITuple<[AccountId32, u128]>;
+    readonly asUnreserved: {
+      readonly bidder: AccountId32;
+      readonly amount: u128;
+    } & Struct;
     readonly isReserveConfiscated: boolean;
-    readonly asReserveConfiscated: ITuple<[u32, AccountId32, u128]>;
+    readonly asReserveConfiscated: {
+      readonly paraId: u32;
+      readonly leaser: AccountId32;
+      readonly amount: u128;
+    } & Struct;
     readonly isBidAccepted: boolean;
-    readonly asBidAccepted: ITuple<[AccountId32, u32, u128, u32, u32]>;
+    readonly asBidAccepted: {
+      readonly bidder: AccountId32;
+      readonly paraId: u32;
+      readonly amount: u128;
+      readonly firstSlot: u32;
+      readonly lastSlot: u32;
+    } & Struct;
     readonly isWinningOffset: boolean;
-    readonly asWinningOffset: ITuple<[u32, u32]>;
+    readonly asWinningOffset: {
+      readonly auctionIndex: u32;
+      readonly blockNumber: u32;
+    } & Struct;
     readonly type: 'AuctionStarted' | 'AuctionClosed' | 'Reserved' | 'Unreserved' | 'ReserveConfiscated' | 'BidAccepted' | 'WinningOffset';
   }
 
   /** @name PolkadotRuntimeCommonCrowdloanPalletEvent (114) */
   export interface PolkadotRuntimeCommonCrowdloanPalletEvent extends Enum {
     readonly isCreated: boolean;
-    readonly asCreated: u32;
+    readonly asCreated: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isContributed: boolean;
-    readonly asContributed: ITuple<[AccountId32, u32, u128]>;
+    readonly asContributed: {
+      readonly who: AccountId32;
+      readonly fundIndex: u32;
+      readonly amount: u128;
+    } & Struct;
     readonly isWithdrew: boolean;
-    readonly asWithdrew: ITuple<[AccountId32, u32, u128]>;
+    readonly asWithdrew: {
+      readonly who: AccountId32;
+      readonly fundIndex: u32;
+      readonly amount: u128;
+    } & Struct;
     readonly isPartiallyRefunded: boolean;
-    readonly asPartiallyRefunded: u32;
+    readonly asPartiallyRefunded: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isAllRefunded: boolean;
-    readonly asAllRefunded: u32;
+    readonly asAllRefunded: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isDissolved: boolean;
-    readonly asDissolved: u32;
+    readonly asDissolved: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isHandleBidResult: boolean;
-    readonly asHandleBidResult: ITuple<[u32, Result<Null, SpRuntimeDispatchError>]>;
+    readonly asHandleBidResult: {
+      readonly paraId: u32;
+      readonly result: Result<Null, SpRuntimeDispatchError>;
+    } & Struct;
     readonly isEdited: boolean;
-    readonly asEdited: u32;
+    readonly asEdited: {
+      readonly paraId: u32;
+    } & Struct;
     readonly isMemoUpdated: boolean;
-    readonly asMemoUpdated: ITuple<[AccountId32, u32, Bytes]>;
+    readonly asMemoUpdated: {
+      readonly who: AccountId32;
+      readonly paraId: u32;
+      readonly memo: Bytes;
+    } & Struct;
     readonly isAddedToNewRaise: boolean;
-    readonly asAddedToNewRaise: u32;
+    readonly asAddedToNewRaise: {
+      readonly paraId: u32;
+    } & Struct;
     readonly type: 'Created' | 'Contributed' | 'Withdrew' | 'PartiallyRefunded' | 'AllRefunded' | 'Dissolved' | 'HandleBidResult' | 'Edited' | 'MemoUpdated' | 'AddedToNewRaise';
   }
 

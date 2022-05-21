@@ -94,6 +94,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Rebagged: AugmentedEvent<ApiType, [AccountId32, u64, u64]>;
       /**
+       * Updated the score of some account to the given amount.
+       **/
+      ScoreUpdated: AugmentedEvent<ApiType, [AccountId32, u64]>;
+      /**
        * Generic event
        **/
       [key: string]: AugmentedEvent<ApiType>;
@@ -638,6 +642,11 @@ declare module '@polkadot/api-base/types/events' {
        * A payout has been made to a member.
        **/
       PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * The roles of a pool have been updated to the given new roles. Note that the depositor
+       * can never change.
+       **/
+      RolesUpdated: AugmentedEvent<ApiType, [Option<AccountId32>, Option<AccountId32>, Option<AccountId32>]>;
       /**
        * The state of a pool has changed
        **/
@@ -1194,73 +1203,77 @@ declare module '@polkadot/api-base/types/events' {
     };
     uniques: {
       /**
-       * An approval for a `delegate` account to transfer the `instance` of an asset `class` was
-       * cancelled by its `owner`.
+       * An approval for a `delegate` account to transfer the `item` of an item
+       * `collection` was cancelled by its `owner`.
        **/
       ApprovalCancelled: AugmentedEvent<ApiType, [u32, u32, AccountId32, AccountId32]>;
       /**
-       * An `instance` of an asset `class` has been approved by the `owner` for transfer by a
-       * `delegate`.
+       * An `item` of a `collection` has been approved by the `owner` for transfer by
+       * a `delegate`.
        **/
       ApprovedTransfer: AugmentedEvent<ApiType, [u32, u32, AccountId32, AccountId32]>;
       /**
-       * An asset `class` has had its attributes changed by the `Force` origin.
-       **/
-      AssetStatusChanged: AugmentedEvent<ApiType, [u32]>;
-      /**
-       * Attribute metadata has been cleared for an asset class or instance.
+       * Attribute metadata has been cleared for a `collection` or `item`.
        **/
       AttributeCleared: AugmentedEvent<ApiType, [u32, Option<u32>, Bytes]>;
       /**
-       * New attribute metadata has been set for an asset class or instance.
+       * New attribute metadata has been set for a `collection` or `item`.
        **/
       AttributeSet: AugmentedEvent<ApiType, [u32, Option<u32>, Bytes, Bytes]>;
       /**
-       * An asset `instance` was destroyed.
+       * An `item` was destroyed.
        **/
       Burned: AugmentedEvent<ApiType, [u32, u32, AccountId32]>;
       /**
-       * Some asset `class` was frozen.
+       * Some `collection` was frozen.
        **/
-      ClassFrozen: AugmentedEvent<ApiType, [u32]>;
+      CollectionFrozen: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Metadata has been cleared for an asset class.
+       * Max supply has been set for a collection.
        **/
-      ClassMetadataCleared: AugmentedEvent<ApiType, [u32]>;
+      CollectionMaxSupplySet: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * New metadata has been set for an asset class.
+       * Metadata has been cleared for a `collection`.
        **/
-      ClassMetadataSet: AugmentedEvent<ApiType, [u32, Bytes, bool]>;
+      CollectionMetadataCleared: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Some asset `class` was thawed.
+       * New metadata has been set for a `collection`.
        **/
-      ClassThawed: AugmentedEvent<ApiType, [u32]>;
+      CollectionMetadataSet: AugmentedEvent<ApiType, [u32, Bytes, bool]>;
       /**
-       * An asset class was created.
+       * Some `collection` was thawed.
+       **/
+      CollectionThawed: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A `collection` was created.
        **/
       Created: AugmentedEvent<ApiType, [u32, AccountId32, AccountId32]>;
       /**
-       * An asset `class` was destroyed.
+       * A `collection` was destroyed.
        **/
       Destroyed: AugmentedEvent<ApiType, [u32]>;
       /**
-       * An asset class was force-created.
+       * A `collection` was force-created.
        **/
       ForceCreated: AugmentedEvent<ApiType, [u32, AccountId32]>;
       /**
-       * Some asset `instance` was frozen.
+       * Some `item` was frozen.
        **/
       Frozen: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * An asset `instance` was issued.
+       * An `item` was issued.
        **/
       Issued: AugmentedEvent<ApiType, [u32, u32, AccountId32]>;
       /**
-       * Metadata has been cleared for an asset instance.
+       * A `collection` has had its attributes changed by the `Force` origin.
+       **/
+      ItemStatusChanged: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Metadata has been cleared for an item.
        **/
       MetadataCleared: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * New metadata has been set for an asset instance.
+       * New metadata has been set for an item.
        **/
       MetadataSet: AugmentedEvent<ApiType, [u32, u32, Bytes, bool]>;
       /**
@@ -1272,7 +1285,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [AccountId32, Option<u32>]>;
       /**
-       * Metadata has been cleared for an asset instance.
+       * Metadata has been cleared for an item.
        **/
       Redeposited: AugmentedEvent<ApiType, [u32, Vec<u32>]>;
       /**
@@ -1280,11 +1293,11 @@ declare module '@polkadot/api-base/types/events' {
        **/
       TeamChanged: AugmentedEvent<ApiType, [u32, AccountId32, AccountId32, AccountId32]>;
       /**
-       * Some asset `instance` was thawed.
+       * Some `item` was thawed.
        **/
       Thawed: AugmentedEvent<ApiType, [u32, u32]>;
       /**
-       * An asset `instance` was transferred.
+       * An `item` was transferred.
        **/
       Transferred: AugmentedEvent<ApiType, [u32, u32, AccountId32, AccountId32]>;
       /**

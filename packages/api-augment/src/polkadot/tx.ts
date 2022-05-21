@@ -91,34 +91,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
-    bagsList: {
-      /**
-       * Move the caller's Id directly in front of `lighter`.
-       * 
-       * The dispatch origin for this call must be _Signed_ and can only be called by the Id of
-       * the account going in front of `lighter`.
-       * 
-       * Only works if
-       * - both nodes are within the same bag,
-       * - and `origin` has a greater `Score` than `lighter`.
-       **/
-      putInFrontOf: AugmentedSubmittable<(lighter: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
-      /**
-       * Declare that some `dislocated` account has, through rewards or penalties, sufficiently
-       * changed its score that it should properly fall into a different bag than its current
-       * one.
-       * 
-       * Anyone can call this function about any potentially dislocated account.
-       * 
-       * Will never return an error; if `dislocated` does not exist or doesn't need a rebag, then
-       * it is a noop and fees are still collected from `origin`.
-       **/
-      rebag: AugmentedSubmittable<(dislocated: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
-      /**
-       * Generic tx
-       **/
-      [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    };
     balances: {
       /**
        * Exactly as `transfer`, except the origin must be root and the source account may be
@@ -3807,6 +3779,36 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       vestOther: AugmentedSubmittable<(target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    voterList: {
+      /**
+       * Move the caller's Id directly in front of `lighter`.
+       * 
+       * The dispatch origin for this call must be _Signed_ and can only be called by the Id of
+       * the account going in front of `lighter`.
+       * 
+       * Only works if
+       * - both nodes are within the same bag,
+       * - and `origin` has a greater `Score` than `lighter`.
+       **/
+      putInFrontOf: AugmentedSubmittable<(lighter: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
+       * Declare that some `dislocated` account has, through rewards or penalties, sufficiently
+       * changed its score that it should properly fall into a different bag than its current
+       * one.
+       * 
+       * Anyone can call this function about any potentially dislocated account.
+       * 
+       * Will always update the stored score of `dislocated` to the correct score, based on
+       * `ScoreProvider`.
+       * 
+       * If `dislocated` does not exists, it returns an error.
+       **/
+      rebag: AugmentedSubmittable<(dislocated: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Generic tx
        **/
