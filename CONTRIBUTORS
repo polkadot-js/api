@@ -1,4 +1,4 @@
-    2963	Jaco                          	Handle Vec<Option> in typegen (#4843)
+    2964	Jaco                          	Bump static metadata (#4844)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)

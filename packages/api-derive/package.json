@@ -20,25 +20,25 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "8.4.3-5",
+  "version": "8.4.3-6",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
-    "@polkadot/api": "8.4.3-5",
-    "@polkadot/api-augment": "8.4.3-5",
-    "@polkadot/api-base": "8.4.3-5",
-    "@polkadot/rpc-core": "8.4.3-5",
-    "@polkadot/types": "8.4.3-5",
-    "@polkadot/types-codec": "8.4.3-5",
+    "@polkadot/api": "8.4.3-6",
+    "@polkadot/api-augment": "8.4.3-6",
+    "@polkadot/api-base": "8.4.3-6",
+    "@polkadot/rpc-core": "8.4.3-6",
+    "@polkadot/types": "8.4.3-6",
+    "@polkadot/types-codec": "8.4.3-6",
     "@polkadot/util": "^9.2.1",
     "@polkadot/util-crypto": "^9.2.1",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@polkadot/api": "8.4.3-5",
-    "@polkadot/api-augment": "8.4.3-5",
-    "@polkadot/rpc-augment": "8.4.3-5",
-    "@polkadot/rpc-provider": "8.4.3-5",
-    "@polkadot/types-support": "8.4.3-5"
+    "@polkadot/api": "8.4.3-6",
+    "@polkadot/api-augment": "8.4.3-6",
+    "@polkadot/rpc-augment": "8.4.3-6",
+    "@polkadot/rpc-provider": "8.4.3-6",
+    "@polkadot/types-support": "8.4.3-6"
   }
 }
