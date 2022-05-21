@@ -814,7 +814,7 @@
               "docs": []
             },
             {
-              "name": "BagsList",
+              "name": "VoterList",
               "fields": [
                 {
                   "name": null,
@@ -4353,19 +4353,19 @@
               "name": "Claimed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "ethereum_address",
                   "type": 72,
                   "typeName": "EthereumAddress",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -4373,7 +4373,7 @@
               ],
               "index": 0,
               "docs": [
-                "Someone claimed some DOTs. `[who, ethereum_address, amount]`"
+                "Someone claimed some DOTs."
               ]
             }
           ]
@@ -5928,6 +5928,27 @@
               "docs": [
                 "Moved an account from one bag to another."
               ]
+            },
+            {
+              "name": "ScoreUpdated",
+              "fields": [
+                {
+                  "name": "who",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                },
+                {
+                  "name": "new_score",
+                  "type": 8,
+                  "typeName": "T::Score",
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": [
+                "Updated the score of some account to the given amount."
+              ]
             }
           ]
         }
@@ -7352,13 +7373,13 @@
               "name": "Registered",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "manager",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -7371,7 +7392,7 @@
               "name": "Deregistered",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7384,13 +7405,13 @@
               "name": "Reserved",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
@@ -7429,7 +7450,7 @@
               "name": "NewLeasePeriod",
               "fields": [
                 {
-                  "name": null,
+                  "name": "lease_period",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
@@ -7444,37 +7465,37 @@
               "name": "Leased",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "leaser",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "period_begin",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "period_count",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "extra_reserved",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "total_amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7484,8 +7505,7 @@
               "docs": [
                 "A para has won the right to a continuous set of lease periods as a parachain.",
                 "First balance is any extra amount reserved on top of the para's existing deposit.",
-                "Second balance is the total amount reserved.",
-                "`[parachain_id, leaser, period_begin, period_count, extra_reserved, total_amount]`"
+                "Second balance is the total amount reserved."
               ]
             }
           ]
@@ -7518,19 +7538,19 @@
               "name": "AuctionStarted",
               "fields": [
                 {
-                  "name": null,
+                  "name": "auction_index",
                   "type": 4,
                   "typeName": "AuctionIndex",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "lease_period",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "ending",
                   "type": 4,
                   "typeName": "T::BlockNumber",
                   "docs": []
@@ -7539,15 +7559,14 @@
               "index": 0,
               "docs": [
                 "An auction started. Provides its index and the block number where it will begin to",
-                "close and the first lease period of the quadruplet that is auctioned.",
-                "`[auction_index, lease_period, ending]`"
+                "close and the first lease period of the quadruplet that is auctioned."
               ]
             },
             {
               "name": "AuctionClosed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "auction_index",
                   "type": 4,
                   "typeName": "AuctionIndex",
                   "docs": []
@@ -7555,26 +7574,26 @@
               ],
               "index": 1,
               "docs": [
-                "An auction ended. All funds become unreserved. `[auction_index]`"
+                "An auction ended. All funds become unreserved."
               ]
             },
             {
               "name": "Reserved",
               "fields": [
                 {
-                  "name": null,
+                  "name": "bidder",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "extra_reserved",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "total_amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7583,20 +7602,20 @@
               "index": 2,
               "docs": [
                 "Funds were reserved for a winning bid. First balance is the extra amount reserved.",
-                "Second is the total. `[bidder, extra_reserved, total_amount]`"
+                "Second is the total."
               ]
             },
             {
               "name": "Unreserved",
               "fields": [
                 {
-                  "name": null,
+                  "name": "bidder",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7611,19 +7630,19 @@
               "name": "ReserveConfiscated",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "leaser",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7632,39 +7651,38 @@
               "index": 4,
               "docs": [
                 "Someone attempted to lease the same slot twice for a parachain. The amount is held in reserve",
-                "but no parachain slot has been leased.",
-                "`[parachain_id, leaser, amount]`"
+                "but no parachain slot has been leased."
               ]
             },
             {
               "name": "BidAccepted",
               "fields": [
                 {
-                  "name": null,
+                  "name": "bidder",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "first_slot",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "last_slot",
                   "type": 4,
                   "typeName": "LeasePeriodOf<T>",
                   "docs": []
@@ -7672,21 +7690,20 @@
               ],
               "index": 5,
               "docs": [
-                "A new bid has been accepted as the current winner.",
-                "`[who, para_id, amount, first_slot, last_slot]`"
+                "A new bid has been accepted as the current winner."
               ]
             },
             {
               "name": "WinningOffset",
               "fields": [
                 {
-                  "name": null,
+                  "name": "auction_index",
                   "type": 4,
                   "typeName": "AuctionIndex",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "block_number",
                   "type": 4,
                   "typeName": "T::BlockNumber",
                   "docs": []
@@ -7694,8 +7711,7 @@
               ],
               "index": 6,
               "docs": [
-                "The winning offset was chosen for an auction. This will map into the `Winning` storage map.",
-                "`[auction_index, block_number]`"
+                "The winning offset was chosen for an auction. This will map into the `Winning` storage map."
               ]
             }
           ]
@@ -7728,7 +7744,7 @@
               "name": "Created",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7736,26 +7752,26 @@
               ],
               "index": 0,
               "docs": [
-                "Create a new crowdloaning campaign. `[fund_index]`"
+                "Create a new crowdloaning campaign."
               ]
             },
             {
               "name": "Contributed",
               "fields": [
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "fund_index",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7763,26 +7779,26 @@
               ],
               "index": 1,
               "docs": [
-                "Contributed to a crowd sale. `[who, fund_index, amount]`"
+                "Contributed to a crowd sale."
               ]
             },
             {
               "name": "Withdrew",
               "fields": [
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "fund_index",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "amount",
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
@@ -7790,14 +7806,14 @@
               ],
               "index": 2,
               "docs": [
-                "Withdrew full balance of a contributor. `[who, fund_index, amount]`"
+                "Withdrew full balance of a contributor."
               ]
             },
             {
               "name": "PartiallyRefunded",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7806,14 +7822,14 @@
               "index": 3,
               "docs": [
                 "The loans in a fund have been partially dissolved, i.e. there are some left",
-                "over child keys that still need to be killed. `[fund_index]`"
+                "over child keys that still need to be killed."
               ]
             },
             {
               "name": "AllRefunded",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7821,14 +7837,14 @@
               ],
               "index": 4,
               "docs": [
-                "All loans in a fund have been refunded. `[fund_index]`"
+                "All loans in a fund have been refunded."
               ]
             },
             {
               "name": "Dissolved",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7836,20 +7852,20 @@
               ],
               "index": 5,
               "docs": [
-                "Fund is dissolved. `[fund_index]`"
+                "Fund is dissolved."
               ]
             },
             {
               "name": "HandleBidResult",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "result",
                   "type": 30,
                   "typeName": "DispatchResult",
                   "docs": []
@@ -7864,7 +7880,7 @@
               "name": "Edited",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -7872,26 +7888,26 @@
               ],
               "index": 7,
               "docs": [
-                "The configuration to a crowdloan has been edited. `[fund_index]`"
+                "The configuration to a crowdloan has been edited."
               ]
             },
             {
               "name": "MemoUpdated",
               "fields": [
                 {
-                  "name": null,
+                  "name": "who",
                   "type": 0,
                   "typeName": "T::AccountId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
                 },
                 {
-                  "name": null,
+                  "name": "memo",
                   "type": 10,
                   "typeName": "Vec<u8>",
                   "docs": []
@@ -7899,14 +7915,14 @@
               ],
               "index": 8,
               "docs": [
-                "A memo has been updated. `[who, fund_index, memo]`"
+                "A memo has been updated."
               ]
             },
             {
               "name": "AddedToNewRaise",
               "fields": [
                 {
-                  "name": null,
+                  "name": "para_id",
                   "type": 92,
                   "typeName": "ParaId",
                   "docs": []
@@ -12412,12 +12428,12 @@
               "docs": []
             },
             {
-              "name": "BagsList",
+              "name": "VoterList",
               "fields": [
                 {
                   "name": null,
                   "type": 363,
-                  "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<BagsList, Runtime>",
+                  "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<VoterList, Runtime>",
                   "docs": []
                 }
               ],
@@ -22546,7 +22562,7 @@
                 {
                   "name": "raw_solution",
                   "type": 305,
-                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T::MinerConfig>>>",
                   "docs": []
                 },
                 {
@@ -22621,7 +22637,7 @@
                 {
                   "name": "raw_solution",
                   "type": 305,
-                  "typeName": "Box<RawSolution<SolutionOf<T>>>",
+                  "typeName": "Box<RawSolution<SolutionOf<T::MinerConfig>>>",
                   "docs": []
                 }
               ],
@@ -23734,8 +23750,10 @@
                 "",
                 "Anyone can call this function about any potentially dislocated account.",
                 "",
-                "Will never return an error; if `dislocated` does not exist or doesn't need a rebag, then",
-                "it is a noop and fees are still collected from `origin`."
+                "Will always update the stored score of `dislocated` to the correct score, based on",
+                "`ScoreProvider`.",
+                "",
+                "If `dislocated` does not exists, it returns an error."
               ]
             },
             {
@@ -30706,6 +30724,14 @@
               "docs": [
                 "A given equivocation report is valid but already previously reported."
               ]
+            },
+            {
+              "name": "InvalidConfiguration",
+              "fields": [],
+              "index": 3,
+              "docs": [
+                "Submitted configuration is invalid."
+              ]
             }
           ]
         }
@@ -36946,6 +36972,12 @@
             },
             {
               "name": "bag_upper",
+              "type": 8,
+              "typeName": "T::Score",
+              "docs": []
+            },
+            {
+              "name": "score",
               "type": 8,
               "typeName": "T::Score",
               "docs": []

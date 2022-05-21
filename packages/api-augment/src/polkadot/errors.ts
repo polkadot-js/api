@@ -79,6 +79,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateOffenceReport: AugmentedError<ApiType>;
       /**
+       * Submitted configuration is invalid.
+       **/
+      InvalidConfiguration: AugmentedError<ApiType>;
+      /**
        * An equivocation proof provided as part of an equivocation report is invalid.
        **/
       InvalidEquivocationProof: AugmentedError<ApiType>;
@@ -86,16 +90,6 @@ declare module '@polkadot/api-base/types/errors' {
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
       InvalidKeyOwnershipProof: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    bagsList: {
-      /**
-       * A error in the list interface implementation.
-       **/
-      List: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1666,6 +1660,16 @@ declare module '@polkadot/api-base/types/errors' {
        * An index was out of bounds of the vesting schedules.
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    voterList: {
+      /**
+       * A error in the list interface implementation.
+       **/
+      List: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

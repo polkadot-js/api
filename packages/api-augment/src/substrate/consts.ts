@@ -211,6 +211,27 @@ declare module '@polkadot/api-base/types/consts' {
     };
     contracts: {
       /**
+       * The weight per byte of code that is charged when loading a contract from storage.
+       * 
+       * Currently, FRAME only charges fees for computation incurred but not for PoV
+       * consumption caused for storage access. This is usually not exploitable because
+       * accessing storage carries some substantial weight costs, too. However in case
+       * of contract code very much PoV consumption can be caused while consuming very little
+       * computation. This could be used to keep the chain busy without paying the
+       * proper fee for it. Until this is resolved we charge from the weight meter for
+       * contract access.
+       * 
+       * For more information check out: <https://github.com/paritytech/substrate/issues/10301>
+       * 
+       * [`DefaultContractAccessWeight`] is a safe default to be used for polkadot or kusama
+       * parachains.
+       * 
+       * # Note
+       * 
+       * This is only relevant for parachains. Set to zero in case of a standalone chain.
+       **/
+      contractAccessWeight: u64 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of contracts that can be pending for deletion.
        * 
        * When a contract is deleted by calling `seal_terminate` it becomes inaccessible
@@ -366,20 +387,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maxElectingVoters: u32 & AugmentedConst<ApiType>;
       /**
-       * Maximum length (bytes) that the mined solution should consume.
-       * 
-       * The miner will ensure that the total length of the unsigned solution will not exceed
-       * this value.
-       **/
-      minerMaxLength: u32 & AugmentedConst<ApiType>;
-      /**
-       * Maximum weight that the miner should consume.
-       * 
-       * The miner will ensure that the total weight of the unsigned solution will not exceed
-       * this value, based on [`WeightInfo::submit_unsigned`].
-       **/
-      minerMaxWeight: u64 & AugmentedConst<ApiType>;
-      /**
        * The priority of the unsigned transaction submitted in the unsigned-phase
        **/
       minerTxPriority: u64 & AugmentedConst<ApiType>;
@@ -419,7 +426,9 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * Maximum weight of a signed solution.
        * 
-       * This should probably be similar to [`Config::MinerMaxWeight`].
+       * If [`Config::MinerConfig`] is being implemented to submit signed solutions (outside of
+       * this pallet), then [`MinerConfig::solution_weight`] is used to compare against
+       * this value.
        **/
       signedMaxWeight: u64 & AugmentedConst<ApiType>;
       /**
@@ -640,6 +649,14 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     nominationPools: {
+      /**
+       * The minimum pool points-to-balance ratio that must be maintained for it to be `open`.
+       * This is important in the event slashing takes place and the pool's points-to-balance
+       * ratio becomes disproportional.
+       * For a value of 10, the threshold would be a pool points-to-balance ratio of 10:1.
+       * Such a scenario would also be the equivalent of the pool being 90% slashed.
+       **/
+      minPointsToBalance: u32 & AugmentedConst<ApiType>;
       /**
        * The nomination pool's pallet id.
        **/
@@ -1006,28 +1023,28 @@ declare module '@polkadot/api-base/types/consts' {
     };
     uniques: {
       /**
-       * The basic amount of funds that must be reserved when adding an attribute to an asset.
+       * The basic amount of funds that must be reserved when adding an attribute to an item.
        **/
       attributeDepositBase: u128 & AugmentedConst<ApiType>;
       /**
-       * The basic amount of funds that must be reserved for an asset class.
+       * The basic amount of funds that must be reserved for collection.
        **/
-      classDeposit: u128 & AugmentedConst<ApiType>;
+      collectionDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The additional funds that must be reserved for the number of bytes store in metadata,
        * either "normal" metadata or attribute metadata.
        **/
       depositPerByte: u128 & AugmentedConst<ApiType>;
       /**
-       * The basic amount of funds that must be reserved for an asset instance.
+       * The basic amount of funds that must be reserved for an item.
        **/
-      instanceDeposit: u128 & AugmentedConst<ApiType>;
+      itemDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The maximum length of an attribute key.
        **/
       keyLimit: u32 & AugmentedConst<ApiType>;
       /**
-       * The basic amount of funds that must be reserved when adding metadata to your asset.
+       * The basic amount of funds that must be reserved when adding metadata to your item.
        **/
       metadataDepositBase: u128 & AugmentedConst<ApiType>;
       /**

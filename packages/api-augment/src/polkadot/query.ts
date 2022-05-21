@@ -161,28 +161,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    bagsList: {
-      /**
-       * Counter for the related counted storage map
-       **/
-      counterForListNodes: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * A bag stored in storage.
-       * 
-       * Stores a `Bag` struct, which stores head and tail pointers to itself.
-       **/
-      listBags: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<PalletBagsListListBag>>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
-      /**
-       * A single node, within some bag.
-       * 
-       * Nodes store links forward and back within their respective bags.
-       **/
-      listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
     balances: {
       /**
        * The Balances pallet example of storing the balance of an account.
@@ -1073,6 +1051,10 @@ declare module '@polkadot/api-base/types/storage' {
     };
     paraSessionInfo: {
       /**
+       * The validator account keys of the validators actively participating in parachain consensus.
+       **/
+      accountKeys: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Vec<AccountId32>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
        * Assignment keys for the current session.
        * Note that this API is private due to it being prone to 'off-by-one' at session boundaries.
        * When in doubt, use `Sessions` API instead.
@@ -1780,6 +1762,28 @@ declare module '@polkadot/api-base/types/storage' {
        * Information regarding the vesting of a given account.
        **/
       vesting: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Vec<PalletVestingVestingInfo>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    voterList: {
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForListNodes: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A bag stored in storage.
+       * 
+       * Stores a `Bag` struct, which stores head and tail pointers to itself.
+       **/
+      listBags: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<PalletBagsListListBag>>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
+      /**
+       * A single node, within some bag.
+       * 
+       * Nodes store links forward and back within their respective bags.
+       **/
+      listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/

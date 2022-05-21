@@ -6,7 +6,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleDispatchTime, FrameSupportScheduleMaybeHashed, NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleDispatchTime, FrameSupportScheduleMaybeHashed, NodeRuntimeOriginCaller, NodeRuntimeProxyType, NodeRuntimeSessionKeys, PalletAssetsDestroyWitness, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
@@ -504,8 +504,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Anyone can call this function about any potentially dislocated account.
        * 
-       * Will never return an error; if `dislocated` does not exist or doesn't need a rebag, then
-       * it is a noop and fees are still collected from `origin`.
+       * Will always update the stored score of `dislocated` to the correct score, based on
+       * `ScoreProvider`.
+       * 
+       * If `dislocated` does not exists, it returns an error.
        **/
       rebag: AugmentedSubmittable<(dislocated: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
@@ -961,6 +963,19 @@ declare module '@polkadot/api-base/types/submittable' {
        * not used by any contract.
        **/
       removeCode: AugmentedSubmittable<(codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
+       * Privileged function that changes the code of an existing contract.
+       * 
+       * This takes care of updating refcounts and all other necessary operations. Returns
+       * an error if either the `code_hash` or `dest` do not exist.
+       * 
+       * # Note
+       * 
+       * This does **not** change the address of the contract in question. This means
+       * that the contract address is no longer derived from its code hash after calling
+       * this dispatchable.
+       **/
+      setCode: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, H256]>;
       /**
        * Upload new `code` without instantiating a contract from it.
        * 
@@ -2507,7 +2522,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       poolWithdrawUnbonded: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Update configurations for the nomination pools. The origin must for this call must be
+       * Update configurations for the nomination pools. The origin for this call must be
        * Root.
        * 
        * # Arguments
@@ -2552,6 +2567,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * `NoMoreChunks` error from the staking system.
        **/
       unbond: AugmentedSubmittable<(memberAccount: AccountId32 | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Compact<u128>]>;
+      /**
+       * Update the roles of the pool.
+       * 
+       * The root is the only entity that can change any of the roles, including itself,
+       * excluding the depositor, who can never change.
+       * 
+       * It emits an event, notifying UIs of the role change. This event is quite relevant to
+       * most pool members and they should be informed of changes to pool roles.
+       **/
+      updateRoles: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newRoot: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newNominator: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newStateToggler: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32]>;
       /**
        * Withdraw unbonded funds from `member_account`. If no bonded funds can be unbonded, an
        * error is returned.
@@ -4492,46 +4517,46 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     uniques: {
       /**
-       * Approve an instance to be transferred by a delegated third-party account.
+       * Approve an item to be transferred by a delegated third-party account.
        * 
-       * Origin must be Signed and must be the owner of the asset `instance`.
+       * Origin must be Signed and must be the owner of the `item`.
        * 
-       * - `class`: The class of the asset to be approved for delegated transfer.
-       * - `instance`: The instance of the asset to be approved for delegated transfer.
-       * - `delegate`: The account to delegate permission to transfer the asset.
+       * - `collection`: The collection of the item to be approved for delegated transfer.
+       * - `item`: The item of the item to be approved for delegated transfer.
+       * - `delegate`: The account to delegate permission to transfer the item.
        * 
        * Emits `ApprovedTransfer` on success.
        * 
        * Weight: `O(1)`
        **/
-      approveTransfer: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, delegate: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
+      approveTransfer: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, delegate: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
       /**
-       * Destroy a single asset instance.
+       * Destroy a single item.
        * 
-       * Origin must be Signed and the sender should be the Admin of the asset `class`.
+       * Origin must be Signed and the sender should be the Admin of the `collection`.
        * 
-       * - `class`: The class of the asset to be burned.
-       * - `instance`: The instance of the asset to be burned.
+       * - `collection`: The collection of the item to be burned.
+       * - `item`: The item of the item to be burned.
        * - `check_owner`: If `Some` then the operation will fail with `WrongOwner` unless the
-       * asset is owned by this value.
+       * item is owned by this value.
        * 
        * Emits `Burned` with the actual amount burned.
        * 
        * Weight: `O(1)`
        * Modes: `check_owner.is_some()`.
        **/
-      burn: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, checkOwner: Option<MultiAddress> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<MultiAddress>]>;
+      burn: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, checkOwner: Option<MultiAddress> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<MultiAddress>]>;
       /**
-       * Cancel the prior approval for the transfer of an asset by a delegate.
+       * Cancel the prior approval for the transfer of an item by a delegate.
        * 
        * Origin must be either:
        * - the `Force` origin;
-       * - `Signed` with the signer being the Admin of the asset `class`;
-       * - `Signed` with the signer being the Owner of the asset `instance`;
+       * - `Signed` with the signer being the Admin of the `collection`;
+       * - `Signed` with the signer being the Owner of the `item`;
        * 
        * Arguments:
-       * - `class`: The class of the asset of whose approval will be cancelled.
-       * - `instance`: The instance of the asset of whose approval will be cancelled.
+       * - `collection`: The collection of the item of whose approval will be cancelled.
+       * - `item`: The item of the item of whose approval will be cancelled.
        * - `maybe_check_delegate`: If `Some` will ensure that the given account is the one to
        * which permission of transfer is delegated.
        * 
@@ -4539,215 +4564,215 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      cancelApproval: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, maybeCheckDelegate: Option<MultiAddress> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<MultiAddress>]>;
+      cancelApproval: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, maybeCheckDelegate: Option<MultiAddress> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<MultiAddress>]>;
       /**
-       * Clear an attribute for an asset class or instance.
+       * Clear an attribute for a collection or item.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
-       * asset `class`.
+       * `collection`.
        * 
-       * Any deposit is freed for the asset class owner.
+       * Any deposit is freed for the collection's owner.
        * 
-       * - `class`: The identifier of the asset class whose instance's metadata to clear.
-       * - `maybe_instance`: The identifier of the asset instance whose metadata to clear.
+       * - `collection`: The identifier of the collection whose item's metadata to clear.
+       * - `maybe_item`: The identifier of the item whose metadata to clear.
        * - `key`: The key of the attribute.
        * 
        * Emits `AttributeCleared`.
        * 
        * Weight: `O(1)`
        **/
-      clearAttribute: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, maybeInstance: Option<u32> | null | object | string | Uint8Array, key: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>, Bytes]>;
+      clearAttribute: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, maybeItem: Option<u32> | null | object | string | Uint8Array, key: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>, Bytes]>;
       /**
-       * Clear the metadata for an asset class.
+       * Clear the metadata for a collection.
        * 
        * Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of
-       * the asset `class`.
+       * the `collection`.
        * 
-       * Any deposit is freed for the asset class owner.
+       * Any deposit is freed for the collection's owner.
        * 
-       * - `class`: The identifier of the asset class whose metadata to clear.
+       * - `collection`: The identifier of the collection whose metadata to clear.
        * 
-       * Emits `ClassMetadataCleared`.
+       * Emits `CollectionMetadataCleared`.
        * 
        * Weight: `O(1)`
        **/
-      clearClassMetadata: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      clearCollectionMetadata: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * Clear the metadata for an asset instance.
+       * Clear the metadata for an item.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
-       * asset `instance`.
+       * `item`.
        * 
-       * Any deposit is freed for the asset class owner.
+       * Any deposit is freed for the collection's owner.
        * 
-       * - `class`: The identifier of the asset class whose instance's metadata to clear.
-       * - `instance`: The identifier of the asset instance whose metadata to clear.
+       * - `collection`: The identifier of the collection whose item's metadata to clear.
+       * - `item`: The identifier of the item whose metadata to clear.
        * 
        * Emits `MetadataCleared`.
        * 
        * Weight: `O(1)`
        **/
-      clearMetadata: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      clearMetadata: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Issue a new class of non-fungible assets from a public origin.
+       * Issue a new collection of non-fungible items from a public origin.
        * 
-       * This new asset class has no assets initially and its owner is the origin.
+       * This new collection has no items initially and its owner is the origin.
        * 
        * The origin must be Signed and the sender must have sufficient funds free.
        * 
-       * `AssetDeposit` funds of sender are reserved.
+       * `ItemDeposit` funds of sender are reserved.
        * 
        * Parameters:
-       * - `class`: The identifier of the new asset class. This must not be currently in use.
-       * - `admin`: The admin of this class of assets. The admin is the initial address of each
-       * member of the asset class's admin team.
+       * - `collection`: The identifier of the new collection. This must not be currently in use.
+       * - `admin`: The admin of this collection. The admin is the initial address of each
+       * member of the collection's admin team.
        * 
        * Emits `Created` event when successful.
        * 
        * Weight: `O(1)`
        **/
-      create: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress]>;
+      create: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress]>;
       /**
-       * Destroy a class of fungible assets.
+       * Destroy a collection of fungible items.
        * 
        * The origin must conform to `ForceOrigin` or must be `Signed` and the sender must be the
-       * owner of the asset `class`.
+       * owner of the `collection`.
        * 
-       * - `class`: The identifier of the asset class to be destroyed.
-       * - `witness`: Information on the instances minted in the asset class. This must be
+       * - `collection`: The identifier of the collection to be destroyed.
+       * - `witness`: Information on the items minted in the collection. This must be
        * correct.
        * 
        * Emits `Destroyed` event when successful.
        * 
        * Weight: `O(n + m)` where:
-       * - `n = witness.instances`
-       * - `m = witness.instance_metadatas`
+       * - `n = witness.items`
+       * - `m = witness.item_metadatas`
        * - `a = witness.attributes`
        **/
-      destroy: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, witness: PalletUniquesDestroyWitness | { instances?: any; instanceMetadatas?: any; attributes?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletUniquesDestroyWitness]>;
+      destroy: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, witness: PalletUniquesDestroyWitness | { items?: any; itemMetadatas?: any; attributes?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletUniquesDestroyWitness]>;
       /**
-       * Alter the attributes of a given asset.
+       * Issue a new collection of non-fungible items from a privileged origin.
        * 
-       * Origin must be `ForceOrigin`.
-       * 
-       * - `class`: The identifier of the asset.
-       * - `owner`: The new Owner of this asset.
-       * - `issuer`: The new Issuer of this asset.
-       * - `admin`: The new Admin of this asset.
-       * - `freezer`: The new Freezer of this asset.
-       * - `free_holding`: Whether a deposit is taken for holding an instance of this asset
-       * class.
-       * - `is_frozen`: Whether this asset class is frozen except for permissioned/admin
-       * instructions.
-       * 
-       * Emits `AssetStatusChanged` with the identity of the asset.
-       * 
-       * Weight: `O(1)`
-       **/
-      forceAssetStatus: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freeHolding: bool | boolean | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, MultiAddress, MultiAddress, MultiAddress, bool, bool]>;
-      /**
-       * Issue a new class of non-fungible assets from a privileged origin.
-       * 
-       * This new asset class has no assets initially.
+       * This new collection has no items initially.
        * 
        * The origin must conform to `ForceOrigin`.
        * 
        * Unlike `create`, no funds are reserved.
        * 
-       * - `class`: The identifier of the new asset. This must not be currently in use.
-       * - `owner`: The owner of this class of assets. The owner has full superuser permissions
-       * over this asset, but may later change and configure the permissions using
+       * - `collection`: The identifier of the new item. This must not be currently in use.
+       * - `owner`: The owner of this collection of items. The owner has full superuser
+       * permissions
+       * over this item, but may later change and configure the permissions using
        * `transfer_ownership` and `set_team`.
        * 
        * Emits `ForceCreated` event when successful.
        * 
        * Weight: `O(1)`
        **/
-      forceCreate: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freeHolding: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, bool]>;
+      forceCreate: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freeHolding: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, bool]>;
       /**
-       * Disallow further unprivileged transfer of an asset instance.
+       * Alter the attributes of a given item.
        * 
-       * Origin must be Signed and the sender should be the Freezer of the asset `class`.
+       * Origin must be `ForceOrigin`.
        * 
-       * - `class`: The class of the asset to be frozen.
-       * - `instance`: The instance of the asset to be frozen.
+       * - `collection`: The identifier of the item.
+       * - `owner`: The new Owner of this item.
+       * - `issuer`: The new Issuer of this item.
+       * - `admin`: The new Admin of this item.
+       * - `freezer`: The new Freezer of this item.
+       * - `free_holding`: Whether a deposit is taken for holding an item of this collection.
+       * - `is_frozen`: Whether this collection is frozen except for permissioned/admin
+       * instructions.
+       * 
+       * Emits `ItemStatusChanged` with the identity of the item.
+       * 
+       * Weight: `O(1)`
+       **/
+      forceItemStatus: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freeHolding: bool | boolean | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, MultiAddress, MultiAddress, MultiAddress, bool, bool]>;
+      /**
+       * Disallow further unprivileged transfer of an item.
+       * 
+       * Origin must be Signed and the sender should be the Freezer of the `collection`.
+       * 
+       * - `collection`: The collection of the item to be frozen.
+       * - `item`: The item of the item to be frozen.
        * 
        * Emits `Frozen`.
        * 
        * Weight: `O(1)`
        **/
-      freeze: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      freeze: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Disallow further unprivileged transfers for a whole asset class.
+       * Disallow further unprivileged transfers for a whole collection.
        * 
-       * Origin must be Signed and the sender should be the Freezer of the asset `class`.
+       * Origin must be Signed and the sender should be the Freezer of the `collection`.
        * 
-       * - `class`: The asset class to be frozen.
+       * - `collection`: The collection to be frozen.
        * 
-       * Emits `ClassFrozen`.
+       * Emits `CollectionFrozen`.
        * 
        * Weight: `O(1)`
        **/
-      freezeClass: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      freezeCollection: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * Mint an asset instance of a particular class.
+       * Mint an item of a particular collection.
        * 
-       * The origin must be Signed and the sender must be the Issuer of the asset `class`.
+       * The origin must be Signed and the sender must be the Issuer of the `collection`.
        * 
-       * - `class`: The class of the asset to be minted.
-       * - `instance`: The instance value of the asset to be minted.
-       * - `beneficiary`: The initial owner of the minted asset.
+       * - `collection`: The collection of the item to be minted.
+       * - `item`: The item value of the item to be minted.
+       * - `beneficiary`: The initial owner of the minted item.
        * 
        * Emits `Issued` event when successful.
        * 
        * Weight: `O(1)`
        **/
-      mint: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
+      mint: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
       /**
-       * Reevaluate the deposits on some assets.
+       * Reevaluate the deposits on some items.
        * 
-       * Origin must be Signed and the sender should be the Owner of the asset `class`.
+       * Origin must be Signed and the sender should be the Owner of the `collection`.
        * 
-       * - `class`: The class of the asset to be frozen.
-       * - `instances`: The instances of the asset class whose deposits will be reevaluated.
+       * - `collection`: The collection to be frozen.
+       * - `items`: The items of the collection whose deposits will be reevaluated.
        * 
-       * NOTE: This exists as a best-effort function. Any asset instances which are unknown or
+       * NOTE: This exists as a best-effort function. Any items which are unknown or
        * in the case that the owner account does not have reservable funds to pay for a
-       * deposit increase are ignored. Generally the owner isn't going to call this on instances
+       * deposit increase are ignored. Generally the owner isn't going to call this on items
        * whose existing deposit is less than the refreshed deposit as it would only cost them,
        * so it's of little consequence.
        * 
-       * It will still return an error in the case that the class is unknown of the signer is
-       * not permitted to call it.
+       * It will still return an error in the case that the collection is unknown of the signer
+       * is not permitted to call it.
        * 
-       * Weight: `O(instances.len())`
+       * Weight: `O(items.len())`
        **/
-      redeposit: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instances: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<u32>]>;
+      redeposit: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, items: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<u32>]>;
       /**
        * Set (or reset) the acceptance of ownership for a particular account.
        * 
-       * Origin must be `Signed` and if `maybe_class` is `Some`, then the signer must have a
+       * Origin must be `Signed` and if `maybe_collection` is `Some`, then the signer must have a
        * provider reference.
        * 
-       * - `maybe_class`: The identifier of the asset class whose ownership the signer is willing
-       * to accept, or if `None`, an indication that the signer is willing to accept no
+       * - `maybe_collection`: The identifier of the collection whose ownership the signer is
+       * willing to accept, or if `None`, an indication that the signer is willing to accept no
        * ownership transferal.
        * 
        * Emits `OwnershipAcceptanceChanged`.
        **/
-      setAcceptOwnership: AugmentedSubmittable<(maybeClass: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u32>]>;
+      setAcceptOwnership: AugmentedSubmittable<(maybeCollection: Option<u32> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u32>]>;
       /**
-       * Set an attribute for an asset class or instance.
+       * Set an attribute for a collection or item.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
-       * asset `class`.
+       * `collection`.
        * 
        * If the origin is Signed, then funds of signer are reserved according to the formula:
        * `MetadataDepositBase + DepositPerByte * (key.len + value.len)` taking into
        * account any already reserved funds.
        * 
-       * - `class`: The identifier of the asset class whose instance's metadata to set.
-       * - `maybe_instance`: The identifier of the asset instance whose metadata to set.
+       * - `collection`: The identifier of the collection whose item's metadata to set.
+       * - `maybe_item`: The identifier of the item whose metadata to set.
        * - `key`: The key of the attribute.
        * - `value`: The value to which to set the attribute.
        * 
@@ -4755,118 +4780,132 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      setAttribute: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, maybeInstance: Option<u32> | null | object | string | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>, Bytes, Bytes]>;
+      setAttribute: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, maybeItem: Option<u32> | null | object | string | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>, Bytes, Bytes]>;
       /**
-       * Set the metadata for an asset class.
+       * Set the maximum amount of items a collection could have.
        * 
        * Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of
-       * the asset `class`.
+       * the `collection`.
+       * 
+       * Note: This function can only succeed once per collection.
+       * 
+       * - `collection`: The identifier of the collection to change.
+       * - `max_supply`: The maximum amount of items a collection could have.
+       * 
+       * Emits `CollectionMaxSupplySet` event when successful.
+       **/
+      setCollectionMaxSupply: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, maxSupply: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      /**
+       * Set the metadata for a collection.
+       * 
+       * Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of
+       * the `collection`.
        * 
        * If the origin is `Signed`, then funds of signer are reserved according to the formula:
        * `MetadataDepositBase + DepositPerByte * data.len` taking into
        * account any already reserved funds.
        * 
-       * - `class`: The identifier of the asset whose metadata to update.
-       * - `data`: The general information of this asset. Limited in length by `StringLimit`.
+       * - `collection`: The identifier of the item whose metadata to update.
+       * - `data`: The general information of this item. Limited in length by `StringLimit`.
        * - `is_frozen`: Whether the metadata should be frozen against further changes.
        * 
-       * Emits `ClassMetadataSet`.
+       * Emits `CollectionMetadataSet`.
        * 
        * Weight: `O(1)`
        **/
-      setClassMetadata: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes, bool]>;
+      setCollectionMetadata: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes, bool]>;
       /**
-       * Set the metadata for an asset instance.
+       * Set the metadata for an item.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
-       * asset `class`.
+       * `collection`.
        * 
        * If the origin is Signed, then funds of signer are reserved according to the formula:
        * `MetadataDepositBase + DepositPerByte * data.len` taking into
        * account any already reserved funds.
        * 
-       * - `class`: The identifier of the asset class whose instance's metadata to set.
-       * - `instance`: The identifier of the asset instance whose metadata to set.
-       * - `data`: The general information of this asset. Limited in length by `StringLimit`.
+       * - `collection`: The identifier of the collection whose item's metadata to set.
+       * - `item`: The identifier of the item whose metadata to set.
+       * - `data`: The general information of this item. Limited in length by `StringLimit`.
        * - `is_frozen`: Whether the metadata should be frozen against further changes.
        * 
        * Emits `MetadataSet`.
        * 
        * Weight: `O(1)`
        **/
-      setMetadata: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Bytes, bool]>;
+      setMetadata: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Bytes, bool]>;
       /**
-       * Change the Issuer, Admin and Freezer of an asset class.
+       * Change the Issuer, Admin and Freezer of a collection.
        * 
-       * Origin must be Signed and the sender should be the Owner of the asset `class`.
+       * Origin must be Signed and the sender should be the Owner of the `collection`.
        * 
-       * - `class`: The asset class whose team should be changed.
-       * - `issuer`: The new Issuer of this asset class.
-       * - `admin`: The new Admin of this asset class.
-       * - `freezer`: The new Freezer of this asset class.
+       * - `collection`: The collection whose team should be changed.
+       * - `issuer`: The new Issuer of this collection.
+       * - `admin`: The new Admin of this collection.
+       * - `freezer`: The new Freezer of this collection.
        * 
        * Emits `TeamChanged`.
        * 
        * Weight: `O(1)`
        **/
-      setTeam: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, MultiAddress, MultiAddress]>;
+      setTeam: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress, MultiAddress, MultiAddress]>;
       /**
-       * Re-allow unprivileged transfer of an asset instance.
+       * Re-allow unprivileged transfer of an item.
        * 
-       * Origin must be Signed and the sender should be the Freezer of the asset `class`.
+       * Origin must be Signed and the sender should be the Freezer of the `collection`.
        * 
-       * - `class`: The class of the asset to be thawed.
-       * - `instance`: The instance of the asset to be thawed.
+       * - `collection`: The collection of the item to be thawed.
+       * - `item`: The item of the item to be thawed.
        * 
        * Emits `Thawed`.
        * 
        * Weight: `O(1)`
        **/
-      thaw: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      thaw: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Re-allow unprivileged transfers for a whole asset class.
+       * Re-allow unprivileged transfers for a whole collection.
        * 
-       * Origin must be Signed and the sender should be the Admin of the asset `class`.
+       * Origin must be Signed and the sender should be the Admin of the `collection`.
        * 
-       * - `class`: The class to be thawed.
+       * - `collection`: The collection to be thawed.
        * 
-       * Emits `ClassThawed`.
+       * Emits `CollectionThawed`.
        * 
        * Weight: `O(1)`
        **/
-      thawClass: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      thawCollection: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * Move an asset from the sender account to another.
+       * Move an item from the sender account to another.
        * 
        * Origin must be Signed and the signing account must be either:
-       * - the Admin of the asset `class`;
-       * - the Owner of the asset `instance`;
-       * - the approved delegate for the asset `instance` (in this case, the approval is reset).
+       * - the Admin of the `collection`;
+       * - the Owner of the `item`;
+       * - the approved delegate for the `item` (in this case, the approval is reset).
        * 
        * Arguments:
-       * - `class`: The class of the asset to be transferred.
-       * - `instance`: The instance of the asset to be transferred.
-       * - `dest`: The account to receive ownership of the asset.
+       * - `collection`: The collection of the item to be transferred.
+       * - `item`: The item of the item to be transferred.
+       * - `dest`: The account to receive ownership of the item.
        * 
        * Emits `Transferred`.
        * 
        * Weight: `O(1)`
        **/
-      transfer: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, instance: u32 | AnyNumber | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
+      transfer: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress]>;
       /**
-       * Change the Owner of an asset class.
+       * Change the Owner of a collection.
        * 
-       * Origin must be Signed and the sender should be the Owner of the asset `class`.
+       * Origin must be Signed and the sender should be the Owner of the `collection`.
        * 
-       * - `class`: The asset class whose owner should be changed.
-       * - `owner`: The new Owner of this asset class. They must have called
-       * `set_accept_ownership` with `class` in order for this operation to succeed.
+       * - `collection`: The collection whose owner should be changed.
+       * - `owner`: The new Owner of this collection. They must have called
+       * `set_accept_ownership` with `collection` in order for this operation to succeed.
        * 
        * Emits `OwnerChanged`.
        * 
        * Weight: `O(1)`
        **/
-      transferOwnership: AugmentedSubmittable<(clazz: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress]>;
+      transferOwnership: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, owner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, MultiAddress]>;
       /**
        * Generic tx
        **/

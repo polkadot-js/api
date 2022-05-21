@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 159,
-              "value": "0x588bc0460100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
+              "value": "0xf0e943450100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 166,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000f02300000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000c00000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000042400000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000c00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -4101,17 +4101,6 @@
               ]
             },
             {
-              "name": "MinerMaxWeight",
-              "type": 8,
-              "value": "0x48090b4b57010000",
-              "docs": [
-                " Maximum weight that the miner should consume.",
-                "",
-                " The miner will ensure that the total weight of the unsigned solution will not exceed",
-                " this value, based on [`WeightInfo::submit_unsigned`]."
-              ]
-            },
-            {
               "name": "SignedMaxSubmissions",
               "type": 4,
               "value": "0x10000000",
@@ -4128,11 +4117,13 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x48090b4b57010000",
+              "value": "0xb0aa874c57010000",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
-                " This should probably be similar to [`Config::MinerMaxWeight`]."
+                " If [`Config::MinerConfig`] is being implemented to submit signed solutions (outside of",
+                " this pallet), then [`MinerConfig::solution_weight`] is used to compare against",
+                " this value."
               ]
             },
             {
@@ -4192,17 +4183,6 @@
               "docs": [
                 " The maximum number of electable targets to put in the snapshot."
               ]
-            },
-            {
-              "name": "MinerMaxLength",
-              "type": 4,
-              "value": "0x00003600",
-              "docs": [
-                " Maximum length (bytes) that the mined solution should consume.",
-                "",
-                " The miner will ensure that the total length of the unsigned solution will not exceed",
-                " this value."
-              ]
             }
           ],
           "errors": {
@@ -4211,9 +4191,9 @@
           "index": 36
         },
         {
-          "name": "BagsList",
+          "name": "VoterList",
           "storage": {
-            "prefix": "BagsList",
+            "prefix": "VoterList",
             "items": [
               {
                 "name": "ListNodes",
@@ -5555,6 +5535,23 @@
                   " Session information in a rolling window.",
                   " Should have an entry in range `EarliestStoredSession..=CurrentSessionIndex`.",
                   " Does not have any entries before the session index in the first session change notification."
+                ]
+              },
+              {
+                "name": "AccountKeys",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 4,
+                    "value": 60
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The validator account keys of the validators actively participating in parachain consensus."
                 ]
               }
             ]

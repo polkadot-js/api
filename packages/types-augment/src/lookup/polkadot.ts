@@ -9,7 +9,11 @@ export default {
    **/
   PolkadotRuntimeCommonClaimsPalletEvent: {
     _enum: {
-      Claimed: '(AccountId32,EthereumAddress,u128)'
+      Claimed: {
+        who: 'AccountId32',
+        ethereumAddress: 'EthereumAddress',
+        amount: 'u128'
+      }
     }
   },
   /**
@@ -175,9 +179,17 @@ export default {
    **/
   PolkadotRuntimeCommonParasRegistrarPalletEvent: {
     _enum: {
-      Registered: '(u32,AccountId32)',
-      Deregistered: 'u32',
-      Reserved: '(u32,AccountId32)'
+      Registered: {
+        paraId: 'u32',
+        manager: 'AccountId32',
+      },
+      Deregistered: {
+        paraId: 'u32',
+      },
+      Reserved: {
+        paraId: 'u32',
+        who: 'AccountId32'
+      }
     }
   },
   /**
@@ -185,8 +197,17 @@ export default {
    **/
   PolkadotRuntimeCommonSlotsPalletEvent: {
     _enum: {
-      NewLeasePeriod: 'u32',
-      Leased: '(u32,AccountId32,u32,u32,u128,u128)'
+      NewLeasePeriod: {
+        leasePeriod: 'u32',
+      },
+      Leased: {
+        paraId: 'u32',
+        leaser: 'AccountId32',
+        periodBegin: 'u32',
+        periodCount: 'u32',
+        extraReserved: 'u128',
+        totalAmount: 'u128'
+      }
     }
   },
   /**
@@ -194,13 +215,39 @@ export default {
    **/
   PolkadotRuntimeCommonAuctionsPalletEvent: {
     _enum: {
-      AuctionStarted: '(u32,u32,u32)',
-      AuctionClosed: 'u32',
-      Reserved: '(AccountId32,u128,u128)',
-      Unreserved: '(AccountId32,u128)',
-      ReserveConfiscated: '(u32,AccountId32,u128)',
-      BidAccepted: '(AccountId32,u32,u128,u32,u32)',
-      WinningOffset: '(u32,u32)'
+      AuctionStarted: {
+        auctionIndex: 'u32',
+        leasePeriod: 'u32',
+        ending: 'u32',
+      },
+      AuctionClosed: {
+        auctionIndex: 'u32',
+      },
+      Reserved: {
+        bidder: 'AccountId32',
+        extraReserved: 'u128',
+        totalAmount: 'u128',
+      },
+      Unreserved: {
+        bidder: 'AccountId32',
+        amount: 'u128',
+      },
+      ReserveConfiscated: {
+        paraId: 'u32',
+        leaser: 'AccountId32',
+        amount: 'u128',
+      },
+      BidAccepted: {
+        bidder: 'AccountId32',
+        paraId: 'u32',
+        amount: 'u128',
+        firstSlot: 'u32',
+        lastSlot: 'u32',
+      },
+      WinningOffset: {
+        auctionIndex: 'u32',
+        blockNumber: 'u32'
+      }
     }
   },
   /**
@@ -208,16 +255,43 @@ export default {
    **/
   PolkadotRuntimeCommonCrowdloanPalletEvent: {
     _enum: {
-      Created: 'u32',
-      Contributed: '(AccountId32,u32,u128)',
-      Withdrew: '(AccountId32,u32,u128)',
-      PartiallyRefunded: 'u32',
-      AllRefunded: 'u32',
-      Dissolved: 'u32',
-      HandleBidResult: '(u32,Result<Null, SpRuntimeDispatchError>)',
-      Edited: 'u32',
-      MemoUpdated: '(AccountId32,u32,Bytes)',
-      AddedToNewRaise: 'u32'
+      Created: {
+        paraId: 'u32',
+      },
+      Contributed: {
+        who: 'AccountId32',
+        fundIndex: 'u32',
+        amount: 'u128',
+      },
+      Withdrew: {
+        who: 'AccountId32',
+        fundIndex: 'u32',
+        amount: 'u128',
+      },
+      PartiallyRefunded: {
+        paraId: 'u32',
+      },
+      AllRefunded: {
+        paraId: 'u32',
+      },
+      Dissolved: {
+        paraId: 'u32',
+      },
+      HandleBidResult: {
+        paraId: 'u32',
+        result: 'Result<Null, SpRuntimeDispatchError>',
+      },
+      Edited: {
+        paraId: 'u32',
+      },
+      MemoUpdated: {
+        who: 'AccountId32',
+        paraId: 'u32',
+        memo: 'Bytes',
+      },
+      AddedToNewRaise: {
+        paraId: 'u32'
+      }
     }
   },
   /**

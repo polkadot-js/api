@@ -6,35 +6,32 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, KusamaRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, KusamaRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
     auctions: {
       /**
-       * An auction ended. All funds become unreserved. `[auction_index]`
+       * An auction ended. All funds become unreserved.
        **/
       AuctionClosed: AugmentedEvent<ApiType, [u32]>;
       /**
        * An auction started. Provides its index and the block number where it will begin to
        * close and the first lease period of the quadruplet that is auctioned.
-       * `[auction_index, lease_period, ending]`
        **/
       AuctionStarted: AugmentedEvent<ApiType, [u32, u32, u32]>;
       /**
        * A new bid has been accepted as the current winner.
-       * `[who, para_id, amount, first_slot, last_slot]`
        **/
       BidAccepted: AugmentedEvent<ApiType, [AccountId32, u32, u128, u32, u32]>;
       /**
        * Someone attempted to lease the same slot twice for a parachain. The amount is held in reserve
        * but no parachain slot has been leased.
-       * `[parachain_id, leaser, amount]`
        **/
       ReserveConfiscated: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
       /**
        * Funds were reserved for a winning bid. First balance is the extra amount reserved.
-       * Second is the total. `[bidder, extra_reserved, total_amount]`
+       * Second is the total.
        **/
       Reserved: AugmentedEvent<ApiType, [AccountId32, u128, u128]>;
       /**
@@ -43,19 +40,8 @@ declare module '@polkadot/api-base/types/events' {
       Unreserved: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * The winning offset was chosen for an auction. This will map into the `Winning` storage map.
-       * `[auction_index, block_number]`
        **/
       WinningOffset: AugmentedEvent<ApiType, [u32, u32]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    bagsList: {
-      /**
-       * Moved an account from one bag to another.
-       **/
-      Rebagged: AugmentedEvent<ApiType, [AccountId32, u64, u64]>;
       /**
        * Generic event
        **/
@@ -167,7 +153,7 @@ declare module '@polkadot/api-base/types/events' {
     };
     claims: {
       /**
-       * Someone claimed some DOTs. `[who, ethereum_address, amount]`
+       * Someone claimed some DOTs.
        **/
       Claimed: AugmentedEvent<ApiType, [AccountId32, EthereumAddress, u128]>;
       /**
@@ -217,23 +203,23 @@ declare module '@polkadot/api-base/types/events' {
        **/
       AddedToNewRaise: AugmentedEvent<ApiType, [u32]>;
       /**
-       * All loans in a fund have been refunded. `[fund_index]`
+       * All loans in a fund have been refunded.
        **/
       AllRefunded: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Contributed to a crowd sale. `[who, fund_index, amount]`
+       * Contributed to a crowd sale.
        **/
       Contributed: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
-       * Create a new crowdloaning campaign. `[fund_index]`
+       * Create a new crowdloaning campaign.
        **/
       Created: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Fund is dissolved. `[fund_index]`
+       * Fund is dissolved.
        **/
       Dissolved: AugmentedEvent<ApiType, [u32]>;
       /**
-       * The configuration to a crowdloan has been edited. `[fund_index]`
+       * The configuration to a crowdloan has been edited.
        **/
       Edited: AugmentedEvent<ApiType, [u32]>;
       /**
@@ -241,16 +227,16 @@ declare module '@polkadot/api-base/types/events' {
        **/
       HandleBidResult: AugmentedEvent<ApiType, [u32, Result<Null, SpRuntimeDispatchError>]>;
       /**
-       * A memo has been updated. `[who, fund_index, memo]`
+       * A memo has been updated.
        **/
       MemoUpdated: AugmentedEvent<ApiType, [AccountId32, u32, Bytes]>;
       /**
        * The loans in a fund have been partially dissolved, i.e. there are some left
-       * over child keys that still need to be killed. `[fund_index]`
+       * over child keys that still need to be killed.
        **/
       PartiallyRefunded: AugmentedEvent<ApiType, [u32]>;
       /**
-       * Withdrew full balance of a contributor. `[who, fund_index, amount]`
+       * Withdrew full balance of a contributor.
        **/
       Withdrew: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
@@ -545,6 +531,51 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    nominationPools: {
+      /**
+       * A member has became bonded in a pool.
+       **/
+      Bonded: AugmentedEvent<ApiType, [AccountId32, u32, u128, bool]>;
+      /**
+       * A pool has been created.
+       **/
+      Created: AugmentedEvent<ApiType, [AccountId32, u32]>;
+      /**
+       * A pool has been destroyed.
+       **/
+      Destroyed: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * A member has been removed from a pool.
+       * 
+       * The removal can be voluntary (withdrawn all unbonded funds) or involuntary (kicked).
+       **/
+      MemberRemoved: AugmentedEvent<ApiType, [u32, AccountId32]>;
+      /**
+       * A payout has been made to a member.
+       **/
+      PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * The roles of a pool have been updated to the given new roles. Note that the depositor
+       * can never change.
+       **/
+      RolesUpdated: AugmentedEvent<ApiType, [Option<AccountId32>, Option<AccountId32>, Option<AccountId32>]>;
+      /**
+       * The state of a pool has changed
+       **/
+      StateChanged: AugmentedEvent<ApiType, [u32, PalletNominationPoolsPoolState]>;
+      /**
+       * A member has unbonded from their pool.
+       **/
+      Unbonded: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * A member has withdrawn from their pool.
+       **/
+      Withdrawn: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     offences: {
       /**
        * There is an offence reported of the given `kind` happened at the `session_index` and
@@ -808,7 +839,6 @@ declare module '@polkadot/api-base/types/events' {
        * A para has won the right to a continuous set of lease periods as a parachain.
        * First balance is any extra amount reserved on top of the para's existing deposit.
        * Second balance is the total amount reserved.
-       * `[parachain_id, leaser, period_begin, period_count, extra_reserved, total_amount]`
        **/
       Leased: AugmentedEvent<ApiType, [u32, AccountId32, u32, u32, u128, u128]>;
       /**
@@ -1204,6 +1234,20 @@ declare module '@polkadot/api-base/types/events' {
        * The balance given is the amount which is left unvested (and thus locked).
        **/
       VestingUpdated: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    voterList: {
+      /**
+       * Moved an account from one bag to another.
+       **/
+      Rebagged: AugmentedEvent<ApiType, [AccountId32, u64, u64]>;
+      /**
+       * Updated the score of some account to the given amount.
+       **/
+      ScoreUpdated: AugmentedEvent<ApiType, [AccountId32, u64]>;
       /**
        * Generic event
        **/
