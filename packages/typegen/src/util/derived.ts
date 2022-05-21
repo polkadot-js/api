@@ -58,7 +58,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
-      } else if (subDef.info === TypeDefInfo.VecFixed) {
+      } else if (subDef.info === TypeDefInfo.Option || subDef.info === TypeDefInfo.Vec || subDef.info === TypeDefInfo.VecFixed) {
         // TODO: Add possibleTypes so imports work
       } else if (subDef.info === TypeDefInfo.Struct) {
         // TODO: Add possibleTypes so imports work
