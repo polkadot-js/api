@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## master
+## 8.5.1 May 22, 2022
+
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.5 (Thanks to https://github.com/wirednkod)
 
 Changes:
 
