@@ -23,7 +23,7 @@
   "version": "8.4.3-6",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.17.9",
+    "@babel/runtime": "^7.18.0",
     "@polkadot/api": "8.4.3-6",
     "@polkadot/api-augment": "8.4.3-6",
     "@polkadot/api-base": "8.4.3-6",
