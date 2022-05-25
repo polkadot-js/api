@@ -321,8 +321,9 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
 function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
   const nameInfo: [number, string, SiTypeParameter[]][] = [];
   const types: Record<number, PortableType> = {};
+  const porCount = portable.length;
 
-  for (let i = 0; i < portable.length; i++) {
+  for (let i = 0; i < porCount; i++) {
     const type = portable[i];
     const extracted = extractName(portable, portable[i]);
 
@@ -337,8 +338,9 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
   const lookups: Record<string, string> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
+  const dupCount = dedup.length;
 
-  for (let i = 0; i < dedup.length; i++) {
+  for (let i = 0; i < dupCount; i++) {
     const [lookupIndex, name, p] = dedup[i];
 
     names[lookupIndex] = name;

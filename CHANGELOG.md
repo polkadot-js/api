@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Optimization for `createClass` with shortcut typeDef creation
+
+
 ## 8.5.1 May 22, 2022
 
 Contributed:
