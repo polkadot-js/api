@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyBool, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
@@ -17,8 +17,7 @@ export class bool extends Boolean implements Codec {
 
   public createdAtHash?: IU8a;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
+  constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
     super(
       isU8a(value)
         ? value[0] === 1
