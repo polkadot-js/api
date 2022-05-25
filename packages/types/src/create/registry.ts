@@ -212,7 +212,7 @@ export class TypeRegistry implements Registry {
   }
 
   /**
-   * @description Returns tru if the type is in a Compat format
+   * @description Returns true if the type is in a Compat format
    */
   public isLookupType (value: string): boolean {
     return /Lookup\d+$/.test(value);

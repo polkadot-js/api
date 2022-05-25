@@ -32,13 +32,11 @@ function checkInstance (created: Codec, matcher: Uint8Array): void {
   assert(isOk, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(matcher, 512)} (${matcher.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
 }
 
-function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false): void {
-  if (isPedantic) {
-    if (isU8a(value)) {
-      checkInstance(created, value);
-    } else if (isHex(value)) {
-      checkInstance(created, u8aToU8a(value));
-    }
+function checkPedantic (created: Codec, [value]: unknown[]): void {
+  if (isU8a(value)) {
+    checkInstance(created, value);
+  } else if (isHex(value)) {
+    checkInstance(created, u8aToU8a(value));
   }
 }
 
@@ -47,7 +45,7 @@ function checkPedantic (created: Codec, [value]: unknown[], isPedantic = false):
 function initType<T extends Codec> (registry: Registry, Type: CodecClass, params: unknown[] = [], { blockHash, isOptional, isPedantic }: CreateOptions = {}): T {
   const created = new (isOptional ? Option.with(Type) : Type)(registry, ...params);
 
-  checkPedantic(created, params, isPedantic);
+  isPedantic && checkPedantic(created, params);
 
   if (blockHash) {
     created.createdAtHash = createTypeUnsafe<IU8a>(registry, 'Hash', [blockHash]);

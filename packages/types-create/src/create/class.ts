@@ -208,10 +208,15 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, typeD
 }
 
 export function createClassUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): CodecClass<T> {
-  return getTypeClass(
-    registry,
-    registry.isLookupType(type)
-      ? registry.lookup.getTypeDef(type)
-      : getTypeDef(type)
+  return (
+    // just retrieve via name, no creation via typeDef
+    registry.getUnsafe(type) ||
+    // we don't have an existing type, create the class via typeDef
+    getTypeClass(
+      registry,
+      registry.isLookupType(type)
+        ? registry.lookup.getTypeDef(type)
+        : getTypeDef(type)
+    )
   );
 }
