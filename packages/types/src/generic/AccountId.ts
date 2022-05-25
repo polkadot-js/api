@@ -16,7 +16,7 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
   } else if (isHex(value)) {
     return hexToU8a(value);
   } else if (isString(value)) {
-    return decodeAddress(value);
+    return decodeAddress(value.toString());
   }
 
   throw new Error(`Unknown type passed to AccountId constructor, found typeof ${typeof value}`);
