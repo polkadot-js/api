@@ -75,11 +75,9 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {
     let definition: CodecClass<O> | undefined;
 
-    const setDefinition = <T> (d: CodecClass<T>): CodecClass<T> => {
-      definition = d as unknown as CodecClass<O>;
-
-      return d;
-    };
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = <T> (d: CodecClass<T>) =>
+      (definition = d as unknown as CodecClass<O>) as unknown as CodecClass<T>;
 
     return class extends Vec<O> {
       constructor (registry: Registry, value?: any[]) {

@@ -210,11 +210,9 @@ export class Enum implements IEnum {
 
     let definition: Definition | undefined;
 
-    const setDefinition = (d: Definition): Definition => {
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = (d: Definition) =>
       definition = d;
-
-      return d;
-    };
 
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {

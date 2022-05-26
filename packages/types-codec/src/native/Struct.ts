@@ -127,11 +127,9 @@ export class Struct<
 
     let definition: CodecClassDef | undefined;
 
-    const setDefinition = (d: CodecClassDef): CodecClassDef => {
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = (d: CodecClassDef) =>
       definition = d;
-
-      return d;
-    };
 
     return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {

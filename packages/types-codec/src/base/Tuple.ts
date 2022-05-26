@@ -78,11 +78,9 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
     let definition: TupleCodecClass | undefined;
 
-    const setDefinition = (d: TupleCodecClass): TupleCodecClass => {
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = (d: TupleCodecClass) =>
       definition = d;
-
-      return d;
-    };
 
     return class extends Tuple {
       constructor (registry: Registry, value?: AnyTupleValue) {
