@@ -9,6 +9,15 @@ import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot
 import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
+function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
+  return d;
+}
+
 class None extends Null {
   /**
    * @description Returns the base runtime type name for this instance
@@ -60,8 +69,8 @@ export class Option<T extends Codec> implements IOption<T> {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {
-    const Type = typeToConstructor(registry, typeName);
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+    const Type = definition || setDefinition(typeToConstructor(registry, typeName));
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
         ? new None(registry)
@@ -78,9 +87,17 @@ export class Option<T extends Codec> implements IOption<T> {
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
+    let definition: CodecClass<O> | undefined;
+
+    const setDefinition = <T> (d: CodecClass<T>): CodecClass<T> => {
+      definition = d as unknown as CodecClass<O>;
+
+      return d;
+    };
+
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value);
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }

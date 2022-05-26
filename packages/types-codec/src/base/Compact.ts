@@ -9,6 +9,15 @@ import { compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
+function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
+  return d;
+}
+
 /**
  * @name Compact
  * @description
@@ -28,9 +37,9 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
     this.registry = registry;
-    this.#Type = typeToConstructor(registry, Type);
+    this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
 
@@ -38,10 +47,16 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.#raw = raw;
   }
 
-  public static with<T extends INumber> (Type: CodecClass<T> | string): CodecClass<Compact<T>> {
-    return class extends Compact<T> {
-      constructor (registry: Registry, value?: Compact<T> | AnyNumber) {
-        super(registry, Type, value);
+  public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
+    let definition: CodecClass<O> | undefined;
+
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = <T> (d: CodecClass<T>) =>
+      (definition = d as unknown as CodecClass<O>) as unknown as CodecClass<T>;
+
+    return class extends Compact<O> {
+      constructor (registry: Registry, value?: Compact<O> | AnyNumber) {
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }

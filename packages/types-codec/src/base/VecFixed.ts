@@ -10,6 +10,15 @@ import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8aVec, typeToConstructor } from '../utils';
 import { decodeVec } from './Vec';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
+function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
+  return d;
+}
+
 /** @internal */
 function decodeVecFixed<T extends Codec> (registry: Registry, value: HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
   const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
@@ -31,8 +40,8 @@ function decodeVecFixed<T extends Codec> (registry: Registry, value: HexString |
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
-    const Clazz = typeToConstructor<T>(registry, Type);
+  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+    const Clazz = definition || setDefinition(typeToConstructor<T>(registry, Type));
     const [values,, decodedLengthNoOffset] = isU8a(value)
       ? decodeU8aVec(registry, value, 0, Clazz, length)
       : decodeVecFixed(registry, value, Clazz, length);
@@ -43,9 +52,15 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {
+    let definition: CodecClass<O> | undefined;
+
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = <T> (d: CodecClass<T>) =>
+      (definition = d as unknown as CodecClass<O>) as unknown as CodecClass<T>;
+
     return class extends VecFixed<O> {
       constructor (registry: Registry, value?: any[]) {
-        super(registry, Type, length, value);
+        super(registry, Type, length, value, { definition, setDefinition });
       }
     };
   }
