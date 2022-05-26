@@ -206,6 +206,7 @@ describe('createType', (): void => {
     });
 
     it('allows for re-registration of a type (affecting derives)', (): void => {
+      registry.clearCache();
       registry.register({
         Balance: 'u128',
         TestComplex: {
