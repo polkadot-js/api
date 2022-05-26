@@ -3,14 +3,11 @@
 
 import type { CodecClass, Registry } from '../types';
 
-export function typesToMap (registry: Registry, Types: Record<string, CodecClass>): Record<string, string> {
-  const entries = Object.entries(Types);
+export function typesToMap (registry: Registry, [Types, keys]: [CodecClass[], string[]]): Record<string, string> {
   const result: Record<string, string> = {};
 
-  for (let i = 0; i < entries.length; i++) {
-    const [key, Type] = entries[i];
-
-    result[key] = registry.getClassName(Type) || new Type(registry).toRawType();
+  for (let i = 0; i < keys.length; i++) {
+    result[keys[i]] = registry.getClassName(Types[i]) || new Types[i](registry).toRawType();
   }
 
   return result;

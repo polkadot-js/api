@@ -8,37 +8,32 @@ import { isFunction, isHex, isString, isU8a, stringify, u8aConcat, u8aToU8a } fr
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
 
-type TupleCodecClass = CodecClass[] | {
-  [index: string]: CodecClass;
-};
-
 type TupleType = (CodecClass | string);
 
 type TupleTypes = TupleType[] | {
   [index: string]: CodecClass | string;
 };
 
+type Definition = [CodecClass[], string[]];
+
 interface Options {
-  definition?: TupleCodecClass;
-  setDefinition?: (d: TupleCodecClass) => TupleCodecClass;
+  definition?: Definition;
+  setDefinition?: (d: Definition) => Definition;
 }
 
-function noopSetDefinition (d: TupleCodecClass): TupleCodecClass {
+function noopSetDefinition (d: Definition): Definition {
   return d;
 }
 
 /** @internal */
-function decodeTuple (registry: Registry, result: Codec[], Classes: TupleCodecClass, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
+function decodeTuple (registry: Registry, result: Codec[], Classes: Definition, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), Classes, false, result);
+    return decodeU8a(registry, result, u8aToU8a(value), Classes);
   }
 
-  const Types: CodecClass[] = Array.isArray(Classes)
-    ? Classes
-    : Object.values(Classes);
-  const count = result.length;
+  const Types = Classes[0];
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < Types.length; i++) {
     try {
       const entry = value?.[i];
 
@@ -62,23 +57,21 @@ function decodeTuple (registry: Registry, result: Codec[], Classes: TupleCodecCl
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   readonly initialU8aLength?: number;
 
-  #Types: TupleCodecClass;
+  #Types: Definition;
 
   constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
-    const Classes = definition || setDefinition(Array.isArray(Types)
-      ? Types.map((t) => typeToConstructor(registry, t))
-      : isFunction(Types) || isString(Types)
-        ? [typeToConstructor(registry, Types)]
-        : mapToTypeMap(registry, Types)
+    const Classes = definition || setDefinition(
+      Array.isArray(Types)
+        ? [Types.map((t) => typeToConstructor(registry, t)), []]
+        : isFunction(Types) || isString(Types)
+          ? [[typeToConstructor(registry, Types)], []]
+          : mapToTypeMap(registry, Types)
     );
-    const count = Array.isArray(Classes)
-      ? Classes.length
-      : Object.values(Classes).length;
 
-    super(registry, count);
+    super(registry, Classes[0].length);
 
     const [, decodedLength] = isU8a(value)
-      ? decodeU8a(registry, value, Classes, false, this)
+      ? decodeU8a(registry, this, value, Classes, false)
       : decodeTuple(registry, this, Classes, value);
 
     this.initialU8aLength = decodedLength;
@@ -86,10 +79,10 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   }
 
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
-    let definition: TupleCodecClass | undefined;
+    let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
-    const setDefinition = (d: TupleCodecClass) =>
+    const setDefinition = (d: Definition) =>
       definition = d;
 
     return class extends Tuple {
@@ -116,9 +109,9 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The types definition of the tuple
    */
   public get Types (): string[] {
-    return Array.isArray(this.#Types)
-      ? this.#Types.map((T) => new T(this.registry).toRawType())
-      : Object.keys(this.#Types);
+    return this.#Types[1].length
+      ? this.#Types[1]
+      : this.#Types[0].map((T) => new T(this.registry).toRawType());
   }
 
   /**
@@ -134,11 +127,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const types = (
-      Array.isArray(this.#Types)
-        ? this.#Types
-        : Object.values(this.#Types)
-    ).map((T) =>
+    const types = this.#Types[0].map((T) =>
       this.registry.getClassName(T) || new T(this.registry).toRawType()
     );
 
