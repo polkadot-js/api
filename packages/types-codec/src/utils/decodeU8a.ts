@@ -26,9 +26,10 @@ function getRawType (registry: Registry, Type: CodecClass): string | null {
  * @param types - The array of CodecClass to decode the U8a against.
  */
 export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, result: unknown[], u8a: Uint8Array, [Types, keys]: [CodecClass[], string[]], withZip?: boolean): [E[], number] {
+  const count = result.length;
   let offset = 0;
 
-  for (let i = 0; i < result.length; i++) {
+  for (let i = 0; i < count; i++) {
     try {
       const value = new Types[i](registry, u8a.subarray(offset));
 
