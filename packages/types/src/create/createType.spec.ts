@@ -205,7 +205,7 @@ describe('createType', (): void => {
       expect(balu32.bitLength()).toEqual(32);
     });
 
-    it('allows for re-registration of a type (affecting derives)', (): void => {
+    it('allows for re-registration of a type (derived types)', (): void => {
       registry.clearCache();
       registry.register({
         Balance: 'u128',
