@@ -13,8 +13,8 @@ const BASE = 'packages/api-augment/src';
 const METAS = Object.entries({ kusama, polkadot, substrate }) as [string, HexString][];
 
 export function main (): void {
-  generateDefaultLookup();
   generateDefaultInterface();
+  generateDefaultLookup();
   generateDefaultRpc();
   generateDefaultTsDef();
 
