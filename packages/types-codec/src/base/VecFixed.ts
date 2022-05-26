@@ -21,7 +21,7 @@ function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
 
 /** @internal */
 function decodeVecFixed<T extends Codec> (registry: Registry, result: T[], value: HexString | unknown[], Type: CodecClass<T>): [number, number] {
-  const [decodedLength, decodedLengthNoOffset] = decodeVec(registry, result, Type, value, length);
+  const [decodedLength, decodedLengthNoOffset] = decodeVec(registry, result, Type, value, 0);
 
   while (result.length < length) {
     result.push(new Type(registry));
