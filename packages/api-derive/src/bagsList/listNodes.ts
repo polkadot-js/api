@@ -20,7 +20,7 @@ function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<
     ),
     tap((node: Option<PalletBagsListListNode>): void => {
       setTimeout((): void => {
-        node.isSome && (node.value as PalletBagsListListNode).next.isSome
+        node.isSome && node.value.next.isSome
           ? subject.next(node.unwrap().next.unwrap())
           : subject.complete();
       }, 0);
