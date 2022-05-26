@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { InterfaceTypes } from '@polkadot/types/types';
-import type { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, Enum, HashMap, Linkage, Null, Option, Range, RangeInclusive, Result, Struct, u8, U8aFixed, Vec, VecFixed } from '@polkadot/types-codec';
+import type { bool, BTreeMap, BTreeSet, Bytes, CodecSet, Compact, Enum, HashMap, Linkage, Null, Option, OptionBool, Range, RangeInclusive, Result, Struct, u8, U8aFixed, Vec, VecFixed } from '@polkadot/types-codec';
 import type { Codec, ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 
 export type DetectCodec<T extends Codec, K extends string> =
@@ -37,7 +37,7 @@ export type __MapWrapOne<C extends Codec> = {
   'BTreeSet<': BTreeSet<C>;
   'Compact<': C extends INumber ? Compact<C> : Codec;
   'Linkage<': Linkage<C>;
-  'Option<': Option<C>;
+  'Option<': C extends bool ? OptionBool : Option<C>;
   'Range<': C extends INumber ? Range<C> : Codec;
   'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
   'Vec<': C extends u8 ? Bytes : Vec<C>;

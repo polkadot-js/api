@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { BitVec, Bool, bool, Bytes, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
+import type { BitVec, Bool, bool, Bytes, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, OptionBool, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
 import type { RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
@@ -18,7 +18,7 @@ export type { Registry, RegistryError, RegistryTypes } from '@polkadot/types-cod
 
 export interface InterfaceTypes {
   // base codec
-  BitVec: BitVec, Bool: Bool, Bytes: Bytes, I128: I128, I16: I16, I256: I256, I32: I32, I64: I64, I8: I8, Json: Json, Null: Null, Raw: Raw, Text: Text, Type: Type, U128: U128, U16: U16, U256: U256, U32: U32, U64: U64, U8: U8, USize: USize, bool: bool, i128: i128, i16: i16, i256: i256, i32: i32, i64: i64, i8: i8, u128: u128, u16: u16, u256: u256, u32: u32, u64: u64, u8: u8, usize: usize,
+  BitVec: BitVec, Bool: Bool, Bytes: Bytes, I128: I128, I16: I16, I256: I256, I32: I32, I64: I64, I8: I8, Json: Json, Null: Null, OptionBool: OptionBool, Raw: Raw, Text: Text, Type: Type, U128: U128, U16: U16, U256: U256, U32: U32, U64: U64, U8: U8, USize: USize, bool: bool, i128: i128, i16: i16, i256: i256, i32: i32, i64: i64, i8: i8, u128: u128, u16: u16, u256: u256, u32: u32, u64: u64, u8: u8, usize: usize,
   // extrinsic
   Extrinsic: GenericExtrinsic, ExtrinsicEra: GenericExtrinsicEra, ExtrinsicPayload: GenericExtrinsicPayload, SignerPayload: GenericSignerPayload,
   // generic

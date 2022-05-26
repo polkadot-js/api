@@ -8,6 +8,7 @@ export { Bytes } from './Bytes';
 export { HashMap } from './HashMap';
 export { Linkage } from './Linkage';
 export { CodecMap, CodecMap as Map } from './Map';
+export { OptionBool } from './OptionBool';
 export { Range } from './Range';
 export { RangeInclusive } from './RangeInclusive';
 export { Type } from './Type';

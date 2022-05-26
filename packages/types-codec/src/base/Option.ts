@@ -131,7 +131,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description The actual value for the Option
    */
-  public get value (): Codec {
+  public get value (): T {
     return this.#raw;
   }
 
