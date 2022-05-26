@@ -4,6 +4,7 @@
 
 Changes:
 
+- Add codec support for specialized `Option<bool>`
 - Optimization for `createClass` with shortcut typeDef creation
 
 

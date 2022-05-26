@@ -774,9 +774,18 @@ export class PortableRegistry extends Struct implements ILookup {
     const specialVariant = path[0].toString();
 
     if (specialVariant === 'Option') {
+      const sub = this.#createSiDef(params[0].type.unwrap());
+
+      if (sub.type === 'bool') {
+        return withTypeString(this.registry, {
+          info: TypeDefInfo.Plain,
+          type: 'OptionBool'
+        });
+      }
+
       return withTypeString(this.registry, {
         info: TypeDefInfo.Option,
-        sub: this.#createSiDef(params[0].type.unwrap())
+        sub
       });
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
