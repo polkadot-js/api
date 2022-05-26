@@ -111,8 +111,8 @@ export class Struct<
 
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
-    const [decoded, decodedLength] = isU8a(value)
-      ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
+    const [decoded, decodedLength] = isU8a(value) || isHex(value)
+      ? decodeU8a<Codec, [string, Codec]>(registry, u8aToU8a(value), typeMap, true)
       : isHex(value)
         ? decodeU8a<Codec, [string, Codec]>(registry, u8aToU8a(value), typeMap, true)
         : value instanceof Struct

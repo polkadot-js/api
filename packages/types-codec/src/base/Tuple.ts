@@ -28,31 +28,29 @@ function noopSetDefinition (d: TupleCodecClass): TupleCodecClass {
 }
 
 /** @internal */
-function decodeTuple (registry: Registry, Classes: TupleCodecClass, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
+function decodeTuple (registry: Registry, result: Codec[], Classes: TupleCodecClass, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), Classes);
+    return decodeU8a(registry, u8aToU8a(value), Classes, false, result);
   }
 
   const Types: CodecClass[] = Array.isArray(Classes)
     ? Classes
     : Object.values(Classes);
+  const count = result.length;
 
-  return [
-    Types.map((Type, index): Codec => {
-      try {
-        const entry = value?.[index];
+  for (let i = 0; i < count; i++) {
+    try {
+      const entry = value?.[i];
 
-        if (entry instanceof Type) {
-          return entry;
-        }
+      result[i] = entry instanceof Types[i]
+        ? entry
+        : new Types[i](registry, entry);
+    } catch (error) {
+      throw new Error(`Tuple: failed on ${i}:: ${(error as Error).message}`);
+    }
+  }
 
-        return new Type(registry, entry);
-      } catch (error) {
-        throw new Error(`Tuple: failed on ${index}:: ${(error as Error).message}`);
-      }
-    }),
-    0
-  ];
+  return [result, 0];
 }
 
 /**
@@ -62,6 +60,8 @@ function decodeTuple (registry: Registry, Classes: TupleCodecClass, value?: Excl
  * own type. It extends the base JS `Array` object.
  */
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
+  readonly initialU8aLength?: number;
+
   #Types: TupleCodecClass;
 
   constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
@@ -71,12 +71,17 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
         ? [typeToConstructor(registry, Types)]
         : mapToTypeMap(registry, Types)
     );
-    const [values, decodedLength] = isU8a(value)
-      ? decodeU8a(registry, value, Classes)
-      : decodeTuple(registry, Classes, value);
+    const count = Array.isArray(Classes)
+      ? Classes.length
+      : Object.values(Classes).length;
 
-    super(registry, values, decodedLength);
+    super(registry, count);
 
+    const [, decodedLength] = isU8a(value)
+      ? decodeU8a(registry, value, Classes, false, this)
+      : decodeTuple(registry, this, Classes, value);
+
+    this.initialU8aLength = decodedLength;
     this.#Types = Classes;
   }
 
