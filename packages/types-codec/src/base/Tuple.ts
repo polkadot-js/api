@@ -82,7 +82,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
       definition = d;
 
       return d;
-    }
+    };
 
     return class extends Tuple {
       constructor (registry: Registry, value?: AnyTupleValue) {

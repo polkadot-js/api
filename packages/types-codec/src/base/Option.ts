@@ -84,15 +84,15 @@ export class Option<T extends Codec> implements IOption<T> {
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
     let definition: CodecClass<O> | undefined;
 
-    const setDefinition = (d: CodecClass<O>): CodecClass<O> => {
-      definition = d;
+    const setDefinition = <T> (d: CodecClass<T>): CodecClass<T> => {
+      definition = d as unknown as CodecClass<O>;
 
       return d;
     };
 
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value, definition, setDefinition as any);
+        super(registry, Type, value, definition, setDefinition);
       }
     };
   }
