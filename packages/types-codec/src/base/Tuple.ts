@@ -8,7 +8,7 @@ import { isFunction, isHex, isString, isU8a, stringify, u8aConcat, u8aToU8a } fr
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
 
-type TupleCodecClasss = CodecClass[] | {
+type TupleCodecClass = CodecClass[] | {
   [index: string]: CodecClass;
 };
 
@@ -18,8 +18,12 @@ type TupleTypes = TupleType[] | {
   [index: string]: CodecClass | string;
 };
 
+function noopSetDefinition (d: TupleCodecClass): TupleCodecClass {
+  return d;
+}
+
 /** @internal */
-function decodeTuple (registry: Registry, Classes: TupleCodecClasss, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
+function decodeTuple (registry: Registry, Classes: TupleCodecClass, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), Classes);
   }
@@ -53,14 +57,15 @@ function decodeTuple (registry: Registry, Classes: TupleCodecClasss, value?: Exc
  * own type. It extends the base JS `Array` object.
  */
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
-  #Types: TupleCodecClasss;
+  #Types: TupleCodecClass;
 
-  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue) {
-    const Classes = Array.isArray(Types)
+  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, definition?: TupleCodecClass, setDefinition = noopSetDefinition) {
+    const Classes = definition || setDefinition(Array.isArray(Types)
       ? Types.map((t) => typeToConstructor(registry, t))
       : isFunction(Types) || isString(Types)
         ? [typeToConstructor(registry, Types)]
-        : mapToTypeMap(registry, Types);
+        : mapToTypeMap(registry, Types)
+    );
     const [values, decodedLength] = isU8a(value)
       ? decodeU8a(registry, value, Classes)
       : decodeTuple(registry, Classes, value);
@@ -71,9 +76,17 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   }
 
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
+    let definition: TupleCodecClass | undefined;
+
+    const setDefinition = (d: TupleCodecClass): TupleCodecClass => {
+      definition = d;
+
+      return d;
+    }
+
     return class extends Tuple {
       constructor (registry: Registry, value?: AnyTupleValue) {
-        super(registry, Types, value);
+        super(registry, Types, value, definition, setDefinition);
       }
     };
   }

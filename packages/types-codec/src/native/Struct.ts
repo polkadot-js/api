@@ -10,6 +10,10 @@ import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
+function noopSetDefinition (d: CodecClassDef): CodecClassDef {
+  return d;
+}
+
 /** @internal */
 function decodeStructFromObject (registry: Registry, Types: CodecClassDef, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   let jsonObj: Record<string, unknown> | undefined;
@@ -100,8 +104,8 @@ export class Struct<
 
   readonly #Types: CodecClassDef;
 
-  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>()) {
-    const typeMap = mapToTypeMap(registry, Types);
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), definition?: CodecClassDef, setDefinition = noopSetDefinition) {
+    const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value)
       ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
       : isHex(value)
@@ -121,9 +125,17 @@ export class Struct<
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
     const keys = Object.keys(Types);
 
+    let definition: CodecClassDef | undefined;
+
+    const setDefinition = (d: CodecClassDef): CodecClassDef => {
+      definition = d;
+
+      return d;
+    };
+
     return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Types, value as HexString, jsonMap);
+        super(registry, Types, value as HexString, jsonMap, definition, setDefinition);
 
         objectProperties(this, keys, (k) => this.get(k));
       }

@@ -14,6 +14,12 @@ export interface EnumCodecClass<T = Codec> {
   new(registry: Registry, value?: any, index?: number): T;
 }
 
+interface Definition {
+  def: TypesDef;
+  isBasic: boolean;
+  isIndexed: boolean;
+}
+
 interface EntryDef {
   Type: CodecClass;
   index: number;
@@ -24,6 +30,10 @@ type TypesDef = Record<string, EntryDef>;
 interface Decoded {
   index: number;
   value: Codec;
+}
+
+function noopSetDefinition (d: Definition): Definition {
+  return d;
 }
 
 function isRustEnum (def: Record<string, string | CodecClass> | Record<string, number>): def is Record<string, string | CodecClass> {
@@ -38,7 +48,7 @@ function isRustEnum (def: Record<string, string | CodecClass> | Record<string, n
   return true;
 }
 
-function extractDef (registry: Registry, _def: Record<string, string | CodecClass> | Record<string, number> | string[]): { def: TypesDef; isBasic: boolean; isIndexed: boolean } {
+function extractDef (registry: Registry, _def: Record<string, string | CodecClass> | Record<string, number> | string[]): Definition {
   const def: TypesDef = {};
   let isBasic: boolean;
   let isIndexed: boolean;
@@ -163,8 +173,8 @@ export class Enum implements IEnum {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number) {
-    const { def, isBasic, isIndexed } = extractDef(registry, Types);
+  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, definition?: Definition, setDefinition = noopSetDefinition) {
+    const { def, isBasic, isIndexed } = definition || setDefinition(extractDef(registry, Types));
 
     // shortcut isU8a as used in SCALE decoding
     const decoded = isU8a(value) && value.length && !isNumber(index)
@@ -198,9 +208,17 @@ export class Enum implements IEnum {
       isKeys[i] = `is${name}`;
     }
 
+    let definition: Definition | undefined;
+
+    const setDefinition = (d: Definition): Definition => {
+      definition = d;
+
+      return d;
+    };
+
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
-        super(registry, Types, value, index);
+        super(registry, Types, value, index, definition, setDefinition);
 
         objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
         objectProperties(this, asKeys, (k, i): Codec => {
