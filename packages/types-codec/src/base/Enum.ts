@@ -401,16 +401,14 @@ export class Enum implements IEnum {
         : this.defKeys;
     }
 
-    const typeMap = Object
-      .entries(this.#def)
-      .reduce((out: [CodecClass[], string[]], [key, { Type }]) => {
-        out[0].push(Type);
-        out[1].push(key);
+    const entries = Object.entries(this.#def);
 
-        return out;
-      }, [[], []]);
+    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+      out[0][i] = Type;
+      out[1][i] = key;
 
-    return typesToMap(this.registry, typeMap);
+      return out;
+    }, [new Array<CodecClass>(entries.length), new Array<string>(entries.length)]));
   }
 
   /**
