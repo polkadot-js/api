@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, CodecClassDef, Inspect, IStruct, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
 
 import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -10,31 +10,32 @@ import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
+type Definition = [CodecClass[], string[]];
+
 interface Options {
-  definition?: CodecClassDef;
-  setDefinition?: (d: CodecClassDef) => CodecClassDef;
+  definition?: Definition;
+  setDefinition?: (d: Definition) => Definition;
 }
 
-function noopSetDefinition (d: CodecClassDef): CodecClassDef {
+function noopSetDefinition (d: Definition): Definition {
   return d;
 }
 
 /** @internal */
-function decodeStructFromObject (registry: Registry, Types: CodecClassDef, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
+function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, value: any, jsonMap: Map<string, string>): [Iterable<[string, Codec]>, number] {
   let jsonObj: Record<string, unknown> | undefined;
-  const inputKeys = Object.keys(Types);
   const typeofArray = Array.isArray(value);
   const typeofMap = value instanceof Map;
 
   assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
-  assert(!typeofArray || value.length === inputKeys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${inputKeys.join(', ')}`);
+  assert(!typeofArray || value.length === keys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${keys.join(', ')}`);
 
-  const raw = new Array<[string, Codec]>(inputKeys.length);
+  const raw = new Array<[string, Codec]>(keys.length);
 
-  for (let i = 0; i < inputKeys.length; i++) {
-    const key = inputKeys[i];
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
     const jsonKey = jsonMap.get(key) || key;
-    const Type = Types[key];
+    const Type = Types[i];
     let assign: unknown;
 
     try {
@@ -107,14 +108,14 @@ export class Struct<
 
   readonly #jsonMap: Map<keyof S, string>;
 
-  readonly #Types: CodecClassDef;
+  readonly #Types: Definition;
 
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value)
-      ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
+      ? decodeU8a<Codec, [string, Codec]>(registry, new Array(typeMap[0].length), value, typeMap, true)
       : isHex(value)
-        ? decodeU8a<Codec, [string, Codec]>(registry, u8aToU8a(value), typeMap, true)
+        ? decodeU8a<Codec, [string, Codec]>(registry, new Array(typeMap[0].length), u8aToU8a(value), typeMap, true)
         : value instanceof Struct
           ? [value as Iterable<[string, Codec]>, 0]
           : decodeStructFromObject(registry, typeMap, value || {}, jsonMap);
@@ -130,10 +131,10 @@ export class Struct<
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
     const keys = Object.keys(Types);
 
-    let definition: CodecClassDef | undefined;
+    let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
-    const setDefinition = (d: CodecClassDef) =>
+    const setDefinition = (d: Definition) =>
       definition = d;
 
     return class extends Struct<S> {
@@ -149,7 +150,7 @@ export class Struct<
    * @description The available keys for this struct
    */
   public get defKeys (): string[] {
-    return Object.keys(this.#Types);
+    return this.#Types[1];
   }
 
   public getT <T> (key: string): T {
@@ -174,12 +175,10 @@ export class Struct<
    */
   public get Type (): E {
     const result: Record<string, string> = {};
-    const defs = Object.entries(this.#Types);
+    const [Types, keys] = this.#Types;
 
-    for (let i = 0; i < defs.length; i++) {
-      const [key, Type] = defs[i];
-
-      result[key] = new Type(this.registry).toRawType();
+    for (let i = 0; i < keys.length; i++) {
+      result[keys[i]] = new Types[i](this.registry).toRawType();
     }
 
     return result as E;

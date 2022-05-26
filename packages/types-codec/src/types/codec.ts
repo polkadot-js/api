@@ -105,8 +105,6 @@ export interface CodecClass<T = Codec> {
   new(registry: Registry, ...args: any[]): T;
 }
 
-export type CodecClassDef<T = Codec> = Record<string, CodecClass<T>>;
-
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export type ArgsDef = Record<string, CodecClass | string>;
