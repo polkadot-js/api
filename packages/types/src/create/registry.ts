@@ -9,7 +9,7 @@ import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTyp
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
+import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -253,7 +253,7 @@ export class TypeRegistry implements Registry {
    * @describe Creates an instance of the class
    */
   public createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>> {
-    return this.createClassUnsafe(type) as unknown as CodecClass<DetectCodec<T, K>>;
+    return createClassUnsafe<DetectCodec<T, K>>(this, type);
   }
 
   /**
@@ -267,7 +267,7 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
-    return this.createTypeUnsafe(type, params);
+    return createTypeUnsafe(this, type, params);
   }
 
   /**
@@ -345,6 +345,12 @@ export class TypeRegistry implements Registry {
         Type = class extends BaseType {};
 
         this.#classes.set(name, Type);
+
+        // In the case of lookups, we also want to store the actual class against
+        // the lookup name, instad of having to traverse again
+        if (knownTypeDef && isNumber(knownTypeDef.lookupIndex)) {
+          this.#classes.set(this.createLookupType(knownTypeDef.lookupIndex), Type);
+        }
       }
     }
 

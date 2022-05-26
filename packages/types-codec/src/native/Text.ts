@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyU8a, Inspect, IText, IU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Inspect, IText, IU8a, Registry } from '../types';
 
 import { assert, compactAddLength, compactFromU8a, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import { Raw } from './Raw';
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [string, number] {
+function decodeText (value?: null | AnyString | AnyU8a | { toString: () => string }): [string, number] {
   if (isU8a(value)) {
     if (!value.length) {
       return ['', 0];
@@ -54,7 +54,7 @@ export class Text extends String implements IText {
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
+  constructor (registry: Registry, value?: null | AnyString | AnyU8a | { toString: () => string }) {
     const [str, decodedLength] = decodeText(value);
 
     super(str);
