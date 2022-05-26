@@ -225,7 +225,18 @@ describe('createType', (): void => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect(cmpDef.balance.bitLength()).toEqual(128);
 
-      registry.register({ Balance: 'u32' });
+      registry.clearCache();
+      registry.register({
+        Balance: 'u32',
+        TestComplex: {
+          balance: 'Balance',
+          // eslint-disable-next-line sort-keys
+          accountId: 'AccountId',
+          log: '(u64, u32)',
+          // eslint-disable-next-line sort-keys
+          fromSrml: 'Gas'
+        }
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const cmpu32: any = registry.createType('TestComplex');
