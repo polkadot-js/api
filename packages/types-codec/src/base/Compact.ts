@@ -9,6 +9,11 @@ import { compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
 function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
   return d;
 }
@@ -32,7 +37,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, definition?: CodecClass<T>, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
     this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
@@ -51,7 +56,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     return class extends Compact<O> {
       constructor (registry: Registry, value?: Compact<O> | AnyNumber) {
-        super(registry, Type, value, definition, setDefinition);
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }

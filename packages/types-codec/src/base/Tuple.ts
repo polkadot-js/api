@@ -18,6 +18,11 @@ type TupleTypes = TupleType[] | {
   [index: string]: CodecClass | string;
 };
 
+interface Options {
+  definition?: TupleCodecClass;
+  setDefinition?: (d: TupleCodecClass) => TupleCodecClass;
+}
+
 function noopSetDefinition (d: TupleCodecClass): TupleCodecClass {
   return d;
 }
@@ -59,7 +64,7 @@ function decodeTuple (registry: Registry, Classes: TupleCodecClass, value?: Excl
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   #Types: TupleCodecClass;
 
-  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, definition?: TupleCodecClass, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const Classes = definition || setDefinition(Array.isArray(Types)
       ? Types.map((t) => typeToConstructor(registry, t))
       : isFunction(Types) || isString(Types)
@@ -84,7 +89,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
     return class extends Tuple {
       constructor (registry: Registry, value?: AnyTupleValue) {
-        super(registry, Types, value, definition, setDefinition);
+        super(registry, Types, value, { definition, setDefinition });
       }
     };
   }

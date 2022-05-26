@@ -13,6 +13,11 @@ const MAX_LENGTH = 64 * 1024;
 
 const l = logger('Vec');
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
 function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
 }
@@ -63,7 +68,7 @@ export function decodeVec<T extends Codec> (registry: Registry, Type: CodecClass
 export class Vec<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], definition?: CodecClass<T>, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
     const Clazz = definition || setDefinition(typeToConstructor<T>(registry, Type));
     const [values, decodedLength] = decodeVec(registry, Clazz, value);
 
@@ -81,7 +86,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     return class extends Vec<O> {
       constructor (registry: Registry, value?: any[]) {
-        super(registry, Type, value, definition, setDefinition);
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }

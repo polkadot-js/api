@@ -10,6 +10,11 @@ import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
+interface Options {
+  definition?: CodecClassDef;
+  setDefinition?: (d: CodecClassDef) => CodecClassDef;
+}
+
 function noopSetDefinition (d: CodecClassDef): CodecClassDef {
   return d;
 }
@@ -104,7 +109,7 @@ export class Struct<
 
   readonly #Types: CodecClassDef;
 
-  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), definition?: CodecClassDef, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value)
       ? decodeU8a<Codec, [string, Codec]>(registry, value, typeMap, true)
@@ -133,7 +138,7 @@ export class Struct<
 
     return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Types, value as HexString, jsonMap, definition, setDefinition);
+        super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
 
         objectProperties(this, keys, (k) => this.get(k));
       }

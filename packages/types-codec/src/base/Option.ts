@@ -9,6 +9,11 @@ import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot
 import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
 function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
 }
@@ -64,7 +69,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, definition?: CodecClass<T>, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
     const Type = definition || setDefinition(typeToConstructor(registry, typeName));
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
@@ -92,7 +97,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value, definition, setDefinition);
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }

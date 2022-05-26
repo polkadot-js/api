@@ -32,6 +32,11 @@ interface Decoded {
   value: Codec;
 }
 
+interface Options {
+  definition?: Definition;
+  setDefinition?: (d: Definition) => Definition;
+}
+
 function noopSetDefinition (d: Definition): Definition {
   return d;
 }
@@ -173,7 +178,7 @@ export class Enum implements IEnum {
 
   readonly #raw: Codec;
 
-  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, definition?: Definition, setDefinition = noopSetDefinition) {
+  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const { def, isBasic, isIndexed } = definition || setDefinition(extractDef(registry, Types));
 
     // shortcut isU8a as used in SCALE decoding
@@ -216,7 +221,7 @@ export class Enum implements IEnum {
 
     return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
-        super(registry, Types, value, index, definition, setDefinition);
+        super(registry, Types, value, index, { definition, setDefinition });
 
         objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
         objectProperties(this, asKeys, (k, i): Codec => {
