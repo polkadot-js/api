@@ -45,8 +45,16 @@ const mappings: Mapper[] = [
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
-  removeColons()
+  removeColons(),
+  // remove all trailing spaces - this should always be the last
+  trim()
 ];
+
+// given a string, trim it
+export function trim (): Mapper {
+  return (value: string): string =>
+    value.trim();
+}
 
 // given a starting index, find the closing >
 export function findClosing (value: string, start: number): number {
@@ -257,10 +265,11 @@ const sanitizeMap = new Map<string, string>();
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function sanitize (value: String | string, options?: SanitizeOptions): string {
-  let result = value.toString();
+  const startValue = value.toString();
+  let result = startValue;
 
   if (!options) {
-    const memoized = sanitizeMap.get(result);
+    const memoized = sanitizeMap.get(startValue);
 
     if (memoized) {
       return memoized;
@@ -271,10 +280,8 @@ export function sanitize (value: String | string, options?: SanitizeOptions): st
     result = mappings[i](result, options);
   }
 
-  result = result.trim();
-
   if (!options) {
-    sanitizeMap.set(value.toString(), result);
+    sanitizeMap.set(startValue, result);
   }
 
   return result;

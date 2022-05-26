@@ -6,6 +6,7 @@ Changes:
 
 - Add codec support for specialized `Option<bool>`
 - Optimization for `createClass` with shortcut typeDef creation
+- Optimization of `registry.getOrUnknown` with lookup cache
 
 
 ## 8.5.1 May 22, 2022
