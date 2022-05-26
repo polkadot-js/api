@@ -7,6 +7,7 @@ Changes:
 - Add codec support for specialized `Option<bool>`
 - Optimization for `createClass` with shortcut typeDef creation
 - Optimization of `registry.getOrUnknown` with lookup cache
+- Adjust Kusama `StakingLedger` for runtime 1051
 
 
 ## 8.5.1 May 22, 2022
