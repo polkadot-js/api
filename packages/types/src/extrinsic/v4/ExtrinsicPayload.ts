@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
 import type { Hash } from '../../interfaces/runtime';
@@ -35,6 +35,13 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     this.#signOptions = {
       withType: registry.createTypeUnsafe('ExtrinsicSignature', []) instanceof Enum
     };
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  public override inspect (): Inspect {
+    return super.inspect({ method: true });
   }
 
   /**

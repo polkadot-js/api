@@ -54,13 +54,15 @@ export class Bytes extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  override inspect (isBare?: boolean): Inspect {
     const clength = compactToU8a(this.length);
 
     return {
-      outer: this.length
-        ? [clength, super.toU8a()]
-        : [clength]
+      outer: isBare
+        ? [super.toU8a()]
+        : this.length
+          ? [clength, super.toU8a()]
+          : [clength]
     };
   }
 

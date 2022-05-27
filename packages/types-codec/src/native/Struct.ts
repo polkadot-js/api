@@ -231,12 +231,16 @@ export class Struct<
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  inspect (isBare?: BareOpts): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
       inner.push({
-        ...v.inspect(),
+        ...v.inspect(
+          !isBare || isBoolean(isBare)
+            ? isBare
+            : isBare[k]
+        ),
         name: stringCamelCase(k as string)
       });
     }
