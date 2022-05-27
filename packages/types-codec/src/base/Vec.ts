@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { assert, compactFromU8a, logger, u8aToU8a } from '@polkadot/util';
+import { assert, compactFromU8a, isU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -35,7 +35,7 @@ function decodeVecLength (value: Uint8Array | HexString | unknown[]): [Uint8Arra
   return [u8a, length.toNumber(), startAt];
 }
 
-export function decodeVec<T extends Codec> (registry: Registry, result: T[], Type: CodecClass<T>, value: Uint8Array | HexString | unknown[], startAt: number): [number, number] {
+export function decodeVec<T extends Codec> (registry: Registry, result: T[], value: Uint8Array | HexString | unknown[], startAt: number, Type: CodecClass<T>): [number, number] {
   if (Array.isArray(value)) {
     const count = result.length;
 
@@ -78,7 +78,9 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    const [decodedLength] = decodeVec(registry, this, this.#Type, decodeFrom, startAt);
+    const [decodedLength] = isU8a(decodeFrom)
+      ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
+      : decodeVec(registry, this, decodeFrom, startAt, this.#Type);
 
     this.initialU8aLength = decodedLength;
   }

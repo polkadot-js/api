@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { assert, isU8a, u8aConcat } from '@polkadot/util';
+import { isU8a, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -17,19 +17,6 @@ interface Options<T> {
 
 function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
-}
-
-/** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, result: T[], value: HexString | unknown[], Type: CodecClass<T>): [number, number] {
-  const [decodedLength, decodedLengthNoOffset] = decodeVec(registry, result, Type, value, 0);
-
-  while (result.length < length) {
-    result.push(new Type(registry));
-  }
-
-  assert(result.length === length, () => `Expected a length of exactly ${length} entries`);
-
-  return [decodedLength, decodedLengthNoOffset];
 }
 
 /**
@@ -49,7 +36,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
     const [, decodedLengthNoOffset] = isU8a(value)
       ? decodeU8aVec(registry, this, value, 0, this.#Type)
-      : decodeVecFixed(registry, this, value, this.#Type);
+      : decodeVec(registry, this, value, 0, this.#Type);
 
     this.initialU8aLength = decodedLengthNoOffset;
   }
