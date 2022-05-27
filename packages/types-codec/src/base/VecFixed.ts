@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { isU8a, u8aConcat } from '@polkadot/util';
+import { isU8a, u8aConcatStrict } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -90,7 +90,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
     const encoded = this.toU8aInner();
 
     return encoded.length
-      ? u8aConcat(...encoded)
+      ? u8aConcatStrict(encoded)
       : new Uint8Array([]);
   }
 

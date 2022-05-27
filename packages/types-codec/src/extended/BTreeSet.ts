@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isHex, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, compactToU8a, isHex, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
 
@@ -13,8 +13,7 @@ const l = logger('BTreeSet');
 /** @internal */
 function decodeSetFromU8a<V extends Codec> (registry: Registry, ValClass: CodecClass<V>, u8a: Uint8Array): [CodecClass<V>, Set<V>, number] {
   const output = new Set<V>();
-  const [offset, length] = compactFromU8a(u8a);
-  const count = length.toNumber();
+  const [offset, count] = compactFromU8aLim(u8a);
   const result = new Array<V>(count);
   const [decodedLength] = decodeU8aVec(registry, result, u8a, offset, ValClass);
 
@@ -216,6 +215,6 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
       encoded.push(v.toU8a(isBare));
     }
 
-    return u8aConcat(...encoded);
+    return u8aConcatStrict(encoded);
   }
 }

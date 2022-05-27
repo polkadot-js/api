@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
 
-import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
 
@@ -321,6 +321,6 @@ export class Struct<
       }
     }
 
-    return u8aConcat(...encoded);
+    return u8aConcatStrict(encoded);
   }
 }

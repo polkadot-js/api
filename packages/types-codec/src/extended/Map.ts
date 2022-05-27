@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { Enum } from '../base/Enum';
@@ -16,8 +16,7 @@ const l = logger('Map');
 /** @internal */
 function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry, KeyClass: CodecClass<K>, ValClass: CodecClass<V>, u8a: Uint8Array): [CodecClass<K>, CodecClass<V>, Map<K, V>, number] {
   const output = new Map<K, V>();
-  const [offset, length] = compactFromU8a(u8a);
-  const count = length.toNumber();
+  const [offset, count] = compactFromU8aLim(u8a);
   const types = [];
 
   for (let i = 0; i < count; i++) {
@@ -231,6 +230,6 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
       encoded.push(k.toU8a(isBare), v.toU8a(isBare));
     }
 
-    return u8aConcat(...encoded);
+    return u8aConcatStrict(encoded);
   }
 }

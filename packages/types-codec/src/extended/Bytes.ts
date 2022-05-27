@@ -3,7 +3,7 @@
 
 import type { AnyU8a, Inspect, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, compactToU8a, isCodec, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8aLim, compactToU8a, isCodec, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -17,10 +17,10 @@ function decodeBytesU8a (value: Uint8Array): [Uint8Array, number] {
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix
-  const [offset, length] = compactFromU8a(value);
-  const total = offset + length.toNumber();
+  const [offset, length] = compactFromU8aLim(value);
+  const total = offset + length;
 
-  assert(length.lten(MAX_LENGTH), () => `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  assert(length <= MAX_LENGTH, () => `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
   assert(total <= value.length, () => `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
   return [value.subarray(offset, total), total];
