@@ -218,29 +218,36 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
 }
 
 function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
+  const last = path.length - 1;
+
   // if we have no path or determined as a wrapper, we just skip it
-  if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
+  if (last === -1 || WRAPPERS.includes(path[last].toString())) {
     return null;
   }
 
-  const parts = path
-    .map((p) => stringPascalCase(p))
-    .filter((p, index) => {
-      const lower = p.toLowerCase();
+  const parts: string[] = [];
+  let typeName = '';
 
-      return (
+  for (let i = 0; i <= last; i++) {
+    const p = stringPascalCase(path[i]);
+    const l = p.toLowerCase();
+
+    if (
+      (
         // Remove ::{generic, misc, pallet, traits, types}::
-        index !== 1 ||
-        !PATH_RM_INDEX_1.includes(lower)
+        i !== 1 ||
+        !PATH_RM_INDEX_1.includes(l)
       ) &&
       (
         // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
         // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-        index === path.length - 1 ||
-        lower !== path[index + 1].toLowerCase()
-      );
-    });
-  let typeName = parts.join('');
+        i === last ||
+        l !== path[i + 1].toLowerCase()
+      )) {
+      parts.push(p);
+      typeName += p;
+    }
+  }
 
   // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
   if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
