@@ -7,6 +7,9 @@ Changes:
 - Add codec support for specialized `Option<bool>`
 - Optimization for `createClass` with shortcut typeDef creation
 - Optimization of `registry.getOrUnknown` with lookup cache
+- Optimization of Array allocations in decoding
+- Use `compactFromU8aLim` & `u8aConcatStrict` variants
+- Adjust `.inspect()` for `ExtrinsicPayload`
 - Adjust Kusama `StakingLedger` for runtime 1051
 
 
