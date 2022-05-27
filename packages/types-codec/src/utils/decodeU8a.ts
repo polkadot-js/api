@@ -25,22 +25,18 @@ function getRawType (registry: Registry, Type: CodecClass): string | null {
  * @param result - The result array (will be returned with values pushed)
  * @param types - The array of CodecClass to decode the U8a against.
  */
-export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, u8a: Uint8Array, types: CodecClass[] | { [index: string]: CodecClass }, withZip?: boolean): [E[], number] {
-  const [Types, keys]: [CodecClass[], string[]] = Array.isArray(types)
-    ? [types, []]
-    : [Object.values(types), Object.keys(types)];
-
-  const result = new Array<E>(Types.length);
+export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, result: unknown[], u8a: Uint8Array, [Types, keys]: [CodecClass[], string[]], withZip?: boolean): [E[], number] {
+  const count = result.length;
   let offset = 0;
 
-  for (let i = 0; i < Types.length; i++) {
+  for (let i = 0; i < count; i++) {
     try {
       const value = new Types[i](registry, u8a.subarray(offset));
 
       offset += value.initialU8aLength || value.encodedLength;
       result[i] = withZip
-        ? [keys[i], value] as unknown as E
-        : value as unknown as E;
+        ? [keys[i], value]
+        : value;
     } catch (error) {
       throw new Error(formatFailure(
         error as Error,
@@ -51,14 +47,14 @@ export function decodeU8a <T extends Codec = Codec, E = T> (registry: Registry, 
     }
   }
 
-  return [result, offset];
+  return [result as E[], offset];
 }
 
 // Split from decodeU8a since this is specialized to 1 instance ... yes duplication, but
 // since we have to do less checks (and these are intensive anyway), much faster
-export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a: Uint8Array, start: number, Type: CodecClass<T>, count: number): [T[], number, number] {
-  const result = new Array<T>(count);
-  let offset = start;
+export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, result: unknown[], u8a: Uint8Array, startAt: number, Type: CodecClass<T>): [number, number] {
+  const count = result.length;
+  let offset = startAt;
 
   for (let i = 0; i < count; i++) {
     try {
@@ -75,5 +71,5 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, u8a:
     }
   }
 
-  return [result, offset, offset - start];
+  return [offset, offset - startAt];
 }

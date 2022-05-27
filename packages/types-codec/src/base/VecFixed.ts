@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { assert, isU8a, u8aConcat } from '@polkadot/util';
+import { isU8a, u8aConcat } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -19,36 +19,26 @@ function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
 }
 
-/** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, value: HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
-  const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
-
-  while (values.length < length) {
-    values.push(new Type(registry));
-  }
-
-  assert(values.length === length, () => `Expected a length of exactly ${length} entries`);
-
-  return [values, decodedLength, decodedLengthNoOffset];
-}
-
 /**
  * @name VecFixed
  * @description
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
+  readonly initialU8aLength?: number;
+
   #Type: CodecClass<T>;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    const Clazz = definition || setDefinition(typeToConstructor<T>(registry, Type));
-    const [values,, decodedLengthNoOffset] = isU8a(value)
-      ? decodeU8aVec(registry, value, 0, Clazz, length)
-      : decodeVecFixed(registry, value, Clazz, length);
+    super(registry, length);
 
-    super(registry, values, decodedLengthNoOffset);
+    this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.#Type = Clazz;
+    const [, decodedLengthNoOffset] = isU8a(value)
+      ? decodeU8aVec(registry, this, value, 0, this.#Type)
+      : decodeVec(registry, this, value, 0, this.#Type);
+
+    this.initialU8aLength = decodedLengthNoOffset;
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {

@@ -66,12 +66,10 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
     isBasic = true;
     isIndexed = false;
   } else if (isRustEnum(_def)) {
-    const entries = Object.entries(mapToTypeMap(registry, _def));
+    const [Types, keys] = mapToTypeMap(registry, _def);
 
-    for (let i = 0; i < entries.length; i++) {
-      const [key, Type] = entries[i];
-
-      def[key] = { Type, index: i };
+    for (let i = 0; i < keys.length; i++) {
+      def[keys[i]] = { Type: Types[i], index: i };
     }
 
     isBasic = !Object.values(def).some(({ Type }) => Type !== Null);
@@ -403,15 +401,14 @@ export class Enum implements IEnum {
         : this.defKeys;
     }
 
-    const typeMap = Object
-      .entries(this.#def)
-      .reduce((out: Record<string, CodecClass>, [key, { Type }]) => {
-        out[key] = Type;
+    const entries = Object.entries(this.#def);
 
-        return out;
-      }, {});
+    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+      out[0][i] = Type;
+      out[1][i] = key;
 
-    return typesToMap(this.registry, typeMap);
+      return out;
+    }, [new Array<CodecClass>(entries.length), new Array<string>(entries.length)]));
   }
 
   /**
