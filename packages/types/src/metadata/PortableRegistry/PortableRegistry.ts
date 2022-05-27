@@ -117,11 +117,13 @@ function getAliasPath (path: SiPath): string | null {
     : null;
 }
 
-function hasNoDupes (input: [number, string, SiTypeParameter[]][]): boolean {
-  for (let i = 0; i < input.length; i++) {
+function hasNoDupes (input: [number, string][]): boolean {
+  const count = input.length;
+
+  for (let i = 0; i < count; i++) {
     const [ai, an] = input[i];
 
-    for (let j = 0; j < input.length; j++) {
+    for (let j = i + 1; j < count; j++) {
       const [bi, bn] = input[j];
 
       // if the indexes are not the same and the names match, we have a dupe
@@ -177,7 +179,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       }
 
       // see if using the param type helps
-      const adjusted = new Array<[number, string, SiTypeParameter[]]>(allSame.length);
+      const adjusted = new Array<[number, string]>(allSame.length);
 
       for (let i = 0; i < allSame.length; i++) {
         const [oIndex, oName, oParams] = allSame[i];
@@ -191,8 +193,7 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
           oIndex,
           def.isPrimitive
             ? `${oName}${def.asPrimitive.toString()}`
-            : `${oName}${path[path.length - 1].toString()}`,
-          params
+            : `${oName}${path[path.length - 1].toString()}`
         ];
       }
 
