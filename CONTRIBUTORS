@@ -1,4 +1,4 @@
-    2974	Jaco                          	Remove some internal Array allocations (#4858)
+    2975	Jaco                          	Use compactFromU8aLim & u8aConcatStrict (#4859)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
