@@ -20,12 +20,7 @@ describe('ExtrinsicPayload', (): void => {
     // reference for the ordering in base Substrate
     expect(new ExtrinsicPayload(registry, { method: tx.timestamp.set(0).toHex() } as never).inspect()).toEqual({
       inner: [
-        {
-          name: 'method',
-          outer: [
-            new Uint8Array([3, 0, 0])
-          ]
-        },
+        { name: 'method', outer: [new Uint8Array([3, 0, 0])] },
         { name: 'era', outer: [new Uint8Array([0]), new Uint8Array([0])] },
         { name: 'nonce', outer: [new Uint8Array([0])] },
         { name: 'tip', outer: [new Uint8Array([0])] },
