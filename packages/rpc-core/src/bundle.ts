@@ -5,7 +5,7 @@ import type { Observer } from 'rxjs';
 import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcParam, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterfaceMethod } from './types';
 
@@ -40,14 +40,22 @@ const EMPTY_META = {
   }
 };
 
+const BUSY_ERR = -32604;
+
+function busyRetry (fn: () => void): void {
+  setTimeout(() => fn(), 100);
+}
+
+function formatLogInputs (params: DefinitionRpcParam[]): string {
+  return params.map(({ isOptional, name, type }): string =>
+    `${name}${isOptional ? '?' : ''}: ${type}`
+  ).join(', ');
+}
+
 // utility method to create a nicely-formatted error
 /** @internal */
 function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
-  const inputs = params.map(({ isOptional, name, type }): string =>
-    `${name}${isOptional ? '?' : ''}: ${type}`
-  ).join(', ');
-
-  l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
+  l.error(`${method}(${formatLogInputs(params)}): ${type}:: ${error.message}`);
 }
 
 function isTreatAsHex (key: StorageKey): boolean {
@@ -236,17 +244,27 @@ export class RpcCore {
       const isDelayed = isScale && hashIndex !== -1 && !!values[hashIndex];
 
       return new Observable((observer: Observer<T>): () => void => {
-        callWithRegistry<T>(isScale, values)
-          .then((value): void => {
-            observer.next(value);
-            observer.complete();
-          })
-          .catch((error: Error): void => {
-            logErrorMessage(method, def, error);
+        function doCall (): void {
+          callWithRegistry<T>(isScale, values)
+            .then((value): void => {
+              observer.next(value);
+              observer.complete();
+            })
+            .catch((error: Error): void => {
+              if ((error as unknown as Record<string, number>).code === BUSY_ERR) {
+                l.warn('Retrying. Server reported busy on send');
 
-            observer.error(error);
-            observer.complete();
-          });
+                return busyRetry(doCall);
+              }
+
+              logErrorMessage(method, def, error);
+
+              observer.error(error);
+              observer.complete();
+            });
+        }
+
+        doCall();
 
         return (): void => {
           // delete old results from cache
@@ -272,13 +290,25 @@ export class RpcCore {
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
   private _createSubscriber ({ paramsJson, subName, subType, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number | string> {
     return new Promise((resolve, reject): void => {
-      this.provider
-        .subscribe(subType, subName, paramsJson, update)
-        .then(resolve)
-        .catch((error: Error): void => {
-          errorHandler(error);
-          reject(error);
-        });
+      const provider = this.provider;
+
+      function doCall (): void {
+        provider
+          .subscribe(subType, subName, paramsJson, update)
+          .then(resolve)
+          .catch((error: Error): void => {
+            if ((error as unknown as Record<string, number>).code === BUSY_ERR) {
+              l.warn('Retrying. Server reported busy on new subscription');
+
+              return busyRetry(doCall);
+            }
+
+            errorHandler(error);
+            reject(error);
+          });
+      }
+
+      doCall();
     });
   }
 

@@ -8,6 +8,7 @@ Changes:
 - Optimization for `createClass` with shortcut typeDef creation
 - Optimization of `registry.getOrUnknown` with lookup cache
 - Adjust Kusama `StakingLedger` for runtime 1051
+- Add auto-retry on RPC busy code
 
 
 ## 8.5.1 May 22, 2022
