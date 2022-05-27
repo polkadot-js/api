@@ -30,8 +30,8 @@
     "@polkadot/rpc-core": "8.5.2-7",
     "@polkadot/types": "8.5.2-7",
     "@polkadot/types-codec": "8.5.2-7",
-    "@polkadot/util": "^9.2.1",
-    "@polkadot/util-crypto": "^9.2.1",
+    "@polkadot/util": "^9.2.2-15",
+    "@polkadot/util-crypto": "^9.2.2-15",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
