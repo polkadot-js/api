@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isCodec, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isCodec, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -432,9 +432,11 @@ export class Enum implements IEnum {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(
-      new Uint8Array(isBare ? [] : [this.index]),
-      this.#raw.toU8a(isBare)
-    );
+    return isBare
+      ? this.#raw.toU8a(isBare)
+      : u8aConcatStrict([
+        new Uint8Array([this.index]),
+        this.#raw.toU8a(isBare)
+      ]);
   }
 }

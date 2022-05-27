@@ -3,7 +3,7 @@
 
 import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types';
 
-import { isFunction, isHex, isString, isU8a, stringify, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
@@ -147,6 +147,6 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(...this.toU8aInner(isBare));
+    return u8aConcatStrict(this.toU8aInner(isBare));
   }
 }

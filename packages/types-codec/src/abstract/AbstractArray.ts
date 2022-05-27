@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
 
-import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { compactToU8a, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
 import { compareArray } from '../utils/compareArray';
 
@@ -156,8 +156,8 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     const encoded = this.toU8aInner();
 
     return isBare
-      ? u8aConcat(...encoded)
-      : u8aConcat(compactToU8a(this.length), ...encoded);
+      ? u8aConcatStrict(encoded)
+      : u8aConcatStrict([compactToU8a(this.length), ...encoded]);
   }
 
   public toU8aInner (isBare?: boolean): Uint8Array[] {
