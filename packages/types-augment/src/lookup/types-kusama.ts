@@ -2,9 +2,9 @@
 /* eslint-disable */
 
 declare module '@polkadot/types/lookup' {
-  import type { Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
+  import type { Compact, Enum, Null, Struct, Vec, bool, u128, u16, u32, u8 } from '@polkadot/types-codec';
   import type { ITuple } from '@polkadot/types-codec/types';
-  import type { PerU16 } from '@polkadot/types/interfaces/runtime';
+  import type { PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
 
   /** @name KusamaRuntimeProxyType (79) */
   export interface KusamaRuntimeProxyType extends Enum {
@@ -17,6 +17,14 @@ declare module '@polkadot/types/lookup' {
     readonly isAuction: boolean;
     readonly isSociety: boolean;
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
+  }
+
+  /** @name FrameSupportWeightsWeightToFeeCoefficient (219) */
+  export interface FrameSupportWeightsWeightToFeeCoefficient extends Struct {
+    readonly coeffInteger: u128;
+    readonly coeffFrac: Perbill;
+    readonly negative: bool;
+    readonly degree: u8;
   }
 
   /** @name KusamaRuntimeSessionKeys (260) */
