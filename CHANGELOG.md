@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 8.6.1 May 29, 2022
 
 Changes:
 
