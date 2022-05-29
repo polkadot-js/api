@@ -11,6 +11,7 @@ Changes:
 - Use `compactFromU8aLim` & `u8aConcatStrict` variants
 - Adjust `.inspect()` for `ExtrinsicPayload`
 - Adjust Kusama `StakingLedger` for runtime 1051
+- Update to latest Substrate, Kusama & Polkadot static metadata
 
 
 ## 8.5.1 May 22, 2022

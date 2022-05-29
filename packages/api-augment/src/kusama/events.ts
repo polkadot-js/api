@@ -6,7 +6,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, KusamaRuntimeProxyType, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -362,28 +362,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
-    gilt: {
-      /**
-       * A bid was successfully placed.
-       **/
-      BidPlaced: AugmentedEvent<ApiType, [AccountId32, u128, u32]>;
-      /**
-       * A bid was successfully removed (before being accepted as a gilt).
-       **/
-      BidRetracted: AugmentedEvent<ApiType, [AccountId32, u128, u32]>;
-      /**
-       * A bid was accepted as a gilt. The balance may not be released until expiry.
-       **/
-      GiltIssued: AugmentedEvent<ApiType, [u32, u32, AccountId32, u128]>;
-      /**
-       * An expired gilt has been thawed.
-       **/
-      GiltThawed: AugmentedEvent<ApiType, [u32, AccountId32, u128, u128]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
     grandpa: {
       /**
        * New authority set has been applied.
@@ -526,51 +504,6 @@ declare module '@polkadot/api-base/types/events' {
        * A new multisig operation has begun.
        **/
       NewMultisig: AugmentedEvent<ApiType, [AccountId32, AccountId32, U8aFixed]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    nominationPools: {
-      /**
-       * A member has became bonded in a pool.
-       **/
-      Bonded: AugmentedEvent<ApiType, [AccountId32, u32, u128, bool]>;
-      /**
-       * A pool has been created.
-       **/
-      Created: AugmentedEvent<ApiType, [AccountId32, u32]>;
-      /**
-       * A pool has been destroyed.
-       **/
-      Destroyed: AugmentedEvent<ApiType, [u32]>;
-      /**
-       * A member has been removed from a pool.
-       * 
-       * The removal can be voluntary (withdrawn all unbonded funds) or involuntary (kicked).
-       **/
-      MemberRemoved: AugmentedEvent<ApiType, [u32, AccountId32]>;
-      /**
-       * A payout has been made to a member.
-       **/
-      PaidOut: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
-      /**
-       * The roles of a pool have been updated to the given new roles. Note that the depositor
-       * can never change.
-       **/
-      RolesUpdated: AugmentedEvent<ApiType, [Option<AccountId32>, Option<AccountId32>, Option<AccountId32>]>;
-      /**
-       * The state of a pool has changed
-       **/
-      StateChanged: AugmentedEvent<ApiType, [u32, PalletNominationPoolsPoolState]>;
-      /**
-       * A member has unbonded from their pool.
-       **/
-      Unbonded: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
-      /**
-       * A member has withdrawn from their pool.
-       **/
-      Withdrawn: AugmentedEvent<ApiType, [AccountId32, u32, u128]>;
       /**
        * Generic event
        **/
@@ -744,11 +677,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, KusamaRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, PolkadotRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, KusamaRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, PolkadotRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/
@@ -756,37 +689,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A proxy was removed.
        **/
-      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, KusamaRuntimeProxyType, u32]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    recovery: {
-      /**
-       * Lost account has been successfully recovered by rescuer account.
-       **/
-      AccountRecovered: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
-      /**
-       * A recovery process for lost account by rescuer account has been closed.
-       **/
-      RecoveryClosed: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
-      /**
-       * A recovery process has been set up for an account.
-       **/
-      RecoveryCreated: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A recovery process has been initiated for lost account by rescuer account.
-       **/
-      RecoveryInitiated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
-      /**
-       * A recovery process has been removed for an account.
-       **/
-      RecoveryRemoved: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A recovery process for lost account by rescuer account has been vouched for by sender.
-       **/
-      RecoveryVouched: AugmentedEvent<ApiType, [AccountId32, AccountId32, AccountId32]>;
+      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, PolkadotRuntimeProxyType, u32]>;
       /**
        * Generic event
        **/
@@ -845,79 +748,6 @@ declare module '@polkadot/api-base/types/events' {
        * A new `[lease_period]` is beginning.
        **/
       NewLeasePeriod: AugmentedEvent<ApiType, [u32]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    society: {
-      /**
-       * A candidate was dropped (due to an excess of bids in the system).
-       **/
-      AutoUnbid: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A membership bid just happened. The given account is the candidate's ID and their offer
-       * is the second.
-       **/
-      Bid: AugmentedEvent<ApiType, [AccountId32, u128]>;
-      /**
-       * A candidate has been suspended
-       **/
-      CandidateSuspended: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A member has been challenged
-       **/
-      Challenged: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A vote has been placed for a defending member
-       **/
-      DefenderVote: AugmentedEvent<ApiType, [AccountId32, bool]>;
-      /**
-       * Some funds were deposited into the society account.
-       **/
-      Deposit: AugmentedEvent<ApiType, [u128]>;
-      /**
-       * The society is founded by the given identity.
-       **/
-      Founded: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A group of candidates have been inducted. The batch's primary is the first value, the
-       * batch in full is the second.
-       **/
-      Inducted: AugmentedEvent<ApiType, [AccountId32, Vec<AccountId32>]>;
-      /**
-       * A member has been suspended
-       **/
-      MemberSuspended: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A new \[max\] member count has been set
-       **/
-      NewMaxMembers: AugmentedEvent<ApiType, [u32]>;
-      /**
-       * A suspended member has been judged.
-       **/
-      SuspendedMemberJudgement: AugmentedEvent<ApiType, [AccountId32, bool]>;
-      /**
-       * A candidate was dropped (by their request).
-       **/
-      Unbid: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * Society is unfounded.
-       **/
-      Unfounded: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A candidate was dropped (by request of who vouched for them).
-       **/
-      Unvouch: AugmentedEvent<ApiType, [AccountId32]>;
-      /**
-       * A vote has been placed
-       **/
-      Vote: AugmentedEvent<ApiType, [AccountId32, AccountId32, bool]>;
-      /**
-       * A membership bid just happened by vouching. The given account is the candidate's ID and
-       * their offer is the second. The vouching party is the third.
-       **/
-      Vouch: AugmentedEvent<ApiType, [AccountId32, u128, AccountId32]>;
       /**
        * Generic event
        **/
