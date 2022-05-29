@@ -57,7 +57,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.18.0, @babel/core@npm:^7.18.2":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.18.2":
   version: 7.18.2
   resolution: "@babel/core@npm:7.18.2"
   dependencies:
@@ -1387,7 +1387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.17.9, @babel/runtime@npm:^7.18.0, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.17.9, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4":
   version: 7.18.3
   resolution: "@babel/runtime@npm:7.18.3"
   dependencies:
@@ -1954,7 +1954,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-augment@workspace:packages/api-augment"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/api-base": 8.5.2-11
     "@polkadot/rpc-augment": 8.5.2-11
     "@polkadot/types": 8.5.2-11
@@ -1969,7 +1969,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-base@workspace:packages/api-base"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/rpc-core": 8.5.2-11
     "@polkadot/types": 8.5.2-11
     "@polkadot/util": ^9.3.1
@@ -1981,7 +1981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/api": 8.5.2-11
     "@polkadot/api-augment": 8.5.2-11
     "@polkadot/keyring": ^9.3.1
@@ -1998,7 +1998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/api": 8.5.2-11
     "@polkadot/api-augment": 8.5.2-11
     "@polkadot/api-base": 8.5.2-11
@@ -2018,7 +2018,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/api-augment": 8.5.2-11
     "@polkadot/api-base": 8.5.2-11
     "@polkadot/api-derive": 8.5.2-11
@@ -2161,7 +2161,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/rpc-core": 8.5.2-11
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-codec": 8.5.2-11
@@ -2173,7 +2173,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/keyring": ^9.3.1
     "@polkadot/rpc-augment": 8.5.2-11
     "@polkadot/rpc-provider": 8.5.2-11
@@ -2187,7 +2187,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/keyring": ^9.3.1
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-support": 8.5.2-11
@@ -2198,7 +2198,7 @@ __metadata:
     "@polkadot/x-ws": ^9.3.1
     "@substrate/connect": 0.7.5
     eventemitter3: ^4.0.7
-    mock-socket: ^9.1.3
+    mock-socket: ^9.1.4
     nock: ^13.2.4
   languageName: unknown
   linkType: soft
@@ -2207,9 +2207,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.18.0
+    "@babel/core": ^7.18.2
     "@babel/register": ^7.17.7
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/api": 8.5.2-11
     "@polkadot/api-augment": 8.5.2-11
     "@polkadot/rpc-augment": 8.5.2-11
@@ -2239,7 +2239,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-codec": 8.5.2-11
     "@polkadot/util": ^9.3.1
@@ -2250,7 +2250,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-augment": 8.5.2-11
     "@polkadot/types-support": 8.5.2-11
@@ -2263,7 +2263,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-codec": 8.5.2-11
     "@polkadot/util": ^9.3.1
@@ -2274,7 +2274,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/networks": ^9.3.1
     "@polkadot/types": 8.5.2-11
     "@polkadot/types-codec": 8.5.2-11
@@ -2287,7 +2287,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/util": ^9.3.1
   languageName: unknown
   linkType: soft
@@ -2296,7 +2296,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/keyring": ^9.3.1
     "@polkadot/types-augment": 8.5.2-11
     "@polkadot/types-codec": 8.5.2-11
@@ -7895,10 +7895,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:^9.1.3":
-  version: 9.1.3
-  resolution: "mock-socket@npm:9.1.3"
-  checksum: 1f218de64778d0a196adb88f73f651d8daffc4800482637ce19c7fc79189fb0de5ff74a3d9307cc612af5f0c3473b9355582b832327b4324c445a57ebe82163b
+"mock-socket@npm:^9.1.4":
+  version: 9.1.4
+  resolution: "mock-socket@npm:9.1.4"
+  checksum: 49ea90f6a3747bf7de9f6e0e7049f8fe080ced82d19ef61bda9bcb0614eddd4823f23e3d2ba77f407f7ad432eb8ee60a7d6f45407888acea083aea6831db0723
   languageName: node
   linkType: hard
 
@@ -9255,9 +9255,9 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.18.0
+    "@babel/core": ^7.18.2
     "@babel/register": ^7.17.7
-    "@babel/runtime": ^7.18.0
+    "@babel/runtime": ^7.18.3
     "@polkadot/dev": ^0.66.30
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.5.1
