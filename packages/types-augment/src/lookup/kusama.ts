@@ -11,6 +11,15 @@ export default {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
   },
   /**
+   * Lookup219: frame_support::weights::WeightToFeeCoefficient<Balance>
+   **/
+  FrameSupportWeightsWeightToFeeCoefficient: {
+    coeffInteger: 'u128',
+    coeffFrac: 'Perbill',
+    negative: 'bool',
+    degree: 'u8'
+  },
+  /**
    * Lookup260: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
