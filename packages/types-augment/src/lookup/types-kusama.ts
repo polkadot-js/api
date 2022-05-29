@@ -2,9 +2,9 @@
 /* eslint-disable */
 
 declare module '@polkadot/types/lookup' {
-  import type { Compact, Enum, Null, Struct, Vec, bool, u128, u16, u32, u8 } from '@polkadot/types-codec';
+  import type { Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
   import type { ITuple } from '@polkadot/types-codec/types';
-  import type { PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
+  import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
   /** @name KusamaRuntimeProxyType (79) */
   export interface KusamaRuntimeProxyType extends Enum {
@@ -19,15 +19,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
-  /** @name FrameSupportWeightsWeightToFeeCoefficient (219) */
-  export interface FrameSupportWeightsWeightToFeeCoefficient extends Struct {
-    readonly coeffInteger: u128;
-    readonly coeffFrac: Perbill;
-    readonly negative: bool;
-    readonly degree: u8;
-  }
-
-  /** @name KusamaRuntimeSessionKeys (260) */
+  /** @name KusamaRuntimeSessionKeys (258) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -37,7 +29,7 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (334) */
+  /** @name KusamaRuntimeOriginCaller (332) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
@@ -53,7 +45,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (400) */
+  /** @name KusamaRuntimeNposCompactSolution24 (398) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -81,7 +73,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (776) */
+  /** @name KusamaRuntimeRuntime (774) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module

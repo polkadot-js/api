@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { FrameSupportWeightsWeightToFeeCoefficient, KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeSessionKeys } from '@polkadot/types/lookup';
+import type { KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeSessionKeys } from '@polkadot/types/lookup';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
-    FrameSupportWeightsWeightToFeeCoefficient: FrameSupportWeightsWeightToFeeCoefficient;
     KusamaRuntimeNposCompactSolution24: KusamaRuntimeNposCompactSolution24;
     KusamaRuntimeOriginCaller: KusamaRuntimeOriginCaller;
     KusamaRuntimeProxyType: KusamaRuntimeProxyType;
