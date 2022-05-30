@@ -87,19 +87,19 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
     return (
       elections
         ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
-          api.query[council].members,
-          api.query[elections].candidates,
-          api.query[elections].members,
-          api.query[elections].runnersUp
+          api.query[council as 'council'].members,
+          api.query[elections as 'phragmenElection'].candidates,
+          api.query[elections as 'phragmenElection'].members,
+          api.query[elections as 'phragmenElection'].runnersUp
         ])
         : combineLatest([
-          api.query[council].members<Vec<AccountId>>(),
+          api.query[council as 'council'].members(),
           of<Candidate[]>([]),
           of<Member[]>([]),
           of<Member[]>([])
         ])
     ).pipe(
-      map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
+      map(([councilMembers, candidates, members, runnersUp]: [AccountId[], Candidate[], Member[], Member[]]): DeriveElectionsInfo => ({
         ...getConstants(api, elections),
         candidateCount: api.registry.createType('u32', candidates.length),
         candidates: candidates.map(getCandidate),
