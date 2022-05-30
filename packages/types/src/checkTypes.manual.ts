@@ -55,7 +55,7 @@ const nf = registry.createType('[[[u8;32];5];3]');
 // with linkage
 const tl = registry.createType('(ValidatorPrefsWithCommission, Linkage<AccountId>)');
 
-assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn[0][3][0].bitLength && vt.toHuman() && nf.toHuman() && tl[1].next, 'All ok');
+assert(ee[0].unwrap().unwrap().divn(123) && vb.unwrap().bitLength() && vv.toHuman() && vn[0][3][0].bitLength() && vt.toHuman() && nf.toHuman() && tl[1].next, 'All ok');
 
 // tuple & struct
 const vs = registry.createType('(u8, {"a":"u32","b":"(u32,u64)"},(u8,u16),{"foo":"Bar"},u16)');
@@ -76,7 +76,7 @@ const hh = registry.createType('[u128; 32]');
 // maps and sets
 const ms = registry.createType('(BTreeSet<u8>, BTreeMap<u16, u32>, HashMap<u64, u128>)');
 
-assert(hh[0].bitLength() && ms[0].strings && ms[1].values && ms[2].keys, 'All ok');
+assert(hh[0].bitLength() && ms[0].strings && ms[1].values() && ms[2].keys, 'All ok');
 
 // tuple! ITuple<[u32, Compact<u64>, u128, Codec]>
 const tt1 = registry.createType('(u32, Compact<u64>,    u128  , Something)');
