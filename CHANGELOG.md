@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Lower default historic LRU cache size (128 entries, 192MB est)
+
+
 ## 8.6.1 May 29, 2022
 
 Changes:
