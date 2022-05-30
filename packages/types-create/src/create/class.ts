@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, Registry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
 import type { TypeDef } from '../types';
 
-import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, OptionBool, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
+import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { assert, isNumber, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
@@ -118,11 +118,12 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
     assert(value.sub && !Array.isArray(value.sub), 'Expected type information for Option');
 
-    return (
-      value.sub.type === 'bool'
-        ? OptionBool
-        : createWithSub(Option, value)
-    );
+    // NOTE This is opt-in (unhandled), not by default
+    // if (value.sub.type === 'bool') {
+    //   return OptionBool;
+    // }
+
+    return createWithSub(Option, value);
   },
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>

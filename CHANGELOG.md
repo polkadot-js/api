@@ -1,10 +1,12 @@
 # CHANGELOG
 
-## master
+## 8.6.2 May 30, 2022
 
 Changes:
 
+- Don't apply default to `Option<bool>` opt-in
 - Lower default historic LRU cache size (128 entries, 192MB est)
+- Cater for updates required by TS 4.7.2
 
 
 ## 8.6.1 May 29, 2022
