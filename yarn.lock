@@ -2039,9 +2039,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.66.30":
-  version: 0.66.30
-  resolution: "@polkadot/dev@npm:0.66.30"
+"@polkadot/dev@npm:^0.66.31":
+  version: 0.66.31
+  resolution: "@polkadot/dev@npm:0.66.31"
   dependencies:
     "@babel/cli": ^7.17.10
     "@babel/core": ^7.18.2
@@ -2104,7 +2104,7 @@ __metadata:
     rimraf: ^3.0.2
     rollup: ^2.75.0
     rollup-plugin-cleanup: ^3.2.1
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     yargs: ^17.5.1
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.mjs
@@ -2128,7 +2128,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: fe4412fb8631e4f15ad35d099465efb0e91cbb7e24f0677801fc3665d64e1f507744b8c1dd822efc5540ddd0592e015e176f798da2085e6822c66dadbcfc04da
+  checksum: 3657ba41a6e7ec2fe10e89d02ff63a733779f8b1d365d571fd4ed2d9cf47955802eeda289c58e76358403964faec2ef7f291ae05e6c043ec547491db2ec1b3ae
   languageName: node
   linkType: hard
 
@@ -9258,7 +9258,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.18.2
     "@babel/register": ^7.17.7
     "@babel/runtime": ^7.18.3
-    "@polkadot/dev": ^0.66.30
+    "@polkadot/dev": ^0.66.31
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^27.5.1
     copyfiles: ^2.4.1
@@ -10163,23 +10163,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
+"typescript@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "typescript@npm:4.7.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  checksum: 5163585e6b56410f77d5483b698d9489bbee8902c99029eb70cf6d21525a186530ce19a00951af84eefd4a131cc51d0959f5118e25e70ab61f45ac4057dbd1ef
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.6.4#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
+"typescript@patch:typescript@npm%3A^4.7.2#~builtin<compat/typescript>":
+  version: 4.7.2
+  resolution: "typescript@patch:typescript@npm%3A4.7.2#~builtin<compat/typescript>::version=4.7.2&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
+  checksum: 09d93fc0983d38eadd9b0427f790b49b4437f45002a87d447be3fbe53120880e87a91dd03e1d900498f99205d6e0b7c9784fe41fca11d56f4bbce371f74bb160
   languageName: node
   linkType: hard
 

@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { u32, Vec } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { AccountId32, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
@@ -14,31 +14,31 @@ import { combineLatest, map, of } from 'rxjs';
 import { memo } from '../util';
 
 // SeatHolder is current tuple is 2.x-era Substrate
-type Member = PalletElectionsPhragmenSeatHolder | ITuple<[AccountId, Balance]>;
+type Member = PalletElectionsPhragmenSeatHolder | ITuple<[AccountId32, Balance]>;
 
-type Candidate = AccountId | ITuple<[AccountId, Balance]>;
+type Candidate = AccountId32 | ITuple<[AccountId32, Balance]>;
 
 function isSeatHolder (value: Member): value is PalletElectionsPhragmenSeatHolder {
   return !Array.isArray(value);
 }
 
-function isCandidateTuple (value: Candidate): value is ITuple<[AccountId, Balance]> {
+function isCandidateTuple (value: Candidate): value is ITuple<[AccountId32, Balance]> {
   return Array.isArray(value);
 }
 
-function getAccountTuple (value: Member): [AccountId, Balance] {
+function getAccountTuple (value: Member): [AccountId32, Balance] {
   return isSeatHolder(value)
     ? [value.who, value.stake]
     : value;
 }
 
-function getCandidate (value: Candidate): AccountId {
+function getCandidate (value: Candidate): AccountId32 {
   return isCandidateTuple(value)
     ? value[0]
     : value;
 }
 
-function sortAccounts ([, balanceA]: [AccountId, Balance], [, balanceB]: [AccountId, Balance]): number {
+function sortAccounts ([, balanceA]: [AccountId32, Balance], [, balanceB]: [AccountId32, Balance]): number {
   return balanceB.cmp(balanceA);
 }
 
@@ -67,6 +67,24 @@ function getModules (api: DeriveApi): [string, string | null] {
   return [council, elections];
 }
 
+function queryAll (api: DeriveApi, council: string, elections: string): Observable<[AccountId32[], Candidate[], Member[], Member[]]> {
+  return api.queryMulti<[Vec<AccountId32>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
+    api.query[council as 'council'].members,
+    api.query[elections as 'phragmenElection'].candidates,
+    api.query[elections as 'phragmenElection'].members,
+    api.query[elections as 'phragmenElection'].runnersUp
+  ]);
+}
+
+function queryCouncil (api: DeriveApi, council: string): Observable<[AccountId32[], Candidate[], Member[], Member[]]> {
+  return combineLatest([
+    api.query[council as 'council'].members(),
+    of<Candidate[]>([]),
+    of<Member[]>([]),
+    of<Member[]>([])
+  ]);
+}
+
 /**
  * @name info
  * @returns An object containing the combined results of the storage queries for
@@ -86,18 +104,8 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
 
     return (
       elections
-        ? api.queryMulti<[Vec<AccountId>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
-          api.query[council].members,
-          api.query[elections].candidates,
-          api.query[elections].members,
-          api.query[elections].runnersUp
-        ])
-        : combineLatest([
-          api.query[council].members<Vec<AccountId>>(),
-          of<Candidate[]>([]),
-          of<Member[]>([]),
-          of<Member[]>([])
-        ])
+        ? queryAll(api, council, elections)
+        : queryCouncil(api, council)
     ).pipe(
       map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
         ...getConstants(api, elections),
@@ -105,7 +113,7 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
         candidates: candidates.map(getCandidate),
         members: members.length
           ? members.map(getAccountTuple).sort(sortAccounts)
-          : councilMembers.map((a): [AccountId, Balance] => [a, api.registry.createType('Balance')]),
+          : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance')]),
         runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
       }))
     );

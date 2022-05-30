@@ -34,12 +34,12 @@
     "@babel/core": "^7.18.2",
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.18.3",
-    "@polkadot/dev": "^0.66.30",
+    "@polkadot/dev": "^0.66.31",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^27.5.1",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.2"
   }
 }
