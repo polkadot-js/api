@@ -40,6 +40,6 @@
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.2"
   }
 }
