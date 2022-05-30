@@ -784,12 +784,13 @@ export class PortableRegistry extends Struct implements ILookup {
     if (specialVariant === 'Option') {
       const sub = this.#createSiDef(params[0].type.unwrap());
 
-      if (sub.type === 'bool') {
-        return withTypeString(this.registry, {
-          info: TypeDefInfo.Plain,
-          type: 'OptionBool'
-        });
-      }
+      // NOTE This is opt-in (unhandled), not by default
+      // if (sub.type === 'bool') {
+      //   return withTypeString(this.registry, {
+      //     info: TypeDefInfo.Plain,
+      //     type: 'OptionBool'
+      //   });
+      // }
 
       return withTypeString(this.registry, {
         info: TypeDefInfo.Option,
