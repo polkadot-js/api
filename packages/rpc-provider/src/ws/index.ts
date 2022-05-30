@@ -300,7 +300,7 @@ export class WsProvider implements ProviderInterface {
 
     const [id, body] = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache.get(body) as Promise<T>
+      ? this.#callCache.get(body)
       : null;
 
     if (!resultPromise) {
