@@ -1,4 +1,4 @@
-    2986	Jaco                          	Expose provider errors & .stats on API (#4878)
+    2987	Jaco                          	Add Kusama 9220 upgrade block (#4879)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
