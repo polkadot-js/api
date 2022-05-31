@@ -75,7 +75,12 @@ function decorateCall<M extends DecorateFn<CodecReturnType<M>>> (method: M, args
       )
       .subscribe((result): void => {
         tracker.resolve(result);
-        setTimeout(() => subscription.unsubscribe(), 0);
+
+        // slightly faster than setTimeout(..., 0)
+        Promise
+          .resolve()
+          .then(() => subscription.unsubscribe())
+          .catch(console.error);
       });
   });
 }
@@ -94,7 +99,11 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
       )
       .subscribe((result): void => {
         // queue result (back of queue to clear current)
-        setTimeout(() => resultCb(result) as void, 0);
+        // slightly faster than setTimeout(..., 0)
+        Promise
+          .resolve()
+          .then(() => resultCb(result))
+          .catch(console.error);
       });
   });
 }

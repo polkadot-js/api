@@ -661,15 +661,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       queueIdx++;
 
       queue.push([[], from(
-        new Promise<[StorageEntry, ...unknown[]][]>((resolve): void => {
-          setTimeout((): void => {
+        // slightly faster than setTimeout(..., 0)
+        Promise
+          .resolve()
+          .then((): [StorageEntry, ...unknown[]][] => {
             const [calls] = queue[queueIdx];
 
             delete queue[queueIdx];
 
-            resolve(calls);
-          }, 0);
-        }).catch(() => [])
+            return calls;
+          })
+          .catch(() => [])
       ).pipe(
         switchMap((calls) =>
           query(calls)
@@ -785,11 +787,15 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       switchMap(getKeysPaged),
       map((keys) => keys.map(setMeta)),
       tap((keys): void => {
-        setTimeout((): void => {
-          keys.length === PAGE_SIZE_K
-            ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
-            : startSubject.complete();
-        }, 0);
+        // slightly faster than setTimeout(..., 0)
+        Promise
+          .resolve()
+          .then((): void => {
+            keys.length === PAGE_SIZE_K
+              ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
+              : startSubject.complete();
+          })
+          .catch(console.error);
       }),
       toArray(), // toArray since we want to startSubject to be completed
       map(arrayFlatten)
