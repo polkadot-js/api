@@ -494,6 +494,8 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
+      this.#stats.total.errors++;
+
       handler.callback(error as Error, undefined);
     }
 
@@ -522,6 +524,8 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
+      this.#stats.total.errors++;
+
       handler.callback(error as Error, undefined);
     }
   };
