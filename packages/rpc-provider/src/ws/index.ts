@@ -137,7 +137,7 @@ export class WsProvider implements ProviderInterface {
     this.#websocket = null;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
     this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
@@ -339,6 +339,8 @@ export class WsProvider implements ProviderInterface {
         this.#stats.total.bytesSent += body.length;
         this.#websocket.send(body);
       } catch (error) {
+        this.#stats.total.errors++;
+
         reject(error);
       }
     });
@@ -492,6 +494,8 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
+      this.#stats.total.errors++;
+
       handler.callback(error as Error, undefined);
     }
 
@@ -520,6 +524,8 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
+      this.#stats.total.errors++;
+
       handler.callback(error as Error, undefined);
     }
   };

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
@@ -186,6 +187,13 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    */
   public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'> {
     return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'>);
+  }
+
+  /**
+   * @description Returns the underlying provider stats
+   */
+  public get stats (): ProviderInterface['stats'] | undefined {
+    return this._rpcCore.provider.stats;
   }
 
   /**
