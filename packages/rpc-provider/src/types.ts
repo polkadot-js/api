@@ -71,6 +71,7 @@ export interface ProviderStats {
     bytesRecv: number;
     bytesSent: number;
     cached: number;
+    errors: number;
     requests: number;
     subscriptions: number;
     timeout: number;

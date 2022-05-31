@@ -56,7 +56,7 @@ export class HttpProvider implements ProviderInterface {
     this.#headers = headers;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { bytesRecv: 0, bytesSent: 0, cached: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
   }
 
@@ -169,6 +169,7 @@ export class HttpProvider implements ProviderInterface {
       return decoded;
     } catch (e) {
       this.#stats.active.requests--;
+      this.#stats.total.errors++;
 
       throw e;
     }

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Expose provider stats on API intrerface via `.stats`
+
+
 ## 8.6.2 May 30, 2022
 
 Changes:
