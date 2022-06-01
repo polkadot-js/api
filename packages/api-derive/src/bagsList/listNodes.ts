@@ -9,6 +9,8 @@ import type { DeriveApi } from '../types';
 
 import { BehaviorSubject, map, of, switchMap, tap, toArray } from 'rxjs';
 
+import { nextTick } from '@polkadot/util';
+
 import { memo } from '../util';
 
 function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<PalletBagsListListNode[]> {
@@ -19,11 +21,11 @@ function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<
       api.query.bagsList.listNodes(account)
     ),
     tap((node: Option<PalletBagsListListNode>): void => {
-      setTimeout((): void => {
+      nextTick((): void => {
         node.isSome && node.value.next.isSome
           ? subject.next(node.unwrap().next.unwrap())
           : subject.complete();
-      }, 0);
+      });
     }),
     toArray(), // toArray since we want to startSubject to be completed
     map((all: Option<PalletBagsListListNode>[]) =>

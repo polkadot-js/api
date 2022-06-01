@@ -8,7 +8,7 @@ import type { DeriveApi, DeriveContributions } from '../types';
 
 import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
 
-import { arrayFlatten, isFunction } from '@polkadot/util';
+import { arrayFlatten, isFunction, nextTick } from '@polkadot/util';
 
 import { memo } from '../util';
 import { extractContributed } from './util';
@@ -67,11 +67,11 @@ function _getKeysPaged (api: DeriveApi, childKey: string): Observable<StorageKey
       api.rpc.childstate.getKeysPaged(childKey, '0x', PAGE_SIZE_K, startKey)
     ),
     tap((keys): void => {
-      setTimeout((): void => {
+      nextTick((): void => {
         keys.length === PAGE_SIZE_K
           ? subject.next(keys[PAGE_SIZE_K - 1].toHex())
           : subject.complete();
-      }, 0);
+      });
     }),
     toArray(), // toArray since we want to startSubject to be completed
     map((keyArr: StorageKey[][]) => arrayFlatten(keyArr))

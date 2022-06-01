@@ -6,8 +6,8 @@ import type { AnyFunction } from '@polkadot/types/types';
 import type { ExactDerive } from './derive';
 import type { DeriveApi } from './types';
 
-import { lazyDeriveSection } from './util/lazy';
 import { derive } from './derive';
+import { lazyDeriveSection } from './util';
 
 export * from './derive';
 export * from './type';

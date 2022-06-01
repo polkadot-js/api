@@ -7,7 +7,7 @@ import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromi
 
 import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 
-import { assert, isFunction } from '@polkadot/util';
+import { assert, isFunction, nextTick } from '@polkadot/util';
 
 interface Tracker<T> {
   reject: (value: Error) => Observable<never>;
@@ -76,11 +76,7 @@ function decorateCall<M extends DecorateFn<CodecReturnType<M>>> (method: M, args
       .subscribe((result): void => {
         tracker.resolve(result);
 
-        // slightly faster than setTimeout(..., 0)
-        Promise
-          .resolve()
-          .then(() => subscription.unsubscribe())
-          .catch(console.error);
+        nextTick(() => subscription.unsubscribe());
       });
   });
 }
@@ -99,11 +95,7 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
       )
       .subscribe((result): void => {
         // queue result (back of queue to clear current)
-        // slightly faster than setTimeout(..., 0)
-        Promise
-          .resolve()
-          .then(() => resultCb(result))
-          .catch(console.error);
+        nextTick(() => resultCb(result));
       });
   });
 }

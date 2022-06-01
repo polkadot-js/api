@@ -19,7 +19,7 @@ import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, objectSpread, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, assertReturn, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -661,7 +661,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       queueIdx++;
 
       queue.push([[], from(
-        // slightly faster than setTimeout(..., 0)
+        // Defer to the next tick - this aligns with nextTick in @polkadot/util,
+        // however since we return a value here, we don't re-use what is there
         Promise
           .resolve()
           .then((): [StorageEntry, ...unknown[]][] => {
@@ -787,15 +788,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       switchMap(getKeysPaged),
       map((keys) => keys.map(setMeta)),
       tap((keys): void => {
-        // slightly faster than setTimeout(..., 0)
-        Promise
-          .resolve()
-          .then((): void => {
-            keys.length === PAGE_SIZE_K
-              ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
-              : startSubject.complete();
-          })
-          .catch(console.error);
+        nextTick((): void => {
+          keys.length === PAGE_SIZE_K
+            ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
+            : startSubject.complete();
+        });
       }),
       toArray(), // toArray since we want to startSubject to be completed
       map(arrayFlatten)
