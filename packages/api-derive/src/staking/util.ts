@@ -9,7 +9,7 @@ import type { DeriveApi } from '../types';
 
 import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
 
-import { arrayChunk, arrayFlatten } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, nextTick } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -28,13 +28,13 @@ function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T
   return subject.pipe(
     switchMap(fn),
     tap((): void => {
-      setTimeout((): void => {
+      nextTick((): void => {
         index++;
 
         index === chunked.length
           ? subject.complete()
           : subject.next(chunked[index]);
-      }, 0);
+      });
     }),
     toArray(),
     map(arrayFlatten)

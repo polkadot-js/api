@@ -29,7 +29,7 @@
     "@polkadot/types": "8.6.3-3",
     "@polkadot/types-augment": "8.6.3-3",
     "@polkadot/types-codec": "8.6.3-3",
-    "@polkadot/util": "^9.3.1"
+    "@polkadot/util": "^9.3.2-1"
   },
   "devDependencies": {
     "@polkadot/types-support": "8.6.3-3"
