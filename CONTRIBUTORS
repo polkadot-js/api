@@ -1,4 +1,4 @@
-    2990	Jaco                          	Bump @polkadot/util & use nextTick (#4882)
+    2991	Jaco                          	Adjust rpc-core cache with created Codec values (#4883)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
