@@ -753,15 +753,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
 
-    // Where we have a limited number of multi keys, we combine
-    // this query with others that precedes it (same tick)
-    if (!blockHash && keys.length <= PAGE_SIZE_Q) {
-      const queue = this.hasSubscriptions
-        ? this.#storageSubQ
-        : this.#storageGetQ;
+    // NOTE Skipping - currently we make the assumption that .multi
+    // would have enough data and should be handled seperately
+    // (this is indeed the case with failing collective proposals
+    // as we find inside derives)
+    //
+    // // Where we have a limited number of multi keys, we combine
+    // // this query with others that precedes it (same tick)
+    // if (!blockHash && keys.length <= PAGE_SIZE_Q) {
+    //   const queue = this.hasSubscriptions
+    //     ? this.#storageSubQ
+    //     : this.#storageGetQ;
 
-      return this._queuedStorage(keys, queue, query);
-    }
+    //   return this._queuedStorage(keys, queue, query);
+    // }
 
     return combineLatest(
       arrayChunk(keys, PAGE_SIZE_V).map((k) =>
