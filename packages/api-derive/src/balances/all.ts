@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletBalancesReserveData, PalletVestingVestingInfo } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
 
@@ -14,7 +14,7 @@ import { BN, BN_ZERO, bnMax, bnMin, isFunction } from '@polkadot/util';
 import { memo } from '../util';
 
 type ResultBalance = [PalletVestingVestingInfo[] | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[], PalletBalancesReserveData[][]];
-type Result = [DeriveBalancesAccount, BlockNumber, ResultBalance];
+type Result = [DeriveBalancesAccount, ResultBalance, BlockNumber];
 
 interface AllLocked {
   allLocked: boolean,
@@ -99,7 +99,7 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   };
 }
 
-function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks, namedReserves]]: Result): DeriveBalancesAll {
+function calcBalances (api: DeriveApi, [data, [vesting, allLocks, namedReserves], bestNumber]: Result): DeriveBalancesAll {
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
   return {
@@ -115,7 +115,7 @@ function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks, na
 }
 
 // old
-function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalance> {
+function queryOld (api: DeriveApi, accountId: AccountId | string): Observable<ResultBalance> {
   return combineLatest([
     api.query.balances.locks(accountId),
     api.query.balances.vesting<Option<VestingSchedule>>(accountId)
@@ -142,7 +142,7 @@ function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalan
 
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
 
-function createCalls <T> (calls: (((a: AccountId) => Observable<T>) | null | undefined)[]): [boolean[], ((a: AccountId) => Observable<T>)[]] {
+function createCalls <T> (calls: (((a: unknown) => Observable<T>) | null | undefined)[]): [boolean[], ((a: unknown) => Observable<T>)[]] {
   return [
     calls.map((c) => !c),
     calls.filter(isNonNullable)
@@ -150,7 +150,7 @@ function createCalls <T> (calls: (((a: AccountId) => Observable<T>) | null | und
 }
 
 // current (balances, vesting)
-function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
+function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
   const [lockEmpty, lockQueries] = createCalls<Vec<PalletBalancesBalanceLock>>(
     balanceInstances.map((m) =>
       (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
@@ -210,23 +210,23 @@ function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: s
  * });
  * ```
  */
-export function all (instanceId: string, api: DeriveApi): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAll> {
+export function all (instanceId: string, api: DeriveApi): (address: AccountId | string) => Observable<DeriveBalancesAll> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
 
-  return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAll> =>
-    api.derive.balances.account(address).pipe(
-      switchMap((account): Observable<Result> =>
-        (!account.accountId.isEmpty
-          ? combineLatest([
-            of(account),
-            api.derive.chain.bestNumber(),
-            isFunction(api.query.system?.account) || isFunction(api.query.balances?.account)
-              ? queryCurrent(api, account.accountId, balanceInstances)
-              : queryOld(api, account.accountId)
-          ])
-          : of([account, api.registry.createType('BlockNumber'), [null, [], []]])
-        )
+  return memo(instanceId, (address: AccountId | string): Observable<DeriveBalancesAll> =>
+    combineLatest([
+      api.derive.balances.account(address),
+      isFunction(api.query.system?.account) || isFunction(api.query.balances?.account)
+        ? queryCurrent(api, address, balanceInstances)
+        : queryOld(api, address)
+    ]).pipe(
+      switchMap(([account, locks]) =>
+        combineLatest([
+          of(account),
+          of(locks),
+          api.derive.chain.bestNumber()
+        ])
       ),
-      map((result): DeriveBalancesAll => calcBalances(api, result))
+      map((result) => calcBalances(api, result))
     ));
 }

@@ -40,7 +40,7 @@ export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint
             of(queuedKeys),
             api.consts.session?.dedupKeyPrefix
               ? api.query.session.nextKeys.multi(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
-              : api.query.session.nextKeys.multi(stashIds)
+              : combineLatest(stashIds.map((s) => api.query.session.nextKeys(s)))
           ])
         ),
         map(([queuedKeys, nextKeys]) =>
