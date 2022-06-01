@@ -21,17 +21,13 @@ export type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
 function parse (api: DeriveApi, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
-  return proposals
-    .map((o, index): DeriveCollectiveProposal | null =>
-      o && o.isSome
-        ? {
-          hash: api.registry.createType('Hash', hashes[index]),
-          proposal: o.unwrap(),
-          votes: votes[index].unwrapOr(null)
-        }
-        : null
-    )
-    .filter((proposal): proposal is DeriveCollectiveProposal => !!proposal);
+  return proposals.map((o, index): DeriveCollectiveProposal => ({
+    hash: api.registry.createType('Hash', hashes[index]),
+    proposal: o && o.isSome
+      ? o.unwrap()
+      : null,
+    votes: votes[index].unwrapOr(null)
+  }));
 }
 
 function _proposalsFrom (api: DeriveApi, query: DeriveApi['query']['council'], hashes: (Hash | Uint8Array | string)[]): Observable<DeriveCollectiveProposal[]> {
@@ -41,11 +37,9 @@ function _proposalsFrom (api: DeriveApi, query: DeriveApi['query']['council'], h
       // this should simply be api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
       // however we have had cases on Edgeware where the indices have moved around after an
       // upgrade, which results in invalid on-chain data
-      combineLatest(hashes.map((h) =>
-        query.proposalOf<Option<Proposal>>(h).pipe(
-          catchError(() => of(null))
-        )
-      )),
+      query.proposalOf.multi<Option<Proposal>>(hashes).pipe(
+        catchError(() => of(hashes.map(() => null)))
+      ),
       query.voting.multi<Option<Votes>>(hashes)
     ])
     : of<Result>([[], [], []])

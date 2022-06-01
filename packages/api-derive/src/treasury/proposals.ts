@@ -23,15 +23,23 @@ function parseResult (api: DeriveApi, { allIds, allProposals, approvalIds, counc
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
   const councilTreasury = councilProposals.filter(({ proposal }) =>
-    api.tx.treasury.approveProposal.is(proposal) ||
-    api.tx.treasury.rejectProposal.is(proposal)
+    proposal && (
+      api.tx.treasury.approveProposal.is(proposal) ||
+      api.tx.treasury.rejectProposal.is(proposal)
+    )
   );
 
   allIds.forEach((id, index): void => {
     if (allProposals[index].isSome) {
       const council = councilTreasury
-        .filter(({ proposal }) => id.eq(proposal.args[0]))
-        .sort((a, b) => a.proposal.method.localeCompare(b.proposal.method));
+        .filter(({ proposal }) => proposal && id.eq(proposal.args[0]))
+        .sort((a, b) =>
+          a.proposal && b.proposal
+            ? a.proposal.method.localeCompare(b.proposal.method)
+            : a.proposal
+              ? -1
+              : 1
+        );
       const isApproval = approvalIds.some((approvalId) => approvalId.eq(id));
       const derived = { council, id, proposal: allProposals[index].unwrap() };
 

@@ -156,6 +156,6 @@ describe('bounties derive', () => {
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);
     expect(result[1].proposals).toHaveLength(1);
-    expect(result[1].proposals[0].proposal.method).toEqual('approveBounty');
+    expect(result[1].proposals[0].proposal && result[1].proposals[0].proposal.method).toEqual('approveBounty');
   });
 });

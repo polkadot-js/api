@@ -40,7 +40,7 @@ export interface DeriveContractFees {
 
 export interface DeriveCollectiveProposal {
   hash: Hash;
-  proposal: Proposal;
+  proposal: Proposal | null;
   votes: Votes | null;
 }
 
