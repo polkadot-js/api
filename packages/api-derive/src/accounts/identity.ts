@@ -84,9 +84,9 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
 
 function getBase (api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
   return accountId && api.query.identity?.identityOf
-    ? api.queryMulti<[Option<PalletIdentityRegistration>, Option<ITuple<[AccountId, Data]>>]>([
-      [api.query.identity.identityOf, accountId],
-      [api.query.identity.superOf, accountId]
+    ? combineLatest([
+      api.query.identity.identityOf(accountId),
+      api.query.identity.superOf(accountId)
     ])
     : of([undefined, undefined]);
 }

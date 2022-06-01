@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
-import type { Option } from '@polkadot/types';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveStakerSlashes } from '../types';
 
-import { map, of } from 'rxjs';
+import { combineLatest, map, of } from 'rxjs';
 
 import { firstMemo, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
@@ -17,16 +15,16 @@ export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Ui
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
-      ? api.queryMulti<(Option<ITuple<[Perbill, BalanceOf]>> | Option<BalanceOf>)[]>([
-        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.validatorSlashInEra, [e, accountId]]),
-        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.nominatorSlashInEra, [e, accountId]])
+      ? combineLatest([
+        combineLatest(eras.map((e) => api.query.staking.validatorSlashInEra(e, accountId))),
+        combineLatest(eras.map((e) => api.query.staking.nominatorSlashInEra(e, accountId)))
       ]).pipe(
-        map((values): DeriveStakerSlashes[] =>
+        map(([vals, noms]): DeriveStakerSlashes[] =>
           eras.map((era, index) => ({
             era,
-            total: values[index].isSome
-              ? (values[index].unwrap() as ITuple<[Perbill, BalanceOf]>)[1]
-              : (values[index + eras.length].unwrapOrDefault() as BalanceOf)
+            total: vals[index].isSome
+              ? (vals[index].unwrap() as ITuple<[Perbill, BalanceOf]>)[1]
+              : (noms[index].unwrapOrDefault() as BalanceOf)
           }))
         )
       )

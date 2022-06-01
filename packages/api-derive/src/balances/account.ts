@@ -50,10 +50,10 @@ function calcBalances (api: DeriveApi, [accountId, [accountNonce, [primary, ...a
 
 // old
 function queryBalancesFree (api: DeriveApi, accountId: AccountId): Observable<Result> {
-  return api.queryMulti<[Balance, Balance, Index]>([
-    [api.query.balances.freeBalance, accountId],
-    [api.query.balances.reservedBalance, accountId],
-    [api.query.system.accountNonce, accountId]
+  return combineLatest([
+    api.query.balances.freeBalance<Balance>(accountId),
+    api.query.balances.reservedBalance<Balance>(accountId),
+    api.query.system.accountNonce<Index>(accountId)
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result => [
       accountNonce,
@@ -82,8 +82,7 @@ function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Resul
 function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
   const balances = modules
     .map((m): QueryableStorageEntry<'rxjs'> => (api.derive as DeriveCustomAccount)[m]?.customAccount || api.query[m]?.account)
-    .filter((q) => isFunction(q))
-    .map((q): [QueryableStorageEntry<'rxjs'>, AccountId] => [q, accountId]);
+    .filter((q) => isFunction(q));
 
   const extract = (nonce: Index, data: AccountData[]): Result => [
     nonce,
@@ -93,11 +92,17 @@ function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: st
   // NOTE this is for the first case where we do have instances specified
   return balances.length
     ? isFunction(api.query.system.account)
-      ? api.queryMulti<[AccountInfo, ...(AccountData[])]>([[api.query.system.account, accountId], ...balances]).pipe(
-        map(([{ nonce }, ...balances]) => extract(nonce, balances))
+      ? combineLatest([
+        api.query.system.account(accountId),
+        ...balances.map((c) => c(accountId))
+      ]).pipe(
+        map(([{ nonce }, ...balances]) => extract(nonce, balances as unknown as AccountData[]))
       )
-      : api.queryMulti<[Index, ...(AccountData[])]>([[api.query.system.accountNonce, accountId], ...balances]).pipe(
-        map(([nonce, ...balances]) => extract(nonce, balances))
+      : combineLatest([
+        api.query.system.accountNonce<Index>(accountId),
+        ...balances.map((c) => c(accountId))
+      ]).pipe(
+        map(([nonce, ...balances]) => extract(nonce, balances as unknown as AccountData[]))
       )
     : queryNonceOnly(api, accountId);
 }
