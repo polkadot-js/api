@@ -44,7 +44,7 @@ interface FullDecoration<ApiType extends ApiTypes> {
 // the max amount of keys/values that we will retrieve at once
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
 const PAGE_SIZE_V = 250; // limited since the data may be > 16MB (e.g. misfiring elections)
-const PAGE_SIZE_Q = 25; // queue of pending storage queries (mapped together, next tick)
+const PAGE_SIZE_Q = 50; // queue of pending storage queries (mapped together, next tick)
 
 const l = logger('api/init');
 
