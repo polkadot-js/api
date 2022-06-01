@@ -767,6 +767,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     //   return this._queuedStorage(keys, queue, query);
     // }
 
+    if (keys.length <= PAGE_SIZE_V) {
+      return blockHash
+        ? query(keys, blockHash)
+        : query(keys);
+    }
+
     return combineLatest(
       arrayChunk(keys, PAGE_SIZE_V).map((k) =>
         blockHash

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletBalancesReserveData, PalletVestingVestingInfo } from '@polkadot/types/lookup';
@@ -143,26 +142,22 @@ function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalan
 
 const isNonNullable = <T>(nullable: T): nullable is NonNullable<T> => !!nullable;
 
-function createCalls (accountId: AccountId, calls: unknown[]): [boolean[], QueryableStorageMultiArg<'rxjs'>[]] {
+function createCalls <T> (calls: (((a: AccountId) => Observable<T>) | null | undefined)[]): [boolean[], ((a: AccountId) => Observable<T>)[]] {
   return [
     calls.map((c) => !c),
-    calls
-      .filter(isNonNullable)
-      .map((c) => [c, accountId] as unknown as QueryableStorageMultiArg<'rxjs'>)
+    calls.filter(isNonNullable)
   ];
 }
 
 // current (balances, vesting)
 function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: string[] = ['balances']): Observable<ResultBalance> {
-  const [lockEmpty, lockQueries] = createCalls(
-    accountId,
-    balanceInstances.map((m): DeriveApi['query']['balances']['locks'] | undefined =>
+  const [lockEmpty, lockQueries] = createCalls<Vec<PalletBalancesBalanceLock>>(
+    balanceInstances.map((m) =>
       (api.derive as DeriveCustomLocks)[m]?.customLocks || api.query[m as 'balances']?.locks
     )
   );
-  const [reserveEmpty, reserveQueries] = createCalls(
-    accountId,
-    balanceInstances.map((m): DeriveApi['query']['balances']['reserves'] | undefined =>
+  const [reserveEmpty, reserveQueries] = createCalls<Vec<PalletBalancesReserveData>>(
+    balanceInstances.map((m) =>
       api.query[m as 'balances']?.reserves
     )
   );
@@ -172,10 +167,10 @@ function queryCurrent (api: DeriveApi, accountId: AccountId, balanceInstances: s
       ? api.query.vesting.vesting(accountId)
       : of(api.registry.createType('Option<VestingInfo>')),
     lockQueries.length
-      ? api.queryMulti<[...(Vec<PalletBalancesBalanceLock>)[]]>(lockQueries)
+      ? combineLatest(lockQueries.map((c) => c(accountId)))
       : of([] as Vec<PalletBalancesBalanceLock>[]),
     reserveQueries.length
-      ? api.queryMulti<[...(Vec<PalletBalancesReserveData>)[]]>(reserveQueries)
+      ? combineLatest(reserveQueries.map((c) => c(accountId)))
       : of([] as Vec<PalletBalancesReserveData>[])
   ]).pipe(
     map(([opt, locks, reserves]): ResultBalance => {
