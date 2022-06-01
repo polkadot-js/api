@@ -117,9 +117,9 @@ function calcBalances (api: DeriveApi, [data, bestNumber, [vesting, allLocks, na
 
 // old
 function queryOld (api: DeriveApi, accountId: AccountId): Observable<ResultBalance> {
-  return api.queryMulti<[Vec<PalletBalancesBalanceLock>, Option<VestingSchedule>]>([
-    [api.query.balances.locks, accountId],
-    [api.query.balances.vesting, accountId]
+  return combineLatest([
+    api.query.balances.locks(accountId),
+    api.query.balances.vesting<Option<VestingSchedule>>(accountId)
   ]).pipe(
     map(([locks, optVesting]): ResultBalance => {
       let vestingNew = null;

@@ -421,15 +421,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           : [args.creator]
       );
 
-      // with a smaller number of keys we combine this into a queue
-      // along with other ongoing queries
-      if (calls.length <= PAGE_SIZE_Q) {
-        const queue = this.hasSubscriptions
-          ? this.#storageSubQ
-          : this.#storageGetQ;
+      // NOTE Skipping
+      //
+      // // with a smaller number of keys we combine this into a queue
+      // // along with other ongoing queries
+      // if (calls.length <= PAGE_SIZE_Q) {
+      //   const queue = this.hasSubscriptions
+      //     ? this.#storageSubQ
+      //     : this.#storageGetQ;
 
-        return this._queuedStorage(calls, queue, query);
-      }
+      //   return this._queuedStorage(calls, queue, query);
+      // }
 
       return query(calls);
     });
@@ -753,10 +755,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
 
-    // NOTE Skipping - currently we make the assumption that .multi
-    // would have enough data and should be handled seperately
-    // (this is indeed the case with failing collective proposals
-    // as we find inside derives)
+    // NOTE Skipping
     //
     // // Where we have a limited number of multi keys, we combine
     // // this query with others that precedes it (same tick)
