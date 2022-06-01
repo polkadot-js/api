@@ -87,7 +87,7 @@ export class RpcCore {
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
-  readonly #storageCache = new Map<string, string | null>();
+  readonly #storageCache = new Map<string, Codec>();
 
   public readonly mapping = new Map<string, DefinitionRpcExt>();
 
@@ -418,28 +418,38 @@ export class RpcCore {
     }, []);
   }
 
-  private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
+  private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], withCache: boolean, entryIndex: number): Codec {
     const hexKey = key.toHex();
     const found = changes.find(([key]) => key === hexKey);
+    const isNotFound = isUndefined(found);
 
     // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
-    const value = isUndefined(found)
-      ? (witCache && this.#storageCache.get(hexKey)) || null
+    if (isNotFound && withCache) {
+      const cached = this.#storageCache.get(hexKey);
+
+      if (cached) {
+        return cached;
+      }
+    }
+
+    const value = isNotFound
+      ? null
       : found[1];
     const isEmpty = isNull(value);
     const input = isEmpty || isTreatAsHex(key)
       ? value
       : u8aToU8a(value);
+    const codec = this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
-    this.#storageCache.set(hexKey, value);
+    this.#storageCache.set(hexKey, codec);
 
-    return this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
+    return codec;
   }
 
   private _newType (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
