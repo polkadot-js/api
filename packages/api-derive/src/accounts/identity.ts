@@ -71,9 +71,10 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
   } else if (superOfOpt?.isSome) {
     const superOf = superOfOpt.unwrap();
 
-    // we have a super
     return combineLatest([
-      api.query.identity.identityOf(superOf[0]),
+      api.derive.accounts._identity(superOf[0]).pipe(
+        map(([info]) => info)
+      ),
       of(superOf)
     ]);
   }
@@ -82,13 +83,15 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
   return of([undefined, undefined]);
 }
 
-function getBase (api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
-  return accountId && api.query.identity?.identityOf
-    ? combineLatest([
-      api.query.identity.identityOf(accountId),
-      api.query.identity.superOf(accountId)
-    ])
-    : of([undefined, undefined]);
+export function _identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> =>
+    accountId && api.query.identity?.identityOf
+      ? combineLatest([
+        api.query.identity.identityOf(accountId),
+        api.query.identity.superOf(accountId)
+      ])
+      : of([undefined, undefined])
+  );
 }
 
 /**
@@ -97,9 +100,13 @@ function getBase (api: DeriveApi, accountId?: AccountId | Uint8Array | string): 
  */
 export function identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
-    getBase(api, accountId).pipe(
-      switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
-      map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
+    api.derive.accounts._identity(accountId).pipe(
+      switchMap(([identityOfOpt, superOfOpt]) =>
+        getParent(api, identityOfOpt, superOfOpt)
+      ),
+      map(([identityOfOpt, superOf]) =>
+        extractIdentity(identityOfOpt, superOf)
+      )
     )
   );
 }

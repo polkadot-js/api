@@ -39,12 +39,14 @@ export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint
           combineLatest([
             of(queuedKeys),
             api.consts.session?.dedupKeyPrefix
-              ? api.query.session.nextKeys.multi(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
+              ? api.query.session.nextKeys.multi(stashIds.map((s) => [api.consts.session.dedupKeyPrefix, s]))
               : combineLatest(stashIds.map((s) => api.query.session.nextKeys(s)))
           ])
         ),
         map(([queuedKeys, nextKeys]) =>
-          stashIds.map((stashId, index) => extractsIds(stashId, queuedKeys, nextKeys[index]))
+          stashIds.map((stashId, index) =>
+            extractsIds(stashId, queuedKeys, nextKeys[index])
+          )
         )
       )
       : of([])

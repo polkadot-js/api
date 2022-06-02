@@ -35,7 +35,7 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
   };
 }
 
-export function flagsBase (instanceId: string, api: DeriveApi): () => Observable<FlagsIntermediate> {
+export function _flags (instanceId: string, api: DeriveApi): () => Observable<FlagsIntermediate> {
   return memo(instanceId, (): Observable<FlagsIntermediate> => {
     const results: unknown[] = [undefined, [], [], [], undefined];
     const calls = [
@@ -73,7 +73,7 @@ export function flagsBase (instanceId: string, api: DeriveApi): () => Observable
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> =>
-    api.derive.accounts.flagsBase().pipe(
+    api.derive.accounts._flags().pipe(
       map((r) => parseFlags(address, r))
     )
   );
