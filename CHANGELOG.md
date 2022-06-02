@@ -7,6 +7,7 @@ Changes:
 - Add internal merge of single storage queries
 - Expose provider stats on API intrerface via `.stats`
 - Adjust flag extraction for latest phragmen types
+- Support for `Range` in typegen for `Enum`
 - Add Kusama 9220 upgrade block
 
 
