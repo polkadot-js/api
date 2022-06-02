@@ -50,7 +50,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
   const keys = named.map((def): string => {
     const { info, lookupName, name = '', type } = def;
     const getter = stringPascalCase(name.replace(' ', '_'));
-    const isComplex = [TypeDefInfo.Option, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
+    const isComplex = [TypeDefInfo.Option, TypeDefInfo.Range, TypeDefInfo.RangeInclusive, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);
@@ -61,6 +61,8 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     switch (info) {
       case TypeDefInfo.Compact:
       case TypeDefInfo.Plain:
+      case TypeDefInfo.Range:
+      case TypeDefInfo.RangeInclusive:
       case TypeDefInfo.Result:
       case TypeDefInfo.Si:
       case TypeDefInfo.Struct:
