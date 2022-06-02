@@ -1,4 +1,4 @@
-    2995	Jaco                          	Internal derive adjustments (#4888)
+    2996	Jaco                          	Support for Range in typegen for Enum (#4889)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
