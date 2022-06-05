@@ -664,9 +664,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             return calls;
           })
       ).pipe(
-        switchMap((calls) =>
-          query(calls)
-        )
+        switchMap((calls) => query(calls))
       );
 
       queue.push([valueObs, [call]]);
@@ -678,9 +676,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     return valueObs.pipe(
-      map((values) =>
-        values[valueIdx]
-      )
+      map((values) => values[valueIdx])
     );
   }
 
