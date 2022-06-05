@@ -678,7 +678,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     return valueObs.pipe(
-      map((values): Codec =>
+      map((values) =>
         values[valueIdx]
       )
     );
