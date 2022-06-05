@@ -59,9 +59,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   #registry: Registry;
 
-  #storageGetQ: [[StorageEntry, ...unknown[]][], Observable<Codec[]>][] = [];
+  #storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
-  #storageSubQ: [[StorageEntry, ...unknown[]][], Observable<Codec[]>][] = [];
+  #storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
@@ -406,12 +406,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((keys: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> => {
-      const query = this.hasSubscriptions
+    return decorateMethod((keys: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
+      (this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage
-        : this._rpcCore.state.queryStorageAt;
-
-      const calls = keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
+        : this._rpcCore.state.queryStorageAt
+      )(keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
         Array.isArray(args)
           ? args[0].creator.meta.type.isPlain
             ? [args[0].creator]
@@ -419,22 +418,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               ? [args[0].creator, args.slice(1)]
               : [args[0].creator, ...args.slice(1)]
           : [args.creator]
-      );
-
-      // NOTE Skipping
-      //
-      // // with a smaller number of keys we combine this into a queue
-      // // along with other ongoing queries
-      // if (calls.length <= PAGE_SIZE_Q) {
-      //   const queue = this.hasSubscriptions
-      //     ? this.#storageSubQ
-      //     : this.#storageGetQ;
-
-      //   return this._queuedStorage(calls, queue, query);
-      // }
-
-      return query(calls);
-    });
+      ))
+    );
   }
 
   protected _decorateMultiAt<ApiType extends ApiTypes> (atApi: ApiDecoration<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array | string): QueryableStorageMulti<ApiType> {
@@ -655,62 +640,47 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._decorateFunctionMeta(creator as unknown as MetaDecoration, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private _queuedStorage (calls: [StorageEntry, ...unknown[]][], queue: [[StorageEntry, ...unknown[]][], Observable<Codec[]>][], query: (calls: unknown[]) => Observable<Codec[]>): Observable<Codec[]> {
-    const count = calls.length;
+  private _queueStorage (call: [StorageEntry, unknown[]], queue: [Observable<Codec[]>, [StorageEntry, unknown[]][]][]): Observable<Codec> {
+    const query = queue === this.#storageSubQ
+      ? this._rpcCore.state.subscribeStorage
+      : this._rpcCore.state.queryStorageAt;
     let queueIdx = queue.length - 1;
+    let valueIdx = 0;
+    let valueObs: Observable<Codec[]>;
 
-    if (queueIdx === -1 || !queue[queueIdx] || queue[queueIdx][0].length === PAGE_SIZE_Q || count >= PAGE_SIZE_Q) {
+    if (queueIdx === -1 || !queue[queueIdx] || queue[queueIdx][1].length === PAGE_SIZE_Q) {
       queueIdx++;
 
-      queue.push([[], from(
+      valueObs = from(
         // Defer to the next tick - this aligns with nextTick in @polkadot/util,
         // however since we return a value here, we don't re-use what is there
         Promise
           .resolve()
-          .then((): [StorageEntry, ...unknown[]][] => {
-            const [calls] = queue[queueIdx];
+          .then((): [StorageEntry, unknown[]][] => {
+            const calls = queue[queueIdx][1];
 
             delete queue[queueIdx];
 
             return calls;
           })
-          .catch(() => [])
       ).pipe(
         switchMap((calls) =>
           query(calls)
         )
-      )]);
-    }
+      );
 
-    const valueIdx = queue[queueIdx][0].length;
-    const valueObs = queue[queueIdx][1];
+      queue.push([valueObs, [call]]);
+    } else {
+      valueObs = queue[queueIdx][0];
+      valueIdx = queue[queueIdx][1].length;
 
-    for (let i = 0; i < count; i++) {
-      queue[queueIdx][0].push(calls[i]);
+      queue[queueIdx][1].push(call);
     }
 
     return valueObs.pipe(
-      map((values): Codec[] => {
-        if (valueIdx === 0 && values.length === count) {
-          return values;
-        } else if (count === 1) {
-          return [values[valueIdx]];
-        }
-
-        const result = new Array<Codec>(count);
-
-        for (let i = 0; i < count; i++) {
-          result[i] = values[valueIdx + i];
-        }
-
-        return result;
-      })
-    );
-  }
-
-  private _queuedStorageSingle (call: [StorageEntry, ...unknown[]], queue: [[StorageEntry, ...unknown[]][], Observable<Codec[]>][], query: (calls: unknown[]) => Observable<Codec[]>): Observable<Codec> {
-    return this._queuedStorage([call], queue, query).pipe(
-      map(([first]) => first)
+      map((values): Codec =>
+        values[valueIdx]
+      )
     );
   }
 
@@ -724,11 +694,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         return this._rpcCore.state.getStorage(call);
       }
 
-      return this._queuedStorageSingle(call, this.#storageSubQ, this._rpcCore.state.subscribeStorage);
+      return this._queueStorage(call, this.#storageSubQ);
     }, {
       methodName: creator.method,
       overrideNoSub: (...args: unknown[]) =>
-        this._queuedStorageSingle(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ, this._rpcCore.state.queryStorageAt)
+        this._queueStorage(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ)
     });
   }
 
@@ -755,18 +725,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
 
-    // NOTE Skipping
-    //
-    // // Where we have a limited number of multi keys, we combine
-    // // this query with others that precedes it (same tick)
-    // if (!blockHash && keys.length <= PAGE_SIZE_Q) {
-    //   const queue = this.hasSubscriptions
-    //     ? this.#storageSubQ
-    //     : this.#storageGetQ;
-
-    //   return this._queuedStorage(keys, queue, query);
-    // }
-
     if (keys.length <= PAGE_SIZE_V) {
       return blockHash
         ? query(keys, blockHash)
@@ -789,21 +747,23 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
-    const getKeysPaged = at
-      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
-      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
+    const query = at
+      ? (startKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
+      : (startKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
     return startSubject.pipe(
-      switchMap(getKeysPaged),
+      switchMap(query),
       map((keys) => keys.map(setMeta)),
-      tap((keys): void => {
+      tap((keys) =>
         nextTick((): void => {
           keys.length === PAGE_SIZE_K
             ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
             : startSubject.complete();
-        });
-      }),
+        })
+      ),
       toArray(), // toArray since we want to startSubject to be completed
       map(arrayFlatten)
     );
@@ -813,24 +773,28 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
-    const getKeysPaged = at
-      ? (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at)
-      : (headKey: string) => this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey);
+    const query = at
+      ? (headKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at)
+      : (headKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey);
 
-    return getKeysPaged(iterKey(...opts.args).toHex()).pipe(
+    return query(iterKey(...opts.args).toHex()).pipe(
       map((keys) => keys.map(setMeta))
     );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<[StorageKey, Codec][]> {
-    const queryStorageAt = at
-      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
-      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
+    const query = at
+      ? (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
         keys.length
-          ? combineLatest(arrayChunk(keys, PAGE_SIZE_V).map(queryStorageAt)).pipe(
+          ? combineLatest(arrayChunk(keys, PAGE_SIZE_V).map(query)).pipe(
             map((valsArr) =>
               arrayFlatten(valsArr).map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
@@ -841,14 +805,16 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapEntriesPaged (entry: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
-    const queryStorageAt = at
-      ? (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys, at)
-      : (keys: StorageKey[]) => this._rpcCore.state.queryStorageAt(keys);
+    const query = at
+      ? (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeysPaged(entry, at, opts).pipe(
       switchMap((keys) =>
         keys.length
-          ? queryStorageAt(keys).pipe(
+          ? query(keys).pipe(
             map((valsArr) =>
               valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
             )
