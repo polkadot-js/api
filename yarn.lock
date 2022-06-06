@@ -2039,9 +2039,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.66.34":
-  version: 0.66.34
-  resolution: "@polkadot/dev@npm:0.66.34"
+"@polkadot/dev@npm:^0.66.35":
+  version: 0.66.35
+  resolution: "@polkadot/dev@npm:0.66.35"
   dependencies:
     "@babel/cli": ^7.17.10
     "@babel/core": ^7.18.2
@@ -2128,7 +2128,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 55e37ec25ccdc03d3b7c70474c2bc8f465536a4a1ac3d8b73ce47a62279f561574b44b5e3718be01e1e7c077ee2c44281e62be87b133a6a8c5f2a598fba773bd
+  checksum: 6e6f09d9333dac9ebad7bde7b763dc9857f12a4d53d5e39604d28c62310c8d04f3ae7181455382fc4fcfecd66ffe937e8dce833317bbfb4e84d9008fa44c917e
   languageName: node
   linkType: hard
 
@@ -2771,13 +2771,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^28.1.0":
-  version: 28.1.0
-  resolution: "@types/jest@npm:28.1.0"
+"@types/jest@npm:^28.1.1":
+  version: 28.1.1
+  resolution: "@types/jest@npm:28.1.1"
   dependencies:
     jest-matcher-utils: ^27.0.0
     pretty-format: ^27.0.0
-  checksum: be4d887b2452e8c1367cd19b23906ba4b64af95e22ca871f81c7af5e945bd39b370e124086356aa9380c4543123b1387448bc2c00a604c6f0a92bc3e4a24e9ce
+  checksum: 0a8b045a7b660372decc807c390d3f99a2b12bb1659a1cd593afe04557f4b7c235b0576a5e35b1577710d20e42759d3d8755eb8bed6edc8733f47007e75a5509
   languageName: node
   linkType: hard
 
@@ -9251,9 +9251,9 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.18.2
     "@babel/register": ^7.17.7
     "@babel/runtime": ^7.18.3
-    "@polkadot/dev": ^0.66.34
+    "@polkadot/dev": ^0.66.35
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/jest": ^28.1.0
+    "@types/jest": ^28.1.1
     copyfiles: ^2.4.1
   languageName: unknown
   linkType: soft
