@@ -78,24 +78,6 @@ export interface ContractExecResult extends Struct {
   readonly result: ContractExecResultResult;
 }
 
-/** @name ContractExecResultErr */
-export interface ContractExecResultErr extends Enum {
-  readonly isOther: boolean;
-  readonly asOther: Text;
-  readonly isCannotLookup: boolean;
-  readonly isBadOrigin: boolean;
-  readonly isModule: boolean;
-  readonly asModule: ContractExecResultErrModule;
-  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module';
-}
-
-/** @name ContractExecResultErrModule */
-export interface ContractExecResultErrModule extends Struct {
-  readonly index: u8;
-  readonly error: u8;
-  readonly message: Option<Text>;
-}
-
 /** @name ContractExecResultOk */
 export interface ContractExecResultOk extends Struct {
   readonly flags: ContractReturnFlags;
@@ -107,7 +89,7 @@ export interface ContractExecResultResult extends Enum {
   readonly isOk: boolean;
   readonly asOk: ContractExecResultOk;
   readonly isErr: boolean;
-  readonly asErr: ContractExecResultErr;
+  readonly asErr: DispathcError;
   readonly type: 'Ok' | 'Err';
 }
 

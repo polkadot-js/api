@@ -3,7 +3,7 @@
 
 import type { Text, u8 } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
-import type { DispatchErrorModule, DispatchErrorModuleU8a, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
+import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
 import type { Errors, IsError } from '../types';
 
@@ -40,7 +40,7 @@ export function decorateErrors (registry: Registry, { lookup, pallets }: Metadat
       lazyMethod(result, stringCamelCase(name), () =>
         lazyVariants(lookup, errors.unwrap(), objectNameToString, (variant: SiVariant): IsError => ({
           // We sprinkle in isCodec & isU8a to ensure we are dealing with the correct objects
-          is: (errorMod: DispatchErrorModule | DispatchErrorModuleU8a) =>
+          is: (errorMod: DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a) =>
             isCodec(errorMod) &&
             isCodec(errorMod.index) &&
             errorMod.index.eq(sectionIndex) && (

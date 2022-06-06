@@ -4,7 +4,7 @@
 import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -288,7 +288,7 @@ export class TypeRegistry implements Registry {
   }
 
   // finds an error
-  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule | DispatchErrorModuleU8a): RegistryError {
+  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a): RegistryError {
     const [section, method] = isU8a(errorIndex)
       ? [errorIndex[0], errorIndex[1]]
       : [

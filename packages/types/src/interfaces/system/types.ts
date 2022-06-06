@@ -120,7 +120,10 @@ export interface DispatchError extends Enum {
 }
 
 /** @name DispatchErrorModule */
-export interface DispatchErrorModule extends Struct {
+export interface DispatchErrorModule extends DispatchErrorModuleU8a {}
+
+/** @name DispatchErrorModuleU8 */
+export interface DispatchErrorModuleU8 extends Struct {
   readonly index: u8;
   readonly error: u8;
 }

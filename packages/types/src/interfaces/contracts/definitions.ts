@@ -73,19 +73,6 @@ export default {
         Error: 'Null'
       }
     },
-    ContractExecResultErrModule: {
-      index: 'u8',
-      error: 'u8',
-      message: 'Option<Text>'
-    },
-    ContractExecResultErr: {
-      _enum: {
-        Other: 'Text',
-        CannotLookup: 'Null',
-        BadOrigin: 'Null',
-        Module: 'ContractExecResultErrModule'
-      }
-    },
     ContractExecResultOk: {
       flags: 'ContractReturnFlags',
       data: 'Bytes'
@@ -93,7 +80,7 @@ export default {
     ContractExecResultResult: {
       _enum: {
         Ok: 'ContractExecResultOk',
-        Err: 'ContractExecResultErr'
+        Err: 'DispathcError'
       }
     },
     ContractExecResultTo267: {
