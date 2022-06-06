@@ -210,7 +210,7 @@ export default {
         Arithmetic: 'ArithmeticError'
       }
     },
-    DispatchErrorModule: {
+    DispatchErrorModuleU8: {
       index: 'u8',
       error: 'u8'
     },
@@ -218,6 +218,7 @@ export default {
       index: 'u8',
       error: '[u8; 4]'
     },
+    DispatchErrorModule: 'DispatchErrorModuleU8a',
     DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
