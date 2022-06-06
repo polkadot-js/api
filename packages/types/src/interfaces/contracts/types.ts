@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Null, Option, Raw, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Compact, Enum, Null, Option, Raw, Result, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 import type { DispatchError } from '@polkadot/types/interfaces/system';
 
@@ -38,11 +38,15 @@ export interface CodeUploadRequest extends Struct {
 }
 
 /** @name CodeUploadResult */
-export interface CodeUploadResult extends Enum {
+export interface CodeUploadResult extends Result<CodeUploadResultValue, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: CodeUploadResultValue;
-  readonly isErr: boolean;
-  readonly type: 'Ok' | 'Err';
 }
 
 /** @name CodeUploadResultValue */
@@ -85,12 +89,15 @@ export interface ContractExecResultOk extends Struct {
 }
 
 /** @name ContractExecResultResult */
-export interface ContractExecResultResult extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: ContractExecResultOk;
+export interface ContractExecResultResult extends Result<ContractExecResultOk, DispatchError> {
   readonly isErr: boolean;
   readonly asErr: DispatchError;
-  readonly type: 'Ok' | 'Err';
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: ContractExecResultOk;
 }
 
 /** @name ContractExecResultSuccessTo255 */
@@ -148,19 +155,21 @@ export interface ContractInstantiateResult extends Struct {
 }
 
 /** @name ContractInstantiateResultTo267 */
-export interface ContractInstantiateResultTo267 extends Enum {
+export interface ContractInstantiateResultTo267 extends Result<InstantiateReturnValueTo267, Null> {
+  readonly isErr: boolean;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueTo267;
-  readonly isErr: boolean;
-  readonly type: 'Ok' | 'Err';
 }
 
 /** @name ContractInstantiateResultTo299 */
-export interface ContractInstantiateResultTo299 extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValue;
+export interface ContractInstantiateResultTo299 extends Result<InstantiateReturnValueOk, Null> {
   readonly isErr: boolean;
-  readonly type: 'Ok' | 'Err';
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueOk;
 }
 
 /** @name ContractReturnFlags */
@@ -324,12 +333,15 @@ export interface InstantiateRequestV2 extends Struct {
 }
 
 /** @name InstantiateReturnValue */
-export interface InstantiateReturnValue extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValueOk;
+export interface InstantiateReturnValue extends Result<InstantiateReturnValueOk, DispatchError> {
   readonly isErr: boolean;
   readonly asErr: DispatchError;
-  readonly type: 'Ok' | 'Err';
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueOk;
 }
 
 /** @name InstantiateReturnValueOk */
