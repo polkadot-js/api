@@ -89,7 +89,7 @@ export interface ContractExecResultResult extends Enum {
   readonly isOk: boolean;
   readonly asOk: ContractExecResultOk;
   readonly isErr: boolean;
-  readonly asErr: DispathcError;
+  readonly asErr: DispatchError;
   readonly type: 'Ok' | 'Err';
 }
 

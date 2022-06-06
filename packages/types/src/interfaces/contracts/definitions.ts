@@ -80,7 +80,7 @@ export default {
     ContractExecResultResult: {
       _enum: {
         Ok: 'ContractExecResultOk',
-        Err: 'DispathcError'
+        Err: 'DispatchError'
       }
     },
     ContractExecResultTo267: {
