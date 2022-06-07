@@ -27,6 +27,12 @@ export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
 
       websocket.onmessage = (message: { data: string }): void => {
         resolve((JSON.parse(message.data) as { result: HexString }).result);
+
+        websocket.onclose = () => {
+          console.log(`disconnected from ${endpoint} (regular connection closure)`);
+        };
+
+        websocket.close();
       };
     } catch (error) {
       process.exit(1);
