@@ -11,8 +11,14 @@ export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
       const websocket = new WebSocket(endpoint);
 
       websocket.onclose = (event: { code: number; reason: string }): void => {
-        console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
-        process.exit(1);
+        const msg = `disconnected, code: '${event.code}' reason: '${event.reason}'`;
+
+        if (event.code === 1000) {
+          console.log(msg);
+        } else {
+          console.error(msg);
+          process.exit(1);
+        }
       };
 
       websocket.onerror = (event: unknown): void => {
@@ -27,6 +33,7 @@ export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
 
       websocket.onmessage = (message: { data: string }): void => {
         resolve((JSON.parse(message.data) as { result: HexString }).result);
+        websocket.close();
       };
     } catch (error) {
       process.exit(1);
