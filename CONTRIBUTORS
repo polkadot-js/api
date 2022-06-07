@@ -88,6 +88,7 @@
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	qiuhao                        	update DeriveCustom type (#2581)
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
+       1	Raphael Flechtner             	fix: typegen disconnect ws on success (#4901)
        1	Rocco Musolino                	remove broken link (#2671)
        1	satellitex                    	Add BTreeSet<V> Codec (#1639)
        1	satellitex                    	Add traits replace rules. for invalid cases `::<type>` and `<type>::`. (#885)
