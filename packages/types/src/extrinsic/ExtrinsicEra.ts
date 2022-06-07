@@ -188,26 +188,36 @@ export class MortalEra extends Tuple {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public override toU8a (isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
-    const phase = this.phase.toNumber();
-    const quantizeFactor = Math.max(period >> 12, 1);
-    const trailingZeros = getTrailingZeros(period);
-    const encoded = Math.min(15, Math.max(1, trailingZeros - 1)) + (((phase / quantizeFactor) << 4));
-    const first = encoded >> 8;
-    const second = encoded & 0xff;
+    const encoded = Math.min(
+      15,
+      Math.max(1, getTrailingZeros(period) - 1)
+    ) + (
+      (
+        this.phase.toNumber() / Math.max(period >> 12, 1)
+      ) << 4
+    );
 
-    return new Uint8Array([second, first]);
+    return new Uint8Array([
+      encoded & 0xff,
+      encoded >> 8
+    ]);
   }
 
   /**
    * @description Get the block number of the start of the era whose properties this object describes that `current` belongs to.
    */
   public birth (current: BN | bigint | number | string): number {
+    const phase = this.phase.toNumber();
+    const period = this.period.toNumber();
+
     // FIXME No toNumber() here
-    return Math.floor(
-      (
-        Math.max(bnToBn(current).toNumber(), this.phase.toNumber()) - this.phase.toNumber()
-      ) / this.period.toNumber()
-    ) * this.period.toNumber() + this.phase.toNumber();
+    return (
+      ~~(
+        (
+          Math.max(bnToBn(current).toNumber(), phase) - phase
+        ) / period
+      ) * period
+    ) + phase;
   }
 
   /**
