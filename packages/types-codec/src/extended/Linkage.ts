@@ -67,9 +67,6 @@ export class Linkage<T extends Codec> extends Struct {
  */
 export class LinkageResult extends Tuple {
   constructor (registry: Registry, [TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
-    super(registry, {
-      Keys: Vec.with(TypeKey),
-      Values: Vec.with(TypeValue)
-    }, [keys, values]);
+    super(registry, [Vec.with(TypeKey), Vec.with(TypeValue)], [keys, values]);
   }
 }

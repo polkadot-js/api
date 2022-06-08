@@ -53,9 +53,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
   #Types: Definition;
 
-  constructor (registry: Registry, Types: TupleType[], value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: TupleType[] | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const Classes = definition || setDefinition(
-      Types.map((t) => typeToConstructor(registry, t))
+      Array.isArray(Types)
+        ? Types.map((t) => typeToConstructor(registry, t))
+        : [typeToConstructor(registry, Types)]
     );
 
     super(registry, Classes.length);
