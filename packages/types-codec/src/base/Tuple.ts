@@ -3,18 +3,14 @@
 
 import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types';
 
-import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
+import { isHex, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/AbstractArray';
-import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
+import { decodeU8a, typeToConstructor } from '../utils';
 
 type TupleType = (CodecClass | string);
 
-type TupleTypes = TupleType[] | {
-  [index: string]: CodecClass | string;
-};
-
-type Definition = [CodecClass[], string[]];
+type Definition = CodecClass[];
 
 interface Options {
   definition?: Definition;
@@ -26,12 +22,10 @@ function noopSetDefinition (d: Definition): Definition {
 }
 
 /** @internal */
-function decodeTuple (registry: Registry, result: Codec[], Classes: Definition, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
+function decodeTuple (registry: Registry, result: Codec[], Types: Definition, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
-    return decodeU8a(registry, result, u8aToU8a(value), Classes);
+    return decodeU8a(registry, result, u8aToU8a(value), [Types, []]);
   }
-
-  const Types = Classes[0];
 
   for (let i = 0; i < Types.length; i++) {
     try {
@@ -59,26 +53,22 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
   #Types: Definition;
 
-  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: TupleType[], value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const Classes = definition || setDefinition(
-      Array.isArray(Types)
-        ? [Types.map((t) => typeToConstructor(registry, t)), []]
-        : isFunction(Types) || isString(Types)
-          ? [[typeToConstructor(registry, Types)], []]
-          : mapToTypeMap(registry, Types)
+      Types.map((t) => typeToConstructor(registry, t))
     );
 
-    super(registry, Classes[0].length);
+    super(registry, Classes.length);
 
     const [, decodedLength] = isU8a(value)
-      ? decodeU8a(registry, this, value, Classes, false)
+      ? decodeU8a(registry, this, value, [Classes, []])
       : decodeTuple(registry, this, Classes, value);
 
     this.initialU8aLength = decodedLength;
     this.#Types = Classes;
   }
 
-  public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
+  public static with (Types: TupleType[]): CodecClass<Tuple> {
     let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
@@ -109,9 +99,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The types definition of the tuple
    */
   public get Types (): string[] {
-    return this.#Types[1].length
-      ? this.#Types[1]
-      : this.#Types[0].map((T) => new T(this.registry).toRawType());
+    return this.#Types.map((T) => new T(this.registry).toRawType());
   }
 
   /**
@@ -127,7 +115,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const types = this.#Types[0].map((T) =>
+    const types = this.#Types.map((T) =>
       this.registry.getClassName(T) || new T(this.registry).toRawType()
     );
 
