@@ -50,8 +50,8 @@ function newFromValue (registry: Registry, value: any, version: number): Extrins
 }
 
 /** @internal */
-function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-  if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+function decodeExtrinsic (registry: Registry, value?: Exclude<GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, Uint8Array>, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  if (Array.isArray(value) || isHex(value)) {
     return decodeU8a(registry, u8aToU8a(value), version);
   } else if (value instanceof registry.createClassUnsafe('Call')) {
     return newFromValue(registry, { method: value }, version);
@@ -61,7 +61,7 @@ function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | Extrins
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+function decodeU8a (registry: Registry, value: Uint8Array, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
   if (!value.length) {
     return newFromValue(registry, new Uint8Array(), version);
   }
@@ -238,7 +238,11 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   #hashCache?: CodecHash;
 
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
-    super(registry, decodeExtrinsic(registry, value, version));
+    super(
+      registry,
+      isU8a(value)
+        ? decodeU8a(registry, value, version)
+        : decodeExtrinsic(registry, value, version));
   }
 
   /**

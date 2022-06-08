@@ -9,7 +9,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 /** @internal */
 function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
-  if (isU8a(value) || Array.isArray(value)) {
+  if (Array.isArray(value)) {
     return u8aToU8a(value);
   } else if (!value) {
     return new Uint8Array();
@@ -31,7 +31,9 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
  */
 export class GenericAccountId extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
-    const decoded = decodeAccountId(value);
+    const decoded = isU8a(value)
+      ? value
+      : decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
     assert(decoded.length >= 32 || !decoded.some((b) => b), () => `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);

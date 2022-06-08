@@ -85,8 +85,8 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
-  if (isU8a(value) || isHex(value)) {
+function decodeCall (registry: Registry, value: unknown | DecodedMethod | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  if (isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);
@@ -115,7 +115,9 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: unknown, meta?: FunctionMetadataLatest) {
-    const decoded = decodeCall(registry, value, meta);
+    const decoded = isU8a(value)
+      ? decodeCallViaU8a(registry, value, meta)
+      : decodeCall(registry, value, meta);
 
     try {
       super(registry, {

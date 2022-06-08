@@ -50,10 +50,8 @@ function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
 }
 
 /** @internal */
-function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
-  if (isU8a(value)) {
-    return decodeVoteU8a(value);
-  } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
+function decodeVote (registry: Registry, value?: Exclude<InputTypes, Uint8Array>): Uint8Array {
+  if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
     return decodeVoteBool(new Bool(registry, value).isTrue);
   } else if (isNumber(value)) {
     return decodeVoteBool(value < 0);
@@ -76,7 +74,9 @@ export class GenericVote extends U8aFixed {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101
-    const decoded = decodeVote(registry, value);
+    const decoded = isU8a(value)
+      ? decodeVoteU8a(value)
+      : decodeVote(registry, value);
 
     super(registry, decoded, 8);
 
