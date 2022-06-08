@@ -11,6 +11,10 @@ import { Bytes } from './Bytes';
 
 type OpaqueName = 'WrapperKeepOpaque' | 'WrapperOpaque';
 
+interface Options {
+  opaqueName?: OpaqueName;
+}
+
 function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T> | string, value?: unknown): [CodecClass<T>, T | null, AnyU8a] {
   const Type = typeToConstructor(registry, typeName);
 
@@ -38,7 +42,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
 
   readonly #opaqueName: OpaqueName;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, opaqueName: OpaqueName = 'WrapperKeepOpaque') {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { opaqueName = 'WrapperKeepOpaque' }: Options = {}) {
     const [Type, decoded, u8a] = decodeRaw(registry, typeName, value);
 
     super(registry, u8a);

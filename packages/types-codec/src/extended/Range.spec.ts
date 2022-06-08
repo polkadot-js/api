@@ -9,12 +9,7 @@ describe('Range', (): void => {
   let range: Range<U32>;
 
   beforeEach((): void => {
-    const Clazz = Range.with(U32);
-
-    range = new Clazz(
-      registry,
-      [new U32(registry, 1), new U32(registry, 2)]
-    );
+    range = new (Range.with(U32))(registry, [1, 2]);
   });
 
   it('decodes', (): void => {

@@ -7,6 +7,10 @@ import { Tuple } from '../base/Tuple';
 
 type RangeType = 'Range' | 'RangeInclusive';
 
+interface Options {
+  rangeName?: RangeType;
+}
+
 /**
  * @name Range
  * @description
@@ -15,19 +19,16 @@ type RangeType = 'Range' | 'RangeInclusive';
 export class Range<T extends INumber> extends Tuple {
   #rangeName: RangeType;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple, rangeName: RangeType = 'Range') {
-    super(registry, {
-      end: Type,
-      start: Type
-    }, value);
+  constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple, { rangeName = 'Range' }: Options = {}) {
+    super(registry, [Type, Type], value);
 
     this.#rangeName = rangeName;
   }
 
-  public static override with <T extends INumber> (Types: CodecClass<T> | string): CodecClass<Range<T>> {
+  public static override with <T extends INumber> (Type: CodecClass<T> | string): CodecClass<Range<T>> {
     return class extends Range<T> {
       constructor (registry: Registry, value?: AnyTuple) {
-        super(registry, Types, value);
+        super(registry, Type, value);
       }
     };
   }
