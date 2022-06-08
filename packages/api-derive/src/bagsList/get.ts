@@ -43,7 +43,7 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
     const ids = _ids.map((id) => bnToBn(id));
 
     return ids.length
-      ? api.query.listBags.multi<Option<PalletBagsListListBag>[]>(ids).pipe(
+      ? (api.query.voterList || api.query.bagsList).listBags.multi<Option<PalletBagsListListBag>>(ids).pipe(
         map((bags) => orderBags(ids, bags))
       )
       : of([]);
