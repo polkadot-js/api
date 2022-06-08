@@ -59,7 +59,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 /** @internal */
 function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
   // We need 2 bytes for the callIndex
-  const callIndex = new Uint8Array(2);
+  const callIndex = registry.firstCallIndex.slice();
 
   callIndex.set(value.subarray(0, 2), 0);
 
