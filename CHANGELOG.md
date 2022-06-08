@@ -7,8 +7,10 @@ Changes:
 - Add aliases for `DispatchError{U8, U8a}` (default to new `U8a` variant)
 - Align `DispatchError` definition with latest Substrate
 - Adjust contracts RPC definitions with `DispatchError` return
+- Ensure `blockHash` is passed through with `era` sign options
 - Workaround for default calls on chains with non-standard indexes
 - Optimization for value returns on merged queries
+- Update `derive.bagsList` to detect `voterList` pallet
 
 
 ## 8.7.1 Jun 4, 2022

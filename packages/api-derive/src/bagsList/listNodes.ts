@@ -18,7 +18,7 @@ function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<
 
   return subject.pipe(
     switchMap((account) =>
-      api.query.bagsList.listNodes(account)
+      (api.query.voterList || api.query.bagsList).listNodes<Option<PalletBagsListListNode>>(account)
     ),
     tap((node: Option<PalletBagsListListNode>): void => {
       nextTick((): void => {

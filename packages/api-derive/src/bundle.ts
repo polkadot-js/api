@@ -23,8 +23,9 @@ export { lazyDeriveSection };
 // Enable derive only if some of these modules are available
 const checks: Record<string, Avail> = {
   bagsList: {
-    instances: ['bagsList'],
-    methods: []
+    instances: ['voterList', 'bagsList'],
+    methods: [],
+    withDetect: true
   },
   contracts: {
     instances: ['contracts'],
