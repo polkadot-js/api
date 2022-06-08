@@ -78,8 +78,10 @@ export default {
         Module: 'DispatchErrorModule',
         ConsumerRemaining: 'Null',
         NoProviders: 'Null',
+        TooManyConsumers: 'Null',
         Token: 'TokenError',
-        Arithmetic: 'ArithmeticError'
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
       }
     },
     DispatchErrorModuleU8: {
@@ -251,6 +253,7 @@ export default {
         'CannotCreate',
         'UnknownAsset',
         'Frozen',
+        'Unsupported',
         // these are dropped, but still in older versions
         // (if this adjusts, will need to take a re-look)
         'Underflow',
@@ -262,6 +265,12 @@ export default {
         Invalid: 'InvalidTransaction',
         Unknown: 'UnknownTransaction'
       }
+    },
+    TransactionalError: {
+      _enum: [
+        'LimitReached',
+        'NoLayer'
+      ]
     },
     UnknownTransaction: {
       _enum: {
