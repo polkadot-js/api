@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option } from '@polkadot/types';
+import type { Option, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types';
@@ -52,7 +52,7 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
 
 export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]> {
   return memo(instanceId, (): Observable<Bag[]> =>
-    (api.query.voterList || api.query.bagsList).listBags.keys().pipe(
+    (api.query.voterList || api.query.bagsList).listBags.keys<[u64]>().pipe(
       switchMap((keys) =>
         api.derive.bagsList._getIds(keys.map(({ args: [id] }) => id))
       ),
