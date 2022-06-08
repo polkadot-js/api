@@ -70,7 +70,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
     this.#Types = Classes;
   }
 
-  public static with (Types: TupleType[]): CodecClass<Tuple> {
+  public static with (Types: TupleType[] | TupleType): CodecClass<Tuple> {
     let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
