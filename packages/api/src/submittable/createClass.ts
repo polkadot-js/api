@@ -34,7 +34,7 @@ const identity = <T> (input: T): T => input;
 
 function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
   if (!header) {
-    assert(partialOptions.era === 0 || !isUndefined(partialOptions.blockHash), 'Expected blockHash to be passed alongside non-immortale era options');
+    assert(partialOptions.era === 0 || !isUndefined(partialOptions.blockHash), 'Expected blockHash to be passed alongside non-immortal era options');
 
     if (isNumber(partialOptions.era)) {
       // since we have no header, it is immortal, remove any option overrides
