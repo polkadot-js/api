@@ -26,6 +26,7 @@ declare module '@polkadot/types-codec/types/registry' {
     readonly signedExtensions: string[];
 
     findMetaCall (callIndex: Uint8Array): CallFunctionExt;
+    findMetaDefaultCall (): CallFunctionExt;
 
     clearCache (): void
 

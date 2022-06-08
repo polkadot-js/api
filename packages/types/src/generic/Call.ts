@@ -58,13 +58,17 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 
 /** @internal */
 function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
-  // We need 2 bytes for the callIndex
-  const callIndex = new Uint8Array(2);
-
-  callIndex.set(value.subarray(0, 2), 0);
-
   // Find metadata with callIndex
-  const meta = _meta || registry.findMetaCall(callIndex).meta;
+  const { callIndex, meta } = _meta
+    ? {
+      callIndex: value.length >= 2
+        ? value.subarray(0, 2)
+        : new Uint8Array(2),
+      meta: _meta
+    }
+    : value.length >= 2
+      ? registry.findMetaCall(value.subarray(0, 2))
+      : registry.findMetaDefaultCall();
 
   return {
     args: value.subarray(2),
@@ -87,7 +91,12 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  */
 function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isU8a(value) || isHex(value)) {
-    return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
+    try {
+      return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
+    } catch (error) {
+      console.error(value);
+      throw error;
+    }
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);
   }

@@ -6,6 +6,7 @@ Changes:
 
 - Add aliases for `DispatchError{U8, U8a}` (default to new `U8a` variant)
 - Adjust contracts RPC definitions with `DispatchError` return
+- Workaround for default calls on chains with non-standard indexes
 - Optimization for value returns on merged queries
 
 
