@@ -91,12 +91,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  */
 function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isU8a(value) || isHex(value)) {
-    try {
-      return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
-    } catch (error) {
-      console.error(value);
-      throw error;
-    }
+    return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);
   }
