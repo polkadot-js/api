@@ -42,7 +42,11 @@ const EMPTY_META = {
 
 // utility method to create a nicely-formatted error
 /** @internal */
-function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
+function logErrorMessage (method: string, { noErrorLog, params, type }: DefinitionRpc, error: Error): void {
+  if (noErrorLog) {
+    return;
+  }
+
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
