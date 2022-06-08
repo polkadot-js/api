@@ -7,7 +7,7 @@ import { WrapperKeepOpaque } from './WrapperKeepOpaque';
 
 export class WrapperOpaque<T extends Codec> extends WrapperKeepOpaque<T> {
   constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {
-    super(registry, typeName, value, 'WrapperOpaque');
+    super(registry, typeName, value, { opaqueName: 'WrapperOpaque' });
   }
 
   public static override with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperKeepOpaque<T>> {
