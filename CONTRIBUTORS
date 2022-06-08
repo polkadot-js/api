@@ -1,4 +1,4 @@
-    3009	Jaco                          	Update `derive.bagsList` to detect `voterList` pallet (#4910)
+    3010	Jaco                          	Pass Range/WrapperOpaque names via options (#4911)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
