@@ -362,7 +362,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // Only enable the health keepalive on WS, not needed on HTTP
     this.#healthTimer = this.hasSubscriptions
       ? setInterval((): void => {
-        firstValueFrom(this._rpcCore.system.health()).catch(() => undefined);
+        firstValueFrom(this._rpcCore.system.health.raw()).catch(() => undefined);
       }, KEEPALIVE_INTERVAL)
       : null;
   }

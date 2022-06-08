@@ -29,6 +29,7 @@ export interface DefinitionRpc {
   description: string;
   endpoint?: string;
   isSigned?: boolean;
+  noErrorLog?: boolean;
   params: DefinitionRpcParam[];
   type: DefinitionTypeType;
 }
