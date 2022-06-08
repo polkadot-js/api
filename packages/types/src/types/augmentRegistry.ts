@@ -20,6 +20,7 @@ declare module '@polkadot/types-codec/types/registry' {
   }
 
   export interface Registry {
+    readonly firstCallIndex: Uint8Array;
     readonly knownTypes: RegisteredTypes;
     readonly metadata: MetadataLatest;
     readonly unknownTypes: string[];

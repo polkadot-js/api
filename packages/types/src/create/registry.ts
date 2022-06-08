@@ -22,7 +22,13 @@ import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
 import { lazyVariants } from './lazy';
 
+const DEFAULT_FIRST_CALL_IDX = new Uint8Array(2);
+
 const l = logger('registry');
+
+function sortDecimalStrings (a: string, b: string): number {
+  return parseInt(a, 10) - parseInt(b, 10);
+}
 
 function valueToString (v: { toString: () => string }): string {
   return v.toString();
@@ -136,6 +142,8 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
+  #firstCallIndex: Uint8Array | null = null;
+
   #lookup?: PortableRegistry;
 
   #metadata?: MetadataLatest;
@@ -209,6 +217,10 @@ export class TypeRegistry implements Registry {
     }
 
     return [formatBalance.getDefaults().unit];
+  }
+
+  public get firstCallIndex (): Uint8Array {
+    return this.#firstCallIndex || DEFAULT_FIRST_CALL_IDX;
   }
 
   /**
@@ -503,6 +515,7 @@ export class TypeRegistry implements Registry {
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
+    this.#firstCallIndex = null;
 
     // attach the lookup at this point (before injecting)
     this.setLookup(this.#metadata.lookup);
@@ -510,6 +523,22 @@ export class TypeRegistry implements Registry {
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
     injectEvents(this, this.#metadata, this.#metadataVersion, this.#metadataEvents);
+
+    // set the default call index (the lowest section, the lowest method)
+    // in most chains this should be 0,0
+    const [defSection] = Object
+      .keys(this.#metadataCalls)
+      .sort(sortDecimalStrings);
+
+    if (defSection) {
+      const [defMethod] = Object
+        .keys(this.#metadataCalls[defSection])
+        .sort(sortDecimalStrings);
+
+      if (defMethod) {
+        this.#firstCallIndex = new Uint8Array([parseInt(defSection, 10), parseInt(defMethod, 10)]);
+      }
+    }
 
     // setup the available extensions
     this.setSignedExtensions(
