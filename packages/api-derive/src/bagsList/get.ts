@@ -52,7 +52,7 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
 
 export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]> {
   return memo(instanceId, (): Observable<Bag[]> =>
-    api.query.bagsList.listBags.keys().pipe(
+    (api.query.voterList || api.query.bagsList).listBags.keys().pipe(
       switchMap((keys) =>
         api.derive.bagsList._getIds(keys.map(({ args: [id] }) => id))
       ),
