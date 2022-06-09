@@ -62,7 +62,7 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
 
     const names = fields
-      .map(({ name }) => name.unwrapOr(null)?.toString())
+      .map(({ name }) => registry.lookup.sanitizeField(name)[0])
       .filter((n): n is string => !!n);
 
     if (names.length === fields.length) {
@@ -131,7 +131,7 @@ export class GenericEventData extends Tuple implements IEventData {
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export class GenericEvent extends Struct implements IEvent<Codec[]> {
+export class GenericEvent extends Struct implements IEvent<Codec[], Record<string, Codec>> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
@@ -147,7 +147,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): GenericEventData {
+  public get data (): GenericEventData & Record<string, Codec> {
     return this.getT('data');
   }
 
