@@ -57,9 +57,12 @@ function events (api: ApiPromise): void {
   // existing
   if (api.events.balances.Transfer.is(event)) {
     // the types are correctly expanded
-    const [from, to, amount] = event.data;
+    const [afrom, ato, aamount] = event.data;
 
-    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+    // the types have getters
+    const { amount, from, to } = event.data;
+
+    console.log(afrom.toHuman(), ato.toHuman(), aamount.toBn(), from.toHuman(), to.toHuman(), amount.toBn());
   }
 
   // something random

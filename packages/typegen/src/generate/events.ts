@@ -42,13 +42,19 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
             const args = fields
               .map(({ type }) => lookup.getTypeDef(type))
               .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
+            const names = fields
+              .map(({ name }) => registry.lookup.sanitizeField(name)[0])
+              .filter((n): n is string => !!n);
 
             setImports(allDefs, imports, args);
 
             return {
               docs,
+              fields: names.length === args.length
+                ? `{ ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
+                : '{}',
               name: name.toString(),
-              type: args.join(', ')
+              type: `[${args.join(', ')}]`
             };
           })
           .sort(compareName),

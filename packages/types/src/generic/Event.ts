@@ -8,7 +8,7 @@ import type { EventId } from '../interfaces/system';
 import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
-import { objectSpread } from '@polkadot/util';
+import { objectProperties, objectSpread } from '@polkadot/util';
 
 interface Decoded {
   DataType: CodecClass<Null> | CodecClass<GenericEventData>;
@@ -45,6 +45,8 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #method: string;
 
+  readonly #names: string[] | null = null;
+
   readonly #section: string;
 
   readonly #typeDef: TypeDef[];
@@ -58,6 +60,16 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#method = method;
     this.#section = section;
     this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
+
+    const names = fields
+      .map(({ name }) => registry.lookup.sanitizeField(name)[0])
+      .filter((n): n is string => !!n);
+
+    if (names.length === fields.length) {
+      this.#names = names;
+
+      objectProperties(this, names, (_, i) => this[i]);
+    }
   }
 
   /**
@@ -75,6 +87,13 @@ export class GenericEventData extends Tuple implements IEventData {
   }
 
   /**
+   * @description The field names (as available)
+   */
+  public get names (): string[] | null {
+    return this.#names;
+  }
+
+  /**
    * @description The section as a string
    */
   public get section (): string {
@@ -87,6 +106,23 @@ export class GenericEventData extends Tuple implements IEventData {
   public get typeDef (): TypeDef[] {
     return this.#typeDef;
   }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public override toHuman (isExtended?: boolean): AnyJson {
+    if (this.#names !== null) {
+      const json: Record<string, AnyJson> = {};
+
+      for (let i = 0; i < this.#names.length; i++) {
+        json[this.#names[i]] = this[i].toHuman(isExtended);
+      }
+
+      return json;
+    }
+
+    return super.toHuman(isExtended);
+  }
 }
 
 /**
@@ -95,7 +131,7 @@ export class GenericEventData extends Tuple implements IEventData {
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export class GenericEvent extends Struct implements IEvent<Codec[]> {
+export class GenericEvent extends Struct implements IEvent<Codec[], Record<string, Codec>> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
@@ -111,7 +147,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): GenericEventData {
+  public get data (): GenericEventData & Record<string, Codec> {
     return this.getT('data');
   }
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Text, Type, Vec } from '@polkadot/types-codec';
+import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
@@ -464,6 +464,25 @@ export class PortableRegistry extends Struct implements ILookup {
     return this.#typeDefs[lookupIndex];
   }
 
+  public sanitizeField (name: Option<Text>): [string | null, string | null] {
+    let nameField: string | null = null;
+    let nameOrig: string | null = null;
+
+    if (name.isSome) {
+      nameField = stringCamelCase(name.unwrap());
+
+      if (nameField.includes('#')) {
+        nameOrig = nameField;
+        nameField = nameOrig.replace(/#/g, '_');
+      } else if (RESERVED.includes(nameField)) {
+        nameOrig = nameField;
+        nameField = `${nameField}_`;
+      }
+    }
+
+    return [nameField, nameOrig];
+  }
+
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
@@ -681,18 +700,9 @@ export class PortableRegistry extends Struct implements ILookup {
       if (name.isNone) {
         sub[i] = typeDef;
       } else {
-        let nameField = stringCamelCase(name.unwrap());
-        let nameOrig: string | null = null;
+        const [nameField, nameOrig] = this.sanitizeField(name);
 
-        if (nameField.includes('#')) {
-          nameOrig = nameField;
-          nameField = nameOrig.replace(/#/g, '_');
-        } else if (RESERVED.includes(nameField)) {
-          nameOrig = nameField;
-          nameField = `${nameField}_`;
-        }
-
-        if (nameOrig) {
+        if (nameField && nameOrig) {
           alias.set(nameField, nameOrig);
         }
 
