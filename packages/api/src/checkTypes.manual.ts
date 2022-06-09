@@ -59,10 +59,20 @@ function events (api: ApiPromise): void {
     // the types are correctly expanded
     const [afrom, ato, aamount] = event.data;
 
-    // the types have getters
-    const { amount, from, to } = event.data;
+    console.log(
+      afrom.toHuman(),
+      ato.toHuman(),
+      aamount.toBn()
+    );
 
-    console.log(afrom.toHuman(), ato.toHuman(), aamount.toBn(), from.toHuman(), to.toHuman(), amount.toBn());
+    // the types have getters
+    // const { amount, from, to } = event.data;
+
+    // console.log(
+    //   from.toHuman(),
+    //   to.toHuman(),
+    //   amount.toBn()
+    // );
   }
 
   // something with only tuple data
@@ -72,9 +82,8 @@ function events (api: ApiPromise): void {
     console.log(a.toHuman(), b.toHuman());
   }
 
-  // something random
+  // something random, just codec[]
   if (api.events.something.Random.is(event)) {
-    // the types are just codec
     const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());
