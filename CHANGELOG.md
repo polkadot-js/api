@@ -4,6 +4,7 @@
 
 Changes:
 
+- Cater for named event fields (expose on event data as available)
 - Add aliases for `DispatchError{U8, U8a}` (default to new `U8a` variant)
 - Align `DispatchError` definition with latest Substrate
 - Adjust contracts RPC definitions with `DispatchError` return
