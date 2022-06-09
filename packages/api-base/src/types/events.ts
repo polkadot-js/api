@@ -19,5 +19,5 @@ export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEven
 export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple, N extends Record<string, Codec> = Record<string, Codec>> = IsEvent<T, N>;
 
 export interface ModuleEvents<ApiType extends ApiTypes> {
-  [key: string]: AugmentedEvent<ApiType, AnyTuple>;
+  [key: string]: AugmentedEvent<ApiType>;
 }
