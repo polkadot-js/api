@@ -65,6 +65,13 @@ function events (api: ApiPromise): void {
     console.log(afrom.toHuman(), ato.toHuman(), aamount.toBn(), from.toHuman(), to.toHuman(), amount.toBn());
   }
 
+  // something with only tuple data
+  if (api.events.convictionVoting.Delegated.is(event)) {
+    const [a, b] = event.data;
+
+    console.log(a.toHuman(), b.toHuman());
+  }
+
   // something random
   if (api.events.something.Random.is(event)) {
     // the types are just codec

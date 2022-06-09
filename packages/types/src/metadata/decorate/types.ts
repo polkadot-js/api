@@ -4,7 +4,7 @@
 import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
 import type { StorageEntry } from '../../primitive/types';
-import type { CallFunction, IEvent } from '../../types';
+import type { CallFunction, IEvent, IEventLike } from '../../types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: PalletConstantMetadataLatest;
@@ -16,17 +16,23 @@ export interface IsError {
   is: (moduleError: DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a) => boolean;
 }
 
-export interface IsEvent <T extends AnyTuple, N extends Record<string, Codec>> {
+export interface IsEvent <T = any> {
   readonly meta: EventMetadataLatest;
 
-  is: (event: IEvent<AnyTuple, Record<string, Codec>>) => event is IEvent<T, N>;
+  is: (event: IEventLike) => event is (
+    T extends AnyTuple
+      ? IEvent<T>
+      : T extends Record<string, Codec>
+        ? IEvent<T>
+        : IEvent<[]>
+  );
 }
 
 export type ModuleConstants = Record<string, ConstantCodec>;
 
 export type ModuleErrors = Record<string, IsError>;
 
-export type ModuleEvents = Record<string, IsEvent<AnyTuple, Record<string, Codec>>>;
+export type ModuleEvents = Record<string, IsEvent<AnyTuple>>;
 
 export type ModuleExtrinsics = Record<string, CallFunction>;
 

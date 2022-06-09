@@ -131,7 +131,7 @@ export class GenericEventData extends Tuple implements IEventData {
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
  * specific to a specific Substrate runtime
  */
-export class GenericEvent extends Struct implements IEvent<Codec[], Record<string, Codec>> {
+export class GenericEvent extends Struct implements IEvent<Codec[]> {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
@@ -147,7 +147,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[], Record<strin
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): GenericEventData & Record<string, Codec> {
+  public get data (): IEvent<Codec[]>['data'] {
     return this.getT('data');
   }
 
