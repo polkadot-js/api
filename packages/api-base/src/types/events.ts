@@ -16,7 +16,7 @@ export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEven
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple, N extends Record<string, Codec> = Record<string, Codec>> = IsEvent<T, N>;
+export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple, N extends Record<string, Codec> = Record<string, never>> = IsEvent<T, N>;
 
 export interface ModuleEvents<ApiType extends ApiTypes> {
   [key: string]: AugmentedEvent<ApiType, AnyTuple>;

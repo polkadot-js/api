@@ -16,7 +16,7 @@ export interface IsError {
   is: (moduleError: DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a) => boolean;
 }
 
-export interface IsEvent <T extends AnyTuple, N extends Record<string, Codec>> {
+export interface IsEvent <T extends AnyTuple, N extends Record<string, Codec> = Record<string, never>> {
   readonly meta: EventMetadataLatest;
 
   is: (event: IEvent<AnyTuple, Record<string, Codec>>) => event is IEvent<T, N>;
