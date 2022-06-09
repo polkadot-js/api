@@ -28,7 +28,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
     lazyMethod(result, stringCamelCase(name), () =>
       lazyVariants(lookup, events.unwrap(), objectNameToString, (variant: SiVariant): IsEvent<AnyTuple, Record<string, Codec>> => ({
         // We sprinkle in isCodec & isU8a to ensure we are dealing with the correct objects
-        is: <T extends AnyTuple, N extends Record<string, Codec> = Record<string, never>> (eventRecord: IEvent<AnyTuple, Record<string, Codec>>): eventRecord is IEvent<T, N> =>
+        is: <T extends AnyTuple, N extends Record<string, Codec>> (eventRecord: IEvent<AnyTuple, Record<string, Codec>>): eventRecord is IEvent<T, N> =>
           isCodec(eventRecord) &&
           isU8a(eventRecord.index) &&
           sectionIndex === eventRecord.index[0] &&
