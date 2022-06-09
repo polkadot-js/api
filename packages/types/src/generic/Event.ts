@@ -61,8 +61,8 @@ export class GenericEventData extends Tuple implements IEventData {
     this.#section = section;
     this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
 
-    const names = this.#typeDef
-      .map(({ name }) => name)
+    const names = fields
+      .map(({ name }) => name.unwrapOr(null)?.toString())
       .filter((n): n is string => !!n);
 
     if (names.length === fields.length) {
