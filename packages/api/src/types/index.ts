@@ -9,7 +9,7 @@ import type { DecoratedEvents } from '@polkadot/api-base/types/events';
 import type { QueryableStorage } from '@polkadot/api-base/types/storage';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { Call, Extrinsic, Hash } from '@polkadot/types/interfaces';
+import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -95,6 +95,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   events: DecoratedEvents<ApiType>;
   query: QueryableStorage<ApiType>;
   registry: Registry;
+  runtimeVersion: RuntimeVersionPartial;
   rx: {
     query: QueryableStorage<'rxjs'>;
   };
