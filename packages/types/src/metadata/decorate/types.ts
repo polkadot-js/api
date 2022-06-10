@@ -16,10 +16,10 @@ export interface IsError {
   is: (moduleError: DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a) => boolean;
 }
 
-export interface IsEvent <T extends AnyTuple> {
+export interface IsEvent <T extends AnyTuple, N = unknown> {
   readonly meta: EventMetadataLatest;
 
-  is: (event: IEventLike) => event is IEvent<T>;
+  is: (event: IEventLike) => event is IEvent<T, N>;
 }
 
 export type ModuleConstants = Record<string, ConstantCodec>;

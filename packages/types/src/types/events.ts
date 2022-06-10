@@ -26,8 +26,10 @@ export interface IEventLike {
   readonly section: unknown;
 }
 
-export interface IEvent<T extends Codec[]> extends IEventLike, Codec {
-  readonly data: T & IEventData;
+export interface IEvent<T extends Codec[], N = unknown> extends IEventLike, Codec {
+  readonly data: N extends Record<string, Codec>
+    ? N & T & IEventData
+    : T & IEventData;
   readonly index: EventId;
   readonly method: string;
   readonly section: string;

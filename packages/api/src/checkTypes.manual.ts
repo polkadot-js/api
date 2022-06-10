@@ -66,13 +66,13 @@ function events (api: ApiPromise): void {
     );
 
     // the types have getters
-    // const { amount, from, to } = event.data;
+    const { amount, from, to } = event.data;
 
-    // console.log(
-    //   from.toHuman(),
-    //   to.toHuman(),
-    //   amount.toBn()
-    // );
+    console.log(
+      from.toHuman(),
+      to.toHuman(),
+      amount.toBn()
+    );
   }
 
   // something with only tuple data
