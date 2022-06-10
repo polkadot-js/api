@@ -61,7 +61,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * New metadata has been set for an asset.
        **/
-      MetadataSet: AugmentedEvent<ApiType, [assetId: u32, name: Bytes, symbol: Bytes, decimals: u8, isFrozen: bool]>;
+      MetadataSet: AugmentedEvent<ApiType, [assetId: u32, name: Bytes, symbol_: Bytes, decimals: u8, isFrozen: bool]>;
       /**
        * The owner changed.
        **/

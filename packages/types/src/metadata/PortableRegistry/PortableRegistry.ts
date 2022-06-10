@@ -58,7 +58,7 @@ const BITVEC_NS = [...BITVEC_NS_LSB, ...BITVEC_NS_MSB];
 const WRAPPERS = ['BoundedBTreeMap', 'BoundedBTreeSet', 'BoundedVec', 'Box', 'BTreeMap', 'BTreeSet', 'Cow', 'Option', 'Range', 'RangeInclusive', 'Result', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
 
 // These are reserved and/or conflicts with built-in Codec or JS definitions
-const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
+const RESERVED = ['entries', 'hash', 'keys', 'new', 'size', 'symbol'];
 
 // Remove these from all paths at index 1
 const PATH_RM_INDEX_1 = ['generic', 'misc', 'pallet', 'traits', 'types'];

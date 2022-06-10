@@ -1040,9 +1040,12 @@ export default {
         owner: 'AccountId32',
       },
       MetadataSet: {
+        _alias: {
+          symbol_: 'symbol',
+        },
         assetId: 'u32',
         name: 'Bytes',
-        symbol: 'Bytes',
+        symbol_: 'Bytes',
         decimals: 'u8',
         isFrozen: 'bool',
       },
@@ -2966,18 +2969,24 @@ export default {
         freezer: 'MultiAddress',
       },
       set_metadata: {
+        _alias: {
+          symbol_: 'symbol',
+        },
         id: 'Compact<u32>',
         name: 'Bytes',
-        symbol: 'Bytes',
+        symbol_: 'Bytes',
         decimals: 'u8',
       },
       clear_metadata: {
         id: 'Compact<u32>',
       },
       force_set_metadata: {
+        _alias: {
+          symbol_: 'symbol',
+        },
         id: 'Compact<u32>',
         name: 'Bytes',
-        symbol: 'Bytes',
+        symbol_: 'Bytes',
         decimals: 'u8',
         isFrozen: 'bool',
       },
@@ -4511,9 +4520,12 @@ export default {
    * Lookup546: pallet_assets::types::AssetMetadata<DepositBalance, frame_support::storage::bounded_vec::BoundedVec<T, S>>
    **/
   PalletAssetsAssetMetadata: {
+    _alias: {
+      symbol_: 'symbol'
+    },
     deposit: 'u128',
     name: 'Bytes',
-    symbol: 'Bytes',
+    symbol_: 'Bytes',
     decimals: 'u8',
     isFrozen: 'bool'
   },

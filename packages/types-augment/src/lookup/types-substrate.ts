@@ -1157,7 +1157,7 @@ declare module '@polkadot/types/lookup' {
     readonly asMetadataSet: {
       readonly assetId: u32;
       readonly name: Bytes;
-      readonly symbol: Bytes;
+      readonly symbol_: Bytes;
       readonly decimals: u8;
       readonly isFrozen: bool;
     } & Struct;
@@ -3208,7 +3208,7 @@ declare module '@polkadot/types/lookup' {
     readonly asSetMetadata: {
       readonly id: Compact<u32>;
       readonly name: Bytes;
-      readonly symbol: Bytes;
+      readonly symbol_: Bytes;
       readonly decimals: u8;
     } & Struct;
     readonly isClearMetadata: boolean;
@@ -3219,7 +3219,7 @@ declare module '@polkadot/types/lookup' {
     readonly asForceSetMetadata: {
       readonly id: Compact<u32>;
       readonly name: Bytes;
-      readonly symbol: Bytes;
+      readonly symbol_: Bytes;
       readonly decimals: u8;
       readonly isFrozen: bool;
     } & Struct;
@@ -4994,7 +4994,7 @@ declare module '@polkadot/types/lookup' {
   export interface PalletAssetsAssetMetadata extends Struct {
     readonly deposit: u128;
     readonly name: Bytes;
-    readonly symbol: Bytes;
+    readonly symbol_: Bytes;
     readonly decimals: u8;
     readonly isFrozen: bool;
   }

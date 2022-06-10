@@ -51,7 +51,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
             return {
               docs,
               name: name.toString(),
-              type: names.length && names.length && names.length === args.length
+              type: names.length && names.length === args.length
                 ? `[${names.map((n, i) => `${n}: ${args[i]}`).join(', ')}]`
                 : `[${args.join(', ')}]`
             };
