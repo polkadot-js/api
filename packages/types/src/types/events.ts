@@ -16,6 +16,7 @@ export interface IEventRecord<T extends Codec[]> extends Codec {
 export interface IEventData extends Codec {
   readonly meta: EventMetadataLatest;
   readonly method: string;
+  readonly names: string[] | null;
   readonly section: string;
   readonly typeDef: TypeDef[];
 }
