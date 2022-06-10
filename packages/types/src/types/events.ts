@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, Codec } from '@polkadot/types-codec/types';
+import type { Codec } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
@@ -20,13 +20,13 @@ export interface IEventData extends Codec {
   readonly typeDef: TypeDef[];
 }
 
-export interface IEventLike extends Codec {
+export interface IEventLike {
   readonly index: unknown;
   readonly method: unknown;
   readonly section: unknown;
 }
 
-export interface IEvent<T extends AnyTuple> extends IEventLike, Codec {
+export interface IEvent<T extends Codec[]> extends IEventLike, Codec {
   readonly data: T & IEventData;
   readonly index: EventId;
   readonly method: string;

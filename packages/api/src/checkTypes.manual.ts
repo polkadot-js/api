@@ -76,10 +76,10 @@ function events (api: ApiPromise): void {
   }
 
   // something with only tuple data
-  if (api.events.convictionVoting.Delegated.is(event)) {
-    const [a, b] = event.data;
+  if (api.events.staking.Bonded.is(event)) {
+    const [account, amount] = event.data;
 
-    console.log(a.toHuman(), b.toHuman());
+    console.log(account.toHuman(), amount.toBn());
   }
 
   // something random, just codec[]
