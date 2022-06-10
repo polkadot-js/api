@@ -59,15 +59,31 @@ function events (api: ApiPromise): void {
     // the types are correctly expanded
     const [afrom, ato, aamount] = event.data;
 
+    console.log(
+      afrom.toHuman(),
+      ato.toHuman(),
+      aamount.toBn()
+    );
+
     // the types have getters
     const { amount, from, to } = event.data;
 
-    console.log(afrom.toHuman(), ato.toHuman(), aamount.toBn(), from.toHuman(), to.toHuman(), amount.toBn());
+    console.log(
+      from.toHuman(),
+      to.toHuman(),
+      amount.toBn()
+    );
   }
 
-  // something random
+  // something with only tuple data
+  if (api.events.staking.Bonded.is(event)) {
+    const [account, amount] = event.data;
+
+    console.log(account.toHuman(), amount.toBn());
+  }
+
+  // something random, just codec[]
   if (api.events.something.Random.is(event)) {
-    // the types are just codec
     const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());

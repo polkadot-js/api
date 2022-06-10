@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
+import type { AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { IEvent } from '../../../types';
+import type { IEvent, IEventLike } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
 import { isCodec, isU8a, lazyMethod, stringCamelCase } from '@polkadot/util';
@@ -26,9 +26,9 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 
     lazyMethod(result, stringCamelCase(name), () =>
-      lazyVariants(lookup, events.unwrap(), objectNameToString, (variant: SiVariant): IsEvent<AnyTuple, Record<string, Codec>> => ({
+      lazyVariants(lookup, events.unwrap(), objectNameToString, (variant: SiVariant): IsEvent<AnyTuple> => ({
         // We sprinkle in isCodec & isU8a to ensure we are dealing with the correct objects
-        is: <T extends AnyTuple, N extends Record<string, Codec>> (eventRecord: IEvent<AnyTuple, Record<string, Codec>>): eventRecord is IEvent<T, N> =>
+        is: <T extends AnyTuple> (eventRecord: IEventLike): eventRecord is IEvent<T> =>
           isCodec(eventRecord) &&
           isU8a(eventRecord.index) &&
           sectionIndex === eventRecord.index[0] &&

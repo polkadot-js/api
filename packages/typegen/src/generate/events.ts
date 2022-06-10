@@ -16,6 +16,9 @@ import { compareName, createImports, formatType, initMeta, readTemplate, setImpo
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 
+// For babel itself we need some extra aliasing
+const ALIAS = ['symbol'];
+
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
@@ -50,11 +53,10 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
 
             return {
               docs,
-              fields: names.length === args.length
-                ? `{ ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
-                : '{}',
               name: name.toString(),
-              type: `[${args.join(', ')}]`
+              type: names.length !== 0 && names.length === args.length
+                ? `[${names.map((n, i) => `${ALIAS.includes(n) ? `${n}_` : n}: ${args[i]}`).join(', ')}], { ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
+                : `[${args.join(', ')}]`
             };
           })
           .sort(compareName),
