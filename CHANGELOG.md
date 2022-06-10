@@ -17,7 +17,7 @@ Changes:
 - Workaround for default calls on chains with non-standard indexes
 - Optimization for value returns on merged queries
 - Update `derive.bagsList` to detect `voterList` pallet
-- Add Polkadot 9020/9022 & Westend 9023 upgrade blocks
+- Add Polkadot 9200/9220 & Westend 9230 upgrade blocks
 
 
 ## 8.7.1 Jun 4, 2022
