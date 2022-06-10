@@ -19,7 +19,7 @@ import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -243,6 +243,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decoratedApi.queryMulti = blockHash
       ? this._decorateMultiAt(decoratedApi, this._decorateMethod, blockHash)
       : this._decorateMulti(this._decorateMethod);
+    decoratedApi.runtimeVersion = registry.runtimeVersion;
 
     return {
       decoratedApi,
@@ -285,7 +286,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
    */
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    this._injectMetadata({ metadata, registry: registry || this.#registry, specName: this.#registry.createType('Text'), specVersion: BN_ZERO }, fromEmpty);
+    this._injectMetadata({ metadata, registry: registry || this.#registry, runtimeVersion: this.#registry.createType('RuntimeVersionPartial') }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
