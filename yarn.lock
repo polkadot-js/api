@@ -2040,9 +2040,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.66.36":
-  version: 0.66.36
-  resolution: "@polkadot/dev@npm:0.66.36"
+"@polkadot/dev@npm:^0.66.37":
+  version: 0.66.37
+  resolution: "@polkadot/dev@npm:0.66.37"
   dependencies:
     "@babel/cli": ^7.17.10
     "@babel/core": ^7.18.2
@@ -2081,7 +2081,7 @@ __metadata:
     eslint-plugin-header: ^3.1.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-import-newlines: ^1.2.2
-    eslint-plugin-n: ^15.2.1
+    eslint-plugin-n: ^15.2.2
     eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: ^7.30.0
     eslint-plugin-react-hooks: ^4.5.0
@@ -2129,7 +2129,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: a85209a1f6f463e1839ea5a2062fa43535ca5e831e06364edec86da25aaa8df16fc5736dd4b285e4e76ed44e5b6ed16179cb8194abe87c2e05cba654ddcd2968
+  checksum: 50e06df818bd16a3693746186455d00e5c780b8616e9d1ce90208bd1204dc4fee18c4eb493e2b4877ea41e5c21785faeb83031752a1d837da0de6e98520198ad
   languageName: node
   linkType: hard
 
@@ -4948,9 +4948,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^15.2.1":
-  version: 15.2.1
-  resolution: "eslint-plugin-n@npm:15.2.1"
+"eslint-plugin-n@npm:^15.2.2":
+  version: 15.2.2
+  resolution: "eslint-plugin-n@npm:15.2.2"
   dependencies:
     builtins: ^5.0.1
     eslint-plugin-es: ^4.1.0
@@ -4962,7 +4962,7 @@ __metadata:
     semver: ^7.3.7
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: cf0c38cf8af47c11828154ab56b38bba38bcaff633cb508bf567d913da1c925ec75dd8a54f299de8ae8adffe90d862a65125a82ce28e11922361fd7d331853e4
+  checksum: 82394c8cf9e3fc4f79f6d7438d9c8a5f2f6704b215adfe5beb731b254471aae879c30a784c5af914a51c4e3e855f7a2e655540c2e8aacab6112601b97bd00528
   languageName: node
   linkType: hard
 
@@ -9253,7 +9253,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.18.2
     "@babel/register": ^7.17.7
     "@babel/runtime": ^7.18.3
-    "@polkadot/dev": ^0.66.36
+    "@polkadot/dev": ^0.66.37
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^28.1.1
     copyfiles: ^2.4.1
