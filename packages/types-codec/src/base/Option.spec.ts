@@ -43,6 +43,24 @@ describe('Option', (): void => {
     });
   });
 
+  it('can decode a nested Option', (): void => {
+    expect(
+      new Option(
+        registry,
+        Option.with(Option.with(Text)),
+        new Option(
+          registry,
+          Option.with(Text),
+          new Option(
+            registry,
+            Text,
+            new Uint8Array([1, 3 << 2, 66, 67, 68])
+          )
+        )
+      ).toU8a()
+    ).toEqual(new Uint8Array([1, 1, 1, 3 << 2, 66, 67, 68]));
+  });
+
   it('can convert between different Some/None', (): void => {
     const def = '{ "foo":"Text", "zar":"Text" }';
     const none = new Option(registry, def, null);

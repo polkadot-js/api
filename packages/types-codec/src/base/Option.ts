@@ -29,16 +29,17 @@ class None extends Null {
 
 /** @internal */
 function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
-  // In the case of an option, unwrap the inner
-  if (value instanceof Option) {
-    value = value.value;
-  }
-
-  if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
-    return new None(registry);
+  if (value instanceof Option && (value.isNone || value.value instanceof Type)) {
+    // In the case of an option, unwrap the inner
+    return value.isNone
+      ? new None(registry)
+      : new Type(registry, value.value);
   } else if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
     return value;
+  } else if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
+    // anyhting empty we pass as-is
+    return new None(registry);
   } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first

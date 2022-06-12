@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Ensure storage `Option<Option<Type>>` are correctly handled
 - Cater for named event fields (expose on event data as available)
 - Expose (partial) `runtimeVersion` on `api.at` interfaces
 - Add aliases for `DispatchError{U8, U8a}` (default to new `U8a` variant)
