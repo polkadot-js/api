@@ -29,14 +29,20 @@ class None extends Null {
 
 /** @internal */
 function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
-  if (value instanceof Option && (value.isNone || value.value instanceof Type)) {
-    // In the case of an option, unwrap the inner
-    return value.isNone
-      ? new None(registry)
-      : new Type(registry, value.value);
-  } else if (value instanceof Type) {
+  if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
     return value;
+  } else if (value instanceof Option) {
+    if (value.value instanceof Type) {
+      // same instance, return it
+      return value.value;
+    } else if (value.isNone) {
+      // internal is None, we are also none
+      return new None(registry);
+    }
+
+    // convert the actual value into known
+    return new Type(registry, value.value);
   } else if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
     // anyhting empty we pass as-is
     return new None(registry);
