@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 8.8.1 Jun 12, 2022
 
 Contributed:
 
