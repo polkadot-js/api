@@ -5,7 +5,7 @@ import type { Config as ScConfig } from '@substrate/connect';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 import { assert, isError } from '@polkadot/util';
 
@@ -46,7 +46,7 @@ export class ScProvider implements ProviderInterface {
   > = new Map();
 
   readonly #requests: Map<number, ResponseCallback> = new Map();
-  readonly #eventemitter: EventEmitter = new EventEmitter();
+  readonly #eventemitter = new EventEmitter();
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
 

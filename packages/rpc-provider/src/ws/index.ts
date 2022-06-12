@@ -5,7 +5,7 @@
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 import { assert, isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
@@ -88,7 +88,7 @@ export class WsProvider implements ProviderInterface {
 
   readonly #headers: Record<string, string>;
 
-  readonly #eventemitter: EventEmitter;
+  readonly #eventemitter = new EventEmitter();
 
   readonly #handlers: Record<string, WsStateAwaiting> = {};
 
@@ -128,7 +128,6 @@ export class WsProvider implements ProviderInterface {
       assert(/^(wss|ws):\/\//.test(endpoint), () => `Endpoint should start with 'ws://', received '${endpoint}'`);
     });
 
-    this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new RpcCoder();
     this.#endpointIndex = -1;
