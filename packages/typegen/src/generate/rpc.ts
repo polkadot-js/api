@@ -5,7 +5,7 @@ import type { TypeRegistry } from '@polkadot/types/create';
 import type { Definitions } from '@polkadot/types/types';
 import type { ExtraTypes } from './types';
 
-import Handlebars from 'handlebars';
+import * as Handlebars from 'handlebars';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';

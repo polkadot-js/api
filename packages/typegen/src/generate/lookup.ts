@@ -6,8 +6,8 @@ import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { HexString } from '@polkadot/util/types';
 
-import Handlebars from 'handlebars';
-import path from 'path';
+import * as Handlebars from 'handlebars';
+import * as path from 'path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { Registry } from '@polkadot/types/types';

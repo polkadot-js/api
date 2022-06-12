@@ -6,7 +6,7 @@
 import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
-import Handlebars from 'handlebars';
+import * as Handlebars from 'handlebars';
 
 import * as typesCodec from '@polkadot/types-codec';
 import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create';

@@ -3,8 +3,8 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-import path from 'path';
-import yargs from 'yargs';
+import * as path from 'path';
+import * as yargs from 'yargs';
 
 import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';

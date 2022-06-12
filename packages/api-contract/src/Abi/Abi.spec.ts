@@ -3,8 +3,8 @@
 
 import type { Registry } from '@polkadot/types/types';
 
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';

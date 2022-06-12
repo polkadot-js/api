@@ -7,7 +7,7 @@ import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
-import Handlebars from 'handlebars';
+import * as Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { unwrapStorageSi } from '@polkadot/types/primitive/StorageKey';

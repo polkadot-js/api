@@ -5,8 +5,8 @@ import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { ModuleTypes } from '../util/imports';
 
-import Handlebars from 'handlebars';
-import path from 'path';
+import * as Handlebars from 'handlebars';
+import * as path from 'path';
 
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';

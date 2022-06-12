@@ -5,7 +5,7 @@ import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
-import Handlebars from 'handlebars';
+import * as Handlebars from 'handlebars';
 
 import { stringCamelCase } from '@polkadot/util';
 
