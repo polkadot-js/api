@@ -9,12 +9,12 @@ import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitt
 import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
 
 import { EventEmitter } from 'eventemitter3';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import { decorateStorage, Metadata } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import rpcHeader from '@polkadot/types-support/json/Header.004.json';
-import rpcSignedBlock from '@polkadot/types-support/json/SignedBlock.004.immortal.json';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { assert, BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
@@ -33,6 +33,9 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
 
 const keyring = createTestKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
+
+const rpcHeader = JSON.parse(fs.readFileSync(path.join(__dirname, 'packages/types-support/src/json/Header.004.json'), 'utf-8')) as Record<string, unknown>;
+const rpcSignedBlock = JSON.parse(fs.readFileSync(path.join(__dirname, 'packages/types-support/src/json/SignedBlock.004.immortal.json'), 'utf-8')) as Record<string, unknown>;
 
 /**
  * A mock provider mainly used for testing.
