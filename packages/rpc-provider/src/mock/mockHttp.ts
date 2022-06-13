@@ -3,7 +3,7 @@
 
 /* eslint-disable */
 
-import nock from 'nock';
+import * as nock from 'nock';
 
 export const TEST_HTTP_URL = 'http://localhost:9944';
 
@@ -19,5 +19,5 @@ export function mockHttp (requests: any[]): any {
 
         return Object.assign({ id: body.id, jsonrpc: '2.0' }, request.reply || {});
       });
-  }, nock(TEST_HTTP_URL));
+  }, (nock as unknown as (url: string) => unknown)(TEST_HTTP_URL));
 }
