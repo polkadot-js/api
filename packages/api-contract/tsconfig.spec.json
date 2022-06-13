@@ -4,6 +4,7 @@
     "baseUrl": "..",
     "outDir": "./build",
     "rootDir": "./src",
+    "allowSyntheticDefaultImports": true,
     "emitDeclarationOnly": false,
     "resolveJsonModule": true,
     "noEmit": true
