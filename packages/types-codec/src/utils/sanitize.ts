@@ -51,7 +51,7 @@ const mappings: Mapper[] = [
 ];
 
 // given a string, trim it
-export function trim (): (value: string) => string {
+export function trim (): Mapper {
   return (value: string): string =>
     value.trim();
 }
