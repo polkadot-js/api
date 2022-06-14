@@ -148,7 +148,7 @@ function extractNameFlat (portable: PortableType[], lookupId: number, params: Si
   let typeName = '';
 
   for (let i = 0; i <= last; i++) {
-    const p = stringPascalCase(isInternal ? path[i].replace('pallet_', ''): path[i]);
+    const p = stringPascalCase(isInternal ? path[i].replace('pallet_', '') : path[i]);
     const l = p.toLowerCase();
 
     if (
