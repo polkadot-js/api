@@ -92,12 +92,14 @@ export function alias (src: string, dest: string, withChecks = true): Mapper {
 
 export function cleanupCompact (): Mapper {
   return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
-        const end = findClosing(value, index + 1) - 14;
+    if (value.includes(' as HasCompact')) {
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] === '<') {
+          const end = findClosing(value, index + 1) - 14;
 
-        if (value.substring(end, end + 14) === ' as HasCompact') {
-          value = `Compact<${value.substring(index + 1, end)}>`;
+          if (value.substring(end, end + 14) === ' as HasCompact') {
+            value = `Compact<${value.substring(index + 1, end)}>`;
+          }
         }
       }
     }
@@ -140,10 +142,12 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
 
 // remove the Bounded* or Weak* wrappers
 export function removeExtensions (type: string, isSized: boolean): Mapper {
-  return (value: string) =>
-    BOUNDED.reduce((value, tag) =>
-      replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
-        const parts = inner
+  return (value: string): string => {
+    for (let i = 0; i < BOUNDED.length; i++) {
+      const tag = BOUNDED[i];
+
+      value = replaceTagWith(value, `${type}${tag}<`, (v: string): string => {
+        const parts = v
           .split(',')
           .map((s) => s.trim())
           .filter((s) => s);
@@ -153,8 +157,11 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
         }
 
         return `${tag}<${parts.join(',')}>`;
-      }), value
-    );
+      });
+    }
+
+    return value;
+  };
 }
 
 export function removeColons (): Mapper {
@@ -193,9 +200,15 @@ export function removeGenerics (): Mapper {
         const box = ALLOWED_BOXES.find((box): boolean => {
           const start = index - box.length;
 
-          return (start >= 0 && value.substring(start, start + box.length) === box) && (
-            // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
-            start === 0 || BOX_PRECEDING.includes(value[start - 1])
+          return (
+            (
+              start >= 0 &&
+              value.substring(start, start + box.length) === box
+            ) && (
+              // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
+              start === 0 ||
+              BOX_PRECEDING.includes(value[start - 1])
+            )
           );
         });
 
@@ -212,12 +225,15 @@ export function removeGenerics (): Mapper {
   };
 }
 
+/** @internal */
+function pairOfReplacer (v: string): string {
+  return `(${v},${v})`;
+}
+
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
-  const replacer = (inner: string) => `(${inner},${inner})`;
-
   return (value: string) =>
-    replaceTagWith(value, 'PairOf<', replacer);
+    replaceTagWith(value, 'PairOf<', pairOfReplacer);
 }
 
 // remove the type traits
@@ -253,12 +269,15 @@ export function removeTraits (): Mapper {
   };
 }
 
+/** @internal */
+function wrapReplacer (v: string): string {
+  return v;
+}
+
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (check: string): Mapper {
-  const replacer = (inner: string) => inner;
-
   return (value: string) =>
-    replaceTagWith(value, check, replacer);
+    replaceTagWith(value, check, wrapReplacer);
 }
 
 const sanitizeMap = new Map<string, string>();
