@@ -10,6 +10,7 @@ import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
   CompactAssignments: 'CompactAssignmentsWith24',
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   RawSolution: 'RawSolutionWith24',
   Keys: 'SessionKeys6',
   ProxyType: {

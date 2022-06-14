@@ -11,6 +11,7 @@ import { objectSpread } from '@polkadot/util';
 const sharedTypes = {
   // 16 validators
   CompactAssignments: 'CompactAssignmentsWith16',
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   RawSolution: 'RawSolutionWith16',
   // general
   Keys: 'SessionKeys6',

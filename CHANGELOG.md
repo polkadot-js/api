@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## master
+## 8.8.2 Jun 14, 2022
 
 Changes:
 
+- Aling historic `DispatchErrorModule` with `U8` variant
 - Extend lookup type name generation when conflicts arrise
 - Update to latest Substrate metadata
 

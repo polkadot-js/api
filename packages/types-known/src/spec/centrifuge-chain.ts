@@ -14,6 +14,7 @@ const sharedTypes = {
     docRoot: 'H256',
     id: 'H256'
   },
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   PreCommitData: {
     expirationBlock: 'u64',
     identity: 'H256',
