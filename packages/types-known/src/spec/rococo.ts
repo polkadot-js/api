@@ -12,6 +12,7 @@ import { objectSpread } from '@polkadot/util';
 /* eslint-disable sort-keys */
 
 const sharedTypes = {
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   FullIdentification: '()', // No staking, only session (as per config)
   Keys: 'SessionKeys7B'
 };
