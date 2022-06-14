@@ -9,6 +9,33 @@ import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSys
 
 declare module '@polkadot/api-base/types/consts' {
   export interface AugmentedConsts<ApiType extends ApiTypes> {
+    alliance: {
+      /**
+       * The deposit required for submitting candidacy.
+       **/
+      allyDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of announcements.
+       **/
+      maxAnnouncementsCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of members per member role. Should not exceed the sum of
+       * `MaxFounders` and `MaxFellows`.
+       **/
+      maxMembersCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of the unscrupulous items supported by the pallet.
+       **/
+      maxUnscrupulousItems: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of a website URL.
+       **/
+      maxWebsiteUrlLength: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     assets: {
       /**
        * The amount of funds that must be reserved when creating a new approval.
@@ -223,7 +250,7 @@ declare module '@polkadot/api-base/types/consts' {
        * 
        * For more information check out: <https://github.com/paritytech/substrate/issues/10301>
        * 
-       * [`DefaultContractAccessWeight`] is a safe default to be used for polkadot or kusama
+       * [`DefaultContractAccessWeight`] is a safe default to be used for Polkadot or Kusama
        * parachains.
        * 
        * # Note
@@ -709,6 +736,31 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    rankedPolls: {
+      /**
+       * Quantization level for the referendum wakeup scheduler. A higher number will result in
+       * fewer storage reads/writes needed for smaller voters, but also result in delays to the
+       * automatic referendum status changes. Explicit servicing instructions are unaffected.
+       **/
+      alarmInterval: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum size of the referendum queue for a single track.
+       **/
+      maxQueued: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount to be used as a deposit for a public referendum proposal.
+       **/
+      submissionDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks after submission that a referendum must begin being decided by.
+       * Once this passes, then anyone may cancel the referendum.
+       **/
+      undecidingTimeout: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     recovery: {
       /**
        * The base amount of currency needed to reserve for creating a recovery configuration.
@@ -866,6 +918,36 @@ declare module '@polkadot/api-base/types/consts' {
        * should be applied immediately, without opportunity for intervention.
        **/
       slashDeferDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    stateTrieMigration: {
+      /**
+       * Maximal number of bytes that a key can have.
+       * 
+       * FRAME itself does not limit the key length.
+       * The concrete value must therefore depend on your storage usage.
+       * A [`frame_support::storage::StorageNMap`] for example can have an arbitrary number of
+       * keys which are then hashed and concatenated, resulting in arbitrarily long keys.
+       * 
+       * Use the *state migration RPC* to retrieve the length of the longest key in your
+       * storage: <https://github.com/paritytech/substrate/issues/11642>
+       * 
+       * The migration will halt with a `Halted` event if this value is too small.
+       * Since there is no real penalty from over-estimating, it is advised to use a large
+       * value. The default is 512 byte.
+       * 
+       * Some key lengths for reference:
+       * - [`frame_support::storage::StorageValue`]: 32 byte
+       * - [`frame_support::storage::StorageMap`]: 64 byte
+       * - [`frame_support::storage::StorageDoubleMap`]: 96 byte
+       * 
+       * For more info see
+       * <https://www.shawntabrizi.com/substrate/querying-substrate-storage-via-rpc/>
+       **/
+      maxKeyLen: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
