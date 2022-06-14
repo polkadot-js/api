@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyString } from '../types';
+
 interface SanitizeOptions {
   allowNamespaces?: boolean;
 }
@@ -27,6 +29,8 @@ const mappings: Mapper[] = [
   removePairOf(),
   // remove boxing, `Box<Proposal>` -> `Proposal`
   removeWrap('Box<'),
+  // remove Bounded, `Bounded<Call>` -> `Call`
+  removeWrap('Bounded<'),
   // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
   removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
@@ -50,13 +54,19 @@ const mappings: Mapper[] = [
   trim()
 ];
 
-// given a string, trim it
+/**
+ * Given a string, trim it
+ * @internal
+ */
 export function trim (): Mapper {
   return (value: string): string =>
     value.trim();
 }
 
-// given a starting index, find the closing >
+/**
+ * Given a starting index, find the closing >
+ * @internal
+ */
 export function findClosing (value: string, start: number): number {
   let depth = 0;
 
@@ -75,6 +85,10 @@ export function findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
+/**
+ * Alias a sequence to another
+ * @internal
+ */
 export function alias (src: string, dest: string, withChecks = true): Mapper {
   const from = new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g');
 
@@ -90,14 +104,20 @@ export function alias (src: string, dest: string, withChecks = true): Mapper {
     value.replace(from, to);
 }
 
+/**
+ * Remove all extra `as HasCompact` occurences
+ * @internal
+ */
 export function cleanupCompact (): Mapper {
   return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
-        const end = findClosing(value, index + 1) - 14;
+    if (value.includes(' as HasCompact')) {
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] === '<') {
+          const end = findClosing(value, index + 1) - 14;
 
-        if (value.substring(end, end + 14) === ' as HasCompact') {
-          value = `Compact<${value.substring(index + 1, end)}>`;
+          if (value.substring(end, end + 14) === ' as HasCompact') {
+            value = `Compact<${value.substring(index + 1, end)}>`;
+          }
         }
       }
     }
@@ -106,6 +126,10 @@ export function cleanupCompact (): Mapper {
   };
 }
 
+/**
+ * Adjust a single  value tuple, i.e. (u32) to u32
+ * @internal
+ */
 export function flattenSingleTuple (): Mapper {
   const from1 = /,\)/g;
   const from2 = /\(([^,]+)\)/;
@@ -121,7 +145,11 @@ export function flattenSingleTuple (): Mapper {
   };
 }
 
-function replaceTagWith (value: string, matcher: string, replacer: (inner: string) => string): string {
+/**
+ * Replace one tag with another
+ * @internal
+ */
+function replaceTagWith (value: string, matcher: string, replacer: (v: string) => string): string {
   let index = -1;
 
   while (true) {
@@ -138,14 +166,19 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
   }
 }
 
-// remove the Bounded* or Weak* wrappers
+/**
+ * Remove the Bounded* or Weak* wrappers
+ * @internal
+ */
 export function removeExtensions (type: string, isSized: boolean): Mapper {
-  return (value: string) =>
-    BOUNDED.reduce((value, tag) =>
-      replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
-        const parts = inner
+  return (value: string) => {
+    for (let i = 0; i < BOUNDED.length; i++) {
+      const tag = BOUNDED[i];
+
+      value = replaceTagWith(value, `${type}${tag}<`, (v: string): string => {
+        const parts = v
           .split(',')
-          .map((s) => s.trim())
+          .map(trim)
           .filter((s) => s);
 
         if (isSized) {
@@ -153,10 +186,17 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
         }
 
         return `${tag}<${parts.join(',')}>`;
-      }), value
-    );
+      });
+    }
+
+    return value;
+  };
 }
 
+/**
+ * Remove all :: in the tupes
+ * @internal
+ */
 export function removeColons (): Mapper {
   return (value: string, { allowNamespaces }: SanitizeOptions = {}): string => {
     let index = 0;
@@ -185,6 +225,10 @@ export function removeColons (): Mapper {
   };
 }
 
+/**
+ * Remove all generics
+ * @internal
+ */
 export function removeGenerics (): Mapper {
   return (value: string): string => {
     for (let index = 0; index < value.length; index++) {
@@ -193,9 +237,15 @@ export function removeGenerics (): Mapper {
         const box = ALLOWED_BOXES.find((box): boolean => {
           const start = index - box.length;
 
-          return (start >= 0 && value.substring(start, start + box.length) === box) && (
-            // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
-            start === 0 || BOX_PRECEDING.includes(value[start - 1])
+          return (
+            (
+              start >= 0 &&
+              value.substring(start, start + box.length) === box
+            ) && (
+              // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
+              start === 0 ||
+              BOX_PRECEDING.includes(value[start - 1])
+            )
           );
         });
 
@@ -212,15 +262,24 @@ export function removeGenerics (): Mapper {
   };
 }
 
-// remove the PairOf wrappers
-export function removePairOf (): Mapper {
-  const replacer = (inner: string) => `(${inner},${inner})`;
-
-  return (value: string) =>
-    replaceTagWith(value, 'PairOf<', replacer);
+/** @internal */
+function pairOfReplacer (v: string): string {
+  return `(${v},${v})`;
 }
 
-// remove the type traits
+/**
+ * Remove the PairOf wrappers
+ * @internal
+ */
+export function removePairOf (): Mapper {
+  return (value: string) =>
+    replaceTagWith(value, 'PairOf<', pairOfReplacer);
+}
+
+/**
+ * Remove the type traits
+ * @internal
+ */
 export function removeTraits (): Mapper {
   const from1 = /\s/g;
   const from2 = /(T|Self)::/g;
@@ -253,18 +312,26 @@ export function removeTraits (): Mapper {
   };
 }
 
-// remove wrapping values, i.e. Box<Proposal> -> Proposal
-export function removeWrap (check: string): Mapper {
-  const replacer = (inner: string) => inner;
+/** @internal */
+function wrapReplacer (v: string): string {
+  return v;
+}
 
+/**
+ * Remove wrapping values, i.e. Box<Proposal> -> Proposal
+ * @internal
+ */
+export function removeWrap (check: string): Mapper {
   return (value: string) =>
-    replaceTagWith(value, check, replacer);
+    replaceTagWith(value, check, wrapReplacer);
 }
 
 const sanitizeMap = new Map<string, string>();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function sanitize (value: String | string, options?: SanitizeOptions): string {
+/**
+ * Adjust a type string to known sequences. This cleans up aliaseing, boxing, etc.
+ */
+export function sanitize (value: AnyString, options?: SanitizeOptions): string {
   const startValue = value.toString();
   let result = startValue;
 

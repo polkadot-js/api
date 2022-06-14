@@ -1,9 +1,13 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { alias, flattenSingleTuple, removeColons, removeExtensions } from '@polkadot/types-codec/utils/sanitize';
+import { alias, flattenSingleTuple, removeColons, removeExtensions, removeWrap, sanitize } from './sanitize';
 
 describe('sanitize', (): void => {
+  describe('sanitize', (): void => {
+    expect(sanitize('Box<Bounded<BoundedVec<Call, 32>>>')).toEqual('Vec<Call>');
+  });
+
   describe('alias', (): void => {
     const fn = alias('String', 'Text');
 
@@ -62,22 +66,30 @@ describe('sanitize', (): void => {
   describe('bounded', (): void => {
     const fn = removeExtensions('Bounded', true);
 
-    it('correctly cleans up bounded values', (): void => {
+    it('correctly adjusts Bounded* values', (): void => {
       expect(fn('BoundedVec<u32, 256>')).toEqual('Vec<u32>');
     });
 
-    it('correctly cleans up nested bounded values', (): void => {
+    it('correctly adjusts nested bounded values', (): void => {
       expect(
         fn('BoundedBTreeMap<BoundedVec<BoundedVec<u32, 1>, 2>, BoundedBTreeSet<u32, BoundedVec<u64, 3>, 4>, 5>')
       ).toEqual('BTreeMap<Vec<Vec<u32>>,BTreeSet<u32,Vec<u64>>>');
     });
 
-    it('cleans up values with trailing commas', (): void => {
+    it('correctly adjusts with trailing commas', (): void => {
       expect(
         flattenSingleTuple()(
           fn('(BoundedVec<Announcement<T::AccountId, CallHashOf<T>, T::BlockNumber>, T::MaxPending,>,BalanceOf<T>,)')
         )
       ).toEqual('(Vec<Announcement<T::AccountId,CallHashOf<T>,T::BlockNumber>>,BalanceOf<T>)');
+    });
+  });
+
+  describe('wraps', (): void => {
+    const fn = removeWrap('Bounded<');
+
+    it('correctly removes Bounded< wrappers', (): void => {
+      expect(fn('Bounded<Call>')).toEqual('Call');
     });
   });
 
