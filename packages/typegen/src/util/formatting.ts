@@ -147,15 +147,15 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
       return typeDef.lookupName;
     }
 
-    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Enum: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Int: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.UInt: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.UInt: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
@@ -183,7 +183,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Set: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {

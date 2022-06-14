@@ -5,6 +5,143 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 
 declare module '@polkadot/api-base/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
+    alliance: {
+      /**
+       * Account has been deemed unscrupulous by the Alliance and is not welcome to join or be
+       * nominated.
+       **/
+      AccountNonGrata: AugmentedError<ApiType>;
+      /**
+       * Account is already an elevated (fellow) member.
+       **/
+      AlreadyElevated: AugmentedError<ApiType>;
+      /**
+       * Account is already a member.
+       **/
+      AlreadyMember: AugmentedError<ApiType>;
+      /**
+       * Item is already listed as unscrupulous.
+       **/
+      AlreadyUnscrupulous: AugmentedError<ApiType>;
+      /**
+       * Balance is insufficient for the required deposit.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
+       * The founders/fellows/allies have already been initialized.
+       **/
+      MembersAlreadyInitialized: AugmentedError<ApiType>;
+      /**
+       * The announcement is not found.
+       **/
+      MissingAnnouncement: AugmentedError<ApiType>;
+      /**
+       * The proposal hash is not found.
+       **/
+      MissingProposalHash: AugmentedError<ApiType>;
+      /**
+       * Account is not an ally.
+       **/
+      NotAlly: AugmentedError<ApiType>;
+      /**
+       * Account is not a founder.
+       **/
+      NotFounder: AugmentedError<ApiType>;
+      /**
+       * Item has not been deemed unscrupulous.
+       **/
+      NotListedAsUnscrupulous: AugmentedError<ApiType>;
+      /**
+       * Account is not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * The proposal is not vetoable.
+       **/
+      NotVetoableProposal: AugmentedError<ApiType>;
+      /**
+       * Account does not have voting rights.
+       **/
+      NoVotingRights: AugmentedError<ApiType>;
+      /**
+       * Length of website URL exceeds `MaxWebsiteUrlLength`.
+       **/
+      TooLongWebsiteUrl: AugmentedError<ApiType>;
+      /**
+       * Number of announcements exceeds `MaxAnnouncementsCount`.
+       **/
+      TooManyAnnouncements: AugmentedError<ApiType>;
+      /**
+       * Number of members exceeds `MaxMembersCount`.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
+       * The number of unscrupulous items exceeds `MaxUnscrupulousItems`.
+       **/
+      TooManyUnscrupulousItems: AugmentedError<ApiType>;
+      /**
+       * This member is up for being kicked from the Alliance and cannot perform this operation.
+       **/
+      UpForKicking: AugmentedError<ApiType>;
+      /**
+       * The account's identity has no good judgement.
+       **/
+      WithoutGoodIdentityJudgement: AugmentedError<ApiType>;
+      /**
+       * The account's identity does not have display field and website field.
+       **/
+      WithoutIdentityDisplayAndWebsite: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    allianceMotion: {
+      /**
+       * Members are already initialized!
+       **/
+      AlreadyInitialized: AugmentedError<ApiType>;
+      /**
+       * Duplicate proposals not allowed
+       **/
+      DuplicateProposal: AugmentedError<ApiType>;
+      /**
+       * Duplicate vote ignored
+       **/
+      DuplicateVote: AugmentedError<ApiType>;
+      /**
+       * Account is not a member
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * Proposal must exist
+       **/
+      ProposalMissing: AugmentedError<ApiType>;
+      /**
+       * The close call was made too early, before the end of the voting.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * There can only be a maximum of `MaxProposals` active proposals.
+       **/
+      TooManyProposals: AugmentedError<ApiType>;
+      /**
+       * Mismatched index
+       **/
+      WrongIndex: AugmentedError<ApiType>;
+      /**
+       * The given length bound for the proposal was too low.
+       **/
+      WrongProposalLength: AugmentedError<ApiType>;
+      /**
+       * The given weight bound for the proposal was too low.
+       **/
+      WrongProposalWeight: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     assets: {
       /**
        * The asset-account already exists.
@@ -1021,10 +1158,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
-       * The member is already unbonding in this era.
-       **/
-      AlreadyUnbonding: AugmentedError<ApiType>;
-      /**
        * The pools state cannot be changed.
        **/
       CanNotChangeState: AugmentedError<ApiType>;
@@ -1036,7 +1169,7 @@ declare module '@polkadot/api-base/types/errors' {
        * Some error occurred that should never happen. This should be reported to the
        * maintainers.
        **/
-      DefensiveError: AugmentedError<ApiType>;
+      Defensive: AugmentedError<ApiType>;
       /**
        * The caller does not have adequate permissions.
        **/
@@ -1046,10 +1179,6 @@ declare module '@polkadot/api-base/types/errors' {
        * anymore to, for example, collect rewards).
        **/
       FullyUnbonding: AugmentedError<ApiType>;
-      /**
-       * The pool has insufficient balance to bond as a nominator.
-       **/
-      InsufficientBond: AugmentedError<ApiType>;
       /**
        * Too many members in the pool or system.
        **/
@@ -1188,6 +1317,98 @@ declare module '@polkadot/api-base/types/errors' {
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
       Unproxyable: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    rankedCollective: {
+      /**
+       * Account is already a member.
+       **/
+      AlreadyMember: AugmentedError<ApiType>;
+      /**
+       * Unexpected error in state.
+       **/
+      Corruption: AugmentedError<ApiType>;
+      /**
+       * The information provided is incorrect.
+       **/
+      InvalidWitness: AugmentedError<ApiType>;
+      /**
+       * There are no further records to be removed.
+       **/
+      NoneRemaining: AugmentedError<ApiType>;
+      /**
+       * The origin is not sufficiently privileged to do the operation.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * Account is not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * The given poll index is unknown or has closed.
+       **/
+      NotPolling: AugmentedError<ApiType>;
+      /**
+       * The given poll is still ongoing.
+       **/
+      Ongoing: AugmentedError<ApiType>;
+      /**
+       * The member's rank is too low to vote.
+       **/
+      RankTooLow: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    rankedPolls: {
+      /**
+       * The referendum index provided is invalid in this context.
+       **/
+      BadReferendum: AugmentedError<ApiType>;
+      /**
+       * The track identifier given was invalid.
+       **/
+      BadTrack: AugmentedError<ApiType>;
+      /**
+       * There are already a full complement of referendums in progress for this track.
+       **/
+      Full: AugmentedError<ApiType>;
+      /**
+       * Referendum's decision deposit is already paid.
+       **/
+      HasDeposit: AugmentedError<ApiType>;
+      /**
+       * The deposit cannot be refunded since none was made.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
+      /**
+       * The deposit refunder is not the depositor.
+       **/
+      NoPermission: AugmentedError<ApiType>;
+      /**
+       * There was nothing to do in the advancement.
+       **/
+      NothingToDo: AugmentedError<ApiType>;
+      /**
+       * Referendum is not ongoing.
+       **/
+      NotOngoing: AugmentedError<ApiType>;
+      /**
+       * No track exists for the proposal origin.
+       **/
+      NoTrack: AugmentedError<ApiType>;
+      /**
+       * The queue of the track is empty.
+       **/
+      QueueEmpty: AugmentedError<ApiType>;
+      /**
+       * Any deposit cannot be refunded until after the decision is over.
+       **/
+      Unfinished: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1565,6 +1786,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadWitness: AugmentedError<ApiType>;
       /**
+       * A key was longer than the configured maximum.
+       * 
+       * This means that the migration halted at the current [`Progress`] and
+       * can be resumed with a larger [`crate::Config::MaxKeyLen`] value.
+       * Retrying with the same [`crate::Config::MaxKeyLen`] value will not work.
+       * The value should only be increased to avoid a storage migration for the currently
+       * stored [`crate::Progress::LastKey`].
+       **/
+      KeyTooLong: AugmentedError<ApiType>;
+      /**
        * max signed limits not respected.
        **/
       MaxSignedLimits: AugmentedError<ApiType>;
@@ -1685,6 +1916,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1778,6 +2013,11 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     treasury: {
+      /**
+       * The spend origin is valid but the amount it is allowed to spend is lower than the
+       * amount to be spent.
+       **/
+      InsufficientPermission: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
