@@ -5,10 +5,92 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, FrameSupportWeightsPostDispatchInfo, NodeRuntimeProxyType, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, FrameSupportWeightsPostDispatchInfo, NodeRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
+    alliance: {
+      /**
+       * An ally has been elevated to Fellow.
+       **/
+      AllyElevated: AugmentedEvent<ApiType, [ally: AccountId32], { ally: AccountId32 }>;
+      /**
+       * A new announcement has been proposed.
+       **/
+      Announced: AugmentedEvent<ApiType, [announcement: PalletAllianceCid], { announcement: PalletAllianceCid }>;
+      /**
+       * An on-chain announcement has been removed.
+       **/
+      AnnouncementRemoved: AugmentedEvent<ApiType, [announcement: PalletAllianceCid], { announcement: PalletAllianceCid }>;
+      /**
+       * A member has been kicked out with its deposit slashed.
+       **/
+      MemberKicked: AugmentedEvent<ApiType, [member: AccountId32, slashed: Option<u128>], { member: AccountId32, slashed: Option<u128> }>;
+      /**
+       * A member has retired with its deposit unreserved.
+       **/
+      MemberRetired: AugmentedEvent<ApiType, [member: AccountId32, unreserved: Option<u128>], { member: AccountId32, unreserved: Option<u128> }>;
+      /**
+       * Some accounts have been initialized as members (founders/fellows/allies).
+       **/
+      MembersInitialized: AugmentedEvent<ApiType, [founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32>], { founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32> }>;
+      /**
+       * An account has been added as an Ally and reserved its deposit.
+       **/
+      NewAllyJoined: AugmentedEvent<ApiType, [ally: AccountId32, nominator: Option<AccountId32>, reserved: Option<u128>], { ally: AccountId32, nominator: Option<AccountId32>, reserved: Option<u128> }>;
+      /**
+       * A new rule has been set.
+       **/
+      NewRuleSet: AugmentedEvent<ApiType, [rule: PalletAllianceCid], { rule: PalletAllianceCid }>;
+      /**
+       * Accounts or websites have been added into the list of unscrupulous items.
+       **/
+      UnscrupulousItemAdded: AugmentedEvent<ApiType, [items: Vec<PalletAllianceUnscrupulousItem>], { items: Vec<PalletAllianceUnscrupulousItem> }>;
+      /**
+       * Accounts or websites have been removed from the list of unscrupulous items.
+       **/
+      UnscrupulousItemRemoved: AugmentedEvent<ApiType, [items: Vec<PalletAllianceUnscrupulousItem>], { items: Vec<PalletAllianceUnscrupulousItem> }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    allianceMotion: {
+      /**
+       * A motion was approved by the required threshold.
+       **/
+      Approved: AugmentedEvent<ApiType, [proposalHash: H256], { proposalHash: H256 }>;
+      /**
+       * A proposal was closed because its threshold was reached or after its duration was up.
+       **/
+      Closed: AugmentedEvent<ApiType, [proposalHash: H256, yes: u32, no: u32], { proposalHash: H256, yes: u32, no: u32 }>;
+      /**
+       * A motion was not approved by the required threshold.
+       **/
+      Disapproved: AugmentedEvent<ApiType, [proposalHash: H256], { proposalHash: H256 }>;
+      /**
+       * A motion was executed; result will be `Ok` if it returned without error.
+       **/
+      Executed: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * A single member did some action; result will be `Ok` if it returned without error.
+       **/
+      MemberExecuted: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * A motion (given hash) has been proposed (by given account) with a threshold (given
+       * `MemberCount`).
+       **/
+      Proposed: AugmentedEvent<ApiType, [account: AccountId32, proposalIndex: u32, proposalHash: H256, threshold: u32], { account: AccountId32, proposalIndex: u32, proposalHash: H256, threshold: u32 }>;
+      /**
+       * A motion (given hash) has been voted on by given account, leaving
+       * a tally (yes votes and no votes given respectively as `MemberCount`).
+       **/
+      Voted: AugmentedEvent<ApiType, [account: AccountId32, proposalHash: H256, voted: bool, yes: u32, no: u32], { account: AccountId32, proposalHash: H256, voted: bool, yes: u32, no: u32 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     assets: {
       /**
        * An approval for account `delegate` was cancelled by `owner`.
@@ -341,6 +423,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       PreimageUsed: AugmentedEvent<ApiType, [proposalHash: H256, provider: AccountId32, deposit: u128], { proposalHash: H256, provider: AccountId32, deposit: u128 }>;
       /**
+       * A proposal got canceled.
+       **/
+      ProposalCanceled: AugmentedEvent<ApiType, [propIndex: u32], { propIndex: u32 }>;
+      /**
        * A motion has been proposed by a public account.
        **/
       Proposed: AugmentedEvent<ApiType, [proposalIndex: u32, deposit: u128], { proposalIndex: u32, deposit: u128 }>;
@@ -643,6 +729,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       PaidOut: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, payout: u128], { member: AccountId32, poolId: u32, payout: u128 }>;
       /**
+       * The active balance of pool `pool_id` has been slashed to `balance`.
+       **/
+      PoolSlashed: AugmentedEvent<ApiType, [poolId: u32, balance: u128], { poolId: u32, balance: u128 }>;
+      /**
        * The roles of a pool have been updated to the given new roles. Note that the depositor
        * can never change.
        **/
@@ -653,12 +743,31 @@ declare module '@polkadot/api-base/types/events' {
       StateChanged: AugmentedEvent<ApiType, [poolId: u32, newState: PalletNominationPoolsPoolState], { poolId: u32, newState: PalletNominationPoolsPoolState }>;
       /**
        * A member has unbonded from their pool.
+       * 
+       * - `balance` is the corresponding balance of the number of points that has been
+       * requested to be unbonded (the argument of the `unbond` transaction) from the bonded
+       * pool.
+       * - `points` is the number of points that are issued as a result of `balance` being
+       * dissolved into the corresponding unbonding pool.
+       * 
+       * In the absence of slashing, these values will match. In the presence of slashing, the
+       * number of points that are issued in the unbonding pool will be less than the amount
+       * requested to be unbonded.
        **/
-      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, amount: u128], { member: AccountId32, poolId: u32, amount: u128 }>;
+      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
+      /**
+       * The unbond pool at `era` of pool `pool_id` has been slashed to `balance`.
+       **/
+      UnbondingPoolSlashed: AugmentedEvent<ApiType, [poolId: u32, era: u32, balance: u128], { poolId: u32, era: u32, balance: u128 }>;
       /**
        * A member has withdrawn from their pool.
+       * 
+       * The given number of `points` have been dissolved in return of `balance`.
+       * 
+       * Similar to `Unbonded` event, in the absence of slashing, the ratio of point to balance
+       * will be 1.
        **/
-      Withdrawn: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, amount: u128], { member: AccountId32, poolId: u32, amount: u128 }>;
+      Withdrawn: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
       /**
        * Generic event
        **/
@@ -721,6 +830,81 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    rankedCollective: {
+      /**
+       * A member `who` has been added.
+       **/
+      MemberAdded: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
+      /**
+       * The member `who` of given `rank` has been removed from the collective.
+       **/
+      MemberRemoved: AugmentedEvent<ApiType, [who: AccountId32, rank: u16], { who: AccountId32, rank: u16 }>;
+      /**
+       * The member `who`'s rank has been changed to the given `rank`.
+       **/
+      RankChanged: AugmentedEvent<ApiType, [who: AccountId32, rank: u16], { who: AccountId32, rank: u16 }>;
+      /**
+       * The member `who` has voted for the `poll` with the given `vote` leading to an updated
+       * `tally`.
+       **/
+      Voted: AugmentedEvent<ApiType, [who: AccountId32, poll: u32, vote: PalletRankedCollectiveVoteRecord, tally: PalletRankedCollectiveTally], { who: AccountId32, poll: u32, vote: PalletRankedCollectiveVoteRecord, tally: PalletRankedCollectiveTally }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    rankedPolls: {
+      /**
+       * A referendum has been approved and its proposal has been scheduled.
+       **/
+      Approved: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has been cancelled.
+       **/
+      Cancelled: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
+      ConfirmAborted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has ended its confirmation phase and is ready for approval.
+       **/
+      Confirmed: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
+      ConfirmStarted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * The decision deposit has been placed.
+       **/
+      DecisionDepositPlaced: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * The decision deposit has been refunded.
+       **/
+      DecisionDepositRefunded: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has moved into the deciding phase.
+       **/
+      DecisionStarted: AugmentedEvent<ApiType, [index: u32, track: u16, proposalHash: H256, tally: PalletRankedCollectiveTally], { index: u32, track: u16, proposalHash: H256, tally: PalletRankedCollectiveTally }>;
+      /**
+       * A deposit has been slashaed.
+       **/
+      DepositSlashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has been killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
+      /**
+       * A proposal has been rejected by referendum.
+       **/
+      Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
+      /**
+       * A referendum has being submitted.
+       **/
+      Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposalHash: H256], { index: u32, track: u16, proposalHash: H256 }>;
+      /**
+       * A referendum has been timed out without being decided.
+       **/
+      TimedOut: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     recovery: {
       /**
        * Lost account has been successfully recovered by rescuer account.
@@ -777,7 +961,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A referendum has moved into the deciding phase.
        **/
-      DecisionStarted: AugmentedEvent<ApiType, [index: u32, track: u8, proposalHash: H256, tally: PalletConvictionVotingTally], { index: u32, track: u8, proposalHash: H256, tally: PalletConvictionVotingTally }>;
+      DecisionStarted: AugmentedEvent<ApiType, [index: u32, track: u16, proposalHash: H256, tally: PalletConvictionVotingTally], { index: u32, track: u16, proposalHash: H256, tally: PalletConvictionVotingTally }>;
       /**
        * A deposit has been slashaed.
        **/
@@ -793,7 +977,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A referendum has being submitted.
        **/
-      Submitted: AugmentedEvent<ApiType, [index: u32, track: u8, proposalHash: H256], { index: u32, track: u8, proposalHash: H256 }>;
+      Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposalHash: H256], { index: u32, track: u16, proposalHash: H256 }>;
       /**
        * A referendum has been timed out without being decided.
        **/
@@ -992,7 +1176,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       AutoMigrationFinished: AugmentedEvent<ApiType, []>;
       /**
-       * Migration got halted.
+       * Migration got halted due to an error or miss-configuration.
        **/
       Halted: AugmentedEvent<ApiType, []>;
       /**
@@ -1192,6 +1376,10 @@ declare module '@polkadot/api-base/types/events' {
        * Spending has finished; this is the amount that rolls over until next spend.
        **/
       Rollover: AugmentedEvent<ApiType, [rolloverBalance: u128], { rolloverBalance: u128 }>;
+      /**
+       * A new spend proposal has been approved.
+       **/
+      SpendApproved: AugmentedEvent<ApiType, [proposalIndex: u32, amount: u128, beneficiary: AccountId32], { proposalIndex: u32, amount: u128, beneficiary: AccountId32 }>;
       /**
        * We have ended a spend period and will now allocate funds.
        **/

@@ -21,48 +21,52 @@ const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [boolean, string, string, string] {
-  const outputType = lookup.getTypeDef(unwrapStorageSi(storageEntry.type));
+function entrySignature (lookup: PortableRegistry, allDefs: Record<string, ModuleTypes>, registry: Registry, section: string, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [boolean, string, string, string] {
+  try {
+    const outputType = lookup.getTypeDef(unwrapStorageSi(storageEntry.type));
 
-  if (storageEntry.type.isPlain) {
-    const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
+    if (storageEntry.type.isPlain) {
+      const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
 
-    setImports(allDefs, imports, [
-      typeDef.lookupName || typeDef.type,
-      storageEntry.modifier.isOptional
-        ? 'Option'
-        : null
-    ]);
+      setImports(allDefs, imports, [
+        typeDef.lookupName || typeDef.type,
+        storageEntry.modifier.isOptional
+          ? 'Option'
+          : null
+      ]);
 
-    return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
-  } else if (storageEntry.type.isMap) {
-    const { hashers, key, value } = storageEntry.type.asMap;
-    const keyDefs = hashers.length === 1
-      ? [lookup.getTypeDef(key)]
-      : lookup.getSiType(key).def.asTuple.map((k) => lookup.getTypeDef(k));
-    const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
-    const keyTypes = similarTypes.map((t) => t.join(' | '));
-    const defValue = lookup.getTypeDef(value);
+      return [storageEntry.modifier.isOptional, '', '', formatType(registry, allDefs, outputType, imports)];
+    } else if (storageEntry.type.isMap) {
+      const { hashers, key, value } = storageEntry.type.asMap;
+      const keyDefs = hashers.length === 1
+        ? [lookup.getTypeDef(key)]
+        : lookup.getSiType(key).def.asTuple.map((k) => lookup.getTypeDef(k));
+      const similarTypes = keyDefs.map((k) => getSimilarTypes(registry, allDefs, k.lookupName || k.type, imports));
+      const keyTypes = similarTypes.map((t) => t.join(' | '));
+      const defValue = lookup.getTypeDef(value);
 
-    setImports(allDefs, imports, [
-      ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
-      storageEntry.modifier.isOptional
-        ? 'Option'
-        : null,
-      defValue.lookupName
-        ? undefined
-        : defValue.type
-    ]);
+      setImports(allDefs, imports, [
+        ...similarTypes.reduce<string[]>((all, t) => all.concat(t), []),
+        storageEntry.modifier.isOptional
+          ? 'Option'
+          : null,
+        defValue.lookupName
+          ? undefined
+          : defValue.type
+      ]);
 
-    return [
-      storageEntry.modifier.isOptional,
-      keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
-      keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
-      formatType(registry, allDefs, outputType, imports)
-    ];
+      return [
+        storageEntry.modifier.isOptional,
+        keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
+        keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
+        formatType(registry, allDefs, outputType, imports)
+      ];
+    }
+
+    throw new Error(`Expected Plain or Map type, found ${storageEntry.type.type}`);
+  } catch (error) {
+    throw new Error(`entrySignature: Cannot create signature for query ${section}.${storageEntry.name.toString()}:: ${(error as Error).message}`);
   }
-
-  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name.toString()}`);
 }
 
 /** @internal */
@@ -88,7 +92,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
-            const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, storageEntry, imports);
+            const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
             const returnType = isOptional
               ? `Option<${_returnType}>`
               : _returnType;

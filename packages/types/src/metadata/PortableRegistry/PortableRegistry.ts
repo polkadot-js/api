@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { AnyString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
@@ -136,7 +136,55 @@ function hasNoDupes (input: [number, string][]): boolean {
   return true;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
+function extractNameFlat (portable: PortableType[], lookupId: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): [number, string, SiTypeParameter[]] | null {
+  const last = path.length - 1;
+
+  // if we have no path or determined as a wrapper, we just skip it
+  if (last === -1 || WRAPPERS.includes(path[last].toString())) {
+    return null;
+  }
+
+  const parts: string[] = [];
+  let typeName = '';
+
+  for (let i = 0; i <= last; i++) {
+    const p = stringPascalCase(isInternal ? path[i].replace('pallet_', '') : path[i]);
+    const l = p.toLowerCase();
+
+    if (
+      (
+        // Remove ::{generic, misc, pallet, traits, types}::
+        i !== 1 ||
+        !PATH_RM_INDEX_1.includes(l)
+      ) &&
+      (
+        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+        i === last ||
+        l !== path[i + 1].toLowerCase()
+      )) {
+      parts.push(p);
+      typeName += p;
+    }
+  }
+
+  // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
+  if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
+    const instanceType = portable[params[1].type.unwrap().toNumber()];
+
+    if (instanceType.type.path.length === 2) {
+      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
+    }
+  }
+
+  return [lookupId, typeName, params];
+}
+
+function extractName (portable: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
+  return extractNameFlat(portable, id.toNumber(), params, path);
+}
+
+function removeDuplicateNames (lookup: PortableRegistry, portable: PortableType[], names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
   const rewrite: Record<number, string> = {};
 
   return names
@@ -164,6 +212,8 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
         return [lookupIndex, name, params];
       }
 
+      // TODO We probably want to attach all the indexes with differences,
+      // not just the first
       // find the first parameter that yields differences
       const paramIdx = allSame[0][2].findIndex(({ type }, index) =>
         allSame.every(([,, params]) => params[index].type.isSome) &&
@@ -181,10 +231,14 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       // see if using the param type helps
       const adjusted = new Array<[number, string]>(allSame.length);
 
+      // loop through all, specifically checking that index where the
+      // first param yields differences
       for (let i = 0; i < allSame.length; i++) {
         const [oIndex, oName, oParams] = allSame[i];
         const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
 
+        // if it is not a primitive and it doesn't have a path, we really cannot
+        // do anything at this point
         if (!def.isPrimitive && !path.length) {
           return null;
         }
@@ -197,6 +251,40 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
         ];
       }
 
+      // check to see if the adjusted names have no issues
+      if (hasNoDupes(adjusted)) {
+        for (let i = 0; i < adjusted.length; i++) {
+          const [index, name] = adjusted[i];
+
+          rewrite[index] = name;
+        }
+
+        return [lookupIndex, name, params];
+      }
+
+      // TODO This is duplicated from the section just above...
+      // ... we certainly need a better solution here
+
+      // last-ditch effort to use the full type path - ugly
+      // loop through all, specifically checking that index where the
+      // first param yields differences
+      for (let i = 0; i < allSame.length; i++) {
+        const [oIndex, oName, oParams] = allSame[i];
+        const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
+
+        const flat = extractNameFlat(portable, oIndex, oParams, path, true);
+
+        if (def.isPrimitive || !flat) {
+          return null;
+        }
+
+        adjusted[i] = [
+          oIndex,
+          `${oName}${flat[1]}`
+        ];
+      }
+
+      // check to see if the adjusted names have no issues
       if (hasNoDupes(adjusted)) {
         for (let i = 0; i < adjusted.length; i++) {
           const [index, name] = adjusted[i];
@@ -215,50 +303,6 @@ function removeDuplicateNames (lookup: PortableRegistry, names: [number, string 
       rewrite[lookupIndex] || name,
       params
     ]);
-}
-
-function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
-  const last = path.length - 1;
-
-  // if we have no path or determined as a wrapper, we just skip it
-  if (last === -1 || WRAPPERS.includes(path[last].toString())) {
-    return null;
-  }
-
-  const parts: string[] = [];
-  let typeName = '';
-
-  for (let i = 0; i <= last; i++) {
-    const p = stringPascalCase(path[i]);
-    const l = p.toLowerCase();
-
-    if (
-      (
-        // Remove ::{generic, misc, pallet, traits, types}::
-        i !== 1 ||
-        !PATH_RM_INDEX_1.includes(l)
-      ) &&
-      (
-        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-        i === last ||
-        l !== path[i + 1].toLowerCase()
-      )) {
-      parts.push(p);
-      typeName += p;
-    }
-  }
-
-  // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
-  if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
-    const instanceType = types[params[1].type.unwrap().toNumber()];
-
-    if (instanceType.type.path.length === 2) {
-      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
-    }
-  }
-
-  return [id.toNumber(), typeName, params];
 }
 
 function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
@@ -342,7 +386,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [
     types[type.id.toNumber()] = type;
   }
 
-  const dedup = removeDuplicateNames(lookup, nameInfo);
+  const dedup = removeDuplicateNames(lookup, portable, nameInfo);
   const lookups: Record<string, string> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};

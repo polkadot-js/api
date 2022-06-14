@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Extend lookup type name generation when conflicts arrise
+- Update to latest Substrate metadata
+
+
 ## 8.8.1 Jun 12, 2022
 
 Contributed:

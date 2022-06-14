@@ -171,14 +171,14 @@ function replaceTagWith (value: string, matcher: string, replacer: (v: string) =
  * @internal
  */
 export function removeExtensions (type: string, isSized: boolean): Mapper {
-  return (value: string) => {
+  return (value: string): string => {
     for (let i = 0; i < BOUNDED.length; i++) {
       const tag = BOUNDED[i];
 
       value = replaceTagWith(value, `${type}${tag}<`, (v: string): string => {
         const parts = v
           .split(',')
-          .map(trim)
+          .map((s) => s.trim())
           .filter((s) => s);
 
         if (isSized) {

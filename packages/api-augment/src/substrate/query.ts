@@ -3,14 +3,83 @@
 
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Data } from '@polkadot/types';
-import type { BTreeMap, Bytes, Null, Option, U8aFixed, Vec, WrapperKeepOpaque, WrapperOpaque, bool, u128, u32, u64, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Null, Option, U8aFixed, Vec, WrapperKeepOpaque, WrapperOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageDeletedContract, PalletContractsStorageRawContractInfo, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletConvictionVotingVoteVoting, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltActiveGilt, PalletGiltActiveGiltsTotal, PalletGiltGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfo, PalletSchedulerScheduledV3, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingOffenceOffenceDetails } from '@polkadot/types/lookup';
+import type { FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, NodeRuntimeSessionKeys, PalletAllianceCid, PalletAllianceMemberRole, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageDeletedContract, PalletContractsStorageRawContractInfo, PalletContractsWasmOwnerInfo, PalletContractsWasmPrefabWasmModule, PalletConvictionVotingVoteVoting, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletGiltActiveGilt, PalletGiltActiveGiltsTotal, PalletGiltGiltBid, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletImOnlineBoundedOpaqueNetworkState, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletSchedulerScheduledV3, PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletSocietyVouchingStatus, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingExposure, PalletStakingForcing, PalletStakingNominations, PalletStakingReleases, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingOffenceOffenceDetails } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/storage' {
   export interface AugmentedQueries<ApiType extends ApiTypes> {
+    alliance: {
+      /**
+       * The current IPFS CIDs of any announcements.
+       **/
+      announcements: AugmentedQuery<ApiType, () => Observable<Vec<PalletAllianceCid>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Maps members to their candidacy deposit.
+       **/
+      depositOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u128>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Maps member type to members of each type.
+       **/
+      members: AugmentedQuery<ApiType, (arg: PalletAllianceMemberRole | 'Founder' | 'Fellow' | 'Ally' | number | Uint8Array) => Observable<Vec<AccountId32>>, [PalletAllianceMemberRole]> & QueryableStorageEntry<ApiType, [PalletAllianceMemberRole]>;
+      /**
+       * The IPFS CID of the alliance rule.
+       * Founders and fellows can propose a new rule with a super-majority.
+       * 
+       * Any founder has a special one-vote veto right to the rule setting.
+       **/
+      rule: AugmentedQuery<ApiType, () => Observable<Option<PalletAllianceCid>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The current list of accounts deemed unscrupulous. These accounts non grata cannot submit
+       * candidacy.
+       **/
+      unscrupulousAccounts: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The current list of websites deemed unscrupulous.
+       **/
+      unscrupulousWebsites: AugmentedQuery<ApiType, () => Observable<Vec<Bytes>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A set of members that are (potentially) being kicked out. They cannot retire until the
+       * motion is settled.
+       **/
+      upForKicking: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<bool>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    allianceMotion: {
+      /**
+       * The current members of the collective. This is stored sorted (just by value).
+       **/
+      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The prime member that helps determine the default vote behavior in case of absentations.
+       **/
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Proposals so far.
+       **/
+      proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Actual proposal for a given hash, if it's current.
+       **/
+      proposalOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Call>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * The hashes of the active proposals.
+       **/
+      proposals: AugmentedQuery<ApiType, () => Observable<Vec<H256>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Votes on a given proposal, if it is ongoing.
+       **/
+      voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     assets: {
       /**
        * The holdings of a specific account for a specific asset.
@@ -354,12 +423,12 @@ declare module '@polkadot/api-base/types/storage' {
        * require. The actual amount locked on behalf of this pallet should always be the maximum of
        * this list.
        **/
-      classLocksFor: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u8, u128]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      classLocksFor: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u16, u128]>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * All voting for a particular voter in a particular voting class. We store the balance for the
        * number of votes that we have recorded.
        **/
-      votingFor: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u8 | AnyNumber | Uint8Array) => Observable<PalletConvictionVotingVoteVoting>, [AccountId32, u8]> & QueryableStorageEntry<ApiType, [AccountId32, u8]>;
+      votingFor: AugmentedQuery<ApiType, (arg1: AccountId32 | string | Uint8Array, arg2: u16 | AnyNumber | Uint8Array) => Observable<PalletConvictionVotingVoteVoting>, [AccountId32, u16]> & QueryableStorageEntry<ApiType, [AccountId32, u16]>;
       /**
        * Generic query
        **/
@@ -842,6 +911,9 @@ declare module '@polkadot/api-base/types/storage' {
        * 
        * This is the amount that the depositor must put as their initial stake in the pool, as an
        * indication of "skin in the game".
+       * 
+       * This is the value that will always exist in the staking ledger of the pool bonded account
+       * while all other accounts leave.
        **/
       minCreateBond: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -938,6 +1010,60 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    rankedCollective: {
+      /**
+       * The index of each ranks's member into the group of members who have at least that rank.
+       **/
+      idToIndex: AugmentedQuery<ApiType, (arg1: u16 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [u16, AccountId32]> & QueryableStorageEntry<ApiType, [u16, AccountId32]>;
+      /**
+       * The members in the collective by index. All indices in the range `0..MemberCount` will
+       * return `Some`, however a member's index is not guaranteed to remain unchanged over time.
+       **/
+      indexToId: AugmentedQuery<ApiType, (arg1: u16 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<AccountId32>>, [u16, u32]> & QueryableStorageEntry<ApiType, [u16, u32]>;
+      /**
+       * The number of members in the collective who have at least the rank according to the index
+       * of the vec.
+       **/
+      memberCount: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<u32>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
+      /**
+       * The current members of the collective.
+       **/
+      members: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletRankedCollectiveMemberRecord>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Votes on a given proposal, if it is ongoing.
+       **/
+      voting: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<PalletRankedCollectiveVoteRecord>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      votingCleanup: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    rankedPolls: {
+      /**
+       * The number of referenda being decided currently.
+       **/
+      decidingCount: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<u32>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
+      /**
+       * The next free referendum index, aka the number of referenda started so far.
+       **/
+      referendumCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Information concerning any given referendum.
+       **/
+      referendumInfoFor: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletReferendaReferendumInfoRankedCollectiveTally>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The sorted list of referenda ready to be decided but not yet being decided, ordered by
+       * conviction-weighted approvals.
+       * 
+       * This should be empty if `DecidingCount` is less than `TrackInfo::max_deciding`.
+       **/
+      trackQueue: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u32]>>>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     recovery: {
       /**
        * Active recovery attempts.
@@ -965,7 +1091,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The number of referenda being decided currently.
        **/
-      decidingCount: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<u32>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
+      decidingCount: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<u32>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
       /**
        * The next free referendum index, aka the number of referenda started so far.
        **/
@@ -973,14 +1099,14 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Information concerning any given referendum.
        **/
-      referendumInfoFor: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletReferendaReferendumInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      referendumInfoFor: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletReferendaReferendumInfoConvictionVotingTally>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * The sorted list of referenda ready to be decided but not yet being decided, ordered by
        * conviction-weighted approvals.
        * 
        * This should be empty if `DecidingCount` is less than `TrackInfo::max_deciding`.
        **/
-      trackQueue: AugmentedQuery<ApiType, (arg: u8 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>, [u8]> & QueryableStorageEntry<ApiType, [u8]>;
+      trackQueue: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
       /**
        * Generic query
        **/
