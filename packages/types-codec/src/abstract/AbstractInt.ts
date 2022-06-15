@@ -25,15 +25,21 @@ function toPercentage (value: BN, divisor: BN): string {
 }
 
 /** @internal */
-function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string {
-  if (isBn(value)) {
-    return value.toString();
-  } else if (isHex(value, -1, true)) {
-    return hexToBn(value, { isLe: false, isNegative }).toString();
-  } else if (isNumber(value)) {
+function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string | number {
+  if (isNumber(value)) {
     assert(value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER && Number.isInteger(value), 'Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
+
+    return value;
   } else if (isString(value)) {
+    if (isHex(value, -1, true)) {
+      return hexToBn(value, { isLe: false, isNegative }).toString();
+    }
+
     assert(!(value.includes('.') || value.includes(',') || value.includes('e')), 'String should not contain decimal points or scientific notation');
+
+    return value;
+  } else if (isBn(value)) {
+    return value.toString();
   }
 
   return bnToBn(value).toString();
