@@ -293,7 +293,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       );
 
       // everything matches, we can combine these
-      if (!anyDiff || !params.length) {
+      if (!anyDiff) {
         return original;
       }
 
