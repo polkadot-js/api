@@ -1,4 +1,4 @@
-    3023	Jaco                          	8.8.2 (#4937)
+    3024	Jaco                          	Adjust PortableRegistry name extraction (#4938)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
