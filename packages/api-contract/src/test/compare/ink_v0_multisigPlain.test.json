@@ -226,6 +226,7 @@
   {
     "info": "Struct",
     "lookupIndex": 12,
+    "lookupName": "InkStorageCollectionsHashmapValueEntry",
     "type": "{\"value\":\"u32\",\"keyIndex\":\"u32\"}",
     "docs": [],
     "namespace": "ink_storage::collections::hashmap::ValueEntry",
@@ -373,6 +374,7 @@
   {
     "info": "Enum",
     "lookupIndex": 19,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"AccountId\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",

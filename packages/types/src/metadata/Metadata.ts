@@ -14,6 +14,7 @@ const VERSION_IDX = 4;
 // magic + lowest supported version
 const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 
+/** @internal */
 function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned | Uint8Array {
   const u8a = value.length === 0
     ? EMPTY_METADATA

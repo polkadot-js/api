@@ -83,6 +83,7 @@
   {
     "info": "Struct",
     "lookupIndex": 6,
+    "lookupName": "InkStorageLazyMapping",
     "type": "{\"offsetKey\":\"InkPrimitivesKey\"}",
     "docs": [],
     "namespace": "ink_storage::lazy::mapping::Mapping",

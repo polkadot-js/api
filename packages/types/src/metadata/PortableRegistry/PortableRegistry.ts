@@ -13,6 +13,24 @@ import { assert, assertUnreachable, isNumber, isString, logger, objectSpread, st
 
 const l = logger('PortableRegistry');
 
+interface ExtractBase {
+  lookupIndex: number;
+  name: string;
+}
+
+interface Extract extends ExtractBase {
+  lookupIndex: number;
+  name: string;
+  params: SiTypeParameter[];
+}
+
+interface TypeInfo {
+  lookups: Record<string, string>;
+  names: Record<number, string>;
+  params: Record<string, SiTypeParameter[]>;
+  types: Record<number, PortableType>;
+}
+
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
 
@@ -63,18 +81,44 @@ const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 // Remove these from all paths at index 1
 const PATH_RM_INDEX_1 = ['generic', 'misc', 'pallet', 'traits', 'types'];
 
-function splitNamespace (values: string[]): string[][] {
-  return values.map((v) => v.split('::'));
-}
-
-function createNamespace ({ path }: SiType): string {
-  return sanitizeDocs(path).join('::');
-}
-
+/** @internal */
 function sanitizeDocs (docs: Text[]): string[] {
-  return docs.map((d) => d.toString());
+  const result = new Array<string>(docs.length);
+
+  for (let i = 0; i < docs.length; i++) {
+    result[i] = docs[i].toString();
+  }
+
+  return result;
 }
 
+/** @internal */
+function splitNamespace (values: string[]): string[][] {
+  const result = new Array<string[]>(values.length);
+
+  for (let i = 0; i < values.length; i++) {
+    result[i] = values[i].split('::');
+  }
+
+  return result;
+}
+
+/** @internal */
+function createNamespace ({ path }: SiType): string {
+  if (!path.length) {
+    return '';
+  }
+
+  let result = path[0].toString();
+
+  for (let i = 1; i < path.length; i++) {
+    result += `::${path[i].toString()}`;
+  }
+
+  return result;
+}
+
+/** @internal */
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
@@ -110,6 +154,7 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 }
 
 // check if the path matches the PATHS_ALIAS (with wildcards)
+/** @internal */
 function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
   return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
@@ -117,26 +162,8 @@ function getAliasPath (path: SiPath): string | null {
     : null;
 }
 
-function hasNoDupes (input: [number, string][]): boolean {
-  const count = input.length;
-
-  for (let i = 0; i < count; i++) {
-    const [ai, an] = input[i];
-
-    for (let j = i + 1; j < count; j++) {
-      const [bi, bn] = input[j];
-
-      // if the indexes are not the same and the names match, we have a dupe
-      if (ai !== bi && an === bn) {
-        return false;
-      }
-    }
-  }
-
-  return true;
-}
-
-function extractNameFlat (portable: PortableType[], lookupId: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): [number, string, SiTypeParameter[]] | null {
+/** @internal */
+function extractNameFlat (portable: PortableType[], lookupIndex: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): Extract | null {
   const last = path.length - 1;
 
   // if we have no path or determined as a wrapper, we just skip it
@@ -145,10 +172,14 @@ function extractNameFlat (portable: PortableType[], lookupId: number, params: Si
   }
 
   const parts: string[] = [];
-  let typeName = '';
+  let name = '';
 
   for (let i = 0; i <= last; i++) {
-    const p = stringPascalCase(isInternal ? path[i].replace('pallet_', '') : path[i]);
+    const p = stringPascalCase(
+      isInternal
+        ? path[i].replace('pallet_', '')
+        : path[i]
+    );
     const l = p.toLowerCase();
 
     if (
@@ -162,9 +193,10 @@ function extractNameFlat (portable: PortableType[], lookupId: number, params: Si
         // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
         i === last ||
         l !== path[i + 1].toLowerCase()
-      )) {
+      )
+    ) {
       parts.push(p);
-      typeName += p;
+      name += p;
     }
   }
 
@@ -173,51 +205,106 @@ function extractNameFlat (portable: PortableType[], lookupId: number, params: Si
     const instanceType = portable[params[1].type.unwrap().toNumber()];
 
     if (instanceType.type.path.length === 2) {
-      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
+      name = `${name}${instanceType.type.path[1].toString()}`;
     }
   }
 
-  return [lookupId, typeName, params];
+  return { lookupIndex, name, params };
 }
 
-function extractName (portable: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
-  return extractNameFlat(portable, id.toNumber(), params, path);
+/** @internal */
+function extractName (portable: PortableType[], lookupIndex: number, { type: { params, path } }: PortableType): Extract | null {
+  return extractNameFlat(portable, lookupIndex, params, path);
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, portable: PortableType[], names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
+/** @internal */
+function nextDupeMatches (name: string, startAt: number, names: Extract[]): Extract[] {
+  const result = [names[startAt]];
+
+  for (let i = startAt + 1; i < names.length; i++) {
+    const v = names[i];
+
+    if (v.name === name) {
+      result.push(v);
+    }
+  }
+
+  return result;
+}
+
+/** @internal */
+function rewriteDupes (input: ExtractBase[], rewrite: Record<number, string>): boolean {
+  const count = input.length;
+
+  for (let i = 0; i < count; i++) {
+    const a = input[i];
+
+    for (let j = i + 1; j < count; j++) {
+      const b = input[j];
+
+      // if the indexes are not the same and the names match, we have a dupe
+      if (a.lookupIndex !== b.lookupIndex && a.name === b.name) {
+        return false;
+      }
+    }
+  }
+
+  // add all the adjusted values to the rewite map
+  for (let i = 0; i < count; i++) {
+    const p = input[i];
+
+    rewrite[p.lookupIndex] = p.name;
+  }
+
+  return true;
+}
+
+/** @internal */
+function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], names: Extract[]): Extract[] {
   const rewrite: Record<number, string> = {};
 
   return names
-    .map(([lookupIndex, name, params]): [number, string, SiTypeParameter[]] | null => {
+    .map((original, startAt): Extract | null => {
+      const { lookupIndex, name, params } = original;
+
       if (!name) {
+        // the name is empty (this is not expected, but have a failsafe)
         return null;
+      } else if (rewrite[lookupIndex]) {
+        // we have already rewritten this one, we can skip it
+        return original;
       }
 
-      // those where the name is matching (since name is filtered, these all do have names)
-      const allSame = names.filter(([, oName]) => name === oName) as [number, string, SiTypeParameter[]][];
+      // those where the name is matching starting from this index
+      const allSame = nextDupeMatches(name, startAt, names);
 
-      // are there among matching names
-      const anyDiff = allSame.some(([oIndex,, oParams]) =>
-        lookupIndex !== oIndex && (
-          params.length !== oParams.length ||
-          params.some((p, index) =>
-            !p.name.eq(oParams[index].name) ||
-            p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== oParams[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
-          )
+      // we only have one, so all ok
+      if (allSame.length === 1) {
+        return original;
+      }
+
+      // are there param differences between matching names
+      const anyDiff = allSame.some((o) =>
+        params.length !== o.params.length ||
+        params.some((p, index) =>
+          !p.name.eq(o.params[index].name) ||
+          p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== o.params[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
         )
       );
 
       // everything matches, we can combine these
-      if (!anyDiff || !allSame[0][2].length) {
-        return [lookupIndex, name, params];
+      if (!anyDiff) {
+        return original;
       }
 
       // TODO We probably want to attach all the indexes with differences,
       // not just the first
       // find the first parameter that yields differences
-      const paramIdx = allSame[0][2].findIndex(({ type }, index) =>
-        allSame.every(([,, params]) => params[index].type.isSome) &&
-        allSame.every(([,, params], aIndex) =>
+      const paramIdx = params.findIndex(({ type }, index) =>
+        allSame.every(({ params }) =>
+          params[index].type.isSome
+        ) &&
+        allSame.every(({ params }, aIndex) =>
           aIndex === 0 ||
           !params[index].type.eq(type)
         )
@@ -225,17 +312,17 @@ function removeDuplicateNames (lookup: PortableRegistry, portable: PortableType[
 
       // No param found that is different
       if (paramIdx === -1) {
-        return [lookupIndex, name, params];
+        return original;
       }
 
       // see if using the param type helps
-      const adjusted = new Array<[number, string]>(allSame.length);
+      const adjusted = new Array<ExtractBase>(allSame.length);
 
       // loop through all, specifically checking that index where the
       // first param yields differences
       for (let i = 0; i < allSame.length; i++) {
-        const [oIndex, oName, oParams] = allSame[i];
-        const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
+        const { lookupIndex, name, params } = allSame[i];
+        const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
 
         // if it is not a primitive and it doesn't have a path, we really cannot
         // do anything at this point
@@ -243,68 +330,56 @@ function removeDuplicateNames (lookup: PortableRegistry, portable: PortableType[
           return null;
         }
 
-        adjusted[i] = [
-          oIndex,
-          def.isPrimitive
-            ? `${oName}${def.asPrimitive.toString()}`
-            : `${oName}${path[path.length - 1].toString()}`
-        ];
+        adjusted[i] = {
+          lookupIndex,
+          name: def.isPrimitive
+            ? `${name}${def.asPrimitive.toString()}`
+            : `${name}${path[path.length - 1].toString()}`
+        };
       }
 
       // check to see if the adjusted names have no issues
-      if (hasNoDupes(adjusted)) {
-        for (let i = 0; i < adjusted.length; i++) {
-          const [index, name] = adjusted[i];
-
-          rewrite[index] = name;
-        }
-
-        return [lookupIndex, name, params];
+      if (rewriteDupes(adjusted, rewrite)) {
+        return original;
       }
 
       // TODO This is duplicated from the section just above...
       // ... we certainly need a better solution here
-
-      // last-ditch effort to use the full type path - ugly
+      //
+      // Last-ditch effort to use the full type path - ugly
       // loop through all, specifically checking that index where the
       // first param yields differences
       for (let i = 0; i < allSame.length; i++) {
-        const [oIndex, oName, oParams] = allSame[i];
-        const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
-
-        const flat = extractNameFlat(portable, oIndex, oParams, path, true);
+        const { lookupIndex, name, params } = allSame[i];
+        const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
+        const flat = extractNameFlat(portable, lookupIndex, params, path, true);
 
         if (def.isPrimitive || !flat) {
           return null;
         }
 
-        adjusted[i] = [
-          oIndex,
-          `${oName}${flat[1]}`
-        ];
+        adjusted[i] = {
+          lookupIndex,
+          name: `${name}${flat.name}`
+        };
       }
 
       // check to see if the adjusted names have no issues
-      if (hasNoDupes(adjusted)) {
-        for (let i = 0; i < adjusted.length; i++) {
-          const [index, name] = adjusted[i];
-
-          rewrite[index] = name;
-        }
-
-        return [lookupIndex, name, params];
+      if (rewriteDupes(adjusted, rewrite)) {
+        return original;
       }
 
       return null;
     })
-    .filter((n): n is [number, string, SiTypeParameter[]] => !!n)
-    .map(([lookupIndex, name, params]) => [
+    .filter((n): n is Extract => !!n)
+    .map(({ lookupIndex, name, params }): Extract => ({
       lookupIndex,
-      rewrite[lookupIndex] || name,
+      name: rewrite[lookupIndex] || name,
       params
-    ]);
+    }));
 }
 
+/** @internal */
 function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
   // Register the types we extracted
   lookup.registry.register(lookups);
@@ -345,6 +420,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 
 // this extracts aliases based on what we know the runtime config looks like in a
 // Substrate chain. Specifically we want to have access to the Call and Event params
+/** @internal */
 function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
   const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
   const alias: Record<number, string> = {};
@@ -370,37 +446,39 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
   return alias;
 }
 
-function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
-  const nameInfo: [number, string, SiTypeParameter[]][] = [];
+/** @internal */
+function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): TypeInfo {
+  const nameInfo: Extract[] = [];
   const types: Record<number, PortableType> = {};
   const porCount = portable.length;
 
   for (let i = 0; i < porCount; i++) {
     const type = portable[i];
-    const extracted = extractName(portable, portable[i]);
+    const lookupIndex = type.id.toNumber();
+    const extracted = extractName(portable, lookupIndex, portable[i]);
 
     if (extracted) {
       nameInfo.push(extracted);
     }
 
-    types[type.id.toNumber()] = type;
+    types[lookupIndex] = type;
   }
 
-  const dedup = removeDuplicateNames(lookup, portable, nameInfo);
   const lookups: Record<string, string> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
-  const dupCount = dedup.length;
+  const dedup = removeDupeNames(lookup, portable, nameInfo);
+  const dedupCount = dedup.length;
 
-  for (let i = 0; i < dupCount; i++) {
-    const [lookupIndex, name, p] = dedup[i];
+  for (let i = 0; i < dedupCount; i++) {
+    const { lookupIndex, name, params: p } = dedup[i];
 
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
     params[name] = p;
   }
 
-  return [types, lookups, names, params];
+  return { lookups, names, params, types };
 }
 
 export class PortableRegistry extends Struct implements ILookup {
@@ -418,7 +496,7 @@ export class PortableRegistry extends Struct implements ILookup {
       types: 'Vec<PortableType>'
     }, value);
 
-    const [types, lookups, names, params] = extractTypeInfo(this, this.types);
+    const { lookups, names, params, types } = extractTypeInfo(this, this.types);
 
     this.#alias = extractAliases(params, isContract);
     this.#lookups = lookups;
