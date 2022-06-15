@@ -43,6 +43,7 @@
   {
     "info": "Enum",
     "lookupIndex": 3,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"(u32,AccountId)\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
@@ -167,6 +168,7 @@
   {
     "info": "Struct",
     "lookupIndex": 9,
+    "lookupName": "InkStorageCollectionsHashmapValueEntry",
     "type": "{\"value\":\"Null\",\"keyIndex\":\"u32\"}",
     "docs": [],
     "namespace": "ink_storage::collections::hashmap::ValueEntry",
@@ -199,6 +201,7 @@
   {
     "info": "Enum",
     "lookupIndex": 11,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"u32\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
@@ -252,6 +255,7 @@
   {
     "info": "Enum",
     "lookupIndex": 13,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"MultisigPlainMultisigPlainTransaction\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",

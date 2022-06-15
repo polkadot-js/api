@@ -50,6 +50,7 @@
   {
     "info": "Enum",
     "lookupIndex": 4,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"AccountId\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
