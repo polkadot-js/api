@@ -310,6 +310,7 @@
   {
     "info": "Enum",
     "lookupIndex": 15,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"(u32,AccountId)\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
@@ -380,6 +381,7 @@
   {
     "info": "Struct",
     "lookupIndex": 17,
+    "lookupName": "InkStorageCollectionsHashmapValueEntry",
     "type": "{\"value\":\"Null\",\"keyIndex\":\"u32\"}",
     "docs": [],
     "namespace": "ink_storage::collections::hashmap::ValueEntry",
