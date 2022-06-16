@@ -2197,7 +2197,7 @@ __metadata:
     "@polkadot/x-fetch": ^9.4.1
     "@polkadot/x-global": ^9.4.1
     "@polkadot/x-ws": ^9.4.1
-    "@substrate/connect": 0.7.5
+    "@substrate/connect": 0.7.6
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
     nock: ^13.2.6
@@ -2629,25 +2629,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.5":
-  version: 0.7.5
-  resolution: "@substrate/connect@npm:0.7.5"
+"@substrate/connect@npm:0.7.6":
+  version: 0.7.6
+  resolution: "@substrate/connect@npm:0.7.6"
   dependencies:
     "@substrate/connect-extension-protocol": ^1.0.0
-    "@substrate/smoldot-light": 0.6.16
+    "@substrate/smoldot-light": 0.6.19
     eventemitter3: ^4.0.7
-  checksum: fcebff1d5df50dcd4e26a43532f078add3eb36f12c85e52321b28990a7d5d6cc4540220027d26669c75578c6b25c4c0be6a7c0e8bb546ca1386770d1a13bb385
+  checksum: 51f34d385e91d4c84acb47b4bf9f824cbbc8546829a74aa27ad7a0d9e2128152879ba5400a029297d4ca8600ef381f4f72c1ffe82a16331221896cad85773407
   languageName: node
   linkType: hard
 
-"@substrate/smoldot-light@npm:0.6.16":
-  version: 0.6.16
-  resolution: "@substrate/smoldot-light@npm:0.6.16"
+"@substrate/smoldot-light@npm:0.6.19":
+  version: 0.6.19
+  resolution: "@substrate/smoldot-light@npm:0.6.19"
   dependencies:
     buffer: ^6.0.1
     pako: ^2.0.4
     websocket: ^1.0.32
-  checksum: 2e7d350ad8b77de847c3cf8153a5a63f44c307a937e698e0bd9f4706dc5c672607704648bfc4155b6ff63319367a8f13741647f843e41679d3756709295877e6
+  checksum: 5d276c44d1782826fd1bbe3c517c70cdf3d0dc558c34615dcc4480b407fccf90b8a9d33c6058aefc50cdb47349fc65595312b4f6fd9f199d93a7b562f20759f6
   languageName: node
   linkType: hard
 
