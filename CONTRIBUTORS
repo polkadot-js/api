@@ -86,6 +86,7 @@
        1	Oleksandr Mykhailenko         	Add more complex namespaced contracts & test cases for them (#4472)
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
+       1	Pierre Krieger                	Update substrate/connect to 0.7.6 (#4940)
        1	qiuhao                        	update DeriveCustom type (#2581)
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
        1	Raphael Flechtner             	fix: typegen disconnect ws on success (#4901)
