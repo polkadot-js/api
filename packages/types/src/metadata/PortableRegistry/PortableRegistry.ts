@@ -305,12 +305,11 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       // not just the first
       // find the first parameter that yields differences
       const paramIdx = params.findIndex(({ type }, index) =>
-        allSame.every(({ params }) =>
-          params[index].type.isSome
-        ) &&
         allSame.every(({ params }, aIndex) =>
-          aIndex === 0 ||
-          !params[index].type.eq(type)
+          params[index].type.isSome && (
+            aIndex === 0 ||
+            !params[index].type.eq(type)
+          )
         )
       );
 
