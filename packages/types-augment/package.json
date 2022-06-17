@@ -26,6 +26,6 @@
     "@babel/runtime": "^7.18.3",
     "@polkadot/types": "8.8.3-2",
     "@polkadot/types-codec": "8.8.3-2",
-    "@polkadot/util": "^9.4.1"
+    "@polkadot/util": "^9.4.2-22"
   }
 }
