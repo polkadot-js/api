@@ -205,7 +205,7 @@ export function removeGenerics (): Mapper {
           return (
             (
               start >= 0 &&
-              value.substring(start, start + box.length) === box
+              value.substring(start, index) === box
             ) && (
               // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
               start === 0 ||
