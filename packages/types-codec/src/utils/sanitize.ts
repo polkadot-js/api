@@ -227,15 +227,12 @@ export function removeGenerics (): Mapper {
   };
 }
 
-/** @internal */
-function pairOfReplacer (v: string): string {
-  return `(${v},${v})`;
-}
-
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
+  const replacer = (v: string) => `(${v},${v})`;
+
   return (value: string) =>
-    replaceTagWith(value, 'PairOf<', pairOfReplacer);
+    replaceTagWith(value, 'PairOf<', replacer);
 }
 
 // remove the type traits
@@ -271,15 +268,12 @@ export function removeTraits (): Mapper {
   };
 }
 
-/** @internal */
-function wrapReplacer (v: string): string {
-  return v;
-}
-
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (check: string): Mapper {
+  const replacer = (v: string) => v;
+
   return (value: string) =>
-    replaceTagWith(value, check, wrapReplacer);
+    replaceTagWith(value, check, replacer);
 }
 
 const sanitizeMap = new Map<string, string>();
