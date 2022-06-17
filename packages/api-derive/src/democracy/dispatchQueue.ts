@@ -10,6 +10,7 @@ import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
+import { Enum } from '@polkadot/types';
 import { isFunction, stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
@@ -24,7 +25,7 @@ interface SchedulerInfo {
 
 function isMaybeHashed (call: FrameSupportScheduleMaybeHashed | Call): call is FrameSupportScheduleMaybeHashed {
   // check for enum
-  return (call as FrameSupportScheduleMaybeHashed).isBasic === false;
+  return call instanceof Enum;
 }
 
 function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {

@@ -189,10 +189,6 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     return this.registry.findMetaCall(this.callIndex).method;
   }
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description Returns the module containing the method
    */

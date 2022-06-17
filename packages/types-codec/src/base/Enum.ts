@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isCodec, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -101,7 +101,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 
   return {
     index,
-    value: isCodec(value) && value instanceof entry.Type
+    value: value instanceof entry.Type
       ? value
       : new entry.Type(registry, value)
   };
@@ -189,7 +189,7 @@ export class Enum implements IEnum {
     this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
-    this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
+    this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
@@ -205,7 +205,7 @@ export class Enum implements IEnum {
     const isKeys = new Array<string>(keys.length);
 
     for (let i = 0; i < keys.length; i++) {
-      const name = stringPascalCase(keys[i].replace(' ', '_'));
+      const name = stringPascalCase(keys[i]);
 
       asKeys[i] = `as${name}`;
       isKeys[i] = `is${name}`;
@@ -329,7 +329,7 @@ export class Enum implements IEnum {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
-    } else if (isCodec(other) && other instanceof Enum) {
+    } else if (other instanceof Enum) {
       return this.index === other.index && this.value.eq(other.value);
     } else if (isObject(other)) {
       return this.value.eq(other[this.type]);
@@ -342,8 +342,8 @@ export class Enum implements IEnum {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
-    if (this.isBasic) {
+  public inspect (): Inspect {
+    if (this.#isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 

@@ -70,9 +70,9 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public createdAtHash?: IU8a;
 
-  readonly #Type: CodecClass<T>;
+  public initialU8aLength?: number;
 
-  readonly #initialU8aLength?: number;
+  readonly #Type: CodecClass<T>;
 
   readonly #raw: T;
 
@@ -89,7 +89,7 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#raw = decoded as T;
 
     if (decoded && decoded.initialU8aLength) {
-      this.#initialU8aLength = 1 + decoded.initialU8aLength;
+      this.initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
 
@@ -115,13 +115,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.encodedLength;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -173,7 +166,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     if (this.isNone) {
       return { outer: [new Uint8Array([0])] };
     }

@@ -26,7 +26,7 @@ function noopSetDefinition (d: Definition): Definition {
 }
 
 /** @internal */
-function decodeTuple (registry: Registry, result: Codec[], Classes: Definition, value?: Exclude<AnyTupleValue, Uint8Array>): [Codec[], number] {
+function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTupleValue, Uint8Array> | undefined, Classes: Definition): [Codec[], number] {
   if (isU8a(value) || isHex(value)) {
     return decodeU8a(registry, result, u8aToU8a(value), Classes);
   }
@@ -70,11 +70,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
     super(registry, Classes[0].length);
 
-    const [, decodedLength] = isU8a(value)
-      ? decodeU8a(registry, this, value, Classes, false)
-      : decodeTuple(registry, this, Classes, value);
-
-    this.initialU8aLength = decodedLength;
+    this.initialU8aLength = (
+      isU8a(value)
+        ? decodeU8a(registry, this, value, Classes)
+        : decodeTuple(registry, this, value, Classes)
+    )[1];
     this.#Types = Classes;
   }
 
@@ -117,7 +117,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };

@@ -78,11 +78,11 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    const [decodedLength] = isU8a(decodeFrom)
-      ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
-      : decodeVec(registry, this, decodeFrom, startAt, this.#Type);
-
-    this.initialU8aLength = decodedLength;
+    this.initialU8aLength = (
+      isU8a(decodeFrom)
+        ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
+        : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
+    )[0];
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {

@@ -13,7 +13,7 @@ export function mapToTypeMap (registry: Registry, input: Record<string, string |
   const count = entries.length;
   const output: [CodecClass[], string[]] = [new Array<CodecClass>(count), new Array<string>(count)];
 
-  for (let i = 0; i < entries.length; i++) {
+  for (let i = 0; i < count; i++) {
     output[1][i] = entries[i][0];
     output[0][i] = typeToConstructor(registry, entries[i][1]);
   }
