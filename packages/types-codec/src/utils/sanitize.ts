@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { AnyString } from '../types';
+
 interface SanitizeOptions {
   allowNamespaces?: boolean;
 }
@@ -282,8 +284,7 @@ export function removeWrap (check: string): Mapper {
 
 const sanitizeMap = new Map<string, string>();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function sanitize (value: String | string, options?: SanitizeOptions): string {
+export function sanitize (value: AnyString, options?: SanitizeOptions): string {
   const startValue = value.toString();
   let result = startValue;
 

@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { Registry } from '@polkadot/types/types';
+import type { AnyString, Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';
@@ -270,7 +270,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
  */
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports, withShortcut = false): string {
+export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: AnyString | TypeDef, imports: TypeImports, withShortcut = false): string {
   let typeDef: TypeDef;
 
   if (isString(type)) {

@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
@@ -15,6 +16,8 @@ interface TypeDefOptions {
 }
 
 const MAX_NESTED = 64;
+const MAX_FIX_LEN = 2048;
+const MAX_BIT_LEN = 8192;
 const KNOWN_INTERNALS = ['_alias', '_fallback'];
 
 function getTypeString (typeOrObj: any): string {
@@ -132,8 +135,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   const [strLength, displayName] = type.substring(index + 1, max).split(';');
   const length = parseInt(strLength.trim(), 10);
 
-  // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 256, () => `${type}: Only support for [Type; <length>], where length <= 256`);
+  assert(length <= MAX_FIX_LEN, () => `${type}: Only support for [Type; <length>], where length <= ${MAX_FIX_LEN}`);
 
   value.displayName = displayName;
   value.length = length;
@@ -157,8 +159,7 @@ function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 
   const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
-  // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 8192 && (length % 8) === 0, () => `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
+  assert(length <= MAX_BIT_LEN && (length % 8) === 0, () => `${type}: Only support for ${clazz}<bitLength>, where length <= ${MAX_BIT_LEN} and a power of 8, found ${length}`);
 
   value.displayName = displayName;
   value.length = length;
@@ -216,8 +217,7 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
   return type.substring(start.length, type.length - end.length);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function getTypeDef (_type: String | string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
+export function getTypeDef (_type: AnyString, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
