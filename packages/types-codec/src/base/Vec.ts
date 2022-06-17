@@ -6,7 +6,7 @@ import type { Codec, CodecClass, Registry } from '../types';
 
 import { assert, compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
 
 const MAX_LENGTH = 64 * 1024;

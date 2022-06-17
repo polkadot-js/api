@@ -7,7 +7,7 @@ import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import type { Hash } from '../interfaces/runtime';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types';
 
-import { Base, Raw } from '@polkadot/types-codec';
+import { AbstractBase, Raw } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_VERSION } from './constants';
@@ -43,7 +43,7 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
+export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
     super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }

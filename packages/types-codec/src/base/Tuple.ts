@@ -5,7 +5,7 @@ import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from
 
 import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
 
 type TupleType = (CodecClass | string);

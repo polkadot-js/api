@@ -3,7 +3,7 @@
 
 import type { Codec } from '../types';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 
 /**
  * @name VecAny

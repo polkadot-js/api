@@ -3,7 +3,7 @@
 
 import type { AnyNumber, CodecClass, Registry, UIntBitLength } from '../types';
 
-import { AbstractInt } from '../abstract/AbstractInt';
+import { AbstractInt } from '../abstract/Int';
 
 /**
  * @name Int

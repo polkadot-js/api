@@ -10,7 +10,7 @@ import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPai
 import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
-import { Base } from '@polkadot/types-codec';
+import { AbstractBase } from '@polkadot/types-codec';
 import { assert, compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
@@ -76,7 +76,7 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number): Ext
   return newFromValue(registry, data.subarray(1), data[0]);
 }
 
-abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | ExtrinsicUnknown> {
+abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
   constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
     super(registry, value, initialU8aLength);
 
