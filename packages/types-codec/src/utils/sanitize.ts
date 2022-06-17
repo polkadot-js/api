@@ -3,11 +3,7 @@
 
 import { AnyString } from '../types';
 
-interface SanitizeOptions {
-  allowNamespaces?: boolean;
-}
-
-type Mapper = (value: string, options?: SanitizeOptions) => string;
+type Mapper = (value: string) => string;
 
 const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
 const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
@@ -167,7 +163,7 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
 }
 
 export function removeColons (): Mapper {
-  return (value: string, { allowNamespaces }: SanitizeOptions = {}): string => {
+  return (value: string): string => {
     let index = 0;
 
     while (index !== -1) {
@@ -176,10 +172,6 @@ export function removeColons (): Mapper {
       if (index === 0) {
         value = value.substring(2);
       } else if (index !== -1) {
-        if (allowNamespaces) {
-          return value;
-        }
-
         let start = index;
 
         while (start !== -1 && !BOX_PRECEDING.includes(value[start])) {
@@ -278,26 +270,21 @@ export function removeWrap (check: string): Mapper {
 
 const sanitizeMap = new Map<string, string>();
 
-export function sanitize (value: AnyString, options?: SanitizeOptions): string {
+export function sanitize (value: AnyString): string {
   const startValue = value.toString();
+  const memoized = sanitizeMap.get(startValue);
 
-  if (!options) {
-    const memoized = sanitizeMap.get(startValue);
-
-    if (memoized) {
-      return memoized;
-    }
+  if (memoized) {
+    return memoized;
   }
 
   let result = startValue;
 
   for (let i = 0; i < mappings.length; i++) {
-    result = mappings[i](result, options);
+    result = mappings[i](result);
   }
 
-  if (!options) {
-    sanitizeMap.set(startValue, result);
-  }
+  sanitizeMap.set(startValue, result);
 
   return result;
 }
