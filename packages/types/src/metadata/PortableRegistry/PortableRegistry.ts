@@ -781,7 +781,7 @@ export class PortableRegistry extends Struct implements ILookup {
         {},
         typeDef,
         lookupIndex === -1
-          ? {}
+          ? null
           : {
             lookupIndex,
             lookupName: this.#names[lookupIndex],
@@ -799,18 +799,18 @@ export class PortableRegistry extends Struct implements ILookup {
       {
         info: isTuple // Tuple check first
           ? TypeDefInfo.Tuple
-          : TypeDefInfo.Struct
+          : TypeDefInfo.Struct,
+        sub
       },
       alias.size
         ? { alias }
         : null,
       lookupIndex === -1
-        ? {}
+        ? null
         : {
           lookupIndex,
           lookupName: this.#names[lookupIndex]
-        },
-      { sub }
+        }
     ));
   }
 
@@ -832,12 +832,11 @@ export class PortableRegistry extends Struct implements ILookup {
         }
 
         sub[i] = objectSpread(
-          {},
-          typeDef,
           {
             docs: sanitizeDocs(docs),
             name: nameField
           },
+          typeDef,
           typeName.isSome
             ? { typeName: sanitize(typeName.unwrap()) }
             : null
@@ -850,12 +849,11 @@ export class PortableRegistry extends Struct implements ILookup {
 
   #extractHistoric (_: number, type: Type): TypeDef {
     return objectSpread(
-      {},
-      getTypeDef(type),
       {
         displayName: type.toString(),
         isFromSi: true
-      }
+      },
+      getTypeDef(type)
     );
   }
 
