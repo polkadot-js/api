@@ -105,9 +105,11 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
     ? new Map(Object.entries(parsed._alias))
     : undefined;
   value.fallbackType = parsed._fallback;
-  value.sub = keys.filter((name) => !KNOWN_INTERNALS.includes(name)).map((name): TypeDef =>
-    getTypeDef(getTypeString(parsed[name]), { name }, count)
-  );
+  value.sub = keys
+    .filter((name) => !KNOWN_INTERNALS.includes(name))
+    .map((name) =>
+      getTypeDef(getTypeString(parsed[name]), { name }, count)
+    );
 
   return value;
 }
@@ -120,12 +122,26 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   let inner = 0;
 
   for (let i = 1; (i < max) && (index === -1); i++) {
-    if (type[i] === ';' && inner === 0) {
-      index = i;
-    } else if (['[', '(', '<'].includes(type[i])) {
-      inner++;
-    } else if ([']', ')', '>'].includes(type[i])) {
-      inner--;
+    switch (type[i]) {
+      case ';': {
+        if (inner === 0) {
+          index = i;
+        }
+
+        break;
+      }
+
+      case '[':
+      case '(':
+      case '<':
+        inner++;
+        break;
+
+      case ']':
+      case ')':
+      case '>':
+        inner--;
+        break;
     }
   }
 
