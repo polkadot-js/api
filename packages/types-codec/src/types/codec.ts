@@ -60,7 +60,7 @@ export interface Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspect (isBare?: BareOpts): Inspect;
+  inspect (isBare?: BareOpts): Inspect;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation

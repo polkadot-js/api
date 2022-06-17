@@ -70,7 +70,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public initialU8aLength?: number;
 
   readonly #Type: CodecClass<T>;
 

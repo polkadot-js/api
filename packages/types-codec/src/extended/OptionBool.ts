@@ -32,19 +32,14 @@ export class OptionBool extends Option<Bool> {
         ? decodeU8a(registry, u8aToU8a(value))
         : value
     );
+
+    this.initialU8aLength = 1;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return 1;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public override get initialU8aLength (): number {
     return 1;
   }
 
