@@ -260,6 +260,13 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description true if this is a basic enum (no values)
+   */
+  public get isBasic (): boolean {
+    return this.#isBasic;
+  }
+
+  /**
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
