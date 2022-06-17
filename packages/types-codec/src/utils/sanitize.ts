@@ -280,7 +280,6 @@ const sanitizeMap = new Map<string, string>();
 
 export function sanitize (value: AnyString, options?: SanitizeOptions): string {
   const startValue = value.toString();
-  let result = startValue;
 
   if (!options) {
     const memoized = sanitizeMap.get(startValue);
@@ -289,6 +288,8 @@ export function sanitize (value: AnyString, options?: SanitizeOptions): string {
       return memoized;
     }
   }
+
+  let result = startValue;
 
   for (let i = 0; i < mappings.length; i++) {
     result = mappings[i](result, options);
