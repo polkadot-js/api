@@ -53,10 +53,6 @@ describe('sanitize', (): void => {
     it('removes on embedded values (all)', (): void => {
       expect(fn('(T::AccountId, slashing::SpanIndex)')).toEqual('(AccountId, SpanIndex)');
     });
-
-    it('keeps with allowNamespaces', (): void => {
-      expect(fn('::slashing::SpanIndex', { allowNamespaces: true })).toEqual('slashing::SpanIndex');
-    });
   });
 
   describe('bounded', (): void => {

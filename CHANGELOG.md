@@ -12,13 +12,14 @@ Changes:
 - Rename `Base` type to `AbstractBase` (reflecting usage)
 - Instantiate `Compact/UInt/Int` with `number` when passed
 - Adjust name extraction in `PortableRegistry` (maintainability)
+- Adjust string type path extraction (maintainability)
 
 
 ## 8.8.2 Jun 14, 2022
 
 Changes:
 
-- Aling historic `DispatchErrorModule` with `U8` variant
+- Align historic `DispatchErrorModule` with `U8` variant
 - Extend lookup type name generation when conflicts arrise
 - Update to latest Substrate metadata
 

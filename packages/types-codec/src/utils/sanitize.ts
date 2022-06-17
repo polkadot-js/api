@@ -1,11 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-interface SanitizeOptions {
-  allowNamespaces?: boolean;
-}
+import { AnyString } from '../types';
 
-type Mapper = (value: string, options?: SanitizeOptions) => string;
+type Mapper = (value: string) => string;
 
 const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
 const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
@@ -165,7 +163,7 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
 }
 
 export function removeColons (): Mapper {
-  return (value: string, { allowNamespaces }: SanitizeOptions = {}): string => {
+  return (value: string): string => {
     let index = 0;
 
     while (index !== -1) {
@@ -174,10 +172,6 @@ export function removeColons (): Mapper {
       if (index === 0) {
         value = value.substring(2);
       } else if (index !== -1) {
-        if (allowNamespaces) {
-          return value;
-        }
-
         let start = index;
 
         while (start !== -1 && !BOX_PRECEDING.includes(value[start])) {
@@ -203,7 +197,7 @@ export function removeGenerics (): Mapper {
           return (
             (
               start >= 0 &&
-              value.substring(start, start + box.length) === box
+              value.substring(start, index) === box
             ) && (
               // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
               start === 0 ||
@@ -225,15 +219,12 @@ export function removeGenerics (): Mapper {
   };
 }
 
-/** @internal */
-function pairOfReplacer (v: string): string {
-  return `(${v},${v})`;
-}
-
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
+  const replacer = (v: string) => `(${v},${v})`;
+
   return (value: string) =>
-    replaceTagWith(value, 'PairOf<', pairOfReplacer);
+    replaceTagWith(value, 'PairOf<', replacer);
 }
 
 // remove the type traits
@@ -269,39 +260,31 @@ export function removeTraits (): Mapper {
   };
 }
 
-/** @internal */
-function wrapReplacer (v: string): string {
-  return v;
-}
-
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (check: string): Mapper {
+  const replacer = (v: string) => v;
+
   return (value: string) =>
-    replaceTagWith(value, check, wrapReplacer);
+    replaceTagWith(value, check, replacer);
 }
 
 const sanitizeMap = new Map<string, string>();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function sanitize (value: String | string, options?: SanitizeOptions): string {
+export function sanitize (value: AnyString): string {
   const startValue = value.toString();
+  const memoized = sanitizeMap.get(startValue);
+
+  if (memoized) {
+    return memoized;
+  }
+
   let result = startValue;
 
-  if (!options) {
-    const memoized = sanitizeMap.get(startValue);
-
-    if (memoized) {
-      return memoized;
-    }
-  }
-
   for (let i = 0; i < mappings.length; i++) {
-    result = mappings[i](result, options);
+    result = mappings[i](result);
   }
 
-  if (!options) {
-    sanitizeMap.set(startValue, result);
-  }
+  sanitizeMap.set(startValue, result);
 
   return result;
 }
