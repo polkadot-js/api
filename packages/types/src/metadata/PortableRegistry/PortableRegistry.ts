@@ -165,10 +165,9 @@ function getAliasPath (path: SiPath): string | null {
 /** @internal */
 function extractNameFlat (portable: PortableType[], lookupIndex: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): Extract | null {
   const count = path.length;
-  const last = count - 1;
 
   // if we have no path or determined as a wrapper, we just skip it
-  if (last === -1 || WRAPPERS.includes(path[last].toString())) {
+  if (count === 0 || WRAPPERS.includes(path[count - 1].toString())) {
     return null;
   }
 
@@ -199,7 +198,7 @@ function extractNameFlat (portable: PortableType[], lookupIndex: number, params:
     if (i !== 1 || !PATH_RM_INDEX_1.includes(l)) {
       // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
       // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-      if (i === last || l !== lowers[i + 1]) {
+      if (l !== lowers[i + 1]) {
         name += camels[i];
       }
     }
