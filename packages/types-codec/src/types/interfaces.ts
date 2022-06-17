@@ -17,7 +17,6 @@ export interface IEnum extends Codec {
   readonly defIndexes: number[];
   readonly defKeys: string[];
   readonly index: number;
-  readonly isBasic: boolean
   readonly type: string;
   readonly value: Codec;
 

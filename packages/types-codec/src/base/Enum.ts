@@ -168,9 +168,9 @@ export class Enum implements IEnum {
 
   readonly initialU8aLength?: number;
 
-  readonly isBasic: boolean;
-
   readonly #indexes: number[];
+
+  readonly #isBasic: boolean;
 
   readonly #isIndexed: boolean;
 
@@ -186,7 +186,7 @@ export class Enum implements IEnum {
 
     this.registry = registry;
     this.#def = def;
-    this.isBasic = isBasic;
+    this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
@@ -318,7 +318,7 @@ export class Enum implements IEnum {
       return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isNumber(other)) {
       return this.toNumber() === other;
-    } else if (this.isBasic && isString(other)) {
+    } else if (this.#isBasic && isString(other)) {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
@@ -336,7 +336,7 @@ export class Enum implements IEnum {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    if (this.isBasic) {
+    if (this.#isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 
@@ -359,7 +359,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.isBasic || this.isNone
+    return this.#isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }
@@ -368,7 +368,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.isBasic
+    return this.#isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
@@ -384,7 +384,7 @@ export class Enum implements IEnum {
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
-    if (this.isBasic) {
+    if (this.#isBasic) {
       return this.#isIndexed
         ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
           out[key] = this.#indexes[index];
