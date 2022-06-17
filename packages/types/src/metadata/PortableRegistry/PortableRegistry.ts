@@ -164,44 +164,49 @@ function getAliasPath (path: SiPath): string | null {
 
 /** @internal */
 function extractNameFlat (portable: PortableType[], lookupIndex: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): Extract | null {
-  const last = path.length - 1;
+  const count = path.length;
+  const last = count - 1;
 
   // if we have no path or determined as a wrapper, we just skip it
   if (last === -1 || WRAPPERS.includes(path[last].toString())) {
     return null;
   }
 
-  const parts: string[] = [];
-  let name = '';
+  const camels = new Array<string>(count);
+  const lowers = new Array<string>(count);
 
-  for (let i = 0; i <= last; i++) {
-    const p = stringPascalCase(
+  // initially just create arrays of the camelCase and lowercase path
+  // parts - we will check these to extract the final values. While
+  // we have 2 loops here, we also don't do the same operation twice
+  for (let i = 0; i < count; i++) {
+    const c = stringPascalCase(
       isInternal
         ? path[i].replace('pallet_', '')
         : path[i]
     );
-    const l = p.toLowerCase();
+    const l = c.toLowerCase();
 
-    if (
-      (
-        // Remove ::{generic, misc, pallet, traits, types}::
-        i !== 1 ||
-        !PATH_RM_INDEX_1.includes(l)
-      ) &&
-      (
-        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-        i === last ||
-        l !== path[i + 1].toLowerCase()
-      )
-    ) {
-      parts.push(p);
-      name += p;
+    camels[i] = c;
+    lowers[i] = l;
+  }
+
+  let name = '';
+
+  for (let i = 0; i < count; i++) {
+    const l = lowers[i];
+
+    // Remove ::{generic, misc, pallet, traits, types}::
+    if (i !== 1 || !PATH_RM_INDEX_1.includes(l)) {
+      // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+      // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+      if (i === last || l !== lowers[i + 1]) {
+        name += camels[i];
+      }
     }
   }
 
   // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
-  if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
+  if (camels[1] === 'RawOrigin' && camels.length === 2 && params.length === 2 && params[1].type.isSome) {
     const instanceType = portable[params[1].type.unwrap().toNumber()];
 
     if (instanceType.type.path.length === 2) {
