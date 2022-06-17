@@ -206,7 +206,7 @@ function extractNameFlat (portable: PortableType[], lookupIndex: number, params:
   }
 
   // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
-  if (camels[1] === 'RawOrigin' && camels.length === 2 && params.length === 2 && params[1].type.isSome) {
+  if (camels[1] === 'RawOrigin' && count === 2 && params.length === 2 && params[1].type.isSome) {
     const instanceType = portable[params[1].type.unwrap().toNumber()];
 
     if (instanceType.type.path.length === 2) {
