@@ -73,10 +73,6 @@ export class MetadataVersioned extends Struct {
     return this.getT('metadata');
   };
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version
    */
