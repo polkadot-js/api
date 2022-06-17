@@ -18,6 +18,26 @@ function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
   return d;
 }
 
+function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
+  if (isU8a(value)) {
+    const [decodedLength, bn] = (value[0] & 0b11) < 0b11
+      ? compactFromU8aLim(value)
+      : compactFromU8a(value);
+
+    return [new Type(registry, bn), decodedLength];
+  } else if (value instanceof Compact) {
+    const raw = value.unwrap();
+
+    return raw instanceof Type
+      ? [raw, 0]
+      : [new Type(registry, raw), 0];
+  } else if (value instanceof Type) {
+    return [value, 0];
+  }
+
+  return [new Type(registry, value), 0];
+}
+
 /**
  * @name Compact
  * @description
@@ -41,7 +61,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
-    const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
+    const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
     this.initialU8aLength = decodedLength;
     this.#raw = raw;
@@ -59,25 +79,6 @@ export class Compact<T extends INumber> implements ICompact<T> {
         super(registry, Type, value, { definition, setDefinition });
       }
     };
-  }
-
-  /** @internal */
-  public static decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
-    if (isU8a(value)) {
-      const [decodedLength, bn] = (value[0] & 0b11) < 0b11
-        ? compactFromU8aLim(value)
-        : compactFromU8a(value);
-
-      return [new Type(registry, bn), decodedLength];
-    } else if (value instanceof Compact) {
-      return value.#raw instanceof Type
-        ? [value.#raw, 0]
-        : [new Type(registry, value.#raw), 0];
-    } else if (value instanceof Type) {
-      return [value, 0];
-    }
-
-    return [new Type(registry, value), 0];
   }
 
   /**
