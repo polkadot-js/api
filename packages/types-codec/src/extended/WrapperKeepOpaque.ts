@@ -70,7 +70,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return this.#decoded
       ? {
         inner: [this.#decoded.inspect()],

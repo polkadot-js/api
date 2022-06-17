@@ -154,7 +154,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {

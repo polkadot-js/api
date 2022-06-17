@@ -167,10 +167,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends Base<ExtrinsicVx | Extr
     return this.inner.signature.nonce;
   }
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */

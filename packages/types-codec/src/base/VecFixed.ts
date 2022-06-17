@@ -34,11 +34,11 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    const [, decodedLengthNoOffset] = isU8a(value)
-      ? decodeU8aVec(registry, this, value, 0, this.#Type)
-      : decodeVec(registry, this, value, 0, this.#Type);
-
-    this.initialU8aLength = decodedLengthNoOffset;
+    this.initialU8aLength = (
+      isU8a(value)
+        ? decodeU8aVec(registry, this, value, 0, this.#Type)
+        : decodeVec(registry, this, value, 0, this.#Type)
+    )[1];
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {
@@ -78,7 +78,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };

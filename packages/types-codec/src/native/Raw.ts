@@ -16,11 +16,11 @@ import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a }
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  public readonly initialU8aLength?: number;
+
+  public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
@@ -94,7 +94,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

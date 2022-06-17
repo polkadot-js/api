@@ -6,7 +6,7 @@ import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Regi
 
 import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8a, mapToTypeMap, typesToMap } from '../utils';
+import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
@@ -100,11 +100,11 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  #registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  public readonly initialU8aLength?: number;
+
+  public readonly registry: Registry;
 
   readonly #jsonMap: Map<keyof S, string>;
 
@@ -113,15 +113,15 @@ export class Struct<
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value) || isHex(value)
-      ? decodeU8a<Codec, [string, Codec]>(registry, new Array(typeMap[0].length), u8aToU8a(value), typeMap, true)
+      ? decodeU8aStruct(registry, new Array<[string, Codec]>(typeMap[0].length), u8aToU8a(value), typeMap)
       : value instanceof Struct
         ? [value as Iterable<[string, Codec]>, 0]
         : decodeStructFromObject(registry, typeMap, value || {}, jsonMap);
 
     super(decoded);
 
-    this.#registry = registry;
     this.initialU8aLength = decodedLength;
+    this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
   }
@@ -202,10 +202,6 @@ export class Struct<
     return this.registry.hash(this.toU8a());
   }
 
-  public get registry (): Registry {
-    return this.#registry;
-  }
-
   /**
    * @description Compares the value of the input to see if there is a match
    */
@@ -231,7 +227,7 @@ export class Struct<
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (isBare?: BareOpts): Inspect {
+  public inspect (isBare?: BareOpts): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {

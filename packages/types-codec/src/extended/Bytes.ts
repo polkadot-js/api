@@ -3,7 +3,7 @@
 
 import type { AnyU8a, Inspect, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8aLim, compactToU8a, isCodec, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, compactAddLength, compactFromU8aLim, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -35,7 +35,7 @@ function decodeBytesU8a (value: Uint8Array): [Uint8Array, number] {
  */
 export class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
-    const [u8a, decodedLength] = isU8a(value) && !(isCodec(value) && value instanceof Raw)
+    const [u8a, decodedLength] = isU8a(value) && !(value instanceof Raw)
       ? decodeBytesU8a(value)
       : Array.isArray(value) || isString(value)
         ? [u8aToU8a(value), 0]
@@ -54,7 +54,7 @@ export class Bytes extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (isBare?: boolean): Inspect {
+  public override inspect (isBare?: boolean): Inspect {
     const clength = compactToU8a(this.length);
 
     return {

@@ -9,18 +9,18 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class Base<T extends Codec> implements Codec {
-  readonly #registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  public readonly initialU8aLength?: number;
+
+  public readonly registry: Registry;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
-    this.#registry = registry;
     this.#raw = value;
     this.initialU8aLength = initialU8aLength;
+    this.registry = registry;
   }
 
   /**
@@ -48,10 +48,6 @@ export abstract class Base<T extends Codec> implements Codec {
     return this.#raw.isEmpty;
   }
 
-  public get registry (): Registry {
-    return this.#registry;
-  }
-
   /**
    * @description Compares the value of the input to see if there is a match
    */
@@ -62,7 +58,7 @@ export abstract class Base<T extends Codec> implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return this.#raw.inspect();
   }
 

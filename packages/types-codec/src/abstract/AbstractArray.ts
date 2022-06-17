@@ -73,14 +73,14 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       inner: this.inspectInner(),
       outer: [compactToU8a(this.length)]
     };
   }
 
-  inspectInner (): Inspect[] {
+  public inspectInner (): Inspect[] {
     const inner = new Array<Inspect>(this.length);
 
     for (let i = 0; i < this.length; i++) {

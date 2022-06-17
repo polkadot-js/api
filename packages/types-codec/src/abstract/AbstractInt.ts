@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -55,27 +55,29 @@ export abstract class AbstractInt extends BN implements INumber {
 
   public createdAtHash?: IU8a;
 
-  readonly encodedLength: number;
+  public readonly encodedLength: number;
+
+  public readonly isUnsigned: boolean;
 
   readonly #bitLength: UIntBitLength;
 
-  readonly #isSigned: boolean;
-
   constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
-    // Construct via a string, which will be passed in the BN constructor.
+    // Construct via a string/number, which will be passed in the BN constructor.
     // It would be ideal to actually return a BN, but there is an issue:
     // https://github.com/indutny/bn.js/issues/206
     super(
       // shortcut isU8a as used in SCALE decoding
       isU8a(value)
-        ? u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
+        ? bitLength <= 48
+          ? u8aToNumber(value.subarray(0, bitLength / 8), { isNegative: isSigned })
+          : u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
         : decodeAbstractInt(value, isSigned)
     );
 
     this.registry = registry;
     this.#bitLength = bitLength;
     this.encodedLength = this.#bitLength / 8;
-    this.#isSigned = isSigned;
+    this.isUnsigned = !isSigned;
 
     const isPositive = this.gte(BN_ZERO);
     const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
@@ -99,13 +101,6 @@ export abstract class AbstractInt extends BN implements INumber {
   }
 
   /**
-   * @description Checks if the value is an unsigned type
-   */
-  public get isUnsigned (): boolean {
-    return !this.#isSigned;
-  }
-
-  /**
    * @description Returns the number of bits in the value
    */
   public override bitLength (): number {
@@ -121,7 +116,7 @@ export abstract class AbstractInt extends BN implements INumber {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: !this.isUnsigned })
         : bnToBn(other as string)
     );
   }
@@ -129,7 +124,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

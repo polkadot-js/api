@@ -89,10 +89,6 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     return this.getT('nonce');
   }
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
