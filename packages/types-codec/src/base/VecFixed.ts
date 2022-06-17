@@ -6,7 +6,7 @@ import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
 import { isU8a, u8aConcatStrict } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
 import { decodeVec } from './Vec';
 

@@ -5,7 +5,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
-import { Base } from '@polkadot/types-codec';
+import { AbstractBase } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
@@ -38,7 +38,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
 
   const [offset, length] = GenericAccountIndex.readLength(value);
 
-  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length), true)]);
+  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length))]);
 }
 
 function decodeAddressOrIndex (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
@@ -61,7 +61,7 @@ function decodeAddressOrIndex (registry: Registry, value: AnyAddress): GenericEt
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
+export class GenericEthereumLookupSource extends AbstractBase<GenericEthereumAccountId | GenericAccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
     super(registry, decodeAddressOrIndex(registry, value));
   }

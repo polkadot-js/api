@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/tomaka)
+
+Changes:
+
+- Deupe all internal type property getters
+- Rename `Base` type to `AbstractBase` (reflecting usage)
+- Instantiate `Compact/UInt/Int` with `number` when passed
+- Adjust name extraction in `PortableRegistry` (maintainability)
+
+
 ## 8.8.2 Jun 14, 2022
 
 Changes:
