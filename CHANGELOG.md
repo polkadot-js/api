@@ -13,6 +13,7 @@ Changes:
 - Instantiate `Compact/UInt/Int` with `number` when passed
 - Adjust name extraction in `PortableRegistry` (maintainability)
 - Adjust string type path extraction (maintainability)
+- Add Kusama 9230 upgrade block
 
 
 ## 8.8.2 Jun 14, 2022
