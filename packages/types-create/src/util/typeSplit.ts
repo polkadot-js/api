@@ -1,8 +1,6 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { assert } from '@polkadot/util';
-
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): string[] {
   const result: string[] = [];
@@ -47,7 +45,9 @@ export function typeSplit (type: string): string[] {
   }
 
   // ensure we have all the terminators taken care of
-  assert(!(c || f || s || t), () => `Invalid definition (missing terminators) found in ${type}`);
+  if (c || f || s || t) {
+    throw new Error(`Invalid definition (missing terminators) found in ${type}`);
+  }
 
   // the final leg of the journey
   result.push(type.substring(start, type.length).trim());

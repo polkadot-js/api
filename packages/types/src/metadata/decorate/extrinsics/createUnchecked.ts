@@ -5,7 +5,7 @@ import type { AnyJson, AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { Call, FunctionMetadataLatest } from '../../../interfaces';
 import type { CallFunction, IMethod } from '../../../types';
 
-import { assert, stringCamelCase } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 function isTx <A extends AnyTuple> (tx: IMethod<AnyTuple>, callIndex: Uint8Array): tx is IMethod<A> {
   return tx.callIndex[0] === callIndex[0] && tx.callIndex[1] === callIndex[1];
@@ -17,7 +17,9 @@ export function createUnchecked (registry: Registry, section: string, callIndex:
   const funcName = stringCamelCase(callMetadata.name);
 
   const extrinsicFn = (...args: unknown[]): Call => {
-    assert(expectedArgs.length === args.length, () => `Extrinsic ${section}.${funcName} expects ${expectedArgs.length} arguments, got ${args.length}.`);
+    if (expectedArgs.length !== args.length) {
+      throw new Error(`Extrinsic ${section}.${funcName} expects ${expectedArgs.length} arguments, got ${args.length}.`);
+    }
 
     return registry.createTypeUnsafe('Call', [{ args, callIndex }, callMetadata]);
   };

@@ -4,7 +4,7 @@
 import type { Registry } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
-import { assert, isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
+import { isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
 
@@ -45,7 +45,9 @@ function encodeWithParams (registry: Registry, typeDef: TypeDef, outer: string):
 function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, extra?: Record<string, unknown>): string {
   const names = sub.map(({ name }) => name);
 
-  assert(names.every((n) => !!n), () => `Subtypes does not have consistent names, ${names.join(', ')}`);
+  if (!names.every((n) => !!n)) {
+    throw new Error(`Subtypes does not have consistent names, ${names.join(', ')}`);
+  }
 
   const inner: Record<string, string> = objectSpread({}, extra);
 
@@ -78,7 +80,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     `DoNotConstruct<${lookupName || displayName || (isUndefined(lookupIndex) ? 'Unknown' : registry.createLookupType(lookupIndex))}>`,
 
   [TypeDefInfo.Enum]: (registry: Registry, { sub }: TypeDef): string => {
-    assert(sub && Array.isArray(sub), 'Unable to encode Enum type');
+    if (!Array.isArray(sub)) {
+      throw new Error('Unable to encode Enum type');
+    }
 
     // c-like enums have all Null entries
     // TODO We need to take the disciminant into account and auto-add empty entries
@@ -118,7 +122,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Set]: (registry: Registry, { length = 8, sub }: TypeDef): string => {
-    assert(sub && Array.isArray(sub), 'Unable to encode Set type');
+    if (!Array.isArray(sub)) {
+      throw new Error('Unable to encode Set type');
+    }
 
     return stringify({
       _set: sub.reduce((all, { index, name }, count) =>
@@ -132,7 +138,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     lookupName || type,
 
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
-    assert(sub && Array.isArray(sub), 'Unable to encode Struct type');
+    if (!Array.isArray(sub)) {
+      throw new Error('Unable to encode Struct type');
+    }
 
     return encodeSubTypes(registry, sub, false,
       alias
@@ -146,7 +154,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   },
 
   [TypeDefInfo.Tuple]: (registry: Registry, { sub }: TypeDef): string => {
-    assert(sub && Array.isArray(sub), 'Unable to encode Tuple type');
+    if (!Array.isArray(sub)) {
+      throw new Error('Unable to encode Tuple type');
+    }
 
     return `(${sub.map((type) => encodeTypeDef(registry, type)).join(',')})`;
   },
@@ -158,7 +168,9 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     encodeWithParams(registry, typeDef, 'Vec'),
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { length, sub }: TypeDef): string => {
-    assert(isNumber(length) && !isUndefined(sub) && !Array.isArray(sub), 'Unable to encode VecFixed type');
+    if (!isNumber(length) || !sub || Array.isArray(sub)) {
+      throw new Error('Unable to encode VecFixed type');
+    }
 
     return `[${sub.type};${length}]`;
   },

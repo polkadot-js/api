@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
+import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
 /**
  * @name Raw
@@ -177,7 +177,9 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Returns the wrapped data as a UTF-8 string
    */
   public toUtf8 (): string {
-    assert(this.isUtf8, 'The character sequence is not a valid Utf8 string');
+    if (!this.isUtf8) {
+      throw new Error('The character sequence is not a valid Utf8 string');
+    }
 
     return u8aToString(this);
   }

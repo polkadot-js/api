@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { assert, compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -30,7 +30,9 @@ function decodeVecLength (value: Uint8Array | HexString | unknown[]): [Uint8Arra
   const u8a = u8aToU8a(value);
   const [startAt, length] = compactFromU8aLim(u8a);
 
-  assert(length <= MAX_LENGTH, () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  if (length > MAX_LENGTH) {
+    throw new Error(`Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  }
 
   return [u8a, length, startAt];
 }

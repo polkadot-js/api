@@ -9,7 +9,9 @@ Contributed:
 Changes:
 
 - Deupe all internal type property getters
+- Adjust `@polkadot/types-codec` asserts
 - Rename `Base` type to `AbstractBase` (reflecting usage)
+- Alias `blockHash` on `rpc.engine.createBlock` return
 - Instantiate `Compact/UInt/Int` with `number` when passed
 - Adjust name extraction in `PortableRegistry` (maintainability)
 - Adjust string type path extraction (maintainability)

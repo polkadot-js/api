@@ -9,7 +9,7 @@ import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTyp
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
+import { assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -410,7 +410,9 @@ export class TypeRegistry implements Registry {
   public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
-    assert(Clazz, msg || `type ${name} not found`);
+    if (!Clazz) {
+      throw new Error(msg || `type ${name} not found`);
+    }
 
     return Clazz as unknown as CodecClass<R>;
   }
@@ -454,8 +456,11 @@ export class TypeRegistry implements Registry {
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
-      assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
-      assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
+      if (!isFunction(arg2)) {
+        throw new Error(`Expected class definition passed to '${arg1}' registration`);
+      } else if (arg1 === arg2.toString()) {
+        throw new Error(`Unable to register circular ${arg1} === ${arg1}`);
+      }
 
       this.#classes.set(arg1, arg2);
     } else {
@@ -477,7 +482,9 @@ export class TypeRegistry implements Registry {
           ? type
           : stringify(type);
 
-        assert(name !== def, () => `Unable to register circular ${name} === ${def}`);
+        if (name === def) {
+          throw new Error(`Unable to register circular ${name} === ${def}`);
+        }
 
         // we already have this type, remove the classes registered for it
         if (this.#classes.has(name)) {

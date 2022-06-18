@@ -7,7 +7,7 @@ import type { Check } from './types';
 import fs from 'fs';
 import path from 'path';
 
-import { assert, hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
+import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
@@ -107,7 +107,9 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
               if (withFallbackCheck) {
                 const [hexType, hexOrig] = [u8aToHex(instance.toU8a()), u8aToHex(fallback.toU8a(true))];
 
-                assert(hexType === hexOrig, () => `Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
+                if (hexType !== hexOrig) {
+                  throw new Error(`Fallback does not match (${((hexOrig.length - 2) / 2) - ((hexType.length - 2) / 2)} bytes missing): ${hexType} !== ${hexOrig}`);
+                }
               }
             } catch (error) {
               const message = `${location}:: ${(error as Error).message}`;

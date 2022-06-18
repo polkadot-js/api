@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
 
-import { assert, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
 
@@ -27,8 +27,11 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
   const typeofArray = Array.isArray(value);
   const typeofMap = value instanceof Map;
 
-  assert(typeofArray || typeofMap || isObject(value), () => `Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
-  assert(!typeofArray || value.length === keys.length, () => `Struct: Unable to map ${stringify(value)} array to object with known keys ${keys.join(', ')}`);
+  if (!typeofArray && !typeofMap && !isObject(value)) {
+    throw new Error(`Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
+  } else if (typeofArray && value.length !== keys.length) {
+    throw new Error(`Struct: Unable to map ${stringify(value)} array to object with known keys ${keys.join(', ')}`);
+  }
 
   const raw = new Array<[string, Codec]>(keys.length);
 
