@@ -9,7 +9,7 @@ import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDef
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
-import { assert, assertUnreachable, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
+import { assertUnreachable, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
 const l = logger('PortableRegistry');
 
@@ -540,7 +540,9 @@ export class PortableRegistry extends Struct implements ILookup {
     // ensure that we have actually initialized it correctly
     const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
 
-    assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
+    if (!found) {
+      throw new Error(`PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
+    }
 
     return found.type;
   }
@@ -626,7 +628,9 @@ export class PortableRegistry extends Struct implements ILookup {
 
   #getLookupId (lookupId: SiLookupTypeId | string | number): number {
     if (isString(lookupId)) {
-      assert(this.registry.isLookupType(lookupId), () => `PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+      if (!this.registry.isLookupType(lookupId)) {
+        throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+      }
 
       return parseInt(lookupId.replace('Lookup', ''), 10);
     } else if (isNumber(lookupId)) {
@@ -665,12 +669,16 @@ export class PortableRegistry extends Struct implements ILookup {
     return objectSpread({ docs: sanitizeDocs(type.docs), namespace }, typeDef);
   }
 
-  #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
-    assert(!length || length.toNumber() <= 256, 'Only support for [Type; <length>], where length <= 256');
+  #extractArray (_: number, { len, type }: SiTypeDefArray): TypeDef {
+    const length = len.toNumber();
+
+    if (length > 2048) {
+      throw new Error('Only support for [Type; <length>], where length <= 2048');
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
-      length: length.toNumber(),
+      length,
       sub: this.#createSiDef(type)
     });
   }
@@ -687,8 +695,11 @@ export class PortableRegistry extends Struct implements ILookup {
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
     // we don't pass it though at all (all displays in LSB)
-    assert(BITVEC_NS.includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
-    assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    if (!BITVEC_NS.includes(bitOrder.namespace || '')) {
+      throw new Error(`Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    } else if (bitStore.info !== TypeDefInfo.Plain || bitStore.type !== 'u8') {
+      throw new Error(`Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    }
 
     return {
       info: TypeDefInfo.Plain,
@@ -741,7 +752,9 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
-    assert(params.length === 1 && fields.length === 1, 'Set handling expects param/field as single entries');
+    if (params.length !== 1 || fields.length !== 1) {
+      throw new Error('Set handling expects param/field as single entries');
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
@@ -767,7 +780,9 @@ export class PortableRegistry extends Struct implements ILookup {
       isTuple = isTuple && name.isNone;
     }
 
-    assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
+    if (!isTuple && !isStruct) {
+      throw new Error('Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
+    }
 
     if (fields.length === 0) {
       return {

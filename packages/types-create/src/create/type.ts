@@ -5,7 +5,7 @@ import type { Codec, CodecClass, IU8a, Registry } from '@polkadot/types-codec/ty
 import type { CreateOptions } from '../types';
 
 import { Bytes, Option } from '@polkadot/types-codec';
-import { assert, isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClassUnsafe } from './class';
 
@@ -29,7 +29,9 @@ function checkInstance (created: Codec, matcher: Uint8Array): void {
     )
   );
 
-  assert(isOk, () => `${rawType}:: Decoded input doesn't match input, received ${u8aToHex(matcher, 512)} (${matcher.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
+  if (!isOk) {
+    throw new Error(`${rawType}:: Decoded input doesn't match input, received ${u8aToHex(matcher, 512)} (${matcher.length} bytes), created ${u8aToHex(u8a, 512)} (${u8a.length} bytes)`);
+  }
 }
 
 function checkPedantic (created: Codec, [value]: unknown[]): void {

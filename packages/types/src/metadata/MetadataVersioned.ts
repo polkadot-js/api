@@ -7,7 +7,6 @@ import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11,
 import type { Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
-import { assert } from '@polkadot/util';
 
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
@@ -44,7 +43,9 @@ export class MetadataVersioned extends Struct {
   }
 
   #assertVersion = (version: number): boolean => {
-    assert(this.version <= version, () => `Cannot convert metadata from version ${this.version} to ${version}`);
+    if (this.version > version) {
+      throw new Error(`Cannot convert metadata from version ${this.version} to ${version}`);
+    }
 
     return this.version === version;
   };

@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
+import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -27,7 +27,9 @@ function toPercentage (value: BN, divisor: BN): string {
 /** @internal */
 function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string | number {
   if (isNumber(value)) {
-    assert(value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER && Number.isInteger(value), 'Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
+    if (!Number.isInteger(value) || value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) {
+      throw new Error('Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
+    }
 
     return value;
   } else if (isString(value)) {
@@ -35,7 +37,9 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: b
       return hexToBn(value, { isLe: false, isNegative }).toString();
     }
 
-    assert(!(value.includes('.') || value.includes(',') || value.includes('e')), 'String should not contain decimal points or scientific notation');
+    if (value.includes('.') || value.includes(',') || value.includes('e')) {
+      throw new Error('String should not contain decimal points or scientific notation');
+    }
 
     return value;
   } else if (isBn(value)) {
@@ -79,11 +83,14 @@ export abstract class AbstractInt extends BN implements INumber {
     this.encodedLength = this.#bitLength / 8;
     this.isUnsigned = !isSigned;
 
-    const isPositive = this.gte(BN_ZERO);
-    const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
+    const isNegative = this.isNeg();
+    const maxBits = bitLength - (isSigned && !isNegative ? 1 : 0);
 
-    assert(isSigned || isPositive, () => `${this.toRawType()}: Negative number passed to unsigned type`);
-    assert(super.bitLength() <= maxBits, () => `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    if (isNegative && !isSigned) {
+      throw new Error(`${this.toRawType()}: Negative number passed to unsigned type`);
+    } else if (super.bitLength() > maxBits) {
+      throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    }
   }
 
   /**

@@ -4,8 +4,6 @@
 import type { Registry } from '@polkadot/types-codec/types';
 import type { DecoratedMeta } from './types';
 
-import { assert } from '@polkadot/util';
-
 import { Metadata } from '../Metadata';
 import { decorateConstants } from './constants';
 import { decorateErrors } from './errors';
@@ -17,7 +15,9 @@ import { decorateStorage } from './storage';
  * Expands the metadata by decoration into consts, query and tx sections
  */
 export function expandMetadata (registry: Registry, metadata: Metadata): DecoratedMeta {
-  assert(metadata instanceof Metadata, 'You need to pass a valid Metadata instance to Decorated');
+  if (!(metadata instanceof Metadata)) {
+    throw new Error('You need to pass a valid Metadata instance to Decorated');
+  }
 
   const latest = metadata.asLatest;
   const version = metadata.version;

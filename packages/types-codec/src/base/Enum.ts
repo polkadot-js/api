@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -45,7 +45,9 @@ function isRustEnum (def: Record<string, string | CodecClass> | Record<string, n
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
-    assert(defValues.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+    if (!defValues.every((v) => isNumber(v) && v >= 0 && v <= 255)) {
+      throw new Error('Invalid number-indexed enum definition');
+    }
 
     return false;
   }
@@ -97,7 +99,9 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
 function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
   const entry = Object.values(def).find((e) => e.index === index);
 
-  assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  if (isUndefined(entry)) {
+    throw new Error(`Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  }
 
   return {
     index,
@@ -114,7 +118,9 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   const keyLower = key.toLowerCase();
   const index = keys.indexOf(keyLower);
 
-  assert(index !== -1, () => `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+  if (index === -1) {
+    throw new Error(`Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+  }
 
   try {
     return createFromValue(registry, def, Object.values(def)[index].index, value);
@@ -223,7 +229,9 @@ export class Enum implements IEnum {
 
         objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
         objectProperties(this, asKeys, (k, i): Codec => {
-          assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
+          if (!this[isKeys[i] as keyof this]) {
+            throw new Error(`Cannot convert '${this.type}' via ${k}`);
+          }
 
           return this.value;
         });

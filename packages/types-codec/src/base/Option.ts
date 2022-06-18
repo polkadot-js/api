@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } from '../types';
 
-import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils';
 import { Null } from './Null';
@@ -247,7 +247,9 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the value that the Option represents (if available), throws if null
    */
   public unwrap (): T {
-    assert(this.isSome, 'Option: unwrapping a None value');
+    if (this.isNone) {
+      throw new Error('Option: unwrapping a None value');
+    }
 
     return this.#raw;
   }

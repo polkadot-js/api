@@ -5,7 +5,7 @@ import type { AnyString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
-import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
+import { isNumber, isString, objectSpread } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
 import { typeSplit } from './typeSplit';
@@ -15,9 +15,6 @@ interface TypeDefOptions {
   displayName?: string;
 }
 
-const MAX_NESTED = 64;
-const MAX_FIX_LEN = 2048;
-const MAX_BIT_LEN = 8192;
 const KNOWN_INTERNALS = ['_alias', '_fallback'];
 
 function getTypeString (typeOrObj: any): string {
@@ -30,7 +27,9 @@ function isRustEnum (details: Record<string, string> | Record<string, number>): 
   const values = Object.values(details);
 
   if (values.some((v) => isNumber(v))) {
-    assert(values.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+    if (!values.every((v) => isNumber(v) && v >= 0 && v <= 255)) {
+      throw new Error('Invalid number-indexed enum definition');
+    }
 
     return false;
   }
@@ -145,13 +144,17 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
     }
   }
 
-  assert(index !== -1, () => `${type}: Unable to extract location of ';'`);
+  if (index === -1) {
+    throw new Error(`${type}: Unable to extract location of ';'`);
+  }
 
   const vecType = type.substring(1, index);
   const [strLength, displayName] = type.substring(index + 1, max).split(';');
   const length = parseInt(strLength.trim(), 10);
 
-  assert(length <= MAX_FIX_LEN, () => `${type}: Only support for [Type; <length>], where length <= ${MAX_FIX_LEN}`);
+  if (length > 2048) {
+    throw new Error(`${type}: Only support for [Type; <length>], where length <= 2048`);
+  }
 
   value.displayName = displayName;
   value.length = length;
@@ -175,7 +178,9 @@ function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 
   const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
-  assert(length <= MAX_BIT_LEN && (length % 8) === 0, () => `${type}: Only support for ${clazz}<bitLength>, where length <= ${MAX_BIT_LEN} and a power of 8, found ${length}`);
+  if ((length > 8192) || (length % 8)) {
+    throw new Error(`${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
+  }
 
   value.displayName = displayName;
   value.length = length;
@@ -238,7 +243,9 @@ export function getTypeDef (_type: AnyString, { displayName, name }: TypeDefOpti
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
 
-  assert(++count !== MAX_NESTED, 'getTypeDef: Maximum nested limit reached');
+  if (++count > 64) {
+    throw new Error('getTypeDef: Maximum nested limit reached');
+  }
 
   const nested = nestedExtraction.find((nested) => hasWrapper(type, nested));
 

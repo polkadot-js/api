@@ -7,7 +7,7 @@ import type { StorageEntry, StorageEntryIterator } from '../../../primitive/type
 import type { Registry } from '../../../types';
 
 import { Raw } from '@polkadot/types-codec';
-import { assert, compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { StorageKey } from '../../../primitive';
@@ -48,9 +48,11 @@ export const NO_RAW_ARGS: RawArgs = {
 
 /** @internal */
 function assertArgs ({ method, section }: CreateItemFn, { args, keys }: RawArgs): void {
-  assert(Array.isArray(args), () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
-
-  assert(args.filter(filterDefined).length === keys.length, () => `Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
+  if (!Array.isArray(args)) {
+    throw new Error(`Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
+  } else if (args.filter(filterDefined).length !== keys.length) {
+    throw new Error(`Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments, found [${args.join(', ')}]`);
+  }
 }
 
 /** @internal */
@@ -217,13 +219,9 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   const { meta: { type }, method, section } = itemFn;
 
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (...args: unknown[]): Raw => {
-    assert(
-      (
-        (args.length === 0) ||
-        (type.isMap && args.length < type.asMap.hashers.length)
-      ),
-      () => `Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`
-    );
+    if (args.length && (type.isPlain || (args.length > type.asMap.hashers.length))) {
+      throw new Error(`Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`);
+    }
 
     if (args.length) {
       if (type.isMap) {
