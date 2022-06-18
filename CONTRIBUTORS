@@ -1,4 +1,4 @@
-    3033	Jaco                          	Add Kusama 9230 upgrade block (#4951)
+    3034	Jaco                          	Add a hash alias for engine CreatedBlock (#4950)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
