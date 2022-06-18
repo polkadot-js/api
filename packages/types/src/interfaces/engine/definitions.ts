@@ -45,7 +45,10 @@ export default {
   },
   types: {
     CreatedBlock: {
-      hash: 'BlockHash',
+      _alias: {
+        blockHash: 'hash'
+      },
+      blockHash: 'BlockHash',
       aux: 'ImportedAux'
     },
     ImportedAux: {
