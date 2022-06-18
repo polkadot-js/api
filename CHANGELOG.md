@@ -16,6 +16,7 @@ Changes:
 - Adjust name extraction in `PortableRegistry` (maintainability)
 - Adjust string type path extraction (maintainability)
 - Add Kusama 9230 upgrade block
+- Update to latest Substrate metadata
 
 
 ## 8.8.2 Jun 14, 2022

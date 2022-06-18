@@ -104,21 +104,6 @@ function splitNamespace (values: string[]): string[][] {
 }
 
 /** @internal */
-function createNamespace ({ path }: SiType): string {
-  if (!path.length) {
-    return '';
-  }
-
-  let result = path[0].toString();
-
-  for (let i = 1; i < path.length; i++) {
-    result += `::${path[i].toString()}`;
-  }
-
-  return result;
-}
-
-/** @internal */
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
@@ -393,8 +378,8 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
     const [addrParam,, sigParam] = params.SpRuntimeUncheckedExtrinsic;
     const siAddress = lookup.getSiType(addrParam.type.unwrap());
     const siSignature = lookup.getSiType(sigParam.type.unwrap());
-    const nsSignature = createNamespace(siSignature);
-    let nsAccountId = createNamespace(siAddress);
+    const nsSignature = siSignature.path.join('::');
+    let nsAccountId = siAddress.path.join('::');
     const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
 
     // With multiaddress, we check the first type param again
@@ -402,7 +387,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
       // AccountId, AccountIndex
       const [idParam] = siAddress.params;
 
-      nsAccountId = createNamespace(lookup.getSiType(idParam.type.unwrap()));
+      nsAccountId = lookup.getSiType(idParam.type.unwrap()).path.join('::');
     }
 
     lookup.registry.register({
@@ -641,7 +626,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extract (type: SiType, lookupIndex: number): TypeDef {
-    const namespace = [...type.path].join('::');
+    const namespace = type.path.join('::');
     let typeDef: TypeDef;
     const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
 
@@ -966,12 +951,13 @@ export class PortableRegistry extends Struct implements ILookup {
 
     // we may get entries out of order, arrange them first before creating with gaps filled
     // NOTE: Since we mutate, use a copy of the array as an input
-    [...variants]
+    variants
+      .slice()
       .sort((a, b) => a.index.cmp(b.index))
-      .forEach(({ fields, index, name }) => {
-        const desired = index.toNumber();
+      .forEach(({ fields, index: bnIndex, name }) => {
+        const index = bnIndex.toNumber();
 
-        while (sub.length !== desired) {
+        while (sub.length !== index) {
           sub.push({
             index: sub.length,
             info: TypeDefInfo.Null,
@@ -984,7 +970,7 @@ export class PortableRegistry extends Struct implements ILookup {
           objectSpread(
             this.#extractFields(-1, fields),
             {
-              index: index.toNumber(),
+              index,
               name: name.toString()
             }
           )
