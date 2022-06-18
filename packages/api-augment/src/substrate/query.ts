@@ -1702,14 +1702,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       entryFee: AugmentedQuery<ApiType, () => Observable<Option<u128>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Maximum number of indexed transactions in the block.
-       **/
-      maxBlockTransactions: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Maximum data set in a single transaction in bytes.
-       **/
-      maxTransactionSize: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
        * Was the proof checked in this block?
        **/
       proofChecked: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
