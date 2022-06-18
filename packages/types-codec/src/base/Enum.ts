@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -96,18 +96,37 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
   };
 }
 
-function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
-  const entry = Object.values(def).find((e) => e.index === index);
+function getEntryType (def: TypesDef, checkIdx: number): CodecClass {
+  const values = Object.values(def);
 
-  if (isUndefined(entry)) {
-    throw new Error(`Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  for (let i = 0; i < values.length; i++) {
+    const { Type, index } = values[i];
+
+    if (index === checkIdx) {
+      return Type;
+    }
   }
+
+  throw new Error(`Unable to create Enum via index ${checkIdx}, in ${Object.keys(def).join(', ')}`);
+}
+
+function createFromU8a (registry: Registry, def: TypesDef, index: number, value: Uint8Array): Decoded {
+  const Type = getEntryType(def, index);
 
   return {
     index,
-    value: value instanceof entry.Type
+    value: new Type(registry, value)
+  };
+}
+
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
+  const Type = getEntryType(def, index);
+
+  return {
+    index,
+    value: value instanceof Type
       ? value
-      : new entry.Type(registry, value)
+      : new Type(registry, value)
   };
 }
 
@@ -139,7 +158,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
 
     // nested, we don't want to match isObject below
     if (u8a.length) {
-      return createFromValue(registry, def, u8a[0], u8a.subarray(1));
+      return createFromU8a(registry, def, u8a[0], u8a.subarray(1));
     }
   } else if (value instanceof Enum) {
     return createFromValue(registry, def, value.index, value.value);
@@ -187,7 +206,7 @@ export class Enum implements IEnum {
 
     // shortcut isU8a as used in SCALE decoding
     const decoded = isU8a(value) && value.length && !isNumber(index)
-      ? createFromValue(registry, def, value[0], value.subarray(1))
+      ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
     this.registry = registry;
