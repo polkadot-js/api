@@ -13,6 +13,8 @@ interface Options {
 export class Float extends Number implements IFloat {
   readonly #bitLength: 32 | 64;
 
+  public createdAtHash?: IU8a;
+
   readonly encodedLength: number;
 
   readonly initialU8aLength?: number;
