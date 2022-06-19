@@ -33,6 +33,10 @@ export interface INumber extends Codec {
   toNumber (): number;
 }
 
+export interface IFloat extends Codec {
+  toNumber (): number;
+}
+
 export interface IOption<T extends Codec = Codec> extends Codec {
   readonly isNone: boolean;
   readonly isSome: boolean;
