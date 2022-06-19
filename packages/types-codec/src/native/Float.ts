@@ -22,7 +22,9 @@ export class Float extends Number implements IFloat {
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(
       isU8a(value) || isHex(value)
-        ? u8aToFloat(u8aToU8a(value), { bitLength })
+        ? value.length === 0
+          ? 0
+          : u8aToFloat(u8aToU8a(value), { bitLength })
         : value
     );
 
@@ -48,7 +50,7 @@ export class Float extends Number implements IFloat {
   }
 
   get isEmpty (): boolean {
-    return this.toNumber() === 0;
+    return Number(this) === 0;
   }
 
   public eq (other?: unknown): boolean {
@@ -77,7 +79,7 @@ export class Float extends Number implements IFloat {
   }
 
   public toNumber (): number {
-    return 0 + Number(this);
+    return Number(this);
   }
 
   public toRawType (): string {
@@ -85,6 +87,6 @@ export class Float extends Number implements IFloat {
   }
 
   public toU8a (): Uint8Array {
-    return floatToU8a(this.toNumber(), { bitLength: this.#bitLength });
+    return floatToU8a(Number(this), { bitLength: this.#bitLength });
   }
 }
