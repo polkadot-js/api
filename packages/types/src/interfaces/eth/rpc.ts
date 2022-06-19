@@ -179,22 +179,22 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     type: 'Bytes'
   },
   feeHistory: {
-    description: "Returns fee history for given block count & reward percentiles",
+    description: 'Returns fee history for given block count & reward percentiles',
     params: [
       {
-        name: "blockCount",
-        type: "U256"
+        name: 'blockCount',
+        type: 'U256'
       },
       {
-        name: "newestBlock",
-        type: "BlockNumber"
+        name: 'newestBlock',
+        type: 'BlockNumber'
       },
       {
-        name: "rewardPercentiles",
-        type: "Option<Vec<f64>>"
-      },
+        name: 'rewardPercentiles',
+        type: 'Option<Vec<f64>>'
+      }
     ],
-    type: "EthFeeHistory",
+    type: 'EthFeeHistory'
   },
   getFilterChanges: {
     description: 'Returns filter changes since last poll.',
@@ -387,9 +387,9 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     type: 'U256'
   },
   maxPriorityFeePerGas: {
-    description: "Returns max priority fee per gas",
+    description: 'Returns max priority fee per gas',
     params: [],
-    type: "U256",
+    type: 'U256'
   },
   mining: {
     description: 'Returns true if client is actively mining new blocks.',
