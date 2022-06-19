@@ -75,6 +75,8 @@ export class Float extends Number implements IFloat {
   }
 
   public toJSON (): string {
+    // Not sure if this is actually a hex ot string value
+    // (would need to check against RPCs to see the result here)
     return this.toHex();
   }
 
