@@ -25,7 +25,7 @@ export class Float extends Number implements IFloat {
         ? value.length === 0
           ? 0
           : u8aToFloat(u8aToU8a(value), { bitLength })
-        : value
+        : (value || 0)
     );
 
     this.#bitLength = bitLength;
