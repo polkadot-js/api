@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyFloat, CodecClass, IFloat, Inspect, IU8a, Registry } from '../types';
 
-import { isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { floatToU8a, isHex, isU8a, u8aToFloat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 interface Options {
   bitLength?: 32 | 64;
@@ -91,6 +91,6 @@ export class Float extends Number implements IFloat {
   }
 
   public toU8a (): Uint8Array {
-    return floatToU8a(Number(this), { bitLength: this.#bitLength });
+    return floatToU8a(this, { bitLength: this.#bitLength });
   }
 }
