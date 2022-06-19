@@ -40,7 +40,7 @@ export class Float extends Number implements Codec {
   }
 
   public toNumber (): number {
-    return this + 0;
+    return 0 + this;
   }
 
   public toRawType (): string {
