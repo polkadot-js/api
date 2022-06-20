@@ -10,6 +10,10 @@ interface Options {
   bitLength?: 32 | 64;
 }
 
+/**
+ * @name Float
+ * @description A Codec wrapper for F32 & F64 values
+ */
 export class Float extends Number implements IFloat {
   readonly #bitLength: 32 | 64;
 
@@ -51,12 +55,18 @@ export class Float extends Number implements IFloat {
     return this.registry.hash(this.toU8a());
   }
 
+  /**
+   * @description Returns true if the type wraps an empty/default all-0 value
+   */
   get isEmpty (): boolean {
-    return Number(this) === 0;
+    return this.valueOf() === 0;
   }
 
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
   public eq (other?: unknown): boolean {
-    return Number(this) === Number(other);
+    return this.valueOf() === Number(other);
   }
 
   /**
@@ -68,28 +78,46 @@ export class Float extends Number implements IFloat {
     };
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   public toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
   public toHuman (): string {
     return this.toString();
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   public toJSON (): string {
     // Not sure if this is actually a hex ot string value
     // (would need to check against RPCs to see the result here)
     return this.toHex();
   }
 
+  /**
+   * @description Returns the number representation (Same as valueOf)
+   */
   public toNumber (): number {
-    return Number(this);
+    return this.valueOf();
   }
 
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
   public toRawType (): string {
     return `f${this.#bitLength}`;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
+   */
   public toU8a (): Uint8Array {
     return floatToU8a(this, { bitLength: this.#bitLength });
   }
