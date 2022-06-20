@@ -323,7 +323,7 @@ export class WsProvider implements ProviderInterface {
   async #send <T> (id: number, body: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
-        if (!this.isConnected || isNull(this.#websocket)) {
+        if (!this.isConnected || this.#websocket === null) {
           throw new Error('WebSocket is not connected');
         }
 
@@ -537,7 +537,7 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketOpen = (): boolean => {
-    if (isNull(this.#websocket)) {
+    if (this.#websocket === null) {
       throw new Error('WebSocket cannot be null in onOpen');
     }
 

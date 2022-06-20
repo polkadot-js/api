@@ -56,7 +56,7 @@ export class RpcCoder {
 
     checkError(response.error);
 
-    if (isUndefined(response.result) && !isSubscription) {
+    if (response.result === undefined && !isSubscription) {
       throw new Error('No result found in jsonrpc response');
     }
 
