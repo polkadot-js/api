@@ -1,8 +1,6 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { assert } from '@polkadot/util';
-
 export interface SmoldotHealth {
   isSyncing: boolean
   peers: number
@@ -63,10 +61,9 @@ export function healthChecker (): HealthChecker {
       return checker.responsePassThrough(jsonRpcResponse);
     },
     sendJsonRpc: (request) => {
-      assert(
-        sendJsonRpc,
-        'setSendJsonRpc must be called before sending requests'
-      );
+      if (!sendJsonRpc) {
+        throw new Error('setSendJsonRpc must be called before sending requests');
+      }
 
       if (checker === null) {
         sendJsonRpc(request);
@@ -78,14 +75,12 @@ export function healthChecker (): HealthChecker {
       sendJsonRpc = cb;
     },
     start: (healthCallback) => {
-      assert(
-        checker === null,
-        "Can't start the health checker multiple times in parallel"
-      );
-      assert(
-        sendJsonRpc,
-        'setSendJsonRpc must be called before starting the health checks'
-      );
+      if (checker !== null) {
+        throw new Error("Can't start the health checker multiple times in parallel");
+      } else if (!sendJsonRpc) {
+        throw new Error('setSendJsonRpc must be called before starting the health checks');
+      }
+
       checker = new InnerChecker(healthCallback, sendJsonRpc);
       checker.update(true);
     },
@@ -216,7 +211,9 @@ class InnerChecker {
       const id: string = parsedResponse.id;
 
       // Need to remove the `extern:` prefix.
-      assert(id.startsWith('extern:'), 'State inconsistency in health checker');
+      if (!id.startsWith('extern:')) {
+        throw new Error('State inconsistency in health checker');
+      }
 
       const newId = JSON.parse(id.slice('extern:'.length)) as string;
 
@@ -283,10 +280,9 @@ class InnerChecker {
   };
 
   startSubscription = (): void => {
-    assert(
-      !this.#currentSubunsubRequestId && !this.#currentSubscriptionId,
-      'Internal error in health checker'
-    );
+    if (this.#currentSubunsubRequestId || this.#currentSubscriptionId) {
+      throw new Error('Internal error in health checker');
+    }
 
     this.#currentSubunsubRequestId = 'health-checker:'.concat(
       this.#nextRequestId.toString()
@@ -303,10 +299,9 @@ class InnerChecker {
   };
 
   endSubscription = (): void => {
-    assert(
-      !this.#currentSubunsubRequestId && this.#currentSubscriptionId,
-      'Internal error in health checker'
-    );
+    if (this.#currentSubunsubRequestId || !this.#currentSubscriptionId) {
+      throw new Error('Internal error in health checker');
+    }
 
     this.#currentSubunsubRequestId = 'health-checker:'.concat(
       this.#nextRequestId.toString()

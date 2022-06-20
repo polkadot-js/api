@@ -3,7 +3,7 @@
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
-import { assert, logger } from '@polkadot/util';
+import { logger } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder';
@@ -49,7 +49,9 @@ export class HttpProvider implements ProviderInterface {
    * @param {string} endpoint The endpoint url starting with http://
    */
   constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}) {
-    assert(/^(https|http):\/\//.test(endpoint), () => `Endpoint should start with 'http://', received '${endpoint}'`);
+    if (!/^(https|http):\/\//.test(endpoint)) {
+      throw new Error(`Endpoint should start with 'http://' or 'https://', received '${endpoint}'`);
+    }
 
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
@@ -156,7 +158,9 @@ export class HttpProvider implements ProviderInterface {
         method: 'POST'
       });
 
-      assert(response.ok, () => `[${response.status}]: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`[${response.status}]: ${response.statusText}`);
+      }
 
       const result = await response.text();
 
