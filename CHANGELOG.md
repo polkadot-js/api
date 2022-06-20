@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align `BeefyPayload` with Substrate master
+
+
 ## 8.9.1 Jun 19, 2022
 
 Contributed:

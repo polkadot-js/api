@@ -40,7 +40,8 @@ export default {
       len: 'u32',
       root: 'H256'
     },
-    BeefyPayload: 'MmrRootHash',
+    BeefyPayload: 'Vec<(BeefyPayloadId, Bytes)>',
+    BeefyPayloadId: '[u8;2]',
     MmrRootHash: 'H256',
     ValidatorSetId: 'u64'
   }
