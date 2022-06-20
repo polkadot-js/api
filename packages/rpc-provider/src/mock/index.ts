@@ -130,7 +130,7 @@ export class MockProvider implements ProviderInterface {
   public async send <T = any> (method: string, params: unknown[]): Promise<T> {
     l.debug(() => ['send', method, params]);
 
-    if (this.requests[method]) {
+    if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
     }
 
