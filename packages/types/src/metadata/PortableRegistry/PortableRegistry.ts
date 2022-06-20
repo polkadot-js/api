@@ -478,7 +478,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array, isContract?: boolean) {
-    // console.time('PortableRegistry')
+    // const timeStart = performance.now()
 
     super(registry, {
       types: 'Vec<PortableType>'
@@ -492,7 +492,7 @@ export class PortableRegistry extends Struct implements ILookup {
     this.#params = params;
     this.#types = types;
 
-    // console.timeEnd('PortableRegistry')
+    // console.log('PortableRegistry', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 
   public get names (): string[] {

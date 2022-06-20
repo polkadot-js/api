@@ -43,7 +43,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned | 
  */
 export class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
-    // console.time('Metadata')
+    // const timeStart = performance.now()
 
     super(
       registry,
@@ -52,6 +52,6 @@ export class Metadata extends MetadataVersioned {
         : value
     );
 
-    // console.timeEnd('Metadata')
+    // console.log('Metadata', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 }

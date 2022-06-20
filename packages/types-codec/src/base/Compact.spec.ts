@@ -5,7 +5,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { CodecDate, Compact, U32 } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
-import { performance } from '../test/performance';
+import { perf } from '../test/performance';
 
 const CompactU32 = Compact.with(U32);
 
@@ -93,5 +93,5 @@ describe('Compact', (): void => {
     });
   });
 
-  performance('Compact', 75_000, [[new Uint8Array([63 << 2])]], (v: Uint8Array) => new CompactU32(registry, v));
+  perf('Compact', 75_000, [[new Uint8Array([63 << 2])]], (v: Uint8Array) => new CompactU32(registry, v));
 });

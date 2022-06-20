@@ -7,7 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { performance } from '../test/performance';
+import { perf } from '../test/performance';
 
 const PEnum = Enum.with({ a: U32, b: U32 });
 
@@ -454,5 +454,5 @@ describe('Enum', (): void => {
     });
   });
 
-  performance('Enum', 20_000, [[new Uint8Array([0, 31, 32, 33, 34])]], (v: Uint8Array) => new PEnum(registry, v));
+  perf('Enum', 20_000, [[new Uint8Array([0, 31, 32, 33, 34])]], (v: Uint8Array) => new PEnum(registry, v));
 });

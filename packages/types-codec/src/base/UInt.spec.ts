@@ -5,7 +5,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { UInt } from '@polkadot/types-codec';
 import { BN, BN_TWO, isBn } from '@polkadot/util';
 
-import { performance } from '../test/performance';
+import { perf } from '../test/performance';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
@@ -183,5 +183,5 @@ describe('UInt', (): void => {
     });
   });
 
-  performance('UInt', 75_000, [[new Uint8Array([31, 32, 33, 34])]], (v: Uint8Array) => new UInt(registry, v));
+  perf('UInt', 75_000, [[new Uint8Array([31, 32, 33, 34])]], (v: Uint8Array) => new UInt(registry, v));
 });
