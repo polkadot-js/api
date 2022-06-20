@@ -96,7 +96,7 @@ export class Float extends Number implements IFloat {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): string {
-    // Not sure if this is actually a hex ot string value
+    // Not sure if this is actually a hex or a string value
     // (would need to check against RPCs to see the result here)
     return this.toHex();
   }
