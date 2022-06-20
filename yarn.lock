@@ -2197,7 +2197,7 @@ __metadata:
     "@polkadot/x-fetch": ^9.5.1
     "@polkadot/x-global": ^9.5.1
     "@polkadot/x-ws": ^9.5.1
-    "@substrate/connect": 0.7.6
+    "@substrate/connect": 0.7.7
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
     nock: ^13.2.6
@@ -2629,14 +2629,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.6":
-  version: 0.7.6
-  resolution: "@substrate/connect@npm:0.7.6"
+"@substrate/connect@npm:0.7.7":
+  version: 0.7.7
+  resolution: "@substrate/connect@npm:0.7.7"
   dependencies:
     "@substrate/connect-extension-protocol": ^1.0.0
     "@substrate/smoldot-light": 0.6.19
     eventemitter3: ^4.0.7
-  checksum: 51f34d385e91d4c84acb47b4bf9f824cbbc8546829a74aa27ad7a0d9e2128152879ba5400a029297d4ca8600ef381f4f72c1ffe82a16331221896cad85773407
+  checksum: a4c663415d57731cb435ce19e766040688201f5af5002a882d3858f0ff0607356025c6b3a40e2ce5c810fb1e41ac881c3d76e68276e1cede6b81e21bee2274ef
   languageName: node
   linkType: hard
 
