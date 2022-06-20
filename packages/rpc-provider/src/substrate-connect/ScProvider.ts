@@ -7,7 +7,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
-import { assert, isError } from '@polkadot/util';
+import { isError } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
@@ -71,7 +71,9 @@ export class ScProvider implements ProviderInterface {
   // Config details can be found in @substrate/connect repo following the link:
   // https://github.com/paritytech/substrate-connect/blob/main/packages/connect/src/connector/index.ts
   async connect (config?: ScConfig): Promise<void> {
-    assert(!this.isConnected, 'Already connected!');
+    if (this.isConnected) {
+      throw new Error('Already connected!');
+    }
 
     // it could happen that after emitting `disconnected` due to the fact taht
     // smoldot is syncing, the consumer tries to reconnect after a certain amount
@@ -91,7 +93,10 @@ export class ScProvider implements ProviderInterface {
       ? scClients.get(this.#sharedSandbox)
       : createScClient(config);
 
-    assert(client, 'Unkown ScProvider!');
+    if (!client) {
+      throw new Error('Unkown ScProvider!');
+    }
+
     scClients.set(this, client);
 
     const hc = healthChecker();
@@ -156,7 +161,9 @@ export class ScProvider implements ProviderInterface {
 
         const stale = staleSubscriptions.pop();
 
-        assert(stale, 'Unable to get stale subscription');
+        if (!stale) {
+          throw new Error('Unable to get stale subscription');
+        }
 
         const { id, unsubscribeMethod } = stale;
 
@@ -264,7 +271,9 @@ export class ScProvider implements ProviderInterface {
   }
 
   public async send<T = any> (method: string, params: unknown[]): Promise<T> {
-    assert(this.isConnected && this.#chain, 'Provider is not connected');
+    if (!this.isConnected || !this.#chain) {
+      throw new Error('Provider is not connected');
+    }
 
     const chain = await this.#chain;
     const [id, json] = this.#coder.encodeJson(method, params);
@@ -302,10 +311,9 @@ export class ScProvider implements ProviderInterface {
     params: any[],
     callback: ProviderInterfaceCallback
   ): Promise<number | string> {
-    assert(
-      subscriptionUnsubscriptionMethods.has(method),
-      `Unsupported subscribe method: ${method}`
-    );
+    if (!subscriptionUnsubscriptionMethods.has(method)) {
+      throw new Error(`Unsupported subscribe method: ${method}`);
+    }
 
     const id = await this.send<number | string>(method, params);
     const subscriptionId = `${type}::${id}`;
@@ -320,7 +328,9 @@ export class ScProvider implements ProviderInterface {
 
     const unsubscribeMethod = subscriptionUnsubscriptionMethods.get(method);
 
-    assert(unsubscribeMethod, 'Invalid unsubscribe method found');
+    if (!unsubscribeMethod) {
+      throw new Error('Invalid unsubscribe method found');
+    }
 
     this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
@@ -332,10 +342,9 @@ export class ScProvider implements ProviderInterface {
     method: string,
     id: number | string
   ): Promise<boolean> {
-    assert(
-      this.isConnected,
-      'Provider is not connected'
-    );
+    if (!this.isConnected) {
+      throw new Error('Provider is not connected');
+    }
 
     const subscriptionId = `${type}::${id}`;
 

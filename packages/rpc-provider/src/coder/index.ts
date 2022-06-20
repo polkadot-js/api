@@ -3,7 +3,7 @@
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isNumber, isString, isUndefined, stringify } from '@polkadot/util';
+import { isNumber, isString, isUndefined, stringify } from '@polkadot/util';
 
 import RpcError from './error';
 
@@ -36,15 +36,29 @@ export class RpcCoder {
   #id = 0;
 
   public decodeResponse (response?: JsonRpcResponse): unknown {
-    assert(response && response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
+    if (!response || response.jsonrpc !== '2.0') {
+      throw new Error('Invalid jsonrpc field in decoded object');
+    }
 
     const isSubscription = !isUndefined(response.params) && !isUndefined(response.method);
 
-    assert(isNumber(response.id) || (isSubscription && (isNumber(response.params.subscription) || isString(response.params.subscription))), 'Invalid id field in decoded object');
+    if (
+      !isNumber(response.id) &&
+      (
+        !isSubscription || (
+          !isNumber(response.params.subscription) &&
+          !isString(response.params.subscription)
+        )
+      )
+    ) {
+      throw new Error('Invalid id field in decoded object');
+    }
 
     checkError(response.error);
 
-    assert(!isUndefined(response.result) || isSubscription, 'No result found in jsonrpc response');
+    if (isUndefined(response.result) && !isSubscription) {
+      throw new Error('No result found in jsonrpc response');
+    }
 
     if (isSubscription) {
       checkError(response.params.error);

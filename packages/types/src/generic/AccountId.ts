@@ -4,7 +4,7 @@
 import type { AnyString, AnyU8a, Registry } from '@polkadot/types-codec/types';
 
 import { U8aFixed } from '@polkadot/types-codec';
-import { assert, hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 /** @internal */
@@ -34,7 +34,9 @@ export class GenericAccountId extends U8aFixed {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
-    assert(decoded.length >= 32 || !decoded.some((b) => b), () => `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    if (decoded.length < 32 && decoded.some((b) => b)) {
+      throw new Error(`Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    }
 
     super(registry, decoded, 256);
   }

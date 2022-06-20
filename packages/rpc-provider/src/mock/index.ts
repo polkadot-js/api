@@ -16,7 +16,7 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import rpcHeader from '@polkadot/types-support/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types-support/json/SignedBlock.004.immortal.json';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
-import { assert, BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
+import { BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
@@ -130,7 +130,9 @@ export class MockProvider implements ProviderInterface {
   public async send <T = any> (method: string, params: unknown[]): Promise<T> {
     l.debug(() => ['send', method, params]);
 
-    assert(this.requests[method], () => `provider.send: Invalid method '${method}'`);
+    if (this.requests[method]) {
+      throw new Error(`provider.send: Invalid method '${method}'`);
+    }
 
     return this.requests[method](this.db, params) as T;
   }
@@ -139,7 +141,9 @@ export class MockProvider implements ProviderInterface {
   public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug(() => ['subscribe', method, params]);
 
-    assert(this.subscriptions[method], () => `provider.subscribe: Invalid method '${method}'`);
+    if (!this.subscriptions[method]) {
+      throw new Error(`provider.subscribe: Invalid method '${method}'`);
+    }
 
     const callback = params.pop() as MockStateSubscriptionCallback;
     const id = ++this.subscriptionId;
@@ -160,7 +164,9 @@ export class MockProvider implements ProviderInterface {
 
     l.debug(() => ['unsubscribe', id, sub]);
 
-    assert(sub, () => `Unable to find subscription for ${id}`);
+    if (!sub) {
+      throw new Error(`Unable to find subscription for ${id}`);
+    }
 
     delete this.subscriptionMap[id];
     delete this.subscriptions[sub].callbacks[id];

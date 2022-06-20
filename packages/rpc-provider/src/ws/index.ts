@@ -7,7 +7,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 
 import EventEmitter from 'eventemitter3';
 
-import { assert, isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
+import { isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
@@ -122,10 +122,14 @@ export class WsProvider implements ProviderInterface {
       ? endpoint
       : [endpoint];
 
-    assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
+    if (endpoints.length === 0) {
+      throw new Error('WsProvider requires at least one Endpoint');
+    }
 
     endpoints.forEach((endpoint) => {
-      assert(/^(wss|ws):\/\//.test(endpoint), () => `Endpoint should start with 'ws://', received '${endpoint}'`);
+      if (!/^(wss|ws):\/\//.test(endpoint)) {
+        throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
+      }
     });
 
     this.#eventemitter = new EventEmitter();
@@ -319,7 +323,9 @@ export class WsProvider implements ProviderInterface {
   async #send <T> (id: number, body: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
-        assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
+        if (!this.isConnected || isNull(this.#websocket)) {
+          throw new Error('WebSocket is not connected');
+        }
 
         const callback = (error?: Error | null, result?: T): void => {
           error
@@ -531,7 +537,9 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketOpen = (): boolean => {
-    assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
+    if (isNull(this.#websocket)) {
+      throw new Error('WebSocket cannot be null in onOpen');
+    }
 
     l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
