@@ -12,7 +12,11 @@ interface Options {
 
 /**
  * @name Float
- * @description A Codec wrapper for F32 & F64 values
+ * @description
+ * A Codec wrapper for F32 & F64 values. You generally don't want to be using
+ * f32/f64 in your runtime, operations on fixed points numbers are preferable. This class
+ * was explicitly added since scale-codec has a flag that enables this and it is available
+ * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
   readonly #bitLength: 32 | 64;
