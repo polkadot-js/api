@@ -20,6 +20,14 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: IU8a;
 
+  /**
+   * @description This ensures that operators such as clice, filter, map, etc. return
+   * new Array instances (without this we need to apply overrides)
+   */
+  static get [Symbol.species] (): typeof Array {
+    return Array;
+  }
+
   protected constructor (registry: Registry, length: number) {
     super(length);
 
@@ -168,44 +176,5 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     return encoded;
-  }
-
-  // Below are methods that we override. When we do a `new Vec(...).map()`,
-  // we want it to return an Array. We only override the methods that return a
-  // new instance.
-
-  /**
-   * @description Concatenates two arrays
-   */
-  public override concat (other: T[]): T[] {
-    return this.toArray().concat(other instanceof AbstractArray ? other.toArray() : other);
-  }
-
-  /**
-   * @description Filters the array with the callback
-   */
-  public override filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
-    return this.toArray().filter(callbackfn, thisArg);
-  }
-
-  /**
-   * @description Maps the array with the callback
-   */
-  public override map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
-    return this.toArray().map(callbackfn, thisArg);
-  }
-
-  /**
-   * @description Checks if the array includes a specific value
-   */
-  public override includes (check: unknown): boolean {
-    return this.some((value: T) => value.eq(check));
-  }
-
-  /**
-   * @description Returns a slice of an array
-   */
-  public override slice (start?: number, end?: number): T[] {
-    return this.toArray().slice(start, end);
   }
 }

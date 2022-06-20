@@ -22,6 +22,14 @@ export class Raw extends Uint8Array implements IU8a {
 
   public readonly registry: Registry;
 
+  /**
+   * @description This ensures that operators such as clice, filter, map, etc. return
+   * new Array instances (without this we need to apply overrides)
+   */
+  static get [Symbol.species] (): typeof Uint8Array {
+    return Uint8Array;
+  }
+
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
@@ -65,14 +73,6 @@ export class Raw extends Uint8Array implements IU8a {
   }
 
   /**
-   * @description The length of the value
-   */
-  public override get length (): number {
-    // only included here since we ignore inherited docs
-    return super.length;
-  }
-
-  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): number {
@@ -98,26 +98,6 @@ export class Raw extends Uint8Array implements IU8a {
     return {
       outer: [this.toU8a()]
     };
-  }
-
-  /**
-   * @description Create a new slice from the actual buffer. (compat)
-   * @param start The position to start at
-   * @param end The position to end at
-   */
-  public override slice (start?: number, end?: number): Uint8Array {
-    // Like subarray below, we have to follow this approach since we are extending the TypeArray.
-    // This happens especially when it comes to further extensions, the length may be an override
-    return Uint8Array.from(this).slice(start, end);
-  }
-
-  /**
-   * @description Create a new subarray from the actual buffer. (compat)
-   * @param begin The position to start at
-   * @param end The position to end at
-   */
-  public override subarray (begin?: number, end?: number): Uint8Array {
-    return Uint8Array.from(this).subarray(begin, end);
   }
 
   /**
