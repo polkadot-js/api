@@ -2257,6 +2257,7 @@ __metadata:
     "@polkadot/types-support": 8.9.2-3
     "@polkadot/util": ^9.5.1
     "@polkadot/util-crypto": ^9.5.1
+    "@polkadot/x-bigint": ^9.5.1
   languageName: unknown
   linkType: soft
 
@@ -2422,7 +2423,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-bigint@npm:9.5.1":
+"@polkadot/x-bigint@npm:9.5.1, @polkadot/x-bigint@npm:^9.5.1":
   version: 9.5.1
   resolution: "@polkadot/x-bigint@npm:9.5.1"
   dependencies:
