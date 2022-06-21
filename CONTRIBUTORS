@@ -1,4 +1,4 @@
-    3044	Jaco                          	Bump TS to 4.7.4 (#4967)
+    3045	Jaco                          	Bump dev (w/ stable deno publish) (#4968)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
