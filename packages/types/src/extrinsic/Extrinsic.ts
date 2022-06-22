@@ -11,7 +11,7 @@ import type { GenericExtrinsicEra } from './ExtrinsicEra';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 
 import { AbstractBase } from '@polkadot/types-codec';
-import { assert, compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
@@ -69,7 +69,9 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number): Ext
   const [offset, length] = compactFromU8a(value);
   const total = offset + length.toNumber();
 
-  assert(total <= value.length, () => `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+  if (total > value.length) {
+    throw new Error(`Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+  }
 
   const data = value.subarray(offset, total);
 

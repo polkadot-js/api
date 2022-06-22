@@ -2,16 +2,21 @@
 
 ## master
 
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.7 (Thanks to https://github.com/wirednkod)
+
 Changes:
 
 - Align `BeefyPayload` with Substrate master
+- Use `static get [Symbol.species] ()` for `Array` & `Uint8Array` types
 
 
 ## 8.9.1 Jun 19, 2022
 
 Contributed:
 
-- Update `@substrate/connect` to latest (Thanks to https://github.com/tomaka)
+- Update `@substrate/connect` to 0.7.6 (Thanks to https://github.com/tomaka)
 
 Changes:
 

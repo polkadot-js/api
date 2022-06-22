@@ -12,7 +12,7 @@ import type { RpcInterfaceMethod } from './types';
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
@@ -106,7 +106,9 @@ export class RpcCore {
    */
   constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    assert(provider && isFunction(provider.send), 'Expected Provider to API create');
+    if (!provider || !isFunction(provider.send)) {
+      throw new Error('Expected Provider to API create');
+    }
 
     this.#instanceId = instanceId;
     this.#registryDefault = registry;
@@ -360,7 +362,9 @@ export class RpcCore {
       ? ''
       : ` (${def.params.length - reqArgCount} optional)`;
 
-    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    if (inputs.length < reqArgCount || inputs.length > def.params.length) {
+      throw new Error(`Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    }
 
     return inputs.map((input, index): Codec =>
       registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })

@@ -7,7 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { Bytes, Raw, Text } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';
 
-import { performance } from '../test/performance';
+import { perf } from '../test/performance';
 
 describe('Text', (): void => {
   const registry = new TypeRegistry();
@@ -79,5 +79,5 @@ describe('Text', (): void => {
     });
   });
 
-  performance('Text', 100_000, [[new Uint8Array([6 << 2, 102, 111, 111, 102, 111, 111])]], (v: Uint8Array) => new Text(registry, v));
+  perf('Text', 100_000, [[new Uint8Array([6 << 2, 102, 111, 111, 102, 111, 111])]], (v: Uint8Array) => new Text(registry, v));
 });

@@ -2,6 +2,7 @@ _book/
 build/
 build-cjs/
 build-esm/
+build-deno/
 build-docs/
 coverage/
 docs/.vuepress/dist/
