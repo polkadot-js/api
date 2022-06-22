@@ -1,19 +1,35 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Text, Type, Vec } from '@polkadot/types-codec';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
+import type { AnyString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
-import { assert, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
-
-import { assertUnreachable } from './util';
+import { assertUnreachable, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
 const l = logger('PortableRegistry');
+
+interface ExtractBase {
+  lookupIndex: number;
+  name: string;
+}
+
+interface Extract extends ExtractBase {
+  lookupIndex: number;
+  name: string;
+  params: SiTypeParameter[];
+}
+
+interface TypeInfo {
+  lookups: Record<string, string>;
+  names: Record<number, string>;
+  params: Record<string, SiTypeParameter[]>;
+  types: Record<number, PortableType>;
+}
 
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
@@ -26,9 +42,7 @@ const PRIMITIVE_ALIAS: Record<string, string> = {
 
 // These are types where we have a specific decoding/encoding override + helpers
 const PATHS_ALIAS = splitNamespace([
-  // these have a specific encoding or logic (for pallets)
-  'pallet_democracy::vote::Vote',
-  'pallet_identity::types::Data',
+  // full matching on exact names...
   // these are well-known types with additional encoding
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
@@ -36,6 +50,11 @@ const PATHS_ALIAS = splitNamespace([
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
+  // wildcard matching in place...
+  // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
+  '*_democracy::vote::Vote',
+  '*_conviction_voting::vote::Vote',
+  '*_identity::types::Data',
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
@@ -48,8 +67,13 @@ const PATHS_SET = splitNamespace([
   'pallet_identity::types::BitFlags'
 ]);
 
+// These are the set namespaces for BitVec definitions (the last 2 appear in types as well)
+const BITVEC_NS_LSB = ['bitvec::order::Lsb0', 'BitOrderLsb0'];
+const BITVEC_NS_MSB = ['bitvec::order::Msb0', 'BitOrderMsb0'];
+const BITVEC_NS = [...BITVEC_NS_LSB, ...BITVEC_NS_MSB];
+
 // These we never use these as top-level names, they are wrappers
-const WRAPPERS = ['BoundedBTreeMap', 'BoundedVec', 'Box', 'BTreeMap', 'Cow', 'Result', 'Option', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
+const WRAPPERS = ['BoundedBTreeMap', 'BoundedBTreeSet', 'BoundedVec', 'Box', 'BTreeMap', 'BTreeSet', 'Cow', 'Option', 'Range', 'RangeInclusive', 'Result', 'WeakBoundedVec', 'WrapperKeepOpaque', 'WrapperOpaque'];
 
 // These are reserved and/or conflicts with built-in Codec or JS definitions
 const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
@@ -57,18 +81,29 @@ const RESERVED = ['entries', 'hash', 'keys', 'new', 'size'];
 // Remove these from all paths at index 1
 const PATH_RM_INDEX_1 = ['generic', 'misc', 'pallet', 'traits', 'types'];
 
-function splitNamespace (values: string[]): string[][] {
-  return values.map((v) => v.split('::'));
-}
-
-function createNamespace ({ path }: SiType): string {
-  return sanitizeDocs(path).join('::');
-}
-
+/** @internal */
 function sanitizeDocs (docs: Text[]): string[] {
-  return docs.map((d) => d.toString());
+  const result = new Array<string>(docs.length);
+
+  for (let i = 0; i < docs.length; i++) {
+    result[i] = docs[i].toString();
+  }
+
+  return result;
 }
 
+/** @internal */
+function splitNamespace (values: string[]): string[][] {
+  const result = new Array<string[]>(values.length);
+
+  for (let i = 0; i < values.length; i++) {
+    result[i] = values[i].split('::');
+  }
+
+  return result;
+}
+
+/** @internal */
 function matchParts (first: string[], second: (string | Text)[]): boolean {
   return first.length === second.length && first.every((a, index) => {
     const b = second[index].toString();
@@ -104,149 +139,235 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 }
 
 // check if the path matches the PATHS_ALIAS (with wildcards)
+/** @internal */
 function getAliasPath (path: SiPath): string | null {
   // TODO We need to handle ink! Balance in some way
-  return path.length && PATHS_ALIAS.some((p) => matchParts(p, path))
+  return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
     : null;
 }
 
-function hasNoDupes (input: [number, string, SiTypeParameter[]][]): boolean {
-  for (let i = 0; i < input.length; i++) {
-    const [ai, an] = input[i];
+/** @internal */
+function extractNameFlat (portable: PortableType[], lookupIndex: number, params: SiTypeParameter[], path: AnyString[], isInternal = false): Extract | null {
+  const count = path.length;
 
-    for (let j = 0; j < input.length; j++) {
-      const [bi, bn] = input[j];
+  // if we have no path or determined as a wrapper, we just skip it
+  if (count === 0 || WRAPPERS.includes(path[count - 1].toString())) {
+    return null;
+  }
+
+  const camels = new Array<string>(count);
+  const lowers = new Array<string>(count);
+
+  // initially just create arrays of the camelCase and lowercase path
+  // parts - we will check these to extract the final values. While
+  // we have 2 loops here, we also don't do the same operation twice
+  for (let i = 0; i < count; i++) {
+    const c = stringPascalCase(
+      isInternal
+        ? path[i].replace('pallet_', '')
+        : path[i]
+    );
+    const l = c.toLowerCase();
+
+    camels[i] = c;
+    lowers[i] = l;
+  }
+
+  let name = '';
+
+  for (let i = 0; i < count; i++) {
+    const l = lowers[i];
+
+    // Remove ::{generic, misc, pallet, traits, types}::
+    if (i !== 1 || !PATH_RM_INDEX_1.includes(l)) {
+      // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
+      // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
+      if (l !== lowers[i + 1]) {
+        name += camels[i];
+      }
+    }
+  }
+
+  // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
+  if (camels[1] === 'RawOrigin' && count === 2 && params.length === 2 && params[1].type.isSome) {
+    const instanceType = portable[params[1].type.unwrap().toNumber()];
+
+    if (instanceType.type.path.length === 2) {
+      name = `${name}${instanceType.type.path[1].toString()}`;
+    }
+  }
+
+  return { lookupIndex, name, params };
+}
+
+/** @internal */
+function extractName (portable: PortableType[], lookupIndex: number, { type: { params, path } }: PortableType): Extract | null {
+  return extractNameFlat(portable, lookupIndex, params, path);
+}
+
+/** @internal */
+function nextDupeMatches (name: string, startAt: number, names: Extract[]): Extract[] {
+  const result = [names[startAt]];
+
+  for (let i = startAt + 1; i < names.length; i++) {
+    const v = names[i];
+
+    if (v.name === name) {
+      result.push(v);
+    }
+  }
+
+  return result;
+}
+
+/** @internal */
+function rewriteDupes (input: ExtractBase[], rewrite: Record<number, string>): boolean {
+  const count = input.length;
+
+  for (let i = 0; i < count; i++) {
+    const a = input[i];
+
+    for (let j = i + 1; j < count; j++) {
+      const b = input[j];
 
       // if the indexes are not the same and the names match, we have a dupe
-      if (ai !== bi && an === bn) {
+      if (a.lookupIndex !== b.lookupIndex && a.name === b.name) {
         return false;
       }
     }
   }
 
+  // add all the adjusted values to the rewite map
+  for (let i = 0; i < count; i++) {
+    const p = input[i];
+
+    rewrite[p.lookupIndex] = p.name;
+  }
+
   return true;
 }
 
-function removeDuplicateNames (lookup: PortableRegistry, names: [number, string | null, SiTypeParameter[]][]): [number, string, SiTypeParameter[]][] {
+/** @internal */
+function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], names: Extract[]): Extract[] {
   const rewrite: Record<number, string> = {};
 
   return names
-    .map(([lookupIndex, name, params]): [number, string, SiTypeParameter[]] | null => {
+    .map((original, startAt): Extract | null => {
+      const { lookupIndex, name, params } = original;
+
       if (!name) {
+        // the name is empty (this is not expected, but have a failsafe)
         return null;
+      } else if (rewrite[lookupIndex]) {
+        // we have already rewritten this one, we can skip it
+        return original;
       }
 
-      // those where the name is matching (since name is filtered, these all do have names)
-      const allSame = names.filter(([, oName]) => name === oName) as [number, string, SiTypeParameter[]][];
+      // those where the name is matching starting from this index
+      const allSame = nextDupeMatches(name, startAt, names);
 
-      // are there among matching names
-      const anyDiff = allSame.some(([oIndex,, oParams]) =>
-        lookupIndex !== oIndex && (
-          params.length !== oParams.length ||
-          params.some((p, index) =>
-            !p.name.eq(oParams[index].name) ||
-            p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== oParams[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
-          )
+      // we only have one, so all ok
+      if (allSame.length === 1) {
+        return original;
+      }
+
+      // are there param differences between matching names
+      const anyDiff = allSame.some((o) =>
+        params.length !== o.params.length ||
+        params.some((p, index) =>
+          !p.name.eq(o.params[index].name) ||
+          p.type.unwrapOr(TYPE_UNWRAP).toNumber() !== o.params[index].type.unwrapOr(TYPE_UNWRAP).toNumber()
         )
       );
 
       // everything matches, we can combine these
-      if (!anyDiff || !allSame[0][2].length) {
-        return [lookupIndex, name, params];
+      if (!anyDiff) {
+        return original;
       }
 
+      // TODO We probably want to attach all the indexes with differences,
+      // not just the first
       // find the first parameter that yields differences
-      const paramIdx = allSame[0][2].findIndex(({ type }, index) =>
-        allSame.every(([,, params]) => params[index].type.isSome) &&
-        allSame.every(([,, params], aIndex) =>
-          aIndex === 0 ||
-          !params[index].type.eq(type)
+      const paramIdx = params.findIndex(({ type }, index) =>
+        allSame.every(({ params }, aIndex) =>
+          params[index].type.isSome && (
+            aIndex === 0 ||
+            !params[index].type.eq(type)
+          )
         )
       );
 
       // No param found that is different
       if (paramIdx === -1) {
-        return [lookupIndex, name, params];
+        return original;
       }
 
       // see if using the param type helps
-      const adjusted = new Array<[number, string, SiTypeParameter[]]>(allSame.length);
+      const adjusted = new Array<ExtractBase>(allSame.length);
 
+      // loop through all, specifically checking that index where the
+      // first param yields differences
       for (let i = 0; i < allSame.length; i++) {
-        const [oIndex, oName, oParams] = allSame[i];
-        const { def, path } = lookup.getSiType(oParams[paramIdx].type.unwrap());
+        const { lookupIndex, name, params } = allSame[i];
+        const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
 
+        // if it is not a primitive and it doesn't have a path, we really cannot
+        // do anything at this point
         if (!def.isPrimitive && !path.length) {
           return null;
         }
 
-        adjusted[i] = [
-          oIndex,
-          def.isPrimitive
-            ? `${oName}${def.asPrimitive.toString()}`
-            : `${oName}${path[path.length - 1].toString()}`,
-          params
-        ];
+        adjusted[i] = {
+          lookupIndex,
+          name: def.isPrimitive
+            ? `${name}${def.asPrimitive.toString()}`
+            : `${name}${path[path.length - 1].toString()}`
+        };
       }
 
-      if (hasNoDupes(adjusted)) {
-        for (let i = 0; i < adjusted.length; i++) {
-          const [index, name] = adjusted[i];
+      // check to see if the adjusted names have no issues
+      if (rewriteDupes(adjusted, rewrite)) {
+        return original;
+      }
 
-          rewrite[index] = name;
+      // TODO This is duplicated from the section just above...
+      // ... we certainly need a better solution here
+      //
+      // Last-ditch effort to use the full type path - ugly
+      // loop through all, specifically checking that index where the
+      // first param yields differences
+      for (let i = 0; i < allSame.length; i++) {
+        const { lookupIndex, name, params } = allSame[i];
+        const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
+        const flat = extractNameFlat(portable, lookupIndex, params, path, true);
+
+        if (def.isPrimitive || !flat) {
+          return null;
         }
 
-        return [lookupIndex, name, params];
+        adjusted[i] = {
+          lookupIndex,
+          name: `${name}${flat.name}`
+        };
+      }
+
+      // check to see if the adjusted names have no issues
+      if (rewriteDupes(adjusted, rewrite)) {
+        return original;
       }
 
       return null;
     })
-    .filter((n): n is [number, string, SiTypeParameter[]] => !!n)
-    .map(([lookupIndex, name, params]) => [
+    .filter((n): n is Extract => !!n)
+    .map(({ lookupIndex, name, params }): Extract => ({
       lookupIndex,
-      rewrite[lookupIndex] || name,
+      name: rewrite[lookupIndex] || name,
       params
-    ]);
+    }));
 }
 
-function extractName (types: PortableType[], { id, type: { params, path } }: PortableType): [number, string, SiTypeParameter[]] | null {
-  // if we have no path or determined as a wrapper, we just skip it
-  if (!path.length || WRAPPERS.includes(path[path.length - 1].toString())) {
-    return null;
-  }
-
-  const parts = path
-    .map((p) => stringPascalCase(p))
-    .filter((p, index) => {
-      const lower = p.toLowerCase();
-
-      return (
-        // Remove ::{generic, misc, pallet, traits, types}::
-        index !== 1 ||
-        !PATH_RM_INDEX_1.includes(lower)
-      ) &&
-      (
-        // sp_runtime::generic::digest::Digest -> sp_runtime::generic::Digest
-        // sp_runtime::multiaddress::MultiAddress -> sp_runtime::MultiAddress
-        index === path.length - 1 ||
-        lower !== path[index + 1].toLowerCase()
-      );
-    });
-  let typeName = parts.join('');
-
-  // do magic for RawOrigin lookup, e.g. pallet_collective::RawOrigin
-  if (parts.length === 2 && parts[1] === 'RawOrigin' && params.length === 2 && params[1].type.isSome) {
-    const instanceType = types[params[1].type.unwrap().toNumber()];
-
-    if (instanceType.type.path.length === 2) {
-      typeName = `${typeName}${instanceType.type.path[1].toString()}`;
-    }
-  }
-
-  return [id.toNumber(), typeName, params];
-}
-
+/** @internal */
 function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
   // Register the types we extracted
   lookup.registry.register(lookups);
@@ -257,8 +378,8 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
     const [addrParam,, sigParam] = params.SpRuntimeUncheckedExtrinsic;
     const siAddress = lookup.getSiType(addrParam.type.unwrap());
     const siSignature = lookup.getSiType(sigParam.type.unwrap());
-    const nsSignature = createNamespace(siSignature);
-    let nsAccountId = createNamespace(siAddress);
+    const nsSignature = siSignature.path.join('::');
+    let nsAccountId = siAddress.path.join('::');
     const isMultiAddress = nsAccountId === 'sp_runtime::multiaddress::MultiAddress';
 
     // With multiaddress, we check the first type param again
@@ -266,7 +387,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
       // AccountId, AccountIndex
       const [idParam] = siAddress.params;
 
-      nsAccountId = createNamespace(lookup.getSiType(idParam.type.unwrap()));
+      nsAccountId = lookup.getSiType(idParam.type.unwrap()).path.join('::');
     }
 
     lookup.registry.register({
@@ -287,6 +408,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 
 // this extracts aliases based on what we know the runtime config looks like in a
 // Substrate chain. Specifically we want to have access to the Call and Event params
+/** @internal */
 function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
   const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
   const alias: Record<number, string> = {};
@@ -312,63 +434,69 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
   return alias;
 }
 
-function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): [Record<number, PortableType>, Record<string, string>, Record<number, string>, Record<string, SiTypeParameter[]>] {
-  const nameInfo: [number, string, SiTypeParameter[]][] = [];
+/** @internal */
+function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): TypeInfo {
+  const nameInfo: Extract[] = [];
   const types: Record<number, PortableType> = {};
+  const porCount = portable.length;
 
-  for (let i = 0; i < portable.length; i++) {
+  for (let i = 0; i < porCount; i++) {
     const type = portable[i];
-    const extracted = extractName(portable, portable[i]);
+    const lookupIndex = type.id.toNumber();
+    const extracted = extractName(portable, lookupIndex, portable[i]);
 
     if (extracted) {
       nameInfo.push(extracted);
     }
 
-    types[type.id.toNumber()] = type;
+    types[lookupIndex] = type;
   }
 
-  const dedup = removeDuplicateNames(lookup, nameInfo);
   const lookups: Record<string, string> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
+  const dedup = removeDupeNames(lookup, portable, nameInfo);
+  const dedupCount = dedup.length;
 
-  for (let i = 0; i < dedup.length; i++) {
-    const [lookupIndex, name, p] = dedup[i];
+  for (let i = 0; i < dedupCount; i++) {
+    const { lookupIndex, name, params: p } = dedup[i];
 
     names[lookupIndex] = name;
     lookups[name] = lookup.registry.createLookupType(lookupIndex);
     params[name] = p;
   }
 
-  return [types, lookups, names, params];
+  return { lookups, names, params, types };
 }
 
 export class PortableRegistry extends Struct implements ILookup {
   #alias: Record<number, string>;
+  #lookups: Record<string, string>;
   #names: Record<number, string>;
+  #params: Record<string, SiTypeParameter[]>;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array, isContract?: boolean) {
-    // console.time('PortableRegistry')
+    // const timeStart = performance.now()
 
     super(registry, {
       types: 'Vec<PortableType>'
     }, value);
 
-    const [types, lookups, names, params] = extractTypeInfo(this, this.types);
+    const { lookups, names, params, types } = extractTypeInfo(this, this.types);
 
     this.#alias = extractAliases(params, isContract);
+    this.#lookups = lookups;
     this.#names = names;
+    this.#params = params;
     this.#types = types;
 
-    registerTypes(this, lookups, names, params);
-
-    // console.timeEnd('PortableRegistry')
+    // console.log('PortableRegistry', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 
   public get names (): string[] {
-    return Object.values(this.#names);
+    return Object.values(this.#names).sort();
   }
 
   /**
@@ -376,6 +504,10 @@ export class PortableRegistry extends Struct implements ILookup {
    */
   public get types (): Vec<PortableType> {
     return this.getT('types');
+  }
+
+  public register (): void {
+    registerTypes(this, this.#lookups, this.#names, this.#params);
   }
 
   /**
@@ -393,7 +525,9 @@ export class PortableRegistry extends Struct implements ILookup {
     // ensure that we have actually initialized it correctly
     const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
 
-    assert(found, () => `PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
+    if (!found) {
+      throw new Error(`PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
+    }
 
     return found.type;
   }
@@ -442,6 +576,25 @@ export class PortableRegistry extends Struct implements ILookup {
     return this.#typeDefs[lookupIndex];
   }
 
+  public sanitizeField (name: Option<Text>): [string | null, string | null] {
+    let nameField: string | null = null;
+    let nameOrig: string | null = null;
+
+    if (name.isSome) {
+      nameField = stringCamelCase(name.unwrap());
+
+      if (nameField.includes('#')) {
+        nameOrig = nameField;
+        nameField = nameOrig.replace(/#/g, '_');
+      } else if (RESERVED.includes(nameField)) {
+        nameOrig = nameField;
+        nameField = `${nameField}_`;
+      }
+    }
+
+    return [nameField, nameOrig];
+  }
+
   #createSiDef (lookupId: SiLookupTypeId): TypeDef {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
@@ -460,7 +613,9 @@ export class PortableRegistry extends Struct implements ILookup {
 
   #getLookupId (lookupId: SiLookupTypeId | string | number): number {
     if (isString(lookupId)) {
-      assert(this.registry.isLookupType(lookupId), () => `PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+      if (!this.registry.isLookupType(lookupId)) {
+        throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+      }
 
       return parseInt(lookupId.replace('Lookup', ''), 10);
     } else if (isNumber(lookupId)) {
@@ -471,7 +626,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extract (type: SiType, lookupIndex: number): TypeDef {
-    const namespace = [...type.path].join('::');
+    const namespace = type.path.join('::');
     let typeDef: TypeDef;
     const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
 
@@ -499,25 +654,37 @@ export class PortableRegistry extends Struct implements ILookup {
     return objectSpread({ docs: sanitizeDocs(type.docs), namespace }, typeDef);
   }
 
-  #extractArray (_: number, { len: length, type }: SiTypeDefArray): TypeDef {
-    assert(!length || length.toNumber() <= 256, 'Only support for [Type; <length>], where length <= 256');
+  #extractArray (_: number, { len, type }: SiTypeDefArray): TypeDef {
+    const length = len.toNumber();
+
+    if (length > 2048) {
+      throw new Error('Only support for [Type; <length>], where length <= 2048');
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
-      length: length.toNumber(),
+      length,
       sub: this.#createSiDef(type)
     });
   }
 
   #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
-    const bitOrder = this.#createSiDef(bitOrderType);
-    const bitStore = this.#createSiDef(bitStoreType);
+    // With the v3 of scale-info this swapped around, but obviously the decoder cannot determine
+    // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
+    const a = this.#createSiDef(bitOrderType);
+    const b = this.#createSiDef(bitStoreType);
+    const [bitOrder, bitStore] = BITVEC_NS.includes(a.namespace || '')
+      ? [a, b]
+      : [b, a];
 
     // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
     // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
-    // we don't pass it though at all
-    assert(['bitvec::order::Lsb0', 'bitvec::order::Msb0'].includes(bitOrder.namespace || ''), () => `Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
-    assert(bitStore.info === TypeDefInfo.Plain && bitStore.type === 'u8', () => `Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    // we don't pass it though at all (all displays in LSB)
+    if (!BITVEC_NS.includes(bitOrder.namespace || '')) {
+      throw new Error(`Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
+    } else if (bitStore.info !== TypeDefInfo.Plain || bitStore.type !== 'u8') {
+      throw new Error(`Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    }
 
     return {
       info: TypeDefInfo.Plain,
@@ -540,6 +707,11 @@ export class PortableRegistry extends Struct implements ILookup {
       return withTypeString(this.registry, {
         info: TypeDefInfo.BTreeMap,
         sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
+      });
+    } else if (path.length === 1 && pathFirst === 'BTreeSet') {
+      return withTypeString(this.registry, {
+        info: TypeDefInfo.BTreeSet,
+        sub: this.#createSiDef(params[0].type.unwrap())
       });
     } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
       return withTypeString(this.registry, {
@@ -565,7 +737,9 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
-    assert(params.length === 1 && fields.length === 1, 'Set handling expects param/field as single entries');
+    if (params.length !== 1 || fields.length !== 1) {
+      throw new Error('Set handling expects param/field as single entries');
+    }
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Set,
@@ -591,7 +765,9 @@ export class PortableRegistry extends Struct implements ILookup {
       isTuple = isTuple && name.isNone;
     }
 
-    assert(isTuple || isStruct, 'Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
+    if (!isTuple && !isStruct) {
+      throw new Error('Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
+    }
 
     if (fields.length === 0) {
       return {
@@ -605,7 +781,7 @@ export class PortableRegistry extends Struct implements ILookup {
         {},
         typeDef,
         lookupIndex === -1
-          ? {}
+          ? null
           : {
             lookupIndex,
             lookupName: this.#names[lookupIndex],
@@ -623,18 +799,18 @@ export class PortableRegistry extends Struct implements ILookup {
       {
         info: isTuple // Tuple check first
           ? TypeDefInfo.Tuple
-          : TypeDefInfo.Struct
+          : TypeDefInfo.Struct,
+        sub
       },
       alias.size
         ? { alias }
         : null,
       lookupIndex === -1
-        ? {}
+        ? null
         : {
           lookupIndex,
           lookupName: this.#names[lookupIndex]
-        },
-      { sub }
+        }
     ));
   }
 
@@ -649,28 +825,18 @@ export class PortableRegistry extends Struct implements ILookup {
       if (name.isNone) {
         sub[i] = typeDef;
       } else {
-        let nameField = stringCamelCase(name.unwrap());
-        let nameOrig: string | null = null;
+        const [nameField, nameOrig] = this.sanitizeField(name);
 
-        if (nameField.includes('#')) {
-          nameOrig = nameField;
-          nameField = nameOrig.replace(/#/g, '_');
-        } else if (RESERVED.includes(nameField)) {
-          nameOrig = nameField;
-          nameField = `${nameField}_`;
-        }
-
-        if (nameOrig) {
+        if (nameField && nameOrig) {
           alias.set(nameField, nameOrig);
         }
 
         sub[i] = objectSpread(
-          {},
-          typeDef,
           {
             docs: sanitizeDocs(docs),
             name: nameField
           },
+          typeDef,
           typeName.isSome
             ? { typeName: sanitize(typeName.unwrap()) }
             : null
@@ -683,12 +849,11 @@ export class PortableRegistry extends Struct implements ILookup {
 
   #extractHistoric (_: number, type: Type): TypeDef {
     return objectSpread(
-      {},
-      getTypeDef(type),
       {
         displayName: type.toString(),
         isFromSi: true
-      }
+      },
+      getTypeDef(type)
     );
   }
 
@@ -736,7 +901,7 @@ export class PortableRegistry extends Struct implements ILookup {
       return this.getTypeDef(ids[0]);
     }
 
-    const sub = ids.map((type) => this.#createSiDef(type));
+    const sub = ids.map((t) => this.#createSiDef(t));
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
@@ -750,9 +915,19 @@ export class PortableRegistry extends Struct implements ILookup {
     const specialVariant = path[0].toString();
 
     if (specialVariant === 'Option') {
+      const sub = this.#createSiDef(params[0].type.unwrap());
+
+      // NOTE This is opt-in (unhandled), not by default
+      // if (sub.type === 'bool') {
+      //   return withTypeString(this.registry, {
+      //     info: TypeDefInfo.Plain,
+      //     type: 'OptionBool'
+      //   });
+      // }
+
       return withTypeString(this.registry, {
         info: TypeDefInfo.Option,
-        sub: this.#createSiDef(params[0].type.unwrap())
+        sub
       });
     } else if (specialVariant === 'Result') {
       return withTypeString(this.registry, {
@@ -776,12 +951,13 @@ export class PortableRegistry extends Struct implements ILookup {
 
     // we may get entries out of order, arrange them first before creating with gaps filled
     // NOTE: Since we mutate, use a copy of the array as an input
-    [...variants]
+    variants
+      .slice()
       .sort((a, b) => a.index.cmp(b.index))
-      .forEach(({ fields, index, name }) => {
-        const desired = index.toNumber();
+      .forEach(({ fields, index: bnIndex, name }) => {
+        const index = bnIndex.toNumber();
 
-        while (sub.length !== desired) {
+        while (sub.length !== index) {
           sub.push({
             index: sub.length,
             info: TypeDefInfo.Null,
@@ -794,7 +970,7 @@ export class PortableRegistry extends Struct implements ILookup {
           objectSpread(
             this.#extractFields(-1, fields),
             {
-              index: index.toNumber(),
+              index,
               name: name.toString()
             }
           )

@@ -5,12 +5,15 @@ import type { PropIndex } from '@polkadot/types/interfaces/democracy';
 import type { Codec, CodecTo, ITuple } from '@polkadot/types-codec/types';
 
 import { createTypeUnsafe, GenericAccountId as AccountId, Metadata, TypeRegistry } from '@polkadot/types';
-import { Text, Vec } from '@polkadot/types-codec';
+import { Text, u32, Vec } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { decodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
+import { perf } from '../test/performance';
+
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
+const VecU32 = Vec.with(u32);
 
 registry.setMetadata(metadata);
 
@@ -118,7 +121,7 @@ describe('Vec', (): void => {
 
     it('exposes a working map', (): void => {
       expect(
-        vector.map((e): string => e.toString().substr(0, 1))
+        vector.map((e): string => e.toString().substring(0, 1))
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
@@ -190,4 +193,6 @@ describe('Vec', (): void => {
       });
     });
   });
+
+  perf('Vec<U32>', 40_000, [[new Uint8Array([3 << 2, 11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34])]], (v: Uint8Array) => new VecU32(registry, v));
 });

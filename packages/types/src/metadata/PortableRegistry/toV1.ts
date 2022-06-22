@@ -4,7 +4,7 @@
 import type { PortableType, Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefComposite, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefVariant, Si1Field, Si1TypeDef, SiTypeDef } from '../../interfaces';
 import type { Registry } from '../../types';
 
-import { assertUnreachable } from './util';
+import { assertUnreachable } from '@polkadot/util';
 
 function convertType (key: 'Compact' | 'Sequence'): (registry: Registry, si: Si0TypeDefSequence) => SiTypeDef {
   return (registry: Registry, { type }: Si0TypeDefSequence) =>

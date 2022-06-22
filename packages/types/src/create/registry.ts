@@ -4,12 +4,12 @@
 import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
-import { assert, assertReturn, BN_ZERO, formatBalance, isFunction, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
+import { assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
@@ -22,7 +22,13 @@ import { Metadata } from '../metadata/Metadata';
 import { PortableRegistry } from '../metadata/PortableRegistry';
 import { lazyVariants } from './lazy';
 
+const DEFAULT_FIRST_CALL_IDX = new Uint8Array(2);
+
 const l = logger('registry');
+
+function sortDecimalStrings (a: string, b: string): number {
+  return parseInt(a, 10) - parseInt(b, 10);
+}
 
 function valueToString (v: { toString: () => string }): string {
   return v.toString();
@@ -136,6 +142,8 @@ export class TypeRegistry implements Registry {
 
   #definitions = new Map<string, string>();
 
+  #firstCallIndex: Uint8Array | null = null;
+
   #lookup?: PortableRegistry;
 
   #metadata?: MetadataLatest;
@@ -211,8 +219,12 @@ export class TypeRegistry implements Registry {
     return [formatBalance.getDefaults().unit];
   }
 
+  public get firstCallIndex (): Uint8Array {
+    return this.#firstCallIndex || DEFAULT_FIRST_CALL_IDX;
+  }
+
   /**
-   * @description Returns tru if the type is in a Compat format
+   * @description Returns true if the type is in a Compat format
    */
   public isLookupType (value: string): boolean {
     return /Lookup\d+$/.test(value);
@@ -230,13 +242,11 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return this.#lookup || this.metadata.lookup;
+    return assertReturn(this.#lookup, 'Lookup has not been set on this registry');
   }
 
   public get metadata (): MetadataLatest {
-    assert(this.#metadata, 'Metadata has not been set on this registry');
-
-    return this.#metadata;
+    return assertReturn(this.#metadata, 'Metadata has not been set on this registry');
   }
 
   public get unknownTypes (): string[] {
@@ -255,7 +265,7 @@ export class TypeRegistry implements Registry {
    * @describe Creates an instance of the class
    */
   public createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>> {
-    return this.createClassUnsafe(type) as unknown as CodecClass<DetectCodec<T, K>>;
+    return createClassUnsafe<DetectCodec<T, K>>(this, type);
   }
 
   /**
@@ -269,7 +279,7 @@ export class TypeRegistry implements Registry {
    * @description Creates an instance of a type as registered
    */
   public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
-    return this.createTypeUnsafe(type, params);
+    return createTypeUnsafe(this, type, params);
   }
 
   /**
@@ -290,10 +300,15 @@ export class TypeRegistry implements Registry {
   }
 
   // finds an error
-  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule): RegistryError {
+  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a): RegistryError {
     const [section, method] = isU8a(errorIndex)
       ? [errorIndex[0], errorIndex[1]]
-      : [errorIndex.index.toNumber(), errorIndex.error.toNumber()];
+      : [
+        errorIndex.index.toNumber(),
+        isU8a(errorIndex.error)
+          ? errorIndex.error[0]
+          : errorIndex.error.toNumber()
+      ];
 
     return assertReturn(
       this.#metadataErrors[`${section}`] && this.#metadataErrors[`${section}`][`${method}`],
@@ -342,6 +357,12 @@ export class TypeRegistry implements Registry {
         Type = class extends BaseType {};
 
         this.#classes.set(name, Type);
+
+        // In the case of lookups, we also want to store the actual class against
+        // the lookup name, instad of having to traverse again
+        if (knownTypeDef && isNumber(knownTypeDef.lookupIndex)) {
+          this.#classes.set(this.createLookupType(knownTypeDef.lookupIndex), Type);
+        }
       }
     }
 
@@ -389,7 +410,9 @@ export class TypeRegistry implements Registry {
   public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
-    assert(Clazz, msg || `type ${name} not found`);
+    if (!Clazz) {
+      throw new Error(msg || `type ${name} not found`);
+    }
 
     return Clazz as unknown as CodecClass<R>;
   }
@@ -433,8 +456,11 @@ export class TypeRegistry implements Registry {
     if (isFunction(arg1)) {
       this.#classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
-      assert(isFunction(arg2), () => `Expected class definition passed to '${arg1}' registration`);
-      assert(arg1 !== arg2.toString(), () => `Unable to register circular ${arg1} === ${arg1}`);
+      if (!isFunction(arg2)) {
+        throw new Error(`Expected class definition passed to '${arg1}' registration`);
+      } else if (arg1 === arg2.toString()) {
+        throw new Error(`Unable to register circular ${arg1} === ${arg1}`);
+      }
 
       this.#classes.set(arg1, arg2);
     } else {
@@ -456,7 +482,9 @@ export class TypeRegistry implements Registry {
           ? type
           : stringify(type);
 
-        assert(name !== def, () => `Unable to register circular ${name} === ${def}`);
+        if (name === def) {
+          throw new Error(`Unable to register circular ${name} === ${def}`);
+        }
 
         // we already have this type, remove the classes registered for it
         if (this.#classes.has(name)) {
@@ -485,16 +513,39 @@ export class TypeRegistry implements Registry {
 
   setLookup (lookup: PortableRegistry): void {
     this.#lookup = lookup;
+
+    // register all applicable types found
+    lookup.register();
   }
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
+    this.#firstCallIndex = null;
+
+    // attach the lookup at this point (before injecting)
+    this.setLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
     injectEvents(this, this.#metadata, this.#metadataVersion, this.#metadataEvents);
+
+    // set the default call index (the lowest section, the lowest method)
+    // in most chains this should be 0,0
+    const [defSection] = Object
+      .keys(this.#metadataCalls)
+      .sort(sortDecimalStrings);
+
+    if (defSection) {
+      const [defMethod] = Object
+        .keys(this.#metadataCalls[defSection])
+        .sort(sortDecimalStrings);
+
+      if (defMethod) {
+        this.#firstCallIndex = new Uint8Array([parseInt(defSection, 10), parseInt(defMethod, 10)]);
+      }
+    }
 
     // setup the available extensions
     this.setSignedExtensions(

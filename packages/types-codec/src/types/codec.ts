@@ -60,7 +60,7 @@ export interface Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect;
+  inspect (isBare?: BareOpts): Inspect;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
@@ -104,8 +104,6 @@ export interface CodecClass<T = Codec> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(registry: Registry, ...args: any[]): T;
 }
-
-export type CodecClassDef<T = Codec> = Record<string, CodecClass<T>>;
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 

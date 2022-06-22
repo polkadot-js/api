@@ -79,6 +79,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateOffenceReport: AugmentedError<ApiType>;
       /**
+       * Submitted configuration is invalid.
+       **/
+      InvalidConfiguration: AugmentedError<ApiType>;
+      /**
        * An equivocation proof provided as part of an equivocation report is invalid.
        **/
       InvalidEquivocationProof: AugmentedError<ApiType>;
@@ -86,24 +90,6 @@ declare module '@polkadot/api-base/types/errors' {
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
       InvalidKeyOwnershipProof: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    bagsList: {
-      /**
-       * Id not found in list.
-       **/
-      IdNotFound: AugmentedError<ApiType>;
-      /**
-       * An Id does not have a greater vote weight than another Id.
-       **/
-      NotHeavier: AugmentedError<ApiType>;
-      /**
-       * Attempted to place node in front of a node in another bag.
-       **/
-      NotInSameBag: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -149,7 +135,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bounties: {
       /**
-       * The bounty cannot be closed because it has active child-bounties.
+       * The bounty cannot be closed because it has active child bounties.
        **/
       HasActiveChildBounty: AugmentedError<ApiType>;
       /**
@@ -193,6 +179,24 @@ declare module '@polkadot/api-base/types/errors' {
        * The bounty status is unexpected.
        **/
       UnexpectedStatus: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    childBounties: {
+      /**
+       * The bounty balance is not enough to add new child-bounty.
+       **/
+      InsufficientBountyBalance: AugmentedError<ApiType>;
+      /**
+       * The parent bounty is not in active state.
+       **/
+      ParentBountyNotActive: AugmentedError<ApiType>;
+      /**
+       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -880,6 +884,117 @@ declare module '@polkadot/api-base/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    nominationPools: {
+      /**
+       * An account is already delegating in another pool. An account may only belong to one
+       * pool at a time.
+       **/
+      AccountBelongsToOtherPool: AugmentedError<ApiType>;
+      /**
+       * The member is already unbonding in this era.
+       **/
+      AlreadyUnbonding: AugmentedError<ApiType>;
+      /**
+       * The pools state cannot be changed.
+       **/
+      CanNotChangeState: AugmentedError<ApiType>;
+      /**
+       * None of the funds can be withdrawn yet because the bonding duration has not passed.
+       **/
+      CannotWithdrawAny: AugmentedError<ApiType>;
+      /**
+       * Some error occurred that should never happen. This should be reported to the
+       * maintainers.
+       **/
+      DefensiveError: AugmentedError<ApiType>;
+      /**
+       * The caller does not have adequate permissions.
+       **/
+      DoesNotHavePermission: AugmentedError<ApiType>;
+      /**
+       * The member is fully unbonded (and thus cannot access the bonded and reward pool
+       * anymore to, for example, collect rewards).
+       **/
+      FullyUnbonding: AugmentedError<ApiType>;
+      /**
+       * The pool has insufficient balance to bond as a nominator.
+       **/
+      InsufficientBond: AugmentedError<ApiType>;
+      /**
+       * Too many members in the pool or system.
+       **/
+      MaxPoolMembers: AugmentedError<ApiType>;
+      /**
+       * The system is maxed out on pools.
+       **/
+      MaxPools: AugmentedError<ApiType>;
+      /**
+       * The member cannot unbond further chunks due to reaching the limit.
+       **/
+      MaxUnbondingLimit: AugmentedError<ApiType>;
+      /**
+       * Metadata exceeds [`Config::MaxMetadataLen`]
+       **/
+      MetadataExceedsMaxLen: AugmentedError<ApiType>;
+      /**
+       * The amount does not meet the minimum bond to either join or create a pool.
+       **/
+      MinimumBondNotMet: AugmentedError<ApiType>;
+      /**
+       * A pool must be in [`PoolState::Destroying`] in order for the depositor to unbond or for
+       * other members to be permissionlessly unbonded.
+       **/
+      NotDestroying: AugmentedError<ApiType>;
+      /**
+       * Not enough points. Ty unbonding less.
+       **/
+      NotEnoughPointsToUnbond: AugmentedError<ApiType>;
+      /**
+       * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
+       **/
+      NotKickerOrDestroying: AugmentedError<ApiType>;
+      /**
+       * The caller does not have nominating permissions for the pool.
+       **/
+      NotNominator: AugmentedError<ApiType>;
+      /**
+       * The depositor must be the only member in the bonded pool in order to unbond. And the
+       * depositor must be the only member in the sub pools in order to withdraw unbonded.
+       **/
+      NotOnlyPoolMember: AugmentedError<ApiType>;
+      /**
+       * The pool is not open to join
+       **/
+      NotOpen: AugmentedError<ApiType>;
+      /**
+       * The transaction could not be executed due to overflow risk for the pool.
+       **/
+      OverflowRisk: AugmentedError<ApiType>;
+      /**
+       * Partial unbonding now allowed permissionlessly.
+       **/
+      PartialUnbondNotAllowedPermissionlessly: AugmentedError<ApiType>;
+      /**
+       * An account is not a member.
+       **/
+      PoolMemberNotFound: AugmentedError<ApiType>;
+      /**
+       * A (bonded) pool id does not exist.
+       **/
+      PoolNotFound: AugmentedError<ApiType>;
+      /**
+       * A reward pool does not exist. In all cases this is a system logic error.
+       **/
+      RewardPoolNotFound: AugmentedError<ApiType>;
+      /**
+       * A sub pool does not exist.
+       **/
+      SubPoolsNotFound: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1785,6 +1900,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidIndex: AugmentedError<ApiType>;
       /**
+       * Proposal has not been approved.
+       **/
+      ProposalNotApproved: AugmentedError<ApiType>;
+      /**
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
@@ -1839,6 +1958,16 @@ declare module '@polkadot/api-base/types/errors' {
        * An index was out of bounds of the vesting schedules.
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    voterList: {
+      /**
+       * A error in the list interface implementation.
+       **/
+      List: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

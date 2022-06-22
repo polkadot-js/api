@@ -10,7 +10,14 @@ export type AnyFunction = (...args: any[]) => any;
 
 export type AnyNumber = BN | bigint | Uint8Array | number | string;
 
-export type AnyString = string | string;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AnyFloat = Number | number | Uint8Array | string;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AnyString = String | string;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AnyBool = Boolean | boolean;
 
 export type AnyTuple = Codec[];
 

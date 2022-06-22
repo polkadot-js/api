@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { assert, u8aEq } from '@polkadot/util';
+import { u8aEq } from '@polkadot/util';
 
 import all from '.';
 
@@ -43,7 +43,9 @@ describe('upgrades', (): void => {
     describe(network, (): void => {
       const chain = all.find((n) => n.network === network);
 
-      assert(chain, `Unable to find the entry for ${network}`);
+      if (!chain) {
+        throw new Error(`Unable to find the entry for ${network}`);
+      }
 
       it('has a valid genesisHash', (): void => {
         expect(u8aEq(chain.genesisHash, genesisHash)).toBe(true);

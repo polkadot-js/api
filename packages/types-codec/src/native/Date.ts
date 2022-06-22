@@ -10,7 +10,7 @@ const BITLENGTH: UIntBitLength = 64;
 
 function decodeDate (value: CodecDate | Date | AnyNumber): Date {
   if (isU8a(value)) {
-    value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
+    value = u8aToBn(value.subarray(0, BITLENGTH / 8));
   } else if (value instanceof Date) {
     return value;
   } else if (isString(value)) {
@@ -81,7 +81,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

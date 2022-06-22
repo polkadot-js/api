@@ -3,7 +3,7 @@
 
 import type { AnyU8a, Inspect, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { compactAddLength, compactFromU8aLim, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -17,26 +17,16 @@ function decodeBytesU8a (value: Uint8Array): [Uint8Array, number] {
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix
-  const [offset, length] = compactFromU8a(value);
-  const total = offset + length.toNumber();
+  const [offset, length] = compactFromU8aLim(value);
+  const total = offset + length;
 
-  assert(length.lten(MAX_LENGTH), () => `Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
-  assert(total <= value.length, () => `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-  return [value.subarray(offset, total), total];
-}
-
-/** @internal */
-function decodeBytes (value?: AnyU8a): [Uint8Array | undefined, number] {
-  if (Array.isArray(value) || isString(value)) {
-    return [u8aToU8a(value), 0];
-  } else if (!(value instanceof Raw) && isU8a(value)) {
-    // We are ensuring we are not a Raw instance. In the case of a Raw we already have gotten
-    // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
-    return decodeBytesU8a(value);
+  if (length > MAX_LENGTH) {
+    throw new Error(`Bytes length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  } else if (total > value.length) {
+    throw new Error(`Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
   }
 
-  return [value, 0];
+  return [value.subarray(offset, total), total];
 }
 
 /**
@@ -48,7 +38,11 @@ function decodeBytes (value?: AnyU8a): [Uint8Array | undefined, number] {
  */
 export class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
-    const [u8a, decodedLength] = decodeBytes(value);
+    const [u8a, decodedLength] = isU8a(value) && !(value instanceof Raw)
+      ? decodeBytesU8a(value)
+      : Array.isArray(value) || isString(value)
+        ? [u8aToU8a(value), 0]
+        : [value, 0];
 
     super(registry, u8a, decodedLength);
   }
@@ -63,13 +57,15 @@ export class Bytes extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (isBare?: boolean): Inspect {
     const clength = compactToU8a(this.length);
 
     return {
-      outer: this.length
-        ? [clength, super.toU8a()]
-        : [clength]
+      outer: isBare
+        ? [super.toU8a()]
+        : this.length
+          ? [clength, super.toU8a()]
+          : [clength]
     };
   }
 

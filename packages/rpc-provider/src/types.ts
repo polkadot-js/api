@@ -17,6 +17,13 @@ export interface JsonRpcResponseBaseError {
   message: string;
 }
 
+export interface RpcErrorInterface<Data> {
+  code: number;
+  data?: Data;
+  message: string;
+  stack: string;
+}
+
 interface JsonRpcResponseSingle {
   error?: JsonRpcResponseBaseError;
   result?: unknown;
@@ -44,6 +51,7 @@ export type ProviderInterfaceEmitCb = (value?: any) => any;
 export interface ProviderInterface {
   readonly hasSubscriptions: boolean;
   readonly isConnected: boolean;
+  readonly stats?: ProviderStats;
 
   clone (): ProviderInterface;
   connect (): Promise<void>;
@@ -52,4 +60,20 @@ export interface ProviderInterface {
   send <T = any> (method: string, params: unknown[], isCacheable?: boolean): Promise<T>;
   subscribe (type: string, method: string, params: unknown[], cb: ProviderInterfaceCallback): Promise<number | string>;
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
+}
+
+export interface ProviderStats {
+  active: {
+    requests: number;
+    subscriptions: number;
+  };
+  total: {
+    bytesRecv: number;
+    bytesSent: number;
+    cached: number;
+    errors: number;
+    requests: number;
+    subscriptions: number;
+    timeout: number;
+  };
 }

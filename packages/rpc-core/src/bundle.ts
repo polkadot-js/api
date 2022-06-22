@@ -12,7 +12,7 @@ import type { RpcInterfaceMethod } from './types';
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
-import { assert, hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util';
 
@@ -42,7 +42,11 @@ const EMPTY_META = {
 
 // utility method to create a nicely-formatted error
 /** @internal */
-function logErrorMessage (method: string, { params, type }: DefinitionRpc, error: Error): void {
+function logErrorMessage (method: string, { noErrorLog, params, type }: DefinitionRpc, error: Error): void {
+  if (noErrorLog) {
+    return;
+  }
+
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
@@ -87,7 +91,7 @@ export class RpcCore {
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
-  readonly #storageCache = new Map<string, string | null>();
+  readonly #storageCache = new Map<string, Codec>();
 
   public readonly mapping = new Map<string, DefinitionRpcExt>();
 
@@ -102,7 +106,9 @@ export class RpcCore {
    */
   constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    assert(provider && isFunction(provider.send), 'Expected Provider to API create');
+    if (!provider || !isFunction(provider.send)) {
+      throw new Error('Expected Provider to API create');
+    }
 
     this.#instanceId = instanceId;
     this.#registryDefault = registry;
@@ -356,7 +362,9 @@ export class RpcCore {
       ? ''
       : ` (${def.params.length - reqArgCount} optional)`;
 
-    assert(inputs.length >= reqArgCount && inputs.length <= def.params.length, () => `Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    if (inputs.length < reqArgCount || inputs.length > def.params.length) {
+      throw new Error(`Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    }
 
     return inputs.map((input, index): Codec =>
       registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
@@ -418,28 +426,38 @@ export class RpcCore {
     }, []);
   }
 
-  private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], witCache: boolean, entryIndex: number): Codec {
+  private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], withCache: boolean, entryIndex: number): Codec {
     const hexKey = key.toHex();
     const found = changes.find(([key]) => key === hexKey);
+    const isNotFound = isUndefined(found);
 
     // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
-    const value = isUndefined(found)
-      ? (witCache && this.#storageCache.get(hexKey)) || null
+    if (isNotFound && withCache) {
+      const cached = this.#storageCache.get(hexKey);
+
+      if (cached) {
+        return cached;
+      }
+    }
+
+    const value = isNotFound
+      ? null
       : found[1];
     const isEmpty = isNull(value);
     const input = isEmpty || isTreatAsHex(key)
       ? value
       : u8aToU8a(value);
+    const codec = this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
-    this.#storageCache.set(hexKey, value);
+    this.#storageCache.set(hexKey, codec);
 
-    return this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
+    return codec;
   }
 
   private _newType (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
@@ -455,7 +473,10 @@ export class RpcCore {
       return registry.createTypeUnsafe(type, [
         isEmpty
           ? meta.fallback
-            ? hexToU8a(meta.fallback.toHex())
+            // For old-style Linkage, we add an empty linkage at the end
+            ? type.includes('Linkage<')
+              ? u8aConcat(hexToU8a(meta.fallback.toHex()), new Uint8Array(2))
+              : hexToU8a(meta.fallback.toHex())
             : undefined
           : meta.modifier.isOptional
             ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })

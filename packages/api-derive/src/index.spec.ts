@@ -15,7 +15,7 @@ import { ExactDerive } from '.';
 
 const testFunction = (api: ApiRx): any => {
   return <S extends keyof ExactDerive, M extends keyof (typeof api.derive[S])>(section: S, method: M, inputs: any[]): void => {
-    describe(`derive.${section}.${method}`, (): void => {
+    describe(`derive.${section}.${method as string}`, (): void => {
       it('should be a function', (): void => {
         expect(typeof api.derive[section][method]).toBe('function');
       });
@@ -47,7 +47,6 @@ describe('derive', (): void => {
     testFunction(api)('accounts', 'indexToId', []);
 
     testFunction(api)('balances', 'all', []);
-    testFunction(api)('balances', 'fees', []);
     testFunction(api)('balances', 'votingBalance', []);
     testFunction(api)('balances', 'votingBalances', []);
 

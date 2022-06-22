@@ -3,10 +3,10 @@
 
 import type { AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { IEvent } from '../../../types';
+import type { IEvent, IEventLike } from '../../../types';
 import type { Events, IsEvent } from '../types';
 
-import { lazyMethod, stringCamelCase } from '@polkadot/util';
+import { isCodec, isU8a, lazyMethod, stringCamelCase } from '@polkadot/util';
 
 import { lazyVariants } from '../../../create/lazy';
 import { variantToMeta } from '../errors';
@@ -27,7 +27,10 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
 
     lazyMethod(result, stringCamelCase(name), () =>
       lazyVariants(lookup, events.unwrap(), objectNameToString, (variant: SiVariant): IsEvent<AnyTuple> => ({
-        is: <T extends AnyTuple> (eventRecord: IEvent<AnyTuple>): eventRecord is IEvent<T> =>
+        // We sprinkle in isCodec & isU8a to ensure we are dealing with the correct objects
+        is: <T extends AnyTuple> (eventRecord: IEventLike): eventRecord is IEvent<T> =>
+          isCodec(eventRecord) &&
+          isU8a(eventRecord.index) &&
           sectionIndex === eventRecord.index[0] &&
           variant.index.eq(eventRecord.index[1]),
         meta: registry.createTypeUnsafe('EventMetadataLatest', [variantToMeta(lookup, variant)])

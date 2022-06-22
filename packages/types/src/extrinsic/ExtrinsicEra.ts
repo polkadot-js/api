@@ -3,14 +3,14 @@
 
 import type { AnyU8a, Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { IExtrinsicEra } from '../types';
+import type { IExtrinsicEra, INumber } from '../types';
 
 import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
-import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
+import { bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
 import { IMMORTAL_ERA } from './constants';
 
-type MortalEraValue = [U64, U64];
+type MortalEraValue = [INumber, INumber];
 
 interface MortalMethod {
   current: number;
@@ -76,7 +76,9 @@ function decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue
   const quantizeFactor = Math.max(period >> 12, 1);
   const phase = (encoded >> 4) * quantizeFactor;
 
-  assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
+  if (period < 4 || phase >= period) {
+    throw new Error('Invalid data passed to Mortal era');
+  }
 
   return [new U64(registry, period), new U64(registry, phase)];
 }
@@ -147,15 +149,15 @@ export class MortalEra extends Tuple {
   /**
    * @description The period of this Mortal wraps as a [[U64]]
    */
-  public get period (): U64 {
-    return this[0] as U64;
+  public get period (): INumber {
+    return this[0] as INumber;
   }
 
   /**
    * @description The phase of this Mortal wraps as a [[U64]]
    */
-  public get phase (): U64 {
-    return this[1] as U64;
+  public get phase (): INumber {
+    return this[1] as INumber;
   }
 
   /**
@@ -188,32 +190,42 @@ export class MortalEra extends Tuple {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public override toU8a (isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
-    const phase = this.phase.toNumber();
-    const quantizeFactor = Math.max(period >> 12, 1);
-    const trailingZeros = getTrailingZeros(period);
-    const encoded = Math.min(15, Math.max(1, trailingZeros - 1)) + (((phase / quantizeFactor) << 4));
-    const first = encoded >> 8;
-    const second = encoded & 0xff;
+    const encoded = Math.min(
+      15,
+      Math.max(1, getTrailingZeros(period) - 1)
+    ) + (
+      (
+        this.phase.toNumber() / Math.max(period >> 12, 1)
+      ) << 4
+    );
 
-    return new Uint8Array([second, first]);
+    return new Uint8Array([
+      encoded & 0xff,
+      encoded >> 8
+    ]);
   }
 
   /**
    * @description Get the block number of the start of the era whose properties this object describes that `current` belongs to.
    */
-  public birth (current: BN | number): number {
+  public birth (current: BN | bigint | number | string): number {
+    const phase = this.phase.toNumber();
+    const period = this.period.toNumber();
+
     // FIXME No toNumber() here
-    return Math.floor(
-      (
-        Math.max(bnToBn(current).toNumber(), this.phase.toNumber()) - this.phase.toNumber()
-      ) / this.period.toNumber()
-    ) * this.period.toNumber() + this.phase.toNumber();
+    return (
+      ~~(
+        (
+          Math.max(bnToBn(current).toNumber(), phase) - phase
+        ) / period
+      ) * period
+    ) + phase;
   }
 
   /**
    * @description Get the block number of the first block at which the era has ended.
    */
-  public death (current: BN | number): number {
+  public death (current: BN | bigint | number | string): number {
     // FIXME No toNumber() here
     return this.birth(current) + this.period.toNumber();
   }
@@ -245,7 +257,9 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[ImmortalEra]]
    */
   public get asImmortalEra (): ImmortalEra {
-    assert(this.isImmortalEra, () => `Cannot convert '${this.type}' via asImmortalEra`);
+    if (!this.isImmortalEra) {
+      throw new Error(`Cannot convert '${this.type}' via asImmortalEra`);
+    }
 
     return this.inner as ImmortalEra;
   }
@@ -254,7 +268,9 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[MortalEra]]
    */
   public get asMortalEra (): MortalEra {
-    assert(this.isMortalEra, () => `Cannot convert '${this.type}' via asMortalEra`);
+    if (!this.isMortalEra) {
+      throw new Error(`Cannot convert '${this.type}' via asMortalEra`);
+    }
 
     return this.inner as MortalEra;
   }

@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveOwnExposure } from '../types';
 
-import { map, of } from 'rxjs';
+import { combineLatest, map, of } from 'rxjs';
 
 import { firstMemo, memo } from '../util';
 import { erasHistoricApplyAccount } from './util';
@@ -16,12 +14,12 @@ export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
     eras.length
-      ? api.queryMulti<PalletStakingExposure[]>([
-        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakersClipped, [e, accountId]]),
-        ...eras.map((e): QueryableStorageMultiArg<'rxjs'> => [api.query.staking.erasStakers, [e, accountId]])
+      ? combineLatest([
+        combineLatest(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
+        combineLatest(eras.map((e) => api.query.staking.erasStakers(e, accountId)))
       ]).pipe(
-        map((all): DeriveOwnExposure[] =>
-          eras.map((era, index) => ({ clipped: all[index], era, exposure: all[eras.length + index] }))
+        map(([clp, exp]): DeriveOwnExposure[] =>
+          eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index] }))
         )
       )
       : of([])

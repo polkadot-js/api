@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
-import { assert, BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, BN_ZERO, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -25,17 +25,25 @@ function toPercentage (value: BN, divisor: BN): string {
 }
 
 /** @internal */
-function decodeAbstractInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
-  if (isU8a(value)) {
-    return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
+function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string | number {
+  if (isNumber(value)) {
+    if (!Number.isInteger(value) || value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) {
+      throw new Error('Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
+    }
+
+    return value;
+  } else if (isString(value)) {
+    if (isHex(value, -1, true)) {
+      return hexToBn(value, { isLe: false, isNegative }).toString();
+    }
+
+    if (value.includes('.') || value.includes(',') || value.includes('e')) {
+      throw new Error('String should not contain decimal points or scientific notation');
+    }
+
+    return value;
   } else if (isBn(value)) {
     return value.toString();
-  } else if (isHex(value, -1, true)) {
-    return hexToBn(value, { isLe: false, isNegative }).toString();
-  } else if (isNumber(value)) {
-    assert(value <= Number.MAX_SAFE_INTEGER && value >= Number.MIN_SAFE_INTEGER && Math.floor(value) === value, 'Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
-  } else if (isString(value)) {
-    assert(!(value.includes('.') || value.includes(',') || value.includes('e')), 'String should not contain decimal points or scientific notation');
   }
 
   return bnToBn(value).toString();
@@ -51,33 +59,38 @@ export abstract class AbstractInt extends BN implements INumber {
 
   public createdAtHash?: IU8a;
 
-  readonly encodedLength: number;
+  public readonly encodedLength: number;
+
+  public readonly isUnsigned: boolean;
 
   readonly #bitLength: UIntBitLength;
 
-  readonly #isSigned: boolean;
-
   constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
-    // Construct via a string, which will be passed in the BN constructor.
+    // Construct via a string/number, which will be passed in the BN constructor.
     // It would be ideal to actually return a BN, but there is an issue:
     // https://github.com/indutny/bn.js/issues/206
     super(
       // shortcut isU8a as used in SCALE decoding
       isU8a(value)
-        ? u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
-        : decodeAbstractInt(value, bitLength, isSigned)
+        ? bitLength <= 48
+          ? u8aToNumber(value.subarray(0, bitLength / 8), { isNegative: isSigned })
+          : u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
+        : decodeAbstractInt(value, isSigned)
     );
 
     this.registry = registry;
     this.#bitLength = bitLength;
     this.encodedLength = this.#bitLength / 8;
-    this.#isSigned = isSigned;
+    this.isUnsigned = !isSigned;
 
-    const isPositive = this.gte(BN_ZERO);
-    const maxBits = bitLength - (isSigned && isPositive ? 1 : 0);
+    const isNegative = this.isNeg();
+    const maxBits = bitLength - (isSigned && !isNegative ? 1 : 0);
 
-    assert(isSigned || isPositive, () => `${this.toRawType()}: Negative number passed to unsigned type`);
-    assert(super.bitLength() <= maxBits, () => `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    if (isNegative && !isSigned) {
+      throw new Error(`${this.toRawType()}: Negative number passed to unsigned type`);
+    } else if (super.bitLength() > maxBits) {
+      throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    }
   }
 
   /**
@@ -92,13 +105,6 @@ export abstract class AbstractInt extends BN implements INumber {
    */
   public get isEmpty (): boolean {
     return this.isZero();
-  }
-
-  /**
-   * @description Checks if the value is an unsigned type
-   */
-  public get isUnsigned (): boolean {
-    return !this.#isSigned;
   }
 
   /**
@@ -117,7 +123,7 @@ export abstract class AbstractInt extends BN implements INumber {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: !this.isUnsigned })
         : bnToBn(other as string)
     );
   }
@@ -125,7 +131,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

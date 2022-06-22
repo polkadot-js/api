@@ -17,7 +17,7 @@ export interface IEnum extends Codec {
   readonly defIndexes: number[];
   readonly defKeys: string[];
   readonly index: number;
-  readonly isBasic: boolean
+  readonly isBasic: boolean;
   readonly type: string;
   readonly value: Codec;
 
@@ -30,6 +30,10 @@ export interface INumber extends Codec {
   bitLength (): number;
   toBigInt (): bigint;
   toBn (): BN;
+  toNumber (): number;
+}
+
+export interface IFloat extends Codec {
   toNumber (): number;
 }
 
@@ -59,6 +63,10 @@ export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>,
 
   getAtIndex (index: number): Codec
   toArray (): Codec[];
+}
+
+export interface IText extends String, Codec {
+  // nothing additional
 }
 
 export type ITuple<T extends AnyTuple = Codec[]> = T & Codec;

@@ -8,6 +8,22 @@ import type { Definitions } from '../../types';
 
 export default {
   rpc: {
+    generateBatchProof: {
+      description: 'Generate MMR proof for the given leaf indices.',
+      params: [
+        {
+          name: 'leafIndices',
+          type: 'Vec<u64>'
+        },
+        {
+          name: 'at',
+          type: 'BlockHash',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: 'MmrLeafProof'
+    },
     generateProof: {
       description: 'Generate MMR proof for given leaf index.',
       params: [
@@ -22,10 +38,15 @@ export default {
           isOptional: true
         }
       ],
-      type: 'MmrLeafProof'
+      type: 'MmrLeafBatchProof'
     }
   },
   types: {
+    MmrLeafBatchProof: {
+      blockHash: 'BlockHash',
+      leaves: 'Bytes',
+      proof: 'Bytes'
+    },
     MmrLeafProof: {
       blockHash: 'BlockHash',
       leaf: 'Bytes',

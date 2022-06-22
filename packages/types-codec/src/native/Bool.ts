@@ -2,20 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyBool, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
-
-/** @internal */
-function decodeBool (value: any): boolean {
-  if (isU8a(value)) {
-    return value[0] === 1;
-  } else if (value instanceof Boolean) {
-    return value.valueOf();
-  }
-
-  return !!value;
-}
 
 /**
  * @name bool
@@ -28,9 +17,14 @@ export class bool extends Boolean implements Codec {
 
   public createdAtHash?: IU8a;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor (registry: Registry, value: bool | Boolean | Uint8Array | boolean | number = false) {
-    super(decodeBool(value));
+  constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
+    super(
+      isU8a(value)
+        ? value[0] === 1
+        : value instanceof Boolean
+          ? value.valueOf()
+          : !!value
+    );
 
     this.registry = registry;
   }
@@ -84,7 +78,7 @@ export class bool extends Boolean implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

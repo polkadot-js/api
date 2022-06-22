@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
-import type { DispatchErrorModule, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
+import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
 import type { StorageEntry } from '../../primitive/types';
-import type { CallFunction, IEvent } from '../../types';
+import type { CallFunction, IEvent, IEventLike } from '../../types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: PalletConstantMetadataLatest;
@@ -13,13 +13,13 @@ export interface ConstantCodec extends Codec {
 export interface IsError {
   readonly meta: ErrorMetadataLatest;
 
-  is: (moduleError: DispatchErrorModule) => boolean;
+  is: (moduleError: DispatchErrorModule | DispatchErrorModuleU8 | DispatchErrorModuleU8a) => boolean;
 }
 
-export interface IsEvent <T extends AnyTuple> {
+export interface IsEvent <T extends AnyTuple, N = unknown> {
   readonly meta: EventMetadataLatest;
 
-  is: (event: IEvent<AnyTuple>) => event is IEvent<T>;
+  is: (event: IEventLike) => event is IEvent<T, N>;
 }
 
 export type ModuleConstants = Record<string, ConstantCodec>;

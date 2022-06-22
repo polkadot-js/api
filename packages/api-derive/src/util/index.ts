@@ -7,3 +7,4 @@ export * from './approvalFlagsToBools';
 export * from './cache';
 export * from './cacheImpl';
 export * from './first';
+export * from './lazy';

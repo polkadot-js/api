@@ -1,7 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
@@ -23,7 +24,10 @@ export interface BeefyNextAuthoritySet extends Struct {
 }
 
 /** @name BeefyPayload */
-export interface BeefyPayload extends MmrRootHash {}
+export interface BeefyPayload extends Vec<ITuple<[BeefyPayloadId, Bytes]>> {}
+
+/** @name BeefyPayloadId */
+export interface BeefyPayloadId extends U8aFixed {}
 
 /** @name BeefySignedCommitment */
 export interface BeefySignedCommitment extends Struct {

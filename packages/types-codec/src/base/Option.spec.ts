@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types';
-import { bool, Bytes, Option, Text, U32 } from '@polkadot/types-codec';
+import { bool, Bytes, Null, Option, Text, U32 } from '@polkadot/types-codec';
 
 const registry = new TypeRegistry();
 
@@ -27,6 +27,48 @@ describe('Option', (): void => {
     expect(new Option(registry, Text, null).isNone).toBe(true);
     expect(new Option(registry, Text, 'test').isNone).toBe(false);
     expect(new Option(registry, Text, '0x').isNone).toBe(true);
+    expect(new Option(registry, '()', null).isNone).toBe(true);
+  });
+
+  it('can wrap an Option<Null>/Option<()>', (): void => {
+    [
+      new Option(registry, Null, new Null(registry)),
+      new Option(registry, '()', new Null(registry))
+    ].forEach((test): void => {
+      expect(test.isSome).toBe(true);
+      expect(test.isNone).toBe(false);
+      expect(test.isEmpty).toBe(false);
+      expect(test.toU8a()).toEqual(new Uint8Array([1]));
+      expect(test.unwrap().toHex()).toEqual('0x');
+    });
+  });
+
+  it('can decode a nested Option', (): void => {
+    expect(
+      new Option(
+        registry,
+        Option.with(Option.with(Text)),
+        new Option(
+          registry,
+          Option.with(Text),
+          new Option(
+            registry,
+            Text,
+            new Uint8Array([1, 3 << 2, 66, 67, 68])
+          )
+        )
+      ).toU8a()
+    ).toEqual(new Uint8Array([1, 1, 1, 3 << 2, 66, 67, 68]));
+  });
+
+  it('can convert between different Some/None', (): void => {
+    const def = '{ "foo":"Text", "zar":"Text" }';
+    const none = new Option(registry, def, null);
+    const some = new Option(registry, def, new Option(registry, def, { foo: 'a', zar: 'b' }));
+
+    expect(new Option(registry, def, none).isNone).toBe(true);
+    expect(new Option(registry, def, some).isNone).toBe(false);
+    expect(new Option(registry, def, some).unwrap().toHuman()).toEqual({ foo: 'a', zar: 'b' });
   });
 
   it('correctly handles booleans', (): void => {
@@ -56,8 +98,8 @@ describe('Option', (): void => {
 
     // watch the hex prefix and length
     expect(
-      new Option(registry, Bytes, HEX).toHex().substr(6)
-    ).toEqual(HEX.substr(2));
+      new Option(registry, Bytes, HEX).toHex().substring(6)
+    ).toEqual(HEX.substring(2));
   });
 
   it('converts correctly from hex with toNumber (U64)', (): void => {

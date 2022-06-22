@@ -3,7 +3,7 @@
 
 import type { AnyU8a, Inspect, Registry } from '../types';
 
-import { assert, compactFromU8a, compactToU8a, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, compactToU8a, isString, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -14,12 +14,14 @@ function decodeBitVecU8a (value?: Uint8Array): [number, Uint8Array] {
   }
 
   // handle all other Uint8Array inputs, these do have a length prefix which is the number of bits encoded
-  const [offset, length] = compactFromU8a(value);
-  const total = offset + Math.ceil(length.toNumber() / 8);
+  const [offset, length] = compactFromU8aLim(value);
+  const total = offset + Math.ceil(length / 8);
 
-  assert(total <= value.length, () => `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  if (total > value.length) {
+    throw new Error(`BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  }
 
-  return [length.toNumber(), value.subarray(offset, total)];
+  return [length, value.subarray(offset, total)];
 }
 
 /** @internal */
@@ -41,13 +43,18 @@ function decodeBitVec (value?: AnyU8a): [number, Uint8Array] {
  */
 export class BitVec extends Raw {
   readonly #decodedLength: number;
+  readonly #isMsb?: boolean;
 
-  constructor (registry: Registry, value?: AnyU8a) {
+  // In lieu of having the Msb/Lsb identifiers passed through, we default to assuming
+  // we are dealing with Lsb, which is the default (as of writing) BitVec format used
+  // in the Polkadot code (this only affects the toHuman displays)
+  constructor (registry: Registry, value?: AnyU8a, isMsb = false) {
     const [decodedLength, u8a] = decodeBitVec(value);
 
     super(registry, u8a);
 
     this.#decodedLength = decodedLength;
+    this.#isMsb = isMsb;
   }
 
   /**
@@ -60,14 +67,19 @@ export class BitVec extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return {
       outer: [compactToU8a(this.#decodedLength), super.toU8a()]
     };
   }
 
   public override toHuman (): string {
-    return `0b${[...this.toU8a(true)].map((d) => `00000000${d.toString(2)}`.slice(-8)).join('_')}`;
+    return `0b${
+      [...this.toU8a(true)]
+        .map((d) => `00000000${d.toString(2)}`.slice(-8))
+        .map((s) => this.#isMsb ? s : s.split('').reverse().join(''))
+        .join('_')
+    }`;
   }
 
   /**
@@ -86,6 +98,6 @@ export class BitVec extends Raw {
 
     return isBare
       ? bitVec
-      : u8aConcat(compactToU8a(this.#decodedLength), bitVec);
+      : u8aConcatStrict([compactToU8a(this.#decodedLength), bitVec]);
   }
 }

@@ -34,12 +34,7 @@ export default {
       code: 'Bytes',
       storageDepositLimit: 'Option<Balance>'
     },
-    CodeUploadResult: {
-      _enum: {
-        Ok: 'CodeUploadResultValue',
-        Err: 'Null'
-      }
-    },
+    CodeUploadResult: 'Result<CodeUploadResultValue, DispatchError>',
     CodeUploadResultValue: {
       codeHash: 'CodeHash',
       deposit: 'Balance'
@@ -73,29 +68,11 @@ export default {
         Error: 'Null'
       }
     },
-    ContractExecResultErrModule: {
-      index: 'u8',
-      error: 'u8',
-      message: 'Option<Text>'
-    },
-    ContractExecResultErr: {
-      _enum: {
-        Other: 'Text',
-        CannotLookup: 'Null',
-        BadOrigin: 'Null',
-        Module: 'ContractExecResultErrModule'
-      }
-    },
     ContractExecResultOk: {
       flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
-    ContractExecResultResult: {
-      _enum: {
-        Ok: 'ContractExecResultOk',
-        Err: 'ContractExecResultErr'
-      }
-    },
+    ContractExecResultResult: 'Result<ContractExecResultOk, DispatchError>',
     ContractExecResultTo267: {
       gasConsumed: 'u64',
       debugMessage: 'Text',
@@ -268,19 +245,8 @@ export default {
       data: 'Bytes',
       salt: 'Bytes'
     },
-    ContractInstantiateResultTo267: {
-      _enum: {
-        Ok: 'InstantiateReturnValueTo267',
-        Err: 'Null'
-      }
-    },
-    ContractInstantiateResultTo299: {
-      _enum: {
-        Ok: 'InstantiateReturnValue',
-        Err: 'Null'
-      },
-      _fallback: 'ContractInstantiateResultTo267'
-    },
+    ContractInstantiateResultTo267: 'Result<InstantiateReturnValueTo267, Null>',
+    ContractInstantiateResultTo299: 'Result<InstantiateReturnValueOk, Null>',
     ContractInstantiateResult: {
       _fallback: 'ContractInstantiateResultTo299',
       gasConsumed: 'u64',
@@ -298,12 +264,7 @@ export default {
       result: 'ExecReturnValue',
       accountId: 'AccountId'
     },
-    InstantiateReturnValue: {
-      _enum: {
-        Ok: 'InstantiateReturnValueOk',
-        Err: 'DispatchError'
-      }
-    },
+    InstantiateReturnValue: 'Result<InstantiateReturnValueOk, DispatchError>',
     InstructionWeights: {
       i64const: 'u32',
       i64load: 'u32',

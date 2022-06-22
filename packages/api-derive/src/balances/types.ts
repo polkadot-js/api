@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance, BalanceLockTo212, Index } from '@polkadot/types/interfaces';
-import type { PalletBalancesBalanceLock } from '@polkadot/types/lookup';
+import type { PalletBalancesBalanceLock, PalletBalancesReserveData } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface DeriveBalancesAccountData {
@@ -44,6 +44,7 @@ export interface DeriveBalancesAllVesting {
 
 export interface DeriveBalancesAll extends DeriveBalancesAccount, DeriveBalancesAllAccountData, DeriveBalancesAllVesting {
   additional: DeriveBalancesAllAccountData[];
+  namedReserves: PalletBalancesReserveData[][];
 }
 
 export type DeriveBalancesMap = Record<string, DeriveBalancesAll>;

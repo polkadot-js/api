@@ -20,6 +20,7 @@ export * from './contractsAbi/types';
 export * from './crowdloan/types';
 export * from './cumulus/types';
 export * from './democracy/types';
+export * from './dev/types';
 export * from './elections/types';
 export * from './engine/types';
 export * from './eth/types';

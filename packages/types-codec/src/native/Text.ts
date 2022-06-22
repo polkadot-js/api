@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyU8a, Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Inspect, IText, IU8a, Registry } from '../types';
 
-import { assert, compactAddLength, compactFromU8a, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { compactAddLength, compactFromU8aLim, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Raw } from './Raw';
 
 const MAX_LENGTH = 128 * 1024;
 
 /** @internal */
-function decodeText (value?: null | Text | string | AnyU8a | { toString: () => string }): [string, number] {
+function decodeText (value?: null | AnyString | AnyU8a | { toString: () => string }): [string, number] {
   if (isU8a(value)) {
     if (!value.length) {
       return ['', 0];
@@ -23,11 +23,14 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
       return [u8aToString(value), 0];
     }
 
-    const [offset, length] = compactFromU8a(value);
-    const total = offset + length.toNumber();
+    const [offset, length] = compactFromU8aLim(value);
+    const total = offset + length;
 
-    assert(length.lten(MAX_LENGTH), () => `Text: length ${length.toString()} exceeds ${MAX_LENGTH}`);
-    assert(total <= value.length, () => `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+    if (length > MAX_LENGTH) {
+      throw new Error(`Text: length ${length.toString()} exceeds ${MAX_LENGTH}`);
+    } else if (total > value.length) {
+      throw new Error(`Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+    }
 
     return [u8aToString(value.subarray(offset, total)), total];
   } else if (isHex(value)) {
@@ -45,24 +48,22 @@ function decodeText (value?: null | Text | string | AnyU8a | { toString: () => s
  * object, inheriting all methods exposed from `String`.
  * @noInheritDoc
  */
-// TODO
-//   - Strings should probably be trimmed (docs do come through with extra padding)
-export class Text extends String implements Codec {
-  public readonly registry: Registry;
-
+export class Text extends String implements IText {
   public createdAtHash?: IU8a;
 
-  readonly #initialU8aLength?: number;
+  public readonly initialU8aLength?: number;
+
+  public readonly registry: Registry;
 
   #override: string | null = null;
 
-  constructor (registry: Registry, value?: null | Text | string | AnyU8a | { toString: () => string }) {
+  constructor (registry: Registry, value?: null | AnyString | AnyU8a | { toString: () => string }) {
     const [str, decodedLength] = decodeText(value);
 
     super(str);
 
     this.registry = registry;
-    this.#initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
   }
 
   /**
@@ -70,13 +71,6 @@ export class Text extends String implements Codec {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -113,7 +107,7 @@ export class Text extends String implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     const value = stringToU8a(super.toString());
 
     return {

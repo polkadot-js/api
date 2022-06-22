@@ -7,11 +7,39 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { ExactDerive } from '../derive';
 import type { DeriveApi } from '../types';
 
-import { combineLatest, of, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
+
+import { arrayChunk, arrayFlatten, nextTick } from '@polkadot/util';
 
 import { memo } from '../util';
 
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
+
+// only retrieve a maximum of 14 eras (84 / 6) at a time
+// (This is not empirically calculated. Rather smaller sizes take longer
+// time due to the serial nature, large sizes may tie up the RPCs)
+const ERA_CHUNK_SIZE = 14;
+
+function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
+  const chunked = arrayChunk(eras, ERA_CHUNK_SIZE);
+  let index = 0;
+  const subject = new BehaviorSubject<EraIndex[]>(chunked[index]);
+
+  return subject.pipe(
+    switchMap(fn),
+    tap((): void => {
+      nextTick((): void => {
+        index++;
+
+        index === chunked.length
+          ? subject.complete()
+          : subject.next(chunked[index]);
+      });
+    }),
+    toArray(),
+    map(arrayFlatten)
+  );
+}
 
 export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list: T[]): EraIndex[] {
   return eras.filter((e) => !list.some(({ era }) => e.eq(era)));
@@ -53,9 +81,12 @@ export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlash
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (eras: EraIndex[], withActive: boolean) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      eras.length
-        ? combineLatest(eras.map((e) => api.derive.staking[fn](e, withActive)))
-        : of([])
+      !eras.length
+        ? of([])
+        : chunkEras(eras, (eras) =>
+          combineLatest(
+            eras.map((e) => api.derive.staking[fn](e, withActive))
+          )
+        )
     ) as any;
 }

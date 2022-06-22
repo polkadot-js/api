@@ -112,17 +112,29 @@ export interface DispatchError extends Enum {
   readonly asModule: DispatchErrorModule;
   readonly isConsumerRemaining: boolean;
   readonly isNoProviders: boolean;
+  readonly isTooManyConsumers: boolean;
   readonly isToken: boolean;
   readonly asToken: TokenError;
   readonly isArithmetic: boolean;
   readonly asArithmetic: ArithmeticError;
-  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'Token' | 'Arithmetic';
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
 }
 
 /** @name DispatchErrorModule */
-export interface DispatchErrorModule extends Struct {
+export interface DispatchErrorModule extends DispatchErrorModuleU8a {}
+
+/** @name DispatchErrorModuleU8 */
+export interface DispatchErrorModuleU8 extends Struct {
   readonly index: u8;
   readonly error: u8;
+}
+
+/** @name DispatchErrorModuleU8a */
+export interface DispatchErrorModuleU8a extends Struct {
+  readonly index: u8;
+  readonly error: U8aFixed;
 }
 
 /** @name DispatchErrorTo198 */
@@ -378,9 +390,17 @@ export interface TokenError extends Enum {
   readonly isCannotCreate: boolean;
   readonly isUnknownAsset: boolean;
   readonly isFrozen: boolean;
+  readonly isUnsupported: boolean;
   readonly isUnderflow: boolean;
   readonly isOverflow: boolean;
-  readonly type: 'NoFunds' | 'WouldDie' | 'BelowMinimum' | 'CannotCreate' | 'UnknownAsset' | 'Frozen' | 'Underflow' | 'Overflow';
+  readonly type: 'NoFunds' | 'WouldDie' | 'BelowMinimum' | 'CannotCreate' | 'UnknownAsset' | 'Frozen' | 'Unsupported' | 'Underflow' | 'Overflow';
+}
+
+/** @name TransactionalError */
+export interface TransactionalError extends Enum {
+  readonly isLimitReached: boolean;
+  readonly isNoLayer: boolean;
+  readonly type: 'LimitReached' | 'NoLayer';
 }
 
 /** @name TransactionValidityError */
@@ -404,7 +424,7 @@ export interface UnknownTransaction extends Enum {
 /** @name WeightPerClass */
 export interface WeightPerClass extends Struct {
   readonly baseExtrinsic: Weight;
-  readonly maxExtrinsic: Weight;
+  readonly maxExtrinsic: Option<Weight>;
   readonly maxTotal: Option<Weight>;
   readonly reserved: Option<Weight>;
 }

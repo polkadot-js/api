@@ -11,7 +11,8 @@
   "include": [
     "**/*.data.ts",
     "**/checkTypes.manual.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/test/*"
   ],
   "references": [
     { "path": "../types/tsconfig.build.json" },

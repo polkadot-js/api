@@ -3,15 +3,19 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
+import type{ PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
+import type { Codec } from '@polkadot/types/types';
 import type { Option } from '@polkadot/types-codec';
 import type { DeriveAccountFlags, DeriveApi } from '../types';
 
-import { combineLatest, map, of } from 'rxjs';
+import { map, of } from 'rxjs';
+
+import { isFunction } from '@polkadot/util';
 
 import { memo } from '../util';
 
 type FlagsIntermediate = [
-  [AccountId, Balance][] | undefined,
+  PalletElectionsPhragmenSeatHolder[] | [AccountId, Balance][] | undefined,
   AccountId[],
   AccountId[],
   AccountId[],
@@ -24,11 +28,43 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
     id.toString() === addrStr;
 
   return {
-    isCouncil: (electionsMembers?.map(([id]) => id) || councilMembers || []).some(isIncluded),
+    isCouncil: (electionsMembers?.map((r) => Array.isArray(r) ? r[0] : r.who) || councilMembers || []).some(isIncluded),
     isSociety: (societyMembers || []).some(isIncluded),
     isSudo: sudoKey?.toString() === addrStr,
     isTechCommittee: (technicalCommitteeMembers || []).some(isIncluded)
   };
+}
+
+export function _flags (instanceId: string, api: DeriveApi): () => Observable<FlagsIntermediate> {
+  return memo(instanceId, (): Observable<FlagsIntermediate> => {
+    const results: unknown[] = [undefined, [], [], [], undefined];
+    const calls = [
+      (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections)?.members,
+      api.query.council?.members,
+      api.query.technicalCommittee?.members,
+      api.query.society?.members,
+      api.query.sudo?.key
+    ];
+    const filtered = calls.filter((c) => c);
+
+    if (!filtered.length) {
+      return of(results as FlagsIntermediate);
+    }
+
+    return api.queryMulti(filtered).pipe(
+      map((values: Codec[]): FlagsIntermediate => {
+        let resultIndex = -1;
+
+        for (let i = 0; i < calls.length; i++) {
+          if (isFunction(calls[i])) {
+            results[i] = values[++resultIndex];
+          }
+        }
+
+        return results as FlagsIntermediate;
+      })
+    );
+  });
 }
 
 /**
@@ -36,27 +72,9 @@ function parseFlags (address: AccountId | Address | string | null | undefined, [
  * @description Returns account membership flags
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
-  return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> => {
-    const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
-
-    return combineLatest([
-      address && elections?.members
-        ? elections.members<[AccountId, Balance][]>()
-        : of(undefined),
-      address && api.query.council?.members
-        ? api.query.council.members()
-        : of([]),
-      address && api.query.technicalCommittee?.members
-        ? api.query.technicalCommittee.members()
-        : of([]),
-      address && api.query.society?.members
-        ? api.query.society.members()
-        : of([]),
-      address && api.query.sudo?.key
-        ? api.query.sudo.key()
-        : of(undefined)
-    ]).pipe(
+  return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> =>
+    api.derive.accounts._flags().pipe(
       map((r) => parseFlags(address, r))
-    );
-  });
+    )
+  );
 }

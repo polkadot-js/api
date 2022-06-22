@@ -3,12 +3,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { Address, Call } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { Compact, Struct } from '@polkadot/types-codec';
-import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
+import { Struct } from '@polkadot/types-codec';
+import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
@@ -85,12 +85,8 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The [[Index]] for the signature
    */
-  public get nonce (): Compact<Index> {
+  public get nonce (): ICompact<INumber> {
     return this.getT('nonce');
-  }
-
-  public override get registry (): Registry {
-    return super.registry;
   }
 
   /**
@@ -118,7 +114,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): Compact<Balance> {
+  public get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
 
@@ -169,7 +165,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    assert(account && account.addressRaw, () => `Expected a valid keypair for signing, found ${stringify(account)}`);
+    if (!account || !account.addressRaw) {
+      throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
+    }
 
     const payload = this.createPayload(method, options);
 
@@ -184,7 +182,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    assert(address, () => `Expected a valid address for signing, found ${stringify(address)}`);
+    if (!address) {
+      throw new Error(`Expected a valid address for signing, found ${stringify(address)}`);
+    }
 
     const payload = this.createPayload(method, options);
 

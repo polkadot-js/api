@@ -10,6 +10,7 @@ import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
   CompactAssignments: 'CompactAssignmentsWith24',
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   RawSolution: 'RawSolutionWith24',
   Keys: 'SessionKeys6',
   ProxyType: {
@@ -96,7 +97,21 @@ const versioned: OverrideVersionedType[] = [
     })
   },
   {
-    minmax: [1046, 1054],
+    minmax: [1046, 1050],
+    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+      CompactAssignments: 'CompactAssignmentsTo257',
+      DispatchInfo: 'DispatchInfoTo244',
+      Heartbeat: 'HeartbeatTo244',
+      Multiplier: 'Fixed64',
+      OpenTip: 'OpenTipTo225',
+      RefCount: 'RefCountTo259',
+      ReferendumInfo: 'ReferendumInfoTo239',
+      StakingLedger: 'StakingLedgerTo223',
+      Weight: 'u32'
+    })
+  },
+  {
+    minmax: [1051, 1054],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',

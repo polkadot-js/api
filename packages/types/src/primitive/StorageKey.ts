@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, Codec, ICompact, INumber } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
 import type { AllHashers } from '../interfaces/metadata/definitions';
 import type { SiLookupTypeId } from '../interfaces/scaleInfo';
@@ -9,7 +9,7 @@ import type { InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
 import { Bytes } from '@polkadot/types-codec';
-import { assert, isFunction, isString, isU8a } from '@polkadot/util';
+import { isFunction, isString, isU8a } from '@polkadot/util';
 
 import { getSiName } from '../metadata/util';
 
@@ -44,7 +44,7 @@ export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
 
 /** @internal */
 export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName((registry).lookup, unwrapStorageSi(type));
+  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
     ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
@@ -71,12 +71,16 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
   } else if (Array.isArray(value)) {
     const [fn, args = []] = value;
 
-    assert(isFunction(fn), 'Expected function input for key construction');
+    if (!isFunction(fn)) {
+      throw new Error('Expected function input for key construction');
+    }
 
     if (fn.meta && fn.meta.type.isMap) {
       const map = fn.meta.type.asMap;
 
-      assert(Array.isArray(args) && args.length === map.hashers.length, () => `Expected an array of ${map.hashers.length} values as params to a Map query`);
+      if (!Array.isArray(args) || args.length !== map.hashers.length) {
+        throw new Error(`Expected an array of ${map.hashers.length} values as params to a Map query`);
+      }
     }
 
     return {
@@ -90,7 +94,7 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, ICompact<INumber>][]): A {
+function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
   const result = new Array<Codec>(hashers.length);
@@ -99,7 +103,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
     const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createTypeUnsafe(registry.createLookupType(type), [value.subarray(offset + hashLen)])
+      ? registry.createTypeUnsafe(getSiName(registry.lookup, type), [value.subarray(offset + hashLen)])
       : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);

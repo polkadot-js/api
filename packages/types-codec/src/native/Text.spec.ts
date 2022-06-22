@@ -7,6 +7,8 @@ import { TypeRegistry } from '@polkadot/types';
 import { Bytes, Raw, Text } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';
 
+import { perf } from '../test/performance';
+
 describe('Text', (): void => {
   const registry = new TypeRegistry();
 
@@ -23,7 +25,9 @@ describe('Text', (): void => {
     testDecode('Raw', new Raw(registry, Uint8Array.from([102, 111, 111])), 'foo', 'toHuman'); // no length
     testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo'); // length-aware encoding
     testDecode('Bytes', new Bytes(registry, Uint8Array.from([12, 102, 111, 111])), 'foo', 'toHuman'); // length-aware encoding
-    testDecode('object with `toString()`', { toString (): string { return 'foo'; } }, 'foo');
+    testDecode('object with `toString()`', { toString (): string {
+      return 'foo';
+    } }, 'foo');
     testDecode('hex input value', new Text(registry, '0x12345678'), '0x12345678', 'toHex');
     testDecode('null', null, '');
   });
@@ -66,7 +70,7 @@ describe('Text', (): void => {
       expect(test).toHaveLength(2);
     });
 
-    it('has a snae inspect', (): void => {
+    it('has a sane inspect', (): void => {
       expect(
         new Text(registry, 'abcde').inspect()
       ).toEqual({
@@ -74,4 +78,6 @@ describe('Text', (): void => {
       });
     });
   });
+
+  perf('Text', 100_000, [[new Uint8Array([6 << 2, 102, 111, 111, 102, 111, 111])]], (v: Uint8Array) => new Text(registry, v));
 });

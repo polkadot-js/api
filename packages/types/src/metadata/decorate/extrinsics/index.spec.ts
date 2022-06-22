@@ -64,7 +64,7 @@ describe('decorateExtrinsics', (): void => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      registry.createType('Extrinsic', extrinsics.timestamp.set([10101])).toU8a()
+      registry.createType('Extrinsic', extrinsics.timestamp.set(32)).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)
@@ -74,7 +74,7 @@ describe('decorateExtrinsics', (): void => {
         // index
         3, 0,
         // values, Compact<Moment>
-        116
+        32 << 2
       ])
     );
   });

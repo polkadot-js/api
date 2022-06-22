@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
-import type { AssetId, Balance, Hash, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
+import type { Hash } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types';
 
-import { Bytes, Compact, Enum, Option, Struct, u32 } from '@polkadot/types-codec';
+import { Bytes, Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
 import { sign } from '../util';
@@ -35,6 +35,13 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     this.#signOptions = {
       withType: registry.createTypeUnsafe('ExtrinsicSignature', []) instanceof Enum
     };
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  public override inspect (): Inspect {
+    return super.inspect({ method: true });
   }
 
   /**
@@ -68,28 +75,28 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   /**
    * @description The [[Index]]
    */
-  public get nonce (): Compact<Index> {
+  public get nonce (): ICompact<INumber> {
     return this.getT('nonce');
   }
 
   /**
    * @description The specVersion for this signature
    */
-  public get specVersion (): u32 {
+  public get specVersion (): INumber {
     return this.getT('specVersion');
   }
 
   /**
    * @description The tip [[Balance]]
    */
-  public get tip (): Compact<Balance> {
+  public get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
 
   /**
    * @description The transactionVersion for this signature
    */
-  public get transactionVersion (): u32 {
+  public get transactionVersion (): INumber {
     return this.getT('transactionVersion');
   }
 
@@ -97,7 +104,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
    * @description
    * The (optional) asset id for this signature for chains that support transaction fees in assets
    */
-  public get assetId (): Option<AssetId> {
+  public get assetId (): IOption<INumber> {
     return this.getT('assetId');
   }
 

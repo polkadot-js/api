@@ -4,10 +4,10 @@
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
-import type { Balance, Hash, Index } from '../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IKeyringPair } from '../types';
+import type { Hash } from '../interfaces/runtime';
+import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types';
 
-import { Base, Compact, Raw, u32 } from '@polkadot/types-codec';
+import { AbstractBase, Raw } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_VERSION } from './constants';
@@ -43,7 +43,7 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
+export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
     super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
@@ -80,14 +80,14 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description The [[Index]]
    */
-  public get nonce (): Compact<Index> {
+  public get nonce (): ICompact<INumber> {
     return this.inner.nonce;
   }
 
   /**
    * @description The specVersion as a [[u32]] for this payload
    */
-  public get specVersion (): u32 {
+  public get specVersion (): INumber {
     // NOTE only v3+
     return this.inner.specVersion || this.registry.createTypeUnsafe('u32', []);
   }
@@ -95,7 +95,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description The [[Balance]]
    */
-  public get tip (): Compact<Balance> {
+  public get tip (): ICompact<INumber> {
     // NOTE from v2+
     return this.inner.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
   }
@@ -103,7 +103,7 @@ export class GenericExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description The transaction version as a [[u32]] for this payload
    */
-  public get transactionVersion (): u32 {
+  public get transactionVersion (): INumber {
     // NOTE only v4+
     return this.inner.transactionVersion || this.registry.createTypeUnsafe('u32', []);
   }

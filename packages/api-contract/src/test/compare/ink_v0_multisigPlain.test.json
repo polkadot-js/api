@@ -226,6 +226,7 @@
   {
     "info": "Struct",
     "lookupIndex": 12,
+    "lookupName": "InkStorageCollectionsHashmapValueEntry",
     "type": "{\"value\":\"u32\",\"keyIndex\":\"u32\"}",
     "docs": [],
     "namespace": "ink_storage::collections::hashmap::ValueEntry",
@@ -251,7 +252,7 @@
   {
     "info": "Enum",
     "lookupIndex": 13,
-    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"MultisigPlainMultisigPlainTransaction\"}}",
+    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"MultisigPlainTransaction\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
     "sub": [
@@ -268,7 +269,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 14,
-        "lookupName": "MultisigPlainMultisigPlainTransaction",
+        "lookupName": "MultisigPlainTransaction",
         "type": "Lookup14",
         "index": 1,
         "name": "Occupied"
@@ -278,7 +279,7 @@
   {
     "info": "Struct",
     "lookupIndex": 14,
-    "lookupName": "MultisigPlainMultisigPlainTransaction",
+    "lookupName": "MultisigPlainTransaction",
     "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Bytes\",\"transferredValue\":\"u128\",\"gasLimit\":\"u64\"}",
     "docs": [],
     "namespace": "multisig_plain::multisig_plain::Transaction",
@@ -373,6 +374,7 @@
   {
     "info": "Enum",
     "lookupIndex": 19,
+    "lookupName": "InkStorageCollectionsStashEntry",
     "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"AccountId\"}}",
     "docs": [],
     "namespace": "ink_storage::collections::stash::Entry",
@@ -416,7 +418,7 @@
   {
     "info": "Tuple",
     "lookupIndex": 21,
-    "type": "(u32,MultisigPlainMultisigPlainConfirmationStatus)",
+    "type": "(u32,MultisigPlainConfirmationStatus)",
     "docs": [],
     "namespace": "",
     "sub": [
@@ -431,7 +433,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 22,
-        "lookupName": "MultisigPlainMultisigPlainConfirmationStatus",
+        "lookupName": "MultisigPlainConfirmationStatus",
         "type": "Lookup22"
       }
     ]
@@ -439,7 +441,7 @@
   {
     "info": "Enum",
     "lookupIndex": 22,
-    "lookupName": "MultisigPlainMultisigPlainConfirmationStatus",
+    "lookupName": "MultisigPlainConfirmationStatus",
     "type": "{\"_enum\":{\"Confirmed\":\"Null\",\"ConfirmationsNeeded\":\"u32\"}}",
     "docs": [],
     "namespace": "multisig_plain::multisig_plain::ConfirmationStatus",

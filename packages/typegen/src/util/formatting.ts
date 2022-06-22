@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { Registry } from '@polkadot/types/types';
+import type { AnyString, Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';
@@ -46,6 +46,10 @@ function extractImports ({ imports, types }: This): string[] {
       types: toplevel.filter((n) =>
         !NO_CODEC.includes(n) && !ON_CODEC.includes(n)
       )
+    },
+    {
+      file: '@polkadot/types/lookup',
+      types: Object.keys(imports.lookupTypes)
     },
     {
       file: '@polkadot/types/types',
@@ -143,15 +147,15 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
       return typeDef.lookupName;
     }
 
-    throw new Error(`TypeDefInfo.Enum: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Enum: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Int: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Int: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.UInt: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.UInt: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
@@ -171,15 +175,15 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Range: Not implemented on ${stringify(typeDef)}`);
+    return singleParamNotation(registry, 'Range', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.RangeInclusive]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.RangeInclusive: Not implemented on ${stringify(typeDef)}`);
+    return singleParamNotation(registry, 'RangeInclusive', typeDef, definitions, imports, withShortcut);
   },
 
   [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    throw new Error(`TypeDefInfo.Set: Not implemented on ${stringify(typeDef)}`);
+    throw new Error(`TypeDefInfo.Set: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
@@ -266,7 +270,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
  */
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: string | String | TypeDef, imports: TypeImports, withShortcut = false): string {
+export function formatType (registry: Registry, definitions: Record<string, ModuleTypes>, type: AnyString | TypeDef, imports: TypeImports, withShortcut = false): string {
   let typeDef: TypeDef;
 
   if (isString(type)) {

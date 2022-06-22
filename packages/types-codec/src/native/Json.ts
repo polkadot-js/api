@@ -64,6 +64,9 @@ export class Json extends Map<string, any> implements Codec {
     return compareMap(this, other);
   }
 
+  /**
+   * @description Returns a typed value from the internal map
+   */
   public getT <T> (key: string): T {
     return this.get(key) as unknown as T;
   }

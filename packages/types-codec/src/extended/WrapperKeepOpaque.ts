@@ -3,13 +3,17 @@
 
 import type { AnyJson, AnyU8a, Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { assertReturn, compactAddLength, compactStripLength, compactToU8a, isHex, isU8a } from '@polkadot/util';
+import { compactAddLength, compactStripLength, compactToU8a, isHex, isU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
 import { Bytes } from './Bytes';
 
 type OpaqueName = 'WrapperKeepOpaque' | 'WrapperOpaque';
+
+interface Options {
+  opaqueName?: OpaqueName;
+}
 
 function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T> | string, value?: unknown): [CodecClass<T>, T | null, AnyU8a] {
   const Type = typeToConstructor(registry, typeName);
@@ -38,7 +42,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
 
   readonly #opaqueName: OpaqueName;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, opaqueName: OpaqueName = 'WrapperKeepOpaque') {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { opaqueName = 'WrapperKeepOpaque' }: Options = {}) {
     const [Type, decoded, u8a] = decodeRaw(registry, typeName, value);
 
     super(registry, u8a);
@@ -66,7 +70,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return this.#decoded
       ? {
         inner: [this.#decoded.inspect()],
@@ -106,6 +110,10 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the decoded that the WrapperKeepOpaque represents (if available), throws if non-decodable
    */
   public unwrap (): T {
-    return assertReturn(this.#decoded, () => `${this.#opaqueName}: unwrapping an undecodable value`);
+    if (!this.#decoded) {
+      throw new Error(`${this.#opaqueName}: unwrapping an undecodable value`);
+    }
+
+    return this.#decoded;
   }
 }

@@ -4,23 +4,19 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { assert, isU8a, u8aConcat } from '@polkadot/util';
+import { isU8a, u8aConcatStrict } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
 import { decodeVec } from './Vec';
 
-/** @internal */
-function decodeVecFixed<T extends Codec> (registry: Registry, value: Uint8Array | HexString | unknown[], Type: CodecClass<T>, length: number): [T[], number, number] {
-  const [values, decodedLength, decodedLengthNoOffset] = decodeVec(registry, Type, value, length);
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
 
-  while (values.length < length) {
-    values.push(new Type(registry));
-  }
-
-  assert(values.length === length, () => `Expected a length of exactly ${length} entries`);
-
-  return [values, decodedLength, decodedLengthNoOffset];
+function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
+  return d;
 }
 
 /**
@@ -29,23 +25,32 @@ function decodeVecFixed<T extends Codec> (registry: Registry, value: Uint8Array 
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
+  readonly initialU8aLength?: number;
+
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[]) {
-    const Clazz = typeToConstructor<T>(registry, Type);
-    const [values,, decodedLengthNoOffset] = isU8a(value)
-      ? decodeU8aVec(registry, value, 0, Clazz, length)
-      : decodeVecFixed(registry, value, Clazz, length);
+  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+    super(registry, length);
 
-    super(registry, values, decodedLengthNoOffset);
+    this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.#Type = Clazz;
+    this.initialU8aLength = (
+      isU8a(value)
+        ? decodeU8aVec(registry, this, value, 0, this.#Type)
+        : decodeVec(registry, this, value, 0, this.#Type)
+    )[1];
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {
+    let definition: CodecClass<O> | undefined;
+
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = <T> (d: CodecClass<T>) =>
+      (definition = d as unknown as CodecClass<O>) as unknown as CodecClass<T>;
+
     return class extends VecFixed<O> {
       constructor (registry: Registry, value?: any[]) {
-        super(registry, Type, length, value);
+        super(registry, Type, length, value, { definition, setDefinition });
       }
     };
   }
@@ -73,7 +78,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };
@@ -85,7 +90,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
     const encoded = this.toU8aInner();
 
     return encoded.length
-      ? u8aConcat(...encoded)
+      ? u8aConcatStrict(encoded)
       : new Uint8Array([]);
   }
 

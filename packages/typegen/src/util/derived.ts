@@ -4,7 +4,7 @@
 import type { Constructor, Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
-import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
+import { GenericAccountId, GenericCall, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
 import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Vec, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
@@ -58,6 +58,10 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
+      } else if (subDef.info === TypeDefInfo.Option || subDef.info === TypeDefInfo.Vec || subDef.info === TypeDefInfo.VecFixed) {
+        // TODO: Add possibleTypes so imports work
+      } else if (subDef.info === TypeDefInfo.Struct) {
+        // TODO: Add possibleTypes so imports work
       } else {
         throw new Error(`Unhandled subtype in Vec, ${stringify(subDef)}`);
       }
@@ -80,6 +84,8 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
+  } else if (isChildClass(GenericCall, Clazz)) {
+    possibleTypes.push('IMethod', 'string', 'Uint8Array');
   } else if (isChildClass(bool, Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {

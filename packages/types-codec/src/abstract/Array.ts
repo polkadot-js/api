@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
 
-import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { compactToU8a, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
 import { compareArray } from '../utils/compareArray';
 
@@ -20,18 +20,18 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
 
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  /**
+   * @description This ensures that operators such as clice, filter, map, etc. return
+   * new Array instances (without this we need to apply overrides)
+   */
+  static get [Symbol.species] (): typeof Array {
+    return Array;
+  }
 
-  protected constructor (registry: Registry, values: T[], initialU8aLength?: number) {
-    super(values.length);
-
-    // explicitly set the values here - this removes the need for any extra allocations
-    for (let i = 0; i < values.length; i++) {
-      this[i] = values[i];
-    }
+  protected constructor (registry: Registry, length: number) {
+    super(length);
 
     this.registry = registry;
-    this.initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -81,14 +81,14 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       inner: this.inspectInner(),
       outer: [compactToU8a(this.length)]
     };
   }
 
-  inspectInner (): Inspect[] {
+  public inspectInner (): Inspect[] {
     const inner = new Array<Inspect>(this.length);
 
     for (let i = 0; i < this.length; i++) {
@@ -164,8 +164,8 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     const encoded = this.toU8aInner();
 
     return isBare
-      ? u8aConcat(...encoded)
-      : u8aConcat(compactToU8a(this.length), ...encoded);
+      ? u8aConcatStrict(encoded)
+      : u8aConcatStrict([compactToU8a(this.length), ...encoded]);
   }
 
   public toU8aInner (isBare?: boolean): Uint8Array[] {
@@ -176,44 +176,5 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     }
 
     return encoded;
-  }
-
-  // Below are methods that we override. When we do a `new Vec(...).map()`,
-  // we want it to return an Array. We only override the methods that return a
-  // new instance.
-
-  /**
-   * @description Concatenates two arrays
-   */
-  public override concat (other: T[]): T[] {
-    return this.toArray().concat(other instanceof AbstractArray ? other.toArray() : other);
-  }
-
-  /**
-   * @description Filters the array with the callback
-   */
-  public override filter (callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: unknown): T[] {
-    return this.toArray().filter(callbackfn, thisArg);
-  }
-
-  /**
-   * @description Maps the array with the callback
-   */
-  public override map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: unknown): U[] {
-    return this.toArray().map(callbackfn, thisArg);
-  }
-
-  /**
-   * @description Checks if the array includes a specific value
-   */
-  public override includes (check: unknown): boolean {
-    return this.some((value: T) => value.eq(check));
-  }
-
-  /**
-   * @description Returns a slice of an array
-   */
-  public override slice (start?: number, end?: number): T[] {
-    return this.toArray().slice(start, end);
   }
 }

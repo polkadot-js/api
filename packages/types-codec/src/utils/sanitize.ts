@@ -1,11 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-interface SanitizeOptions {
-  allowNamespaces?: boolean;
-}
+import { AnyString } from '../types';
 
-type Mapper = (value: string, options?: SanitizeOptions) => string;
+type Mapper = (value: string) => string;
 
 const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
 const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
@@ -45,8 +43,16 @@ const mappings: Mapper[] = [
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
-  removeColons()
+  removeColons(),
+  // remove all trailing spaces - this should always be the last
+  trim()
 ];
+
+// given a string, trim it
+export function trim (): Mapper {
+  return (value: string): string =>
+    value.trim();
+}
 
 // given a starting index, find the closing >
 export function findClosing (value: string, start: number): number {
@@ -84,12 +90,14 @@ export function alias (src: string, dest: string, withChecks = true): Mapper {
 
 export function cleanupCompact (): Mapper {
   return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
-        const end = findClosing(value, index + 1) - 14;
+    if (value.includes(' as HasCompact')) {
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] === '<') {
+          const end = findClosing(value, index + 1) - 14;
 
-        if (value.substr(end, 14) === ' as HasCompact') {
-          value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+          if (value.substring(end, end + 14) === ' as HasCompact') {
+            value = `Compact<${value.substring(index + 1, end)}>`;
+          }
         }
       }
     }
@@ -126,16 +134,18 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
     const start = index + matcher.length;
     const end = findClosing(value, start);
 
-    value = `${value.substr(0, index)}${replacer(value.substr(start, end - start))}${value.substr(end + 1)}`;
+    value = `${value.substring(0, index)}${replacer(value.substring(start, end))}${value.substring(end + 1)}`;
   }
 }
 
 // remove the Bounded* or Weak* wrappers
 export function removeExtensions (type: string, isSized: boolean): Mapper {
-  return (value: string) =>
-    BOUNDED.reduce((value, tag) =>
-      replaceTagWith(value, `${type}${tag}<`, (inner: string): string => {
-        const parts = inner
+  return (value: string): string => {
+    for (let i = 0; i < BOUNDED.length; i++) {
+      const tag = BOUNDED[i];
+
+      value = replaceTagWith(value, `${type}${tag}<`, (v: string): string => {
+        const parts = v
           .split(',')
           .map((s) => s.trim())
           .filter((s) => s);
@@ -145,31 +155,30 @@ export function removeExtensions (type: string, isSized: boolean): Mapper {
         }
 
         return `${tag}<${parts.join(',')}>`;
-      }), value
-    );
+      });
+    }
+
+    return value;
+  };
 }
 
 export function removeColons (): Mapper {
-  return (value: string, { allowNamespaces }: SanitizeOptions = {}): string => {
+  return (value: string): string => {
     let index = 0;
 
     while (index !== -1) {
       index = value.indexOf('::');
 
       if (index === 0) {
-        value = value.substr(2);
+        value = value.substring(2);
       } else if (index !== -1) {
-        if (allowNamespaces) {
-          return value;
-        }
-
         let start = index;
 
         while (start !== -1 && !BOX_PRECEDING.includes(value[start])) {
           start--;
         }
 
-        value = `${value.substr(0, start + 1)}${value.substr(index + 2)}`;
+        value = `${value.substring(0, start + 1)}${value.substring(index + 2)}`;
       }
     }
 
@@ -185,9 +194,15 @@ export function removeGenerics (): Mapper {
         const box = ALLOWED_BOXES.find((box): boolean => {
           const start = index - box.length;
 
-          return (start >= 0 && value.substr(start, box.length) === box) && (
-            // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
-            start === 0 || BOX_PRECEDING.includes(value[start - 1])
+          return (
+            (
+              start >= 0 &&
+              value.substring(start, index) === box
+            ) && (
+              // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
+              start === 0 ||
+              BOX_PRECEDING.includes(value[start - 1])
+            )
           );
         });
 
@@ -195,7 +210,7 @@ export function removeGenerics (): Mapper {
         if (!box) {
           const end = findClosing(value, index + 1);
 
-          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+          value = `${value.substring(0, index)}${value.substring(end + 1)}`;
         }
       }
     }
@@ -206,7 +221,7 @@ export function removeGenerics (): Mapper {
 
 // remove the PairOf wrappers
 export function removePairOf (): Mapper {
-  const replacer = (inner: string) => `(${inner},${inner})`;
+  const replacer = (v: string) => `(${v},${v})`;
 
   return (value: string) =>
     replaceTagWith(value, 'PairOf<', replacer);
@@ -247,7 +262,7 @@ export function removeTraits (): Mapper {
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
 export function removeWrap (check: string): Mapper {
-  const replacer = (inner: string) => inner;
+  const replacer = (v: string) => v;
 
   return (value: string) =>
     replaceTagWith(value, check, replacer);
@@ -255,27 +270,21 @@ export function removeWrap (check: string): Mapper {
 
 const sanitizeMap = new Map<string, string>();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function sanitize (value: String | string, options?: SanitizeOptions): string {
-  let result = value.toString();
+export function sanitize (value: AnyString): string {
+  const startValue = value.toString();
+  const memoized = sanitizeMap.get(startValue);
 
-  if (!options) {
-    const memoized = sanitizeMap.get(result);
-
-    if (memoized) {
-      return memoized;
-    }
+  if (memoized) {
+    return memoized;
   }
+
+  let result = startValue;
 
   for (let i = 0; i < mappings.length; i++) {
-    result = mappings[i](result, options);
+    result = mappings[i](result);
   }
 
-  result = result.trim();
-
-  if (!options) {
-    sanitizeMap.set(value.toString(), result);
-  }
+  sanitizeMap.set(startValue, result);
 
   return result;
 }

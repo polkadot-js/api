@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
+import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
 /**
  * @name Raw
@@ -16,11 +16,19 @@ import { assert, isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a }
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  public readonly initialU8aLength?: number;
+
+  public readonly registry: Registry;
+
+  /**
+   * @description This ensures that operators such as clice, filter, map, etc. return
+   * new Array instances (without this we need to apply overrides)
+   */
+  static get [Symbol.species] (): typeof Uint8Array {
+    return Uint8Array;
+  }
 
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
@@ -65,14 +73,6 @@ export class Raw extends Uint8Array implements IU8a {
   }
 
   /**
-   * @description The length of the value
-   */
-  public override get length (): number {
-    // only included here since we ignore inherited docs
-    return super.length;
-  }
-
-  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): number {
@@ -94,30 +94,10 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };
-  }
-
-  /**
-   * @description Create a new slice from the actual buffer. (compat)
-   * @param start The position to start at
-   * @param end The position to end at
-   */
-  public override slice (start?: number, end?: number): Uint8Array {
-    // Like subarray below, we have to follow this approach since we are extending the TypeArray.
-    // This happens especially when it comes to further extensions, the length may be an override
-    return Uint8Array.from(this).slice(start, end);
-  }
-
-  /**
-   * @description Create a new subarray from the actual buffer. (compat)
-   * @param begin The position to start at
-   * @param end The position to end at
-   */
-  public override subarray (begin?: number, end?: number): Uint8Array {
-    return Uint8Array.from(this).subarray(begin, end);
   }
 
   /**
@@ -177,7 +157,9 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Returns the wrapped data as a UTF-8 string
    */
   public toUtf8 (): string {
-    assert(this.isUtf8, 'The character sequence is not a valid Utf8 string');
+    if (!this.isUtf8) {
+      throw new Error('The character sequence is not a valid Utf8 string');
+    }
 
     return u8aToString(this);
   }

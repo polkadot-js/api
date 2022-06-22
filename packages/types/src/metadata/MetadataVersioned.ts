@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
 import type { Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
-import { assert } from '@polkadot/util';
 
 import { toV10 } from './v9/toV10';
 import { toV11 } from './v10/toV11';
@@ -31,19 +31,21 @@ const LATEST_VERSION = 14;
 export class MetadataVersioned extends Struct {
   readonly #converted = new Map<MetaVersions, MetaMapped>();
 
-  constructor (registry: Registry, value?: unknown) {
-    // console.time('MetadataVersioned')
+  constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
+    // const timeStart = performance.now()
 
     super(registry, {
       magicNumber: MagicNumber,
       metadata: 'MetadataAll'
-    }, value as Map<unknown, unknown>);
+    }, value);
 
-    // console.timeEnd('MetadataVersioned')
+    // console.log('MetadataVersioned', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 
   #assertVersion = (version: number): boolean => {
-    assert(this.version <= version, () => `Cannot convert metadata from version ${this.version} to ${version}`);
+    if (this.version > version) {
+      throw new Error(`Cannot convert metadata from version ${this.version} to ${version}`);
+    }
 
     return this.version === version;
   };
@@ -71,10 +73,6 @@ export class MetadataVersioned extends Struct {
   #metadata = (): MetadataAll => {
     return this.getT('metadata');
   };
-
-  public override get registry (): Registry {
-    return super.registry;
-  }
 
   /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version

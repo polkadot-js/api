@@ -10,6 +10,7 @@ import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
+import { Enum } from '@polkadot/types';
 import { isFunction, stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
@@ -24,7 +25,7 @@ interface SchedulerInfo {
 
 function isMaybeHashed (call: FrameSupportScheduleMaybeHashed | Call): call is FrameSupportScheduleMaybeHashed {
   // check for enum
-  return (call as FrameSupportScheduleMaybeHashed).isBasic === false;
+  return call instanceof Enum;
 }
 
 function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
@@ -47,7 +48,7 @@ function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<PalletSchedulerScheduledV3 | Scheduled>[] | null)[]]> {
+function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], Option<PalletSchedulerScheduledV3 | Scheduled>[][]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -64,12 +65,11 @@ function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], (Option<P
           // this should simply be api.query.scheduler.agenda.multi,
           // however we have had cases on Darwinia where the indices have moved around after an
           // upgrade, which results in invalid on-chain data
-          combineLatest(blockNumbers.map((blockNumber) =>
-            // this does create an issue since it discards all at that block
-            api.query.scheduler.agenda(blockNumber).pipe(catchError(() => of(null)))
-          ))
+          api.query.scheduler.agenda.multi(blockNumbers).pipe(
+            catchError(() => of(blockNumbers.map(() => [])))
+          )
         ])
-        : of<[BlockNumber[], null[]]>([[], []]);
+        : of<[BlockNumber[], Option<PalletSchedulerScheduledV3 | Scheduled>[][]]>([[], []]);
     })
   );
 }

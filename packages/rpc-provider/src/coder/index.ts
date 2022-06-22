@@ -3,7 +3,9 @@
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isNumber, isString, isUndefined, stringify } from '@polkadot/util';
+import { isNumber, isString, isUndefined, stringify } from '@polkadot/util';
+
+import RpcError from './error';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {
@@ -18,27 +20,48 @@ function formatErrorData (data?: string | number): string {
   // very nested, pick a number and trim the result display to it
   return formatted.length <= 256
     ? formatted
-    : `${formatted.substr(0, 255)}…`;
+    : `${formatted.substring(0, 255)}…`;
+}
+
+function checkError (error?: JsonRpcResponseBaseError): void {
+  if (error) {
+    const { code, data, message } = error;
+
+    throw new RpcError(`${code}: ${message}${formatErrorData(data)}`, code, data);
+  }
 }
 
 /** @internal */
 export class RpcCoder {
   #id = 0;
 
-  public decodeResponse (response: JsonRpcResponse): unknown {
-    assert(response, 'Empty response object received');
-    assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
+  public decodeResponse (response?: JsonRpcResponse): unknown {
+    if (!response || response.jsonrpc !== '2.0') {
+      throw new Error('Invalid jsonrpc field in decoded object');
+    }
 
     const isSubscription = !isUndefined(response.params) && !isUndefined(response.method);
 
-    assert(isNumber(response.id) || (isSubscription && (isNumber(response.params.subscription) || isString(response.params.subscription))), 'Invalid id field in decoded object');
+    if (
+      !isNumber(response.id) &&
+      (
+        !isSubscription || (
+          !isNumber(response.params.subscription) &&
+          !isString(response.params.subscription)
+        )
+      )
+    ) {
+      throw new Error('Invalid id field in decoded object');
+    }
 
-    this._checkError(response.error);
+    checkError(response.error);
 
-    assert(!isUndefined(response.result) || isSubscription, 'No result found in JsonRpc response');
+    if (response.result === undefined && !isSubscription) {
+      throw new Error('No result found in jsonrpc response');
+    }
 
     if (isSubscription) {
-      this._checkError(response.params.error);
+      checkError(response.params.error);
 
       return response.params.result;
     }
@@ -46,30 +69,20 @@ export class RpcCoder {
     return response.result;
   }
 
-  public encodeJson (method: string, params: unknown[]): string {
-    return stringify(
-      this.encodeObject(method, params)
-    );
+  public encodeJson (method: string, params: unknown[]): [number, string] {
+    const [id, data] = this.encodeObject(method, params);
+
+    return [id, stringify(data)];
   }
 
-  public encodeObject (method: string, params: unknown[]): JsonRpcRequest {
-    return {
-      id: ++this.#id,
+  public encodeObject (method: string, params: unknown[]): [number, JsonRpcRequest] {
+    const id = ++this.#id;
+
+    return [id, {
+      id,
       jsonrpc: '2.0',
       method,
       params
-    };
-  }
-
-  public getId (): number {
-    return this.#id;
-  }
-
-  private _checkError (error?: JsonRpcResponseBaseError): void {
-    if (error) {
-      const { code, data, message } = error;
-
-      throw new Error(`${code}: ${message}${formatErrorData(data)}`);
-    }
+    }];
   }
 }

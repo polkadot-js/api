@@ -33,9 +33,9 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  const fees = await api.derive.balances.fees();
+  const info = await api.derive.balances.account('0x1234');
 
-  console.log('fees', fees);
+  console.log('info', info);
 }
 
 function errors (api: ApiPromise): void {
@@ -57,14 +57,33 @@ function events (api: ApiPromise): void {
   // existing
   if (api.events.balances.Transfer.is(event)) {
     // the types are correctly expanded
-    const [from, to, amount] = event.data;
+    const [afrom, ato, aamount] = event.data;
 
-    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+    console.log(
+      afrom.toHuman(),
+      ato.toHuman(),
+      aamount.toBn()
+    );
+
+    // the types have getters
+    const { amount, from, to } = event.data;
+
+    console.log(
+      from.toHuman(),
+      to.toHuman(),
+      amount.toBn()
+    );
   }
 
-  // something random
+  // something with only tuple data
+  if (api.events.staking.Bonded.is(event)) {
+    const [account, amount] = event.data;
+
+    console.log(account.toHuman(), amount.toBn());
+  }
+
+  // something random, just codec[]
   if (api.events.something.Random.is(event)) {
-    // the types are just codec
     const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());
@@ -194,12 +213,14 @@ function types (api: ApiPromise): void {
   const balance = registry.createType('Balance', 2);
   const gas = registry.createType('Gas', 2);
   const compact = registry.createType('Compact<u32>', 2);
+  const f32 = registry.createType('f32');
+  const u32 = registry.createType('u32');
   // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'));
 }
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {

@@ -6,8 +6,8 @@ import type { AnyFunction } from '@polkadot/types/types';
 import type { ExactDerive } from './derive';
 import type { DeriveApi } from './types';
 
-import { lazyDeriveSection } from './util/lazy';
 import { derive } from './derive';
+import { lazyDeriveSection } from './util';
 
 export * from './derive';
 export * from './type';
@@ -22,6 +22,11 @@ export { lazyDeriveSection };
 
 // Enable derive only if some of these modules are available
 const checks: Record<string, Avail> = {
+  bagsList: {
+    instances: ['voterList', 'bagsList'],
+    methods: [],
+    withDetect: true
+  },
   contracts: {
     instances: ['contracts'],
     methods: []

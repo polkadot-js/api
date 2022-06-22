@@ -23,7 +23,9 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
         bounty: bounty.unwrap(),
         description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
         index: ids[index],
-        proposals: bountyProposals.filter((bountyProposal) => ids[index].eq(bountyProposal.proposal.args[0]))
+        proposals: bountyProposals.filter((bountyProposal) =>
+          bountyProposal.proposal && ids[index].eq(bountyProposal.proposal.args[0])
+        )
       });
     }
   });

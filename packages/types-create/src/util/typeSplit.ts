@@ -1,51 +1,56 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { assert } from '@polkadot/util';
-
-function isNotNested (...counters: number[]): boolean {
-  return !counters.some((counter): boolean => counter !== 0);
-}
-
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): string[] {
-  let [cDepth, fDepth, sDepth, tDepth, start] = [0, 0, 0, 0, 0];
-  const result = [];
+  const result: string[] = [];
 
-  const extract = (index: number): void => {
-    if (isNotNested(cDepth, fDepth, sDepth, tDepth)) {
-      result.push(type.substr(start, index - start).trim());
-      start = index + 1;
-    }
-  };
+  // these are the depths of the various tokens: <, [, {, (
+  let c = 0;
+  let f = 0;
+  let s = 0;
+  let t = 0;
 
-  for (let index = 0; index < type.length; index++) {
-    switch (type[index]) {
+  // current start position
+  let start = 0;
+
+  for (let i = 0; i < type.length; i++) {
+    switch (type[i]) {
       // if we are not nested, add the type
-      case ',': extract(index); break;
+      case ',': {
+        if (!(c || f || s || t)) {
+          result.push(type.substring(start, i).trim());
+          start = i + 1;
+        }
+
+        break;
+      }
 
       // adjust compact/vec (and friends) depth
-      case '<': cDepth++; break;
-      case '>': cDepth--; break;
+      case '<': c++; break;
+      case '>': c--; break;
 
       // adjust fixed vec depths
-      case '[': fDepth++; break;
-      case ']': fDepth--; break;
+      case '[': f++; break;
+      case ']': f--; break;
 
       // adjust struct depth
-      case '{': sDepth++; break;
-      case '}': sDepth--; break;
+      case '{': s++; break;
+      case '}': s--; break;
 
       // adjust tuple depth
-      case '(': tDepth++; break;
-      case ')': tDepth--; break;
+      case '(': t++; break;
+      case ')': t--; break;
     }
   }
 
-  assert(isNotNested(cDepth, fDepth, sDepth, tDepth), () => `Invalid definition (missing terminators) found in ${type}`);
+  // ensure we have all the terminators taken care of
+  if (c || f || s || t) {
+    throw new Error(`Invalid definition (missing terminators) found in ${type}`);
+  }
 
   // the final leg of the journey
-  result.push(type.substr(start, type.length - start).trim());
+  result.push(type.substring(start, type.length).trim());
 
   return result;
 }

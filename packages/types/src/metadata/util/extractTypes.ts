@@ -30,7 +30,7 @@ const mapping: Record<TypeDefInfo, (type: string, typeDef: TypeDef) => Extracted
   [TypeDefInfo.Enum]: extractSubArray,
   [TypeDefInfo.HashMap]: extractSubArray,
   [TypeDefInfo.Int]: unhandled,
-  [TypeDefInfo.Linkage]: unhandled,
+  [TypeDefInfo.Linkage]: extractSubSingle,
   [TypeDefInfo.Null]: unhandled,
   [TypeDefInfo.Option]: extractSubSingle,
   [TypeDefInfo.Plain]: (_: string, typeDef: TypeDef) => typeDef.lookupName || typeDef.type,
@@ -46,14 +46,19 @@ const mapping: Record<TypeDefInfo, (type: string, typeDef: TypeDef) => Extracted
   [TypeDefInfo.VecFixed]: extractSubSingle,
   [TypeDefInfo.WrapperKeepOpaque]: extractSubSingle,
   [TypeDefInfo.WrapperOpaque]: extractSubSingle
-
 };
 
 /** @internal */
 export function extractTypes (types: string[]): Extracted[] {
-  return types.map((type): Extracted => {
+  const count = types.length;
+  const result = new Array<Extracted>(count);
+
+  for (let i = 0; i < count; i++) {
+    const type = types[i];
     const typeDef = getTypeDef(type);
 
-    return mapping[typeDef.info](type, typeDef);
-  });
+    result[i] = mapping[typeDef.info](type, typeDef);
+  }
+
+  return result;
 }

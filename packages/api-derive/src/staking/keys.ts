@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, Vec } from '@polkadot/types';
+import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { NodeRuntimeSessionKeys } from '@polkadot/types/lookup';
-import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
 import type { DeriveStakingKeys } from './types';
 
@@ -36,16 +35,18 @@ export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length
       ? api.query.session.queuedKeys().pipe(
-        switchMap((queuedKeys): Observable<[Vec<ITuple<[AccountId, NodeRuntimeSessionKeys]>>, Option<NodeRuntimeSessionKeys>[]]> =>
+        switchMap((queuedKeys) =>
           combineLatest([
             of(queuedKeys),
             api.consts.session?.dedupKeyPrefix
-              ? api.query.session.nextKeys.multi(stashIds.map((stashId) => [api.consts.session.dedupKeyPrefix, stashId]))
-              : api.query.session.nextKeys.multi(stashIds)
+              ? api.query.session.nextKeys.multi(stashIds.map((s) => [api.consts.session.dedupKeyPrefix, s]))
+              : combineLatest(stashIds.map((s) => api.query.session.nextKeys(s)))
           ])
         ),
         map(([queuedKeys, nextKeys]) =>
-          stashIds.map((stashId, index) => extractsIds(stashId, queuedKeys, nextKeys[index]))
+          stashIds.map((stashId, index) =>
+            extractsIds(stashId, queuedKeys, nextKeys[index])
+          )
         )
       )
       : of([])

@@ -5,7 +5,7 @@ import type { IU8a, Registry } from '@polkadot/types-codec/types';
 import type { H256 } from '../interfaces/runtime';
 
 import { Bytes, Enum } from '@polkadot/types-codec';
-import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 /** @internal */
 function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
@@ -56,7 +56,9 @@ export class Data extends Enum {
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));
 
-    assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw values are limited to a maximum length of 32 bytes');
+    if (this.isRaw && this.asRaw.length > 32) {
+      throw new Error('Data.Raw values are limited to a maximum length of 32 bytes');
+    }
   }
 
   public get asBlakeTwo256 (): H256 {

@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option, Text } from '@polkadot/types-codec';
 import type { ICompact, INumber } from '@polkadot/types-codec/types';
 import type { TypeDef } from './types';
 
@@ -11,4 +12,5 @@ export interface ILookup {
     }
   },
   getTypeDef (lookupId: ICompact<INumber> | string | number): TypeDef;
+  sanitizeField (name: Option<Text>): [string | null, string | null];
 }

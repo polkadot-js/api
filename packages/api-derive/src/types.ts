@@ -10,6 +10,7 @@ import type { ExactDerive } from './derive';
 
 export * from './accounts/types';
 export * from './balances/types';
+export * from './bagsList/types';
 export * from './council/types';
 export * from './crowdloan/types';
 export * from './democracy/types';
@@ -39,7 +40,7 @@ export interface DeriveContractFees {
 
 export interface DeriveCollectiveProposal {
   hash: Hash;
-  proposal: Proposal;
+  proposal: Proposal | null;
   votes: Votes | null;
 }
 

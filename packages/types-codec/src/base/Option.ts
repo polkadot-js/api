@@ -4,28 +4,53 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } from '../types';
 
-import { assert, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
+interface Options<T> {
+  definition?: CodecClass<T>;
+  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
+}
+
+function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
+  return d;
+}
+
+class None extends Null {
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public override toRawType (): string {
+    return 'None';
+  }
+}
+
 /** @internal */
 function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
-  // In the case of an option, unwrap the inner
-  if (value instanceof Option) {
-    value = value.value;
-  }
-
-  if (isNull(value) || isUndefined(value) || value instanceof Null || value === '0x') {
-    return new Null(registry);
-  } else if (value instanceof Type) {
+  if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
     return value;
+  } else if (value instanceof Option) {
+    if (value.value instanceof Type) {
+      // same instance, return it
+      return value.value;
+    } else if (value.isNone) {
+      // internal is None, we are also none
+      return new None(registry);
+    }
+
+    // convert the actual value into known
+    return new Type(registry, value.value);
+  } else if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
+    // anyhting empty we pass as-is
+    return new None(registry);
   } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
     // may be an instance of it, so Type and Option checks go in first
     return !value.length || value[0] === 0
-      ? new Null(registry)
+      ? new None(registry)
       : new Type(registry, value.subarray(1));
   }
 
@@ -45,17 +70,17 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public createdAtHash?: IU8a;
 
-  readonly #Type: CodecClass<T>;
+  public initialU8aLength?: number;
 
-  readonly #initialU8aLength?: number;
+  readonly #Type: CodecClass<T>;
 
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {
-    const Type = typeToConstructor(registry, typeName);
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+    const Type = definition || setDefinition(typeToConstructor(registry, typeName));
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
-        ? new Null(registry)
+        ? new None(registry)
         : new Type(registry, value.subarray(1))
       : decodeOption(registry, Type, value);
 
@@ -63,15 +88,23 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded.initialU8aLength) {
-      this.#initialU8aLength = 1 + decoded.initialU8aLength;
+    if (decoded && decoded.initialU8aLength) {
+      this.initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
+    let definition: CodecClass<O> | undefined;
+
+    const setDefinition = <T> (d: CodecClass<T>): CodecClass<T> => {
+      definition = d as unknown as CodecClass<O>;
+
+      return d;
+    };
+
     return class extends Option<O> {
       constructor (registry: Registry, value?: unknown) {
-        super(registry, Type, value);
+        super(registry, Type, value, { definition, setDefinition });
       }
     };
   }
@@ -82,13 +115,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.encodedLength;
-  }
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  public get initialU8aLength (): number | undefined {
-    return this.#initialU8aLength;
   }
 
   /**
@@ -109,7 +135,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this.#raw instanceof Null;
+    return this.#raw instanceof None;
   }
 
   /**
@@ -122,7 +148,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description The actual value for the Option
    */
-  public get value (): Codec {
+  public get value (): T {
     return this.#raw;
   }
 
@@ -140,7 +166,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     if (this.isNone) {
       return { outer: [new Uint8Array([0])] };
     }
@@ -221,7 +247,9 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the value that the Option represents (if available), throws if null
    */
   public unwrap (): T {
-    assert(this.isSome, 'Option: unwrapping a None value');
+    if (this.isNone) {
+      throw new Error('Option: unwrapping a None value');
+    }
 
     return this.#raw;
   }

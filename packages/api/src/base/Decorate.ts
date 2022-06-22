@@ -19,7 +19,7 @@ import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, BN_ZERO, compactStripLength, lazyMethod, lazyMethods, logger, objectSpread, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -43,7 +43,8 @@ interface FullDecoration<ApiType extends ApiTypes> {
 
 // the max amount of keys/values that we will retrieve at once
 const PAGE_SIZE_K = 1000; // limit aligned with the 1k on the node (trie lookups are heavy)
-const PAGE_SIZE_V = 250; // limited since the data may be very large (e.g. misfiring elections)
+const PAGE_SIZE_V = 250; // limited since the data may be > 16MB (e.g. misfiring elections)
+const PAGE_SIZE_Q = 50; // queue of pending storage queries (mapped together, next tick)
 
 const l = logger('api/init');
 
@@ -57,6 +58,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   readonly #instanceId: string;
 
   #registry: Registry;
+
+  #storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
+
+  #storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
@@ -199,18 +204,23 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._rpcCore.provider.hasSubscriptions || !!this._rpcCore.state.queryStorageAt;
   }
 
+  protected _emptyDecorated (registry: Registry, blockHash?: Uint8Array): ApiDecoration<ApiType> {
+    return {
+      consts: {},
+      errors: {},
+      events: {},
+      query: {},
+      registry,
+      rx: {
+        query: {}
+      },
+      tx: createSubmittable(this._type, this._rx, this._decorateMethod, registry, blockHash)
+    } as ApiDecoration<ApiType>;
+  }
+
   protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
-      decoratedApi = {
-        consts: {},
-        errors: {},
-        events: {},
-        query: {},
-        registry: registry.registry,
-        rx: {
-          query: {}
-        }
-      } as ApiDecoration<ApiType>;
+      decoratedApi = this._emptyDecorated(registry.registry, blockHash);
     }
 
     if (fromEmpty || !registry.decoratedMeta) {
@@ -233,6 +243,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decoratedApi.queryMulti = blockHash
       ? this._decorateMultiAt(decoratedApi, this._decorateMethod, blockHash)
       : this._decorateMulti(this._decorateMethod);
+    decoratedApi.runtimeVersion = registry.runtimeVersion;
 
     return {
       decoratedApi,
@@ -243,16 +254,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty = false): void {
     // clear the decoration, we are redoing it here
     if (fromEmpty || !registry.decoratedApi) {
-      registry.decoratedApi = {
-        consts: {},
-        errors: {},
-        events: {},
-        query: {},
-        registry: registry.registry,
-        rx: {
-          query: {}
-        }
-      } as ApiDecoration<ApiType>;
+      registry.decoratedApi = this._emptyDecorated(registry.registry);
     }
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
@@ -284,7 +286,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
    */
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    this._injectMetadata({ metadata, registry: registry || this.#registry, specName: this.#registry.createType('Text'), specVersion: BN_ZERO }, fromEmpty);
+    this._injectMetadata({ metadata, registry: registry || this.#registry, runtimeVersion: this.#registry.createType('RuntimeVersionPartial') }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -405,18 +407,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // only be called if supportMulti is true
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
+    return decorateMethod((keys: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       (this.hasSubscriptions
         ? this._rpcCore.state.subscribeStorage
-        : this._rpcCore.state.queryStorageAt)(
-        calls.map((args: QueryableStorageMultiArg<ApiType>) =>
-          Array.isArray(args)
-            ? args[0].creator.meta.type.isPlain
-              ? [args[0].creator]
-              : args[0].creator.meta.type.asMap.hashers.length === 1
-                ? [args[0].creator, args.slice(1)]
-                : [args[0].creator, ...args.slice(1)]
-            : [args.creator])));
+        : this._rpcCore.state.queryStorageAt
+      )(keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
+        Array.isArray(args)
+          ? args[0].creator.meta.type.isPlain
+            ? [args[0].creator]
+            : args[0].creator.meta.type.asMap.hashers.length === 1
+              ? [args[0].creator, args.slice(1)]
+              : [args[0].creator, ...args.slice(1)]
+          : [args.creator]
+      ))
+    );
   }
 
   protected _decorateMultiAt<ApiType extends ApiTypes> (atApi: ApiDecoration<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array | string): QueryableStorageMulti<ApiType> {
@@ -543,7 +547,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       decorated.entriesPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
-          this._retrieveMapEntriesPaged(creator, opts)));
+          this._retrieveMapEntriesPaged(creator, undefined, opts)));
 
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
@@ -556,7 +560,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
       decorated.keysPaged = decorateMethod(
         memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
-          this._retrieveMapKeysPaged(creator, opts)));
+          this._retrieveMapKeysPaged(creator, undefined, opts)));
     }
 
     if (this.supportMulti && creator.meta.type.isMap) {
@@ -610,9 +614,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, blockHash, args)));
 
+      decorated.entriesPaged = decorateMethod(
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+          this._retrieveMapEntriesPaged(creator, blockHash, opts)));
+
       decorated.keys = decorateMethod(
         memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, blockHash, args)));
+
+      decorated.keysPaged = decorateMethod(
+        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
+          this._retrieveMapKeysPaged(creator, blockHash, opts)));
     }
 
     if (this.supportMulti && creator.meta.type.isMap) {
@@ -629,18 +641,61 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return this._decorateFunctionMeta(creator as unknown as MetaDecoration, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
+  private _queueStorage (call: [StorageEntry, unknown[]], queue: [Observable<Codec[]>, [StorageEntry, unknown[]][]][]): Observable<Codec> {
+    const query = queue === this.#storageSubQ
+      ? this._rpcCore.state.subscribeStorage
+      : this._rpcCore.state.queryStorageAt;
+    let queueIdx = queue.length - 1;
+    let valueIdx = 0;
+    let valueObs: Observable<Codec[]>;
+
+    if (queueIdx === -1 || !queue[queueIdx] || queue[queueIdx][1].length === PAGE_SIZE_Q) {
+      queueIdx++;
+
+      valueObs = from(
+        // Defer to the next tick - this aligns with nextTick in @polkadot/util,
+        // however since we return a value here, we don't re-use what is there
+        Promise
+          .resolve()
+          .then((): [StorageEntry, unknown[]][] => {
+            const calls = queue[queueIdx][1];
+
+            delete queue[queueIdx];
+
+            return calls;
+          })
+      ).pipe(
+        switchMap((calls) => query(calls))
+      );
+
+      queue.push([valueObs, [call]]);
+    } else {
+      valueObs = queue[queueIdx][0];
+      valueIdx = queue[queueIdx][1].length;
+
+      queue[queueIdx][1].push(call);
+    }
+
+    return valueObs.pipe(
+      map((values) => values[valueIdx])
+    );
+  }
+
   // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     return decorateMethod((...args: unknown[]): Observable<Codec> => {
-      return this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage<[Codec]>([extractStorageArgs(this.#registry, creator, args)]).pipe(
-          map(([data]) => data) // extract first/only result from list
-        )
-        : this._rpcCore.state.getStorage(extractStorageArgs(this.#registry, creator, args));
+      const call = extractStorageArgs(this.#registry, creator, args);
+
+      if (!this.hasSubscriptions) {
+        return this._rpcCore.state.getStorage(call);
+      }
+
+      return this._queueStorage(call, this.#storageSubQ);
     }, {
       methodName: creator.method,
-      overrideNoSub: (...args: unknown[]) => this._rpcCore.state.getStorage(extractStorageArgs(this.#registry, creator, args))
+      overrideNoSub: (...args: unknown[]) =>
+        this._queueStorage(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ)
     });
   }
 
@@ -663,15 +718,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return of([]);
     }
 
-    const queryCall = this.hasSubscriptions && !blockHash
+    const query = this.hasSubscriptions && !blockHash
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
+
+    if (keys.length <= PAGE_SIZE_V) {
+      return blockHash
+        ? query(keys, blockHash)
+        : query(keys);
+    }
 
     return combineLatest(
       arrayChunk(keys, PAGE_SIZE_V).map((k) =>
         blockHash
-          ? queryCall(k, blockHash)
-          : queryCall(k)
+          ? query(k, blockHash)
+          : query(k)
       )
     ).pipe(
       map(arrayFlatten)
@@ -683,41 +744,49 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
-    const queryCall = at
-      ? (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
-      : (startKey: string) => this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
+    const query = at
+      ? (startKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey, at)
+      : (startKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, PAGE_SIZE_K, startKey);
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
 
     return startSubject.pipe(
-      switchMap(queryCall),
+      switchMap(query),
       map((keys) => keys.map(setMeta)),
-      tap((keys): void => {
-        setTimeout((): void => {
+      tap((keys) =>
+        nextTick((): void => {
           keys.length === PAGE_SIZE_K
             ? startSubject.next(keys[PAGE_SIZE_K - 1].toHex())
             : startSubject.complete();
-        }, 0);
-      }),
+        })
+      ),
       toArray(), // toArray since we want to startSubject to be completed
       map(arrayFlatten)
     );
   }
 
-  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, opts: PaginationOptions): Observable<StorageKey[]> {
+  private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<StorageKey[]> {
     assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
 
-    const headKey = iterKey(...opts.args).toHex();
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
+    const query = at
+      ? (headKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey, at)
+      : (headKey: string) =>
+        this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey);
 
-    return this._rpcCore.state.getKeysPaged(headKey, opts.pageSize, opts.startKey || headKey).pipe(
+    return query(iterKey(...opts.args).toHex()).pipe(
       map((keys) => keys.map(setMeta))
     );
   }
 
   private _retrieveMapEntries (entry: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<[StorageKey, Codec][]> {
     const query = at
-      ? (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset, at)
-      : (keyset: StorageKey[]) => this._rpcCore.state.queryStorageAt(keyset);
+      ? (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys);
 
     return this._retrieveMapKeys(entry, at, args).pipe(
       switchMap((keys) =>
@@ -732,11 +801,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     );
   }
 
-  private _retrieveMapEntriesPaged (entry: StorageEntry, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
-    return this._retrieveMapKeysPaged(entry, opts).pipe(
+  private _retrieveMapEntriesPaged (entry: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<[StorageKey, Codec][]> {
+    const query = at
+      ? (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys, at)
+      : (keys: StorageKey[]) =>
+        this._rpcCore.state.queryStorageAt(keys);
+
+    return this._retrieveMapKeysPaged(entry, at, opts).pipe(
       switchMap((keys) =>
         keys.length
-          ? this._rpcCore.state.queryStorageAt(keys).pipe(
+          ? query(keys).pipe(
             map((valsArr) =>
               valsArr.map((value, index): [StorageKey, Codec] => [keys[index], value])
             )

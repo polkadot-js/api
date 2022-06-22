@@ -9,6 +9,7 @@ import { mapXcmTypes } from '@polkadot/types-create';
 import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   TAssetBalance: 'u128',
   ProxyType: {
     _enum: [
