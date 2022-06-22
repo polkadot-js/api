@@ -10,6 +10,7 @@ Changes:
 
 - Align `BeefyPayload` with Substrate master
 - Use `static get [Symbol.species] ()` for `Array` & `Uint8Array` types
+- Add support for (optional, non-runtime recommended) `f32` & `f64` types
 
 
 ## 8.9.1 Jun 19, 2022
