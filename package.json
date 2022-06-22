@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "commonjs",
-  "version": "8.9.2-10",
+  "version": "8.9.2-11",
   "workspaces": [
     "packages/*"
   ],
