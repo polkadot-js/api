@@ -25,7 +25,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.3",
     "@polkadot/types-codec": "8.9.2-10",
-    "@polkadot/util": "^9.5.2-15"
+    "@polkadot/util": "^9.5.2-18"
   },
   "devDependencies": {
     "@polkadot/types": "8.9.2-10"
