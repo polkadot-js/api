@@ -43,6 +43,7 @@
        2	Wei Tang                      	Use /usr/bin/env bash instead of /bin/bash (#2053)
        2	Zannis Kalampoukis            	fix: Typegen handles structs and vectors of structs without erroring (#4743)
        2	扩散性百万甜面包                      	Typo, deocrateMethod -> decorateMethod (#1594)
+       1	Alan Sapede                   	Adds Eth feeHistory & maxPriorityFeePerGas rpc (#4956)
        1	Andreea Eftene                	Add storage deposit support (#4304)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
        1	chriswmercer                  	little readme tweak (#279)
