@@ -96,6 +96,24 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     ],
     type: 'U256'
   },
+  feeHistory: {
+    description: 'Returns fee history for given block count & reward percentiles',
+    params: [
+      {
+        name: 'blockCount',
+        type: 'U256'
+      },
+      {
+        name: 'newestBlock',
+        type: 'BlockNumber'
+      },
+      {
+        name: 'rewardPercentiles',
+        type: 'Option<Vec<f64>>'
+      }
+    ],
+    type: 'EthFeeHistory'
+  },
   gasPrice: {
     description: 'Returns current gas price.',
     params: [],
@@ -177,24 +195,6 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
       }
     ],
     type: 'Bytes'
-  },
-  feeHistory: {
-    description: 'Returns fee history for given block count & reward percentiles',
-    params: [
-      {
-        name: 'blockCount',
-        type: 'U256'
-      },
-      {
-        name: 'newestBlock',
-        type: 'BlockNumber'
-      },
-      {
-        name: 'rewardPercentiles',
-        type: 'Option<Vec<f64>>'
-      }
-    ],
-    type: 'EthFeeHistory'
   },
   getFilterChanges: {
     description: 'Returns filter changes since last poll.',
