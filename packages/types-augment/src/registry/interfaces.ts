@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Data, StorageKey } from '@polkadot/types';
-import type { BitVec, Bool, Bytes, I128, I16, I256, I32, I64, I8, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
+import type { BitVec, Bool, Bytes, F32, F64, I128, I16, I256, I32, I64, I8, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, f32, f64, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -425,6 +425,10 @@ declare module '@polkadot/types/types/registry' {
     ExtrinsicsWeight: ExtrinsicsWeight;
     ExtrinsicUnknown: ExtrinsicUnknown;
     ExtrinsicV4: ExtrinsicV4;
+    f32: f32;
+    F32: F32;
+    f64: f64;
+    F64: F64;
     FeeDetails: FeeDetails;
     Fixed128: Fixed128;
     Fixed64: Fixed64;
