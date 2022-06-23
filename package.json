@@ -34,7 +34,7 @@
     "@babel/core": "^7.18.5",
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.18.3",
-    "@polkadot/dev": "^0.67.34",
+    "@polkadot/dev": "^0.67.35",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^28.1.3",
     "copyfiles": "^2.4.1"
