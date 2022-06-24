@@ -5,12 +5,15 @@
 Contributed:
 
 - Bump `@substrate/connect` to 0.7.7 (Thanks to https://github.com/wirednkod)
+- Support `feeHistory` & `maxPriorityFeePerGas` eth RPCs (Thanks to https://github.com/crystalin)
 
 Changes:
 
 - Align `BeefyPayload` with Substrate master
 - Use `static get [Symbol.species] ()` for `Array` & `Uint8Array` types
 - Add support for (optional, non-runtime recommended) `f32` & `f64` types
+- Add future-use `AbstrateBigInt` wrapper extension
+- Update Codec-internal performance tests
 - Add Westend 9250 upgrade block
 
 
