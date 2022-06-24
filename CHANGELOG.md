@@ -5,6 +5,7 @@
 Contributed:
 
 - Bump `@substrate/connect` to 0.7.7 (Thanks to https://github.com/wirednkod)
+- Support `feeHistory` & `maxPriorityFeePerGas` eth RPCs (Thanks to https://github.com/crystalin)
 
 Changes:
 
