@@ -896,10 +896,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
-       * The member is already unbonding in this era.
-       **/
-      AlreadyUnbonding: AugmentedError<ApiType>;
-      /**
        * The pools state cannot be changed.
        **/
       CanNotChangeState: AugmentedError<ApiType>;
@@ -911,7 +907,7 @@ declare module '@polkadot/api-base/types/errors' {
        * Some error occurred that should never happen. This should be reported to the
        * maintainers.
        **/
-      DefensiveError: AugmentedError<ApiType>;
+      Defensive: AugmentedError<ApiType>;
       /**
        * The caller does not have adequate permissions.
        **/
@@ -921,10 +917,6 @@ declare module '@polkadot/api-base/types/errors' {
        * anymore to, for example, collect rewards).
        **/
       FullyUnbonding: AugmentedError<ApiType>;
-      /**
-       * The pool has insufficient balance to bond as a nominator.
-       **/
-      InsufficientBond: AugmentedError<ApiType>;
       /**
        * Too many members in the pool or system.
        **/
@@ -1856,6 +1848,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1891,6 +1887,11 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     treasury: {
+      /**
+       * The spend origin is valid but the amount it is allowed to spend is lower than the
+       * amount to be spent.
+       **/
+      InsufficientPermission: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/

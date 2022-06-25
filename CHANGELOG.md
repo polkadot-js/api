@@ -15,6 +15,7 @@ Changes:
 - Add future-use `AbstrateBigInt` wrapper extension
 - Update Codec-internal performance tests
 - Add Westend 9250 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 8.9.1 Jun 19, 2022

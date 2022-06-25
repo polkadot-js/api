@@ -945,7 +945,7 @@ export default {
     index: 'u32'
   },
   /**
-   * Lookup88: pallet_bounties::pallet::Event<T>
+   * Lookup88: pallet_bounties::pallet::Event<T, I>
    **/
   PalletBountiesEvent: {
     _enum: {
@@ -977,7 +977,7 @@ export default {
     }
   },
   /**
-   * Lookup89: pallet_tips::pallet::Event<T>
+   * Lookup89: pallet_tips::pallet::Event<T, I>
    **/
   PalletTipsEvent: {
     _enum: {
@@ -2968,7 +2968,7 @@ export default {
     }
   },
   /**
-   * Lookup328: pallet_bounties::pallet::Call<T>
+   * Lookup328: pallet_bounties::pallet::Call<T, I>
    **/
   PalletBountiesCall: {
     _enum: {
@@ -3007,7 +3007,7 @@ export default {
     }
   },
   /**
-   * Lookup329: pallet_tips::pallet::Call<T>
+   * Lookup329: pallet_tips::pallet::Call<T, I>
    **/
   PalletTipsCall: {
     _enum: {
@@ -4715,7 +4715,7 @@ export default {
     }
   },
   /**
-   * Lookup560: pallet_bounties::pallet::Error<T>
+   * Lookup560: pallet_bounties::pallet::Error<T, I>
    **/
   PalletBountiesError: {
     _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'ReasonTooBig', 'UnexpectedStatus', 'RequireCurator', 'InvalidValue', 'InvalidFee', 'PendingPayout', 'Premature', 'HasActiveChildBounty', 'TooManyQueued']
@@ -4733,7 +4733,7 @@ export default {
     findersFee: 'bool'
   },
   /**
-   * Lookup562: pallet_tips::pallet::Error<T>
+   * Lookup562: pallet_tips::pallet::Error<T, I>
    **/
   PalletTipsError: {
     _enum: ['ReasonTooBig', 'AlreadyKnown', 'UnknownTip', 'NotFinder', 'StillOpen', 'Premature']

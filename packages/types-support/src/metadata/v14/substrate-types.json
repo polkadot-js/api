@@ -6331,6 +6331,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -6363,7 +6367,7 @@
                 {
                   "name": "bond",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -6420,7 +6424,7 @@
                 {
                   "name": "payout",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 },
                 {
@@ -6485,6 +6489,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -6538,7 +6546,7 @@
                 {
                   "name": "payout",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -6580,7 +6588,7 @@
                 {
                   "name": "deposit",
                   "type": 6,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -22959,6 +22967,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -22970,7 +22982,7 @@
                 {
                   "name": "value",
                   "type": 69,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 },
                 {
@@ -23036,7 +23048,7 @@
                 {
                   "name": "fee",
                   "type": 69,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -23233,6 +23245,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -23328,7 +23344,7 @@
                 {
                   "name": "tip_value",
                   "type": 69,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -23370,7 +23386,7 @@
                 {
                   "name": "tip_value",
                   "type": 69,
-                  "typeName": "BalanceOf<T>",
+                  "typeName": "BalanceOf<T, I>",
                   "docs": []
                 }
               ],
@@ -38113,6 +38129,10 @@
         {
           "name": "T",
           "type": null
+        },
+        {
+          "name": "I",
+          "type": null
         }
       ],
       "def": {
@@ -38302,6 +38322,10 @@
       "params": [
         {
           "name": "T",
+          "type": null
+        },
+        {
+          "name": "I",
           "type": null
         }
       ],
