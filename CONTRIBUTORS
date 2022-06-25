@@ -1,4 +1,4 @@
-    3059	Jaco                          	Update CHANGELOG (#4980)
+    3060	Jaco                          	Bump util to 9.6.2 (#4983)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
