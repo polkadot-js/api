@@ -1,8 +1,9 @@
 // Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiTypes, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
+import type { ApiTypes, DefinitionCall, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { ApiInterfaceRx as ApiInterfaceBase } from '@polkadot/api-base/types/api';
+import type { DecoratedCalls } from '@polkadot/api-base/types/calls';
 import type { QueryableConsts } from '@polkadot/api-base/types/consts';
 import type { DecoratedErrors } from '@polkadot/api-base/types/errors';
 import type { DecoratedEvents } from '@polkadot/api-base/types/events';
@@ -18,6 +19,7 @@ import type { SubmittableExtrinsic } from '../types/submittable';
 import type { AllDerives } from '../util/decorate';
 
 export * from '@polkadot/api-base/types';
+export * from '@polkadot/api/types/calls';
 export * from '@polkadot/api/types/consts';
 export * from '@polkadot/api/types/errors';
 export * from '@polkadot/api/types/events';
@@ -34,6 +36,10 @@ export interface ApiInterfaceRx extends ApiInterfaceBase {
 }
 
 export interface ApiOptions extends RegisteredTypes {
+  /**
+   * @description Overrides for state_call usage (this will be removed in some future version)
+   */
+  calls?: Record<string, DefinitionCall>;
   /**
    * @description Add custom derives to be injected
    */
@@ -90,6 +96,7 @@ export interface SignerOptions extends SignatureOptions {
 }
 
 export interface ApiDecoration<ApiType extends ApiTypes> {
+  calls: DecoratedCalls<ApiType>;
   consts: QueryableConsts<ApiType>;
   errors: DecoratedErrors<ApiType>;
   events: DecoratedEvents<ApiType>;

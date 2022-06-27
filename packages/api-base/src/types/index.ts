@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // These are augmented, do an augmentation export
+export * from '@polkadot/api-base/types/calls';
 export * from '@polkadot/api-base/types/consts';
 export * from '@polkadot/api-base/types/errors';
 export * from '@polkadot/api-base/types/events';

@@ -18,6 +18,19 @@ import { SubmittableResult } from './';
 
 const registry = new TypeRegistry();
 
+async function calls (api: ApiPromise): Promise<void> {
+  // it allows defaults
+  const testSetId = await api.calls('__TestApi_current_set_id');
+
+  // it allows type overrides
+  const testSetIdO = await api.calls<AccountId>('__TestApi_current_set_id');
+
+  // it allows an unknown
+  await api.calls('SomeOtherApi_blah');
+
+  console.log(testSetId.toNumber(), testSetIdO.isAscii);
+}
+
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
@@ -289,6 +302,7 @@ async function main (): Promise<void> {
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([
+    calls(api),
     consts(api),
     derive(api),
     errors(api),
