@@ -1,0 +1,22 @@
+{{> header }}
+
+{{{ importsAll }}}
+
+declare module '@polkadot/api-base/types/calls' {
+  export interface AugmentedCalls<ApiType extends ApiTypes> {
+    {{#each modules}}
+    {{{name}}}: {
+      {{#each items}}
+      {{> docs}}
+      {{{name}}}: AugmentedCall<ApiType, ({{{params}}}) => Observable<{{{returnType}}}>>;
+      {{/each}}
+      {{#unless @root.isStrict}}
+      /**
+       * Generic call
+       **/
+      [key: string]: AugmentedCall<ApiType>;
+      {{/unless}}
+    };
+    {{/each}}
+  } // AugmentedCalls
+} // declare module

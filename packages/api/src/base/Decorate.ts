@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DecoratedCall, DefinitionCallNamed, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
+import type { AugmentedCall, DefinitionCallNamed, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -416,11 +416,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateCalls<ApiType extends ApiTypes> (registry: Registry, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result: QueryableCalls<ApiType> = {};
 
-    if (!this._options.calls) {
+    if (!this._options.runtime) {
       return result;
     }
 
-    const available = Object.entries(this._options.calls);
+    const available = Object.entries(this._options.runtime);
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
 
     for (let i = 0; i < available.length; i++) {
@@ -459,7 +459,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return result;
   }
 
-  protected _decorateCall<ApiType extends ApiTypes> (registry: Registry, def: DefinitionCallNamed, stateCall: (method: string, bytes: Uint8Array) => Observable<Codec>, decorateMethod: DecorateMethod<ApiType>): DecoratedCall<ApiType> {
+  protected _decorateCall<ApiType extends ApiTypes> (registry: Registry, def: DefinitionCallNamed, stateCall: (method: string, bytes: Uint8Array) => Observable<Codec>, decorateMethod: DecorateMethod<ApiType>): AugmentedCall<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const decorated = decorateMethod((...args: unknown[]): Observable<Codec> => {
       if (args.length !== def.params.length) {
@@ -475,7 +475,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       );
     });
 
-    (decorated as DecoratedCall<ApiType>).meta = def;
+    (decorated as AugmentedCall<ApiType>).meta = def;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorated;

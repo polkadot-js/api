@@ -37,10 +37,6 @@ export interface ApiInterfaceRx extends ApiInterfaceBase {
 
 export interface ApiOptions extends RegisteredTypes {
   /**
-   * @description Overrides for state_call usage (this will be removed in some future version)
-   */
-  calls?: Record<string, DefinitionCall>;
-  /**
    * @description Add custom derives to be injected
    */
   derives?: DeriveCustom;
@@ -66,6 +62,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description User-defined RPC methods
    */
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  /**
+   * @description Overrides for state_call usage (this will be removed in some future version)
+   */
+  runtime?: Record<string, DefinitionCall>;
   /**
    * @description Any chain-specific signed extensions that are now well-known
    */
