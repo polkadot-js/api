@@ -7,7 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedCalls, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { assertReturn } from '@polkadot/util';
 
@@ -25,7 +25,7 @@ function assertResult<T> (value: T | undefined): T {
 }
 
 export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> implements ApiDecoration<ApiType> {
-  public get calls (): DecoratedCalls<ApiType> {
+  public get calls (): QueryableCalls<ApiType> {
     return assertResult(this._calls);
   }
 

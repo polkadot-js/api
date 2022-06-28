@@ -7,7 +7,7 @@ import '@polkadot/api-augment';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
-import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index, SetId } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -20,13 +20,10 @@ const registry = new TypeRegistry();
 
 async function calls (api: ApiPromise): Promise<void> {
   // it allows defaults
-  const testSetId = await api.calls('__TestApi_current_set_id');
+  const testSetId = await api.calls.grandpaApi.currentSetId<SetId>();
 
   // it allows type overrides
-  const testSetIdO = await api.calls<AccountId>('__TestApi_current_set_id');
-
-  // it allows an unknown
-  await api.calls('SomeOtherApi_blah');
+  const testSetIdO = await api.calls.grandpaApi.currentSetId<AccountId>();
 
   console.log(testSetId.toNumber(), testSetIdO.isAscii);
 }
