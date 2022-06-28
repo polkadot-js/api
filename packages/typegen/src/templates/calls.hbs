@@ -8,13 +8,13 @@ declare module '@polkadot/api-base/types/calls' {
     {{{name}}}: {
       {{#each items}}
       {{> docs}}
-      {{{name}}}: AugmentedCall<ApiType, ({{{params}}}) => Observable<{{{returnType}}}>>;
+      {{{name}}}: AugmentedCall<ApiType, ({{{params}}}) => Observable<{{{type}}}>>;
       {{/each}}
       {{#unless @root.isStrict}}
       /**
        * Generic call
        **/
-      [key: string]: AugmentedCall<ApiType>;
+      [key: string]: DecoratedCallBase<ApiType>;
       {{/unless}}
     };
     {{/each}}

@@ -34,6 +34,13 @@ export default {
       type: 'JustificationNotification'
     }
   },
+  runtime: {
+    // GrandpaApi_current_set_id: {
+    //   description: 'Retrieves the current set id',
+    //   params: [],
+    //   type: 'SetId'
+    // }
+  },
   types: {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',

@@ -27,5 +27,8 @@ export function main (): void {
     generateDefaultEvents(`${BASE}/${name}/events.ts`, staticMeta);
     generateDefaultQuery(`${BASE}/${name}/query.ts`, staticMeta);
     generateDefaultTx(`${BASE}/${name}/tx.ts`, staticMeta);
+
+    // Since we ship nothing (yet) by default, we skip this
+    // generateDefaultCalls(`${BASE}/${name}/runtime.ts`);
   }
 }

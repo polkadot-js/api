@@ -34,6 +34,7 @@
     "@babel/register": "^7.17.7",
     "@babel/runtime": "^7.18.3",
     "@polkadot/api": "8.10.1",
+    "@polkadot/api-base": "8.10.1",
     "@polkadot/api-augment": "8.10.1",
     "@polkadot/rpc-augment": "8.10.1",
     "@polkadot/rpc-provider": "8.10.1",
