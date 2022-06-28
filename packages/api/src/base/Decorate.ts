@@ -414,7 +414,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   // pre-metadata decoration
   protected _decorateCalls<ApiType extends ApiTypes> (registry: Registry, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
-    const result: QueryableCalls<ApiType> = {};
+    const result = {} as QueryableCalls<ApiType>;
 
     if (!this._options.runtime) {
       return result;
