@@ -475,7 +475,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       );
     });
 
-    (decorated as { meta: DefinitionCallNamed }).meta = def;
+    (decorated as DecoratedCall<ApiType>).meta = def;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorated;

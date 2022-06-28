@@ -31,10 +31,13 @@ export type CallResultType<ApiType extends ApiTypes, M, T> =
       ? ModuleCallsResult<ApiType>[M]
       : Codec;
 
-export type DecoratedCall<ApiType extends ApiTypes, M extends string = string> =
+export type DecoratedCallBase<ApiType extends ApiTypes, M extends string> =
   ApiType extends 'rxjs'
     ? <T extends Codec | null = null> (...args: readonly unknown[]) => Observable<CallResultType<ApiType, M, T>>
     : <T extends Codec | null = null> (...args: readonly unknown[]) => Promise<CallResultType<ApiType, M, T>>;
+
+export type DecoratedCall<ApiType extends ApiTypes, M extends string = string> =
+DecoratedCallBase<ApiType, M> & { meta: DefinitionCall };
 
 export interface DefinitionCall {
   description: string;
