@@ -25,8 +25,11 @@ function assertResult<T> (value: T | undefined): T {
 }
 
 export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> implements ApiDecoration<ApiType> {
-  public get calls (): QueryableCalls<ApiType> {
-    return assertResult(this._calls);
+  /**
+   * @description Runtime call interfaces (currently untyped, only decorated via API options)
+   */
+  public get runtime (): QueryableCalls<ApiType> {
+    return assertResult(this._runtime);
   }
 
   /**

@@ -66,7 +66,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
-  protected _calls?: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
+  protected _runtime: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
 
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
@@ -208,12 +208,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _emptyDecorated (registry: Registry, blockHash?: Uint8Array): ApiDecoration<ApiType> {
     return {
-      calls: {},
       consts: {},
       errors: {},
       events: {},
       query: {},
       registry,
+      runtime: {},
       rx: {
         query: {}
       },
@@ -230,7 +230,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
-    const calls = this._decorateCalls(registry.registry, this._decorateMethod, blockHash);
+    const runtime = this._decorateCalls(registry.registry, this._decorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
@@ -241,7 +241,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
-    augmentObject('calls', calls, decoratedApi.calls, fromEmpty);
+    augmentObject('runtime', runtime, decoratedApi.runtime, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
       findCall(registry.registry, callIndex);
@@ -266,7 +266,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
 
-    this._calls = decoratedApi.calls;
+    this._runtime = decoratedApi.runtime;
     this._consts = decoratedApi.consts;
     this._errors = decoratedApi.errors;
     this._events = decoratedApi.events;
