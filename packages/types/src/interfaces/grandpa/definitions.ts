@@ -35,11 +35,11 @@ export default {
     }
   },
   runtime: {
-    // GrandpaApi_current_set_id: {
-    //   description: 'Retrieves the current set id',
-    //   params: [],
-    //   type: 'SetId'
-    // }
+    GrandpaApi_current_set_id: {
+      description: 'Retrieves the current set id',
+      params: [],
+      type: 'SetId'
+    }
   },
   types: {
     AuthorityIndex: 'u64',
