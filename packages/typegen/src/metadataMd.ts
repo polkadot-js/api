@@ -138,10 +138,10 @@ function addRpc (): string {
       .reduce((all: Section[], _sectionName): Section[] => {
         const section = definitions[_sectionName as 'babe'];
 
-        Object.keys(section.rpc)
+        Object.keys(section.rpc || {})
           .sort()
           .forEach((methodName) => {
-            const method = section.rpc[methodName];
+            const method = (section.rpc || {})[methodName];
             const sectionName = method.aliasSection || _sectionName;
             const topName = method.aliasSection ? `${_sectionName}/${method.aliasSection}` : _sectionName;
             let container = all.find(({ name }) => name === topName);
