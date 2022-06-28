@@ -438,12 +438,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         named[section] = {};
       }
 
-      named[section][method] = objectSpread({ name }, def);
+      named[section][method] = objectSpread({ method, name, section }, def);
     }
 
     const stateCall = blockHash
-      ? (method: string, bytes: Uint8Array) => this._rpcCore.state.call(method, bytes, blockHash)
-      : (method: string, bytes: Uint8Array) => this._rpcCore.state.call(method, bytes);
+      ? (name: string, bytes: Uint8Array) => this._rpcCore.state.call(name, bytes, blockHash)
+      : (name: string, bytes: Uint8Array) => this._rpcCore.state.call(name, bytes);
 
     const lazySection = (section: string) =>
       lazyMethods({}, Object.keys(named[section]), (method: string) =>
@@ -460,8 +460,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   protected _decorateCall<ApiType extends ApiTypes> (registry: Registry, def: DefinitionCallNamed, stateCall: (method: string, bytes: Uint8Array) => Observable<Codec>, decorateMethod: DecorateMethod<ApiType>): DecoratedCall<ApiType> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return decorateMethod((...args: unknown[]): Observable<Codec> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const decorated = decorateMethod((...args: unknown[]): Observable<Codec> => {
       if (args.length !== def.params.length) {
         throw new Error(`${def.name}:: Expected ${def.params.length} arguments, found ${args.length}`);
       }
@@ -474,6 +474,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         map((r) => registry.createTypeUnsafe(def.type, [r]))
       );
     });
+
+    (decorated as { meta: DefinitionCallNamed }).meta = def;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return decorated;
   }
 
   // only be called if supportMulti is true

@@ -21,7 +21,7 @@ export interface QueryableCalls<ApiType extends ApiTypes> extends AugmentedCalls
 }
 
 export interface QueryableModuleCalls<ApiType extends ApiTypes> {
-  [key: string]: DecoratedCall<ApiType>;
+  [key: string]: DecoratedCall<ApiType> & { meta: DefinitionCall };
 }
 
 export type CallResultType<ApiType extends ApiTypes, M, T> =
@@ -37,10 +37,13 @@ export type DecoratedCall<ApiType extends ApiTypes, M extends string = string> =
     : <T extends Codec | null = null> (...args: readonly unknown[]) => Promise<CallResultType<ApiType, M, T>>;
 
 export interface DefinitionCall {
+  description: string;
   params: string[];
   type: string;
 }
 
 export interface DefinitionCallNamed extends DefinitionCall {
+  method: string;
   name: string;
+  section: string;
 }
