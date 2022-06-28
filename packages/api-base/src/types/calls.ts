@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AnyFunction, Codec } from '@polkadot/types/types';
+import type { AnyFunction, Codec, DefinitionCall } from '@polkadot/types/types';
 import type { ApiTypes, ReturnCodec } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
@@ -26,12 +26,6 @@ export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction> =
 
 export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: unknown[]) => Observable<Codec>> =
 DecoratedCallBase<ApiType, F> & { meta: DefinitionCallNamed };
-
-export interface DefinitionCall {
-  description: string;
-  params: string[];
-  type: string;
-}
 
 export interface DefinitionCallNamed extends DefinitionCall {
   method: string;

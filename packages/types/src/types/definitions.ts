@@ -42,15 +42,29 @@ export interface DefinitionRpcExt extends DefinitionRpc {
   section: string;
 }
 
+export interface DefinitionCallParam {
+  name: string;
+  type: DefinitionTypeType;
+}
+
+export interface DefinitionCall {
+  description: string;
+  params: DefinitionCallParam[];
+  type: DefinitionTypeType;
+}
+
 export interface DefinitionRpcSub extends DefinitionRpc {
   pubsub: [string, string, string];
 }
 
 export type DefinitionsRpc = Record<string, DefinitionRpc | DefinitionRpcSub>;
 
+export type DefinitionsCall = Record<string, DefinitionCall>;
+
 export type DefinitionsTypes = Record<string, DefinitionType>;
 
 export interface Definitions {
-  rpc: DefinitionsRpc;
+  rpc?: DefinitionsRpc;
+  runtime?: DefinitionsCall;
   types: DefinitionsTypes;
 }

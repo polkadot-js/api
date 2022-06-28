@@ -467,7 +467,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       }
 
       const bytes = registry.createType('Raw', u8aConcatStrict(
-        args.map((a, i) => registry.createTypeUnsafe(def.params[i], [a]).toU8a())
+        args.map((a, i) => registry.createTypeUnsafe(def.params[i].type, [a]).toU8a())
       ));
 
       return stateCall(def.name, bytes).pipe(
