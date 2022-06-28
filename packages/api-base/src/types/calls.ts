@@ -2,13 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Codec } from '@polkadot/types/types';
-import type { ApiTypes } from './base';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface ModuleCallsResult<ApiType extends ApiTypes> {
-  [key: string]: Codec;
-}
+import type { AnyFunction, Codec } from '@polkadot/types/types';
+import type { ApiTypes, ReturnCodec } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
 export interface AugmentedCalls<ApiType extends ApiTypes> {
@@ -21,23 +16,16 @@ export interface QueryableCalls<ApiType extends ApiTypes> extends AugmentedCalls
 }
 
 export interface QueryableModuleCalls<ApiType extends ApiTypes> {
-  [key: string]: DecoratedCall<ApiType> & { meta: DefinitionCall };
+  [key: string]: AugmentedCall<ApiType>;
 }
 
-export type CallResultType<ApiType extends ApiTypes, M, T> =
-  T extends Codec
-    ? T
-    : M extends keyof ModuleCallsResult<ApiType>
-      ? ModuleCallsResult<ApiType>[M]
-      : Codec;
-
-export type DecoratedCallBase<ApiType extends ApiTypes, M extends string> =
+export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction> =
   ApiType extends 'rxjs'
-    ? <T extends Codec | null = null> (...args: readonly unknown[]) => Observable<CallResultType<ApiType, M, T>>
-    : <T extends Codec | null = null> (...args: readonly unknown[]) => Promise<CallResultType<ApiType, M, T>>;
+    ? <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Observable<T>
+    : <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Promise<T>;
 
-export type DecoratedCall<ApiType extends ApiTypes, M extends string = string> =
-DecoratedCallBase<ApiType, M> & { meta: DefinitionCall };
+export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: unknown[]) => Observable<Codec>> =
+DecoratedCallBase<ApiType, F> & { meta: DefinitionCallNamed };
 
 export interface DefinitionCall {
   description: string;
