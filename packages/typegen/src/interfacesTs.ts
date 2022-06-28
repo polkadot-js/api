@@ -27,6 +27,6 @@ export function main (): void {
     generateDefaultEvents(`${BASE}/${name}/events.ts`, staticMeta);
     generateDefaultQuery(`${BASE}/${name}/query.ts`, staticMeta);
     generateDefaultTx(`${BASE}/${name}/tx.ts`, staticMeta);
-    generateDefaultCalls(`${BASE}/${name}/runtime.ts`);
+    generateDefaultCalls(`${BASE}/${name}/runtime.ts`, staticMeta);
   }
 }

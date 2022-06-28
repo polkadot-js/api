@@ -4,12 +4,13 @@
 import type { DefinitionCallNamed } from '@polkadot/api-base/types';
 import type { TypeRegistry } from '@polkadot/types/create';
 import type { Definitions } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
-import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
+import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { objectSpread, stringCamelCase } from '@polkadot/util';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
@@ -51,9 +52,18 @@ function getDefs (defs: Record<string, Definitions>): Record<string, Record<stri
 }
 
 /** @internal */
-export function generateCallTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
+export function generateCallTypes (registry: TypeRegistry, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
-    const allTypes: ExtraTypes = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
+    const allTypes: ExtraTypes = {
+      '@polkadot/types-augment': {
+        lookup: {
+          ...lookupDefinitions,
+          ...customLookupDefinitions
+        }
+      },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
@@ -112,14 +122,14 @@ export function generateCallTypes (registry: TypeRegistry, importDefinitions: Re
   });
 }
 
-export function generateDefaultCalls (dest: string, definitions: Record<string, Definitions> = defaultDefinitions, extraTypes: ExtraTypes = {}, isStrict = false): void {
-  const { registry } = initMeta(staticSubstrate, extraTypes);
+export function generateDefaultCalls (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+  const { registry } = initMeta(data, extraTypes);
 
   generateCallTypes(
     registry,
-    definitions,
     dest,
     extraTypes,
-    isStrict
+    isStrict,
+    customLookupDefinitions
   );
 }
