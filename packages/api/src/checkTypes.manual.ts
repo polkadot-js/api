@@ -228,12 +228,13 @@ function types (api: ApiPromise): void {
   const compact = registry.createType('Compact<u32>', 2);
   const f32 = registry.createType('f32');
   const u32 = registry.createType('u32');
+  const raw = registry.createType('Raw');
   // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'));
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'), raw.subarray(0, 10));
 }
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {

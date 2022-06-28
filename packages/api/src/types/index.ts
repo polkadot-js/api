@@ -3,7 +3,7 @@
 
 import type { ApiTypes, DefinitionCall, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { ApiInterfaceRx as ApiInterfaceBase } from '@polkadot/api-base/types/api';
-import type { DecoratedCalls } from '@polkadot/api-base/types/calls';
+import type { QueryableCalls } from '@polkadot/api-base/types/calls';
 import type { QueryableConsts } from '@polkadot/api-base/types/consts';
 import type { DecoratedErrors } from '@polkadot/api-base/types/errors';
 import type { DecoratedEvents } from '@polkadot/api-base/types/events';
@@ -96,7 +96,7 @@ export interface SignerOptions extends SignatureOptions {
 }
 
 export interface ApiDecoration<ApiType extends ApiTypes> {
-  calls: DecoratedCalls<ApiType>;
+  calls: QueryableCalls<ApiType>;
   consts: QueryableConsts<ApiType>;
   errors: DecoratedErrors<ApiType>;
   events: DecoratedEvents<ApiType>;
