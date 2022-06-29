@@ -6,41 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    localStorageSet: {
-      description: 'Set offchain local storage under given key and prefix',
-      params: [
-        {
-          name: 'kind',
-          type: 'StorageKind'
-        },
-        {
-          name: 'key',
-          type: 'Bytes'
-        },
-        {
-          name: 'value',
-          type: 'Bytes'
-        }
-      ],
-      type: 'Null'
-    },
-    localStorageGet: {
-      description: 'Get offchain local storage under given key and prefix',
-      params: [
-        {
-          name: 'kind',
-          type: 'StorageKind'
-        },
-        {
-          name: 'key',
-          type: 'Bytes'
-        }
-      ],
-      type: 'Option<Bytes>'
-    }
-  },
+  rpc,
   types: {
     StorageKind: {
       _enum: {

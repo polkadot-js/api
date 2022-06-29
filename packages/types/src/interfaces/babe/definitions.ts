@@ -6,14 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    epochAuthorship: {
-      description: 'Returns data about which slots (primary or secondary) can be claimed in the current epoch with the keys in the keystore',
-      params: [],
-      type: 'HashMap<AuthorityId, EpochAuthorship>'
-    }
-  },
+  rpc,
   types: {
     AllowedSlots: {
       _enum: ['PrimarySlots', 'PrimaryAndSecondaryPlainSlots', 'PrimaryAndSecondaryVRFSlots']
