@@ -30,7 +30,7 @@ function getDefs (defs: Record<string, Definitions>): Record<string, Record<stri
 
       for (let i = 0; i < sections.length; i++) {
         const [_section, sec] = sections[i];
-        const methods = Object.entries(sec.methods);
+        const methods = Object.entries(sec[0].methods);
 
         if (methods.length) {
           const section = stringCamelCase(_section);

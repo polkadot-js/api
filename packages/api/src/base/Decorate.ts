@@ -20,6 +20,7 @@ import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -230,7 +231,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
-    const runtime = this._decorateCalls(registry.registry, this._decorateMethod, blockHash);
+    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
@@ -413,7 +414,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // pre-metadata decoration
-  protected _decorateCalls<ApiType extends ApiTypes> (registry: Registry, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
 
     if (!this._options.runtime) {
@@ -424,20 +425,33 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const sections = Object.entries(this._options.runtime);
 
     for (let i = 0; i < sections.length; i++) {
-      const [_section, sec] = sections[i];
-      const section = stringCamelCase(_section);
+      const [_section, secs] = sections[i];
+      const sectionHash = blake2AsU8a(_section, 64);
+      const rtApi = apis.find(([a]) => a.eq(sectionHash));
 
-      if (!named[section]) {
-        named[section] = {};
-      }
+      if (rtApi) {
+        const sec = secs.find(({ version = 1 }) => rtApi[1].eq(version));
 
-      const methods = Object.entries(sec.methods);
+        if (sec) {
+          const section = stringCamelCase(_section);
 
-      for (let m = 0; m < methods.length; m++) {
-        const [_method, def] = methods[m];
-        const method = stringCamelCase(_method);
+          if (!named[section]) {
+            named[section] = {};
+          }
 
-        named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section }, def);
+          const methods = Object.entries(sec.methods);
+
+          for (let m = 0; m < methods.length; m++) {
+            const [_method, def] = methods[m];
+            const method = stringCamelCase(_method);
+
+            named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash, version: 1 }, def);
+          }
+        } else {
+          l.warn(`Not decorating runtime ${_section}, unable to find version ${rtApi[1].toString()}`);
+        }
+      } else {
+        l.warn(`Not decorating runtime ${_section}, not found in available apis`);
       }
     }
 

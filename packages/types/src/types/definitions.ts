@@ -62,7 +62,7 @@ export type DefinitionsRpc = Record<string, DefinitionRpc | DefinitionRpcSub>;
 export type DefinitionsCall = Record<string, {
   methods: Record<string, DefinitionCall>;
   version?: number;
-}>;
+}[]>;
 
 export type DefinitionsTypes = Record<string, DefinitionType>;
 
