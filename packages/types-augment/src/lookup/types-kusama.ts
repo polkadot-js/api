@@ -6,7 +6,7 @@ declare module '@polkadot/types/lookup' {
   import type { ITuple } from '@polkadot/types-codec/types';
   import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
-  /** @name KusamaRuntimeProxyType (79) */
+  /** @name KusamaRuntimeProxyType (80) */
   export interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -19,7 +19,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
-  /** @name KusamaRuntimeSessionKeys (258) */
+  /** @name KusamaRuntimeSessionKeys (261) */
   export interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -29,7 +29,7 @@ declare module '@polkadot/types/lookup' {
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (332) */
+  /** @name KusamaRuntimeOriginCaller (335) */
   export interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
@@ -45,7 +45,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (398) */
+  /** @name KusamaRuntimeNposCompactSolution24 (401) */
   export interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -73,7 +73,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (774) */
+  /** @name KusamaRuntimeRuntime (779) */
   export type KusamaRuntimeRuntime = Null;
 
 } // declare module

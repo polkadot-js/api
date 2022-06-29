@@ -8,7 +8,7 @@ import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair
 import type { ExtrinsicSignatureOptions } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
-import { assert, isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
+import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
@@ -89,10 +89,6 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     return this.getT('nonce');
   }
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
@@ -169,7 +165,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    assert(account && account.addressRaw, () => `Expected a valid keypair for signing, found ${stringify(account)}`);
+    if (!account || !account.addressRaw) {
+      throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
+    }
 
     const payload = this.createPayload(method, options);
 
@@ -184,7 +182,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    assert(address, () => `Expected a valid address for signing, found ${stringify(address)}`);
+    if (!address) {
+      throw new Error(`Expected a valid address for signing, found ${stringify(address)}`);
+    }
 
     const payload = this.createPayload(method, options);
 

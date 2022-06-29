@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { GenericEthereumAccountId, GenericEthereumLookupSource } from '@polkadot/types';
-import type { Bytes, Enum, Option, Struct, U256, U64, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Option, Struct, U256, U64, U8aFixed, Vec, bool, f64, u32, u64 } from '@polkadot/types-codec';
 import type { BlockNumber, H160, H2048, H256, H64 } from '@polkadot/types/interfaces/runtime';
 
 /** @name BlockV0 */
@@ -112,6 +112,14 @@ export interface EthereumLookupSource extends GenericEthereumLookupSource {}
 
 /** @name EthereumSignature */
 export interface EthereumSignature extends U8aFixed {}
+
+/** @name EthFeeHistory */
+export interface EthFeeHistory extends Struct {
+  readonly oldestBlock: U256;
+  readonly baseFeePerGas: Vec<U256>;
+  readonly gasUsedRatio: Vec<f64>;
+  readonly reward: Option<Vec<Vec<U256>>>;
+}
 
 /** @name EthFilter */
 export interface EthFilter extends Struct {

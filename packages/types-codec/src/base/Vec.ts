@@ -4,9 +4,9 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { assert, compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
 
 const MAX_LENGTH = 64 * 1024;
@@ -30,7 +30,9 @@ function decodeVecLength (value: Uint8Array | HexString | unknown[]): [Uint8Arra
   const u8a = u8aToU8a(value);
   const [startAt, length] = compactFromU8aLim(u8a);
 
-  assert(length <= MAX_LENGTH, () => `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  if (length > MAX_LENGTH) {
+    throw new Error(`Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
+  }
 
   return [u8a, length, startAt];
 }
@@ -78,11 +80,11 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    const [decodedLength] = isU8a(decodeFrom)
-      ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
-      : decodeVec(registry, this, decodeFrom, startAt, this.#Type);
-
-    this.initialU8aLength = decodedLength;
+    this.initialU8aLength = (
+      isU8a(decodeFrom)
+        ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
+        : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
+    )[0];
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {

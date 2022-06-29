@@ -5,7 +5,7 @@ import type { Codec, CodecClass, Registry, U8aBitLength, UIntBitLength } from '@
 import type { TypeDef } from '../types';
 
 import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
-import { assert, isNumber, stringify } from '@polkadot/util';
+import { isNumber, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
 import { getTypeDef } from '../util/getTypeDef';
@@ -15,13 +15,17 @@ function getTypeDefType ({ lookupName, type }: TypeDef): string {
 }
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
-  assert(value.sub && Array.isArray(value.sub), () => `Expected subtype as TypeDef[] in ${stringify(value)}`);
+  if (!Array.isArray(value.sub)) {
+    throw new Error(`Expected subtype as TypeDef[] in ${stringify(value)}`);
+  }
 
   return value.sub;
 }
 
 function getSubDef (value: TypeDef): TypeDef {
-  assert(value.sub && !Array.isArray(value.sub), () => `Expected subtype as TypeDef in ${stringify(value)}`);
+  if (!value.sub || Array.isArray(value.sub)) {
+    throw new Error(`Expected subtype as TypeDef in ${stringify(value)}`);
+  }
 
   return value.sub;
 }
@@ -48,7 +52,9 @@ function getTypeClassArray (value: TypeDef): string[] {
 }
 
 function createInt (Clazz: typeof Int | typeof UInt, { displayName, length }: TypeDef): CodecClass<Codec> {
-  assert(isNumber(length), () => `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
+  if (!isNumber(length)) {
+    throw new Error(`Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
+  }
 
   return Clazz.with(length as UIntBitLength, displayName);
 }
@@ -116,7 +122,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     Null,
 
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): CodecClass<Codec> => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected type information for Option');
+    if (!value.sub || Array.isArray(value.sub)) {
+      throw new Error('Expected type information for Option');
+    }
 
     // NOTE This is opt-in (unhandled), not by default
     // if (value.sub.type === 'bool') {
@@ -165,7 +173,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     createInt(UInt, value),
 
   [TypeDefInfo.Vec]: (registry: Registry, { sub }: TypeDef): CodecClass<Codec> => {
-    assert(sub && !Array.isArray(sub), 'Expected type information for vector');
+    if (!sub || Array.isArray(sub)) {
+      throw new Error('Expected type information for vector');
+    }
 
     return (
       sub.type === 'u8'
@@ -175,7 +185,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): CodecClass<Codec> => {
-    assert(sub && isNumber(length) && !Array.isArray(sub), 'Expected length & type information for fixed vector');
+    if (!isNumber(length) || !sub || Array.isArray(sub)) {
+      throw new Error('Expected length & type information for fixed vector');
+    }
 
     return (
       sub.type === 'u8'
@@ -195,7 +207,9 @@ export function constructTypeClass<T extends Codec = Codec> (registry: Registry,
   try {
     const Type = infoMapping[typeDef.info](registry, typeDef);
 
-    assert(Type, 'No class created');
+    if (!Type) {
+      throw new Error('No class created');
+    }
 
     // don't clobber any existing
     if (!Type.__fallbackType && typeDef.fallbackType) {

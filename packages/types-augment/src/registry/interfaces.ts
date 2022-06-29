@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Data, StorageKey } from '@polkadot/types';
-import type { BitVec, Bool, Bytes, I128, I16, I256, I32, I64, I8, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
+import type { BitVec, Bool, Bytes, F32, F64, I128, I16, I256, I32, I64, I8, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, f32, f64, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -10,7 +10,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeWeight, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
-import type { BeefyCommitment, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyCommitment, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefyPayloadId, BeefySignedCommitment, MmrRootHash, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BridgeMessageId, BridgedBlockHash, BridgedBlockNumber, BridgedHeader, CallOrigin, ChainId, DeliveredMessages, DispatchFeePayment, InboundLaneData, InboundRelayer, InitializationData, LaneId, MessageData, MessageKey, MessageNonce, MessagesDeliveryProofOf, MessagesProofOf, OperatingMode, OutboundLaneData, OutboundMessageFee, OutboundPayload, Parameter, RelayerId, UnrewardedRelayer, UnrewardedRelayersState } from '@polkadot/types/interfaces/bridges';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
@@ -25,7 +25,7 @@ import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, De
 import type { BlockStats } from '@polkadot/types/interfaces/dev';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
-import type { BlockV0, BlockV1, BlockV2, EIP1559Transaction, EIP2930Transaction, EthAccessList, EthAccessListItem, EthAccount, EthAddress, EthBlock, EthBloom, EthCallRequest, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumAddress, EthereumLookupSource, EthereumSignature, LegacyTransaction, TransactionV0, TransactionV1, TransactionV2 } from '@polkadot/types/interfaces/eth';
+import type { BlockV0, BlockV1, BlockV2, EIP1559Transaction, EIP2930Transaction, EthAccessList, EthAccessListItem, EthAccount, EthAddress, EthBlock, EthBloom, EthCallRequest, EthFeeHistory, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumAddress, EthereumLookupSource, EthereumSignature, LegacyTransaction, TransactionV0, TransactionV1, TransactionV2 } from '@polkadot/types/interfaces/eth';
 import type { EvmAccount, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Era, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
@@ -34,7 +34,7 @@ import type { AuthorityIndex, AuthorityList, AuthoritySet, AuthoritySetChange, A
 import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityInfoTo198, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement, RegistrationTo198 } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
-import type { ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV14, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV14, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV14, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV14, FunctionMetadataV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, PalletCallMetadataLatest, PalletCallMetadataV14, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletEventMetadataLatest, PalletEventMetadataV14, PalletMetadataLatest, PalletMetadataV14, PalletStorageMetadataLatest, PalletStorageMetadataV14, PortableType, PortableTypeV14, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
+import type { ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV14, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV14, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV14, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV14, FunctionMetadataV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, OpaqueMetadata, PalletCallMetadataLatest, PalletCallMetadataV14, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletEventMetadataLatest, PalletEventMetadataV14, PalletMetadataLatest, PalletMetadataV14, PalletStorageMetadataLatest, PalletStorageMetadataV14, PortableType, PortableTypeV14, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9 } from '@polkadot/types/interfaces/metadata';
 import type { MmrLeafBatchProof, MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { DeferredOffenceOf, Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
@@ -141,6 +141,7 @@ declare module '@polkadot/types/types/registry' {
     BeefyKey: BeefyKey;
     BeefyNextAuthoritySet: BeefyNextAuthoritySet;
     BeefyPayload: BeefyPayload;
+    BeefyPayloadId: BeefyPayloadId;
     BeefySignedCommitment: BeefySignedCommitment;
     Bid: Bid;
     Bidder: Bidder;
@@ -360,6 +361,7 @@ declare module '@polkadot/types/types/registry' {
     EthereumAddress: EthereumAddress;
     EthereumLookupSource: EthereumLookupSource;
     EthereumSignature: EthereumSignature;
+    EthFeeHistory: EthFeeHistory;
     EthFilter: EthFilter;
     EthFilterAddress: EthFilterAddress;
     EthFilterChanges: EthFilterChanges;
@@ -424,6 +426,10 @@ declare module '@polkadot/types/types/registry' {
     ExtrinsicsWeight: ExtrinsicsWeight;
     ExtrinsicUnknown: ExtrinsicUnknown;
     ExtrinsicV4: ExtrinsicV4;
+    f32: f32;
+    F32: F32;
+    f64: f64;
+    F64: F64;
     FeeDetails: FeeDetails;
     Fixed128: Fixed128;
     Fixed64: Fixed64;
@@ -651,6 +657,7 @@ declare module '@polkadot/types/types/registry' {
     OffenceDetails: OffenceDetails;
     Offender: Offender;
     OpaqueCall: OpaqueCall;
+    OpaqueMetadata: OpaqueMetadata;
     OpaqueMultiaddr: OpaqueMultiaddr;
     OpaqueNetworkState: OpaqueNetworkState;
     OpaquePeerId: OpaquePeerId;

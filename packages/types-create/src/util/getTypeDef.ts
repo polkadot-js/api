@@ -1,10 +1,11 @@
 // Copyright 2017-2022 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
-import { assert, isNumber, isString, objectSpread } from '@polkadot/util';
+import { isNumber, isString, objectSpread } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
 import { typeSplit } from './typeSplit';
@@ -14,7 +15,6 @@ interface TypeDefOptions {
   displayName?: string;
 }
 
-const MAX_NESTED = 64;
 const KNOWN_INTERNALS = ['_alias', '_fallback'];
 
 function getTypeString (typeOrObj: any): string {
@@ -27,7 +27,9 @@ function isRustEnum (details: Record<string, string> | Record<string, number>): 
   const values = Object.values(details);
 
   if (values.some((v) => isNumber(v))) {
-    assert(values.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+    if (!values.every((v) => isNumber(v) && v >= 0 && v <= 255)) {
+      throw new Error('Invalid number-indexed enum definition');
+    }
 
     return false;
   }
@@ -102,9 +104,11 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
     ? new Map(Object.entries(parsed._alias))
     : undefined;
   value.fallbackType = parsed._fallback;
-  value.sub = keys.filter((name) => !KNOWN_INTERNALS.includes(name)).map((name): TypeDef =>
-    getTypeDef(getTypeString(parsed[name]), { name }, count)
-  );
+  value.sub = keys
+    .filter((name) => !KNOWN_INTERNALS.includes(name))
+    .map((name) =>
+      getTypeDef(getTypeString(parsed[name]), { name }, count)
+    );
 
   return value;
 }
@@ -117,23 +121,40 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   let inner = 0;
 
   for (let i = 1; (i < max) && (index === -1); i++) {
-    if (type[i] === ';' && inner === 0) {
-      index = i;
-    } else if (['[', '(', '<'].includes(type[i])) {
-      inner++;
-    } else if ([']', ')', '>'].includes(type[i])) {
-      inner--;
+    switch (type[i]) {
+      case ';': {
+        if (inner === 0) {
+          index = i;
+        }
+
+        break;
+      }
+
+      case '[':
+      case '(':
+      case '<':
+        inner++;
+        break;
+
+      case ']':
+      case ')':
+      case '>':
+        inner--;
+        break;
     }
   }
 
-  assert(index !== -1, () => `${type}: Unable to extract location of ';'`);
+  if (index === -1) {
+    throw new Error(`${type}: Unable to extract location of ';'`);
+  }
 
   const vecType = type.substring(1, index);
   const [strLength, displayName] = type.substring(index + 1, max).split(';');
   const length = parseInt(strLength.trim(), 10);
 
-  // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 256, () => `${type}: Only support for [Type; <length>], where length <= 256`);
+  if (length > 2048) {
+    throw new Error(`${type}: Only support for [Type; <length>], where length <= 2048`);
+  }
 
   value.displayName = displayName;
   value.length = length;
@@ -157,8 +178,9 @@ function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 
   const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
 
-  // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 8192 && (length % 8) === 0, () => `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
+  if ((length > 8192) || (length % 8)) {
+    throw new Error(`${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
+  }
 
   value.displayName = displayName;
   value.length = length;
@@ -216,13 +238,14 @@ function extractSubType (type: string, [start, end]: [string, string, TypeDefInf
   return type.substring(start.length, type.length - end.length);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function getTypeDef (_type: String | string, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
+export function getTypeDef (_type: AnyString, { displayName, name }: TypeDefOptions = {}, count = 0): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { displayName, info: TypeDefInfo.Plain, name, type };
 
-  assert(++count !== MAX_NESTED, 'getTypeDef: Maximum nested limit reached');
+  if (++count > 64) {
+    throw new Error('getTypeDef: Maximum nested limit reached');
+  }
 
   const nested = nestedExtraction.find((nested) => hasWrapper(type, nested));
 

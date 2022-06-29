@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveCustom } from '@polkadot/api-base/types';
+import type { AugmentedCall, DefinitionCallNamed, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -19,7 +19,8 @@ import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, TypeRegistry, unwrapStorageType } from '@polkadot/types';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
 import { augmentObject } from '../util/augmentObject';
@@ -65,6 +66,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
+
+  protected _runtime: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
 
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
@@ -211,6 +214,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       events: {},
       query: {},
       registry,
+      runtime: {},
       rx: {
         query: {}
       },
@@ -227,14 +231,18 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
+    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
+
+    // TODO Once we actually have metadata, we would like to decorate the actual calls object
 
     augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
     augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
     augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
+    augmentObject('runtime', runtime, decoratedApi.runtime, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
       findCall(registry.registry, callIndex);
@@ -259,6 +267,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
 
+    this._runtime = decoratedApi.runtime;
     this._consts = decoratedApi.consts;
     this._errors = decoratedApi.errors;
     this._events = decoratedApi.events;
@@ -402,6 +411,88 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     return out as DecoratedRpc<ApiType, RpcInterface>;
+  }
+
+  // pre-metadata decoration
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
+    const result = {} as QueryableCalls<ApiType>;
+
+    if (!this._options.runtime) {
+      return result;
+    }
+
+    const named: Record<string, Record<string, DefinitionCallNamed>> = {};
+    const sections = Object.entries(this._options.runtime);
+
+    for (let i = 0; i < sections.length; i++) {
+      const [_section, secs] = sections[i];
+      const sectionHash = blake2AsU8a(_section, 64);
+      const rtApi = apis.find(([a]) => a.eq(sectionHash));
+
+      if (rtApi) {
+        const sec = secs.find(({ version = 1 }) => rtApi[1].eq(version));
+
+        if (sec) {
+          const section = stringCamelCase(_section);
+
+          if (!named[section]) {
+            named[section] = {};
+          }
+
+          const methods = Object.entries(sec.methods);
+
+          for (let m = 0; m < methods.length; m++) {
+            const [_method, def] = methods[m];
+            const method = stringCamelCase(_method);
+
+            named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash, version: 1 }, def);
+          }
+        } else {
+          l.warn(`Not decorating runtime ${_section}, unable to find version ${rtApi[1].toString()}`);
+        }
+      } else {
+        l.warn(`Not decorating runtime ${_section}, not found in available apis`);
+      }
+    }
+
+    const stateCall = blockHash
+      ? (name: string, bytes: Uint8Array) => this._rpcCore.state.call(name, bytes, blockHash)
+      : (name: string, bytes: Uint8Array) => this._rpcCore.state.call(name, bytes);
+
+    const lazySection = (section: string) =>
+      lazyMethods({}, Object.keys(named[section]), (method: string) =>
+        this._decorateCall(registry, named[section][method], stateCall, decorateMethod)
+      );
+
+    const modules = Object.keys(named);
+
+    for (let i = 0; i < modules.length; i++) {
+      lazyMethod(result, modules[i], lazySection);
+    }
+
+    return result;
+  }
+
+  protected _decorateCall<ApiType extends ApiTypes> (registry: Registry, def: DefinitionCallNamed, stateCall: (method: string, bytes: Uint8Array) => Observable<Codec>, decorateMethod: DecorateMethod<ApiType>): AugmentedCall<ApiType> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const decorated = decorateMethod((...args: unknown[]): Observable<Codec> => {
+      if (args.length !== def.params.length) {
+        throw new Error(`${def.name}:: Expected ${def.params.length} arguments, found ${args.length}`);
+      }
+
+      const bytes = registry.createType('Raw', u8aConcatStrict(
+        args.map((a, i) => registry.createTypeUnsafe(def.params[i].type, [a]).toU8a())
+      ));
+
+      return stateCall(def.name, bytes).pipe(
+        map((r) => registry.createTypeUnsafe(def.type, [r]))
+      );
+    });
+
+    (decorated as AugmentedCall<ApiType>).meta = def;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return decorated;
   }
 
   // only be called if supportMulti is true

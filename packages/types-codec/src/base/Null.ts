@@ -12,6 +12,10 @@ import { isNull } from '@polkadot/util';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
+  public readonly encodedLength = 0;
+
+  public readonly isEmpty = true;
+
   public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
@@ -24,24 +28,10 @@ export class Null implements Codec {
   }
 
   /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return 0;
-  }
-
-  /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
     throw new Error('.hash is not implemented on Null');
-  }
-
-  /**
-   * @description Checks if the value is an empty value (always true)
-   */
-  public get isEmpty (): boolean {
-    return true;
   }
 
   /**
@@ -54,7 +44,7 @@ export class Null implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {};
   }
 

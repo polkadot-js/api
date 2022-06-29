@@ -164,6 +164,12 @@ const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
     data: 'Option<Bytes>',
     nonce: 'Option<U256>'
   },
+  EthFeeHistory: {
+    oldestBlock: 'U256',
+    baseFeePerGas: 'Vec<U256>',
+    gasUsedRatio: 'Vec<f64>',
+    reward: 'Option<Vec<Vec<U256>>>'
+  },
   EthFilter: {
     fromBlock: 'Option<BlockNumber>',
     toBlock: 'Option<BlockNumber>',

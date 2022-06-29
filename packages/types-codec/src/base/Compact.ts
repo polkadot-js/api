@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types';
 
-import { compactFromU8a, compactToU8a, isU8a } from '@polkadot/util';
+import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils';
 
@@ -16,6 +16,26 @@ interface Options<T> {
 
 function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
   return d;
+}
+
+function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
+  if (isU8a(value)) {
+    const [decodedLength, bn] = (value[0] & 0b11) < 0b11
+      ? compactFromU8aLim(value)
+      : compactFromU8a(value);
+
+    return [new Type(registry, bn), decodedLength];
+  } else if (value instanceof Compact) {
+    const raw = value.unwrap();
+
+    return raw instanceof Type
+      ? [raw, 0]
+      : [new Type(registry, raw), 0];
+  } else if (value instanceof Type) {
+    return [value, 0];
+  }
+
+  return [new Type(registry, value), 0];
 }
 
 /**
@@ -41,7 +61,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
-    const [raw, decodedLength] = Compact.decodeCompact<T>(registry, this.#Type, value);
+    const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
     this.initialU8aLength = decodedLength;
     this.#raw = raw;
@@ -59,21 +79,6 @@ export class Compact<T extends INumber> implements ICompact<T> {
         super(registry, Type, value, { definition, setDefinition });
       }
     };
-  }
-
-  /** @internal */
-  public static decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
-    if (isU8a(value)) {
-      const [decodedLength, bn] = compactFromU8a(value);
-
-      return [new Type(registry, bn), decodedLength];
-    } else if (value instanceof Compact) {
-      return [new Type(registry, value.#raw), 0];
-    } else if (value instanceof Type) {
-      return [value, 0];
-    }
-
-    return [new Type(registry, value), 0];
   }
 
   /**
@@ -118,7 +123,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

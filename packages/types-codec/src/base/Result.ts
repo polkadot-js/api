@@ -3,8 +3,6 @@
 
 import type { Codec, CodecClass, IResult, Registry } from '../types';
 
-import { assert } from '@polkadot/util';
-
 import { Enum } from './Enum';
 
 /**
@@ -31,7 +29,9 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
    * @description Returns the wrapper Err value (if isErr)
    */
   public get asErr (): E {
-    assert(this.isErr, 'Cannot extract Err value from Ok result, check isErr first');
+    if (!this.isErr) {
+      throw new Error('Cannot extract Err value from Ok result, check isErr first');
+    }
 
     return this.value as E;
   }
@@ -47,7 +47,9 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
    * @description Returns the wrapper Ok value (if isOk)
    */
   public get asOk (): O {
-    assert(this.isOk, 'Cannot extract Ok value from Err result, check isOk first');
+    if (!this.isOk) {
+      throw new Error('Cannot extract Ok value from Err result, check isOk first');
+    }
 
     return this.value as O;
   }

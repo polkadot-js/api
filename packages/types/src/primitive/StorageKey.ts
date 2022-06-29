@@ -9,7 +9,7 @@ import type { InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
 import { Bytes } from '@polkadot/types-codec';
-import { assert, isFunction, isString, isU8a } from '@polkadot/util';
+import { isFunction, isString, isU8a } from '@polkadot/util';
 
 import { getSiName } from '../metadata/util';
 
@@ -71,12 +71,16 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
   } else if (Array.isArray(value)) {
     const [fn, args = []] = value;
 
-    assert(isFunction(fn), 'Expected function input for key construction');
+    if (!isFunction(fn)) {
+      throw new Error('Expected function input for key construction');
+    }
 
     if (fn.meta && fn.meta.type.isMap) {
       const map = fn.meta.type.asMap;
 
-      assert(Array.isArray(args) && args.length === map.hashers.length, () => `Expected an array of ${map.hashers.length} values as params to a Map query`);
+      if (!Array.isArray(args) || args.length !== map.hashers.length) {
+        throw new Error(`Expected an array of ${map.hashers.length} values as params to a Map query`);
+      }
     }
 
     return {

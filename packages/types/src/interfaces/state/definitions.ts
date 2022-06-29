@@ -454,7 +454,8 @@ export default {
     },
     RuntimeVersionPartial: {
       specName: 'Text',
-      specVersion: 'u32'
+      specVersion: 'u32',
+      apis: 'Vec<RuntimeVersionApi>'
     },
     SpecVersion: 'u32',
     StorageChangeSet: {

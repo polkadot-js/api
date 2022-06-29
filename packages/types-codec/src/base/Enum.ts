@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { assert, isCodec, isHex, isNumber, isObject, isString, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -45,7 +45,9 @@ function isRustEnum (def: Record<string, string | CodecClass> | Record<string, n
   const defValues = Object.values(def);
 
   if (defValues.some((v) => isNumber(v))) {
-    assert(defValues.every((v) => isNumber(v) && v >= 0 && v <= 255), 'Invalid number-indexed enum definition');
+    if (!defValues.every((v) => isNumber(v) && v >= 0 && v <= 255)) {
+      throw new Error('Invalid number-indexed enum definition');
+    }
 
     return false;
   }
@@ -94,16 +96,37 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
   };
 }
 
-function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
-  const entry = Object.values(def).find((e) => e.index === index);
+function getEntryType (def: TypesDef, checkIdx: number): CodecClass {
+  const values = Object.values(def);
 
-  assert(!isUndefined(entry), () => `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+  for (let i = 0; i < values.length; i++) {
+    const { Type, index } = values[i];
+
+    if (index === checkIdx) {
+      return Type;
+    }
+  }
+
+  throw new Error(`Unable to create Enum via index ${checkIdx}, in ${Object.keys(def).join(', ')}`);
+}
+
+function createFromU8a (registry: Registry, def: TypesDef, index: number, value: Uint8Array): Decoded {
+  const Type = getEntryType(def, index);
 
   return {
     index,
-    value: isCodec(value) && value instanceof entry.Type
+    value: new Type(registry, value)
+  };
+}
+
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: unknown): Decoded {
+  const Type = getEntryType(def, index);
+
+  return {
+    index,
+    value: value instanceof Type
       ? value
-      : new entry.Type(registry, value)
+      : new Type(registry, value)
   };
 }
 
@@ -114,7 +137,9 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
   const keyLower = key.toLowerCase();
   const index = keys.indexOf(keyLower);
 
-  assert(index !== -1, () => `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+  if (index === -1) {
+    throw new Error(`Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+  }
 
   try {
     return createFromValue(registry, def, Object.values(def)[index].index, value);
@@ -133,7 +158,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
 
     // nested, we don't want to match isObject below
     if (u8a.length) {
-      return createFromValue(registry, def, u8a[0], u8a.subarray(1));
+      return createFromU8a(registry, def, u8a[0], u8a.subarray(1));
     }
   } else if (value instanceof Enum) {
     return createFromValue(registry, def, value.index, value.value);
@@ -181,7 +206,7 @@ export class Enum implements IEnum {
 
     // shortcut isU8a as used in SCALE decoding
     const decoded = isU8a(value) && value.length && !isNumber(index)
-      ? createFromValue(registry, def, value[0], value.subarray(1))
+      ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
     this.registry = registry;
@@ -189,7 +214,7 @@ export class Enum implements IEnum {
     this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
-    this.#entryIndex = this.#indexes.indexOf(decoded.index) || 0;
+    this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
@@ -205,7 +230,7 @@ export class Enum implements IEnum {
     const isKeys = new Array<string>(keys.length);
 
     for (let i = 0; i < keys.length; i++) {
-      const name = stringPascalCase(keys[i].replace(' ', '_'));
+      const name = stringPascalCase(keys[i]);
 
       asKeys[i] = `as${name}`;
       isKeys[i] = `is${name}`;
@@ -223,7 +248,9 @@ export class Enum implements IEnum {
 
         objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
         objectProperties(this, asKeys, (k, i): Codec => {
-          assert(this[isKeys[i] as keyof this], () => `Cannot convert '${this.type}' via ${k}`);
+          if (!this[isKeys[i] as keyof this]) {
+            throw new Error(`Cannot convert '${this.type}' via ${k}`);
+          }
 
           return this.value;
         });
@@ -329,7 +356,7 @@ export class Enum implements IEnum {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
-    } else if (isCodec(other) && other instanceof Enum) {
+    } else if (other instanceof Enum) {
       return this.index === other.index && this.value.eq(other.value);
     } else if (isObject(other)) {
       return this.value.eq(other[this.type]);
@@ -342,8 +369,8 @@ export class Enum implements IEnum {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
-    if (this.isBasic) {
+  public inspect (): Inspect {
+    if (this.#isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 

@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '
 
 import { compactFromU8aLim, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/AbstractArray';
+import { AbstractArray } from '../abstract/Array';
 import { Enum } from '../base/Enum';
 import { Struct } from '../native/Struct';
 import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
@@ -154,7 +154,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspect (): Inspect {
+  public inspect (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {

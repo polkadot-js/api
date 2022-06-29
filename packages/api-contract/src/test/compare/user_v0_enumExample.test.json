@@ -23,8 +23,8 @@
   {
     "info": "Enum",
     "lookupIndex": 4,
-    "lookupName": "EnumExampleEnumExampleVariant",
-    "type": "{\"_enum\":{\"None\":\"Null\",\"Weekday\":\"EnumExampleEnumExampleWeekday\",\"TupleMaybeSigned\":\"EnumExampleEnumExampleTupleMaybeSigned\",\"NamedMaybeSigned\":\"EnumExampleEnumExampleNamedMaybeSigned\",\"Color\":\"EnumExampleEnumExampleColor\"}}",
+    "lookupName": "EnumExampleVariant",
+    "type": "{\"_enum\":{\"None\":\"Null\",\"Weekday\":\"EnumExampleWeekday\",\"TupleMaybeSigned\":\"EnumExampleTupleMaybeSigned\",\"NamedMaybeSigned\":\"EnumExampleNamedMaybeSigned\",\"Color\":\"EnumExampleColor\"}}",
     "docs": [],
     "namespace": "enum_example::enum_example::Variant",
     "sub": [
@@ -38,7 +38,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 5,
-        "lookupName": "EnumExampleEnumExampleWeekday",
+        "lookupName": "EnumExampleWeekday",
         "type": "Lookup5",
         "index": 1,
         "name": "Weekday"
@@ -47,7 +47,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 6,
-        "lookupName": "EnumExampleEnumExampleTupleMaybeSigned",
+        "lookupName": "EnumExampleTupleMaybeSigned",
         "type": "Lookup6",
         "index": 2,
         "name": "TupleMaybeSigned"
@@ -56,7 +56,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 7,
-        "lookupName": "EnumExampleEnumExampleNamedMaybeSigned",
+        "lookupName": "EnumExampleNamedMaybeSigned",
         "type": "Lookup7",
         "index": 3,
         "name": "NamedMaybeSigned"
@@ -65,7 +65,7 @@
         "docs": [],
         "info": "Si",
         "lookupIndex": 8,
-        "lookupName": "EnumExampleEnumExampleColor",
+        "lookupName": "EnumExampleColor",
         "type": "Lookup8",
         "index": 4,
         "name": "Color"
@@ -75,7 +75,7 @@
   {
     "info": "Enum",
     "lookupIndex": 5,
-    "lookupName": "EnumExampleEnumExampleWeekday",
+    "lookupName": "EnumExampleWeekday",
     "type": "{\"_enum\":[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]}",
     "docs": [],
     "namespace": "enum_example::enum_example::Weekday",
@@ -127,7 +127,7 @@
   {
     "info": "Enum",
     "lookupIndex": 6,
-    "lookupName": "EnumExampleEnumExampleTupleMaybeSigned",
+    "lookupName": "EnumExampleTupleMaybeSigned",
     "type": "{\"_enum\":{\"Signed\":\"i32\",\"Unsigned\":\"u32\"}}",
     "docs": [],
     "namespace": "enum_example::enum_example::TupleMaybeSigned",
@@ -155,7 +155,7 @@
   {
     "info": "Enum",
     "lookupIndex": 7,
-    "lookupName": "EnumExampleEnumExampleNamedMaybeSigned",
+    "lookupName": "EnumExampleNamedMaybeSigned",
     "type": "{\"_enum\":{\"Signed\":\"{\\\"value\\\":\\\"i32\\\"}\",\"Unsigned\":\"{\\\"value\\\":\\\"u32\\\"}\"}}",
     "docs": [],
     "namespace": "enum_example::enum_example::NamedMaybeSigned",
@@ -197,7 +197,7 @@
   {
     "info": "Enum",
     "lookupIndex": 8,
-    "lookupName": "EnumExampleEnumExampleColor",
+    "lookupName": "EnumExampleColor",
     "type": "{\"_enum\":{\"Red\":\"Null\",\"Blue\":\"Null\",\"Green\":\"Null\",\"Yellow\":\"Null\",\"Rgb\":\"{\\\"r\\\":\\\"u8\\\",\\\"g\\\":\\\"u8\\\",\\\"b\\\":\\\"u8\\\"}\",\"Rgba\":\"{\\\"r\\\":\\\"u8\\\",\\\"g\\\":\\\"u8\\\",\\\"b\\\":\\\"u8\\\",\\\"a\\\":\\\"u8\\\"}\"}}",
     "docs": [],
     "namespace": "enum_example::enum_example::Color",

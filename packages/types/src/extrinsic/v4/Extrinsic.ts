@@ -65,10 +65,6 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
     return this.getT('method');
   }
 
-  public override get registry (): Registry {
-    return super.registry;
-  }
-
   /**
    * @description The [[ExtrinsicSignatureV4]]
    */

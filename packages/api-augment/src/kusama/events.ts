@@ -294,6 +294,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       PreimageUsed: AugmentedEvent<ApiType, [proposalHash: H256, provider: AccountId32, deposit: u128], { proposalHash: H256, provider: AccountId32, deposit: u128 }>;
       /**
+       * A proposal got canceled.
+       **/
+      ProposalCanceled: AugmentedEvent<ApiType, [propIndex: u32], { propIndex: u32 }>;
+      /**
        * A motion has been proposed by a public account.
        **/
       Proposed: AugmentedEvent<ApiType, [proposalIndex: u32, deposit: u128], { proposalIndex: u32, deposit: u128 }>;
@@ -555,6 +559,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       PaidOut: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, payout: u128], { member: AccountId32, poolId: u32, payout: u128 }>;
       /**
+       * The active balance of pool `pool_id` has been slashed to `balance`.
+       **/
+      PoolSlashed: AugmentedEvent<ApiType, [poolId: u32, balance: u128], { poolId: u32, balance: u128 }>;
+      /**
        * The roles of a pool have been updated to the given new roles. Note that the depositor
        * can never change.
        **/
@@ -565,12 +573,31 @@ declare module '@polkadot/api-base/types/events' {
       StateChanged: AugmentedEvent<ApiType, [poolId: u32, newState: PalletNominationPoolsPoolState], { poolId: u32, newState: PalletNominationPoolsPoolState }>;
       /**
        * A member has unbonded from their pool.
+       * 
+       * - `balance` is the corresponding balance of the number of points that has been
+       * requested to be unbonded (the argument of the `unbond` transaction) from the bonded
+       * pool.
+       * - `points` is the number of points that are issued as a result of `balance` being
+       * dissolved into the corresponding unbonding pool.
+       * 
+       * In the absence of slashing, these values will match. In the presence of slashing, the
+       * number of points that are issued in the unbonding pool will be less than the amount
+       * requested to be unbonded.
        **/
-      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, amount: u128], { member: AccountId32, poolId: u32, amount: u128 }>;
+      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
+      /**
+       * The unbond pool at `era` of pool `pool_id` has been slashed to `balance`.
+       **/
+      UnbondingPoolSlashed: AugmentedEvent<ApiType, [poolId: u32, era: u32, balance: u128], { poolId: u32, era: u32, balance: u128 }>;
       /**
        * A member has withdrawn from their pool.
+       * 
+       * The given number of `points` have been dissolved in return of `balance`.
+       * 
+       * Similar to `Unbonded` event, in the absence of slashing, the ratio of point to balance
+       * will be 1.
        **/
-      Withdrawn: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, amount: u128], { member: AccountId32, poolId: u32, amount: u128 }>;
+      Withdrawn: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
       /**
        * Generic event
        **/
@@ -1112,6 +1139,17 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    transactionPayment: {
+      /**
+       * A transaction fee `actual_fee`, of which `tip` was added to the minimum inclusion fee,
+       * has been paid by `who`.
+       **/
+      TransactionFeePaid: AugmentedEvent<ApiType, [who: AccountId32, actualFee: u128, tip: u128], { who: AccountId32, actualFee: u128, tip: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     treasury: {
       /**
        * Some funds have been allocated.
@@ -1137,6 +1175,10 @@ declare module '@polkadot/api-base/types/events' {
        * Spending has finished; this is the amount that rolls over until next spend.
        **/
       Rollover: AugmentedEvent<ApiType, [rolloverBalance: u128], { rolloverBalance: u128 }>;
+      /**
+       * A new spend proposal has been approved.
+       **/
+      SpendApproved: AugmentedEvent<ApiType, [proposalIndex: u32, amount: u128, beneficiary: AccountId32], { proposalIndex: u32, amount: u128, beneficiary: AccountId32 }>;
       /**
        * We have ended a spend period and will now allocate funds.
        **/

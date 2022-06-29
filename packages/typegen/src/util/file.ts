@@ -4,8 +4,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import { assert } from '@polkadot/util';
-
 import { packageInfo } from '../packageInfo';
 
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
@@ -35,7 +33,9 @@ export function readTemplate (template: string): string {
     .map((p) => path.join(rootDir, p, `${template}.hbs`))
     .find((p) => fs.existsSync(p));
 
-  assert(file, `Unable to locate ${template}.hbs from ${rootDir}`);
+  if (!file) {
+    throw new Error(`Unable to locate ${template}.hbs from ${rootDir}`);
+  }
 
   return fs.readFileSync(file).toString();
 }

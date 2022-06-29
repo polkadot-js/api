@@ -9,6 +9,7 @@ import type { Definitions } from '../../types';
 import { objectSpread } from '@polkadot/util';
 
 import { AllHashers } from './hashers';
+import { runtime } from './runtime';
 import { v9 } from './v9';
 import { v10 } from './v10';
 import { v11 } from './v11';
@@ -20,6 +21,7 @@ export { AllHashers };
 
 export default {
   rpc: {},
+  runtime,
   types: objectSpread({}, v9, v10, v11, v12, v13, v14, {
     // latest mappings
     ErrorMetadataLatest: 'ErrorMetadataV14',
@@ -40,6 +42,9 @@ export default {
     StorageEntryModifierLatest: 'StorageEntryModifierV14',
     StorageEntryTypeLatest: 'StorageEntryTypeV14',
     StorageHasher: 'StorageHasherV14',
+
+    // additional types
+    OpaqueMetadata: 'Bytes',
 
     // the enum containing all the mappings
     MetadataAll: {

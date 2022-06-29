@@ -17,7 +17,7 @@ export interface IEnum extends Codec {
   readonly defIndexes: number[];
   readonly defKeys: string[];
   readonly index: number;
-  readonly isBasic: boolean
+  readonly isBasic: boolean;
   readonly type: string;
   readonly value: Codec;
 
@@ -30,6 +30,10 @@ export interface INumber extends Codec {
   bitLength (): number;
   toBigInt (): bigint;
   toBn (): BN;
+  toNumber (): number;
+}
+
+export interface IFloat extends Codec {
   toNumber (): number;
 }
 

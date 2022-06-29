@@ -4,6 +4,52 @@
 
 Changes:
 
+- Support for `state_call` definitions via API config (exposed on `api.runtime.*`)
+- Type generation for runtime call definitions (not exposed by default)
+
+
+## 8.10.1 Jun 26, 2022
+
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.7 (Thanks to https://github.com/wirednkod)
+- Support `feeHistory` & `maxPriorityFeePerGas` eth RPCs (Thanks to https://github.com/crystalin)
+
+Changes:
+
+- Align `BeefyPayload` with Substrate master
+- Use `static get [Symbol.species] ()` for `Array` & `Uint8Array` types
+- Add support for (optional, non-runtime recommended) `f32` & `f64` types
+- Add future-use `AbstrateBigInt` wrapper extension
+- Update Codec-internal performance tests
+- Add Westend 9250 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
+## 8.9.1 Jun 19, 2022
+
+Contributed:
+
+- Update `@substrate/connect` to 0.7.6 (Thanks to https://github.com/tomaka)
+
+Changes:
+
+- Deupe all internal type property getters
+- Adjust `@polkadot/types-codec` asserts
+- Rename `Base` type to `AbstractBase` (reflecting usage)
+- Alias `blockHash` on `rpc.engine.createBlock` return
+- Instantiate `Compact/UInt/Int` with `number` when passed
+- Adjust name extraction in `PortableRegistry` (maintainability)
+- Adjust string type path extraction (maintainability)
+- Add Kusama 9230 upgrade block
+- Update to latest Substrate metadata
+
+
+## 8.8.2 Jun 14, 2022
+
+Changes:
+
+- Align historic `DispatchErrorModule` with `U8` variant
 - Extend lookup type name generation when conflicts arrise
 - Update to latest Substrate metadata
 

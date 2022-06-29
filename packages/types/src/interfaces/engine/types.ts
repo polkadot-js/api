@@ -6,7 +6,7 @@ import type { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name CreatedBlock */
 export interface CreatedBlock extends Struct {
-  readonly hash: BlockHash;
+  readonly blockHash: BlockHash;
   readonly aux: ImportedAux;
 }
 

@@ -3,7 +3,7 @@
 
 import type { AnyU8a, Inspect, Registry } from '../types';
 
-import { assert, compactFromU8aLim, compactToU8a, isString, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, compactToU8a, isString, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 
@@ -17,7 +17,9 @@ function decodeBitVecU8a (value?: Uint8Array): [number, Uint8Array] {
   const [offset, length] = compactFromU8aLim(value);
   const total = offset + Math.ceil(length / 8);
 
-  assert(total <= value.length, () => `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  if (total > value.length) {
+    throw new Error(`BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  }
 
   return [length, value.subarray(offset, total)];
 }
@@ -65,7 +67,7 @@ export class BitVec extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  public override inspect (): Inspect {
     return {
       outer: [compactToU8a(this.#decodedLength), super.toU8a()]
     };

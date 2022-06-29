@@ -14,6 +14,7 @@ const VERSION_IDX = 4;
 // magic + lowest supported version
 const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);
 
+/** @internal */
 function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned | Uint8Array {
   const u8a = value.length === 0
     ? EMPTY_METADATA
@@ -42,7 +43,7 @@ function decodeU8a (registry: Registry, value: Uint8Array): MetadataVersioned | 
  */
 export class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
-    // console.time('Metadata')
+    // const timeStart = performance.now()
 
     super(
       registry,
@@ -51,6 +52,6 @@ export class Metadata extends MetadataVersioned {
         : value
     );
 
-    // console.timeEnd('Metadata')
+    // console.log('Metadata', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 }

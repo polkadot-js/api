@@ -7,6 +7,8 @@ import { TypeRegistry } from '@polkadot/types';
 import { Bytes, Raw, Text } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';
 
+import { perf } from '../test/performance';
+
 describe('Text', (): void => {
   const registry = new TypeRegistry();
 
@@ -68,7 +70,7 @@ describe('Text', (): void => {
       expect(test).toHaveLength(2);
     });
 
-    it('has a snae inspect', (): void => {
+    it('has a sane inspect', (): void => {
       expect(
         new Text(registry, 'abcde').inspect()
       ).toEqual({
@@ -76,4 +78,6 @@ describe('Text', (): void => {
       });
     });
   });
+
+  perf('Text', 100_000, [[new Uint8Array([6 << 2, 102, 111, 111, 102, 111, 111])]], (v: Uint8Array) => new Text(registry, v));
 });

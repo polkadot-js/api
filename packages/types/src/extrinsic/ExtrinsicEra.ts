@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 import type { IExtrinsicEra, INumber } from '../types';
 
 import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
-import { assert, bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
+import { bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
 import { IMMORTAL_ERA } from './constants';
 
@@ -76,7 +76,9 @@ function decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue
   const quantizeFactor = Math.max(period >> 12, 1);
   const phase = (encoded >> 4) * quantizeFactor;
 
-  assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
+  if (period < 4 || phase >= period) {
+    throw new Error('Invalid data passed to Mortal era');
+  }
 
   return [new U64(registry, period), new U64(registry, phase)];
 }
@@ -255,7 +257,9 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[ImmortalEra]]
    */
   public get asImmortalEra (): ImmortalEra {
-    assert(this.isImmortalEra, () => `Cannot convert '${this.type}' via asImmortalEra`);
+    if (!this.isImmortalEra) {
+      throw new Error(`Cannot convert '${this.type}' via asImmortalEra`);
+    }
 
     return this.inner as ImmortalEra;
   }
@@ -264,7 +268,9 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Returns the item as a [[MortalEra]]
    */
   public get asMortalEra (): MortalEra {
-    assert(this.isMortalEra, () => `Cannot convert '${this.type}' via asMortalEra`);
+    if (!this.isMortalEra) {
+      throw new Error(`Cannot convert '${this.type}' via asMortalEra`);
+    }
 
     return this.inner as MortalEra;
   }
