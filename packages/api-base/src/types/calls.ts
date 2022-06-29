@@ -32,4 +32,5 @@ export interface DefinitionCallNamed extends DefinitionCall {
   method: string;
   name: string;
   section: string;
+  version: number;
 }

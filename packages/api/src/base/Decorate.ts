@@ -420,25 +420,25 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return result;
     }
 
-    const available = Object.entries(this._options.runtime);
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
+    const sections = Object.entries(this._options.runtime);
 
-    for (let i = 0; i < available.length; i++) {
-      const [name, def] = available[i];
-      const parts = name.split('_');
-
-      if (parts.length < 2) {
-        throw new Error(`Invalid method for state_call, found ${name}`);
-      }
-
-      const section = stringCamelCase(parts[0]);
-      const method = stringCamelCase(parts.slice(1).join('_'));
+    for (let i = 0; i < sections.length; i++) {
+      const [_section, sec] = sections[i];
+      const section = stringCamelCase(_section);
 
       if (!named[section]) {
         named[section] = {};
       }
 
-      named[section][method] = objectSpread({ method, name, section }, def);
+      const methods = Object.entries(sec.methods);
+
+      for (let m = 0; m < methods.length; m++) {
+        const [_method, def] = methods[m];
+        const method = stringCamelCase(_method);
+
+        named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section }, def);
+      }
     }
 
     const stateCall = blockHash
@@ -450,10 +450,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         this._decorateCall(registry, named[section][method], stateCall, decorateMethod)
       );
 
-    const sections = Object.keys(named);
+    const modules = Object.keys(named);
 
-    for (let i = 0; i < sections.length; i++) {
-      lazyMethod(result, sections[i], lazySection);
+    for (let i = 0; i < modules.length; i++) {
+      lazyMethod(result, modules[i], lazySection);
     }
 
     return result;

@@ -26,24 +26,26 @@ function getDefs (defs: Record<string, Definitions>): Record<string, Record<stri
     const set = all[j].runtime;
 
     if (set) {
-      const available = Object.entries(set);
+      const sections = Object.entries(set);
 
-      for (let i = 0; i < available.length; i++) {
-        const [name, def] = available[i];
-        const parts = name.split('_');
+      for (let i = 0; i < sections.length; i++) {
+        const [_section, sec] = sections[i];
+        const methods = Object.entries(sec.methods);
 
-        if (parts.length < 2) {
-          throw new Error(`Invalid method for state_call, found ${name}`);
+        if (methods.length) {
+          const section = stringCamelCase(_section);
+
+          if (!named[section]) {
+            named[section] = {};
+          }
+
+          for (let m = 0; m < methods.length; m++) {
+            const [_method, def] = methods[m];
+            const method = stringCamelCase(_method);
+
+            named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section }, def);
+          }
         }
-
-        const section = stringCamelCase(parts[0]);
-        const method = stringCamelCase(parts.slice(1).join('_'));
-
-        if (!named[section]) {
-          named[section] = {};
-        }
-
-        named[section][method] = objectSpread({ method, name, section }, def);
       }
     }
   }

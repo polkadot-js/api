@@ -11,7 +11,7 @@ import type { QueryableStorage } from '@polkadot/api-base/types/storage';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/types/interfaces';
-import type { CallFunction, DefinitionCall, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
+import type { CallFunction, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
@@ -65,7 +65,7 @@ export interface ApiOptions extends RegisteredTypes {
   /**
    * @description Overrides for state_call usage (this will be removed in some future version)
    */
-  runtime?: Record<string, DefinitionCall>;
+  runtime?: DefinitionsCall;
   /**
    * @description Any chain-specific signed extensions that are now well-known
    */
