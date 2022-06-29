@@ -6,11 +6,15 @@ import type { HexString } from '@polkadot/util/types';
 import kusama from '@polkadot/types-support/metadata/static-kusama';
 import polkadot from '@polkadot/types-support/metadata/static-polkadot';
 import substrate from '@polkadot/types-support/metadata/static-substrate';
+import kusamaVer from '@polkadot/types-support/versions/kusama';
+import polkadotVer from '@polkadot/types-support/versions/polkadot';
+import substrateVer from '@polkadot/types-support/versions/substrate';
 
 import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultTsDef, generateDefaultTx } from './generate';
 
 const BASE = 'packages/api-augment/src';
 const METAS = Object.entries({ kusama, polkadot, substrate }) as [string, HexString][];
+const VERS = { kusama: kusamaVer, polkadot: polkadotVer, substrate: substrateVer };
 
 export function main (): void {
   generateDefaultInterface();
@@ -27,6 +31,6 @@ export function main (): void {
     generateDefaultEvents(`${BASE}/${name}/events.ts`, staticMeta);
     generateDefaultQuery(`${BASE}/${name}/query.ts`, staticMeta);
     generateDefaultTx(`${BASE}/${name}/tx.ts`, staticMeta);
-    generateDefaultCalls(`${BASE}/${name}/runtime.ts`, staticMeta);
+    generateDefaultCalls(`${BASE}/${name}/runtime.ts`, staticMeta, VERS[name as keyof typeof VERS] as unknown as { apis: [HexString, number][] });
   }
 }

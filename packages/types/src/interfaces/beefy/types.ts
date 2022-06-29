@@ -6,6 +6,13 @@ import type { ITuple } from '@polkadot/types-codec/types';
 import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
+/** @name BeefyAuthoritySet */
+export interface BeefyAuthoritySet extends Struct {
+  readonly id: u64;
+  readonly len: u32;
+  readonly root: H256;
+}
+
 /** @name BeefyCommitment */
 export interface BeefyCommitment extends Struct {
   readonly payload: BeefyPayload;

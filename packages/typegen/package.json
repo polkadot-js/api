@@ -44,6 +44,7 @@
     "@polkadot/types-create": "8.10.2-1-x",
     "@polkadot/types-support": "8.10.2-1-x",
     "@polkadot/util": "^9.6.2",
+    "@polkadot/util-crypto": "^9.6.2",
     "@polkadot/x-ws": "^9.6.2",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",

@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 
 import { WebSocket } from '@polkadot/x-ws';
 
-export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
+async function getWsData <T> (endpoint: string, method: 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
   return new Promise((resolve): void => {
     try {
       const websocket = new WebSocket(endpoint);
@@ -28,15 +28,27 @@ export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
 
       websocket.onopen = (): void => {
         console.log('connected');
-        websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
+        websocket.send(`{"id":"1","jsonrpc":"2.0","method":"${method}","params":[]}`);
       };
 
       websocket.onmessage = (message: { data: string }): void => {
-        resolve((JSON.parse(message.data) as { result: HexString }).result);
+        resolve((JSON.parse(message.data) as { result: T }).result);
         websocket.close();
       };
     } catch (error) {
       process.exit(1);
     }
   });
+}
+
+export async function getMetadataViaWs (endpoint: string): Promise<{ metadata: HexString, version: { apis: [HexString, number][] } }> {
+  return Promise
+    .all([
+      getWsData<HexString>(endpoint, 'state_getMetadata'),
+      getWsData<{ apis: [HexString, number][] }>(endpoint, 'state_getRuntimeVersion')
+    ])
+    .then(([metadata, version]) => ({
+      metadata,
+      version
+    }));
 }

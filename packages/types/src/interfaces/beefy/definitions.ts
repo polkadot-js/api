@@ -7,10 +7,17 @@
 import type { Definitions } from '../../types';
 
 import { rpc } from './rpc';
+import { runtime } from './runtime';
 
 export default {
   rpc,
+  runtime,
   types: {
+    BeefyAuthoritySet: {
+      id: 'u64',
+      len: 'u32',
+      root: 'H256'
+    },
     BeefyCommitment: {
       payload: 'BeefyPayload',
       blockNumber: 'BlockNumber',

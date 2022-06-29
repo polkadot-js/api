@@ -12,13 +12,16 @@ import Handlebars from 'handlebars';
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { objectSpread, stringCamelCase } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
+
+type Apis = [HexString, number][];
 
 const generateCallsTypesTemplate = Handlebars.compile(readTemplate('calls'));
 
 /** @internal */
-function getDefs (defs: Record<string, Definitions>): Record<string, Record<string, DefinitionCallNamed>> {
+function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<string, Record<string, DefinitionCallNamed>> {
   const named: Record<string, Record<string, DefinitionCallNamed>> = {};
   const all = Object.values(defs);
 
@@ -30,20 +33,31 @@ function getDefs (defs: Record<string, Definitions>): Record<string, Record<stri
 
       for (let i = 0; i < sections.length; i++) {
         const [_section, sec] = sections[i];
-        const methods = Object.entries(sec[0].methods);
+        const apiHash = blake2AsHex(_section, 64);
+        const api = apis && apis.find(([h]) => h === apiHash);
 
-        if (methods.length) {
-          const section = stringCamelCase(_section);
+        if (api) {
+          const ver = sec.find(({ version = 1 }) => version === api[1]);
 
-          if (!named[section]) {
-            named[section] = {};
-          }
+          if (ver) {
+            const methods = Object.entries(ver.methods);
 
-          for (let m = 0; m < methods.length; m++) {
-            const [_method, def] = methods[m];
-            const method = stringCamelCase(_method);
+            if (methods.length) {
+              const section = stringCamelCase(_section);
 
-            named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section }, def);
+              if (!named[section]) {
+                named[section] = {};
+              }
+
+              for (let m = 0; m < methods.length; m++) {
+                const [_method, def] = methods[m];
+                const method = stringCamelCase(_method);
+
+                named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section }, def);
+              }
+            }
+          } else {
+            console.warn(`Unable to find matching version for runtime ${_section}, expected ${api[1]}`);
           }
         }
       }
@@ -54,7 +68,7 @@ function getDefs (defs: Record<string, Definitions>): Record<string, Record<stri
 }
 
 /** @internal */
-export function generateCallTypes (registry: TypeRegistry, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
+export function generateCallTypes (registry: TypeRegistry, dest: string, apis: Apis | null, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
       '@polkadot/types-augment': {
@@ -70,7 +84,7 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, extraTy
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const definitions = getDefs(imports.definitions as Record<string, Definitions>);
+    const definitions = getDefs(apis, imports.definitions as Record<string, Definitions>);
     const callKeys = Object.keys(definitions);
 
     const modules = callKeys.map((section) => {
@@ -103,7 +117,9 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, extraTy
       };
     }).sort((a, b) => a.name.localeCompare(b.name));
 
-    imports.typesTypes.Observable = true;
+    if (modules.length) {
+      imports.typesTypes.Observable = true;
+    }
 
     return generateCallsTypesTemplate({
       headerType: 'chain',
@@ -124,12 +140,13 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, extraTy
   });
 }
 
-export function generateDefaultCalls (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+export function generateDefaultCalls (dest: string, data: HexString, rtVersion: { apis: Apis } | null = null, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { registry } = initMeta(data, extraTypes);
 
   generateCallTypes(
     registry,
     dest,
+    rtVersion && rtVersion.apis,
     extraTypes,
     isStrict,
     customLookupDefinitions
