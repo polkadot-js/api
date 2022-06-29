@@ -6,10 +6,12 @@
 
 import type { Definitions } from '../../types';
 
-import rpc from './rpc';
+import { rpc } from './rpc';
+import { runtime } from './runtime';
 
 export default {
   rpc,
+  runtime,
   types: {
     AliveContractInfo: {
       trieId: 'TrieId',

@@ -2,8 +2,11 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api-base/types';
+import type { Bytes, u32 } from '@polkadot/types-codec';
+import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
+import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Index } from '@polkadot/types/interfaces/runtime';
 import type { Observable } from '@polkadot/types/types';
 
@@ -38,6 +41,20 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns the metadata of a runtime
        **/
       metadata: AugmentedCall<ApiType, () => Observable<OpaqueMetadata>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    transactionPaymentApi: {
+      /**
+       * The transaction fee details
+       **/
+      queryFeeDetails: AugmentedCall<ApiType, (uxt: Bytes | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<FeeDetails>>;
+      /**
+       * The transaction info
+       **/
+      queryInfo: AugmentedCall<ApiType, (uxt: Bytes | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<RuntimeDispatchInfo>>;
       /**
        * Generic call
        **/
