@@ -4,10 +4,11 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import '@polkadot/api-augment';
+import '@polkadot/api-augment/substrate/runtime';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
-import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index, SetId } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -20,12 +21,15 @@ const registry = new TypeRegistry();
 
 async function calls (api: ApiPromise): Promise<void> {
   // it allows defaults
-  const testSetId = await api.runtime.grandpaApi.currentSetId<SetId>();
+  const testSetId = await api.runtime.grandpaApi.currentSetId();
 
-  // it allows type overrides
+  // it allows type overrides (generally shouldn't be used, but available)
   const testSetIdO = await api.runtime.grandpaApi.currentSetId<AccountId>();
 
-  console.log(testSetId.toNumber(), testSetIdO.isAscii);
+  // it allows actual params
+  const nonce = await api.runtime.accountNonceApi.accountNonce('5Test');
+
+  console.log(testSetId.toNumber(), testSetIdO.isAscii, nonce.toNumber());
 }
 
 function consts (api: ApiPromise): void {
