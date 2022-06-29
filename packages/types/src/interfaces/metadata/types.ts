@@ -275,6 +275,9 @@ export interface ModuleMetadataV9 extends Struct {
   readonly errors: Vec<ErrorMetadataV9>;
 }
 
+/** @name OpaqueMetadata */
+export interface OpaqueMetadata extends Bytes {}
+
 /** @name PalletCallMetadataLatest */
 export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}
 
