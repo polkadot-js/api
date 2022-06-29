@@ -19,13 +19,13 @@ export interface QueryableModuleCalls<ApiType extends ApiTypes> {
   [key: string]: DecoratedCallBase<ApiType>;
 }
 
-export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: unknown[]) => Observable<Codec>> =
+export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
   ApiType extends 'rxjs'
     ? <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Observable<T>
     : <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Promise<T>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: unknown[]) => Observable<Codec>> =
+export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
 DecoratedCallBase<ApiType, F> & { meta: DefinitionCallNamed };
 
 export interface DefinitionCallNamed extends DefinitionCall {

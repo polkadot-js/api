@@ -1,0 +1,17 @@
+// Copyright 2017-2022 @polkadot/types authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { DefinitionsCall } from '../../types';
+
+export const runtime: DefinitionsCall = {
+  AccountNonceApi_account_nonce: {
+    description: 'The API to query account nonce (aka transaction index)',
+    params: [
+      {
+        name: 'accountId',
+        type: 'AccountId'
+      }
+    ],
+    type: 'Index'
+  }
+};
