@@ -6,14 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    methods: {
-      description: 'Retrieves the list of RPC methods that are exposed by the node',
-      params: [],
-      type: 'RpcMethods'
-    }
-  },
+  rpc,
   types: {
     RpcMethods: {
       version: 'u32',

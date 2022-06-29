@@ -6,41 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    generateBatchProof: {
-      description: 'Generate MMR proof for the given leaf indices.',
-      params: [
-        {
-          name: 'leafIndices',
-          type: 'Vec<u64>'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'MmrLeafProof'
-    },
-    generateProof: {
-      description: 'Generate MMR proof for given leaf index.',
-      params: [
-        {
-          name: 'leafIndex',
-          type: 'u64'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'MmrLeafBatchProof'
-    }
-  },
+  rpc,
   types: {
     MmrLeafBatchProof: {
       blockHash: 'BlockHash',

@@ -6,24 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    subscribeJustifications: {
-      description: 'Returns the block most recently finalized by BEEFY, alongside side its justification.',
-      params: [],
-      pubsub: [
-        'justifications',
-        'subscribeJustifications',
-        'unsubscribeJustifications'
-      ],
-      type: 'BeefySignedCommitment'
-    },
-    getFinalizedHead: {
-      description: 'Returns hash of the latest BEEFY finalized block as seen by this client.',
-      params: [],
-      type: 'H256'
-    }
-  },
+  rpc,
   types: {
     BeefyCommitment: {
       payload: 'BeefyPayload',
