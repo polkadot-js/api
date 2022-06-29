@@ -3,6 +3,7 @@
 
 import type { ApiTypes, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
 import type { ApiInterfaceRx as ApiInterfaceBase } from '@polkadot/api-base/types/api';
+import type { QueryableCalls } from '@polkadot/api-base/types/calls';
 import type { QueryableConsts } from '@polkadot/api-base/types/consts';
 import type { DecoratedErrors } from '@polkadot/api-base/types/errors';
 import type { DecoratedEvents } from '@polkadot/api-base/types/events';
@@ -10,7 +11,7 @@ import type { QueryableStorage } from '@polkadot/api-base/types/storage';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/types/interfaces';
-import type { CallFunction, DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
+import type { CallFunction, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
@@ -18,6 +19,7 @@ import type { SubmittableExtrinsic } from '../types/submittable';
 import type { AllDerives } from '../util/decorate';
 
 export * from '@polkadot/api-base/types';
+export * from '@polkadot/api/types/calls';
 export * from '@polkadot/api/types/consts';
 export * from '@polkadot/api/types/errors';
 export * from '@polkadot/api/types/events';
@@ -61,6 +63,10 @@ export interface ApiOptions extends RegisteredTypes {
    */
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   /**
+   * @description Overrides for state_call usage (this will be removed in some future version)
+   */
+  runtime?: DefinitionsCall;
+  /**
    * @description Any chain-specific signed extensions that are now well-known
    */
   signedExtensions?: ExtDef;
@@ -94,6 +100,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   errors: DecoratedErrors<ApiType>;
   events: DecoratedEvents<ApiType>;
   query: QueryableStorage<ApiType>;
+  runtime: QueryableCalls<ApiType>;
   registry: Registry;
   runtimeVersion: RuntimeVersionPartial;
   rx: {

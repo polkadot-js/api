@@ -30,7 +30,7 @@ const StorageKeyType = 'StorageKey | string | Uint8Array | any';
 const generateRpcTypesTemplate = Handlebars.compile(readTemplate('rpc'));
 
 /** @internal */
-export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes = {}): void {
+export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
     const imports = createImports(allTypes);
@@ -46,7 +46,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
     const additional: Record<string, ModuleDef> = {};
     const modules = rpcKeys.map((sectionFullName) => {
-      const rpc = definitions[sectionFullName].rpc;
+      const rpc = definitions[sectionFullName].rpc || {};
       const section = sectionFullName.split('/').pop();
 
       const allMethods = Object.keys(rpc).sort().map((methodName) => {

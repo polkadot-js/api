@@ -9,7 +9,7 @@ import yargs from 'yargs';
 import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 
-import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
+import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
@@ -46,12 +46,15 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
   generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
   writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
-        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
+        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc']
+          .filter((key) => !!key)
+          .map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );

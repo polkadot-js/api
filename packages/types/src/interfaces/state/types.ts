@@ -73,6 +73,7 @@ export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 export interface RuntimeVersionPartial extends Struct {
   readonly specName: Text;
   readonly specVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
 }
 
 /** @name SpecVersion */

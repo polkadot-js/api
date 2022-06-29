@@ -4,6 +4,7 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import '@polkadot/api-augment';
+import '@polkadot/api-augment/substrate/runtime';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
@@ -17,6 +18,19 @@ import { createTypeUnsafe, TypeRegistry } from '@polkadot/types/create';
 import { SubmittableResult } from './';
 
 const registry = new TypeRegistry();
+
+async function calls (api: ApiPromise): Promise<void> {
+  // it allows defaults
+  const testSetId = await api.runtime.grandpaApi.currentSetId();
+
+  // it allows type overrides (generally shouldn't be used, but available)
+  const testSetIdO = await api.runtime.grandpaApi.currentSetId<AccountId>();
+
+  // it allows actual params
+  const nonce = await api.runtime.accountNonceApi.accountNonce('5Test');
+
+  console.log(testSetId.toNumber(), testSetIdO.isAscii, nonce.toNumber());
+}
 
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
@@ -215,12 +229,13 @@ function types (api: ApiPromise): void {
   const compact = registry.createType('Compact<u32>', 2);
   const f32 = registry.createType('f32');
   const u32 = registry.createType('u32');
+  const raw = registry.createType('Raw');
   // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'));
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'), raw.subarray(0, 10));
 }
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
@@ -289,6 +304,7 @@ async function main (): Promise<void> {
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([
+    calls(api),
     consts(api),
     derive(api),
     errors(api),

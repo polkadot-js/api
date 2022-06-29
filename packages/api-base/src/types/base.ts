@@ -65,3 +65,9 @@ export interface PaginationOptions<A = unknown> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type DecorateMethod<ApiType extends ApiTypes, T = any> =
   <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
+
+type AsCodec<R extends Codec | any> = R extends Codec
+  ? R
+  : Codec;
+
+export type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType<F>>>;

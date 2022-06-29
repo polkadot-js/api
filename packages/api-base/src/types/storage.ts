@@ -6,7 +6,7 @@ import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
-import type { ApiTypes, DropLast, MethodResult, ObsInnerType, PaginationOptions, PromiseOrObs, UnsubscribePromise } from './base';
+import type { ApiTypes, DropLast, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
 export interface AugmentedQueries<ApiType extends ApiTypes> {
@@ -21,12 +21,6 @@ export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQue
 export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
   [key: string]: QueryableModuleStorageAt<ApiType>;
 }
-
-type AsCodec<R extends Codec | any> = R extends Codec
-  ? R
-  : Codec;
-
-type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType<F>>>;
 
 interface StorageEntryObservableMulti<R extends Codec = Codec> {
   <T extends Codec = R>(args: (unknown[] | unknown)[]): Observable<T[]>;
