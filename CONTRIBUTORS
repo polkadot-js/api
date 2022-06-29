@@ -1,4 +1,4 @@
-    3064	Jaco                          	Basic/configurable no-metadata state_call interfaces (#4987)
+    3065	Jaco                          	Split rpc definitions into rpc.ts files (#4989)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
