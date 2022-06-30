@@ -142,10 +142,40 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'Result<EvmCreateInfo, DispatchError>'
         },
+        current_all: {
+          description: 'Return all the current data for a block in a single runtime call.',
+          params: [],
+          type: '(Option<BlockV2>, Option<Vec<ReceiptV0>>, Option<Vec<TransactionStatus>>)'
+        },
         current_block: {
           description: 'Return the current block.',
           params: [],
           type: 'BlockV2'
+        },
+        current_receipts: {
+          description: 'Return the current receipt.',
+          params: [],
+          type: 'Option<Vec<EthReceiptV3>>'
+        },
+        current_transaction_statuses: {
+          description: 'Return the current transaction status.',
+          params: [],
+          type: 'Option<Vec<EthTransactionStatus>>'
+        },
+        elasticity: {
+          description: 'Return the elasticity multiplier.',
+          params: [],
+          type: 'Option<Permill>'
+        },
+        extrinsic_filter: {
+          description: 'Receives a `Vec<OpaqueExtrinsic>` and filters all the ethereum transactions.',
+          params: [
+            {
+              name: 'xts',
+              type: 'Vec<Extrinsic>'
+            }
+          ],
+          type: 'Vec<TransactionV2>'
         },
         gas_price: {
           description: 'Returns FixedGasPrice::min_gas_price',
@@ -168,8 +198,6 @@ export const runtime: DefinitionsCall = {
         }
       },
       version: 4
-      // TODO This is _very_ incomplete, missing everything from this point onwards is missing -
-      // https://github.com/paritytech/frontier/blob/87e60b9b67ab31f4ea7285c949997337bb76ffd0/primitives/rpc/src/lib.rs#L131
     }
   ]
 };
