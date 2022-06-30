@@ -20,7 +20,6 @@ export const runtime: DefinitionsCall = {
       },
       version: 2
     }
-    // TODO No versions prior to 2 as of yet, only latest supported
   ],
   EthereumRuntimeRPCApi: [
     {
@@ -172,6 +171,5 @@ export const runtime: DefinitionsCall = {
       // TODO This is _very_ incomplete, missing everything from this point onwards is missing -
       // https://github.com/paritytech/frontier/blob/87e60b9b67ab31f4ea7285c949997337bb76ffd0/primitives/rpc/src/lib.rs#L131
     }
-    // TODO No versions prior to 4 as of yet, only latest supported
   ]
 };

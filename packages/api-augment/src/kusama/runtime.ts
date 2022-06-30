@@ -10,7 +10,7 @@ import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfa
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
-import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
+import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Block, Header, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
@@ -134,9 +134,17 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       currentSetId: AugmentedCall<ApiType, () => Observable<SetId>>;
       /**
+       * Generates a proof of key ownership for the given authority in the given set.
+       **/
+      generateKeyOwnershipProof: AugmentedCall<ApiType, (setId: SetId | AnyNumber | Uint8Array, authorityId: AuthorityId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
+      /**
        * Get the current GRANDPA authorities and weights. This should not change except for when changes are scheduled and the corresponding delay has passed.
        **/
-      grandpaAuthorities: AugmentedCall<ApiType, () => Observable<AuthorityList>>;
+      grandpaAuthorities: AugmentedCall<ApiType, (equivocationProof: GrandpaEquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, keyOwnerProof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<AuthorityList>>;
+      /**
+       * Submits an unsigned extrinsic to report an equivocation.
+       **/
+      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, () => Observable<Option<Null>>>;
       /**
        * Generic call
        **/

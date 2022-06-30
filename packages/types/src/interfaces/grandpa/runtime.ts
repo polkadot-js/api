@@ -12,12 +12,39 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'SetId'
         },
+        generate_key_ownership_proof: {
+          description: 'Generates a proof of key ownership for the given authority in the given set.',
+          params: [
+            {
+              name: 'setId',
+              type: 'SetId'
+            },
+            {
+              name: 'authorityId',
+              type: 'AuthorityId'
+            }
+          ],
+          type: 'Option<OpaqueKeyOwnershipProof>'
+        },
         grandpa_authorities: {
           description: 'Get the current GRANDPA authorities and weights. This should not change except for when changes are scheduled and the corresponding delay has passed.',
-          params: [],
+          params: [
+            {
+              name: 'equivocationProof',
+              type: 'GrandpaEquivocationProof'
+            },
+            {
+              name: 'keyOwnerProof',
+              type: 'OpaqueKeyOwnershipProof'
+            }
+          ],
           type: 'AuthorityList'
+        },
+        submit_report_equivocation_unsigned_extrinsic: {
+          description: 'Submits an unsigned extrinsic to report an equivocation.',
+          params: [],
+          type: 'Option<Null>'
         }
-        // TODO submit_report_equivocation_unsigned_extrinsic, generate_key_ownership_proof
       },
       version: 3
     }
