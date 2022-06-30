@@ -23,7 +23,7 @@
   "version": "8.10.2-5-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.18.3",
+    "@babel/runtime": "^7.18.6",
     "@polkadot/rpc-augment": "8.10.2-5-x",
     "@polkadot/rpc-provider": "8.10.2-5-x",
     "@polkadot/types": "8.10.2-5-x",
