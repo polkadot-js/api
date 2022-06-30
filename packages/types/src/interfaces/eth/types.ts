@@ -223,6 +223,12 @@ export interface EthReceipt extends Struct {
   readonly statusCode: Option<U64>;
 }
 
+/** @name EthReceiptV0 */
+export interface EthReceiptV0 extends EthReceipt {}
+
+/** @name EthReceiptV3 */
+export interface EthReceiptV3 extends EthReceipt {}
+
 /** @name EthRichBlock */
 export interface EthRichBlock extends Struct {
   readonly blockHash: Option<H256>;

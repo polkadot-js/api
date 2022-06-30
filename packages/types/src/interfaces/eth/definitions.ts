@@ -257,6 +257,9 @@ const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
     logsBloom: 'EthBloom',
     statusCode: 'Option<U64>'
   },
+  // not convinced, however the original commit matches, so... (maybe V3 is incorrect?)
+  EthReceiptV0: 'EthReceipt',
+  EthReceiptV3: 'EthReceipt',
   EthStorageProof: {
     key: 'U256',
     value: 'U256',
