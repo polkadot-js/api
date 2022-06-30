@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api-base/types';
-import type { Bytes, Null, Option, Result, Vec, u32 } from '@polkadot/types-codec';
+import type { Bytes, Null, Option, Result, Vec, bool, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { ValidatorSet } from '@polkadot/types/interfaces/beefy';
@@ -13,8 +13,10 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrLeafIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
+import type { CandidateCommitments, CandidateEvent, CommittedCandidateReceipt, CoreState, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Block, Hash, Header, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Block, Hash, Header, Index, KeyTypeId, Slot, ValidatorId } from '@polkadot/types/interfaces/runtime';
+import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
@@ -203,6 +205,85 @@ declare module '@polkadot/api-base/types/calls' {
        * Starts the off-chain task for given block header.
        **/
       offchainWorker: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xaf2c0297a23e6d3d/2 */
+    parachainHost: {
+      /**
+       * Returns the persisted validation data for the given `ParaId` along with the corresponding validation code hash.
+       **/
+      assumedValidationData: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, hash: Hash | string | Uint8Array) => Observable<Option<ITuple<[PersistedValidationData, ValidationCodeHash]>>>>;
+      /**
+       * Yields information on all availability cores as relevant to the child block.
+       **/
+      availabilityCores: AugmentedCall<ApiType, () => Observable<Vec<CoreState>>>;
+      /**
+       * Get a vector of events concerning candidates that occurred within a block.
+       **/
+      candidateEvents: AugmentedCall<ApiType, () => Observable<Vec<CandidateEvent>>>;
+      /**
+       * Get the receipt of a candidate pending availability.
+       **/
+      candidatePendingAvailability: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array) => Observable<Option<CommittedCandidateReceipt>>>;
+      /**
+       * Checks if the given validation outputs pass the acceptance criteria.
+       **/
+      checkValidationOutputs: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, outputs: CandidateCommitments | { upwardMessages?: any; horizontalMessages?: any; newValidationCode?: any; headData?: any; processedDownwardMessages?: any; hrmpWatermark?: any } | string | Uint8Array) => Observable<bool>>;
+      /**
+       * Get all the pending inbound messages in the downward message queue for a para.
+       **/
+      dmqContents: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array) => Observable<Vec<InboundDownwardMessage>>>;
+      /**
+       * Get the contents of all channels addressed to the given recipient.
+       **/
+      inboundHrmpChannelsContents: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array) => Observable<Vec<InboundHrmpMessage>>>;
+      /**
+       * Scrape dispute relevant from on-chain, backing votes and resolved disputes.
+       **/
+      onChainVotes: AugmentedCall<ApiType, () => Observable<Option<ScrapedOnChainVotes>>>;
+      /**
+       * Yields the persisted validation data for the given `ParaId` along with an assumption that should be used if the para currently occupies a core.
+       **/
+      persistedValidationData: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, assumption: OccupiedCoreAssumption | 'Included,' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<PersistedValidationData>>>;
+      /**
+       * Returns code hashes of PVFs that require pre-checking by validators in the active set.
+       **/
+      pvfsRequirePrecheck: AugmentedCall<ApiType, () => Observable<Vec<ValidationCodeHash>>>;
+      /**
+       * Returns the session index expected at a child of the block.
+       **/
+      sessionIndexForChild: AugmentedCall<ApiType, () => Observable<SessionIndex>>;
+      /**
+       * Get the session info for the given session, if stored.
+       **/
+      sessionInfo: AugmentedCall<ApiType, (index: SessionIndex | AnyNumber | Uint8Array) => Observable<Option<SessionInfo>>>;
+      /**
+       * Submits a PVF pre-checking statement into the transaction pool.
+       **/
+      submitPvfCheckStatement: AugmentedCall<ApiType, (stmt: PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: ValidatorSignature | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.
+       **/
+      validationCode: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, assumption: OccupiedCoreAssumption | 'Included,' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<ValidationCode>>;
+      /**
+       * Get the validation code from its hash.
+       **/
+      validationCodeByHash: AugmentedCall<ApiType, (hash: ValidationCodeHash | string | Uint8Array) => Observable<Option<ValidationCode>>>;
+      /**
+       * Fetch the hash of the validation code used by a para, making the given `OccupiedCoreAssumption`.
+       **/
+      validationCodeHash: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, assumption: OccupiedCoreAssumption | 'Included,' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<ValidationCodeHash>>>;
+      /**
+       * Returns the validator groups and rotation info localized based on the hypothetical child of a block whose state  this is invoked on
+       **/
+      validatorGroups: AugmentedCall<ApiType, () => Observable<ITuple<[Vec<Vec<ParaValidatorIndex>>, GroupRotationInfo]>>>;
+      /**
+       * Get the current validators.
+       **/
+      validators: AugmentedCall<ApiType, () => Observable<Vec<ValidatorId>>>;
       /**
        * Generic call
        **/
