@@ -1,4 +1,4 @@
-    3074	Jaco                          	Add CollectCollationInfo runtime interfaces (#5002)
+    3075	Jaco                          	Complete EthereumRuntimeRPCApi runtime (#5003)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
