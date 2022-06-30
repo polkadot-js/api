@@ -6,8 +6,11 @@
 
 import type { Definitions } from '../../types';
 
+import { runtime } from './runtime';
+
 export default {
   rpc: {},
+  runtime,
   types: {
     RawAuraPreDigest: {
       slotNumber: 'u64'

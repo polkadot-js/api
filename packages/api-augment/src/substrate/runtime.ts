@@ -2,13 +2,15 @@
 /* eslint-disable */
 
 import type { ApiTypes } from '@polkadot/api-base/types';
-import type { Bytes, Option, u32, u64 } from '@polkadot/types-codec';
-import type { AnyNumber } from '@polkadot/types-codec/types';
+import type { Bytes, Option, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
+import type { BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { CodeUploadResult, ContractExecResult, ContractInstantiateResult } from '@polkadot/types/interfaces/contracts';
 import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Index } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/calls' {
@@ -18,6 +20,32 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    babeApi: {
+      /**
+       * Return the genesis configuration for BABE. The configuration is only read on genesis.
+       **/
+      configuration: AugmentedCall<ApiType, () => Observable<BabeGenesisConfiguration>>;
+      /**
+       * Returns information regarding the current epoch.
+       **/
+      currentEpoch: AugmentedCall<ApiType, () => Observable<Epoch>>;
+      /**
+       * Returns the slot that started the current epoch.
+       **/
+      currentEpochStart: AugmentedCall<ApiType, () => Observable<Slot>>;
+      /**
+       * Generates a proof of key ownership for the given authority in the current epoch.
+       **/
+      generateKeyOwnershipProof: AugmentedCall<ApiType, (slot: Slot | AnyNumber | Uint8Array, authorityId: AuthorityId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
+      /**
+       * Returns information regarding the next epoch (which was already previously announced).
+       **/
+      nextEpoch: AugmentedCall<ApiType, () => Observable<Epoch>>;
       /**
        * Generic call
        **/
@@ -64,6 +92,20 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns the metadata of a runtime
        **/
       metadata: AugmentedCall<ApiType, () => Observable<OpaqueMetadata>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    sessionKeys: {
+      /**
+       * Decode the given public session keys.
+       **/
+      decodeSessionKeys: AugmentedCall<ApiType, (encoded: Bytes | string | Uint8Array) => Observable<Option<Vec<ITuple<[Bytes, KeyTypeId]>>>>>;
+      /**
+       * Generate a set of session keys with optionally using the given seed.
+       **/
+      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | object | string | Uint8Array) => Observable<Bytes>>;
       /**
        * Generic call
        **/

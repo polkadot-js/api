@@ -178,6 +178,7 @@ export default {
       justifications: 'Option<Justifications>'
     },
     Slot: 'u64',
+    SlotDuration: 'u64',
     StorageData: 'Bytes',
     StorageProof: {
       trieNodes: 'Vec<Bytes>'

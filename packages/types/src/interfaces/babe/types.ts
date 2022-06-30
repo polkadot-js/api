@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import type { Hash, Header } from '@polkadot/types/interfaces/runtime';
+import type { Hash, Header, Slot } from '@polkadot/types/interfaces/runtime';
 
 /** @name AllowedSlots */
 export interface AllowedSlots extends Enum {
@@ -34,8 +34,38 @@ export interface BabeEquivocationProof extends Struct {
   readonly secondHeader: Header;
 }
 
+/** @name BabeGenesisConfiguration */
+export interface BabeGenesisConfiguration extends Struct {
+  readonly slotDuration: u64;
+  readonly epochLength: u64;
+  readonly c: ITuple<[u64, u64]>;
+  readonly genesisAuthorities: Vec<ITuple<[AuthorityId, BabeAuthorityWeight]>>;
+  readonly randomness: Randomness;
+  readonly allowedSlots: AllowedSlots;
+}
+
+/** @name BabeGenesisConfigurationV1 */
+export interface BabeGenesisConfigurationV1 extends Struct {
+  readonly slotDuration: u64;
+  readonly epochLength: u64;
+  readonly c: ITuple<[u64, u64]>;
+  readonly genesisAuthorities: Vec<ITuple<[AuthorityId, BabeAuthorityWeight]>>;
+  readonly randomness: Randomness;
+  readonly secondarySlots: bool;
+}
+
 /** @name BabeWeight */
 export interface BabeWeight extends u64 {}
+
+/** @name Epoch */
+export interface Epoch extends Struct {
+  readonly epochIndex: u64;
+  readonly startSlot: Slot;
+  readonly duration: u64;
+  readonly authorities: Vec<ITuple<[AuthorityId, BabeAuthorityWeight]>>;
+  readonly randomness: Hash;
+  readonly config: BabeEpochConfiguration;
+}
 
 /** @name EpochAuthorship */
 export interface EpochAuthorship extends Struct {
@@ -63,6 +93,9 @@ export interface NextConfigDescriptorV1 extends Struct {
   readonly c: ITuple<[u64, u64]>;
   readonly allowedSlots: AllowedSlots;
 }
+
+/** @name OpaqueKeyOwnershipProof */
+export interface OpaqueKeyOwnershipProof extends Bytes {}
 
 /** @name Randomness */
 export interface Randomness extends Hash {}
