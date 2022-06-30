@@ -339,6 +339,15 @@ export interface SlotDuration extends u64 {}
 /** @name StorageData */
 export interface StorageData extends Bytes {}
 
+/** @name StorageInfo */
+export interface StorageInfo extends Struct {
+  readonly palletName: Bytes;
+  readonly storage_name: Bytes;
+  readonly prefix: Bytes;
+  readonly maxValues: Option<u32>;
+  readonly maxSize: Option<u32>;
+}
+
 /** @name StorageProof */
 export interface StorageProof extends Struct {
   readonly trieNodes: Vec<Bytes>;

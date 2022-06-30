@@ -9,6 +9,7 @@ export * from './authorship/types';
 export * from './babe/types';
 export * from './balances/types';
 export * from './beefy/types';
+export * from './benchmark/types';
 export * from './blockbuilder/types';
 export * from './bridges/types';
 export * from './chain/types';

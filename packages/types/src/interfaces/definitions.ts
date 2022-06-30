@@ -10,6 +10,7 @@ export { default as aura } from './aura/definitions';
 export { default as babe } from './babe/definitions';
 export { default as balances } from './balances/definitions';
 export { default as beefy } from './beefy/definitions';
+export { default as benchmark } from './benchmark/definitions';
 export { default as blockbuilder } from './blockbuilder/definitions';
 export { default as collective } from './collective/definitions';
 export { default as consensus } from './consensus/definitions';
