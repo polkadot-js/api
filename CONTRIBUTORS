@@ -1,4 +1,4 @@
-    3067	Jaco                          	Aura, Babe & Session runtime definitions (#4992)
+    3068	Jaco                          	Add runtime decoration defaults (#4993)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
