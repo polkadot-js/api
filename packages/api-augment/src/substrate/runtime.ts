@@ -16,6 +16,7 @@ import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/calls' {
   export interface AugmentedCalls<ApiType extends ApiTypes> {
+    /** 0xbc9d89904f5b923f/1 */
     accountNonceApi: {
       /**
        * The API to query account nonce (aka transaction index)
@@ -26,6 +27,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x687ad44ad37f03c2/1 */
     authorityDiscoveryApi: {
       /**
        * Retrieve authority identifiers of the current and next authority set.
@@ -36,6 +38,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xcbca25e39f142387/2 */
     babeApi: {
       /**
        * Return the genesis configuration for BABE. The configuration is only read on genesis.
@@ -62,6 +65,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x68b66ba122c93fa7/1 */
     contractsApi: {
       /**
        * Perform a call from a specified account to a given contract.
@@ -84,6 +88,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xdf6acb689907609b/4 */
     core: {
       /**
        * Returns the version of the runtime.
@@ -94,6 +99,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xed99c5acb25eedf5/3 */
     grandpaApi: {
       /**
        * Get current GRANDPA authority set id.
@@ -108,6 +114,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x37e397fc7c91f5e4/1 */
     metadata: {
       /**
        * Returns the metadata of a runtime
@@ -118,6 +125,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xab3c0572291feb8b/1 */
     sessionKeys: {
       /**
        * Decode the given public session keys.
@@ -132,6 +140,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x37c8bb1350a9a2a8/1 */
     transactionPaymentApi: {
       /**
        * The transaction fee details
