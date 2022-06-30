@@ -12,7 +12,7 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'uxt',
-              type: 'Bytes'
+              type: 'Extrinsic'
             },
             {
               name: 'len',
@@ -26,7 +26,7 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'uxt',
-              type: 'Bytes'
+              type: 'Extrinsic'
             },
             {
               name: 'len',

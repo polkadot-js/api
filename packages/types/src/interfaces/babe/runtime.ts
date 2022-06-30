@@ -34,8 +34,21 @@ const V1_V2_SHARED: Record<string, DefinitionCall> = {
     description: 'Returns information regarding the next epoch (which was already previously announced).',
     params: [],
     type: 'Epoch'
+  },
+  submit_report_equivocation_unsigned_extrinsic: {
+    description: 'Submits an unsigned extrinsic to report an equivocation.',
+    params: [
+      {
+        name: 'equivocationProof',
+        type: 'BabeEquivocationProof'
+      },
+      {
+        name: 'keyOwnerProof',
+        type: 'OpaqueKeyOwnershipProof'
+      }
+    ],
+    type: 'Option<Null>'
   }
-  // TODO Add submit_report_equivocation_unsigned_extrinsic
 };
 
 export const runtime: DefinitionsCall = {

@@ -11,6 +11,7 @@ import type { DefinitionsTypes } from '../../types';
 import { objectSpread } from '@polkadot/util';
 
 import { rpc } from './rpc';
+import { runtime } from './runtime';
 
 const V0: DefinitionsTypes = {
   BlockV0: {
@@ -335,4 +336,4 @@ const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
   }
 });
 
-export default { rpc, types };
+export default { rpc, runtime, types };

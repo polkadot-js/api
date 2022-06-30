@@ -1,13 +1,29 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Struct, Text, Vec, u256 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Struct, Text, U256, Vec, u256 } from '@polkadot/types-codec';
 import type { H160, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EvmAccount */
 export interface EvmAccount extends Struct {
   readonly nonce: u256;
   readonly balance: u256;
+}
+
+/** @name EvmCallInfo */
+export interface EvmCallInfo extends Struct {
+  readonly exitReason: ExitReason;
+  readonly value: Bytes;
+  readonly usedGas: U256;
+  readonly logs: Vec<EvmLog>;
+}
+
+/** @name EvmCreateInfo */
+export interface EvmCreateInfo extends Struct {
+  readonly exitReason: ExitReason;
+  readonly value: H160;
+  readonly usedGas: U256;
+  readonly logs: Vec<EvmLog>;
 }
 
 /** @name EvmLog */

@@ -5,7 +5,7 @@
 Changes:
 
 - Support for `state_call` definitions via API config (exposed on `api.runtime.*`)
-- Type generation for runtime call definitions (not exposed by default)
+- Type generation for runtime call definitions
 
 
 ## 8.10.1 Jun 26, 2022

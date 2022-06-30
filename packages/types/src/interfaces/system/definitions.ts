@@ -141,7 +141,8 @@ export default {
         ExhaustsResources: 'Null',
         Custom: 'u8',
         BadMandatory: 'Null',
-        MandatoryDispatch: 'Null'
+        MandatoryDispatch: 'Null',
+        BadSigner: 'Null'
       }
     },
     Key: 'Bytes',

@@ -183,10 +183,19 @@ export default {
     Slot: 'u64',
     SlotDuration: 'u64',
     StorageData: 'Bytes',
+    StorageInfo: {
+      palletName: 'Bytes',
+      storage_name: 'Bytes',
+      prefix: 'Bytes',
+      maxValues: 'Option<u32>',
+      maxSize: 'Option<u32>'
+    },
     StorageProof: {
       trieNodes: 'Vec<Bytes>'
     },
     TransactionPriority: 'u64',
+    TransactionLongevity: 'u64',
+    TransactionTag: 'Bytes',
     TransactionInfo: {
       _alias: {
         dataSize: 'size'

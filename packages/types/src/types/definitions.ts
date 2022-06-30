@@ -61,10 +61,12 @@ export interface DefinitionRpcSub extends DefinitionRpc {
 
 export type DefinitionsRpc = Record<string, DefinitionRpc | DefinitionRpcSub>;
 
-export type DefinitionsCall = Record<string, {
+export interface DefinitionsCallEntry {
   methods: Record<string, DefinitionCall>;
   version: number;
-}[]>;
+}
+
+export type DefinitionsCall = Record<string, DefinitionsCallEntry[]>;
 
 export interface DefinitionCallNamed extends DefinitionCall {
   method: string;
