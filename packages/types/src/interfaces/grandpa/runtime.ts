@@ -17,6 +17,7 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'AuthorityList'
         }
+        // TODO submit_report_equivocation_unsigned_extrinsic, generate_key_ownership_proof
       },
       version: 3
     }

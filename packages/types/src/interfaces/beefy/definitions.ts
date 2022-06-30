@@ -36,6 +36,10 @@ export default {
     BeefyPayload: 'Vec<(BeefyPayloadId, Bytes)>',
     BeefyPayloadId: '[u8;2]',
     MmrRootHash: 'H256',
-    ValidatorSetId: 'u64'
+    ValidatorSetId: 'u64',
+    ValidatorSet: {
+      validators: 'Vec<AuthorityId>',
+      id: 'ValidatorSetId'
+    }
   }
 } as Definitions;

@@ -5,6 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
+import type { ValidatorSet } from '@polkadot/types/interfaces/beefy';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
@@ -20,6 +21,16 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    authorityDiscoveryApi: {
+      /**
+       * Retrieve authority identifiers of the current and next authority set.
+       **/
+      authorities: AugmentedCall<ApiType, () => Observable<Vec<AuthorityId>>>;
       /**
        * Generic call
        **/
@@ -46,6 +57,16 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns information regarding the next epoch (which was already previously announced).
        **/
       nextEpoch: AugmentedCall<ApiType, () => Observable<Epoch>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    beefyApi: {
+      /**
+       * Return the current active BEEFY validator set
+       **/
+      validatorSet: AugmentedCall<ApiType, () => Observable<Option<ValidatorSet>>>;
       /**
        * Generic call
        **/

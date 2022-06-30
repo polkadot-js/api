@@ -3,6 +3,7 @@
 
 import type { Bytes, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
 
@@ -44,6 +45,12 @@ export interface BeefySignedCommitment extends Struct {
 
 /** @name MmrRootHash */
 export interface MmrRootHash extends H256 {}
+
+/** @name ValidatorSet */
+export interface ValidatorSet extends Struct {
+  readonly validators: Vec<AuthorityId>;
+  readonly id: ValidatorSetId;
+}
 
 /** @name ValidatorSetId */
 export interface ValidatorSetId extends u64 {}

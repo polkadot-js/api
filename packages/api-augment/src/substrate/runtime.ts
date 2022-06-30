@@ -26,6 +26,16 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    authorityDiscoveryApi: {
+      /**
+       * Retrieve authority identifiers of the current and next authority set.
+       **/
+      authorities: AugmentedCall<ApiType, () => Observable<Vec<AuthorityId>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     babeApi: {
       /**
        * Return the genesis configuration for BABE. The configuration is only read on genesis.
