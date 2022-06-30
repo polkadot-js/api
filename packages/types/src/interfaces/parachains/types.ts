@@ -443,12 +443,12 @@ export interface NewBidder extends Struct {
 
 /** @name OccupiedCore */
 export interface OccupiedCore extends Struct {
-  readonly nextUpOnVvailable: Option<ScheduledCore>;
+  readonly nextUpOnAvailable: Option<ScheduledCore>;
   readonly occupiedSince: BlockNumber;
   readonly timeOutAt: BlockNumber;
   readonly nextUpOnTimeOut: Option<ScheduledCore>;
   readonly availability: BitVec;
-  readonly group_responsible: GroupIndex;
+  readonly groupResponsible: GroupIndex;
   readonly candidateHash: CandidateHash;
   readonly candidateDescriptor: CandidateDescriptor;
 }

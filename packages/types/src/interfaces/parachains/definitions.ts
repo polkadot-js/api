@@ -295,12 +295,12 @@ export default {
     },
     MessageQueueChain: 'RelayChainHash',
     OccupiedCore: {
-      nextUpOnVvailable: 'Option<ScheduledCore>',
+      nextUpOnAvailable: 'Option<ScheduledCore>',
       occupiedSince: 'BlockNumber',
       timeOutAt: 'BlockNumber',
       nextUpOnTimeOut: 'Option<ScheduledCore>',
       availability: 'BitVec',
-      group_responsible: 'GroupIndex',
+      groupResponsible: 'GroupIndex',
       candidateHash: 'CandidateHash',
       candidateDescriptor: 'CandidateDescriptor'
     },
