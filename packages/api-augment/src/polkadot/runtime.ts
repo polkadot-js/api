@@ -10,6 +10,7 @@ import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
+import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/calls' {
@@ -45,6 +46,16 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns information regarding the next epoch (which was already previously announced).
        **/
       nextEpoch: AugmentedCall<ApiType, () => Observable<Epoch>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    core: {
+      /**
+       * Returns the version of the runtime.
+       **/
+      version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
       /**
        * Generic call
        **/

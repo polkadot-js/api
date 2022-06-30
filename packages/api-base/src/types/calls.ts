@@ -3,6 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Codec, DefinitionCall } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiTypes, ReturnCodec } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
@@ -32,6 +33,6 @@ export interface DefinitionCallNamed extends DefinitionCall {
   method: string;
   name: string;
   section: string;
-  sectionHash: Uint8Array;
+  sectionHash: HexString;
   version: number;
 }

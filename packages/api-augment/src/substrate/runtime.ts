@@ -11,6 +11,7 @@ import type { AuthorityList, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
+import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/calls' {
@@ -68,6 +69,16 @@ declare module '@polkadot/api-base/types/calls' {
        * Upload new code without instantiating a contract from it.
        **/
       uploadCode: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, code: Bytes | string | Uint8Array, storageDepositLimit: Option<Balance> | null | object | string | Uint8Array) => Observable<CodeUploadResult>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    core: {
+      /**
+       * Returns the version of the runtime.
+       **/
+      version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
       /**
        * Generic call
        **/

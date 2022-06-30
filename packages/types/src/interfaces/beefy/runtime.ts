@@ -17,7 +17,8 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'BeefyNextAuthoritySet'
         }
-      }
+      },
+      version: 1
     }
   ]
 };

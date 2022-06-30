@@ -17,7 +17,8 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'Index'
         }
-      }
+      },
+      version: 1
     }
   ]
 };

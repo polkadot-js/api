@@ -17,7 +17,8 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'SlotDuration'
         }
-      }
+      },
+      version: 1
     }
   ]
 };
