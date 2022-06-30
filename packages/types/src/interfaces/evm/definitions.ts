@@ -13,6 +13,18 @@ export default {
       nonce: 'u256',
       balance: 'u256'
     },
+    EvmCallInfo: {
+      exitReason: 'ExitReason',
+      value: 'Bytes',
+      usedGas: 'U256',
+      logs: 'Vec<EvmLog>'
+    },
+    EvmCreateInfo: {
+      exitReason: 'ExitReason',
+      value: 'H160',
+      usedGas: 'U256',
+      logs: 'Vec<EvmLog>'
+    },
     EvmLog: {
       address: 'H160',
       topics: 'Vec<H256>',

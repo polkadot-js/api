@@ -6,18 +6,20 @@
 
 import type { Definitions } from '../../types';
 
-import { rpc } from './rpc';
 import { runtime } from './runtime';
 
 export default {
-  rpc,
+  rpc: {},
   runtime,
   types: {
-    StorageKind: {
-      _enum: {
-        PERSISTENT: 1,
-        LOCAL: 2
-      }
-    }
+    CheckInherentsResult: {
+      okay: 'bool',
+      fatalError: 'bool',
+      errors: 'InherentData'
+    },
+    InherentData: {
+      data: 'BTreeMap<InherentIdentifier, Bytes>'
+    },
+    InherentIdentifier: '[u8; 8]'
   }
 } as Definitions;

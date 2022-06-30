@@ -56,11 +56,11 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Submit and subscribe to watch an extrinsic until unsubscribed
        **/
-      submitAndWatchExtrinsic: AugmentedRpc<(extrinsic: IExtrinsic) => Observable<ExtrinsicStatus>>;
+      submitAndWatchExtrinsic: AugmentedRpc<(extrinsic: Extrinsic | IExtrinsic | string | Uint8Array) => Observable<ExtrinsicStatus>>;
       /**
        * Submit a fully formatted extrinsic for block inclusion
        **/
-      submitExtrinsic: AugmentedRpc<(extrinsic: IExtrinsic) => Observable<Hash>>;
+      submitExtrinsic: AugmentedRpc<(extrinsic: Extrinsic | IExtrinsic | string | Uint8Array) => Observable<Hash>>;
     };
     babe: {
       /**

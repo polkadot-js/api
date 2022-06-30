@@ -187,6 +187,8 @@ export default {
       trieNodes: 'Vec<Bytes>'
     },
     TransactionPriority: 'u64',
+    TransactionLongevity: 'u64',
+    TransactionTag: 'Bytes',
     TransactionInfo: {
       _alias: {
         dataSize: 'size'
