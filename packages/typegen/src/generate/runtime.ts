@@ -1,9 +1,8 @@
 // Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionCallNamed } from '@polkadot/api-base/types';
 import type { TypeRegistry } from '@polkadot/types/create';
-import type { Definitions } from '@polkadot/types/types';
+import type { DefinitionCallNamed, Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 

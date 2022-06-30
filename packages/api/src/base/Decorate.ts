@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AugmentedCall, DefinitionCallNamed, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
+import type { AugmentedCall, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionRpc, DefinitionRpcSub, Definitions, DefinitionsCall, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, Definitions, DefinitionsCall, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';

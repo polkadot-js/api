@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 export type DefinitionTypeType = string;
 
 export type DefinitionTypeEnum = { _fallback?: DefinitionTypeType } & ({ _enum: DefinitionTypeType[] } | { _enum: Record<string, DefinitionTypeType | null> });
@@ -63,6 +65,14 @@ export type DefinitionsCall = Record<string, {
   methods: Record<string, DefinitionCall>;
   version: number;
 }[]>;
+
+export interface DefinitionCallNamed extends DefinitionCall {
+  method: string;
+  name: string;
+  section: string;
+  sectionHash: HexString;
+  version: number;
+}
 
 export type DefinitionsTypes = Record<string, DefinitionType>;
 
