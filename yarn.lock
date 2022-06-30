@@ -2213,7 +2213,6 @@ __metadata:
     "@babel/runtime": ^7.18.3
     "@polkadot/api": 8.10.2-4-x
     "@polkadot/api-augment": 8.10.2-4-x
-    "@polkadot/api-base": 8.10.2-4-x
     "@polkadot/rpc-augment": 8.10.2-4-x
     "@polkadot/rpc-provider": 8.10.2-4-x
     "@polkadot/types": 8.10.2-4-x
