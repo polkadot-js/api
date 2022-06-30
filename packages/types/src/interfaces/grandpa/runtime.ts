@@ -28,6 +28,11 @@ export const runtime: DefinitionsCall = {
         },
         grandpa_authorities: {
           description: 'Get the current GRANDPA authorities and weights. This should not change except for when changes are scheduled and the corresponding delay has passed.',
+          params: [],
+          type: 'AuthorityList'
+        },
+        submit_report_equivocation_unsigned_extrinsic: {
+          description: 'Submits an unsigned extrinsic to report an equivocation.',
           params: [
             {
               name: 'equivocationProof',
@@ -38,11 +43,6 @@ export const runtime: DefinitionsCall = {
               type: 'OpaqueKeyOwnershipProof'
             }
           ],
-          type: 'AuthorityList'
-        },
-        submit_report_equivocation_unsigned_extrinsic: {
-          description: 'Submits an unsigned extrinsic to report an equivocation.',
-          params: [],
           type: 'Option<Null>'
         }
       },
