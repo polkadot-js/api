@@ -8,6 +8,8 @@ import type { Definitions } from '../../types';
 
 import { objectSpread } from '@polkadot/util';
 
+import { runtime } from './runtime';
+
 // The runtime definition of SessionKeys are passed as a Trait to session
 // Defined in `node/runtime/src/lib.rs` as follow
 //   impl_opaque_keys! {
@@ -39,12 +41,13 @@ const keyTypes = {
 
 export default {
   rpc: {},
+  runtime,
   types: objectSpread({}, keyTypes, {
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
     MembershipProof: {
       session: 'SessionIndex',
-      trieNodes: 'Vec<Vec<u8>>',
+      trieNodes: 'Vec<Bytes>',
       validatorCount: 'ValidatorCount'
     },
     SessionIndex: 'u32',
