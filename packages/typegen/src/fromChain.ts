@@ -54,7 +54,7 @@ function generate (metaHex: HexString, version: Version | null, pkg: string | un
     [
       HEADER('chain'),
       ...[
-        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc']
+        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc', 'runtime']
           .filter((key) => !!key)
           .map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)

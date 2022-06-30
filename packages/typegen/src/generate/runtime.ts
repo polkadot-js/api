@@ -33,11 +33,11 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
 
       for (let i = 0; i < sections.length; i++) {
         const [_section, sec] = sections[i];
-        const apiHash = blake2AsHex(_section, 64);
-        const api = apis && apis.find(([h]) => h === apiHash);
+        const sectionHash = blake2AsHex(_section, 64);
+        const api = apis && apis.find(([h]) => h === sectionHash);
 
         if (api) {
-          const ver = sec.find(({ version = 1 }) => version === api[1]);
+          const ver = sec.find(({ version }) => version === api[1]);
 
           if (ver) {
             const methods = Object.entries(ver.methods);
@@ -53,7 +53,7 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
                 const [_method, def] = methods[m];
                 const method = stringCamelCase(_method);
 
-                named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section }, def);
+                named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section, sectionHash, version: ver.version }, def);
               }
             }
           } else {
@@ -107,15 +107,21 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, apis: A
           args: args.join(', '),
           docs: [def.description],
           name: methodName,
+          sectionHash: def.sectionHash,
+          sectionName: def.section,
+          sectionVersion: def.version,
           type: formatType(registry, allDefs, def.type, imports)
         };
       }).sort((a, b) => a.name.localeCompare(b.name));
 
       return {
         items: allMethods,
-        name: section || 'unknown'
+        name: section || 'unknown',
+        sectionHash: allMethods.length && allMethods[0].sectionHash,
+        sectionName: allMethods.length && allMethods[0].sectionName,
+        sectionVersion: allMethods.length && allMethods[0].sectionVersion
       };
-    }).sort((a, b) => a.name.localeCompare(b.name));
+    }).filter(({ items }) => items.length).sort((a, b) => a.name.localeCompare(b.name));
 
     if (modules.length) {
       imports.typesTypes.Observable = true;

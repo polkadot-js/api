@@ -103,7 +103,8 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'CodeUploadResult'
         }
-      }
+      },
+      version: 1
     }
   ]
 };

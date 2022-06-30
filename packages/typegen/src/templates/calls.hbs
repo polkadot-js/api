@@ -5,6 +5,7 @@
 declare module '@polkadot/api-base/types/calls' {
   export interface AugmentedCalls<ApiType extends ApiTypes> {
     {{#each modules}}
+    /** {{{sectionHash}}}/{{{sectionVersion}}} */
     {{{name}}}: {
       {{#each items}}
       {{> docs}}

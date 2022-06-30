@@ -27,7 +27,8 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'Bytes'
         }
-      }
+      },
+      version: 1
     }
   ]
 };

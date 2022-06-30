@@ -4,18 +4,13 @@
 import type { DefinitionsCall } from '../../types';
 
 export const runtime: DefinitionsCall = {
-  AuraApi: [
+  AuthorityDiscoveryApi: [
     {
       methods: {
         authorities: {
-          description: 'Return the current set of authorities.',
+          description: 'Retrieve authority identifiers of the current and next authority set.',
           params: [],
           type: 'Vec<AuthorityId>'
-        },
-        slot_duration: {
-          description: 'Returns the slot duration for Aura.',
-          params: [],
-          type: 'SlotDuration'
         }
       },
       version: 1

@@ -4,16 +4,17 @@
 import type { DefinitionsCall } from '../../types';
 
 export const runtime: DefinitionsCall = {
-  Metadata: [
+  Core: [
     {
       methods: {
-        metadata: {
-          description: 'Returns the metadata of a runtime',
+        version: {
+          description: 'Returns the version of the runtime.',
           params: [],
-          type: 'OpaqueMetadata'
+          type: 'RuntimeVersion'
         }
       },
-      version: 1
+      version: 4
+      // TODO Add execute_block & initialize_block
     }
   ]
 };

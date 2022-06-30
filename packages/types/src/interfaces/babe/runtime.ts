@@ -35,7 +35,7 @@ const V1_V2_SHARED: Record<string, DefinitionCall> = {
     params: [],
     type: 'Epoch'
   }
-  // TDODO Add submit_report_equivocation_unsigned_extrinsic
+  // TODO Add submit_report_equivocation_unsigned_extrinsic
 };
 
 export const runtime: DefinitionsCall = {

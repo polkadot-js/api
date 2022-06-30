@@ -35,7 +35,8 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'RuntimeDispatchInfo'
         }
-      }
+      },
+      version: 1
     }
   ]
 };

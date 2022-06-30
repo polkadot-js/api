@@ -4,6 +4,18 @@
 import type { DefinitionsCall } from '../../types';
 
 export const runtime: DefinitionsCall = {
+  BeefyApi: [
+    {
+      methods: {
+        validator_set: {
+          description: 'Return the current active BEEFY validator set',
+          params: [],
+          type: 'Option<ValidatorSet>'
+        }
+      },
+      version: 1
+    }
+  ],
   BeefyMmrApi: [
     {
       methods: {
@@ -17,7 +29,8 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'BeefyNextAuthoritySet'
         }
-      }
+      },
+      version: 1
     }
   ]
 };
