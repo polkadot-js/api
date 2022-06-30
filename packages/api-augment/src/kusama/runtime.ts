@@ -111,6 +111,14 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0xdf6acb689907609b/4 */
     core: {
       /**
+       * Execute the given block.
+       **/
+      executeBlock: AugmentedCall<ApiType, (block: Block | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Initialize a block with the given header.
+       **/
+      initializeBlock: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<Null>>;
+      /**
        * Returns the version of the runtime.
        **/
       version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
