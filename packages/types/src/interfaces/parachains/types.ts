@@ -121,6 +121,17 @@ export interface CandidateDescriptor extends Struct {
   readonly validationCodeHash: ValidationCodeHash;
 }
 
+/** @name CandidateEvent */
+export interface CandidateEvent extends Enum {
+  readonly isCandidateBacked: boolean;
+  readonly asCandidateBacked: ITuple<[CandidateReceipt, HeadData, CoreIndex, GroupIndex]>;
+  readonly isCandidateIncluded: boolean;
+  readonly asCandidateIncluded: ITuple<[CandidateReceipt, HeadData, CoreIndex, GroupIndex]>;
+  readonly isCandidateTimedOut: boolean;
+  readonly asCandidateTimedOut: ITuple<[CandidateReceipt, HeadData, CoreIndex]>;
+  readonly type: 'CandidateBacked' | 'CandidateIncluded' | 'CandidateTimedOut';
+}
+
 /** @name CandidateHash */
 export interface CandidateHash extends Hash {}
 
@@ -177,6 +188,16 @@ export interface CoreOccupied extends Enum {
   readonly asParathread: ParathreadEntry;
   readonly isParachain: boolean;
   readonly type: 'Parathread' | 'Parachain';
+}
+
+/** @name CoreState */
+export interface CoreState extends Enum {
+  readonly isOccupied: boolean;
+  readonly asOccupied: OccupiedCore;
+  readonly isScheduled: boolean;
+  readonly asScheduled: ScheduledCore;
+  readonly isFree: boolean;
+  readonly type: 'Occupied' | 'Scheduled' | 'Free';
 }
 
 /** @name DisputeLocation */
@@ -252,6 +273,13 @@ export interface GlobalValidationSchedule extends Struct {
 
 /** @name GroupIndex */
 export interface GroupIndex extends u32 {}
+
+/** @name GroupRotationInfo */
+export interface GroupRotationInfo extends Struct {
+  readonly sessionStartBlock: BlockNumber;
+  readonly groupRotationFrequency: BlockNumber;
+  readonly now: BlockNumber;
+}
 
 /** @name HeadData */
 export interface HeadData extends Bytes {}
@@ -413,6 +441,26 @@ export interface NewBidder extends Struct {
   readonly sub: SubId;
 }
 
+/** @name OccupiedCore */
+export interface OccupiedCore extends Struct {
+  readonly nextUpOnVvailable: Option<ScheduledCore>;
+  readonly occupiedSince: BlockNumber;
+  readonly timeOutAt: BlockNumber;
+  readonly nextUpOnTimeOut: Option<ScheduledCore>;
+  readonly availability: BitVec;
+  readonly group_responsible: GroupIndex;
+  readonly candidateHash: CandidateHash;
+  readonly candidateDescriptor: CandidateDescriptor;
+}
+
+/** @name OccupiedCoreAssumption */
+export interface OccupiedCoreAssumption extends Enum {
+  readonly isIncluded: boolean;
+  readonly isTimedOut: boolean;
+  readonly isFree: boolean;
+  readonly type: 'Included' | 'TimedOut' | 'Free';
+}
+
 /** @name OutboundHrmpMessage */
 export interface OutboundHrmpMessage extends Struct {
   readonly recipient: u32;
@@ -520,6 +568,14 @@ export interface PersistedValidationData extends Struct {
   readonly maxPovSize: u32;
 }
 
+/** @name PvfCheckStatement */
+export interface PvfCheckStatement extends Struct {
+  readonly accept: bool;
+  readonly subject: ValidationCodeHash;
+  readonly sessionIndex: SessionIndex;
+  readonly validatorIndex: ParaValidatorIndex;
+}
+
 /** @name QueuedParathread */
 export interface QueuedParathread extends Struct {
   readonly claim: ParathreadEntry;
@@ -561,11 +617,24 @@ export interface Retriable extends Enum {
   readonly type: 'Never' | 'WithRetries';
 }
 
+/** @name ScheduledCore */
+export interface ScheduledCore extends Struct {
+  readonly paraId: ParaId;
+  readonly collator: Option<CollatorId>;
+}
+
 /** @name Scheduling */
 export interface Scheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
   readonly type: 'Always' | 'Dynamic';
+}
+
+/** @name ScrapedOnChainVotes */
+export interface ScrapedOnChainVotes extends Struct {
+  readonly session: SessionIndex;
+  readonly backingValidatorsPerCandidate: Vec<ITuple<[CandidateReceipt, Vec<ITuple<[ParaValidatorIndex, ValidityAttestation]>>]>>;
+  readonly disputes: MultiDisputeStatementSet;
 }
 
 /** @name ServiceQuality */
