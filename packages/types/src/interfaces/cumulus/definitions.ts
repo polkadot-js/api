@@ -6,7 +6,24 @@
 
 import type { Definitions } from '../../types';
 
+import { runtime } from './runtime';
+
 const dmpQueue = {
+  CollationInfo: {
+    upwardMessages: 'Vec<UpwardMessage>',
+    horizontalMessages: 'Vec<OutboundHrmpMessage>',
+    newValidationCode: 'Option<ValidationCode>',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'RelayBlockNumber',
+    headData: 'HeadData'
+  },
+  CollationInfoV1: {
+    upwardMessages: 'Vec<UpwardMessage>',
+    horizontalMessages: 'Vec<OutboundHrmpMessage>',
+    newValidationCode: 'Option<ValidationCode>',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'RelayBlockNumber'
+  },
   ConfigData: {
     maxIndividual: 'Weight'
   },
@@ -22,5 +39,6 @@ const dmpQueue = {
 
 export default {
   rpc: {},
+  runtime,
   types: dmpQueue
 } as Definitions;
