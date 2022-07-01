@@ -9,7 +9,7 @@ import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
-import { assertReturn } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import { packageInfo } from '../packageInfo';
 import { findCall, findError } from './find';
@@ -21,7 +21,10 @@ interface PkgJson {
 }
 
 function assertResult<T> (value: T | undefined): T {
-  return assertReturn(value, 'Api needs to be initialized before using, listen on \'ready\'');
+  if (isUndefined(value)) {
+    throw new Error('Api needs to be initialized before using, listen on \'ready\'');
+  }
+  return value;
 }
 
 export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> implements ApiDecoration<ApiType> {
