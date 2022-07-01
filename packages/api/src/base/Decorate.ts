@@ -21,7 +21,7 @@ import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, typeDefinitions, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
@@ -98,6 +98,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore & RpcInterface;
+
+  protected _runtimeMap: Record<HexString, string> = {};
 
   protected _runtimeChain?: Text;
 
@@ -327,6 +329,28 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       this._decorateRpc(this._rpcCore, this._rxDecorateMethod, this._rx.rpc);
     }
 
+    // extract the actual sections from the methods (this is useful when
+    // we try and create mappings to runtime names via a hash mapping)
+    const sectionMap: Record<string, boolean> = {};
+
+    for (let i = 0; i < methods.length; i++) {
+      const [section] = methods[i].split('_');
+
+      sectionMap[section] = true;
+    }
+
+    // convert the actual section names into an easy name lookup
+    const sections = Object.keys(sectionMap);
+
+    for (let i = 0; i < sections.length; i++) {
+      const nameA = stringUpperFirst(sections[i]);
+      const nameB = `${nameA}Api`;
+
+      this._runtimeMap[blake2AsHex(nameA, 64)] = nameB;
+      this._runtimeMap[blake2AsHex(nameB, 64)] = nameB;
+    }
+
+    // finally we filter the actual methods to expose
     this._filterRpcMethods(methods);
   }
 
@@ -469,17 +493,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
-    const hashes: HexString[] = [];
+    const hashes: Record<HexString, boolean> = {};
     const sections = this._getRuntimeDefs(registry, specName, this._runtimeChain);
+    const older: string[] = [];
 
     for (let i = 0; i < sections.length; i++) {
       const [_section, secs] = sections[i];
       const sectionHash = blake2AsHex(_section, 64);
       const rtApi = apis.find(([a]) => a.eq(sectionHash));
 
-      hashes.push(sectionHash);
+      hashes[sectionHash] = true;
 
       if (rtApi) {
+        const all = secs.map(({ version }) => version).sort();
         const sec = secs.find(({ version }) => rtApi[1].eq(version));
 
         if (sec) {
@@ -499,18 +525,23 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             }
           }
         } else {
-          l.warn(`Not decorating runtime ${_section}, unable to find version ${rtApi[1].toString()}`);
+          older.push(`${_section}/${rtApi[1].toString()} (${all.join('/')} known)`);
         }
       }
     }
 
     // find the runtimes that we don't have hashes for
     const notFound = apis
-      .filter(([a]) => !hashes.includes(a.toHex()))
-      .map(([a, v]) => `${a.toHex()}/${v.toString()}`);
+      .map(([a, v]): [HexString, string] => [a.toHex(), v.toString()])
+      .filter(([a]) => !hashes[a])
+      .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
+
+    if (older.length) {
+      l.warn(`Not decorating runtime apis without matching versions: ${older.join(', ')}`);
+    }
 
     if (notFound.length) {
-      l.warn(`Not decorating runtime apis ${notFound.join(', ')}`);
+      l.warn(`Not decorating unknown runtime apis: ${notFound.join(', ')}`);
     }
 
     const stateCall = blockHash
