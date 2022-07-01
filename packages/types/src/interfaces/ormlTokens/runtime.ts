@@ -19,9 +19,9 @@ export const runtime: DefinitionsCall = {
             }
           ],
           // This is Balance - since we don't understand enough about the way
-          // way in which this is used, we default to Raw here (it could be a
-          // specialized type that doesn't map to the on-chain Balance?)
-          type: 'Raw'
+          // in which this is used, we default to u128 here (it certainly could
+          // be a specialized type that doesn't map to the on-chain Balance)
+          type: 'u128'
         }
       },
       version: 1
