@@ -62,6 +62,10 @@ export { default as xcm } from './xcm/definitions';
 export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as eth } from './eth/definitions';
 
+// orml definitions
+export { default as ormlOracle } from './ormlOracle/definitions';
+export { default as ormlTokens } from './ormlTokens/definitions';
+
 // pull in rpc last, assuming that is uses info from above
 export { default as rpc } from './rpc/definitions';
 
