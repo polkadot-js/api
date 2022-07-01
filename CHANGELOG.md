@@ -2,6 +2,10 @@
 
 ## master
 
+Contributed:
+
+- Adjust `api.{tx, query, ...}` with no external side-effects (Thanks to https://github.com/btwiuse)
+
 Changes:
 
 - Support for `state_call` definitions via API config (exposed on `api.runtime.*`)
