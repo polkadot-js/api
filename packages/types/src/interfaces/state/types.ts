@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { StorageKey } from '@polkadot/types';
-import type { Bytes, Enum, HashMap, Option, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Enum, HashMap, Option, Struct, Text, U8aFixed, Vec, bool, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Hash, StorageData } from '@polkadot/types/interfaces/runtime';
 
@@ -64,6 +64,7 @@ export interface RuntimeVersion extends Struct {
   readonly implVersion: u32;
   readonly apis: Vec<RuntimeVersionApi>;
   readonly transactionVersion: u32;
+  readonly stateVersion: u8;
 }
 
 /** @name RuntimeVersionApi */
@@ -74,6 +75,27 @@ export interface RuntimeVersionPartial extends Struct {
   readonly specName: Text;
   readonly specVersion: u32;
   readonly apis: Vec<RuntimeVersionApi>;
+}
+
+/** @name RuntimeVersionPre3 */
+export interface RuntimeVersionPre3 extends Struct {
+  readonly specName: Text;
+  readonly implName: Text;
+  readonly authoringVersion: u32;
+  readonly specVersion: u32;
+  readonly implVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
+}
+
+/** @name RuntimeVersionPre4 */
+export interface RuntimeVersionPre4 extends Struct {
+  readonly specName: Text;
+  readonly implName: Text;
+  readonly authoringVersion: u32;
+  readonly specVersion: u32;
+  readonly implVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
+  readonly transactionVersion: u32;
 }
 
 /** @name SpecVersion */

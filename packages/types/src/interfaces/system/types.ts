@@ -56,6 +56,18 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asOk: DispatchOutcome;
 }
 
+/** @name ApplyExtrinsicResultPre6 */
+export interface ApplyExtrinsicResultPre6 extends Result<DispatchOutcomePre6, TransactionValidityError> {
+  readonly isErr: boolean;
+  readonly asErr: TransactionValidityError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: TransactionValidityError;
+  readonly isOk: boolean;
+  readonly asOk: DispatchOutcomePre6;
+}
+
 /** @name ArithmeticError */
 export interface ArithmeticError extends Enum {
   readonly isUnderflow: boolean;
@@ -125,6 +137,9 @@ export interface DispatchError extends Enum {
 /** @name DispatchErrorModule */
 export interface DispatchErrorModule extends DispatchErrorModuleU8a {}
 
+/** @name DispatchErrorModulePre6 */
+export interface DispatchErrorModulePre6 extends DispatchErrorModuleU8 {}
+
 /** @name DispatchErrorModuleU8 */
 export interface DispatchErrorModuleU8 extends Struct {
   readonly index: u8;
@@ -135,6 +150,25 @@ export interface DispatchErrorModuleU8 extends Struct {
 export interface DispatchErrorModuleU8a extends Struct {
   readonly index: u8;
   readonly error: U8aFixed;
+}
+
+/** @name DispatchErrorPre6 */
+export interface DispatchErrorPre6 extends Enum {
+  readonly isOther: boolean;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: DispatchErrorModulePre6;
+  readonly isConsumerRemaining: boolean;
+  readonly isNoProviders: boolean;
+  readonly isTooManyConsumers: boolean;
+  readonly isToken: boolean;
+  readonly asToken: TokenError;
+  readonly isArithmetic: boolean;
+  readonly asArithmetic: ArithmeticError;
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
 }
 
 /** @name DispatchErrorTo198 */
@@ -171,6 +205,18 @@ export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
   readonly isError: boolean;
   /** @deprecated Use asErr */
   readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: ITuple<[]>;
+}
+
+/** @name DispatchOutcomePre6 */
+export interface DispatchOutcomePre6 extends Result<ITuple<[]>, DispatchErrorPre6> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchErrorPre6;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchErrorPre6;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
 }

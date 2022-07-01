@@ -43,6 +43,7 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    ApplyExtrinsicResultPre6: 'Result<DispatchOutcomePre6, TransactionValidityError>',
     ArithmeticError: {
       _enum: [
         'Underflow',
@@ -86,6 +87,20 @@ export default {
         Transactional: 'TransactionalError'
       }
     },
+    DispatchErrorPre6: {
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModulePre6',
+        ConsumerRemaining: 'Null',
+        NoProviders: 'Null',
+        TooManyConsumers: 'Null',
+        Token: 'TokenError',
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
+      }
+    },
     DispatchErrorModuleU8: {
       index: 'u8',
       error: 'u8'
@@ -95,6 +110,7 @@ export default {
       error: '[u8; 4]'
     },
     DispatchErrorModule: 'DispatchErrorModuleU8a',
+    DispatchErrorModulePre6: 'DispatchErrorModuleU8',
     DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
@@ -114,6 +130,7 @@ export default {
       paysFee: 'bool'
     },
     DispatchOutcome: 'Result<(), DispatchError>',
+    DispatchOutcomePre6: 'Result<(), DispatchErrorPre6>',
     DispatchResult: 'Result<(), DispatchError>',
     DispatchResultOf: 'DispatchResult',
     DispatchResultTo198: 'Result<(), Text>',
