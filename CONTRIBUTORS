@@ -46,6 +46,7 @@
        1	Alan Sapede                   	Adds Eth feeHistory & maxPriorityFeePerGas rpc (#4956)
        1	Andreea Eftene                	Add storage deposit support (#4304)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
+       1	Btwiuse Arch                  	Add side effect check workaround (#4994) (#5009)
        1	chriswmercer                  	little readme tweak (#279)
        1	codingsh                      	#2182 - add: search for docs (#2232)
        1	coolcorexix                   	Investigate 4559 v2 (#4608)
