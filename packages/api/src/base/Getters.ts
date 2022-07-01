@@ -24,7 +24,6 @@ function assertResult<T> (value: T | undefined): T {
   if (isUndefined(value)) {
     throw new Error('Api needs to be initialized before using, listen on \'ready\'');
   }
-  
   return value;
 }
 
