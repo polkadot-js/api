@@ -346,7 +346,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const nameA = stringUpperFirst(sections[i]);
       const nameB = `${nameA}Api`;
 
-      this._runtimeMap[blake2AsHex(nameA, 64)] = nameB;
+      this._runtimeMap[blake2AsHex(nameA, 64)] = nameA;
       this._runtimeMap[blake2AsHex(nameB, 64)] = nameB;
     }
 
