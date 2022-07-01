@@ -39,6 +39,8 @@ export * from './lottery/types';
 export * from './mmr/types';
 export * from './offchain/types';
 export * from './offences/types';
+export * from './ormlOracle/types';
+export * from './ormlTokens/types';
 export * from './parachains/types';
 export * from './payment/types';
 export * from './poll/types';
