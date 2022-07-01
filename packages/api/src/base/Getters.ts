@@ -20,7 +20,7 @@ interface PkgJson {
 
 function assertResult<T> (value: T | undefined): T {
   if (value === undefined) {
-    throw new Error("Api interafces needs to be initialized before using, wait for 'isReady'");
+    throw new Error("Api interfaces needs to be initialized before using, wait for 'isReady'");
   }
 
   return value;
