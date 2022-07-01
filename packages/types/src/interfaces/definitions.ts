@@ -30,6 +30,7 @@ export { default as imOnline } from './imOnline/definitions';
 export { default as lottery } from './lottery/definitions';
 export { default as mmr } from './mmr/definitions';
 export { default as offences } from './offences/definitions';
+export { default as pow } from './pow/definitions';
 export { default as proxy } from './proxy/definitions';
 export { default as recovery } from './recovery/definitions';
 export { default as scheduler } from './scheduler/definitions';

@@ -44,6 +44,7 @@ export * from './ormlTokens/types';
 export * from './parachains/types';
 export * from './payment/types';
 export * from './poll/types';
+export * from './pow/types';
 export * from './proxy/types';
 export * from './purchase/types';
 export * from './recovery/types';
