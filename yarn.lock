@@ -2044,9 +2044,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.45":
-  version: 0.67.45
-  resolution: "@polkadot/dev@npm:0.67.45"
+"@polkadot/dev@npm:^0.67.46":
+  version: 0.67.46
+  resolution: "@polkadot/dev@npm:0.67.46"
   dependencies:
     "@babel/cli": ^7.18.6
     "@babel/core": ^7.18.6
@@ -2133,7 +2133,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 0128e457dc980b2fa400809805d703cdedf8c06e301e6c62115709cbe1af3e38cf2d234ef6b949615374963b132f129a8514e608456e0f33c8d53e12777c0622
+  checksum: 94e84748f6756bffbb6de3aa16e94e2a2b72706bc152a00730992c0cb344612dfc15e7f2478e5baea08dc653e17c274bb5b047c3ba29d0b9a248e500c5d1769c
   languageName: node
   linkType: hard
 
@@ -2204,7 +2204,7 @@ __metadata:
     "@substrate/connect": 0.7.7
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
-    nock: ^13.2.7
+    nock: ^13.2.8
   languageName: unknown
   linkType: soft
 
@@ -2778,13 +2778,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^28.1.3":
-  version: 28.1.3
-  resolution: "@types/jest@npm:28.1.3"
+"@types/jest@npm:^28.1.4":
+  version: 28.1.4
+  resolution: "@types/jest@npm:28.1.4"
   dependencies:
     jest-matcher-utils: ^28.0.0
     pretty-format: ^28.0.0
-  checksum: 28141f2d5b3bafd063362de9790cb8f219488d9b0ad47524a84bef1142a4f0d9d35be0c56988d9f922205225cc83c986acd4be424bd8653b38dc27ab672455e2
+  checksum: 97e22c600397bb4f30e39b595f8285ae92e4eb29a1ef6d1689749e4a4da683d88ecfe717b64492f6adc4c17c1c989520c3546f938c84a7d435c6ac3acf1a2bdc
   languageName: node
   linkType: hard
 
@@ -7956,15 +7956,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"nock@npm:^13.2.7":
-  version: 13.2.7
-  resolution: "nock@npm:13.2.7"
+"nock@npm:^13.2.8":
+  version: 13.2.8
+  resolution: "nock@npm:13.2.8"
   dependencies:
     debug: ^4.1.0
     json-stringify-safe: ^5.0.1
     lodash: ^4.17.21
     propagate: ^2.0.0
-  checksum: 0d7d3163ca973393d43a0334aafe59677ca6e7eea133338166be9bd06e577667da2dd2d5148046022b9e9dd4339f5ae5d0ef0274abc1462c4e896f8729c24b40
+  checksum: 656f696d3c1b6267b8ec366f5cc464306d2aa308ce9b41414e9992eea5b0b71e475a582945b936e16263961c3a0f9e1c388a3a36da53c1e300398a7826550f96
   languageName: node
   linkType: hard
 
@@ -9202,9 +9202,9 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.18.6
     "@babel/register": ^7.18.6
     "@babel/runtime": ^7.18.6
-    "@polkadot/dev": ^0.67.45
+    "@polkadot/dev": ^0.67.46
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/jest": ^28.1.3
+    "@types/jest": ^28.1.4
     copyfiles: ^2.4.1
   languageName: unknown
   linkType: soft

@@ -35,6 +35,6 @@
     "@substrate/connect": "0.7.7",
     "eventemitter3": "^4.0.7",
     "mock-socket": "^9.1.5",
-    "nock": "^13.2.7"
+    "nock": "^13.2.8"
   }
 }
