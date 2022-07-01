@@ -52,7 +52,25 @@ export default {
       specVersion: 'u32',
       implVersion: 'u32',
       apis: 'Vec<RuntimeVersionApi>',
+      transactionVersion: 'u32',
+      stateVersion: 'u8'
+    },
+    RuntimeVersionPre4: {
+      specName: 'Text',
+      implName: 'Text',
+      authoringVersion: 'u32',
+      specVersion: 'u32',
+      implVersion: 'u32',
+      apis: 'Vec<RuntimeVersionApi>',
       transactionVersion: 'u32'
+    },
+    RuntimeVersionPre3: {
+      specName: 'Text',
+      implName: 'Text',
+      authoringVersion: 'u32',
+      specVersion: 'u32',
+      implVersion: 'u32',
+      apis: 'Vec<RuntimeVersionApi>'
     },
     RuntimeVersionPartial: {
       specName: 'Text',
