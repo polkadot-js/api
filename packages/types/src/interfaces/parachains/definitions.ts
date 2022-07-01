@@ -401,10 +401,25 @@ export default {
       disputes: 'MultiDisputeStatementSet'
     },
     SessionInfo: {
+      activeValidatorIndices: 'Vec<ParaValidatorIndex>',
+      randomSeed: '[u8; 32]',
+      disputePeriod: 'SessionIndex',
       validators: 'Vec<ValidatorId>',
       discoveryKeys: 'Vec<AuthorityDiscoveryId>',
       assignmentKeys: 'Vec<AssignmentId>',
-      validatorGroups: 'Vec<SessionInfoValidatorGroup>',
+      validatorGroups: 'Vec<Vec<ValidatorIndex>>',
+      nCores: 'u32',
+      zerothDelayTrancheWidth: 'u32',
+      relayVrfModuloSamples: 'u32',
+      nDelayTranches: 'u32',
+      noShowSlots: 'u32',
+      neededApprovals: 'u32'
+    },
+    OldV1SessionInfo: {
+      validators: 'Vec<ValidatorId>',
+      discoveryKeys: 'Vec<AuthorityDiscoveryId>',
+      assignmentKeys: 'Vec<AssignmentId>',
+      validatorGroups: 'Vec<Vec<ParaValidatorIndex>>',
       nCores: 'u32',
       zerothDelayTrancheWidth: 'u32',
       relayVrfModuloSamples: 'u32',
