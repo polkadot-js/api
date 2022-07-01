@@ -6,6 +6,7 @@ import type { ITuple } from '@polkadot/types-codec/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
+import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 
 /** @name AbridgedCandidateReceipt */
 export interface AbridgedCandidateReceipt extends Struct {
@@ -461,6 +462,20 @@ export interface OccupiedCoreAssumption extends Enum {
   readonly type: 'Included' | 'TimedOut' | 'Free';
 }
 
+/** @name OldV1SessionInfo */
+export interface OldV1SessionInfo extends Struct {
+  readonly validators: Vec<ValidatorId>;
+  readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
+  readonly assignmentKeys: Vec<AssignmentId>;
+  readonly validatorGroups: Vec<Vec<ParaValidatorIndex>>;
+  readonly nCores: u32;
+  readonly zerothDelayTrancheWidth: u32;
+  readonly relayVrfModuloSamples: u32;
+  readonly nDelayTranches: u32;
+  readonly noShowSlots: u32;
+  readonly neededApprovals: u32;
+}
+
 /** @name OutboundHrmpMessage */
 export interface OutboundHrmpMessage extends Struct {
   readonly recipient: u32;
@@ -646,10 +661,13 @@ export interface ServiceQuality extends Enum {
 
 /** @name SessionInfo */
 export interface SessionInfo extends Struct {
+  readonly activeValidatorIndices: Vec<ParaValidatorIndex>;
+  readonly randomSeed: U8aFixed;
+  readonly disputePeriod: SessionIndex;
   readonly validators: Vec<ValidatorId>;
   readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
   readonly assignmentKeys: Vec<AssignmentId>;
-  readonly validatorGroups: Vec<SessionInfoValidatorGroup>;
+  readonly validatorGroups: Vec<Vec<ValidatorIndex>>;
   readonly nCores: u32;
   readonly zerothDelayTrancheWidth: u32;
   readonly relayVrfModuloSamples: u32;
