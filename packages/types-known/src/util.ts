@@ -3,11 +3,11 @@
 
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
+import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, OverrideModuleType, OverrideVersionedType, Registry, RegistryTypes } from '@polkadot/types/types';
 import type { Text } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 
-import { bnToBn, isNull, isUndefined, objectSpread } from '@polkadot/util';
+import { bnToBn, objectSpread } from '@polkadot/util';
 
 import typesChain from './chain';
 import typesSpec from './spec';
@@ -22,8 +22,8 @@ function withNames <T> (chainName: Text | string, specName: Text | string, fn: (
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }) =>
-      (isUndefined(min) || isNull(min) || specVersion >= min) &&
-      (isUndefined(max) || isNull(max) || specVersion <= max)
+      (min === undefined || min === null || specVersion >= min) &&
+      (max === undefined || max === null || specVersion <= max)
     )
     .reduce((result: RegistryTypes, { types }): RegistryTypes =>
       objectSpread(result, types), {}
@@ -82,6 +82,18 @@ export function getSpecRpc ({ knownTypes }: Registry, chainName: Text | string, 
     objectSpread({},
       knownTypes.typesBundle?.spec?.[s]?.rpc,
       knownTypes.typesBundle?.chain?.[c]?.rpc
+    )
+  );
+}
+
+/**
+ * @description Based on the chain and runtimeVersion, get the applicable runtime definitions (ready for registration)
+ */
+export function getSpecRuntime ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): DefinitionsCall {
+  return withNames(chainName, specName, (c, s) =>
+    objectSpread({},
+      knownTypes.typesBundle?.spec?.[s]?.runtime,
+      knownTypes.typesBundle?.chain?.[c]?.runtime
     )
   );
 }

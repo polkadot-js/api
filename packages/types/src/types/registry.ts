@@ -12,7 +12,7 @@ import type { HeaderPartial } from '../interfaces/runtime';
 import type { RuntimeVersionPartial } from '../interfaces/state';
 import type { Metadata, PortableRegistry } from '../metadata';
 import type { Data, StorageKey } from '../primitive';
-import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
+import type { DefinitionRpc, DefinitionRpcSub, DefinitionsCall } from './definitions';
 
 export type { Registry, RegistryError, RegistryTypes } from '@polkadot/types-codec/types';
 
@@ -65,6 +65,7 @@ export interface OverrideBundleDefinition {
   hasher?: (data: Uint8Array) => Uint8Array;
   instances?: Record<string, string[]>;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  runtime?: DefinitionsCall;
   signedExtensions?: ExtDef;
   types?: OverrideVersionedType[];
 }
@@ -79,14 +80,13 @@ export interface RegisteredTypes {
    * @description Specify the actual hasher override to use in the API. This generally should be done via the typesBundle
    */
   hasher?: (data: Uint8Array) => Uint8Array;
-
   /**
    * @description Additional types used by runtime modules. This is necessary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
   /**
-   * @description Alias an types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
+   * @description Alias types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
    */
   typesAlias?: AliasDefinition;
   /**

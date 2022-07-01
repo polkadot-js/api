@@ -8,7 +8,7 @@ import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, Definitions, DefinitionsCall, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
@@ -20,6 +20,7 @@ import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, typeDefinitions, TypeRegistry, unwrapStorageType } from '@polkadot/types';
+import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
@@ -414,46 +415,62 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return out as DecoratedRpc<ApiType, RpcInterface>;
   }
 
-  // extract all runtime definitions
-  protected _getRuntimeDefs (): DefinitionsCall {
-    const result = objectSpread<DefinitionsCall>({}, this._options.runtime);
-    const defValues = Object.values(typeDefinitions) as Definitions[];
-
-    for (let i = 0; i < defValues.length; i++) {
-      const rt = defValues[i].runtime;
-
-      if (rt) {
-        const apiEntries = Object.entries(rt);
-
-        for (let j = 0; j < apiEntries.length; j++) {
-          const [key, defs] = apiEntries[j];
-
-          if (!result[key]) {
-            // we don't have this runtime definition, add it
-            result[key] = defs;
-          } else {
-            for (let k = 0; k < defs.length; k++) {
-              const def = defs[k];
-
-              if (!result[key].some(({ version }) => def.version === version)) {
-                // we don't have this specific version, add it
-                result[key].push(def);
-              }
-            }
-          }
-        }
-      }
+  // add all definition entries
+  protected _addRuntimeDef (result: DefinitionsCall, additional?: DefinitionsCall): void {
+    if (!additional) {
+      return;
     }
 
-    return result;
+    const entries = Object.entries(additional);
+
+    for (let j = 0; j < entries.length; j++) {
+      const [key, defs] = entries[j];
+
+      if (result[key]) {
+        // we have this one already, step through for new versions or
+        // new methods and add those as applicable
+        for (let k = 0; k < defs.length; k++) {
+          const def = defs[k];
+          const prev = result[key].find(({ version }) => def.version === version);
+
+          if (prev) {
+            // interleave the new methods with the old - last definition wins
+            objectSpread(prev.methods, def.methods);
+          } else {
+            // we don't have this specific version, add it
+            result[key].push(def);
+          }
+        }
+      } else {
+        // we don't have this runtime definition, add it as-is
+        result[key] = defs;
+      }
+    }
+  }
+
+  // extract all runtime definitions
+  protected _getRuntimeDefs (registry: Registry, specName: Text, chain: Text | string = ''): [string, DefinitionsCallEntry[]][] {
+    const result: DefinitionsCall = {};
+    const defValues = Object.values(typeDefinitions);
+
+    // options > chain/spec > built-in, apply in reverse order with
+    // methods overriding previous definitions (or interleave missing)
+    for (let i = 0; i < defValues.length; i++) {
+      this._addRuntimeDef(result, defValues[i].runtime);
+    }
+
+    this._addRuntimeDef(result, getSpecRuntime(registry, chain, specName));
+    this._addRuntimeDef(result, this._options.runtime);
+
+    return Object.entries(result);
   }
 
   // pre-metadata decoration
-  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
-    const sections = Object.entries(this._getRuntimeDefs());
     const hashes: HexString[] = [];
+    const sections = this._getRuntimeDefs(registry, specName, this._runtimeChain);
 
     for (let i = 0; i < sections.length; i++) {
       const [_section, secs] = sections[i];
