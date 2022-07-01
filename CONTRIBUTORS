@@ -1,4 +1,4 @@
-    3076	Jaco                          	Allow for runtime methods interleave (#5005)
+    3077	Jaco                          	Add orml{Oracle, Tokens} generic runtime definitions (#5006)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
