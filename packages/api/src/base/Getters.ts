@@ -9,8 +9,6 @@ import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
-import { isUndefined } from '@polkadot/util';
-
 import { packageInfo } from '../packageInfo';
 import { findCall, findError } from './find';
 import { Init } from './Init';
@@ -21,7 +19,7 @@ interface PkgJson {
 }
 
 function assertResult<T> (value: T | undefined): T {
-  if (isUndefined(value)) {
+  if (typeof value === 'undefined') {
     throw new Error('Api needs to be initialized before using, listen on \'ready\'');
   }
 
