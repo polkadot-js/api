@@ -20,13 +20,13 @@ const registry = new TypeRegistry();
 
 async function calls (api: ApiPromise): Promise<void> {
   // it allows defaults
-  const testSetId = await api.runtime.grandpaApi.currentSetId();
+  const testSetId = await api.call.grandpaApi.currentSetId();
 
   // it allows type overrides (generally shouldn't be used, but available)
-  const testSetIdO = await api.runtime.grandpaApi.currentSetId<AccountId>();
+  const testSetIdO = await api.call.grandpaApi.currentSetId<AccountId>();
 
   // it allows actual params
-  const nonce = await api.runtime.accountNonceApi.accountNonce('5Test');
+  const nonce = await api.call.accountNonceApi.accountNonce('5Test');
 
   console.log(testSetId.toNumber(), testSetIdO.isAscii, nonce.toNumber());
 }
