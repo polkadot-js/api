@@ -55,3 +55,7 @@ export interface MapMessageTx<ApiType extends ApiTypes> {
 export interface MapMessageQuery<ApiType extends ApiTypes> {
   [message: string]: ContractQuery<ApiType>;
 }
+
+export interface Namespaced <T> {
+  [path: string]: (T & Namespaced<T>) | Namespaced<T>;
+}
