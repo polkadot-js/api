@@ -498,6 +498,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       VotesExist: AugmentedError<ApiType>;
       /**
+       * Voting period too low
+       **/
+      VotingPeriodLow: AugmentedError<ApiType>;
+      /**
        * Invalid upper bound.
        **/
       WrongUpperBound: AugmentedError<ApiType>;

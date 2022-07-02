@@ -9,7 +9,10 @@ Contributed:
 Changes:
 
 - Support for `state_call` definitions via API config (exposed on `api.runtime.*`)
+- Base type definitions for state APIs from Substrate, Polkadot & Orml
+- Align runtime types with latest Substrate master
 - Type generation for runtime call definitions
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 8.10.1 Jun 26, 2022
