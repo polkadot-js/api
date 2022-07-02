@@ -96,11 +96,11 @@ export interface SignerOptions extends SignatureOptions {
 }
 
 export interface ApiDecoration<ApiType extends ApiTypes> {
+  call: QueryableCalls<ApiType>;
   consts: QueryableConsts<ApiType>;
   errors: DecoratedErrors<ApiType>;
   events: DecoratedEvents<ApiType>;
   query: QueryableStorage<ApiType>;
-  runtime: QueryableCalls<ApiType>;
   registry: Registry;
   runtimeVersion: RuntimeVersionPartial;
   rx: {

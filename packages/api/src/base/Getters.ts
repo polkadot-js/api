@@ -30,8 +30,8 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
   /**
    * @description Runtime call interfaces (currently untyped, only decorated via API options)
    */
-  public get runtime (): QueryableCalls<ApiType> {
-    return assertResult(this._runtime);
+  public get call (): QueryableCalls<ApiType> {
+    return assertResult(this._call);
   }
 
   /**

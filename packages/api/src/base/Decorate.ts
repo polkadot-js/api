@@ -69,7 +69,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
-  protected _runtime: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
+  protected _call: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
 
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
 
@@ -213,12 +213,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _emptyDecorated (registry: Registry, blockHash?: Uint8Array): ApiDecoration<ApiType> {
     return {
+      call: {},
       consts: {},
       errors: {},
       events: {},
       query: {},
       registry,
-      runtime: {},
       rx: {
         query: {}
       },
@@ -239,14 +239,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
-    // TODO Once we actually have metadata, we would like to decorate the actual calls object
-
     augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
     augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
     augmentObject('events', registry.decoratedMeta.events, decoratedApi.events, fromEmpty);
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
-    augmentObject('runtime', runtime, decoratedApi.runtime, fromEmpty);
+    augmentObject('call', runtime, decoratedApi.call, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
       findCall(registry.registry, callIndex);
@@ -271,7 +269,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
 
-    this._runtime = decoratedApi.runtime;
+    this._call = decoratedApi.call;
     this._consts = decoratedApi.consts;
     this._errors = decoratedApi.errors;
     this._events = decoratedApi.events;
