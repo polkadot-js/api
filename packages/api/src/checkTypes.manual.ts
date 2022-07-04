@@ -8,6 +8,7 @@ import '@polkadot/api-augment';
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
+import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -117,6 +118,9 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // For older queries we can cast with `<Balance>` (newer chain have multi typed)
   const multia = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
   const multib = await api.query.system.account.multi([pairs.alice.address, pairs.bob.address]);
+
+  await api.query.system.account(pairs.alice.address);
+  await api.query.system.account<FrameSystemAccountInfo>(pairs.alice.address);
 
   console.log('query types:', bar, bal, bal2, override, oldBal, multia, multib);
 }
