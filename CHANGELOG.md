@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust type signatures for non-required use of `@types/node`
+
+
 ## 8.11.2 Jul 4, 2022
 
 Changes:

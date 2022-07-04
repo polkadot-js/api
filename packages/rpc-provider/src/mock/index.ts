@@ -44,7 +44,8 @@ export class MockProvider implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
-  private intervalId?: NodeJS.Timeout | null;
+  // Browser/Deno = number, Node = Timeout
+  private intervalId?: unknown | null;
 
   public isUpdating = true;
 
@@ -109,7 +110,8 @@ export class MockProvider implements ProviderInterface {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect (): Promise<void> {
     if (this.intervalId) {
-      clearInterval(this.intervalId);
+      // different method signatures for Node vs Browser/Deno
+      clearInterval(this.intervalId as number);
       this.intervalId = null;
     }
   }
