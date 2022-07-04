@@ -1,4 +1,4 @@
-    3089	Jaco                          	8.11.2 (#5021)
+    3090	Jaco                          	Generate runtime.md from definitions (#5022)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
