@@ -29,7 +29,8 @@ function textToString (t: Text): string {
 }
 
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
-  #healthTimer: NodeJS.Timeout | null = null;
+  // Browser/Deno = number, Node = Timeout
+  #healthTimer: unknown | null = null;
 
   #registries: VersionedRegistry<ApiType>[] = [];
 
@@ -369,7 +370,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private _unsubscribeHealth (): void {
     if (this.#healthTimer) {
-      clearInterval(this.#healthTimer);
+      // different method signatures for Node vs Browser/Deno
+      clearInterval(this.#healthTimer as number);
       this.#healthTimer = null;
     }
   }
