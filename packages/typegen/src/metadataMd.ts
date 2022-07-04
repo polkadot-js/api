@@ -40,7 +40,8 @@ const DESC_CONSTANTS = `The following sections contain the module constants, als
 const DESC_EXTRINSICS = `The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}`;
 const DESC_ERRORS = `This page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}`;
 const DESC_EVENTS = `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}`;
-const DESC_RPC = 'The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.';
+const DESC_RPC = 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.';
+const DESC_RUNTIME = 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.';
 const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
 
 /** @internal */
@@ -138,7 +139,8 @@ function addRpc (): string {
       .reduce((all: Section[], _sectionName): Section[] => {
         const section = definitions[_sectionName as 'babe'];
 
-        Object.keys(section.rpc || {})
+        Object
+          .keys(section.rpc || {})
           .sort()
           .forEach((methodName) => {
             const method = (section.rpc || {})[methodName];
@@ -171,6 +173,48 @@ function addRpc (): string {
         return all;
       }, []).sort(sortByName),
     title: 'JSON-RPC'
+  });
+}
+
+/** @internal */
+function addRuntime (): string {
+  const sections = Object
+    .keys(definitions)
+    .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
+
+  return renderPage({
+    description: DESC_RUNTIME,
+    sections: sections
+      .sort()
+      .reduce((all: Section[], _sectionName): Section[] => {
+        Object
+          .entries(definitions[_sectionName as 'babe'].runtime || {})
+          .forEach(([apiName, [{ methods }]]) => {
+            const container: Section = { items: [], name: apiName };
+
+            all.push(container);
+
+            Object
+              .entries(methods)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .forEach(([methodName, { description, params, type }]): void => {
+                const args = params.map(({ name, type }): string => {
+                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                  return name + ': `' + type + '`';
+                }).join(', ');
+
+                container.items.push({
+                  interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
+                  name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+                  runtime: '`' + `${apiName}_${methodName}` + '`',
+                  summary: description
+                });
+              });
+          });
+
+        return all;
+      }, []).sort(sortByName),
+    title: 'Runtime'
   });
 }
 
@@ -369,6 +413,7 @@ export function main (): void {
   const latest = metadata.asLatest;
 
   writeFile('docs/substrate/rpc.md', addRpc());
+  writeFile('docs/substrate/runtime.md', addRuntime());
   writeFile('docs/substrate/constants.md', addConstants(latest));
   writeFile('docs/substrate/storage.md', addStorage(latest));
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(latest));
