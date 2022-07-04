@@ -26,7 +26,7 @@ export * from '@polkadot/api/types/events';
 export * from '@polkadot/api/types/storage';
 export * from '@polkadot/api/types/submittable';
 
-export { Signer, SignerResult } from '@polkadot/types/types';
+export type { Signer, SignerResult } from '@polkadot/types/types';
 
 export { ApiBase } from '../base';
 
