@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 8.11.2 Jul 4, 2022
+
+Changes:
+
+- Bump to `@polkadot/util-crypto` 9.7.2 (w/ `@polkadot/wasm-crypto` 6.2.2)
+
+
 ## 8.11.1 Jul 2, 2022
 
 Contributed:

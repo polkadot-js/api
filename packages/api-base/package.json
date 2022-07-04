@@ -26,7 +26,7 @@
     "@babel/runtime": "^7.18.6",
     "@polkadot/rpc-core": "8.11.1",
     "@polkadot/types": "8.11.1",
-    "@polkadot/util": "^9.7.1",
+    "@polkadot/util": "^9.7.2",
     "rxjs": "^7.5.5"
   }
 }
