@@ -1,6 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
+import '@polkadot/types/lookup';
+
 import type { Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { PerU16 } from '@polkadot/types/interfaces/runtime';

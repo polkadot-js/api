@@ -1,6 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
+import '@polkadot/api-base/types/errors';
+
 import type { ApiTypes, AugmentedError } from '@polkadot/api-base/types';
 
 export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>;
