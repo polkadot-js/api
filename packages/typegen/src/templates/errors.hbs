@@ -2,6 +2,8 @@
 
 {{{ importsAll }}}
 
+export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>;
+
 declare module '@polkadot/api-base/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     {{#each modules}}
