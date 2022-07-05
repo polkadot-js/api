@@ -214,10 +214,12 @@ export class WsProvider implements ProviderInterface {
           maxReceivedMessageSize: 24 * MEGABYTE
         });
 
-      this.#websocket.onclose = this.#onSocketClose;
-      this.#websocket.onerror = this.#onSocketError;
-      this.#websocket.onmessage = this.#onSocketMessage;
-      this.#websocket.onopen = this.#onSocketOpen;
+      if (this.#websocket) {
+        this.#websocket.onclose = this.#onSocketClose;
+        this.#websocket.onerror = this.#onSocketError;
+        this.#websocket.onmessage = this.#onSocketMessage;
+        this.#websocket.onopen = this.#onSocketOpen;
+      }
 
       // timeout any handlers that have not had a response
       this.#timeoutId = setInterval(() => this.#timeoutHandlers(), TIMEOUT_INTERVAL);
