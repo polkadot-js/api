@@ -1,5 +1,7 @@
 {{> header }}
 
+import '@polkadot/api-base/types/storage';
+
 {{{ importsAll }}}
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;

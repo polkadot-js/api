@@ -1,6 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
+import '@polkadot/types/types/registry';
+
 import type { KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeSessionKeys } from '@polkadot/types/lookup';
 
 declare module '@polkadot/types/types/registry' {

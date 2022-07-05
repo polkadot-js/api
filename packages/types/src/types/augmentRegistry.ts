@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/types-create/types/augmentRegistry';
+import '@polkadot/types-codec/types/registry';
 
 import type { Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
@@ -15,11 +16,11 @@ import type { DetectCodec } from './detect';
 import type { CodecHasher, RegisteredTypes } from './registry';
 
 declare module '@polkadot/types-codec/types/registry' {
-  export interface RegistryError {
+  interface RegistryError {
     fields: SiField[];
   }
 
-  export interface Registry {
+  interface Registry {
     readonly firstCallIndex: Uint8Array;
     readonly knownTypes: RegisteredTypes;
     readonly metadata: MetadataLatest;
