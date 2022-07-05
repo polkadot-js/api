@@ -110,7 +110,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Perform a call from a specified account to a given contract.
        **/
-      call: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, dest: AccountId | string | Uint8Array, value: Balance | AnyNumber | Uint8Array, gasLimit: u64 | AnyNumber | Uint8Array, storageDepositLimit: Option<Balance> | null | object | string | Uint8Array, inputData: Bytes | string | Uint8Array) => Observable<ContractExecResult>>;
+      call: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, dest: AccountId | string | Uint8Array, value: Balance | AnyNumber | Uint8Array, gasLimit: u64 | AnyNumber | Uint8Array, storageDepositLimit: Option<Balance> | null | Uint8Array | Balance | AnyNumber, inputData: Bytes | string | Uint8Array) => Observable<ContractExecResult>>;
       /**
        * Query a given storage key in a given contract.
        **/
@@ -118,11 +118,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Instantiate a new contract.
        **/
-      instantiate: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, value: Balance | AnyNumber | Uint8Array, gasLimit: u64 | AnyNumber | Uint8Array, storageDepositLimit: Option<Balance> | null | object | string | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => Observable<ContractInstantiateResult>>;
+      instantiate: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, value: Balance | AnyNumber | Uint8Array, gasLimit: u64 | AnyNumber | Uint8Array, storageDepositLimit: Option<Balance> | null | Uint8Array | Balance | AnyNumber, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => Observable<ContractInstantiateResult>>;
       /**
        * Upload new code without instantiating a contract from it.
        **/
-      uploadCode: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, code: Bytes | string | Uint8Array, storageDepositLimit: Option<Balance> | null | object | string | Uint8Array) => Observable<CodeUploadResult>>;
+      uploadCode: AugmentedCall<ApiType, (origin: AccountId | string | Uint8Array, code: Bytes | string | Uint8Array, storageDepositLimit: Option<Balance> | null | Uint8Array | Balance | AnyNumber) => Observable<CodeUploadResult>>;
       /**
        * Generic call
        **/
@@ -236,7 +236,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate a set of session keys with optionally using the given seed.
        **/
-      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | object | string | Uint8Array) => Observable<Bytes>>;
+      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
       /**
        * Generic call
        **/

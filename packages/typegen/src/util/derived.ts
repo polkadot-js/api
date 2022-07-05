@@ -96,8 +96,16 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
   } else if (isChildClass(Option, Clazz)) {
-    // TODO inspect container
-    possibleTypes.push('null', 'object', 'string', 'Uint8Array');
+    possibleTypes.push('null', 'Uint8Array');
+
+    const optDef = getTypeDef(type);
+    const subDef = (optDef.sub) as TypeDef;
+
+    if (subDef) {
+      possibleTypes.push(...getSimilarTypes(registry, definitions, subDef.type, imports));
+    } else {
+      possibleTypes.push('object', 'string');
+    }
   } else if (isChildClass(GenericVote, Clazz)) {
     possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
   } else if (isChildClass(WrapperKeepOpaque, Clazz) || isChildClass(WrapperOpaque, Clazz)) {

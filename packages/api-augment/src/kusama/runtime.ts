@@ -305,7 +305,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate a set of session keys with optionally using the given seed.
        **/
-      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | object | string | Uint8Array) => Observable<Bytes>>;
+      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
       /**
        * Generic call
        **/
