@@ -29,6 +29,7 @@ const sharedTypes = {
 const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   Keys: 'SessionKeys5',
   LookupSource: 'AccountId',
   ValidatorPrefs: 'ValidatorPrefsWithCommission'

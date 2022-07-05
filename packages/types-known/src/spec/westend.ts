@@ -24,6 +24,7 @@ const addrAccountIdTypes = {
   AccountInfo: 'AccountInfoWithRefCount',
   Address: 'AccountId',
   CompactAssignments: 'CompactAssignmentsWith16',
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   LookupSource: 'AccountId',
   Keys: 'SessionKeys5',
   RawSolution: 'RawSolutionWith16',
