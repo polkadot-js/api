@@ -14,7 +14,7 @@ export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType,
 export type __QueryableStorageEntry<ApiType extends ApiTypes> = QueryableStorageEntry<ApiType>;
 
 declare module '@polkadot/api-base/types/storage' {
-  export interface AugmentedQueries<ApiType extends ApiTypes> {
+  interface AugmentedQueries<ApiType extends ApiTypes> {
     auctions: {
       /**
        * Number of auctions started so far.

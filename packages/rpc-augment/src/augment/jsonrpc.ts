@@ -27,7 +27,7 @@ import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkS
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/rpc-core/types/jsonrpc' {
-  export interface RpcInterface {
+  interface RpcInterface {
     author: {
       /**
        * Returns true if the keystore has private keys for the given public key and key type.

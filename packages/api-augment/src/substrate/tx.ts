@@ -13,7 +13,7 @@ export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrin
 export type __SubmittableExtrinsicFunction<ApiType extends ApiTypes> = SubmittableExtrinsicFunction<ApiType>;
 
 declare module '@polkadot/api-base/types/submittable' {
-  export interface AugmentedSubmittables<ApiType extends ApiTypes> {
+  interface AugmentedSubmittables<ApiType extends ApiTypes> {
     alliance: {
       /**
        * Add accounts or websites to the list of unscrupulous items.

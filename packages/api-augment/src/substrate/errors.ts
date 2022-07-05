@@ -6,7 +6,7 @@ import type { ApiTypes, AugmentedError } from '@polkadot/api-base/types';
 export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>;
 
 declare module '@polkadot/api-base/types/errors' {
-  export interface AugmentedErrors<ApiType extends ApiTypes> {
+  interface AugmentedErrors<ApiType extends ApiTypes> {
     alliance: {
       /**
        * Account has been deemed unscrupulous by the Alliance and is not welcome to join or be

@@ -10,7 +10,7 @@ import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStat
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
 declare module '@polkadot/api-base/types/events' {
-  export interface AugmentedEvents<ApiType extends ApiTypes> {
+  interface AugmentedEvents<ApiType extends ApiTypes> {
     alliance: {
       /**
        * An ally has been elevated to Fellow.

@@ -5,7 +5,7 @@
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
 declare module '@polkadot/api-base/types/consts' {
-  export interface AugmentedConsts<ApiType extends ApiTypes> {
+  interface AugmentedConsts<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}

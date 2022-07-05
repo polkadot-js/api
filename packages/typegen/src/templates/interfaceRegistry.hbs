@@ -3,7 +3,7 @@
 {{{ importsAll }}}
 
 declare module '@polkadot/types/types/registry' {
-  export interface InterfaceTypes {
+  interface InterfaceTypes {
     {{#each items}}
     {{{this}}}: {{{this}}};
     {{/each}}

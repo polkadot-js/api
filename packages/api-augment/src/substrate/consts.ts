@@ -10,7 +10,7 @@ import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSys
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
 declare module '@polkadot/api-base/types/consts' {
-  export interface AugmentedConsts<ApiType extends ApiTypes> {
+  interface AugmentedConsts<ApiType extends ApiTypes> {
     alliance: {
       /**
        * The deposit required for submitting candidacy.
