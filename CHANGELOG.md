@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust type generation to correctly cater for ambient definitions
+
+
 ## 8.11.3 Jul 5, 2022
 
 Changes:
