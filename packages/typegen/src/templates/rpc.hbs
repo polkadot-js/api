@@ -1,8 +1,12 @@
 {{> header }}
 
-// import '@polkadot/rpc-core/types/jsonrpc';
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/rpc-core/types/jsonrpc';
 
 {{{ importsAll }}}
+
+export type __AugmentedRpc = AugmentedRpc<() => unknown>;
 
 declare module '@polkadot/rpc-core/types/jsonrpc' {
   interface RpcInterface {
