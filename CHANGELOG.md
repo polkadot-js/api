@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## master
+## 8.11.3 Jul 5, 2022
 
 Changes:
 
+- Ensure historic `DispatchError` is always the non-current variant
 - Adjust type signatures for non-required use of `@types/node`
 
 
