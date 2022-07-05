@@ -188,13 +188,16 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
     ),
     interfaces: []
   };
-  const items = filtered.map(([, typeDef]) => {
-    typeDef.name = typeDef.lookupName;
+  const items = filtered
+    .map(([, typeDef]) => {
+      typeDef.name = typeDef.lookupName;
 
-    return typeDef.lookupNameRoot && typeDef.lookupName
-      ? exportInterface(typeDef.lookupIndex, typeDef.lookupName, typeDef.lookupNameRoot)
-      : typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
-  }).filter((t): t is string => !!t);
+      return typeDef.lookupNameRoot && typeDef.lookupName
+        ? exportInterface(typeDef.lookupIndex, typeDef.lookupName, typeDef.lookupNameRoot)
+        : typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
+    })
+    .filter((t): t is string => !!t)
+    .map((t) => t.replace(/\nexport /, '\n'));
 
   writeFile(path.join(destDir, `types${subPath ? `-${subPath}` : ''}.ts`), () => generateLookupTypesTmpl({
     headerType: 'defs',

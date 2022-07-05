@@ -10,7 +10,7 @@ import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSys
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
 declare module '@polkadot/api-base/types/consts' {
-  export interface AugmentedConsts<ApiType extends ApiTypes> {
+  interface AugmentedConsts<ApiType extends ApiTypes> {
     auctions: {
       /**
        * The number of blocks over which an auction may be retroactively ended.

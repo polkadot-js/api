@@ -3,7 +3,7 @@
 {{{ importsAll }}}
 
 declare module '@polkadot/rpc-core/types/jsonrpc' {
-  export interface RpcInterface {
+  interface RpcInterface {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}

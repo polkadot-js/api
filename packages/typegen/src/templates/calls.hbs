@@ -6,7 +6,7 @@ export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
 export type __DecoratedCallBase<ApiType extends ApiTypes> = DecoratedCallBase<ApiType>;
 
 declare module '@polkadot/api-base/types/calls' {
-  export interface AugmentedCalls<ApiType extends ApiTypes> {
+  interface AugmentedCalls<ApiType extends ApiTypes> {
     {{#each modules}}
     /** {{{sectionHash}}}/{{{sectionVersion}}} */
     {{{name}}}: {
