@@ -1,4 +1,4 @@
-    3095	Jaco                          	Remove unneeded export * from augmentation (#5031)
+    3096	Jaco                          	Align augmentation with an import-first approach (#5032)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
