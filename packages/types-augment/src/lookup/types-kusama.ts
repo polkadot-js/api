@@ -7,7 +7,7 @@ import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
   /** @name KusamaRuntimeProxyType (80) */
-  export interface KusamaRuntimeProxyType extends Enum {
+  interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
     readonly isGovernance: boolean;
@@ -20,7 +20,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name KusamaRuntimeSessionKeys (261) */
-  export interface KusamaRuntimeSessionKeys extends Struct {
+  interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
     readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
@@ -30,7 +30,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name KusamaRuntimeOriginCaller (335) */
-  export interface KusamaRuntimeOriginCaller extends Enum {
+  interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
     readonly isVoid: boolean;
@@ -46,7 +46,7 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name KusamaRuntimeNposCompactSolution24 (401) */
-  export interface KusamaRuntimeNposCompactSolution24 extends Struct {
+  interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
     readonly votes3: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
@@ -74,6 +74,6 @@ declare module '@polkadot/types/lookup' {
   }
 
   /** @name KusamaRuntimeRuntime (779) */
-  export type KusamaRuntimeRuntime = Null;
+  type KusamaRuntimeRuntime = Null;
 
 } // declare module

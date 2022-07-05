@@ -197,7 +197,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
         : typeEncoders[typeDef.info](registry, imports.definitions, typeDef, imports);
     })
     .filter((t): t is string => !!t)
-    .map((t) => t.replace(/^ {2}export /, '  '));
+    .map((t) => t.replace(/\nexport /, '\n'));
 
   writeFile(path.join(destDir, `types${subPath ? `-${subPath}` : ''}.ts`), () => generateLookupTypesTmpl({
     headerType: 'defs',
