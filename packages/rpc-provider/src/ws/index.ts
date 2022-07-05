@@ -197,7 +197,9 @@ export class WsProvider implements ProviderInterface {
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket, WebSocket)
+
+      // the as typeof WebSocket here is Deno-specific - not available on the globalThis
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
         ? new WebSocket(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers

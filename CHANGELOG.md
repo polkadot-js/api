@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust type generation to correctly cater for ambient definitions
+- Improve type argument generation for `Option<...>` types
 
 
 ## 8.11.3 Jul 5, 2022
