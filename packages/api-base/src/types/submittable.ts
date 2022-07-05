@@ -6,20 +6,9 @@ import type { AccountId, Address, ApplyExtrinsicResult, Call, DispatchError, Dis
 import type { AnyFunction, AnyNumber, AnyTuple, Callback, CallBase, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, Signer } from '@polkadot/types/types';
 import type { ApiTypes, PromiseOrObs } from './base';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedSubmittables<ApiType extends ApiTypes> {
-  // augmented
-}
-
-export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
-  (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
-  // when non-augmented, we need to at least have Codec results
-  [key: string]: SubmittableModuleExtrinsics<ApiType>;
-}
+export type AugmentedSubmittable<T extends AnyFunction, A extends AnyTuple = AnyTuple> = T & CallBase<A>;
 
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
-
-export type AugmentedSubmittable<T extends AnyFunction, A extends AnyTuple = AnyTuple> = T & CallBase<A>;
 
 export interface SignerOptions {
   blockHash: Uint8Array | string;
@@ -35,20 +24,6 @@ export type SubmittableDryRunResult<ApiType extends ApiTypes> =
     ? Observable<ApplyExtrinsicResult>
     : Promise<ApplyExtrinsicResult>;
 
-export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> extends CallBase<A> {
-  (...params: any[]): SubmittableExtrinsic<ApiType>;
-}
-
-export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
-  // only with is<Type> augmentation
-  [key: string]: SubmittableExtrinsicFunction<ApiType>;
-}
-
-export type SubmittablePaymentResult<ApiType extends ApiTypes> =
-  ApiType extends 'rxjs'
-    ? Observable<RuntimeDispatchInfo>
-    : Promise<RuntimeDispatchInfo>;
-
 export type SubmittableResultResult<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> =
   ApiType extends 'rxjs'
     ? Observable<R>
@@ -58,6 +33,11 @@ export type SubmittableResultSubscription<ApiType extends ApiTypes, R extends IS
   ApiType extends 'rxjs'
     ? Observable<R>
     : Promise<() => void>;
+
+export type SubmittablePaymentResult<ApiType extends ApiTypes> =
+  ApiType extends 'rxjs'
+    ? Observable<RuntimeDispatchInfo>
+    : Promise<RuntimeDispatchInfo>;
 
 export interface SubmittableResultValue {
   dispatchError?: DispatchError;
@@ -92,4 +72,26 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
   signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
   withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this;
+}
+
+export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes, A extends AnyTuple = AnyTuple> extends CallBase<A> {
+  (...params: any[]): SubmittableExtrinsic<ApiType>;
+}
+
+// augmented interfaces
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
+export interface AugmentedSubmittables<ApiType extends ApiTypes> {
+  // augmented
+}
+
+export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
+  (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
+  // when non-augmented, we need to at least have Codec results
+  [key: string]: SubmittableModuleExtrinsics<ApiType>;
+}
+
+export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
+  // only with is<Type> augmentation
+  [key: string]: SubmittableExtrinsicFunction<ApiType>;
 }

@@ -138,7 +138,7 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, apis: A
         })),
         {
           file: '@polkadot/api-base/types',
-          types: ['ApiTypes']
+          types: ['ApiTypes', 'AugmentedCall', 'DecoratedCallBase']
         }
       ]
     });

@@ -76,7 +76,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         })),
         {
           file: '@polkadot/api-base/types',
-          types: ['ApiTypes']
+          types: ['ApiTypes', 'AugmentedEvent']
         }
       ]
     });
