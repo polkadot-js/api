@@ -30,7 +30,7 @@ describe('WrapperOpaque', (): void => {
   it('hex encodes a wrapped u32 correctly', (): void => {
     expect(
       new WrapperOpaque(registry, 'u32', '0x12345678').toHex()
-    ).toEqual('0x78563412');
+    ).toEqual('0x12345678');
   });
 
   it('has the correct unwrap', (): void => {
