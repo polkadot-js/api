@@ -4,6 +4,7 @@
 
 Changes:
 
+- Adjust `Opaque{Metadata, Multiaddr, PeerId}` decoding to `WrapperOpaque<Bytes>`
 - Adjust type generation to correctly cater for ambient definitions
 - Improve type argument generation for `Option<...>` types
 

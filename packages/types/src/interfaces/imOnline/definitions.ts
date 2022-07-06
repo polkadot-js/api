@@ -24,8 +24,8 @@ export default {
       sessionIndex: 'SessionIndex',
       authorityIndex: 'AuthIndex'
     },
-    OpaqueMultiaddr: 'Bytes',
-    OpaquePeerId: 'Bytes',
+    OpaqueMultiaddr: 'WrapperOpaque<Bytes>',
+    OpaquePeerId: 'WrapperOpaque<Bytes>',
     OpaqueNetworkState: {
       peerId: 'OpaquePeerId',
       externalAddresses: 'Vec<OpaqueMultiaddr>'
