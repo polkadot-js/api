@@ -28,7 +28,7 @@
     "deno:setup": "deno run --import-map=deno/import_map.json --allow-read --allow-write deno/setup.ts",
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
+    "test": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit",
     "test:watch": "polkadot-dev-run-test --watch"
   },
@@ -36,7 +36,7 @@
     "@babel/core": "^7.18.6",
     "@babel/register": "^7.18.6",
     "@babel/runtime": "^7.18.6",
-    "@polkadot/dev": "^0.67.53",
+    "@polkadot/dev": "^0.67.55",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^28.1.4",
     "copyfiles": "^2.4.1"
