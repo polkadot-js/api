@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { PortableRegistry } from '@polkadot/types';
-import type { Bytes, Enum, Option, Struct, Text, Type, Vec, bool, u8 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ErrorMetadataLatest */
@@ -276,7 +276,7 @@ export interface ModuleMetadataV9 extends Struct {
 }
 
 /** @name OpaqueMetadata */
-export interface OpaqueMetadata extends Bytes {}
+export interface OpaqueMetadata extends WrapperOpaque<Bytes> {}
 
 /** @name PalletCallMetadataLatest */
 export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}

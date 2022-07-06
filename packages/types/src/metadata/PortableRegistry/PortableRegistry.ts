@@ -55,6 +55,10 @@ const PATHS_ALIAS = splitNamespace([
   '*_democracy::vote::Vote',
   '*_conviction_voting::vote::Vote',
   '*_identity::types::Data',
+  // these are opaque Vec<u8> wrappers
+  'sp_core::OpaqueMetadata',
+  'sp_core::OpaquePeerId',
+  'sp_core::offchain::OpaqueMultiaddr',
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',

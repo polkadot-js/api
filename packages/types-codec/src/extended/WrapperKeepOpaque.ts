@@ -3,7 +3,7 @@
 
 import type { AnyJson, AnyU8a, Codec, CodecClass, Inspect, Registry } from '../types';
 
-import { compactAddLength, compactStripLength, compactToU8a, isHex, isU8a } from '@polkadot/util';
+import { compactAddLength, compactStripLength, compactToU8a, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { Raw } from '../native/Raw';
 import { typeToConstructor } from '../utils';
@@ -20,9 +20,11 @@ function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T>
 
   if (isU8a(value) || isHex(value)) {
     try {
-      const [, u8a] = isHex(value) || (value instanceof Raw)
-        ? [0, value]
-        : compactStripLength(value);
+      const [, u8a] = isHex(value)
+        ? [0, u8aToU8a(value)]
+        : (value instanceof Raw)
+          ? [0, value.subarray()]
+          : compactStripLength(value);
 
       return [Type, new Type(registry, u8a), value];
     } catch {
